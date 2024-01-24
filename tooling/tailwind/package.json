@@ -1,32 +1,33 @@
 {
-    "name": "@duck/tailwind-config",
-    "version": "0.1.0",
-    "private": true,
-    "type": "module",
-    "exports": {
-        "./web": "./web.ts",
-        "./base": "./base.ts"
-    },
-    "license": "MIT",
-    "scripts": {
-        "clean": "git clean -xdf .cache .turbo node_modules",
-        "format": "prettier --check . --ignore-path ../../.gitignore",
-        "lint": "eslint",
-        "typecheck": "tsc --noEmit"
-    },
-    "dependencies": {
-        "mini-svg-data-uri": "^1.4.4",
-        "postcss": "^8.4.49",
-        "tailwindcss": "catalog:",
-        "tailwindcss-animate": "^1.0.7"
-    },
-    "devDependencies": {
-        "@duck/eslint-config": "workspace:*",
-        "@duck/prettier-config": "workspace:*",
-        "@duck/tsconfig": "workspace:*",
-        "eslint": "catalog:",
-        "prettier": "catalog:",
-        "typescript": "catalog:"
-    },
-    "prettier": "@duck/prettier-config"
+  "name": "@duck/tailwind-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./web": "./web.ts",
+    "./base": "./base.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "mini-svg-data-uri": "^1.4.4",
+    "postcss": "^8.5.2",
+    "tailwindcss": "^4.0.6",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@duck/eslint-config": "workspace:*",
+    "@duck/prettier-config": "workspace:*",
+    "@duck/tsconfig": "workspace:*",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@duck/prettier-config"
 }

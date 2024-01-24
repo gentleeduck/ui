@@ -11,7 +11,7 @@ export const raw_config_schema = z
       css: z.string(),
       baseColor: z.string(),
       cssVariables: z.boolean().default(true),
-      prefix: z.string().default('').optional()
+      prefix: z.string().default('').optional(),
     }),
     aliases: z.object({
       components: z.string(),
@@ -19,8 +19,8 @@ export const raw_config_schema = z
       pages: z.string().optional(),
       utils: z.string(),
       lib: z.string().optional(),
-      ui: z.string().optional()
-    })
+      ui: z.string().optional(),
+    }),
   })
   .strict()
 
@@ -32,6 +32,6 @@ export const config_cchema = raw_config_schema.extend({
     tailwindCss: z.string(),
     utils: z.string(),
     components: z.string(),
-    ui: z.string()
-  })
+    ui: z.string(),
+  }),
 })

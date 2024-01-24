@@ -9,6 +9,6 @@ export function spinner(
   return ora({
     color: 'yellow',
     text,
-    isSilent: options?.silent
+    isSilent: options?.silent,
   })
 }

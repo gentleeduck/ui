@@ -11,7 +11,7 @@ export async function get_tailwindcss_file(cwd: string) {
   const files = fg.sync(['**/*.css', '**/*.scss', '**/*.sass'], {
     cwd,
     deep: 3,
-    ignore: IGNORED_DIRECTORIES
+    ignore: IGNORED_DIRECTORIES,
   })
 
   if (!files.length) {
@@ -55,7 +55,7 @@ export function get_package_json(): PackageJson | null {
   const files = fg.sync(['package.json'], {
     cwd: process.cwd(),
     deep: 1,
-    ignore: IGNORED_DIRECTORIES
+    ignore: IGNORED_DIRECTORIES,
   })
 
   if (!files.length) {
@@ -65,9 +65,7 @@ export function get_package_json(): PackageJson | null {
 
   const package_json_path = path.join(process.cwd(), 'package.json')
 
-  const package_json: PackageJson = JSON.parse(
-    fs.readFileSync(package_json_path, 'utf8')
-  )
+  const package_json: PackageJson = JSON.parse(fs.readFileSync(package_json_path, 'utf8'))
 
   return package_json
 }

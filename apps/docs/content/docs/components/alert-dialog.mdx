@@ -291,7 +291,7 @@ Manages visibility state and user interactions.
 ### AlertDialogDrawer
 
 A component that provides a structured layout for displaying an alert dialog  
-along with a drawer that contains nested content and customizable headers and footers.  
+along with a drawer that contains nested content and customizable headers and footers.
 
 #### Key Properties
 
@@ -361,6 +361,7 @@ export type UserDuckAlertProps<T> = Pick<AlertDialogSheetProps<T>, 'state'>
 We have **significantly improved** the AlertDialog API to make it more **predictable, modular, and type-safe**. The new approach focuses on reducing complexity, improving state handling, and enabling easy custom wrapper creation with a new **hook-based API**.
 
 ### 🛠 **Fixes & Improvements**
+
 - **Refactored State Handling**: The previous implementation had issues where the dialog state didn't update correctly. This has been completely restructured for better control and predictability.
 - **Consistent API for Variants**: We standardized how drawers, dialogs, and sheets handle their props, making them more aligned.
 - **Enhanced Type Safety**: All components now utilize explicit **React types**, improving developer experience and reducing errors.
@@ -368,9 +369,10 @@ We have **significantly improved** the AlertDialog API to make it more **predict
 - **New Hook for Custom Wrappers**: The new `useDuckAlert` hook allows users to create **custom alert wrappers** with minimal effort.
 
 ### 🔄 **Updated API**
+
 We **removed** `AlertDialogCustom` and introduced a simpler `AlertDialogWrapperProps` structure that relies on a new hook for **state management and component structuring**.
 
-```diff showLineNumbers 
+```diff showLineNumbers
 - interface AlertDialogCustomProps<C> {
 -   type: 'drawer' | 'dialog' | 'sheet'
 -   state: C
@@ -381,7 +383,7 @@ We **removed** `AlertDialogCustom` and introduced a simpler `AlertDialogWrapperP
 -   drawerData?: boolean
 -   actions?: AlertDialogDrawerActionsType
 - }
-+ export interface AlertDialogWrapperProps { 
++ export interface AlertDialogWrapperProps {
 +   alertTrigger: React.ComponentPropsWithoutRef<typeof AlertDialogTrigger>
 +   alertContent: React.ComponentPropsWithoutRef<typeof AlertDialogContent> & {
 +     _header?: React.ComponentPropsWithoutRef<typeof AlertDialogHeader> & {
@@ -398,25 +400,30 @@ We **removed** `AlertDialogCustom` and introduced a simpler `AlertDialogWrapperP
 ```
 
 ### 📌 **Key Changes**
+
 #### 1️⃣ **Removed `AlertDialogCustom` in Favor of Hook-Based API**
+
 - Instead of a complex component with deeply nested props, we now **expose a hook (`useDuckAlert`)** that allows users to **manage state and structure alerts dynamically**.
 
 #### 2️⃣ **New Hook: `useDuckAlert`**
+
 The new hook simplifies **creating custom alert dialogs** without modifying the core API.
 
 ```tsx
 const { alertTrigger, alertContent } = useDuckAlert({
-  type: 'dialog', 
-  defaultOpen: false, 
-  actions: { cancel: handleCancel, submit: handleSubmit }
+  type: 'dialog',
+  defaultOpen: false,
+  actions: { cancel: handleCancel, submit: handleSubmit },
 })
 ```
 
 #### 3️⃣ **Better Prop Structure for Alert Components**
+
 - Instead of passing multiple nested objects, we now pass a **flattened structure** with direct references to components.
 - Users can now **easily override any section** of the alert (`header`, `footer`, `content`) using the new prop-based approach.
 
 ### 🚀 **What This Means for You**
+
 - If you're currently using `AlertDialogCustom`, migrate to `useDuckAlert` for a more **scalable and flexible** API.
 - The new **hook-based approach** enables you to create **custom wrappers effortlessly** without worrying about managing state manually.
 - Better **autocompletion, type safety, and predictability** in state updates.

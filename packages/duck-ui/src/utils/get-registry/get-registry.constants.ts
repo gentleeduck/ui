@@ -3,30 +3,30 @@ export const error_messages: { [key: number]: string } = {
   401: 'Unauthorized',
   403: 'Forbidden',
   404: 'Not found',
-  500: 'Internal server error'
+  500: 'Internal server error',
 }
 
 export async function get_registry_base_colors() {
   return [
     {
       name: 'neutral',
-      label: 'Neutral'
+      label: 'Neutral',
     },
     {
       name: 'gray',
-      label: 'Gray'
+      label: 'Gray',
     },
     {
       name: 'zinc',
-      label: 'Zinc'
+      label: 'Zinc',
     },
     {
       name: 'stone',
-      label: 'Stone'
+      label: 'Stone',
     },
     {
       name: 'slate',
-      label: 'Slate'
-    }
+      label: 'Slate',
+    },
   ]
 }

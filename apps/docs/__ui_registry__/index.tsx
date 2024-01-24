@@ -729,6 +729,18 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'badge-8': {
+    name: 'badge-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [[{ path: 'registry-examples-components/badge/badge-8.tsx', type: 'registry:example' }]],
+    component: React.lazy(() => import('@/registry/registry-examples-components/badge/badge-8.tsx')),
+    source: '',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'tooltip-main': {
     name: 'tooltip-main',
     description: '',

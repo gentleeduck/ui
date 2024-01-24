@@ -30,7 +30,7 @@ export function get_registry_url(path: string) {
 export async function fetch_registry_url(paths: string[]) {
   try {
     const results = await Promise.all(
-      paths.map(async (path) => {
+      paths.map(async path => {
         const url = get_registry_url(path)
         const response = await axios.get(url)
 
@@ -46,7 +46,7 @@ export async function fetch_registry_url(paths: string[]) {
   } catch (error) {
     logger.error({
       args: ['\nFailed to fetch from registry.'],
-      with_icon: true
+      with_icon: true,
     })
     return []
   }

@@ -12,8 +12,8 @@ export async function pref_light_tailwindcss(cwd: string): Promise<void> {
 
   logger.warn({
     args: [
-      `${highlighter.info('TailwindCss')} is not installed. You need to install ${highlighter.info('TailwindCss')}...`
-    ]
+      `${highlighter.info('TailwindCss')} is not installed. You need to install ${highlighter.info('TailwindCss')}...`,
+    ],
   })
 
   const options = await prompts(tailwindcss_prompts)

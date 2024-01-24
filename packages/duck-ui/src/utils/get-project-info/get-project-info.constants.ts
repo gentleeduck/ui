@@ -7,5 +7,5 @@ export const IGNORED_DIRECTORIES = [
   '**/.next',
   '**/build',
   '**/coverage',
-  '**/public'
+  '**/public',
 ]

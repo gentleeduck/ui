@@ -8,8 +8,8 @@ export const typescript_prompts: PromptObject<string>[] = [
     message: `Would you like to install ${highlighter.info('TypeScript')} (recommended)`,
     initial: false,
     active: 'yes',
-    inactive: 'no'
-  }
+    inactive: 'no',
+  },
 ]
 
 export const typescript_dependencies = ['typescript']

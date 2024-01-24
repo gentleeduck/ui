@@ -111,11 +111,11 @@ export const registry_ui: Registry = [
   },
 
   {
-    name: "alert-dialog",
-    type: "registry:ui",
+    name: 'alert-dialog',
+    type: 'registry:ui',
     dependencies: [],
     registryDependencies: [],
-    root_folder: "registry-ui-components/alert-dialog",
+    root_folder: 'registry-ui-components/alert-dialog',
     files: [],
-  }
+  },
 ]

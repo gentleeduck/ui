@@ -3,7 +3,7 @@ import { highlighter, logger } from '../text-styling'
 import {
   checkTypeScriptInstalled as check_typescript_installed,
   check_config_exist,
-  install_typescript
+  install_typescript,
 } from './pref-light-typescript.lib'
 import { typescript_prompts } from './pref-light-typescript.constants'
 import { pref_light_typescript_options_schema } from './pref-light-typescript.dto'
@@ -16,8 +16,8 @@ export async function pref_light_typescript(cwd: string): Promise<void> {
 
   logger.warn({
     args: [
-      `${highlighter.info('TypeScript')} is not installed. You need to install ${highlighter.info('TypeScript')}...`
-    ]
+      `${highlighter.info('TypeScript')} is not installed. You need to install ${highlighter.info('TypeScript')}...`,
+    ],
   })
 
   const options = await prompts(typescript_prompts)

@@ -3,23 +3,14 @@ import fs from 'fs-extra'
 import { loadConfig } from 'tsconfig-paths'
 import { default_js_config, explorer } from './get-project-config.constants'
 import { resolve_import } from '../resolve-import'
-import {
-  config_cchema,
-  raw_config_schema,
-  RawConfigType
-} from './get-project-config.dto'
+import { config_cchema, raw_config_schema, RawConfigType } from './get-project-config.dto'
 import path from 'path'
-import {
-  get_tailwindcss_file,
-  get_ts_config_alias_prefix
-} from '../get-project-info'
+import { get_tailwindcss_file, get_ts_config_alias_prefix } from '../get-project-info'
 import { highlighter, logger } from '../text-styling'
 import { get_project_type } from '../get-project-type'
 import { checkTypeScriptInstalled } from '../pref-light-typescript'
 
-export async function get_raw_config(
-  cwd: string
-): Promise<RawConfigType | null> {
+export async function get_raw_config(cwd: string): Promise<RawConfigType | null> {
   try {
     const rawConfig = await explorer.search(cwd)
     if (!rawConfig) {
@@ -29,7 +20,7 @@ export async function get_raw_config(
     return raw_config_schema.parse(rawConfig.config)
   } catch (error) {
     logger.error({
-      args: [`Invalid configuration found in ${cwd}/components.json.`]
+      args: [`Invalid configuration found in ${cwd}/components.json.`],
     })
     process.exit(1)
   }
@@ -46,17 +37,12 @@ export async function get_config(cwd: string) {
 }
 
 // Resolve Config Paths
-export async function resolve_config_paths(
-  cwd: string,
-  config: RawConfigType
-): Promise<RawConfigType> {
+export async function resolve_config_paths(cwd: string, config: RawConfigType): Promise<RawConfigType> {
   const ts_config = loadConfig(cwd)
 
   if (ts_config.resultType === 'failed') {
     return logger.error({
-      args: [
-        `Failed to leaod ${config.tsx ? 'tsconfig' : 'jsconfig'}.json. ${ts_config.message ?? ''}`.trim()
-      ]
+      args: [`Failed to leaod ${config.tsx ? 'tsconfig' : 'jsconfig'}.json. ${ts_config.message ?? ''}`.trim()],
     })
   }
 
@@ -69,8 +55,8 @@ export async function resolve_config_paths(
       components: await resolve_import(config.aliases.components, ts_config),
       ui: config.aliases.ui
         ? await resolve_import(config.aliases.ui, ts_config)
-        : await resolve_import(config.aliases.components, ts_config)
-    }
+        : await resolve_import(config.aliases.components, ts_config),
+    },
   })
 }
 
@@ -87,9 +73,7 @@ export async function get_project_config(cwd: string) {
 
   if (!project_type || !tailwindcss_file || !ts_config_alias_prefix) {
     logger.error({
-      args: [
-        `Failed to get project config!, ${chalk.bgRed.white('TailwindCss')} is required`
-      ]
+      args: [`Failed to get project config!, ${chalk.bgRed.white('TailwindCss')} is required`],
     })
     return null
   }
@@ -106,12 +90,12 @@ export async function get_project_config(cwd: string) {
       baseColor: 'zinc',
       css: tailwindcss_file,
       cssVariables: true,
-      prefix: ''
+      prefix: '',
     },
     aliases: {
       utils: `${ts_config_alias_prefix}/lib/utils`,
-      components: `${ts_config_alias_prefix}/components`
-    }
+      components: `${ts_config_alias_prefix}/components`,
+    },
   }
 
   // Convert config to a string based on the file type
@@ -120,15 +104,11 @@ export async function get_project_config(cwd: string) {
     : default_js_config(config)
 
   try {
-    await fs.writeFile(
-      path.join(cwd, `duck-ui.config.${is_tsx ? 'ts' : 'js'}`),
-      configString,
-      'utf8'
-    )
+    await fs.writeFile(path.join(cwd, `duck-ui.config.${is_tsx ? 'ts' : 'js'}`), configString, 'utf8')
   } catch (error) {
     console.log(error)
     logger.error({
-      args: [`Failed to create duck-ui.config.${is_tsx ? 'ts' : 'js'}`]
+      args: [`Failed to create duck-ui.config.${is_tsx ? 'ts' : 'js'}`],
     })
     process.exit(1)
   }

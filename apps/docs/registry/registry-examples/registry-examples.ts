@@ -87,10 +87,10 @@ export const registry_examples: Registry = [
   },
 
   {
-    name: "alert-dialog-main",
-    type: "registry:example",
-    registryDependencies: ["alert-dialog", "button"],
-    root_folder: "registry-examples-components/alert-dialog",
+    name: 'alert-dialog-main',
+    type: 'registry:example',
+    registryDependencies: ['alert-dialog', 'button'],
+    root_folder: 'registry-examples-components/alert-dialog',
     files: [],
-  }
+  },
 ]

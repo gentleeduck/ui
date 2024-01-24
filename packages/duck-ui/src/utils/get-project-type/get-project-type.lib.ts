@@ -9,12 +9,12 @@ export const detectNextJs: Detector = {
     const files = await fg.glob('**/*', {
       cwd,
       deep: 3,
-      ignore: IGNORED_DIRECTORIES
+      ignore: IGNORED_DIRECTORIES,
     })
 
-    const is_nextjs = files.find((file) => file.includes('next.config'))
+    const is_nextjs = files.find(file => file.includes('next.config'))
 
     if (is_nextjs) return true
     return false
-  }
+  },
 }

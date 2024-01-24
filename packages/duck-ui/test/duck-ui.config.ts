@@ -8,10 +8,10 @@ export const config = {
     baseColor: 'zinc',
     css: 'style.css',
     cssVariables: true,
-    prefix: ''
+    prefix: '',
   },
   aliases: {
     utils: '@/lib/utils',
-    components: '@/components'
-  }
+    components: '@/components',
+  },
 }

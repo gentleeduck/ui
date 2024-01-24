@@ -8,9 +8,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from './alert-dialog'
-import { SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '../sheet'
-import { DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from '../drawer'
-import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../dialog'
+import { SheetWrapperProps } from '../sheet'
+import { DrawerWrapperProps } from '../drawer'
+import { DialogWrapperProps } from '../dialog'
 
 /**
  * Alert Dialog State
@@ -56,16 +56,7 @@ export type AlertDialogWrapperType = {
  */
 export type AlertDialogSheetProps<T = string> = {
   state: T
-  content: Partial<React.ComponentPropsWithoutRef<typeof SheetContent>> & {
-    _header?: React.ComponentPropsWithoutRef<typeof SheetHeader> & {
-      _title?: React.ComponentPropsWithoutRef<typeof SheetTitle>
-      _description?: React.ComponentPropsWithoutRef<typeof SheetDescription>
-    }
-    _footer?: React.ComponentPropsWithoutRef<typeof SheetFooter> & {
-      _cancel?: React.ComponentPropsWithoutRef<typeof SheetClose>
-      _submit?: React.HTMLProps<HTMLDivElement>
-    }
-  }
+  content: Pick<SheetWrapperProps, 'content'>
 } & AlertDialogWrapperType
 
 /**
@@ -73,53 +64,13 @@ export type AlertDialogSheetProps<T = string> = {
  */
 export type AlertDialogDrawerProps<T = string> = {
   state: T
-  alertTrigger: React.ComponentPropsWithoutRef<typeof AlertDialogTrigger>
-  alertContent: React.ComponentPropsWithoutRef<typeof AlertDialogContent> & {
-    _header?: React.ComponentPropsWithoutRef<typeof AlertDialogHeader> & {
-      _title?: React.ComponentPropsWithoutRef<typeof AlertDialogTitle>
-      _description?: React.ComponentPropsWithoutRef<typeof AlertDialogDescription>
-    }
-    _footer?: React.ComponentPropsWithoutRef<typeof AlertDialogFooter> & {
-      _cancel?: React.ComponentPropsWithoutRef<typeof AlertDialogCancel>
-      _submit?: React.ComponentPropsWithoutRef<typeof AlertDialogAction>
-    }
-  }
-  content: Partial<React.ComponentPropsWithoutRef<typeof DrawerContent>> & {
-    _header?: React.ComponentPropsWithoutRef<typeof DrawerHeader> & {
-      _title?: React.ComponentPropsWithoutRef<typeof DrawerTitle>
-      _description?: React.ComponentPropsWithoutRef<typeof DrawerDescription>
-    }
-    _footer?: React.ComponentPropsWithoutRef<typeof DrawerFooter> & {
-      _cancel?: React.ComponentPropsWithoutRef<typeof DrawerClose>
-      _submit?: React.HTMLProps<HTMLDivElement>
-    }
-  }
-}
+  content: Pick<DrawerWrapperProps, 'content'>
+} & AlertDialogWrapperType
 
 /**
  * AlertDialogDialogProps
  */
 export type AlertDialogDialogProps<T = string> = {
   state: T
-  alertTrigger: React.ComponentPropsWithoutRef<typeof AlertDialogTrigger>
-  alertContent: React.ComponentPropsWithoutRef<typeof AlertDialogContent> & {
-    _header?: React.ComponentPropsWithoutRef<typeof AlertDialogHeader> & {
-      _title?: React.ComponentPropsWithoutRef<typeof AlertDialogTitle>
-      _description?: React.ComponentPropsWithoutRef<typeof AlertDialogDescription>
-    }
-    _footer?: React.ComponentPropsWithoutRef<typeof AlertDialogFooter> & {
-      _cancel?: React.ComponentPropsWithoutRef<typeof AlertDialogCancel>
-      _submit?: React.ComponentPropsWithoutRef<typeof AlertDialogAction>
-    }
-  }
-  content: Partial<React.ComponentPropsWithoutRef<typeof DialogContent>> & {
-    _header?: React.ComponentPropsWithoutRef<typeof DialogHeader> & {
-      _title?: React.ComponentPropsWithoutRef<typeof DialogTitle>
-      _description?: React.ComponentPropsWithoutRef<typeof DialogDescription>
-    }
-    _footer?: React.ComponentPropsWithoutRef<typeof DialogFooter> & {
-      _cancel?: React.ComponentPropsWithoutRef<typeof DialogClose>
-      _submit?: React.HTMLProps<HTMLDivElement>
-    }
-  }
-}
+  content: Pick<DialogWrapperProps, 'content'>
+} & AlertDialogWrapperType

@@ -1,13 +1,4 @@
-import {
-  cyan,
-  green,
-  red,
-  yellow,
-  bgRed,
-  bgYellow,
-  bgGreen,
-  bgCyan
-} from 'kleur/colors'
+import { cyan, green, red, yellow, bgRed, bgYellow, bgGreen, bgCyan } from 'kleur/colors'
 
 export const highlighter = {
   error: red,
@@ -17,5 +8,5 @@ export const highlighter = {
   success: green,
   bg_success: bgGreen,
   info: cyan,
-  bg_info: bgCyan
+  bg_info: bgCyan,
 }

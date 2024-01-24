@@ -8,16 +8,12 @@ export const tailwindcss_prompts: PromptObject<string>[] = [
     message: `Would you like to install ${highlighter.info('TailwindCSS')}`,
     initial: false,
     active: 'yes',
-    inactive: 'no'
-  }
+    inactive: 'no',
+  },
 ]
 
 //NOTE: willing to support more when we have more frameworks to support with duck-ui
-export const tailwindcss_dependencies = [
-  'tailwindcss',
-  'postcss',
-  'autoprefixer'
-]
+export const tailwindcss_dependencies = ['tailwindcss', 'postcss', 'autoprefixer']
 
 export const tailwindcss_init = ['tailwindcss', 'init', '-p']
 

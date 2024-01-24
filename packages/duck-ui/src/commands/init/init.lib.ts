@@ -9,7 +9,7 @@ import {
   logger,
   pref_light_tailwindcss,
   pref_light_typescript,
-  registry_index_schema
+  registry_index_schema,
 } from '@/src/utils'
 
 export async function init_command_action(opt: InitOptions) {

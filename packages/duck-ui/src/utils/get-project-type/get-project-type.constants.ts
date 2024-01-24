@@ -4,7 +4,7 @@ export enum ProjectTypeEnum {
   NEXT_JS = 'Next.js',
   VITE = 'Vite',
   CREATE_REACT_APP = 'Create React App',
-  UNKNOWN = 'Unknown'
+  UNKNOWN = 'Unknown',
 }
 
 // Gather all detectors in a single array

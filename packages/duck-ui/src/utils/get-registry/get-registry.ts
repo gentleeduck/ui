@@ -1,9 +1,5 @@
 import { logger } from '../text-styling'
-import {
-  registry_base_color_schema,
-  registry_index_schema,
-  registry_item_schema
-} from './get-registry.dto'
+import { registry_base_color_schema, registry_index_schema, registry_item_schema } from './get-registry.dto'
 import { fetch_registry_url, is_url } from './get-registry.lib'
 
 export async function get_registry_index() {
@@ -17,14 +13,9 @@ export async function get_registry_index() {
   }
 }
 
-export async function get_registry_item(
-  name: Lowercase<string>,
-  style: 'default'
-) {
+export async function get_registry_item(name: Lowercase<string>, style: 'default') {
   try {
-    const [result] = await fetch_registry_url([
-      is_url(name) ? name : `styles/${style}/${name}.json`
-    ])
+    const [result] = await fetch_registry_url([is_url(name) ? name : `styles/${style}/${name}.json`])
     console.log(hi)
 
     return registry_item_schema.parse(hi)
@@ -54,10 +45,10 @@ const hi = {
       name: 'button.tsx',
       path: 'src/components/button.tsx', // provide the correct path
       content:
-        "import React from 'react'\n\nimport * as TooltipPrimitive from '@radix-ui/react-tooltip'\nimport { Slot } f"
-    }
+        "import React from 'react'\n\nimport * as TooltipPrimitive from '@radix-ui/react-tooltip'\nimport { Slot } f",
+    },
   ],
-  type: 'components:ui'
+  type: 'components:ui',
 }
 
 const je = {
@@ -75,8 +66,8 @@ import { Slot } from '@radix-ui/react-slot';
 
 // Add more content here as needed...
 `,
-      type: 'components:ui' // specify a valid type
-    }
+      type: 'components:ui', // specify a valid type
+    },
   ],
-  type: 'components:ui'
+  type: 'components:ui',
 }

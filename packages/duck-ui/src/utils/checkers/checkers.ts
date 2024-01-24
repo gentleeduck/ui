@@ -1,7 +1,4 @@
-import {
-  IGNORED_DIRECTORIES,
-  tailwindCssInstallationGuide
-} from '../get-project-info/get-project-info.constants'
+import { IGNORED_DIRECTORIES, tailwindCssInstallationGuide } from '../get-project-info/get-project-info.constants'
 import fs from 'fs-extra'
 import path from 'path'
 import fg from 'fast-glob'
@@ -12,7 +9,7 @@ export async function checkTailwindCssInstalled(cwd: string) {
   const tailwindcss = fg.globSync('tailwind.config.*', {
     cwd,
     deep: 3,
-    ignore: IGNORED_DIRECTORIES
+    ignore: IGNORED_DIRECTORIES,
   })
 
   if (!tailwindcss.length) return false
@@ -23,7 +20,7 @@ export async function checkTailwindCssInstalled(cwd: string) {
 export function checkDirectoryExist(cwd: string): typeof logger | undefined {
   if (!fs.lstatSync(cwd).isDirectory()) {
     return logger.error({
-      args: [`The working directory ${cwd} does not exist.`]
+      args: [`The working directory ${cwd} does not exist.`],
     })
   }
 }

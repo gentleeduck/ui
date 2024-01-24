@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "registry-examples-components/badge/badge-4.tsx",
-      "content": "import { Badge } from '@/registry/registry-ui-components'\n\nexport default function Badge4Demo() {\n  return (\n    <Badge\n      arial-label=\"Badge\"\n      role=\"button\"\n      variant={'outline'}\n    >\n      Badge\n    </Badge>\n  )\n}\n",
+      "content": "import { Badge } from '@/registry/registry-ui-components'\n\nexport default function Badge3Demo() {\n  return (\n    <Badge\n      arial-label=\"Badge\"\n      role=\"button\"\n      variant={'destructive'}\n    >\n      Badge\n    </Badge>\n  )\n}\n",
       "type": "registry:example"
     }
   ]
