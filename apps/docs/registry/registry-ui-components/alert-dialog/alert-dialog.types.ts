@@ -57,11 +57,7 @@ export type UseDuckAlertReturnType = {
  */
 export type UserDuckAlertProps<T> = Pick<AlertDialogSheetProps<T>, 'state'>
 
-/**
- * AlertDialogSheetProps
- */
-export type AlertDialogSheetProps<T = string> = {
-  state: T
+export type AlertDialogWrapperType = {
   alertTrigger: React.ComponentPropsWithoutRef<typeof AlertDialogTrigger>
   alertContent: React.ComponentPropsWithoutRef<typeof AlertDialogContent> & {
     _header?: React.ComponentPropsWithoutRef<typeof AlertDialogHeader> & {
@@ -73,6 +69,14 @@ export type AlertDialogSheetProps<T = string> = {
       _submit?: React.ComponentPropsWithoutRef<typeof AlertDialogAction>
     }
   }
+  duckHook?: UseDuckAlertReturnType
+}
+
+/**
+ * AlertDialogSheetProps
+ */
+export type AlertDialogSheetProps<T = string> = {
+  state: T
   content: Partial<React.ComponentPropsWithoutRef<typeof SheetContent>> & {
     _header?: React.ComponentPropsWithoutRef<typeof SheetHeader> & {
       _title?: React.ComponentPropsWithoutRef<typeof SheetTitle>
@@ -83,7 +87,7 @@ export type AlertDialogSheetProps<T = string> = {
       _submit?: React.HTMLProps<HTMLDivElement>
     }
   }
-}
+} & AlertDialogWrapperType
 
 /**
  * AlertDialogDrawerProps

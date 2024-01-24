@@ -59,6 +59,12 @@ export default function AlertDialogDemo1() {
       state={goal}
       alertTrigger={{ children: <Button variant="outline">Open</Button> }}
       alertContent={{
+        _header: {
+          _title: { children: <>warning your progress will be lost</> },
+          _description: {
+            children: <>by clicking continue, you will lose your progress, make sure you want to continue.</>,
+          },
+        },
         _footer: {
           _submit: {
             onClick: () => {
@@ -77,8 +83,8 @@ export default function AlertDialogDemo1() {
           />
         ),
         _header: {
-          _title: <>Goal</>,
-          _description: <>Set your daily calorie goal</>,
+          _title: { children: <>Goal</> },
+          _description: { children: <>Set your daily calorie goal</> },
         },
         _footer: {
           className: 'flex w-full justify-between items-end',
