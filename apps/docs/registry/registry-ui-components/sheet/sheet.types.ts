@@ -5,7 +5,7 @@ import { SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, S
  * A wrapper component for the [Radix UI Sheet](https://www.radix-ui.com/docs/primitives/components/sheet)
  */
 export type SheetWrapperProps = {
-  trigger: React.ComponentPropsWithoutRef<typeof SheetTrigger>
+  trigger?: React.ComponentPropsWithoutRef<typeof SheetTrigger>
   content: Partial<React.ComponentPropsWithoutRef<typeof SheetContent>> & {
     _header?: React.ComponentPropsWithoutRef<typeof SheetHeader> & {
       _title?: React.ComponentPropsWithoutRef<typeof SheetTitle>

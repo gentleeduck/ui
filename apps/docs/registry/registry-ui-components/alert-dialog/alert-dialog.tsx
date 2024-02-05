@@ -38,6 +38,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/registry/default/ui/ShadcnUI/dialog'
+import { DrawerWrapper } from '../drawer'
+import { SheetWrapper } from '../sheet'
+import { DialogWrapper } from '../dialog'
 
 //NOTE: Alert Dialog Primitive
 const AlertDialog = AlertDialogPrimitive.Root as typeof AlertDialogPrimitive.Root
@@ -220,15 +223,6 @@ export function AlertDialogWrapper({ alertTrigger, alertContent, duckHook }: Ale
  * with cancel and continue actions, updating the state and invoking provided callbacks.
  */
 function AlertDialogSheet<T = string>({ alertTrigger, alertContent, content, state }: AlertDialogSheetProps<T>) {
-  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
-  const {
-    className: subHeaderClassName,
-    _description: subDescription,
-    _title: subTitle,
-    ...subHeaderProps
-  } = _header ?? {}
-  const { className: subFooterClassName, _submit: _subSubmit, _cancel: _subCancel, ...subFooterProps } = _footer ?? {}
-
   const duckHook = useDuckAlert({ state })
 
   return (
@@ -238,45 +232,10 @@ function AlertDialogSheet<T = string>({ alertTrigger, alertContent, content, sta
         alertContent={alertContent}
         duckHook={duckHook}
       />
-      <AlertDialog open={duckHook.state.alert}>
-        <AlertDialogTrigger
-          {...alertTrigger}
-          onClick={e => {
-            duckHook.setState({ shape: true, alert: false })
-            alertTrigger?.onClick?.(e)
-          }}
-        />
-        <AlertDialogContent {...subContentProps}>
-          <AlertDialogHeader {...subHeaderProps}>
-            {subHeaderProps.children ? (
-              subHeaderProps.children
-            ) : (
-              <>
-                <AlertDialogTitle {...subTitle} />
-                <AlertDialogDescription {...subDescription} />
-              </>
-            )}
-          </AlertDialogHeader>
-          <AlertDialogFooter {...subFooterProps}>
-            <AlertDialogCancel
-              {..._subCancel}
-              children={!_subCancel?.children && 'Cancel'}
-              onClick={e => {
-                duckHook?.handleAlertCancel()
-                _subCancel?.onClick?.(e)
-              }}
-            />
-            <AlertDialogAction
-              {..._subSubmit}
-              children={!_subSubmit?.children && 'Continue'}
-              onClick={e => {
-                duckHook?.handleAlertContinue()
-                _subSubmit?.onClick?.(e)
-              }}
-            />
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <SheetWrapper
+        content={content}
+        duckHook={duckHook}
+      />
     </>
   )
 }
@@ -304,119 +263,19 @@ AlertDialogSheet.displayName = 'AlertDialogSheet'
  */
 
 function AlertDialogDrawer<T = string>({ alertTrigger, alertContent, content, state }: AlertDialogDrawerProps<T>) {
-  const { _header: contentHeader, _footer: contentFooter, ...contentProps } = alertContent ?? {}
-  const { _title, _description, ...headerProps } = contentHeader ?? {}
-  const { _submit, _cancel, ...footerProps } = contentFooter ?? {}
-  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
-  const {
-    className: subHeaderClassName,
-    children: subHeaderChildren,
-    _description: subDescription,
-    _title: subTitle,
-    ...subHeaderProps
-  } = _header ?? {}
-  const {
-    className: subFooterClassName,
-    children: subFooterChildren,
-    _submit: _subSubmit,
-    _cancel: _subCancel,
-    ...subFooterProps
-  } = _footer ?? {}
-
-  const {
-    state: changeState,
-    handleOpenChange,
-    handleAlertCancel,
-    handleAlertContinue,
-    setState,
-  } = useDuckAlert<T>({ state })
+  const duckHook = useDuckAlert<T>({ state })
 
   return (
     <>
-      <AlertDialog open={changeState.alert}>
-        <AlertDialogTrigger
-          {...alertTrigger}
-          onClick={e => {
-            setState({ shape: true, alert: false })
-            alertTrigger?.onClick?.(e)
-          }}
-        />
-        <AlertDialogContent {...contentProps}>
-          <AlertDialogHeader {...headerProps}>
-            {headerProps.children ? (
-              headerProps.children
-            ) : (
-              <>
-                <AlertDialogTitle {..._title} />
-                <AlertDialogDescription {..._description} />
-              </>
-            )}
-          </AlertDialogHeader>
-          <AlertDialogFooter {...footerProps}>
-            <AlertDialogCancel
-              {..._cancel}
-              children={!_cancel?.children && 'Cancel'}
-              onClick={e => {
-                handleAlertCancel()
-                _cancel?.onClick?.(e)
-              }}
-            />
-            <AlertDialogAction
-              {..._submit}
-              children={!_submit?.children && 'Continue'}
-              onClick={e => {
-                handleAlertContinue()
-                _submit?.onClick?.(e)
-              }}
-            />
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <Drawer
-        open={changeState.shape}
-        onOpenChange={handleOpenChange}
-      >
-        <DrawerContent
-          className={cn('flex flex-col w-full h-full', subContentClassName)}
-          {...subContentProps}
-        >
-          <div
-            data-role-wrapper
-            className="flex flex-col gap-4 w-full h-full"
-          >
-            {_header && (
-              <DrawerHeader {...subHeaderProps}>
-                {subHeaderChildren ? (
-                  subHeaderChildren
-                ) : (
-                  <>
-                    <DrawerTitle {...subTitle} />
-                    <DrawerDescription {...subDescription} />
-                  </>
-                )}
-              </DrawerHeader>
-            )}
-            {subcontentChildren}
-            <DrawerFooter
-              className={cn('gap-2', subFooterClassName)}
-              {...subFooterProps}
-            >
-              <DrawerClose
-                asChild
-                {..._subCancel}
-              />
-              <div
-                {..._subSubmit}
-                className={cn('ml-0', _subSubmit?.className)}
-                onClick={e => {
-                  setState({ shape: false, alert: false })
-                  _subSubmit?.onClick?.(e)
-                }}
-              />
-            </DrawerFooter>
-          </div>
-        </DrawerContent>
-      </Drawer>
+      <AlertDialogWrapper
+        alertTrigger={alertTrigger}
+        alertContent={alertContent}
+        duckHook={duckHook}
+      />
+      <DrawerWrapper
+        content={content}
+        duckHook={duckHook}
+      />
     </>
   )
 }
@@ -442,73 +301,19 @@ AlertDialogSheet.displayName = 'AlertDialogDrawer'
  */
 
 function AlertDialogDialog<T = string>({ alertTrigger, alertContent, content, state }: AlertDialogDialogProps<T>) {
-  const { _header: contentHeader, _footer: contentFooter, ...contentProps } = alertContent ?? {}
-  const { _title, _description, ...headerProps } = contentHeader ?? {}
-  const { _submit, _cancel, ...footerProps } = contentFooter ?? {}
-  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
-  const {
-    className: subHeaderClassName,
-    _description: subDescription,
-    _title: subTitle,
-    ...subHeaderProps
-  } = _header ?? {}
-  const { className: subFooterClassName, _submit: _subSubmit, _cancel: _subCancel, ...subFooterProps } = _footer ?? {}
-
-  const {
-    state: changeState,
-    handleOpenChange,
-    handleAlertCancel,
-    handleAlertContinue,
-    setState,
-  } = useDuckAlert<T>({ state })
+  const duckHook = useDuckAlert<T>({ state })
 
   return (
     <>
-      <Dialog
-        open={changeState.shape}
-        onOpenChange={handleOpenChange}
-      >
-        <DialogContent
-          className={cn('flex flex-col w-full h-full', subContentClassName)}
-          {...subContentProps}
-        >
-          <div
-            data-role-wrapper
-            className="flex flex-col gap-4 w-full h-full"
-          >
-            {_header && (
-              <DialogHeader {...subHeaderProps}>
-                {subHeaderProps.children ? (
-                  subHeaderProps.children
-                ) : (
-                  <>
-                    <DialogTitle {...subTitle} />
-                    <DialogDescription {...subDescription} />
-                  </>
-                )}
-              </DialogHeader>
-            )}
-            {subcontentChildren}
-            <DialogFooter
-              className={cn('gap-2', subFooterClassName)}
-              {...subFooterProps}
-            >
-              <DialogClose
-                asChild
-                {..._subCancel}
-              />
-              <div
-                {..._subSubmit}
-                className={cn('ml-0', _subSubmit?.className)}
-                onClick={e => {
-                  setState({ shape: false, alert: false })
-                  _subSubmit?.onClick?.(e)
-                }}
-              />
-            </DialogFooter>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <AlertDialogWrapper
+        alertTrigger={alertTrigger}
+        alertContent={alertContent}
+        duckHook={duckHook}
+      />
+      <DialogWrapper
+        content={content}
+        duckHook={duckHook}
+      />
     </>
   )
 }
