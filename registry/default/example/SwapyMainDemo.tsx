@@ -434,9 +434,11 @@ export const CommentsLayout: React.FC<CommentsLayoutProps> = ({ comments }) => {
     <CommentsProvider>
       <MDXProvider>
         <PopoverWrapper
-          wrapper={{
-            open: true,
-          }}
+          wrapper={
+            {
+              // open: true,
+            }
+          }
           trigger={{
             asChild: true,
             children: (
