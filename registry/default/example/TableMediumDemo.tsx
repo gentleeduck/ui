@@ -44,12 +44,12 @@ const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataT
   {
     children: 'Edit',
     onClick: () => console.log('edit'),
-    icon: { icon: Pencil },
+    icon: { children: Pencil },
   },
   {
     children: 'Share',
     icon: {
-      icon: Share2,
+      children: Share2,
     },
     nestedData: {
       group: [2],
@@ -58,7 +58,7 @@ const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataT
           className: '[&_svg]:text-[#1DA1F2]',
           children: 'Twitter',
           icon: {
-            icon: Twitter,
+            children: Twitter,
           },
         },
         {
@@ -67,7 +67,7 @@ const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataT
             label: '⌘+e',
           },
           icon: {
-            icon: Twitch,
+            children: Twitch,
           },
           className: '[&_svg]:text-[#6441a5]',
           children: 'Twitch',
@@ -78,14 +78,14 @@ const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataT
   {
     children: 'Favorite',
     icon: {
-      icon: Star,
+      children: Star,
     },
   },
   {
     children: 'Delete',
     command: { label: '⌘⌫', key: 'a' },
     icon: {
-      icon: Trash2,
+      children: Trash2,
     },
     className: '[&_span]:text-red-500 text-red-500 [&_span]:hover:text-primary',
   },

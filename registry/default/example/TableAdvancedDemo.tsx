@@ -140,7 +140,7 @@ const filtersData = [
           label: 'Backlog',
           element: {
             icon: {
-              icon: CircleHelp,
+              children: CircleHelp,
               className: iconStyle,
             },
           },
@@ -206,7 +206,7 @@ const filtersData = [
           label: 'Low',
           element: {
             icon: {
-              icon: ArrowDownIcon,
+              children: ArrowDownIcon,
               className: 'size-4 stroke-[1.5]',
             },
           },
@@ -214,7 +214,7 @@ const filtersData = [
         {
           label: 'Medium',
           element: {
-            icon: {
+            children: {
               icon: ArrowRightIcon,
               className: 'size-4 stroke-[1.5]',
             },
@@ -224,7 +224,7 @@ const filtersData = [
           label: 'High',
           element: {
             icon: {
-              icon: ArrowUpIcon,
+              children: ArrowUpIcon,
               className: 'size-4 stroke-[1.5]',
             },
           },
@@ -238,12 +238,12 @@ const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataT
   {
     children: 'Edit',
     onClick: () => console.log('edit'),
-    icon: { icon: Pencil },
+    icon: { children: Pencil },
   },
   {
     children: 'Share',
     icon: {
-      icon: Share2,
+      children: Share2,
     },
     nestedData: {
       group: [2],
@@ -252,7 +252,7 @@ const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataT
           className: '[&_svg]:text-[#1DA1F2]',
           children: 'Twitter',
           icon: {
-            icon: Twitter,
+            children: Twitter,
           },
         },
         {
@@ -261,7 +261,7 @@ const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataT
             label: '⌘+e',
           },
           icon: {
-            icon: Twitch,
+            children: Twitch,
           },
           className: '[&_svg]:text-[#6441a5]',
           children: 'Twitch',

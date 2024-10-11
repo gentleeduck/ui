@@ -1,5 +1,8 @@
 import React from 'react'
-import { useAudioProvider } from './audio-record'
+import { useAudioDataProvider } from './audio-record'
+
+export const audio = new Audio()
+export const new_audio = (url: string) => new Audio(url)
 
 // Calculate bar data
 export interface dataPoint {
@@ -277,7 +280,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
   setLoading,
 }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
-  const { process_audio, data, duration, animationProgress } = useAudioProvider()
+  const { process_audio, data, duration, animationProgress } = useAudioDataProvider()
 
   React.useEffect(() => {
     setLoading(true)

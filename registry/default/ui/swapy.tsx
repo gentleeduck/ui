@@ -26,7 +26,7 @@ interface Subtask {
 }
 
 // Type for Attachments
-interface Attachment {
+export interface Attachment {
   id?: string
   type?: string
   filename?: string
@@ -42,17 +42,11 @@ interface Link {
   url?: string
 }
 
-// Type for Comment Content
-export type CommentContentType =
-  | { type: 'text'; content: string }
-  | { type: 'voice'; content: string }
-  | { type: 'video'; content: null }
-  | { type: 'image'; content: null }
-
 // Type for a Comment
 export interface CommentType {
   id: string
-  content: CommentContentType[]
+  content: string
+  attachments: Attachment[]
   createdAt: string
   user: TaggedUserType
   likes: LikedType

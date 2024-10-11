@@ -8,6 +8,7 @@ import { LikedType, TaggedUserType } from './swapy'
 
 export interface LikeButtonProps extends Omit<ButtonProps, 'onClick'> {
   user: TaggedUserType
+  showLikes?: boolean
   likes: LikedType
   onClick?: ({ e, state }: { e: React.MouseEvent<HTMLButtonElement>; state: LikeState }) => void
 }
@@ -19,7 +20,14 @@ export interface LikeState {
   hasLiked: boolean
 }
 
-const LikeButton: React.FC<LikeButtonProps> = ({ user = [], likes, className, onClick, ...props }) => {
+const LikeButton: React.FC<LikeButtonProps> = ({
+  user = [],
+  likes,
+  className,
+  showLikes = true,
+  onClick,
+  ...props
+}) => {
   const { amount } = likes ?? {}
 
   // Initialize state
@@ -59,17 +67,18 @@ const LikeButton: React.FC<LikeButtonProps> = ({ user = [], likes, className, on
       }}
       {...props}
     >
-      <div
-        key={Math.random()}
-        className={cn(
-          'relative grid place-content-center h-4 overflow-hidden leading-4 transition',
-          likeState.scrollTo
-        )}
-        style={{ width: `${Math.min(48, Math.max(24, String(likeState.current).length * 12))}px` }}
-      >
-        <span className="absolute top-0 left-0">{likeState.current}</span>
-        <span className="absolute top-0 left-0">{likeState.prev}</span>
-      </div>
+      {showLikes && (
+        <div
+          className={cn(
+            'relative grid place-content-center h-4 overflow-hidden leading-4 transition',
+            likeState.scrollTo
+          )}
+          style={{ width: `${Math.min(48, Math.max(24, String(likeState.current).length * 12))}px` }}
+        >
+          <span className="absolute top-0 left-0">{likeState.current}</span>
+          <span className="absolute top-0 left-0">{likeState.prev}</span>
+        </div>
+      )}
     </Button>
   )
 }

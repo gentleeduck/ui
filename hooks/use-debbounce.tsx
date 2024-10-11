@@ -1,14 +1,28 @@
 import React from 'react'
 
 export const useDebounceCallback = <T extends (...args: any[]) => void>(callback: T, delay?: number) => {
-  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null)
+  let timeoutRef: NodeJS.Timeout | null = null
 
   return (...args: Parameters<T>) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
+    if (timeoutRef) {
+      clearTimeout(timeoutRef)
     }
 
-    timeoutRef.current = setTimeout(() => {
+    timeoutRef = setTimeout(() => {
+      callback(...args)
+    }, delay)
+  }
+}
+
+export const debounceCallback = <T extends (...args: any[]) => void>(callback: T, delay?: number) => {
+  let timeoutRef: NodeJS.Timeout | null = null
+
+  return (...args: Parameters<T>) => {
+    if (timeoutRef) {
+      clearTimeout(timeoutRef)
+    }
+
+    timeoutRef = setTimeout(() => {
       callback(...args)
     }, delay)
   }

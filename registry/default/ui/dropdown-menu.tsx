@@ -193,19 +193,19 @@ interface DropdownMenuOptionsType<T, Y extends boolean = true> {
   group?: number[]
 }
 
-interface DropdownMenuViewProps<T> {
+interface DropdownMenuViewProps<T, Y extends boolean = true> {
   content?: Partial<
     {
       label?: React.ComponentPropsWithoutRef<typeof DropdownMenuLabel>
-      options?: DropdownMenuOptionsType<T>
+      options?: DropdownMenuOptionsType<T, Y>
     } & React.ComponentPropsWithoutRef<typeof DropdownMenuContent>
   >
   trigger?: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> & ButtonProps
 }
 
-function DropdownMenuView<T>({ content, trigger }: DropdownMenuViewProps<T>) {
+function DropdownMenuView<T, Y extends boolean = true>({ content, trigger }: DropdownMenuViewProps<T, Y>) {
   const { className: triggerClassName, command: triggerCommand, icon: Icon, ...triggerProps } = trigger ?? {}
-  const { className: optionsClassName, options, label, ...contentProps } = content ?? {}
+  const { className: optionsClassName, options, label, align = 'end', ...contentProps } = content ?? {}
   const { className: labelClassName, ...labelProps } = label ?? {}
 
   const groupedOption = groupArrays(options?.group ?? [options?.optionsData?.length || 1], options?.optionsData ?? [])
@@ -236,7 +236,7 @@ function DropdownMenuView<T>({ content, trigger }: DropdownMenuViewProps<T>) {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        align="end"
+        align={align}
         className={cn('w-[200px]', optionsClassName)}
         {...contentProps}
       >

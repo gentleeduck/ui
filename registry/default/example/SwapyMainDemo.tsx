@@ -5,7 +5,6 @@ import {
   AlertDialogCustom,
   AvatarGroup,
   Badge,
-  type LikedType,
   type CommentType,
   Button,
   CheckboxGroup,
@@ -17,14 +16,13 @@ import {
   KanbanColumnRowComponentArgs,
   PopoverWrapper,
   Separator,
-  AvatarCustom,
-  PopoverClose,
-  MDXMinimalTextEditor,
   TaggedUserType,
+  Input,
 } from '../ui'
-import { EllipsisVertical, LucideIcon, MessageSquare, Paperclip, Plus, Reply, X } from 'lucide-react'
+import { EllipsisVertical, MessageSquare, Paperclip, Plus, Reply, X } from 'lucide-react'
 import React from 'react'
-import { ChatBottom, CommentContent, CommentItem, CommentScrollTracker, CommentsPlaceholder } from '../ui/comment'
+import { MDXProvider, CommentsProvider, CommentsContext } from './mdx-context-provider'
+import { useAudioDataProvider } from '../ui/audio-record'
 
 export const users: TaggedUserType[] = [
   {
@@ -38,6 +36,47 @@ export const users: TaggedUserType[] = [
     name: 'wildduck',
     avatarUrl:
       'https://media.licdn.com/dms/image/v2/D4D03AQGLX-Gb_qm3Rw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1725258661460?e=2147483647&v=beta&t=sajP4AdQ68WfKRPPirMnLXbn4J1oIOSDBfGnuwqZ6SQ',
+  },
+]
+
+export const comments: CommentType[] = [
+  {
+    id: 'comment-1',
+    user: users[0],
+    content:
+      'BTW Ahemd, you have to finished this task today! we are on a deadline.  <span emoji="💀" shortcode=":sunglasses:" data-emoji="💀" class="inline-flex text-lg leading-none __className_aef5f5">💀</span>',
+    attachments: [],
+    createdAt: '2021-01-01T00:00:00.000Z',
+    likes: {
+      amount: 4,
+      users: [],
+    },
+  },
+  {
+    id: 'comment-2',
+    user: users[1],
+    content:
+      '<p>Okay Lol. I am going to finish this task. not today. <span emoji="😎" shortcode=":sunglasses:" data-emoji="😎" class="inline-flex text-lg leading-none __className_aef5f5">😎</span>, and I use arch, vim and Rust BTW, forgot to mention Elixir...girl.</p>',
+    attachments: [
+      // {
+      //   type: 'image',
+      //   filename: 'image.png',
+      //   url: 'https://dnd.hellopangea.com/static/media/princess-min.d694ac37.png',
+      //   alt: 'Princess Bubblegum',
+      // },
+      // {
+      //   type: 'audio',
+      //   filename: 'audio.ogg',
+      //   size: '10KB',
+      //   url: 'https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/Pingtr1p.ogg',
+      //   alt: 'Princess Bubblegum',
+      // },
+    ],
+    createdAt: '2021-01-01T00:00:00.000Z',
+    likes: {
+      amount: 4089,
+      users: [],
+    },
   },
 ]
 
@@ -145,44 +184,7 @@ export const initData: InitDataType = {
           title: 'Link 1',
         },
       ],
-      comments: [
-        {
-          id: 'comment-1',
-          user: users[0],
-          content: [
-            {
-              type: 'text',
-              content:
-                'BTW Ahemd, you have to finished this task today! we are on a deadline.  <span emoji="💀" shortcode=":sunglasses:" data-emoji="💀" class="inline-flex text-lg leading-none __className_aef5f5">💀</span>',
-            },
-          ],
-          createdAt: '2021-01-01T00:00:00.000Z',
-          likes: {
-            amount: 4,
-            users: [],
-          },
-        },
-        {
-          id: 'comment-2',
-          user: users[1],
-          content: [
-            {
-              type: 'text',
-              content:
-                '<p>Okay Lol. I am going to finish this task. not today. <span emoji="😎" shortcode=":sunglasses:" data-emoji="😎" class="inline-flex text-lg leading-none __className_aef5f5">😎</span>, and I use arch, vim and Rust BTW, forgot to mention Elixir...girl.</p>',
-            },
-            {
-              type: 'voice',
-              content: 'https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/Pingtr1p.ogg',
-            },
-          ],
-          createdAt: '2021-01-01T00:00:00.000Z',
-          likes: {
-            amount: 4089,
-            users: [],
-          },
-        },
-      ],
+      comments: comments,
       taggedUsers: users,
       labels: [
         {
@@ -462,54 +464,13 @@ export const CommentsLayout: React.FC<CommentsLayoutProps> = ({ comments }) => {
           content={{
             side: 'top',
             className: 'p-0 w-[400px] mb-2',
-            children: (
-              <div>
-                <div className="flex items-center justify-between pt-4 px-4">
-                  <h3 className="text-lg font-medium leading-none tracking-tight">Comments</h3>
-                  <PopoverClose className="size-4 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1">
-                    <X className="size-4" />
-                  </PopoverClose>
-                </div>
-
-                {
-                  <CommentContent length={comments.length}>
-                    <div className="comments flex flex-col justify-end">
-                      {comments.map((comment, idx) => {
-                        const mine = users[0].id == comment.user.id
-                        return (
-                          <CommentItem
-                            key={comment.id}
-                            mine={mine}
-                            className={cn(mine && '')}
-                            comment={comment}
-                            showNestedShapes={comments.length === idx + 1 ? false : true}
-                          />
-                        )
-                      })}
-                      {
-                        // <CommentsPlaceholder user={users[0]} />
-                      }
-                    </div>
-                    <CommentScrollTracker />
-                  </CommentContent>
-                }
-
-                <div className="flex items-center justify-between py-2 px-4 bg-secondary/30 gap-2">
-                  <div className="flex items-center gap-2">
-                    <AvatarCustom
-                      className="w-8 h-8 border-none"
-                      avatar_image={{
-                        src: 'https://media.licdn.com/dms/image/v2/D4D03AQGLX-Gb_qm3Rw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1725258661460?e=2147483647&v=beta&t=sajP4AdQ68WfKRPPirMnLXbn4J1oIOSDBfGnuwqZ6SQ',
-                      }}
-                      fallback={{
-                        className: 'w-8 h-8 bg-secondary/20',
-                      }}
-                    />
-                    <CommentsLeft commentsArr={commentsArr} />
-                  </div>
-                </div>
-              </div>
-            ),
+            // children: (
+            //     <Comment>
+            //         <CommentContent>
+            //             <CommentsPlaceholder />
+            //         </CommentContent>
+            //     </Comment>
+            // ),
           }}
         />
       </MDXProvider>
@@ -517,34 +478,128 @@ export const CommentsLayout: React.FC<CommentsLayoutProps> = ({ comments }) => {
   )
 }
 
-const CommentsLeft = ({ commentsArr }: { commentsArr: CommentType[] }) => {
+export interface CommentProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const Comment = React.forwardRef<HTMLDivElement, CommentProps>(({ className, children, ...props }, ref) => {
   return (
-    <>
-      <div className="relative w-[248.8px]">
-        <MDXMinimalTextEditor
-          className={cn('w-full font-medium h-42')}
-          name="comment"
-          valid={true}
-        />
-      </div>
-      <ChatBottom comments={commentsArr} />
-    </>
+    <div
+      className={cn('max-w-[500px] border border-border border-solid rounded-lg', className)}
+      {...props}
+      ref={ref}
+    >
+      {children}
+    </div>
   )
+})
+
+export interface CommentBottom extends React.HTMLProps<HTMLDivElement> {}
+
+export const CommentBottom = React.forwardRef<HTMLDivElement, CommentBottom>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          'flex items-center justify-center border-t border-border border-solid gap-2 px-4 py-3 relative',
+          className
+        )}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+export interface CommentContentProps extends React.HTMLProps<HTMLDivElement> {}
+
+export const CommentTop = React.forwardRef<HTMLDivElement, CommentContentProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        className={cn('flex items-center justify-between pt-4 px-4', className)}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+export interface CommentTitleProps extends React.HTMLProps<HTMLDivElement> {}
+export const CommentTitle = React.forwardRef<HTMLDivElement, CommentTitleProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <h3
+        className={cn('text-lg font-medium leading-none tracking-tight', className)}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </h3>
+    )
+  }
+)
+
+export interface CommentCloseProps extends React.HTMLProps<HTMLDivElement> {}
+export const CommentClose = React.forwardRef<HTMLDivElement, CommentCloseProps>(({ className, ...props }, ref) => {
+  return (
+    <div
+      className={cn(
+        'size-4 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 cursor-pointer',
+        className
+      )}
+      ref={ref}
+      {...props}
+    >
+      <X className="w-4 h-4" />
+    </div>
+  )
+})
+
+export interface CommentInputProps extends React.HTMLProps<HTMLDivElement> {
+  showOriginal?: boolean
 }
 
-import { MDXProvider, CommentsProvider } from './mdx-context-provider'
+export const CommentInput = React.forwardRef<HTMLDivElement, CommentInputProps>(
+  ({ className, children, showOriginal = true, ...props }, ref) => {
+    const { currentCommentContent, setCurrentCommentContent } = React.useContext(CommentsContext)
+    const { setRecording, recording } = useAudioDataProvider()
+
+    return (
+      <div
+        className={cn('relative w-full', className)}
+        ref={ref}
+        {...props}
+      >
+        {showOriginal && (
+          <Input
+            disabled={recording}
+            placeholder="Write a comment..."
+            value={currentCommentContent}
+            onChange={e => {
+              setCurrentCommentContent(e.target.value)
+            }}
+            className={cn('font-medium resize-none py-1 h-8 w-full')}
+            name=""
+          />
+        )}
+        {children}
+      </div>
+    )
+  }
+)
 
 export const ReplyButton = () => {
   return (
-    <div className="flex items-center justify-center gap-2">
-      <Button
-        // size={'icon'}
-        variant={'ghost'}
-        className="w-5 h-5 p-3"
-        icon={{
-          children: Reply,
-        }}
-      />
-    </div>
+    <Button
+      // size={'icon'}
+      variant={'ghost'}
+      className="w-5 h-5 p-3"
+      icon={{
+        children: Reply,
+      }}
+    />
   )
 }
