@@ -287,6 +287,9 @@ importers:
       '@types/emoji-mart':
         specifier: ^3.0.14
         version: 3.0.14
+      '@types/filesize':
+        specifier: ^5.0.0
+        version: 5.0.0
       '@types/wavesurfer.js':
         specifier: ^6.0.12
         version: 6.0.12
@@ -359,6 +362,9 @@ importers:
       execa:
         specifier: ^9.4.0
         version: 9.4.0
+      filesize:
+        specifier: ^10.1.6
+        version: 10.1.6
       framer-motion:
         specifier: ^11.3.27
         version: 11.3.31(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3279,6 +3285,10 @@ packages:
   '@types/extend@3.0.4':
     resolution: {integrity: sha512-ArMouDUTJEz1SQRpFsT2rIw7DeqICFv5aaVzLSIYMYQSLcwcGOfT3VyglQs/p7K3F7fT4zxr0NWxYZIdifD6dA==}
 
+  '@types/filesize@5.0.0':
+    resolution: {integrity: sha512-zgn1Kmm6VfqruG9STpwpZiSnpzHjF9hlvHVw+5hhM20xRCOIgjxnXJxOoLuZ/aWS6v/M5d6fvXFbbVQfBe4cMg==}
+    deprecated: This is a stub types definition. filesize provides its own type definitions, so you do not need this installed.
+
   '@types/hast@2.3.10':
     resolution: {integrity: sha512-McWspRw8xx8J9HurkVBfYj0xKoE25tOFlHGdx4MJ5xORQrMGZNqJhVQWaIbm6Oyla5kYOXtDiopzKRJzEOkwJw==}
 
@@ -4655,6 +4665,10 @@ packages:
     engines: {node: '>= 10.13.0'}
     peerDependencies:
       webpack: ^4.0.0 || ^5.0.0
+
+  filesize@10.1.6:
+    resolution: {integrity: sha512-sJslQKU2uM33qH5nqewAwVB2QgR6w1aMNsYUp3aN5rMRyXEwJGmZvaWzeJFNTOXWlHQyBFCWrdj3fV/fsTOX8w==}
+    engines: {node: '>= 10.4.0'}
 
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
@@ -10730,6 +10744,10 @@ snapshots:
 
   '@types/extend@3.0.4': {}
 
+  '@types/filesize@5.0.0':
+    dependencies:
+      filesize: 10.1.6
+
   '@types/hast@2.3.10':
     dependencies:
       '@types/unist': 2.0.11
@@ -12461,6 +12479,8 @@ snapshots:
       loader-utils: 2.0.4
       schema-utils: 3.3.0
       webpack: 5.94.0(esbuild@0.17.19)
+
+  filesize@10.1.6: {}
 
   fill-range@7.1.1:
     dependencies:

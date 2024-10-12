@@ -13,11 +13,8 @@ import {
   DraggableProvidedDragHandleProps,
 } from '@hello-pangea/dnd'
 import { cn } from '@/lib'
-import { Badge } from './badge'
 import { Button } from './button'
-import { EllipsisVertical, Plus } from 'lucide-react'
-import { ScrollArea } from './scroll-area'
-import { Recording } from './audio-record'
+import { Plus } from 'lucide-react'
 
 // Type for a Subtask
 interface Subtask {
@@ -30,7 +27,7 @@ export interface Attachment {
   id?: string
   type?: string
   filename?: string
-  url?: string
+  url?: Blob | string
   alt?: string
   size?: string
 }
@@ -61,6 +58,8 @@ export interface LikedType {
 export interface TaggedUserType {
   id: string
   name?: string
+  verified?: boolean
+  badge?: any[]
   avatarUrl?: string
 }
 

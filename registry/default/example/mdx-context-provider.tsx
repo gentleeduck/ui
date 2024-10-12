@@ -1,6 +1,5 @@
 import React from 'react'
 import { CommentType, TaggedUserType } from '../ui'
-import { comments as oldComments } from './SwapyMainDemo'
 
 interface MDXContextType {
   //MENTION
@@ -38,32 +37,4 @@ const MDXProvider = ({ children }: React.PropsWithChildren) => {
   )
 }
 
-export type CommentsContextType = {
-  // COMMENTS
-  comments: CommentType[]
-  setComments: React.Dispatch<React.SetStateAction<CommentType[]>>
-  currentCommentContent: string
-  setCurrentCommentContent: React.Dispatch<React.SetStateAction<string>>
-}
-
-export const CommentsContext = React.createContext<CommentsContextType>({} as CommentsContextType)
-
-const CommentsProvider = ({ children }: React.PropsWithChildren) => {
-  const [comments, setComments] = React.useState<CommentType[]>([])
-  const [currentCommentContent, setCurrentCommentContent] = React.useState<string>('')
-
-  return (
-    <CommentsContext.Provider
-      value={{
-        currentCommentContent,
-        setCurrentCommentContent,
-        comments,
-        setComments,
-      }}
-    >
-      {children}
-    </CommentsContext.Provider>
-  )
-}
-
-export { MDXProvider, CommentsProvider }
+export { MDXProvider }

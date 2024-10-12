@@ -221,6 +221,7 @@ const AlertDialogCustom = <C,>({
     ComponentDescription,
   } = useAlertCustom({ trigger, header, footer, content, drawerData, actions, state, type })
 
+  console.log('changeState', changeState)
   return (
     <>
       <AlertDialog open={changeState.alert}>
@@ -236,10 +237,13 @@ const AlertDialogCustom = <C,>({
             {triggerChildren}
           </ComponentTrigger>
           <ComponentContent
-            className={cn('', contentClassName)}
+            className={cn('flex flex-col w-full h-full', contentClassName)}
             {...contentProps}
           >
-            <div data-role-wrapper>
+            <div
+              data-role-wrapper
+              className="flex flex-col gap-4 w-full h-full"
+            >
               {header && (
                 <ComponentHeader
                   className={cn('', headerClassName)}
@@ -326,6 +330,7 @@ const useAlertCustom = <C,>({
 
   const handleDrawerOpenChange = React.useCallback(
     (drawerState: boolean) => {
+      console.log('handleDrawerOpenChange', changeStateRef.current, changeState, drawerData)
       const showAlert = !drawerState && (drawerData || true) && changeStateRef.current !== changeState
 
       setState(() => ({

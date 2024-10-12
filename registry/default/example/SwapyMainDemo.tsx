@@ -21,7 +21,7 @@ import {
 } from '../ui'
 import { EllipsisVertical, MessageSquare, Paperclip, Plus, Reply, X } from 'lucide-react'
 import React from 'react'
-import { MDXProvider, CommentsProvider, CommentsContext } from './mdx-context-provider'
+import { MDXProvider } from './mdx-context-provider'
 import { useAudioDataProvider } from '../ui/audio-record'
 
 export const users: TaggedUserType[] = [
@@ -34,6 +34,14 @@ export const users: TaggedUserType[] = [
   {
     id: 'user-2',
     name: 'wildduck',
+    verified: true,
+    badge: [
+      {
+        id: 'badge-1',
+        title: 'duckui',
+        imgUrl: 'https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/duckui%20(1).png',
+      },
+    ],
     avatarUrl:
       'https://media.licdn.com/dms/image/v2/D4D03AQGLX-Gb_qm3Rw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1725258661460?e=2147483647&v=beta&t=sajP4AdQ68WfKRPPirMnLXbn4J1oIOSDBfGnuwqZ6SQ',
   },
@@ -64,13 +72,13 @@ export const comments: CommentType[] = [
       //   url: 'https://dnd.hellopangea.com/static/media/princess-min.d694ac37.png',
       //   alt: 'Princess Bubblegum',
       // },
-      // {
-      //   type: 'audio',
-      //   filename: 'audio.ogg',
-      //   size: '10KB',
-      //   url: 'https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/Pingtr1p.ogg',
-      //   alt: 'Princess Bubblegum',
-      // },
+      {
+        type: 'audio',
+        filename: 'audio.ogg',
+        size: '10KB',
+        url: 'https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/Pingtr1p.ogg',
+        alt: 'Princess Bubblegum',
+      },
     ],
     createdAt: '2021-01-01T00:00:00.000Z',
     likes: {
@@ -433,163 +441,48 @@ export const CommentsLayout: React.FC<CommentsLayoutProps> = ({ comments }) => {
   const [editorFocus, setEditorFocus] = React.useState<boolean>(false)
 
   return (
-    <CommentsProvider>
-      <MDXProvider>
-        <PopoverWrapper
-          wrapper={
-            {
-              // open: true,
-            }
+    <MDXProvider>
+      <PopoverWrapper
+        wrapper={
+          {
+            // open: true,
           }
-          trigger={{
-            asChild: true,
-            children: (
-              <Button
-                className="p-0"
-                variant={'ghost'}
-                size={'icon'}
-                icon={{
-                  children: MessageSquare,
-                }}
-                label={{
-                  children: 'Comments',
-                  showLabel: true,
-                  showCommand: true,
-                  side: 'top',
-                  className: 'text-xs',
-                }}
-              />
-            ),
-          }}
-          content={{
-            side: 'top',
-            className: 'p-0 w-[400px] mb-2',
-            // children: (
-            //     <Comment>
-            //         <CommentContent>
-            //             <CommentsPlaceholder />
-            //         </CommentContent>
-            //     </Comment>
-            // ),
-          }}
-        />
-      </MDXProvider>
-    </CommentsProvider>
+        }
+        trigger={{
+          asChild: true,
+          children: (
+            <Button
+              className="p-0"
+              variant={'ghost'}
+              size={'icon'}
+              icon={{
+                children: MessageSquare,
+              }}
+              label={{
+                children: 'Comments',
+                showLabel: true,
+                showCommand: true,
+                side: 'top',
+                className: 'text-xs',
+              }}
+            />
+          ),
+        }}
+        content={{
+          side: 'top',
+          className: 'p-0 w-[400px] mb-2',
+          // children: (
+          //     <Comment>
+          //         <CommentContent>
+          //             <CommentsPlaceholder />
+          //         </CommentContent>
+          //     </Comment>
+          // ),
+        }}
+      />
+    </MDXProvider>
   )
 }
-
-export interface CommentProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export const Comment = React.forwardRef<HTMLDivElement, CommentProps>(({ className, children, ...props }, ref) => {
-  return (
-    <div
-      className={cn('max-w-[500px] border border-border border-solid rounded-lg', className)}
-      {...props}
-      ref={ref}
-    >
-      {children}
-    </div>
-  )
-})
-
-export interface CommentBottom extends React.HTMLProps<HTMLDivElement> {}
-
-export const CommentBottom = React.forwardRef<HTMLDivElement, CommentBottom>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <div
-        className={cn(
-          'flex items-center justify-center border-t border-border border-solid gap-2 px-4 py-3 relative',
-          className
-        )}
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </div>
-    )
-  }
-)
-
-export interface CommentContentProps extends React.HTMLProps<HTMLDivElement> {}
-
-export const CommentTop = React.forwardRef<HTMLDivElement, CommentContentProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <div
-        className={cn('flex items-center justify-between pt-4 px-4', className)}
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </div>
-    )
-  }
-)
-
-export interface CommentTitleProps extends React.HTMLProps<HTMLDivElement> {}
-export const CommentTitle = React.forwardRef<HTMLDivElement, CommentTitleProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <h3
-        className={cn('text-lg font-medium leading-none tracking-tight', className)}
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </h3>
-    )
-  }
-)
-
-export interface CommentCloseProps extends React.HTMLProps<HTMLDivElement> {}
-export const CommentClose = React.forwardRef<HTMLDivElement, CommentCloseProps>(({ className, ...props }, ref) => {
-  return (
-    <div
-      className={cn(
-        'size-4 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 cursor-pointer',
-        className
-      )}
-      ref={ref}
-      {...props}
-    >
-      <X className="w-4 h-4" />
-    </div>
-  )
-})
-
-export interface CommentInputProps extends React.HTMLProps<HTMLDivElement> {
-  showOriginal?: boolean
-}
-
-export const CommentInput = React.forwardRef<HTMLDivElement, CommentInputProps>(
-  ({ className, children, showOriginal = true, ...props }, ref) => {
-    const { currentCommentContent, setCurrentCommentContent } = React.useContext(CommentsContext)
-    const { setRecording, recording } = useAudioDataProvider()
-
-    return (
-      <div
-        className={cn('relative w-full', className)}
-        ref={ref}
-        {...props}
-      >
-        {showOriginal && (
-          <Input
-            disabled={recording}
-            placeholder="Write a comment..."
-            value={currentCommentContent}
-            onChange={e => {
-              setCurrentCommentContent(e.target.value)
-            }}
-            className={cn('font-medium resize-none py-1 h-8 w-full')}
-            name=""
-          />
-        )}
-        {children}
-      </div>
-    )
-  }
-)
 
 export const ReplyButton = () => {
   return (

@@ -555,7 +555,7 @@ section#id {
   .comment:last-child {
     &>div {
       &>div.top-shape {
-        @apply flex -mt-2;
+        @apply flex -mt-4;
       }
 
       &>div.bottom-shape {
