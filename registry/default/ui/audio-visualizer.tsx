@@ -120,7 +120,7 @@ export const draw_handler = ({
   // Clear the canvas and set background
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   if (backgroundColor !== 'transparent') {
-    ctx.fillStyle = backgroundColor
+    ctx.fillStyle = 'transparent'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
 

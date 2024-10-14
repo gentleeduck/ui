@@ -1,5 +1,5 @@
 import React from 'react'
-import { Attachment, CommentType, TaggedUserType } from './swapy'
+import { AttachmentType, CommentType, TaggedUserType } from './swapy'
 import { differenceInDays, differenceInHours, format, formatDistance } from 'date-fns'
 import { cn } from '@/lib'
 import { Avatar, AvatarFallback, AvatarImage } from './avatar'
@@ -13,18 +13,14 @@ import {
   CalendarDays,
   Check,
   Ellipsis,
-  FileText,
-  FileImage,
-  FileVideo,
-  FileAudio,
-  File,
   LucideIcon,
-  Mic,
   Paperclip,
   Plus,
   Trash2,
-  Upload,
+  Upload as UploadIcon,
   X,
+  Trash,
+  Download,
 } from 'lucide-react'
 import { uuidv7 } from 'uuidv7'
 import { DropdownMenuOptionsDataType, DropdownMenuView } from './dropdown-menu'
@@ -37,20 +33,19 @@ import { Popover, PopoverContent, PopoverTrigger, PopoverWrapper } from './popov
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './hover-card'
 import { Input } from './input'
 import { users } from '../example/SwapyMainDemo'
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from './sheet'
-import { Label } from './ShadcnUI'
-import { ContextMenu, ContextMenuTrigger } from './context-menu'
 import { toast } from 'sonner'
-import { AlertDialogCustom } from './alert-dialog'
+import {
+  fileTypeIcons,
+  getFileType,
+  Upload,
+  UploadContent,
+  UploadInput,
+  UploadTrigger,
+  useUploadContext,
+} from './upload'
+import { DialogWrapper } from './ShadcnUI'
+import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
+import { ImagePreview, ImagePreviewContent, ImagePreviewItem, ImagePreviewTrigger } from './image-preview'
 
 // Comment
 export interface CommentContextType {
@@ -68,7 +63,7 @@ export interface CommentProps extends React.HTMLAttributes<HTMLDivElement> {}
 export const Comment = React.forwardRef<HTMLDivElement, CommentProps>(({ className, children, ...props }, ref) => {
   const [comments, setComments] = React.useState<CommentType[]>([])
   const [currentCommentContent, setCurrentCommentContent] = React.useState<string>('')
-  const [attachments, setAttachments] = React.useState<AttachmentType[]>([])
+  const { attachments, setAttachments } = useUploadContext()
 
   return (
     <CommentContext.Provider
@@ -497,6 +492,7 @@ export interface CommentsAttachmentsProps extends React.ComponentPropsWithoutRef
 export const CommentsAttachments = React.forwardRef<HTMLDivElement, CommentBottomButtonsProps>(
   ({ className, children, ...props }, ref) => {
     const { recordings } = useAudioDataProvider()
+    const { attachments } = React.useContext(CommentContext)
 
     return (
       <div
@@ -510,7 +506,7 @@ export const CommentsAttachments = React.forwardRef<HTMLDivElement, CommentBotto
               size={'sm'}
               className={cn(
                 'absolute left-0 gap-2 flex items-center h-fit py-1 transition-all duration-400 ease-out',
-                recordings.length > 0
+                [...recordings, ...attachments].length > 0
                   ? 'bottom-4 opacity-100 pointer-events-all'
                   : '-bottom-4 opacity-0 pointer-events-none'
               )}
@@ -519,7 +515,7 @@ export const CommentsAttachments = React.forwardRef<HTMLDivElement, CommentBotto
                 className: '!size-[.8rem]',
               }}
               label={{
-                children: recordings.length,
+                children: [...recordings, ...attachments].length,
               }}
             >
               <span className="text-xs">Attachments</span>
@@ -534,10 +530,10 @@ export const CommentsAttachments = React.forwardRef<HTMLDivElement, CommentBotto
               <div className="grid items justify-start gap-2 shrink-0 w-full grid-cols-2 max-h-[104px]">
                 {children
                   ? children
-                  : recordings.map((recording, index) => (
+                  : [...recordings, ...attachments].map((attachment, idx) => (
                       <CommentAttachmentItem
-                        key={index}
-                        blob={recording}
+                        key={attachment.id ?? idx}
+                        attachment={attachment}
                       />
                     ))}
               </div>
@@ -551,13 +547,14 @@ export const CommentsAttachments = React.forwardRef<HTMLDivElement, CommentBotto
 
 // Comment Attachment Item
 export interface CommentAttachmentItemProps extends React.HTMLProps<HTMLDivElement> {
-  blob: Blob
+  attachment: AttachmentType
 }
 
 export const CommentAttachmentItem = React.forwardRef<HTMLDivElement, CommentAttachmentItemProps>(
-  ({ className, blob, key, children, ...props }, ref) => {
+  ({ className, attachment, key, children, ...props }, ref) => {
     const { setRecordings } = useAudioDataProvider()
 
+    const fileType = getFileType(attachment.file)
     return (
       <div
         className={cn(
@@ -570,17 +567,17 @@ export const CommentAttachmentItem = React.forwardRef<HTMLDivElement, CommentAtt
         <CommentClose
           className="absolute top-1/2 -translate-y-1/2 right-2"
           onClick={() => {
-            setRecordings(prev => prev.filter(item => item !== blob))
+            setRecordings(prev => prev.filter(item => item !== attachment))
           }}
         />
         {children ? (
           children
         ) : (
           <>
-            <FileAudio />
+            <div className="relative">{fileTypeIcons[fileType]}</div>
             <div>
-              <p className="text-xs text-muted-foreground truncate">{blob.type}</p>
-              <p className="text-xs text-muted-foreground truncate">{filesize(+blob.size, { round: 0 })}</p>
+              <p className="text-xs text-muted-foreground truncate">{attachment.type}</p>
+              <p className="text-xs text-muted-foreground truncate">{filesize(+attachment.size, { round: 0 })}</p>
             </div>
           </>
         )}
@@ -589,29 +586,105 @@ export const CommentAttachmentItem = React.forwardRef<HTMLDivElement, CommentAtt
   }
 )
 
+// Comment Attachment Item
+export interface CommentItemContentAttachmentProps extends React.HTMLProps<HTMLDivElement> {
+  attachment: AttachmentType
+}
+
+export const CommentItemContentAttachment = React.forwardRef<HTMLDivElement, CommentItemContentAttachmentProps>(
+  ({ className, attachment, key, children, ...props }, ref) => {
+    const fileType = getFileType(attachment.file)
+
+    return (
+      <div
+        className={cn(
+          'rounded-lg bg-secondary hover:bg-secondary/70 h-fit flex items-center gap-2 w-[152px] p-2 relative justify-between transition',
+          className
+        )}
+        ref={ref}
+        {...props}
+      >
+        {children ? (
+          children
+        ) : (
+          <>
+            <div className="flex items-center gap-2">
+              <div className="relative">{fileTypeIcons[fileType]}</div>
+              <div>
+                <h5 className="text-xs text-muted-foreground truncate max-w-[150px]">{attachment.name}</h5>
+                <p className="text-xs text-muted-foreground truncate">{filesize(+attachment.size, { round: 0 })}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <DropdownMenuView
+                trigger={{
+                  icon: { children: Ellipsis, className: 'h-6 w-6 rounded' },
+                  variant: 'ghost',
+                  size: 'icon',
+                  className: 'h-4 w-6',
+                }}
+                content={{
+                  options: {
+                    itemType: 'label',
+                    optionsData: [
+                      {
+                        children: 'Download',
+                        onClick: () => downloadAttachment({ attachment }),
+                        icon: { children: Download, className: 'h-4 w-4' },
+                      },
+                      {
+                        className: 'bg-red-400/10 text-red-400',
+                        onClick: () => {
+                          // TODO :handle delete
+                        },
+                        children: 'Delete',
+                        icon: { children: Trash, className: 'h-4 w-4' },
+                      },
+                    ],
+                  },
+                }}
+              />
+            </div>
+          </>
+        )}
+      </div>
+    )
+  }
+)
+
+// Download Attachment
+export const downloadAttachment = ({ attachment }: { attachment: AttachmentType }) => {
+  if (!attachment.file) return toast.error('Attachment not found')
+  const url = URL.createObjectURL(attachment.file)
+  const a = document.createElement('a')
+
+  a.href = url
+  a.download = new Date().getTime() + '_' + attachment.name
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+}
+
 // Comment Send Button
 export interface CommentSendButtonProps extends React.ComponentPropsWithoutRef<typeof Button> {}
 
 export const CommentSendButton = React.forwardRef<HTMLButtonElement, CommentSendButtonProps>(
   ({ className, onClick, children, ...props }, ref) => {
     const { mention, editContent, setMdxContent } = React.useContext(MDXContext)
-    const { setComments, currentCommentContent, setCurrentCommentContent } = React.useContext(CommentContext)
+    const { setComments, currentCommentContent, setCurrentCommentContent, attachments, setAttachments } =
+      React.useContext(CommentContext)
     const { recording } = useAudioProvider()
     const { recordings, setRecordings } = useAudioDataProvider()
-    const attachments = recordings.map(r => ({
-      id: uuidv7(),
-      url: r,
-      type: 'audio',
-      filename: 'audio.mp3',
-      size: r.size.toString(),
-    }))
+
+    const audioAttachments = [...recordings, ...attachments]
 
     const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       const newComment: CommentType = {
         id: uuidv7(),
         user: users[1],
-        attachments: attachments,
+        attachments: audioAttachments,
         content: currentCommentContent,
         likes: {
           amount: 0,
@@ -633,6 +706,7 @@ export const CommentSendButton = React.forwardRef<HTMLButtonElement, CommentSend
 
       setCurrentCommentContent('')
       setRecordings([])
+      setAttachments([])
       onClick && onClick(e)
     }
 
@@ -654,7 +728,7 @@ export const CommentSendButton = React.forwardRef<HTMLButtonElement, CommentSend
           children: editContent ? Check : ArrowBigUp,
         }}
         type="submit"
-        disabled={recordings.length === 0}
+        disabled={audioAttachments.length === 0}
         onClick={onClickHandler}
         ref={ref}
         {...props}
@@ -673,7 +747,7 @@ export const CommentPlaceholder = ({ user }: { user: TaggedUserType }) => {
         const mine = user.id == comment.user.id
         return (
           <CommentItem
-            key={comment.id}
+            key={comment.id ?? idx}
             className={cn(mine && '')}
           >
             <CommentItemSide user={comment.user} />
@@ -702,33 +776,95 @@ export const CommentPlaceholder = ({ user }: { user: TaggedUserType }) => {
   )
 }
 
+function groupByTypePrefix(attachments: AttachmentType[]): AttachmentType[][] {
+  if (!attachments.length) return []
+
+  const groupedAttachments = []
+  let currentGroup: AttachmentType[] = []
+  let currentType = ''
+
+  for (const attachment of attachments) {
+    // Extract the type prefix (e.g., 'image' from 'image/png')
+    const typePrefix = attachment.type.split('/')[0]
+
+    // If we are starting a new group
+    if (currentType !== typePrefix) {
+      // If there is a current group, push it to the result
+      if (currentGroup.length) {
+        groupedAttachments.push(currentGroup)
+      }
+      // Start a new group and set the current type
+      currentGroup = [attachment]
+      currentType = typePrefix
+    } else {
+      // If it's the same type, add it to the current group
+      currentGroup.push(attachment)
+    }
+  }
+
+  // Push the last group if it exists
+  if (currentGroup.length) {
+    groupedAttachments.push(currentGroup)
+  }
+
+  return groupedAttachments
+}
+
 //FIX: Comment Item Content
-export const CommentItemContent = ({ content, attachments }: { content: string; attachments: Attachment[] }) => {
-  console.log(attachments)
+export const CommentItemContent = ({ content, attachments }: { content: string; attachments: AttachmentType[] }) => {
+  const groupedAttachments = groupByTypePrefix(attachments)
+  console.log('groupedAttachments', groupedAttachments)
   return (
-    <div className="mdx__minimal__text__editor border-none flex flex-col gap-3 mb-2">
+    <div className="mdx__minimal__text__editor border-none flex flex-col gap-3 mb-2 w-full">
       {content && (
         <p
           className={cn('text-sm  tiptap ProseMirror')}
           dangerouslySetInnerHTML={{ __html: content }}
         ></p>
       )}
-      {attachments &&
-        attachments.map((item, idx) => {
-          return item.type === 'audio' ? (
-            <AudioItem
-              key={idx}
-              content={item.url as string}
-            />
-          ) : (
-            item.type === 'image' && (
-              <img
-                className="w-1/2 rounded-md object-cover"
-                key={idx}
-                src={item.url as string}
-              />
+      {groupedAttachments &&
+        groupedAttachments.map((group, idx) => {
+          if (group[0].type.includes('image')) {
+            return (
+              <ImagePreview>
+                {group.map((attachment: AttachmentType) => {
+                  return (
+                    <ImagePreviewItem attachment={attachment}>
+                      <ImagePreviewTrigger attachment={attachment} />
+                      <ImagePreviewContent attachment={attachment} />
+                    </ImagePreviewItem>
+                  )
+                })}
+              </ImagePreview>
             )
-          )
+          }
+          return group.map((item, idx) => {
+            if (item.type.includes('audio')) {
+              return (
+                <AudioItem
+                  key={idx}
+                  attachment={item}
+                />
+              )
+            }
+
+            // if( item.type.includes('video')){
+            //     return <VideoItem
+            //     key={idx}
+            //     attachment={item}
+            //   />
+            // }
+
+            if (!item.type.includes('audio')) {
+              return (
+                <CommentItemContentAttachment
+                  key={idx}
+                  className="w-full max-w-[260px] p-3"
+                  attachment={item}
+                />
+              )
+            }
+          })
         })}
     </div>
   )
@@ -820,7 +956,28 @@ export const CommentExtraButton = React.forwardRef<HTMLButtonElement, CommentExt
           side: 'top',
           align: 'center',
           className: 'w-fit p-2',
-          children: <CommentAttachmentUpload />,
+          children: (
+            <>
+              <Upload
+                trigger={
+                  <UploadTrigger>
+                    <Button
+                      variant="outline"
+                      className="h-8 w-8 bg-secondary/20"
+                    >
+                      <UploadIcon className="h-4 w-4" />
+                    </Button>
+                  </UploadTrigger>
+                }
+                content={
+                  <div className="flex flex-col h-full gap-4">
+                    <UploadInput />
+                    <UploadContent />
+                  </div>
+                }
+              ></Upload>
+            </>
+          ),
         }}
       />
     )
@@ -833,205 +990,26 @@ const ExtraButtons = () => {
 
   return [
     {
-      children: <CommentAttachmentUpload />,
+      children: (
+        <Upload
+          trigger={
+            <UploadTrigger>
+              <Button
+                variant="outline"
+                className="h-8 w-8 bg-secondary/20"
+              >
+                <UploadIcon className="h-4 w-4" />
+              </Button>
+            </UploadTrigger>
+          }
+          content={
+            <div className="flex flex-col h-full gap-4">
+              <UploadInput />
+              <UploadContent />
+            </div>
+          }
+        />
+      ),
     },
   ] as DropdownMenuOptionsDataType<string, true>[]
 }
-export type AttachmentType = {
-  id: string
-  file: File
-  url?: string | undefined
-  name: string
-  type: string
-  size: string
-  progress: number
-  status: string
-}
-
-// Define an enum for file types
-enum FileType {
-  Audio = 'audio',
-  Text = 'text',
-  Image = 'image',
-  Video = 'video',
-  Unknown = 'unknown',
-}
-
-// Mapping file types to their corresponding Lucide icons
-const fileTypeIcons = {
-  [FileType.Audio]: <FileAudio className="w-8 h-8" />,
-  [FileType.Text]: <FileText className="w-8 h-8" />,
-  [FileType.Image]: <FileImage className="w-8 h-8" />,
-  [FileType.Video]: <FileVideo className="w-8 h-8" />,
-  [FileType.Unknown]: <File className="w-8 h-8" />,
-}
-
-// Function to determine the file type based on the file's MIME type
-const getFileType = (file: File): FileType => {
-  if (file.type.startsWith('audio/')) return FileType.Audio
-  if (file.type.startsWith('text/')) return FileType.Text
-  if (file.type.startsWith('image/')) return FileType.Image
-  if (file.type.startsWith('video/')) return FileType.Video
-  return FileType.Unknown
-}
-
-export interface CommentAttachmentUploadProps extends React.ComponentPropsWithoutRef<typeof Button> {}
-export const CommentAttachmentUpload = React.forwardRef<HTMLButtonElement, CommentAttachmentUploadProps>(
-  ({ className, children, ...props }, ref) => {
-    const { attachments, setAttachments } = React.useContext(CommentContext)
-    const [attachmentsState, setAttachmentsState] = React.useState<AttachmentType[]>([])
-
-    const handleAttachment = ({
-      e,
-      setAttachmentsState,
-    }: {
-      e: React.ChangeEvent<HTMLInputElement>
-      setAttachmentsState: React.Dispatch<React.SetStateAction<AttachmentType[]>>
-    }) => {
-      const files = e.currentTarget.files
-
-      if (!files) return toast.error('Please select a file')
-
-      // Optional: Uncomment to limit to 5 files
-      if (files.length + files.length > 10) return toast.error('You can not upload more than 5 files at once')
-
-      const newAttachments: AttachmentType[] = []
-
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-
-        // Check for unacceptable file types
-        // if (!supportedFileTypes.includes(file.type)) {
-        //   return toast.error(`File type not supported: ${file.type}`);
-        // }
-
-        // Check if file size exceeds limit
-        if (file.size > 10 * 1024 * 1024) {
-          toast.error(`File has exceeded the max size: ${file.name.slice(0, 15)}...`)
-          continue // Skip this file and continue with the next
-        }
-
-        const attachment: AttachmentType = {
-          id: uuidv7(),
-          file: file,
-          name: file.name,
-          type: file.type,
-          size: file.size.toString(),
-          progress: 0,
-          status: 'pending',
-        }
-
-        newAttachments.push(attachment)
-      }
-
-      // Update state with new attachments
-      setAttachmentsState(prev => [...prev, ...newAttachments])
-      e.currentTarget.value = ''
-    }
-
-    return (
-      <AlertDialogCustom<typeof attachmentsState.length>
-        type="sheet"
-        drawerData={attachmentsState.length > 0}
-        header={{
-          head: 'Upload File',
-          description: 'Set your daily calorie goal',
-        }}
-        actions={
-          {
-            // cancel: () => {
-            //   setAttachmentsState([])
-            // },
-            // continue: () => {
-            //   setAttachments(prev => [...prev, ...attachmentsState])
-            // },
-          }
-        }
-        footer={{
-          className: 'Upload an attachment to your comment.',
-          // submit: (
-          //   <Button
-          //     variant="default"
-          //     onClick={() => {
-          //       setAttachments(prev => [...prev, ...attachmentsState])
-          //       setAttachmentsState([])
-          //     }}
-          //   >
-          //     Submit
-          //   </Button>
-          // ),
-          // cancel: <Button variant="outline">Cancel</Button>,
-        }}
-        state={attachmentsState.length}
-        trigger={{
-          children: (
-            <Button
-              variant="outline"
-              className="h-8 w-8 bg-secondary/20"
-              {...props}
-            >
-              <Upload className="h-4 w-4" />
-            </Button>
-          ),
-        }}
-        content={{
-          children: (
-            <div className="flex flex-col h-full gap-4">
-              <div>
-                <ContextMenu>
-                  <ContextMenuTrigger className="relative flex flex-col items-center justify-center w-full h-64 rounded-md border-2 border-dashed border-current dashed-border text-sm leading-5 transition-colors duration-100 ease-in-out hover:bg-muted/10">
-                    <div className="grid place-items-center gap-4">
-                      <Upload className="size-[30px]" />
-                      <span>Click to upload</span>
-                    </div>
-                    <Input
-                      placeholder="Filter emails..."
-                      type="file"
-                      value={''}
-                      className="absolute w-full h-full opacity-0 cursor-pointer"
-                      multiple={true}
-                      onChange={e => handleAttachment({ e, setAttachmentsState })}
-                      // accept={supportedFileTypes.join('')}
-                    />
-                  </ContextMenuTrigger>
-                </ContextMenu>
-                <p className="mt-2 text-muted-foreground text-[.9rem]"> Supports all file types.</p>
-              </div>
-
-              <ScrollArea className="flex flex-col gap-2 max-h-[600px]">
-                <div className="flex flex-col gap-2">
-                  {attachmentsState.map((attachment, index) => {
-                    const fileType = getFileType(attachment.file)
-                    return (
-                      <div
-                        className="relative flex items-center gap-4 bg-secondary/20 rounded-md p-2"
-                        key={attachment.id}
-                      >
-                        <CommentClose
-                          className="absolute top-1/2 -translate-y-1/2 right-2"
-                          onClick={() => {
-                            setAttachmentsState(prev => prev.filter(item => item.id !== attachment.id))
-                          }}
-                        />
-
-                        <div className="flex items-center gap-4">
-                          <div className="relative">{fileTypeIcons[fileType]}</div>
-                          <div className="grid items-start">
-                            <h3 className="inline-block text-[.9rem] truncate max-w-[300px]">{attachment.file.name}</h3>
-                            <p className="inline-block truncate text-semibold text-[.8rem] max-w-[300px]">
-                              {filesize(+attachment.file.size, { round: 0 })}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </ScrollArea>
-            </div>
-          ),
-        }}
-      />
-    )
-  }
-)

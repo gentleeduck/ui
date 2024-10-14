@@ -23,13 +23,13 @@ interface Subtask {
 }
 
 // Type for Attachments
-export interface Attachment {
-  id?: string
-  type?: string
-  filename?: string
-  url?: Blob | string
-  alt?: string
-  size?: string
+export interface AttachmentType {
+  id: string
+  file: Blob | null
+  url: string | null
+  type: string
+  name: string
+  size: string
 }
 
 // Type for a Link (reference, URL, etc.)
@@ -43,7 +43,7 @@ interface Link {
 export interface CommentType {
   id: string
   content: string
-  attachments: Attachment[]
+  attachments: AttachmentType[]
   createdAt: string
   user: TaggedUserType
   likes: LikedType
@@ -83,7 +83,7 @@ interface Task {
   title: string
   description: string
   subtasks: Subtask[]
-  attachments: Attachment[]
+  attachments: AttachmentType[]
   links: Link[]
   comments: CommentType[]
   taggedUsers: TaggedUserType[]

@@ -3,11 +3,22 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Button } from './button'
 import { cn } from '@/lib'
 import { Input } from './input'
-import { audio, AudioVisualizer, dataPoint, new_audio, process_blob, ProcessBlobParams } from './audio-visualizer'
+import { AudioVisualizer, dataPoint, new_audio, process_blob, ProcessBlobParams } from './audio-visualizer'
 import { z } from 'zod'
+import { uuidv7 } from 'uuidv7'
+import { AttachmentType } from './swapy'
+
+export interface RecordingtType {
+  id: string
+  file: File | null
+  url: string | null
+  type: string
+  name: string
+  size: string
+}
 
 export interface RecordingParams {
-  setRecordings: React.Dispatch<React.SetStateAction<Blob[]>>
+  setRecordings: React.Dispatch<React.SetStateAction<RecordingtType[]>>
   setRecordedDuration: React.Dispatch<React.SetStateAction<number>>
   audioChunksRef: React.MutableRefObject<Blob[]>
 }
@@ -97,7 +108,17 @@ export const start_recording_handler = async ({
 export const Stop_recording_handler = ({ setRecordings, intervalRef, audioChunksRef }: StopRecordingHandlerParams) => {
   const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
 
-  setRecordings(prev => [...prev, audioBlob])
+  setRecordings(prev => [
+    ...prev,
+    {
+      id: uuidv7(),
+      file: audioBlob,
+      url: URL.createObjectURL(audioBlob),
+      type: 'audio/wav',
+      name: 'recording.wav',
+      size: String(audioBlob.size),
+    },
+  ])
   clearInterval(intervalRef.current!)
 }
 
@@ -158,7 +179,6 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const audioChunksRef = React.useRef<Blob[]>([])
   const intervalRef = React.useRef<NodeJS.Timer | null>(null)
   const durationRef = React.useRef<number>(0)
-  const audioRef = React.useRef<HTMLAudioElement>(audio)
   const { setRecordings, setRecording, recording } = useAudioDataProvider()
 
   // Start recording handler
@@ -324,7 +344,7 @@ const AudioItemWrapper = ({
 }) => {
   return (
     <>
-      <div className="flex items-center gap-4 bg-secondary p-3 rounded-xl w-fit">
+      <div className="flex items-center gap-4 transition hover:bg-secondary bg-secondary/70 py-2 px-4 rounded-xl w-fit">
         <Button
           onClick={handlePlayPause}
           size="icon"
@@ -350,9 +370,9 @@ const AudioItemWrapper = ({
 
         {
           <div className="flex flex-col">
-            <div className="cursor-pointer w-fit bg-secondary p-0">{children}</div>
+            <div className="cursor-pointer w-fit p-0">{children}</div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-1">
               <span className={cn('flex items-center text-primary', size === 'sm' ? 'text-xs' : 'text-sm')}>
                 {isPlaying || timeLeft < duration
                   ? format_time_handler(timeLeft > 0 ? timeLeft : 0)
@@ -502,8 +522,8 @@ const AudioRecordItem = ({
               gap={gap ?? 2}
               barColor={barColor ?? '#ffffff69'}
               currentTime={currentTime / 1000}
-              barPlayedColor={barPlayedColor ?? '#fff'}
-              backgroundColor={backgroundColor ?? '#f0f0f000'}
+              barPlayedColor={barPlayedColor ?? '#fafafa'}
+              backgroundColor={backgroundColor ?? 'transparent'}
               setLoading={setLoading}
               style={style}
               minBarHeight={minBarHeight ?? 1}
@@ -537,20 +557,21 @@ export const fetchAudioBlob = async ({ url, setAudioBlob }: FetchAudioBlobParams
 }
 
 export interface AudioItemProps {
-  content: string | Blob
+  attachment: AttachmentType
 }
 
 const contentSchema = z.string()
 
-const AudioItem: React.FC<AudioItemProps> = ({ content }) => {
-  const [audioBlob, setAudioBlob] = React.useState<Blob | null>(content instanceof Blob ? content : null)
+const AudioItem: React.FC<AudioItemProps> = ({ attachment }) => {
+  const [audioBlob, setAudioBlob] = React.useState<Blob | null>(attachment.file ? attachment.file : null)
 
   React.useEffect(() => {
-    if (contentSchema.safeParse(content).error) return
-    if (!(content as string).startsWith('https://') || !content) return
-    fetchAudioBlob({ url: content as string, setAudioBlob })
-  }, [content])
+    // if (contentSchema.safeParse(attachment).error) return
+    if (!attachment.url || !attachment.url.startsWith('https://')) return
+    fetchAudioBlob({ url: attachment.url, setAudioBlob })
+  }, [attachment])
 
+  console.log(audioBlob)
   return (
     <AudioDataProvider>
       <AudioRecordItem
@@ -569,8 +590,8 @@ export interface AudioDataContextType {
   setSpeed: React.Dispatch<React.SetStateAction<number>>
   animationProgress: number
   setAnimationProgress: React.Dispatch<React.SetStateAction<number>>
-  recordings: Blob[]
-  setRecordings: React.Dispatch<React.SetStateAction<Blob[]>>
+  recordings: RecordingtType[]
+  setRecordings: React.Dispatch<React.SetStateAction<RecordingtType[]>>
   duration: number
   setDuration: React.Dispatch<React.SetStateAction<number>>
   recording: boolean
@@ -594,7 +615,7 @@ export interface AudioProviderProps {
 const AudioDataProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const [data, setData] = React.useState<dataPoint[]>([])
   const [duration, setDuration] = React.useState<number>(0)
-  const [recordings, setRecordings] = React.useState<Blob[]>([])
+  const [recordings, setRecordings] = React.useState<RecordingtType[]>([])
   const [speed, setSpeed] = React.useState<number>(1)
   const [animationProgress, setAnimationProgress] = React.useState<number>(0)
   const [recording, setRecording] = React.useState<boolean>(false)

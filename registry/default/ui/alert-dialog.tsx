@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 
 import { cn } from '@/lib/utils'
-import { buttonVariants } from './button'
+import { Button, buttonVariants } from './button'
 import {
   Dialog,
   DialogClose,
@@ -153,6 +153,7 @@ interface AlertDialogDrawerTriggerentType extends Partial<React.ComponentPropsWi
 interface StateType {
   drawer: boolean
   alert: boolean
+  action: boolean
 }
 
 interface AlertDialogDrawerActionsType {
@@ -219,9 +220,9 @@ const AlertDialogCustom = <C,>({
     ComponentHeader,
     ComponentContent,
     ComponentDescription,
+    setState,
   } = useAlertCustom({ trigger, header, footer, content, drawerData, actions, state, type })
 
-  console.log('changeState', changeState)
   return (
     <>
       <AlertDialog open={changeState.alert}>
@@ -269,7 +270,7 @@ const AlertDialogCustom = <C,>({
                     {...footerProps}
                   >
                     <ComponentClose asChild>{cancel}</ComponentClose>
-                    {submit}
+                    <Button onClick={() => setState({ drawer: false, alert: false, action: true })}>{submit}</Button>
                   </ComponentFooter>
                 ))}
             </div>
@@ -311,12 +312,12 @@ const useAlertCustom = <C,>({
   const { className: footerClassName, children: footerChildren, submit, cancel, ...footerProps } = footer
   const { className: headerClassName, children: headerChildren, description, head: title, ...headerProps } = header
 
-  const [state, setState] = React.useState<StateType>({ drawer: false, alert: false })
+  const [state, setState] = React.useState<StateType>({ drawer: false, alert: false, action: false })
   const changeStateRef = React.useRef<C | string>('')
 
   React.useEffect(() => {
     changeStateRef.current = changeState
-  }, [changeState])
+  }, [])
 
   const handleAlertCancel = React.useCallback(() => {
     actions?.cancel && actions.cancel()
@@ -330,11 +331,11 @@ const useAlertCustom = <C,>({
 
   const handleDrawerOpenChange = React.useCallback(
     (drawerState: boolean) => {
-      console.log('handleDrawerOpenChange', changeStateRef.current, changeState, drawerData)
       const showAlert = !drawerState && (drawerData || true) && changeStateRef.current !== changeState
 
       setState(() => ({
-        alert: showAlert as boolean,
+        action: state.action,
+        alert: state.action ? false : (showAlert as boolean),
         drawer: drawerData || true ? drawerState : false,
       }))
     },

@@ -28,10 +28,9 @@ import {
   CommentItemDate,
   CommentAvater,
   CommentBottom,
-  CommentAttachmentItem,
-  CommentExtraButtonItem,
 } from '@/registry/default/ui/comment'
 import { LikeButton } from '@/registry/default/ui/custom-buttons'
+import { UploadProvider } from '@/registry/default/ui/upload'
 import React from 'react'
 
 export default function IndexPage() {
@@ -40,9 +39,11 @@ export default function IndexPage() {
     <>
       <div className="flex items-start gap-4 p-4 justify-center select-none container mt-12  place-items-center">
         <MDXProvider>
-          <AudioDataProvider>
-            <CommentTest />
-          </AudioDataProvider>
+          <UploadProvider>
+            <AudioDataProvider>
+              <CommentTest />
+            </AudioDataProvider>
+          </UploadProvider>
         </MDXProvider>
       </div>
     </>
