@@ -571,7 +571,6 @@ const AudioItem: React.FC<AudioItemProps> = ({ attachment }) => {
     fetchAudioBlob({ url: attachment.url, setAudioBlob })
   }, [attachment])
 
-  console.log(audioBlob)
   return (
     <AudioDataProvider>
       <AudioRecordItem

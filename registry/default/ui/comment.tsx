@@ -27,7 +27,7 @@ import { DropdownMenuOptionsDataType, DropdownMenuView } from './dropdown-menu'
 
 import 'highlight.js/styles/tokyo-night-dark.css'
 import { MDXContext } from '../example/mdx-context-provider'
-import { AudioItem, useAudioDataProvider, useAudioProvider } from './audio-record'
+import { AudioItem, fetchAudioBlob, useAudioDataProvider, useAudioProvider } from './audio-record'
 import { LikeButton } from './custom-buttons'
 import { Popover, PopoverContent, PopoverTrigger, PopoverWrapper } from './popover'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './hover-card'
@@ -45,7 +45,7 @@ import {
 } from './upload'
 import { DialogWrapper } from './ShadcnUI'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
-import { ImagePreview, ImagePreviewContent, ImagePreviewItem, ImagePreviewTrigger } from './image-preview'
+import { fetchBlob, ImagePreview, ImagePreviewContent, ImagePreviewItem, ImagePreviewTrigger } from './image-preview'
 
 // Comment
 export interface CommentContextType {
@@ -147,7 +147,7 @@ export interface CommentContentProps extends React.ComponentPropsWithoutRef<type
 export const CommentContent = ({ length, children, ...props }: CommentContentProps) => {
   return (
     <ScrollArea
-      className={cn('h-80 px-4 pt-2 pb-0', length > 2 && 'grid place-content-end')}
+      className={cn('h-80 h-[30rem] px-4 pt-2 pb-0', length > 2 && 'grid place-content-end')}
       {...props}
     >
       {children}
@@ -653,13 +653,26 @@ export const CommentItemContentAttachment = React.forwardRef<HTMLDivElement, Com
 )
 
 // Download Attachment
-export const downloadAttachment = ({ attachment }: { attachment: AttachmentType }) => {
-  if (!attachment.file) return toast.error('Attachment not found')
-  const url = URL.createObjectURL(attachment.file)
+export const downloadAttachment = async ({ attachment }: { attachment: AttachmentType }) => {
+  if (attachment.file) {
+    let file: Blob = attachment.file as Blob
+    return download(file, attachment.name ?? 'image.jpg')
+  }
+
+  if (attachment.url) {
+    const file = await fetchBlob({
+      url: 'https://cdn.dribbble.com/userupload/15140814/file/original-22eddfd50ce84be4acb8bbbd50cf7840.jpg?resize=1600x1200',
+    })
+    return download(file ?? new Blob([]), attachment.name ?? 'image.jpg')
+  }
+}
+
+function download(blob: Blob, name: string) {
+  const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
 
   a.href = url
-  a.download = new Date().getTime() + '_' + attachment.name
+  a.download = new Date().getTime() + '_' + name
   document.body.appendChild(a)
   a.click()
   document.body.removeChild(a)
@@ -813,7 +826,6 @@ function groupByTypePrefix(attachments: AttachmentType[]): AttachmentType[][] {
 //FIX: Comment Item Content
 export const CommentItemContent = ({ content, attachments }: { content: string; attachments: AttachmentType[] }) => {
   const groupedAttachments = groupByTypePrefix(attachments)
-  console.log('groupedAttachments', groupedAttachments)
   return (
     <div className="mdx__minimal__text__editor border-none flex flex-col gap-3 mb-2 w-full">
       {content && (
@@ -826,10 +838,13 @@ export const CommentItemContent = ({ content, attachments }: { content: string; 
         groupedAttachments.map((group, idx) => {
           if (group[0].type.includes('image')) {
             return (
-              <ImagePreview>
-                {group.map((attachment: AttachmentType) => {
+              <ImagePreview key={idx}>
+                {group.map((attachment: AttachmentType, idx) => {
                   return (
-                    <ImagePreviewItem attachment={attachment}>
+                    <ImagePreviewItem
+                      attachment={attachment}
+                      key={idx}
+                    >
                       <ImagePreviewTrigger attachment={attachment} />
                       <ImagePreviewContent attachment={attachment} />
                     </ImagePreviewItem>
