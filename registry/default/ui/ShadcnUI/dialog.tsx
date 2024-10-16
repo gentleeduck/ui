@@ -5,6 +5,17 @@ import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '../drawer'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 const Dialog = DialogPrimitive.Root
 
@@ -123,6 +134,127 @@ const DialogWrapper: React.FC<DialogWrapperProps> = ({ content, trigger, wrapper
 }
 
 DialogWrapper.displayName = 'DialogWrapper'
+
+export interface DialogResponsiveProps extends React.ComponentPropsWithoutRef<typeof Dialog> {}
+
+const DialogResponsive: React.FC<DialogResponsiveProps> = ({ children, ...props }) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  if (isDesktop) {
+    return <Dialog {...props}>{children}</Dialog>
+  }
+
+  return <Drawer {...props}>{children}</Drawer>
+}
+
+DialogResponsive.displayName = 'DialogResponsive'
+
+export interface DialogTriggerResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
+
+const DialogTriggerResponsive: React.FC<DialogTriggerResponsiveProps> = ({ children, ...props }) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  if (isDesktop) {
+    return <DialogTrigger {...props}>{children}</DialogTrigger>
+  }
+
+  return <DrawerTrigger {...props}>{children}</DrawerTrigger>
+}
+
+DialogTriggerResponsive.displayName = 'DialogTriggerResponsive'
+
+export interface DialogContentResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogContent> {}
+
+const DialogContentResponsive: React.FC<DialogContentResponsiveProps> = ({ children, ...props }) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  if (isDesktop) {
+    return <DialogContent {...props}>{children}</DialogContent>
+  }
+
+  return <DrawerContent {...(props as React.ComponentPropsWithoutRef<typeof DrawerContent>)}>{children}</DrawerContent>
+}
+
+DialogContentResponsive.displayName = 'DialogContentResponsive'
+
+export interface DialogHeaderResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogHeader> {}
+
+const DialogHeaderResponsive: React.FC<DialogHeaderResponsiveProps> = ({ children, ...props }) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  if (isDesktop) {
+    return <DialogHeader {...props}>{children}</DialogHeader>
+  }
+
+  return <DrawerHeader {...props}>{children}</DrawerHeader>
+}
+
+DialogHeaderResponsive.displayName = 'DialogHeaderResponsive'
+
+export interface DialogFooterResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogFooter> {}
+
+const DialogFooterResponsive: React.FC<DialogFooterResponsiveProps> = ({ children, ...props }) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  if (isDesktop) {
+    return <DialogFooter {...props}>{children}</DialogFooter>
+  }
+
+  return <DrawerFooter {...props}>{children}</DrawerFooter>
+}
+
+DialogFooterResponsive.displayName = 'DialogFooterResponsive'
+
+export interface DialogTitleResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogTitle> {}
+
+const DialogTitleResponsive: React.FC<DialogTitleResponsiveProps> = ({ children, ...props }) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  if (isDesktop) {
+    return <DialogTitle {...props}>{children}</DialogTitle>
+  }
+
+  return <DrawerTitle {...props}>{children}</DrawerTitle>
+}
+
+DialogTitleResponsive.displayName = 'DialogTitleResponsive'
+
+export interface DialogDescriptionResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogDescription> {}
+
+const DialogDescriptionResponsive: React.FC<DialogDescriptionResponsiveProps> = ({ children, ...props }) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  if (isDesktop) {
+    return <DialogDescription {...props}>{children}</DialogDescription>
+  }
+
+  return <DrawerDescription {...props}>{children}</DrawerDescription>
+}
+
+DialogDescriptionResponsive.displayName = 'DialogDescriptionResponsive'
+
+export interface DialogCloseResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogClose> {}
+
+const DialogCloseResponsive: React.FC<DialogCloseResponsiveProps> = ({ children, ...props }) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  if (isDesktop) {
+    return <DialogClose {...props}>{children}</DialogClose>
+  }
+
+  return <DrawerClose {...props}>{children}</DrawerClose>
+}
+
+export {
+  DialogResponsive,
+  DialogTriggerResponsive,
+  DialogContentResponsive,
+  DialogHeaderResponsive,
+  DialogFooterResponsive,
+  DialogTitleResponsive,
+  DialogDescriptionResponsive,
+  DialogCloseResponsive,
+}
 
 export {
   Dialog,
