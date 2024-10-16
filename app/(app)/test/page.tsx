@@ -3,7 +3,7 @@
 import { cn } from '@/lib'
 import { MDXProvider } from '@/registry/default/example/mdx-context-provider'
 import { comments, users } from '@/registry/default/example/SwapyMainDemo'
-import { AvatarCustom } from '@/registry/default/ui'
+import { AvatarCustom, Button, CommentType } from '@/registry/default/ui'
 import { Audio, AudioDataProvider, AudioDelete, AudioStart, AudioTimer } from '@/registry/default/ui/audio-record'
 import {
   CommentExtraButton,
@@ -28,9 +28,11 @@ import {
   CommentItemDate,
   CommentAvater,
   CommentBottom,
+  CommentProfile,
 } from '@/registry/default/ui/comment'
 import { LikeButton } from '@/registry/default/ui/custom-buttons'
 import { UploadProvider } from '@/registry/default/ui/upload'
+import { BadgeCheck, CalendarDays } from 'lucide-react'
 import React from 'react'
 
 export default function IndexPage() {
@@ -66,35 +68,16 @@ const CommentTest = () => {
       <CommentContent length={comments.length}>
         <div className="comments flex flex-col justify-end">
           {comments.map((comment, idx) => {
-            const mine = users[0].id == comment.user.id
             return (
-              <CommentItem
+              <CommentItemDemo
                 key={comment.id}
-                className={cn(mine && '')}
-              >
-                <CommentItemSide user={comment.user} />
-                <CommentItemBody>
-                  <CommentItemTop>
-                    <div className="flex items-center justify-start w-full gap-2">
-                      <CommentItemTopUser user={comment.user} />
-                      <CommentItemDate date={comment.createdAt} />
-                    </div>
-                    <LikeButton
-                      onClick={({ e, state }) => {}}
-                      likes={comment.likes}
-                      user={comment.user}
-                    />
-                  </CommentItemTop>
-                  <CommentItemContent
-                    content={comment.content}
-                    attachments={comment.attachments}
-                  />
-                  <CommentItemBottom comment={comment} />
-                </CommentItemBody>
-              </CommentItem>
+                comment={comment}
+              />
             )
           })}
-          <CommentPlaceholder user={users[0]} />
+          <CommentPlaceholder>
+            {({ comment }: { comment: CommentType }) => <CommentItemDemo comment={comment} />}
+          </CommentPlaceholder>
         </div>
         <CommentScrollTracker />
       </CommentContent>
@@ -123,6 +106,132 @@ const CommentTest = () => {
         </Audio>
       </CommentBottom>
     </Comment>
+  )
+}
+
+const CommentItemDemo = ({ comment }: { comment: CommentType }) => {
+  const mine = users[0].id == comment.user.id
+  return (
+    <>
+      <CommentItem className={cn(mine && '')}>
+        <CommentItemSide>
+          <CommentProfileDemo
+            comment={comment}
+            type="avatar"
+          />
+        </CommentItemSide>
+        <CommentItemBody>
+          <CommentItemTop>
+            <div className="flex items-center justify-start w-full gap-2">
+              <CommentItemTopUser user={comment.user}>
+                <CommentProfileDemo
+                  comment={comment}
+                  type="name"
+                />
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="!size-5 !bg-transparent"
+                  label={{
+                    children: 'Verified',
+                    showLabel: true,
+                    className: 'text-sm',
+                    side: 'top',
+                  }}
+                >
+                  <BadgeCheck className={cn('size-5', 'text-background fill-blue-400')} />
+                </Button>
+                {comment.user.badge &&
+                  comment.user.badge.map(item => (
+                    <Button
+                      key={item.id}
+                      variant="outline"
+                      size="icon"
+                      className="!size-5 !bg-transparent overflow-hidden"
+                      label={{
+                        children: '@' + item.title,
+                        showLabel: true,
+                        className: 'text-sm',
+                        side: 'top',
+                      }}
+                    >
+                      <img
+                        src={item.imgUrl}
+                        className={cn('size-4')}
+                      />
+                    </Button>
+                  ))}
+              </CommentItemTopUser>
+              <CommentItemDate date={comment.createdAt} />
+            </div>
+            <LikeButton
+              onClick={({ e, state }) => {}}
+              likes={comment.likes}
+              user={comment.user}
+            />
+          </CommentItemTop>
+          {/*FIX: MAKE THIS CONTENT DYNAMIC */}{' '}
+          <CommentItemContent
+            content={comment.content}
+            attachments={comment.attachments}
+          />
+          <CommentItemBottom comment={comment} />
+        </CommentItemBody>
+      </CommentItem>
+    </>
+  )
+}
+
+const CommentProfileDemo = ({ comment, type = 'avatar' }: { comment: CommentType; type: 'avatar' | 'name' }) => {
+  return (
+    <>
+      <CommentProfile
+        children={
+          type === 'avatar' ? (
+            <CommentAvater
+              className="w-8 h-8 border-none"
+              avatar_image={{
+                src: comment.user.avatarUrl,
+                className: 'm-0 border-none object-cover curosor-pointer',
+              }}
+              fallback={{
+                className: 'bg-secondary/20',
+              }}
+            />
+          ) : (
+            <Button
+              variant={'link'}
+              className="text-sm font-medium h-fit p-0"
+            >
+              {comment.user.name}
+            </Button>
+          )
+        }
+        hoverContent={
+          <div className="flex items-start gap-4">
+            <CommentAvater
+              className="w-12 h-12 border-none"
+              avatar_image={{
+                src: comment.user.avatarUrl,
+                className: 'm-0 border-none object-cover curosor-pointer',
+              }}
+              fallback={{
+                className: 'bg-secondary/20',
+              }}
+            />
+            <div className="space-y-1">
+              <h4 className="text-sm font-semibold">@{comment.user.name}</h4>
+              <p className="text-sm">I'am a Software Engineer from Egypt.</p>
+              <div className="flex items-center pt-2">
+                <CalendarDays className="mr-2 h-4 w-4 opacity-70" />
+                <span className="text-xs text-muted-foreground">Joined May 2021</span>
+              </div>
+            </div>
+          </div>
+        }
+      />
+    </>
   )
 }
 

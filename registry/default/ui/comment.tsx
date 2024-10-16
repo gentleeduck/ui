@@ -46,6 +46,7 @@ import {
 import { DialogWrapper } from './ShadcnUI'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 import { fetchBlob, ImagePreview, ImagePreviewContent, ImagePreviewItem, ImagePreviewTrigger } from './image-preview'
+import { JsxElement } from 'ts-morph'
 
 // Comment
 export interface CommentContextType {
@@ -195,12 +196,11 @@ export const CommentAvater = React.forwardRef<HTMLDivElement, CommentAvaterProps
 
 // Comment Profile
 export interface CommentProfileProps extends React.ComponentPropsWithoutRef<typeof HoverCardTrigger> {
-  user: TaggedUserType
   hoverContent?: React.ReactNode
 }
 
 export const CommentProfile = React.forwardRef<HTMLAnchorElement, CommentProfileProps>(
-  ({ children, hoverContent, user, className, ...props }, ref) => {
+  ({ children, hoverContent, className, ...props }, ref) => {
     return (
       <HoverCard>
         <HoverCardTrigger
@@ -210,62 +210,30 @@ export const CommentProfile = React.forwardRef<HTMLAnchorElement, CommentProfile
         >
           {children}
         </HoverCardTrigger>
-        <HoverCardContent className={cn('w-80 p-4')}>
-          {hoverContent ? (
-            hoverContent
-          ) : (
-            <div className="flex items-start gap-4">
-              <CommentAvater
-                className="w-12 h-12 border-none"
-                avatar_image={{
-                  src: user.avatarUrl,
-                  className: 'm-0 border-none object-cover curosor-pointer',
-                }}
-                fallback={{
-                  className: 'bg-secondary/20',
-                }}
-              />
-              <div className="space-y-1">
-                <h4 className="text-sm font-semibold">@{user.name}</h4>
-                <p className="text-sm">I'am a Software Engineer from Egypt.</p>
-                <div className="flex items-center pt-2">
-                  <CalendarDays className="mr-2 h-4 w-4 opacity-70" />
-                  <span className="text-xs text-muted-foreground">Joined May 2021</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </HoverCardContent>
+        <HoverCardContent className={cn('w-80 p-4')}>{hoverContent}</HoverCardContent>
       </HoverCard>
     )
   }
 )
 
 // Comment Item Side
-export interface CommentItemSideProps {
-  user: TaggedUserType
-}
+export interface CommentItemSideProps extends React.HTMLProps<HTMLDivElement> {}
 
-export const CommentItemSide = React.forwardRef<HTMLDivElement, CommentItemSideProps>(({ user }, ref) => {
-  return (
-    <div className={cn('flex flex-col flex-shrink-0 basis-8 flex-grow-0 items-center mr-2 ')}>
-      <div className="top-shape w-[2px] max-h-2 bg-border flex-grow border-border border flex basis-auto flex-col items-stretch my-1"></div>
-      <CommentProfile user={user}>
-        <CommentAvater
-          className="w-8 h-8 border-none"
-          avatar_image={{
-            src: user.avatarUrl,
-            className: 'm-0 border-none object-cover curosor-pointer',
-          }}
-          fallback={{
-            className: 'bg-secondary/20',
-          }}
-        />
-      </CommentProfile>
-      <div className="bottom-shape w-[2px] bg-border flex-grow border-border border flex basis-auto flex-col items-stretch mt-1"></div>
-    </div>
-  )
-})
+export const CommentItemSide = React.forwardRef<HTMLDivElement, CommentItemSideProps>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <div
+        className={cn('flex flex-col flex-shrink-0 basis-8 flex-grow-0 items-center mr-2 ', className)}
+        ref={ref}
+        {...props}
+      >
+        <div className="top-shape w-[2px] max-h-2 bg-border flex-grow border-border border flex basis-auto flex-col items-stretch my-1"></div>
+        {children}
+        <div className="bottom-shape w-[2px] bg-border flex-grow border-border border flex basis-auto flex-col items-stretch mt-1"></div>
+      </div>
+    )
+  }
+)
 
 // Comment Item Body
 export interface CommentItemBodyProps extends React.HTMLProps<HTMLDivElement> {}
@@ -341,54 +309,7 @@ export const CommentItemTopUser = React.forwardRef<HTMLDivElement, CommentItemTo
         ref={ref}
         {...props}
       >
-        {children ? (
-          children
-        ) : (
-          <>
-            <CommentProfile user={user}>
-              <Button
-                variant={'link'}
-                className="text-sm font-medium h-fit p-0"
-              >
-                {user.name}
-              </Button>
-            </CommentProfile>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="!size-5 !bg-transparent"
-              label={{
-                children: 'Verified',
-                showLabel: true,
-                className: 'text-sm',
-                side: 'top',
-              }}
-            >
-              <BadgeCheck className={cn('size-5', 'text-background fill-blue-400')} />
-            </Button>
-            {user.badge &&
-              user.badge.map(item => (
-                <Button
-                  key={item.id}
-                  variant="outline"
-                  size="icon"
-                  className="!size-5 !bg-transparent overflow-hidden"
-                  label={{
-                    children: '@' + item.title,
-                    showLabel: true,
-                    className: 'text-sm',
-                    side: 'top',
-                  }}
-                >
-                  <img
-                    src={item.imgUrl}
-                    className={cn('size-4')}
-                  />
-                </Button>
-              ))}
-          </>
-        )}
+        {children}
       </div>
     )
   }
@@ -751,38 +672,22 @@ export const CommentSendButton = React.forwardRef<HTMLButtonElement, CommentSend
 )
 
 //FIX: Comment Placeholder
-export const CommentPlaceholder = ({ user }: { user: TaggedUserType }) => {
+
+export interface CommentPlaceholderProps {
+  children: ({ comment }: { comment: CommentType }) => React.ReactNode
+}
+
+export const CommentPlaceholder = ({ children: CommentItem }: CommentPlaceholderProps) => {
   const { comments: newComments } = React.useContext(CommentContext)
 
   return (
     <>
       {newComments.map((comment, idx) => {
-        const mine = user.id == comment.user.id
         return (
           <CommentItem
-            key={comment.id ?? idx}
-            className={cn(mine && '')}
-          >
-            <CommentItemSide user={comment.user} />
-            <CommentItemBody>
-              <CommentItemTop>
-                <div className="flex items-center justify-start w-full gap-2">
-                  <CommentItemTopUser user={comment.user} />
-                  <CommentItemDate date={comment.createdAt} />
-                </div>
-                <LikeButton
-                  onClick={({ e, state }) => {}}
-                  likes={comment.likes}
-                  user={comment.user}
-                />
-              </CommentItemTop>
-              <CommentItemContent
-                content={comment.content}
-                attachments={comment.attachments}
-              />
-              <CommentItemBottom comment={comment} />
-            </CommentItemBody>
-          </CommentItem>
+            comment={comment}
+            key={idx}
+          />
         )
       })}
     </>
@@ -990,7 +895,7 @@ export const CommentExtraButton = React.forwardRef<HTMLButtonElement, CommentExt
                     <UploadContent />
                   </div>
                 }
-              ></Upload>
+              />
             </>
           ),
         }}
