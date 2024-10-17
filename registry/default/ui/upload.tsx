@@ -185,7 +185,7 @@ export const UploadContent = React.forwardRef<HTMLDivElement, UploadContentProps
 
     return (
       <ScrollArea
-        className={cn('flex flex-col gap-2 max-h-[600px]', className)}
+        className={cn('flex flex-col gap-2 max-h-[39ch] md:max-h-[43ch]', className)}
         ref={ref}
         {...props}
       >

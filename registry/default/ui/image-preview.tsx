@@ -17,6 +17,7 @@ import { filesize } from 'filesize'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { downloadAttachment } from './comment'
 import { Button } from './button'
+import { DropdownMenuView } from './dropdown-menu'
 
 export interface ImagePreviewContextType {
   isDesktop: boolean
@@ -95,7 +96,7 @@ export const ImagePreviewTrigger: React.FC<ImagePreviewTriggerProps> = ({
       {children ? (
         children
       ) : (
-        <picture className="w-full h-[100px] rounded-lg overflow-hidden cursor-pointer">
+        <picture className="w-full h-[100px] rounded-lg overflow-hidden cursor-pointer relative">
           <img
             src={url ?? ''}
             // loading="lazy"
@@ -113,6 +114,36 @@ export const ImagePreviewTrigger: React.FC<ImagePreviewTriggerProps> = ({
             className="w-full h-[100px] rounded-lg object-cover object-center"
             alt={attachment?.name ?? ''}
           />
+          <div className="flex items-center gap-2 absolute bottom-2 right-2">
+            <DropdownMenuView
+              trigger={{
+                icon: { children: Ellipsis, className: 'h-6 w-6 rounded' },
+                variant: 'default',
+                size: 'icon',
+                className: 'h-4 w-6',
+              }}
+              content={{
+                options: {
+                  itemType: 'label',
+                  optionsData: [
+                    {
+                      children: 'Download',
+                      onClick: () => downloadAttachment({ attachment: attachment! }),
+                      icon: { children: Download, className: 'h-4 w-4' },
+                    },
+                    {
+                      className: 'bg-red-400/10 text-red-400',
+                      onClick: () => {
+                        // TODO :handle delete
+                      },
+                      children: 'Delete',
+                      icon: { children: Trash, className: 'h-4 w-4' },
+                    },
+                  ],
+                },
+              }}
+            />
+          </div>
         </picture>
       )}
     </>
