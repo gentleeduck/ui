@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAudioDataProvider } from './audio-record'
+import { useTheme } from 'next-themes'
 
 export const audio = new Audio()
 export const new_audio = (url: string) => new Audio(url)
@@ -247,6 +248,11 @@ export const process_blob = async ({
   })
 }
 
+export interface ThemeColor {
+  light: string
+  dark: string
+}
+
 // Audio Visualizer
 interface AudioVisualizerProps {
   blob: Blob | null
@@ -254,9 +260,9 @@ interface AudioVisualizerProps {
   height: number
   barWidth?: number
   gap?: number
-  backgroundColor?: string
-  barColor?: string
-  barPlayedColor?: string
+  backgroundColor?: ThemeColor
+  barColor?: ThemeColor
+  barPlayedColor?: ThemeColor
   currentTime?: number
   minBarHeight?: number
   style?: React.CSSProperties
@@ -271,9 +277,9 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
   height,
   barWidth = 2,
   gap = 1,
-  backgroundColor = 'transparent',
-  barColor = 'rgb(184, 184, 184)',
-  barPlayedColor = 'rgb(160, 198, 255)',
+  backgroundColor = { light: 'transparent', dark: 'transparent' },
+  barColor = { light: 'rgb(184, 184, 184)', dark: '#ffffff69' },
+  barPlayedColor = { light: '#18181b', dark: '#fafafa' },
   currentTime = 0,
   minBarHeight = 2,
   style,
@@ -281,6 +287,29 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
 }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const { process_audio, data, duration, animationProgress } = useAudioDataProvider()
+
+  const { theme } = useTheme()
+
+  interface ThemeColors {
+    backgroundColor: string
+    barColor: string
+    barPlayedColor: string
+  }
+
+  const colors: Record<string, ThemeColors> = {
+    light: {
+      backgroundColor: backgroundColor.light,
+      barColor: barColor.light,
+      barPlayedColor: barPlayedColor.light,
+    },
+    dark: {
+      backgroundColor: backgroundColor.dark,
+      barColor: barColor.dark,
+      barPlayedColor: barPlayedColor.dark,
+    },
+  }
+
+  const currentColors = colors[theme!] || colors.light
 
   React.useEffect(() => {
     setLoading(true)
@@ -291,9 +320,9 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
       height,
       barWidth,
       gap,
-      backgroundColor,
-      barColor,
-      barPlayedColor,
+      backgroundColor: currentColors.backgroundColor,
+      barColor: currentColors.barColor,
+      barPlayedColor: currentColors.barPlayedColor,
       minBarHeight,
       setLoading,
     })
@@ -311,15 +340,15 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
       canvas: canvasRef.current,
       barWidth,
       gap,
-      backgroundColor,
-      barColor,
-      barPlayedColor,
+      backgroundColor: currentColors.backgroundColor,
+      barColor: currentColors.barColor,
+      barPlayedColor: currentColors.barPlayedColor,
       currentTime,
       duration,
       minBarHeight,
       animationProgress,
     })
-  }, [data, width, height, currentTime, duration, animationProgress])
+  }, [data, width, height, currentTime, duration, animationProgress, theme])
 
   return (
     <canvas

@@ -17,12 +17,10 @@ import {
   PopoverWrapper,
   Separator,
   TaggedUserType,
-  Input,
 } from '../ui'
 import { EllipsisVertical, MessageSquare, Paperclip, Plus, Reply, X } from 'lucide-react'
 import React from 'react'
 import { MDXProvider } from './mdx-context-provider'
-import { useAudioDataProvider } from '../ui/audio-record'
 
 export const users: TaggedUserType[] = [
   {
