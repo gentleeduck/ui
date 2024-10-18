@@ -108,16 +108,11 @@ export const Upload = ({ children, trigger, content }: UploadProps) => {
           }}
           footer={{
             className: 'Upload an attachment to your comment.',
-            submit: (
-              <span
-                onClick={() => {
-                  setAttachments(prev => [...prev, ...attachmentsState])
-                  setAttachmentsState([])
-                }}
-              >
-                Submit
-              </span>
-            ),
+            onClick: () => {
+              setAttachments(prev => [...prev, ...attachmentsState])
+              setAttachmentsState([])
+            },
+            submit: <span>Submit</span>,
             cancel: <Button variant="outline">Cancel</Button>,
           }}
           state={attachmentsState.length}

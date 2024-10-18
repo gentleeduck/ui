@@ -285,8 +285,18 @@ const AlertDialogCustom = <C,>({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleAlertCancel}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleAlertContinue}>Continue</AlertDialogAction>
+            <AlertDialogCancel
+              onClick={handleAlertCancel}
+              asChild
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleAlertContinue}
+              asChild
+            >
+              Continue
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

@@ -537,34 +537,36 @@ export const CommentItemContentAttachment = React.forwardRef<HTMLDivElement, Com
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <DropdownMenuView
-                trigger={{
-                  icon: { children: Ellipsis, className: 'h-6 w-6 rounded' },
-                  variant: 'ghost',
-                  size: 'icon',
-                  className: 'h-4 w-6',
-                }}
-                content={{
-                  options: {
-                    itemType: 'label',
-                    optionsData: [
-                      {
-                        children: 'Download',
-                        onClick: () => downloadAttachment({ attachment }),
-                        icon: { children: Download, className: 'h-4 w-4' },
-                      },
-                      {
-                        className: 'bg-red-400/10 text-red-400',
-                        onClick: () => {
-                          // TODO :handle delete
-                        },
-                        children: 'Delete',
-                        icon: { children: Trash, className: 'h-4 w-4' },
-                      },
-                    ],
-                  },
-                }}
-              />
+              {
+                // <DropdownMenuView
+                //                 trigger={{
+                //                   icon: { children: Ellipsis, className: 'h-6 w-6 rounded' },
+                //                   variant: 'ghost',
+                //                   size: 'icon',
+                //                   className: 'h-4 w-6',
+                //                 }}
+                //                 // content={{
+                //                 //   options: {
+                //                 //     itemType: 'label',
+                //                 //     optionsData: [
+                //                 //       {
+                //                 //         children: 'Download',
+                //                 //         onClick: () => downloadAttachment({ attachment }),
+                //                 //         icon: { children: Download, className: 'h-4 w-4' },
+                //                 //       },
+                //                 //       {
+                //                 //         className: 'bg-red-400/10 text-red-400',
+                //                 //         onClick: () => {
+                //                 //           // TODO :handle delete
+                //                 //         },
+                //                 //         children: 'Delete',
+                //                 //         icon: { children: Trash, className: 'h-4 w-4' },
+                //                 //       },
+                //                 //     ],
+                //                 //   },
+                //                 // }}
+                //               />
+              }
             </div>
           </>
         )}

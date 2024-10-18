@@ -15,11 +15,11 @@ import { rehypeNpmCommand } from './lib/rehype-npm-command'
 const computedFields = {
   slug: {
     type: 'string',
-    resolve: (doc) => `/${doc._raw.flattenedPath}`,
+    resolve: doc => `/${doc._raw.flattenedPath}`,
   },
   slugAsParams: {
     type: 'string',
-    resolve: (doc) => doc._raw.flattenedPath.split('/').slice(1).join('/'),
+    resolve: doc => doc._raw.flattenedPath.split('/').slice(1).join('/'),
   },
 }
 
@@ -83,8 +83,8 @@ export default makeSource({
     rehypePlugins: [
       rehypeSlug,
       rehypeComponent,
-      () => (tree) => {
-        visit(tree, (node) => {
+      () => tree => {
+        visit(tree, node => {
           if (node?.type === 'element' && node?.tagName === 'pre') {
             const [codeEl] = node.children
             if (codeEl.tagName !== 'code') {
@@ -129,8 +129,8 @@ export default makeSource({
           },
         },
       ],
-      () => (tree) => {
-        visit(tree, (node) => {
+      () => tree => {
+        visit(tree, node => {
           if (node?.type === 'element' && node?.tagName === 'div') {
             if (!('data-rehype-pretty-code-fragment' in node.properties)) {
               return
