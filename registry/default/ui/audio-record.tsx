@@ -1,12 +1,26 @@
-import { ArrowBigUp, Mic, Pause, Play, Trash2 } from 'lucide-react'
+import {
+  ArrowBigUp,
+  Download,
+  Ellipsis,
+  Mic,
+  Pause,
+  Play,
+  Trash2,
+  Volume,
+  Volume1,
+  Volume2,
+  VolumeX,
+} from 'lucide-react'
 import React, { useState, useRef, useEffect } from 'react'
 import { Button } from './button'
 import { cn } from '@/lib'
 import { Input } from './input'
 import { AudioVisualizer, dataPoint, new_audio, process_blob, ProcessBlobParams, ThemeColor } from './audio-visualizer'
-import { z } from 'zod'
 import { uuidv7 } from 'uuidv7'
 import { AttachmentType } from './swapy'
+import { PopoverWrapper } from './popover'
+import { Slider } from './ShadcnUI'
+import { downloadAttachment } from './comment'
 
 export interface RecordingtType {
   id: string
@@ -224,7 +238,15 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   // Provide the state and functions to the children components
   return (
-    <AudioContext.Provider value={{ recording, recordedDuration, startRecording, stopRecording, deleteRecording }}>
+    <AudioContext.Provider
+      value={{
+        recording,
+        recordedDuration,
+        startRecording,
+        stopRecording,
+        deleteRecording,
+      }}
+    >
       {children}
     </AudioContext.Provider>
   )
@@ -329,6 +351,7 @@ const AudioItemWrapper = ({
   children,
   loading,
   isPlaying,
+  attachment,
   timeLeft,
   size = 'sm',
   duration,
@@ -336,6 +359,7 @@ const AudioItemWrapper = ({
 }: {
   size: 'sm' | 'md' | 'lg'
   children: React.ReactNode
+  attachment: AttachmentType
   duration: number
   loading: boolean
   isPlaying: boolean
@@ -394,11 +418,106 @@ const AudioItemWrapper = ({
               }
 
               <AudioSpeed />
+              <AudioVolume />
+              <AudioMoreOptions attachment={attachment} />
             </div>
           </div>
         }
       </div>
     </>
+  )
+}
+export const AudioMoreOptions = ({ attachment }: { attachment: AttachmentType }) => {
+  return (
+    <PopoverWrapper
+      trigger={{
+        children: (
+          <Button
+            className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
+            variant={'default'}
+            size={'sm'}
+            icon={{
+              className: '!w-3 !h-3',
+              children: Ellipsis,
+            }}
+          />
+        ),
+      }}
+      content={{
+        side: 'top',
+        align: 'center',
+        className: 'w-fit p-2',
+        children: (
+          <div className="flex items-center space-x-2">
+            <Button
+              variant={'ghost'}
+              size={'sm'}
+              icon={{ children: Download, className: 'h-4 w-4' }}
+              onClick={() => downloadAttachment({ attachment })}
+            >
+              Download
+            </Button>
+          </div>
+        ),
+      }}
+    />
+  )
+}
+
+const VolumeIcons = {
+  0: VolumeX, // Muted
+  1: Volume, // Low volume
+  2: Volume1, // Medium volume
+  3: Volume2, // High volume
+}
+
+export const AudioVolume = () => {
+  const { volume, setVolume } = useAudioDataProvider()
+
+  const handleVolumeChange = (value: number[]) => {
+    const newVolume = value[0] / 100
+    setVolume(newVolume)
+  }
+
+  const getVolumeIcon = () => {
+    if (volume === 0) return VolumeIcons[0] // Muted
+    if (volume > 0 && volume <= 0.33) return VolumeIcons[1] // Low volume
+    if (volume > 0.33 && volume <= 0.66) return VolumeIcons[2] // Medium volume
+    return VolumeIcons[3] // High volume
+  }
+
+  return (
+    <PopoverWrapper
+      trigger={{
+        children: (
+          <Button
+            className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
+            variant={'default'}
+            size={'sm'}
+            icon={{
+              className: '!w-3 !h-3',
+              children: getVolumeIcon(),
+            }}
+          />
+        ),
+      }}
+      content={{
+        side: 'top',
+        align: 'center',
+        className: 'w-[100px] p-2',
+        children: (
+          <div className="flex items-center space-x-2">
+            <Slider
+              className="[&>span]:h-[4px] [&_span[role='slider']]:w-4 [&_span[role='slider']]:h-4 [&_span[role='slider']]:mt-[-6px]"
+              defaultValue={[volume * 100]}
+              max={100}
+              step={1}
+              onValueChange={handleVolumeChange}
+            />
+          </div>
+        ),
+      }}
+    />
   )
 }
 
@@ -425,6 +544,7 @@ export interface AudioRecordItemProps {
   barHeight?: number
   barWidth?: number
   gap?: number
+  attachment: AttachmentType
   backgroundColor?: ThemeColor
   barColor?: ThemeColor
   barPlayedColor?: ThemeColor
@@ -437,6 +557,7 @@ const AudioRecordItem = ({
   size = 'sm',
   audio,
   loading: loadingState,
+  attachment,
   style,
   minBarHeight,
   barPlayedColor,
@@ -446,7 +567,7 @@ const AudioRecordItem = ({
   barHeight,
   backgroundColor,
 }: AudioRecordItemProps) => {
-  const { duration: audioDuration, speed } = useAudioDataProvider()
+  const { duration: audioDuration, speed, volume } = useAudioDataProvider()
   const duration = audioDuration * 1000
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
@@ -495,12 +616,13 @@ const AudioRecordItem = ({
       audioRef.current.pause()
       audioRef.current.playbackRate = speed
       audioRef.current.currentTime = currentAudioTime
+      audioRef.current.volume = volume
 
       if (wasPlaying) {
         audioRef.current.play()
       }
     }
-  }, [speed])
+  }, [speed, volume])
 
   // Play or pause audio
   const handlePlayPause = React.useCallback(() => {
@@ -516,6 +638,10 @@ const AudioRecordItem = ({
     <>
       <AudioItemWrapper
         size={size}
+        attachment={{
+          ...attachment,
+          file: attachment.file ?? audio,
+        }}
         loading={loading}
         duration={duration}
         isPlaying={isPlaying}
@@ -570,8 +696,6 @@ export interface AudioItemProps {
   attachment: AttachmentType
 }
 
-const contentSchema = z.string()
-
 const AudioItem: React.FC<AudioItemProps> = ({ attachment }) => {
   const [audioBlob, setAudioBlob] = React.useState<Blob | null>(attachment.file ? attachment.file : null)
 
@@ -586,6 +710,7 @@ const AudioItem: React.FC<AudioItemProps> = ({ attachment }) => {
       <AudioRecordItem
         loading={audioBlob === null ? true : false}
         audio={audioBlob}
+        attachment={attachment}
       />
     </AudioDataProvider>
   )
@@ -605,6 +730,8 @@ export interface AudioDataContextType {
   setDuration: React.Dispatch<React.SetStateAction<number>>
   recording: boolean
   setRecording: React.Dispatch<React.SetStateAction<boolean>>
+  volume: number
+  setVolume: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const AudioDataContext = React.createContext<AudioDataContextType | undefined>(undefined)
@@ -626,6 +753,7 @@ const AudioDataProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const [duration, setDuration] = React.useState<number>(0)
   const [recordings, setRecordings] = React.useState<RecordingtType[]>([])
   const [speed, setSpeed] = React.useState<number>(1)
+  const [volume, setVolume] = useState(1)
   const [animationProgress, setAnimationProgress] = React.useState<number>(0)
   const [recording, setRecording] = React.useState<boolean>(false)
 
@@ -666,7 +794,7 @@ const AudioDataProvider: React.FC<AudioProviderProps> = ({ children }) => {
   return (
     <AudioDataContext.Provider
       value={{
-        process_audio: process_audio,
+        process_audio,
         recordings,
         setDuration,
         setRecordings,
@@ -678,6 +806,8 @@ const AudioDataProvider: React.FC<AudioProviderProps> = ({ children }) => {
         setSpeed,
         recording,
         setRecording,
+        volume,
+        setVolume,
       }}
     >
       {children}
