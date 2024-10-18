@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Button } from './button'
 import { cn } from '@/lib'
 import { Input } from './input'
-import { AudioVisualizer, dataPoint, new_audio, process_blob, ProcessBlobParams } from './audio-visualizer'
+import { AudioVisualizer, dataPoint, new_audio, process_blob, ProcessBlobParams, ThemeColor } from './audio-visualizer'
 import { z } from 'zod'
 import { uuidv7 } from 'uuidv7'
 import { AttachmentType } from './swapy'
@@ -112,7 +112,7 @@ export const Stop_recording_handler = ({ setRecordings, intervalRef, audioChunks
     ...prev,
     {
       id: uuidv7(),
-      file: audioBlob,
+      file: audioBlob as File,
       url: URL.createObjectURL(audioBlob),
       type: 'audio/wav',
       name: 'recording.wav',
@@ -344,12 +344,22 @@ const AudioItemWrapper = ({
 }) => {
   return (
     <>
-      <div className="flex items-center gap-4 transition hover:bg-secondary bg-secondary/70 py-2 px-4 rounded-xl w-fit">
+      <div
+        className={cn(
+          'flex items-center gap-4 transition bg-secondary hover:bg-secondary/70 py-2 px-4 rounded-lg w-fit relative overflow-hidden'
+        )}
+      >
+        <div
+          className={cn(
+            'w-[150%] h-[200%] flex justify-center items-center bg-primary/5 rounded-full absolute top-50% -left-[150%] z-1 transition-all duration-500 ease-out',
+            isPlaying && '-left-[25%]'
+          )}
+        />
         <Button
           onClick={handlePlayPause}
           size="icon"
           className={cn(
-            'rounded-full relative',
+            'rounded-full relative z-10',
             size === 'sm' ? 'w-8 h-8 [&_svg]:size-4' : size === 'md' ? 'w-10 h-10' : 'w-12 h-12'
           )}
           loading={loading}
@@ -369,7 +379,7 @@ const AudioItemWrapper = ({
         </Button>
 
         {
-          <div className="flex flex-col">
+          <div className="flex flex-col z-10">
             <div className="cursor-pointer w-fit p-0">{children}</div>
 
             <div className="flex items-center gap-2 mt-1">
@@ -415,9 +425,9 @@ export interface AudioRecordItemProps {
   barHeight?: number
   barWidth?: number
   gap?: number
-  backgroundColor?: string
-  barColor?: string
-  barPlayedColor?: string
+  backgroundColor?: ThemeColor
+  barColor?: ThemeColor
+  barPlayedColor?: ThemeColor
   minBarHeight?: number
   style?: React.CSSProperties
   audio: Blob | null
@@ -519,11 +529,11 @@ const AudioRecordItem = ({
               width={barWidth ?? 180}
               height={barHeight ?? 27}
               barWidth={barWidth ?? 3}
+              barPlayedColor={barPlayedColor}
+              barColor={barColor}
+              backgroundColor={backgroundColor}
               gap={gap ?? 2}
-              barColor={barColor ?? '#ffffff69'}
               currentTime={currentTime / 1000}
-              barPlayedColor={barPlayedColor ?? '#fafafa'}
-              backgroundColor={backgroundColor ?? 'transparent'}
               setLoading={setLoading}
               style={style}
               minBarHeight={minBarHeight ?? 1}
