@@ -1,7 +1,7 @@
 # Duck UI
 
 <p align="center">
-  <img src="./public/logo.png" alt="Duck UI Logo" width="200"/>
+  <img src="./apps/www/ui/public/logo.png" alt="Duck UI Logo" width="200"/>
 </p>
 
 Welcome to **Duck UI**, a modern UI component library designed for flexibility and ease of use. This library provides a set of high-quality React components, styled with a clean and responsive design, perfect for building user interfaces in web applications.
