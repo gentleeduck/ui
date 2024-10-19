@@ -96,31 +96,14 @@ export const ImagePreviewTrigger: React.FC<ImagePreviewTriggerProps> = ({
       {children ? (
         children
       ) : (
-        <picture className="w-full h-[100px] rounded-lg overflow-hidden cursor-pointer relative">
-          <img
-            src={url ?? ''}
-            // loading="lazy"
-            // style={{ width: 115.35, height: 116.4 }}
-            // loader={<Skeleton className="w-full h-[100px] rounded-lg object-cover object-center" />}
-            // onError={() => {
-            //   setError(true)
-            // }}
-            // error={
-            //   <div className="w-full h-[100px] rounded-lg object-cover object-center items-center flex flex-col gap-2 place-content-center bg-red-800/40 text-red-400">
-            //     <CircleX className="size-5 mx-auto" />
-            //     <span className="text-sm text-center">Failed</span>
-            //   </div>
-            // }
-            className="w-full h-[100px] rounded-lg object-cover object-center"
-            alt={attachment?.name ?? ''}
-          />
-          <div className="flex items-center gap-2 absolute bottom-2 right-2">
+        <>
+          <picture className="w-full h-[100px] rounded-lg overflow-hidden cursor-pointer relative">
             <DropdownMenuView
               trigger={{
-                icon: { children: Ellipsis, className: 'h-6 w-6 rounded' },
-                variant: 'default',
+                icon: { children: Ellipsis, className: 'h-4 w-4 rounded' },
+                variant: 'ghost',
                 size: 'icon',
-                className: 'h-4 w-6',
+                className: 'h-4 w-6 absolute bottom-2 right-2',
               }}
               content={{
                 options: {
@@ -128,23 +111,43 @@ export const ImagePreviewTrigger: React.FC<ImagePreviewTriggerProps> = ({
                   optionsData: [
                     {
                       children: 'Download',
-                      onClick: () => downloadAttachment({ attachment: attachment! }),
-                      icon: { children: Download, className: 'h-4 w-4' },
+                      icon: { children: Download, className: 'h-4 w-4 rounded' },
+                      onClick: () => {
+                        downloadAttachment({ attachment: attachment! })
+                      },
                     },
                     {
-                      className: 'bg-red-400/10 text-red-400',
-                      onClick: () => {
-                        // TODO :handle delete
-                      },
                       children: 'Delete',
-                      icon: { children: Trash, className: 'h-4 w-4' },
+                      className: 'text-red-500 bg-red-500/10',
+                      icon: { children: Trash, className: 'h-4 w-4 rounded' },
+                      onClick: () => {
+                        setOpen(false)
+                      },
                     },
                   ],
                 },
               }}
             />
-          </div>
-        </picture>
+            <img
+              src={url ?? ''}
+              // loading="lazy"
+              // style={{ width: 115.35, height: 116.4 }}
+              // loader={<Skeleton className="w-full h-[100px] rounded-lg object-cover object-center" />}
+              // onError={() => {
+              //   setError(true)
+              // }}
+              // error={
+              //   <div className="w-full h-[100px] rounded-lg object-cover object-center items-center flex flex-col gap-2 place-content-center bg-red-800/40 text-red-400">
+              //     <CircleX className="size-5 mx-auto" />
+              //     <span className="text-sm text-center">Failed</span>
+              //   </div>
+              // }
+              className="w-full h-[100px] rounded-lg object-cover object-center"
+              alt={attachment?.name ?? ''}
+            />
+            <div className="flex items-center gap-2 absolute bottom-2 right-2"></div>
+          </picture>
+        </>
       )}
     </>
   )

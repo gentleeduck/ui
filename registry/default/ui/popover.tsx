@@ -42,6 +42,7 @@ const PopoverWrapper: React.FC<PopoverWrapperProps> = ({ content, trigger, wrapp
   return (
     <Popover {...wrapper}>
       <PopoverTrigger
+        asChild
         className={cn('', triggerClassName)}
         {...triggerProps}
       >
