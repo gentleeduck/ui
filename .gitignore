@@ -34,5 +34,7 @@ yarn-error.log*
 
 .contentlayer
 tsconfig.tsbuildinfo
+__registry__
+
 
 certificates
