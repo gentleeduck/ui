@@ -704,17 +704,138 @@ importers:
         specifier: ^4.9.3
         version: 4.9.5
 
-  packages/cli-t:
+  packages/cli-old:
     dependencies:
-      '@types/node':
-        specifier: ^17.0.45
-        version: 17.0.45
+      '@antfu/ni':
+        specifier: ^0.21.4
+        version: 0.21.12
+      '@babel/core':
+        specifier: ^7.22.1
+        version: 7.25.8
+      '@babel/parser':
+        specifier: ^7.22.6
+        version: 7.25.8
+      '@babel/plugin-transform-typescript':
+        specifier: ^7.22.5
+        version: 7.25.7(@babel/core@7.25.8)
+      chalk:
+        specifier: 5.2.0
+        version: 5.2.0
       commander:
         specifier: ^10.0.0
         version: 10.0.1
+      cosmiconfig:
+        specifier: ^8.1.3
+        version: 8.3.6(typescript@4.9.5)
+      diff:
+        specifier: ^5.1.0
+        version: 5.2.0
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
+      execa:
+        specifier: ^7.0.0
+        version: 7.2.0
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.2
+      fs-extra:
+        specifier: ^11.1.0
+        version: 11.2.0
+      https-proxy-agent:
+        specifier: ^6.2.0
+        version: 6.2.1
+      lodash.template:
+        specifier: ^4.5.0
+        version: 4.5.0
+      node-fetch:
+        specifier: ^3.3.0
+        version: 3.3.2
+      ora:
+        specifier: ^6.1.2
+        version: 6.3.1
+      prompts:
+        specifier: ^2.4.2
+        version: 2.4.2
+      recast:
+        specifier: ^0.23.2
+        version: 0.23.9
+      ts-morph:
+        specifier: ^18.0.0
+        version: 18.0.0
+      tsconfig-paths:
+        specifier: ^4.2.0
+        version: 4.2.0
+      zod:
+        specifier: ^3.20.2
+        version: 3.23.8
+    devDependencies:
+      '@types/babel__core':
+        specifier: ^7.20.1
+        version: 7.20.5
+      '@types/diff':
+        specifier: ^5.0.3
+        version: 5.2.3
+      '@types/fs-extra':
+        specifier: ^11.0.1
+        version: 11.0.4
+      '@types/lodash.template':
+        specifier: ^4.5.1
+        version: 4.5.3
+      '@types/prompts':
+        specifier: ^2.4.2
+        version: 2.4.9
+      rimraf:
+        specifier: ^4.1.3
+        version: 4.4.1
+      tsup:
+        specifier: ^6.6.3
+        version: 6.7.0(postcss@8.4.47)(ts-node@10.9.2(@types/node@20.5.1)(typescript@4.9.5))(typescript@4.9.5)
+      type-fest:
+        specifier: ^3.8.0
+        version: 3.13.1
+      typescript:
+        specifier: ^4.9.3
+        version: 4.9.5
+
+  packages/cli-t:
+    dependencies:
+      '@types/fs-extra':
+        specifier: ^11.0.1
+        version: 11.0.4
+      '@types/node':
+        specifier: ^17.0.45
+        version: 17.0.45
+      chalk:
+        specifier: 5.2.0
+        version: 5.2.0
+      commander:
+        specifier: ^10.0.0
+        version: 10.0.1
+      cosmiconfig:
+        specifier: ^8.1.3
+        version: 8.3.6(typescript@5.6.3)
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.2
+      fs-extra:
+        specifier: ^11.1.0
+        version: 11.2.0
       globals:
         specifier: ^15.9.0
         version: 15.11.0
+      kleur:
+        specifier: ^4.1.5
+        version: 4.1.5
+      log-symbols:
+        specifier: ^7.0.0
+        version: 7.0.0
+      ora:
+        specifier: ^6.1.2
+        version: 6.3.1
+      tsconfig-paths:
+        specifier: ^4.2.0
+        version: 4.2.0
       type-fest:
         specifier: ^3.8.0
         version: 3.13.1
@@ -5994,6 +6115,10 @@ packages:
   log-symbols@5.1.0:
     resolution: {integrity: sha512-l0x2DvrW294C9uDCoQe1VSU4gf529FkSZ6leBl4TiqZH/e+0R7hSfHQBNut2mNygDgHwvYHfFLn6Oxb3VWj2rA==}
     engines: {node: '>=12'}
+
+  log-symbols@7.0.0:
+    resolution: {integrity: sha512-zrc91EDk2M+2AXo/9BTvK91pqb7qrPg2nX/Hy+u8a5qQlbaOflCKO+6SqgZ+M+xUFxGdKTgwnGiL96b1W3ikRA==}
+    engines: {node: '>=18'}
 
   long@5.2.3:
     resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}
@@ -14363,6 +14488,11 @@ snapshots:
     dependencies:
       chalk: 5.2.0
       is-unicode-supported: 1.3.0
+
+  log-symbols@7.0.0:
+    dependencies:
+      is-unicode-supported: 2.1.0
+      yoctocolors: 2.1.1
 
   long@5.2.3: {}
 
