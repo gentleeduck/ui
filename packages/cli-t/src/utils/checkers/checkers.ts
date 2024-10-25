@@ -2,10 +2,10 @@ import {
   IGNORED_DIRECTORIES,
   tailwindCssInstallationGuide
 } from '../get-project-info/get-project-info.constants'
-import { logger } from '../logger'
 import fs from 'fs-extra'
 import path from 'path'
 import fg from 'fast-glob'
+import { logger } from '../text-styling'
 
 // Check if TypeScript is installed
 export async function checkTypeScriptInstalled(cwd: string) {
@@ -20,18 +20,16 @@ export async function checkTailwindCssInstalled(cwd: string) {
     ignore: IGNORED_DIRECTORIES
   })
 
-  if (!tailwindcss.length) {
-    logger.error(`TailwindCss is not configured in this directory.`).break()
-    logger.info(...Object.values(tailwindCssInstallationGuide)).break()
-  }
-
+  if (!tailwindcss.length) return false
   return true
 }
 
 // Check if the working directory exists
 export function checkDirectoryExist(cwd: string): typeof logger | undefined {
   if (!fs.lstatSync(cwd).isDirectory()) {
-    return logger.error(`The working directory ${cwd} does not exist.`)
+    return logger.error({
+      args: [`The working directory ${cwd} does not exist.`]
+    })
   }
 }
 

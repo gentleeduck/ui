@@ -4,6 +4,7 @@ import { IGNORED_DIRECTORIES } from './get-project-info.constants'
 import path from 'path'
 import { loadConfig } from 'tsconfig-paths'
 import { type PackageJson } from 'type-fest'
+import { logger } from '../text-styling'
 
 // Get TailwindCss File
 export async function get_tailwindcss_file(cwd: string) {
@@ -50,8 +51,23 @@ export async function get_ts_config_alias_prefix(cwd: string) {
 }
 
 // Get package.json
-export function getPackageJson(): PackageJson {
-  const packageJsonPath = path.join('package.json')
+export function getPackageJson(): PackageJson | null {
+  const files = fg.sync(['package.json'], {
+    cwd: process.cwd(),
+    deep: 1,
+    ignore: IGNORED_DIRECTORIES
+  })
 
-  return JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  if (!files.length) {
+    logger.error({ args: ['package.json not found'] })
+    return process.exit(1)
+  }
+
+  const packageJsonPath = path.join(process.cwd(), 'package.json')
+
+  const packageJson: PackageJson = JSON.parse(
+    fs.readFileSync(packageJsonPath, 'utf8')
+  )
+
+  return packageJson
 }

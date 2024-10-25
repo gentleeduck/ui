@@ -35,5 +35,3 @@ export const config_cchema = raw_config_schema.extend({
     ui: z.string()
   })
 })
-
-export type ConfigType = z.infer<typeof configSchema>

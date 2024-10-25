@@ -610,100 +610,6 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2
 
-  packages/cli:
-    dependencies:
-      '@antfu/ni':
-        specifier: ^0.21.4
-        version: 0.21.12
-      '@babel/core':
-        specifier: ^7.22.1
-        version: 7.25.8
-      '@babel/parser':
-        specifier: ^7.22.6
-        version: 7.25.8
-      '@babel/plugin-transform-typescript':
-        specifier: ^7.22.5
-        version: 7.25.7(@babel/core@7.25.8)
-      chalk:
-        specifier: 5.2.0
-        version: 5.2.0
-      commander:
-        specifier: ^10.0.0
-        version: 10.0.1
-      cosmiconfig:
-        specifier: ^8.1.3
-        version: 8.3.6(typescript@4.9.5)
-      diff:
-        specifier: ^5.1.0
-        version: 5.2.0
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
-      execa:
-        specifier: ^7.0.0
-        version: 7.2.0
-      fast-glob:
-        specifier: ^3.3.2
-        version: 3.3.2
-      fs-extra:
-        specifier: ^11.1.0
-        version: 11.2.0
-      https-proxy-agent:
-        specifier: ^6.2.0
-        version: 6.2.1
-      lodash.template:
-        specifier: ^4.5.0
-        version: 4.5.0
-      node-fetch:
-        specifier: ^3.3.0
-        version: 3.3.2
-      ora:
-        specifier: ^6.1.2
-        version: 6.3.1
-      prompts:
-        specifier: ^2.4.2
-        version: 2.4.2
-      recast:
-        specifier: ^0.23.2
-        version: 0.23.9
-      ts-morph:
-        specifier: ^18.0.0
-        version: 18.0.0
-      tsconfig-paths:
-        specifier: ^4.2.0
-        version: 4.2.0
-      zod:
-        specifier: ^3.20.2
-        version: 3.23.8
-    devDependencies:
-      '@types/babel__core':
-        specifier: ^7.20.1
-        version: 7.20.5
-      '@types/diff':
-        specifier: ^5.0.3
-        version: 5.2.3
-      '@types/fs-extra':
-        specifier: ^11.0.1
-        version: 11.0.4
-      '@types/lodash.template':
-        specifier: ^4.5.1
-        version: 4.5.3
-      '@types/prompts':
-        specifier: ^2.4.2
-        version: 2.4.9
-      rimraf:
-        specifier: ^4.1.3
-        version: 4.4.1
-      tsup:
-        specifier: ^6.6.3
-        version: 6.7.0(postcss@8.4.47)(ts-node@10.9.2(@types/node@20.5.1)(typescript@4.9.5))(typescript@4.9.5)
-      type-fest:
-        specifier: ^3.8.0
-        version: 3.13.1
-      typescript:
-        specifier: ^4.9.3
-        version: 4.9.5
-
   packages/cli-old:
     dependencies:
       '@antfu/ni':
@@ -800,29 +706,29 @@ importers:
 
   packages/cli-t:
     dependencies:
-      '@types/fs-extra':
-        specifier: ^11.0.1
-        version: 11.0.4
-      '@types/node':
-        specifier: ^17.0.45
-        version: 17.0.45
+      '@antfu/ni':
+        specifier: ^0.21.12
+        version: 0.21.12
       chalk:
         specifier: 5.2.0
         version: 5.2.0
       commander:
-        specifier: ^10.0.0
+        specifier: ^10.0.1
         version: 10.0.1
       cosmiconfig:
-        specifier: ^8.1.3
-        version: 8.3.6(typescript@5.6.3)
+        specifier: ^8.3.6
+        version: 8.3.6(typescript@4.9.5)
+      execa:
+        specifier: ^9.4.1
+        version: 9.4.1
       fast-glob:
         specifier: ^3.3.2
         version: 3.3.2
       fs-extra:
-        specifier: ^11.1.0
+        specifier: ^11.2.0
         version: 11.2.0
       globals:
-        specifier: ^15.9.0
+        specifier: ^15.11.0
         version: 15.11.0
       kleur:
         specifier: ^4.1.5
@@ -831,17 +737,57 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       ora:
-        specifier: ^6.1.2
+        specifier: ^6.3.1
         version: 6.3.1
+      prompts:
+        specifier: ^2.4.2
+        version: 2.4.2
       tsconfig-paths:
         specifier: ^4.2.0
         version: 4.2.0
-      type-fest:
-        specifier: ^3.8.0
-        version: 3.13.1
       zod:
         specifier: ^3.23.8
         version: 3.23.8
+    devDependencies:
+      '@types/babel__core':
+        specifier: ^7.20.1
+        version: 7.20.5
+      '@types/diff':
+        specifier: ^5.0.3
+        version: 5.2.3
+      '@types/fs-extra':
+        specifier: ^11.0.1
+        version: 11.0.4
+      '@types/lodash.template':
+        specifier: ^4.5.1
+        version: 4.5.3
+      '@types/prompts':
+        specifier: ^2.4.2
+        version: 2.4.9
+      rimraf:
+        specifier: ^4.1.3
+        version: 4.4.1
+      tsup:
+        specifier: ^6.6.3
+        version: 6.7.0(postcss@8.4.47)(ts-node@10.9.2(@types/node@20.5.1)(typescript@4.9.5))(typescript@4.9.5)
+      type-fest:
+        specifier: ^3.8.0
+        version: 3.13.1
+      typescript:
+        specifier: ^4.9.3
+        version: 4.9.5
+
+  packages/cli-t/test:
+    dependencies:
+      autoprefixer:
+        specifier: ^10.4.20
+        version: 10.4.20(postcss@8.4.47)
+      postcss:
+        specifier: ^8.4.41
+        version: 8.4.47
+      tailwindcss:
+        specifier: ^3.4.10
+        version: 3.4.14(ts-node@10.9.2(@types/node@20.5.1)(typescript@5.6.3))
 
 packages:
 
@@ -878,6 +824,10 @@ packages:
 
   '@babel/code-frame@7.25.7':
     resolution: {integrity: sha512-0xZJFNE5XMpENsgfHYTw8FbX4kv53mFLn2i3XPoq69LyhYSCBJtitaHx9QnsVTrsogI4Z3+HtEfZ2/GFPOtf5g==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/code-frame@7.25.9':
+    resolution: {integrity: sha512-z88xeGxnzehn2sqZ8UdGQEvYErF1odv2CftxInpSYJt6uHuPe9YjahKZITGs3l5LeI9d2ROG+obuDAoSlqbNfQ==}
     engines: {node: '>=6.9.0'}
 
   '@babel/compat-data@7.25.8':
@@ -950,6 +900,10 @@ packages:
     resolution: {integrity: sha512-AM6TzwYqGChO45oiuPqwL2t20/HdMC1rTPAesnBCgPCSF1x3oN9MVUwQV2iyz4xqWrctwK5RNC8LV22kaQCNYg==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-validator-identifier@7.25.9':
+    resolution: {integrity: sha512-Ed61U6XJc3CVRfkERJWDz4dJwKe7iLmmJsbOGu9wSloNSFttHV0I8g6UAgb7qnK5ly5bGLPd4oXZlxCdANBOWQ==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-validator-option@7.25.7':
     resolution: {integrity: sha512-ytbPLsm+GjArDYXJ8Ydr1c/KJuutjF2besPNbIZnZ6MKUxi/uTA22t2ymmA4WFjZFpjiAMO0xuuJPqK2nvDVfQ==}
     engines: {node: '>=6.9.0'}
@@ -960,6 +914,10 @@ packages:
 
   '@babel/highlight@7.25.7':
     resolution: {integrity: sha512-iYyACpW3iW8Fw+ZybQK+drQre+ns/tKpXbNESfrhNnPLIklLbXr7MYJ6gPEd0iETGLOK+SxMjVvKb/ffmk+FEw==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/highlight@7.25.9':
+    resolution: {integrity: sha512-llL88JShoCsth8fF8R4SJnIn+WLvR6ccFxu1H3FlMhDontdcmZWf2HgIZ7AIqV3Xcck1idlohrN4EUBQz6klbw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/parser@7.25.8':
@@ -4241,6 +4199,11 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
+  browserslist@4.24.2:
+    resolution: {integrity: sha512-ZIc+Q62revdMcqC6aChtW4jz3My3klmCO1fEmINZY/8J3EpBg5/A/D0AKmBveUh6pgoeycoMkVMko84tuYS+Gg==}
+    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
@@ -4804,6 +4767,9 @@ packages:
 
   electron-to-chromium@1.5.41:
     resolution: {integrity: sha512-dfdv/2xNjX0P8Vzme4cfzHqnPm5xsZXwsolTYr0eyW18IUmNyG08vL+fttvinTfhKfIKdRoqkDIC9e9iWQCNYQ==}
+
+  electron-to-chromium@1.5.45:
+    resolution: {integrity: sha512-vOzZS6uZwhhbkZbcRyiy99Wg+pYFV5hk+5YaECvx0+Z31NR3Tt5zS6dze2OepT6PCTzVzT0dIJItti+uAW5zmw==}
 
   embla-carousel-autoplay@8.0.0-rc15:
     resolution: {integrity: sha512-ABTbDJGNb9jzI9OV2vSpbUvxUA0ELmK0SI3yPm8Haj3ghssS+vElfahoDqp7zuFkWBRih6w3B51oMPKdF5J55A==}
@@ -8000,11 +7966,11 @@ packages:
   tippy.js@6.3.7:
     resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
 
-  tldts-core@6.1.52:
-    resolution: {integrity: sha512-j4OxQI5rc1Ve/4m/9o2WhWSC4jGc4uVbCINdOEJRAraCi0YqTqgMcxUx7DbmuP0G3PCixoof/RZB0Q5Kh9tagw==}
+  tldts-core@6.1.55:
+    resolution: {integrity: sha512-BL+BuKHHaOpntE5BGI6naXjULU6aRlgaYdfDHR3T/hdbNTWkWUZ9yuc11wGnwgpvRwlyUiIK+QohYK3olaVU6Q==}
 
-  tldts@6.1.52:
-    resolution: {integrity: sha512-fgrDJXDjbAverY6XnIt0lNfv8A0cf7maTEaZxNykLGsLG7XP+5xhjBTrt/ieAsFjAlZ+G5nmXomLcZDkxXnDzw==}
+  tldts@6.1.55:
+    resolution: {integrity: sha512-HxQR/9roQ07Pwc8RyyrJMAxRz5/ssoF3qIPPUiIo3zUt6yMdmYZjM2OZIFMiZ3jHyz9jrGHEHuQZrUhoc1LkDw==}
     hasBin: true
 
   tmp@0.0.33:
@@ -8844,6 +8810,11 @@ snapshots:
       '@babel/highlight': 7.25.7
       picocolors: 1.1.1
 
+  '@babel/code-frame@7.25.9':
+    dependencies:
+      '@babel/highlight': 7.25.9
+      picocolors: 1.1.1
+
   '@babel/compat-data@7.25.8': {}
 
   '@babel/core@7.25.8':
@@ -8955,6 +8926,8 @@ snapshots:
 
   '@babel/helper-validator-identifier@7.25.7': {}
 
+  '@babel/helper-validator-identifier@7.25.9': {}
+
   '@babel/helper-validator-option@7.25.7': {}
 
   '@babel/helpers@7.25.7':
@@ -8965,6 +8938,13 @@ snapshots:
   '@babel/highlight@7.25.7':
     dependencies:
       '@babel/helper-validator-identifier': 7.25.7
+      chalk: 2.4.2
+      js-tokens: 4.0.0
+      picocolors: 1.1.1
+
+  '@babel/highlight@7.25.9':
+    dependencies:
+      '@babel/helper-validator-identifier': 7.25.9
       chalk: 2.4.2
       js-tokens: 4.0.0
       picocolors: 1.1.1
@@ -9014,7 +8994,7 @@ snapshots:
   '@babel/types@7.25.8':
     dependencies:
       '@babel/helper-string-parser': 7.25.7
-      '@babel/helper-validator-identifier': 7.25.7
+      '@babel/helper-validator-identifier': 7.25.9
       to-fast-properties: 2.0.0
 
   '@changesets/apply-release-plan@7.0.5':
@@ -11688,7 +11668,7 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 17.0.45
+      '@types/node': 20.5.1
 
   '@types/hast@2.3.10':
     dependencies:
@@ -11709,7 +11689,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 20.5.1
 
   '@types/keyv@3.1.4':
     dependencies:
@@ -11758,7 +11738,7 @@ snapshots:
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 20.5.1
       kleur: 3.0.3
 
   '@types/prop-types@15.7.13': {}
@@ -12230,7 +12210,7 @@ snapshots:
 
   autoprefixer@10.4.20(postcss@8.4.47):
     dependencies:
-      browserslist: 4.24.0
+      browserslist: 4.24.2
       caniuse-lite: 1.0.30001669
       fraction.js: 4.3.7
       normalize-range: 0.1.2
@@ -12318,6 +12298,13 @@ snapshots:
       electron-to-chromium: 1.5.41
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.0)
+
+  browserslist@4.24.2:
+    dependencies:
+      caniuse-lite: 1.0.30001669
+      electron-to-chromium: 1.5.45
+      node-releases: 2.0.18
+      update-browserslist-db: 1.1.1(browserslist@4.24.2)
 
   buffer-from@1.1.2: {}
 
@@ -12889,6 +12876,8 @@ snapshots:
   eastasianwidth@0.2.0: {}
 
   electron-to-chromium@1.5.41: {}
+
+  electron-to-chromium@1.5.45: {}
 
   embla-carousel-autoplay@8.0.0-rc15(embla-carousel@8.0.0-rc15):
     dependencies:
@@ -15594,7 +15583,7 @@ snapshots:
 
   parse-json@5.2.0:
     dependencies:
-      '@babel/code-frame': 7.25.7
+      '@babel/code-frame': 7.25.9
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
@@ -15680,6 +15669,14 @@ snapshots:
       ts-node: 10.9.2(@types/node@20.5.1)(typescript@4.9.5)
 
   postcss-load-config@4.0.2(postcss@8.4.47)(ts-node@10.9.2(@types/node@17.0.45)(typescript@5.6.3)):
+    dependencies:
+      lilconfig: 3.1.2
+      yaml: 2.6.0
+    optionalDependencies:
+      postcss: 8.4.47
+      ts-node: 10.9.2(@types/node@17.0.45)(typescript@5.6.3)
+
+  postcss-load-config@4.0.2(postcss@8.4.47)(ts-node@10.9.2(@types/node@20.5.1)(typescript@5.6.3)):
     dependencies:
       lilconfig: 3.1.2
       yaml: 2.6.0
@@ -16913,6 +16910,33 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
+  tailwindcss@3.4.14(ts-node@10.9.2(@types/node@20.5.1)(typescript@5.6.3)):
+    dependencies:
+      '@alloc/quick-lru': 5.2.0
+      arg: 5.0.2
+      chokidar: 3.6.0
+      didyoumean: 1.2.2
+      dlv: 1.1.3
+      fast-glob: 3.3.2
+      glob-parent: 6.0.2
+      is-glob: 4.0.3
+      jiti: 1.21.6
+      lilconfig: 2.1.0
+      micromatch: 4.0.8
+      normalize-path: 3.0.0
+      object-hash: 3.0.0
+      picocolors: 1.1.1
+      postcss: 8.4.47
+      postcss-import: 15.1.0(postcss@8.4.47)
+      postcss-js: 4.0.1(postcss@8.4.47)
+      postcss-load-config: 4.0.2(postcss@8.4.47)(ts-node@10.9.2(@types/node@20.5.1)(typescript@5.6.3))
+      postcss-nested: 6.2.0(postcss@8.4.47)
+      postcss-selector-parser: 6.1.2
+      resolve: 1.22.8
+      sucrase: 3.35.0
+    transitivePeerDependencies:
+      - ts-node
+
   tapable@2.2.1: {}
 
   tar-fs@2.1.1:
@@ -17007,11 +17031,11 @@ snapshots:
     dependencies:
       '@popperjs/core': 2.11.8
 
-  tldts-core@6.1.52: {}
+  tldts-core@6.1.55: {}
 
-  tldts@6.1.52:
+  tldts@6.1.55:
     dependencies:
-      tldts-core: 6.1.52
+      tldts-core: 6.1.55
 
   tmp@0.0.33:
     dependencies:
@@ -17038,7 +17062,7 @@ snapshots:
 
   tough-cookie@5.0.0:
     dependencies:
-      tldts: 6.1.52
+      tldts: 6.1.55
 
   tr46@0.0.3: {}
 
@@ -17083,6 +17107,25 @@ snapshots:
     dependencies:
       '@ts-morph/common': 0.23.0
       code-block-writer: 13.0.3
+
+  ts-node@10.9.2(@types/node@17.0.45)(typescript@5.6.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 17.0.45
+      acorn: 8.13.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.6.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    optional: true
 
   ts-node@10.9.2(@types/node@20.5.1)(typescript@4.9.5):
     dependencies:
@@ -17434,6 +17477,12 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
+  update-browserslist-db@1.1.1(browserslist@4.24.2):
+    dependencies:
+      browserslist: 4.24.2
+      escalade: 3.2.0
+      picocolors: 1.1.1
+
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
@@ -17680,7 +17729,7 @@ snapshots:
       '@webassemblyjs/wasm-parser': 1.12.1
       acorn: 8.13.0
       acorn-import-attributes: 1.9.5(acorn@8.13.0)
-      browserslist: 4.24.0
+      browserslist: 4.24.2
       chrome-trace-event: 1.0.4
       enhanced-resolve: 5.17.1
       es-module-lexer: 1.5.4

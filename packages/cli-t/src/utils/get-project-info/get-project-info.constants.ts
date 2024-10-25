@@ -9,5 +9,5 @@ export const IGNORED_DIRECTORIES = [
 ]
 
 export const tailwindCssInstallationGuide = {
-  info: 'please install TailwindCss: https://github.com/tailwindlabs/tailwindcss'
+  info: 'You need to install TailwindCss:'
 }

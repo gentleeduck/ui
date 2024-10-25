@@ -1,5 +1,4 @@
 import { loadConfig } from 'tsconfig-paths'
-import { logger } from '../logger'
 import { explorer } from './get-project-config.constants'
 import { resolve_import } from '../resolve-import'
 import {
@@ -13,6 +12,7 @@ import {
   get_ts_config_alias_prefix
 } from '../get-project-info'
 import { checkTypeScriptInstalled } from '../checkers'
+import { logger } from '../text-styling'
 import { get_project_type } from '../get-project-type'
 
 export async function get_raw_config(
@@ -26,7 +26,9 @@ export async function get_raw_config(
 
     return raw_config_schema.parse(rawConfig.config)
   } catch (error) {
-    logger.error(`Invalid configuration found in ${cwd}/components.json.`)
+    logger.error({
+      args: [`Invalid configuration found in ${cwd}/components.json.`]
+    })
     process.exit(1)
   }
 }
@@ -46,9 +48,11 @@ export async function resolve_config_paths(cwd: string, config: RawConfigType) {
   const ts_config = loadConfig(cwd)
 
   if (ts_config.resultType === 'failed') {
-    return logger.error(
-      `Failed to leaod ${config.tsx ? 'tsconfig' : 'jsconfig'}.json. ${ts_config.message ?? ''}`.trim()
-    )
+    return logger.error({
+      args: [
+        `Failed to leaod ${config.tsx ? 'tsconfig' : 'jsconfig'}.json. ${ts_config.message ?? ''}`.trim()
+      ]
+    })
   }
 
   return config_cchema.parse({
