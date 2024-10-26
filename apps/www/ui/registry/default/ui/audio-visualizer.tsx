@@ -2,7 +2,6 @@ import React from 'react'
 import { useAudioDataProvider } from './audio-record'
 import { useTheme } from 'next-themes'
 
-export const audio = new Audio()
 export const new_audio = (url: string) => new Audio(url)
 
 // Calculate bar data
