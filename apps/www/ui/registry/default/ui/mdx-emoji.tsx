@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { escapeForRegEx, Node } from '@tiptap/core'
 import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
 import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'

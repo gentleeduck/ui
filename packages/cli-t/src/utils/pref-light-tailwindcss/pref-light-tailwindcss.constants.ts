@@ -5,7 +5,7 @@ export const tailwindcss_prompts: PromptObject<string>[] = [
   {
     type: 'confirm',
     name: 'tailwind',
-    message: `Would you like to use ${highlighter.info('TailwindCSS')}`,
+    message: `Would you like to install ${highlighter.info('TailwindCSS')}`,
     initial: false,
     active: 'yes',
     inactive: 'no'

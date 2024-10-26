@@ -1,3 +1,5 @@
+import { highlighter } from '../text-styling'
+
 export const IGNORED_DIRECTORIES = [
   '**/node_modules',
   '**/.git',
@@ -7,7 +9,3 @@ export const IGNORED_DIRECTORIES = [
   '**/coverage',
   '**/public'
 ]
-
-export const tailwindCssInstallationGuide = {
-  info: 'You need to install TailwindCss:'
-}

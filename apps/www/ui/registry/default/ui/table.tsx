@@ -184,7 +184,7 @@ const TableHeaderActions = <
       q: newValue,
     }))
   }, 500)
-  console.log(headers)
+  // console.log(headers)
 
   //NOTE: Gen options for filteres with label values
   const optionsData = header.map((column, idx) => {
@@ -269,7 +269,7 @@ const TableHeaderActions = <
                     wrapper={filter?.wrapper}
                     trigger={{
                       icon: {
-                        icon: CirclePlus,
+                        children: CirclePlus,
                         className: '!size-4 stroke-[1.5]',
                       },
                       children: (triggerChildren ?? 'not found') as Y,
@@ -578,7 +578,7 @@ const TableCustomBody = <
                               {filtersData?.length &&
                                 filtersData?.map(item => {
                                   return item?.content?.data.map((item, idx) => {
-                                    const { icon: Icon, ...props } = item?.element?.icon ?? {}
+                                    const { children: Icon, ...props } = item?.element?.icon ?? {}
                                     return item.label?.toString().toLowerCase() ===
                                       (children as string).toString().toLowerCase() ? (
                                       <span
@@ -603,7 +603,7 @@ const TableCustomBody = <
                                   variant: 'ghost',
                                   size: 'icon',
                                   icon: {
-                                    icon: Ellipsis,
+                                    children: Ellipsis,
                                     className: 'h-4 w-4',
                                   },
                                 }}

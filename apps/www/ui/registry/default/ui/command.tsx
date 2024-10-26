@@ -194,7 +194,7 @@ const CommandListGroup = React.forwardRef(
                 >
                   {group.map((el, idx) => {
                     const { children, className, icon, ...props } = el.element ?? {}
-                    const { className: iconClassName, icon: Icon, ...iconProps } = icon ?? {}
+                    const { className: iconClassName, children: Icon, ...iconProps } = icon ?? {}
 
                     return (
                       <CommandItem

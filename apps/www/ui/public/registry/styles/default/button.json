@@ -2,8 +2,8 @@
   "name": "button",
   "dependencies": [
     "@radix-ui/react-slot",
-    "Command",
-    "Tooltip"
+    "command",
+    "tooltip"
   ],
   "registryDependencies": [
     "dialog"

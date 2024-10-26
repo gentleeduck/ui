@@ -7,11 +7,6 @@ import path from 'path'
 import fg from 'fast-glob'
 import { logger } from '../text-styling'
 
-// Check if TypeScript is installed
-export async function checkTypeScriptInstalled(cwd: string) {
-  return fs.pathExists(path.resolve(cwd, 'tsconfig.json'))
-}
-
 // Check if TailwindCss is installed
 export async function checkTailwindCssInstalled(cwd: string) {
   const tailwindcss = fg.globSync('tailwind.config.*', {

@@ -11,7 +11,7 @@ const linuxDistros: CommandListGroupDataType<DistrosType>[] = [
         children: '19',
       },
       icon: {
-        icon: CircleCheck,
+        children: CircleCheck,
         className: 'size-4 stroke-[1.5]',
       },
 
@@ -25,7 +25,7 @@ const linuxDistros: CommandListGroupDataType<DistrosType>[] = [
         children: '14',
       },
       icon: {
-        icon: CircleHelp,
+        children: CircleHelp,
         className: 'size-4 stroke-[1.5]',
       },
       children: 'Ubuntu',
@@ -38,7 +38,7 @@ const linuxDistros: CommandListGroupDataType<DistrosType>[] = [
         children: '26',
       },
       icon: {
-        icon: CircleAlert,
+        children: CircleAlert,
         className: 'size-4 stroke-[1.5]',
       },
       children: 'Ubuntu',
@@ -52,7 +52,7 @@ const linuxDistros: CommandListGroupDataType<DistrosType>[] = [
       },
 
       icon: {
-        icon: CircleMinus,
+        children: CircleMinus,
         className: 'size-4 stroke-[1.5]',
       },
       children: 'Ubuntu',
@@ -65,7 +65,7 @@ const linuxDistros: CommandListGroupDataType<DistrosType>[] = [
         children: '42',
       },
       icon: {
-        icon: Circle,
+        children: Circle,
         className: 'size-4 stroke-[1.5]',
       },
       children: 'Ubuntu',
@@ -84,7 +84,7 @@ export default function ComboboxMainDemo() {
           children: 'Status',
           className: '[&>div>span]:text-xs',
           icon: {
-            icon: CirclePlus,
+            children: CirclePlus,
             className: '!size-4 stroke-[1.5]',
           },
           label: {

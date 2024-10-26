@@ -9,7 +9,7 @@ const data: ButtonProps[] = [
     title: 'Home',
     route: '/home',
     children: 'Home',
-    icon: { icon: Home },
+    icon: { children: Home },
     label: {
       children: '21',
     },
@@ -18,7 +18,7 @@ const data: ButtonProps[] = [
     title: 'Calendar',
     route: '/calendar',
     children: 'Calendar',
-    icon: { icon: Calendar },
+    icon: { children: Calendar },
     label: {
       children: '20',
     },
@@ -67,7 +67,7 @@ export default function HeaderMainDemo() {
             buttons: [
               <Button
                 isCollapsed={O}
-                icon={{ icon: ArrowRightFromLine }}
+                icon={{ children: ArrowRightFromLine }}
                 className={cn('my-1 mx-2 justify-between', !O && 'w-[250px]', O && 'justify-center')}
                 title={'Collapse'}
                 variant={'secondary'}

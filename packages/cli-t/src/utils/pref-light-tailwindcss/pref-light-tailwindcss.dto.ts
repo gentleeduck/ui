@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const pref_light_options_schema = z.object({
+export const pref_light_tailwindcss_options_schema = z.object({
   tailwind: z
     .boolean({
       message: 'You have to pick one option',

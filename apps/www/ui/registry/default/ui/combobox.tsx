@@ -81,7 +81,7 @@ const Combobox = <T extends keyof Record<string, unknown> = string, Y extends ke
               disabled={false}
               role="combobox"
               secondIcon={{
-                icon: ChevronsUpDown,
+                children: ChevronsUpDown,
                 className: cn('ml-2 h-4 w-4 shrink-0 opacity-50 overflow-hidden', type === 'listbox' && 'hidden'),
               }}
               aria-expanded={open}

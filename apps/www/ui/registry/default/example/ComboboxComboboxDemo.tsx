@@ -47,7 +47,7 @@ export default function ComboboxMainDemo() {
           children: 'Status',
           className: '[&>div>span]:text-xs',
           icon: {
-            icon: CirclePlus,
+            children: CirclePlus,
             className: '!size-4 stroke-[1.5]',
           },
           label: {

@@ -1,5 +1,7 @@
+import chalk from 'chalk'
+import fs from 'fs-extra'
 import { loadConfig } from 'tsconfig-paths'
-import { explorer } from './get-project-config.constants'
+import { default_js_config, explorer } from './get-project-config.constants'
 import { resolve_import } from '../resolve-import'
 import {
   config_cchema,
@@ -11,9 +13,9 @@ import {
   get_tailwindcss_file,
   get_ts_config_alias_prefix
 } from '../get-project-info'
-import { checkTypeScriptInstalled } from '../checkers'
-import { logger } from '../text-styling'
+import { highlighter, logger } from '../text-styling'
 import { get_project_type } from '../get-project-type'
+import { checkTypeScriptInstalled } from '../pref-light-typescript'
 
 export async function get_raw_config(
   cwd: string
@@ -44,7 +46,10 @@ export async function get_config(cwd: string) {
 }
 
 // Resolve Config Paths
-export async function resolve_config_paths(cwd: string, config: RawConfigType) {
+export async function resolve_config_paths(
+  cwd: string,
+  config: RawConfigType
+): Promise<RawConfigType> {
   const ts_config = loadConfig(cwd)
 
   if (ts_config.resultType === 'failed') {
@@ -70,7 +75,7 @@ export async function resolve_config_paths(cwd: string, config: RawConfigType) {
 }
 
 export async function get_project_config(cwd: string) {
-  const project_config = get_config(cwd)
+  const project_config = await get_config(cwd)
 
   if (project_config) {
     return project_config
@@ -81,6 +86,11 @@ export async function get_project_config(cwd: string) {
   const ts_config_alias_prefix = await get_ts_config_alias_prefix(cwd)
 
   if (!project_type || !tailwindcss_file || !ts_config_alias_prefix) {
+    logger.error({
+      args: [
+        `Failed to get project config!, ${chalk.bgRed.white('TailwindCss')} is required`
+      ]
+    })
     return null
   }
 
@@ -88,7 +98,7 @@ export async function get_project_config(cwd: string) {
 
   const config: RawConfigType = {
     $schema: 'https://duckui.vercel.app/schema.json',
-    rsc: ['next-app', 'next-app-src'].includes(project_type),
+    rsc: ['NEXT_JS'].includes(project_type),
     tsx: is_tsx,
     style: 'default',
     tailwind: {
@@ -102,6 +112,24 @@ export async function get_project_config(cwd: string) {
       utils: `${ts_config_alias_prefix}/lib/utils`,
       components: `${ts_config_alias_prefix}/components`
     }
+  }
+
+  // Convert config to a string based on the file type
+  const configString = config?.tsx
+    ? `export const config = ${JSON.stringify(config, null, 2)};`
+    : default_js_config(config)
+
+  try {
+    await fs.writeFile(
+      path.join(cwd, `duck-ui.config.${is_tsx ? 'ts' : 'js'}`),
+      configString,
+      'utf8'
+    )
+  } catch (error) {
+    logger.error({
+      args: [`Failed to create duck-ui.config.${is_tsx ? 'ts' : 'js'}`]
+    })
+    process.exit(1)
   }
 
   return resolve_config_paths(cwd, config)

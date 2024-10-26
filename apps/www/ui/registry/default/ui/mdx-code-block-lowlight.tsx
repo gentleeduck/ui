@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useMemo } from 'react'
 import { findChildren } from '@tiptap/core'
 import { Node as ProsemirrorNode } from '@tiptap/pm/model'

@@ -16,7 +16,7 @@ export default function ButtonMainDemo() {
         <Button
           isCollapsed={open}
           icon={{
-            icon: Inbox,
+            children: Inbox,
           }}
           title={title}
           variant={variant}

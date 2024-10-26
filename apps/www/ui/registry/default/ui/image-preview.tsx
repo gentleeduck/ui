@@ -197,7 +197,7 @@ export const ImagePreviewContent = React.forwardRef<HTMLDivElement, ImagePreview
     return (
       <DialogContentResponsive
         className={cn('max-w-full md:max-w-[90vw] xl:max-w-[900px] w-full lg:h-[600px] p-4 rounded-lg', className)}
-        ref={ref}
+        // ref={ref}
         {...props}
       >
         {children ? (

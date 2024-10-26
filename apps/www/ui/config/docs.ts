@@ -66,12 +66,12 @@ export const docsConfig: DocsConfig = {
           items: [],
           label: 'new',
         },
-        {
-          title: 'DropdowmMenu',
-          href: '/docs/components/dropdowm-menu',
-          items: [],
-          label: 'new',
-        },
+        // {
+        //   title: 'DropdowmMenu',
+        //   href: '/docs/components/dropdowm-menu',
+        //   items: [],
+        //   label: 'new',
+        // },
         {
           title: 'Drawer',
           href: '/docs/components/drawer',
@@ -89,12 +89,12 @@ export const docsConfig: DocsConfig = {
           items: [],
           label: 'new',
         },
-        {
-          title: 'Swapy',
-          href: '/docs/components/swapy',
-          label: 'new',
-          items: [],
-        },
+        // {
+        //   title: 'Swapy',
+        //   href: '/docs/components/swapy',
+        //   label: 'new',
+        //   items: [],
+        // },
         {
           title: 'Tooltip',
           href: '/docs/components/tooltip',

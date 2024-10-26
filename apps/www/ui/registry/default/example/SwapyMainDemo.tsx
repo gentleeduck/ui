@@ -17,6 +17,7 @@ import {
   PopoverWrapper,
   Separator,
   TaggedUserType,
+  ImageProps,
 } from '../ui'
 import { EllipsisVertical, MessageSquare, Paperclip, Plus, Reply, X } from 'lucide-react'
 import React from 'react'
@@ -425,11 +426,13 @@ export const KanbanColumnRowTemplate: React.FC<KanbanColumnRowComponentArgs> = (
       </div>
       <div className="flex items-center justify-start gap-2 mb-3">
         <ImageGroup
-          imgs={attachments.map(attachment => ({
-            image: {
-              ...attachment,
-            },
-          }))}
+          imgs={
+            attachments.map(attachment => ({
+              image: {
+                ...attachment,
+              },
+            })) as ImageProps[]
+          }
           max_imgs={6}
         />
       </div>

@@ -12,7 +12,7 @@ export default function BadgeMainDemo() {
   return (
     <TooltipProvider>
       <Badge
-        variant={variant as Exclude<typeof variant, 'default' | 'link' | 'ghost'>}
+        variant={variant as Exclude<typeof variant, 'default' | 'link' | 'ghost' | 'nothing'>}
         size={size}
         label={{
           children: title,

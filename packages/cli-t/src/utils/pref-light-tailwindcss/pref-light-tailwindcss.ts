@@ -1,28 +1,25 @@
 import { checkTailwindCssInstalled } from '../checkers'
 import prompts from 'prompts'
 import { tailwindcss_prompts } from './pref-light-tailwindcss.constants'
-import { pref_light_options_schema } from './pref-light-tailwindcss.dto'
-import { get_project_type } from '../get-project-type'
-import { spinner } from '../spinner'
 import { highlighter, logger } from '../text-styling'
-import { tailwindCssInstallationGuide } from '../get-project-info'
+import { pref_light_tailwindcss_options_schema } from './pref-light-tailwindcss.dto'
 import { install_tailwindcss } from './pref-light-tailwindcss.lib'
 
-export async function pref_light_tailwindcss(
-  cwd: string,
-  typescript: boolean
-): Promise<void> {
+export async function pref_light_tailwindcss(cwd: string): Promise<void> {
   const is_tailwind_installed = await checkTailwindCssInstalled(cwd)
 
   if (is_tailwind_installed) return
 
-  logger.info({ args: [tailwindCssInstallationGuide] })
+  logger.warn({
+    args: [
+      `${highlighter.info('TailwindCss')} is not installed. You need to install ${highlighter.info('TailwindCss')}...`
+    ]
+  })
 
   const options = await prompts(tailwindcss_prompts)
-  const { tailwind } = pref_light_options_schema.parse(options)
+  const { tailwind } = pref_light_tailwindcss_options_schema.parse(options)
 
   if (!tailwind) return
 
-  const type = await get_project_type(cwd)
-  await install_tailwindcss(cwd, type, typescript)
+  await install_tailwindcss(cwd)
 }

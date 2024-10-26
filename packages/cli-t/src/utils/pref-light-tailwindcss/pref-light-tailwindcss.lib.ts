@@ -9,13 +9,10 @@ import {
   tailwindcss_init
 } from './pref-light-tailwindcss.constants'
 import fs from 'fs-extra'
-import { ProjectType } from '../get-project-type'
+import { get_project_type, ProjectType } from '../get-project-type'
+import { checkTypeScriptInstalled } from '../pref-light-typescript'
 
-export async function install_tailwindcss(
-  cwd: string,
-  type: ProjectType,
-  typescript: boolean
-) {
+export async function install_tailwindcss(cwd: string) {
   const install_spinner = spinner(
     highlighter.info('Installing TailwindCSS...')
   ).start()
@@ -43,24 +40,27 @@ export async function install_tailwindcss(
   if (installation_step_2) return install_spinner.fail()
 
   // Replacing default config with tailwind config that matches the project type
-  await adding_tailwind_config(cwd, type, typescript)
+  await adding_tailwind_config(cwd)
 
-  logger.break()
   install_spinner.succeed()
 }
 
-export async function adding_tailwind_config(
-  cwd: string,
-  type: ProjectType,
-  typescript: boolean
-) {
+export async function adding_tailwind_config(cwd: string) {
+  const is_ts = await checkTypeScriptInstalled(cwd)
+  const type = await get_project_type(cwd)
+
   const tailwind_config_spinner = spinner(
     highlighter.info('Adding TailwindCSS config...')
   ).start()
 
   await fs.writeFile(
-    path.join(cwd, `tailwind.config.${typescript ? 'ts' : 'js'}`),
+    path.join(cwd, `tailwind.config.${is_ts ? 'ts' : 'js'}`),
     tailwind_config(type)
+  )
+
+  await fs.writeFile(
+    path.join(cwd, css_file_path(type)),
+    css_file_content(type)
   )
 
   logger.break()
@@ -71,3 +71,18 @@ export async function adding_tailwind_config(
 export const tailwind_config = (type: ProjectType) => {
   return type === 'UNKNOWN' ? default_config : default_config
 }
+
+export const css_file_path = (type: ProjectType) => {
+  return type === 'UNKNOWN' ? './style.css' : './style.css'
+}
+
+export function css_file_content(type: ProjectType) {
+  return type === 'UNKNOWN'
+    ? default_css_without_duckui
+    : default_css_without_duckui
+}
+
+export const default_css_without_duckui = `@tailwind base;
+@tailwind components;
+@tailwind utilities;
+`
