@@ -1,3 +1,4 @@
+import fg from 'fast-glob'
 import fs from 'fs-extra'
 import path from 'path'
 import { spinner } from '../spinner'
@@ -9,7 +10,9 @@ import {
   ts_config,
   typescript_dependencies
 } from './pref-light-typescript.constants'
+import { IGNORED_DIRECTORIES } from '../get-project-info'
 
+// Install Typescript
 export async function install_typescript(cwd: string, typescript: boolean) {
   const install_spinner = spinner(
     highlighter.info('Installing TypeScript...')
@@ -37,6 +40,7 @@ export async function install_typescript(cwd: string, typescript: boolean) {
   install_spinner.succeed()
 }
 
+// Add Typescript config
 export async function adding_typescript_config(cwd: string, is_ts: boolean) {
   const tailwind_config_spinner = spinner(
     highlighter.info('Adding TypeScript config...')
@@ -54,4 +58,19 @@ export async function adding_typescript_config(cwd: string, is_ts: boolean) {
 // Check if TypeScript is installed
 export async function checkTypeScriptInstalled(cwd: string) {
   return fs.pathExists(path.resolve(cwd, 'tsconfig.json'))
+}
+
+// Check if config exists
+export async function check_config_exist(cwd: string): Promise<boolean> {
+  const files = fg.sync(['duck-ui.*'], {
+    cwd,
+    deep: 3,
+    ignore: IGNORED_DIRECTORIES
+  })
+
+  if (!files.length) {
+    return false
+  }
+
+  return true
 }

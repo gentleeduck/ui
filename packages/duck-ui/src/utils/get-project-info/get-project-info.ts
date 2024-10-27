@@ -35,13 +35,13 @@ export async function get_tailwindcss_file(cwd: string) {
 
 // Get Ts Config Alias Prefix
 export async function get_ts_config_alias_prefix(cwd: string) {
-  const tsConfig = loadConfig(cwd)
+  const ts_config = loadConfig(cwd)
 
-  if (tsConfig.resultType === 'failed' || !tsConfig.paths) {
+  if (ts_config.resultType === 'failed' || !ts_config.paths) {
     return null
   }
 
-  for (const [alias, paths] of Object.entries(tsConfig.paths)) {
+  for (const [alias, paths] of Object.entries(ts_config.paths)) {
     if (paths.includes('./src/*') || paths.includes('./*')) {
       return alias.at(0)
     }
@@ -51,7 +51,7 @@ export async function get_ts_config_alias_prefix(cwd: string) {
 }
 
 // Get package.json
-export function getPackageJson(): PackageJson | null {
+export function get_package_json(): PackageJson | null {
   const files = fg.sync(['package.json'], {
     cwd: process.cwd(),
     deep: 1,
@@ -63,11 +63,11 @@ export function getPackageJson(): PackageJson | null {
     return process.exit(1)
   }
 
-  const packageJsonPath = path.join(process.cwd(), 'package.json')
+  const package_json_path = path.join(process.cwd(), 'package.json')
 
-  const packageJson: PackageJson = JSON.parse(
-    fs.readFileSync(packageJsonPath, 'utf8')
+  const package_json: PackageJson = JSON.parse(
+    fs.readFileSync(package_json_path, 'utf8')
   )
 
-  return packageJson
+  return package_json
 }

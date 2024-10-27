@@ -51,8 +51,7 @@ export const ts_config = `{
     "baseUrl": ".", // Base directory for module resolution
     "paths": {
       // Define path aliases
-      "@components/*": ["src/components/*"],
-      "@utils/*": ["src/utils/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"], // Include all source files in the src directory

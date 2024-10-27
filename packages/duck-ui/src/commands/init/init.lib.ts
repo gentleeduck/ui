@@ -1,56 +1,67 @@
+import axios from 'axios'
 import path from 'path'
 import { init_options_schema, InitOptions } from './init.dto'
 import {
-    checkTypeScriptInstalled,
-    get_project_config,
-    get_project_type,
-    install_tailwindcss,
-    logger,
-    pref_light_tailwindcss,
-    pref_light_typescript
+  get_project_config,
+  logger,
+  pref_light_tailwindcss,
+  pref_light_typescript
 } from '@/src/utils'
 import { REGISTRY_URL } from '@/src/main'
 
 export async function init_command_action(opt: InitOptions) {
-    const options = init_options_schema.parse(opt)
-    const cwd = path.resolve(options.cwd)
+  const options = init_options_schema.parse(opt)
+  const cwd = path.resolve(options.cwd)
 
-    logger.info({ args: ['Checking for preflight...'] })
+  logger.info({ args: ['Checking for preflight...'] })
 
-    await pref_light_tailwindcss(cwd)
-    await pref_light_typescript(cwd)
-    const config = await get_project_config(cwd)
+  await pref_light_typescript(cwd)
+  await pref_light_tailwindcss(cwd)
+  const config = await get_project_config(cwd)
 
-    // const hi = getRegistryUrl('button')
+  logger.success({ with_icon: true, args: [, 'Done.!, preflight passed'] })
 
-    // console.log(hi)
+  // console.log(config)
 
-    // const type = await get_project_type(cwd)
-    // await install_tailwindcss(cwd, type, is_ts)
+  const hi = await fetch_registry_url('')
 
-    // logger.info({ args: ['Done.!'] })
+  console.log(hi)
+
+  // logger.info({ args: ['Done.!'] })
 }
 
-function isUrl(path: string) {
-    try {
-        new URL(path)
-        return true
-    } catch (error) {
-        return false
-    }
+function is_url(path: string) {
+  try {
+    new URL(path)
+    return true
+  } catch (error) {
+    return false
+  }
 }
 
-function getRegistryUrl(path: string) {
-    if (isUrl(path)) {
-        // If the url contains /chat/b/, we assume it's the v0 registry.
-        //NOTE: We need to add the /json suffix if it's missing.
-        const url = new URL(path)
-        if (url.pathname.match(/\/chat\/b\//) && !url.pathname.endsWith('/json')) {
-            url.pathname = `${url.pathname}/json`
-        }
-
-        return url.toString()
+function get_registry_url(path: string) {
+  if (is_url(path)) {
+    // If the url contains /chat/b/, we assume it's the v0 registry.
+    //NOTE: We need to add the /json suffix if it's missing.
+    const url = new URL(path)
+    if (url.pathname.match(/\/chat\/b\//) && !url.pathname.endsWith('/json')) {
+      url.pathname = `${url.pathname}/json`
     }
 
-    return `${REGISTRY_URL}/${path}`
+    return url.toString()
+  }
+
+  return `${REGISTRY_URL}/${path}`
+}
+
+export async function fetch_registry_url(path: string) {
+  try {
+    const url = get_registry_url(path)
+
+    const res = await axios.get(url)
+    const data = res.data
+    return data
+  } catch (error) {
+    console.log(error)
+  }
 }

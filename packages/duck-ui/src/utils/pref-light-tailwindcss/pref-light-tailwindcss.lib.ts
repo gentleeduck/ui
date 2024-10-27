@@ -53,6 +53,13 @@ export async function adding_tailwind_config(cwd: string) {
     highlighter.info('Adding TailwindCSS config...')
   ).start()
 
+  if (is_ts) {
+    await execa(
+      `mv ${path.join(cwd, 'tailwind.config.js')} ${path.join(cwd, `tailwind.config.ts`)}`,
+      { shell: true, cwd }
+    )
+  }
+
   await fs.writeFile(
     path.join(cwd, `tailwind.config.${is_ts ? 'ts' : 'js'}`),
     tailwind_config(type)

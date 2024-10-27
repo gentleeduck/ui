@@ -126,6 +126,7 @@ export async function get_project_config(cwd: string) {
       'utf8'
     )
   } catch (error) {
+    console.log(error)
     logger.error({
       args: [`Failed to create duck-ui.config.${is_tsx ? 'ts' : 'js'}`]
     })
