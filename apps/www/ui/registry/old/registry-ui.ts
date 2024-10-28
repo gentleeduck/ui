@@ -4,8 +4,8 @@ export const ui: Registry = [
   {
     name: 'button',
     type: 'components:ui',
-    dependencies: ['@radix-ui/react-slot', 'command', 'tooltip'],
-    registryDependencies: ['dialog'],
+    dependencies: ['@radix-ui/react-slot'],
+    registryDependencies: ['command', 'tooltip'],
     files: ['ui/button.tsx'],
   },
   {
