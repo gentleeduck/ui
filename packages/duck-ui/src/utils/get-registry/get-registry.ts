@@ -1,106 +1,82 @@
-import axios from 'axios'
-import { REGISTRY_URL } from '@/src/main'
-import { highlighter, logger } from '../text-styling'
+import { logger } from '../text-styling'
+import {
+  registry_base_color_schema,
+  registry_index_schema,
+  registry_item_schema
+} from './get-registry.dto'
+import { fetch_registry_url, is_url } from './get-registry.lib'
 
-function isUrl(path: string) {
+export async function get_registry_index() {
   try {
-    new URL(path)
-    return true
+    const [result] = await fetch_registry_url(['index.json'])
+
+    return registry_index_schema.parse(result)
   } catch (error) {
-    return false
+    logger.error({ args: [`Failed to fetch from registry.`, error] })
+    return null
   }
 }
 
-function getRegistryUrl(path: string) {
-  if (isUrl(path)) {
-    // If the url contains /chat/b/, we assume it's the v0 registry.
-    //NOTE: We need to add the /json suffix if it's missing.
-    const url = new URL(path)
-    if (url.pathname.match(/\/chat\/b\//) && !url.pathname.endsWith('/json')) {
-      url.pathname = `${url.pathname}/json`
+export async function get_registry_item(
+  name: Lowercase<string>,
+  style: 'default'
+) {
+  try {
+    const [result] = await fetch_registry_url([
+      is_url(name) ? name : `styles/${style}/${name}.json`
+    ])
+    console.log(hi)
+
+    return registry_item_schema.parse(hi)
+  } catch (error) {
+    logger.error({ args: [`Failed to fetch from registry.`, error] })
+    return null
+  }
+}
+
+export async function get_registry_base_color(baseColor: string) {
+  try {
+    const [result] = await fetch_registry_url([`colors/${baseColor}.json`])
+
+    return registry_base_color_schema.parse(result)
+  } catch (error) {
+    logger.error({ args: [`Failed to fetch from registry.`, error] })
+    return null
+  }
+}
+
+const hi = {
+  name: 'button',
+  dependencies: ['@radix-ui/react-slot', 'command', 'tooltip'],
+  registryDependencies: ['dialog'],
+  files: [
+    {
+      name: 'button.tsx',
+      path: 'src/components/button.tsx', // provide the correct path
+      content:
+        "import React from 'react'\n\nimport * as TooltipPrimitive from '@radix-ui/react-tooltip'\nimport { Slot } f"
     }
-
-    return url.toString()
-  }
-
-  return `${REGISTRY_URL}/${path}`
+  ],
+  type: 'components:ui'
 }
 
-export async function fetch_registry_url(path: string) {
-  try {
-    const url = getRegistryUrl(path)
+const je = {
+  name: 'button',
+  dependencies: ['@radix-ui/react-slot', 'command', 'tooltip'],
+  registryDependencies: ['dialog'],
+  files: [
+    {
+      name: 'button.tsx',
+      path: 'src/components/button.tsx', // provide the correct path
+      content: `import React from 'react';
 
-    const res = await axios.get(url)
-    const data = res.data
-    return data
-  } catch (error) {
-    console.log(error)
-  }
-}
+import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+import { Slot } from '@radix-ui/react-slot';
 
-import { HttpsProxyAgent } from 'https-proxy-agent'
-const agent = process.env.https_proxy
-  ? new HttpsProxyAgent(process.env.https_proxy)
-  : undefined
-
-export async function fetchRegistry(paths: string[]) {
-  try {
-    const results = await Promise.all(
-      paths.map(async (path) => {
-        const url = getRegistryUrl(path)
-        const response = await fetch(url, { agent })
-
-        if (!response.ok) {
-          const errorMessages: { [key: number]: string } = {
-            400: 'Bad request',
-            401: 'Unauthorized',
-            403: 'Forbidden',
-            404: 'Not found',
-            500: 'Internal server error'
-          }
-
-          if (response.status === 401) {
-            throw new Error(
-              `You are not authorized to access the component at ${highlighter.info(
-                url
-              )}.\nIf this is a remote registry, you may need to authenticate.`
-            )
-          }
-
-          if (response.status === 404) {
-            throw new Error(
-              `The component at ${highlighter.info(
-                url
-              )} was not found.\nIt may not exist at the registry. Please make sure it is a valid component.`
-            )
-          }
-
-          if (response.status === 403) {
-            throw new Error(
-              `You do not have access to the component at ${highlighter.info(
-                url
-              )}.\nIf this is a remote registry, you may need to authenticate or a token.`
-            )
-          }
-
-          const result = await response.json()
-          const message =
-            result && typeof result === 'object' && 'error' in result
-              ? result.error
-              : response.statusText || errorMessages[response.status]
-          throw new Error(
-            `Failed to fetch from ${highlighter.info(url)}.\n${message}`
-          )
-        }
-
-        return response.json()
-      })
-    )
-
-    return results
-  } catch (error) {
-    logger.error({ args: [] }).split('\n')
-    // handleError(error)
-    return []
-  }
+// Add more content here as needed...
+`,
+      type: 'components:ui' // specify a valid type
+    }
+  ],
+  type: 'components:ui'
 }
