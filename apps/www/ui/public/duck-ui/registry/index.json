@@ -1,0 +1,24 @@
+[
+  {
+    "name": "button",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-slot"
+    ],
+    "root_folder": "registry-ui-components/button",
+    "files": [
+      {
+        "path": "button.constants.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "button.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "index.ts",
+        "type": "registry:ui"
+      }
+    ]
+  }
+]
