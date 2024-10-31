@@ -7,8 +7,8 @@ export function useLiftMode(name: string) {
   const [chunks, setChunks] = useAtom(configAtom)
 
   function toggleLiftMode(name: string) {
-    setChunks((prev) => {
-      return prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
+    setChunks(prev => {
+      return prev.includes(name) ? prev.filter(n => n !== name) : [...prev, name]
     })
   }
 

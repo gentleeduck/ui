@@ -37,7 +37,7 @@ export function CommandMenu({ ...props }: DialogProps) {
         }
 
         e.preventDefault()
-        setOpen((open) => !open)
+        setOpen(open => !open)
       }
     }
 
@@ -55,7 +55,7 @@ export function CommandMenu({ ...props }: DialogProps) {
       <Button
         variant="outline"
         className={cn(
-          'relative h-8 w-full justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-64',
+          'relative h-8 w-full justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-64'
         )}
         onClick={() => setOpen(true)}
         {...props}
@@ -75,8 +75,8 @@ export function CommandMenu({ ...props }: DialogProps) {
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Links">
             {docsConfig.mainNav
-              .filter((navitem) => !navitem.external)
-              .map((navItem) => (
+              .filter(navitem => !navitem.external)
+              .map(navItem => (
                 <CommandItem
                   key={navItem.href}
                   value={navItem.title}
@@ -89,12 +89,12 @@ export function CommandMenu({ ...props }: DialogProps) {
                 </CommandItem>
               ))}
           </CommandGroup>
-          {docsConfig.sidebarNav.map((group) => (
+          {docsConfig.sidebarNav.map(group => (
             <CommandGroup
               key={group.title}
               heading={group.title}
             >
-              {group.items.map((navItem) => (
+              {group.items.map(navItem => (
                 <CommandItem
                   key={navItem.href}
                   value={navItem.title}

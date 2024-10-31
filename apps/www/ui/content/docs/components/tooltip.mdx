@@ -7,7 +7,10 @@ links:
   api: https://www.radix-ui.com/docs/primitives/components/tooltip#api-reference
 ---
 
-<ComponentPreview name="TooltipMainDemo" description="A simple example of a tooltip component with basic usage." />
+<ComponentPreview
+  name="TooltipMainDemo"
+  description="A simple example of a tooltip component with basic usage."
+/>
 
 ## Features
 
@@ -60,12 +63,7 @@ npm install @radix-ui/react-tooltip
 Import the necessary components from your UI library:
 
 ```tsx
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui'
 ```
 
 Here's a basic example of using the Tooltip component:
@@ -87,7 +85,10 @@ Here's a basic example of using the Tooltip component:
 
 This example demonstrates how to configure tooltips globally using the `TooltipProvider`:
 
-<ComponentPreview name="TooltipGlobalDemo" description="A global tooltip configuration example." />
+<ComponentPreview
+  name="TooltipGlobalDemo"
+  description="A global tooltip configuration example."
+/>
 
 ### Origin-Aware Animations
 
@@ -95,8 +96,8 @@ Enhance your tooltips with smooth animations that consider the origin of the too
 this animation in any place in your app ( tailwindcss, css, scss, ..stc ).:
 
 ```tsx
-import { Tooltip, TooltipTrigger, TooltipContent } from '@radix-ui/react-tooltip';
-import './styles.css';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@radix-ui/react-tooltip'
+import './styles.css'
 
 export default function App() {
   return (
@@ -104,7 +105,7 @@ export default function App() {
       <TooltipTrigger>Hover me</TooltipTrigger>
       <TooltipContent className="TooltipContent">Tooltip with animation</TooltipContent>
     </Tooltip>
-  );
+  )
 }
 ```
 
@@ -127,13 +128,14 @@ export default function App() {
 }
 ```
 
-## API Reference 
+## API Reference
 
 ### TooltipProvider
 
 `TooltipProvider` wraps your app and provides global tooltip functionality.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`delayDuration`** (`number`): `700`, Delay before the tooltip appears.
 
 - **`skipDelayDuration`** (`number`): `300`, Skip delay duration when hiding.
@@ -146,7 +148,8 @@ export default function App() {
 
 `TooltipRoot` is the container that holds all the parts of a tooltip.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`defaultOpen`** (`boolean`): `false`, Whether the tooltip is open by default.
 
 - **`open`** (`boolean`): `false`, Control the open state programmatically.
@@ -163,7 +166,8 @@ export default function App() {
 
 `TooltipTrigger` is the element that toggles the tooltip visibility.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`asChild`** (`boolean`): `false`, Passes the trigger to a child component.
 
 ---
@@ -172,7 +176,8 @@ export default function App() {
 
 `TooltipPortal` renders the tooltip content into a portal, allowing it to appear outside of the regular DOM hierarchy.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`forceMount`** (`boolean`): `false`, Always render the portal even when closed.
 
 - **`container`** (`HTMLElement`): `document.body`, Container for the portal.
@@ -183,7 +188,8 @@ export default function App() {
 
 `TooltipContent` is the popup element that appears when the tooltip is active.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`asChild`** (`boolean`): `false`, Passes the content to a child component.
 
 - **`aria-label`** (`string`): `-`, ARIA label for accessibility.
@@ -220,10 +226,8 @@ export default function App() {
 
 `TooltipArrow` renders an optional arrow element that points towards the trigger.
 
-- ****Key Properties***
-*`asChild`** (`boolean`): `false`,  Passes the arrow to a child component.
+- \***_Key Properties_** \*`asChild`\*\* (`boolean`): `false`, Passes the arrow to a child component.
 
 - **`width`** (`number`): `10`, Width of the arrow.
 
 - **`height`** (`number`): `5`, Height of the arrow.
-

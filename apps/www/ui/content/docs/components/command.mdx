@@ -56,11 +56,17 @@ npm install cmdk
 
 <ComponentSource name="command" />
 
-<Step>The Combobox is built using a composition of the `<Button/>`, `<Dialog/>`, `<ScrollArea/>` and the `<Tooltip/>` component.</Step>
+<Step>
+  The Combobox is built using a composition of the `<Button />
+  `, `<Dialog />
+  `, `<ScrollArea />` and the `<Tooltip />` component.
+</Step>
 
-<Step>You also will need to install the [`Button`](/docs/components/Command#installation),
-    [`Tooltip`](/docs/components/Tooltip#installation),
-    [`Dialog`](/docs/components/Dialog#installation) and [`ScrollArea`](/docs/components/ScrollArea#installation) components because some dependencies are inherited from them.</Step>
+<Step>
+  You also will need to install the [`Button`](/docs/components/Command#installation),
+  [`Tooltip`](/docs/components/Tooltip#installation), [`Dialog`](/docs/components/Dialog#installation) and
+  [`ScrollArea`](/docs/components/ScrollArea#installation) components because some dependencies are inherited from them.
+</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -83,7 +89,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-  TooltipProvider
+  TooltipProvider,
 } from '@/components/ui'
 ```
 
@@ -108,6 +114,7 @@ import {
   </Command>
 </TooltipProvider>
 ```
+
 ---
 
 Here’s the documentation for the `CommandListGroup` component, formatted similarly to the previous examples:
@@ -121,11 +128,10 @@ provides options for grouping data, selecting items, and customizing the appeara
 the list. This component is designed to support interactive lists with selectable items and optional
 grouping. For detailed information, refer to the API reference for [`CommandListGroupProps`](#commandlistgroupprops).
 
-
 #### Example Usage:
 
 ```tsx
-import { CommandListGroup } from "@/components/ui";
+import { CommandListGroup } from '@/components/ui'
 
 const MyCommandList = () => {
   return (
@@ -139,8 +145,8 @@ const MyCommandList = () => {
       checkabble={true}
       type="customType"
     />
-  );
-};
+  )
+}
 ```
 
 #### Description:
@@ -161,13 +167,21 @@ The `CommandListGroup` component is designed to display a list of items grouped 
 
 ## Examples
 
-### List Group 
+### List Group
 
-<ComponentPreview name="CommandGroupDemo" description="A component dialog." showSettings={false} />
+<ComponentPreview
+  name="CommandGroupDemo"
+  description="A component dialog."
+  showSettings={false}
+/>
 
 ### Dialog
 
-<ComponentPreview name="CommandDialogDemo" description="A component dialog." showSettings={false} />
+<ComponentPreview
+  name="CommandDialogDemo"
+  description="A component dialog."
+  showSettings={false}
+/>
 
 To show the command menu in a dialog, use the `<CommandDialog />` component, or use the `<Button/>` component with the `command` variant.
 
@@ -205,13 +219,13 @@ export function CommandMenu() {
 }
 ```
 
-## API Reference 
+## API Reference
 
 ### CommandListGroupDataType
 
 `CommandListGroupDataType` defines the structure of data used for each item in a command list group.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`label`** (`T`, optional): Optional label for the item, where `T` extends `keyof Record<string, unknown>`. Provides a textual representation of the item.
 
@@ -223,7 +237,7 @@ export function CommandMenu() {
 
 `OnSelectType` defines the callback functions for handling item selection and clearing in a command list.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`key?`** (`<T extends string>(arg?: T) => void`): Callback function triggered when an item is selected. Takes an optional argument `arg` of type `T` (a string) to specify the selected item.
 
@@ -233,16 +247,16 @@ export function CommandMenu() {
 
 `ListItemElementType` extends the properties for rendering list items, combining features from `CommandItem` and `Button`.
 
-***Key Properties***
+**_Key Properties_**
 
 - Inherits all optional properties from `React.ComponentPropsWithoutRef<typeof CommandItem>` and
-`React.CustomComponentPropsWithRef<typeof`[`Button>`](/docs/components/button#buttonprops)). Provides a flexible type for custom list item elements with button-like behavior or additional components.
+  `React.CustomComponentPropsWithRef<typeof`[`Button>`](/docs/components/button#buttonprops)). Provides a flexible type for custom list item elements with button-like behavior or additional components.
 
 ### CommandListGroupType
 
 `CommandListGroupType` defines the configuration for a command list group, including types, data, and selection behavior.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`type`** (`'combobox' | 'listbox'`, optional): Specifies the type of list group, where `'combobox'` is a combo box and `'listbox'` is a list box. Determines the interaction model.
 
@@ -337,4 +351,3 @@ The `CommandItem` component represents an individual command item.
 - **`className`** (`string`, optional): Custom CSS class names to apply to the `CommandItem` component.
 - **`ref`** (`React.Ref<React.ElementRef<typeof CommandPrimitive.Item>>`): Ref to the `CommandPrimitive.Item` component.
 - **`...props`** (`React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>`): Additional properties passed to `CommandPrimitive.Item`.
-

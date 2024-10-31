@@ -29,7 +29,7 @@ export function StyleSwitcher({ className, ...props }: SelectTriggerProps) {
         <SelectValue placeholder="Select style" />
       </SelectTrigger>
       <SelectContent>
-        {styles.map((style) => (
+        {styles.map(style => (
           <SelectItem
             key={style.name}
             value={style.name}

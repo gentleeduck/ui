@@ -5,7 +5,7 @@ export function themeColorsToCssVariables(colors: Record<string, string>): Recor
           if (value === undefined) return []
           const cssName = themeColorNameToCssVariable(name)
           return [cssName, value]
-        }),
+        })
       )
     : {}
 

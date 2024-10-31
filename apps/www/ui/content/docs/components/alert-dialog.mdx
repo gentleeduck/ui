@@ -56,12 +56,17 @@ npm install @radix-ui/react-alert-dialog
 
 <ComponentSource name="alert-dialog" />
 
+<Step>
+  The Combobox is built using a composition of the `<Drawer />
+  `, `<Button />
+  `, `<Sheet />` and the `<Dialog />` component.
+</Step>
 
-<Step>The Combobox is built using a composition of the `<Drawer/>`, `<Button/>`, `<Sheet/>` and the `<Dialog/>` component.</Step>
-
-<Step>You also will need to install the [`Drawer`](/docs/components/Drawer#installation),
-    [`Button`](/docs/components/Button#installation), [`Sheet`](/docs/components/Sheet#installation)
-    and [`Dialog`](/docs/components/Dialog#installation) components because some dependencies are inherited from them.</Step>
+<Step>
+  You also will need to install the [`Drawer`](/docs/components/Drawer#installation),
+  [`Button`](/docs/components/Button#installation), [`Sheet`](/docs/components/Sheet#installation) and
+  [`Dialog`](/docs/components/Dialog#installation) components because some dependencies are inherited from them.
+</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -84,8 +89,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  Button
-} from "@/components/ui"
+  Button,
+} from '@/components/ui'
 ```
 
 ```tsx
@@ -97,8 +102,7 @@ import {
     <AlertDialogHeader>
       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
       <AlertDialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
+        This action cannot be undone. This will permanently delete your account and remove your data from our servers.
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
@@ -111,14 +115,14 @@ import {
 
 ## Examples
 
-### Drawer 
+### Drawer
 
 <ComponentPreview
   name="AlertDialogDrawerDemo"
   description="An alert dialog with cancel and continue buttons."
 />
 
-### Sheet 
+### Sheet
 
 <ComponentPreview
   name="AlertDialogSheetDemo"
@@ -132,14 +136,13 @@ import {
   description="An alert dialog with cancel and continue buttons."
 />
 
-
 ## API Reference
 
 ### AlertDialogProps
 
 `AlertDialogProps` defines the properties for the `AlertDialog` component.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`defaultOpen`** (`boolean`, optional): Determines if the dialog should be open by default.
 
@@ -153,7 +156,7 @@ import {
 
 Defines properties for the content area of the dialog.
 
-***Key Property***
+**_Key Property_**
 
 - **`Content`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerContent>>`): Properties for the dialog's content area.
 
@@ -163,7 +166,7 @@ Defines properties for the content area of the dialog.
 
 Defines properties for the trigger button of the dialog.
 
-***Key Property***
+**_Key Property_**
 
 - **`Trigger`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerTrigger>>`): Properties for the dialog's trigger button.
 
@@ -173,7 +176,7 @@ Defines properties for the trigger button of the dialog.
 
 Represents the state of the drawer and alert dialog.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`drawer`** (`boolean`): Indicates if the drawer is open or closed.
 
@@ -185,7 +188,7 @@ Represents the state of the drawer and alert dialog.
 
 Handles the data and setter for the dialog.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`data`** (`T[]`): Array of data items for the dialog.
 
@@ -197,7 +200,7 @@ Handles the data and setter for the dialog.
 
 Defines actions for the dialog, including cancel and continue.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`cancel`** (`() => void`): Function to handle cancel action.
 
@@ -209,7 +212,7 @@ Defines actions for the dialog, including cancel and continue.
 
 Defines properties for the header of the dialog.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`head`** (`React.ReactNode`): Header title of the dialog.
 
@@ -223,7 +226,7 @@ Defines properties for the header of the dialog.
 
 Defines properties for the footer of the dialog.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`cancel`** (`React.ReactNode`): Cancel button content in the footer.
 
@@ -237,7 +240,7 @@ Defines properties for the footer of the dialog.
 
 Custom properties for the alert dialog component.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`type`** (`'drawer' | 'sheet' | 'dialog'`): Specifies the type of alert component.
 
@@ -261,11 +264,11 @@ Custom properties for the alert dialog component.
 
 A button that opens the dialog.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`asChild`** (`boolean`): If `true`, the trigger will be rendered as a child element.
 
-***Data Attributes***
+**_Data Attributes_**
 
 - **`data-state`**: Indicates the current state of the dialog (`"open"` | `"closed"`).
 
@@ -275,7 +278,7 @@ A button that opens the dialog.
 
 Portals the overlay and content parts into the body.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`forceMount`** (`boolean`): If `true`, forces the component to mount.
 
@@ -287,13 +290,13 @@ Portals the overlay and content parts into the body.
 
 A layer that covers the inert portion of the view when the dialog is open.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`asChild`** (`boolean`): If `true`, the overlay will be rendered as a child element.
 
 - **`forceMount`** (`boolean`): If `true`, forces the overlay to mount.
 
-***Data Attributes***
+**_Data Attributes_**
 
 - **`data-state`**: Indicates the current state of the overlay (`"open"` | `"closed"`).
 
@@ -303,7 +306,7 @@ A layer that covers the inert portion of the view when the dialog is open.
 
 Contains content to be rendered when the dialog is open.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`asChild`** (`boolean`): If `true`, the content will be rendered as a child element.
 
@@ -315,7 +318,7 @@ Contains content to be rendered when the dialog is open.
 
 - **`onEscapeKeyDown`** (`function`): Callback for handling the Escape key press.
 
-***Data Attributes***
+**_Data Attributes_**
 
 - **`data-state`**: Indicates the current state of the content (`"open"` | `"closed"`).
 
@@ -325,7 +328,7 @@ Contains content to be rendered when the dialog is open.
 
 A button that closes the dialog, visually distinguished from `AlertDialog.Action` buttons.
 
-***Key Property***
+**_Key Property_**
 
 - **`asChild`** (`boolean`): If `true`, the cancel button will be rendered as a child element.
 
@@ -335,7 +338,7 @@ A button that closes the dialog, visually distinguished from `AlertDialog.Action
 
 A button that performs an action and closes the dialog, visually distinguished from `AlertDialog.Cancel` buttons.
 
-***Key Property***
+**_Key Property_**
 
 - **`asChild`** (`boolean`): If `true`, the action button will be rendered as a child element.
 
@@ -345,7 +348,7 @@ A button that performs an action and closes the dialog, visually distinguished f
 
 An accessible name announced when the dialog is opened.
 
-***Key Property***
+**_Key Property_**
 
 - **`asChild`** (`boolean`): If `true`, the title will be rendered as a child element.
 
@@ -355,7 +358,6 @@ An accessible name announced when the dialog is opened.
 
 An accessible description announced when the dialog is opened.
 
-***Key Property***
+**_Key Property_**
 
 - **`asChild`** (`boolean`): If `true`, the description will be rendered as a child element.
-

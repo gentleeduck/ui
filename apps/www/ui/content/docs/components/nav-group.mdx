@@ -1,6 +1,6 @@
 ---
-title: NavGroup 
-description: A component for grouping and managing navigation elements, supporting collapsibility. 
+title: NavGroup
+description: A component for grouping and managing navigation elements, supporting collapsibility.
 component: true
 ---
 
@@ -30,7 +30,7 @@ component: true
 <TabsContent value="cli">
 
 ```bash
-npx duck-ui@latest add nav-group 
+npx duck-ui@latest add nav-group
 ```
 
 </TabsContent>
@@ -43,10 +43,14 @@ npx duck-ui@latest add nav-group
 
 <ComponentSource name="nav-group" />
 
-<Step>The Combobox is built using a composition of the `<Button/>` component.</Step>
+<Step>
+  The Combobox is built using a composition of the `<Button />` component.
+</Step>
 
-<Step>You also will need to install the [`Button`](/docs/components/Command#installation) components because some dependencies
-    are inherited from them.</Step>
+<Step>
+  You also will need to install the [`Button`](/docs/components/Command#installation) components because some
+  dependencies are inherited from them.
+</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -59,7 +63,7 @@ npx duck-ui@latest add nav-group
 ## Usage
 
 ```tsx
-import { NavGroup, TooltipProvider } from "@/components/ui"
+import { NavGroup, TooltipProvider } from '@/components/ui'
 ```
 
 ```tsx
@@ -110,11 +114,12 @@ export default function App() {
 
 The `NavGroupProps` interface defines the properties that can be passed to the `NavGroup` component.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`navigationKeys`** ([`ButtonProps[]`](/docs/components/Button#buttonprops)): An array of button configurations for rendering the
-navigation buttons. 
+  navigation buttons.
 - **`nav`** ([`NavType<T>`](/docs/components/NavGroup#navtype)): An object containing navigation configuration, including groupings,
-router, pathname, and more. 
+  router, pathname, and more.
 - **`position`** (`side` or `top`): The position of the navigation group.
 
 ---
@@ -123,12 +128,13 @@ router, pathname, and more.
 
 The `NavType` interface defines the configuration for navigation, including whether it is collapsible.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`group`** (`number[]`): An array defining how many buttons should be grouped together.
 - **`router`** (`any`): Router instance for handling navigation.
 - **`pathname`** (`string`): Current path to highlight active buttons.
-- **`className`** (`string` *optional*): Optional additional class names for styling the navigation group container.
-- **`isCollabsed`** (`boolean` *optional*): Indicates if the navigation section is collapsible.
+- **`className`** (`string` _optional_): Optional additional class names for styling the navigation group container.
+- **`isCollabsed`** (`boolean` _optional_): Indicates if the navigation section is collapsible.
 
 ---
 
@@ -136,8 +142,9 @@ The `NavType` interface defines the configuration for navigation, including whet
 
 The `NavCollabsableType` type defines whether the navigation can be collapsible or not.
 
-***Key Properties***
-- **`isCollabsed`** (`boolean` *optional*): Indicates if the navigation section is collapsible.
+**_Key Properties_**
+
+- **`isCollabsed`** (`boolean` _optional_): Indicates if the navigation section is collapsible.
 
 ---
 
@@ -145,8 +152,9 @@ The `NavCollabsableType` type defines whether the navigation can be collapsible 
 
 The `NavCollabsedType` interface is used when the navigation section is collapsible.
 
-***Key Properties***
-- **`isCollabsed`** (`boolean` *optional*): Optional property to control collapsing behavior of navigation.
+**_Key Properties_**
+
+- **`isCollabsed`** (`boolean` _optional_): Optional property to control collapsing behavior of navigation.
 
 ---
 
@@ -154,6 +162,6 @@ The `NavCollabsedType` interface is used when the navigation section is collapsi
 
 The `NavNotCollabsedType` interface is used when the navigation section is not collapsible.
 
-***Key Properties***
-- **N/A** (`N/A`): This type has no specific properties; used when `isCollabsed` is not needed.
+**_Key Properties_**
 
+- **N/A** (`N/A`): This type has no specific properties; used when `isCollabsed` is not needed.

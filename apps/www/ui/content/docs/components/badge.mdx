@@ -4,9 +4,10 @@ description: A versatile component for displaying small pieces of information or
 component: true
 ---
 
-<ComponentPreview name="BadgeMainDemo" description="A badge" />
-
-
+<ComponentPreview
+  name="BadgeMainDemo"
+  description="A badge"
+/>
 
 ## Features
 
@@ -39,11 +40,15 @@ npx duck-ui@latest add badge
 
 <ComponentSource name="badge" />
 
-<Step>The Combobox is built using a composition of the `<Button/>`, the `<Tooltip/>` component.</Step>
+<Step>
+  The Combobox is built using a composition of the `<Button />
+  `, the `<Tooltip />` component.
+</Step>
 
-<Step>You also will need to install the [`Button`](/docs/components/Command#installation) and
-    [`Tooltip`](/docs/components/Tooltip#installation) components because some dependencies
-    are inherited from them.</Step>
+<Step>
+  You also will need to install the [`Button`](/docs/components/Command#installation) and
+  [`Tooltip`](/docs/components/Tooltip#installation) components because some dependencies are inherited from them.
+</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -56,14 +61,13 @@ npx duck-ui@latest add badge
 ## Usage
 
 ```tsx
-import { Badge, TooltipProvider } from "@/components/ui"
+import { Badge, TooltipProvider } from '@/components/ui'
 ```
 
 ```tsx
 <TooltipProvider>
   <Badge variant="outline"> Badge</Badge>
 </TooltipProvider>
-
 ```
 
 ### Link
@@ -71,18 +75,18 @@ import { Badge, TooltipProvider } from "@/components/ui"
 You can use the `badgeVariants` helper to create a link that looks like a badge.
 
 ```tsx
-import { badgeVariants } from "@/components/ui"
+import { badgeVariants } from '@/components/ui'
 ```
 
 ```tsx
-<Link className={badgeVariants({ variant: "outline" })}> Badge</Link>
+<Link className={badgeVariants({ variant: 'outline' })}> Badge</Link>
 ```
 
 ### Badge Component
 
 `Badge` represents a small, rounded element used to display status or counts.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`className`** (`string`, optional): Additional classes to apply to the badge.
 
@@ -100,7 +104,7 @@ import { badgeVariants } from "@/components/ui"
 
 The `variant` property determines the visual style of the badge.
 
-***Variants***
+**_Variants_**
 
 - **`default`**: The primary style of the badge, with a background color defined by the primary theme.
 
@@ -116,7 +120,7 @@ The `variant` property determines the visual style of the badge.
 
 The `size` property determines the size of the badge.
 
-***Sizes***
+**_Sizes_**
 
 - **`default`**: The default badge size, balanced for most use cases.
 
@@ -132,9 +136,8 @@ The `size` property determines the size of the badge.
 
 `LabelType` defines the properties for label or tooltip content associated with the badge.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`children`** (`React.ReactNode`, optional): The content to display inside the tooltip.
 
 - **`className`** (`string`, optional): Additional classes to apply to the tooltip content.
-

@@ -12,15 +12,12 @@ export const registry_item_type_schema = z.enum([
     'registry:page',
 ])
 
-export const registry_item_file_schema = z.union([
-    z.string(),
-    z.object({
-        path: z.string(),
-        content: z.string().optional(),
-        type: registry_item_type_schema,
-        target: z.string().optional(),
-    }),
-])
+export const registry_item_file_schema = z.object({
+    path: z.string(),
+    content: z.string().optional(),
+    type: registry_item_type_schema,
+    target: z.string().optional(),
+})
 
 export const registry_item_tailwind_schema = z.object({
     config: z.object({
@@ -57,13 +54,13 @@ export const registry_entry_schema = z.object({
     registryDependencies: z.array(z.string()).optional(),
     root_folder: z.string(),
     files: z.array(registry_item_file_schema).optional(),
-    // tailwind: registry_item_tailwind_schema.optional(),
-    // cssVars: registry_item_css_vars_schema.optional(),
-    // source: z.string().optional(),
-    // category: z.string().optional(),
-    // subcategory: z.string().optional(),
-    // chunks: z.array(block_chunk_schema).optional(),
-    // docs: z.string().optional(),
+    tailwind: registry_item_tailwind_schema.optional(),
+    cssVars: registry_item_css_vars_schema.optional(),
+    source: z.string().optional(),
+    category: z.string().optional(),
+    subcategory: z.string().optional(),
+    chunks: z.array(block_chunk_schema).optional(),
+    docs: z.string().optional(),
 })
 
 export const registry_schema = z.array(registry_entry_schema)

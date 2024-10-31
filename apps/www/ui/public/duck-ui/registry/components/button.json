@@ -1,0 +1,30 @@
+{
+  "name": "button",
+  "type": "registry:ui",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "root_folder": "registry-ui-components/button",
+  "files": [
+    {
+      "path": "registry-ui-components/button/button.constants.ts",
+      "content": "import { cva } from 'class-variance-authority'\n\nexport const buttonVariants = cva(\n  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',\n  {\n    variants: {\n      variant: {\n        default: 'bg-primary text-primary-foreground hover:bg-primary/90',\n        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',\n        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',\n        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',\n        ghost: 'hover:bg-accent hover:text-accent-foreground',\n        link: 'text-primary underline-offset-4 hover:underline',\n      },\n      size: {\n        default: 'h-10 px-4 py-2',\n        sm: 'h-9 rounded-md px-3',\n        lg: 'h-11 rounded-md px-8',\n        icon: 'h-10 w-10',\n      },\n    },\n    defaultVariants: {\n      variant: 'default',\n      size: 'default',\n    },\n  }\n)\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry-ui-components/button/button.tsx",
+      "content": "import * as React from 'react'\nimport { Slot } from '@radix-ui/react-slot'\n\nimport { cn } from '@/lib/utils'\nimport { ButtonProps } from './button.types'\nimport { buttonVariants } from './button.constants'\n\nconst Button = React.forwardRef<HTMLButtonElement, ButtonProps>(\n  ({ className, variant, size, asChild = false, ...props }, ref) => {\n    const Comp = asChild ? Slot : 'button'\n    return (\n      <Comp\n        className={cn(buttonVariants({ variant, size, className }))}\n        ref={ref}\n        {...props}\n      />\n    )\n  }\n)\nButton.displayName = 'Button'\n\nexport { Button }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry-ui-components/button/button.types.ts",
+      "content": "import { VariantProps } from 'class-variance-authority'\nimport { buttonVariants } from '../button'\n\nexport interface ButtonProps\n  extends React.ButtonHTMLAttributes<HTMLButtonElement>,\n    VariantProps<typeof buttonVariants> {\n  asChild?: boolean\n}\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry-ui-components/button/index.ts",
+      "content": "export * from './button'\nexport * from './button.types'\nexport * from './button.constants'\n",
+      "type": "registry:ui"
+    }
+  ]
+}

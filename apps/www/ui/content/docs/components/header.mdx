@@ -1,6 +1,6 @@
 ---
-title: Header 
-description: A flexible header component that can include navigation, switcher, and footer elements. 
+title: Header
+description: A flexible header component that can include navigation, switcher, and footer elements.
 component: true
 ---
 
@@ -13,7 +13,6 @@ component: true
 ## Features
 
 - **Header Component**: Provides a flexible header layout that can be customized with navigation, logos, and footer elements.
-  
 - **Collapsible Navigation**: Supports both collapsible and non-collapsible navigation sections, adaptable to different layouts like side or top positions.
 
 - **Customizable Positioning**: Allows the header to be positioned at the top or side of the page, with appropriate layout adjustments.
@@ -22,7 +21,7 @@ component: true
 
 - **Logo Placement**: Supports the inclusion of a logo, which can be placed dynamically based on the header's position.
 
-- **Seamless Integration**: Designed to work seamlessly with other UI components, such as `NavGroup`, `Separator`, and custom utilities like `cn` and `filteredObject`. 
+- **Seamless Integration**: Designed to work seamlessly with other UI components, such as `NavGroup`, `Separator`, and custom utilities like `cn` and `filteredObject`.
 
 - **TypeScript Support**: Strongly typed with TypeScript, ensuring type safety and autocompletion benefits during development.
 
@@ -37,7 +36,7 @@ component: true
 <TabsContent value="cli">
 
 ```bash
-npx duck-ui@latest add header 
+npx duck-ui@latest add header
 ```
 
 </TabsContent>
@@ -50,10 +49,14 @@ npx duck-ui@latest add header
 
 <ComponentSource name="header" />
 
-<Step>The Combobox is built using a composition of the `<NavGroup/>` component.</Step>
+<Step>
+  The Combobox is built using a composition of the `<NavGroup />` component.
+</Step>
 
-<Step>You also will need to install the [`NavGroup`](/docs/components/nav-group#installation) components because some dependencies
-    are inherited from them.</Step>
+<Step>
+  You also will need to install the [`NavGroup`](/docs/components/nav-group#installation) components because some
+  dependencies are inherited from them.
+</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -66,7 +69,7 @@ npx duck-ui@latest add header
 ## Usage
 
 ```tsx
-import { Header, Button, TooltipProvider } from "@/components/ui"
+import { Header, Button, TooltipProvider } from '@/components/ui'
 import { ArrowRightFromLine, Home, Calendar } from 'lucide-react'
 ```
 
@@ -99,7 +102,7 @@ const emails = [
 ]
 
 export default function HeaderMainDemo() {
-  const open = true 
+  const open = true
 
   return (
     <div>
@@ -143,7 +146,7 @@ export default function HeaderMainDemo() {
 
 ## Examples
 
-### Top Header  
+### Top Header
 
 <ComponentPreview
   name="HeaderTopDemo"
@@ -151,13 +154,13 @@ export default function HeaderMainDemo() {
   showSettings={true}
 />
 
-## API Reference 
+## API Reference
 
 ### HeaderProps
 
 `HeaderProps` defines the properties for the header component, including navigation, logo, and footer elements.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`header`** ([`HeaderType`](#headertype)): Properties related to the header component, including any HTML attributes.
 
@@ -173,7 +176,7 @@ export default function HeaderMainDemo() {
 
 `HeaderType` defines the properties for the header component's behavior and appearance.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`isCollapsed`** (`boolean`, optional): Determines if the header or related components are collapsed.
 
@@ -187,7 +190,6 @@ export default function HeaderMainDemo() {
 
 `FooterType` defines the properties for the footer section of the header component.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`buttons`** (`React.ReactNode[]`): An array of React nodes representing footer buttons.
-

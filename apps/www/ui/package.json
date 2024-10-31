@@ -7,7 +7,7 @@
         "dev": "contentlayer2 build && pnpm build:registry && next dev -p 3002",
         "build": "contentlayer2 build && pnpm build:registry && next build",
         "build:registry": "tsx --tsconfig ./tsconfig.json ./scripts/build-registry.mts && prettier --log-level silent --write \"registry/**/*.{ts,tsx,mdx}\" --cache",
-        "build:reg": "tsx --tsconfig ./tsconfig.json ./scripts/build-registry/index.ts",
+        "build:reg": "tsx --tsconfig ./tsconfig.json ./scripts/build-registry/index.ts && prettier --log-level silent --write \"./__ui_registry__/**\" --cache",
         "build:docs": "contentlayer2 build",
         "seed:tasks": "tsx --tsconfig ./tsconfig.json ./app/(app)/examples/tasks/data/seed.ts",
         "start": "next start -p 3001",

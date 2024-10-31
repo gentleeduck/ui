@@ -50,11 +50,15 @@ npm install @radix-ui/react-slot
 
 <ComponentSource name="button" />
 
-<Step>The Combobox is built using a composition of the `<Command/>`, the `<Tooltip/>` component.</Step>
+<Step>
+  The Combobox is built using a composition of the `<Command />
+  `, the `<Tooltip />` component.
+</Step>
 
-<Step>You also will need to install the [`Command`](/docs/components/Command#installation) and
-    [`Tooltip`](/docs/components/Tooltip#installation) components because some dependencies
-    are inherited from them.</Step>
+<Step>
+  You also will need to install the [`Command`](/docs/components/Command#installation) and
+  [`Tooltip`](/docs/components/Tooltip#installation) components because some dependencies are inherited from them.
+</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -89,7 +93,7 @@ import { Inbox } from 'lucide-react'
 #### Example Usage:
 
 ```tsx
-import { Button } from "@/components/ui";
+import { Button } from '@/components/ui'
 
 const MyButton = () => {
   return (
@@ -100,12 +104,12 @@ const MyButton = () => {
       label="Submit"
       icon={<Icon type="submit" />}
       loading={false}
-      onClick={() => console.log("Button clicked")}
+      onClick={() => console.log('Button clicked')}
     >
       Submit
     </Button>
-  );
-};
+  )
+}
 ```
 
 #### Description:
@@ -168,13 +172,13 @@ Here's the documentation for the `IconType`, `ButtonProps`, `LabelType`, and `Co
 
 ---
 
-## API Reference 
+## API Reference
 
 ### ButtonProps
 
 `ButtonProps` extends standard HTML button attributes and adds additional properties specific to button components.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`asChild`** (`boolean`, optional): When `true`, renders the button as a child of another component, typically for styling purposes.
 
@@ -200,7 +204,7 @@ Here's the documentation for the `IconType`, `ButtonProps`, `LabelType`, and `Co
 
 `LabelType` defines the properties for a label component, including optional tooltip content.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`showCommand`** (`boolean`, optional): When `true`, shows a command associated with the label.
 
@@ -212,7 +216,7 @@ Here's the documentation for the `IconType`, `ButtonProps`, `LabelType`, and `Co
 
 `CommandType` defines the structure for a command, including optional action and state.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`label`** (`string`, optional): The label or name of the command.
 
@@ -220,17 +224,16 @@ Here's the documentation for the `IconType`, `ButtonProps`, `LabelType`, and `Co
 
 - **`state`** (`unknown`, optional): Optional state associated with the command, allowing for dynamic behavior based on state.
 
-- **`action`** (`<T>(arg?: T) => void`, optional): An optional action function to be executed when the command is triggered. 
+- **`action`** (`<T>(arg?: T) => void`, optional): An optional action function to be executed when the command is triggered.
 
 ### IconType
 
 `IconType` defines the structure for an icon component.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`icon`** (`LucideIcon`): The icon component from the Lucide library. Defines the icon to be used.
 
 - **`IconProps`**: Additional properties specific to the icon component, extending `React.SVGProps<SVGSVGElement>`.
 
 - **`React.RefAttributes<SVGSVGElement>`**: Allows for passing a ref to the underlying SVG element.
-

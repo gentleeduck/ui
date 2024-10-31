@@ -78,7 +78,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui"
+} from '@/components/ui'
 ```
 
 ```tsx showLineNumbers
@@ -107,13 +107,13 @@ You can combine the `Dialog` and `Drawer` components to create a responsive dial
 
 <ComponentPreview name="DrawerResponsiveDemo" />
 
-## API Reference 
+## API Reference
 
 ### Drawer Component Parameters
 
 `Drawer` is a component used to create a sliding drawer interface with customizable behavior and appearance.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`shouldScaleBackground`** (`boolean`): `true`, When `true`, scales the background when the drawer is open. Requires an element with the `[data-vaul-drawer-wrapper]` data attribute to handle background scaling.
 
@@ -223,4 +223,3 @@ The `DrawerDescription` component renders a description inside the drawer.
 - **`className`** (`string`, optional): Custom CSS class names to apply to the `DrawerDescription` component.
 - **`ref`** (`React.Ref<React.ElementRef<typeof DrawerPrimitive.Description>>`): Ref to the `DrawerPrimitive.Description` component.
 - **`...props`** (`React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>`): Additional properties passed to `DrawerPrimitive.Description`.
-

@@ -70,7 +70,7 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
                 'flex h-7 items-center justify-center rounded-full px-4 text-center text-sm transition-colors hover:text-primary',
                 pathname?.startsWith(example.href) || (index === 0 && pathname === '/')
                   ? 'bg-muted font-medium text-primary'
-                  : 'text-muted-foreground',
+                  : 'text-muted-foreground'
               )}
             >
               {example.name}
@@ -91,7 +91,7 @@ interface ExampleCodeLinkProps {
 }
 
 export function ExampleCodeLink({ pathname }: ExampleCodeLinkProps) {
-  const example = examples.find((example) => pathname?.startsWith(example.href))
+  const example = examples.find(example => pathname?.startsWith(example.href))
 
   if (!example?.code) {
     return null

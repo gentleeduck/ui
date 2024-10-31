@@ -73,7 +73,7 @@ export function MobileNav() {
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
           <div className="flex flex-col space-y-3">
             {docsConfig.mainNav?.map(
-              (item) =>
+              item =>
                 item.href && (
                   <MobileLink
                     key={item.href}
@@ -82,7 +82,7 @@ export function MobileNav() {
                   >
                     {item.title}
                   </MobileLink>
-                ),
+                )
             )}
           </div>
           <div className="flex flex-col space-y-2">
@@ -93,7 +93,7 @@ export function MobileNav() {
               >
                 <h4 className="font-medium">{item.title}</h4>
                 {item?.items?.length &&
-                  item.items.map((item) => (
+                  item.items.map(item => (
                     <React.Fragment key={item.href}>
                       {!item.disabled &&
                         (item.href ? (

@@ -52,7 +52,7 @@ export function DocsSidebarNavItems({ items, pathname }: DocsSidebarNavItemsProp
             className={cn(
               'group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:underline',
               item.disabled && 'cursor-not-allowed opacity-60',
-              pathname === item.href ? 'font-medium text-foreground' : 'text-muted-foreground',
+              pathname === item.href ? 'font-medium text-foreground' : 'text-muted-foreground'
             )}
             target={item.external ? '_blank' : ''}
             rel={item.external ? 'noreferrer' : ''}
@@ -69,7 +69,7 @@ export function DocsSidebarNavItems({ items, pathname }: DocsSidebarNavItemsProp
             key={index}
             className={cn(
               'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
-              item.disabled && 'cursor-not-allowed opacity-60',
+              item.disabled && 'cursor-not-allowed opacity-60'
             )}
           >
             {item.title}
@@ -79,7 +79,7 @@ export function DocsSidebarNavItems({ items, pathname }: DocsSidebarNavItemsProp
               </span>
             )}
           </span>
-        ),
+        )
       )}
     </div>
   ) : null

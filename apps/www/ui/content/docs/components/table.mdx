@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="TableMainDemo"  description="A simple example of a table component with basic usage."/>
+<ComponentPreview
+  name="TableMainDemo"
+  description="A simple example of a table component with basic usage."
+/>
 
 ## **Features**
 
@@ -14,9 +17,9 @@ component: true
 - **Type Safety**: Ensures type safety, providing a robust and reliable development experience with customizable rendering, styling, and easy integration.
 
 - **Keyboard Shortcuts**: Includes intuitive keyboard shortcuts for efficient navigation.
-Additionally, it supports custom library creation for `vim`-like motions within any component, it's
-not that complex shortcuts but, we have a plan to create another lib to get it right with complex
-shortcuts, the current lib we use is this created by us [@ahmedayob/duck-shortcuts](https://github.com/TheDuckUI/shortcut.git).
+  Additionally, it supports custom library creation for `vim`-like motions within any component, it's
+  not that complex shortcuts but, we have a plan to create another lib to get it right with complex
+  shortcuts, the current lib we use is this created by us [@ahmedayob/duck-shortcuts](https://github.com/TheDuckUI/shortcut.git).
 
 - **Multi-Selection**: Offers multi-selection capabilities for individual columns, with intermediate selection options available for all columns within the table.
 
@@ -40,7 +43,6 @@ shortcuts, the current lib we use is this created by us [@ahmedayob/duck-shortcu
 
 - **Responsive Design**: Built with a responsive design out of the box, ensuring optimal display across all devices, with customizable responsiveness options available.
 
-
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -52,7 +54,7 @@ shortcuts, the current lib we use is this created by us [@ahmedayob/duck-shortcu
 <TabsContent value="cli">
 
 ```bash
-npx duck-ui@latest add table 
+npx duck-ui@latest add table
 ```
 
 </TabsContent>
@@ -65,20 +67,28 @@ npx duck-ui@latest add table
 
 <ComponentSource name="table" />
 
-<Step>The Combobox is built using a composition of the `<Combobox/>`, `<Input/>`, `<Pagination/>`,
-    `<ScrollArea/>`, `<DropdownMenu/>`, `<Command/>`, `<Button/>`, `<Checkbox/>`, `<Badge/>`,
-    `<ContextMenu/>` , and `<Tooltip/>` components.</Step>
+<Step>
+  The Combobox is built using a composition of the `<Combobox />
+  `, `<Input />
+  `, `<Pagination />
+  `, `<ScrollArea />
+  `, `<DropdownMenu />
+  `, `<Command />
+  `, `<Button />
+  `, `<Checkbox />
+  `, `<Badge />
+  `, `<ContextMenu />` , and `<Tooltip />` components.
+</Step>
 
-<Step>You will also need to install the [`Tooltip`](/docs/components/Tooltip#installation),
-    [`DropdownMenu`](/docs/components/DropdownMenu#installation), and
-    [`Command`](/docs/components/Command#installation), and
-    [`Button`](/docs/components/Button#installation),
-    [`Checkbox`](/docs/components/Checkbox#installation), and
-    [`Badge`](/docs/components/Badge#installation),
-    [`ContextMenu`](/docs/components/ContextMenu#installation), and
-    [`Tooltip`](/docs/components/Tooltip#installation), [`ScrollArea`](/docs/components/ScrollArea#installation),
-    and [`Pagination`](/docs/components/Pagination#installation), and [`Input`](/docs/components/Input#installation) component because some dependencies are inherited from it.</Step>
-
+<Step>
+  You will also need to install the [`Tooltip`](/docs/components/Tooltip#installation),
+  [`DropdownMenu`](/docs/components/DropdownMenu#installation), and [`Command`](/docs/components/Command#installation),
+  and [`Button`](/docs/components/Button#installation), [`Checkbox`](/docs/components/Checkbox#installation), and
+  [`Badge`](/docs/components/Badge#installation), [`ContextMenu`](/docs/components/ContextMenu#installation), and
+  [`Tooltip`](/docs/components/Tooltip#installation), [`ScrollArea`](/docs/components/ScrollArea#installation), and
+  [`Pagination`](/docs/components/Pagination#installation), and [`Input`](/docs/components/Input#installation) component
+  because some dependencies are inherited from it.
+</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -90,18 +100,10 @@ npx duck-ui@latest add table
 
 ## Usage
 
-### Table Native Component 
+### Table Native Component
 
 ```tsx
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui'
 ```
 
 ```tsx
@@ -125,6 +127,7 @@ import {
   </TableBody>
 </Table>
 ```
+
 ---
 
 ### TableCustomBody
@@ -136,7 +139,7 @@ import {
 The `TableCustomBody` component is ideal for rendering the main content of a table, including features like pagination and row selection. It is well-suited for applications that require interactive table functionalities, and can be adapted to various data structures and use cases. For more details, refer to the API reference [`TableCustomBodyProps`](#tablecustombodyprops).
 
 ```tsx
-import { TableCustomBody } from "@/components/ui";
+import { TableCustomBody } from '@/components/ui'
 
 //NOTE: you will replace these values with your own
 const MyTableBody = () => {
@@ -152,14 +155,16 @@ const MyTableBody = () => {
       contextMenu={contextMenu}
       filtersData={filtersData}
     />
-  );
-};
+  )
+}
 ```
 
 #### Description:
+
 The `TableCustomBody` component is used to render the main content of a table, offering built-in support for pagination, row selection, and menu integration. It is designed to handle interactive and customizable table features efficiently.
 
 #### Key Features:
+
 - **Pagination**: Manages large datasets by dividing them into pages.
 - **Selection**: Supports row selection for bulk operations and other interactive features.
 - **Menus**: Integrates dropdown and context menus for additional table functionalities.
@@ -175,7 +180,7 @@ The `TableCustomBody` component is used to render the main content of a table, o
 The `TableCustomFooter` component is used to customize the footer of a table, allowing you to specify the content and styling of each footer column. It integrates seamlessly with different table designs and is useful for displaying additional information. For further details, see the API reference [`TableFooterProps`](#tablefooterprops).
 
 ```tsx
-import { TableCustomFooter } from "@/components/ui";
+import { TableCustomFooter } from '@/components/ui'
 
 const MyTableFooter = () => {
   return (
@@ -183,14 +188,16 @@ const MyTableFooter = () => {
       className="custom-footer-class"
       columns={footerColumns}
     />
-  );
-};
+  )
+}
 ```
 
 #### Description:
+
 The `TableCustomFooter` component allows you to create a customizable footer for your table. By passing an array of column configurations, you can define the content and properties of each column in the footer, ensuring it fits well with your design requirements.
 
 #### Key Features:
+
 - **Customizable Columns**: Configure each footer column to display specific content such as summaries or additional information.
 - **Styling**: Utilize the `className` prop for applying custom styles to the footer, making it adaptable to different design systems.
 
@@ -205,7 +212,7 @@ The `TableCustomFooter` component allows you to create a customizable footer for
 The `TableCustomBody` component is typically used to render the main content of a table, providing features like pagination and row selection. It can be tailored to fit various data structures and use cases. For further details, see the API reference for [`TableCustomBodyProps`](#tablecustombodyprops).
 
 ```tsx
-import { TableCustomBody } from "@/components/ui";
+import { TableCustomBody } from '@/components/ui'
 
 //NOTE: you will replace these values with your own
 const MyTableBody = () => {
@@ -221,16 +228,18 @@ const MyTableBody = () => {
       contextMenu={myContextMenu}
       filtersData={myFiltersData}
     />
-  );
-};
+  )
+}
 ```
 
 #### Description:
+
 The `TableCustomBody` component handles rendering the main content of a table, with built-in support
 for pagination, selection, and menu integration. It is designed for tables that require interaction
 and customization.
 
 #### Key Features:
+
 - **Pagination**: Manages large datasets by breaking them into manageable pages.
 - **Selection**: Supports row selection for bulk actions and other interactive features.
 - **Menus**: Includes dropdown and context menus for additional functionality and actions.
@@ -246,7 +255,7 @@ and customization.
 The `TableCustomFooter` component is used to customize the footer of your table, allowing for the inclusion of various types of content. For detailed information, refer to the API reference for [`TableFooterProps`](#tablefooterprops).
 
 ```tsx
-import { TableCustomFooter } from "@/components/ui";
+import { TableCustomFooter } from '@/components/ui'
 
 //NOTE: you will replace these values with your own
 const MyTableFooter = () => {
@@ -255,16 +264,18 @@ const MyTableFooter = () => {
       className="custom-footer-class"
       columns={myFooterColumns}
     />
-  );
-};
+  )
+}
 ```
 
 #### Description:
+
 The `TableCustomFooter` component is used to create a customizable footer for tables. It allows you
 to specify the content and properties of each column in the footer, making it easy to integrate with
 different table designs.
 
 #### Key Features:
+
 - **Customizable Columns**: Configure each footer column to display specific content or summaries.
 - **Styling**: Apply additional custom styles using the `className` prop, ensuring the footer fits seamlessly with your design system.
 
@@ -277,7 +288,7 @@ different table designs.
 #### Example Usage:
 
 ```tsx
-import { TablePagination } from "@/components/ui";
+import { TablePagination } from '@/components/ui'
 
 //NOTE: you will replace these values with your own
 const MyTablePagination = () => {
@@ -292,8 +303,8 @@ const MyTablePagination = () => {
       setPaginationState={setPaginationState}
       setValue={setPaginationValues}
     />
-  );
-};
+  )
+}
 ```
 
 #### Description:
@@ -314,7 +325,7 @@ pagination states, and updating the displayed page, For detailed information, re
 
 - **Adaptive Display**: Adjusts the table view based on pagination state and user selections, providing a responsive and interactive table experience.
 
---- 
+---
 
 ### TableCustomView
 
@@ -323,7 +334,7 @@ pagination states, and updating the displayed page, For detailed information, re
 #### Example Usage:
 
 ```tsx
-import { TableCustomView } from "@/components/ui";
+import { TableCustomView } from '@/components/ui'
 
 //NOTE: you will replace these values with your own
 const MyTableView = () => {
@@ -343,8 +354,8 @@ const MyTableView = () => {
       contextMenu={myContextMenu}
       filters={myFilters}
     />
-  );
-};
+  )
+}
 ```
 
 #### Description:
@@ -368,24 +379,31 @@ functionalities and flexible user interactions, For detailed information, refer 
 
 - **Flexible Data Handling**: Manages various data structures and integrates seamlessly with other components to provide a cohesive table experience.
 
-
 ## Examples
 
-### Simple 
+### Simple
 
 you can achieve the same result with from the example above with our `TableCustomView`
 component, so also if you want create your own custom view, you can use the native components:
 
-<ComponentPreview name="TableSimpleDemo"  description="A simple example of a table component with basic usage."/>
+<ComponentPreview
+  name="TableSimpleDemo"
+  description="A simple example of a table component with basic usage."
+/>
 
-### Medium 
+### Medium
 
+<ComponentPreview
+  name="TableMediumDemo"
+  description="A simple example of a table component with basic usage."
+/>
 
-<ComponentPreview name="TableMediumDemo"  description="A simple example of a table component with basic usage."/>
+### Advanced
 
-### Advanced 
-
-<ComponentPreview name="TableAdvancedDemo"  description="A simple example of a table component with basic usage."/>
+<ComponentPreview
+  name="TableAdvancedDemo"
+  description="A simple example of a table component with basic usage."
+/>
 
 ## API Reference
 
@@ -393,44 +411,44 @@ component, so also if you want create your own custom view, you can use the nati
 
 `TableCustomViewProps` is an interface that defines the properties that the `TableView` component can accept. It provides flexibility by allowing various customizations such as filters, table content, headers, footers, pagination, and more.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`wrapper`**: Optional property that allows you to customize the wrapper `div` element by passing standard HTML `div` properties.
 
 - **`filters`**: An optional array of filter objects that allow users to filter the table data. Each
-filter is defined using the [ComboboxType](/docs/components/combobox#comboboxtype) from `Combobox`.
+  filter is defined using the [ComboboxType](/docs/components/combobox#comboboxtype) from `Combobox`.
 
 - **`table`**: Optional property that defines specific configurations for the table's structure,
-it's defined using the [TableType](/docs/components/table#tabletype).
+  it's defined using the [TableType](/docs/components/table#tabletype).
 
 - **`tableContentData`**: Required array containing the data to be displayed in the table. Each item represents a row of data.
 
 - **`selection`**: Optional boolean that, when set to `true`, enables row selection functionality in the table.
 
 - **`header`**: Optional array that defines the configurations for the table's header columns, it's
-defined using the [TableHeaderType](/docs/components/table#tableheadertype).
+  defined using the [TableHeaderType](/docs/components/table#tableheadertype).
 
 - **`footer`**: Optional property that allows for the inclusion of custom footer content in the
-table, it's defined using the [TableFooterType](#tablefootertype).
+  table, it's defined using the [TableFooterType](#tablefootertype).
 
 - **`caption`**: Optional property for adding a caption to the table, it's defined using the
-[TableCaptionType](#tablecaptiontype).
+  [TableCaptionType](#tablecaptiontype).
 
 - **`pagination`**: Optional property that provides settings for pagination, it's defined using
-[TablePaginationsType](#tablepaginationstype).
+  [TablePaginationsType](#tablepaginationstype).
 
 - **`viewButton`**: Optional boolean that, when set to `true`, displays a "view" button within the table.
 
 - **`tableSearch`**: Optional boolean that adds search functionality to the table.
 
 - **`dropdownMenu`**: Optional property that configures dropdown menu options in the table headers.
-See [DropdownMenuOptionsType](/docs/components/dropdownMenu#dropdownmenuoptionstype) from `DropdownMenu`.
+  See [DropdownMenuOptionsType](/docs/components/dropdownMenu#dropdownmenuoptionstype) from `DropdownMenu`.
 
 - **`contextMenu`**: Optional property that defines context menu options for interacting with table
-rows or cells. Refer to
-[ContextMenuOptionsType](/docs/components/contextMenu#contextmenuoptionstype) from `ContextMenu`.
+  rows or cells. Refer to
+  [ContextMenuOptionsType](/docs/components/contextMenu#contextmenuoptionstype) from `ContextMenu`.
 
 - **`ref`** (`React.ForwardedRef<HTMLDivElement>`): Forwarded ref to attach to the `<div>` element of the table view component.
-
 
 ---
 
@@ -438,14 +456,16 @@ rows or cells. Refer to
 
 `TableHeaderActionsProps` is a props interface for configuring the header actions of a table component. It allows managing the headers, search functionality, and filters within the table.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`T`**: A boolean that represents whether a certain condition is met within the table.
 
 - **`C`**: A generic record type that defines the structure and context of the table data.
 
 - **`Y`**: A key within the provided record `C` that represents a specific property used in filtering.
 
-***Properties***
+**_Properties_**
+
 - **`header`**: An array of [`TableHeaderType<T, C>`](#tableheadertype). Represents the main header configuration for the table.
 
 - **`headers`**: An array of [`TableHeaderType<T, C>`](#tableheadertype). Represents the complete set of headers used in the table.
@@ -474,28 +494,30 @@ string>>`](/docs/components/combobox#comboboxtype) representing the filters avai
 
 `TableCustomViewHeaderProps` is an interface that defines the properties required for managing custom views of a table header, including handling table data, selection states, and header configurations.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`T`**: A boolean type that determines whether certain properties should be included or not. It defaults to `false`.
 
 - **`C`**: A generic record type that defines the structure of the table data, mapping string keys to any value. It defaults to `Record<string, string>`.
 
-***Properties***
+**_Properties_**
+
 - **`headers`**: An array of [`TableHeaderType<T, C>`](#tableheadertype). This represents the configuration of table headers, including labels, sorting options, and other custom properties.
 
 - **`setHeaders`**: A React dispatch function that updates the state of the headers. It takes a
-`React.SetStateAction<`[`TableHeaderType<T, C>`](#tableheadertype)`[]>` as an argument.
+  `React.SetStateAction<`[`TableHeaderType<T, C>`](#tableheadertype)`[]>` as an argument.
 
 - **`tableData`**: An array of [`TableContentDataType<C>`](#tablecontentdatatype). This represents the data displayed in the table, where each item corresponds to a row in the table.
 
 - **`setTableData`**: A React dispatch function that updates the state of the table data. It takes a
-`React.SetStateAction<`[`TableContentDataType<C>`](#tablecontentdatatype)`[]>` as an argument.
+  `React.SetStateAction<`[`TableContentDataType<C>`](#tablecontentdatatype)`[]>` as an argument.
 
 - **`selection`**: A boolean that indicates whether selection is enabled for the table rows.
 
 - **`selected`**: An array of [`TableContentDataType<C>`](#tablecontentdatatype) representing the currently selected rows in the table.
 
 - **`setSelected`**: A React dispatch function that updates the state of the selected rows. It takes
-a `React.SetStateAction<`[`TableContentDataType<C>`](#tablecontentdatatype)`[]>` as an argument.
+  a `React.SetStateAction<`[`TableContentDataType<C>`](#tablecontentdatatype)`[]>` as an argument.
 
 - **`ref`** (`React.ForwardedRef<HTMLTableSectionElement>`): Forwarded ref to attach to the `<thead>` element of the table.
 
@@ -505,14 +527,16 @@ a `React.SetStateAction<`[`TableContentDataType<C>`](#tablecontentdatatype)`[]>`
 
 `TableCustomBodyProps` is an interface that defines the properties for customizing the body of a table, including headers, data, pagination, selection, and interactive options.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`T`**: A boolean type that determines whether certain properties should be included or not.
 
 - **`C`**: A generic record type that defines the structure of the table data.
 
 - **`Y`**: A key type that represents the keys used for filtering the table data.
 
-***Properties***
+**_Properties_**
+
 - **`headers`**: An array of [`TableHeaderType<T, C>`](#tableheadertype). This represents the configuration of the table headers, including labels, sorting options, and other custom properties.
 
 - **`resultArrays`**: A 2D array of [`TableContentDataType<C>`](#tablecontentdatatype). This represents the data to be displayed in the table, with each inner array corresponding to a page or group of data.
@@ -524,13 +548,13 @@ a `React.SetStateAction<`[`TableContentDataType<C>`](#tablecontentdatatype)`[]>`
 - **`selected`**: An array of [`TableContentDataType<C>`](#tablecontentdatatype) representing the currently selected rows in the table.
 
 - **`setSelected`**: A React dispatch function that updates the state of the selected rows. It takes
-a `React.SetStateAction<`[`TableContentDataType<C>`](#tablecontentdatatype)`[]>` as an argument.
+  a `React.SetStateAction<`[`TableContentDataType<C>`](#tablecontentdatatype)`[]>` as an argument.
 
 - **`dropdownMenu`**: A
-[`DropdownMenuOptionsType`](/docs/components/dropdown-menu#dropdownmenuoptionstype)[`<TableHeaderOptionsType<C>>`](#tableheaderoptionstype) object that configures the options for the dropdown menu in the table headers.
+  [`DropdownMenuOptionsType`](/docs/components/dropdown-menu#dropdownmenuoptionstype)[`<TableHeaderOptionsType<C>>`](#tableheaderoptionstype) object that configures the options for the dropdown menu in the table headers.
 
 - **`contextMenu`**: A
-[`ContextMenuOptionsType`](/docs/components/context-menu#contextmenuoptionstype)[`<TableHeaderOptionsType<C>>`](tableheaderoptionstype) object that defines the options for the context menu, allowing interactions with table rows or cells.
+  [`ContextMenuOptionsType`](/docs/components/context-menu#contextmenuoptionstype)[`<TableHeaderOptionsType<C>>`](tableheaderoptionstype) object that defines the options for the context menu, allowing interactions with table rows or cells.
 
 - **`filtersData`**: An optional array of [`ComboboxType<Extract<keyof C, string>,
 Y>`](/docs/components/combobox#comboboxtype), representing the filters applied to the table data. If not defined, filtering functionality is not enabled.
@@ -543,10 +567,9 @@ Y>`](/docs/components/combobox#comboboxtype), representing the filters applied t
 
 `TablePaginationType` is an interface that defines the properties and methods used to manage the pagination of table data. This interface is essential for handling the navigation and organization of large datasets across multiple pages in a table.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`C`**: A generic type parameter extending a record of key-value pairs. This represents the structure of the table data.
-  
 - **`selected`**: An array of [`TableContentDataType<C>`](#tablecontentdatatype) representing the selected items within the table. This array is used to keep track of which rows are selected, for example, when implementing multi-select functionality.
 
 - **`setValue`**: A `React.Dispatch<React.SetStateAction<string[]>>` function used to update the state of the selected value(s) in the table, often tied to search or filter functionality.
@@ -562,7 +585,7 @@ Y>`](/docs/components/combobox#comboboxtype), representing the filters applied t
 - **`paginationState`**: An object of type [`PaginationState`](#paginationstate) that tracks the current state of pagination, including properties such as the active page and the size of each page group.
 
 - **`setPaginationState`**: A
-`React.Dispatch<React.SetStateAction<`[`PaginationState>>`](#paginationState) function used to update the `paginationState`, allowing for dynamic control over the pagination (e.g., changing pages, adjusting page size).
+  `React.Dispatch<React.SetStateAction<`[`PaginationState>>`](#paginationState) function used to update the `paginationState`, allowing for dynamic control over the pagination (e.g., changing pages, adjusting page size).
 
 - **`ref`** (`React.ForwardedRef<HTMLDivElement>`): Forwarded ref to attach to the `<div>` element of the pagination component.
 
@@ -572,11 +595,13 @@ Y>`](/docs/components/combobox#comboboxtype), representing the filters applied t
 
 `TableHeaderType` is an interface that defines the structure and properties of a table header cell. It extends the standard HTML table cell properties and adds custom properties for label handling, sorting, and dropdown menu options.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`T`**: A boolean flag that indicates whether certain properties should be included or not.
 - **`C`**: A generic record type that defines the structure of the table data, mapping string keys to any value.
 
-***Properties***
+**_Properties_**
+
 - **`label`**: A string that represents the key in the provided record `C`. It is used as the label for the table header cell.
 - **`sortable?`**: An optional boolean that indicates whether the column associated with this header is sortable.
 - **`showLabel?`**: An optional boolean (`T`) that determines whether the label should be shown. If `T` is true, the label will be displayed.
@@ -585,7 +610,7 @@ Y>`](/docs/components/combobox#comboboxtype), representing the filters applied t
   - `'desc'`: The column is currently sorted in descending order.
   - `'not sorted'`: The column is not currently sorted.
 - **`dropdownMenuOptions?`**: An optional array of
-[`DropdownMenuOptionsDataType`](/docs/components/dropdown-menu#dropdownmenuoptionstype)[`<TableDropdownMenuOptionsType<C>>`](#tabledropdownmenuoptionstype), available only when `showLabel` is true (`T extends true`). This property defines the dropdown menu options associated with the header cell.
+  [`DropdownMenuOptionsDataType`](/docs/components/dropdown-menu#dropdownmenuoptionstype)[`<TableDropdownMenuOptionsType<C>>`](#tabledropdownmenuoptionstype), available only when `showLabel` is true (`T extends true`). This property defines the dropdown menu options associated with the header cell.
 
 ---
 
@@ -594,41 +619,41 @@ Y>`](/docs/components/combobox#comboboxtype), representing the filters applied t
 `TableContentDataType` is a generic type that defines the structure of the data used within table cells. It maps each key of a given record type `C` to a `TableDataKey`, enriching each table cell with additional properties while associating it with the corresponding data from the record.
 
 #### Key Properties:
+
 - **`[key in keyof C]`**: Iterates over each key of the provided record `C` and creates a property in the resulting type. Each property represents a table cell.
-  
 - **`TableDataKey & { children: C[key] }`**: Combines `TableDataKey` properties with a `children` property. The `children` property contains the actual data for the table cell, which is derived from the corresponding value in the record `C`.
 
 #### Example Usage:
 
 ```tsx
-import { TableDataKey } from "@/components/ui";
+import { TableDataKey } from '@/components/ui'
 
 type MyData = {
-  name: string;
-  age: number;
-  email: string;
-};
+  name: string
+  age: number
+  email: string
+}
 
 const exampleData: TableContentDataType<MyData> = {
   name: {
     // Properties from TableDataKey
-    withLabel: { text: "Name" },
+    withLabel: { text: 'Name' },
     withIcon: <i className="icon-name" />,
-    children: "John Doe" // Data for the cell
+    children: 'John Doe', // Data for the cell
   },
   age: {
     // Properties from TableDataKey
-    withLabel: { text: "Age" },
+    withLabel: { text: 'Age' },
     withIcon: <i className="icon-age" />,
-    children: 30 // Data for the cell
+    children: 30, // Data for the cell
   },
   email: {
     // Properties from TableDataKey
-    withLabel: { text: "Email" },
+    withLabel: { text: 'Email' },
     withIcon: <i className="icon-email" />,
-    children: "john.doe@example.com" // Data for the cell
-  }
-};
+    children: 'john.doe@example.com', // Data for the cell
+  },
+}
 ```
 
 ---
@@ -637,7 +662,8 @@ const exampleData: TableContentDataType<MyData> = {
 
 `PaginationState` is an interface that defines the properties related to pagination within a table or data grid. It includes information about the current page and the size of each page group.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`activePage`**: A number indicating the current active page in the pagination. This represents which page of the data is currently being viewed.
 - **`groupSize`**: A number specifying the number of items displayed per page. This determines how many items are shown in each page group of the pagination.
 
@@ -647,18 +673,19 @@ const exampleData: TableContentDataType<MyData> = {
 
 `TableDropdownMenuOptionsType` is an interface that defines the properties used for configuring dropdown menu options in a table header. It includes settings for sorting, updating table headers, and managing table data.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`sortArray`**: A reference to the [`sortArray`](/coming-soon) function, which is used to sort the table data based on selected criteria.
 
 - **`setHeaders`**: A function for updating the table headers. It accepts a `React.Dispatch` with a
-`SetStateAction` of an array of [`TableHeaderType`](#tableheadertype).
+  `SetStateAction` of an array of [`TableHeaderType`](#tableheadertype).
 
 - **`headers`**: An array of [`TableHeaderType`](#tableheadertype) representing the current headers of the table.
 
 - **`tableData`**: An array of [`TableContentDataType<C>`](#tablecontentdatatype) containing the data displayed in the table.
 
 - **`setTableData`**: A function for updating the table data. It accepts a `React.Dispatch` with a
-`SetStateAction` of an array of [`TableContentDataType<C>`](#tablecontentdatatype).
+  `SetStateAction` of an array of [`TableContentDataType<C>`](#tablecontentdatatype).
 
 - **`data`**: An array of [`TableContentDataType<C>`](#tablecontentdatatype) representing the data to be used for dropdown menu operations.
 
@@ -673,10 +700,11 @@ const exampleData: TableContentDataType<MyData> = {
 `TableFooterProps` is an interface that extends the properties of the
 [`TableFooter`](#tablefooter) component, providing additional configuration options specifically for the footer of a table. It includes a set of columns that define the structure and content of the table footer.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`columns`**: An array of [`FooterColumnType`](#footercolumntype) objects that represent the
-individual columns in the table footer. Each column can be customized using the properties available
-in [`TableCell`](#tablecell).
+  individual columns in the table footer. Each column can be customized using the properties available
+  in [`TableCell`](#tablecell).
 
 ---
 
@@ -685,10 +713,11 @@ in [`TableCell`](#tablecell).
 `FooterColumnType` is a type that extends the properties of the
 [`TableCell`](#tablecell) component. It provides partial customization options for each column in the table footer, allowing for flexible configuration of footer content.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`React.ComponentPropsWithoutRef<typeof `[`TableCell>`](#tablecell)**: This type includes all the
-properties available in the [`TableCell`](#tablecell) component, making it possible to customize
-each footer column based on the standard [`TableCell`](#tablecell) properties.
+  properties available in the [`TableCell`](#tablecell) component, making it possible to customize
+  each footer column based on the standard [`TableCell`](#tablecell) properties.
 
 ---
 
@@ -696,7 +725,8 @@ each footer column based on the standard [`TableCell`](#tablecell) properties.
 
 `TableCaptionType` is an interface that extends the standard HTML properties for a `<caption>` element in a table. This interface is used to define the properties and behavior of the table caption, allowing for customization and additional attributes as needed.
 
-***Key Properties***
+**_Key Properties_**
+
 - **`React.HTMLProps<HTMLTableCaptionElement>`**: This type includes all the standard HTML properties available for the `<caption>` element, such as `className`, `style`, `id`, and more. It allows you to fully customize the table caption by passing these properties.
 
 ---
@@ -705,7 +735,7 @@ each footer column based on the standard [`TableCell`](#tablecell) properties.
 
 `TablePaginationsType` is an interface that extends the standard properties of an HTML `div` element. It defines the structure and behavior of the pagination controls in a table, providing options to customize how pagination is displayed and interacted with.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`groupSize`**: A number representing the size of each group of pages. This property controls how many page numbers are displayed at a time in the pagination controls. It determines the chunking of pages in cases where there are many pages.
 
@@ -725,7 +755,7 @@ each footer column based on the standard [`TableCell`](#tablecell) properties.
 
 `TableHeaderOptionsType` is an interface that defines the structure and behavior of the options available for configuring and manipulating table headers. This interface provides the necessary methods and properties to interact with the table headers and the data associated with them.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`sortArray`**: A reference to a sorting function (typically [`sortArray`](/coming-soon)) that is used to sort the table data based on the specified column and sort direction. This function enables dynamic sorting of table data by different columns.
 
@@ -750,10 +780,13 @@ each footer column based on the standard [`TableCell`](#tablecell) properties.
 `TableDataFilteredType` is a utility type that transforms a record type `T` into an array of key-value pairs. Each key-value pair is represented as a tuple containing the key and its associated value from the record `T`.
 
 #### Type Parameters:
+
 - **`T`**: A generic record type where each key is of type `string` and the value is of any type (`unknown`). This type defines the structure of the data that will be transformed.
 
 #### Description:
+
 The `TableDataFilteredType` maps each key-value pair in the record `T` to a tuple, resulting in an array of tuples. Each tuple contains two elements:
+
 - The first element is the key (`K`) from the record `T`.
 - The second element is the value associated with the key (`T[K]`).
 
@@ -765,20 +798,16 @@ Given a record type `T`:
 
 ```typescript
 type T = {
-  name: string;
-  age: number;
-  active: boolean;
-};
+  name: string
+  age: number
+  active: boolean
+}
 ```
 
 The `TableDataFilteredType<T>` would be:
 
 ```typescript
-type Result = [
-  ['name', string],
-  ['age', number],
-  ['active', boolean]
-][];
+type Result = [['name', string], ['age', number], ['active', boolean]][]
 ```
 
 #### Use Cases:
@@ -795,18 +824,19 @@ const data: TableDataFilteredType<T> = [
   ['name', 'John Doe'],
   ['age', 30],
   ['active', true],
-];
+]
 ```
+
 ---
 
 ### TableType
 
 TableType is an interface that extends the standard properties of the [`ScrollArea`](/docs/components/scrollarea/#scrollareatype) component. It includes optional properties that allow customization of table behaviors and appearances by inheriting properties from the `ScrollArea` component.
 
-***Key Properties***
+**_Key Properties_**
 
 - **(inherited from ScrollArea)**: Includes all the standard properties of the
-[`ScrollArea`](/docs/components/scrollarea/#scrollareatype) component, allowing for extensive customization of the scrollable area within the table.
+  [`ScrollArea`](/docs/components/scrollarea/#scrollareatype) component, allowing for extensive customization of the scrollable area within the table.
 
 ---
 
@@ -814,10 +844,10 @@ TableType is an interface that extends the standard properties of the [`ScrollAr
 
 TableDataKey is an interface that extends the standard properties of an HTML `td` element. It defines the structure for table data cells, including optional properties for additional customization.
 
-***Key Properties***
+**_Key Properties_**
 
 - **withLabel?**: An optional property that specifies a label to be displayed with the table cell.
-It uses the [`LabelType`](/docs/components/button#labeltype) interface, excluding `showCommand` and `showLabel` properties.
+  It uses the [`LabelType`](/docs/components/button#labeltype) interface, excluding `showCommand` and `showLabel` properties.
 
 - **withIcon?**: An optional React node that represents an icon to be displayed within the table cell. This allows for additional visual elements within the table data cells.
 
@@ -900,4 +930,3 @@ The `TableCaption` component renders a `caption` element for the table caption.
 - **`className`** (`string`, optional): Custom CSS class names to apply to the `caption` element.
 - **`ref`** (`React.Ref<HTMLTableCaptionElement>`): Ref to the `caption` element.
 - **`...props`** (`React.HTMLAttributes<HTMLTableCaptionElement>`): Additional properties passed to the `caption` element.
-

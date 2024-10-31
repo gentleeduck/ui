@@ -9,14 +9,14 @@ import { Registry } from '@/registry/registry-schema'
 import { registry_ui } from './registry-ui'
 
 export const registry: Registry = [
-    ...registry_ui,
-    // ...examples,
-    // ...blocks,
-    // ...charts,
-    // ...lib,
-    // ...hooks,
-    // ...themes,
-    //...v0
+  ...registry_ui,
+  // ...examples,
+  // ...blocks,
+  // ...charts,
+  // ...lib,
+  // ...hooks,
+  // ...themes,
+  //...v0
 ]
 export * from './registry-schema'
 export * from './registry-ui-components'

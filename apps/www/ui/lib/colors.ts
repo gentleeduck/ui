@@ -41,7 +41,7 @@ export function getColors() {
 
         return {
           name,
-          colors: color.map((color) => {
+          colors: color.map(color => {
             const rgb = color.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3')
 
             return {
@@ -56,7 +56,7 @@ export function getColors() {
           }),
         }
       })
-      .filter(Boolean),
+      .filter(Boolean)
   )
 
   return tailwindColors

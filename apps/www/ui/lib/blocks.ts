@@ -19,7 +19,7 @@ const project = new Project({
 
 export async function getAllBlockIds(style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
   const blocks = await _getAllBlocks(style)
-  return blocks.map((block) => block.name)
+  return blocks.map(block => block.name)
 }
 
 export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
@@ -38,10 +38,10 @@ export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOC
 
       sourceFile
         .getDescendantsOfKind(SyntaxKind.JsxOpeningElement)
-        .filter((node) => {
+        .filter(node => {
           return node.getAttribute('x-chunk') !== undefined
         })
-        ?.map((component) => {
+        ?.map(component => {
           component.getAttribute('x-chunk')?.asKind(SyntaxKind.JsxAttribute)?.remove()
         })
 
@@ -49,7 +49,7 @@ export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOC
         ...chunk,
         code: sourceFile.getText().replaceAll(`@/registry/${style}/`, '@/components/'),
       }
-    }),
+    })
   )
 
   return blockSchema.parse({
@@ -66,7 +66,7 @@ export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOC
 async function _getAllBlocks(style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
   const index = z.record(registryEntrySchema).parse(Index[style])
 
-  return Object.values(index).filter((block) => block.type === 'components:block')
+  return Object.values(index).filter(block => block.type === 'components:block')
 }
 
 async function _getBlockCode(name: string, style: Style['name'] = DEFAULT_BLOCKS_STYLE) {

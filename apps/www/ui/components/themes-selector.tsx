@@ -27,7 +27,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
       <div
         className={cn('flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1', className)}
       >
-        {themes.map((theme) => (
+        {themes.map(theme => (
           <div
             key={theme.id}
             className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-transparent"
@@ -43,8 +43,8 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
     <ToggleGroup
       type="single"
       value={activeTheme.name}
-      onValueChange={(value) => {
-        const theme = themes.find((theme) => theme.name === value)
+      onValueChange={value => {
+        const theme = themes.find(theme => theme.name === value)
         if (!theme) {
           return
         }
@@ -53,7 +53,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
       }}
       className={cn('flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1', className)}
     >
-      {themes.map((theme) => {
+      {themes.map(theme => {
         const isActive = theme.name === activeTheme.name
         const isDarkTheme = ['Midnight'].includes(theme.name)
         const cssVars = mounted && mode === 'dark' ? theme.cssVars.dark : theme.cssVars.light
@@ -65,7 +65,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
                 value={theme.name}
                 className={cn(
                   'group flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border-2 border-transparent p-0 hover:bg-transparent focus-visible:bg-transparent aria-checked:border-[--color-1]',
-                  mounted && isDarkTheme && mode !== 'dark' ? 'invert-[1]' : '',
+                  mounted && isDarkTheme && mode !== 'dark' ? 'invert-[1]' : ''
                 )}
                 style={
                   {
@@ -81,7 +81,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
                   <div
                     className={cn(
                       'grid h-12 w-12 -translate-x-1/4 -translate-y-1/4 grid-cols-2 overflow-hidden rounded-md transition-all ease-in-out group-hover:rotate-45',
-                      isActive ? 'rotate-45 group-hover:rotate-0' : 'rotate-0',
+                      isActive ? 'rotate-45 group-hover:rotate-0' : 'rotate-0'
                     )}
                   >
                     <span className="flex h-6 w-6 bg-[--color-1]" />

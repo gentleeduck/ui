@@ -10,7 +10,7 @@ export function ThemeSwitcher() {
   const segment = useSelectedLayoutSegment()
 
   React.useEffect(() => {
-    document.body.classList.forEach((className) => {
+    document.body.classList.forEach(className => {
       if (className.match(/^theme.*/)) {
         document.body.classList.remove(className)
       }

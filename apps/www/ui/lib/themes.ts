@@ -471,7 +471,7 @@ const _THEMES = [
   },
 ] as const
 
-export const THEMES = _THEMES.map((theme) => ({
+export const THEMES = _THEMES.map(theme => ({
   ...theme,
   cssVars: {
     light: themeColorsToCssVariables(theme.colors),

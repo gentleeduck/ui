@@ -22,7 +22,7 @@ export function ColorPalette({ colorPalette }: { colorPalette: ColorPalette }) {
         </React.Suspense>
       </div>
       <div className="flex flex-col gap-1 p-2 sm:flex-row sm:gap-2">
-        {colorPalette.colors.map((color) => (
+        {colorPalette.colors.map(color => (
           <Color
             key={color.hex}
             color={color}

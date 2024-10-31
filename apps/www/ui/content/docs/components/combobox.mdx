@@ -27,7 +27,7 @@ component: true
 <TabsContent value="cli">
 
 ```bash
-npx duck-ui@latest add combobox 
+npx duck-ui@latest add combobox
 ```
 
 </TabsContent>
@@ -40,12 +40,16 @@ npx duck-ui@latest add combobox
 
 <ComponentSource name="combobox" />
 
-<Step>The Combobox is built using a composition of the `<Popover />`, `Label`, `Button` and the `<Command />` component.</Step>
+<Step>
+  The Combobox is built using a composition of the `<Popover />
+  `, `Label`, `Button` and the `<Command />` component.
+</Step>
 
-<Step>You also will need to install the [`Button`](/docs/components/Button#installation),
-    [`Popover`](/docs/components/Popover#installation),
-    [`Command`](/docs/components/Command#installation) and [`Label`](/docs/components/Label#installation) components because some dependencies
-    are inherited from them.</Step>
+<Step>
+  You also will need to install the [`Button`](/docs/components/Button#installation),
+  [`Popover`](/docs/components/Popover#installation), [`Command`](/docs/components/Command#installation) and
+  [`Label`](/docs/components/Label#installation) components because some dependencies are inherited from them.
+</Step>
 
 <Step>Ensure the import paths align with your project's structure.</Step>
 
@@ -58,10 +62,10 @@ npx duck-ui@latest add combobox
 ## Usage
 
 ```tsx
-"use client"
+'use client'
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from 'react'
+import { Check, ChevronsUpDown } from 'lucide-react'
 
 import {
   Button,
@@ -74,41 +78,44 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  TooltipProvider
-} from "@/components/ui"
+  TooltipProvider,
+} from '@/components/ui'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
 const frameworks = [
   {
-    value: "next.js",
-    label: "Next.js",
+    value: 'next.js',
+    label: 'Next.js',
   },
   {
-    value: "sveltekit",
-    label: "SvelteKit",
+    value: 'sveltekit',
+    label: 'SvelteKit',
   },
   {
-    value: "nuxt.js",
-    label: "Nuxt.js",
+    value: 'nuxt.js',
+    label: 'Nuxt.js',
   },
   {
-    value: "remix",
-    label: "Remix",
+    value: 'remix',
+    label: 'Remix',
   },
   {
-    value: "astro",
-    label: "Astro",
+    value: 'astro',
+    label: 'Astro',
   },
 ]
 
 export function ComboboxDemo() {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [value, setValue] = React.useState('')
 
   return (
     <TooltipProvider>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover
+        open={open}
+        onOpenChange={setOpen}
+      >
         <PopoverTrigger asChild>
           <Button
             variant="outline"
@@ -116,9 +123,7 @@ export function ComboboxDemo() {
             aria-expanded={open}
             className="w-[200px] justify-between"
           >
-            {value
-              ? frameworks.find((framework) => framework.value === value)?.label
-              : "Select framework..."}
+            {value ? frameworks.find(framework => framework.value === value)?.label : 'Select framework...'}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -128,21 +133,16 @@ export function ComboboxDemo() {
             <CommandList>
               <CommandEmpty>No framework found.</CommandEmpty>
               <CommandGroup>
-                {frameworks.map((framework) => (
+                {frameworks.map(framework => (
                   <CommandItem
                     key={framework.value}
                     value={framework.value}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue)
+                    onSelect={currentValue => {
+                      setValue(currentValue === value ? '' : currentValue)
                       setOpen(false)
                     }}
                   >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        value === framework.value ? "opacity-100" : "opacity-0"
-                      )}
-                    />
+                    <Check className={cn('mr-2 h-4 w-4', value === framework.value ? 'opacity-100' : 'opacity-0')} />
                     {framework.label}
                   </CommandItem>
                 ))}
@@ -155,6 +155,7 @@ export function ComboboxDemo() {
   )
 }
 ```
+
 ---
 
 ### Combobox
@@ -164,7 +165,7 @@ export function ComboboxDemo() {
 #### Example Usage:
 
 ```tsx
-import { Combobox } from "@/components/ui";
+import { Combobox } from '@/components/ui'
 
 const MyCombobox = () => {
   return (
@@ -172,12 +173,18 @@ const MyCombobox = () => {
       wrapper={<div className="wrapper-class" />}
       title="Select an option"
       trigger={<button className="trigger-button">Open Menu</button>}
-      content={<ul>{myOptions.map(option => <li key={option.value}>{option.label}</li>)}</ul>}
+      content={
+        <ul>
+          {myOptions.map(option => (
+            <li key={option.value}>{option.label}</li>
+          ))}
+        </ul>
+      }
       onSelect={handleSelect}
       type="customType"
     />
-  );
-};
+  )
+}
 ```
 
 #### Description:
@@ -199,14 +206,13 @@ selection events. For detailed information, refer to the API reference for
 
 - **Type Specification**: Optionally specifies the type of combobox, facilitating different configurations and behaviors.
 
-
 ## Examples
 
 ### Combobox
 
 <ComponentPreview name="ComboboxMainDemo" />
 
-### Listbox 
+### Listbox
 
 <ComponentPreview name="ComboboxListboxDemo" />
 
@@ -220,13 +226,13 @@ You can create a responsive combobox by using the `<Popover />` on desktop and t
 
 <ComponentPreview name="ComboboxResponsiveDemo" />
 
-## API Reference 
+## API Reference
 
 ### OnSelectType
 
 `OnSelectType<T>` defines the structure for handling selection and value management in a list or combobox component.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`value`** (`T[]`): Array of currently selected values of type `T`. Represents the selected items in the component.
 
@@ -236,7 +242,7 @@ You can create a responsive combobox by using the `<Popover />` on desktop and t
 
 `ComboboxProps<T, Y>` defines the configuration for a combobox or listbox component, including how to handle selections and render different parts of the component.
 
-***Key Properties***
+**_Key Properties_**
 
 - **`type`** (`'combobox' | 'listbox'`): Specifies the type of component. `'combobox'` allows for selecting from a list and typing in a value, while `'listbox'` only allows for selection from a list.
 
@@ -245,16 +251,15 @@ You can create a responsive combobox by using the `<Popover />` on desktop and t
 - **`wrapper`** (`React.HTMLProps<HTMLDivElement> & {}`, optional): Optional props for customizing the wrapper `div` element around the component.
 
 - **`title`**
-(`Partial<React.ComponentPropsWithoutRef<typeof`[`Label>>`](/docs/components/label#labelprops) & {}`, optional): Optional props for customizing the title element, typically a label, including partial properties of `Label` component.
+  (`Partial<React.ComponentPropsWithoutRef<typeof`[`Label>>`](/docs/components/label#labelprops) & {}`, optional): Optional props for customizing the title element, typically a label, including partial properties of `Label` component.
 
 - **`trigger`**
-(`Partial<React.ComponentPropsWithoutRef<typeof`[`Button>`](/docs/components/button#buttonprops) `& {
+  (`Partial<React.ComponentPropsWithoutRef<typeof`[`Button>`](/docs/components/button#buttonprops) `& {
 children?: T }>`): Optional props for the trigger button, including partial properties of `Button` and an optional `children` prop of type `T`.
 
 - **`content`**
-(`Partial<React.ComponentPropsWithoutRef<typeof`[`PopoverContent>>`](/docs/components/popover#popovercontent)
-`& { data: `[`CommandListGroupDataType<Y>[]`](/docs/components/command/#commandlistgroupdatatype)`; showSearchInput?: boolean; groupheading?: string[] }`): Optional props for the content section, including:
+  (`Partial<React.ComponentPropsWithoutRef<typeof`[`PopoverContent>>`](/docs/components/popover#popovercontent)
+  `& { data: `[`CommandListGroupDataType<Y>[]`](/docs/components/command/#commandlistgroupdatatype)`; showSearchInput?: boolean; groupheading?: string[] }`): Optional props for the content section, including:
   - **`data`** ([`CommandListGroupDataType<Y>[]`](/docs/components/command/#commandlistgroupdatatype)): Array of data items for the list or combobox content.
   - **`showSearchInput`** (`boolean`, optional): Determines whether a search input should be shown in the content.
   - **`groupheading`** (`string[]`, optional): Optional array of group headings to organize items within the content.
-

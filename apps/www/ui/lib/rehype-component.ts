@@ -80,7 +80,7 @@ export function rehypeComponent() {
                     ],
                   }),
                 ],
-              }),
+              })
             )
           }
         } catch (error) {
@@ -131,7 +131,7 @@ export function rehypeComponent() {
                     ],
                   }),
                 ],
-              }),
+              })
             )
           }
         } catch (error) {
@@ -250,7 +250,7 @@ export function rehypeComponent() {
 }
 
 function getNodeAttributeByName(node: UnistNode, name: string) {
-  return node.attributes?.find((attribute) => attribute.name === name)
+  return node.attributes?.find(attribute => attribute.name === name)
 }
 
 function getComponentSourceFileContent(node: UnistNode) {
