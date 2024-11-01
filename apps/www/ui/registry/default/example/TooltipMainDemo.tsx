@@ -1,5 +1,6 @@
 import { buttonVarieties } from '@/hooks/use-varieties'
-import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/registry/default/ui/'
+import { Button } from '@/registry'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/registry/default/ui/'
 import { useAtom } from 'jotai'
 
 export default function TooltipDemo() {

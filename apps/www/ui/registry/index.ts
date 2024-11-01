@@ -10,8 +10,8 @@ import { registry_ui } from './registry-ui'
 import { registry_examples } from './registry-examples/registry-examples'
 
 export const registry: Registry = [
-  ...registry_ui,
-  ...registry_examples,
+  // ...registry_ui,
+  // ...registry_examples,
   // ...blocks,
   // ...charts,
   // ...lib,

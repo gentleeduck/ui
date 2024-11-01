@@ -1,12 +1,12 @@
 'use client'
 import { cn } from '@/lib'
 
+import { Button } from '@/registry'
 import {
   AlertDialogCustom,
   AvatarGroup,
   Badge,
   type CommentType,
-  Button,
   CheckboxGroup,
   ImageGroup,
   InitDataType,

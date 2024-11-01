@@ -7,7 +7,7 @@ import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
 import { tippy } from '@tippyjs/react'
 import { ReactRenderer } from '@tiptap/react'
 import { cn } from '@/lib'
-import { Button } from './button'
+import { Button } from '@/registry'
 import { Separator } from './ShadcnUI'
 
 // MentionNodeAttrs Interface

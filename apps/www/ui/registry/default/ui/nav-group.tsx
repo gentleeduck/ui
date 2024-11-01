@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import { cn } from '@/lib'
-import { Button, ButtonProps } from './button'
+import { Button, ButtonProps } from '@/registry'
 import { filteredObject, groupArrays } from '@/lib/utils'
 import { Separator } from './ShadcnUI'
 
@@ -46,7 +46,7 @@ const NavGroup = <T extends boolean>({ navigationKeys, nav, position }: NavGroup
             <React.Fragment key={idx}>
               <ul className={cn(variants.default, 'px-2 py-1', navIsCollabsed ? 'w-fit' : 'w-full')}>
                 {keyGroup.map((key, idx) => {
-                  const { className, isCollapsed, onClick, variant, children, icon, ...props } = key
+                  const { className, is_collapsed: isCollapsed, onClick, variant, children, icon, ...props } = key
                   return (
                     <li
                       key={idx}
@@ -58,7 +58,7 @@ const NavGroup = <T extends boolean>({ navigationKeys, nav, position }: NavGroup
                         variant={
                           nav.pathname === key.route ? 'secondary' : position === 'top' ? 'ghost' : variant || 'ghost'
                         }
-                        isCollapsed={navIsCollabsed ? navIsCollabsed : false}
+                        is_collapsed={navIsCollabsed ? navIsCollabsed : false}
                         className={cn(
                           !navIsCollabsed && 'w-full justify-between',
                           position === 'top' && 'rounded-full',

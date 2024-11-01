@@ -5,7 +5,7 @@ import { CheckIcon, ClipboardIcon } from 'lucide-react'
 
 import { Event, trackEvent } from '@/lib/events'
 import { cn } from '@/lib/utils'
-import { Button, ButtonProps } from '@/registry/default/ui'
+import { Button, ButtonProps } from '@/registry'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/default/ui'
 
 export function BlockCopyButton({

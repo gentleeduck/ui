@@ -15,7 +15,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { Button } from '@/registry/default/ui/'
+import { Button } from '@/registry'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/registry/default/ui/'
 import { Checkbox } from '@/registry/default/ui/'
 import {

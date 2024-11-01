@@ -3,7 +3,7 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import { Button } from '@/registry/default/ui/'
+import { Button } from '@/registry'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/'
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {

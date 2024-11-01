@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes'
 import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 
 import { useConfig } from '@/hooks/use-config'
-import { Button } from '@/registry/default/ui/'
+import { Button } from '@/registry'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/registry/default/ui/'
 import { themes } from '@/registry/themes'
 

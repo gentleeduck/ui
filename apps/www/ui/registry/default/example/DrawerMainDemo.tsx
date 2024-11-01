@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Minus, Plus } from 'lucide-react'
 import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 
+import { Button, buttonVariants } from '@/registry'
 import {
-  Button,
   Drawer,
   DrawerClose,
   DrawerContent,

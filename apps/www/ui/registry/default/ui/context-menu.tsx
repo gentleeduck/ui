@@ -5,7 +5,7 @@ import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 
 import { cn, groupArrays } from '@/lib/utils'
-import { Button, ButtonProps, CommandType } from './button'
+import { Button, ButtonProps, CommandType } from '@/registry'
 
 const ContextMenu = ContextMenuPrimitive.Root
 

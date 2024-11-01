@@ -7,7 +7,7 @@ import { NpmCommands } from 'types/unist'
 
 import { Event, trackEvent } from '@/lib/events'
 import { cn } from '@/lib/utils'
-import { Button, ButtonProps } from '@/registry/default/ui'
+import { Button, ButtonProps } from '@/registry'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/registry/default/ui'
 
 interface CopyButtonProps extends ButtonProps {

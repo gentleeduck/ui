@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ButtonProps } from './button'
+import { Button, ButtonProps } from '@/registry'
 import { cn } from '@/lib'
 import { IoHeart } from 'react-icons/io5'
 import { IoMdHeartEmpty } from 'react-icons/io'

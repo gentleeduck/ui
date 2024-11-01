@@ -13,7 +13,7 @@ import {
   DraggableProvidedDragHandleProps,
 } from '@hello-pangea/dnd'
 import { cn } from '@/lib'
-import { Button } from './button'
+import { Button } from '@/registry'
 import { Plus } from 'lucide-react'
 
 // Type for a Subtask

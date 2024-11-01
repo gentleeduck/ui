@@ -11,7 +11,7 @@ import { cva } from 'class-variance-authority'
 import { VariantProps } from 'class-variance-authority'
 import { Loader, LucideIcon } from 'lucide-react'
 import { IconProps } from '@radix-ui/react-icons/dist/types'
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+// import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 
 export type IconType = { children: LucideIcon } & Omit<IconProps, 'children'> &
   Omit<React.RefAttributes<SVGSVGElement>, 'children'>
@@ -105,13 +105,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const fn = () => console.log('NOTE: handling command shortcut without action')
     //NOTE: handling command shortcut
-    useDuckShortcut(
-      {
-        keys: [command?.key ?? 'k'],
-        onKeysPressed: command?.action ?? fn,
-      },
-      [command?.state]
-    )
+    // useDuckShortcut(
+    //   {
+    //     keys: [command?.key ?? 'k'],
+    //     onKeysPressed: command?.action ?? fn,
+    //   },
+    //   [command?.state]
+    // )
 
     // Handle keyboard shortcut Badge
     const CommandComponent = () => (

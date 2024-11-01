@@ -1,7 +1,6 @@
 import React from 'react'
 import { HexColorPicker } from 'react-colorful'
 import {
-  Button,
   DialogClose,
   DialogDescription,
   DialogHeader,
@@ -24,6 +23,7 @@ import { AlignCenter, CircleOff, Heading, Highlighter, Link2, LucideIcon, Pencil
 import { cn } from '@/lib'
 import { Editor } from '@tiptap/core'
 import { BubbleMenu } from '@tiptap/react'
+import { Button } from '@/registry'
 
 export type NotionEditorButtonPickerWrapperProps = {
   trigger: React.ReactElement

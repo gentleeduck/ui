@@ -1,5 +1,6 @@
 import React from 'react'
-import { AlertDialogCustom, Button } from '@/registry/default/ui'
+import { AlertDialogCustom } from '@/registry/default/ui'
+import { Button } from '@/registry'
 import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 import { Minus, Plus } from 'lucide-react'
 

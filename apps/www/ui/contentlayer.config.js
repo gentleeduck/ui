@@ -110,10 +110,11 @@ export default makeSource({
       [
         rehypePrettyCode,
         {
-          getHighlighter: async () => {
-            const theme = await loadTheme(path.join(process.cwd(), '/lib/highlighter-theme.json'))
-            return await getHighlighter({ theme })
+          theme: {
+            dark: 'catppuccin-mocha',
+            light: 'catppuccin-mocha',
           },
+          getHighlighter,
           onVisitLine(node) {
             // Prevent lines from collapsing in `display: grid` mode, and allow empty
             // lines to be copy/pasted

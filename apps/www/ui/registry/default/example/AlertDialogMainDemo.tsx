@@ -1,5 +1,5 @@
+import { Button } from '@/registry'
 import {
-  Button,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,

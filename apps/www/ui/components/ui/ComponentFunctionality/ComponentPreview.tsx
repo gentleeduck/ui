@@ -31,14 +31,11 @@ export function ComponentPreview({
   align = 'center',
   description,
   hideCode = false,
-  showSettings = true,
+  showSettings = false,
   ...props
 }: ComponentPreviewProps) {
-  const [config] = useConfig()
-  const index = styles.findIndex(style => style.name === config.style)
-
   const Codes = React.Children.toArray(children) as React.ReactElement[]
-  const Code = Codes[index]
+  const Code = Codes[0]
 
   const Preview = React.useMemo(() => {
     const Component = Index[name]?.component
@@ -53,7 +50,7 @@ export function ComponentPreview({
     }
 
     return <Component />
-  }, [name, config.style])
+  }, [name])
 
   const codeString = React.useMemo(() => {
     if (typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined') {
@@ -61,7 +58,6 @@ export function ComponentPreview({
       return Button?.props?.value || Button?.props?.__rawString__ || null
     }
   }, [Code])
-  // console.log(name)
 
   return (
     <div
@@ -95,10 +91,7 @@ export function ComponentPreview({
           className="relative rounded-md border"
         >
           <div className="flex items-center justify-between p-4">
-            <VariantsSwitcher
-              type={name}
-              showSettrings={showSettings}
-            />
+            <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
               <CopyButton
                 value={codeString}

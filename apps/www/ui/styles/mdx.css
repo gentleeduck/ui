@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
 [data-theme='light'] {
     display: block;
 }
@@ -72,4 +74,14 @@
 
 .steps>h3 {
     @apply mt-8 mb-4 text-base font-semibold;
+}
+
+code,
+kbd,
+samp,
+pre {
+    font-family: 'JetBrains Mono', serif !important;
+    font-optical-sizing: auto !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
 }

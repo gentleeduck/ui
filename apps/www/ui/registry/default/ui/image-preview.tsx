@@ -16,7 +16,7 @@ import { ScrollArea } from './scroll-area'
 import { filesize } from 'filesize'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { downloadAttachment } from './comment'
-import { Button } from './button'
+import { Button } from '@/registry'
 import { DropdownMenuView } from './dropdown-menu'
 
 export interface ImagePreviewContextType {

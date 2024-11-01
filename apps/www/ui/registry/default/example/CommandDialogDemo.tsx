@@ -13,7 +13,6 @@ import {
 } from 'lucide-react'
 
 import {
-  Button,
   CommandDialog,
   CommandInput,
   CommandListGroup,
@@ -21,6 +20,7 @@ import {
   CommandShortcut,
   TooltipProvider,
 } from '@/registry/default/ui/'
+import { Button } from '@/registry'
 
 const data: CommandListGroupDataType[] = [
   {

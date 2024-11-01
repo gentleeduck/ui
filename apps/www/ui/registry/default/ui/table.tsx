@@ -14,7 +14,7 @@ import { type CommandListGroupDataType } from './command'
 import { type DropdownMenuOptionsDataType, type DropdownMenuOptionsType, DropdownMenuView } from './dropdown-menu'
 import { Badge } from './badge'
 import { ContextCustomView, type ContextMenuOptionsType } from './context-menu'
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+// import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 import { useDebounceCallback } from '@/hooks'
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
@@ -220,14 +220,14 @@ const TableHeaderActions = <
 
   //NOTE: Duck shortcut
   const inputRef = React.useRef<HTMLInputElement>(null)
-  useDuckShortcut({
-    keys: ['ctrl+shift+f'],
-    onKeysPressed: () => {
-      if (inputRef.current) {
-        inputRef.current.focus()
-      }
-    },
-  })
+  // useDuckShortcut({
+  //   keys: ['ctrl+shift+f'],
+  //   onKeysPressed: () => {
+  //     if (inputRef.current) {
+  //       inputRef.current.focus()
+  //     }
+  //   },
+  // })
 
   return (
     <>

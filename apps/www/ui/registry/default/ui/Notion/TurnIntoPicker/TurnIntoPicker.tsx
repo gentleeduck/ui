@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { Button, Popover, PopoverContent, PopoverTrigger, Separator } from '../..'
+import { Popover, PopoverContent, PopoverTrigger, Separator } from '../..'
 import { TurnIntoPickerProps } from './TurnIntoPicker.types'
 import { cn } from '@/lib'
 import { turnIntoComponent } from '../mdx-editor'
 import { ChevronDown } from 'lucide-react'
+import React from 'react'
+import { Button } from '../ui/Button'
 
 export const TurnIntoPicker = ({ onChange, value, commands, states }: TurnIntoPickerProps) => {
   const [valueState, setValueState] = useState(value)

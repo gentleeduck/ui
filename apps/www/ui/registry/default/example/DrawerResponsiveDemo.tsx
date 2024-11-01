@@ -2,7 +2,8 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import { AlertDialogCustom, Button, Input, Label } from '@/registry/default/ui/'
+import { AlertDialogCustom, Input, Label } from '@/registry/default/ui/'
+import { Button } from '@/registry'
 
 interface DataType {
   email: string

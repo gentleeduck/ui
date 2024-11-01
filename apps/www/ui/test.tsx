@@ -3,7 +3,7 @@
 import { cn } from '@/lib'
 import { MDXProvider } from '@/registry/default/example/mdx-context-provider'
 import { comments, users } from '@/registry/default/example/SwapyMainDemo'
-import { AvatarCustom, Button, CommentType } from '@/registry/default/ui'
+import { AvatarCustom, CommentType } from '@/registry/default/ui'
 import { Audio, AudioDataProvider, AudioDelete, AudioStart, AudioTimer } from '@/registry/default/ui/audio-record'
 import {
   CommentExtraButton,
@@ -34,6 +34,7 @@ import { LikeButton } from '@/registry/default/ui/custom-buttons'
 import { UploadProvider } from '@/registry/default/ui/upload'
 import { BadgeCheck, CalendarDays } from 'lucide-react'
 import React from 'react'
+import { Button } from './registry'
 
 export default function IndexPage() {
   // <AudioProvider></AudioProvider>

@@ -10,7 +10,7 @@ import { ScrollArea } from './scroll-area'
 import { Check, Search } from 'lucide-react'
 import { cn, groupDataByNumbers } from '@/lib/utils'
 import { Checkbox } from './checkbox'
-import { Button } from './button'
+import { Button } from '@/registry'
 import { Separator } from './ShadcnUI'
 
 const Command = React.forwardRef<

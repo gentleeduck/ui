@@ -1,4 +1,4 @@
-import { buttonVariants } from '@/registry/default/ui'
+import { buttonVariants } from '@/registry'
 import { VariantProps } from 'class-variance-authority'
 import { Atom, atom } from 'jotai'
 export type ButtonVarietiesType = {

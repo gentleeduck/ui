@@ -1,6 +1,6 @@
 import { cn } from '@/lib/cn'
+import { Button } from '@/registry'
 import {
-  Button,
   Input,
   Label,
   Popover,
@@ -43,7 +43,7 @@ export function VariantsSwitcher({ type, showSettrings }: { type: string; showSe
     <Popover onOpenChange={() => {}}>
       <PopoverTrigger asChild>
         <Button
-          isCollapsed={true}
+          is_collapsed={true}
           icon={{ children: Settings }}
           title="Settings"
           className="[&_svg]:h-4 [&_svg]:w-4 w-7 h-7"

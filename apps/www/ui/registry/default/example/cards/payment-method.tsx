@@ -1,7 +1,7 @@
 'use client'
 
 import { Icons } from '@/components/icons'
-import { Button } from '@/registry/default/ui/'
+import { Button } from '@/registry'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/registry/default/ui/'
 import { Input } from '@/registry/default/ui/'
 import { Label } from '@/registry/default/ui/'
