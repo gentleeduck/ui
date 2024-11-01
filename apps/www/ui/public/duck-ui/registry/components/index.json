@@ -1,5 +1,5 @@
 {
-  "name": "button-main",
+  "name": "button-main-2",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

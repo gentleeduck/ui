@@ -36,9 +36,19 @@
       {
         "path": "registry-examples-components/button/button-1.tsx",
         "type": "registry:example"
-      },
+      }
+    ]
+  },
+  {
+    "name": "button-main-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
       {
-        "path": "registry-examples-components/button/index.ts",
+        "path": "registry-examples-components/button/button-2.tsx",
         "type": "registry:example"
       }
     ]

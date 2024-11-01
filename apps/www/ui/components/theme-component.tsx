@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Index } from '@/__registry__'
+import { Index } from '@/__ui_registry__'
 
 import { cn } from '@/lib/utils'
 import { useConfig } from '@/hooks/use-config'

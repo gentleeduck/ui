@@ -3,12 +3,12 @@
 import { promises as fs } from 'fs'
 import { tmpdir } from 'os'
 import path from 'path'
-import { Index } from '@/__registry__'
+import { Index } from '@/__ui_registry__'
 import { Project, ScriptKind, SourceFile, SyntaxKind } from 'ts-morph'
 import { z } from 'zod'
 
 import { highlightCode } from '@/lib/highlight-code'
-import { BlockChunk, blockSchema, registryEntrySchema } from '@/registry/schema'
+import { BlockChunk, block_schema, registry_entry_schema } from '@/registry'
 import { Style } from '@/registry/styles'
 
 const DEFAULT_BLOCKS_STYLE = 'default' satisfies Style['name']
@@ -52,7 +52,7 @@ export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOC
     })
   )
 
-  return blockSchema.parse({
+  return block_schema.parse({
     style,
     highlightedCode: content.code ? await highlightCode(content.code) : '',
     ...entry,
@@ -64,7 +64,7 @@ export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOC
 }
 
 async function _getAllBlocks(style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
-  const index = z.record(registryEntrySchema).parse(Index[style])
+  const index = z.record(registry_entry_schema).parse(Index[style])
 
   return Object.values(index).filter(block => block.type === 'components:block')
 }
@@ -75,7 +75,7 @@ async function _getBlockCode(name: string, style: Style['name'] = DEFAULT_BLOCKS
     console.error(`Block ${name} not found in style ${style}`)
     return ''
   }
-  const block = registryEntrySchema.parse(entry)
+  const block = registry_entry_schema.parse(entry)
 
   if (!block.source) {
     return ''
