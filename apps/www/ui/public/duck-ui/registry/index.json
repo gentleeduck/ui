@@ -24,5 +24,23 @@
         "type": "registry:ui"
       }
     ]
+  },
+  {
+    "name": "button-main",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-1.tsx",
+        "type": "registry:example"
+      },
+      {
+        "path": "registry-examples-components/button/index.ts",
+        "type": "registry:example"
+      }
+    ]
   }
 ]

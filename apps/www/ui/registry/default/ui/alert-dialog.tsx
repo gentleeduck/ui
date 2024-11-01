@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './dialog'
+} from './ShadcnUI/dialog'
 import {
   Drawer,
   DrawerClose,

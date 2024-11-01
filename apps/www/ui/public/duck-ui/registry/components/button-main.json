@@ -1,0 +1,20 @@
+{
+  "name": "button-main",
+  "type": "registry:example",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "registry-examples-components/button",
+  "files": [
+    {
+      "path": "registry-examples-components/button/button-1.tsx",
+      "content": "import React from 'react'\nimport { Inbox } from 'lucide-react'\nimport { Button, TooltipProvider } from '@/registry/default/ui'\nimport { buttonVarieties } from '@/hooks/use-varieties'\nimport { useAtom } from 'jotai'\n\nexport default function ButtonMainDemo() {\n  //NOTE: that's a state in the example\n  const [variety] = useAtom(buttonVarieties)\n  //NOTE: you will use your own variables not this state in the example\n  const { size, open, label, variant, title, loading } = variety.default.variety!\n\n  return (\n    <>\n      <TooltipProvider>\n        <Button\n          isCollapsed={open}\n          icon={{\n            children: Inbox,\n          }}\n          title={title}\n          variant={variant}\n          size={size}\n          loading={loading}\n          label={{\n            children: label,\n          }}\n        />\n      </TooltipProvider>\n    </>\n  )\n}\n",
+      "type": "registry:example"
+    },
+    {
+      "path": "registry-examples-components/button/index.ts",
+      "content": "export * from './button-1'\n",
+      "type": "registry:example"
+    }
+  ]
+}

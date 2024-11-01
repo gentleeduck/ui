@@ -10,9 +10,7 @@ import { get_component_files } from './build-registry-index.lib'
 export async function build_registry_index(registry: z.infer<typeof registry_schema>) {
   try {
     // 1- getting the component path.
-    const items = await Promise.all(
-      registry.filter(item => ['registry:ui'].includes(item.type)).map(item => get_component_files(item))
-    )
+    const items = await Promise.all(registry.map(item => get_component_files(item)))
     // console.dir(items, { depth: 10 })
 
     // 2- making it as json and remove the (index.json) file and replace it with the new one.

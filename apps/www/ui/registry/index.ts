@@ -7,10 +7,11 @@
 // import { v0 } from '@/registry/registry-v0'
 import { Registry } from '@/registry/registry-schema'
 import { registry_ui } from './registry-ui'
+import { registry_examples } from './registry-examples/registry-examples'
 
 export const registry: Registry = [
   ...registry_ui,
-  // ...examples,
+  ...registry_examples,
   // ...blocks,
   // ...charts,
   // ...lib,

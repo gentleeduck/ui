@@ -23,4 +23,21 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'button-main': {
+    name: 'button-main',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button'],
+    files: [
+      [
+        { path: 'registry-examples-components/button/button-1.tsx', type: 'registry:example' },
+        { path: 'registry-examples-components/button/index.ts', type: 'registry:example' },
+      ],
+    ],
+    component: React.lazy(() => import('@/registry/registry-examples-components/button')),
+    source: '',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
 }
