@@ -2,8 +2,8 @@ import fs from 'fs/promises'
 import path from 'path'
 import { z } from 'zod'
 import { registry_entry_schema, registry_schema } from '@/registry'
-import { PUBLIC_REGISTRY_PATH, REGISTRY_INDEX_WHITELIST } from '../main'
 import { gen_temp_source_files, get_file_content, get_file_target } from './build-registry-components.lib'
+import { PUBLIC_REGISTRY_PATH, REGISTRY_INDEX_WHITELIST } from '../main'
 
 // ----------------------------------------------------------------------------
 export async function build_registry_components(item: z.infer<typeof registry_schema>[number]): Promise<void> {

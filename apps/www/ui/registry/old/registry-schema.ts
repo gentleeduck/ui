@@ -1,4 +1,4 @@
-import { z } from 'zod'
+// import { z } from 'zod'
 
 // export const blockSchema = registryEntrySchema.extend({
 //   type: z.literal('registry:block'),

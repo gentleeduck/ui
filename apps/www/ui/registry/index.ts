@@ -20,3 +20,4 @@ export const registry: Registry = [
 ]
 export * from './registry-schema'
 export * from './registry-ui-components'
+export * from './registry-colors'
