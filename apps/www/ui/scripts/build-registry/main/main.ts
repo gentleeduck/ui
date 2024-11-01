@@ -5,10 +5,15 @@ import { build_registry_tsx, write_index_tsx } from '../build-registry-tsx'
 import { tsx_index } from './main.constants'
 import { build_registry_styles_index } from '../build-registry-styles-index'
 import { registry_build_colors } from '../build-registry-build-colors'
+import { build_registry_home } from '../build-registry-home'
+import { spinner } from './main.lib'
 
 export async function main() {
   // 1- showing the home of the application
-  // build_registry_home()
+  await build_registry_home()
+
+  const script_spinner = spinner('').start('🧭 Building the registry...')
+
   // 2- validate the registry with zod.
   const registry_valid = registry_schema.safeParse(registry)
 
@@ -39,4 +44,6 @@ export async function main() {
 
   // 5- build registry colors
   await registry_build_colors()
+
+  script_spinner.succeed('🎉 Done!, the registry is ready!')
 }

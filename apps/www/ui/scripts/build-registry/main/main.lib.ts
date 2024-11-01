@@ -1,3 +1,4 @@
+import ora, { type Options } from 'ora'
 import path from 'path'
 import fs from 'fs/promises'
 import { Project } from 'ts-morph'
@@ -31,4 +32,17 @@ export function fix_import(content: string) {
   }
 
   return content.replace(regex, replacement)
+}
+
+export function spinner(
+  text: Options['text'],
+  options?: {
+    silent?: boolean
+  }
+) {
+  return ora({
+    color: 'yellow',
+    text,
+    isSilent: options?.silent,
+  })
 }
