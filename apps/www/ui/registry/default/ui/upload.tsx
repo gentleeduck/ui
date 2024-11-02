@@ -8,7 +8,7 @@ import { uuidv7 } from 'uuidv7'
 import { toast } from 'sonner'
 import { filesize } from 'filesize'
 import { cn } from '@/lib'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import { Upload as UploadIcon } from 'lucide-react'
 
 // Define an enum for file types

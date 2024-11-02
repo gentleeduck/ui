@@ -9,7 +9,7 @@ import { docsConfig } from '@/config/docs'
 import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
 import { Icons } from '@/components/icons'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import { ScrollArea } from '@/registry/default/ui/'
 import { Sheet, SheetContent, SheetTrigger } from '@/registry/default/ui/'
 

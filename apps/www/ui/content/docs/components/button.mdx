@@ -16,9 +16,10 @@ component: true
 - **Customizable**: Easily adjust the button's variant, size, and appearance.
 - **Keyboard Shortcuts**: Assign keyboard shortcuts for enhanced user interactions.
 - **Tooltip Integration**: Display tooltips with custom delay and content.
-- **Icon Support**: Include icons alongside text or as standalone elements.
-- **Collapsible**: Optionally collapse the button to save space.
-- **Loading State**: Display a loading spinner or icon while actions are in progress, hiding other content.
+- **Icon Support**: Include primary and secondary icons alongside text or as standalone elements.
+- **Collapsible**: Optionally collapse the button to icon-only mode.
+- **Loading State**: Display a loading spinner while actions are in progress.
+- **Label Support**: Add labels with flexible positioning and style.
 
 ## Installation
 
@@ -43,21 +44,21 @@ npx duck-ui@latest add button
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @radix-ui/react-slot
+npm install @radix-ui/react-slot @ahmedayob/duck-shortcut
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
 
 <ComponentSource name="button" />
 
+
 <Step>
-  The Combobox is built using a composition of the `<Command />
-  `, the `<Tooltip />` component.
+  The Combobox is built using a composition of the `<Command />`, the `<Tooltip />`, the `<Badge />` component.
 </Step>
 
 <Step>
-  You also will need to install the [`Command`](/docs/components/Command#installation) and
-  [`Tooltip`](/docs/components/Tooltip#installation) components because some dependencies are inherited from them.
+  You also will need to install the [`Command`](/docs/components/command#installation) and
+  [`Tooltip`](/docs/components/tooltip#installation) and [`Badge`](/docs/components/badge#installation) components because some dependencies are inherited from them.
 </Step>
 
 <Step>Update the import paths to match your project setup.</Step>

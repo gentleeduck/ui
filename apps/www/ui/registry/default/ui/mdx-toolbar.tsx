@@ -23,7 +23,7 @@ import { AlignCenter, CircleOff, Heading, Highlighter, Link2, LucideIcon, Pencil
 import { cn } from '@/lib'
 import { Editor } from '@tiptap/core'
 import { BubbleMenu } from '@tiptap/react'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 
 export type NotionEditorButtonPickerWrapperProps = {
   trigger: React.ReactElement

@@ -12,7 +12,7 @@ import {
   VolumeX,
 } from 'lucide-react'
 import React, { useState, useRef, useEffect } from 'react'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import { cn } from '@/lib'
 import { Input } from './input'
 import { AudioVisualizer, dataPoint, new_audio, process_blob, ProcessBlobParams, ThemeColor } from './audio-visualizer'

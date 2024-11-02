@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/registry/default/ui/'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/registry/default/ui/'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/registry/default/ui/'
 import { Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 
 export function CardsTeamMembers() {
   return (

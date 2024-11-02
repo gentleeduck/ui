@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import * as React from 'react'
@@ -168,7 +167,7 @@ const components = {
     __event__?: Event['name']
   } & NpmCommands) => {
     return (
-      <StyleWrapper styleName={__style__}>
+      <div>
         <pre
           className={cn(
             'mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900',
@@ -195,7 +194,7 @@ const components = {
             className={cn('absolute right-4 top-4', __withMeta__ && 'top-16')}
           />
         )}
-      </StyleWrapper>
+      </div>
     )
   },
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
@@ -283,10 +282,7 @@ interface MdxProps {
 }
 
 export function Mdx({ code }: MdxProps) {
-  const [config] = useConfig()
-  const Component = useMDXComponent(code, {
-    style: config.style,
-  })
+  const Component = useMDXComponent(code)
 
   return (
     <div className="mdx">

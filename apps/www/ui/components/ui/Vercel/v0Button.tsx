@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 import { Block } from '@/registry/schema'
 import { Style } from '@/registry/styles'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/default/ui/'
-import { Button, ButtonProps } from '@/registry'
+import { Button, ButtonProps } from '@/registry/registry-ui-components'
 
 type Size = 'default' | 'icon'
 

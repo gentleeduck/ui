@@ -1,4 +1,4 @@
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import {
   AlertDialog,
   AlertDialogAction,

@@ -3,7 +3,7 @@ import { Check, Plus, Send } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/registry/default/ui/'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import { Card, CardContent, CardFooter, CardHeader } from '@/registry/default/ui/'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/registry/default/ui/'
 import {

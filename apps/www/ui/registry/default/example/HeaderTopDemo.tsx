@@ -1,7 +1,7 @@
 import { LucideProps } from 'lucide-react'
 import { Header, TooltipProvider } from '@/registry/default/ui'
 import { cn } from '@/lib'
-import { Button, ButtonProps } from '@/registry'
+import { Button, ButtonProps } from '@/registry/registry-ui-components'
 
 const data: ButtonProps[] = [
   {

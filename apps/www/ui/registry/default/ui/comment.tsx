@@ -5,7 +5,7 @@ import { cn } from '@/lib'
 import { Avatar, AvatarFallback, AvatarImage } from './avatar'
 import { ScrollArea } from './scroll-area'
 import { filesize } from 'filesize'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import {
   ArrowBigUp,
   BadgeCheck,

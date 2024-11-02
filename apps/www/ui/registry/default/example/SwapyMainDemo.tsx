@@ -1,7 +1,7 @@
 'use client'
 import { cn } from '@/lib'
 
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import {
   AlertDialogCustom,
   AvatarGroup,

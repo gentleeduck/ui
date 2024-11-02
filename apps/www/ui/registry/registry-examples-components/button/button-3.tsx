@@ -2,14 +2,15 @@ import React from 'react'
 import { Inbox } from 'lucide-react'
 import { TooltipProvider } from '@/registry/default/ui'
 import { toast } from 'sonner'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 
 export default function ButtonAdvancedDemo() {
+  const [open, setOpen] = React.useState<boolean>(false)
   return (
     <>
       <TooltipProvider>
         <Button
-          is_collapsed={false}
+          isCollapsed={open}
           icon={{
             children: Inbox,
           }}
@@ -18,9 +19,7 @@ export default function ButtonAdvancedDemo() {
           size={'sm'}
           role="button"
           aria-label={'click me'}
-          aria-disabled={false}
-          aria-expanded={false}
-          aria-pressed={false}
+          aria-expanded={open}
           tabIndex={0}
           loading={false}
           label={{

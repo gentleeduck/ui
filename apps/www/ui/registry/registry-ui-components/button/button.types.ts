@@ -14,12 +14,11 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
   isCollapsed?: boolean
+  loading?: boolean
   icon?: IconType
-  title?: string
   secondIcon?: IconType
   label?: LabelType
   command?: CommandType
-  loading?: boolean
 }
 
 export interface LabelType extends Partial<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>> {

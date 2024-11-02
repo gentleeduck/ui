@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 import { useConfig } from '@/hooks/use-config'
 import { copyToClipboardWithMeta } from '@/components/copy-button'
 import { ThemeWrapper } from '@/components/theme-wrapper'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import {
   Dialog,
   DialogContent,

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/cn'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import {
   Input,
   Label,

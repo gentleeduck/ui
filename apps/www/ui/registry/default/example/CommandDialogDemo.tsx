@@ -20,7 +20,7 @@ import {
   CommandShortcut,
   TooltipProvider,
 } from '@/registry/default/ui/'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 
 const data: CommandListGroupDataType[] = [
   {

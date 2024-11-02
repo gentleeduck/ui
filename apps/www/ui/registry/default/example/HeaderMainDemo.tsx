@@ -3,7 +3,7 @@ import { DuckSwitcher, Header, TooltipProvider } from '@/registry/default/ui'
 import { useAtom } from 'jotai'
 import { buttonVarieties } from '@/hooks/use-varieties'
 import { cn } from '@/lib'
-import { Button, ButtonProps } from '@/registry'
+import { Button, ButtonProps } from '@/registry/registry-ui-components'
 
 const data: ButtonProps[] = [
   {

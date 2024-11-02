@@ -27,105 +27,92 @@ export function rehypeComponent() {
         }
 
         try {
-          let src: string
-
-          if (srcPath) {
-            src = srcPath
-          } else {
-            const component = Index[name]
-            src = fileName
-              ? component.files.find((file: string) => {
-                  return file.endsWith(`${fileName}.tsx`) || file.endsWith(`${fileName}.ts`)
-                }) || component.files[0]
-              : component.files[0]
-          }
-
-          // Read the source file.
-          const filePath = path.join(process.cwd(), src)
-          let source = fs.readFileSync(filePath, 'utf8')
-
-          // Replace imports.
-          // TODO: Use @swc/core and a visitor to replace this.
-          // For now a simple regex should do.
-          source = source.replaceAll(`@/registry/`, '@/components/')
-          source = source.replaceAll('export default', 'export')
-
-          // Add code as children so that rehype can take over at build time.
-          node.children?.push(
-            u('element', {
-              tagName: 'pre',
-              properties: {
-                __src__: src,
-              },
-              children: [
-                u('element', {
-                  tagName: 'code',
-                  properties: {
-                    className: ['language-tsx'],
-                  },
-                  children: [
-                    {
-                      type: 'text',
-                      value: source,
-                    },
-                  ],
-                }),
-              ],
-            })
-          )
-        } catch (error) {
-          console.error(error)
-        }
-      }
-
-      if (node.name === 'ComponentPreview') {
-        const name = getNodeAttributeByName(node, 'name')?.value as string
-
-        if (!name) {
-          return null
-        }
-
-        try {
           const component = Index[`${name}`]
-          const src = component.files[0][0].path
+          const files = component.files[0]
+          let items: ItemType[] = get_component_source(files)
 
-          // Read the source file.
-          const filePath = path.join(process.cwd(), 'registry', src)
-          let source = fs.readFileSync(filePath, 'utf8')
-
-          // Replace imports.
-          // TODO: Use @swc/core and a visitor to replace this.
-          // For now a simple regex should do.
-          source = source.replaceAll(`@/registry/`, '@/components/')
-          source = source.replaceAll('export default', 'export')
-
+          // console.log(src)
           // Add code as children so that rehype can take over at build time.
+
           node.children?.push(
-            u('element', {
-              tagName: 'pre',
-              properties: {
-                __src__: src,
-              },
-              children: [
+            ...items.map(
+              item =>
                 u('element', {
-                  tagName: 'code',
+                  tagName: 'pre',
                   properties: {
-                    className: ['language-tsx'],
+                    __src__: item.src,
                   },
                   children: [
-                    {
-                      type: 'text',
-                      value: source,
-                    },
+                    u('element', {
+                      tagName: 'code',
+                      properties: {
+                        className: ['language-tsx'],
+                        title: srcPath,
+                      },
+                      children: [
+                        {
+                          type: 'text',
+                          value: item.src,
+                        },
+                      ],
+                    }),
                   ],
-                }),
-              ],
-            })
+                }) as UnistNode
+            )
           )
         } catch (error) {
           console.error(error)
         }
       }
+
+      // if (node.name === 'ComponentPreview') {
+      //   const name = getNodeAttributeByName(node, 'name')?.value as string
+      //
+      //   if (!name) {
+      //     return null
+      //   }
+      //
+      //   try {
+      //     const component = Index[`${name}`]
+      //     const src = component.files[0][0].path
+      //
+      //     // Read the source file.
+      //     const filePath = path.join(process.cwd(), 'registry', src)
+      //     let source = fs.readFileSync(filePath, 'utf8')
+      //
+      //     // Replace imports.
+      //     // TODO: Use @swc/core and a visitor to replace this.
+      //     // For now a simple regex should do.
+      //     source = source.replaceAll(`@/registry/`, '@/components/')
+      //     source = source.replaceAll('export default', 'export')
+      //
+      //     // Add code as children so that rehype can take over at build time.
+      //     node.children?.push(
+      //       u('element', {
+      //         tagName: 'pre',
+      //         properties: {
+      //           __src__: src,
+      //         },
+      //         children: [
+      //           u('element', {
+      //             tagName: 'code',
+      //             properties: {
+      //               className: ['language-tsx'],
+      //             },
+      //             children: [
+      //               {
+      //                 type: 'text',
+      //                 value: source,
+      //               },
+      //             ],
+      //           }),
+      //         ],
+      //       })
+      //     )
+      //   } catch (error) {
+      //     console.error(error)
+      //   }
+      // }
 
       // if (node.name === "ComponentExample") {
       //   const source = getComponentSourceFileContent(node)
@@ -241,16 +228,24 @@ function getNodeAttributeByName(node: UnistNode, name: string) {
   return node.attributes?.find(attribute => attribute.name === name)
 }
 
-function getComponentSourceFileContent(node: UnistNode) {
-  const src = getNodeAttributeByName(node, 'src')?.value as string
+type ItemType = { name: string; type: string; src: string }
+function get_component_source(files: { type: string; path: string }[]) {
+  let item: ItemType[] = []
+  for (let i = 0; i < files.length; i++) {
+    const filePath = path.join(process.cwd(), 'registry', files[i].path)
+    let source = `// ${files[i].path.split('/').splice(1).join('/')}\n`
+    try {
+      source += fs.readFileSync(filePath, 'utf8')
 
-  if (!src) {
-    return null
+      // Replace imports.
+      // TODO: Use @swc/core and a visitor to replace this.
+      // For now a simple regex should do.
+      source = source.replaceAll(`@/registry/`, '@/components/')
+      source = source.replaceAll('export default', 'export')
+      item.push({ name: files[i].path.split('/')?.pop() ?? 'file', type: files[i].type, src: source })
+    } catch (error) {
+      console.error(`Error reading file ${filePath}:`, error)
+    }
   }
-
-  // Read the source file.
-  const filePath = path.join(process.cwd(), src)
-  const source = fs.readFileSync(filePath, 'utf8')
-
-  return source
+  return item
 }

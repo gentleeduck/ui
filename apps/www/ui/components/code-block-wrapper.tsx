@@ -3,7 +3,7 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/'
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -12,7 +12,6 @@ interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CodeBlockWrapper({ expandButtonTitle = 'View Code', className, children, ...props }: CodeBlockProps) {
   const [isOpened, setIsOpened] = React.useState(false)
-
   return (
     <Collapsible
       open={isOpened}
@@ -29,7 +28,7 @@ export function CodeBlockWrapper({ expandButtonTitle = 'View Code', className, c
           <div
             className={cn(
               '[&_pre]:my-0 [&_pre]:max-h-[650px] [&_pre]:pb-[100px]',
-              !isOpened ? '[&_pre]:overflow-hidden' : '[&_pre]:overflow-auto]'
+              !isOpened ? '[&_pre]:overflow-hidden' : '[&_pre]:overflow-auto] [&_pre]:mt-2'
             )}
           >
             {children}

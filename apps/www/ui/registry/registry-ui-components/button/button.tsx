@@ -15,8 +15,8 @@ import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      as_child: asChild,
-      is_collapsed: isCollapsed = false,
+      asChild,
+      isCollapsed = false,
       size = 'default',
       variant = 'default',
       title,
@@ -24,8 +24,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       label,
       children,
       icon,
-      second_icon: secondIcon,
-      delayDuration = 0,
+      secondIcon,
       loading = false,
       command,
       ...props
@@ -39,6 +38,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       side,
       showLabel,
       showCommand,
+      delayDuration = 0,
       ...labelProps
     } = label || {}
     const Component = asChild ? Slot : 'button'
@@ -55,7 +55,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <Badge
           variant={'secondary'}
           size={'sm'}
-          className="p-0 px-2"
+          className="p-0 px-2 text-bold rounded-sm"
         >
           {command?.label}
         </Badge>
@@ -92,7 +92,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               ) : (
                 <Loader className="size-[1.18rem] animate-spin" />
               )}
-              {!isCollapsed && (children || title)}
+              {!isCollapsed && children}
             </div>
             {!isCollapsed && command?.label && !showCommand && <CommandComponent />}
 
@@ -124,13 +124,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             )}
           </Component>
         </TooltipTrigger>
-        {(isCollapsed || showLabel) && (title || label) && (
+        {(isCollapsed || showLabel) && label && (
           <TooltipContent
             {...labelProps}
             className={cn('flex items-center gap-2 z-50 justify-start', labelClassName)}
             side={side || 'right'}
           >
-            {title && title}
             {command?.label && showCommand && <CommandComponent />}
             {showLabel && (
               <span className={cn('ml-auto text-[.9rem]', !showLabel && 'text-muted-foreground')}>{labelChildren}</span>

@@ -7,7 +7,7 @@ import { NpmCommands } from 'types/unist'
 
 import { Event, trackEvent } from '@/lib/events'
 import { cn } from '@/lib/utils'
-import { Button, ButtonProps } from '@/registry'
+import { Button, ButtonProps } from '@/registry/registry-ui-components'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/registry/default/ui'
 
 interface CopyButtonProps extends ButtonProps {
@@ -24,6 +24,7 @@ export async function copyToClipboardWithMeta(value: string, event?: Event) {
 }
 
 export function CopyButton({ value, className, src, variant = 'ghost', event, ...props }: CopyButtonProps) {
+  console.log(src, 'src')
   const [hasCopied, setHasCopied] = React.useState(false)
 
   React.useEffect(() => {

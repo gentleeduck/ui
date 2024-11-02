@@ -45,7 +45,5 @@ export async function main() {
   // 5- build registry colors
   await registry_build_colors()
 
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
   script_spinner.succeed('🎉 Done!, the registry is ready!')
 }

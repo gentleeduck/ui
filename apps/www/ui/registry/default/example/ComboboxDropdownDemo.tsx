@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Calendar, MoreHorizontal, Tags, Trash, User } from 'lucide-react'
 
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import {
   Command,
   CommandEmpty,

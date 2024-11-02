@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import { cn } from '@/lib'
-import { Button, ButtonProps } from '@/registry'
+import { Button, ButtonProps } from '@/registry/registry-ui-components'
 import { filteredObject, groupArrays } from '@/lib/utils'
 import { Separator } from './ShadcnUI'
 

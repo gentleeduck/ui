@@ -8,7 +8,7 @@ import { useTheme } from 'next-themes'
 
 import { docsConfig } from '@/config/docs'
 import { cn } from '@/lib/utils'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import {
   CommandDialog,
   CommandEmpty,

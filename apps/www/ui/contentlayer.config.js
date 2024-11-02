@@ -112,7 +112,7 @@ export default makeSource({
         {
           theme: {
             dark: 'catppuccin-mocha',
-            light: 'catppuccin-mocha',
+            light: 'catppuccin-latte',
           },
           getHighlighter,
           onVisitLine(node) {

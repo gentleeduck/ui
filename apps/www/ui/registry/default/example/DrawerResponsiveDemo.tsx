@@ -3,7 +3,7 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { AlertDialogCustom, Input, Label } from '@/registry/default/ui/'
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 
 interface DataType {
   email: string

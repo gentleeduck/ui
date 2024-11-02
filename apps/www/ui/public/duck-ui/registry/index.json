@@ -3,7 +3,13 @@
     "name": "button",
     "type": "registry:ui",
     "dependencies": [
-      "@radix-ui/react-slot"
+      "@radix-ui/react-slot",
+      "@ahmedayob/duck-shortcut"
+    ],
+    "registryDependencies": [
+      "tooltip",
+      "command",
+      "badge"
     ],
     "root_folder": "registry-ui-components/button",
     "files": [
@@ -49,6 +55,62 @@
     "files": [
       {
         "path": "registry-examples-components/button/button-2.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-main-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-3.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-main-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-5.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-main-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-6.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-main-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-7.tsx",
         "type": "registry:example"
       }
     ]

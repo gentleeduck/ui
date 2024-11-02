@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-import { Button } from '@/registry'
+import { Button } from '@/registry/registry-ui-components'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/registry/default/ui/'
 import { Input } from '@/registry/default/ui/'
 import { Label } from '@/registry/default/ui/'

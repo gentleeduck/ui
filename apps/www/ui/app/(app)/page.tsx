@@ -3,13 +3,13 @@ import Link from 'next/link'
 
 import { siteConfig } from '@/config/site'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@/components/page-header'
-import { buttonVariants } from '@/registry/default/ui/'
 import { CopyButton } from '@/components/copy-button'
 import { toast } from 'sonner'
 import { Announcement } from '@/components/announcement'
 import { ThemeWrapper } from '@/components/theme-wrapper'
 import { ThemeCustomizer } from '@/components/theme-customizer'
 import { ThemesTabs } from './themes/tabs'
+import { buttonVariants } from '@/registry/registry-ui-components'
 
 export default function IndexPage() {
   return (
