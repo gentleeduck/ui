@@ -83,5 +83,26 @@ pre {
     font-family: 'JetBrains Mono', serif !important;
     font-optical-sizing: auto !important;
     font-style: normal !important;
-    font-weight: 700 !important;
+    font-weight: 400 !important;
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    /* Width of the entire scrollbar */
+    height: 8px;
+    /* Height of the scrollbar for horizontal scrolling */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    /* Scrollbar thumb color */
+    border-radius: 90px;
+    /* Scrollbar thumb radius */
+    height: 24px;
+    /* Scrollbar thumb height */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--border) / 0.98);
+    /* Scrollbar thumb color on hover */
 }

@@ -136,6 +136,7 @@ export default makeSource({
             if (!('data-rehype-pretty-code-fragment' in node.properties)) {
               return
             }
+            console.dir(node, 'NODE', { depth: 40 })
 
             const preElement = node.children.at(-1)
             if (preElement.tagName !== 'pre') {

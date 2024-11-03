@@ -27,7 +27,7 @@ export function CodeBlockWrapper({ expandButtonTitle = 'View Code', className, c
         >
           <div
             className={cn(
-              '[&_pre]:my-0 [&_pre]:max-h-[650px] [&_pre]:pb-[100px]',
+              '[&_pre]:my-0 [&_pre]:max-h-[650px] [&_div:last-child_pre]:pb-[50px]',
               !isOpened ? '[&_pre]:overflow-hidden' : '[&_pre]:overflow-auto] [&_pre]:mt-2'
             )}
           >
@@ -36,8 +36,10 @@ export function CodeBlockWrapper({ expandButtonTitle = 'View Code', className, c
         </CollapsibleContent>
         <div
           className={cn(
-            'absolute flex items-center justify-center bg-gradient-to-b from-zinc-700/30 to-zinc-950/90 p-2',
-            isOpened ? 'inset-x-0 bottom-0 h-12' : 'inset-0'
+            'absolute flex items-center justify-center bg-gradient-to-b p-2 rounded-lg',
+            isOpened
+              ? 'inset-x-[1px] bottom-0 h-12 from-[#18181b] to-[#09090b] border-b border-b-solid'
+              : 'from-zinc-100/10 to-zinc-950/90 inset-0'
           )}
         >
           <CollapsibleTrigger asChild>

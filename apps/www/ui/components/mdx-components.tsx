@@ -8,18 +8,15 @@ import { NpmCommands } from 'types/unist'
 
 import { Event } from '@/lib/events'
 import { cn } from '@/lib/utils'
-import { useConfig } from '@/hooks/use-config'
 import { Callout } from '@/components/callout'
 import { CodeBlockWrapper } from '@/components/code-block-wrapper'
 import { ComponentExample, ComponentSource, ComponentPreview } from '@/components/ui'
 import { CopyButton, CopyNpmCommandButton } from '@/components/copy-button'
 import { FrameworkDocs } from '@/components/framework-docs'
-import { StyleWrapper } from '@/components/style-wrapper'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/registry/default/ui/'
 import { Alert, AlertDescription, AlertTitle } from '@/registry/default/ui/'
 import { AspectRatio } from '@/registry/default/ui/'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/registry/default/ui/'
-import { Style } from '@/registry/styles'
 
 const components = {
   Accordion,
@@ -105,7 +102,6 @@ const components = {
     />
   ),
   img: ({ className, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       className={cn('rounded-md', className)}
       alt={alt}
@@ -157,15 +153,14 @@ const components = {
     __withMeta__,
     __src__,
     __event__,
-    __style__,
     ...props
   }: React.HTMLAttributes<HTMLPreElement> & {
-    __style__?: Style['name']
     __rawString__?: string
     __withMeta__?: boolean
     __src__?: string
     __event__?: Event['name']
   } & NpmCommands) => {
+    console.log(props)
     return (
       <div>
         <pre

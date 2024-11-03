@@ -617,3 +617,33 @@ section#id {
     transform-origin: 50% 50%;
   }
 }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  /* Thin scrollbar */
+  scrollbar-color: hsl(var(--border)) transparent;
+  /* Thumb color and track color */
+
+  /* WebKit browsers (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    width: 8px;
+    /* Width of the entire scrollbar */
+    height: 8px;
+    /* Height of the scrollbar for horizontal scrolling */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    /* Scrollbar thumb color */
+    border-radius: 4px;
+    /* Scrollbar thumb radius */
+    height: 24px;
+    /* Scrollbar thumb height */
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--border) / 0.98);
+    /* Scrollbar thumb color on hover */
+  }
+}

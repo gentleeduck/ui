@@ -24,7 +24,6 @@ export async function copyToClipboardWithMeta(value: string, event?: Event) {
 }
 
 export function CopyButton({ value, className, src, variant = 'ghost', event, ...props }: CopyButtonProps) {
-  console.log(src, 'src')
   const [hasCopied, setHasCopied] = React.useState(false)
 
   React.useEffect(() => {

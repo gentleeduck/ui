@@ -11,7 +11,6 @@ interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function ComponentSource({ children, className, ...props }: ComponentSourceProps) {
-  console.log(children)
   return (
     <CodeBlockWrapper
       expandButtonTitle="Expand"
@@ -20,13 +19,4 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
       {children}
     </CodeBlockWrapper>
   )
-  return children?.map((child, index) => (
-    <CodeBlockWrapper
-      key={index}
-      expandButtonTitle="Expand"
-      className={cn('my-6 overflow-hidden rounded-md', className)}
-    >
-      {child}
-    </CodeBlockWrapper>
-  ))
 }

@@ -17,9 +17,9 @@ import { badgeVariants } from '@/registry/default/ui/'
 import { ScrollArea } from '@/registry/default/ui/'
 
 interface DocPageProps {
-  params: {
+  params: Promise<{
     slug: string[]
-  }
+  }>
 }
 
 async function getDocFromParams({ params }: DocPageProps) {
@@ -33,7 +33,8 @@ async function getDocFromParams({ params }: DocPageProps) {
   return doc
 }
 
-export async function generateMetadata({ params }: DocPageProps): Promise<Metadata> {
+export async function generateMetadata(props: DocPageProps): Promise<Metadata> {
+  const params = await props.params;
   const doc = await getDocFromParams({ params })
 
   if (!doc) {
@@ -73,7 +74,8 @@ export async function generateStaticParams(): Promise<DocPageProps['params'][]> 
   }))
 }
 
-export default async function DocPage({ params }: DocPageProps) {
+export default async function DocPage(props: DocPageProps) {
+  const params = await props.params;
   const doc = await getDocFromParams({ params })
 
   if (!doc) {
