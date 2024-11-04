@@ -153,14 +153,18 @@ const components = {
     __withMeta__,
     __src__,
     __event__,
+    __title__,
     ...props
   }: React.HTMLAttributes<HTMLPreElement> & {
     __rawString__?: string
     __withMeta__?: boolean
+    __title__?: string
     __src__?: string
     __event__?: Event['name']
   } & NpmCommands) => {
-    console.log(props)
+    // Log the title value to the console
+    console.log('Title:', __title__ || 'No title provided')
+
     return (
       <div>
         <pre

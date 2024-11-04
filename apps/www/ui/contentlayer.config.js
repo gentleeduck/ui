@@ -83,10 +83,13 @@ export default makeSource({
     rehypePlugins: [
       rehypeSlug,
       rehypeComponent,
+      rehypeExtractTitle,
       () => tree => {
         visit(tree, node => {
           if (node?.type === 'element' && node?.tagName === 'pre') {
             const [codeEl] = node.children
+
+            // console.dir(node, 'NODE', { depth: 40 })
             if (codeEl.tagName !== 'code') {
               return
             }
@@ -103,7 +106,9 @@ export default makeSource({
 
             node.__rawString__ = codeEl.children?.[0].value
             node.__src__ = node.properties?.__src__
+            node.__title__ = node.properties?.__title__
             // node.__style__ = node.properties?.__style__
+            // console.log(node, node.properties?.__title__)
           }
         })
       },
@@ -136,7 +141,6 @@ export default makeSource({
             if (!('data-rehype-pretty-code-fragment' in node.properties)) {
               return
             }
-            console.dir(node, 'NODE', { depth: 40 })
 
             const preElement = node.children.at(-1)
             if (preElement.tagName !== 'pre') {
@@ -173,3 +177,18 @@ export default makeSource({
     ],
   },
 })
+
+// rehypeExtractTitle.js
+export function rehypeExtractTitle() {
+  return tree => {
+    tree.children.forEach(node => {
+      if (node.tagName === 'pre') {
+        const titleAttribute = node.properties?.__title__
+        if (titleAttribute) {
+          // Store title in a custom property on the node, e.g., data-title
+          node.properties.dataTitle = titleAttribute
+        }
+      }
+    })
+  }
+}
