@@ -35,8 +35,8 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  'button-main-2': {
-    name: 'button-main-2',
+  'button-2': {
+    name: 'button-2',
     description: '',
     type: 'registry:example',
     registryDependencies: ['button'],
@@ -47,8 +47,8 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  'button-main-3': {
-    name: 'button-main-3',
+  'button-3': {
+    name: 'button-3',
     description: '',
     type: 'registry:example',
     registryDependencies: ['button'],
@@ -59,8 +59,8 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  'button-main-5': {
-    name: 'button-main-5',
+  'button-5': {
+    name: 'button-5',
     description: '',
     type: 'registry:example',
     registryDependencies: ['button'],
@@ -71,8 +71,8 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  'button-main-6': {
-    name: 'button-main-6',
+  'button-6': {
+    name: 'button-6',
     description: '',
     type: 'registry:example',
     registryDependencies: ['button'],
@@ -83,8 +83,8 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  'button-main-7': {
-    name: 'button-main-7',
+  'button-7': {
+    name: 'button-7',
     description: '',
     type: 'registry:example',
     registryDependencies: ['button'],

@@ -2,11 +2,14 @@ import { registry, registry_schema } from '@/registry'
 import { build_registry_index } from '../build-registry-index'
 import { build_registry_components } from '../build-registry-components'
 import { build_registry_tsx, write_index_tsx } from '../build-registry-tsx'
-import { tsx_index } from './main.constants'
+import { PUBLIC_REGISTRY_PATH, tsx_index } from './main.constants'
 import { build_registry_styles_index } from '../build-registry-styles-index'
 import { registry_build_colors } from '../build-registry-build-colors'
 import { build_registry_home } from '../build-registry-home'
 import { spinner } from './main.lib'
+import rimraf from 'rimraf'
+import path from 'path'
+import fs from 'fs/promises'
 
 export async function main() {
   // 1- showing the home of the application
@@ -33,7 +36,6 @@ export async function main() {
   for (const item of index) {
     // 1- build the components in the public folder.
     await build_registry_components(item)
-
     // 2- build the __registry__/
     tsx_content += await build_registry_tsx(item)
 

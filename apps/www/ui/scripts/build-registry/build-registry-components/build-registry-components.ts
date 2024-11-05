@@ -30,10 +30,10 @@ export async function build_registry_components(item: z.infer<typeof registry_sc
   })
 
   if (payload.success) {
-    await fs.writeFile(
-      path.join(PUBLIC_REGISTRY_PATH, `${item.name}.json`),
-      JSON.stringify(payload.data, null, 2),
-      'utf8'
-    )
+    await fs.writeFile(path.join(PUBLIC_REGISTRY_PATH, `${item.name}.json`), JSON.stringify(payload.data, null, 2), {
+      encoding: 'utf8',
+      flag: 'w',
+      mode: 0o644,
+    })
   }
 }

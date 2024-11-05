@@ -46,7 +46,7 @@
     ]
   },
   {
-    "name": "button-main-2",
+    "name": "button-2",
     "type": "registry:example",
     "registryDependencies": [
       "button"
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "name": "button-main-3",
+    "name": "button-3",
     "type": "registry:example",
     "registryDependencies": [
       "button"
@@ -74,7 +74,7 @@
     ]
   },
   {
-    "name": "button-main-5",
+    "name": "button-5",
     "type": "registry:example",
     "registryDependencies": [
       "button"
@@ -88,7 +88,7 @@
     ]
   },
   {
-    "name": "button-main-6",
+    "name": "button-6",
     "type": "registry:example",
     "registryDependencies": [
       "button"
@@ -102,7 +102,7 @@
     ]
   },
   {
-    "name": "button-main-7",
+    "name": "button-7",
     "type": "registry:example",
     "registryDependencies": [
       "button"

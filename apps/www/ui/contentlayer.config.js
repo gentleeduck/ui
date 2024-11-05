@@ -106,7 +106,10 @@ export default makeSource({
 
             node.__rawString__ = codeEl.children?.[0].value
             node.__src__ = node.properties?.__src__
-            node.__title__ = node.properties?.__title__
+
+            // TODO:  add this to the props or remove it .
+            // node.__title__ = node.properties?.__title__
+            // console.log(node)
             // node.__style__ = node.properties?.__style__
             // console.log(node, node.properties?.__title__)
           }
@@ -158,6 +161,11 @@ export default makeSource({
               preElement.properties['__event__'] = node.__event__
             }
 
+            // TODO: Remove this or add itto the props
+            // node.__title__ = 'wudk'
+            // preElement.__title__ = 'wudk'
+            //
+            // console.dir(node, { depth: 40 })
             // if (node.__style__) {
             //   preElement.properties['__style__'] = node.__style__
             // }

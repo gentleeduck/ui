@@ -153,7 +153,8 @@ const components = {
     __withMeta__,
     __src__,
     __event__,
-    __title__,
+    //NOTE: todo make sure to add this to the types
+    // __title__,
     ...props
   }: React.HTMLAttributes<HTMLPreElement> & {
     __rawString__?: string
@@ -162,9 +163,6 @@ const components = {
     __src__?: string
     __event__?: Event['name']
   } & NpmCommands) => {
-    // Log the title value to the console
-    console.log('Title:', __title__ || 'No title provided')
-
     return (
       <div>
         <pre
@@ -196,12 +194,14 @@ const components = {
       </div>
     )
   },
-  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <code
-      className={cn('relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm', className)}
-      {...props}
-    />
-  ),
+  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
+    return (
+      <code
+        className={cn('relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm', className)}
+        {...props}
+      />
+    )
+  },
   Image,
   Callout,
   ComponentPreview,

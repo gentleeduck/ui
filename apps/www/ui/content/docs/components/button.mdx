@@ -6,7 +6,205 @@ featured: true
 component: true
 ---
 
-<ComponentSource name="button" components={['button.index']} />
+<ComponentPreview
+  name="button-main"
+  description="A button"
+/>
+
+## Features
+
+- **Customizable**: Easily adjust the button's variant, size, and appearance.
+- **Keyboard Shortcuts**: Assign keyboard shortcuts for enhanced user interactions.
+- **Tooltip Integration**: Display tooltips with custom delay and content.
+- **Icon Support**: Include primary and secondary icons alongside text or as standalone elements.
+- **Collapsible**: Optionally collapse the button to icon-only mode.
+- **Loading State**: Display a loading spinner while actions are in progress.
+- **Label Support**: Add labels with flexible positioning and style.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx duck-ui@latest add button
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @radix-ui/react-slot @ahmedayob/duck-shortcut
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="button" />
 
 
+<Step>
+  The Combobox is built using a composition of the `<Command />`, the `<Tooltip />`, the `<Badge />` component.
+</Step>
+
+<Step>
+  You also will need to install the [`Command`](/docs/components/command#installation) and
+  [`Tooltip`](/docs/components/tooltip#installation) and [`Badge`](/docs/components/badge#installation) components because some dependencies are inherited from them.
+</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Button } from '@/components/ui/button'
+```
+
+```tsx
+<Button>Button</Button>
+```
+
+### Button
+
+`Button` is a versatile and customizable React component designed to render a button with various styles and functionalities. It supports different sizes, variants, and additional features like loading states and icons. The component is flexible and can be used in a variety of scenarios, from simple buttons to complex interactive elements.
+
+#### Example Usage:
+
+```tsx {5, 20}
+import { Button, TooltipProvider } from '@/components/ui/button'
+
+const MyButton = () => {
+  return (
+    <TooltipProvider>
+      <Button
+        size="large"
+        variant="primary"
+        label={{
+          children: 'Submit',
+          side: 'left',
+          showLabel: true,
+        }}
+        icon={{ children: Icon, className: 'size-5' }}
+        loading={false}
+        onClick={() => console.log('Button clicked')}
+      >
+        Submit
+      </Button>
+    <TooltipProvider>
+  )
+}
+```
+
+## Link
+
+You can use the `buttonVariants` helper to create a any element like a link that looks like a button.
+
+```tsx
+import { buttonVariants } from '@/components/ui'
+```
+
+```tsx
+<Link className={buttonVariants({ variant: 'outline' })}>I'am a Link</Link>
+```
+
+Alternatively, you can set the `asChild` parameter and nest the link component.
+
+```tsx
+<TooltipProvider>
+  <Button asChild>
+    <Link href="/tos">I'am a Link with tos</Link>
+  </Button>
+</TooltipProvider>
+```
+
+## Examples
+
+### Simple
+
+<ComponentPreview
+  name="button-2"
+  description="Simple button"
+/>
+
+### Advanced
+
+<ComponentPreview
+  name="button-3"
+  description="Advanced button"
+/>
+
+## API Reference
+
+### ButtonProps
+
+`ButtonProps` extends standard HTML button attributes and integrates styling variants, offering properties for enhanced button control and customization.
+
+**_Key Properties_**
+
+- **`asChild`** (`boolean`, optional): When `true`, renders the button as a child of another component, allowing customization through the parent component's styling.
+
+- **`isCollapsed`** (`boolean`, optional): When `true`, signifies that the button is in a collapsed state, useful for toggling between expanded and collapsed views.
+
+- **`loading`** (`boolean`, optional): When `true`, puts the button in a loading state, often displaying a loading spinner.
+
+- **`icon`** ([`IconType`](#icontype), optional): Defines an icon to display within the button.
+
+- **`secondIcon`** ([`IconType`](#icontype), optional): Adds a secondary icon to appear alongside the primary icon.
+
+- **`label`** ([`LabelType`](#labeltype), optional): Configures an optional label with tooltip support.
+
+- **`command`** ([`CommandType`](#commandtype), optional): Defines a command to trigger when the button is clicked, with additional state and action handling.
+
+### IconType
+
+`IconType` specifies an icon for button components, drawing icons from the Lucide library.
+
+**_Key Properties_**
+
+- **`children`** (`LucideIcon`): Specifies the icon component from the Lucide library.
+
+- **Additional SVG Props**: Inherits all properties from `React.SVGProps<SVGSVGElement>` except for `children`, along with `React.RefAttributes<SVGSVGElement>` for passing references to SVG icons.
+
+### LabelType
+
+`LabelType` defines the configuration for a label component, supporting tooltips for additional context.
+
+**_Key Properties_**
+
+- **`showCommand`** (`boolean`, optional): When `true`, displays an associated command next to the label.
+
+- **`showLabel`** (`boolean`, optional): When `true`, shows the label text in the UI.
+
+- **`delayDuration`** (`number`, optional): Sets a delay (in milliseconds) before showing the tooltip, if any.
+
+- **`type`** (`'notification' | 'default'`, optional): Specifies the label's styling, e.g., `notification` for alert labels or `default` for standard labels.
+
+### CommandType
+
+`CommandType` defines a structure for command-based actions, enabling dynamic button behavior.
+
+**_Key Properties_**
+
+- **`label`** (`string`, optional): The name or label of the command.
+
+- **`key`** (`string`): A unique identifier for the command.
+
+- **`state`** (`T`, optional): An optional state parameter for dynamic behavior based on state context.
+
+- **`action`** (`<T>(arg?: T) => void`, optional): An optional function that executes the command’s action when triggered.
 

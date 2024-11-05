@@ -27,7 +27,7 @@ export async function build_registry_index(registry: z.infer<typeof registry_sch
         },
         ...files.map(file => ({
           ...item,
-          name: `${item.name}-${file.path.split('.')[0].slice(-1)}`,
+          name: `${item.name.split('-')[0]}-${file.path.split('.')[0].slice(-1)}`,
           files: [file],
         })),
       ]
