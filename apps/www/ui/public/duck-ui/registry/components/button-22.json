@@ -1,0 +1,15 @@
+{
+  "name": "button-22",
+  "type": "registry:example",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "registry-examples-components/button",
+  "files": [
+    {
+      "path": "registry-examples-components/button/button-22.tsx",
+      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button22Demo() {\n  return (\n    <div className=\"block\">\n      <Button\n        variant=\"gooey_left\"\n        icon={{\n          children: Inbox,\n        }}\n      >\n        Button\n      </Button>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}

@@ -38,8 +38,8 @@ export function CodeBlockWrapper({ expandButtonTitle = 'View Code', className, c
           className={cn(
             'absolute flex items-center justify-center bg-gradient-to-b p-2 rounded-lg',
             isOpened
-              ? 'inset-x-[1px] bottom-0 h-12 from-[#18181b] to-[#09090b] border-b border-b-solid'
-              : 'from-zinc-100/10 to-zinc-950/90 inset-0'
+              ? 'inset-x-[1px] bottom-0 h-12 from-accent/10 to-accent-foreground/5 border-b border-b-solid'
+              : 'from-accent/10 to-accent-foreground/5 inset-0'
           )}
         >
           <CollapsibleTrigger asChild>

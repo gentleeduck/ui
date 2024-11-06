@@ -11,6 +11,7 @@ import { CommandShortcut } from '@/registry/default/ui/command'
 
 import { Loader } from 'lucide-react'
 import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+import { toast } from 'sonner'
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -19,13 +20,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isCollapsed = false,
       size = 'default',
       variant = 'default',
-      title,
       className,
       label,
       children,
       icon,
       secondIcon,
       loading = false,
+      animationIcon,
       command,
       ...props
     }: ButtonProps,
@@ -33,8 +34,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const {
       className: labelClassName,
-      type = 'default',
-      children: labelChildren,
+      variant: labelVariant,
+      size: labelSize,
       side,
       showLabel,
       showCommand,
@@ -42,22 +43,35 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ...labelProps
     } = label || {}
     const Component = asChild ? Slot : 'button'
-    const { children: Icon, className: iconClassName, ...iconProps } = icon ?? {}
-    const { children: SecondIcon, className: secondIconClassName, ...secondIconProps } = secondIcon ?? {}
+    const { children: Icon, ...iconProps } = icon ?? {}
+    const { children: SecondIcon, ...secondIconProps } = secondIcon ?? {}
+    const { icon: animationIconChildren, iconPlacement = 'right' } = animationIcon ?? {}
+    const { children: AnimationIcon, ...animationIconProps } = animationIconChildren ?? {}
+    const {
+      className: commandClassName,
+      variant: commandVariant,
+      size: commandSize,
+      label: commandLabel,
+      key,
+      action,
+      state,
+      ...commandProps
+    } = command ?? {}
 
-    const fn = () => console.log('NOTE: handling command shortcut without action')
+    const fn = () => toast.info('NOTE: handling command shortcut without action')
     //NOTE: handling command shortcut
-    useDuckShortcut({ keys: [command?.key ?? 'k'], onKeysPressed: command?.action ?? fn }, [command?.state])
+    useDuckShortcut({ keys: [key ?? 'k'], onKeysPressed: action ?? fn }, [state])
 
     // Handle keyboard shortcut Badge
     const CommandComponent = () => (
       <CommandShortcut className="text-[.8rem]">
         <Badge
-          variant={'secondary'}
-          size={'sm'}
-          className="p-0 px-2 text-bold rounded-sm"
+          variant={commandVariant || 'secondary'}
+          size={commandSize || 'sm'}
+          className={cn('p-0 px-2 text-bold rounded-sm', commandClassName)}
+          {...commandProps}
         >
-          {command?.label}
+          {commandLabel}
         </Badge>
       </CommandShortcut>
     )
@@ -71,56 +85,36 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               buttonVariants({
                 variant: variant || 'ghost',
                 size: size ? (isCollapsed ? 'icon' : size) : isCollapsed ? 'icon' : 'default',
-                className: cn(!isCollapsed && 'flex items-center gap-2', 'relative justify-center', className),
+                className: cn('relative justify-center', className),
               })
             )}
             disabled={loading}
             {...props}
           >
+            {AnimationIcon && iconPlacement === 'left' && (
+              <div className="w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-100 group-hover:pr-2 group-hover:opacity-100">
+                <AnimationIcon {...animationIconProps} />
+              </div>
+            )}
             <div className="flex items-center gap-2">
-              {!loading ? (
-                Icon && (
-                  <span className="[&_svg]:size-[1.18rem]">
-                    {!!icon && !loading && (
-                      <Icon
-                        className={iconClassName}
-                        {...iconProps}
-                      />
-                    )}
-                  </span>
-                )
-              ) : (
-                <Loader className="size-[1.18rem] animate-spin" />
-              )}
+              {!loading ? Icon && !!icon && !loading && <Icon {...iconProps} /> : <Loader className="animate-spin" />}
               {!isCollapsed && children}
-            </div>
-            {!isCollapsed && command?.label && !showCommand && <CommandComponent />}
+              {!isCollapsed && command?.label && !showCommand && <CommandComponent />}
 
-            {!isCollapsed &&
-              label &&
-              !showLabel &&
-              (type == 'default' ? (
-                <span
-                  className={cn('ml-2 text-[.9rem]', labelClassName)}
-                  {...labelProps}
-                >
-                  {labelChildren}
-                </span>
-              ) : (
+              {!isCollapsed && label && !showLabel && (
                 <Badge
-                  variant={'outline'}
-                  size={'icon'}
-                  className={cn('size-5 text-[.6rem] absolute top-0 right-0', labelClassName)}
+                  variant={labelVariant || 'outline'}
+                  size={labelSize || 'default'}
+                  className={cn('text-[.8rem] rounded-md px-2', labelClassName)}
                   {...labelProps}
-                >
-                  {labelChildren}
-                </Badge>
-              ))}
-            {!isCollapsed && !loading && SecondIcon && (
-              <SecondIcon
-                className={secondIconClassName}
-                {...secondIconProps}
-              />
+                />
+              )}
+              {!isCollapsed && !loading && SecondIcon && <SecondIcon {...secondIconProps} />}
+            </div>
+            {AnimationIcon && iconPlacement === 'right' && (
+              <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
+                <AnimationIcon {...animationIconProps} />
+              </div>
             )}
           </Component>
         </TooltipTrigger>
@@ -132,7 +126,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           >
             {command?.label && showCommand && <CommandComponent />}
             {showLabel && (
-              <span className={cn('ml-auto text-[.9rem]', !showLabel && 'text-muted-foreground')}>{labelChildren}</span>
+              <span
+                className={cn('ml-auto text-[.9rem]', !showLabel && 'text-muted-foreground')}
+                {...labelProps}
+              />
             )}
           </TooltipContent>
         )}

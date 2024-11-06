@@ -1,0 +1,24 @@
+import React from 'react'
+import { Button } from '@/registry/registry-ui-components'
+import { Apple, ArrowLeft } from 'lucide-react'
+
+export default function Button19Demo() {
+  return (
+    <div className="block">
+      <Button
+        variant="expand_icon"
+        animationIcon={{
+          icon: {
+            children: ArrowLeft,
+          },
+          iconPlacement: 'left',
+        }}
+        secondIcon={{
+          children: Apple,
+        }}
+      >
+        Button
+      </Button>
+    </div>
+  )
+}

@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "registry-examples-components/button/button-7.tsx",
-      "content": "import React from 'react'\nimport { TooltipProvider } from '@/registry/default/ui'\nimport { Button } from '@/registry/registry-ui-components'\nimport { Inbox } from 'lucide-react'\n\nexport default function ButtonSimpleDemo() {\n  return (\n    <>\n      <TooltipProvider>\n        <Button>Button</Button>\n      </TooltipProvider>\n    </>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components'\n\nexport default function Button7Demo() {\n  return <Button variant={'destructive'}>Button</Button>\n}\n",
       "type": "registry:example"
     }
   ]

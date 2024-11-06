@@ -1,0 +1,15 @@
+{
+  "name": "button-140",
+  "type": "registry:example",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "registry-examples-components/button",
+  "files": [
+    {
+      "path": "registry-examples-components/button/button-140.tsx",
+      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components'\nimport { ArrowLeft, ArrowRight, Inbox } from 'lucide-react'\n\nexport default function ButtonSecondIconDemo() {\n  return (\n    <div className=\"block\">\n      <Button\n        variant=\"expand_icon\"\n        animationIcon={{\n          icon: {\n            children: ArrowRight,\n          },\n          iconPlacement: 'right',\n        }}\n        icon={{\n          children: Inbox,\n        }}\n      >\n        Button\n      </Button>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}

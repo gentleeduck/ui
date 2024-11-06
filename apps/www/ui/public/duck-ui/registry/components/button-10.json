@@ -1,0 +1,15 @@
+{
+  "name": "button-10",
+  "type": "registry:example",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "registry-examples-components/button",
+  "files": [
+    {
+      "path": "registry-examples-components/button/button-10.tsx",
+      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button10Demo() {\n  return (\n    <>\n      <Button\n        loading={true}\n        icon={{\n          children: Inbox,\n        }}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}

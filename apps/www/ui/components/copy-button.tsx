@@ -37,6 +37,10 @@ export function CopyButton({ value, className, src, variant = 'ghost', event, ..
       size="icon"
       variant={variant}
       className={cn('relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3', className)}
+      icon={{
+        children: hasCopied ? CheckIcon : ClipboardIcon,
+        className: 'stroke-accent-foreground',
+      }}
       onClick={() => {
         copyToClipboardWithMeta(
           value,
@@ -54,7 +58,6 @@ export function CopyButton({ value, className, src, variant = 'ghost', event, ..
       {...props}
     >
       <span className="sr-only">Copy</span>
-      {hasCopied ? <CheckIcon /> : <ClipboardIcon />}
     </Button>
   )
 }
@@ -86,8 +89,11 @@ export function CopyWithClassNames({ value, classNames, className, ...props }: C
           size="icon"
           variant="ghost"
           className={cn('relative z-10 h-6 w-6 text-zinc-50 hover:bg-zinc-700 hover:text-zinc-50', className)}
+          icon={{
+            children: hasCopied ? CheckIcon : ClipboardIcon,
+            className: 'stroke-accent-foreground',
+          }}
         >
-          {hasCopied ? <CheckIcon className="h-3 w-3" /> : <ClipboardIcon className="h-3 w-3" />}
           <span className="sr-only">Copy</span>
         </Button>
       </DropdownMenuTrigger>
@@ -130,8 +136,11 @@ export function CopyNpmCommandButton({ commands, className, ...props }: CopyNpmC
           size="icon"
           variant="ghost"
           className={cn('relative z-10 h-6 w-6 text-zinc-50 hover:bg-zinc-700 hover:text-zinc-50', className)}
+          icon={{
+            children: hasCopied ? CheckIcon : ClipboardIcon,
+            className: 'stroke-accent-foreground',
+          }}
         >
-          {hasCopied ? <CheckIcon className="h-3 w-3" /> : <ClipboardIcon className="h-3 w-3" />}
           <span className="sr-only">Copy</span>
         </Button>
       </DropdownMenuTrigger>

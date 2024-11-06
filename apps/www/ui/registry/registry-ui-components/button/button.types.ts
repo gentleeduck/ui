@@ -3,6 +3,7 @@ import { IconProps } from '@radix-ui/react-icons/dist/types'
 import { VariantProps } from 'class-variance-authority'
 import { LucideIcon } from 'lucide-react'
 import { buttonVariants } from './button.constants'
+import { Badge } from '@/registry/default/ui'
 
 export type IconType = {
   children: LucideIcon
@@ -19,13 +20,18 @@ export interface ButtonProps
   secondIcon?: IconType
   label?: LabelType
   command?: CommandType
+  animationIcon?: {
+    icon?: IconType
+    iconPlacement?: 'left' | 'right'
+  }
 }
 
-export interface LabelType extends Partial<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>> {
+export interface LabelType
+  extends Partial<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>>,
+    Partial<React.ComponentPropsWithoutRef<typeof Badge>> {
   showCommand?: boolean
   showLabel?: boolean
   delayDuration?: number
-  type?: 'notification' | 'default'
 }
 
 export type CommandType<T = unknown> = {
@@ -33,4 +39,4 @@ export type CommandType<T = unknown> = {
   key: string
   state?: T
   action?: <T>(arg?: T) => void
-}
+} & Partial<React.ComponentPropsWithoutRef<typeof Badge>>

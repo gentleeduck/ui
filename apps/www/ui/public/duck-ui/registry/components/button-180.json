@@ -1,0 +1,15 @@
+{
+  "name": "button-180",
+  "type": "registry:example",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "registry-examples-components/button",
+  "files": [
+    {
+      "path": "registry-examples-components/button/button-180.tsx",
+      "content": "import React from 'react'\nimport { Inbox } from 'lucide-react'\nimport { TooltipProvider } from '@/registry/default/ui'\nimport { toast } from 'sonner'\nimport { Button } from '@/registry/registry-ui-components'\n\nexport default function ButtonAdvancedDemo() {\n  const [open, setOpen] = React.useState<boolean>(false)\n  return (\n    <>\n      <TooltipProvider>\n        <Button\n          isCollapsed={open}\n          icon={{\n            children: Inbox,\n          }}\n          title={'click me'}\n          variant={'default'}\n          size={'sm'}\n          role=\"button\"\n          aria-label={'click me'}\n          aria-expanded={open}\n          tabIndex={0}\n          loading={false}\n          label={{\n            children: 'Click me',\n            showCommand: true,\n            showLabel: true,\n            delayDuration: 0,\n          }}\n          command={{\n            label: 'click me',\n            key: 'k',\n            action: () =>\n              toast('Your inbox has been updated', {\n                description: `you have clicked the 'click me' button`,\n              }),\n          }}\n          onClick={() => setOpen(prev => !prev)}\n        />\n      </TooltipProvider>\n    </>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}

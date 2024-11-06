@@ -4,7 +4,7 @@ import { TooltipProvider } from '@/registry/default/ui'
 import { toast } from 'sonner'
 import { Button } from '@/registry/registry-ui-components'
 
-export default function ButtonAdvancedDemo() {
+export default function Button1Demo() {
   const [open, setOpen] = React.useState<boolean>(false)
   return (
     <>
@@ -22,7 +22,7 @@ export default function ButtonAdvancedDemo() {
           loading={false}
           onClick={() => setOpen(prev => !prev)}
           label={{
-            children: 'Normal Button',
+            children: 'Advanced Button 🦆',
             showCommand: true,
             showLabel: true,
             side: 'top',
