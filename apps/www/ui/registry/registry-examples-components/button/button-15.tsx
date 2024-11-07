@@ -7,7 +7,6 @@ export default function Button15Demo() {
   return (
     <>
       <Button
-        variant={'secondary'}
         icon={{
           children: Inbox,
         }}

@@ -39,7 +39,6 @@ export function CopyButton({ value, className, src, variant = 'ghost', event, ..
       className={cn('relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3', className)}
       icon={{
         children: hasCopied ? CheckIcon : ClipboardIcon,
-        className: 'stroke-accent-foreground',
       }}
       onClick={() => {
         copyToClipboardWithMeta(
@@ -88,10 +87,9 @@ export function CopyWithClassNames({ value, classNames, className, ...props }: C
         <Button
           size="icon"
           variant="ghost"
-          className={cn('relative z-10 h-6 w-6 text-zinc-50 hover:bg-zinc-700 hover:text-zinc-50', className)}
+          className={cn('relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3', className)}
           icon={{
             children: hasCopied ? CheckIcon : ClipboardIcon,
-            className: 'stroke-accent-foreground',
           }}
         >
           <span className="sr-only">Copy</span>
@@ -135,10 +133,9 @@ export function CopyNpmCommandButton({ commands, className, ...props }: CopyNpmC
         <Button
           size="icon"
           variant="ghost"
-          className={cn('relative z-10 h-6 w-6 text-zinc-50 hover:bg-zinc-700 hover:text-zinc-50', className)}
+          className={cn('relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3', className)}
           icon={{
             children: hasCopied ? CheckIcon : ClipboardIcon,
-            className: 'stroke-accent-foreground',
           }}
         >
           <span className="sr-only">Copy</span>

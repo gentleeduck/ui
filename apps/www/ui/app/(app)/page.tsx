@@ -56,7 +56,7 @@ export default function IndexPage() {
               <span>init</span>
             </span>
             <CopyButton
-              variant={'default'}
+              variant={'outline'}
               value="npx duck-ui@latest init"
               onClick={() => {
                 toast.success('Copied to clipboard')

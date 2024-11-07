@@ -68,7 +68,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <Badge
           variant={commandVariant || 'secondary'}
           size={commandSize || 'sm'}
-          className={cn('p-0 px-2 text-bold rounded-sm', commandClassName)}
+          className={cn('p-0 px-2 text-bold rounded-sm text-accent-foreground', commandClassName)}
           {...commandProps}
         >
           {commandLabel}
@@ -103,13 +103,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
               {!isCollapsed && label && !showLabel && (
                 <Badge
-                  variant={labelVariant || 'outline'}
-                  size={labelSize || 'default'}
-                  className={cn('text-[.8rem] rounded-md px-2', labelClassName)}
+                  variant={labelVariant ?? 'secondary'}
+                  size={labelSize ?? 'default'}
+                  className={cn('text-[.8rem] py-0 rounded-md px-1', labelClassName)}
                   {...labelProps}
                 />
               )}
-              {!isCollapsed && !loading && SecondIcon && <SecondIcon {...secondIconProps} />}
+              {!isCollapsed && SecondIcon && <SecondIcon {...secondIconProps} />}
             </div>
             {AnimationIcon && iconPlacement === 'right' && (
               <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">

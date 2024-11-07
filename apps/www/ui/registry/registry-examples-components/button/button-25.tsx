@@ -9,7 +9,7 @@ export default function Button24Demo() {
   const handleClick = () => {
     setOpen(!open)
     toast('Your inbox has been updated', {
-      description: `You clicked the 'click me' button`,
+      description: `You clicked the 'click me 🎉' button`,
     })
   }
 
@@ -27,14 +27,14 @@ export default function Button24Demo() {
       loading={false}
       onClick={handleClick}
       label={{
-        children: 'Click me',
+        children: 'Click me 🎉',
         showCommand: true,
         showLabel: true,
         delayDuration: 0,
       }}
       command={{
-        label: 'click me',
-        key: 'k',
+        label: '⇧+k',
+        key: 'shift+k',
         action: handleClick,
       }}
     >

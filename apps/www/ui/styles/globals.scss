@@ -32,31 +32,64 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --background: 240 23% 9%;
+    --foreground: 226 64% 88%;
+    --card: 240 23% 9%;
+    --card-foreground: 226 64% 88%;
+    --popover: 240 23% 9%;
+    --popover-foreground: 226 64% 88%;
+    --primary: 226 64% 88%;
+
+    --primary-foreground: 240 23% 9%;
+
+    --secondary: 217 92% 76%;
+
+    --secondary-foreground: 240 23% 9%;
+
+    --muted: 233 12% 39%;
+
+    --muted-foreground: 228 24% 72%;
+
+    --accent: 233 12% 39%;
+    --accent-foreground: 226 64% 88%;
+    --destructive: 343 81% 75%;
+    --destructive-foreground: 240 23% 9%;
+    --border: 233 12% 39%;
+    --input: 233 12% 39%;
+    --ring: 217 92% 76%;
+    --radius: 0.5rem;
   }
+
+  /* .dark { */
+  /*   --background: 240 10% 3.9%; */
+  /*   --foreground: 0 0% 98%; */
+  /*   --card: 240 10% 3.9%; */
+  /*   --card-foreground: 0 0% 98%; */
+  /*   --popover: 240 10% 3.9%; */
+  /*   --popover-foreground: 0 0% 98%; */
+  /*   --primary: 0 0% 98%; */
+
+  /*   --primary-foreground: 240 5.9% 10%; */
+
+  /*   --secondary: 240 3.7% 15.9%; */
+  /*   --secondary-foreground: 0 0% 98%; */
+
+  /*   --muted: 240 3.7% 15.9%; */
+  /*   --muted-foreground: 240 5% 64.9%; */
+
+  /*   --accent: 240 3.7% 15.9%; */
+  /*   --accent-foreground: 0 0% 98%; */
+  /*   --destructive: 0 62.8% 30.6%; */
+  /*   --destructive-foreground: 0 0% 98%; */
+  /*   --border: 240 3.7% 15.9%; */
+  /*   --input: 240 3.7% 15.9%; */
+  /*   --ring: 240 4.9% 83.9%; */
+  /*   --chart-1: 220 70% 50%; */
+  /*   --chart-2: 160 60% 45%; */
+  /*   --chart-3: 30 80% 55%; */
+  /*   --chart-4: 280 65% 60%; */
+  /*   --chart-5: 340 75% 55%; */
+  /* } */
 }
 
 @layer base {
@@ -174,7 +207,7 @@
       }
 
       /* Preformatted text background */
-      > pre {
+      >pre {
         @apply bg-accent/40;
       }
 
@@ -230,7 +263,7 @@
     display: inline-flex;
     align-items: center;
 
-    .tooltip-trigger:hover + .tooltip > .tooltip-content {
+    .tooltip-trigger:hover+.tooltip>.tooltip-content {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
       transition: all 0.2s ease-in-out;
@@ -403,7 +436,7 @@ section#id {
       pointer-events: none;
     }
 
-    & > pre {
+    &>pre {
       background: hsl(var(--accent) / 0.4);
     }
 
@@ -532,16 +565,16 @@ section#id {
   .comment:first-child {
     @apply mt-4;
 
-    & > div {
-      & > div.top-shape {
+    &>div {
+      &>div.top-shape {
         @apply hidden;
       }
     }
   }
 
   .comment {
-    & > div {
-      & > div.top-shape {
+    &>div {
+      &>div.top-shape {
         @apply flex -mt-2;
       }
     }
@@ -553,12 +586,12 @@ section#id {
   }
 
   .comment:last-child {
-    & > div {
-      & > div.top-shape {
+    &>div {
+      &>div.top-shape {
         @apply flex -mt-4;
       }
 
-      & > div.bottom-shape {
+      &>div.bottom-shape {
         @apply opacity-0;
       }
     }
