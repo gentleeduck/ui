@@ -86,7 +86,7 @@ export function CopyWithClassNames({ value, classNames, className, ...props }: C
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
-          variant="ghost"
+          variant="outline"
           className={cn('relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3', className)}
           icon={{
             children: hasCopied ? CheckIcon : ClipboardIcon,
@@ -132,7 +132,7 @@ export function CopyNpmCommandButton({ commands, className, ...props }: CopyNpmC
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
-          variant="ghost"
+          variant="outline"
           className={cn('relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3', className)}
           icon={{
             children: hasCopied ? CheckIcon : ClipboardIcon,

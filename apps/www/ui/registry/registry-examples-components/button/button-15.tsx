@@ -7,9 +7,10 @@ export default function Button15Demo() {
   return (
     <>
       <Button
-        icon={{
-          children: Inbox,
-        }}
+        aria-label="Inbox button with keyboard shortcut"
+        type="button"
+        role="button"
+        icon={{ children: Inbox }}
         command={{
           key: 'alt+k',
           label: 'alt+k',

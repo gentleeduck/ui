@@ -45,7 +45,7 @@
 }
 
 [data-rehype-pretty-code-fragment] .line--highlighted {
-    @apply bg-zinc-800/5 dark:bg-zinc-700/50;
+    @apply bg-zinc-800/5 dark:bg-[#89b4fa14];
 }
 
 [data-rehype-pretty-code-fragment] .line-highlighted span {

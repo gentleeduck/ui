@@ -1,6 +1,6 @@
 import React from 'react'
 import { ArrowBigUpDash, ShieldAlert } from 'lucide-react'
-import { TooltipProvider } from '@/registry/default/ui'
+import { Badge, TooltipProvider } from '@/registry/default/ui'
 import { toast } from 'sonner'
 import { Button } from '@/registry/registry-ui-components'
 
@@ -12,16 +12,16 @@ export default function Button1Demo() {
       <TooltipProvider>
         <Button
           isCollapsed={open}
-          icon={{
-            children: ArrowBigUpDash,
-            className: 'size-4',
-          }}
+          icon={{ children: ArrowBigUpDash }}
           aria-label={'button'}
+          type="button"
+          role="button"
           aria-expanded={open}
           tabIndex={0}
           loading={false}
           onClick={() => setOpen(prev => !prev)}
           label={{
+            open: true,
             children: 'Advanced Button 🦆',
             showCommand: true,
             showLabel: true,

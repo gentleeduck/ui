@@ -6,9 +6,10 @@ export default function Button14Demo() {
   return (
     <>
       <Button
-        icon={{
-          children: Inbox,
-        }}
+        aria-label="Inbox button with 23 notifications"
+        type="button"
+        role="button"
+        icon={{ children: Inbox }}
         label={{
           showLabel: true,
           variant: 'nothing',

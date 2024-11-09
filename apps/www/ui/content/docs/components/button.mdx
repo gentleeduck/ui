@@ -104,6 +104,10 @@ import { Button } from '@/components/ui/button'
 
 #### Example Usage:
 
+Notice that you have to use the `TooltipProvider` component to use the `Tooltip` fucnctionality, or
+even the button hence it's integrated with the button.
+
+
 ```tsx {5, 20}
 import { Button, TooltipProvider } from '@/components/ui/button'
 
@@ -152,19 +156,35 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
 ```
 
 <Image
-  src="/images/button_structure_1.png"
+  src="/images/button_structure_light_1.png"
   width="716"
   height="420"
   alt="button structure 1"
-  className="border rounded-lg overflow-hidden mt-6 w-full"
+  className="border rounded-lg overflow-hidden mt-6 w-full dark:hidden"
 />
 
 <Image
-  src="/images/button_structure_2.png"
+  src="/images/button_structure_light_2.png"
   width="716"
   height="420"
   alt="button structure 2"
-  className="border rounded-lg overflow-hidden mt-6 w-full"
+  className="border rounded-lg overflow-hidden mt-6 w-full dark:hidden"
+/>
+
+<Image
+  src="/images/button_structure_dark_1.png"
+  width="716"
+  height="420"
+  alt="button structure 1"
+  className="border rounded-lg overflow-hidden mt-6 w-full hidden dark:block"
+/>
+
+<Image
+  src="/images/button_structure_dark_2.png"
+  width="716"
+  height="420"
+  alt="button structure 2"
+  className="border rounded-lg overflow-hidden mt-6 w-full hidden dark:block"
 />
 
 ## Examples
@@ -342,36 +362,41 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
 
 ## API Reference
 
-### Button Component Props (`ButtonProps`)
+### **General Button Properties**
 
-The `Button` component accepts various properties to control its appearance and behavior, providing flexibility in design and functionality.
+- **`asChild`** (`boolean`, optional): 
+  - Renders the button as a child element of another component when set to `true`, allowing the button to inherit styling from the parent component.
 
-#### **General Button Properties**
+- **`isCollapsed`** (`boolean`, optional): 
+  - Collapses the button into an icon-only state, typically used for compact views or toggling states.
 
-- **`asChild`** (`boolean`, optional): Renders the button as a child element of another component when set to `true`, allowing the button to inherit styling from the parent component.
+- **`size`** (`'default' | 'sm' | 'lg' | 'icon'`, optional): 
+  - Sets the button size. Defaults to `'default'`. Other options:
+    - `'sm'`: Small button with reduced padding.
+    - `'lg'`: Large button with extra padding.
+    - `'icon'`: Icon-only button without additional padding.
 
-- **`isCollapsed`** (`boolean`, optional): Collapses the button into an icon-only state, typically used for compact views or toggling states.
+- **`variant`** (`string`, optional): 
+  - Defines the visual style of the button. Available options:
+    - **`default`**: Primary button style.
+    - **`destructive`**: Red, indicating a destructive action.
+    - **`outline`**: Outlined button with no fill.
+    - **`secondary`**: Alternative secondary style.
+    - **`ghost`**: Transparent with hover effects.
+    - **`link`**: Styled as a link.
+    - **`expand_icon`**: For expandable buttons.
+    - Special effect variants:
+      - **`ring_hover`**, **`shine`**, **`gooey_right`**, **`gooey_left`**,
+      - **`link_hover1`**, **`link_hover2`**
 
-- **`size`** (`'default' | 'sm' | 'lg' | 'icon'`, optional): Sets the button size. Defaults to `'default'`. Other options:
-  - `'sm'`: Small button with reduced padding.
-  - `'lg'`: Large button with extra padding.
-  - `'icon'`: Icon-only button without additional padding.
+- **`loading`** (`boolean`, optional): 
+  - When `true`, displays a loading spinner (uses `Loader` from Lucide).
 
-- **`variant`** (`string`, optional): Defines the visual style of the button. Available options:
-  - **`default`**: Primary button style.
-  - **`destructive`**: Red, indicating a destructive action.
-  - **`outline`**: Outlined button with no fill.
-  - **`secondary`**: Alternative secondary style.
-  - **`ghost`**: Transparent with hover effects.
-  - **`link`**: Styled as a link.
-  - **`expand_icon`**: For expandable buttons.
-  - **`ring_hover`**, **`shine`**, **`gooey_right`**, **`gooey_left`**, **`link_hover1`**, **`link_hover2`**: Special effects and animations.
+- **`className`** (`string`, optional): 
+  - Additional CSS classes for custom styling.
 
-- **`loading`** (`boolean`, optional): When `true`, displays a loading spinner (uses `Loader` from Lucide).
-
-- **`className`** (`string`, optional): Additional CSS classes for custom styling.
-
-- **`children`** (`React.ReactNode`): Content or text inside the button.
+- **`children`** (`React.ReactNode`): 
+  - Content or text inside the button.
 
 ---
 
@@ -381,23 +406,30 @@ Button icons can be configured for single or dual icon use, and include optional
 
 #### **Primary Icon**
 
-- **`icon`** ([`IconType`](#icontype), optional): Specifies the primary icon displayed within the button.
+- **`icon`** ([`IconType`](#icontype), optional): 
+  - Specifies the primary icon displayed within the button.
 
 #### **Secondary Icon**
 
-- **`secondIcon`** ([`IconType`](#icontype), optional): Adds a secondary icon to appear alongside the primary icon.
+- **`secondIcon`** ([`IconType`](#icontype), optional): 
+  - Adds a secondary icon to appear alongside the primary icon.
 
 #### **Animation Icon**
 
-- **`animationIcon`** (`{ icon: IconType, iconPlacement: 'left' | 'right' }`, optional): Defines an animated icon that appears on hover, with `iconPlacement` specifying its position.
+- **`animationIcon`** (`{ icon: IconType, iconPlacement: 'left' | 'right' }`, optional): 
+  - Defines an animated icon that appears on hover, with `iconPlacement` specifying its position.
 
 ---
 
 ### Label and Tooltip Properties
 
-- **`label`** ([`LabelType`](#labeltype), optional): Configures an optional label with tooltip support for additional context.
+Enhance the button with labels and tooltips for additional information.
 
-- **`side`** (`'top' | 'bottom' | 'left' | 'right'`, optional): Controls the tooltip’s display position. Defaults to `'right'`.
+- **`label`** ([`LabelType`](#labeltype), optional): 
+  - Configures an optional label with tooltip support for additional context.
+
+- **`side`** (`'top' | 'bottom' | 'left' | 'right'`, optional): 
+  - Controls the tooltip’s display position. Defaults to `'right'`.
 
 ---
 
@@ -405,37 +437,36 @@ Button icons can be configured for single or dual icon use, and include optional
 
 Provides keyboard command handling and displays an associated shortcut or action label.
 
-- **`command`** ([`CommandType`](#commandtype), optional): Defines a command for keyboard shortcuts, with an action function, state management, and label.
+- **`command`** ([`CommandType`](#commandtype), optional): 
+  - Defines a command for keyboard shortcuts, with an action function, state management, and label.
 
 ---
 
 ## Type Definitions
 
-### `IconType`
+### IconType
 
 Defines an icon component from the Lucide library.
 
-- **`children`** (`LucideIcon`): The icon component.
+- **`children`** (LucideIcon): The icon component.
 - **Additional SVG Props**: Includes all `React.SVGProps` for SVG customization.
 
 ---
 
-### `LabelType`
+### LabelType
 
-Configures a label with tooltip support, useful for showing additional context in compact spaces.
+Defines the properties for button labels.
 
-- **`showCommand`** (`boolean`, optional): Displays the associated command shortcut when `true`.
-- **`showLabel`** (`boolean`, optional): Renders the label text within the UI.
-- **`delayDuration`** (`number`, optional): Delay (in milliseconds) for showing the tooltip.
-- **`type`** (`'notification' | 'default'`, optional): Specifies label style, such as a notification or default style.
+- **`text`** (`string`): The text of the label.
+- **`tooltip`** (`string`, optional): Tooltip text that appears when hovering over the label.
 
 ---
 
-### `CommandType`
+### CommandType
 
-Configures a keyboard command with an action and optional state.
+Describes the properties for keyboard command shortcuts.
 
-- **`label`** (`string`, optional): The display name of the command.
-- **`key`** (`string`, required): The unique key identifier.
-- **`state`** (`T`, optional): Optional state context for conditional actions.
-- **`action`** (`<T>(arg?: T) => void`, optional): The function executed when the command is triggered. If not provided, defaults to an informational toast.
+- **`label`** (`string`): The label for the command.
+- **`action`** (`() => void`): The function that executes the command.
+- **`shortcut`** (`string[]`, optional): The keyboard keys associated with the command.
+

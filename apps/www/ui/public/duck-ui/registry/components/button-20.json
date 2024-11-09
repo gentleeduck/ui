@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "registry-examples-components/button/button-20.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button20Demo() {\n  return (\n    <div className=\"block\">\n      <Button\n        variant=\"ring_hover\"\n        icon={{\n          children: Inbox,\n        }}\n      >\n        Button\n      </Button>\n    </div>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button20Demo() {\n  return (\n    <div className=\"block\">\n      <Button\n        aria-label=\"Inbox button\"\n        type=\"button\"\n        role=\"button\"\n        variant=\"ring_hover\"\n        icon={{ children: Inbox }}\n      >\n        Button\n      </Button>\n    </div>\n  )\n}\n",
       "type": "registry:example"
     }
   ]

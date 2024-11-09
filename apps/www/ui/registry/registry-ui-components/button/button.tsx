@@ -40,6 +40,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       showLabel,
       showCommand,
       delayDuration = 0,
+      open,
+      onOpenChange,
       ...labelProps
     } = label || {}
     const Component = asChild ? Slot : 'button'
@@ -66,9 +68,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const CommandComponent = () => (
       <CommandShortcut className="text-[.8rem]">
         <Badge
-          variant={commandVariant || 'secondary'}
-          size={commandSize || 'sm'}
-          className={cn('p-0 px-2 text-bold rounded-sm text-accent-foreground', commandClassName)}
+          variant={'secondary'}
+          size={commandSize ?? 'sm'}
+          className={cn('p-0 px-2 text-bold rounded-sm text-secondary-foreground', commandClassName)}
           {...commandProps}
         >
           {commandLabel}
@@ -77,13 +79,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     )
 
     return (
-      <Tooltip delayDuration={delayDuration}>
+      <Tooltip
+        delayDuration={delayDuration}
+        open={open}
+        onOpenChange={onOpenChange}
+      >
         <TooltipTrigger asChild>
           <Component
             ref={ref}
             className={cn(
               buttonVariants({
-                variant: variant || 'ghost',
+                variant: variant ?? 'ghost',
                 size: size ? (isCollapsed ? 'icon' : size) : isCollapsed ? 'icon' : 'default',
                 className: cn('relative justify-center', className),
               })
@@ -105,7 +111,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 <Badge
                   variant={labelVariant ?? 'secondary'}
                   size={labelSize ?? 'default'}
-                  className={cn('text-[.8rem] py-0 rounded-md px-1', labelClassName)}
+                  className={cn(
+                    'text-[.8rem] py-0 rounded-md px-1 font-meduim',
+                    labelVariant === 'nothing' && 'text-secondary-foreground',
+                    labelClassName
+                  )}
                   {...labelProps}
                 />
               )}

@@ -6,16 +6,15 @@ export default function Button18Demo() {
   return (
     <div className="block">
       <Button
+        aria-label="Expand inbox button"
+        type="button"
+        role="button"
         variant="expand_icon"
         animationIcon={{
-          icon: {
-            children: ArrowRight,
-          },
+          icon: { children: ArrowRight },
           iconPlacement: 'right',
         }}
-        icon={{
-          children: Inbox,
-        }}
+        icon={{ children: Inbox }}
       >
         Button
       </Button>

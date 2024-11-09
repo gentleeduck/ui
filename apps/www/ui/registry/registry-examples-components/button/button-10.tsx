@@ -7,11 +7,13 @@ export default function Button10Demo() {
     <>
       <Button
         loading={true}
-        icon={{
-          children: Inbox,
-        }}
+        icon={{ children: Inbox }}
+        aria-label="Loading inbox button"
+        aria-busy="true"
+        type="button"
+        role="button"
       >
-        Button
+        <span>Button</span>
       </Button>
     </>
   )

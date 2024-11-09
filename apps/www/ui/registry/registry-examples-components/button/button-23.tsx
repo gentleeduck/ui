@@ -6,10 +6,11 @@ export default function Button23Demo() {
   return (
     <div className="block">
       <Button
+        aria-label="Inbox button"
+        type="button"
+        role="button"
         variant="link_hover1"
-        icon={{
-          children: Inbox,
-        }}
+        icon={{ children: Inbox }}
       >
         Button
       </Button>

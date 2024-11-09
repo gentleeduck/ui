@@ -25,6 +25,10 @@ export default function Button24Demo() {
       size="sm"
       tabIndex={0}
       loading={false}
+      j
+      aria-label="Inbox button"
+      type="button"
+      role="button"
       onClick={handleClick}
       label={{
         children: 'Click me 🎉',

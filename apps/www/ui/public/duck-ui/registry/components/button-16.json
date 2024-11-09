@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "registry-examples-components/button/button-16.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components'\nimport { Inbox } from 'lucide-react'\nimport { toast } from 'sonner'\n\nexport default function Button16Demo() {\n  return (\n    <>\n      <Button\n        icon={{\n          children: Inbox,\n        }}\n        label={{\n          showCommand: true,\n          showLabel: true,\n        }}\n        command={{\n          key: 'alt+l',\n          label: 'alt+l',\n          action: () =>\n            toast('Your inbox has been updated', {\n              description: `you have clicked the 'command label' button`,\n            }),\n        }}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components'\nimport { Inbox } from 'lucide-react'\nimport { toast } from 'sonner'\n\nexport default function Button16Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Open inbox and trigger command\"\n        type=\"button\"\n        role=\"button\"\n        icon={{ children: Inbox }}\n        label={{\n          showCommand: true,\n          showLabel: true,\n        }}\n        command={{\n          key: 'alt+l',\n          label: 'alt+l',\n          action: () =>\n            toast('Your inbox has been updated', {\n              description: `you have clicked the 'command label' button`,\n            }),\n        }}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
       "type": "registry:example"
     }
   ]

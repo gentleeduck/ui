@@ -6,10 +6,11 @@ export default function Button22Demo() {
   return (
     <div className="block">
       <Button
+        aria-label="Inbox button"
+        type="button"
+        role="button"
         variant="gooey_left"
-        icon={{
-          children: Inbox,
-        }}
+        icon={{ children: Inbox }}
       >
         Button
       </Button>
