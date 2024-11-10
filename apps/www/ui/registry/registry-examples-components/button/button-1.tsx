@@ -21,7 +21,6 @@ export default function Button1Demo() {
           loading={false}
           onClick={() => setOpen(prev => !prev)}
           label={{
-            open: true,
             children: 'Advanced Button 🦆',
             showCommand: true,
             showLabel: true,

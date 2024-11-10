@@ -23,6 +23,25 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  badge: {
+    name: 'badge',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['tooltip'],
+    files: [
+      [
+        { path: 'registry-ui-components/badge/badge.constants.ts', type: 'registry:ui' },
+        { path: 'registry-ui-components/badge/badge.tsx', type: 'registry:ui' },
+        { path: 'registry-ui-components/badge/badge.types.ts', type: 'registry:ui' },
+        { path: 'registry-ui-components/badge/index.ts', type: 'registry:ui' },
+      ],
+    ],
+    component: React.lazy(() => import('@/registry/registry-ui-components/badge/badge.constants.ts')),
+    source: '',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'button-main': {
     name: 'button-main',
     description: '',

@@ -1,17 +1,17 @@
 import * as React from 'react'
 
 import { Slot } from '@radix-ui/react-slot'
-
-import { cn } from '@/lib'
-import { ButtonProps } from './button.types'
-import { buttonVariants } from './button.constants'
-import { Badge } from '@/registry/default/ui/badge'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/default/ui/tooltip'
-import { CommandShortcut } from '@/registry/default/ui/command'
-
 import { Loader } from 'lucide-react'
 import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 import { toast } from 'sonner'
+
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/default/ui/tooltip'
+import { CommandShortcut } from '@/registry/default/ui/command'
+import { ButtonProps } from './button.types'
+import { buttonVariants } from './button.constants'
+import { Badge } from '../badge'
+
+import { cn } from '@/lib'
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (

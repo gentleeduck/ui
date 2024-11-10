@@ -680,3 +680,7 @@ section#id {
     /* Scrollbar thumb color on hover */
   }
 }
+
+div[data-state='visible'] {
+  z-index: 400;
+}

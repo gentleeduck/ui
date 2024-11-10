@@ -9,4 +9,12 @@ export const registry_ui: Registry = [
     root_folder: 'registry-ui-components/button',
     files: [],
   },
+  {
+    name: 'badge',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-slot'],
+    registryDependencies: ['tooltip'],
+    root_folder: 'registry-ui-components/badge',
+    files: [],
+  },
 ]
