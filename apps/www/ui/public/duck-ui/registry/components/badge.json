@@ -21,7 +21,7 @@
     },
     {
       "path": "registry-ui-components/badge/badge.types.ts",
-      "content": "import { VariantProps } from 'class-variance-authority'\nimport { LabelType } from '../button'\nimport { badgeVariants } from './badge.constants'\n\nexport interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {\n  label?: LabelType\n}\n",
+      "content": "import { VariantProps } from 'class-variance-authority'\nimport { LabelType } from '../button'\nimport { badgeVariants } from './badge.constants'\n\nexport interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {\n  label?: Omit<LabelType, 'showCommand'>\n}\n",
       "type": "registry:ui"
     },
     {

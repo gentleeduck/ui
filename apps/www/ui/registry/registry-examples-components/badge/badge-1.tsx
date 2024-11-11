@@ -8,7 +8,7 @@ export default function Badge1Demo() {
         arial-label="Badge"
         role="button"
         variant={'default'}
-        size={'lg'}
+        size={'default'}
         label={{
           children: 'Badge',
         }}

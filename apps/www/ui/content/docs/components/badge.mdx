@@ -1,0 +1,152 @@
+---
+title: Badge
+description: A versatile component for displaying small pieces of information or status indicators.
+component: true
+---
+
+<ComponentPreview
+  name="badge-main"
+  description="A badge"
+/>
+
+## Features
+
+- **Customizable Variants**: Easily switch between different visual styles such as `default`, `secondary`, `destructive`, `outline`, and `nothing`.
+- **Resizable**: Adjust the badge size with options like `sm`, `default`, `lg`, and `icon`.
+- **Tooltip Support**: Display labels or tooltips for better context and interaction.
+- **Interactive**: Includes built-in hover effects and focus states for better user experience.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx duck-ui@latest add badge
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="badge" />
+
+<Step>
+  The badge component uses a composition with `<Tooltip />` for tooltips. Ensure you have the necessary dependencies installed.
+</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Badge, TooltipProvider } from '@/components/ui';
+```
+
+```tsx
+<TooltipProvider>
+  <Badge variant="outline">Badge</Badge>
+</TooltipProvider>
+```
+
+## Examples
+
+### Default Badge
+
+<ComponentPreview
+  name="badge-default"
+  description="Default badge"
+/>
+
+### Secondary Badge
+
+<ComponentPreview
+  name="badge-secondary"
+  description="Secondary badge"
+/>
+
+### Destructive Badge
+
+<ComponentPreview
+  name="badge-destructive"
+  description="Destructive badge"
+/>
+
+### Outline Badge
+
+<ComponentPreview
+  name="badge-outline"
+  description="Outline badge"
+/>
+
+### Badge with Label
+
+<ComponentPreview
+  name="badge-label"
+  description="Badge with label"
+/>
+
+### Icon-Only Badge
+
+<ComponentPreview
+  name="badge-icon"
+  description="Icon-only badge"
+/>
+
+## API Reference
+
+### Badge Component
+
+`Badge` represents a small, rounded element used to display status or counts.
+
+**_Key Properties_**
+
+- **`className`** (`string`, optional): Additional CSS classes to apply to the badge.
+- **`variant`** (`'default' | 'secondary' | 'destructive' | 'outline' | 'nothing'`, optional): Defines the visual style of the badge.
+- **`size`** (`'default' | 'sm' | 'lg' | 'icon'`, optional): Determines the badge size.
+- **`label`** ([`LabelType`](/docs/components/button#labeltype), optional): Label text or tooltip content to display with the badge.
+- **`...props`** (`React.HTMLAttributes<HTMLDivElement>`): Additional HTML attributes to apply to the badge element.
+
+---
+
+### Variant
+
+The `variant` property sets the visual style of the badge.
+
+**_Available Variants_**
+
+- **`default`**: Primary style with a background defined by the primary theme.
+- **`secondary`**: Uses the secondary color scheme.
+- **`destructive`**: Indicates an action with potential risk, using the destructive color scheme.
+- **`outline`**: A minimal style with an outline and no background.
+- **`nothing`**: Text-only appearance without extra padding or borders.
+
+---
+
+### Size
+
+The `size` property sets the badge's size.
+
+**_Available Sizes_**
+
+- **`default`**: Standard size suitable for most uses.
+- **`sm`**: Smaller version with reduced padding and font size.
+- **`lg`**: Larger version for emphasis, with increased padding and font size.
+- **`icon`**: Equal height and width, typically used for displaying only icons.
+
+

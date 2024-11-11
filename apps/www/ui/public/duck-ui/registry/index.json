@@ -409,5 +409,117 @@
         "type": "registry:example"
       }
     ]
+  },
+  {
+    "name": "badge-main",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "registry-examples-components/badge",
+    "files": [
+      {
+        "path": "registry-examples-components/badge/badge-1.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "badge-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "registry-examples-components/badge",
+    "files": [
+      {
+        "path": "registry-examples-components/badge/badge-2.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "badge-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "registry-examples-components/badge",
+    "files": [
+      {
+        "path": "registry-examples-components/badge/badge-3.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "badge-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "registry-examples-components/badge",
+    "files": [
+      {
+        "path": "registry-examples-components/badge/badge-4.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "badge-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "registry-examples-components/badge",
+    "files": [
+      {
+        "path": "registry-examples-components/badge/badge-5.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "badge-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "registry-examples-components/badge",
+    "files": [
+      {
+        "path": "registry-examples-components/badge/badge-6.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "badge-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "registry-examples-components/badge",
+    "files": [
+      {
+        "path": "registry-examples-components/badge/badge-7.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "badge-8",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "registry-examples-components/badge",
+    "files": [
+      {
+        "path": "registry-examples-components/badge/badge-8.tsx",
+        "type": "registry:example"
+      }
+    ]
   }
 ]

@@ -8,4 +8,11 @@ export const registry_examples: Registry = [
     root_folder: 'registry-examples-components/button',
     files: [],
   },
+  {
+    name: 'badge-main',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    root_folder: 'registry-examples-components/badge',
+    files: [],
+  },
 ]
