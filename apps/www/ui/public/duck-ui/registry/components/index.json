@@ -1,5 +1,5 @@
 {
-  "name": "badge-8",
+  "name": "badge-7",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "registry-examples-components/badge/badge-7.tsx",
-      "content": "import { Badge } from '@/registry/registry-ui-components'\n\nexport default function Badge7Demo() {\n  return (\n    <Badge\n      arial-label=\"Badge\"\n      role=\"button\"\n      variant={'outline'}\n      label={{\n        showLabel: true,\n        children: 'Badge',\n      }}\n    >\n      Badge\n    </Badge>\n  )\n}\n",
+      "content": "import { Badge } from '@/registry/registry-ui-components'\nimport { Info } from 'lucide-react'\n\nexport default function Badge8Demo() {\n  return (\n    <Badge\n      arial-label=\"Badge\"\n      role=\"button\"\n      variant={'outline'}\n      size={'icon'}\n      label={{\n        showLabel: true,\n        children: 'Info Badge',\n      }}\n    >\n      <Info />\n    </Badge>\n  )\n}\n",
       "type": "registry:example"
     }
   ]

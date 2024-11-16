@@ -507,19 +507,5 @@
         "type": "registry:example"
       }
     ]
-  },
-  {
-    "name": "badge-8",
-    "type": "registry:example",
-    "registryDependencies": [
-      "badge"
-    ],
-    "root_folder": "registry-examples-components/badge",
-    "files": [
-      {
-        "path": "registry-examples-components/badge/badge-8.tsx",
-        "type": "registry:example"
-      }
-    ]
   }
 ]
