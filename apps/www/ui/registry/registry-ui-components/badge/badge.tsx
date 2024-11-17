@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/default/ui'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/registry-ui-components/tooltip'
 import { BadgeProps } from './badge.types'
 import { badgeVariants } from './badge.constants'
 

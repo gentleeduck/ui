@@ -4,8 +4,7 @@ import * as React from 'react'
 import { Provider as JotaiProvider } from 'jotai'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import { ThemeProviderProps } from 'next-themes/dist/types'
-
-import { TooltipProvider } from '@/registry/default/ui/'
+import { TooltipProvider } from '@radix-ui/react-tooltip'
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (

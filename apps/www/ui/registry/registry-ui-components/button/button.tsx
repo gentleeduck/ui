@@ -5,7 +5,7 @@ import { Loader } from 'lucide-react'
 import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 import { toast } from 'sonner'
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/default/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/registry-ui-components/tooltip'
 import { CommandShortcut } from '@/registry/default/ui/command'
 import { ButtonProps } from './button.types'
 import { buttonVariants } from './button.constants'

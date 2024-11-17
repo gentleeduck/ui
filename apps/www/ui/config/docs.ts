@@ -33,11 +33,11 @@ export const docsConfig: DocsConfig = {
     {
       title: 'Components',
       items: [
-        // {
-        //   title: 'Accordion',
-        //   href: '/docs/components/Accordion',
-        //   items: [],
-        // },
+        {
+          title: 'Accordion',
+          href: '/docs/components/accordion',
+          items: [],
+        },
         {
           title: 'AlertDialog',
           href: '/docs/components/alert-dialog',

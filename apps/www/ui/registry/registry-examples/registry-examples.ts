@@ -15,4 +15,18 @@ export const registry_examples: Registry = [
     root_folder: 'registry-examples-components/badge',
     files: [],
   },
+  {
+    name: 'tooltip-main',
+    type: 'registry:example',
+    registryDependencies: ['tooltip'],
+    root_folder: 'registry-examples-components/tooltip',
+    files: [],
+  },
+  {
+    name: 'accordion-main',
+    type: 'registry:example',
+    registryDependencies: ['accordion'],
+    root_folder: 'registry-examples-components/accordion',
+    files: [],
+  },
 ]

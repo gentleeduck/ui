@@ -17,4 +17,20 @@ export const registry_ui: Registry = [
     root_folder: 'registry-ui-components/badge',
     files: [],
   },
+  {
+    name: 'tooltip',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-tooltip'],
+    registryDependencies: [],
+    root_folder: 'registry-ui-components/tooltip',
+    files: [],
+  },
+  {
+    name: 'accordion',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-accordion'],
+    registryDependencies: [],
+    root_folder: 'registry-ui-components/accordion',
+    files: [],
+  },
 ]

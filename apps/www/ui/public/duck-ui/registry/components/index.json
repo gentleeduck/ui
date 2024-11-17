@@ -1,5 +1,5 @@
 {
-  "name": "badge-7",
+  "name": "accordion-main",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",
