@@ -34,6 +34,14 @@ export const registry_ui: Registry = [
     files: [],
   },
   {
+    name: 'toggle',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-toggle'],
+    registryDependencies: [],
+    root_folder: 'registry-ui-components/toggle',
+    files: [],
+  },
+  {
     name: 'toggle-group',
     type: 'registry:ui',
     dependencies: ['@radix-ui/react-toggle-group'],

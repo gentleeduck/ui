@@ -8,44 +8,45 @@ import { get_component_files } from './build-registry-index.lib'
 
 // ----------------------------------------------------------------------------
 export async function build_registry_index(registry: z.infer<typeof registry_schema>) {
-    try {
-        // 1- getting the component path.
-        const items = await Promise.all(
-            registry.filter(item => ['registry:ui'].includes(item.type)).map(item => get_component_files(item))
-        )
+  try {
+    // 1- getting the component path.
+    const items = await Promise.all(
+      registry.filter(item => ['registry:ui'].includes(item.type)).map(item => get_component_files(item))
+    )
 
-        const example_items = await Promise.all(
-            registry.filter(item => ['registry:example'].includes(item.type)).map(item => get_component_files(item))
-        )
-        const example_items_mapped = example_items.flatMap(item => {
-            const files = item.files.splice(1)
+    const example_items = await Promise.all(
+      registry.filter(item => ['registry:example'].includes(item.type)).map(item => get_component_files(item))
+    )
 
-            return [
-                {
-                    ...item,
-                    files: [item.files[0]],
-                },
-                ...files.map(file => ({
-                    ...item,
-                    name: `${item.name.split('-')[0]}-${file.path.split('/').splice(-1).toString().split('.')[0].split('-')[1]}`,
-                    files: [file],
-                })),
-            ]
-        })
+    const example_items_mapped = example_items.flatMap(item => {
+      const files = item.files.splice(1)
 
-        // console.dir(items, { depth: 10 })
+      return [
+        {
+          ...item,
+          files: [item.files[0]],
+        },
+        ...files.map(file => ({
+          ...item,
+          name: file.path.split('/').pop()?.split('.')[0],
+          files: [file],
+        })),
+      ]
+    })
 
-        // 2- making it as json and remove the (index.json) file and replace it with the new one.
-        const registryJson = JSON.stringify([...items, ...example_items_mapped], null, 2)
-        rimraf.sync(path.join(REGISTRY_PATH, 'index.json'))
-        await fs.writeFile(path.join(REGISTRY_PATH, 'index.json'), registryJson, 'utf8')
+    // console.dir(example_items_mapped, { depth: 10 })
 
-        return [...items, ...example_items_mapped]
-    } catch (error) {
-        console.dir({
-            message: 'Failed to build registry index.',
-            error,
-            cwd: process.cwd(),
-        })
-    }
+    // 2- making it as json and remove the (index.json) file and replace it with the new one.
+    const registryJson = JSON.stringify([...items, ...example_items_mapped], null, 2)
+    rimraf.sync(path.join(REGISTRY_PATH, 'index.json'))
+    await fs.writeFile(path.join(REGISTRY_PATH, 'index.json'), registryJson, 'utf8')
+
+    return [...items, ...example_items_mapped]
+  } catch (error) {
+    console.dir({
+      message: 'Failed to build registry index.',
+      error,
+      cwd: process.cwd(),
+    })
+  }
 }

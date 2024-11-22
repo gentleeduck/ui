@@ -30,6 +30,13 @@ export const registry_examples: Registry = [
     files: [],
   },
   {
+    name: 'toggle-main',
+    type: 'registry:example',
+    registryDependencies: ['toggle'],
+    root_folder: 'registry-examples-components/toggle',
+    files: [],
+  },
+  {
     name: 'toggle-group-main',
     type: 'registry:example',
     registryDependencies: ['toggle-group'],

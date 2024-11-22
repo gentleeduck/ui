@@ -96,11 +96,6 @@ export const docsConfig: DocsConfig = {
         //   items: [],
         // },
         {
-          title: 'Tooltip',
-          href: '/docs/components/tooltip',
-          items: [],
-        },
-        {
           title: 'Toggle',
           href: '/docs/components/toggle',
           items: [],
@@ -108,6 +103,11 @@ export const docsConfig: DocsConfig = {
         {
           title: 'Toggle Group',
           href: '/docs/components/toggle-group',
+          items: [],
+        },
+        {
+          title: 'Tooltip',
+          href: '/docs/components/tooltip',
           items: [],
         },
         // {
