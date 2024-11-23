@@ -99,6 +99,25 @@
     ]
   },
   {
+    "name": "toggle-group",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-toggle-group"
+    ],
+    "registryDependencies": [],
+    "root_folder": "registry-ui-components/toggle-group",
+    "files": [
+      {
+        "path": "registry-ui-components/toggle-group/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "registry-ui-components/toggle-group/toggle-group.tsx",
+        "type": "registry:ui"
+      }
+    ]
+  },
+  {
     "name": "button-main",
     "type": "registry:example",
     "registryDependencies": [
@@ -584,6 +603,132 @@
     "files": [
       {
         "path": "registry-examples-components/accordion/accordion-1.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "accordion-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "accordion"
+    ],
+    "root_folder": "registry-examples-components/accordion",
+    "files": [
+      {
+        "path": "registry-examples-components/accordion/accordion-2.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "accordion-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "accordion"
+    ],
+    "root_folder": "registry-examples-components/accordion",
+    "files": [
+      {
+        "path": "registry-examples-components/accordion/accordion-3.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "toggle-group-main",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "registry-examples-components/toggle-group",
+    "files": [
+      {
+        "path": "registry-examples-components/toggle-group/toggle-group-1.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "toggle-group",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "registry-examples-components/toggle-group",
+    "files": [
+      {
+        "path": "registry-examples-components/toggle-group/toggle-group-2.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "toggle-group",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "registry-examples-components/toggle-group",
+    "files": [
+      {
+        "path": "registry-examples-components/toggle-group/toggle-group-3.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "toggle-group",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "registry-examples-components/toggle-group",
+    "files": [
+      {
+        "path": "registry-examples-components/toggle-group/toggle-group-4.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "toggle-group",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "registry-examples-components/toggle-group",
+    "files": [
+      {
+        "path": "registry-examples-components/toggle-group/toggle-group-5.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "toggle-group",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "registry-examples-components/toggle-group",
+    "files": [
+      {
+        "path": "registry-examples-components/toggle-group/toggle-group-6.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "toggle-group",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "registry-examples-components/toggle-group",
+    "files": [
+      {
+        "path": "registry-examples-components/toggle-group/toggle-group-7.tsx",
         "type": "registry:example"
       }
     ]

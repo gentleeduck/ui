@@ -29,4 +29,11 @@ export const registry_examples: Registry = [
     root_folder: 'registry-examples-components/accordion',
     files: [],
   },
+  {
+    name: 'toggle-group-main',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    root_folder: 'registry-examples-components/toggle-group',
+    files: [],
+  },
 ]
