@@ -1,0 +1,15 @@
+{
+  "name": "textarea-6",
+  "type": "registry:example",
+  "registryDependencies": [
+    "textarea"
+  ],
+  "root_folder": "registry-examples-components/textarea",
+  "files": [
+    {
+      "path": "registry-examples-components/textarea/textarea-6.tsx",
+      "content": "import { Button } from '@/registry/registry-ui-components/button'\nimport { Textarea } from '@/registry/registry-ui-components/textarea'\n\nexport default function Textarea1Demo() {\n  return (\n    <div className=\"grid w-full gap-2\">\n      <Textarea placeholder=\"Type your message here.\" />\n      <Button>Send message</Button>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}

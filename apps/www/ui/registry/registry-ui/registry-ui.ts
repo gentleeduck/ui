@@ -49,4 +49,28 @@ export const registry_ui: Registry = [
     root_folder: 'registry-ui-components/toggle-group',
     files: [],
   },
+  {
+    name: 'toast',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-toast'],
+    registryDependencies: [],
+    root_folder: 'registry-ui-components/toast',
+    files: [],
+  },
+  {
+    name: 'sonner',
+    type: 'registry:ui',
+    dependencies: ['sonner', 'next-themes'],
+    registryDependencies: [],
+    root_folder: 'registry-ui-components/sonner',
+    files: [],
+  },
+  {
+    name: 'textarea',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'registry-ui-components/textarea',
+    files: [],
+  },
 ]

@@ -1,5 +1,5 @@
 {
-  "name": "toggle-group-7",
+  "name": "textarea-7",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

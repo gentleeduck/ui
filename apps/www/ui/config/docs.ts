@@ -96,6 +96,21 @@ export const docsConfig: DocsConfig = {
         //   items: [],
         // },
         {
+          title: 'Text Area',
+          href: '/docs/components/textarea',
+          items: [],
+        },
+        {
+          title: 'Toast',
+          href: '/docs/components/toast',
+          items: [],
+        },
+        {
+          title: 'sonner',
+          href: '/docs/components/sonner',
+          items: [],
+        },
+        {
           title: 'Toggle',
           href: '/docs/components/toggle',
           items: [],

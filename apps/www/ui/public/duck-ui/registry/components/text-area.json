@@ -1,0 +1,8 @@
+{
+  "name": "text-area",
+  "type": "registry:ui",
+  "dependencies": [],
+  "registryDependencies": [],
+  "root_folder": "registry-ui-components/text-area",
+  "files": []
+}

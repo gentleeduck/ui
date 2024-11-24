@@ -43,4 +43,25 @@ export const registry_examples: Registry = [
     root_folder: 'registry-examples-components/toggle-group',
     files: [],
   },
+  {
+    name: 'toast-main',
+    type: 'registry:example',
+    registryDependencies: ['toast'],
+    root_folder: 'registry-examples-components/toast',
+    files: [],
+  },
+  {
+    name: 'sonner-main',
+    type: 'registry:example',
+    registryDependencies: ['sonner'],
+    root_folder: 'registry-examples-components/sonner',
+    files: [],
+  },
+  {
+    name: 'textarea-main',
+    type: 'registry:example',
+    registryDependencies: ['textarea'],
+    root_folder: 'registry-examples-components/textarea',
+    files: [],
+  },
 ]
