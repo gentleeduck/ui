@@ -96,15 +96,45 @@ export const docsConfig: DocsConfig = {
         //   items: [],
         // },
         {
-          title: 'Tooltip',
-          href: '/docs/components/tooltip',
-          items: [],
-        },
-        {
           title: 'Table',
           href: '/docs/components/table',
           items: [],
           label: 'new',
+        },
+        {
+          title: 'Tabs',
+          href: '/docs/components/tabs',
+          items: [],
+        },
+        {
+          title: 'Text Area',
+          href: '/docs/components/textarea',
+          items: [],
+        },
+        {
+          title: 'Toast',
+          href: '/docs/components/toast',
+          items: [],
+        },
+        {
+          title: 'sonner',
+          href: '/docs/components/sonner',
+          items: [],
+        },
+        {
+          title: 'Toggle',
+          href: '/docs/components/toggle',
+          items: [],
+        },
+        {
+          title: 'Toggle Group',
+          href: '/docs/components/toggle-group',
+          items: [],
+        },
+        {
+          title: 'Tooltip',
+          href: '/docs/components/tooltip',
+          items: [],
         },
       ],
     },

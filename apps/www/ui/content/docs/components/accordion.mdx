@@ -25,7 +25,7 @@ links:
 <TabsContent value="cli">
 
 ```bash
-npx shadcn@latest add accordion
+npx duck-ui@latest add accordion
 ```
 
 </TabsContent>
@@ -101,3 +101,106 @@ import {
   </AccordionItem>
 </Accordion>
 ```
+
+## Examples
+
+### Default 
+
+<ComponentPreview
+  name="accordion-2"
+  description="default accordion"
+/>
+
+### ChevronDown Icon
+
+<ComponentPreview
+  name="accordion-3"
+  description="accordion with chevron icon"
+/>
+
+### multiple
+
+<ComponentPreview
+  name="accordion-4"
+  description="accordion multiple"
+/>
+
+## API Reference
+
+### **Accordion**
+
+The `Accordion` component provides a collapsible container for managing `AccordionItem` components.
+
+---
+
+### **Accordion Properties**
+
+- **`type`** (`'single' | 'multiple'`, optional):  
+  - Defines the type of accordion:
+    - `'single'`: Only one item can be open at a time.
+    - `'multiple'`: Allows multiple items to be open simultaneously.  
+  - Defaults to `'single'`.
+
+- **`defaultValue`** (`string | string[]`, optional):  
+  - Sets the initial open state(s) of the accordion items.  
+  - Use a string for single-item accordion or an array for multi-item accordion.
+
+- **`value`** (`string | string[]`, optional):  
+  - Controls the open state(s) of the accordion items.  
+  - Works in controlled mode alongside `onValueChange`.
+
+- **`onValueChange`** (`(value: string | string[]) => void`, optional):  
+  - Callback fired when the open state changes.
+
+---
+
+### **AccordionItem**
+
+A single collapsible item within the accordion.  
+
+#### **AccordionItem Properties**
+
+- **`value`** (`string`, required): A unique identifier for the accordion item.
+
+- **`className`** (`string`, optional): Additional CSS classes for custom styling.
+
+- **`children`** (`React.ReactNode`): Content of the accordion item.
+
+---
+
+### **AccordionTrigger**
+
+The component that toggles the open/close state of an `AccordionItem`.
+
+#### **AccordionTrigger Properties**
+
+- **`icon`** ([`IconType`](#icontype), optional): Custom icon displayed alongside the trigger text, if not provided, a default `ChevronDown` icon is used.
+
+- **`className`** (`string`, optional): Additional CSS classes for custom styling.
+
+- **`children`** (`React.ReactNode`): Content inside the trigger.
+
+---
+
+### **AccordionContent**
+
+The collapsible content displayed when an `AccordionItem` is open.
+
+#### **AccordionContent Properties**
+
+- **`className`** (`string`, optional): Additional CSS classes for custom styling.
+
+- **`children`** (`React.ReactNode`): Content inside the collapsible area.
+
+---
+
+## Type Definitions
+
+### IconType
+
+Defines the properties for an icon component.
+
+- **`children`** (`React.ElementType`): The icon component (e.g., a Lucide or custom SVG icon).
+
+- **Additional SVG Props**: Supports all `React.SVGProps` for further customization. 
+

@@ -6,10 +6,11 @@ import { fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import { Analytics } from '@/components/ui'
 import { ThemeProvider } from '@/components/providers'
-// import { TailwindIndicator } from '@/components/tailwind-indicator'
+import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { ThemeSwitcher } from '@/components/theme-switcher'
-// import { Toaster as DefaultToaster } from '@/registry/default/ui/'
-import { Toaster as DefaultSonner, ScrollArea } from '@/registry/default/ui/'
+import { DefaultToaster } from '@/registry/registry-ui-components/toast'
+import { ScrollArea } from '@/registry/default/ui'
+import { DefaultSonner } from '@/registry/registry-ui-components/sonner'
 // import { Toaster as NewYorkToaster } from '@/registry/default/ui/'
 
 import localFont from 'next/font/local'
@@ -97,12 +98,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <ThemeSwitcher />
             <Analytics />
             <DefaultSonner />
+            <DefaultToaster />
+            <TailwindIndicator />
           </ThemeProvider>
         </body>
       </html>
     </>
   )
 }
-// <TailwindIndicator />
-// <DefaultToaster />
 // <NewYorkToaster />

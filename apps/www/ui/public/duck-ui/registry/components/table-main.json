@@ -1,0 +1,15 @@
+{
+  "name": "table-main",
+  "type": "registry:example",
+  "registryDependencies": [
+    "table"
+  ],
+  "root_folder": "registry-examples-components/table",
+  "files": [
+    {
+      "path": "registry-examples-components/table/table-1.tsx",
+      "content": "import { TableProvider } from '@/registry/registry-ui-components/table'\n\nexport default function Table1Demo() {\n  return (\n    <>\n      <TableProvider>asdfasfd</TableProvider>\n    </>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}
