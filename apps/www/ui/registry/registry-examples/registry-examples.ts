@@ -64,4 +64,11 @@ export const registry_examples: Registry = [
     root_folder: 'registry-examples-components/textarea',
     files: [],
   },
+  {
+    name: 'tabs-main',
+    type: 'registry:example',
+    registryDependencies: ['tabs'],
+    root_folder: 'registry-examples-components/tabs',
+    files: [],
+  },
 ]

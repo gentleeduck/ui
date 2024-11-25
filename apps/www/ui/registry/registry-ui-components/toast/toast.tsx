@@ -7,7 +7,7 @@ import { X } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { toastVariants } from './toast.constants'
-import { useToast } from './toast.lib'
+import { useToast } from './toast.hook'
 
 const ToastProvider = ToastPrimitives.Provider
 
@@ -122,4 +122,13 @@ const Toaster = () => {
   )
 }
 
-export { ToastProvider, ToastViewport, Toast, ToastTitle, ToastDescription, ToastClose, ToastAction, Toaster }
+export {
+  ToastProvider,
+  ToastViewport,
+  Toast,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+  ToastAction,
+  Toaster as DefaultToaster,
+}

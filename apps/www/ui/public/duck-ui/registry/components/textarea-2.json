@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "registry-examples-components/textarea/textarea-2.tsx",
-      "content": "import { Textarea } from '@/registry/registry-ui-components/textarea'\n\nexport default function Textarea1Demo() {\n  return <Textarea placeholder=\"Type your message here.\" />\n}\n",
+      "content": "import { Textarea } from '@/registry/registry-ui-components/textarea'\n\nexport default function Textarea2Demo() {\n  return <Textarea placeholder=\"Type your message here.\" />\n}\n",
       "type": "registry:example"
     }
   ]

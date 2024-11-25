@@ -29,7 +29,9 @@ npx duck-ui@latest add toast
 
 <Step>Add the Toaster component</Step>
 
-```tsx title="app/layout.tsx" {1,9}
+```tsx {3,11}
+// app/layout.tsx
+
 import { Toaster } from "@/components/ui/toaster"
 
 export default function RootLayout({ children }) {
@@ -61,23 +63,15 @@ npm install @radix-ui/react-toast
 
 <Step>Copy and paste the following code into your project.</Step>
 
-`toast.tsx`
-
 <ComponentSource name="toast" />
-
-`toaster.tsx`
-
-<ComponentSource name="toast" fileName="toaster" />
-
-`use-toast.tsx`
-
-<ComponentSource name="toast" fileName="use-toast" />
 
 <Step>Update the import paths to match your project setup.</Step>
 
 <Step>Add the Toaster component</Step>
 
-```tsx title="app/layout.tsx" {1,9}
+```tsx {3,11}
+// app/layout.tsx
+
 import { Toaster } from "@/components/ui/toaster"
 
 export default function RootLayout({ children }) {
@@ -104,7 +98,7 @@ export default function RootLayout({ children }) {
 The `useToast` hook returns a `toast` function that you can use to display a toast.
 
 ```tsx
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/components/ui/toast"
 ```
 
 ```tsx {2,7-10}
@@ -128,7 +122,7 @@ export const ToastDemo = () => {
 
 <Callout>
 
-To display multiple toasts at the same time, you can update the `TOAST_LIMIT` in `use-toast.tsx`.
+To display multiple toasts at the same time, you can update the `TOAST_LIMIT` in `toast.hook.tsx`.
 
 </Callout>
 
@@ -152,130 +146,171 @@ Use `toast({ variant: "destructive" })` to display a destructive toast.
 
 <ComponentPreview name="toast-5" />
 
-# Toast System API Reference
+## API Reference
 
-This API reference describes the components, utilities, and hooks for managing toast notifications in a React project.
+### **Toast Variants**
+`toastVariants` defines the appearance of toast notifications with support for themes (default or destructive).
+
+#### Variants:
+- **default**: Standard notification styling.
+- **destructive**: Styling for critical alerts with a "destructive" theme.
 
 ---
 
-## Table of Contents
-1. [Constants](#constants)
-2. [Utilities](#utilities)
-3. [Components](#components)
-4. [Hooks](#hooks)
-5. [Type Definitions](#type-definitions)
+### **Action Types**
+Predefined constants for toast actions.
+```typescript
+export const actionTypes = {
+  ADD_TOAST: 'ADD_TOAST',
+  UPDATE_TOAST: 'UPDATE_TOAST',
+  DISMISS_TOAST: 'DISMISS_TOAST',
+  REMOVE_TOAST: 'REMOVE_TOAST',
+} as const;
+```
+
+---
+
+### **Utility Functions**
+
+#### `genId(): string`
+Generates a unique ID for each toast.
+- **Returns**: A unique string.
+
+#### `addToRemoveQueue(toastId: string): void`
+Schedules a toast for removal after a predefined delay (`TOAST_REMOVE_DELAY`).
+
+---
+
+### **Toast Reducer**
+Manages toast state changes.
+
+#### Actions:
+- **ADD_TOAST**: Adds a new toast to the state.
+- **UPDATE_TOAST**: Updates an existing toast's properties.
+- **DISMISS_TOAST**: Marks a toast as dismissed, preparing it for removal.
+- **REMOVE_TOAST**: Removes a toast from the state.
+
+---
+
+### **Hooks**
+
+#### `useToast()`
+A React hook for accessing the toast state and dispatching toast-related actions.
+
+##### Returns:
+- `toasts`: Current array of toasts.
+- `toast(props: ToastType)`: Creates a new toast.
+- `dismiss(toastId?: string)`: Dismisses a toast by ID or all toasts if no ID is provided.
+
+---
+
+### **Components**
+
+#### **ToastProvider**
+A wrapper component that provides the toast context to the application.
+
+---
+
+#### **ToastViewport**
+A container for displaying toasts. Supports responsive positioning.
+
+##### Props:
+- `className`: Additional CSS classes.
+
+---
+
+#### **Toast**
+A single toast notification.
+
+##### Props:
+- `variant`: Determines the toast's appearance (`default`, `destructive`).
+
+---
+
+#### **ToastTitle**
+The title of the toast notification.
+
+---
+
+#### **ToastDescription**
+The description or message content of the toast.
+
+---
+
+#### **ToastAction**
+A customizable action button inside the toast.
+
+---
+
+#### **ToastClose**
+A close button for dismissing the toast.
+
+---
+
+#### **Toaster**
+Main component for rendering and managing all toasts.
+
+---
+
+### **Toast Functions**
+
+#### `toast(props: ToastType)`
+Creates and displays a new toast.
+
+##### Parameters:
+- `props`: Toast properties (e.g., `title`, `description`, `action`).
+
+##### Returns:
+- `id`: ID of the created toast.
+- `dismiss`: Function to dismiss the toast.
+- `update`: Function to update the toast.
+
+---
+
+### **Types**
+
+#### `State`
+The state structure for managing toast notifications.
+```typescript
+interface State {
+  toasts: ToasterToast[];
+}
+```
+
+#### `ToasterToast`
+Represents a toast object.
+```typescript
+type ToasterToast = ToastProps & {
+  id: string;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
+  action?: ToastActionElement;
+};
+```
+
+#### `ToastType`
+Toast properties excluding the `id` field.
+```typescript
+type ToastType = Omit<ToasterToast, 'id'>;
+```
+
+#### `Action`
+Represents actions dispatched to the reducer.
+```typescript
+type Action =
+  | { type: 'ADD_TOAST'; toast: ToasterToast }
+  | { type: 'UPDATE_TOAST'; toast: Partial<ToasterToast> }
+  | { type: 'DISMISS_TOAST'; toastId?: string }
+  | { type: 'REMOVE_TOAST'; toastId?: string };
+```
 
 ---
 
 ### Constants
 
-#### `toastVariants`
-A utility created with `class-variance-authority` to define styles and variants for toast notifications.
+#### `TOAST_LIMIT`
+The maximum number of toasts displayed simultaneously.
 
-- **Variants**:
-  - `default`: Applies default styles (`border bg-background text-foreground`).
-  - `destructive`: Applies styles for destructive toasts (`border-destructive bg-destructive text-destructive-foreground`).
-  
-- **Default Variant**: `default`
-
----
-
-### Utilities
-
-#### `genId()`
-Generates a unique identifier for each toast.
-- Returns: A `string` representing the unique ID.
-
-#### `addToRemoveQueue(toastId: string)`
-Schedules a toast for removal after a delay (`TOAST_REMOVE_DELAY`).
-
----
-
-### Components
-
-#### `ToastProvider`
-Provides context for toast notifications.
-- **Props**: Inherits from `ToastPrimitives.Provider`.
-
-#### `ToastViewport`
-Displays a viewport for rendering toast notifications.
-- **Props**: Inherits from `ToastPrimitives.Viewport`.
-- **ClassName Enhancements**:
-  - `top-0` for desktop viewports.
-  - Responsive adjustments for mobile and small screens.
-
-#### `Toast`
-A container component for individual toast notifications.
-- **Props**:
-  - `variant`: Defines the toast style. See [toastVariants](#toastvariants).
-  - Other props from `ToastPrimitives.Root`.
-
-#### `ToastTitle`
-Displays the title of a toast notification.
-- **Props**: Inherits from `ToastPrimitives.Title`.
-
-#### `ToastDescription`
-Displays the description of a toast notification.
-- **Props**: Inherits from `ToastPrimitives.Description`.
-
-#### `ToastAction`
-Renders an action button for a toast notification.
-- **Props**: Inherits from `ToastPrimitives.Action`.
-
-#### `ToastClose`
-Renders a close button for a toast notification.
-- **Props**: Inherits from `ToastPrimitives.Close`.
-
-#### `Toaster`
-Renders all active toast notifications using the `useToast` hook.
-
----
-
-### Hooks
-
-#### `useToast()`
-Provides state and utility functions for managing toast notifications.
-
-- **Returns**:
-  - `toasts`: Array of active toasts.
-  - `toast`: Function to add a new toast.
-  - `dismiss(toastId?: string)`: Function to dismiss a specific toast or all toasts.
-
-#### `toast({ ...props }: Toast)`
-Creates a new toast notification.
-- **Props**: See [Type Definitions](#type-definitions).
-
----
-
-### Type Definitions
-
-#### `ToastProps`
-Extends `ToastPrimitives.Root` props with additional toast properties:
-- `id`: Unique identifier (auto-generated if not provided).
-- `title`: ReactNode for the toast title.
-- `description`: ReactNode for the toast description.
-- `action`: A `ToastActionElement`.
-
-#### `ToastActionElement`
-A React element based on `ToastAction`.
-
-#### `State`
-- `toasts`: Array of active `ToasterToast`.
-
-#### `ActionType`
-Enum for actions in the toast reducer:
-- `ADD_TOAST`
-- `UPDATE_TOAST`
-- `DISMISS_TOAST`
-- `REMOVE_TOAST`
-
-#### `Action`
-Union type for all possible toast reducer actions:
-- `ADD_TOAST`: Adds a new toast.
-- `UPDATE_TOAST`: Updates an existing toast.
-- `DISMISS_TOAST`: Dismisses a toast.
-- `REMOVE_TOAST`: Removes a toast.
-
-#### `ToasterToast`
-Combines `ToastProps` with a required `id`.
+#### `TOAST_REMOVE_DELAY`
+Delay in milliseconds before a dismissed toast is removed.
 

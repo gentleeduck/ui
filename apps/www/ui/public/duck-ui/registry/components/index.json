@@ -1,5 +1,5 @@
 {
-  "name": "textarea-7",
+  "name": "tabs-main",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",
