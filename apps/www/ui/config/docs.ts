@@ -96,6 +96,12 @@ export const docsConfig: DocsConfig = {
         //   items: [],
         // },
         {
+          title: 'Table',
+          href: '/docs/components/table',
+          items: [],
+          label: 'new',
+        },
+        {
           title: 'Tabs',
           href: '/docs/components/tabs',
           items: [],
@@ -130,12 +136,6 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/tooltip',
           items: [],
         },
-        // {
-        //     title: 'Table',
-        //     href: '/docs/components/table',
-        //     items: [],
-        //     label: 'new',
-        // },
       ],
     },
   ],

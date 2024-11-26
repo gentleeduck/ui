@@ -71,4 +71,11 @@ export const registry_examples: Registry = [
     root_folder: 'registry-examples-components/tabs',
     files: [],
   },
+  {
+    name: 'table-main',
+    type: 'registry:example',
+    registryDependencies: ['table'],
+    root_folder: 'registry-examples-components/table',
+    files: [],
+  },
 ]
