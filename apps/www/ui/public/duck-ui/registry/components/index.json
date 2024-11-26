@@ -1,5 +1,5 @@
 {
-  "name": "tabs-main",
+  "name": "table-main",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

@@ -29,6 +29,7 @@ import {
 } from './table.types'
 import { sortArray } from './table.lib'
 import { unknown } from 'zod'
+import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
 
 /*
  *  - This's the normal table components.
@@ -135,37 +136,44 @@ TableCaption.displayName = 'TableCaption'
  *  - It's totally type safe and easy to use.
  */
 
-export type TableContextType = {
+export type DuckTableContextType = {
   pagination: TablePaginationStateType
   setPagination: React.Dispatch<React.SetStateAction<TablePaginationStateType>>
-  selection: TableSearchStateType
-  setSelection: React.Dispatch<React.SetStateAction<TableSearchStateType>>
+  selection: TableSelectionStateType
+  setSelection: React.Dispatch<React.SetStateAction<TableSelectionStateType>>
   search: TableSearchStateType
   setSearch: React.Dispatch<React.SetStateAction<TableSearchStateType>>
+  columnsViewed: ColumnsViewedStateType
+  setColumnsViewed: React.Dispatch<React.SetStateAction<ColumnsViewedStateType>>
+  order: OrderStateType[]
+  setOrder: React.Dispatch<React.SetStateAction<OrderStateType[]>>
 }
 
-export const TableContext = React.createContext<TableContextType | null>(null)
-export const PAGE_SIZE = 10
-export const PAGE_INDEX = 0
+export const DuckTableContext = React.createContext<DuckTableContextType | null>(null)
 
-export type TableProviderProps = React.PropsWithChildren<{}>
-export type TablePaginationStateType = {
+export interface DuckTableProviderProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface TablePaginationStateType {
   pageSize: number
   pageIndex: number
 }
 
-export type TableSelectionStateType = {
+export interface TableSelectionStateType {
   rowSelected: Record<string, unknown>[]
 }
 
-export type TableSearchStateType = {
+export interface TableSearchStateType {
   query: string
 }
 export type ColumnsViewedStateType = {
   [key: string]: boolean
 } | null
 
-export const TableProvider = ({ children }: TableProviderProps) => {
+export type OrderStateType = {
+  orderBy: string
+  orderDir: 'asc' | 'desc'
+}
+
+export const DuckTableProvider = ({ children, className, ...props }: DuckTableProviderProps) => {
   const [pagination, setPagination] = React.useState<TablePaginationStateType>({
     pageSize: PAGE_SIZE,
     pageIndex: PAGE_INDEX,
@@ -181,12 +189,41 @@ export const TableProvider = ({ children }: TableProviderProps) => {
 
   const [columnsViewed, setColumnsViewed] = React.useState<ColumnsViewedStateType>(null)
 
+  const [order, setOrder] = React.useState<OrderStateType[]>([])
+
   return (
-    <TableContext.Provider
-      value={{ pagination, setPagination, selection, setSelection, search, setSearch, columnsViewed, setColumnsViewed }}
+    <DuckTableContext.Provider
+      value={{
+        pagination,
+        setPagination,
+        selection,
+        setSelection,
+        search,
+        setSearch,
+        columnsViewed,
+        setColumnsViewed,
+        order,
+        setOrder,
+      }}
+    >
+      <div
+        className={cn(`flex flex-col gap-4`, className)}
+        {...props}
+      >
+        {children}
+      </div>
+    </DuckTableContext.Provider>
+  )
+}
+
+export const DuckTableHeader = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div
+      className={cn('flex flex-col gap-4', className)}
+      {...props}
     >
       {children}
-    </TableContext.Provider>
+    </div>
   )
 }
 
