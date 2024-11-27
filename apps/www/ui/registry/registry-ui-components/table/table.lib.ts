@@ -1,6 +1,6 @@
 import { DropdownMenuOptionsDataType } from '@/registry/default/ui/dropdown-menu'
-import { TableContentDataType } from './table'
-import { Order, TableHeaderType } from './table.types'
+import { Order, TableContentDataType, TableHeaderType } from './table.types'
+import { ColumnsViewedStateType } from './table'
 
 export function sortArray<T>(columns: TableHeaderType[], array: T[], key?: keyof T, order: Order = 'desc') {
   const toggleSortOrder = (currentOrder: Order): Order => {
@@ -41,9 +41,9 @@ export function sortArray<T>(columns: TableHeaderType[], array: T[], key?: keyof
 }
 
 export type OptionsDataType<T extends Record<string, unknown>> = {
-  header: TableHeaderType<T>[]
-  columnsViewed?: TableHeaderType<T>[]
-  setColumnsViewed?: React.Dispatch<React.SetStateAction<TableHeaderType<T>[]>>
+  header: ColumnsViewedStateType<T>[]
+  columnsViewed?: ColumnsViewedStateType<T>[]
+  setColumnsViewed?: React.Dispatch<React.SetStateAction<ColumnsViewedStateType<T>[]>>
 }
 
 export function get_options_data<T extends Record<string, unknown> = Record<string, string>>({
@@ -52,7 +52,7 @@ export function get_options_data<T extends Record<string, unknown> = Record<stri
   setColumnsViewed,
 }: OptionsDataType<T>) {
   return header.map((column, idx) => {
-    const { children, className, label, sortable, disabled, currentSort, dropdownMenuOptions, ...props } = column
+    const { children, className, label, sortable, disabled, currentSort, dropdownMenuOptions, ...props } = column ?? {}
 
     return {
       key: idx,
@@ -67,13 +67,13 @@ export function get_options_data<T extends Record<string, unknown> = Record<stri
             return prevHeaders.filter(headerItem => headerItem?.label !== label)
           }
 
-          const originalIndex = header.findIndex(headerItem => headerItem.label === label)
+          const originalIndex = header.findIndex(headerItem => headerItem?.label === label)
           const newHeaders = [...prevHeaders]
           newHeaders.splice(originalIndex, 0, column)
           return newHeaders.sort(
             (a, b) =>
-              header.findIndex(headerItem => headerItem.label === a?.label) -
-              header.findIndex(headerItem => headerItem.label === b?.label)
+              header.findIndex(headerItem => headerItem?.label === a?.label) -
+              header.findIndex(headerItem => headerItem?.label === b?.label)
           )
         })
       },

@@ -146,8 +146,8 @@ export type DuckTableContextType<Column extends Record<string, unknown>> = {
   setSelection: React.Dispatch<React.SetStateAction<TableSelectionStateType>>
   search: TableSearchStateType
   setSearch: React.Dispatch<React.SetStateAction<TableSearchStateType>>
-  columnsViewed: ColumnsViewedStateType<Column>[] | never[]
-  setColumnsViewed: React.Dispatch<React.SetStateAction<ColumnsViewedStateType<Column>[]>> | never[]
+  columnsViewed: ColumnsViewedStateType<Column>[] | undefined
+  setColumnsViewed: React.Dispatch<React.SetStateAction<ColumnsViewedStateType<Column>[]>> | undefined
   order: OrderStateType[]
   setOrder: React.Dispatch<React.SetStateAction<OrderStateType[]>>
   filterBy: FilterByType
@@ -410,6 +410,23 @@ export const DuckTableHeaderRightSide = React.forwardRef<HTMLDivElement, DuckTab
     )
   }
 )
+
+export interface DuckTableHeaderLeftSideProps extends React.HTMLProps<HTMLDivElement> {}
+
+export const DuckTableHeaderLeftSide = React.forwardRef<HTMLDivElement, DuckTableHeaderLeftSideProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        className={cn('grid lg:flex items-center lg:justify-between gap-2', className)}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
 export interface DuckTableHeaderActionsProps<T extends Record<string, unknown>> {
   header: TableHeaderType<T>[]
 }

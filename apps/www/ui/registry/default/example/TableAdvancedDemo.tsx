@@ -35,7 +35,7 @@ export type TableDataType = {
   priority: PriorityType
 }
 
-const tableHeaderDropDown: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataType>, true>[] = [
+export const tableHeaderDropDown: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataType>, true>[] = [
   {
     action: (e, { sortArray, setHeaders, setTableData, data, headers, idx }) => {
       const { sortedData, updatedColumns } = sortArray(headers, data, headers[idx].label as keyof TableDataType, 'asc')
@@ -77,40 +77,6 @@ const tableHeaderDropDown: DropdownMenuOptionsDataType<TableHeaderOptionsType<Ta
       className: 'mr-2 h-3.5 w-3.5 text-muted-foreground/70',
     },
     children: 'Hide',
-  },
-]
-
-const columns: TableHeaderType<TableDataType>[] = [
-  {
-    label: 'task',
-    sortable: false,
-  },
-  {
-    label: 'title',
-    className: 'w-[110px]',
-    sortable: true,
-    showLabel: true,
-    dropdownMenuOptions: tableHeaderDropDown,
-  },
-  {
-    label: 'label',
-    className: 'w-[90px]',
-    sortable: true,
-    currentSort: 'not sorted',
-    dropdownMenuOptions: tableHeaderDropDown,
-  },
-  {
-    label: 'status',
-    sortable: true,
-    showLabel: true,
-    className: 'w-[70px]',
-    currentSort: 'not sorted',
-    dropdownMenuOptions: tableHeaderDropDown,
-  },
-  {
-    label: 'priority',
-    sortable: true,
-    dropdownMenuOptions: tableHeaderDropDown,
   },
 ]
 

@@ -1,4 +1,10 @@
-import { filtersData, PriorityType, StatusType, TableDataType } from '@/registry/default/example/TableAdvancedDemo'
+import {
+  filtersData,
+  PriorityType,
+  StatusType,
+  TableDataType,
+  tableHeaderDropDown,
+} from '@/registry/default/example/TableAdvancedDemo'
 import { ComboboxType, OnSelectType } from '@/registry/default/ui'
 import {
   DuckTableFilter,
@@ -6,6 +12,9 @@ import {
   DuckTableHeaderRightSide,
   DuckTableProvider,
   DuckTableSearch,
+  TableHeaderViewButton,
+  TableHeaderType,
+  DuckTableHeaderLeftSide,
 } from '@/registry/registry-ui-components/table'
 import {
   ArrowDownIcon,
@@ -33,6 +42,9 @@ export default function Table1Demo() {
             />
             <DuckTableFilter filter={combinedFiltersData} />
           </DuckTableHeaderRightSide>
+          <DuckTableHeaderLeftSide>
+            <TableHeaderViewButton header={columns} />
+          </DuckTableHeaderLeftSide>
         </DuckTableHeader>
         content
       </DuckTableProvider>
@@ -179,4 +191,38 @@ const combinedFiltersData = [
         onSelect: filter.onSelect,
       }) as ComboboxType<StatusType | PriorityType, keyof TableDataType>
   ),
+]
+
+const columns: TableHeaderType<TableDataType>[] = [
+  {
+    label: 'task',
+    sortable: false,
+  },
+  {
+    label: 'title',
+    className: 'w-[110px]',
+    sortable: true,
+    showLabel: true,
+    dropdownMenuOptions: tableHeaderDropDown,
+  },
+  {
+    label: 'label',
+    className: 'w-[90px]',
+    sortable: true,
+    currentSort: 'not sorted',
+    dropdownMenuOptions: tableHeaderDropDown,
+  },
+  {
+    label: 'status',
+    sortable: true,
+    showLabel: true,
+    className: 'w-[70px]',
+    currentSort: 'not sorted',
+    dropdownMenuOptions: tableHeaderDropDown,
+  },
+  {
+    label: 'priority',
+    sortable: true,
+    dropdownMenuOptions: tableHeaderDropDown,
+  },
 ]
