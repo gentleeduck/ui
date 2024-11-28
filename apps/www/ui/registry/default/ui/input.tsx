@@ -1,10 +1,10 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/registry-ui-components/tooltip'
 import { CommandShortcut } from './command'
-import { Badge } from './badge'
-import { LabelType } from './button'
+import { Badge } from '@/registry/registry-ui-components/badge'
+import { LabelType } from '@/registry/registry-ui-components/button'
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 

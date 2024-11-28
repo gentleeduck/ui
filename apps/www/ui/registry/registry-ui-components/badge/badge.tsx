@@ -6,12 +6,13 @@ import { badgeVariants } from './badge.constants'
 
 import { cn } from '@/lib/utils'
 
-const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant, size, label, ...props }) => {
+const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant, size, label, ...props }, ref) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <div
           className={cn(badgeVariants({ variant, size }), className)}
+          ref={ref}
           {...props}
         />
       </TooltipTrigger>

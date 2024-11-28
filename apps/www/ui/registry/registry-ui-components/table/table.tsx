@@ -6,17 +6,16 @@ import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
 import { Checkbox } from '@/registry/default/ui/checkbox'
 import { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
 import { PaginationCustomView } from '@/registry/default/ui/pagination'
-import { InputCustomView } from '@/registry/default/ui/input'
-import { TooltipProvider } from '../tooltip'
+import { Input } from '@/registry/default/ui/input'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
 import { Combobox, type ComboboxType } from '@/registry/default/ui/combobox'
-import { type CommandListGroupDataType } from '@/registry/default/ui/command'
+import { CommandShortcut, type CommandListGroupDataType } from '@/registry/default/ui/command'
 import { type DropdownMenuOptionsDataType, DropdownMenuView } from '@/registry/default/ui/dropdown-menu'
 import { Badge } from '../badge'
 import { ContextCustomView } from '@/registry/default/ui/context-menu'
 import { useDebounceCallback } from '@/hooks'
 import {
   TableContentDataType,
-  TableContextType,
   TableCustomBodyProps,
   TableCustomViewHeaderProps,
   TableCustomViewProps,
@@ -30,6 +29,8 @@ import {
 import { sortArray } from './table.lib'
 import { unknown } from 'zod'
 import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
+import { useDuckTable } from './table.hook'
+import { LabelType } from '../button'
 
 /*
  *  - This's the normal table components.
@@ -190,7 +191,7 @@ export const DuckTableProvider = ({ children, className, ...props }: DuckTablePr
   const [columnsViewed, setColumnsViewed] = React.useState<ColumnsViewedStateType>(null)
 
   const [order, setOrder] = React.useState<OrderStateType[]>([])
-
+  console.log(search)
   return (
     <DuckTableContext.Provider
       value={{
@@ -219,13 +220,94 @@ export const DuckTableProvider = ({ children, className, ...props }: DuckTablePr
 export const DuckTableHeader = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
-      className={cn('flex flex-col gap-4', className)}
+      className={cn('flex items-end lg:items-center justify-between', className)}
       {...props}
     >
       {children}
     </div>
   )
 }
+
+export interface DuckHeaderSearchProps extends React.HTMLProps<HTMLDivElement> {
+  input?: DuckHeaderSearchInputProps
+}
+
+export const DuckTableSearch = ({ children, className, input, ...props }: DuckHeaderSearchProps) => {
+  const { setSearch } = useDuckTable() ?? {}
+
+  //NOTE: Debounce search
+  const debouncedSearch = useDebounceCallback((newValue: string) => {
+    setSearch?.(prev => ({
+      ...prev,
+      q: newValue,
+    }))
+  }, 500)
+
+  return (
+    <div
+      className={cn('flex flex-1 items-center space-x-2', className)}
+      {...props}
+    >
+      <DuckHeaderSearchInput
+        {...input}
+        trigger={{
+          ...input?.trigger,
+          onChange: (event: React.ChangeEvent<HTMLInputElement>) => debouncedSearch(event.target.value),
+        }}
+      />
+    </div>
+  )
+}
+
+export interface DuckHeaderSearchInputProps {
+  trigger: React.ComponentPropsWithoutRef<typeof Input>
+  label?: LabelType
+  badge?: React.ComponentPropsWithoutRef<typeof CommandShortcut>
+}
+
+const DuckHeaderSearchInput = React.forwardRef<React.ElementRef<typeof Input>, DuckHeaderSearchInputProps>(
+  ({ trigger, label, badge }, ref) => {
+    const { children: badgeChildren = '⌃+⇧+F', className: badgeClassName, ...badgeProps } = badge ?? {}
+    const { children: labelChildren = 'Filter tasks...', className: labelClassName, ...labelProps } = label ?? {}
+    const {
+      className: triggerClassName = 'h-8 w-[150px] lg:w-[200px]',
+      placeholder = 'Filter tasks...',
+      ...triggerProps
+    } = trigger ?? {}
+
+    return (
+      <div className="flex flex-col">
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger>
+            <Input
+              ref={ref}
+              className={cn('h-8 w-[150px] lg:w-[200px]', triggerClassName)}
+              {...triggerProps}
+            />
+          </TooltipTrigger>
+          <TooltipContent
+            className={cn('flex items-center gap-2 z-50 justify-start', labelClassName)}
+            {...labelProps}
+          >
+            <CommandShortcut
+              className="text-[.8rem]"
+              {...badgeProps}
+            >
+              <Badge
+                variant="secondary"
+                size="sm"
+                className="p-0 px-2"
+              >
+                {badgeChildren}
+              </Badge>
+            </CommandShortcut>
+            <p className="text-sm">{labelChildren}</p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
+    )
+  }
+)
 
 const TableHeaderActions = <
   T extends boolean = true,
@@ -242,17 +324,6 @@ const TableHeaderActions = <
 }: TableHeaderActionsProps<T, C, Y>) => {
   const [value, setValue] = React.useState<string[]>([])
 
-  React.useEffect(() => {
-    search.setSearchValue({ ...search.searchValue, qBy: value })
-  }, [value])
-
-  //NOTE: Debounce search
-  const debouncedSearch = useDebounceCallback((newValue: string) => {
-    search.setSearchValue(prev => ({
-      ...prev,
-      q: newValue,
-    }))
-  }, 500)
   // console.log(headers)
 
   //NOTE: Gen options for filteres with label values
@@ -303,23 +374,10 @@ const TableHeaderActions = <
       <div className="flex items-end lg:items-center justify-between">
         <div className="grid lg:flex items-center lg:justify-between gap-2">
           {/*NOTE: Rendering the search bar only if the tableSearch prop is true.*/}
-          {tableSearch && (
-            <div className="flex flex-1 items-center space-x-2">
-              <InputCustomView
-                trigger={{
-                  className: 'h-8 w-[150px] lg:w-[200px]',
-                  placeholder: 'Filter tasks...',
-                  onChange: (event: React.ChangeEvent<HTMLInputElement>) => debouncedSearch(event.target.value),
-                }}
-                label={{
-                  children: 'Filter tasks...',
-                }}
-                badge={{
-                  children: '⌃+⇧+F',
-                }}
-              />
-            </div>
-          )}
+          {
+            //           tableSearch && (
+            // )
+          }
 
           {/*NOTE: Rendering the filter only if the filter prop is true.*/}
           {filter && (
