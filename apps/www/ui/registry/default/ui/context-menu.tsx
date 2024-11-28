@@ -188,7 +188,7 @@ interface ContextMenuOptionsType<T> {
   group?: number[]
 }
 
-interface ContextCustomViewProps<T> {
+export interface DuckContextMenuProps<T> {
   wrapper?: Partial<React.ComponentPropsWithoutRef<typeof ContextMenu>>
   content?: Partial<
     {
@@ -199,7 +199,7 @@ interface ContextCustomViewProps<T> {
   trigger?: React.ComponentPropsWithoutRef<typeof ContextMenuTrigger> & ButtonProps
 }
 
-const ContextCustomView = <T,>({ content, trigger, wrapper }: ContextCustomViewProps<T>) => {
+export const DuckContextMenu = <T,>({ content, trigger, wrapper }: DuckContextMenuProps<T>) => {
   const { className: triggerClassName, icon: Icon, children: triggerChildren, ...triggerProps } = trigger ?? {}
   const { className: optionsClassName, options, ...contentProps } = content ?? {}
   const groupedOption = groupArrays(options?.group ?? [options?.optionsData?.length || 1], options?.optionsData ?? [])
@@ -383,7 +383,7 @@ const ContextCustomView = <T,>({ content, trigger, wrapper }: ContextCustomViewP
   )
 }
 
-ContextCustomView.displayName = 'ContextCustomGroup'
+DuckContextMenu.displayName = 'ContextCustomGroup'
 
 export {
   ContextMenu,
@@ -401,6 +401,6 @@ export {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuRadioGroup,
-  ContextCustomView,
+  DuckContextMenu as ContextCustomView,
   type ContextMenuOptionsType,
 }

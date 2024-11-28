@@ -12,12 +12,11 @@ import { Combobox, type ComboboxType } from '@/registry/default/ui/combobox'
 import { CommandShortcut, type CommandListGroupDataType } from '@/registry/default/ui/command'
 import { type DropdownMenuOptionsDataType, DropdownMenuView } from '@/registry/default/ui/dropdown-menu'
 import { Badge } from '../badge'
-import { ContextCustomView } from '@/registry/default/ui/context-menu'
+import { ContextCustomView, DuckContextMenuProps } from '@/registry/default/ui/context-menu'
 import { useDebounceCallback } from '@/hooks'
 import {
   TableContentDataType,
   TableCustomBodyProps,
-  TableCustomViewProps as DuckTableProps,
   TableDataFilteredType,
   TableDropdownMenuOptionsType,
   TableFooterProps,
@@ -301,6 +300,7 @@ const DuckTableSearchInput = React.forwardRef<React.ElementRef<typeof Input>, Du
       [inputRef]
     )
 
+    console.log(triggerProps, 'asdfasdf')
     return (
       <div
         className="flex flex-col"
@@ -311,6 +311,7 @@ const DuckTableSearchInput = React.forwardRef<React.ElementRef<typeof Input>, Du
             <Input
               className={cn('h-8 w-[150px] lg:w-[200px]', triggerClassName)}
               ref={inputRef}
+              placeholder={placeholder}
               {...triggerProps}
             />
           </TooltipTrigger>
@@ -473,16 +474,17 @@ export const TableBarViewButton = <T extends Record<string, any> = Record<string
   )
 }
 
-// TableCustomViewHeader
 export interface DuckTableHeaderProps<
   T extends Record<string, any> = Record<string, string>,
-  C extends boolean = false,
+  C extends boolean = true,
 > {
   headers: TableHeaderType<T, C>[]
+  selectable?: boolean
 }
 
-export const DuckTableHeader = <T extends Record<string, any> = Record<string, string>, C extends boolean = false>({
+export const DuckTableHeader = <T extends Record<string, any> = Record<string, string>, C extends boolean = true>({
   headers,
+  selectable,
 }: DuckTableHeaderProps<T, C>) => {
   return (
     <>
@@ -515,82 +517,86 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
 
             return (
               headers.some(header => header.children === column.children) && (
-                <TableHead
-                  key={idx}
-                  className="h-[40px] py-2"
-                  // {...props}
-                >
-                  {/*NOTE: Rendering Sorting else rendering label*/}
-                  {!sortable ? (
-                    <span
+                <>
+                  {idx === 0 && (
+                    <TableHead
+                      key={idx}
                       className={cn(
-                        'flex items-center gap-2 w-full h-8 data-[state=open]:bg-accent text-xs capitalize',
-                        dropdownMenuOptions?.length && 'justify-end',
-                        className
+                        'flex items-center w-full data-[state=open]:bg-accent text-xs capitalize h-[50px] py-2',
+                        dropdownMenuOptions?.length && 'justify-end'
                       )}
+                      {...props}
                     >
-                      {
-                        // selection && idx === 0 && (
-                        //                         <Checkbox
-                        //                           className="border-border"
-                        //                           onClick={() =>
-                        //                             setSelected(selected.length === tableData.length ? [] : tableData.map(item => item))
-                        //                           }
-                        //                           checked={
-                        //                             selected.length === tableData.length
-                        //                               ? true
-                        //                               : selected.length < tableData.length && selected.length
-                        //                                 ? 'indeterminate'
-                        //                                 : false
-                        //                           }
-                        //                         />
-                        //                       )
-                      }
-                      {(label as string) ?? children}
-                    </span>
-                  ) : (
-                    <div className={cn('flex items-center space-x-2', className)}>
-                      {dropdownMenuOptions?.length && (
-                        <DropdownMenuView<TableDropdownMenuOptionsType<T>>
-                          trigger={{
-                            className: '-ml-3 h-8 data-[state=open]:bg-accent text-xs ',
-                            children: (
-                              <>
-                                <span className="capitalize">{(label as string) ?? children}</span>
-                                {headers[idx]?.currentSort === 'asc' ? (
-                                  <ArrowDownIcon className="ml-2 h-4 w-4" />
-                                ) : headers[idx]?.currentSort === 'desc' ? (
-                                  <ArrowUpIcon className="ml-2 h-4 w-4" />
-                                ) : (
-                                  <CaretSortIcon className="ml-2 h-4 w-4" />
-                                )}
-                              </>
-                            ),
-                            label: showLabel
-                              ? {
-                                  children: label.toString() + ' options',
-                                  className: 'capitalize',
-                                  showLabel: true,
-                                  side: 'top',
-                                }
-                              : undefined,
-                            variant: 'ghost',
-                            size: 'sm',
-                          }}
-                          content={{
-                            align: 'start',
-                            options: {
-                              group: [2, 1],
-                              optionsData: fullDropDownMenuOptions as
-                                | DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T>>[]
-                                | undefined,
-                            },
-                          }}
+                      {selectable && idx === 0 && (
+                        <Checkbox
+                          className="border-border"
+                          // onClick={() =>
+                          //   // setSelected(selected.length === tableData.length ? [] : tableData.map(item => item)
+                          //               // )
+                          // }
+                          // checked={
+                          //   //   // selected.length === tableData.length
+                          //   //   //   ? true
+                          //   //   //   : selected.length < tableData.length && selected.length
+                          //   //   //     ? 'indeterminate'
+                          //   //   //     : false
+                          // }
                         />
                       )}
-                    </div>
+                    </TableHead>
                   )}
-                </TableHead>
+                  <TableHead
+                    key={idx}
+                    className={cn('h-[40px] py-2', className)}
+                    {...props}
+                  >
+                    {/*NOTE: Rendering Sorting else rendering label*/}
+                    {!sortable ? (
+                      <span>{(label as string) ?? children}</span>
+                    ) : (
+                      <div className={cn('flex items-center space-x-2', className)}>
+                        {dropdownMenuOptions?.length && (
+                          <DropdownMenuView<TableDropdownMenuOptionsType<T>>
+                            trigger={{
+                              className: '-ml-3 h-8 data-[state=open]:bg-accent text-xs ',
+                              children: (
+                                <>
+                                  <span className="capitalize">{(label as string) ?? children}</span>
+                                  {headers[idx]?.currentSort === 'asc' ? (
+                                    <ArrowDownIcon className="ml-2 h-4 w-4" />
+                                  ) : headers[idx]?.currentSort === 'desc' ? (
+                                    <ArrowUpIcon className="ml-2 h-4 w-4" />
+                                  ) : (
+                                    <CaretSortIcon className="ml-2 h-4 w-4" />
+                                  )}
+                                </>
+                              ),
+                              label: showLabel
+                                ? {
+                                    children: label.toString() + ' options',
+                                    className: 'capitalize',
+                                    showLabel: true,
+                                    side: 'top',
+                                  }
+                                : undefined,
+                              variant: 'ghost',
+                              size: 'sm',
+                            }}
+                            content={{
+                              align: 'start',
+                              options: {
+                                group: [2, 1],
+                                optionsData: fullDropDownMenuOptions as
+                                  | DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T>>[]
+                                  | undefined,
+                              },
+                            }}
+                          />
+                        )}
+                      </div>
+                    )}
+                  </TableHead>
+                </>
               )
             )
           })}
@@ -619,9 +625,6 @@ const TableCustomBody = <
   return (
     <TableBody>
       {resultArrays[paginationState.activePage ?? 0]?.map((item, idx) => {
-        {
-          /*NOTE: filtering the data based on headers */
-        }
         const tableDataFiltered = Object.entries(item).filter(([key]) => {
           const headersEntries = headers.map(
             item => item.label.toString().toLowerCase() ?? item.children?.toString().toLowerCase()
@@ -633,107 +636,7 @@ const TableCustomBody = <
           <ContextCustomView
             key={idx}
             trigger={{
-              children: (
-                <TableRow key={idx}>
-                  {tableDataFiltered.map(([key, value], idx) => {
-                    const headersEntries = headers.map(
-                      item => item.label.toString().toLowerCase() ?? item.children?.toString().toLowerCase()
-                    )
-                    const { className, children, withLabel, ...props } = value
-                    const {
-                      className: labelClassName,
-                      children: labelChildren,
-                      type: labelType = 'default',
-                      ...labelProps
-                    } = item?.[key]?.withLabel ?? {}
-
-                    return (
-                      headersEntries.includes(key.toString().toLowerCase()) && (
-                        <TableCell
-                          key={key}
-                          className={cn('py-2 h-[50px]', selected.includes(item) && 'bg-muted', className)}
-                          {...props}
-                        >
-                          <div
-                            className={cn(
-                              'items-center gap-2 flex w-full',
-                              headers?.[idx]?.className,
-                              className,
-                              idx === headersEntries.length - 1 && dropdownMenu && 'justify-between w-full'
-                            )}
-                          >
-                            {/*NOTE: Rendering Checkbox */}
-                            {selection && idx === 0 && (
-                              <Checkbox
-                                className="border-border"
-                                onClick={() =>
-                                  setSelected(
-                                    selected.includes(item) ? selected.filter(i => i !== item) : [...selected, item]
-                                  )
-                                }
-                                checked={selected.includes(item)}
-                              />
-                            )}
-
-                            {/*NOTE: Rendering Label */}
-                            {labelChildren && (
-                              <Badge
-                                variant={'outline'}
-                                size={'sm'}
-                                className={cn(labelType === 'default' ? '' : 'bg-red-500', labelClassName)}
-                                {...labelProps}
-                              >
-                                {labelChildren}
-                              </Badge>
-                            )}
-
-                            <div className="flex items-center gap-2 text-ellipsis overflow-hidden whitespace-nowrap">
-                              {/*NOTE: Getting Icons from Filter Data */}
-                              {filtersData?.length &&
-                                filtersData?.map(item => {
-                                  return item?.content?.data.map((item, idx) => {
-                                    const { children: Icon, ...props } = item?.element?.icon ?? {}
-                                    return item.label?.toString().toLowerCase() ===
-                                      (children as string).toString().toLowerCase() ? (
-                                      <span
-                                        className="whitespace-nowrap"
-                                        key={idx}
-                                      >
-                                        {(Icon ? <Icon {...props} /> : '') as React.ReactNode}
-                                      </span>
-                                    ) : null
-                                  })
-                                })}
-
-                              {/*NOTE: Rendering the row column childrend */}
-                              <span className="text-ellipsis overflow-hidden whitespace-nowrap">{children}</span>
-                            </div>
-                            {/*NOTE: Dropdown Menu */}
-                            {idx === headersEntries.length - 1 && dropdownMenu.optionsData?.length && (
-                              <DropdownMenuView
-                                trigger={{
-                                  className: 'flex h-8 w-8 p-0 data-[state=open]:bg-muted',
-                                  children: <span className="sr-only">Open menu</span>,
-                                  variant: 'ghost',
-                                  size: 'icon',
-                                  icon: {
-                                    children: Ellipsis,
-                                    className: 'h-4 w-4',
-                                  },
-                                }}
-                                content={{
-                                  align: 'end',
-                                  options: dropdownMenu,
-                                }}
-                              />
-                            )}
-                          </div>
-                        </TableCell>
-                      )
-                    )
-                  })}
-                </TableRow>
-              ),
+              children,
             }}
             content={{
               options: contextMenu,
@@ -744,7 +647,28 @@ const TableCustomBody = <
     </TableBody>
   )
 }
-TableCustomBody.displayName = 'TableCustomBody'
+
+export type TableBodyRowProps<T extends Record<string, unknown>> = DuckContextMenuProps<T> &
+  React.HTMLProps<HTMLTableRowElement>
+
+export const DuckTableBodyRow = <C extends Record<string, unknown>>({
+  wrapper,
+  trigger,
+  content,
+  children,
+  ...props
+}: TableBodyRowProps<C>) => {
+  return (
+    <ContextCustomView
+      trigger={{
+        ...trigger,
+        children: <TableRow {...props}>{children}</TableRow>,
+      }}
+      wrapper={wrapper}
+      content={content}
+    />
+  )
+}
 
 const TableCustomFooter = ({ className, columns }: TableFooterProps) => {
   return (
