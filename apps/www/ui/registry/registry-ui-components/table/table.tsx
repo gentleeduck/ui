@@ -31,6 +31,8 @@ import { unknown } from 'zod'
 import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
 import { useDuckTable } from './table.hook'
 import { LabelType } from '../button'
+import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+import { toast } from 'sonner'
 
 /*
  *  - This's the normal table components.
@@ -263,10 +265,11 @@ export interface DuckHeaderSearchInputProps {
   trigger: React.ComponentPropsWithoutRef<typeof Input>
   label?: LabelType
   badge?: React.ComponentPropsWithoutRef<typeof CommandShortcut>
+  keys?: string[]
 }
 
 const DuckHeaderSearchInput = React.forwardRef<React.ElementRef<typeof Input>, DuckHeaderSearchInputProps>(
-  ({ trigger, label, badge }, ref) => {
+  ({ trigger, label, badge, keys }, ref) => {
     const { children: badgeChildren = '⌃+⇧+F', className: badgeClassName, ...badgeProps } = badge ?? {}
     const { children: labelChildren = 'Filter tasks...', className: labelClassName, ...labelProps } = label ?? {}
     const {
@@ -275,13 +278,30 @@ const DuckHeaderSearchInput = React.forwardRef<React.ElementRef<typeof Input>, D
       ...triggerProps
     } = trigger ?? {}
 
+    //NOTE: Duck shortcut
+    const inputRef = React.useRef<HTMLInputElement>(null)
+    useDuckShortcut(
+      {
+        keys: keys ?? ['ctrl+shift+f'],
+        onKeysPressed: () => {
+          if (inputRef.current) {
+            inputRef.current.focus()
+          }
+        },
+      },
+      [inputRef]
+    )
+
     return (
-      <div className="flex flex-col">
-        <Tooltip delayDuration={0}>
+      <div
+        className="flex flex-col"
+        ref={ref}
+      >
+        <Tooltip delayDuration={100}>
           <TooltipTrigger>
             <Input
-              ref={ref}
               className={cn('h-8 w-[150px] lg:w-[200px]', triggerClassName)}
+              ref={inputRef}
               {...triggerProps}
             />
           </TooltipTrigger>
@@ -357,17 +377,6 @@ const TableHeaderActions = <
       ...props,
     }
   }) as DropdownMenuOptionsDataType<C>[]
-
-  //NOTE: Duck shortcut
-  const inputRef = React.useRef<HTMLInputElement>(null)
-  // useDuckShortcut({
-  //   keys: ['ctrl+shift+f'],
-  //   onKeysPressed: () => {
-  //     if (inputRef.current) {
-  //       inputRef.current.focus()
-  //     }
-  //   },
-  // })
 
   return (
     <>
