@@ -1,5 +1,3 @@
-export * from './table'
-export * from './tooltip'
 export * from './nav-group'
 export * from './header'
 export * from './drawer'

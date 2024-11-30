@@ -23,24 +23,24 @@ import { LabelType } from '../button'
 //
 export type Order = 'asc' | 'desc' | 'not sorted'
 
-export interface TableDropdownMenuOptionsType<C extends Record<string, any> = Record<string, string>> {
+export interface TableDropdownMenuOptionsType<T extends Record<string, any>, C extends boolean> {
   sortArray: typeof sortArray
-  setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType[]>>
-  headers: TableHeaderType[]
-  tableData: TableContentDataType<C>[]
-  setTableData: React.Dispatch<React.SetStateAction<TableContentDataType<C>[]>>
-  data: TableContentDataType<C>[]
+  setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType<T, C>[]>>
+  headers: TableHeaderType<T, C>[]
+  tableData: TableContentDataType<T>[]
+  setTableData: React.Dispatch<React.SetStateAction<TableContentDataType<T>[]>>
+  data: TableContentDataType<T>[]
   idx: number
-  column: TableHeaderType
+  column: TableHeaderType<T, C>
 }
 
-export interface TableHeaderType<T extends Record<string, any> = Record<string, string>, C extends boolean = true>
+export interface TableHeaderType<T extends Record<string, any>, C extends boolean = true>
   extends Partial<React.HTMLProps<HTMLTableCellElement>> {
   label: Extract<keyof T, string>
   sortable?: boolean
-  showLabel?: C
+  showLabel?: boolean
   currentSort?: C extends true ? 'asc' | 'desc' | 'not sorted' : never
-  dropdownMenuOptions?: C extends true ? DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T>>[] : never
+  dropdownMenuOptions?: C extends true ? DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T, C>>[] : never
 }
 
 export interface TableHeaderActionsProps<T extends Record<string, unknown>, K extends boolean> {
@@ -50,31 +50,31 @@ export interface TableHeaderActionsProps<T extends Record<string, unknown>, K ex
 }
 
 // TableHeaderOptions
-export interface TableHeaderOptionsType<C extends Record<string, any> = Record<string, string>> {
+export interface TableHeaderOptionsType<T extends Record<string, any>, C extends boolean> {
   sortArray: typeof sortArray
-  setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType[]>>
-  headers: TableHeaderType[]
-  tableData: TableContentDataType<C>[]
-  setTableData: React.Dispatch<React.SetStateAction<TableContentDataType<C>[]>>
-  data: TableContentDataType<C>[]
+  setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType<T, C>[]>>
+  headers: TableHeaderType<T, C>[]
+  tableData: TableContentDataType<T>[]
+  setTableData: React.Dispatch<React.SetStateAction<TableContentDataType<T>[]>>
+  data: TableContentDataType<T>[]
   idx: number
-  column: TableHeaderType
+  column: TableHeaderType<T, C>
 }
 
 // TableCustomBody
 export interface TableCustomBodyProps<
-  T extends boolean,
-  C extends Record<string, unknown>,
+  T extends Record<string, unknown>,
   Y extends keyof Record<string, unknown>,
+  C extends boolean,
 > {
   headers: TableHeaderType<T, C>[]
-  resultArrays: TableContentDataType<C>[][]
+  resultArrays: TableContentDataType<T>[][]
   paginationState: PaginationState
   selection: boolean
-  selected: TableContentDataType<C>[]
-  setSelected: React.Dispatch<React.SetStateAction<TableContentDataType<C>[]>>
-  dropdownMenu: DropdownMenuOptionsType<TableHeaderOptionsType<C>>
-  contextMenu: ContextMenuOptionsType<TableHeaderOptionsType<C>>
+  selected: TableContentDataType<T>[]
+  setSelected: React.Dispatch<React.SetStateAction<TableContentDataType<T>[]>>
+  dropdownMenu: DropdownMenuOptionsType<TableHeaderOptionsType<T, C>>
+  contextMenu: ContextMenuOptionsType<TableHeaderOptionsType<T, C>>
   filtersData: ComboboxType<Extract<keyof C, string>, Y>[] | undefined
 }
 

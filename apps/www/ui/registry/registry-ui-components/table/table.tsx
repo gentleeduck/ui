@@ -427,13 +427,13 @@ export const DuckTableBarLeftSide = React.forwardRef<HTMLDivElement, DuckTableBa
   }
 )
 
-export interface DuckTableBarActionsProps<T extends Record<string, unknown>> {
-  header: TableHeaderType<T>[]
+export interface DuckTableBarActionsProps<T extends Record<string, unknown>, C extends boolean> {
+  header: TableHeaderType<T, C>[]
 }
 
-export const TableBarViewButton = <T extends Record<string, any> = Record<string, string>>({
+export const TableBarViewButton = <T extends Record<string, any> = Record<string, string>, C extends boolean = false>({
   header,
-}: DuckTableBarActionsProps<T>) => {
+}: DuckTableBarActionsProps<T, C>) => {
   const { setColumnsViewed, columnsViewed } = useDuckTable<T>() ?? {}
 
   const option_data = get_options_data<T>({ header, columnsViewed, setColumnsViewed })
@@ -491,7 +491,7 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
       <TableHeader>
         <TableRow>
           {headers?.map((column, idx) => {
-            console.log(column)
+            // console.log(column)
             const { children, className, sortable, label, showLabel, dropdownMenuOptions, currentSort, ...props } =
               column
             // const actionsArgs = {
@@ -517,17 +517,16 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
 
             return (
               headers.some(header => header.children === column.children) && (
-                <>
+                <React.Fragment key={idx}>
                   {idx === 0 && (
                     <TableHead
-                      key={idx}
                       className={cn(
                         'flex items-center w-full data-[state=open]:bg-accent text-xs capitalize h-[50px] py-2',
                         dropdownMenuOptions?.length && 'justify-end'
                       )}
                       {...props}
                     >
-                      {selectable && idx === 0 && (
+                      {selectable && (
                         <Checkbox
                           className="border-border"
                           // onClick={() =>
@@ -546,7 +545,6 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
                     </TableHead>
                   )}
                   <TableHead
-                    key={idx}
                     className={cn('h-[40px] py-2', className)}
                     {...props}
                   >
@@ -556,7 +554,7 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
                     ) : (
                       <div className={cn('flex items-center space-x-2', className)}>
                         {dropdownMenuOptions?.length && (
-                          <DropdownMenuView<TableDropdownMenuOptionsType<T>>
+                          <DropdownMenuView<TableDropdownMenuOptionsType<T, C>>
                             trigger={{
                               className: '-ml-3 h-8 data-[state=open]:bg-accent text-xs ',
                               children: (
@@ -587,7 +585,7 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
                               options: {
                                 group: [2, 1],
                                 optionsData: fullDropDownMenuOptions as
-                                  | DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T>>[]
+                                  | DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T, C>>[]
                                   | undefined,
                               },
                             }}
@@ -596,7 +594,7 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
                       </div>
                     )}
                   </TableHead>
-                </>
+                </React.Fragment>
               )
             )
           })}
