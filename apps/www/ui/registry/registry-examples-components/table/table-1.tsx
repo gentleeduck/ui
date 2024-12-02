@@ -1,4 +1,5 @@
 import { cn } from '@/lib'
+import { groupArrays } from '@/lib/utils'
 import {
   optionsData,
   PriorityType,
@@ -6,7 +7,14 @@ import {
   TableDataType,
   tableHeaderDropDown,
 } from '@/registry/default/example/TableAdvancedDemo'
-import { Checkbox, ComboboxType, ContextMenuOptionsType } from '@/registry/default/ui'
+import {
+  Checkbox,
+  ComboboxType,
+  ContextContent,
+  ContextMenuLabel,
+  ContextMenuOptionsType,
+  DropdownMenuView,
+} from '@/registry/default/ui'
 import {
   DuckTableFilter,
   DuckTableBarRightSide,
@@ -23,6 +31,7 @@ import {
   TableContentDataType,
   TableCell,
   TableHeaderOptionsType,
+  DuckTableBody,
 } from '@/registry/registry-ui-components/table'
 import {
   ArrowDownIcon,
@@ -33,6 +42,7 @@ import {
   CircleHelp,
   CircleX,
   Clock12,
+  Ellipsis,
 } from 'lucide-react'
 import React from 'react'
 
@@ -61,53 +71,94 @@ export default function Table1Demo() {
             selectable={true}
           />
 
-          <TableBody>
-            {tableData.map((row, idx) => {
-              return (
-                <DuckTableBodyRow
-                  key={idx}
-                  content={{
-                    options: {
+          <DuckTableBody<typeof tableData> data={tableData}>
+            {data =>
+              data.map((row, idx) => {
+                return (
+                  <DuckTableRowWrapper
+                    key={idx}
+                    options={{
                       group: [3, 1],
                       optionsData: optionsData,
-                    },
-                  }}
-                >
-                  {Object.values(row).map((item, idx) => {
-                    const { children, icon, ...props } = item ?? {}
-                    const { children: Icon, ...iconProps } = icon ?? {}
-
-                    return (
-                      <React.Fragment>
-                        {idx === 0 && (
-                          <TableCell
-                            key={idx}
-                            {...props}
-                          >
-                            <Checkbox className="border-border" />
-                          </TableCell>
-                        )}
-                        <TableCell
-                          key={idx}
-                          {...props}
-                        >
-                          <div className="grid [&_*]:text-ellipsis [&_*]:overflow-hidden [&_*]:whitespace-nowrap">
-                            <span className={cn(Icon && 'flex items-center gap-2 [&_svg]:flex-shrink-0')}>
-                              {Icon && <Icon {...iconProps} />}
-                              {Icon ? <span> {children}</span> : children}
-                            </span>
-                          </div>
-                        </TableCell>
-                      </React.Fragment>
-                    )
-                  })}
-                </DuckTableBodyRow>
-              )
-            })}
-          </TableBody>
+                    }}
+                    row={row}
+                  />
+                )
+              })
+            }
+          </DuckTableBody>
         </DuckTable>
       </DuckTableProvider>
     </>
+  )
+}
+
+export const DuckTableRowWrapper = ({ row, options }: { row: any; options: any }) => {
+  return (
+    <DuckTableBodyRow
+      content={{
+        options,
+      }}
+      row={{
+        children: (
+          <>
+            {Object.values(row).map((item, idx) => {
+              const { children, icon, ...props } = item ?? {}
+              const { children: Icon, ...iconProps } = icon ?? {}
+
+              return (
+                <React.Fragment>
+                  {/*NOTE: Rendering Checkbox */}
+                  {idx === 0 && (
+                    <TableCell
+                      key={idx}
+                      {...props}
+                    >
+                      <Checkbox className="border-border" />
+                    </TableCell>
+                  )}
+                  <TableCell
+                    key={idx}
+                    {...props}
+                  >
+                    <div className="flex items-center gap-4 justify-between">
+                      {/*NOTE: Rendering Label */}
+
+                      {/*NOTE: Rendering the row column childrend */}
+                      <div className="grid [&_*]:text-ellipsis [&_*]:overflow-hidden [&_*]:whitespace-nowrap">
+                        <span className={cn(Icon && 'flex items-center gap-2 [&_svg]:flex-shrink-0')}>
+                          {Icon && <Icon {...iconProps} />}
+                          {Icon ? <span> {children}</span> : children}
+                        </span>
+                      </div>
+                      {/*NOTE: Dropdown Menu */}
+                      {idx === Object.values(row).length - 1 && optionsData?.length && (
+                        <DropdownMenuView
+                          trigger={{
+                            className: 'flex h-8 w-8 p-0 data-[state=open]:bg-muted',
+                            children: <span className="sr-only">Open menu</span>,
+                            variant: 'ghost',
+                            size: 'icon',
+                            icon: {
+                              children: Ellipsis,
+                              className: 'h-4 w-4',
+                            },
+                          }}
+                          content={{
+                            align: 'end',
+                            options,
+                          }}
+                        />
+                      )}
+                    </div>
+                  </TableCell>
+                </React.Fragment>
+              )
+            })}
+          </>
+        ),
+      }}
+    ></DuckTableBodyRow>
   )
 }
 

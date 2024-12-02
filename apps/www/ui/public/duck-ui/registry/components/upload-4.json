@@ -1,0 +1,15 @@
+{
+  "name": "upload-4",
+  "type": "registry:example",
+  "registryDependencies": [
+    "upload"
+  ],
+  "root_folder": "registry-examples-components/upload",
+  "files": [
+    {
+      "path": "registry-examples-components/upload/upload-4.tsx",
+      "content": "import { UploadProfile, UploadProvider } from '@/registry/registry-ui-components/upload'\n\nexport default function Upload3Demo() {\n  return (\n    <>\n      <UploadProvider>\n        <UploadProfile />\n      </UploadProvider>\n    </>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}

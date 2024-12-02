@@ -188,14 +188,14 @@ interface ContextMenuOptionsType<T> {
   group?: number[]
 }
 
+export type ContextContent<T> = Partial<{
+  label?: React.ComponentPropsWithoutRef<typeof ContextMenuLabel>
+  options?: ContextMenuOptionsType<T>
+}> //& React.ComponentPropsWithoutRef<typeof ContextMenuContent>
+
 export interface DuckContextMenuProps<T> {
   wrapper?: Partial<React.ComponentPropsWithoutRef<typeof ContextMenu>>
-  content?: Partial<
-    {
-      label?: React.ComponentPropsWithoutRef<typeof ContextMenuLabel>
-      options?: ContextMenuOptionsType<T>
-    } & React.ComponentPropsWithoutRef<typeof ContextMenuContent>
-  >
+  content?: ContextContent<T>
   trigger?: React.ComponentPropsWithoutRef<typeof ContextMenuTrigger> & ButtonProps
 }
 

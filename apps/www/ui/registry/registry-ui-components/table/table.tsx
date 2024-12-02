@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn, groupArrays } from '@/lib/utils'
 import { ArrowDownIcon, ArrowUpIcon, CirclePlus, Ellipsis } from 'lucide-react'
 import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
 import { Checkbox } from '@/registry/default/ui/checkbox'
@@ -199,7 +199,7 @@ export const DuckTableProvider = <Column extends Record<string, unknown>>({
   const [columnsViewed, setColumnsViewed] = React.useState<ColumnsViewedStateType<Column> | never[]>([])
 
   const [order, setOrder] = React.useState<OrderStateType[]>([])
-  console.log(search)
+
   return (
     <DuckTableContext.Provider
       value={{
@@ -646,28 +646,22 @@ const TableCustomBody = <
   )
 }
 
-export type TableBodyRowProps<T extends Record<string, unknown>> = DuckContextMenuProps<T> &
-  React.HTMLProps<HTMLTableRowElement>
+export type TableBodyRowProps<T extends Record<string, unknown>> = {
+  row?: React.ComponentPropsWithoutRef<typeof TableRow>
+} & Partial<DuckContextMenuProps<T>>
 
 export const DuckTableBodyRow = <C extends Record<string, unknown>>({
   wrapper,
   trigger,
   content,
-  children,
-  ...props
+  row,
 }: TableBodyRowProps<C>) => {
+  const { children, ...props } = row ?? {}
   return (
     <ContextCustomView
       trigger={{
         ...trigger,
-        children: (
-          <TableRow
-            {...props}
-            className=""
-          >
-            {children ?? trigger?.children}
-          </TableRow>
-        ),
+        children: <TableRow {...props}>{children ?? trigger?.children}</TableRow>,
       }}
       wrapper={wrapper}
       content={content}
@@ -871,6 +865,19 @@ const TablePagination = <
 }
 
 TablePagination.displayName = 'TablePagination'
+
+export type DuckTableBodyProps<T> = {
+  data: T
+  children: (data: T) => React.ReactNode
+}
+
+export const DuckTableBody = <T,>({ data, children }: DuckTableBodyProps<T>) => {
+  const { pagination } = useDuckTable() ?? {}
+  const tableDataGrouped = groupArrays<T>([pagination?.pageSize ?? PAGE_SIZE], data as T[])
+  const pageIdx = pagination?.pageIndex ?? PAGE_INDEX
+
+  return <TableBody>{children(tableDataGrouped[pageIdx] as T)}</TableBody>
+}
 
 export interface DuckTableProps extends React.ComponentPropsWithoutRef<typeof Table> {
   wrapper?: React.ComponentPropsWithoutRef<typeof ScrollArea>

@@ -1,7 +1,5 @@
-import * as React from 'react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { TableContentDataType, TableHeaderType } from '@/registry/default/ui'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -37,12 +35,12 @@ export function groupDataByNumbers<T>(strings: T[], groupSizes: number[]): T[][]
   return result
 }
 
-export function groupArrays<T>(numbers: number[], headers: T[]): T[][] {
+export function groupArrays<T>(numbers: number[], arr: T[]): T[][] {
   const result: T[][] = []
   let index = 0
 
   for (const num of numbers) {
-    const headerGroup = headers.slice(index, index + num)
+    const headerGroup = arr.slice(index, index + num)
     result.push(headerGroup)
     index += num
   }
