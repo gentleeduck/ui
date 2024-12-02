@@ -16,7 +16,7 @@
     },
     {
       "path": "registry-ui-components/badge/badge.tsx",
-      "content": "import * as React from 'react'\n\nimport { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/registry-ui-components/tooltip'\nimport { BadgeProps } from './badge.types'\nimport { badgeVariants } from './badge.constants'\n\nimport { cn } from '@/lib/utils'\n\nconst Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant, size, label, ...props }) => {\n  return (\n    <Tooltip>\n      <TooltipTrigger asChild>\n        <div\n          className={cn(badgeVariants({ variant, size }), className)}\n          {...props}\n        />\n      </TooltipTrigger>\n      {label && size === 'icon' && <TooltipContent>{label.children}</TooltipContent>}\n    </Tooltip>\n  )\n})\n\nBadge.displayName = 'Badge'\n\nexport { Badge }\n",
+      "content": "import * as React from 'react'\n\nimport { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/registry-ui-components/tooltip'\nimport { BadgeProps } from './badge.types'\nimport { badgeVariants } from './badge.constants'\n\nimport { cn } from '@/lib/utils'\n\nconst Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant, size, label, ...props }, ref) => {\n  return (\n    <Tooltip>\n      <TooltipTrigger asChild>\n        <div\n          className={cn(badgeVariants({ variant, size }), className)}\n          ref={ref}\n          {...props}\n        />\n      </TooltipTrigger>\n      {label && size === 'icon' && <TooltipContent>{label.children}</TooltipContent>}\n    </Tooltip>\n  )\n})\n\nBadge.displayName = 'Badge'\n\nexport { Badge }\n",
       "type": "registry:ui"
     },
     {

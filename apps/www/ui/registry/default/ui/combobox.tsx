@@ -1,15 +1,12 @@
 'use client'
 import React from 'react'
-
-import { Button, CommandType } from './button'
-import { Label } from './ShadcnUI/label'
-import { Popover, PopoverContent, PopoverTrigger } from './popover'
 import { Command, CommandInput, CommandListGroup, CommandListGroupDataType } from './command'
-
-import { cn } from '@/lib'
+import { Button, CommandType } from '@/registry/registry-ui-components/button'
+import { Label, Separator } from './ShadcnUI'
+import { Popover, PopoverContent, PopoverTrigger } from './popover'
+import { cn } from '@/lib/cn'
 import { ChevronsUpDown } from 'lucide-react'
-import { Separator } from './ShadcnUI'
-import { Badge } from './badge'
+import { Badge } from '@/registry/registry-ui-components/badge'
 
 interface OnSelectType<T> {
   value: T[]

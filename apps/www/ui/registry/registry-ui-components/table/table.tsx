@@ -150,6 +150,8 @@ export type DuckTableContextType = {
   setColumnsViewed: React.Dispatch<React.SetStateAction<ColumnsViewedStateType>>
   order: OrderStateType[]
   setOrder: React.Dispatch<React.SetStateAction<OrderStateType[]>>
+  filterBy: FilterByType
+  setFilterBy: React.Dispatch<React.SetStateAction<FilterByType>>
 }
 
 export const DuckTableContext = React.createContext<DuckTableContextType | null>(null)
@@ -159,6 +161,8 @@ export interface TablePaginationStateType {
   pageSize: number
   pageIndex: number
 }
+
+export type FilterByType = string[]
 
 export interface TableSelectionStateType {
   rowSelected: Record<string, unknown>[]
@@ -190,6 +194,8 @@ export const DuckTableProvider = ({ children, className, ...props }: DuckTablePr
     query: '',
   })
 
+  const [filterBy, setFilterBy] = React.useState<FilterByType>([])
+
   const [columnsViewed, setColumnsViewed] = React.useState<ColumnsViewedStateType>(null)
 
   const [order, setOrder] = React.useState<OrderStateType[]>([])
@@ -207,6 +213,8 @@ export const DuckTableProvider = ({ children, className, ...props }: DuckTablePr
         setColumnsViewed,
         order,
         setOrder,
+        filterBy,
+        setFilterBy,
       }}
     >
       <div
@@ -222,7 +230,7 @@ export const DuckTableProvider = ({ children, className, ...props }: DuckTablePr
 export const DuckTableHeader = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
-      className={cn('flex items-end lg:items-center justify-between', className)}
+      className={cn('flex items-end lg:items-center justify-between gap-2', className)}
       {...props}
     >
       {children}
@@ -329,6 +337,63 @@ const DuckHeaderSearchInput = React.forwardRef<React.ElementRef<typeof Input>, D
   }
 )
 
+export interface DuckTableFilterProps<
+  T extends Record<string, any> = Record<string, string>,
+  Y extends keyof Record<string, unknown> = string,
+> extends React.HTMLProps<HTMLDivElement> {
+  filter: ComboboxType<Y, Extract<keyof T, string>>[]
+}
+
+export const DuckTableFilter = <
+  T extends Record<string, any> = Record<string, string>,
+  Y extends keyof Record<string, unknown> = string,
+>({
+  children,
+  filter,
+  className,
+  ...props
+}: DuckTableFilterProps<T, Y>) => {
+  const { filterBy, setFilterBy } = useDuckTable() ?? {}
+  console.log(filterBy)
+
+  return (
+    <div
+      className={cn('flex items-center gap-2', className)}
+      {...props}
+    >
+      {filter?.map((filter, idx) => {
+        const { className: triggerClassName, children: triggerChildren, ...triggerProps } = filter?.trigger ?? {}
+        return (
+          <Combobox<Y, Extract<keyof T, string>>
+            key={idx}
+            type={'listbox'}
+            title={filter?.title}
+            wrapper={filter?.wrapper}
+            trigger={{
+              icon: {
+                children: CirclePlus,
+                className: '!size-4 stroke-[1.5]',
+              },
+              children: (triggerChildren ?? 'not found') as Y,
+              className: cn('[&>div>span]:text-xs ml-auto w-[88px] lg:w-auto capitalize', triggerClassName),
+              ...triggerProps,
+            }}
+            onSelect={
+              filter?.onSelect ?? {
+                value: filterBy as Extract<keyof T, string>[],
+                setValue: setFilterBy as React.Dispatch<React.SetStateAction<Extract<keyof T, string>[]>>,
+              }
+            }
+            content={{
+              ...filter?.content!,
+            }}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
 const TableHeaderActions = <
   T extends boolean = true,
   C extends Record<string, any> = Record<string, string>,
@@ -342,8 +407,6 @@ const TableHeaderActions = <
   tableSearch,
   filter,
 }: TableHeaderActionsProps<T, C, Y>) => {
-  const [value, setValue] = React.useState<string[]>([])
-
   // console.log(headers)
 
   //NOTE: Gen options for filteres with label values
@@ -386,46 +449,11 @@ const TableHeaderActions = <
           {
             //           tableSearch && (
             // )
+            // {filter && (
+            //   )}
           }
 
           {/*NOTE: Rendering the filter only if the filter prop is true.*/}
-          {filter && (
-            <div className={cn('flex items-center gap-2')}>
-              {filter?.map((filter, idx) => {
-                const {
-                  className: triggerClassName,
-                  children: triggerChildren,
-                  ...triggerProps
-                } = filter?.trigger ?? {}
-                return (
-                  <Combobox<Y, Extract<keyof C, string>>
-                    key={idx}
-                    type={'listbox'}
-                    title={filter?.title}
-                    wrapper={filter?.wrapper}
-                    trigger={{
-                      icon: {
-                        children: CirclePlus,
-                        className: '!size-4 stroke-[1.5]',
-                      },
-                      children: (triggerChildren ?? 'not found') as Y,
-                      className: cn('[&>div>span]:text-xs ml-auto w-[88px] lg:w-auto capitalize', triggerClassName),
-                      ...triggerProps,
-                    }}
-                    onSelect={
-                      filter?.onSelect ?? {
-                        value: value as Extract<keyof C, string>[],
-                        setValue: setValue as React.Dispatch<React.SetStateAction<Extract<keyof C, string>[]>>,
-                      }
-                    }
-                    content={{
-                      ...filter?.content!,
-                    }}
-                  />
-                )
-              })}
-            </div>
-          )}
         </div>
 
         {/*NOTE: Rendering the view button only if the viewButton prop is true.*/}

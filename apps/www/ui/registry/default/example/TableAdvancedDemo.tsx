@@ -117,73 +117,7 @@ const columns: TableHeaderType<true, TableDataType>[] = [
 export type StatusType = 'Backlog' | 'Todo' | 'In Progress' | 'Done' | 'Canceled'
 export type PriorityType = 'High' | 'Medium' | 'Low'
 const iconStyle = 'size-4 stroke-[1.5] text-muted-foreground'
-const filtersData = [
-  {
-    type: 'listbox',
-    trigger: {
-      children: 'status',
-      label: {
-        children: 'Filter Status',
-        showLabel: true,
-        showCommand: true,
-        side: 'top',
-      },
-      command: {
-        label: '⌃+⇧+S',
-        key: 'ctrl+shift+s',
-      },
-    },
-    content: {
-      showSearchInput: true,
-      data: [
-        {
-          label: 'Backlog',
-          element: {
-            icon: {
-              children: CircleHelp,
-              className: iconStyle,
-            },
-          },
-        },
-        {
-          label: 'Todo',
-          element: {
-            icon: {
-              icon: Circle,
-              className: iconStyle,
-            },
-          },
-        },
-        {
-          label: 'In progress',
-          element: {
-            icon: {
-              icon: Clock12,
-              className: iconStyle,
-            },
-          },
-        },
-        {
-          label: 'Done',
-          element: {
-            icon: {
-              icon: CircleCheck,
-              className: iconStyle,
-            },
-          },
-        },
-        {
-          label: 'Canceled',
-          element: {
-            icon: {
-              icon: CircleX,
-              className: iconStyle,
-            },
-          },
-        },
-      ],
-    },
-  } as ComboboxType<keyof TableDataType, StatusType>,
+export const filtersData = [
   {
     type: 'listbox',
     trigger: {

@@ -2,7 +2,7 @@ import React from 'react'
 
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import { Slot } from '@radix-ui/react-slot'
-import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/registry-ui-components/tooltip'
 import { Badge } from './badge'
 import { CommandShortcut } from './command'
 
