@@ -218,7 +218,7 @@ export const DuckTableProvider = <Column extends Record<string, unknown>>({
       }}
     >
       <div
-        className={cn(`flex flex-col gap-4`, className)}
+        className={cn(`w-full flex flex-col gap-4`, className)}
         {...props}
       >
         {children}
@@ -660,7 +660,14 @@ export const DuckTableBodyRow = <C extends Record<string, unknown>>({
     <ContextCustomView
       trigger={{
         ...trigger,
-        children: <TableRow {...props}>{children}</TableRow>,
+        children: (
+          <TableRow
+            {...props}
+            className=""
+          >
+            {children ?? trigger?.children}
+          </TableRow>
+        ),
       }}
       wrapper={wrapper}
       content={content}

@@ -4,7 +4,7 @@ import { TableCell, TableFooter, TablePaginationStateType } from './table'
 import { ComboboxType } from '@/registry/default/ui/combobox'
 import { ContextMenuOptionsType } from '@/registry/default/ui/context-menu'
 import { DropdownMenuOptionsDataType, DropdownMenuOptionsType } from '@/registry/default/ui/dropdown-menu'
-import { LabelType } from '../button'
+import { IconType, LabelType } from '../button'
 
 //
 //
@@ -91,7 +91,7 @@ export type FooterColumnType = Partial<React.ComponentPropsWithoutRef<typeof Tab
 
 // TablePagination
 export type TableContentDataType<C extends Record<string, any> = Record<string, string>> = {
-  [key in keyof C]: TableDataKey & { children: C[key] }
+  [key in keyof C]: TableDataKey & { children?: C[key]; icon?: IconType }
 }
 
 export interface TableDataKey extends React.HTMLProps<HTMLTableCellElement> {

@@ -56,7 +56,7 @@ const Combobox = <T extends keyof Record<string, unknown> = string, Y extends ke
   return (
     <>
       <div
-        className={cn('', wrapperClassName)}
+        className={cn('grid gap-2 items-start', wrapperClassName)}
         {...wrapperProps}
       >
         {title && (
