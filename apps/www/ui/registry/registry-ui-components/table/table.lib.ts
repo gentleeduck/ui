@@ -1,3 +1,4 @@
+import { DropdownMenuOptionsDataType } from '@/registry/default/ui/dropdown-menu'
 import { TableContentDataType } from './table'
 import { Order, TableHeaderType } from './table.types'
 
@@ -37,4 +38,47 @@ export function sortArray<T>(columns: TableHeaderType[], array: T[], key?: keyof
   })
 
   return { sortedData, updatedColumns }
+}
+
+export type OptionsDataType<T extends Record<string, unknown>> = {
+  header: TableHeaderType<T>[]
+  columnsViewed?: TableHeaderType<T>[]
+  setColumnsViewed?: React.Dispatch<React.SetStateAction<TableHeaderType<T>[]>>
+}
+
+export function get_options_data<T extends Record<string, unknown> = Record<string, string>>({
+  header,
+  columnsViewed,
+  setColumnsViewed,
+}: OptionsDataType<T>) {
+  return header.map((column, idx) => {
+    const { children, className, label, sortable, disabled, currentSort, dropdownMenuOptions, ...props } = column
+
+    return {
+      key: idx,
+      className: 'capitalize',
+      checked: columnsViewed?.some(headerItem => headerItem?.label === label),
+      disabled: disabled,
+      onCheckedChange: () => {
+        setColumnsViewed?.(prevHeaders => {
+          const exists = prevHeaders.some(headerItem => headerItem?.label === label)
+
+          if (exists) {
+            return prevHeaders.filter(headerItem => headerItem?.label !== label)
+          }
+
+          const originalIndex = header.findIndex(headerItem => headerItem.label === label)
+          const newHeaders = [...prevHeaders]
+          newHeaders.splice(originalIndex, 0, column)
+          return newHeaders.sort(
+            (a, b) =>
+              header.findIndex(headerItem => headerItem.label === a?.label) -
+              header.findIndex(headerItem => headerItem.label === b?.label)
+          )
+        })
+      },
+      children: label ?? children,
+      ...props,
+    }
+  }) as DropdownMenuOptionsDataType<T>[]
 }

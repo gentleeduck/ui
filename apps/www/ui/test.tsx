@@ -34,7 +34,7 @@ import { LikeButton } from '@/registry/default/ui/custom-buttons'
 import { UploadProvider } from '@/registry/default/ui/upload'
 import { BadgeCheck, CalendarDays } from 'lucide-react'
 import React from 'react'
-import { Button } from './registry'
+import { Button } from '@/registry/registry-ui-components/button'
 
 export default function IndexPage() {
   // <AudioProvider></AudioProvider>

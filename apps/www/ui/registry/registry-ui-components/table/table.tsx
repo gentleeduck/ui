@@ -26,7 +26,7 @@ import {
   TableHeaderType,
   TablePaginationType,
 } from './table.types'
-import { sortArray } from './table.lib'
+import { get_options_data, sortArray } from './table.lib'
 import { unknown } from 'zod'
 import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
 import { useDuckTable } from './table.hook'
@@ -139,22 +139,22 @@ TableCaption.displayName = 'TableCaption'
  *  - It's totally type safe and easy to use.
  */
 
-export type DuckTableContextType = {
+export type DuckTableContextType<Column extends Record<string, unknown>> = {
   pagination: TablePaginationStateType
   setPagination: React.Dispatch<React.SetStateAction<TablePaginationStateType>>
   selection: TableSelectionStateType
   setSelection: React.Dispatch<React.SetStateAction<TableSelectionStateType>>
   search: TableSearchStateType
   setSearch: React.Dispatch<React.SetStateAction<TableSearchStateType>>
-  columnsViewed: ColumnsViewedStateType
-  setColumnsViewed: React.Dispatch<React.SetStateAction<ColumnsViewedStateType>>
+  columnsViewed: ColumnsViewedStateType<Column>[] | never[]
+  setColumnsViewed: React.Dispatch<React.SetStateAction<ColumnsViewedStateType<Column>[]>> | never[]
   order: OrderStateType[]
   setOrder: React.Dispatch<React.SetStateAction<OrderStateType[]>>
   filterBy: FilterByType
   setFilterBy: React.Dispatch<React.SetStateAction<FilterByType>>
 }
 
-export const DuckTableContext = React.createContext<DuckTableContextType | null>(null)
+export const DuckTableContext = React.createContext<DuckTableContextType<any> | null>(null)
 
 export interface DuckTableProviderProps extends React.HTMLAttributes<HTMLDivElement> {}
 export interface TablePaginationStateType {
@@ -171,16 +171,18 @@ export interface TableSelectionStateType {
 export interface TableSearchStateType {
   query: string
 }
-export type ColumnsViewedStateType = {
-  [key: string]: boolean
-} | null
+export type ColumnsViewedStateType<T extends Record<string, unknown>> = TableHeaderType<T> | null
 
 export type OrderStateType = {
   orderBy: string
   orderDir: 'asc' | 'desc'
 }
 
-export const DuckTableProvider = ({ children, className, ...props }: DuckTableProviderProps) => {
+export const DuckTableProvider = <Column extends Record<string, unknown>>({
+  children,
+  className,
+  ...props
+}: DuckTableProviderProps) => {
   const [pagination, setPagination] = React.useState<TablePaginationStateType>({
     pageSize: PAGE_SIZE,
     pageIndex: PAGE_INDEX,
@@ -196,7 +198,7 @@ export const DuckTableProvider = ({ children, className, ...props }: DuckTablePr
 
   const [filterBy, setFilterBy] = React.useState<FilterByType>([])
 
-  const [columnsViewed, setColumnsViewed] = React.useState<ColumnsViewedStateType>(null)
+  const [columnsViewed, setColumnsViewed] = React.useState<ColumnsViewedStateType<Column> | never[]>([])
 
   const [order, setOrder] = React.useState<OrderStateType[]>([])
   console.log(search)
@@ -209,8 +211,8 @@ export const DuckTableProvider = ({ children, className, ...props }: DuckTablePr
         setSelection,
         search,
         setSearch,
-        columnsViewed,
-        setColumnsViewed,
+        columnsViewed: columnsViewed as ColumnsViewedStateType<Column>[],
+        setColumnsViewed: setColumnsViewed as React.Dispatch<React.SetStateAction<ColumnsViewedStateType<Column>[]>>,
         order,
         setOrder,
         filterBy,
@@ -354,7 +356,6 @@ export const DuckTableFilter = <
   ...props
 }: DuckTableFilterProps<T, Y>) => {
   const { filterBy, setFilterBy } = useDuckTable() ?? {}
-  console.log(filterBy)
 
   return (
     <div
@@ -394,106 +395,67 @@ export const DuckTableFilter = <
   )
 }
 
-const TableHeaderActions = <
-  T extends boolean = true,
-  C extends Record<string, any> = Record<string, string>,
-  Y extends keyof Record<string, unknown> = string,
->({
-  setHeaders,
+export interface DuckTableHeaderRightSideProps extends React.HTMLProps<HTMLDivElement> {}
+
+export const DuckTableHeaderRightSide = React.forwardRef<HTMLDivElement, DuckTableHeaderRightSideProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        className={cn('grid lg:flex items-center lg:justify-between gap-2', className)}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+export interface DuckTableHeaderActionsProps<T extends Record<string, unknown>> {
+  header: TableHeaderType<T>[]
+}
+
+export const TableHeaderViewButton = <T extends Record<string, any> = Record<string, string>>({
   header,
-  headers,
-  search,
-  viewButton,
-  tableSearch,
-  filter,
-}: TableHeaderActionsProps<T, C, Y>) => {
-  // console.log(headers)
+}: DuckTableHeaderActionsProps<T>) => {
+  const { setColumnsViewed, columnsViewed } = useDuckTable<T>() ?? {}
 
-  //NOTE: Gen options for filteres with label values
-  const optionsData = header.map((column, idx) => {
-    const { children, className, label, sortable, disabled, currentSort, dropdownMenuOptions, ...props } = column
-
-    return {
-      key: idx,
-      className: 'capitalize',
-      checked: headers.some(headerItem => headerItem.label === label),
-      disabled: disabled,
-      onCheckedChange: () => {
-        setHeaders(prevHeaders => {
-          const exists = prevHeaders.some(headerItem => headerItem.label === label)
-
-          if (exists) {
-            return prevHeaders.filter(headerItem => headerItem.label !== label)
-          }
-
-          const originalIndex = header.findIndex(headerItem => headerItem.label === label)
-          const newHeaders = [...prevHeaders]
-          newHeaders.splice(originalIndex, 0, column)
-          return newHeaders.sort(
-            (a, b) =>
-              header.findIndex(headerItem => headerItem.label === a.label) -
-              header.findIndex(headerItem => headerItem.label === b.label)
-          )
-        })
-      },
-      children: label ?? children,
-      ...props,
-    }
-  }) as DropdownMenuOptionsDataType<C>[]
+  const option_data = get_options_data<T>({ header, columnsViewed, setColumnsViewed })
 
   return (
     <>
-      <div className="flex items-end lg:items-center justify-between">
-        <div className="grid lg:flex items-center lg:justify-between gap-2">
-          {/*NOTE: Rendering the search bar only if the tableSearch prop is true.*/}
-          {
-            //           tableSearch && (
-            // )
-            // {filter && (
-            //   )}
-          }
-
-          {/*NOTE: Rendering the filter only if the filter prop is true.*/}
-        </div>
-
-        {/*NOTE: Rendering the view button only if the viewButton prop is true.*/}
-        {viewButton && (
-          <DropdownMenuView
-            trigger={{
-              children: (
-                <>
-                  <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-                  View
-                </>
-              ),
-              className: 'ml-auto [&>div]:h-8 h-8 w-[79px] lg:flex [&>div]:gap-0 text-xs',
-              label: {
-                children: 'Toggle columns',
-                showCommand: true,
-                showLabel: true,
-                side: 'top',
-              },
-              command: {
-                key: 'ctrl+shift+v',
-                label: '⌃+⇧+V',
-              },
-            }}
-            content={{
-              label: {
-                children: 'Toggle columns',
-              },
-              options: {
-                itemType: 'checkbox',
-                optionsData: optionsData,
-              },
-            }}
-          />
-        )}
-      </div>
+      <DropdownMenuView
+        trigger={{
+          children: (
+            <>
+              <MixerHorizontalIcon className="mr-2 h-4 w-4" />
+              View
+            </>
+          ),
+          className: 'ml-auto [&>div]:h-8 h-8 w-[79px] lg:flex [&>div]:gap-0 text-xs',
+          label: {
+            children: 'Toggle columns',
+            showCommand: true,
+            showLabel: true,
+            side: 'top',
+          },
+          command: {
+            key: 'ctrl+shift+v',
+            label: '⌃+⇧+V',
+          },
+        }}
+        content={{
+          label: {
+            children: 'Toggle columns',
+          },
+          options: {
+            itemType: 'checkbox',
+            optionsData: option_data,
+          },
+        }}
+      />
     </>
   )
 }
-TableHeaderActions.displayName = 'TableHeaderActions'
 
 const TableCustomViewHeader = <T extends boolean = false, C extends Record<string, any> = Record<string, string>>({
   headers,

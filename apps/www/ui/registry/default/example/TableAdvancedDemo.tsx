@@ -80,7 +80,7 @@ const tableHeaderDropDown: DropdownMenuOptionsDataType<TableHeaderOptionsType<Ta
   },
 ]
 
-const columns: TableHeaderType<true, TableDataType>[] = [
+const columns: TableHeaderType<TableDataType>[] = [
   {
     label: 'task',
     sortable: false,

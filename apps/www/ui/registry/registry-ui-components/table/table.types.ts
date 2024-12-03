@@ -34,30 +34,19 @@ export interface TableDropdownMenuOptionsType<C extends Record<string, any> = Re
   column: TableHeaderType
 }
 
-export interface TableHeaderType<T extends boolean = true, C extends Record<string, any> = Record<string, string>>
+export interface TableHeaderType<T extends Record<string, any> = Record<string, string>, C extends boolean = true>
   extends Partial<React.HTMLProps<HTMLTableCellElement>> {
-  label: Extract<keyof C, string>
+  label: Extract<keyof T, string>
   sortable?: boolean
-  showLabel?: T
-  currentSort?: T extends true ? 'asc' | 'desc' | 'not sorted' : never
-  dropdownMenuOptions?: T extends true ? DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<C>>[] : never
+  showLabel?: C
+  currentSort?: C extends true ? 'asc' | 'desc' | 'not sorted' : never
+  dropdownMenuOptions?: C extends true ? DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T>>[] : never
 }
 
-export interface TableHeaderActionsProps<
-  T extends boolean,
-  C extends Record<string, unknown>,
-  Y extends keyof Record<string, unknown>,
-> {
-  header: TableHeaderType<T, C>[]
-  headers: TableHeaderType<T, C>[]
-  viewButton: boolean
-  tableSearch: boolean
-  setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType<T, C>[]>>
-  search: {
-    searchValue: { q: string; qBy: string[] }
-    setSearchValue: React.Dispatch<React.SetStateAction<{ q: string; qBy: string[] }>>
-  }
-  filter: ComboboxType<Y, Extract<keyof C, string>>[]
+export interface TableHeaderActionsProps<T extends Record<string, unknown>, K extends boolean> {
+  header: TableHeaderType<T, K>[]
+  headers: TableHeaderType<T, K>[]
+  setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType<T, K>[]>>
 }
 
 // TableHeaderOptions

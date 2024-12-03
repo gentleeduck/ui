@@ -3,6 +3,7 @@ import { ComboboxType, OnSelectType } from '@/registry/default/ui'
 import {
   DuckTableFilter,
   DuckTableHeader,
+  DuckTableHeaderRightSide,
   DuckTableProvider,
   DuckTableSearch,
 } from '@/registry/registry-ui-components/table'
@@ -22,14 +23,16 @@ export default function Table1Demo() {
     <>
       <DuckTableProvider>
         <DuckTableHeader>
-          <DuckTableSearch
-            input={{
-              trigger: {
-                placeholder: 'Search...',
-              },
-            }}
-          />
-          <DuckTableFilter filter={combinedFiltersData} />
+          <DuckTableHeaderRightSide>
+            <DuckTableSearch
+              input={{
+                trigger: {
+                  placeholder: 'Search...',
+                },
+              }}
+            />
+            <DuckTableFilter filter={combinedFiltersData} />
+          </DuckTableHeaderRightSide>
         </DuckTableHeader>
         content
       </DuckTableProvider>
