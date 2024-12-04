@@ -17,8 +17,7 @@ import { useDebounceCallback } from '@/hooks'
 import {
   TableContentDataType,
   TableCustomBodyProps,
-  TableCustomViewHeaderProps,
-  TableCustomViewProps,
+  TableCustomViewProps as DuckTableProps,
   TableDataFilteredType,
   TableDropdownMenuOptionsType,
   TableFooterProps,
@@ -229,7 +228,7 @@ export const DuckTableProvider = <Column extends Record<string, unknown>>({
   )
 }
 
-export const DuckTableHeader = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
+export const DuckTableBar = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
       className={cn('flex items-end lg:items-center justify-between gap-2', className)}
@@ -240,11 +239,11 @@ export const DuckTableHeader = ({ children, className, ...props }: React.HTMLAtt
   )
 }
 
-export interface DuckHeaderSearchProps extends React.HTMLProps<HTMLDivElement> {
-  input?: DuckHeaderSearchInputProps
+export interface DuckTableSearchProps extends React.HTMLProps<HTMLDivElement> {
+  input?: DuckTableSearchInputProps
 }
 
-export const DuckTableSearch = ({ children, className, input, ...props }: DuckHeaderSearchProps) => {
+export const DuckTableSearch = ({ children, className, input, ...props }: DuckTableSearchProps) => {
   const { setSearch } = useDuckTable() ?? {}
 
   //NOTE: Debounce search
@@ -260,7 +259,7 @@ export const DuckTableSearch = ({ children, className, input, ...props }: DuckHe
       className={cn('flex flex-1 items-center space-x-2', className)}
       {...props}
     >
-      <DuckHeaderSearchInput
+      <DuckTableSearchInput
         {...input}
         trigger={{
           ...input?.trigger,
@@ -271,14 +270,14 @@ export const DuckTableSearch = ({ children, className, input, ...props }: DuckHe
   )
 }
 
-export interface DuckHeaderSearchInputProps {
+export interface DuckTableSearchInputProps {
   trigger: React.ComponentPropsWithoutRef<typeof Input>
   label?: LabelType
   badge?: React.ComponentPropsWithoutRef<typeof CommandShortcut>
   keys?: string[]
 }
 
-const DuckHeaderSearchInput = React.forwardRef<React.ElementRef<typeof Input>, DuckHeaderSearchInputProps>(
+const DuckTableSearchInput = React.forwardRef<React.ElementRef<typeof Input>, DuckTableSearchInputProps>(
   ({ trigger, label, badge, keys }, ref) => {
     const { children: badgeChildren = '⌃+⇧+F', className: badgeClassName, ...badgeProps } = badge ?? {}
     const { children: labelChildren = 'Filter tasks...', className: labelClassName, ...labelProps } = label ?? {}
@@ -395,9 +394,9 @@ export const DuckTableFilter = <
   )
 }
 
-export interface DuckTableHeaderRightSideProps extends React.HTMLProps<HTMLDivElement> {}
+export interface DuckTableBarRightSideProps extends React.HTMLProps<HTMLDivElement> {}
 
-export const DuckTableHeaderRightSide = React.forwardRef<HTMLDivElement, DuckTableHeaderRightSideProps>(
+export const DuckTableBarRightSide = React.forwardRef<HTMLDivElement, DuckTableBarRightSideProps>(
   ({ className, children, ...props }, ref) => {
     return (
       <div
@@ -411,9 +410,9 @@ export const DuckTableHeaderRightSide = React.forwardRef<HTMLDivElement, DuckTab
   }
 )
 
-export interface DuckTableHeaderLeftSideProps extends React.HTMLProps<HTMLDivElement> {}
+export interface DuckTableBarLeftSideProps extends React.HTMLProps<HTMLDivElement> {}
 
-export const DuckTableHeaderLeftSide = React.forwardRef<HTMLDivElement, DuckTableHeaderLeftSideProps>(
+export const DuckTableBarLeftSide = React.forwardRef<HTMLDivElement, DuckTableBarLeftSideProps>(
   ({ className, children, ...props }, ref) => {
     return (
       <div
@@ -427,13 +426,13 @@ export const DuckTableHeaderLeftSide = React.forwardRef<HTMLDivElement, DuckTabl
   }
 )
 
-export interface DuckTableHeaderActionsProps<T extends Record<string, unknown>> {
+export interface DuckTableBarActionsProps<T extends Record<string, unknown>> {
   header: TableHeaderType<T>[]
 }
 
-export const TableHeaderViewButton = <T extends Record<string, any> = Record<string, string>>({
+export const TableBarViewButton = <T extends Record<string, any> = Record<string, string>>({
   header,
-}: DuckTableHeaderActionsProps<T>) => {
+}: DuckTableBarActionsProps<T>) => {
   const { setColumnsViewed, columnsViewed } = useDuckTable<T>() ?? {}
 
   const option_data = get_options_data<T>({ header, columnsViewed, setColumnsViewed })
@@ -474,40 +473,43 @@ export const TableHeaderViewButton = <T extends Record<string, any> = Record<str
   )
 }
 
-const TableCustomViewHeader = <T extends boolean = false, C extends Record<string, any> = Record<string, string>>({
+// TableCustomViewHeader
+export interface DuckTableHeaderProps<
+  T extends Record<string, any> = Record<string, string>,
+  C extends boolean = false,
+> {
+  headers: TableHeaderType<T, C>[]
+}
+
+export const DuckTableHeader = <T extends Record<string, any> = Record<string, string>, C extends boolean = false>({
   headers,
-  setHeaders,
-  tableData,
-  setTableData,
-  selection,
-  selected,
-  setSelected,
-}: TableCustomViewHeaderProps<T, C>) => {
+}: DuckTableHeaderProps<T, C>) => {
   return (
     <>
       <TableHeader>
         <TableRow>
-          {headers.map((column, idx) => {
+          {headers?.map((column, idx) => {
+            console.log(column)
             const { children, className, sortable, label, showLabel, dropdownMenuOptions, currentSort, ...props } =
               column
-            const actionsArgs = {
-              sortArray,
-              setTableData,
-              setHeaders,
-              column,
-              idx,
-              data: tableData,
-              headers,
-              tableData,
-            } as unknown as TableDropdownMenuOptionsType<C>
+            // const actionsArgs = {
+            //   sortArray,
+            //   setTableData,
+            //   setHeaders,
+            //   column,
+            //   idx,
+            //   data: tableData,
+            //   headers,
+            //   tableData,
+            // } as unknown as TableDropdownMenuOptionsType<C>
 
             //NOTE: passing the actionsArgs to the onClick function
             const fullDropDownMenuOptions = dropdownMenuOptions?.map(item => {
               return {
                 ...item,
-                onClick: (e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLDivElement>) => {
-                  item.action?.(e, actionsArgs)
-                },
+                // onClick: (e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLDivElement>) => {
+                //   item.action?.(e, actionsArgs)
+                // },
               }
             })
 
@@ -516,7 +518,7 @@ const TableCustomViewHeader = <T extends boolean = false, C extends Record<strin
                 <TableHead
                   key={idx}
                   className="h-[40px] py-2"
-                  {...props}
+                  // {...props}
                 >
                   {/*NOTE: Rendering Sorting else rendering label*/}
                   {!sortable ? (
@@ -527,27 +529,29 @@ const TableCustomViewHeader = <T extends boolean = false, C extends Record<strin
                         className
                       )}
                     >
-                      {selection && idx === 0 && (
-                        <Checkbox
-                          className="border-border"
-                          onClick={() =>
-                            setSelected(selected.length === tableData.length ? [] : tableData.map(item => item))
-                          }
-                          checked={
-                            selected.length === tableData.length
-                              ? true
-                              : selected.length < tableData.length && selected.length
-                                ? 'indeterminate'
-                                : false
-                          }
-                        />
-                      )}
+                      {
+                        // selection && idx === 0 && (
+                        //                         <Checkbox
+                        //                           className="border-border"
+                        //                           onClick={() =>
+                        //                             setSelected(selected.length === tableData.length ? [] : tableData.map(item => item))
+                        //                           }
+                        //                           checked={
+                        //                             selected.length === tableData.length
+                        //                               ? true
+                        //                               : selected.length < tableData.length && selected.length
+                        //                                 ? 'indeterminate'
+                        //                                 : false
+                        //                           }
+                        //                         />
+                        //                       )
+                      }
                       {(label as string) ?? children}
                     </span>
                   ) : (
                     <div className={cn('flex items-center space-x-2', className)}>
                       {dropdownMenuOptions?.length && (
-                        <DropdownMenuView<TableDropdownMenuOptionsType<C>>
+                        <DropdownMenuView<TableDropdownMenuOptionsType<T>>
                           trigger={{
                             className: '-ml-3 h-8 data-[state=open]:bg-accent text-xs ',
                             children: (
@@ -578,7 +582,7 @@ const TableCustomViewHeader = <T extends boolean = false, C extends Record<strin
                             options: {
                               group: [2, 1],
                               optionsData: fullDropDownMenuOptions as
-                                | DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<C>>[]
+                                | DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T>>[]
                                 | undefined,
                             },
                           }}
@@ -595,7 +599,7 @@ const TableCustomViewHeader = <T extends boolean = false, C extends Record<strin
     </>
   )
 }
-TableCustomViewHeader.displayName = 'TableCustomViewHeader'
+DuckTableHeader.displayName = 'TableCustomViewHeader'
 
 const TableCustomBody = <
   T extends boolean,
@@ -936,183 +940,157 @@ const TablePagination = <
     </>
   )
 }
+
 TablePagination.displayName = 'TablePagination'
 
-const TableCustomView = <
-  T extends boolean = false,
-  C extends Record<string, unknown> = Record<string, unknown>,
-  Y extends keyof Record<string, unknown> = string,
->({
-  wrapper,
-  selection,
-  pagination,
-  viewButton,
-  tableSearch,
-  header,
-  footer,
-  tableContentData,
-  caption,
-  table,
-  dropdownMenu,
-  contextMenu,
-  filters,
-}: TableCustomViewProps<T, C, Y>) => {
+export interface DuckTableProps extends React.ComponentPropsWithoutRef<typeof Table> {
+  wrapper?: React.ComponentPropsWithoutRef<typeof ScrollArea>
+}
+
+export const DuckTable = ({ wrapper, className, children, ...props }: DuckTableProps) => {
   const { className: wrapperClassName, ...wrapperProps } = wrapper! ?? {}
-  const { className: tableClassName, ...tableProps } = table! ?? {}
-  const { children: captionChildren, className: captionClassName, ...captionProps } = caption! ?? []
-  const [selected, setSelected] = React.useState<TableContentDataType<C>[]>([])
-  const [tableData, setTableData] = React.useState<TableContentDataType<C>[]>(tableContentData)
-  const [paginationState, setPaginationState] = React.useState({
-    activePage: pagination?.activePage ?? 0,
-    groupSize: pagination?.groupSize ?? tableData.length,
-  })
-  const [headers, setHeaders] = React.useState<TableHeaderType<T, C>[]>(header ?? [])
-  const [search, setSearch] = React.useState<{ q: string; qBy: string[] }>({ q: '', qBy: [] })
-  const [value, setValue] = React.useState<string[]>([paginationState.groupSize.toString()])
-
-  const [filterLabels, setFilterLabels] = React.useState<{ [key: string]: number }>({})
-
-  //NOTE: Function to split array into chunks
-  const splitIntoChunks = (array: typeof tableData, chunkSize: number) => {
-    const chunks = []
-    for (let i = 0; i < array.length; i += chunkSize) {
-      chunks.push(array.slice(i, i + chunkSize))
-    }
-    return chunks
-  }
-
-  const filteredData = React.useMemo(() => {
-    //NOTE: Step 1: Filter the data based on search.q and search.qBy
-    const data = tableData.filter(item => {
-      return !search.qBy.length
-        ? Object.values(item).some(value => JSON.stringify(value).toLowerCase().includes(search.q.toLowerCase()))
-        : Object.values(item).some(value =>
-            search.qBy.some(q => JSON.stringify(value).toLowerCase().includes(q.toLowerCase()))
-          )
-    })
-
-    //NOTE: Step 2: Calculate label counts based on the filtered data
-    const labelCounts: { [key: string]: number } = {}
-    data.forEach(item => {
-      Object.values(item).forEach(value => {
-        filters?.forEach(filter => {
-          filter?.content?.data.forEach(option => {
-            const label = option?.label?.toString().toLowerCase()
-            if (
-              JSON.stringify(value)
-                .toLowerCase()
-                .includes(label ?? '')
-            ) {
-              labelCounts[label ?? ''] = (labelCounts[label ?? ''] || 0) + 1
-            }
-          })
-        })
-      })
-    })
-
-    setFilterLabels(labelCounts)
-
-    return data
-  }, [tableData, filters, search])
-
-  //NOTE: Step 3: Update the filters to display the count based on the filtered data
-  const updatedFilters = React.useMemo(() => {
-    return filters?.map(filter => {
-      return {
-        ...filter,
-        content: {
-          ...filter.content,
-          data: filter?.content?.data.map(option => {
-            const label = option?.label?.toString().toLowerCase()
-            return {
-              ...option,
-              element: {
-                ...option.element,
-                label: {
-                  ...option?.element?.label,
-                  children: filterLabels[label ?? ''] || 0,
-                },
-              },
-            }
-          }),
-        },
-      }
-    })
-  }, [filters, filterLabels])
-
-  //NOTE: Step 4: Split the data into chunks based on the groupSize
-  const resultArrays = splitIntoChunks(filteredData, +value)
 
   return (
-    <div
-      className={cn(`flex flex-col gap-4`, wrapperClassName)}
+    <ScrollArea
+      className={cn('border border-border rounded-lg !overflow-visible', wrapperClassName)}
       {...wrapperProps}
     >
-      <TableHeaderActions<T, C>
-        search={{ searchValue: search, setSearchValue: setSearch }}
-        viewButton={viewButton ?? false}
-        tableSearch={tableSearch ?? false}
-        header={header ?? []}
-        filter={(updatedFilters as ComboboxType<Y, Extract<keyof C, string>>[]) ?? []}
-        headers={headers}
-        setHeaders={setHeaders}
-      />
-      <ScrollArea
-        className={cn('border border-border rounded-lg !overflow-visible', tableClassName)}
-        {...tableProps}
-      >
-        <Table>
-          {header && (
-            <TableCustomViewHeader<T, C>
-              selection={selection ?? false}
-              selected={selected}
-              headers={headers}
-              tableData={tableData}
-              setHeaders={setHeaders}
-              setTableData={setTableData}
-              setSelected={setSelected}
-            />
-          )}
-          {tableData && !!resultArrays.length && (
-            <TableCustomBody<T, C, Y>
-              headers={headers}
-              resultArrays={resultArrays}
-              paginationState={paginationState}
-              selection={selection ?? false}
-              selected={selected}
-              filtersData={filters}
-              setSelected={setSelected}
-              dropdownMenu={dropdownMenu ?? {}}
-              contextMenu={contextMenu ?? {}}
-            />
-          )}
-          {footer?.columns && <TableCustomFooter {...footer} />}
-        </Table>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-      {caption && (
-        <div
-          className={cn('mb-4 text-sm text-muted-foreground text-center', captionClassName)}
-          {...captionProps}
-        >
-          {caption?.children}
-        </div>
-      )}
-      {pagination && (
-        <TablePagination<C>
-          selected={selected}
-          value={value}
-          tableData={tableData}
-          resultArrays={resultArrays}
-          paginationState={paginationState}
-          paginations={pagination}
-          setValue={setValue}
-          setPaginationState={setPaginationState}
-        />
-      )}
-    </div>
+      <Table {...props}>{children}</Table>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   )
 }
-TableCustomView.displayName = 'TableCustomView'
 
-export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption, TableCustomView }
+DuckTable.displayName = 'DuckTable'
+
+// const {children: captionChildren, className: captionClassName, ...captionProps } = caption! ?? []
+// const [selected, setSelected] = React.useState<TableContentDataType<C>[]>([])
+// const [tableData, setTableData] = React.useState<TableContentDataType<C>[]>(tableContentData)
+// const [paginationState, setPaginationState] = React.useState({
+//     activePage: pagination?.activePage ?? 0,
+//     groupSize: pagination?.groupSize ?? tableData.length,
+// })
+// const [headers, setHeaders] = React.useState<TableHeaderType<T, C>[]>(header ?? [])
+// const [search, setSearch] = React.useState<{ q: string; qBy: string[] }>({q: '', qBy: [] })
+// const [value, setValue] = React.useState<string[]>([paginationState.groupSize.toString()])
+//
+// const [filterLabels, setFilterLabels] = React.useState<{ [key: string]: number }>({})
+//
+// //NOTE: Function to split array into chunks
+// const splitIntoChunks = (array: typeof tableData, chunkSize: number) => {
+//     const chunks = []
+//     for (let i = 0; i < array.length; i += chunkSize) {
+//         chunks.push(array.slice(i, i + chunkSize))
+//     }
+//     return chunks
+// }
+//
+// const filteredData = React.useMemo(() => {
+//     //NOTE: Step 1: Filter the data based on search.q and search.qBy
+//     const data = tableData.filter(item => {
+//         return !search.qBy.length
+//             ? Object.values(item).some(value => JSON.stringify(value).toLowerCase().includes(search.q.toLowerCase()))
+//             : Object.values(item).some(value =>
+//                 search.qBy.some(q => JSON.stringify(value).toLowerCase().includes(q.toLowerCase()))
+//             )
+//     })
+//
+//     //NOTE: Step 2: Calculate label counts based on the filtered data
+//     const labelCounts: {[key: string]: number } = {}
+//     data.forEach(item => {
+//         Object.values(item).forEach(value => {
+//             filters?.forEach(filter => {
+//                 filter?.content?.data.forEach(option => {
+//                     const label = option?.label?.toString().toLowerCase()
+//                     if (
+//                         JSON.stringify(value)
+//                             .toLowerCase()
+//                             .includes(label ?? '')
+//                     ) {
+//                         labelCounts[label ?? ''] = (labelCounts[label ?? ''] || 0) + 1
+//                     }
+//                 })
+//             })
+//         })
+//     })
+//
+//     setFilterLabels(labelCounts)
+//
+//     return data
+// }, [tableData, filters, search])
+//
+// //NOTE: Step 3: Update the filters to display the count based on the filtered data
+// const updatedFilters = React.useMemo(() => {
+//     return filters?.map(filter => {
+//         return {
+//             ...filter,
+//             content: {
+//                 ...filter.content,
+//                 data: filter?.content?.data.map(option => {
+//                     const label = option?.label?.toString().toLowerCase()
+//                     return {
+//                         ...option,
+//                         element: {
+//                             ...option.element,
+//                             label: {
+//                                 ...option?.element?.label,
+//                                 children: filterLabels[label ?? ''] || 0,
+//                             },
+//                         },
+//                     }
+//                 }),
+//             },
+//         }
+//     })
+// }, [filters, filterLabels])
+//
+// //NOTE: Step 4: Split the data into chunks based on the groupSize
+// const resultArrays = splitIntoChunks(filteredData, +value)
+
+// {tableData && !!resultArrays.length && (
+//     <TableCustomBody<T, C, Y>
+//         headers={headers}
+//         resultArrays={resultArrays}
+//         paginationState={paginationState}
+//         selection={selection ?? false}
+//         selected={selected}
+//         filtersData={filters}
+//         setSelected={setSelected}
+//         dropdownMenu={dropdownMenu ?? {}}
+//         contextMenu={contextMenu ?? {}}
+//     />
+// )}
+// {footer?.columns && <TableCustomFooter {...footer} />}
+// {caption && (
+//     <div
+//         className={cn('mb-4 text-sm text-muted-foreground text-center', captionClassName)}
+//         {...captionProps}
+//     >
+//             {caption?.children}
+//         </div>
+// )}
+// {pagination && (
+//     <TablePagination<C>
+//         selected={selected}
+//         value={value}
+//         tableData={tableData}
+//         resultArrays={resultArrays}
+//         paginationState={paginationState}
+//         paginations={pagination}
+//         setValue={setValue}
+//         setPaginationState={setPaginationState}
+//     />
+// )}
+DuckTable.displayName = 'TableCustomView'
+
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+  DuckTable as TableCustomView,
+}

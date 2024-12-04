@@ -1,20 +1,21 @@
 import {
-  filtersData,
   PriorityType,
   StatusType,
   TableDataType,
   tableHeaderDropDown,
 } from '@/registry/default/example/TableAdvancedDemo'
-import { ComboboxType, OnSelectType } from '@/registry/default/ui'
+import { ComboboxType } from '@/registry/default/ui'
 import {
   DuckTableFilter,
-  DuckTableHeader,
-  DuckTableHeaderRightSide,
+  DuckTableBarRightSide,
   DuckTableProvider,
   DuckTableSearch,
-  TableHeaderViewButton,
+  TableBarViewButton,
   TableHeaderType,
-  DuckTableHeaderLeftSide,
+  DuckTableBarLeftSide,
+  DuckTableHeader,
+  DuckTableBar,
+  DuckTable,
 } from '@/registry/registry-ui-components/table'
 import {
   ArrowDownIcon,
@@ -31,8 +32,8 @@ export default function Table1Demo() {
   return (
     <>
       <DuckTableProvider>
-        <DuckTableHeader>
-          <DuckTableHeaderRightSide>
+        <DuckTableBar>
+          <DuckTableBarRightSide>
             <DuckTableSearch
               input={{
                 trigger: {
@@ -41,12 +42,14 @@ export default function Table1Demo() {
               }}
             />
             <DuckTableFilter filter={combinedFiltersData} />
-          </DuckTableHeaderRightSide>
-          <DuckTableHeaderLeftSide>
-            <TableHeaderViewButton header={columns} />
-          </DuckTableHeaderLeftSide>
-        </DuckTableHeader>
-        content
+          </DuckTableBarRightSide>
+          <DuckTableBarLeftSide>
+            <TableBarViewButton header={columns} />
+          </DuckTableBarLeftSide>
+        </DuckTableBar>
+        <DuckTable>
+          <DuckTableHeader headers={columns}></DuckTableHeader>
+        </DuckTable>
       </DuckTableProvider>
     </>
   )

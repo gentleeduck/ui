@@ -61,20 +61,6 @@ export interface TableHeaderOptionsType<C extends Record<string, any> = Record<s
   column: TableHeaderType
 }
 
-// TableCustomViewHeader
-export interface TableCustomViewHeaderProps<
-  T extends boolean = false,
-  C extends Record<string, any> = Record<string, string>,
-> {
-  headers: TableHeaderType<T, C>[]
-  setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType<T, C>[]>>
-  tableData: TableContentDataType<C>[]
-  setTableData: React.Dispatch<React.SetStateAction<TableContentDataType<C>[]>>
-  selection: boolean
-  selected: TableContentDataType<C>[]
-  setSelected: React.Dispatch<React.SetStateAction<TableContentDataType<C>[]>>
-}
-
 // TableCustomBody
 export interface TableCustomBodyProps<
   T extends boolean,
@@ -108,7 +94,6 @@ export type TableContentDataType<C extends Record<string, any> = Record<string, 
   [key in keyof C]: TableDataKey & { children: C[key] }
 }
 
-export interface TableType extends Partial<React.ComponentPropsWithoutRef<typeof ScrollArea>> {}
 export interface TableDataKey extends React.HTMLProps<HTMLTableCellElement> {
   withLabel?: Omit<LabelType, 'showCommand' | 'showLabel'>
   withIcon?: React.ReactNode
@@ -140,22 +125,3 @@ export interface TablePaginationType<C extends Record<string, any> = Record<stri
 }
 
 // TableCustomView
-export interface TableCustomViewProps<
-  T extends boolean = false,
-  C extends Record<string, unknown> = Record<string, string>,
-  Y extends keyof Record<string, unknown> | string = string,
-> {
-  wrapper?: React.HTMLProps<HTMLDivElement>
-  filters?: ComboboxType<Extract<keyof C, string>, Y>[]
-  table?: TableType
-  tableContentData: TableContentDataType<C>[]
-  selection?: boolean
-  header?: TableHeaderType<T, C>[]
-  footer?: TableFooterProps
-  caption?: TableCaptionType
-  pagination?: TablePaginationsType
-  viewButton?: boolean
-  tableSearch?: boolean
-  dropdownMenu?: DropdownMenuOptionsType<TableHeaderOptionsType<C>>
-  contextMenu?: ContextMenuOptionsType<TableHeaderOptionsType<C>>
-}
