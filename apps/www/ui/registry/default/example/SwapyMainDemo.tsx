@@ -3,7 +3,7 @@ import { cn } from '@/lib'
 
 import { Button } from '@/registry/registry-ui-components'
 import {
-  AlertDialogCustom,
+  DialogCustom,
   AvatarGroup,
   Badge,
   type CommentType,
@@ -289,7 +289,7 @@ export const KanbanColumnAddRowTemplate: React.FC<KanbanColumnAddRowBodyArgs> = 
   }
 
   return (
-    <AlertDialogCustom
+    <DialogCustom
       type="sheet"
       // drawerData={data.length > 0}
       header={{

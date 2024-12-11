@@ -89,6 +89,12 @@ export const docsConfig: DocsConfig = {
           items: [],
           label: 'new',
         },
+        {
+          title: 'Upload',
+          href: '/docs/components/upload',
+          items: [],
+          label: 'new',
+        },
         // {
         //   title: 'Swapy',
         //   href: '/docs/components/swapy',

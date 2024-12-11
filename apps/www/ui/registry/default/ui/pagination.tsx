@@ -100,7 +100,7 @@ const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'
 )
 PaginationEllipsis.displayName = 'PaginationEllipsis'
 
-export interface PaginationCustomViewProps {
+export interface DuckPaginationProps {
   wrapper?: React.ComponentPropsWithoutRef<typeof Pagination>
   content?: React.ComponentPropsWithoutRef<typeof PaginationContent>
   item?: React.ComponentPropsWithoutRef<typeof PaginationItem>
@@ -110,7 +110,7 @@ export interface PaginationCustomViewProps {
   maxLeft?: React.ComponentPropsWithoutRef<typeof Button>
 }
 
-const PaginationCustomView = React.forwardRef<HTMLUListElement, PaginationCustomViewProps>(
+export const DuckPagination = React.forwardRef<HTMLUListElement, DuckPaginationProps>(
   ({ wrapper, content, item, right, maxRight, left, maxLeft }, ref) => {
     const { className: wrapperClassName, ...wrapperProps } = wrapper ?? {}
     const { className: contentClassName, ...contentProps } = content ?? {}
@@ -196,5 +196,5 @@ export {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-  PaginationCustomView,
+  DuckPagination as PaginationCustomView,
 }

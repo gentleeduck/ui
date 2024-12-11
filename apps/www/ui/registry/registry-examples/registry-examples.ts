@@ -78,4 +78,11 @@ export const registry_examples: Registry = [
     root_folder: 'registry-examples-components/table',
     files: [],
   },
+  {
+    name: 'upload-main',
+    type: 'registry:example',
+    registryDependencies: ['upload'],
+    root_folder: 'registry-examples-components/upload',
+    files: [],
+  },
 ]

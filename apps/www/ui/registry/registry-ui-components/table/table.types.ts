@@ -83,11 +83,6 @@ export type TableDataFilteredType<T extends Record<string, unknown>> = {
 }[keyof T][]
 
 // TableCustomFooter
-export interface TableFooterProps extends Partial<React.ComponentPropsWithoutRef<typeof TableFooter>> {
-  columns: FooterColumnType[]
-}
-
-export type FooterColumnType = Partial<React.ComponentPropsWithoutRef<typeof TableCell>>
 
 // TablePagination
 export type TableContentDataType<C extends Record<string, any> = Record<string, string>> = {

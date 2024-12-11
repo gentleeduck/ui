@@ -11,7 +11,7 @@ import {
   Volume2,
   VolumeX,
 } from 'lucide-react'
-import React, { useState, useRef, useEffect } from 'react'
+import * as React from 'react'
 import { Button } from '@/registry/registry-ui-components'
 import { cn } from '@/lib'
 import { Input } from './input'
@@ -230,7 +230,7 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
 
   // Cleanup audio element and interval on unmount
-  useEffect(() => {
+  React.useEffect(() => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current)
     }
@@ -570,11 +570,11 @@ const AudioRecordItem = ({
   const { duration: audioDuration, speed, volume } = useAudioDataProvider()
   const duration = audioDuration * 1000
 
-  const [isPlaying, setIsPlaying] = useState<boolean>(false)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-  const [loading, setLoading] = useState<boolean>(loadingState ?? true)
-  const [currentTime, setCurrentTime] = useState<number>(0)
-  const [timeLeft, setTimeLeft] = useState<number>(duration)
+  const [isPlaying, setIsPlaying] = React.useState<boolean>(false)
+  const audioRef = React.useRef<HTMLAudioElement | null>(null)
+  const [loading, setLoading] = React.useState<boolean>(loadingState ?? true)
+  const [currentTime, setCurrentTime] = React.useState<number>(0)
+  const [timeLeft, setTimeLeft] = React.useState<number>(duration)
 
   React.useEffect(() => {
     setTimeLeft(duration - currentTime)
@@ -753,7 +753,7 @@ const AudioDataProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const [duration, setDuration] = React.useState<number>(0)
   const [recordings, setRecordings] = React.useState<RecordingtType[]>([])
   const [speed, setSpeed] = React.useState<number>(1)
-  const [volume, setVolume] = useState(1)
+  const [volume, setVolume] = React.useState(1)
   const [animationProgress, setAnimationProgress] = React.useState<number>(0)
   const [recording, setRecording] = React.useState<boolean>(false)
 

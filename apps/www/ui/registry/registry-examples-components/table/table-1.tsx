@@ -13,6 +13,7 @@ import {
   ContextContent,
   ContextMenuLabel,
   ContextMenuOptionsType,
+  DropdownMenuOptionsDataType,
   DropdownMenuView,
 } from '@/registry/default/ui'
 import {
@@ -32,6 +33,10 @@ import {
   TableCell,
   TableHeaderOptionsType,
   DuckTableBody,
+  DuckTableFooter,
+  FooterColumnType,
+  DuckTableDownBar,
+  DuckTablePagination,
 } from '@/registry/registry-ui-components/table'
 import {
   ArrowDownIcon,
@@ -87,13 +92,23 @@ export default function Table1Demo() {
               })
             }
           </DuckTableBody>
+          <DuckTableFooter columns={footerColumns} />
         </DuckTable>
+        <DuckTableDownBar>
+          <DuckTablePagination />
+        </DuckTableDownBar>
       </DuckTableProvider>
     </>
   )
 }
 
-export const DuckTableRowWrapper = ({ row, options }: { row: any; options: any }) => {
+export const DuckTableRowWrapper = ({
+  row,
+  options,
+}: {
+  row: TableContentDataType<TableDataType>
+  options: ContextMenuOptionsType<Record<string, unknown>> | undefined
+}) => {
   return (
     <DuckTableBodyRow
       content={{
@@ -161,6 +176,18 @@ export const DuckTableRowWrapper = ({ row, options }: { row: any; options: any }
     ></DuckTableBodyRow>
   )
 }
+
+const footerColumns: FooterColumnType[] = [
+  {
+    children: 'Total',
+    colSpan: 3,
+  },
+  {
+    children: '50000$',
+    colSpan: 3,
+    className: 'w-full text-end',
+  },
+]
 
 const iconStyle = 'size-4 stroke-[1.5] text-muted-foreground'
 // Assuming you have separate filter arrays for StatusType and PriorityType

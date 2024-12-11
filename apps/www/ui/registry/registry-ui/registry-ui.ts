@@ -89,7 +89,7 @@ export const registry_ui: Registry = [
       'combobox',
       'input',
       'pagination',
-      'scrollarea',
+      'scroll-area',
       'dropdown',
       'command',
       'button',
@@ -99,6 +99,14 @@ export const registry_ui: Registry = [
       'tooltip',
     ],
     root_folder: 'registry-ui-components/table',
+    files: [],
+  },
+  {
+    name: 'upload',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: ['alert-dialog', 'input', 'context-menu', 'scroll-area', 'button'],
+    root_folder: 'registry-ui-components/upload',
     files: [],
   },
 ]

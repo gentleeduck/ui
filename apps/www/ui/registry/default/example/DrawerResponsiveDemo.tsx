@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import { AlertDialogCustom, Input, Label } from '@/registry/default/ui/'
+import { DialogCustom, Input, Label } from '@/registry/default/ui/'
 import { Button } from '@/registry/registry-ui-components'
 
 interface DataType {
@@ -15,7 +15,7 @@ export default function DrawerDialogDemo() {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   return (
-    <AlertDialogCustom<typeof data>
+    <DialogCustom<typeof data>
       type={isDesktop ? 'dialog' : 'drawer'}
       state={data}
       header={{

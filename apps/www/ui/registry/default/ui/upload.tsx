@@ -1,6 +1,6 @@
 import { File, FileAudio, FileImage, FileText, FileVideo, X } from 'lucide-react'
 import React from 'react'
-import { AlertDialogCustom } from './alert-dialog'
+import { DialogCustom } from './alert-dialog'
 import { ContextMenu, ContextMenuTrigger } from './context-menu'
 import { Input } from './input'
 import { ScrollArea } from './scroll-area'
@@ -93,7 +93,7 @@ export const Upload = ({ children, trigger, content }: UploadProps) => {
       {children ? (
         children
       ) : (
-        <AlertDialogCustom
+        <DialogCustom
           type="sheet"
           drawerData={attachmentsState.length > 0}
           header={{

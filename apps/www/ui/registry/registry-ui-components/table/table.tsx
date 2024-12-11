@@ -1,36 +1,28 @@
 import * as React from 'react'
 
-import { cn, groupArrays } from '@/lib/utils'
-import { ArrowDownIcon, ArrowUpIcon, CirclePlus, Ellipsis } from 'lucide-react'
-import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
+import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 import { Checkbox } from '@/registry/default/ui/checkbox'
 import { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
 import { PaginationCustomView } from '@/registry/default/ui/pagination'
 import { Input } from '@/registry/default/ui/input'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
 import { Combobox, type ComboboxType } from '@/registry/default/ui/combobox'
 import { CommandShortcut, type CommandListGroupDataType } from '@/registry/default/ui/command'
 import { type DropdownMenuOptionsDataType, DropdownMenuView } from '@/registry/default/ui/dropdown-menu'
-import { Badge } from '../badge'
 import { ContextCustomView, DuckContextMenuProps } from '@/registry/default/ui/context-menu'
+
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
+import { LabelType } from '../button'
+import { Badge } from '../badge'
 import { useDebounceCallback } from '@/hooks'
-import {
-  TableContentDataType,
-  TableCustomBodyProps,
-  TableDataFilteredType,
-  TableDropdownMenuOptionsType,
-  TableFooterProps,
-  TableHeaderActionsProps,
-  TableHeaderType,
-  TablePaginationType,
-} from './table.types'
-import { get_options_data, sortArray } from './table.lib'
-import { unknown } from 'zod'
+import { get_options_data } from './table.lib'
 import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
 import { useDuckTable } from './table.hook'
-import { LabelType } from '../button'
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
-import { toast } from 'sonner'
+import { TableDropdownMenuOptionsType, TableHeaderType, TablePaginationType } from './table.types'
+
+import { cn, groupArrays } from '@/lib/utils'
+
+import { ArrowDownIcon, ArrowUpIcon, CirclePlus } from 'lucide-react'
+import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
 
 /*
  *  - This's the normal table components.
@@ -605,47 +597,6 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
 }
 DuckTableHeader.displayName = 'TableCustomViewHeader'
 
-const TableCustomBody = <
-  T extends boolean,
-  C extends Record<string, unknown>,
-  Y extends keyof Record<string, unknown>,
->({
-  headers,
-  resultArrays,
-  paginationState,
-  selection,
-  selected,
-  setSelected,
-  dropdownMenu,
-  contextMenu,
-  filtersData,
-}: TableCustomBodyProps<T, C, Y>) => {
-  return (
-    <TableBody>
-      {resultArrays[paginationState.activePage ?? 0]?.map((item, idx) => {
-        const tableDataFiltered = Object.entries(item).filter(([key]) => {
-          const headersEntries = headers.map(
-            item => item.label.toString().toLowerCase() ?? item.children?.toString().toLowerCase()
-          )
-          return headersEntries.includes(key.toLowerCase())
-        }) as TableDataFilteredType<typeof item>
-
-        return (
-          <ContextCustomView
-            key={idx}
-            trigger={{
-              children,
-            }}
-            content={{
-              options: contextMenu,
-            }}
-          />
-        )
-      })}
-    </TableBody>
-  )
-}
-
 export type TableBodyRowProps<T extends Record<string, unknown>> = {
   row?: React.ComponentPropsWithoutRef<typeof TableRow>
 } & Partial<DuckContextMenuProps<T>>
@@ -669,7 +620,12 @@ export const DuckTableBodyRow = <C extends Record<string, unknown>>({
   )
 }
 
-const TableCustomFooter = ({ className, columns }: TableFooterProps) => {
+export interface DuckTableFooterProps extends Partial<React.ComponentPropsWithoutRef<typeof TableFooter>> {
+  columns: FooterColumnType[]
+}
+export type FooterColumnType = Partial<React.ComponentPropsWithoutRef<typeof TableCell>>
+
+export const DuckTableFooter = ({ className, columns }: DuckTableFooterProps) => {
   return (
     <TableFooter className={cn(className)}>
       <TableRow>
@@ -686,6 +642,110 @@ const TableCustomFooter = ({ className, columns }: TableFooterProps) => {
         })}
       </TableRow>
     </TableFooter>
+  )
+}
+
+export interface DuckTableDownBarProps extends React.HTMLProps<HTMLDivElement> {}
+
+export const DuckTableDownBar = ({ children, className, ...props }: DuckTableDownBarProps) => {
+  return (
+    <div
+      className={cn('grid lg:flex items-center lg:justify-between gap-4 lg::gap-0', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+export type DuckTablePaginationProps = {}
+
+export const DuckTablePagination = ({}: DuckTablePaginationProps) => {
+  const { pagination, setPagination } = useDuckTable() ?? {}
+  return (
+    /*NOTE: Navigation */
+    <PaginationCustomView
+      right={{
+        onClick: () => {
+          setPagination(old => ({
+            ...old,
+            pageIndex: old.pageIndex === old.pageSize - 1 ? old.pageSize - 1 : (old.pageIndex ?? 1) + 1,
+          }))
+        },
+        command: {
+          key: 'ctrl+shift+up',
+          label: '⌃+⇧+↑',
+          // action: () =>
+          //     setPaginationState({
+          //         ...paginationState,
+          //         activePage:
+          //             paginationState.activePage === resultArrays.length - 1
+          //                 ? resultArrays.length - 1
+          //                 : (paginationState.activePage ?? 1) + 1,
+          //     })
+          //     ,
+        },
+        label: {
+          showCommand: true,
+          showLabel: true,
+          side: 'top',
+          children: 'Next page',
+        },
+        // disabled: paginationState.activePage === resultArrays.length - 1,
+      }}
+      maxRight={{
+        // onClick: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
+        // command: {
+        //     key: 'ctrl+shift+right',
+        //     label: '⌃+⇧+→',
+        //     action: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
+        // },
+        label: {
+          showCommand: true,
+          showLabel: true,
+          side: 'top',
+          children: 'Last page',
+        },
+        // disabled: paginationState.activePage === resultArrays.length - 1,
+      }}
+      left={{
+        // onClick: () =>
+        //     setPaginationState({
+        //         ...paginationState,
+        //         activePage: paginationState.activePage === 0 ? 0 : (paginationState.activePage ?? 1) - 1,
+        //     }),
+        // command: {
+        //     key: 'ctrl+shift+down',
+        //     label: '⌃+⇧+↓',
+        //     action: () =>
+        //         setPaginationState({
+        //             ...paginationState,
+        //             activePage: paginationState.activePage === 0 ? 0 : (paginationState.activePage ?? 1) - 1,
+        //         }),
+        // },
+        label: {
+          showCommand: true,
+          showLabel: true,
+          side: 'top',
+          children: 'Previous page',
+        },
+        // disabled: paginationState.activePage === 0,
+      }}
+      maxLeft={{
+        // onClick: () => setPaginationState({ ...paginationState, activePage: 0 }),
+        // command: {
+        //     key: 'ctrl+shift+left',
+        //     label: '⌃+⇧+←',
+        //     action: () => setPaginationState({ ...paginationState, activePage: 0 }),
+        // },
+        label: {
+          showCommand: true,
+          showLabel: true,
+          side: 'top',
+          children: 'First page',
+        },
+        // disabled: paginationState.activePage === 0,
+      }}
+    />
   )
 }
 
@@ -769,94 +829,6 @@ const TablePagination = <
             <span className="max-lg:hidden flex items-center justify-center text-sm font-medium text-muted-foreground whitespace-nowrap">
               Page {paginationState.activePage + 1} of {resultArrays.length}
             </span>
-          )}
-
-          {/*NOTE: Navigation */}
-          {paginations?.showNavigation && (
-            <PaginationCustomView
-              right={{
-                onClick: () =>
-                  setPaginationState({
-                    ...paginationState,
-                    activePage:
-                      paginationState.activePage === resultArrays.length - 1
-                        ? resultArrays.length - 1
-                        : (paginationState.activePage ?? 1) + 1,
-                  }),
-                command: {
-                  key: 'ctrl+shift+up',
-                  label: '⌃+⇧+↑',
-                  action: () =>
-                    setPaginationState({
-                      ...paginationState,
-                      activePage:
-                        paginationState.activePage === resultArrays.length - 1
-                          ? resultArrays.length - 1
-                          : (paginationState.activePage ?? 1) + 1,
-                    }),
-                },
-                label: {
-                  showCommand: true,
-                  showLabel: true,
-                  side: 'top',
-                  children: 'Next page',
-                },
-                disabled: paginationState.activePage === resultArrays.length - 1,
-              }}
-              maxRight={{
-                onClick: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
-                command: {
-                  key: 'ctrl+shift+right',
-                  label: '⌃+⇧+→',
-                  action: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
-                },
-                label: {
-                  showCommand: true,
-                  showLabel: true,
-                  side: 'top',
-                  children: 'Last page',
-                },
-                disabled: paginationState.activePage === resultArrays.length - 1,
-              }}
-              left={{
-                onClick: () =>
-                  setPaginationState({
-                    ...paginationState,
-                    activePage: paginationState.activePage === 0 ? 0 : (paginationState.activePage ?? 1) - 1,
-                  }),
-                command: {
-                  key: 'ctrl+shift+down',
-                  label: '⌃+⇧+↓',
-                  action: () =>
-                    setPaginationState({
-                      ...paginationState,
-                      activePage: paginationState.activePage === 0 ? 0 : (paginationState.activePage ?? 1) - 1,
-                    }),
-                },
-                label: {
-                  showCommand: true,
-                  showLabel: true,
-                  side: 'top',
-                  children: 'Previous page',
-                },
-                disabled: paginationState.activePage === 0,
-              }}
-              maxLeft={{
-                onClick: () => setPaginationState({ ...paginationState, activePage: 0 }),
-                command: {
-                  key: 'ctrl+shift+left',
-                  label: '⌃+⇧+←',
-                  action: () => setPaginationState({ ...paginationState, activePage: 0 }),
-                },
-                label: {
-                  showCommand: true,
-                  showLabel: true,
-                  side: 'top',
-                  children: 'First page',
-                },
-                disabled: paginationState.activePage === 0,
-              }}
-            />
           )}
         </div>
       </div>

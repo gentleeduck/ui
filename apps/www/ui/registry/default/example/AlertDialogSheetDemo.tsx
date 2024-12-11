@@ -1,5 +1,5 @@
 import React from 'react'
-import { AlertDialogCustom } from '@/registry/default/ui'
+import { DialogCustom } from '@/registry/default/ui'
 import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 import { Minus, Plus } from 'lucide-react'
 import { Button } from '@/registry/registry-ui-components'
@@ -56,7 +56,7 @@ export default function AlertDialogDrawerDemo() {
   }
 
   return (
-    <AlertDialogCustom<typeof goal>
+    <DialogCustom<typeof goal>
       type="sheet"
       drawerData={data.length > 0}
       header={{

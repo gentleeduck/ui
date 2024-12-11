@@ -6,26 +6,6 @@ import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import { cn } from '@/lib/utils'
 
 import { Button, buttonVariants } from '@/registry/registry-ui-components'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ShadcnUI/dialog'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from './drawer'
 
 import {
   Sheet,
@@ -150,8 +130,8 @@ const AlertDialogCancel = React.forwardRef<
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
 //NOTE: Alert Dialog Drawer
-interface AlertDialogDrawerContentType extends Partial<React.ComponentPropsWithoutRef<typeof DrawerContent>> {}
-interface AlertDialogDrawerTriggerentType extends Partial<React.ComponentPropsWithoutRef<typeof DrawerTrigger>> {}
+interface AlertDialogDrawerContentType extends Partial<React.ComponentPropsWithoutRef<typeof SheetContent>> {}
+interface AlertDialogDrawerTriggerentType extends Partial<React.ComponentPropsWithoutRef<typeof SheetTrigger>> {}
 interface StateType {
   drawer: boolean
   alert: boolean
@@ -162,86 +142,55 @@ interface AlertDialogDrawerActionsType {
   continue?: () => void
 }
 
-interface AlertDialogDrawerHeaderType extends Partial<React.ComponentPropsWithoutRef<typeof DrawerHeader>> {
+interface AlertDialogDrawerHeaderType extends Partial<React.ComponentPropsWithoutRef<typeof SheetHeader>> {
   head: React.ReactNode
   description: React.ReactNode
 }
 
-interface AlertDialogDrawerFooterType extends Partial<React.ComponentPropsWithoutRef<typeof DrawerFooter>> {
+interface AlertDialogDrawerFooterType extends Partial<React.ComponentPropsWithoutRef<typeof SheetFooter>> {
   cancel?: React.HTMLProps<HTMLButtonElement> & DialogCloseProps
-  submit?: React.ComponentPropsWithoutRef<typeof Button>
+  submit?: React.HTMLProps<HTMLDivElement>
 }
-interface AlertDialogCustomProps<C> {
-  type: 'drawer' | 'dialog' | 'sheet'
-  state: C
+interface AlertDialogSheetProps {
+  state: boolean
   header: AlertDialogDrawerHeaderType
   footer: AlertDialogDrawerFooterType
   trigger: AlertDialogDrawerTriggerentType
   content: AlertDialogDrawerContentType
-  drawerData?: boolean
   actions?: AlertDialogDrawerActionsType
 }
 
-const AlertDialogCustom = <C,>({
-  type,
-  trigger,
-  header,
-  footer,
-  content,
-  drawerData,
-  actions,
-  state,
-}: AlertDialogCustomProps<C>) => {
+const AlertDialogSheet = ({ trigger, header, footer, content, actions, state }: AlertDialogSheetProps) => {
+  const { className: triggerClassName, children: triggerChildren, ...triggerProps } = trigger
+  const { className: contentClassName, children: contentChildren, ...contentProps } = content
+  const { className: footerClassName, children: footerChildren, submit, cancel, ...footerProps } = footer
+  const { className: headerClassName, children: headerChildren, description, head: title, ...headerProps } = header
+  const { className: submitClassName, onClick: submitOnClick, children: submitChildren, ...submitProps } = submit ?? {}
+  const { className: cancelClassName, children: cancelChildren, ...cancelProps } = cancel ?? {}
+
   const {
     state: changeState,
     handleDrawerOpenChange,
-    triggerClassName,
-    cancel,
-    submit,
-    description,
-    title,
-    footerProps,
-    headerProps,
-    contentProps,
-    triggerProps,
-    footerChildren,
-    headerChildren,
-    contentChildren,
-    footerClassName,
-    headerClassName,
-    triggerChildren,
-    contentClassName,
     handleAlertCancel,
     handleAlertContinue,
-    Component,
-    ComponentTrigger,
-    ComponentClose,
-    ComponentTitle,
-    ComponentFooter,
-    ComponentHeader,
-    ComponentContent,
-    ComponentDescription,
     setState,
-  } = useAlertCustom({ trigger, header, footer, content, drawerData, actions, state, type })
-
-  const { className: submitClassName, onClick: submitOnClick, children: submitChildren, ...submitProps } = submit ?? {}
-  const { className: cancelClassName, children: cancelChildren, ...cancelProps } = cancel ?? {}
+  } = useDuckAlert({ trigger, header, footer, content, actions, state })
 
   return (
     <>
       <AlertDialog open={changeState.alert}>
-        <Component
+        <Sheet
           open={changeState.drawer}
           onOpenChange={handleDrawerOpenChange}
         >
-          <ComponentTrigger
+          <SheetTrigger
             asChild
-            className={cn('', triggerClassName)}
+            className={cn(triggerClassName)}
             {...triggerProps}
           >
             {triggerChildren}
-          </ComponentTrigger>
-          <ComponentContent
+          </SheetTrigger>
+          <SheetContent
             className={cn('flex flex-col w-full h-full', contentClassName)}
             {...contentProps}
           >
@@ -250,7 +199,7 @@ const AlertDialogCustom = <C,>({
               className="flex flex-col gap-4 w-full h-full"
             >
               {header && (
-                <ComponentHeader
+                <SheetHeader
                   className={cn('', headerClassName)}
                   {...headerProps}
                 >
@@ -258,29 +207,29 @@ const AlertDialogCustom = <C,>({
                     headerChildren
                   ) : (
                     <>
-                      <ComponentTitle>{title}</ComponentTitle>
-                      <ComponentDescription>{description}</ComponentDescription>
+                      <SheetTitle>{title}</SheetTitle>
+                      <SheetDescription>{description}</SheetDescription>
                     </>
                   )}
-                </ComponentHeader>
+                </SheetHeader>
               )}
               {contentChildren}
               {footer &&
                 (footerChildren ? (
                   footerChildren
                 ) : (
-                  <ComponentFooter
+                  <SheetFooter
                     className={cn('gap-2', footerClassName)}
                     {...footerProps}
                   >
-                    <ComponentClose
+                    <SheetClose
                       asChild
                       className={cn(cancelClassName)}
                       {...cancelProps}
                     >
                       {cancelChildren}
-                    </ComponentClose>
-                    <Button
+                    </SheetClose>
+                    <div
                       onClick={e => {
                         setState({ drawer: false, alert: false })
                         submitOnClick?.(e)
@@ -290,12 +239,12 @@ const AlertDialogCustom = <C,>({
                       {...submitProps}
                     >
                       {submitChildren}
-                    </Button>
-                  </ComponentFooter>
+                    </div>
+                  </SheetFooter>
                 ))}
             </div>
-          </ComponentContent>
-        </Component>
+          </SheetContent>
+        </Sheet>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -314,26 +263,12 @@ const AlertDialogCustom = <C,>({
   )
 }
 
-AlertDialogCustom.displayName = 'AlertDialogDrawer'
+AlertDialogSheet.displayName = 'AlertDialogDrawer'
 
-//NOTE: Alert Dialog Custom Hook
-const useAlertCustom = <C,>({
-  trigger,
-  header,
-  footer,
-  content,
-  drawerData,
-  actions,
-  state: changeState,
-  type,
-}: AlertDialogCustomProps<C>) => {
-  const { className: triggerClassName, children: triggerChildren, ...triggerProps } = trigger
-  const { className: contentClassName, children: contentChildren, ...contentProps } = content
-  const { className: footerClassName, children: footerChildren, submit, cancel, ...footerProps } = footer
-  const { className: headerClassName, children: headerChildren, description, head: title, ...headerProps } = header
-
+//NOTE: Alert Dialog Sheet Hook
+const useDuckAlert = ({ actions, state: changeState }: AlertDialogSheetProps) => {
   const [state, setState] = React.useState<StateType>({ drawer: false, alert: false })
-  const changeStateRef = React.useRef<C | string>('')
+  const changeStateRef = React.useRef<boolean | null>(null)
 
   React.useEffect(() => {
     changeStateRef.current = changeState
@@ -351,80 +286,22 @@ const useAlertCustom = <C,>({
 
   const handleDrawerOpenChange = React.useCallback(
     (drawerState: boolean) => {
-      const showAlert = !drawerState && (drawerData || true) && changeStateRef.current !== changeState
+      const showAlert = !drawerState && (changeState || true) && changeStateRef.current !== changeState
 
       setState(() => ({
         alert: showAlert as boolean,
-        drawer: drawerData || true ? drawerState : false,
+        drawer: changeState || true ? drawerState : false,
       }))
     },
-    [drawerData]
+    [changeState]
   )
-
-  const Component = type === 'drawer' ? Drawer : type === 'sheet' ? Sheet : type === 'dialog' ? Dialog : Drawer
-  const ComponentTrigger =
-    type === 'drawer'
-      ? DrawerTrigger
-      : type === 'sheet'
-        ? SheetTrigger
-        : type === 'dialog'
-          ? DialogTrigger
-          : DrawerTrigger
-  const ComponentContent =
-    type === 'drawer'
-      ? DrawerContent
-      : type === 'sheet'
-        ? SheetContent
-        : type === 'dialog'
-          ? DialogContent
-          : DrawerContent
-  const ComponentHeader =
-    type === 'drawer' ? DrawerHeader : type === 'sheet' ? SheetHeader : type === 'dialog' ? DialogHeader : DrawerHeader
-  const ComponentFooter =
-    type === 'drawer' ? DrawerFooter : type === 'sheet' ? SheetFooter : type === 'dialog' ? DialogFooter : DrawerFooter
-  const ComponentTitle =
-    type === 'drawer' ? DrawerTitle : type === 'sheet' ? SheetTitle : type === 'dialog' ? DialogTitle : DrawerTitle
-  const ComponentDescription =
-    type === 'drawer'
-      ? DrawerDescription
-      : type === 'sheet'
-        ? SheetDescription
-        : type === 'dialog'
-          ? DialogDescription
-          : DrawerDescription
-  const ComponentClose =
-    type === 'drawer' ? DrawerClose : type === 'sheet' ? SheetClose : type === 'dialog' ? DialogClose : DrawerClose
 
   return {
     handleAlertCancel,
     handleAlertContinue,
     handleDrawerOpenChange,
-    triggerClassName,
-    triggerChildren,
-    triggerProps,
-    contentClassName,
-    contentChildren,
-    contentProps,
-    footerClassName,
-    footerChildren,
-    footerProps,
-    headerClassName,
-    headerChildren,
-    headerProps,
-    title,
-    description,
-    submit,
-    cancel,
     state,
     setState,
-    Component,
-    ComponentTrigger,
-    ComponentContent,
-    ComponentHeader,
-    ComponentFooter,
-    ComponentTitle,
-    ComponentDescription,
-    ComponentClose,
   }
 }
 
@@ -440,5 +317,5 @@ export {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
-  AlertDialogCustom,
+  AlertDialogSheet,
 }
