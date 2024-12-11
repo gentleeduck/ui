@@ -43,3 +43,29 @@ export interface HandleAttachmentProps {
   e: React.ChangeEvent<HTMLInputElement>
   setAttachmentsState: React.Dispatch<React.SetStateAction<AttachmentType[]>>
 }
+
+export type FolderType = {
+  id: string
+  name: string
+  content: (AttachmentType | FolderType)[]
+  files: number
+  createdAt: Date
+  updatedAt: Date
+  treeLevel: number
+}
+
+export type SelectedFolderType = FolderType & {}
+
+export type UploadFilesArgs = {
+  e: React.ChangeEvent<HTMLInputElement>
+  selectedFolder: FolderType[]
+  setSelectedFolder: React.Dispatch<React.SetStateAction<FolderType[]>>
+  setAttachments: React.Dispatch<React.SetStateAction<(AttachmentType | FolderType)[]>>
+}
+
+export type UploadPromiseArgs = {
+  files: number
+  toastId: number
+}
+
+export type UploadPromiseReturn = { files: number; progress: number; remainingTime: number }

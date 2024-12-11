@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@/registry/registry-ui-components'
+import { Button } from '@/registry/registry-ui-components/button'
 import { Inbox } from 'lucide-react'
 
 export default function Button22Demo() {

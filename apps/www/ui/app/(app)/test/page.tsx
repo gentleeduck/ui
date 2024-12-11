@@ -1,8 +1,11 @@
-import IndexPage from '../../../test'
+'use client'
+import Upload1Demo from '@/registry/registry-examples-components/upload/upload-1'
+
+// import IndexPage from '../../../test'
 export default async function index() {
   return (
-    <>
-      <IndexPage />
-    </>
+    <div className="container xl:border-x  max-w-screen-2xl border-b h-screen pt-8">
+      <Upload1Demo />
+    </div>
   )
 }

@@ -20,6 +20,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isCollapsed = false,
       size = 'default',
       variant = 'default',
+      border = 'default',
       className,
       label,
       children,
@@ -54,27 +55,29 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       variant: commandVariant,
       size: commandSize,
       label: commandLabel,
+      show: commandShow,
       key,
       action,
-      state,
       ...commandProps
     } = command ?? {}
 
     const fn = () => toast.info('NOTE: handling command shortcut without action')
     //NOTE: handling command shortcut
-    useDuckShortcut({ keys: [key ?? 'k'], onKeysPressed: action ?? fn }, [state])
+    useDuckShortcut({ keys: [key ?? 'k'], onKeysPressed: action ?? fn })
 
     // Handle keyboard shortcut Badge
     const CommandComponent = () => (
       <CommandShortcut className="text-[.8rem]">
-        <Badge
-          variant={'secondary'}
-          size={commandSize ?? 'sm'}
-          className={cn('p-0 px-2 text-bold rounded-sm text-secondary-foreground', commandClassName)}
-          {...commandProps}
-        >
-          {commandLabel}
-        </Badge>
+        {(commandShow ?? true) && (
+          <Badge
+            variant={'secondary'}
+            size={commandSize ?? 'sm'}
+            className={cn('p-0 px-2 text-bold rounded-sm text-secondary-foreground', commandClassName)}
+            {...commandProps}
+          >
+            {commandLabel}
+          </Badge>
+        )}
       </CommandShortcut>
     )
 
@@ -89,12 +92,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             ref={ref}
             className={cn(
               buttonVariants({
-                variant: variant ?? 'ghost',
+                variant,
                 size: size ? (isCollapsed ? 'icon' : size) : isCollapsed ? 'icon' : 'default',
-                className: cn('relative justify-center', className),
+                border,
+                className,
               })
             )}
             disabled={loading}
+            data-state={isCollapsed ? 'close' : 'open'}
             {...props}
           >
             {AnimationIcon && iconPlacement === 'left' && (
@@ -113,7 +118,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                   size={labelSize ?? 'default'}
                   className={cn(
                     'text-[.8rem] py-0 rounded-md px-1 font-meduim',
-                    labelVariant === 'nothing' && 'text-secondary-foreground',
+                    labelVariant === 'nothing' && 'text-accent',
                     labelClassName
                   )}
                   {...labelProps}
@@ -151,3 +156,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = 'Button'
 
 export { Button }
+
+export const hi = () => {
+  return (
+    <>
+      <div className={``}></div>
+    </>
+  )
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@/registry/registry-ui-components'
+import { Button } from '@/registry/registry-ui-components/button'
 import { ArrowRight, Inbox } from 'lucide-react'
 
 export default function Button18Demo() {

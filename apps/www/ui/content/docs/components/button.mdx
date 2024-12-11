@@ -231,11 +231,60 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
   description="destructive button"
 />
 
+### Warning
+
+<ComponentPreview
+  name="button-26"
+  description="warning button"
+/>
+
+### Muted 
+
+<ComponentPreview
+  name="button-27"
+  description="muted button"
+/>
+
+### Dashed 
+
+<ComponentPreview
+  name="button-28"
+  description="dashed button"
+/>
+
 ### Nothing 
 
 <ComponentPreview
-  name="button-8"
-  description="nothing button"
+    name="button-8"
+    description="nothing button"
+/>
+
+### With Border
+
+<ComponentPreview
+    name="button-29"
+    description="with border default button"
+/>
+
+### With Border Destructive
+
+<ComponentPreview
+    name="button-30"
+    description="with border destructive button"
+/>
+
+### With Border Warning 
+
+<ComponentPreview
+    name="button-31"
+    description="with border warning button"
+/>
+
+### With Border Muted 
+
+<ComponentPreview
+    name="button-32"
+    description="with border muted button"
 />
 
 ### With Icon 
@@ -370,17 +419,32 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
 - **`isCollapsed`** (`boolean`, optional): 
   - Collapses the button into an icon-only state, typically used for compact views or toggling states.
 
-- **`size`** (`'default' | 'sm' | 'lg' | 'icon'`, optional): 
+- **`size`** (`'default' | 'xs' | 'sm' | 'sm' | 'lg' | 'xl' | 'xxl' | 'xxxl' | 'icon'`, optional): 
   - Sets the button size. Defaults to `'default'`. Other options:
+    - `'xs'`: ExtraSmall button with reduced padding.
     - `'sm'`: Small button with reduced padding.
+    - `'default'`: Defulat button size with reduced padding.
     - `'lg'`: Large button with extra padding.
+    - `'xl'`: XLarge button with extra padding.
+    - `'xxxl'`: XXLarge button with extra padding.
+    - `'xxxl'`: XXXLarge button with extra padding.
     - `'icon'`: Icon-only button without additional padding.
+
+- **`border`** (`'default' |  'primary' | 'destructive' | 'warning' | 'muted'`, optional): 
+  - Sets the button size. Defaults to `'default'`. Other options:
+    - `'default'`: Without a border.
+    - `'destructive'`: With a destructive border for danger.
+    - `'warning'`: With a warning border for warning.
+    - `'muted'`: With a muted border for optional actions.
 
 - **`variant`** (`string`, optional): 
   - Defines the visual style of the button. Available options:
     - **`default`**: Primary button style.
     - **`destructive`**: Red, indicating a destructive action.
+    - **`warning`**: Yellow, indicating a warning action.
+    - **`muted`**: Muted button with no fill.
     - **`outline`**: Outlined button with no fill.
+    - **`dashed`**: Dashed button with no fill.
     - **`secondary`**: Alternative secondary style.
     - **`ghost`**: Transparent with hover effects.
     - **`link`**: Styled as a link.
@@ -388,15 +452,21 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
     - Special effect variants:
       - **`ring_hover`**, **`shine`**, **`gooey_right`**, **`gooey_left`**,
       - **`link_hover1`**, **`link_hover2`**
-
+- **`border`** (`string`, optional): 
+  - Defines the visual style of the button border. Available options:
+    - **`default`**: No border style.
+    - **`primary`**: Primary border style.
+    - **`destructive`**: Destructive border style.
+    - **`warning`**: Warning border style.
+    - **`muted`**: Muted border style.
 - **`loading`** (`boolean`, optional): 
   - When `true`, displays a loading spinner (uses `Loader` from Lucide).
 
-- **`className`** (`string`, optional): 
-  - Additional CSS classes for custom styling.
-
 - **`children`** (`React.ReactNode`): 
   - Content or text inside the button.
+
+- **`...props`** (`React.ReactNode`): 
+  - the rest of props on an HTML button.
 
 ---
 
@@ -416,30 +486,8 @@ Button icons can be configured for single or dual icon use, and include optional
 
 #### **Animation Icon**
 
-- **`animationIcon`** (`{ icon: IconType, iconPlacement: 'left' | 'right' }`, optional): 
+- **`animationIcon`** (`{ icon: [IconType](#icontype), iconPlacement: 'left' | 'right' }`, optional): 
   - Defines an animated icon that appears on hover, with `iconPlacement` specifying its position.
-
----
-
-### Label and Tooltip Properties
-
-Enhance the button with labels and tooltips for additional information.
-
-- **`label`** ([`LabelType`](#labeltype), optional): 
-  - Configures an optional label with tooltip support for additional context.
-
-- **`side`** (`'top' | 'bottom' | 'left' | 'right'`, optional): 
-  - Controls the tooltip’s display position. Defaults to `'right'`.
-
----
-
-### Command Properties
-
-Provides keyboard command handling and displays an associated shortcut or action label.
-
-app/layout.tsx
-- **`command`** ([`CommandType`](#commandtype), optional): 
-  - Defines a command for keyboard shortcuts, with an action function, state management, and label.
 
 ---
 
@@ -456,18 +504,28 @@ Defines an icon component from the Lucide library.
 
 ### LabelType
 
-Defines the properties for button labels.
+Configures an optional label with tooltip support for additional context.
 
-- **`text`** (`string`): The text of the label.
-- **`tooltip`** (`string`, optional): Tooltip text that appears when hovering over the label.
+- **`showCommand`** (`boolean`, optional): Show the command on the `Tooltip`.
+- **`showLabel`** (`boolean`, optional): Show the label on the `Tooltip`.
+- **`delayDuration`** (`number`, optional): The delay the `Tooltip` gonna take to me mounted. 
+- **`...BadgeProps`** ([`BadgeType`](/docs/components/badge#api-reference),optional): The rest of `Badge` component props.  
+- **`...TooltipProps`** ([`TooltipType`](/docs/components/tooltip#api-reference),optional): The rest
+of `Tooltip` component props.  
+- **`...TooltipContent`**
+([`TooltipContentType`](/docs/components/tooltip#tooltipcontent),optional): The rest of
+`TooltipContent` component props.  
 
 ---
 
 ### CommandType
 
-Describes the properties for keyboard command shortcuts.
+Provides keyboard command handling and displays an associated shortcut or action label, it defines a command for keyboard shortcuts, with an action function, state management, and label.
 
-- **`label`** (`string`): The label for the command.
-- **`action`** (`() => void`): The function that executes the command.
-- **`shortcut`** (`string[]`, optional): The keyboard keys associated with the command.
+- **`label`** (`string`, optional): The label for the `Command`.
+- **`key`** (`string`, optional): The key for the `Command`.
+- **`show`** (`boolean`, optional): To show the `Command` body on the button. 
+- **`action`** (`() => void`): The function that executes with the `Command`.
+- **`shortcut`** (`string[]`, optional): The keyboard keys associated with the `Command`.
+- [**`...BadgeProps`**](/docs/components/badge#api-reference)  (optional): The rest of `Badge` components props.  
 

@@ -35,3 +35,5 @@ For any questions or support, please contact us at [support@ahmedayob.com](mailt
 Thank you for using Duck UI! We hope it helps you build beautiful and functional user interfaces.
 
 Happy coding!
+
+<!-- git filter-repo --path node_modules --invert-paths -->

@@ -14,9 +14,11 @@ import { Input } from '@/registry/default/ui'
 import { ScrollArea } from '@/registry/default/ui'
 import { filesize } from 'filesize'
 import { Button, buttonVariants } from '../button'
-import { CircleCheck, Download, Ellipsis, Info, Loader, Trash, Upload as UploadIcon } from 'lucide-react'
+import { CircleCheck, Download, Ellipsis, Loader, Trash, Upload as UploadIcon } from 'lucide-react'
 import {
   AttachmentType,
+  FolderType,
+  SelectedFolderType,
   UploadAdvancedContextType,
   UploadContentProps,
   UploadContextType,
@@ -26,16 +28,12 @@ import {
   UploadtItemRemoveProps,
   UploadTriggerProps,
 } from './upload.types'
-import { fileTypeIcons, MAX_SIZE } from './upload.constants'
-import { getFileType, handleAttachment } from './upload.lib'
+import { fileTypeIcons } from './upload.constants'
+import { formatTime, getFileType, handleAttachment, uploadFiles } from './upload.lib'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
 import { downloadAttachment } from '@/registry/default/ui/comment'
 import { uuidv7 } from 'uuidv7'
-// import { toast } from 'sonner'
-import { useToast } from '../toast'
-import { toast } from 'sonner'
-import SonnerUpload from './upload-sonner'
 
 const UploadContext = React.createContext<UploadContextType<AttachmentType> | null>(null)
 
@@ -74,17 +72,6 @@ export const useUploadAdvancedContext = () => {
   }
   return context
 }
-export type FolderType = {
-  id: string
-  name: string
-  content: (AttachmentType | FolderType)[]
-  files: number
-  createdAt: Date
-  updatedAt: Date
-  treeLevel: number
-}
-
-export type SelectedFolderType = FolderType & {}
 
 export const UploadAdvancedProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>([])
@@ -447,30 +434,14 @@ export const UploadDirectButton = () => {
 }
 
 export const UploadAdvancedButton = () => {
-  const { attachments, setAttachments, selectedFolder, setSelectedFolder, attachmentsState } =
-    useUploadAdvancedContext() ?? {}
-  const [percentile, setPercentile] = React.useState<number>(0)
+  const { setAttachments, selectedFolder, setSelectedFolder } = useUploadAdvancedContext() ?? {}
 
-  // toast.success(percentile)
   return (
     <>
       <Button
-        variant="default"
-        // onClick={}
-      >
-        upload
-      </Button>
-      <div className="flex items-center gap-4 mt-1">
-        <Progress
-          value={percentile}
-          className="h-1"
-        />
-        <span className="font-bold text-xs whitespace-nowrap">{percentile}%</span>
-      </div>
-      <Button
-        className="relative h-[35px]"
-        // variant={'outline'}
-        size={'sm'}
+        className="relative"
+        variant={'default'}
+        size={'xs'}
         icon={{ children: UploadIcon }}
       >
         <Input
@@ -478,87 +449,7 @@ export const UploadAdvancedButton = () => {
           type="file"
           className="absolute w-full h-full opacity-0 cursor-pointer"
           multiple={true}
-          onChange={async e => {
-            try {
-              const files = e.currentTarget.files
-
-              if (!files) return toast.error('Please select a file')
-
-              const newAttachments: AttachmentType[] = []
-
-              for (let i = 0; i < files.length; i++) {
-                const file = files[i]
-
-                if (file.size > MAX_SIZE) {
-                  toast.error(`File has exceeded the max size: ${file.name.slice(0, 15)}...`)
-                  continue // Skip this file and continue with the next
-                }
-
-                const attachment: AttachmentType = {
-                  id: uuidv7(),
-                  file: file,
-                  name: file.name,
-                  url: null,
-                  type: file.type,
-                  size: file.size.toString(),
-                }
-
-                newAttachments.push(attachment)
-              }
-
-              // random id
-              const toastId = Math.random()
-              const max = 20 // specify the maximum value
-
-              // const files = Math.floor(Math.random() * max)
-              const promise = await uploadPromise(attachmentsState.length, toastId)
-              toast.success(
-                <UploadSonnerContent
-                  progress={promise.progress}
-                  files={promise.files}
-                />,
-                {
-                  duration: 2000,
-                  id: toastId,
-                }
-              )
-              //TODO: make toast for handling the success messages with upload.
-              //TODO: attach the other funcitnlaities to make this work pretty good.
-
-              // if (selectedFolder.length > 0) {
-              //   setSelectedFolder(old =>
-              //     old.map(item =>
-              //       item.id === selectedFolder[0].id
-              //         ? {
-              //             ...item,
-              //             files: (item as FolderType).files + newAttachments.length,
-              //             content: [...selectedFolder[0]?.content, ...newAttachments],
-              //           }
-              //         : item
-              //     )
-              //   )
-              // }
-              //
-              // setAttachments(old => {
-              //   if (selectedFolder.length > 0) {
-              //     return old.map(item => {
-              //       return item.id === selectedFolder[0].id
-              //         ? {
-              //             ...item,
-              //             files: (item as FolderType).files + newAttachments.length,
-              //             content: [...selectedFolder[0]?.content, ...newAttachments],
-              //           }
-              //         : item
-              //     })
-              //   }
-              //   return [...old, ...newAttachments]
-              // })
-
-              e.currentTarget.value = ''
-            } catch (error) {
-              //TODO: make toast for handling the error messages with upload.
-            }
-          }}
+          onChange={e => uploadFiles({ e, selectedFolder, setSelectedFolder, setAttachments })}
         />
         Upload file
       </Button>
@@ -566,71 +457,53 @@ export const UploadAdvancedButton = () => {
   )
 }
 
-export const UploadSonnerContent = ({ progress, files }: { progress: number; files: number }) => (
+export const UploadSonnerContent = ({
+  progress,
+  files,
+  remainingTime,
+}: {
+  progress: number
+  files: number
+  remainingTime?: number
+}) => (
   <div className="flex gap-3 w-full">
     {progress >= 100 ? (
-      <CircleCheck
-        className="fill-foreground [&_path]:fill-red-500"
-        size={16}
-      />
+      <CircleCheck className="fill-primary [&_path]:stroke-primary-foreground mt-2 !size-[18px]" />
     ) : (
-      <Loader
-        className="animate-spin text-foreground-muted mt-0.5 opacity-70"
-        size={16}
-      />
+      <Loader className="animate-spin text-foreground-muted mt-2 opacity-70 !size-[18px]" />
     )}
     <div className="flex flex-col gap-2 w-full">
       <div className="flex w-full justify-between">
         <p className="text-foreground text-sm">
-          {progress >= 100 ? `Upload complete` : files ? `Uploading ${files} files...` : `Uploading...`}
+          {progress >= 100
+            ? `Upload complete`
+            : files
+              ? `Uploading ${files} file${files > 1 ? 's' : ''}...`
+              : `Uploading...`}
         </p>
-        <p className="text-foreground-light text-sm font-mono">{`${progress}%`}</p>
+        <div className="flex items-center gap-2">
+          {remainingTime && (
+            <p className="text-foreground-light text-sm font-mono">{`${remainingTime && !isNaN(remainingTime) && isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining – ` : ''}`}</p>
+          )}
+          <p className="text-foreground-light text-sm font-mono">{`${progress}%`}</p>
+        </div>
       </div>
       <Progress
         value={progress}
         className="w-full h-1"
       />
-      <small className="text-foreground-muted text-xs">Please do not close the browser until completed</small>
+      <div className="flex items-center justify-between gap-2 w-full">
+        <small className="text-foreground-muted text-xs">Please do not close the browser until completed</small>
+
+        {progress >= 100 && (
+          <Button
+            variant="default"
+            size="xs"
+          >
+            Cancel
+          </Button>
+        )}
+      </div>
     </div>
   </div>
 )
-
-const uploadPromise = (files: number, toastId: number): Promise<{ files: number; progress: number }> => {
-  toast.loading(
-    <UploadSonnerContent
-      progress={0}
-      files={files}
-    />,
-    { id: toastId }
-  )
-
-  return new Promise(resolve => {
-    let currentProgress = 0
-
-    toast.loading(
-      <UploadSonnerContent
-        progress={currentProgress}
-        files={files}
-      />,
-      { id: toastId }
-    )
-
-    const intervalId = setInterval(() => {
-      currentProgress += Math.floor(Math.random() * 10) + 1 // Increment progress by a random value
-      if (currentProgress > 100) currentProgress = 100 // Ensure progress does not exceed 100%
-
-      if (currentProgress >= 100) {
-        clearInterval(intervalId) // Clear the interval once upload is complete
-        resolve({ progress: currentProgress, message: 'Upload complete', files: 3, toastId }) // Resolve the promise when progress reaches 100
-      }
-
-      toast.loading(
-        <UploadSonnerContent
-          progress={currentProgress}
-          files={files}
-        />,
-        { id: toastId }
-      )
-    }, 200) // Adjust the interval time as needed
-  })
-}

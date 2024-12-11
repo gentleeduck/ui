@@ -1,7 +1,7 @@
 import React from 'react'
 import { Inbox } from 'lucide-react'
 import { toast } from 'sonner'
-import { Button } from '@/registry/registry-ui-components'
+import { Button } from '@/registry/registry-ui-components/button'
 
 export default function Button24Demo() {
   const [open, setOpen] = React.useState<boolean>(false)
@@ -22,13 +22,9 @@ export default function Button24Demo() {
       isCollapsed={open}
       icon={{ children: Inbox }}
       variant="default"
-      size="sm"
       tabIndex={0}
       loading={false}
-      j
-      aria-label="Inbox button"
       type="button"
-      role="button"
       onClick={handleClick}
       label={{
         children: 'Click me 🎉',

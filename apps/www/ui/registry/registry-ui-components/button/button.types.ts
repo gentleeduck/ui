@@ -6,11 +6,6 @@ import { buttonVariants } from './button.constants'
 import { Badge } from '@/registry/registry-ui-components/badge'
 import { Tooltip } from '@/registry/registry-ui-components/tooltip'
 
-export type IconType = {
-  children: LucideIcon
-} & Omit<IconProps, 'children'> &
-  Omit<React.RefAttributes<SVGSVGElement>, 'children'>
-
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
@@ -27,6 +22,11 @@ export interface ButtonProps
   }
 }
 
+export type IconType = {
+  children: LucideIcon
+} & Omit<IconProps, 'children'> &
+  Omit<React.RefAttributes<SVGSVGElement>, 'children'>
+
 export interface LabelType
   extends Partial<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>>,
     Partial<React.ComponentPropsWithoutRef<typeof Badge>>,
@@ -36,9 +36,9 @@ export interface LabelType
   delayDuration?: number
 }
 
-export type CommandType<T = unknown> = {
+export type CommandType = {
   label?: string
   key: string
-  state?: T
+  show?: boolean
   action?: <T>(arg?: T) => void
 } & Partial<React.ComponentPropsWithoutRef<typeof Badge>>

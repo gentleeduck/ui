@@ -1,7 +1,7 @@
 import React from 'react'
 import { ArrowBigUpDash, ShieldAlert } from 'lucide-react'
 import { toast } from 'sonner'
-import { Button } from '@/registry/registry-ui-components'
+import { Button } from '@/registry/registry-ui-components/button'
 import { TooltipProvider } from '@/registry/registry-ui-components/tooltip'
 
 export default function Button1Demo() {

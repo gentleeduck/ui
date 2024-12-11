@@ -1,3 +1,10 @@
+---
+id: todo
+aliases:
+  - Upload component TODOs:
+tags: []
+---
+
 # Upload component TODOs:
 
 - [*] Click of the folder it should colabs it with it's nested.
@@ -10,3 +17,4 @@
 - [ ] Some actions to the folder.
 - [ ] Attachment view styles.
 - [ ] The block should have a page back button and the name of the current folder.
+- [x] Upload sonner for uploading with some styles.

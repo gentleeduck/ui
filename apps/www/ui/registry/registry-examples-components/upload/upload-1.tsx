@@ -214,7 +214,7 @@ export const FolderButton = () => {
       <Button
         className="relative h-[35px]"
         // variant={'outline'}
-        size={'sm'}
+        size={'xs'}
         onClick={() => {
           toast.info('Folder generated!')
         }}

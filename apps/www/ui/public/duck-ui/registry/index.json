@@ -190,6 +190,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "registry-ui-components/sonner/sonner-v2.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "registry-ui-components/sonner/sonner.tsx",
         "type": "registry:ui"
       }
@@ -294,11 +298,15 @@
         "type": "registry:ui"
       },
       {
+        "path": "registry-ui-components/upload/upload-sonner.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "registry-ui-components/upload/upload.constants.tsx",
         "type": "registry:ui"
       },
       {
-        "path": "registry-ui-components/upload/upload.lib.ts",
+        "path": "registry-ui-components/upload/upload.lib.tsx",
         "type": "registry:ui"
       },
       {
@@ -564,6 +572,62 @@
     ]
   },
   {
+    "name": "button-26",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-26.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-27",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-27.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-28",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-28.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-29",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-29.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
     "name": "button-3",
     "type": "registry:example",
     "registryDependencies": [
@@ -573,6 +637,48 @@
     "files": [
       {
         "path": "registry-examples-components/button/button-3.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-30",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-30.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-31",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-31.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "button-32",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "registry-examples-components/button",
+    "files": [
+      {
+        "path": "registry-examples-components/button/button-32.tsx",
         "type": "registry:example"
       }
     ]
