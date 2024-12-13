@@ -1,13 +1,20 @@
 'use client'
 
 import React from 'react'
-import { AlertDialogSheet, Avatar, AvatarFallback, AvatarImage, DropdownMenuView } from '@/registry/default/ui'
+import {
+  AlertDialogSheet,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  DropdownMenuView,
+  Progress,
+} from '@/registry/default/ui'
 import { ContextMenu, ContextMenuTrigger } from '@/registry/default/ui'
 import { Input } from '@/registry/default/ui'
 import { ScrollArea } from '@/registry/default/ui'
 import { filesize } from 'filesize'
 import { Button, buttonVariants } from '../button'
-import { Download, Ellipsis, Trash, Upload as UploadIcon } from 'lucide-react'
+import { CircleCheck, Download, Ellipsis, Info, Loader, Trash, Upload as UploadIcon } from 'lucide-react'
 import {
   AttachmentType,
   UploadAdvancedContextType,
@@ -19,13 +26,16 @@ import {
   UploadtItemRemoveProps,
   UploadTriggerProps,
 } from './upload.types'
-import { fileTypeIcons } from './upload.constants'
-import { deepMerge, getFileType, handleAttachment } from './upload.lib'
+import { fileTypeIcons, MAX_SIZE } from './upload.constants'
+import { getFileType, handleAttachment } from './upload.lib'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
 import { downloadAttachment } from '@/registry/default/ui/comment'
 import { uuidv7 } from 'uuidv7'
+// import { toast } from 'sonner'
+import { useToast } from '../toast'
 import { toast } from 'sonner'
+import SonnerUpload from './upload-sonner'
 
 const UploadContext = React.createContext<UploadContextType<AttachmentType> | null>(null)
 
@@ -437,81 +447,190 @@ export const UploadDirectButton = () => {
 }
 
 export const UploadAdvancedButton = () => {
-  const { attachments, setAttachments, selectedFolder, setSelectedFolder } = useUploadAdvancedContext() ?? {}
-  console.log(selectedFolder[selectedFolder.length - 1])
+  const { attachments, setAttachments, selectedFolder, setSelectedFolder, attachmentsState } =
+    useUploadAdvancedContext() ?? {}
+  const [percentile, setPercentile] = React.useState<number>(0)
 
+  // toast.success(percentile)
   return (
-    <Button
-      className="relative h-[35px]"
-      // variant={'outline'}
-      size={'sm'}
-      icon={{ children: UploadIcon }}
-    >
-      <Input
-        placeholder="Filter files..."
-        type="file"
-        className="absolute w-full h-full opacity-0 cursor-pointer"
-        multiple={true}
-        onChange={e => {
-          const files = e.currentTarget.files
+    <>
+      <Button
+        variant="default"
+        // onClick={}
+      >
+        upload
+      </Button>
+      <div className="flex items-center gap-4 mt-1">
+        <Progress
+          value={percentile}
+          className="h-1"
+        />
+        <span className="font-bold text-xs whitespace-nowrap">{percentile}%</span>
+      </div>
+      <Button
+        className="relative h-[35px]"
+        // variant={'outline'}
+        size={'sm'}
+        icon={{ children: UploadIcon }}
+      >
+        <Input
+          placeholder="Filter files..."
+          type="file"
+          className="absolute w-full h-full opacity-0 cursor-pointer"
+          multiple={true}
+          onChange={async e => {
+            try {
+              const files = e.currentTarget.files
 
-          if (!files) return toast.error('Please select a file')
+              if (!files) return toast.error('Please select a file')
 
-          const newAttachments: AttachmentType[] = []
+              const newAttachments: AttachmentType[] = []
 
-          for (let i = 0; i < files.length; i++) {
-            const file = files[i]
+              for (let i = 0; i < files.length; i++) {
+                const file = files[i]
 
-            // if (file.size > 10 * 1024 * 1024) {
-            //   toast.error(`File has exceeded the max size: ${file.name.slice(0, 15)}...`)
-            //   continue // Skip this file and continue with the next
-            // }
+                if (file.size > MAX_SIZE) {
+                  toast.error(`File has exceeded the max size: ${file.name.slice(0, 15)}...`)
+                  continue // Skip this file and continue with the next
+                }
 
-            const attachment: AttachmentType = {
-              id: uuidv7(),
-              file: file,
-              name: file.name,
-              url: null,
-              type: file.type,
-              size: file.size.toString(),
-            }
+                const attachment: AttachmentType = {
+                  id: uuidv7(),
+                  file: file,
+                  name: file.name,
+                  url: null,
+                  type: file.type,
+                  size: file.size.toString(),
+                }
 
-            newAttachments.push(attachment)
-          }
+                newAttachments.push(attachment)
+              }
 
-          if (selectedFolder.length > 0) {
-            setSelectedFolder(old =>
-              old.map(item =>
-                item.id === selectedFolder[0].id
-                  ? {
-                      ...item,
-                      files: (item as FolderType).files + newAttachments.length,
-                      content: [...selectedFolder[0]?.content, ...newAttachments],
-                    }
-                  : item
+              // random id
+              const toastId = Math.random()
+              const max = 20 // specify the maximum value
+
+              // const files = Math.floor(Math.random() * max)
+              const promise = await uploadPromise(attachmentsState.length, toastId)
+              toast.success(
+                <UploadSonnerContent
+                  progress={promise.progress}
+                  files={promise.files}
+                />,
+                {
+                  duration: 2000,
+                  id: toastId,
+                }
               )
-            )
-          }
+              //TODO: make toast for handling the success messages with upload.
+              //TODO: attach the other funcitnlaities to make this work pretty good.
 
-          setAttachments(old => {
-            if (selectedFolder.length > 0) {
-              return old.map(item => {
-                return item.id === selectedFolder[0].id
-                  ? {
-                      ...item,
-                      files: (item as FolderType).files + newAttachments.length,
-                      content: [...selectedFolder[0]?.content, ...newAttachments],
-                    }
-                  : item
-              })
+              // if (selectedFolder.length > 0) {
+              //   setSelectedFolder(old =>
+              //     old.map(item =>
+              //       item.id === selectedFolder[0].id
+              //         ? {
+              //             ...item,
+              //             files: (item as FolderType).files + newAttachments.length,
+              //             content: [...selectedFolder[0]?.content, ...newAttachments],
+              //           }
+              //         : item
+              //     )
+              //   )
+              // }
+              //
+              // setAttachments(old => {
+              //   if (selectedFolder.length > 0) {
+              //     return old.map(item => {
+              //       return item.id === selectedFolder[0].id
+              //         ? {
+              //             ...item,
+              //             files: (item as FolderType).files + newAttachments.length,
+              //             content: [...selectedFolder[0]?.content, ...newAttachments],
+              //           }
+              //         : item
+              //     })
+              //   }
+              //   return [...old, ...newAttachments]
+              // })
+
+              e.currentTarget.value = ''
+            } catch (error) {
+              //TODO: make toast for handling the error messages with upload.
             }
-            return [...old, ...newAttachments]
-          })
-
-          e.currentTarget.value = ''
-        }}
-      />
-      Upload file
-    </Button>
+          }}
+        />
+        Upload file
+      </Button>
+    </>
   )
+}
+
+export const UploadSonnerContent = ({ progress, files }: { progress: number; files: number }) => (
+  <div className="flex gap-3 w-full">
+    {progress >= 100 ? (
+      <CircleCheck
+        className="fill-foreground [&_path]:fill-red-500"
+        size={16}
+      />
+    ) : (
+      <Loader
+        className="animate-spin text-foreground-muted mt-0.5 opacity-70"
+        size={16}
+      />
+    )}
+    <div className="flex flex-col gap-2 w-full">
+      <div className="flex w-full justify-between">
+        <p className="text-foreground text-sm">
+          {progress >= 100 ? `Upload complete` : files ? `Uploading ${files} files...` : `Uploading...`}
+        </p>
+        <p className="text-foreground-light text-sm font-mono">{`${progress}%`}</p>
+      </div>
+      <Progress
+        value={progress}
+        className="w-full h-1"
+      />
+      <small className="text-foreground-muted text-xs">Please do not close the browser until completed</small>
+    </div>
+  </div>
+)
+
+const uploadPromise = (files: number, toastId: number): Promise<{ files: number; progress: number }> => {
+  toast.loading(
+    <UploadSonnerContent
+      progress={0}
+      files={files}
+    />,
+    { id: toastId }
+  )
+
+  return new Promise(resolve => {
+    let currentProgress = 0
+
+    toast.loading(
+      <UploadSonnerContent
+        progress={currentProgress}
+        files={files}
+      />,
+      { id: toastId }
+    )
+
+    const intervalId = setInterval(() => {
+      currentProgress += Math.floor(Math.random() * 10) + 1 // Increment progress by a random value
+      if (currentProgress > 100) currentProgress = 100 // Ensure progress does not exceed 100%
+
+      if (currentProgress >= 100) {
+        clearInterval(intervalId) // Clear the interval once upload is complete
+        resolve({ progress: currentProgress, message: 'Upload complete', files: 3, toastId }) // Resolve the promise when progress reaches 100
+      }
+
+      toast.loading(
+        <UploadSonnerContent
+          progress={currentProgress}
+          files={files}
+        />,
+        { id: toastId }
+      )
+    }, 200) // Adjust the interval time as needed
+  })
 }
