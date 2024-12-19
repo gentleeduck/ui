@@ -9,7 +9,8 @@ import {
   UploadPromiseReturn,
 } from './upload.types'
 import { uuidv7 } from 'uuidv7'
-import { UploadSonnerContent } from './upload'
+import { UploadSonnerContentMemo } from './upload'
+import React from 'react'
 
 export const uploadPromise = ({ files, toastId }: UploadPromiseArgs): Promise<UploadPromiseReturn> => {
   return new Promise(resolve => {
@@ -18,7 +19,7 @@ export const uploadPromise = ({ files, toastId }: UploadPromiseArgs): Promise<Up
 
     // Show initial toast loading message
     toast.loading(
-      <UploadSonnerContent
+      <UploadSonnerContentMemo
         progress={currentProgress}
         remainingTime={remainingTime}
         files={files}
@@ -33,7 +34,7 @@ export const uploadPromise = ({ files, toastId }: UploadPromiseArgs): Promise<Up
 
       // Update toast content with the new progress and remaining time
       toast.loading(
-        <UploadSonnerContent
+        <UploadSonnerContentMemo
           progress={currentProgress}
           remainingTime={remainingTime}
           files={files}
@@ -63,7 +64,10 @@ export async function uploadFiles(props: UploadFilesArgs) {
   try {
     const files = e.currentTarget.files
 
-    if (!files) return toast.error('Please select a file')
+    if (!files?.length)
+      return toast.error('Please select a file', {
+        position: 'top-right',
+      })
 
     const newAttachments: AttachmentType[] = []
 
@@ -197,7 +201,10 @@ export const handleAttachment = ({ e, setAttachmentsState }: HandleAttachmentPro
 export const handleAdvancedAttachment = ({ e, setAttachmentsState }: HandleAttachmentProps) => {
   const files = e.currentTarget.files
 
-  if (!files) return toast.error('Please select a file')
+  if (!files)
+    return toast.error('Please select a file', {
+      position: 'top-right',
+    })
 
   const newAttachments: AttachmentType[] = []
 

@@ -86,6 +86,15 @@ export const UploadAdvancedProvider = ({ children }: { children: React.ReactNode
       treeLevel: 1,
     },
     {
+      id: 'ed2da76d-5a24-4e35-9542-e92ca2e49c34',
+      name: 'duck-pdf',
+      files: 1,
+      content: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      treeLevel: 1,
+    },
+    {
       id: 'hi',
       name: 'duck-ui',
       files: 1,
@@ -439,7 +448,7 @@ export const UploadAdvancedButton = () => {
   return (
     <>
       <Button
-        className="relative"
+        className="relative "
         variant={'default'}
         size={'xs'}
         icon={{ children: UploadIcon }}
@@ -507,3 +516,5 @@ export const UploadSonnerContent = ({
     </div>
   </div>
 )
+
+export const UploadSonnerContentMemo = React.memo(UploadSonnerContent)

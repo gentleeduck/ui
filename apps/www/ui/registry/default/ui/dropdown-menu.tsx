@@ -193,6 +193,7 @@ interface DropdownMenuOptionsType<T, Y extends boolean = true> {
 }
 
 interface DropdownMenuViewProps<T, Y extends boolean = true> {
+  wrapper?: Partial<React.ComponentPropsWithoutRef<typeof DropdownMenu>>
   content?: Partial<
     {
       label?: React.ComponentPropsWithoutRef<typeof DropdownMenuLabel>
@@ -202,7 +203,7 @@ interface DropdownMenuViewProps<T, Y extends boolean = true> {
   trigger?: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> & ButtonProps
 }
 
-function DropdownMenuView<T, Y extends boolean = true>({ content, trigger }: DropdownMenuViewProps<T, Y>) {
+function DropdownMenuView<T, Y extends boolean = true>({ wrapper, content, trigger }: DropdownMenuViewProps<T, Y>) {
   const { className: triggerClassName, command: triggerCommand, icon: Icon, ...triggerProps } = trigger ?? {}
   const { className: optionsClassName, options, label, align = 'end', ...contentProps } = content ?? {}
   const { className: labelClassName, ...labelProps } = label ?? {}
@@ -212,6 +213,7 @@ function DropdownMenuView<T, Y extends boolean = true>({ content, trigger }: Dro
 
   return (
     <DropdownMenu
+      modal={wrapper?.modal ?? false}
       open={open}
       onOpenChange={setOpen}
     >
@@ -280,6 +282,7 @@ function DropdownMenuView<T, Y extends boolean = true>({ content, trigger }: Dro
                       ? DropdownMenuRadioItem
                       : DropdownMenuItem
 
+                console.log(value, 'parent')
                 return (
                   <React.Fragment key={`item-${idx}`}>
                     {!nestedData?.optionsData?.length ? (
@@ -356,6 +359,7 @@ function DropdownMenuView<T, Y extends boolean = true>({ content, trigger }: Dro
                                         : nestedData.itemType === 'radio'
                                           ? DropdownMenuRadioItem
                                           : DropdownMenuItem
+                                    console.log(nestedValue)
 
                                     return (
                                       <NestedComponent

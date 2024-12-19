@@ -1,7 +1,31 @@
 import { cn } from '@/lib'
-import { DropdownMenuView, ScrollArea, ScrollBar, Separator } from '@/registry/default/ui'
+import {
+  Alert,
+  AlertDescription,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+  AlertTitle,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuSubContent,
+  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+  DropdownMenuView,
+  ScrollArea,
+  ScrollBar,
+  Separator,
+} from '@/registry/default/ui'
 import { downloadAttachment } from '@/registry/default/ui/comment'
-import { Button } from '@/registry/registry-ui-components/button'
+import { Button, buttonVariants } from '@/registry/registry-ui-components/button'
 import {
   AttachmentType,
   fileTypeIcons,
@@ -11,25 +35,206 @@ import {
   UploadAdvancedProvider,
   UploadAdvancedButton,
   useUploadAdvancedContext,
+  UploadOrDragSvg,
 } from '@/registry/registry-ui-components/upload'
-import { Download, Ellipsis, Folder, FolderOpen, FolderPlusIcon, Trash } from 'lucide-react'
+import {
+  AlertCircle,
+  Download,
+  Ellipsis,
+  Folder,
+  FolderOpen,
+  FolderPlusIcon,
+  RefreshCw,
+  Search,
+  Trash,
+  View,
+} from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'
+
+export const DropdownMenuRadioGroupContent = ({
+  radioGroup,
+  content,
+}: {
+  radioGroup: Partial<React.ComponentPropsWithoutRef<typeof DropdownMenuRadioGroup>>
+  content: (React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem> &
+    React.ComponentPropsWithoutRef<typeof Button>)[]
+}) => {
+  return (
+    <>
+      <DropdownMenuRadioGroup {...radioGroup}>
+        {content.map((item, idx) => {
+          const { children: itemChildren, value, size = 'sm', variant = 'ghost', ...itemProps } = item ?? {}
+          return (
+            <DropdownMenuRadioItem
+              key={idx}
+              className="py-0 px-4"
+              value={value}
+            >
+              <Button
+                variant={'nothing'}
+                size={size}
+                {...itemProps}
+              >
+                {itemChildren}
+              </Button>
+            </DropdownMenuRadioItem>
+          )
+        })}
+      </DropdownMenuRadioGroup>
+    </>
+  )
+}
+
+export const DropdownMenuSubWrapper = ({
+  itemSub,
+  trigger,
+  content,
+}: {
+  itemSub?: React.ComponentPropsWithoutRef<typeof DropdownMenuSub>
+  trigger?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubTrigger>
+  content?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent>
+}) => {
+  return (
+    <DropdownMenuSub {...itemSub}>
+      <DropdownMenuSubTrigger {...trigger} />
+      <DropdownMenuSubContent {...content} />
+    </DropdownMenuSub>
+  )
+}
+
+export const UploadDemoHeader = () => {
+  const [radioState, setRadioState] = React.useState<string>('duck')
+  return (
+    <div className="space-x-2 flex items-center place-content-end w-full pb-1 p-2 ">
+      <Button
+        size={'xs'}
+        icon={{ children: RefreshCw }}
+      >
+        Reload
+      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            size={'xs'}
+            icon={{ children: RefreshCw }}
+          >
+            View
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild>
+            <DropdownMenuSubWrapper
+              trigger={{ children: 'Sort By' }}
+              content={{
+                children: (
+                  <DropdownMenuRadioGroupContent
+                    radioGroup={{
+                      value: radioState,
+                      onValueChange: setRadioState,
+                    }}
+                    content={[
+                      { children: 'As duck', value: 'As duck', icon: { children: View } },
+                      { children: 'As list', value: 'duck', icon: { children: View } },
+                      { children: 'As list', value: 'duckk', icon: { children: View } },
+                    ]}
+                  />
+                ),
+              }}
+            />
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {
+        // <DropdownMenuView
+        //   wrapper={{
+        //     modal: true,
+        //   }}
+        //   trigger={{
+        //     size: 'xs',
+        //     variant: 'default',
+        //     icon: { children: View },
+        //     children: 'View',
+        //   }}
+        //   content={{
+        //     className: 'max-w-[150px] [&_div]:w-full p-2 [&_*]:text-xs',
+        //     defaultValue: 'duck',
+        //     options: {
+        //       itemType: 'radio',
+        //       optionsData: [
+        //         { children: 'As duck', value: 'As duck', icon: { children: View } },
+        //         { children: 'As list', value: 'duck', icon: { children: View } },
+        //         { children: 'As list', value: 'duckk', icon: { children: View } },
+        //         // { children: 'As Column', icon: { children: View } },
+        //         // { children: 'As list', icon: { children: View } },
+        //         // {
+        //         //   children: 'As Column',
+        //         //   icon: { children: View },
+        //         //   value: 'duck',
+        //         //   nestedData: {
+        //         //     itemType: 'radio',
+        //         //     // defaultChecked: true,
+        //         //     optionsData: [
+        //         //       { children: 'As duck', value: 'As duck', icon: { children: View } },
+        //         //       { children: 'As list', value: 'duck', icon: { children: View } },
+        //         //       { children: 'As list', value: 'duckk', icon: { children: View } },
+        //         //     ],
+        //         //   },
+        //         // },
+        //         // {
+        //         //   children: 'As Column',
+        //         //   icon: { children: View },
+        //         //   nestedData: {
+        //         //     itemType: 'radio',
+        //         //     optionsData: [
+        //         //       { children: 'As list', icon: { children: View } },
+        //         //       { children: 'As list', icon: { children: View } },
+        //         //       { children: 'As list', icon: { children: View } },
+        //         //     ],
+        //         //   },
+        //         // },
+        //       ],
+        //     },
+        //   }}
+        // />
+      }
+
+      <Separator
+        orientation="vertical"
+        className="h-6"
+      />
+      <UploadAdvancedButton />
+      <FolderButton />
+      <Separator
+        orientation="vertical"
+        className="h-6"
+      />
+      <Button
+        size={'xs'}
+        variant={'muted'}
+        border={'muted'}
+        className="relative w-[1.625rem]"
+        icon={{ children: Search }}
+      ></Button>
+    </div>
+  )
+}
+const UploadDemoHeaderMemo = React.memo(UploadDemoHeader)
+
+export const UploadNavigation = () => {
+  return <></>
+}
 
 export default function Upload1Demo() {
   return (
     <>
       <UploadAdvancedProvider>
-        <div className="flex flex-col w-full gap-1 p-2 rounded-md bg-muted/10 border-border border">
-          <div className="space-x-2 flex items-center place-content-end w-full pb-1">
-            <Separator
-              orientation="vertical"
-              className="h-6"
-            />
-            <UploadAdvancedButton />
-            <FolderButton />
+        <div className="flex flex-col w-full gap-1 rounded-md bg-muted/10 border-border border">
+          <div className="flex items-center gap-4 justify-between">
+            <UploadNavigation />
+            <UploadDemoHeader />
           </div>
-
           <Separator />
           <UploadAdnvacedContent />
         </div>
@@ -43,7 +248,7 @@ export const UploadAdnvacedContent = () => {
 
   return (
     <ScrollArea>
-      <div className="flex items-center h-full pt-1 rounded-md">
+      <div className="flex items-center h-full rounded-md">
         <div className="flex items-center h-full rounded-md">
           <UploadAttachmentsTreeItem attachments={attachments} />
           <Separator
@@ -82,7 +287,7 @@ export const UploadAttachmentsTreeItem = ({ attachments }: UploadAttachmentsTree
   const { selectedFolder, setSelectedFolder } = useUploadAdvancedContext()
 
   return attachments?.length > 0 ? (
-    <ScrollArea className="h-[400px] rounded-md w-[190px] p-2">
+    <ScrollArea className="h-[400px] rounded-md w-[250px] p-2">
       <div className="flex flex-col gap-1">
         {attachments?.map(attachment => {
           if ((attachment as AttachmentType).file) {
@@ -101,8 +306,12 @@ export const UploadAttachmentsTreeItem = ({ attachments }: UploadAttachmentsTree
       </div>
     </ScrollArea>
   ) : (
-    <div className="border border-border bg-muted/10 flex items-center w-[180px] min-h-[400px] p-4 rounded-md">
-      <p className="text-center w-full text-xs">There's no files.</p>
+    <div className="border-r border-r-border bg-muted/10 w-[250px] min-h-[400px] p-4 flex items-center flex-col space-y-2 justify-center">
+      <UploadOrDragSvg className="size-[100px]" />
+      <p className="text-center w-full text-sm font-medium">Drop your files here</p>
+      <p className="text-accent-foreground/70 text-center w-full text-xs max-w-[150px]">
+        Or upload them via the "Upload file" button above
+      </p>
     </div>
   )
 }
@@ -212,8 +421,7 @@ export const FolderButton = () => {
   return (
     <div>
       <Button
-        className="relative h-[35px]"
-        // variant={'outline'}
+        className="relative w-[1.625rem]"
         size={'xs'}
         onClick={() => {
           toast.info('Folder generated!')
@@ -223,5 +431,59 @@ export const FolderButton = () => {
         }}
       />
     </div>
+  )
+}
+export const AlertDelete = ({
+  itemName,
+  onCancel,
+  onContinue,
+}: {
+  itemName: string
+  onCancel: () => void
+  onContinue: () => void
+}) => {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button
+          size={'xs'}
+          className="w-full rounded-sm"
+          variant={'ghost'}
+          icon={{ children: Trash }}
+        >
+          Delete
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="p-0">
+        <AlertDialogHeader>
+          <h5 className="text-lg font-medium p-4 pb-0"> Confirt deletion of {itemName}</h5>
+          <Separator />
+          <div className="p-4">
+            <Alert
+              variant={'destructive'}
+              className="space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12"
+            >
+              <AlertCircle />
+              <AlertTitle>This action cannot be undone.</AlertTitle>
+              <AlertDescription>Are you sure you want to delete the selected file?</AlertDescription>
+            </Alert>
+          </div>
+          <Separator />
+        </AlertDialogHeader>
+
+        <AlertDialogFooter className="px-4 pb-4">
+          <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            className={cn(
+              buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
+            )}
+          >
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
