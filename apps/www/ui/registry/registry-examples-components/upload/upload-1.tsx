@@ -1,23 +1,8 @@
 import { cn } from '@/lib'
 import {
-  Alert,
-  AlertDescription,
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTrigger,
-  AlertTitle,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuSubContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   DropdownMenuView,
   ScrollArea,
@@ -25,7 +10,8 @@ import {
   Separator,
 } from '@/registry/default/ui'
 import { downloadAttachment } from '@/registry/default/ui/comment'
-import { Button, buttonVariants } from '@/registry/registry-ui-components/button'
+import { Button } from '@/registry/registry-ui-components/button'
+import { DropdownMenuRadioGroupContent, DropdownMenuSubWrapper } from '@/registry/registry-ui-components/dropdown-menu'
 import {
   AttachmentType,
   fileTypeIcons,
@@ -38,7 +24,6 @@ import {
   UploadOrDragSvg,
 } from '@/registry/registry-ui-components/upload'
 import {
-  AlertCircle,
   ArrowDown,
   ArrowUp,
   Columns2,
@@ -51,61 +36,9 @@ import {
   Rows2,
   Search,
   Trash,
-  View,
 } from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'
-
-export const DropdownMenuRadioGroupContent = ({
-  radioGroup,
-  content,
-}: {
-  radioGroup: Partial<React.ComponentPropsWithoutRef<typeof DropdownMenuRadioGroup>>
-  content: (React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem> &
-    React.ComponentPropsWithoutRef<typeof Button>)[]
-}) => {
-  return (
-    <>
-      <DropdownMenuRadioGroup {...radioGroup}>
-        {content.map((item, idx) => {
-          const { children: itemChildren, value, size = 'sm', variant = 'ghost', ...itemProps } = item ?? {}
-          return (
-            <DropdownMenuRadioItem
-              key={idx}
-              className="py-0 px-4"
-              value={value}
-            >
-              <Button
-                variant={'nothing'}
-                size={size}
-                {...itemProps}
-              >
-                {itemChildren}
-              </Button>
-            </DropdownMenuRadioItem>
-          )
-        })}
-      </DropdownMenuRadioGroup>
-    </>
-  )
-}
-
-export const DropdownMenuSubWrapper = ({
-  itemSub,
-  trigger,
-  content,
-}: {
-  itemSub?: React.ComponentPropsWithoutRef<typeof DropdownMenuSub>
-  trigger?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubTrigger>
-  content?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent>
-}) => {
-  return (
-    <DropdownMenuSub {...itemSub}>
-      <DropdownMenuSubTrigger {...trigger} />
-      <DropdownMenuSubContent {...content} />
-    </DropdownMenuSub>
-  )
-}
 
 export const UploadDemoHeader = () => {
   const [radioState, setRadioState] = React.useState<string>('duck')
@@ -266,6 +199,7 @@ export type UploadAttachmentsTreeItemProps = {
 
 export const UploadAttachmentsTreeItem = ({ attachments }: UploadAttachmentsTreeItemProps) => {
   const { selectedFolder, setSelectedFolder } = useUploadAdvancedContext()
+  // console.log(selectedFolder)
 
   return attachments?.length > 0 ? (
     <ScrollArea className="h-[400px] rounded-md w-[250px] p-2">
@@ -316,13 +250,10 @@ export const UploadAttachmentFolder = ({
       )}
       onClick={() => {
         setSelected(old => {
-          if (exist_in_tree) {
-            return old.filter(item => {
-              return item.treeLevel < attachmentFolder.treeLevel
-            })
-          } else {
-            return [...old, attachmentFolder]
-          }
+          if (!exist_in_tree)
+            return [...old.filter(item => !(item.treeLevel >= attachmentFolder.treeLevel) && item), attachmentFolder]
+
+          return old.filter(item => item.id !== attachmentFolder.id || item.treeLevel !== attachmentFolder.treeLevel)
         })
       }}
     >
@@ -412,59 +343,5 @@ export const FolderButton = () => {
         }}
       />
     </div>
-  )
-}
-export const AlertDelete = ({
-  itemName,
-  onCancel,
-  onContinue,
-}: {
-  itemName: string
-  onCancel: () => void
-  onContinue: () => void
-}) => {
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          size={'xs'}
-          className="w-full rounded-sm"
-          variant={'ghost'}
-          icon={{ children: Trash }}
-        >
-          Delete
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent className="p-0">
-        <AlertDialogHeader>
-          <h5 className="text-lg font-medium p-4 pb-0"> Confirt deletion of {itemName}</h5>
-          <Separator />
-          <div className="p-4">
-            <Alert
-              variant={'destructive'}
-              className="space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12"
-            >
-              <AlertCircle />
-              <AlertTitle>This action cannot be undone.</AlertTitle>
-              <AlertDescription>Are you sure you want to delete the selected file?</AlertDescription>
-            </Alert>
-          </div>
-          <Separator />
-        </AlertDialogHeader>
-
-        <AlertDialogFooter className="px-4 pb-4">
-          <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction
-            className={cn(
-              buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
-            )}
-          >
-            Delete
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
   )
 }

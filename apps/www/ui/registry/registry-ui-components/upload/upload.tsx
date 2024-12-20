@@ -77,19 +77,20 @@ export const UploadAdvancedProvider = ({ children }: { children: React.ReactNode
   const [selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>([])
   const [attachments, setAttachments] = React.useState<(AttachmentType | FolderType)[]>([
     {
-      id: '20e93625-a645-4cdd-baf1-c01ced27a85b',
-      name: 'wilduck-1.png',
-      size: '5MB',
-      file: new File([], ''),
-      url: '',
-      type: 'image/png',
-      treeLevel: 1,
-    },
-    {
       id: 'ed2da76d-5a24-4e35-9542-e92ca2e49c34',
       name: 'duck-pdf',
       files: 1,
-      content: [],
+      content: [
+        {
+          id: 'ed2da76d-5a24-4e35-9542-e92ca2e49c35',
+          name: 'duck-ui',
+          files: 1,
+          content: [],
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          treeLevel: 2,
+        },
+      ],
       createdAt: new Date(),
       updatedAt: new Date(),
       treeLevel: 1,

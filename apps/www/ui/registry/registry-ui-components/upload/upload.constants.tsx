@@ -74,9 +74,9 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
       <g
         id="Page-1"
         stroke="none"
-        stroke-width="1"
+        strokeWidth="1"
         fill="none"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       >
         <g
           id="Group"
@@ -105,7 +105,7 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
           <g
             id="image-filled"
             transform="translate(35.774443, 64.750000) rotate(-13.000000) translate(-35.774443, -64.750000) translate(18.274443, 49.000000)"
-            fill-rule="nonzero"
+            fillRule="nonzero"
           >
             <rect
               id="Rectangle"
@@ -133,7 +133,7 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
           <g
             id="video-filled"
             transform="translate(49.774443, 75.312500) rotate(-7.000000) translate(-49.774443, -75.312500) translate(32.274443, 60.000000)"
-            fill-rule="nonzero"
+            fillRule="nonzero"
           >
             <rect
               id="Rectangle"
@@ -160,7 +160,7 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
             id="audio-filled"
             transform="translate(67.774443, 66.500000) rotate(11.000000) translate(-67.774443, -66.500000) translate(52.274443, 51.000000)"
             fill="#888888"
-            fill-rule="nonzero"
+            fillRule="nonzero"
             stroke="#6F6F6F"
           >
             <path
@@ -192,7 +192,7 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
           <g
             id="file-filled"
             transform="translate(54.274443, 16.000000)"
-            fill-rule="nonzero"
+            fillRule="nonzero"
           >
             <path
               d="M2.94117647,0 L14.7058824,0 L14.7058824,0 L25,10.2941176 L25,27.9411765 C25,29.5655434 23.6831904,30.8823529 22.0588235,30.8823529 L2.94117647,30.8823529 C1.31680956,30.8823529 0,29.5655434 0,27.9411765 L0,2.94117647 C0,1.31680956 1.31680956,0 2.94117647,0 Z"
@@ -222,7 +222,7 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
                 d="M12.6,13 C13.1,12.8 14,12.9 14.3,13.5 C14.5,14 14.7,14.7 14.7,14.6 C14.7,14.2 14.7,13.4 14.8,13 C14.9,12.7 15.1,12.4 15.5,12.3 C15.8,12.2 16.1,12.2 16.4,12.2 C16.7,12.3 17,12.5 17.2,12.7 C17.6,13.3 17.6,14.6 17.6,14.5 C17.7,14.2 17.7,13.3 17.9,12.9 C18,12.7 18.4,12.5 18.6,12.4 C18.9,12.3 19.3,12.3 19.6,12.4 C19.8,12.4 20.2,12.7 20.3,12.9 C20.5,13.2 20.6,14.2 20.7,14.6 C20.7,14.7 20.8,14.2 21,13.9 C21.4,13.3 22.8,13.1 22.9,14.5 C22.9,15.2 22.9,15.1 22.9,15.6 C22.9,16.1 22.9,16.4 22.9,16.8 C22.9,17.2 22.8,18.1 22.7,18.5 C22.6,18.8 22.3,19.5 22,19.9 C22,19.9 20.9,21.1 20.8,21.7 C20.7,22.3 20.7,22.3 20.7,22.7 C20.7,23.1 20.8,23.6 20.8,23.6 C20.8,23.6 20,23.7 19.6,23.6 C19.2,23.5 18.7,22.8 18.6,22.5 C18.4,22.2 18.1,22.2 17.9,22.5 C17.7,22.9 17.2,23.6 16.9,23.6 C16.2,23.7 14.8,23.6 13.8,23.6 C13.8,23.6 14,22.6 13.6,22.2 C13.3,21.9 12.8,21.4 12.5,21.1 L11.7,20.2 C11.4,19.8 10.7,19.3 10.5,18.2 C10.3,17.3 10.3,16.8 10.5,16.4 C10.7,16 11.2,15.8 11.4,15.8 C11.6,15.8 12.1,15.8 12.3,15.9 C12.5,16 12.6,16.1 12.8,16.3 C13,16.6 13.1,16.8 13,16.4 C12.9,16.1 12.7,15.8 12.6,15.4 C12.5,15 12.2,14.5 12.2,13.9 C11.7,13.9 11.8,13.3 12.6,13"
                 id="Path"
                 fill="#FFFFFF"
-                fill-rule="nonzero"
+                fillRule="nonzero"
                 mask="url(#mask-2)"
               />
             </g>
@@ -238,8 +238,8 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
                 d="M12.6,13 C13.1,12.8 14,12.9 14.3,13.5 C14.5,14 14.7,14.7 14.7,14.6 C14.7,14.2 14.7,13.4 14.8,13 C14.9,12.7 15.1,12.4 15.5,12.3 C15.8,12.2 16.1,12.2 16.4,12.2 C16.7,12.3 17,12.5 17.2,12.7 C17.6,13.3 17.6,14.6 17.6,14.5 C17.7,14.2 17.7,13.3 17.9,12.9 C18,12.7 18.4,12.5 18.6,12.4 C18.9,12.3 19.3,12.3 19.6,12.4 C19.8,12.4 20.2,12.7 20.3,12.9 C20.5,13.2 20.6,14.2 20.7,14.6 C20.7,14.7 20.8,14.2 21,13.9 C21.4,13.3 22.8,13.1 22.9,14.5 C22.9,15.2 22.9,15.1 22.9,15.6 C22.9,16.1 22.9,16.4 22.9,16.8 C22.9,17.2 22.8,18.1 22.7,18.5 C22.6,18.8 22.3,19.5 22,19.9 C22,19.9 20.9,21.1 20.8,21.7 C20.7,22.3 20.7,22.3 20.7,22.7 C20.7,23.1 20.8,23.6 20.8,23.6 C20.8,23.6 20,23.7 19.6,23.6 C19.2,23.5 18.7,22.8 18.6,22.5 C18.4,22.2 18.1,22.2 17.9,22.5 C17.7,22.9 17.2,23.6 16.9,23.6 C16.2,23.7 14.8,23.6 13.8,23.6 C13.8,23.6 14,22.6 13.6,22.2 C13.3,21.9 12.8,21.4 12.5,21.1 L11.7,20.2 C11.4,19.8 10.7,19.3 10.5,18.2 C10.3,17.3 10.3,16.8 10.5,16.4 C10.7,16 11.2,15.8 11.4,15.8 C11.6,15.8 12.1,15.8 12.3,15.9 C12.5,16 12.6,16.1 12.8,16.3 C13,16.6 13.1,16.8 13,16.4 C12.9,16.1 12.7,15.8 12.6,15.4 C12.5,15 12.2,14.5 12.2,13.9 C11.7,13.9 11.8,13.3 12.6,13 Z"
                 id="Path"
                 stroke="#000000"
-                stroke-width="0.75"
-                stroke-linejoin="round"
+                strokeWidth="0.75"
+                strokeLinejoin="round"
                 mask="url(#mask-4)"
               />
             </g>
@@ -258,8 +258,8 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
                 y2="17.3"
                 id="Path"
                 stroke="#000000"
-                stroke-width="0.75"
-                stroke-linecap="round"
+                strokeWidth="0.75"
+                strokeLinecap="round"
                 mask="url(#mask-6)"
               />
             </g>
@@ -278,8 +278,8 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
                 y2="17.3"
                 id="Path"
                 stroke="#000000"
-                stroke-width="0.75"
-                stroke-linecap="round"
+                strokeWidth="0.75"
+                strokeLinecap="round"
                 mask="url(#mask-8)"
               />
             </g>
@@ -298,8 +298,8 @@ export const UploadOrDragSvg = ({ className }: { className?: string }) => {
                 y2="20.7"
                 id="Path"
                 stroke="#000000"
-                stroke-width="0.75"
-                stroke-linecap="round"
+                strokeWidth="0.75"
+                strokeLinecap="round"
                 mask="url(#mask-10)"
               />
             </g>

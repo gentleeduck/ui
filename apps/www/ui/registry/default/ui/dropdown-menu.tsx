@@ -282,7 +282,6 @@ function DropdownMenuView<T, Y extends boolean = true>({ wrapper, content, trigg
                       ? DropdownMenuRadioItem
                       : DropdownMenuItem
 
-                console.log(value, 'parent')
                 return (
                   <React.Fragment key={`item-${idx}`}>
                     {!nestedData?.optionsData?.length ? (
@@ -359,7 +358,6 @@ function DropdownMenuView<T, Y extends boolean = true>({ wrapper, content, trigg
                                         : nestedData.itemType === 'radio'
                                           ? DropdownMenuRadioItem
                                           : DropdownMenuItem
-                                    console.log(nestedValue)
 
                                     return (
                                       <NestedComponent
