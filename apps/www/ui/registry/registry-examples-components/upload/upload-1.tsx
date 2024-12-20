@@ -39,12 +39,16 @@ import {
 } from '@/registry/registry-ui-components/upload'
 import {
   AlertCircle,
+  ArrowDown,
+  ArrowUp,
+  Columns2,
   Download,
   Ellipsis,
   Folder,
   FolderOpen,
   FolderPlusIcon,
   RefreshCw,
+  Rows2,
   Search,
   Trash,
   View,
@@ -117,13 +121,23 @@ export const UploadDemoHeader = () => {
         <DropdownMenuTrigger asChild>
           <Button
             size={'xs'}
-            icon={{ children: RefreshCw }}
+            icon={{ children: Rows2 }}
           >
             View
           </Button>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent>
+          <DropdownMenuRadioGroupContent
+            radioGroup={{
+              value: radioState,
+              onValueChange: setRadioState,
+            }}
+            content={[
+              { children: 'As Columns', value: 'As duck', icon: { children: Columns2 } },
+              { children: 'As Rows', value: 'duck', icon: { children: Rows2 } },
+            ]}
+          />
           <DropdownMenuItem asChild>
             <DropdownMenuSubWrapper
               trigger={{ children: 'Sort By' }}
@@ -131,13 +145,33 @@ export const UploadDemoHeader = () => {
                 children: (
                   <DropdownMenuRadioGroupContent
                     radioGroup={{
-                      value: radioState,
+                      value: 'time_created',
                       onValueChange: setRadioState,
                     }}
                     content={[
-                      { children: 'As duck', value: 'As duck', icon: { children: View } },
-                      { children: 'As list', value: 'duck', icon: { children: View } },
-                      { children: 'As list', value: 'duckk', icon: { children: View } },
+                      { children: 'Name', value: 'name' },
+                      { children: 'Time created', value: 'time_created' },
+                      { children: 'Time modified', value: 'time_modified' },
+                      { children: 'Last time accessed', value: 'last_time_accessed' },
+                    ]}
+                  />
+                ),
+              }}
+            />
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <DropdownMenuSubWrapper
+              trigger={{ children: 'Sort Order' }}
+              content={{
+                children: (
+                  <DropdownMenuRadioGroupContent
+                    radioGroup={{
+                      value: 'Asc',
+                      onValueChange: setRadioState,
+                    }}
+                    content={[
+                      { children: 'Ascending', value: 'Asc', icon: { children: ArrowUp } },
+                      { children: 'Descending', value: 'Des', icon: { children: ArrowDown } },
                     ]}
                   />
                 ),
@@ -146,59 +180,6 @@ export const UploadDemoHeader = () => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {
-        // <DropdownMenuView
-        //   wrapper={{
-        //     modal: true,
-        //   }}
-        //   trigger={{
-        //     size: 'xs',
-        //     variant: 'default',
-        //     icon: { children: View },
-        //     children: 'View',
-        //   }}
-        //   content={{
-        //     className: 'max-w-[150px] [&_div]:w-full p-2 [&_*]:text-xs',
-        //     defaultValue: 'duck',
-        //     options: {
-        //       itemType: 'radio',
-        //       optionsData: [
-        //         { children: 'As duck', value: 'As duck', icon: { children: View } },
-        //         { children: 'As list', value: 'duck', icon: { children: View } },
-        //         { children: 'As list', value: 'duckk', icon: { children: View } },
-        //         // { children: 'As Column', icon: { children: View } },
-        //         // { children: 'As list', icon: { children: View } },
-        //         // {
-        //         //   children: 'As Column',
-        //         //   icon: { children: View },
-        //         //   value: 'duck',
-        //         //   nestedData: {
-        //         //     itemType: 'radio',
-        //         //     // defaultChecked: true,
-        //         //     optionsData: [
-        //         //       { children: 'As duck', value: 'As duck', icon: { children: View } },
-        //         //       { children: 'As list', value: 'duck', icon: { children: View } },
-        //         //       { children: 'As list', value: 'duckk', icon: { children: View } },
-        //         //     ],
-        //         //   },
-        //         // },
-        //         // {
-        //         //   children: 'As Column',
-        //         //   icon: { children: View },
-        //         //   nestedData: {
-        //         //     itemType: 'radio',
-        //         //     optionsData: [
-        //         //       { children: 'As list', icon: { children: View } },
-        //         //       { children: 'As list', icon: { children: View } },
-        //         //       { children: 'As list', icon: { children: View } },
-        //         //     ],
-        //         //   },
-        //         // },
-        //       ],
-        //     },
-        //   }}
-        // />
-      }
 
       <Separator
         orientation="vertical"
