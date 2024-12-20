@@ -75,7 +75,7 @@ export async function uploadFiles(props: UploadFilesArgs) {
       const file = files[i]
 
       if (file.size > MAX_SIZE) {
-        toast.error(`File has exceeded the max size: ${file.name.slice(0, 15)}...`)
+        toast.error(`File has exceeded the max size: ${file.name.slice(0, 15)}...`, { position: 'top-right' })
         continue // Skip this file and continue with the next
       }
 
@@ -101,6 +101,7 @@ export async function uploadFiles(props: UploadFilesArgs) {
     promise &&
       toast.success(`Successfully Uploaded ${files.length} file${files.length > 1 ? 's' : ''}`, {
         duration: 2000,
+        position: 'top-right',
         id: toastId,
       })
 
@@ -119,7 +120,6 @@ export async function uploadFiles(props: UploadFilesArgs) {
       })
     }
 
-    // console.log()
     setAttachments(old => {
       if (selectedFolder.length > 0) {
         return old.map(item =>
@@ -139,7 +139,7 @@ export async function uploadFiles(props: UploadFilesArgs) {
     e.target.value = ''
   } catch (error) {
     console.log(error)
-    toast.error('Upload failed. Please try again.')
+    toast.error('Upload failed. Please try again.', { position: 'top-right' })
   }
 }
 
@@ -194,7 +194,6 @@ export const handleAttachment = ({ e, setAttachmentsState }: HandleAttachmentPro
     newAttachments.push(attachment)
   }
 
-  console.log(newAttachments)
   setAttachmentsState(prev => [...prev, ...newAttachments])
   e.currentTarget.value = ''
 }
@@ -229,7 +228,6 @@ export const handleAdvancedAttachment = ({ e, setAttachmentsState }: HandleAttac
     newAttachments.push(attachment)
   }
 
-  console.log(newAttachments)
   setAttachmentsState(prev => [...prev, ...newAttachments])
   e.currentTarget.value = ''
 }
