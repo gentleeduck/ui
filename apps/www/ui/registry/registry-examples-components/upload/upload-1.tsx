@@ -253,7 +253,7 @@ export const UploadAttachmentFolder = ({
           if (!exist_in_tree)
             return [...old.filter(item => !(item.treeLevel >= attachmentFolder.treeLevel) && item), attachmentFolder]
 
-          return old.filter(item => item.id !== attachmentFolder.id || item.treeLevel !== attachmentFolder.treeLevel)
+          return old.filter(item => !(item.treeLevel >= attachmentFolder.treeLevel))
         })
       }}
     >

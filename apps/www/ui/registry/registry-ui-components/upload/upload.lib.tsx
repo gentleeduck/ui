@@ -106,30 +106,31 @@ export async function uploadFiles(props: UploadFilesArgs) {
 
     // After the upload is done, update the state
     if (selectedFolder.length > 0) {
-      setSelectedFolder(old =>
-        old.map(item =>
-          item.id === selectedFolder[0].id
+      return setSelectedFolder(old => {
+        return old.map(item =>
+          item.id === selectedFolder[selectedFolder.length - 1].id
             ? {
                 ...item,
                 files: (item as FolderType).files + newAttachments.length,
-                content: [...selectedFolder[0]?.content, ...newAttachments],
+                content: [...selectedFolder[selectedFolder.length - 1]?.content, ...newAttachments],
               }
             : item
         )
-      )
+      })
     }
 
+    // console.log()
     setAttachments(old => {
       if (selectedFolder.length > 0) {
-        return old.map(item => {
-          return item.id === selectedFolder[0].id
+        return old.map(item =>
+          item.id === selectedFolder[selectedFolder.length - 1].id
             ? {
                 ...item,
                 files: (item as FolderType).files + newAttachments.length,
-                content: [...selectedFolder[0]?.content, ...newAttachments],
+                content: [...selectedFolder[selectedFolder.length - 1]?.content, ...newAttachments],
               }
             : item
-        })
+        )
       }
       return [...old, ...newAttachments]
     })
