@@ -70,7 +70,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <CommandShortcut className="text-[.8rem]">
         {(commandShow ?? true) && (
           <Badge
-            variant={'secondary'}
+            variant={commandVariant ?? 'secondary'}
             size={commandSize ?? 'sm'}
             className={cn('p-0 px-2 text-bold rounded-sm text-secondary-foreground', commandClassName)}
             {...commandProps}

@@ -3,6 +3,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
   DropdownMenuView,
   Input,
@@ -11,6 +12,7 @@ import {
   Separator,
 } from '@/registry/default/ui'
 import { downloadAttachment } from '@/registry/default/ui/comment'
+import { AlertDelete } from '@/registry/registry-ui-components/alert'
 import { Button, buttonVariants } from '@/registry/registry-ui-components/button'
 import { DropdownMenuRadioGroupContent, DropdownMenuSubWrapper } from '@/registry/registry-ui-components/dropdown-menu'
 import {
@@ -186,7 +188,6 @@ export const UploadDemoHeader = () => {
     </div>
   )
 }
-const UploadDemoHeaderMemo = React.memo(UploadDemoHeader)
 
 export const UploadNavigation = () => {
   return <></>
@@ -196,7 +197,7 @@ export default function Upload1Demo() {
   return (
     <>
       <UploadAdvancedProvider>
-        <div className="flex flex-col w-full gap-1 rounded-md bg-muted/10 border-border border">
+        <div className="flex flex-col w-full gap-1 rounded-md bg-muted/10 border-border border h-[80vh]">
           <div className="flex items-center gap-4 justify-between">
             <UploadNavigation />
             <UploadDemoHeader />
@@ -213,14 +214,11 @@ export const UploadAdnvacedContent = () => {
   const { selectedFolder, attachments } = useUploadAdvancedContext() ?? {}
 
   return (
-    <ScrollArea>
+    <ScrollArea className="h-full">
       <div className="flex items-center h-full rounded-md">
         <div className="flex items-center h-full rounded-md">
           <UploadAttachmentsTreeItem attachments={attachments} />
-          <Separator
-            orientation="vertical"
-            className="h-[400px]"
-          />
+          <Separator orientation="vertical" />
         </div>
         {selectedFolder.length > 0 &&
           selectedFolder.map((folderContent, idx) => {
@@ -230,12 +228,7 @@ export const UploadAdnvacedContent = () => {
                 className="flex items-center h-full rounded-md"
               >
                 <UploadAttachmentsTreeItem attachments={folderContent.content} />
-                {idx !== selectedFolder.length - 1 && (
-                  <Separator
-                    orientation="vertical"
-                    className="h-[400px]"
-                  />
-                )}
+                {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
               </div>
             )
           })}
@@ -251,10 +244,9 @@ export type UploadAttachmentsTreeItemProps = {
 
 export const UploadAttachmentsTreeItem = ({ attachments }: UploadAttachmentsTreeItemProps) => {
   const { selectedFolder, setSelectedFolder } = useUploadAdvancedContext()
-  // console.log(selectedFolder)
 
   return attachments?.length > 0 ? (
-    <ScrollArea className="h-[400px] rounded-md w-[250px] p-2">
+    <ScrollArea className="h-full rounded-md w-[250px] p-2 bg-muted/10">
       <div className="flex flex-col gap-1">
         {attachments?.map(attachment => {
           if ((attachment as AttachmentType).file) {
@@ -273,7 +265,7 @@ export const UploadAttachmentsTreeItem = ({ attachments }: UploadAttachmentsTree
       </div>
     </ScrollArea>
   ) : (
-    <div className="border-r border-r-border bg-muted/10 w-[250px] min-h-[400px] p-4 flex items-center flex-col space-y-2 justify-center">
+    <div className="border-r border-r-border bg-muted/10 w-[250px] h-full p-4 flex items-center flex-col space-y-2 justify-center">
       <UploadOrDragSvg className="size-[100px]" />
       <p className="text-center w-full text-sm font-medium">Drop your files here</p>
       <p className="text-accent-foreground/70 text-center w-full text-xs max-w-[150px]">
@@ -295,45 +287,55 @@ export const UploadAttachmentFolder = ({
   const exist_in_tree = selected?.some(item => item.id === attachmentFolder.id)
 
   return (
-    <div
-      className={cn(
-        'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-1 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer [&_*]:select-none',
-        exist_in_tree && 'bg-card-foreground/15'
-      )}
-      onClick={() => {
-        setSelected(old => {
-          if (!exist_in_tree)
-            return [...old.filter(item => !(item.treeLevel >= attachmentFolder.treeLevel) && item), attachmentFolder]
+    <div className="relative">
+      <div
+        className={cn(
+          'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-1 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer [&_*]:select-none',
+          exist_in_tree && 'bg-card-foreground/15'
+        )}
+        onClick={() => {
+          setSelected(old => {
+            if (!exist_in_tree)
+              return [...old.filter(item => !(item.treeLevel >= attachmentFolder.treeLevel) && item), attachmentFolder]
 
-          return old.filter(item => !(item.treeLevel >= attachmentFolder.treeLevel))
-        })
-      }}
-    >
-      <div className="relative [&_svg]:size-4">
-        {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files > 0 && 'fill-white')} />}
+            return old.filter(item => !(item.treeLevel >= attachmentFolder.treeLevel))
+          })
+        }}
+      >
+        <div className="relative [&_svg]:size-4">
+          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files > 0 && 'fill-white')} />}
+        </div>
+        <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
       </div>
-      <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
-      <DropdownMenuView
-        trigger={{
-          icon: { children: Ellipsis, className: 'h-4 w-4 rounded' },
-          variant: 'ghost',
-          size: 'icon',
-          className: 'h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2',
-        }}
-        content={{
-          options: {
-            itemType: 'label',
-            optionsData: [
-              {
-                children: 'Delete',
-                className: 'text-red-500 bg-red-500/10',
-                icon: { children: Trash, className: 'h-4 w-4 rounded' },
-                onClick: () => {},
-              },
-            ],
-          },
-        }}
-      />
+
+      <DropdownMenu modal={true}>
+        <DropdownMenuTrigger asChild>
+          <Button
+            size={'xs'}
+            variant={'ghost'}
+            className="h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2"
+            icon={{ children: Ellipsis }}
+          />
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent className="">
+          <div className="flex flex-col items-start justify-start">
+            <DropdownMenuItem className="p-0 justify-between flex items-center w-full">
+              <AlertDelete
+                itemName={attachmentFolder.name}
+                command={{
+                  label: 'Alt+D',
+                  key: 'Alt+d',
+                  variant: 'nothing',
+                  className: 'text-accent-foreground/40 w-full ml-6',
+                }}
+                onCancel={() => {}}
+                onContinue={() => {}}
+              />
+            </DropdownMenuItem>
+          </div>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   )
 }

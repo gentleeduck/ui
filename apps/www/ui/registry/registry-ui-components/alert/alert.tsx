@@ -9,18 +9,23 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
   AlertTitle,
+  DropdownMenuShortcut,
   Separator,
 } from '@/registry/default/ui'
-import { Button, buttonVariants } from '../button'
+import { Button, buttonVariants, CommandType } from '../button'
 import { AlertCircle, Trash } from 'lucide-react'
 import { cn } from '@/lib'
 
 export const AlertDelete = ({
   itemName,
+  className,
+  command,
   onCancel,
   onContinue,
 }: {
   itemName: string
+  className?: string
+  command?: CommandType
   onCancel: () => void
   onContinue: () => void
 }) => {
@@ -29,8 +34,9 @@ export const AlertDelete = ({
       <AlertDialogTrigger asChild>
         <Button
           size={'xs'}
-          className="w-full rounded-sm"
+          className={cn('justify-between w-full rounded-sm w-full', className)}
           variant={'ghost'}
+          command={command}
           icon={{ children: Trash }}
         >
           Delete
