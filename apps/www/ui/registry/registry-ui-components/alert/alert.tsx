@@ -15,6 +15,7 @@ import {
 import { Button, buttonVariants, CommandType } from '../button'
 import { AlertCircle, Trash } from 'lucide-react'
 import { cn } from '@/lib'
+import React from 'react'
 
 export const AlertDelete = ({
   itemName,
@@ -34,7 +35,7 @@ export const AlertDelete = ({
       <AlertDialogTrigger asChild>
         <Button
           size={'xs'}
-          className={cn('justify-between w-full rounded-sm w-full', className)}
+          className={cn('justify-between w-full rounded-sm', className)}
           variant={'ghost'}
           command={command}
           icon={{ children: Trash }}

@@ -10,6 +10,14 @@ import {
   ScrollArea,
   ScrollBar,
   Separator,
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from '@/registry/default/ui'
 import { downloadAttachment } from '@/registry/default/ui/comment'
 import { AlertDelete } from '@/registry/registry-ui-components/alert'
@@ -308,7 +316,7 @@ export const UploadAttachmentFolder = ({
         <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
       </div>
 
-      <DropdownMenu modal={true}>
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             size={'xs'}
@@ -319,10 +327,10 @@ export const UploadAttachmentFolder = ({
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="">
-          <div className="flex flex-col items-start justify-start">
-            <DropdownMenuItem className="p-0 justify-between flex items-center w-full">
+          <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full">
+            <div>
               <AlertDelete
-                itemName={attachmentFolder.name}
+                itemName={attachmentFolder.name + ' folder'}
                 command={{
                   label: 'Alt+D',
                   key: 'Alt+d',
@@ -332,7 +340,7 @@ export const UploadAttachmentFolder = ({
                 onCancel={() => {}}
                 onContinue={() => {}}
               />
-            </DropdownMenuItem>
+            </div>
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -343,42 +351,76 @@ export const UploadAttachmentFolder = ({
 export const UploadAttachmentFile = ({ attachmentFile }: { attachmentFile: AttachmentType }) => {
   const fileType = getFileType(attachmentFile.file)
   return (
-    <div
-      className={cn(
-        'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-1 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer'
-      )}
-      onClick={() => {}}
-    >
-      <div className="relative [&_svg]:size-4">{fileTypeIcons[fileType]}</div>
-      <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFile.name} </h6>
-      <DropdownMenuView
-        trigger={{
-          icon: { children: Ellipsis, className: 'h-4 w-4 rounded' },
-          variant: 'ghost',
-          size: 'icon',
-          className: 'h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2',
-        }}
-        content={{
-          options: {
-            itemType: 'label',
-            optionsData: [
-              {
-                children: 'Download',
-                icon: { children: Download, className: 'h-4 w-4 rounded' },
-                onClick: () => {
-                  downloadAttachment({ attachment: attachmentFile! })
-                },
-              },
-              {
-                children: 'Delete',
-                className: 'text-red-500 bg-red-500/10',
-                icon: { children: Trash, className: 'h-4 w-4 rounded' },
-                onClick: () => {},
-              },
-            ],
-          },
-        }}
-      />
+    <div className="relative">
+      <Sheet>
+        <SheetTrigger asChild>
+          <div
+            className={cn(
+              'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-1 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer'
+            )}
+            onClick={() => {}}
+          >
+            <div className="relative [&_svg]:size-4">{fileTypeIcons[fileType]}</div>
+            <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFile.name} </h6>
+          </div>
+        </SheetTrigger>
+        <SheetContent className="w-[400px] flex flex-col gap-2 justify-between">
+          <div>
+            <div>
+              <picture>
+                <img
+                  src={URL.createObjectURL(attachmentFile.file as Blob)}
+                  alt=""
+                />
+              </picture>
+            </div>
+          </div>
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button>Close</Button>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            size={'xs'}
+            variant={'ghost'}
+            className="h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2"
+            icon={{ children: Ellipsis }}
+          />
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent className="">
+          <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full">
+            <DropdownMenuItem>
+              <Button
+                size={'xs'}
+                variant={'ghost'}
+                onClick={() => {}}
+                icon={{ children: Download, className: 'h-4 w-4' }}
+              >
+                Download
+              </Button>
+            </DropdownMenuItem>
+            <div>
+              <AlertDelete
+                itemName={attachmentFile.name + ' folder'}
+                command={{
+                  label: 'Alt+D',
+                  key: 'Alt+d',
+                  variant: 'nothing',
+                  className: 'text-accent-foreground/40 w-full ml-6',
+                }}
+                onCancel={() => {}}
+                onContinue={() => {}}
+              />
+            </div>
+          </div>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   )
 }
