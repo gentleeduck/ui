@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { AttachmentType, CommentType, TaggedUserType } from './swapy'
 import { differenceInDays, differenceInHours, format, formatDistance } from 'date-fns'
