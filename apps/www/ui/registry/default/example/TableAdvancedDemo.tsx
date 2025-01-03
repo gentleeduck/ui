@@ -141,9 +141,13 @@ export const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<Tab
     },
     nestedData: {
       group: [2],
+      defaultValue: 'Twitter',
+      defaultChecked: true,
+      itemType: 'radio',
       optionsData: [
         {
           className: '[&_svg]:text-[#1DA1F2]',
+          value: 'Twitter',
           children: 'Twitter',
           icon: {
             children: Twitter,
@@ -158,6 +162,7 @@ export const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<Tab
             children: Twitch,
           },
           className: '[&_svg]:text-[#6441a5]',
+          value: 'Twitch',
           children: 'Twitch',
         },
       ],

@@ -17,9 +17,6 @@ import { Button, buttonVariants } from '../button'
 import { CircleCheck, Download, Ellipsis, Loader, Trash, Upload as UploadIcon } from 'lucide-react'
 import {
   AttachmentType,
-  FolderType,
-  SelectedFolderType,
-  UploadAdvancedContextType,
   UploadContentProps,
   UploadContextType,
   UploadInputProps,
@@ -60,95 +57,6 @@ export const UploadProvider = ({ children }: { children: React.ReactNode }) => {
     >
       {children}
     </UploadContext.Provider>
-  )
-}
-
-const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<AttachmentType | FolderType> | null>(null)
-
-export const useUploadAdvancedContext = () => {
-  const context = React.useContext(UploadAdvancedContext)
-  if (!context) {
-    throw new Error('useUploadContext must be used within an UploadProvider')
-  }
-  return context
-}
-
-export const UploadAdvancedProvider = ({ children }: { children: React.ReactNode }) => {
-  const [selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>([])
-  const [attachments, setAttachments] = React.useState<(AttachmentType | FolderType)[]>([
-    {
-      id: 'ed2da76d-5a24-4e35-9542-e92ca2e49c34',
-      name: 'gentelduck',
-      files: 1,
-      content: [
-        {
-          id: 'ed2da76d-5a24-4e35-9542-e92ca2e49c35',
-          name: 'duck-ui',
-          files: 1,
-          content: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          treeLevel: 2,
-        },
-      ],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      treeLevel: 1,
-    },
-    {
-      id: '9c8f7a19-1752-4bd2-b308-90c553ef5b98',
-      name: 'Download',
-      files: 1,
-      content: [
-        {
-          id: '20e93625-a645-4cdd-baf1-c01ced27a85b',
-          name: 'wilduck-2.png',
-          size: '1MB',
-          file: new File([], ''),
-          url: '',
-          type: 'image/png',
-          treeLevel: 2,
-        },
-        {
-          id: 'b23574f5-4aa0-4a89-8236-bd5699ac483f',
-          name: 'duck-scripts',
-          files: 1,
-          content: [
-            {
-              id: '20e93625-a645-4cdd-baf1-c01ced27a85b',
-              name: 'wilduck-2.png',
-              size: '1MB',
-              file: new File([], ''),
-              url: '',
-              type: 'image/png',
-              treeLevel: 2,
-            },
-          ],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          treeLevel: 1,
-        },
-      ],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      treeLevel: 1,
-    },
-  ])
-  const [attachmentsState, setAttachmentsState] = React.useState<(AttachmentType | FolderType)[]>([])
-
-  return (
-    <UploadAdvancedContext.Provider
-      value={{
-        attachments,
-        setAttachments,
-        attachmentsState,
-        setAttachmentsState,
-        selectedFolder,
-        setSelectedFolder,
-      }}
-    >
-      {children}
-    </UploadAdvancedContext.Provider>
   )
 }
 
@@ -459,30 +367,6 @@ export const UploadDirectButton = () => {
       />
       Upload file
     </Button>
-  )
-}
-
-export const UploadAdvancedButton = () => {
-  const { setAttachments, selectedFolder, setSelectedFolder } = useUploadAdvancedContext() ?? {}
-
-  return (
-    <>
-      <Button
-        className="relative "
-        variant={'default'}
-        size={'xs'}
-        icon={{ children: UploadIcon }}
-      >
-        <Input
-          placeholder="Filter files..."
-          type="file"
-          className="absolute w-full h-full opacity-0 cursor-pointer"
-          multiple={true}
-          onChange={e => uploadFiles({ e, selectedFolder, setSelectedFolder, setAttachments })}
-        />
-        Upload file
-      </Button>
-    </>
   )
 }
 
