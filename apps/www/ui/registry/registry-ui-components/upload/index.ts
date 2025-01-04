@@ -1,5 +1,6 @@
 export * from './upload'
 export * from './upload-advanced'
 export * from './upload.lib'
+export * from './upload.assets'
 export * from './upload.constants'
 export * from './upload.types'

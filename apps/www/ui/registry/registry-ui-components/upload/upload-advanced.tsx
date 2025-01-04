@@ -1,51 +1,17 @@
 'use client'
 
 import React from 'react'
-import {
-  AlertDialogSheet,
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuView,
-  Progress,
-  ScrollBar,
-  Separator,
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetFooter,
-  SheetTrigger,
-} from '@/registry/default/ui'
-import { ContextMenu, ContextMenuTrigger } from '@/registry/default/ui'
+import { ScrollBar, Separator } from '@/registry/default/ui'
 import { Input } from '@/registry/default/ui'
 import { ScrollArea } from '@/registry/default/ui'
+import { Button } from '../button'
+import { Download, Trash, Upload as UploadIcon, Clipboard, X } from 'lucide-react'
+import { AttachmentType, FolderType, SelectedFolderType, UploadAdvancedContextType } from './upload.types'
+import { searchNestedArrayByKey, uploadFiles } from './upload.lib'
+import { UploadAttachmentsTreeItem } from './upload-chunks'
+import { format } from 'date-fns'
 import { filesize } from 'filesize'
-import { Button, buttonVariants } from '../button'
-import { CircleCheck, Download, Ellipsis, Folder, FolderOpen, Loader, Trash, Upload as UploadIcon } from 'lucide-react'
-import {
-  AttachmentType,
-  FolderType,
-  SelectedFolderType,
-  UploadAdvancedContextType,
-  UploadContentProps,
-  UploadContextType,
-  UploadInputPsrops,
-  UploadItemProps,
-  UploadProps,
-  UploadtItemRemoveProps,
-  UploadTriggerProps,
-} from './upload.types'
-import { fileTypeIcons, UploadOrDragSvg } from './upload.constants'
-import { formatTime, getFileType, handleAttachment, uploadFiles } from './upload.lib'
-import { cn } from '@/lib/utils'
-import { X } from 'lucide-react'
-import { downloadAttachment } from '@/registry/default/ui/comment'
-import { uuidv7 } from 'uuidv7'
-import { AlertDelete } from '../alert'
+import { cn } from '@/lib'
 
 const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<AttachmentType | FolderType> | null>(null)
 
@@ -57,20 +23,31 @@ export const useUploadAdvancedContext = () => {
   return context
 }
 
-export const UploadAdvancedProvider = ({ children }: { children: React.ReactNode }) => {
-  const [selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>([])
-  const [attachments, setAttachments] = React.useState<(AttachmentType | FolderType)[]>([])
+export const UploadAdvancedProvider = ({
+  selectedFolder,
+  attachments,
+  children,
+}: {
+  selectedFolder?: SelectedFolderType[]
+  attachments: (AttachmentType | FolderType)[]
+  children: React.ReactNode
+}) => {
+  const [_selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>([])
+  const [_attachments, setAttachments] = React.useState<(AttachmentType | FolderType)[]>(attachments ?? [])
   const [attachmentsState, setAttachmentsState] = React.useState<(AttachmentType | FolderType)[]>([])
+  const [previewFile, setPreviewFile] = React.useState<AttachmentType | null>(null)
 
   return (
     <UploadAdvancedContext.Provider
       value={{
-        attachments,
+        attachments: _attachments,
         setAttachments,
         attachmentsState,
         setAttachmentsState,
-        selectedFolder,
+        selectedFolder: _selectedFolder,
         setSelectedFolder,
+        previewFile,
+        setPreviewFile,
       }}
     >
       {children}
@@ -81,6 +58,12 @@ export const UploadAdvancedProvider = ({ children }: { children: React.ReactNode
 export const UploadAdvancedButton = () => {
   const { setAttachments, selectedFolder, setSelectedFolder } = useUploadAdvancedContext() ?? {}
 
+  const memoizedUploadFiles = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      uploadFiles({ e, selectedFolder, setSelectedFolder, setAttachments })
+    },
+    [selectedFolder, setSelectedFolder, setAttachments]
+  )
   return (
     <>
       <Button
@@ -94,7 +77,7 @@ export const UploadAdvancedButton = () => {
           type="file"
           className="absolute w-full h-full opacity-0 cursor-pointer"
           multiple={true}
-          onChange={e => uploadFiles({ e, selectedFolder, setSelectedFolder, setAttachments })}
+          onChange={e => memoizedUploadFiles(e)}
         />
         Upload file
       </Button>
@@ -104,24 +87,27 @@ export const UploadAdvancedButton = () => {
 
 export const UploadAdnvacedContent = () => {
   const { selectedFolder, attachments } = useUploadAdvancedContext() ?? {}
-
   return (
     <ScrollArea className="h-full">
-      <div className="flex items-center h-full rounded-md">
-        <div className="flex items-center h-full rounded-md">
-          <UploadAttachmentsTreeItem attachments={attachments} />
-          <Separator orientation="vertical" />
-        </div>
+      <div className="flex items-center h-full rounded-md relative overflow-hidden">
+        <UploadFilePreview />
+        <UploadAttachmentsTreeItem attachments={attachments} />
         {selectedFolder.length > 0 &&
           selectedFolder.map((folderContent, idx) => {
+            const item = searchNestedArrayByKey(attachments, folder => folder.id === folderContent?.id, 'content')
             return (
-              <div
-                key={idx}
-                className="flex items-center h-full rounded-md"
-              >
-                <UploadAttachmentsTreeItem attachments={folderContent.content} />
-                {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
-              </div>
+              item && (
+                <div
+                  key={item.id}
+                  className="flex items-center h-full rounded-md"
+                >
+                  <UploadAttachmentsTreeItem
+                    attachments={(item as FolderType).content}
+                    key={item.id}
+                  />
+                  {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
+                </div>
+              )
             )
           })}
       </div>
@@ -130,187 +116,88 @@ export const UploadAdnvacedContent = () => {
   )
 }
 
-export type UploadAttachmentsTreeItemProps = {
-  attachments: (AttachmentType | FolderType)[]
-}
-
-export const UploadAttachmentsTreeItem = ({ attachments }: UploadAttachmentsTreeItemProps) => {
-  const { selectedFolder, setSelectedFolder } = useUploadAdvancedContext()
-
-  return attachments?.length > 0 ? (
-    <ScrollArea className="h-full rounded-md w-[250px] p-2 bg-muted/10">
-      <div className="flex flex-col gap-1">
-        {attachments?.map(attachment => {
-          if ((attachment as AttachmentType).file) {
-            return <UploadAttachmentFile attachmentFile={attachment as AttachmentType} />
-          }
-          if ((attachment as FolderType).files) {
-            return (
-              <UploadAttachmentFolder
-                attachmentFolder={attachment as FolderType}
-                selected={selectedFolder}
-                setSelected={setSelectedFolder}
+export const UploadFilePreview = () => {
+  const { previewFile, setPreviewFile } = useUploadAdvancedContext() ?? {}
+  return (
+    <div
+      className={cn(
+        'absolute top-0 right-0 h-full w-[400px] duration-300 ease-in-out translate-x-[100%] z-10',
+        previewFile && 'translate-x-0'
+      )}
+    >
+      <ScrollArea className="h-full pt-4">
+        <Button
+          size={'xs'}
+          variant={'ghost'}
+          className="absolute top-2 right-2"
+          icon={{ children: X }}
+          onClick={() => setPreviewFile(null)}
+        />
+        <div className="border-l border-l-border bg-muted/10 w-full h-full p-4">
+          <div className="border border-border w-full h-[180px] flex items-center justify-center rounded-md overflow-hidden">
+            <picture>
+              <img
+                src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
+                className="object-contain size-full"
+                alt={previewFile?.name}
               />
-            )
-          }
-        })}
-      </div>
-    </ScrollArea>
-  ) : (
-    <EmptyFolder />
-  )
-}
-
-/*
- * Empty Folder
- */
-export const EmptyFolder = () => {
-  return (
-    <div className="border-r border-r-border bg-muted/10 w-[250px] h-full p-4 flex items-center flex-col space-y-2 justify-center">
-      <UploadOrDragSvg className="size-[100px]" />
-      <p className="text-center w-full text-sm font-medium">Drop your files here</p>
-      <p className="text-accent-foreground/70 text-center w-full text-xs max-w-[150px]">
-        Or upload them via the "Upload file" button above
-      </p>
-    </div>
-  )
-}
-
-export const UploadAttachmentFolder = (props: {
-  attachmentFolder: FolderType
-  selected: SelectedFolderType[]
-  setSelected: React.Dispatch<React.SetStateAction<SelectedFolderType[]>>
-}) => {
-  const { attachmentFolder, selected, setSelected } = props
-  const exist_in_tree = selected?.some(item => item.id === attachmentFolder.id)
-
-  return (
-    <div className="relative">
-      <div
-        className={cn(
-          'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-1 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer [&_*]:select-none',
-          exist_in_tree && 'bg-card-foreground/15'
-        )}
-        onClick={() => {
-          setSelected(old => {
-            if (!exist_in_tree)
-              return [...old.filter(item => !(item.treeLevel >= attachmentFolder.treeLevel) && item), attachmentFolder]
-
-            return old.filter(item => !(item.treeLevel >= attachmentFolder.treeLevel))
-          })
-        }}
-      >
-        <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files > 0 && 'fill-white')} />}
+            </picture>
+          </div>
+          <div className="my-4 flex flex-col gap-1">
+            <h6 className="text-sm font-medium truncate max-w-[70%]">{previewFile?.name}</h6>
+            <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
+              <span>{previewFile?.type}</span>-
+              <span>
+                {filesize(previewFile?.file ? +previewFile?.file.size : 0, {
+                  round: 0,
+                })}
+              </span>
+            </p>
+          </div>
+          <div className="my-4 flex flex-col gap-1">
+            <h6 className="text-xs font-medium text-accent-foreground/90">Created at</h6>
+            <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
+              {format(new Date(previewFile?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
+            </p>
+          </div>
+          <div className="my-4 flex flex-col gap-1">
+            <h6 className="text-xs font-medium text-accent-foreground/90">Updated at</h6>
+            <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
+              {format(new Date(previewFile?.updatedAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
+            </p>
+          </div>
+          <div className="my-4 flex flex-row gap-2 [&_button]:px-3 mt-4">
+            <Button
+              size={'xs'}
+              variant={'muted'}
+              border={'muted'}
+              icon={{ children: Download }}
+            >
+              Download
+            </Button>
+            <Button
+              size={'xs'}
+              variant={'muted'}
+              border={'muted'}
+              icon={{ children: Clipboard }}
+            >
+              Get url-400px
+            </Button>
+          </div>
+          <Separator />
+          <div className="my-4 flex flex-row gap-2 [&_button]:px-3">
+            <Button
+              size={'xs'}
+              variant={'destructive'}
+              border={'destructive'}
+              icon={{ children: Trash }}
+            >
+              Delete
+            </Button>
+          </div>
         </div>
-        <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
-      </div>
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            size={'xs'}
-            variant={'ghost'}
-            className="h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2"
-            icon={{ children: Ellipsis }}
-          />
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent className="">
-          <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full">
-            <div>
-              <AlertDelete
-                itemName={attachmentFolder.name + ' folder'}
-                command={{
-                  label: 'Alt+D',
-                  key: 'Alt+d',
-                  variant: 'nothing',
-                  className: 'text-accent-foreground/40 w-full ml-6',
-                }}
-                onCancel={() => {}}
-                onContinue={() => {}}
-              />
-            </div>
-          </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
-  )
-}
-
-export const UploadAttachmentFile = ({ attachmentFile }: { attachmentFile: AttachmentType }) => {
-  const fileType = getFileType(attachmentFile.file)
-  return (
-    <div className="relative">
-      <Sheet>
-        <SheetTrigger asChild>
-          <div
-            className={cn(
-              'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-1 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer'
-            )}
-            onClick={() => {}}
-          >
-            <div className="relative [&_svg]:size-4">{fileTypeIcons[fileType]}</div>
-            <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFile.name} </h6>
-          </div>
-        </SheetTrigger>
-        <SheetContent className="w-[400px] flex flex-col gap-2 justify-between">
-          <div>
-            <div>
-              <picture>
-                <img
-                  src={URL.createObjectURL(attachmentFile.file as Blob)}
-                  alt=""
-                />
-              </picture>
-            </div>
-          </div>
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button>Close</Button>
-            </SheetClose>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            size={'xs'}
-            variant={'ghost'}
-            className="h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2"
-            icon={{ children: Ellipsis }}
-          />
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent className="">
-          <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full">
-            <DropdownMenuItem>
-              <Button
-                size={'xs'}
-                variant={'ghost'}
-                onClick={() => {}}
-                icon={{ children: Download, className: 'h-4 w-4' }}
-              >
-                Download
-              </Button>
-            </DropdownMenuItem>
-            <div>
-              <AlertDelete
-                itemName={attachmentFile.name + ' folder'}
-                command={{
-                  label: 'Alt+D',
-                  key: 'Alt+d',
-                  variant: 'nothing',
-                  className: 'text-accent-foreground/40 w-full ml-6',
-                }}
-                onCancel={() => {}}
-                onContinue={() => {}}
-              />
-            </div>
-          </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        )
+      </ScrollArea>
     </div>
   )
 }

@@ -25,7 +25,7 @@ import {
   UploadtItemRemoveProps,
   UploadTriggerProps,
 } from './upload.types'
-import { fileTypeIcons } from './upload.constants'
+import { FILE_TYPE_ICONS } from './upload.constants'
 import { formatTime, getFileType, handleAttachment, uploadFiles } from './upload.lib'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
@@ -199,7 +199,7 @@ export const UploadItem = React.forwardRef<HTMLDivElement, UploadItemProps>(
         {...props}
       >
         <div className="flex items-center gap-4">
-          <div className="relative">{fileTypeIcons[fileType]}</div>
+          <div className="relative">{FILE_TYPE_ICONS[fileType]}</div>
           <div className="grid items-start">
             <h3 className="inline-block text-[.9rem] truncate max-w-[200px]">{attachment.name || 'Empty File'}</h3>
             <p className="inline-block truncate text-semibold text-[.8rem] max-w-[300px]">
@@ -250,7 +250,7 @@ export const UploadItemsPreview = () => {
             )}
           >
             <div>
-              <div className="relative [&_svg]:size-12 [&_svg]:mx-auto w-full">{fileTypeIcons[fileType]}</div>
+              <div className="relative [&_svg]:size-12 [&_svg]:mx-auto w-full">{FILE_TYPE_ICONS[fileType]}</div>
             </div>
             <DropdownMenuView
               trigger={{

@@ -1,5 +1,4 @@
 import { ScrollArea } from '@/registry/default/ui'
-import { SelectedFolderType } from './upload'
 
 export interface AttachmentType {
   id: string
@@ -8,6 +7,9 @@ export interface AttachmentType {
   type: string
   name: string
   size: string
+  createdAt: Date
+  updatedAt: Date
+  treeLevel: number
 }
 
 export interface UploadContextType<T extends Record<string, any>> {
@@ -20,6 +22,8 @@ export interface UploadContextType<T extends Record<string, any>> {
 export interface UploadAdvancedContextType<T extends Record<string, any>> extends UploadContextType<T> {
   selectedFolder: SelectedFolderType[]
   setSelectedFolder: React.Dispatch<React.SetStateAction<SelectedFolderType[]>>
+  previewFile: AttachmentType | null
+  setPreviewFile: React.Dispatch<React.SetStateAction<AttachmentType | null>>
 }
 
 export interface UploadProps extends Omit<React.HTMLProps<HTMLDivElement>, 'content'> {
@@ -69,3 +73,7 @@ export type UploadPromiseArgs = {
 }
 
 export type UploadPromiseReturn = { files: number; progress: number; remainingTime: number }
+
+export type UploadAttachmentsTreeItemProps = {
+  attachments: (AttachmentType | FolderType)[]
+}

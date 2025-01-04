@@ -204,7 +204,7 @@ interface DropdownMenuViewProps<T, Y extends boolean = true> {
 }
 
 function DropdownMenuView<T, Y extends boolean = true>({ wrapper, content, trigger }: DropdownMenuViewProps<T, Y>) {
-  const { className: triggerClassName, command: triggerCommand, icon: Icon, ...triggerProps } = trigger ?? {}
+  const { className: triggerClassName, command: triggerCommand, ...triggerProps } = trigger ?? {}
   const { className: optionsClassName, options, label, align = 'end', ...contentProps } = content ?? {}
   const { className: labelClassName, ...labelProps } = label ?? {}
 
@@ -219,8 +219,6 @@ function DropdownMenuView<T, Y extends boolean = true>({ wrapper, content, trigg
     >
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
-          size="sm"
           className={cn('w-[fit-content]', triggerClassName)}
           command={
             {
@@ -232,7 +230,6 @@ function DropdownMenuView<T, Y extends boolean = true>({ wrapper, content, trigg
               },
             } as CommandType
           }
-          icon={Icon}
           {...triggerProps}
         />
       </DropdownMenuTrigger>

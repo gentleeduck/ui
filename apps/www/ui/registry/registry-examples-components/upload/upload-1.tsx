@@ -1,115 +1,19 @@
 'use client'
 
-import { cn } from '@/lib'
+import { Separator } from '@/registry/default/ui'
+import { Button } from '@/registry/registry-ui-components/button'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-  DropdownMenuView,
-  Input,
-  ScrollArea,
-  ScrollBar,
-  Separator,
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/registry/default/ui'
-import { downloadAttachment } from '@/registry/default/ui/comment'
-import { AlertDelete } from '@/registry/registry-ui-components/alert'
-import { Button, buttonVariants } from '@/registry/registry-ui-components/button'
-import { DropdownMenuGroup, DropdownMenuSubWrapper } from '@/registry/registry-ui-components/dropdown-menu'
-import {
-  AttachmentType,
-  fileTypeIcons,
-  FolderType,
-  getFileType,
-  SelectedFolderType,
   UploadAdvancedProvider,
   UploadAdvancedButton,
-  useUploadAdvancedContext,
-  UploadOrDragSvg,
   UploadAdnvacedContent,
+  useUploadAdvancedContext,
+  searchNestedArrayIteratively,
+  searchNestedArrayByKey,
 } from '@/registry/registry-ui-components/upload'
-import {
-  ArrowDown,
-  ArrowUp,
-  Columns2,
-  Download,
-  Ellipsis,
-  Folder,
-  FolderOpen,
-  FolderPlusIcon,
-  RefreshCw,
-  Rows2,
-  Search,
-  Trash,
-  X,
-} from 'lucide-react'
+import { RefreshCw } from 'lucide-react'
 import React from 'react'
-import { toast } from 'sonner'
-import { FolderButton, UploadNavigation, UploadViewButton } from './refactor'
-
-export const UploadSearch = () => {
-  const [open, setOpen] = React.useState<boolean>(false)
-  const [uploadSearch, setUploadSearch] = React.useState<string>('')
-  const inputRef = React.useRef<HTMLInputElement | null>(null)
-
-  React.useEffect(() => {
-    inputRef.current?.focus()
-  }, [open])
-
-  return (
-    <div className="flex items-center">
-      <Button
-        size={'xs'}
-        variant={'muted'}
-        border={'muted'}
-        icon={{ children: Search }}
-        className={cn('relative w-[1.625rem] flex', open && 'hidden')}
-        onClick={() => {
-          setOpen(true)
-        }}
-      >
-        <span className="sr-only">search</span>
-      </Button>
-      <div
-        className={cn(
-          buttonVariants({
-            variant: 'muted',
-            border: 'muted',
-            size: 'xs',
-            className: 'relative h-[1.625rem] overflow-hidden w-[200px] hidden [&_svg]:pointer-events-auto',
-          }),
-          open && ' flex'
-        )}
-      >
-        <Search className="absolute top-1/2 -translate-y-1/2 left-2 size-[0.875rem] z-10" />
-        <Input
-          value={uploadSearch}
-          autoFocus={true}
-          onChange={e => setUploadSearch(e.currentTarget.value)}
-          className="pl-6 w-[200px] h-[1.625rem] text-xs text-accent-foreground/50 bg-transparent placeholder:text-xs placeholder:text-accent-foreground/50"
-          placeholder="Search file or folder..."
-          ref={inputRef}
-        />
-        <X
-          className="absolute top-1/2 -translate-y-1/2 right-2 size-[0.875rem] stroke-[2px] cursor-pointer z-10 pointer-events-auto"
-          onClick={() => {
-            setUploadSearch('')
-            setOpen(false)
-          }}
-        />
-      </div>
-    </div>
-  )
-}
+import { UploadNavigation } from './refactor'
+import { FolderButton, UploadSearch, UploadViewButton } from '@/registry/registry-ui-components/upload/upload-chunks'
 
 export const UploadDemoHeader = () => {
   return (
@@ -139,7 +43,62 @@ export const UploadDemoHeader = () => {
 export default function Upload1Demo() {
   return (
     <>
-      <UploadAdvancedProvider>
+      <UploadAdvancedProvider
+        attachments={[
+          {
+            id: 'ed2da76d-5a24-4e35-9542-e92ca2e49c34',
+            name: 'gentelduck',
+            files: 0,
+            content: [],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            treeLevel: 1,
+          },
+          {
+            id: '9c8f7a19-1752-4bd2-b308-90c553efd5b98',
+            name: 'Download',
+            files: 2,
+            content: [
+              {
+                id: '20e93625-a645-4cdd-baf1-c01cded27a85fb',
+                name: 'wilduck-2.png',
+                size: '1MB',
+                file: new File([], ''),
+                url: '',
+                type: 'image/png',
+                treeLevel: 2,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              },
+              {
+                id: 'b23574f5-4aa0-4a89-8236-bd5699ac483ff',
+                name: 'duck-scripts',
+                files: 1,
+                content: [
+                  {
+                    id: '20e93625-a645-4cdd-baf1-c01ced27a85bsdf',
+                    name: 'wilduck-2.png',
+                    size: '1MB',
+                    file: new File([], ''),
+                    url: '',
+                    type: 'image/png',
+                    treeLevel: 3,
+
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                  },
+                ],
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                treeLevel: 2,
+              },
+            ],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            treeLevel: 1,
+          },
+        ]}
+      >
         <div className="flex flex-col w-full gap-1 rounded-md bg-muted/10 border-border border h-[80vh]">
           <div className="flex items-center gap-4 justify-between">
             <UploadNavigation />

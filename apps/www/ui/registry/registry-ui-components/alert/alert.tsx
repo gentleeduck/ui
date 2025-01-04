@@ -45,7 +45,11 @@ export const AlertDelete = ({
       </AlertDialogTrigger>
       <AlertDialogContent className="p-0">
         <AlertDialogHeader>
-          <h5 className="text-lg font-medium p-4 pb-0"> Confirt deletion of {itemName}</h5>
+          <h5 className="text-lg font-medium p-4 pb-0">
+            Confirt deletion of{' '}
+            <span className="font-mono italic underline underline-offset-4">{itemName.split(' ')[0]}</span>{' '}
+            {itemName.split(' ')[1]}
+          </h5>
           <Separator />
           <div className="p-4">
             <Alert
@@ -61,13 +65,17 @@ export const AlertDelete = ({
         </AlertDialogHeader>
 
         <AlertDialogFooter className="px-4 pb-4">
-          <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+          <AlertDialogCancel
+            className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}
+            onClick={onCancel}
+          >
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
             className={cn(
               buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
             )}
+            onClick={onContinue}
           >
             Delete
           </AlertDialogAction>
