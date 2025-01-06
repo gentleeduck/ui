@@ -32,10 +32,12 @@ export const UploadAdvancedProvider = ({
   attachments: (AttachmentType | FolderType)[]
   children: React.ReactNode
 }) => {
-  const [_selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>([])
+  const [_selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>(selectedFolder ?? [])
   const [_attachments, setAttachments] = React.useState<(AttachmentType | FolderType)[]>(attachments ?? [])
   const [attachmentsState, setAttachmentsState] = React.useState<(AttachmentType | FolderType)[]>([])
   const [previewFile, setPreviewFile] = React.useState<AttachmentType | null>(null)
+  const [uploadQuery, setUploadQuery] = React.useState<string>('')
+  const [selecttedAttachment, setSelectedAttachment] = React.useState<(AttachmentType | FolderType)[]>([])
 
   return (
     <UploadAdvancedContext.Provider
@@ -48,6 +50,10 @@ export const UploadAdvancedProvider = ({
         setSelectedFolder,
         previewFile,
         setPreviewFile,
+        uploadQuery,
+        setUploadQuery,
+        selecttedAttachment,
+        setSelectedAttachment,
       }}
     >
       {children}
@@ -85,63 +91,73 @@ export const UploadAdvancedButton = () => {
   )
 }
 
-export const UploadAdnvacedContent = () => {
-  const { selectedFolder, attachments } = useUploadAdvancedContext() ?? {}
+export const UploadAdnvacedContent = React.memo(() => {
   return (
-    <ScrollArea className="h-full">
-      <div className="flex items-center h-full rounded-md relative overflow-hidden">
-        <UploadFilePreview />
-        <UploadAttachmentsTreeItem attachments={attachments} />
-        {selectedFolder.length > 0 &&
-          selectedFolder.map((folderContent, idx) => {
-            const item = searchNestedArrayByKey(attachments, folder => folder.id === folderContent?.id, 'content')
-            return (
-              item && (
-                <div
-                  key={item.id}
-                  className="flex items-center h-full rounded-md"
-                >
-                  <UploadAttachmentsTreeItem
-                    attachments={(item as FolderType).content}
-                    key={item.id}
-                  />
-                  {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
-                </div>
-              )
-            )
-          })}
-      </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    <div className="h-full">
+      <UploadFilePreview />
+      <ScrollArea className="h-full">
+        <div className="flex items-center h-full rounded-md relative overflow-hidden">
+          <UploadAttachmentsTreeItem />
+          <UploadTreeExtender />
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </div>
+  )
+})
+
+export const UploadTreeExtender = () => {
+  const { selectedFolder, attachments, uploadQuery } = useUploadAdvancedContext() ?? {}
+
+  return (
+    selectedFolder.length > 0 &&
+    selectedFolder.map((folderContent, idx) => {
+      const item = searchNestedArrayByKey(attachments, folder => folder.id === folderContent?.id, 'content')
+      const filtered = !uploadQuery
+        ? (item as FolderType).content
+        : (item as FolderType).content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
+      return (
+        item && (
+          <div
+            key={item.id}
+            className="flex items-center h-full rounded-md"
+          >
+            <UploadAttachmentsTreeItem
+              attachments={filtered}
+              key={item.id}
+            />
+            {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
+          </div>
+        )
+      )
+    })
   )
 }
 
-export const UploadFilePreview = () => {
+export const UploadFilePreview = React.memo(() => {
   const { previewFile, setPreviewFile } = useUploadAdvancedContext() ?? {}
   return (
     <div
       className={cn(
-        'absolute top-0 right-0 h-full w-[400px] duration-300 ease-in-out translate-x-[100%] z-10',
+        'absolute top-0 right-0 h-full w-[400px] duration-300 ease-in-out translate-x-[100%] z-10 bg-[#121212]',
         previewFile && 'translate-x-0'
       )}
     >
-      <ScrollArea className="h-full pt-4">
+      <ScrollArea className="h-full">
         <Button
           size={'xs'}
-          variant={'ghost'}
-          className="absolute top-2 right-2"
+          variant={'nothing'}
+          className="absolute top-2 right-4 p-0"
           icon={{ children: X }}
           onClick={() => setPreviewFile(null)}
         />
-        <div className="border-l border-l-border bg-muted/10 w-full h-full p-4">
+        <div className="border-l border-l-border bg-muted/10 w-full h-full px-4 py-8">
           <div className="border border-border w-full h-[180px] flex items-center justify-center rounded-md overflow-hidden">
-            <picture>
-              <img
-                src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
-                className="object-contain size-full"
-                alt={previewFile?.name}
-              />
-            </picture>
+            <img
+              // src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
+              className="object-contain size-full"
+              alt={previewFile?.name}
+            />
           </div>
           <div className="my-4 flex flex-col gap-1">
             <h6 className="text-sm font-medium truncate max-w-[70%]">{previewFile?.name}</h6>
@@ -157,13 +173,13 @@ export const UploadFilePreview = () => {
           <div className="my-4 flex flex-col gap-1">
             <h6 className="text-xs font-medium text-accent-foreground/90">Created at</h6>
             <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
-              {format(new Date(previewFile?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
+              {previewFile ? format(new Date(previewFile?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a') : ''}
             </p>
           </div>
           <div className="my-4 flex flex-col gap-1">
             <h6 className="text-xs font-medium text-accent-foreground/90">Updated at</h6>
             <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
-              {format(new Date(previewFile?.updatedAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
+              {previewFile ? format(new Date(previewFile?.updatedAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a') : ''}
             </p>
           </div>
           <div className="my-4 flex flex-row gap-2 [&_button]:px-3 mt-4">
@@ -181,7 +197,7 @@ export const UploadFilePreview = () => {
               border={'muted'}
               icon={{ children: Clipboard }}
             >
-              Get url-400px
+              Get URL
             </Button>
           </div>
           <Separator />
@@ -196,8 +212,7 @@ export const UploadFilePreview = () => {
             </Button>
           </div>
         </div>
-        )
       </ScrollArea>
     </div>
   )
-}
+})

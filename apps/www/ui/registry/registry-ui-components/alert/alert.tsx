@@ -17,7 +17,7 @@ import { AlertCircle, Trash } from 'lucide-react'
 import { cn } from '@/lib'
 import React from 'react'
 
-export const AlertDelete = ({
+export const UploadAlertDelete = ({
   itemName,
   className,
   command,

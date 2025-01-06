@@ -24,6 +24,10 @@ export interface UploadAdvancedContextType<T extends Record<string, any>> extend
   setSelectedFolder: React.Dispatch<React.SetStateAction<SelectedFolderType[]>>
   previewFile: AttachmentType | null
   setPreviewFile: React.Dispatch<React.SetStateAction<AttachmentType | null>>
+  uploadQuery: string
+  setUploadQuery: React.Dispatch<React.SetStateAction<string>>
+  selecttedAttachment: (AttachmentType | FolderType)[]
+  setSelectedAttachment: React.Dispatch<React.SetStateAction<(AttachmentType | FolderType)[]>>
 }
 
 export interface UploadProps extends Omit<React.HTMLProps<HTMLDivElement>, 'content'> {
@@ -75,5 +79,5 @@ export type UploadPromiseArgs = {
 export type UploadPromiseReturn = { files: number; progress: number; remainingTime: number }
 
 export type UploadAttachmentsTreeItemProps = {
-  attachments: (AttachmentType | FolderType)[]
+  attachments?: (AttachmentType | FolderType)[]
 }

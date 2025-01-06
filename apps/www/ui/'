@@ -27,8 +27,8 @@ export const UploadAdvancedHeader = React.memo(() => {
     <div className="w-full h-[45px] overflow-hidden relative">
       <div
         className={cn(
-          'space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out',
-          selecttedAttachment.length > 0 ? 'translate-y-[-42px]' : 'translate-y-0'
+          'absolute top-1/2 space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out  -translate-y-1/2',
+          selecttedAttachment.length > 0 ? 'translate-y-[-142px]' : ''
         )}
       >
         <Button
@@ -52,8 +52,8 @@ export const UploadAdvancedHeader = React.memo(() => {
       </div>
       <div
         className={cn(
-          'absolute top-1/2 -translate-y-1/2 space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out bg-background pointer-events-all',
-          selecttedAttachment.length > 0 ? '' : 'opacity-0 t anslate-y-[-42px] pointer-events-none'
+          'absolute top-1/2 -translate-y-1/2 space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out',
+          selecttedAttachment.length > 0 ? '-translate-y-1/2' : 'translate-y-[342px]'
         )}
       >
         <Button

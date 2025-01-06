@@ -20,7 +20,7 @@ import {
   SheetTrigger,
 } from '@/registry/default/ui'
 import { downloadAttachment } from '@/registry/default/ui/comment'
-import { AlertDelete } from '@/registry/registry-ui-components/alert'
+import { UploadAlertDelete } from '@/registry/registry-ui-components/alert'
 import { Button, buttonVariants } from '@/registry/registry-ui-components/button'
 import {
   DuckDropdownMenuItem,

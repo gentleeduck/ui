@@ -1,5 +1,5 @@
 import { Progress } from '@/registry/default/ui'
-import { Check, CheckCircle, CheckCircleIcon, CircleCheck, Loader, Loader2 } from 'lucide-react'
+import { CircleCheck, Loader } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '../button'
 

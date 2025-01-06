@@ -399,52 +399,53 @@ export function searchNestedArrayByKey<T>(array: T[], predicate: (item: T) => bo
 }
 
 /**
- * Recursively deletes a folder by ID, including all its nested content.
+ * Recursively deletes folders by an array of IDs, including all their nested content.
  * @param attachments The list of folders or attachments.
- * @param targetId The ID of the folder to delete.
- * @returns Updated folder structure with the target folder and its nested content removed.
+ * @param targetIds The array of IDs of the folders to delete.
+ * @returns Updated folder structure with the target folders and their nested content removed.
  */
 export function deleteFromFolderContent<T extends AttachmentType | FolderType>(
   attachments: T[],
-  targetId: string
+  targetIds: string[]
 ): T[] {
   return attachments
-    .filter(attachment => attachment.id !== targetId) // Remove the target folder at this level
+    .filter(attachment => !targetIds.includes(attachment.id)) // Remove target folders at this level
     .map(attachment => {
       if ((attachment as FolderType).content) {
         // Recursively check and clean nested content
         return {
           ...attachment,
-          content: deleteFromFolderContent((attachment as FolderType).content, targetId),
+          content: deleteFromFolderContent((attachment as FolderType).content, targetIds),
         }
       }
       return attachment // Return folder if no nested content
     })
 }
+
 /**
- * Recursively renames a folder or file by its ID.
+ * Recursively renames folders or files by their IDs.
  * @param attachments The list of folders or attachments.
- * @param targetId The ID of the folder or file to rename.
- * @param newName The new name for the target folder or file.
- * @returns Updated folder structure with the renamed item.
+ * @param targetIds The array of IDs of the folders or files to rename.
+ * @param newName The new name for the target folders or files.
+ * @returns Updated folder structure with the renamed items.
  */
 export function renameInFolderContent<T extends AttachmentType | FolderType>(
   attachments: T[],
-  targetId: string,
+  targetIds: string[],
   newName: string
 ): T[] {
-  return attachments.map(attachments => {
-    if (attachments.id === targetId) {
+  return attachments.map(attachment => {
+    if (targetIds.includes(attachment.id)) {
       // Rename the folder or file
-      return { ...attachments, name: newName, updatedAt: new Date() }
+      return { ...attachment, name: newName, updatedAt: new Date() }
     }
-    if ((attachments as FolderType).content) {
+    if ((attachment as FolderType).content) {
       // Recursively check and rename nested content
       return {
-        ...attachments,
-        content: renameInFolderContent((attachments as FolderType).content, targetId, newName),
+        ...attachment,
+        content: renameInFolderContent((attachment as FolderType).content, targetIds, newName),
       }
     }
-    return attachments // Return folder if no match
+    return attachment // Return folder if no match
   })
 }
