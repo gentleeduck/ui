@@ -154,7 +154,7 @@ export const UploadFilePreview = React.memo(() => {
         <div className="border-l border-l-border bg-muted/10 w-full h-full px-4 py-8">
           <div className="border border-border w-full h-[180px] flex items-center justify-center rounded-md overflow-hidden">
             <img
-              // src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
+              src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
               className="object-contain size-full"
               alt={previewFile?.name}
             />

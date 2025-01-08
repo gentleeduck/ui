@@ -27,7 +27,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   AlertTitle,
+  DialogClose,
+  DialogDescription,
+  DialogTitle,
 } from '@/registry/default/ui'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@/registry/default/ui'
 import { DuckDropdownMenuItem } from '../dropdown-menu'
 import { useUploadAdvancedContext } from './upload-advanced'
 import { UploadOrDragSvg } from './upload.assets'
@@ -47,6 +51,7 @@ import {
   AlertCircle,
   Trash,
   Move,
+  LucideMinusSquare,
 } from 'lucide-react'
 import { Checkbox, Separator } from '@/registry/default/ui'
 import { debounceCallback } from '@/hooks'
@@ -61,7 +66,7 @@ export const UploadSearch = () => {
   }, [open])
 
   const debounceSearch = debounceCallback(() => {
-    inputRef.current?.value && setUploadQuery(inputRef.current?.value)
+    inputRef.current?.value ? setUploadQuery(inputRef.current?.value) : setUploadQuery('')
   }, 1000)
 
   return (
@@ -112,30 +117,75 @@ export const UploadSearch = () => {
 
 export const FolderButton = () => {
   const { selectedFolder, setAttachments, setSelectedFolder } = useUploadAdvancedContext()
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
   return (
-    <div>
-      <Button
-        className="relative w-[1.625rem]"
-        size={'xs'}
-        onClick={() => addFolderToPath({ selectedFolder, setAttachments, setSelectedFolder })}
-        icon={{
-          children: FolderPlusIcon,
-        }}
-      />
-    </div>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button
+          className="relative w-[1.625rem]"
+          size={'xs'}
+          icon={{
+            children: FolderPlusIcon,
+          }}
+        />
+      </DialogTrigger>
+      <DialogContent>
+        <div>
+          <DialogHeader className="p-2">
+            <DialogTitle className="text-lg font-medium pb-0">Create a new folder</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground">
+              Enter the name of the folder you'd like to create.
+            </DialogDescription>
+          </DialogHeader>
+          <Input
+            placeholder="Enter folder name..."
+            defaultValue={'New_folder' + Math.random().toString(36).slice(2)}
+            className="h-[30x]"
+            ref={inputRef}
+          />
+        </div>
+        <DialogFooter>
+          <DialogClose
+            className={cn(buttonVariants({ className: 'px-8', size: 'sm', variant: 'outline' }))}
+            onClick={() => inputRef.current && (inputRef.current.value = '')}
+          >
+            Cancel
+          </DialogClose>
+          <DialogClose
+            className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
+            onClick={() =>
+              addFolderToPath({
+                selectedFolder,
+                setAttachments,
+                setSelectedFolder,
+                folderName: inputRef.current?.value ?? 'New_Folder' + Math.random().toString(36).slice(2),
+              })
+            }
+          >
+            Submit
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 
 export const UploadAttachmentsTreeItem = React.memo(({ attachments }: UploadAttachmentsTreeItemProps) => {
-  const { selectedFolder, setSelectedFolder, attachments: _attachments } = useUploadAdvancedContext()
+  const { selectedFolder, setSelectedFolder, attachments: _attachments, uploadQuery } = useUploadAdvancedContext()
 
-  return (attachments ?? _attachments)?.length > 0 ? (
+  const filtered = (
+    uploadQuery
+      ? (attachments ?? _attachments)?.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
+      : (attachments ?? _attachments)
+  ) as (AttachmentType | FolderType)[]
+
+  return (filtered ?? _attachments)?.length > 0 ? (
     <div className="flex items-start h-full rounded-md">
       <div className="flex flex-col h-full rounded-md">
         <UploadSelectAll attachments={attachments ?? _attachments} />
         <ScrollArea className="h-full rounded-md w-[250px] p-2 bg-muted/10">
           <div className="flex flex-col gap-1 h-full">
-            {(attachments ?? _attachments)?.map(attachment => {
+            {filtered.map(attachment => {
               if ((attachment as AttachmentType).file) {
                 return (
                   <UploadAttachmentFile
@@ -280,7 +330,7 @@ export const UploadAttachmentFolder = React.memo(
                     className: 'text-accent-foreground/40 w-full ml-6',
                   }}
                   onCancel={() => {}}
-                  onContinue={() => setAttachments(old => deleteFromFolderContent(old, attachmentFolder.id))}
+                  onContinue={() => setAttachments(old => deleteFromFolderContent(old, [attachmentFolder.id]))}
                 />
               </div>
             </div>

@@ -298,7 +298,19 @@
         "type": "registry:ui"
       },
       {
+        "path": "registry-ui-components/upload/upload-advanced.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "registry-ui-components/upload/upload-chunks.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "registry-ui-components/upload/upload-sonner.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "registry-ui-components/upload/upload.assets.tsx",
         "type": "registry:ui"
       },
       {
@@ -1371,6 +1383,20 @@
   },
   {
     "name": "upload-main",
+    "type": "registry:example",
+    "registryDependencies": [
+      "upload"
+    ],
+    "root_folder": "registry-examples-components/upload",
+    "files": [
+      {
+        "path": "registry-examples-components/upload/refactor.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "upload-1",
     "type": "registry:example",
     "registryDependencies": [
       "upload"

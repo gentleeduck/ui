@@ -52,7 +52,7 @@ export const UploadAdvancedHeader = React.memo(() => {
       </div>
       <div
         className={cn(
-          'absolute top-1/2 -translate-y-1/2 space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out bg-background pointer-events-all',
+          'absolute top-1/2 -translate-y-1/2 space-x-2 flex items-center w-full m-0 p-2 transition-all duration-300 ease-in-out bg-background pointer-events-all',
           selecttedAttachment.length > 0 ? '' : 'opacity-0 t anslate-y-[-42px] pointer-events-none'
         )}
       >

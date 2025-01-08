@@ -225,7 +225,10 @@ export const Index: Record<string, any> = {
     files: [
       [
         { path: 'registry-ui-components/upload/index.ts', type: 'registry:ui' },
+        { path: 'registry-ui-components/upload/upload-advanced.tsx', type: 'registry:ui' },
+        { path: 'registry-ui-components/upload/upload-chunks.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload-sonner.tsx', type: 'registry:ui' },
+        { path: 'registry-ui-components/upload/upload.assets.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.constants.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.lib.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.tsx', type: 'registry:ui' },
@@ -1140,6 +1143,18 @@ export const Index: Record<string, any> = {
   },
   'upload-main': {
     name: 'upload-main',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['upload'],
+    files: [[{ path: 'registry-examples-components/upload/refactor.tsx', type: 'registry:example' }]],
+    component: React.lazy(() => import('@/registry/registry-examples-components/upload/refactor.tsx')),
+    source: '',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'upload-1': {
+    name: 'upload-1',
     description: '',
     type: 'registry:example',
     registryDependencies: ['upload'],

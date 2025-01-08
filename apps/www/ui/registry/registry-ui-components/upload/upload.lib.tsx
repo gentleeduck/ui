@@ -305,14 +305,16 @@ export function addFolderToPath({
   selectedFolder,
   setAttachments,
   setSelectedFolder,
+  folderName,
 }: {
   selectedFolder: FolderType[]
   setSelectedFolder: React.Dispatch<React.SetStateAction<FolderType[]>>
   setAttachments: React.Dispatch<React.SetStateAction<(AttachmentType | FolderType)[]>>
+  folderName: string
 }) {
   const emptyFolder: FolderType = {
     id: Math.random().toString(36).slice(2),
-    name: 'gentelduck' + Math.random().toString(36).slice(2),
+    name: folderName,
     files: 0,
     content: [],
     createdAt: new Date(),
