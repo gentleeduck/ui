@@ -8,6 +8,7 @@ import {
   UploadAdnvacedContent,
   useUploadAdvancedContext,
   deleteFromFolderContent,
+  mergeAttachmentPath,
 } from '@/registry/registry-ui-components/upload'
 import { Download, RefreshCw, Trash, X } from 'lucide-react'
 import React from 'react'
@@ -85,7 +86,11 @@ export const UploadAdvancedHeader = React.memo(() => {
           <UploadAlertMoveAction
             itemName="duck-ui-bucket"
             onCancel={() => console.log('cancel')}
-            onContinue={() => console.log('continue')}
+            onContinue={() => {
+              setAttachments(old => {
+                return mergeAttachmentPath(old, 'asdf/asdfasdf/'.split('/'))
+              })
+            }}
           />
           <UploadAlertDeleteAction
             itemName={`${selecttedAttachment.length} item${

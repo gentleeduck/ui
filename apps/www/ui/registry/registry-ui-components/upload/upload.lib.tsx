@@ -451,3 +451,46 @@ export function renameInFolderContent<T extends AttachmentType | FolderType>(
     return attachment // Return folder if no match
   })
 }
+
+export const mergeAttachmentPath = (
+  attachments: (AttachmentType | FolderType)[],
+  pathParts: string[]
+): (AttachmentType | FolderType)[] => {
+  // Base case: if the path is exhausted, return the current attachments
+  if (pathParts.length === 0) {
+    return attachments
+  }
+
+  // The current path chunk we're working with
+  const currentFolderName = pathParts[0]
+  const remainingPathParts = pathParts.slice(1)
+
+  // Calculate the tree level based on how deep we are in the path
+  const treeLevel = pathParts.length // This gives the number of remaining parts, so it's the depth
+
+  // Try to find an existing folder in the current attachments array
+  let folder = attachments.find(attachment => 'name' in attachment && attachment.name === currentFolderName)
+
+  // If the folder does not exist, create a new one
+  if (!folder) {
+    folder = {
+      id: `${currentFolderName}-${Date.now()}`, // Unique ID based on folder name and timestamp
+      name: currentFolderName,
+      content: [], // Initialize as empty content for subfolders or files
+      files: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      treeLevel: treeLevel, // The tree level corresponds to the number of remaining path parts
+    }
+
+    // Add the new folder to the attachments array
+    attachments.push(folder)
+  }
+
+  // If the folder exists or was newly created, recurse into its content (children)
+  if ('content' in folder) {
+    folder.content = mergeAttachmentPath(folder.content, remainingPathParts)
+  }
+
+  return attachments
+}
