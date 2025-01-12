@@ -4,25 +4,22 @@ import React from 'react'
 import { ScrollBar, Separator } from '@/registry/default/ui'
 import { ScrollArea } from '@/registry/default/ui'
 import { Button, buttonVariants } from '../button'
-import { Download, Trash, Clipboard, X } from 'lucide-react'
+import { Download, Clipboard, X } from 'lucide-react'
 import {
   FileType,
   FolderType,
   SelectedFolderType,
-  UploadAdnvacedContentProps,
   UploadAdvancedContextType,
-  UploadAdvancedHeaderProps,
   UploadAdvancedProviderProps,
-  UploadTreeExtenderProps,
 } from './upload.types'
 import { UploadManager } from './upload.lib'
 import {
   UploadAddFolderButton,
   UploadAdvancedButton,
-  UploadAlertDeleteAction,
+  UploadAlertDeleteAttachments,
   UploadAlertMoveAction,
   UploadAttachmentsTreeItem,
-  UploadDownloadActions,
+  UploadDownloadAttachments,
   UploadReloadButton,
   UploadSearchButton,
   UploadViewButton,
@@ -46,6 +43,7 @@ export const UploadAdvancedProvider = ({
   selectedFolder,
   attachments,
   className,
+  currentBucket,
   children,
   ...props
 }: UploadAdvancedProviderProps) => {
@@ -71,6 +69,7 @@ export const UploadAdvancedProvider = ({
         setUploadQuery,
         selectedAttachments,
         setSelectedAttachments,
+        currentBucket,
       }}
     >
       <div
@@ -83,15 +82,20 @@ export const UploadAdvancedProvider = ({
   )
 }
 
-export const UploadAdvancedHeader = React.memo(({}: UploadAdvancedHeaderProps) => {
-  const {
-    selectedAttachments,
-    setSelectedAttachments: setSelectedAttachment,
-    setAttachments,
-  } = useUploadAdvancedContext()
-
+export const UploadAdvancedHeader = () => {
   return (
     <div className="w-full h-[45px] overflow-hidden relative">
+      <UploadAdvancedActionsLayout />
+      <UploadAdvancedMultiSelectLayout />
+    </div>
+  )
+}
+
+export const UploadAdvancedActionsLayout = () => {
+  const { selectedAttachments } = useUploadAdvancedContext()
+
+  return (
+    <>
       <div
         className={cn(
           'space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out',
@@ -112,6 +116,15 @@ export const UploadAdvancedHeader = React.memo(({}: UploadAdvancedHeaderProps) =
         />
         <UploadSearchButton />
       </div>
+    </>
+  )
+}
+
+export const UploadAdvancedMultiSelectLayout = () => {
+  const { selectedAttachments, setSelectedAttachments } = useUploadAdvancedContext()
+
+  return (
+    <>
       <div
         className={cn(
           'absolute top-1/2 -translate-y-1/2 space-x-2 flex items-center w-full m-0 p-2 transition-all duration-300 ease-in-out bg-background pointer-events-all',
@@ -122,7 +135,7 @@ export const UploadAdvancedHeader = React.memo(({}: UploadAdvancedHeaderProps) =
           size={'xs'}
           variant={'ghost'}
           className="p-1 h-auto"
-          onClick={() => setSelectedAttachment([])}
+          onClick={() => setSelectedAttachments([])}
           icon={{ children: X }}
         />
         <div className="flex items-center gap-3">
@@ -134,26 +147,14 @@ export const UploadAdvancedHeader = React.memo(({}: UploadAdvancedHeaderProps) =
             orientation="vertical"
             className="h-6"
           />
-          <UploadDownloadActions />
+          <UploadDownloadAttachments itemsName={[...selectedAttachments.map(item => item.name)]} />
           <Separator
             orientation="vertical"
             className="h-6"
           />
-          <UploadAlertMoveAction
-            itemName="duck-ui-bucket"
-            onContinue={(_, path) =>
-              UploadManager.moveAttachmentsToPath({
-                setAttachments,
-                setSelectedAttachment,
-                selectedAttachments,
-                path,
-              })
-            }
-          />
-          <UploadAlertDeleteAction
-            itemName={`${selectedAttachments.length} item${
-              selectedAttachments.length === 1 ? '' : 's'
-            } out of wildduck_bucket`}
+          <UploadAlertMoveAction itemsName={[...selectedAttachments.map(item => item.name)]} />
+          <UploadAlertDeleteAttachments
+            itemsName={[...selectedAttachments.map(item => item.name)]}
             className={cn(
               buttonVariants({
                 className: 'w-fit',
@@ -162,21 +163,15 @@ export const UploadAdvancedHeader = React.memo(({}: UploadAdvancedHeaderProps) =
                 border: 'destructive',
               })
             )}
-            onCancel={() => {}}
-            onContinue={() => {
-              setAttachments(old => {
-                return UploadManager.deleteAttachmentById(old, [...selectedAttachments.map(item => item.id)])
-              })
-              setSelectedAttachment([])
-            }}
+            itemsToDelete={[...selectedAttachments.map(item => item.id)]}
           />
         </div>
       </div>
-    </div>
+    </>
   )
-})
+}
 
-export const UploadAdnvacedContent = React.memo(({}: UploadAdnvacedContentProps) => {
+export const UploadAdnvacedContent = React.memo(() => {
   return (
     <div className="h-full relative">
       <UploadFilePreview />
@@ -191,7 +186,7 @@ export const UploadAdnvacedContent = React.memo(({}: UploadAdnvacedContentProps)
   )
 })
 
-export const UploadTreeExtender = ({}: UploadTreeExtenderProps) => {
+export const UploadTreeExtender = () => {
   const { selectedFolder, attachments, uploadQuery } = useUploadAdvancedContext() ?? {}
 
   return (
@@ -223,10 +218,9 @@ export const UploadTreeExtender = ({}: UploadTreeExtenderProps) => {
   )
 }
 
-export type UploadFilePreviewProps = {}
-
-export const UploadFilePreview = React.memo(({}: UploadFilePreviewProps) => {
+export const UploadFilePreview = () => {
   const { previewFile, setPreviewFile } = useUploadAdvancedContext() ?? {}
+
   return (
     <>
       <div
@@ -274,11 +268,10 @@ export const UploadFilePreview = React.memo(({}: UploadFilePreviewProps) => {
                 {previewFile ? format(new Date(previewFile?.updatedAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a') : ''}
               </p>
             </div>
-            <div className="my-4 flex flex-row gap-2 [&_button]:px-3 mt-4">
+            <div className="flex flex-row gap-2 [&_button]:px-3 mt-4 mb-2 ">
               <Button
                 size={'xs'}
                 variant={'secondary'}
-                // border={'muted'}
                 icon={{ children: Download }}
               >
                 Download
@@ -286,22 +279,25 @@ export const UploadFilePreview = React.memo(({}: UploadFilePreviewProps) => {
               <Button
                 size={'xs'}
                 variant={'secondary'}
-                // border={'primary'}
                 icon={{ children: Clipboard }}
               >
                 Get URL
               </Button>
             </div>
             <Separator />
-            <div className="my-4 flex flex-row gap-2 [&_button]:px-3">
-              <Button
-                size={'xs'}
-                variant={'destructive'}
-                border={'destructive'}
-                icon={{ children: Trash }}
-              >
-                Delete
-              </Button>
+            <div className="my-2 flex flex-row gap-2 [&_button]:px-3">
+              <UploadAlertDeleteAttachments
+                itemsName={[previewFile?.name ?? '']}
+                className={cn(
+                  buttonVariants({
+                    className: 'w-fit',
+                    size: 'xs',
+                    variant: 'destructive',
+                    border: 'destructive',
+                  })
+                )}
+                itemsToDelete={[previewFile?.id ?? '']}
+              />
             </div>
           </div>
         </ScrollArea>
@@ -310,4 +306,4 @@ export const UploadFilePreview = React.memo(({}: UploadFilePreviewProps) => {
       <Separator />
     </>
   )
-})
+}

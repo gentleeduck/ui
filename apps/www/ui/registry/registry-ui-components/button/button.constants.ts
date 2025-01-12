@@ -43,10 +43,9 @@ export const buttonVariants = cva(
       border: {
         default: '',
         primary: 'border border-border/40 hover:border-border/80',
-        secondary: 'border border-secondary/40 hover:border-secondary bg-secondary/30 hover:bg-secondary/65',
-        destructive:
-          'border border-destructive/30 hover:border-destructive/80 bg-destructive/30 hover:bg-destructive/55',
-        warning: 'border border-warning/30 hover:border-warning/80 bg-warning/30 hover:bg-warning/55',
+        secondary: 'border border-secondary/40 hover:border-secondary bg-secondary/40 hover:bg-secondary/65',
+        destructive: 'border border-destructive/40 hover:border-destructive bg-destructive/40 hover:bg-destructive/65',
+        warning: 'border border-warning/40 hover:border-warning bg-warning/40 hover:bg-warning/65',
       },
     },
     defaultVariants: {

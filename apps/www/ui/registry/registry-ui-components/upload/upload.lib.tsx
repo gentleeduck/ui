@@ -163,6 +163,7 @@ export class UploadManager {
 
       // Process the path recursively and update the attachments
       const updatedAttachmentsWithPath = processPath(updatedAttachments, pathParts, 1)
+      console.log(updatedAttachmentsWithPath)
 
       // Update the selected attachments state
       setSelectedAttachment([])
@@ -304,11 +305,34 @@ export class UploadManager {
 
   // -------------------------------------------------------------------------------------------
 
-  public static renameAttachmentById<T extends FileType | FolderType>(
-    attachments: T[],
+  public static renameAttachmentById(
+    setAttachments: React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>>,
     targetIds: string[],
     newName: string
-  ): T[] {
+  ): void {
+    setAttachments(oldAttachments =>
+      oldAttachments.map(attachment => {
+        if (targetIds.includes(attachment.id)) {
+          // Rename the folder or file
+          return { ...attachment, name: newName, updatedAt: new Date() }
+        }
+        if ((attachment as FolderType).content) {
+          // Recursively check and rename nested content
+          return {
+            ...attachment,
+            content: this.renameAttachmentRecursive((attachment as FolderType).content, targetIds, newName),
+          } as FolderType
+        }
+        return attachment // Return folder if no match
+      })
+    )
+  }
+
+  private static renameAttachmentRecursive(
+    attachments: (FileType | FolderType)[],
+    targetIds: string[],
+    newName: string
+  ): (FileType | FolderType)[] {
     return attachments.map(attachment => {
       if (targetIds.includes(attachment.id)) {
         // Rename the folder or file
@@ -318,8 +342,8 @@ export class UploadManager {
         // Recursively check and rename nested content
         return {
           ...attachment,
-          content: this.renameAttachmentById((attachment as FolderType).content, targetIds, newName),
-        }
+          content: this.renameAttachmentRecursive((attachment as FolderType).content, targetIds, newName),
+        } as FolderType
       }
       return attachment // Return folder if no match
     })

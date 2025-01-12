@@ -6,23 +6,29 @@ import {
   UploadAdnvacedContent,
   UploadAdvancedHeader,
   FolderType,
-  FileTypeEnum,
+  FileType,
 } from '@/registry/registry-ui-components/upload'
 import { uuidv7 } from 'uuidv7'
 
-export default function Upload1Demo() {
+export default function Upload4Demo() {
   return (
     <>
-      <UploadAdvancedProvider attachments={attachments}>
+      <UploadAdvancedProvider
+        attachments={attachments}
+        currentBucket="wildduck_attachments"
+      >
         <UploadAdvancedHeader />
         <UploadAdnvacedContent />
       </UploadAdvancedProvider>
     </>
   )
 }
+
+// -----------------------------------------------------------------------------------------------
+//NOTE: Generator for dumby data.
 import { randFileName, randFileType, randNumber, randSentence, randUuid } from '@ngneat/falso'
 
-const generateFile = (): FileTypeEnum => {
+const generateFile = (): FileType => {
   const fileName = randFileName()
   const fileType = randFileType()
   return {
@@ -45,7 +51,7 @@ const generateFolder = (level: number): FolderType => {
   const numFiles = randNumber({ min: 1, max: 5 }) // Random number of files
   const numNestedFolders = level < MAX_DEPTH ? randNumber({ min: 1, max: 3 }) : 0 // Limit nested folders based on depth
 
-  const content: (FileTypeEnum | FolderType)[] = []
+  const content: (FileType | FolderType)[] = []
 
   // Generate files
   for (let i = 0; i < numFiles; i++) {
@@ -68,4 +74,4 @@ const generateFolder = (level: number): FolderType => {
   }
 }
 
-const attachments: FolderType[] = Array.from({ length: 10 }, (_, i) => generateFolder(i + 1))
+const attachments: FolderType[] = Array.from({ length: 1 }, (_, i) => generateFolder(i + 1))

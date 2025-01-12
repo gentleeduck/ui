@@ -48,7 +48,7 @@
     --primary-foreground: 240 5.9% 10%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
-    --destructive: 0deg 70.22% 40.59%;
+    --destructive: 0deg 70.22% 34.59%;
     --destructive-foreground: 0 0% 98%;
     --warning: 40.61deg 96.12% 40.39%;
     --warning-foreground: 0 0% 98%;
@@ -331,6 +331,15 @@ section#id {
 
 /* NOTE: minimal editor */
 @layer components {
+  .truncate_text {
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 1;
+    box-orient: vertical;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
   .editor_button {
     @apply grid items-center justify-center text-[.77rem] gap-[.2rem] text-start !p-0 whitespace-nowrap !w-8 !h-8 place-content-center;
 

@@ -423,22 +423,22 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
     - `'xxxl'`: XXXLarge button with extra padding.
     - `'icon'`: Icon-only button without additional padding.
 
-- **`border`** (`'default' |  'primary' | 'destructive' | 'warning' | 'muted'`, optional): 
+- **`border`** (`'default' |  'primary' | 'secondary' | 'destructive' | 'warning'`, optional): 
   - Sets the button size. Defaults to `'default'`. Other options:
     - `'default'`: Without a border.
+    - `'secondary'`: With a secondary border for optional actions.
     - `'destructive'`: With a destructive border for danger.
     - `'warning'`: With a warning border for warning.
-    - `'muted'`: With a muted border for optional actions.
 
 - **`variant`** (`string`, optional): 
   - Defines the visual style of the button. Available options:
     - **`default`**: Primary button style.
     - **`destructive`**: Red, indicating a destructive action.
     - **`warning`**: Yellow, indicating a warning action.
-    - **`muted`**: Muted button with no fill.
+    - **`secondary`**: secondary button with no fill.
     - **`outline`**: Outlined button with no fill.
     - **`dashed`**: Dashed button with no fill.
-    - **`secondary`**: Alternative secondary style.
+    - **`muted`**: Alternative secondary style.
     - **`ghost`**: Transparent with hover effects.
     - **`link`**: Styled as a link.
     - **`expand_icon`**: For expandable buttons.
@@ -451,7 +451,7 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
     - **`primary`**: Primary border style.
     - **`destructive`**: Destructive border style.
     - **`warning`**: Warning border style.
-    - **`muted`**: Muted border style.
+    - **`secondary`**: secondary border style.
 - **`loading`** (`boolean`, optional): 
   - When `true`, displays a loading spinner (uses `Loader` from Lucide).
 

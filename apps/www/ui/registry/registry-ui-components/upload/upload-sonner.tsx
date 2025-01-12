@@ -1,8 +1,8 @@
 import { Progress } from '@/registry/default/ui'
 import { CircleCheck, Loader } from 'lucide-react'
-import { formatTime } from './upload.lib'
 import React from 'react'
 import { Button } from '../button'
+import { UploadManager } from './upload.lib'
 
 export const UploadSonnerContent = ({
   progress,
@@ -30,7 +30,7 @@ export const UploadSonnerContent = ({
         </p>
         <div className="flex items-center gap-2">
           {remainingTime && (
-            <p className="text-foreground-light text-sm font-mono">{`${remainingTime && !isNaN(remainingTime) && isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining – ` : ''}`}</p>
+            <p className="text-foreground-light text-sm font-mono">{`${remainingTime && !isNaN(remainingTime) && isFinite(remainingTime) && remainingTime !== 0 ? `${UploadManager.formatTime(remainingTime)} remaining – ` : ''}`}</p>
           )}
           <p className="text-foreground-light text-sm font-mono">{`${progress}%`}</p>
         </div>

@@ -24,8 +24,8 @@ tags: []
 - [ ] Add new folder should open a sheet or dialog with the steps to gen one.
 - [ ] The block should have a page back button and the name of the current folder.
 - [ ] The Move button actions.
-- [ ] The Delete Multiple button actions.
-- [ ] The Move Multiple button actions.
+- [*] The Delete Multiple button actions.
+- [*] The Move Multiple button actions.
 - [ ] Make any action with input to be a form with more options.
 - [ ] Integrate zod with all the forms.
 - [ ] Fix the dropdown menu to be unified.

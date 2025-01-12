@@ -1,34 +1,12 @@
 import { ScrollArea } from '@/registry/default/ui'
-import { CommandType } from '../button'
+import { Button, CommandType } from '../button'
 
-export interface FileType {
-  id: string
-  file: Blob | null
-  url: string | null
-  type: string
-  name: string
-  size: string
-  createdAt: Date
-  updatedAt: Date
-  treeLevel?: number
-}
-
+// NOTE: UPLOAD TYPES
 export interface UploadContextType<T extends Record<string, any>> {
   attachments: T[]
   setAttachments: React.Dispatch<React.SetStateAction<T[]>>
   attachmentsState: T[]
   setAttachmentsState: React.Dispatch<React.SetStateAction<T[]>>
-}
-
-export interface UploadAdvancedContextType<T extends Record<string, any>> extends UploadContextType<T> {
-  selectedFolder: SelectedFolderType[]
-  setSelectedFolder: React.Dispatch<React.SetStateAction<SelectedFolderType[]>>
-  previewFile: FileType | null
-  setPreviewFile: React.Dispatch<React.SetStateAction<FileType | null>>
-  uploadQuery: string
-  setUploadQuery: React.Dispatch<React.SetStateAction<string>>
-  selectedAttachments: FileType[]
-  setSelectedAttachments: React.Dispatch<React.SetStateAction<FileType[]>>
 }
 
 export interface UploadProps extends Omit<React.HTMLProps<HTMLDivElement>, 'content'> {
@@ -45,12 +23,19 @@ export interface UploadContentProps extends React.ComponentPropsWithoutRef<typeo
 export interface UploadItemProps extends React.HTMLProps<HTMLDivElement> {
   attachment: FileType
 }
-
 export interface UploadtItemRemoveProps extends React.HTMLProps<HTMLDivElement> {}
 
-export interface HandleAttachmentProps {
-  e: React.ChangeEvent<HTMLInputElement>
-  setAttachmentsState: React.Dispatch<React.SetStateAction<FileType[]>>
+// NOTE: SHARED TYPES
+export interface FileType {
+  id: string
+  file: Blob | null
+  url: string | null
+  type: string
+  name: string
+  size: string
+  createdAt: Date
+  updatedAt: Date
+  treeLevel?: number
 }
 
 export type FolderType = {
@@ -61,6 +46,13 @@ export type FolderType = {
   createdAt: Date
   updatedAt: Date
   treeLevel: number
+}
+
+// ------------------------------------------------------------------------------------------------
+
+export interface HandleAttachmentProps {
+  e: React.ChangeEvent<HTMLInputElement>
+  setAttachmentsState: React.Dispatch<React.SetStateAction<FileType[]>>
 }
 
 export type SelectedFolderType = FolderType & {}
@@ -91,47 +83,34 @@ export type UploadAttachmentsTreeItemProps = {
 
 // ------------------------------------------------------------------------------------------------
 // NOTE: ADVANCED TYPES
+
+export interface UploadAdvancedContextType<T extends Record<string, any>> extends UploadContextType<T> {
+  selectedFolder: SelectedFolderType[]
+  setSelectedFolder: React.Dispatch<React.SetStateAction<SelectedFolderType[]>>
+  previewFile: FileType | null
+  setPreviewFile: React.Dispatch<React.SetStateAction<FileType | null>>
+  uploadQuery: string
+  setUploadQuery: React.Dispatch<React.SetStateAction<string>>
+  selectedAttachments: FileType[]
+  setSelectedAttachments: React.Dispatch<React.SetStateAction<FileType[]>>
+  currentBucket: string
+}
+
 export interface UploadAdvancedProviderProps extends React.HTMLProps<HTMLDivElement> {
   selectedFolder?: SelectedFolderType[]
   attachments?: (FileType | FolderType)[]
+  currentBucket: string
 }
-
-export type UploadAdvancedHeaderProps = {}
-
-export type UploadAdnvacedContentProps = {}
-
-export type UploadTreeExtenderProps = {}
-
-export type UploadFilePreviewProps = {}
 
 // ------------------------------------------------------------------------------------------------
 // NOTE : CHUNKS TYPES
-export type UploadReloadButtonProps = {}
 
-export type UploadViewButtonType = {}
-
-export type UploadAdvancedButtonType = {}
-
-export type UploadAddFolderButtonProps = {}
-
-export type UploadSearchButtonProps = {}
-
-export type UploadDownloadActionsProps = {}
-
-export type UploadAlertMoveActionProps = {
-  itemName: string
-  className?: string
-  command?: CommandType
-  onCancel?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, value: string) => void
-  onContinue?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, value: string) => void
+export interface UploadAlertMoveActionProps extends React.ComponentPropsWithoutRef<typeof Button> {
+  itemsName: string[]
 }
 
-export type UploadAlertDeleteActionProps = {
-  itemName: string
-  className?: string
-  command?: CommandType
-  onCancel: () => void
-  onContinue: () => void
+export interface UploadAlertDeleteActionProps extends UploadAlertMoveActionProps {
+  itemsToDelete: string[]
 }
 
 // ------------------------------------------------------------------------------------------------
