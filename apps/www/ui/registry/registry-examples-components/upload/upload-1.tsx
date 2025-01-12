@@ -59,11 +59,12 @@ export const UploadAdvancedHeader = React.memo(() => {
       >
         <Button
           size={'xs'}
-          variant={'nothing'}
+          variant={'ghost'}
+          className="p-1 h-auto"
           onClick={() => setSelectedAttachment([])}
           icon={{ children: X }}
         />
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <span className="text-xs text-muted-foreground">
             {selecttedAttachment.length} Attachment
             {selecttedAttachment.length === 1 ? ' is' : 's are'} selected
@@ -74,7 +75,6 @@ export const UploadAdvancedHeader = React.memo(() => {
           />
           <Button
             size={'xs'}
-            border={'default'}
             icon={{ children: Download }}
           >
             Download
@@ -85,11 +85,9 @@ export const UploadAdvancedHeader = React.memo(() => {
           />
           <UploadAlertMoveAction
             itemName="duck-ui-bucket"
-            onCancel={() => console.log('cancel')}
-            onContinue={() => {
-              mergeAttachmentPath(setAttachments, selecttedAttachment, '/sadf/')
-              setSelectedAttachment([])
-            }}
+            onContinue={(_, path) =>
+              mergeAttachmentPath(setAttachments, setSelectedAttachment, selecttedAttachment, path)
+            }
           />
           <UploadAlertDeleteAction
             itemName={`${selecttedAttachment.length} item${

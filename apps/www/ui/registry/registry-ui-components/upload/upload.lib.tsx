@@ -351,7 +351,7 @@ export function addFolderToPath({
         // Update the most deeply selected folder
         return {
           ...folder,
-          content: [...folder?.content, emptyFolder],
+          content: [...folder.content, emptyFolder],
           files: folder.files + 1,
           updatedAt: new Date(),
         }
@@ -455,72 +455,88 @@ export function renameInFolderContent<T extends AttachmentType | FolderType>(
 
 export const mergeAttachmentPath = (
   setAttachments: React.Dispatch<React.SetStateAction<(AttachmentType | FolderType)[]>>,
+  setSelectedAttachment: React.Dispatch<React.SetStateAction<AttachmentType[]>>,
   selectedAttachments: AttachmentType[],
   path: string
 ): void => {
-  const pathParts = path.split('/').filter(part => part.trim() !== '') // Split and filter empty parts
+  const pathParts = path.split('/').filter(part => part.trim() !== '')
 
-  setAttachments(oldAttachments => {
+  // Handle the state update for attachments
+  setAttachments(prevAttachments => {
     const updatedAttachments = deleteFromFolderContent(
-      oldAttachments,
-      selectedAttachments.map(item => item.id)
+      prevAttachments,
+      selectedAttachments.map(attachment => attachment.id)
     )
-    // Helper function to recursively process each part of the path and create or find the folder
+
+    // Recursively process each part of the path
     const processPath = (
       attachments: (AttachmentType | FolderType)[],
       pathParts: string[],
       treeLevel: number
-    ): FolderType | undefined => {
+    ): (AttachmentType | FolderType)[] => {
       if (pathParts.length === 0) {
-        // Base case: If there are no more path parts, return the last folder
-        return undefined
+        // If path is empty, add to root (main attachments array)
+        if (treeLevel === 1) {
+          attachments = [...attachments, ...selectedAttachments]
+        }
+        return attachments
       }
 
       const currentFolderName = pathParts[0]
       const remainingPathParts = pathParts.slice(1)
 
-      // Try to find the folder for the current path part at the current tree level
+      // Check if the current part is a folder or file
       let folder = attachments.find(attachment => 'name' in attachment && attachment.name === currentFolderName) as
         | FolderType
         | undefined
 
-      // If folder doesn't exist, create a new one
+      let file = attachments.find(attachment => 'name' in attachment && attachment.name === currentFolderName) as
+        | AttachmentType
+        | undefined
+
+      // If we are at the last path part and we are dealing with a file, add to the file content
+      if (remainingPathParts.length === 0 && file) {
+        file.content = [...file.content, ...selectedAttachments] // Add new attachments to file's content
+        file.updatedAt = new Date() // Update the file's last updated time
+        file.files += selectedAttachments.length // Update the file count
+        return attachments
+      }
+
+      // If the folder doesn't exist, create it
       if (!folder) {
         folder = {
-          id: `${currentFolderName}-${Date.now()}`, // Unique ID based on folder name and timestamp
+          id: `${currentFolderName}-${Date.now()}`,
           name: currentFolderName,
-          content: [], // Initialize empty content for subfolders or files
-          files: 0,
+          content: remainingPathParts.length > 0 ? [] : selectedAttachments, // Only add attachments if it's the last part
+          files: remainingPathParts.length > 0 ? 0 : selectedAttachments.length, // Set file count based on content
           createdAt: new Date(),
           updatedAt: new Date(),
-          treeLevel, // Set tree level based on the depth in the path
+          treeLevel,
         }
 
         // Add the new folder to the attachments array
         attachments.push(folder)
+      } else {
+        // If folder exists, update it with new content at the last part
+        folder.updatedAt = new Date() // Update the folder's last updated time
+        folder.files += selectedAttachments.length // Update the files count
       }
 
-      // If there are still remaining path parts, process the content of the folder
-      if ('content' in folder && Array.isArray(folder.content)) {
-        // Recurse into the folder content to process the remaining path parts
-        folder.content = processPath(folder.content, remainingPathParts, treeLevel + 1)?.content || []
+      // Continue processing subfolders if there are more path parts
+      if ('content' in folder && remainingPathParts.length > 0) {
+        folder.content = processPath(folder.content, remainingPathParts, treeLevel + 1)
       }
 
-      return folder
+      return attachments
     }
 
-    // Process the path recursively and find or create the target folder
-    const targetFolder = processPath(updatedAttachments, pathParts, 1)
+    // Process the path recursively and update the attachments
+    const updatedAttachmentsWithPath = processPath(updatedAttachments, pathParts, 1)
 
-    if (targetFolder) {
-      // After processing, add the selected attachments to the target folder's content
-      targetFolder.content.push(...selectedAttachments)
-
-      // Update the file count for the target folder
-      targetFolder.files = targetFolder.content.length
-    }
+    // Update the selected attachments state
+    setSelectedAttachment([])
 
     // Return the updated attachments array to set it into the state
-    return updatedAttachments
+    return updatedAttachmentsWithPath
   })
 }

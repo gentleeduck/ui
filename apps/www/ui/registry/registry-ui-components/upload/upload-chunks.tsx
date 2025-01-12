@@ -529,10 +529,11 @@ export const UploadAlertMoveAction = (props: {
   itemName: string
   className?: string
   command?: CommandType
-  onCancel: () => void
-  onContinue: () => void
+  onCancel?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, value: string) => void
+  onContinue?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, value: string) => void
 }) => {
   const { itemName, className, command, onCancel, onContinue } = props
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
 
   return (
     <AlertDialog>
@@ -569,6 +570,7 @@ export const UploadAlertMoveAction = (props: {
               <Input
                 className="bg-transparent h-[30px] border-muted-foreground/20"
                 placeholder="Enter path here..."
+                ref={inputRef}
               />
               <AlertDescription className="text-muted-foreground/70">
                 Leave blank to move items to the root of the bucket.
@@ -581,13 +583,13 @@ export const UploadAlertMoveAction = (props: {
         <AlertDialogFooter className="px-4 pb-4">
           <AlertDialogCancel
             className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}
-            onClick={onCancel}
+            onClick={e => onCancel?.(e, inputRef.current?.value ?? '')}
           >
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
             className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-            onClick={onContinue}
+            onClick={e => onContinue?.(e, inputRef.current?.value ?? '')}
           >
             Move
           </AlertDialogAction>
