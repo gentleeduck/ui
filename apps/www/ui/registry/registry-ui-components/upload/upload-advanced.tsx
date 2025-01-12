@@ -114,8 +114,8 @@ export const UploadTreeExtender = () => {
     selectedFolder.map((folderContent, idx) => {
       const item = searchNestedArrayByKey(attachments, folder => folder.id === folderContent?.id, 'content')
       const filtered = !uploadQuery
-        ? (item as FolderType).content
-        : (item as FolderType).content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
+        ? (item as FolderType)?.content
+        : (item as FolderType)?.content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
       return (
         item && (
           <div

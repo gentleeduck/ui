@@ -22,7 +22,7 @@ import {
 import { cn } from '@/lib'
 
 export const UploadAdvancedHeader = React.memo(() => {
-  const { selecttedAttachment, setSelectedAttachment, setAttachments } = useUploadAdvancedContext()
+  const { selecttedAttachment, setSelectedAttachment, setAttachments, setSelectedFolder } = useUploadAdvancedContext()
 
   return (
     <div className="w-full h-[45px] overflow-hidden relative">
@@ -87,9 +87,8 @@ export const UploadAdvancedHeader = React.memo(() => {
             itemName="duck-ui-bucket"
             onCancel={() => console.log('cancel')}
             onContinue={() => {
-              setAttachments(old => {
-                return mergeAttachmentPath(old, 'asdf/asdfasdf/'.split('/'))
-              })
+              mergeAttachmentPath(setAttachments, selecttedAttachment, '/sadf/')
+              setSelectedAttachment([])
             }}
           />
           <UploadAlertDeleteAction

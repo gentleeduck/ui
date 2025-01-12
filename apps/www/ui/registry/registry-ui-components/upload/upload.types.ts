@@ -26,8 +26,8 @@ export interface UploadAdvancedContextType<T extends Record<string, any>> extend
   setPreviewFile: React.Dispatch<React.SetStateAction<AttachmentType | null>>
   uploadQuery: string
   setUploadQuery: React.Dispatch<React.SetStateAction<string>>
-  selecttedAttachment: (AttachmentType | FolderType)[]
-  setSelectedAttachment: React.Dispatch<React.SetStateAction<(AttachmentType | FolderType)[]>>
+  selecttedAttachment: AttachmentType[]
+  setSelectedAttachment: React.Dispatch<React.SetStateAction<AttachmentType[]>>
 }
 
 export interface UploadProps extends Omit<React.HTMLProps<HTMLDivElement>, 'content'> {
