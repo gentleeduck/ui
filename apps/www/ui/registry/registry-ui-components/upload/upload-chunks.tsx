@@ -178,7 +178,7 @@ export const UploadAddFolderButton = (): JSX.Element => {
                 selectedFolder,
                 setAttachments,
                 setSelectedFolder,
-                folderName: inputRef.current?.value ?? 'New_Folder' + Math.random().toString(36).slice(2),
+                folderName: inputRef.current?.value ?? '',
               })
             }
           >
@@ -434,7 +434,7 @@ export const UploadAlertMoveAction = React.memo(
                     : `${itemName[0]?.slice(0, 15)}${itemName[0]?.length > 15 ? '... ' : ''}`}
                 </span>
               </Button>
-              from
+              within
               <Button
                 variant={'nothing'}
                 className="py-0 px-2 text-lg"

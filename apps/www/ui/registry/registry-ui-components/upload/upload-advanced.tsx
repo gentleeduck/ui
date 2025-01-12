@@ -269,16 +269,10 @@ export const UploadFilePreview = () => {
               </p>
             </div>
             <div className="flex flex-row gap-2 [&_button]:px-3 mt-4 mb-2 ">
+              <UploadDownloadAttachments itemsName={[previewFile?.name ?? '']} />
               <Button
                 size={'xs'}
-                variant={'secondary'}
-                icon={{ children: Download }}
-              >
-                Download
-              </Button>
-              <Button
-                size={'xs'}
-                variant={'secondary'}
+                // variant={'secondary'}
                 icon={{ children: Clipboard }}
               >
                 Get URL

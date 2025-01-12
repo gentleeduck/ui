@@ -9,15 +9,33 @@ import {
   MoveAttachmentsToPath,
   SelectAttachmentFromFolderContentArgs,
   UploadFilesArgs,
+  UploadManagerClass,
   UploadPromiseArgs,
   UploadPromiseReturn,
 } from './upload.types'
 import { uuidv7 } from 'uuidv7'
 import React from 'react'
 import { UploadSonnerContentMemo } from './upload-sonner'
+import { attachmentSchema, fileTypeSchema, newFolderSchema } from './upload.dto'
+import { z } from 'zod'
 
-export class UploadManager {
-  public static async getAttachmentsToState({ e, setAttachmentsState }: HandleAttachmentProps) {
+/**
+ * The `UploadManager` class is responsible for handling file upload and attachment management.
+ * It provides methods to rename attachments, upload files, manage folder contents, and track the progress of file uploads.
+ */
+export class UploadManager implements UploadManagerClass {
+  // -------------------------------------------------------------------------------------------
+
+  /**
+   * Handles the attachment process from a file input, validates the files, and updates the state with valid attachments.
+   *
+   * @param {HandleAttachmentProps} params - The input event and the function to set the attachments state.
+   * @returns {Promise<void>} - Returns a promise resolving to nothing.
+   */
+  public static async getAttachmentsToState({
+    e,
+    setAttachmentsState,
+  }: HandleAttachmentProps): Promise<void | string | number> {
     const files = e.currentTarget.files
 
     if (!files) return toast.error('Please select a file')
@@ -27,11 +45,13 @@ export class UploadManager {
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
 
+      // Zod validation for the file size
       if (file.size > MAX_FILE_SIZE) {
         toast.error(`File has exceeded the max size: ${file.name.slice(0, 15)}...`)
         continue // Skip this file and continue with the next
       }
 
+      // Create the file attachment object
       const attachment: FileType = {
         id: uuidv7(),
         file: file,
@@ -43,15 +63,38 @@ export class UploadManager {
         updatedAt: new Date(),
       }
 
-      newAttachments.push(attachment)
+      // Validate the attachment object using Zod schema
+      try {
+        fileTypeSchema.parse(attachment) // Will throw if invalid
+        newAttachments.push(attachment)
+      } catch (err) {
+        if (err instanceof z.ZodError) {
+          toast.error(`Attachment validation failed: ${err.errors.map(e => e.message).join(', ')}`)
+        } else {
+          toast.error(`Unknown error while validating the file: ${file.name}`)
+        }
+        continue // Skip this file if validation fails
+      }
     }
 
+    // Add valid attachments to state
     setAttachmentsState(prev => [...prev, ...newAttachments])
+
+    // Reset the file input value
     e.currentTarget.value = ''
   }
+  // -------------------------------------------------------------------------------------------
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Updates folder content by adding new attachments to a specific folder, either directly or recursively in nested folders.
+   *
+   * @param {T[]} array - The array of files and folders.
+   * @param {string} folderId - The ID of the folder to update.
+   * @param {T[]} newAttachments - The new attachments to be added.
+   * @returns {Promise<T[]>} - Returns a promise resolving to the updated attachments array.
+   */
   public static async updateFolderContent<T extends FileType | FolderType>(
     array: T[],
     folderId: string,
@@ -88,6 +131,12 @@ export class UploadManager {
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Moves selected attachments to a specified path in the folder structure.
+   *
+   * @param {MoveAttachmentsToPath} params - The function to set attachments, selected attachments, and the destination path.
+   * @returns {Promise<void>} - Returns a promise resolving to nothing.
+   */
   public static async moveAttachmentsToPath({
     setAttachments,
     setSelectedAttachment,
@@ -163,7 +212,6 @@ export class UploadManager {
 
       // Process the path recursively and update the attachments
       const updatedAttachmentsWithPath = processPath(updatedAttachments, pathParts, 1)
-      console.log(updatedAttachmentsWithPath)
 
       // Update the selected attachments state
       setSelectedAttachment([])
@@ -175,7 +223,14 @@ export class UploadManager {
 
   // -------------------------------------------------------------------------------------------
 
-  public static emptyFolder = (name: string, treeLevel: number) => ({
+  /**
+   * Creates an empty folder with the specified name and tree level.
+   *
+   * @param {string} name - The name of the folder.
+   * @param {number} treeLevel - The tree level of the folder.
+   * @returns {FolderType} - The created folder object.
+   */
+  public static emptyFolder = (name: string, treeLevel: number): FolderType => ({
     id: uuidv7(),
     name,
     files: 0,
@@ -185,42 +240,65 @@ export class UploadManager {
     treeLevel,
   })
 
+  // -------------------------------------------------------------------------------------------
+
+  /**
+   * Adds a folder to the specified path, either in the root or inside a selected folder.
+   *
+   * @param {addFolderToPathArgs} params - The arguments to add the folder (selected folder, set functions, and folder name).
+   * @returns {Promise<void>} - Returns a promise resolving to nothing.
+   */
+
   public static async addFolderToPath({
     selectedFolder,
     setAttachments,
     setSelectedFolder,
-    folderName,
-  }: addFolderToPathArgs) {
-    setAttachments(oldAttachments => {
-      if (!selectedFolder.length) {
-        // Add folder to root level if no folder is selected
-        return [...oldAttachments, this.emptyFolder(folderName, 1)]
-      }
+    folderName: _folderName,
+  }: addFolderToPathArgs): Promise<void | number | string> {
+    try {
+      const { data, error } = newFolderSchema.safeParse(_folderName)
+      if (error) return toast.error('Folder name is required')
+      const { folderName } = data
 
-      // Use the ID of the most deeply selected folder
-      const selectedId = selectedFolder[selectedFolder.length - 1].id
-      return this.addToFolderTree({ attachments: oldAttachments, selectedId, folderName })
-    })
+      setAttachments(oldAttachments => {
+        if (!selectedFolder.length) {
+          // Add folder to root level if no folder is selected
+          return [...oldAttachments, this.emptyFolder(folderName, 1)]
+        }
 
-    setSelectedFolder(oldSelectedFolder => {
-      if (!selectedFolder.length) {
-        // If no folder is selected, keep the selected folder unchanged
-        return oldSelectedFolder
-      }
-      return this.updateSelectedFolder(
-        oldSelectedFolder,
-        this.emptyFolder(
-          folderName,
-          selectedFolder.length ? selectedFolder[selectedFolder.length - 1].treeLevel + 1 : 1
+        // Use the ID of the most deeply selected folder
+        const selectedId = selectedFolder[selectedFolder.length - 1].id
+        return this.addToFolderTree({ attachments: oldAttachments, selectedId, folderName })
+      })
+
+      setSelectedFolder(oldSelectedFolder => {
+        if (!selectedFolder.length) {
+          // If no folder is selected, keep the selected folder unchanged
+          return oldSelectedFolder
+        }
+        return this.updateSelectedFolder(
+          oldSelectedFolder,
+          this.emptyFolder(
+            folderName,
+            selectedFolder.length ? selectedFolder[selectedFolder.length - 1].treeLevel + 1 : 1
+          )
         )
-      )
-    })
+      })
 
-    toast.info('Folder added successfully!')
+      toast.info('Folder added successfully!')
+    } catch (error) {
+      toast.error('Error adding folder')
+    }
   }
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Recursively adds a folder to the folder tree structure, ensuring it is placed at the correct position.
+   *
+   * @param {object} params - The attachments array, the selected folder ID, and the folder name.
+   * @returns {FileType | FolderType}[] - The updated attachments array with the added folder.
+   */
   private static addToFolderTree({
     attachments,
     selectedId,
@@ -250,6 +328,13 @@ export class UploadManager {
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Updates the most deeply selected folder with the new folder content.
+   *
+   * @param {FolderType[]} selectedFolder - The current selected folder array.
+   * @param {FolderType} emptyFolder - The empty folder to be added.
+   * @returns {FolderType[]} - The updated selected folder array.
+   */
   private static updateSelectedFolder(selectedFolder: FolderType[], emptyFolder: FolderType): FolderType[] {
     return selectedFolder.map((folder, index) => {
       if (index === selectedFolder.length - 1) {
@@ -266,6 +351,15 @@ export class UploadManager {
   }
 
   // -------------------------------------------------------------------------------------------
+
+  /**
+   * Searches for an attachment by key, recursively checking nested content.
+   *
+   * @param {T[]} array - The array of items to search.
+   * @param {Function} predicate - The predicate function to match the item.
+   * @param {string} key - The key to search within nested items.
+   * @returns {T | null} - The found item or null if not found.
+   */
 
   public static searchAttachmentsByKey<T>(array: T[], predicate: (item: T) => boolean, key: string): T | null {
     for (const item of array) {
@@ -288,6 +382,13 @@ export class UploadManager {
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Deletes an attachment by its ID, removing it from the folder structure recursively.
+   *
+   * @param {T[]} attachments - The array of attachments to modify.
+   * @param {string[]} targetIds - The list of IDs to remove.
+   * @returns {T[]} - The updated attachments array without the specified IDs.
+   */
   public static deleteAttachmentById<T extends FileType | FolderType>(attachments: T[], targetIds: string[]): T[] {
     return attachments
       .filter(attachment => !targetIds.includes(attachment.id)) // Remove target folders at this level
@@ -305,6 +406,15 @@ export class UploadManager {
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Renames an attachment (file or folder) by its ID.
+   * It updates the name and modified timestamp of the attachment.
+   * This method also supports recursive renaming for nested folders.
+   *
+   * @param {React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>>} setAttachments - The state setter function for attachments.
+   * @param {string[]} targetIds - The list of attachment IDs to rename.
+   * @param {string} newName - The new name to assign to the attachment.
+   */
   public static renameAttachmentById(
     setAttachments: React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>>,
     targetIds: string[],
@@ -323,11 +433,19 @@ export class UploadManager {
             content: this.renameAttachmentRecursive((attachment as FolderType).content, targetIds, newName),
           } as FolderType
         }
-        return attachment // Return folder if no match
+        return attachment // Return the attachment if no match
       })
     )
   }
 
+  /**
+   * Recursively renames an attachment by its ID, including nested folders.
+   *
+   * @param {FileType | FolderType[]} attachments - The list of attachments (files or folders) to rename.
+   * @param {string[]} targetIds - The list of attachment IDs to rename.
+   * @param {string} newName - The new name to assign to the attachment.
+   * @returns {FileType | FolderType[]} - The updated list of attachments with the renamed one(s).
+   */
   private static renameAttachmentRecursive(
     attachments: (FileType | FolderType)[],
     targetIds: string[],
@@ -345,12 +463,18 @@ export class UploadManager {
           content: this.renameAttachmentRecursive((attachment as FolderType).content, targetIds, newName),
         } as FolderType
       }
-      return attachment // Return folder if no match
+      return attachment // Return the attachment if no match
     })
   }
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Selects files from a folder's content, toggling their selection status.
+   * If all files are selected, they will be deselected; otherwise, they will be selected.
+   *
+   * @param {SelectAttachmentFromFolderContentArgs} params - The arguments containing the files and the setter function for the selected attachments.
+   */
   public static selectAttachmentFromFolderContent({
     filesInCurrentTree,
     setSelectedAttachment,
@@ -361,8 +485,10 @@ export class UploadManager {
       )
 
       // If all files are already selected, remove them
-      if (allFilesSelected)
+      if (allFilesSelected) {
         return prevSelected.filter(attachment => !filesInCurrentTree.some(file => file.id === attachment.id))
+      }
+
       // Otherwise, add the files that are not already selected
       const newFiles = filesInCurrentTree.filter(file => !prevSelected.some(attachment => attachment.id === file.id))
       return [...prevSelected, ...newFiles] as FileType[]
@@ -371,14 +497,26 @@ export class UploadManager {
 
   // -------------------------------------------------------------------------------------------
 
-  public static async advancedUploadAttachments({ e, selectedFolder, setAttachments }: UploadFilesArgs) {
+  /**
+   * Handles the upload of attachments, validates them, and updates the attachments state.
+   * The upload process simulates progress and shows a loading toast.
+   *
+   * @param {UploadFilesArgs} params - The parameters containing the file input event, selected folder, and setter function for attachments.
+   * @returns {Promise<void>} - A promise that resolves when the upload process is complete.
+   */
+  public static async advancedUploadAttachments({
+    e,
+    selectedFolder,
+    setAttachments,
+  }: UploadFilesArgs): Promise<void | string | number> {
     try {
       const files = e.currentTarget.files
 
-      if (!files?.length)
+      if (!files?.length) {
         return toast.error('Please select a file', {
           position: 'top-right',
         })
+      }
 
       const newAttachments: FileType[] = []
 
@@ -402,16 +540,25 @@ export class UploadManager {
           treeLevel: selectedFolder.length ? selectedFolder[selectedFolder.length - 1].treeLevel + 1 : 1,
         }
 
-        newAttachments.push(attachment)
+        // Zod validation for the attachment
+        try {
+          attachmentSchema.parse(attachment)
+          newAttachments.push(attachment)
+        } catch (err) {
+          if (err instanceof z.ZodError) {
+            toast.error(`Attachment validation failed: ${err.errors.map(e => e.message).join(', ')}`)
+          }
+          continue
+        }
       }
 
-      // random id
+      // random id for the toast
       const toastId = uuidv7()
 
-      // Upload promise
-      const promise = await UploadManager.uploadPromise({ files: files.length, toastId })
+      // Mock the upload promise with the interval
+      const promise = await this.uploadPromise({ files: files.length, toastId })
 
-      // Show upload progress toast
+      // Show upload success toast
       promise &&
         toast.success(`Successfully Uploaded ${files.length} file${files.length > 1 ? 's' : ''}`, {
           duration: 2000,
@@ -445,6 +592,12 @@ export class UploadManager {
     }
   }
 
+  /**
+   * Simulates an upload process with progress updates.
+   *
+   * @param {UploadPromiseArgs} params - The arguments containing the number of files and toast ID.
+   * @returns {Promise<UploadPromiseReturn>} - A promise that resolves with the upload progress.
+   */
   private static async uploadPromise({ files, toastId }: UploadPromiseArgs): Promise<UploadPromiseReturn> {
     return new Promise(resolve => {
       let currentProgress = 0
@@ -475,9 +628,18 @@ export class UploadManager {
           { id: toastId }
         )
 
+        // TODO: Mocked endpoint call here (replace with your actual endpoint)
+        // Example:
+        // await fetch('/your-endpoint', {
+        //   method: 'POST',
+        //   body: JSON.stringify({ files: files, progress: currentProgress }),
+        //   headers: { 'Content-Type': 'application/json' },
+        // });
+
         // Resolve the promise once progress reaches 100%
         if (currentProgress >= 100) {
           clearInterval(intervalId)
+
           resolve({ progress: currentProgress, files, remainingTime, message: 'Upload complete', toastId })
         }
       }, 20)
@@ -486,6 +648,12 @@ export class UploadManager {
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Opens a folder in the folder structure and updates the selected folder state.
+   * If the folder is already open, it will be closed; otherwise, it will be opened.
+   *
+   * @param {FolderOpenArgs} params - The arguments containing the folder to open, the setter function for selected folder, and whether the folder exists in the tree.
+   */
   public static folderOpen({ attachmentFolder, setSelected, exist_in_tree }: FolderOpenArgs) {
     setSelected(old => {
       if (!exist_in_tree)
@@ -497,6 +665,12 @@ export class UploadManager {
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Determines the file type based on the MIME type.
+   *
+   * @param {Blob | null} file - The file to check.
+   * @returns {FileTypeEnum} - The file type enum value based on the MIME type.
+   */
   public static getFileType(file: Blob | null): FileTypeEnum {
     if (!file) return FileTypeEnum.Unknown
     if (file.type.startsWith('audio/')) return FileTypeEnum.Audio
@@ -507,13 +681,26 @@ export class UploadManager {
     return FileTypeEnum.Unknown
   }
 
-  public static getRemainingTime(currentProgress: number, maxProgress: number) {
+  /**
+   * Calculates the remaining time based on the current progress and maximum progress.
+   *
+   * @param {number} currentProgress - The current progress of the upload.
+   * @param {number} maxProgress - The maximum progress value (usually 100).
+   * @returns {number} - The remaining time in seconds.
+   */
+  public static getRemainingTime(currentProgress: number, maxProgress: number): number {
     const progressPercentage = (currentProgress / maxProgress) * 100
     const calculatedRemainingTime = 200 - progressPercentage * 2
     return calculatedRemainingTime > 0 ? calculatedRemainingTime : 0
   }
 
-  public static formatTime(seconds: number) {
+  /**
+   * Formats a time duration in seconds into a human-readable format.
+   *
+   * @param {number} seconds - The time duration in seconds.
+   * @returns {string} - The formatted time string (e.g., "2d", "3h", "45m").
+   */
+  public static formatTime(seconds: number): string {
     const days = Math.floor(seconds / (24 * 3600))
     seconds %= 24 * 3600
     const hours = Math.floor(seconds / 3600)
