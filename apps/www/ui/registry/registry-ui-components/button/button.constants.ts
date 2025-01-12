@@ -6,9 +6,8 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive: 'bg-destructive/30 hover:bg-destructive/55 text-destructive-foreground',
-        warning: 'bg-warning/30 hover:bg-warning/55 text-warning-foreground',
-        muted: 'bg-muted/30 hover:bg-muted/65 text-muted-foreground',
+        destructive: 'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground',
+        warning: 'bg-warning/90 hover:bg-warning/70 text-warning-foreground',
         outline:
           'border border-input text-accent-foreground bg-background hover:bg-accent hover:text-accent-foreground',
         dashed:
@@ -44,9 +43,10 @@ export const buttonVariants = cva(
       border: {
         default: '',
         primary: 'border border-border/40 hover:border-border/80',
-        destructive: 'border border-destructive/30 hover:border-destructive/80',
-        warning: 'border border-warning/30 hover:border-warning/80',
-        muted: 'border border-muted/40 hover:border-muted',
+        secondary: 'border border-secondary/40 hover:border-secondary bg-secondary/30 hover:bg-secondary/65',
+        destructive:
+          'border border-destructive/30 hover:border-destructive/80 bg-destructive/30 hover:bg-destructive/55',
+        warning: 'border border-warning/30 hover:border-warning/80 bg-warning/30 hover:bg-warning/55',
       },
     },
     defaultVariants: {

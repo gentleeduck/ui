@@ -2,18 +2,37 @@
 
 import React from 'react'
 import { ScrollBar, Separator } from '@/registry/default/ui'
-import { Input } from '@/registry/default/ui'
 import { ScrollArea } from '@/registry/default/ui'
-import { Button } from '../button'
-import { Download, Trash, Upload as UploadIcon, Clipboard, X } from 'lucide-react'
-import { AttachmentType, FolderType, SelectedFolderType, UploadAdvancedContextType } from './upload.types'
-import { searchNestedArrayByKey, uploadFiles } from './upload.lib'
-import { UploadAttachmentsTreeItem } from './upload-chunks'
+import { Button, buttonVariants } from '../button'
+import { Download, Trash, Clipboard, X } from 'lucide-react'
+import {
+  FileType,
+  FolderType,
+  SelectedFolderType,
+  UploadAdnvacedContentProps,
+  UploadAdvancedContextType,
+  UploadAdvancedHeaderProps,
+  UploadAdvancedProviderProps,
+  UploadTreeExtenderProps,
+} from './upload.types'
+import { UploadManager } from './upload.lib'
+import {
+  UploadAddFolderButton,
+  UploadAdvancedButton,
+  UploadAlertDeleteAction,
+  UploadAlertMoveAction,
+  UploadAttachmentsTreeItem,
+  UploadDownloadActions,
+  UploadReloadButton,
+  UploadSearchButton,
+  UploadViewButton,
+} from './upload-chunks'
 import { format } from 'date-fns'
 import { filesize } from 'filesize'
 import { cn } from '@/lib'
+import { TREE_HEIGHT } from './upload.constants'
 
-const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<AttachmentType | FolderType> | null>(null)
+const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<FileType | FolderType> | null>(null)
 
 export const useUploadAdvancedContext = () => {
   const context = React.useContext(UploadAdvancedContext)
@@ -26,18 +45,16 @@ export const useUploadAdvancedContext = () => {
 export const UploadAdvancedProvider = ({
   selectedFolder,
   attachments,
+  className,
   children,
-}: {
-  selectedFolder?: SelectedFolderType[]
-  attachments: (AttachmentType | FolderType)[]
-  children: React.ReactNode
-}) => {
+  ...props
+}: UploadAdvancedProviderProps) => {
   const [_selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>(selectedFolder ?? [])
-  const [_attachments, setAttachments] = React.useState<(AttachmentType | FolderType)[]>(attachments ?? [])
-  const [attachmentsState, setAttachmentsState] = React.useState<(AttachmentType | FolderType)[]>([])
-  const [previewFile, setPreviewFile] = React.useState<AttachmentType | null>(null)
+  const [_attachments, setAttachments] = React.useState<(FileType | FolderType)[]>(attachments ?? [])
+  const [attachmentsState, setAttachmentsState] = React.useState<(FileType | FolderType)[]>([])
+  const [previewFile, setPreviewFile] = React.useState<FileType | null>(null)
   const [uploadQuery, setUploadQuery] = React.useState<string>('')
-  const [selecttedAttachment, setSelectedAttachment] = React.useState<(AttachmentType | FolderType)[]>([])
+  const [selectedAttachments, setSelectedAttachments] = React.useState<FileType[]>([])
 
   return (
     <UploadAdvancedContext.Provider
@@ -52,50 +69,118 @@ export const UploadAdvancedProvider = ({
         setPreviewFile,
         uploadQuery,
         setUploadQuery,
-        selecttedAttachment,
-        setSelectedAttachment,
+        selectedAttachments,
+        setSelectedAttachments,
       }}
     >
-      {children}
+      <div
+        className={cn('flex flex-col w-full rounded-md bg-muted/10 border-border border overflow-hidden', className)}
+        {...props}
+      >
+        {children}
+      </div>
     </UploadAdvancedContext.Provider>
   )
 }
 
-export const UploadAdvancedButton = () => {
-  const { setAttachments, selectedFolder, setSelectedFolder } = useUploadAdvancedContext() ?? {}
+export const UploadAdvancedHeader = React.memo(({}: UploadAdvancedHeaderProps) => {
+  const {
+    selectedAttachments,
+    setSelectedAttachments: setSelectedAttachment,
+    setAttachments,
+  } = useUploadAdvancedContext()
 
-  const memoizedUploadFiles = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      uploadFiles({ e, selectedFolder, setSelectedFolder, setAttachments })
-    },
-    [selectedFolder, setSelectedFolder, setAttachments]
-  )
   return (
-    <>
-      <Button
-        className="relative "
-        variant={'default'}
-        size={'xs'}
-        icon={{ children: UploadIcon }}
+    <div className="w-full h-[45px] overflow-hidden relative">
+      <div
+        className={cn(
+          'space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out',
+          selectedAttachments.length > 0 ? 'translate-y-[-42px]' : 'translate-y-0'
+        )}
       >
-        <Input
-          placeholder="Filter files..."
-          type="file"
-          className="absolute w-full h-full opacity-0 cursor-pointer"
-          multiple={true}
-          onChange={e => memoizedUploadFiles(e)}
+        <UploadReloadButton />
+        <UploadViewButton />
+        <Separator
+          orientation="vertical"
+          className="h-6"
         />
-        Upload file
-      </Button>
-    </>
+        <UploadAdvancedButton />
+        <UploadAddFolderButton />
+        <Separator
+          orientation="vertical"
+          className="h-6"
+        />
+        <UploadSearchButton />
+      </div>
+      <div
+        className={cn(
+          'absolute top-1/2 -translate-y-1/2 space-x-2 flex items-center w-full m-0 p-2 transition-all duration-300 ease-in-out bg-background pointer-events-all',
+          selectedAttachments.length > 0 ? '' : 'opacity-0 t anslate-y-[-42px] pointer-events-none'
+        )}
+      >
+        <Button
+          size={'xs'}
+          variant={'ghost'}
+          className="p-1 h-auto"
+          onClick={() => setSelectedAttachment([])}
+          icon={{ children: X }}
+        />
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-muted-foreground">
+            {selectedAttachments.length} Attachment
+            {selectedAttachments.length === 1 ? ' is' : 's are'} selected
+          </span>
+          <Separator
+            orientation="vertical"
+            className="h-6"
+          />
+          <UploadDownloadActions />
+          <Separator
+            orientation="vertical"
+            className="h-6"
+          />
+          <UploadAlertMoveAction
+            itemName="duck-ui-bucket"
+            onContinue={(_, path) =>
+              UploadManager.moveAttachmentsToPath({
+                setAttachments,
+                setSelectedAttachment,
+                selectedAttachments,
+                path,
+              })
+            }
+          />
+          <UploadAlertDeleteAction
+            itemName={`${selectedAttachments.length} item${
+              selectedAttachments.length === 1 ? '' : 's'
+            } out of wildduck_bucket`}
+            className={cn(
+              buttonVariants({
+                className: 'w-fit',
+                size: 'xs',
+                variant: 'destructive',
+                border: 'destructive',
+              })
+            )}
+            onCancel={() => {}}
+            onContinue={() => {
+              setAttachments(old => {
+                return UploadManager.deleteAttachmentById(old, [...selectedAttachments.map(item => item.id)])
+              })
+              setSelectedAttachment([])
+            }}
+          />
+        </div>
+      </div>
+    </div>
   )
-}
+})
 
-export const UploadAdnvacedContent = React.memo(() => {
+export const UploadAdnvacedContent = React.memo(({}: UploadAdnvacedContentProps) => {
   return (
-    <div className="h-full">
+    <div className="h-full relative">
       <UploadFilePreview />
-      <ScrollArea className="h-full">
+      <ScrollArea className={TREE_HEIGHT}>
         <div className="flex items-center h-full rounded-md relative overflow-hidden">
           <UploadAttachmentsTreeItem />
           <UploadTreeExtender />
@@ -106,13 +191,17 @@ export const UploadAdnvacedContent = React.memo(() => {
   )
 })
 
-export const UploadTreeExtender = () => {
+export const UploadTreeExtender = ({}: UploadTreeExtenderProps) => {
   const { selectedFolder, attachments, uploadQuery } = useUploadAdvancedContext() ?? {}
 
   return (
     selectedFolder.length > 0 &&
     selectedFolder.map((folderContent, idx) => {
-      const item = searchNestedArrayByKey(attachments, folder => folder.id === folderContent?.id, 'content')
+      const item = UploadManager.searchAttachmentsByKey(
+        attachments,
+        folder => folder.id === folderContent?.id,
+        'content'
+      )
       const filtered = !uploadQuery
         ? (item as FolderType)?.content
         : (item as FolderType)?.content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
@@ -134,85 +223,91 @@ export const UploadTreeExtender = () => {
   )
 }
 
-export const UploadFilePreview = React.memo(() => {
+export type UploadFilePreviewProps = {}
+
+export const UploadFilePreview = React.memo(({}: UploadFilePreviewProps) => {
   const { previewFile, setPreviewFile } = useUploadAdvancedContext() ?? {}
   return (
-    <div
-      className={cn(
-        'absolute top-0 right-0 h-full w-[400px] duration-300 ease-in-out translate-x-[100%] z-10 bg-[#121212]',
-        previewFile && 'translate-x-0'
-      )}
-    >
-      <ScrollArea className="h-full">
-        <Button
-          size={'xs'}
-          variant={'nothing'}
-          className="absolute top-2 right-4 p-0"
-          icon={{ children: X }}
-          onClick={() => setPreviewFile(null)}
-        />
-        <div className="border-l border-l-border bg-muted/10 w-full h-full px-4 py-8">
-          <div className="border border-border w-full h-[180px] flex items-center justify-center rounded-md overflow-hidden">
-            <img
-              src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
-              className="object-contain size-full"
-              alt={previewFile?.name}
-            />
+    <>
+      <div
+        className={cn(
+          'absolute top-0 right-0 h-full w-[400px] duration-300 ease-in-out translate-x-[100%] z-10 dark:bg-[#121212] bg-card',
+          previewFile && 'translate-x-0'
+        )}
+      >
+        <ScrollArea className="h-full">
+          <Button
+            size={'xs'}
+            variant={'nothing'}
+            className="absolute top-2 right-4 p-0"
+            icon={{ children: X }}
+            onClick={() => setPreviewFile(null)}
+          />
+          <div className="border-l border-l-border bg-muted/10 w-full h-full px-4 py-8">
+            <div className="border border-border w-full h-[180px] flex items-center justify-center rounded-md overflow-hidden">
+              <img
+                src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
+                className="object-contain size-full"
+                alt={previewFile?.name}
+              />
+            </div>
+            <div className="my-4 flex flex-col gap-1">
+              <h6 className="text-sm font-medium truncate max-w-[70%]">{previewFile?.name}</h6>
+              <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
+                <span>{previewFile?.type}</span>-
+                <span>
+                  {filesize(previewFile?.file ? +previewFile?.file.size : 0, {
+                    round: 0,
+                  })}
+                </span>
+              </p>
+            </div>
+            <div className="my-4 flex flex-col gap-1">
+              <h6 className="text-xs font-medium text-accent-foreground/90">Created at</h6>
+              <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
+                {previewFile ? format(new Date(previewFile?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a') : ''}
+              </p>
+            </div>
+            <div className="my-4 flex flex-col gap-1">
+              <h6 className="text-xs font-medium text-accent-foreground/90">Updated at</h6>
+              <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
+                {previewFile ? format(new Date(previewFile?.updatedAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a') : ''}
+              </p>
+            </div>
+            <div className="my-4 flex flex-row gap-2 [&_button]:px-3 mt-4">
+              <Button
+                size={'xs'}
+                variant={'secondary'}
+                // border={'muted'}
+                icon={{ children: Download }}
+              >
+                Download
+              </Button>
+              <Button
+                size={'xs'}
+                variant={'secondary'}
+                // border={'primary'}
+                icon={{ children: Clipboard }}
+              >
+                Get URL
+              </Button>
+            </div>
+            <Separator />
+            <div className="my-4 flex flex-row gap-2 [&_button]:px-3">
+              <Button
+                size={'xs'}
+                variant={'destructive'}
+                border={'destructive'}
+                icon={{ children: Trash }}
+              >
+                Delete
+              </Button>
+            </div>
           </div>
-          <div className="my-4 flex flex-col gap-1">
-            <h6 className="text-sm font-medium truncate max-w-[70%]">{previewFile?.name}</h6>
-            <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
-              <span>{previewFile?.type}</span>-
-              <span>
-                {filesize(previewFile?.file ? +previewFile?.file.size : 0, {
-                  round: 0,
-                })}
-              </span>
-            </p>
-          </div>
-          <div className="my-4 flex flex-col gap-1">
-            <h6 className="text-xs font-medium text-accent-foreground/90">Created at</h6>
-            <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
-              {previewFile ? format(new Date(previewFile?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a') : ''}
-            </p>
-          </div>
-          <div className="my-4 flex flex-col gap-1">
-            <h6 className="text-xs font-medium text-accent-foreground/90">Updated at</h6>
-            <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
-              {previewFile ? format(new Date(previewFile?.updatedAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a') : ''}
-            </p>
-          </div>
-          <div className="my-4 flex flex-row gap-2 [&_button]:px-3 mt-4">
-            <Button
-              size={'xs'}
-              variant={'muted'}
-              border={'muted'}
-              icon={{ children: Download }}
-            >
-              Download
-            </Button>
-            <Button
-              size={'xs'}
-              variant={'muted'}
-              border={'muted'}
-              icon={{ children: Clipboard }}
-            >
-              Get URL
-            </Button>
-          </div>
-          <Separator />
-          <div className="my-4 flex flex-row gap-2 [&_button]:px-3">
-            <Button
-              size={'xs'}
-              variant={'destructive'}
-              border={'destructive'}
-              icon={{ children: Trash }}
-            >
-              Delete
-            </Button>
-          </div>
-        </div>
-      </ScrollArea>
-    </div>
+        </ScrollArea>
+      </div>
+
+      <Separator />
+    </>
   )
 })

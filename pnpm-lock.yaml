@@ -68,6 +68,9 @@ importers:
       '@manypkg/cli':
         specifier: ^0.20.0
         version: 0.20.0
+      '@ngneat/falso':
+        specifier: ^7.3.0
+        version: 7.3.0
       '@radix-ui/react-accessible-icon':
         specifier: ^1.1.0
         version: 1.1.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2121,6 +2124,9 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
+
+  '@ngneat/falso@7.3.0':
+    resolution: {integrity: sha512-JDjy2D+fLMAIl0x9i9B9DCsmrr9UcqjLoAbjf+xKdXOkSyoU8t2DKi84Jvn9Uwj9lX02dsHAQuq3JZDUiqn22w==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -7437,6 +7443,9 @@ packages:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
     engines: {node: '>=4'}
 
+  seedrandom@3.0.5:
+    resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
+
   sembear@0.5.2:
     resolution: {integrity: sha512-Ij1vCAdFgWABd7zTg50Xw1/p0JgESNxuLlneEAsmBrKishA06ulTTL/SHGmNy2Zud7+rKrHTKNI6moJsn1ppAQ==}
 
@@ -8277,6 +8286,10 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  uuid@8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
 
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
@@ -9978,6 +9991,11 @@ snapshots:
 
   '@next/swc-win32-x64-msvc@14.3.0-canary.43':
     optional: true
+
+  '@ngneat/falso@7.3.0':
+    dependencies:
+      seedrandom: 3.0.5
+      uuid: 8.3.2
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -16224,6 +16242,8 @@ snapshots:
       extend-shallow: 2.0.1
       kind-of: 6.0.3
 
+  seedrandom@3.0.5: {}
+
   sembear@0.5.2:
     dependencies:
       '@types/semver': 6.2.7
@@ -17159,6 +17179,8 @@ snapshots:
       react: 18.3.1
 
   util-deprecate@1.0.2: {}
+
+  uuid@8.3.2: {}
 
   uuid@9.0.1: {}
 

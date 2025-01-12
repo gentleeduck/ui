@@ -8,8 +8,8 @@ export default function Button26Demo() {
         aria-label="Inbox button"
         type="button"
         role="button"
-        variant="muted"
-        border="muted"
+        variant="secondary"
+        border="secondary"
       >
         Button
       </Button>

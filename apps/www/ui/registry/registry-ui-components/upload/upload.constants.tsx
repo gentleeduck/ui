@@ -1,7 +1,11 @@
 import { Columns2, File, FileAudio, FileImage, FileText, FileVideo, Rows2 } from 'lucide-react'
 import { DuckDropdownMenuRadioGroupProps } from '../dropdown-menu'
 
-export enum FileType {
+/**
+ * Enum representing different file types.
+ * @enum {string}
+ */
+export enum FileTypeEnum {
   Audio = 'audio',
   Text = 'text',
   Image = 'image',
@@ -10,18 +14,32 @@ export enum FileType {
   Unknown = 'unknown',
 }
 
-export const FILE_TYPE_ICONS = {
-  [FileType.Audio]: <FileAudio className="w-8 h-8" />,
-  [FileType.Text]: <FileText className="w-8 h-8" />,
-  [FileType.Image]: <FileImage className="w-8 h-8" />,
-  [FileType.Video]: <FileVideo className="w-8 h-8" />,
-  [FileType.Pdf]: <FileText className="w-8 h-8" />,
-  [FileType.Unknown]: <File className="w-8 h-8" />,
+/**
+ * Mapping of file types to their corresponding icons.
+ * @type {Record<FileTypeEnum, JSX.Element>}
+ */
+export const FILE_TYPE_ICONS: Record<FileTypeEnum, JSX.Element> = {
+  [FileTypeEnum.Audio]: <FileAudio className="w-8 h-8" />,
+  [FileTypeEnum.Text]: <FileText className="w-8 h-8" />,
+  [FileTypeEnum.Image]: <FileImage className="w-8 h-8" />,
+  [FileTypeEnum.Video]: <FileVideo className="w-8 h-8" />,
+  [FileTypeEnum.Pdf]: <FileText className="w-8 h-8" />,
+  [FileTypeEnum.Unknown]: <File className="w-8 h-8" />,
 }
 
-// NOTE: 10MB
-export const MAX_SIZE = 10 * 1024 * 1024
+// Maximum file size allowed for uploads (10MB).
+export const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
 
+// CSS class for tree height.
+export const TREE_HEIGHT = `h-[510px]`
+
+// CSS class for tree width.
+export const TREE_WIDTH = `w-[250px]`
+
+/**
+ * Content options for dropdown menus.
+ * @type {Record<string, DuckDropdownMenuRadioGroupProps['content']>}
+ */
 export const CONTENT_POILERPLATE: Record<string, DuckDropdownMenuRadioGroupProps['content']> = {
   view: [
     { children: 'As Columns', value: 'As duck', icon: { children: Columns2 } },
