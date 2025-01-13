@@ -35,6 +35,8 @@ export const TREE_HEIGHT = `h-[510px]`
 
 // CSS class for tree width.
 export const TREE_WIDTH = `w-[250px]`
+export const PREVIEW_WIDTH = `w-[400px]`
+export const CONTENT_WIDTH_PREVIEW_OPEN = `w-[calc(100%-400px)]`
 
 /**
  * Content options for dropdown menus.

@@ -1,11 +1,5 @@
 import { z } from 'zod'
 
-export const newFolderSchema = z.object({
-  folderName: z.string().min(1, { message: 'Name is required' }),
-})
-
-export type NewFolderSchemaType = z.infer<typeof newFolderSchema>
-
 export const fileTypeSchema = z.object({
   id: z.string().uuid(),
   file: z.instanceof(File),

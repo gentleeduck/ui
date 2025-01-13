@@ -27,6 +27,12 @@ import { uuidv7 } from 'uuidv7'
 
 const UploadContext = React.createContext<UploadContextType<FileType> | null>(null)
 
+/**
+ * Hook for accessing the context of the UploadProvider.
+ *
+ * @returns {UploadContextType<FileType> | null} The context object.
+ * @throws {Error} If the hook is used outside of an UploadProvider.
+ */
 export const useUploadContext = () => {
   const context = React.useContext(UploadContext)
   if (!context) {
@@ -35,6 +41,17 @@ export const useUploadContext = () => {
   return context
 }
 
+/**
+ * Provides the context for managing attachments.
+ *
+ * @example
+ * <UploadProvider>
+ *   <Upload />
+ * </UploadProvider>
+ *
+ * @param {React.ReactNode} children The children components.
+ * @returns {JSX.Element} The rendered component.
+ */
 export const UploadProvider = ({ children }: { children: React.ReactNode }) => {
   const [attachments, setAttachments] = React.useState<FileType[]>([])
   const [attachmentsState, setAttachmentsState] = React.useState<FileType[]>([])
@@ -53,6 +70,18 @@ export const UploadProvider = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
+/**
+ * The Upload component provides a user interface for uploading attachments.
+ * It utilizes the UploadProvider context to manage the state of attachments
+ * and allows users to submit their selected files.
+ *
+ * @param {UploadProps} props - The props for the Upload component.
+ * @param {React.ReactNode} [props.children] - Optional children to render within the component.
+ * @param {React.ReactNode} [props.trigger] - The UI element that triggers the upload dialog.
+ * @param {React.ReactNode} [props.content] - The content to be displayed inside the upload dialog.
+ *
+ * @returns {JSX.Element} The rendered Upload component.
+ */
 export const Upload = ({ children, trigger, content }: UploadProps) => {
   const { setAttachments, attachmentsState, setAttachmentsState } = useUploadContext()
   return (
@@ -106,6 +135,16 @@ export const Upload = ({ children, trigger, content }: UploadProps) => {
   )
 }
 
+/**
+ * UploadTrigger component renders a trigger for the upload action.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} [props.className] - Optional additional class names.
+ * @param {React.ReactNode} props.children - The children elements to be rendered inside the trigger.
+ * @param {React.Ref} ref - The ref forwarded to the underlying div element.
+ *
+ * @returns {React.Element} The rendered component.
+ */
 export const UploadTrigger = React.forwardRef<HTMLDivElement, UploadTriggerProps>(
   ({ className, children, ...props }, ref) => (
     <div
@@ -118,6 +157,17 @@ export const UploadTrigger = React.forwardRef<HTMLDivElement, UploadTriggerProps
   )
 )
 
+/**
+ * UploadInput component renders an input area where users can drag or click to upload files.
+ * It also includes a file filter and context menu for options.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} [props.className] - Optional additional class names.
+ * @param {React.ReactNode} props.children - The children elements to be rendered inside the input.
+ * @param {React.Ref} ref - The ref forwarded to the underlying div element.
+ *
+ * @returns {React.Element} The rendered component.
+ */
 export const UploadInput = React.forwardRef<HTMLDivElement, UploadInputProps>(
   ({ className, children, ...props }, ref) => {
     const { setAttachmentsState } = useUploadContext()
@@ -149,6 +199,17 @@ export const UploadInput = React.forwardRef<HTMLDivElement, UploadInputProps>(
   }
 )
 
+/**
+ * UploadContent component renders the content area for the uploaded files,
+ * showing a scrollable list of uploaded items with an option to remove them.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} [props.className] - Optional additional class names.
+ * @param {React.ReactNode} props.children - The children elements to be rendered inside the content area.
+ * @param {React.Ref} ref - The ref forwarded to the underlying div element.
+ *
+ * @returns {React.Element} The rendered component.
+ */
 export const UploadContent = React.forwardRef<HTMLDivElement, UploadContentProps>(
   ({ className, children, ...props }, ref) => {
     const { attachmentsState, setAttachmentsState } = useUploadContext()
@@ -182,9 +243,22 @@ export const UploadContent = React.forwardRef<HTMLDivElement, UploadContentProps
   }
 )
 
+/**
+ * UploadItem component represents an individual file in the upload list.
+ * It displays the file's name, type, size, and provides an option to remove it.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Attachment} props.attachment - The attachment object containing file details.
+ * @param {string} [props.className] - Optional additional class names.
+ * @param {React.ReactNode} props.children - The children elements to be rendered inside the item.
+ * @param {React.Ref} ref - The ref forwarded to the underlying div element.
+ *
+ * @returns {React.Element} The rendered component.
+ */
 export const UploadItem = React.forwardRef<HTMLDivElement, UploadItemProps>(
   ({ attachment, children, className, ...props }, ref) => {
     const fileType = UploadManager.getFileType(attachment.file)
+
     return (
       <div
         className={cn('relative flex items-center gap-4 bg-secondary/20 rounded-md p-2', className)}
@@ -208,6 +282,16 @@ export const UploadItem = React.forwardRef<HTMLDivElement, UploadItemProps>(
   }
 )
 
+/**
+ * UploadtItemRemove component represents a remove button for an uploaded file item.
+ * It is typically used for removing a file from the upload list.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} [props.className] - Optional additional class names.
+ * @param {React.Ref} ref - The ref forwarded to the underlying div element.
+ *
+ * @returns {React.Element} The rendered component.
+ */
 export const UploadtItemRemove = React.forwardRef<HTMLDivElement, UploadtItemRemoveProps>(
   ({ className, ...props }, ref) => {
     return (
@@ -225,6 +309,12 @@ export const UploadtItemRemove = React.forwardRef<HTMLDivElement, UploadtItemRem
   }
 )
 
+/**
+ * UploadItemsPreview component displays a preview of all uploaded items.
+ * If there are no items uploaded, a message will be shown instead.
+ *
+ * @returns {React.Element} The rendered component, showing uploaded items or a message if none are uploaded.
+ */
 export const UploadItemsPreview = () => {
   const { attachments } = useUploadContext()
 
@@ -279,11 +369,16 @@ export const UploadItemsPreview = () => {
     </div>
   ) : (
     <div className="flex items-center w-full border border-border min-h-[400px] p-4 rounded-lg">
-      <p className="text-center w-full">There's not Attachments yet uploaded.</p>
+      <p className="text-center w-full">There's no attachments yet uploaded.</p>
     </div>
   )
 }
 
+/**
+ * UploadProfile component renders a profile avatar with the ability to upload a profile picture.
+ *
+ * @returns {React.Element} The rendered component, including the avatar and upload functionality.
+ */
 export const UploadProfile = () => {
   const { attachments, setAttachments } = useUploadContext() ?? {}
   const src =
@@ -321,7 +416,6 @@ export const UploadProfile = () => {
           }
         }}
       />
-
       <Avatar className="w-16 h-16 pointer-events-none">
         <AvatarImage
           src={src ?? ''}
@@ -343,6 +437,11 @@ export const UploadProfile = () => {
   )
 }
 
+/**
+ * UploadDirectButton component renders a button that triggers a file upload directly.
+ *
+ * @returns {React.Element} The rendered component, including the upload button and file input.
+ */
 export const UploadDirectButton = () => {
   const { setAttachments } = useUploadContext() ?? {}
 

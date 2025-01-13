@@ -2,7 +2,7 @@
 id: todo
 aliases:
   - Upload component TODOs:
-tags: []
+tags: ['upload']
 ---
 
 # Upload component TODOs:
@@ -26,8 +26,8 @@ tags: []
 - [*] The Move button actions.
 - [*] The Delete Multiple button actions.
 - [*] The Move Multiple button actions.
-- [ ] Make any action with input to be a form with more options.
-- [ ] Integrate zod with all the forms.
+- [*] Make any action with input to be a form with more options.
+- [*] Integrate zod with all the forms.
 - [ ] Fix the dropdown menu to be unified.
 - [ ] REFACTOR THE CODE TO BE CLEANER.
 - [ ] DOCUMENT THE CODE.

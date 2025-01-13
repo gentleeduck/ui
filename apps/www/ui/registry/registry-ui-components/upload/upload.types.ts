@@ -123,6 +123,26 @@ export interface UploadAdvancedProviderProps extends React.HTMLProps<HTMLDivElem
 // NOTE: CHUNKS TYPES
 
 /**
+ * Props fkjor the UploadDownloadAttachments component.  * @extends {React.ComponentPropsWithoutRef<typeof Button>}
+ * @property {string[]} itemsName - Names of the items to download
+ * @property {boolean} withinDropdown - Whether the button is within a dropdown
+ */
+export interface UploadDownloadAttachmentsProps extends React.ComponentPropsWithoutRef<typeof Button> {
+  itemsName: string[]
+  withinDropdown?: boolean
+}
+
+/**
+ * Props for the UploadRenameAttachmentButton component.
+ *
+ * @typedef {Object} UploadRenameAttachmentButtonProps
+ * @property {FileType|FolderType} attachment - The attachment to be uploaded or renamed.
+ */
+export type UploadRenameAttachmentButtonProps = {
+  attachment: FileType | FolderType
+}
+
+/**
  * Props for the UploadAttachmentsTreeItem component.
  */
 export type UploadAttachmentsTreeItemProps = {
@@ -289,7 +309,7 @@ export type addFolderToPathArgs = {
   selectedFolder: FolderType[] // Currently selected folder
   setSelectedFolder: React.Dispatch<React.SetStateAction<FolderType[]>> // Function to set selected folders
   setAttachments: React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>> // Function to set attachments
-  folderName: string // Name of the folder to add
+  folderName: string | undefined // Name of the folder to add
 }
 
 /**

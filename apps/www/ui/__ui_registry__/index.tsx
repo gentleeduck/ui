@@ -230,6 +230,7 @@ export const Index: Record<string, any> = {
         { path: 'registry-ui-components/upload/upload-sonner.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.assets.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.constants.tsx', type: 'registry:ui' },
+        { path: 'registry-ui-components/upload/upload.dto.ts', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.lib.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.types.ts', type: 'registry:ui' },

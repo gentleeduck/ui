@@ -17,6 +17,8 @@ import {
   UploadAlertDeleteActionProps,
   UploadAlertMoveActionProps,
   UploadAttachmentsTreeItemProps,
+  UploadDownloadAttachmentsProps,
+  UploadRenameAttachmentButtonProps,
 } from './upload.types'
 import { CONTENT_POILERPLATE, FILE_TYPE_ICONS, TREE_HEIGHT, TREE_WIDTH } from './upload.constants'
 import { UploadManager } from './upload.lib'
@@ -60,6 +62,12 @@ import {
 import { Checkbox, Separator } from '@/registry/default/ui'
 import { debounceCallback } from '@/hooks'
 
+/**
+ * A button to reload the upload view.
+ *
+ * TODO: Implement reload functionality.
+ * @returns {JSX.Element} The reload button.
+ */
 export const UploadReloadButton = (): JSX.Element => {
   // TODO: Implement reload functionality.
   return (
@@ -73,6 +81,16 @@ export const UploadReloadButton = (): JSX.Element => {
   )
 }
 
+/**
+ * A dropdown menu button to view and sort the uploads.
+ *
+ * This component will render a dropdown menu with three sub-items:
+ * - View: A radio button group to select the view type.
+ * - Sort By: A radio button group to sort the uploads by a specific column.
+ * - Sort Order: A radio button group to sort the uploads in ascending or descending order.
+ *
+ * @returns {JSX.Element} The dropdown menu button.
+ */
 export const UploadViewButton = (): JSX.Element => {
   return (
     <DropdownMenu>
@@ -105,6 +123,16 @@ export const UploadViewButton = (): JSX.Element => {
   )
 }
 
+/**
+ * A button component for advanced file uploads.
+ *
+ * Provides a file input for uploading multiple files with advanced handling.
+ * Utilizes the `UploadManager.advancedUploadAttachments` function to manage
+ * the upload process, including file validation and attachment state updates.
+ *
+ * @returns {JSX.Element} The upload button component.
+ */
+
 export const UploadAdvancedButton = (): JSX.Element => {
   const { setAttachments, selectedFolder, setSelectedFolder } = useUploadAdvancedContext() ?? {}
 
@@ -134,6 +162,15 @@ export const UploadAdvancedButton = (): JSX.Element => {
   )
 }
 
+/**
+ * A button component for creating a new folder.
+ *
+ * Provides a button and a dialog with an input field for creating a new folder.
+ * Utilizes the `UploadManager.addFolderToPath` function to create the folder
+ * and add it to the specified path.
+ *
+ * @returns {JSX.Element} The upload folder button component.
+ */
 export const UploadAddFolderButton = (): JSX.Element => {
   const { selectedFolder, setAttachments, setSelectedFolder } = useUploadAdvancedContext()
   const inputRef = React.useRef<HTMLInputElement | null>(null)
@@ -178,7 +215,7 @@ export const UploadAddFolderButton = (): JSX.Element => {
                 selectedFolder,
                 setAttachments,
                 setSelectedFolder,
-                folderName: inputRef.current?.value ?? '',
+                folderName: inputRef.current?.value,
               })
             }
           >
@@ -190,9 +227,11 @@ export const UploadAddFolderButton = (): JSX.Element => {
   )
 }
 
-export type UploadRenameAttachmentButtonProps = {
-  attachment: FileType | FolderType
-}
+/**
+ * @description A component to rename a single attachment.
+ * @param {{ attachment: FileType | FolderType }} props
+ * @returns {JSX.Element} The rename attachment button component.
+ */
 export const UploadRenameAttachments = ({ attachment }: UploadRenameAttachmentButtonProps): JSX.Element => {
   const { setAttachments } = useUploadAdvancedContext()
   const inputRef = React.useRef<HTMLInputElement | null>(null)
@@ -245,6 +284,14 @@ export const UploadRenameAttachments = ({ attachment }: UploadRenameAttachmentBu
   )
 }
 
+/**
+ * @description
+ * A button that allows you to search for attachments in the current folder.
+ * When clicked, it opens a text input to enter the search query.
+ * The search query is debounced for 1000 milliseconds.
+ * The search query is cleared when the button is clicked again.
+ * @returns A JSX.Element
+ */
 export const UploadSearchButton = (): JSX.Element => {
   const [open, setOpen] = React.useState<boolean>(false)
   const { setUploadQuery } = useUploadAdvancedContext()
@@ -304,11 +351,6 @@ export const UploadSearchButton = (): JSX.Element => {
   )
 }
 
-// 6- Upload Download Actions
-export interface UploadDownloadAttachmentsProps extends React.ComponentPropsWithoutRef<typeof Button> {
-  itemsName: string[]
-  withinDropdown?: boolean
-}
 export const UploadDownloadAttachments = React.memo(
   ({ itemsName, size, withinDropdown = false, ...props }: UploadDownloadAttachmentsProps): JSX.Element => {
     const { currentBucket } = useUploadAdvancedContext()
@@ -344,8 +386,8 @@ export const UploadDownloadAttachments = React.memo(
                 label={{
                   children: (
                     <div className="flex flex-col sapce-y-2 p-1">
-                      {itemsName.map(item => (
-                        <span>{item}</span>
+                      {itemsName.map((item, index) => (
+                        <span key={index}>{item}</span>
                       ))}
                     </div>
                   ),
@@ -419,8 +461,8 @@ export const UploadAlertMoveAction = React.memo(
                 label={{
                   children: (
                     <div className="flex flex-col sapce-y-2 p-1">
-                      {itemName.map(item => (
-                        <span>{item}</span>
+                      {itemName.map((item, index) => (
+                        <span key={index}>{item}</span>
                       ))}
                     </div>
                   ),
@@ -536,8 +578,8 @@ export const UploadAlertDeleteAttachments = React.memo(
                 label={{
                   children: (
                     <div className="flex flex-col sapce-y-2 p-1">
-                      {itemName.map(item => (
-                        <span>{item}</span>
+                      {itemName.map((item, index) => (
+                        <span key={index}>{item}</span>
                       ))}
                     </div>
                   ),
@@ -719,6 +761,17 @@ export const EmptyFolder = (): JSX.Element => {
   )
 }
 
+/**
+ * Component representing a folder that contains attachments.
+ * It displays the folder name and provides actions like renaming, downloading, and deleting.
+ *
+ * @param {Object} props - Component properties.
+ * @param {FolderType} props.attachmentFolder - The folder object containing attachment details.
+ * @param {SelectedFolderType[]} props.selected - The list of selected folders.
+ * @param {React.Dispatch<React.SetStateAction<SelectedFolderType[]>>} props.setSelected - A function to update the selected folders list.
+ *
+ * @returns {React.Element} The rendered component.
+ */
 export const UploadAttachmentFolder = React.memo(
   (props: {
     attachmentFolder: FolderType
@@ -755,6 +808,13 @@ export const UploadAttachmentFolder = React.memo(
 
           <DropdownMenuContent className="">
             <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full">
+              <UploadRenameAttachments attachment={attachmentFolder} />
+              <UploadDownloadAttachments
+                withinDropdown={true}
+                itemsName={[attachmentFolder.name]}
+                variant={'ghost'}
+              />
+              <Separator />
               <UploadAlertDeleteAttachments
                 itemsName={[attachmentFolder.name + ' folder']}
                 command={{
@@ -773,6 +833,15 @@ export const UploadAttachmentFolder = React.memo(
   }
 )
 
+/**
+ * Component representing a single attachment file.
+ * Displays the file name, type, and provides actions like renaming, downloading, and deleting.
+ *
+ * @param {Object} props - Component properties.
+ * @param {FileType} props.attachmentFile - The file object containing attachment details.
+ *
+ * @returns {React.Element} The rendered component.
+ */
 export const UploadAttachmentFile = React.memo(({ attachmentFile }: { attachmentFile: FileType }) => {
   const fileType = UploadManager.getFileType(attachmentFile.file)
   const {

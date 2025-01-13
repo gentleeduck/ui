@@ -16,7 +16,7 @@ import {
 import { uuidv7 } from 'uuidv7'
 import React from 'react'
 import { UploadSonnerContentMemo } from './upload-sonner'
-import { attachmentSchema, fileTypeSchema, newFolderSchema } from './upload.dto'
+import { attachmentSchema, fileTypeSchema } from './upload.dto'
 import { z } from 'zod'
 
 /**
@@ -253,13 +253,10 @@ export class UploadManager implements UploadManagerClass {
     selectedFolder,
     setAttachments,
     setSelectedFolder,
-    folderName: _folderName,
+    folderName: folderName,
   }: addFolderToPathArgs): Promise<void | number | string> {
+    if (!folderName) return toast.error('Folder name is required')
     try {
-      const { data, error } = newFolderSchema.safeParse(_folderName)
-      if (error) return toast.error('Folder name is required')
-      const { folderName } = data
-
       setAttachments(oldAttachments => {
         if (!selectedFolder.length) {
           // Add folder to root level if no folder is selected
@@ -642,7 +639,7 @@ export class UploadManager implements UploadManagerClass {
 
           resolve({ progress: currentProgress, files, remainingTime, message: 'Upload complete', toastId })
         }
-      }, 20)
+      }, 200)
     })
   }
 

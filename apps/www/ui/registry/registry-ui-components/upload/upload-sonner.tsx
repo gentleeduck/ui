@@ -4,6 +4,13 @@ import React from 'react'
 import { Button } from '../button'
 import { UploadManager } from './upload.lib'
 
+/**
+ * A component that displays the progress of an upload. It includes a progress bar, number of files being uploaded, and a cancel button.
+ * @param {number} progress - The current progress of the upload (0-100).
+ * @param {number} files - The number of files being uploaded.
+ * @param {number} [remainingTime] - The estimated remaining time in seconds for the upload to complete.
+ * @returns {JSX.Element} The rendered upload progress component.
+ */
 export const UploadSonnerContent = ({
   progress,
   files,

@@ -4,7 +4,7 @@ import React from 'react'
 import { ScrollBar, Separator } from '@/registry/default/ui'
 import { ScrollArea } from '@/registry/default/ui'
 import { Button, buttonVariants } from '../button'
-import { Download, Clipboard, X } from 'lucide-react'
+import { Clipboard, X } from 'lucide-react'
 import {
   FileType,
   FolderType,
@@ -27,11 +27,17 @@ import {
 import { format } from 'date-fns'
 import { filesize } from 'filesize'
 import { cn } from '@/lib'
-import { TREE_HEIGHT } from './upload.constants'
+import { CONTENT_WIDTH_PREVIEW_OPEN, PREVIEW_WIDTH, TREE_HEIGHT } from './upload.constants'
 
 const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<FileType | FolderType> | null>(null)
 
-export const useUploadAdvancedContext = () => {
+/**
+ * Hook for accessing the context of the UploadAdvancedProvider.
+ *
+ * @returns {UploadAdvancedContextType<FileType | FolderType> | null} The context object.
+ * @throws {Error} If the hook is used outside of an UploadAdvancedProvider.
+ */
+export const useUploadAdvancedContext = (): UploadAdvancedContextType<FileType | FolderType> => {
   const context = React.useContext(UploadAdvancedContext)
   if (!context) {
     throw new Error('useUploadContext must be used within an UploadProvider')
@@ -39,6 +45,14 @@ export const useUploadAdvancedContext = () => {
   return context
 }
 
+/**
+ * The UploadAdvancedProvider component provides the context for all the other components in the
+ * UploadAdvanced layout. It wraps the components in a context provider and provides the state and
+ * functions to manage the attachments and folders.
+ *
+ * @param {UploadAdvancedProviderProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 export const UploadAdvancedProvider = ({
   selectedFolder,
   attachments,
@@ -46,7 +60,7 @@ export const UploadAdvancedProvider = ({
   currentBucket,
   children,
   ...props
-}: UploadAdvancedProviderProps) => {
+}: UploadAdvancedProviderProps): JSX.Element => {
   const [_selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>(selectedFolder ?? [])
   const [_attachments, setAttachments] = React.useState<(FileType | FolderType)[]>(attachments ?? [])
   const [attachmentsState, setAttachmentsState] = React.useState<(FileType | FolderType)[]>([])
@@ -82,15 +96,28 @@ export const UploadAdvancedProvider = ({
   )
 }
 
+/**
+ * A component that renders the top bar of the advanced upload component.
+ * Contains the upload actions and the multiple select layout.
+ *
+ * @returns A JSX.Element
+ */
 export const UploadAdvancedHeader = () => {
   return (
     <div className="w-full h-[45px] overflow-hidden relative">
       <UploadAdvancedActionsLayout />
       <UploadAdvancedMultiSelectLayout />
+      <Separator />
     </div>
   )
 }
 
+/**
+ * A component that renders the actions layout of the advanced upload component.
+ * Contains the reload, view, upload file, add folder, and search buttons.
+ *
+ * @returns A JSX.Element
+ */
 export const UploadAdvancedActionsLayout = () => {
   const { selectedAttachments } = useUploadAdvancedContext()
 
@@ -119,6 +146,17 @@ export const UploadAdvancedActionsLayout = () => {
     </>
   )
 }
+
+/**
+ * A layout component for multi-select actions in the advanced upload interface.
+ *
+ * Displays a floating action bar when one or more attachments are selected,
+ * providing options to download, move, or delete the selected attachments.
+ *
+ * The bar includes a close button to clear the selection and shows the count
+ * of selected attachments. It appears with a smooth transition effect and hides
+ * when no attachments are selected.
+ */
 
 export const UploadAdvancedMultiSelectLayout = () => {
   const { selectedAttachments, setSelectedAttachments } = useUploadAdvancedContext()
@@ -171,11 +209,18 @@ export const UploadAdvancedMultiSelectLayout = () => {
   )
 }
 
+/**
+ * Component that displays the advanced content for file upload, including a preview of the uploaded file,
+ * a scrollable area containing the file/folder tree, and tree extender elements for enhanced interaction.
+ *
+ * @returns {React.Element} The rendered component containing the file preview, tree, and scrollable area.
+ */
 export const UploadAdnvacedContent = React.memo(() => {
+  const { previewFile } = useUploadAdvancedContext() ?? {}
   return (
     <div className="h-full relative">
       <UploadFilePreview />
-      <ScrollArea className={TREE_HEIGHT}>
+      <ScrollArea className={cn(TREE_HEIGHT, previewFile && CONTENT_WIDTH_PREVIEW_OPEN)}>
         <div className="flex items-center h-full rounded-md relative overflow-hidden">
           <UploadAttachmentsTreeItem />
           <UploadTreeExtender />
@@ -186,46 +231,65 @@ export const UploadAdnvacedContent = React.memo(() => {
   )
 })
 
-export const UploadTreeExtender = () => {
-  const { selectedFolder, attachments, uploadQuery } = useUploadAdvancedContext() ?? {}
+/**
+ * A component that extends the upload tree by rendering the contents of the selected folders.
+ * It retrieves the folder content from the attachments and filters it based on the upload query.
+ * Each folder's content is rendered as an UploadAttachmentsTreeItem component.
+ *
+ * @returns {JSX.Element | null} The rendered upload tree extender component, or null if no folders are selected.
+ */
+
+export const UploadTreeExtender = (): JSX.Element => {
+  const { selectedFolder, attachments, uploadQuery } = useUploadAdvancedContext()
 
   return (
-    selectedFolder.length > 0 &&
-    selectedFolder.map((folderContent, idx) => {
-      const item = UploadManager.searchAttachmentsByKey(
-        attachments,
-        folder => folder.id === folderContent?.id,
-        'content'
-      )
-      const filtered = !uploadQuery
-        ? (item as FolderType)?.content
-        : (item as FolderType)?.content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
-      return (
-        item && (
-          <div
-            key={item.id}
-            className="flex items-center h-full rounded-md"
-          >
-            <UploadAttachmentsTreeItem
-              attachments={filtered}
-              key={item.id}
-            />
-            {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
-          </div>
-        )
-      )
-    })
+    <>
+      {selectedFolder.length > 0 &&
+        selectedFolder.map((folderContent, idx) => {
+          const item = UploadManager.searchAttachmentsByKey(
+            attachments,
+            folder => folder.id === folderContent?.id,
+            'content'
+          )
+          const filtered = !uploadQuery
+            ? (item as FolderType)?.content
+            : (item as FolderType)?.content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
+          return (
+            item && (
+              <div
+                key={item.id}
+                className="flex items-center h-full rounded-md"
+              >
+                <UploadAttachmentsTreeItem
+                  attachments={filtered}
+                  key={item.id}
+                />
+                {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
+              </div>
+            )
+          )
+        })}
+    </>
   )
 }
 
-export const UploadFilePreview = () => {
+/**
+ * A component that renders a preview of the selected file.
+ *
+ * When a file is selected, the preview appears with a smooth transition effect and displays the file's name, type, size, created and updated at information.
+ * The preview also includes a download button, a button to copy the file's URL to the clipboard, and a delete button.
+ *
+ * @returns {JSX.Element} The rendered file preview component.
+ */
+export const UploadFilePreview = (): JSX.Element => {
   const { previewFile, setPreviewFile } = useUploadAdvancedContext() ?? {}
 
   return (
     <>
       <div
         className={cn(
-          'absolute top-0 right-0 h-full w-[400px] duration-300 ease-in-out translate-x-[100%] z-10 dark:bg-[#121212] bg-card',
+          PREVIEW_WIDTH,
+          'absolute top-0 right-0 h-full duration-300 ease-in-out translate-x-[100%] z-10 dark:bg-[#121212] bg-card',
           previewFile && 'translate-x-0'
         )}
       >
@@ -240,7 +304,8 @@ export const UploadFilePreview = () => {
           <div className="border-l border-l-border bg-muted/10 w-full h-full px-4 py-8">
             <div className="border border-border w-full h-[180px] flex items-center justify-center rounded-md overflow-hidden">
               <img
-                src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
+                // src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
+                src={previewFile?.url}
                 className="object-contain size-full"
                 alt={previewFile?.name}
               />
@@ -296,8 +361,6 @@ export const UploadFilePreview = () => {
           </div>
         </ScrollArea>
       </div>
-
-      <Separator />
     </>
   )
 }

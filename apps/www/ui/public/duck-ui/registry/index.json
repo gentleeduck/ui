@@ -318,6 +318,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "registry-ui-components/upload/upload.dto.ts",
+        "type": "registry:ui"
+      },
+      {
         "path": "registry-ui-components/upload/upload.lib.tsx",
         "type": "registry:ui"
       },
