@@ -2,7 +2,8 @@ import { Progress } from '@/registry/default/ui'
 import { CircleCheck, Loader } from 'lucide-react'
 import React from 'react'
 import { Button } from '../button'
-import { UploadManager } from './upload.lib'
+import { formatTime } from './upload.lib'
+// import { UploadManager } from './upload.lib'
 
 /**
  * A component that displays the progress of an upload. It includes a progress bar, number of files being uploaded, and a cancel button.
@@ -19,7 +20,7 @@ export const UploadSonnerContent = ({
   progress: number
   files: number
   remainingTime?: number
-}) => (
+}): JSX.Element => (
   <div className="flex gap-3 w-full">
     {progress >= 100 ? (
       <CircleCheck className="fill-primary [&_path]:stroke-primary-foreground mt-2 !size-[18px]" />
@@ -37,7 +38,7 @@ export const UploadSonnerContent = ({
         </p>
         <div className="flex items-center gap-2">
           {remainingTime && (
-            <p className="text-foreground-light text-sm font-mono">{`${remainingTime && !isNaN(remainingTime) && isFinite(remainingTime) && remainingTime !== 0 ? `${UploadManager.formatTime(remainingTime)} remaining – ` : ''}`}</p>
+            <p className="text-foreground-light text-sm font-mono">{`${remainingTime && !isNaN(remainingTime) && isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining – ` : ''}`}</p>
           )}
           <p className="text-foreground-light text-sm font-mono">{`${progress}%`}</p>
         </div>

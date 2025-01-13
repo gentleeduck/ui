@@ -12,7 +12,7 @@ import {
   UploadAdvancedContextType,
   UploadAdvancedProviderProps,
 } from './upload.types'
-import { UploadManager } from './upload.lib'
+// import { UploadManager } from './upload.lib'
 import {
   UploadAddFolderButton,
   UploadAdvancedButton,
@@ -28,6 +28,7 @@ import { format } from 'date-fns'
 import { filesize } from 'filesize'
 import { cn } from '@/lib'
 import { CONTENT_WIDTH_PREVIEW_OPEN, PREVIEW_WIDTH, TREE_HEIGHT } from './upload.constants'
+import { searchAttachmentsByKey } from './upload.lib'
 
 const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<FileType | FolderType> | null>(null)
 
@@ -246,11 +247,7 @@ export const UploadTreeExtender = (): JSX.Element => {
     <>
       {selectedFolder.length > 0 &&
         selectedFolder.map((folderContent, idx) => {
-          const item = UploadManager.searchAttachmentsByKey(
-            attachments,
-            folder => folder.id === folderContent?.id,
-            'content'
-          )
+          const item = searchAttachmentsByKey(attachments, folder => folder.id === folderContent?.id, 'content')
           const filtered = !uploadQuery
             ? (item as FolderType)?.content
             : (item as FolderType)?.content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))

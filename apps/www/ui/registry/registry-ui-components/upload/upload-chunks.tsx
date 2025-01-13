@@ -21,7 +21,16 @@ import {
   UploadRenameAttachmentButtonProps,
 } from './upload.types'
 import { CONTENT_POILERPLATE, FILE_TYPE_ICONS, TREE_HEIGHT, TREE_WIDTH } from './upload.constants'
-import { UploadManager } from './upload.lib'
+import {
+  addFolderToPath,
+  advancedUploadAttachments,
+  deleteAttachmentById,
+  folderOpen,
+  getFileType,
+  moveAttachmentsToPath,
+  renameAttachmentById,
+  selectAttachmentFromFolderContent,
+} from './upload.lib'
 import {
   Alert,
   AlertDescription,
@@ -138,7 +147,7 @@ export const UploadAdvancedButton = (): JSX.Element => {
 
   const memoizedUploadFiles = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      UploadManager.advancedUploadAttachments({ e, selectedFolder, setSelectedFolder, setAttachments })
+      advancedUploadAttachments({ e, selectedFolder, setSelectedFolder, setAttachments })
     },
     [selectedFolder, setSelectedFolder, setAttachments]
   )
@@ -211,7 +220,7 @@ export const UploadAddFolderButton = (): JSX.Element => {
           <DialogClose
             className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
             onClick={() =>
-              UploadManager.addFolderToPath({
+              addFolderToPath({
                 selectedFolder,
                 setAttachments,
                 setSelectedFolder,
@@ -272,9 +281,7 @@ export const UploadRenameAttachments = ({ attachment }: UploadRenameAttachmentBu
           </DialogClose>
           <DialogClose
             className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-            onClick={() =>
-              UploadManager.renameAttachmentById(setAttachments, [attachment.id], inputRef.current?.value ?? '')
-            }
+            onClick={() => renameAttachmentById(setAttachments, [attachment.id], inputRef.current?.value ?? '')}
           >
             Submit
           </DialogClose>
@@ -527,7 +534,7 @@ export const UploadAlertMoveAction = React.memo(
             <AlertDialogAction
               className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
               onClick={_ =>
-                UploadManager.moveAttachmentsToPath({
+                moveAttachmentsToPath({
                   setAttachments,
                   setSelectedAttachment: setSelectedAttachments,
                   selectedAttachments,
@@ -634,7 +641,7 @@ export const UploadAlertDeleteAttachments = React.memo(
               className={cn(
                 buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
               )}
-              onClick={() => setAttachments(old => UploadManager.deleteAttachmentById(old, itemsToDelete))}
+              onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
             >
               Delete
             </AlertDialogAction>
@@ -727,7 +734,7 @@ export const UploadSelectAll = React.memo((props: { attachments: (FileType | Fol
       <Checkbox
         className="w-[15px] h-[15px] border-muted-foreground/80"
         onCheckedChange={_ =>
-          UploadManager.selectAttachmentFromFolderContent({
+          selectAttachmentFromFolderContent({
             filesInCurrentTree,
             setSelectedAttachment,
           })
@@ -788,7 +795,7 @@ export const UploadAttachmentFolder = React.memo(
             'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-2 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer [&_*]:select-none',
             exist_in_tree && 'bg-card-foreground/15'
           )}
-          onClick={() => UploadManager.folderOpen({ attachmentFolder, setSelected, exist_in_tree })}
+          onClick={() => folderOpen({ attachmentFolder, setSelected, exist_in_tree })}
         >
           <div className="relative [&_svg]:size-4">
             {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files > 0 && 'fill-white')} />}
@@ -843,7 +850,7 @@ export const UploadAttachmentFolder = React.memo(
  * @returns {React.Element} The rendered component.
  */
 export const UploadAttachmentFile = React.memo(({ attachmentFile }: { attachmentFile: FileType }) => {
-  const fileType = UploadManager.getFileType(attachmentFile.file)
+  const fileType = getFileType(attachmentFile.file)
   const {
     setPreviewFile,
     selectedAttachments: selecttedAttachment,
