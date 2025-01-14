@@ -12,7 +12,6 @@ import {
   UploadAdvancedContextType,
   UploadAdvancedProviderProps,
 } from './upload.types'
-// import { UploadManager } from './upload.lib'
 import {
   UploadAddFolderButton,
   UploadAdvancedButton,
@@ -20,10 +19,12 @@ import {
   UploadAlertMoveAction,
   UploadAttachmentsTreeItem,
   UploadDownloadAttachments,
+  UploadNavigationLayout,
   UploadReloadButton,
   UploadSearchButton,
   UploadViewButton,
 } from './upload-chunks'
+
 import { format } from 'date-fns'
 import { filesize } from 'filesize'
 import { cn } from '@/lib'
@@ -105,11 +106,13 @@ export const UploadAdvancedProvider = ({
  */
 export const UploadAdvancedHeader = () => {
   return (
-    <div className="w-full h-[45px] overflow-hidden relative">
-      <UploadAdvancedActionsLayout />
-      <UploadAdvancedMultiSelectLayout />
+    <>
+      <div className="w-full h-[42px] overflow-hidden relative">
+        <UploadAdvancedActionsLayout />
+        <UploadAdvancedMultiSelectLayout />
+      </div>
       <Separator />
-    </div>
+    </>
   )
 }
 
@@ -123,7 +126,8 @@ export const UploadAdvancedActionsLayout = () => {
   const { selectedAttachments } = useUploadAdvancedContext()
 
   return (
-    <>
+    <div className="flex items-center justify-between">
+      <UploadNavigationLayout />
       <div
         className={cn(
           'space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out',
@@ -144,7 +148,7 @@ export const UploadAdvancedActionsLayout = () => {
         />
         <UploadSearchButton />
       </div>
-    </>
+    </div>
   )
 }
 
@@ -167,7 +171,7 @@ export const UploadAdvancedMultiSelectLayout = () => {
       <div
         className={cn(
           'absolute top-1/2 -translate-y-1/2 space-x-2 flex items-center w-full m-0 p-2 transition-all duration-300 ease-in-out bg-background pointer-events-all',
-          selectedAttachments.length > 0 ? '' : 'opacity-0 t anslate-y-[-42px] pointer-events-none'
+          selectedAttachments.length > 0 ? '' : 'opacity-0 pointer-events-none'
         )}
       >
         <Button
@@ -302,7 +306,7 @@ export const UploadFilePreview = (): JSX.Element => {
             <div className="border border-border w-full h-[180px] flex items-center justify-center rounded-md overflow-hidden">
               <img
                 // src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
-                src={previewFile?.url}
+                src={previewFile?.url ?? ''}
                 className="object-contain size-full"
                 alt={previewFile?.name}
               />

@@ -1,6 +1,25 @@
 'use client'
 
 import * as React from 'react'
+
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/registry/default/ui'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/registry/default/ui'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +39,13 @@ import {
   UploadDownloadAttachmentsProps,
   UploadRenameAttachmentButtonProps,
 } from './upload.types'
-import { CONTENT_POILERPLATE, FILE_TYPE_ICONS, TREE_HEIGHT, TREE_WIDTH } from './upload.constants'
+import {
+  CONTENT_POILERPLATE,
+  FILE_TYPE_ICONS,
+  ITEMS_TO_DISPLAY_BREADCRUMB,
+  TREE_HEIGHT,
+  TREE_WIDTH,
+} from './upload.constants'
 import {
   addFolderToPath,
   advancedUploadAttachments,
@@ -70,6 +95,7 @@ import {
 } from 'lucide-react'
 import { Checkbox, Separator } from '@/registry/default/ui'
 import { debounceCallback } from '@/hooks'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 /**
  * A button to reload the upload view.
@@ -145,13 +171,6 @@ export const UploadViewButton = (): JSX.Element => {
 export const UploadAdvancedButton = (): JSX.Element => {
   const { setAttachments, selectedFolder, setSelectedFolder } = useUploadAdvancedContext() ?? {}
 
-  const memoizedUploadFiles = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      advancedUploadAttachments({ e, selectedFolder, setSelectedFolder, setAttachments })
-    },
-    [selectedFolder, setSelectedFolder, setAttachments]
-  )
-
   return (
     <Button
       className="relative"
@@ -164,7 +183,7 @@ export const UploadAdvancedButton = (): JSX.Element => {
         type="file"
         className="absolute w-full h-full opacity-0 cursor-pointer"
         multiple={true}
-        onChange={e => memoizedUploadFiles(e)}
+        onChange={e => advancedUploadAttachments({ e, selectedFolder, setSelectedFolder, setAttachments })}
       />
       Upload file
     </Button>
@@ -855,11 +874,12 @@ export const UploadAttachmentFile = React.memo(({ attachmentFile }: { attachment
     setPreviewFile,
     selectedAttachments: selecttedAttachment,
     setSelectedAttachments: setSelectedAttachment,
+    previewFile,
   } = useUploadAdvancedContext()
   const exist_in_selected = selecttedAttachment.some(attachment => attachment.id === attachmentFile.id)
 
   return (
-    <div className="relative group/file">
+    <div className={cn('relative group/file', previewFile && 'bg-card-foreground/15')}>
       <div
         className={cn(
           'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-2 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer'
@@ -923,3 +943,137 @@ export const UploadAttachmentFile = React.memo(({ attachmentFile }: { attachment
     </div>
   )
 })
+
+export const UploadNavigationLayout = () => {
+  const [open, setOpen] = React.useState(false)
+
+  const { selectedFolder, currentBucket, setSelectedFolder } = useUploadAdvancedContext()
+  // const exist_in_tree =
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  return (
+    <Breadcrumb>
+      <BreadcrumbList className="flex-nowrap px-4 !gap-0">
+        <BreadcrumbItem
+          onClick={() =>
+            folderOpen({
+              attachmentFolder: selectedFolder[0],
+              setSelected: setSelectedFolder,
+              exist_in_tree: selectedFolder?.some(item => item.id === selectedFolder[0].id),
+            })
+          }
+        >
+          <Button
+            size={'xs'}
+            variant={'ghost'}
+          >
+            {selectedFolder.length > 0 ? selectedFolder[0].name : currentBucket}
+          </Button>
+        </BreadcrumbItem>
+        {selectedFolder.length > ITEMS_TO_DISPLAY_BREADCRUMB ? (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              {isDesktop ? (
+                <DropdownMenu
+                  open={open}
+                  onOpenChange={setOpen}
+                >
+                  <DropdownMenuTrigger
+                    className="flex items-center gap-1"
+                    aria-label="Toggle menu"
+                  >
+                    <BreadcrumbEllipsis className="h-4 w-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    {selectedFolder.slice(1, -2).map(item => (
+                      <DropdownMenuItem key={item.id}>
+                        <Button
+                          size={'xs'}
+                          variant={'ghost'}
+                          onClick={() =>
+                            folderOpen({
+                              attachmentFolder: item,
+                              setSelected: setSelectedFolder,
+                              exist_in_tree: selectedFolder?.some(item => item.id === item.id),
+                            })
+                          }
+                        >
+                          {item.name}
+                        </Button>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Drawer
+                  open={open}
+                  onOpenChange={setOpen}
+                >
+                  <DrawerTrigger aria-label="Toggle Menu">
+                    <BreadcrumbEllipsis className="h-4 w-4" />
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    <DrawerHeader className="text-left">
+                      <DrawerTitle>Navigate to</DrawerTitle>
+                      <DrawerDescription>Select a page to navigate to.</DrawerDescription>
+                    </DrawerHeader>
+                    <div className="grid gap-1 px-4">
+                      {selectedFolder.slice(1, -2).map(item => (
+                        <Button
+                          key={item.id}
+                          size={'xs'}
+                          variant={'ghost'}
+                          onClick={() =>
+                            folderOpen({
+                              attachmentFolder: item,
+                              setSelected: setSelectedFolder,
+                              exist_in_tree: selectedFolder?.some(item => item.id === item.id),
+                            })
+                          }
+                        >
+                          {item.name}
+                        </Button>
+                      ))}
+                    </div>
+                    <DrawerFooter className="pt-4">
+                      <DrawerClose asChild>
+                        <Button variant="outline">Close</Button>
+                      </DrawerClose>
+                    </DrawerFooter>
+                  </DrawerContent>
+                </Drawer>
+              )}
+            </BreadcrumbItem>
+          </>
+        ) : null}
+        {selectedFolder.length > 1 &&
+          selectedFolder
+            .slice(selectedFolder.length === 2 ? -1 : -ITEMS_TO_DISPLAY_BREADCRUMB + 1)
+            .map((item, index) => (
+              <BreadcrumbItem
+                key={index}
+                className="!gap-0"
+              >
+                <BreadcrumbSeparator />
+                <BreadcrumbPage className="max-w-20 truncate md:max-w-none">
+                  <Button
+                    size={'xs'}
+                    variant={'ghost'}
+                    onClick={() =>
+                      folderOpen({
+                        attachmentFolder: item,
+                        setSelected: setSelectedFolder,
+                        exist_in_tree: selectedFolder?.some(item => item.id === item.id),
+                      })
+                    }
+                  >
+                    {item.name}
+                  </Button>
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            ))}
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}

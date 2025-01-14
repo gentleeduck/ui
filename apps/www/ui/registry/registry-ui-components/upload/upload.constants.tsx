@@ -38,6 +38,9 @@ export const TREE_WIDTH = `w-[250px]`
 export const PREVIEW_WIDTH = `w-[400px]`
 export const CONTENT_WIDTH_PREVIEW_OPEN = `w-[calc(100%-400px)]`
 
+// Items to display in the breadcrumb.
+export const ITEMS_TO_DISPLAY_BREADCRUMB = 3
+
 /**
  * Content options for dropdown menus.
  * @type {Record<string, DuckDropdownMenuRadioGroupProps['content']>}

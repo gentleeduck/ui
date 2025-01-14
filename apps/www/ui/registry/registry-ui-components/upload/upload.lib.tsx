@@ -4,7 +4,6 @@ import {
   FolderType,
   HandleAttachmentProps,
   UploadFilesArgs,
-  UploadManagerClass,
   UploadPromiseArgs,
   UploadPromiseReturn,
 } from './upload.types'
@@ -12,20 +11,6 @@ import { uuidv7 } from 'uuidv7'
 import React from 'react'
 import { UploadSonnerContent, UploadSonnerContentMemo } from './upload-sonner'
 import { FileTypeEnum, MAX_FILE_SIZE } from './upload.constants'
-
-/**
- * The `UploadManager` class is responsible for handling file upload and attachment management.
- * It provides methods to rename attachments, upload files, manage folder contents, and track the progress of file uploads.
- */
-class UploadManager implements UploadManagerClass {
-  // -------------------------------------------------------------------------------------------
-  /**
-   * Handles the attachment process from a file input, validates the files, and updates the state with valid attachments.
-   *
-   * @param {HandleAttachmentProps} params - The input event and the function to set the attachments state.
-   * @returns {Promise<void>} - Returns a promise resolving to nothing.
-   */
-}
 
 export const uploadPromise = ({ files, toastId }: UploadPromiseArgs): Promise<UploadPromiseReturn> => {
   return new Promise(resolve => {
@@ -459,7 +444,7 @@ export function renameAttachmentById<T extends FileType | FolderType>(
       // Recursively check and rename nested content
       return {
         ...attachment,
-        content: renameInFolderContent((attachment as FolderType).content, targetIds, newName),
+        content: renameAttachmentById((attachment as FolderType).content, targetIds, newName),
       }
     }
     return attachment // Return folder if no match

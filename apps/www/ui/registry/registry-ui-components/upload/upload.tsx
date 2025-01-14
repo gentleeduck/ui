@@ -19,7 +19,7 @@ import {
   UploadTriggerProps,
 } from './upload.types'
 import { FILE_TYPE_ICONS } from './upload.constants'
-import { UploadManager } from './upload.lib'
+import { getAttachmentsToState } from './upload.lib'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
 import { downloadAttachment } from '@/registry/default/ui/comment'
@@ -33,7 +33,7 @@ const UploadContext = React.createContext<UploadContextType<FileType> | null>(nu
  * @returns {UploadContextType<FileType> | null} The context object.
  * @throws {Error} If the hook is used outside of an UploadProvider.
  */
-export const useUploadContext = () => {
+export const useUploadContext = (): UploadContextType<FileType> => {
   const context = React.useContext(UploadContext)
   if (!context) {
     throw new Error('useUploadContext must be used within an UploadProvider')
@@ -52,7 +52,7 @@ export const useUploadContext = () => {
  * @param {React.ReactNode} children The children components.
  * @returns {JSX.Element} The rendered component.
  */
-export const UploadProvider = ({ children }: { children: React.ReactNode }) => {
+export const UploadProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [attachments, setAttachments] = React.useState<FileType[]>([])
   const [attachmentsState, setAttachmentsState] = React.useState<FileType[]>([])
 
@@ -82,7 +82,7 @@ export const UploadProvider = ({ children }: { children: React.ReactNode }) => {
  *
  * @returns {JSX.Element} The rendered Upload component.
  */
-export const Upload = ({ children, trigger, content }: UploadProps) => {
+export const Upload = ({ children, trigger, content }: UploadProps): JSX.Element => {
   const { setAttachments, attachmentsState, setAttachmentsState } = useUploadContext()
   return (
     <>
@@ -457,7 +457,7 @@ export const UploadDirectButton = () => {
         type="file"
         className="absolute w-full h-full opacity-0 cursor-pointer"
         multiple={true}
-        onChange={e => UploadManager.getAttachmentsToState({ e, setAttachmentsState: setAttachments })}
+        onChange={e => getAttachmentsToState({ e, setAttachmentsState: setAttachments })}
       />
       Upload file
     </Button>

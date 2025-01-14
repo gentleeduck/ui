@@ -174,6 +174,7 @@ export interface UploadAlertDeleteActionProps extends UploadAlertMoveActionProps
 export type UploadSonnerProps = {
   progress: number // Current upload progress
   files: number // Number of files being uploaded
+  remainingTime?: number // Remaining time for the upload
 }
 
 // ------------------------------------------------------------------------------------------------
