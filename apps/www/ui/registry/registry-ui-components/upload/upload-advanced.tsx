@@ -335,7 +335,10 @@ export const UploadFilePreview = (): JSX.Element => {
               </p>
             </div>
             <div className="flex flex-row gap-2 [&_button]:px-3 mt-4 mb-2 ">
-              <UploadDownloadAttachments itemsName={[previewFile?.name ?? '']} />
+              <UploadDownloadAttachments
+                itemsName={[previewFile?.name ?? '']}
+                withinDropdown={false}
+              />
               <Button
                 size={'xs'}
                 // variant={'secondary'}

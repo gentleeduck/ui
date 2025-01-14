@@ -201,19 +201,22 @@ export const UploadAdvancedButton = (): JSX.Element => {
  */
 export const UploadAddFolderButton = (): JSX.Element => {
   const { selectedFolder, setAttachments, setSelectedFolder } = useUploadAdvancedContext()
+  const isDesktop = useMediaQuery('(min-width: 768px)')
   const inputRef = React.useRef<HTMLInputElement | null>(null)
 
-  return (
+  const Trigger = (
+    <Button
+      className="relative w-[1.625rem]"
+      size={'xs'}
+      icon={{ children: FolderPlusIcon }}
+    >
+      <span className="sr-only">Upload attachments</span>
+    </Button>
+  )
+
+  return isDesktop ? (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          className="relative w-[1.625rem]"
-          size={'xs'}
-          icon={{ children: FolderPlusIcon }}
-        >
-          <span className="sr-only">Upload attachments</span>
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{Trigger}</DialogTrigger>
       <DialogContent>
         <div>
           <DialogHeader className="p-2">
@@ -243,7 +246,7 @@ export const UploadAddFolderButton = (): JSX.Element => {
                 selectedFolder,
                 setAttachments,
                 setSelectedFolder,
-                folderName: inputRef.current?.value,
+                folderName: inputRef.current?.value ?? '',
               })
             }
           >
@@ -252,6 +255,46 @@ export const UploadAddFolderButton = (): JSX.Element => {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  ) : (
+    <Drawer>
+      <DrawerTrigger asChild>{Trigger}</DrawerTrigger>
+      <DrawerContent className="p-4">
+        <div>
+          <DrawerHeader className="p-2 text-start">
+            <DrawerTitle className="text-lg font-medium pb-0">Create a new folder</DrawerTitle>
+            <DrawerDescription className="text-sm text-muted-foreground">
+              Enter the name of the folder you'd like to create.
+            </DrawerDescription>
+          </DrawerHeader>
+          <Input
+            placeholder="Enter folder name..."
+            defaultValue={'New_folder' + Math.random().toString(36).slice(2)}
+            ref={inputRef}
+          />
+        </div>
+        <DrawerFooter className="px-0">
+          <DrawerClose
+            className={cn(buttonVariants({ className: 'px-8', size: 'sm', variant: 'outline' }))}
+            onClick={() => inputRef.current && (inputRef.current.value = '')}
+          >
+            Cancel
+          </DrawerClose>
+          <DrawerClose
+            className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
+            onClick={() =>
+              addFolderToPath({
+                selectedFolder,
+                setAttachments,
+                setSelectedFolder,
+                folderName: inputRef.current?.value ?? '',
+              })
+            }
+          >
+            Submit
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   )
 }
 
@@ -262,20 +305,23 @@ export const UploadAddFolderButton = (): JSX.Element => {
  */
 export const UploadRenameAttachments = ({ attachment }: UploadRenameAttachmentButtonProps): JSX.Element => {
   const { setAttachments } = useUploadAdvancedContext()
+  const isDesktop = useMediaQuery('(min-width: 768px)')
   const inputRef = React.useRef<HTMLInputElement | null>(null)
 
-  return (
+  const Trigger = (
+    <Button
+      className="relative w-[1.625rem]"
+      size={'xs'}
+      variant={'ghost'}
+      icon={{ children: Pencil }}
+    >
+      <span className="">Rename </span>
+    </Button>
+  )
+
+  return isDesktop ? (
     <Dialog modal={true}>
-      <DialogTrigger asChild>
-        <Button
-          className="relative w-[1.625rem]"
-          size={'xs'}
-          variant={'ghost'}
-          icon={{ children: Pencil }}
-        >
-          <span className="">Rename </span>
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{Trigger}</DialogTrigger>
       <DialogContent>
         <div>
           <DialogHeader className="p-2">
@@ -300,13 +346,46 @@ export const UploadRenameAttachments = ({ attachment }: UploadRenameAttachmentBu
           </DialogClose>
           <DialogClose
             className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-            onClick={() => renameAttachmentById(setAttachments, [attachment.id], inputRef.current?.value ?? '')}
+            onClick={() => setAttachments(_ => renameAttachmentById(_, [attachment.id], inputRef.current?.value ?? ''))}
           >
             Submit
           </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  ) : (
+    <Drawer>
+      <DrawerTrigger>{Trigger}</DrawerTrigger>
+      <DrawerContent className="p-4">
+        <div>
+          <DrawerHeader className="p-2 text-start">
+            <DrawerTitle className="text-lg font-medium pb-0">Rename the attachment</DrawerTitle>
+            <DrawerDescription className="text-sm text-muted-foreground">
+              Enter the name of the attachment you'd like to rename.
+            </DrawerDescription>
+          </DrawerHeader>
+          <Input
+            placeholder="Enter attachment name..."
+            defaultValue={attachment.name}
+            ref={inputRef}
+          />
+        </div>
+        <DrawerFooter>
+          <DrawerClose
+            className={cn(buttonVariants({ className: 'px-8', size: 'sm', variant: 'outline' }))}
+            onClick={() => inputRef.current && (inputRef.current.value = '')}
+          >
+            Cancel
+          </DrawerClose>
+          <DrawerClose
+            className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
+            onClick={() => setAttachments(_ => renameAttachmentById(_, [attachment.id], inputRef.current?.value ?? ''))}
+          >
+            Submit
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   )
 }
 
@@ -380,83 +459,127 @@ export const UploadSearchButton = (): JSX.Element => {
 export const UploadDownloadAttachments = React.memo(
   ({ itemsName, size, withinDropdown = false, ...props }: UploadDownloadAttachmentsProps): JSX.Element => {
     const { currentBucket } = useUploadAdvancedContext()
+    const isDesktop = useMediaQuery('(min-width: 768px)')
 
-    const ButtonSubmit = (
-      <AlertDialogAction
-        className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
+    const Trigger = (
+      <Button
+        size={size ?? 'xs'}
+        icon={{ children: Download }}
         onClick={() => {}}
+        {...props}
       >
         Download
-      </AlertDialogAction>
+      </Button>
     )
 
-    return (
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
+    const Content = (
+      <>
+        <h5 className="text-lg font-medium p-4 pb-0">
+          Download
           <Button
-            size={size ?? 'xs'}
-            icon={{ children: Download }}
-            onClick={() => {}}
-            {...props}
+            variant={'nothing'}
+            className="py-0 px-2 text-lg"
+            label={{
+              children: (
+                <div className="flex flex-col sapce-y-2 p-1">
+                  {itemsName.map((item, index) => (
+                    <span key={index}>{item}</span>
+                  ))}
+                </div>
+              ),
+              side: 'top',
+              showLabel: true,
+            }}
           >
-            Download
+            <span className="font-mono italic underline underline-offset-4">
+              {itemsName.length > 1
+                ? `${itemsName.length} file${itemsName[0].length > 1 ? 's' : ''}`
+                : `${itemsName[0]?.slice(0, 15)}${itemsName[0]?.length > 15 ? '... ' : ''}`}
+            </span>
           </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent className="p-2">
-          <AlertDialogHeader>
-            <h5 className="text-lg font-medium p-4 pb-0">
-              Download
-              <Button
-                variant={'nothing'}
-                className="py-0 px-2 text-lg"
-                label={{
-                  children: (
-                    <div className="flex flex-col sapce-y-2 p-1">
-                      {itemsName.map((item, index) => (
-                        <span key={index}>{item}</span>
-                      ))}
-                    </div>
-                  ),
-                  side: 'top',
-                  showLabel: true,
-                }}
-              >
-                <span className="font-mono italic underline underline-offset-4">
-                  {itemsName.length > 1
-                    ? `${itemsName.length} file${itemsName[0].length > 1 ? 's' : ''}`
-                    : `${itemsName[0]?.slice(0, 15)}${itemsName[0]?.length > 15 ? '... ' : ''}`}
-                </span>
-              </Button>
-              from
-              <Button
-                variant={'nothing'}
-                className="py-0 px-2 text-lg"
-                label={{
-                  children: currentBucket ? currentBucket : 'the bucket',
-                  showLabel: currentBucket.length > 5 ? true : false,
-                  side: 'top',
-                }}
-              >
-                <span className="font-mono italic underline underline-offset-4">
-                  {currentBucket
-                    ? `${currentBucket.length > 5 ? `${currentBucket.slice(0, 5)}...` : currentBucket}`
-                    : 'the bucket'}
-                </span>
-              </Button>
-            </h5>
-            <p className="text-sm text-muted-foreground px-4 !mt-0">Select the items you'd like to download.</p>
+          from
+          <Button
+            variant={'nothing'}
+            className="py-0 px-2 text-lg"
+            label={{
+              children: currentBucket ? currentBucket : 'the bucket',
+              showLabel: currentBucket.length > 5 ? true : false,
+              side: 'top',
+            }}
+          >
+            <span className="font-mono italic underline underline-offset-4">
+              {currentBucket
+                ? `${currentBucket.length > 5 ? `${currentBucket.slice(0, 5)}...` : currentBucket}`
+                : 'the bucket'}
+            </span>
+          </Button>
+        </h5>
+        <p className="text-sm text-muted-foreground px-4 !mt-0">Select the items you'd like to download.</p>
 
-            <Separator />
-          </AlertDialogHeader>
+        <Separator />
+      </>
+    )
+
+    return isDesktop ? (
+      <AlertDialog>
+        <AlertDialogTrigger asChild>{Trigger}</AlertDialogTrigger>
+        <AlertDialogContent className="p-2">
+          <AlertDialogHeader>{Content}</AlertDialogHeader>
 
           <AlertDialogFooter>
             <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
               Cancel
             </AlertDialogCancel>
-            {withinDropdown ? <DropdownMenuItem className="p-0">{ButtonSubmit}</DropdownMenuItem> : ButtonSubmit}
+            {withinDropdown ? (
+              <DropdownMenuItem className="p-0">
+                <AlertDialogAction
+                  className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
+                  onClick={() => {}}
+                >
+                  Download
+                </AlertDialogAction>
+              </DropdownMenuItem>
+            ) : (
+              <AlertDialogAction
+                className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
+                onClick={() => {}}
+              >
+                Download
+              </AlertDialogAction>
+            )}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+    ) : (
+      <Drawer>
+        <DrawerTrigger asChild>{Trigger}</DrawerTrigger>
+        <DrawerContent className="p-2">
+          <DrawerHeader>{Content}</DrawerHeader>
+
+          <DrawerFooter>
+            <DrawerClose className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+              Cancel
+            </DrawerClose>
+            {withinDropdown ? (
+              <DropdownMenuItem className="p-0">
+                <DrawerClose
+                  className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
+                  onClick={() => {}}
+                >
+                  Download
+                </DrawerClose>
+              </DropdownMenuItem>
+            ) : (
+              <DrawerClose
+                className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
+                onClick={() => {}}
+              >
+                Download
+              </DrawerClose>
+            )}
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     )
   }
 )
@@ -464,88 +587,96 @@ export const UploadDownloadAttachments = React.memo(
 export const UploadAlertMoveAction = React.memo(
   ({ itemsName: itemName, ...props }: UploadAlertMoveActionProps): JSX.Element => {
     const { currentBucket, selectedAttachments, setSelectedAttachments, setAttachments } = useUploadAdvancedContext()
+    const [open, setOpen] = React.useState<boolean>(false)
+    const isDesktop = useMediaQuery('(min-width: 768px)')
     const inputRef = React.useRef<HTMLInputElement | null>(null)
 
-    return (
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
+    const Trigger = (
+      <Button
+        size={'xs'}
+        icon={{ children: Move }}
+        {...props}
+      >
+        Move
+      </Button>
+    )
+
+    const Content = (
+      <>
+        <div className="text-lg font-medium text-start">
+          Moving
           <Button
-            size={'xs'}
-            icon={{ children: Move }}
-            {...props}
+            variant={'nothing'}
+            className="py-0 px-2 text-lg"
+            label={{
+              children: (
+                <div className="flex flex-col sapce-y-2 p-1">
+                  {itemName.map((item, index) => (
+                    <span key={index}>{item}</span>
+                  ))}
+                </div>
+              ),
+              side: 'top',
+              showLabel: true,
+            }}
           >
-            Move
+            <span className="font-mono italic underline underline-offset-4">
+              {itemName.length > 1
+                ? `${itemName.length} file${itemName[0].length > 1 ? 's' : ''}`
+                : `${itemName[0]?.slice(0, 15)}${itemName[0]?.length > 15 ? '... ' : ''}`}
+            </span>
           </Button>
-        </AlertDialogTrigger>
+          within
+          <Button
+            variant={'nothing'}
+            className="py-0 px-2 text-lg"
+            label={{
+              children: currentBucket ? currentBucket : 'the bucket',
+              showLabel: currentBucket.length > 5 ? true : false,
+              side: 'top',
+            }}
+          >
+            <span className="font-mono italic underline underline-offset-4">
+              {currentBucket
+                ? `${currentBucket.length > 5 ? `${currentBucket.slice(0, 5)}...` : currentBucket}`
+                : 'the bucket'}
+            </span>
+          </Button>
+        </div>
+        <p className="text-sm text-start text-muted-foreground !mt-0">
+          Enter the path to where you'd like to move the files to.
+        </p>
+
+        <Separator />
+        <Alert
+          variant={'default'}
+          className="space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12 bg-muted/50"
+        >
+          <AlertTitle className="text-accent-foreground/70 flex iems-center gap-1">
+            Path to new directory in
+            <span className="font-mono italic underline underline-offset-4">{currentBucket}</span>
+          </AlertTitle>
+          <Input
+            className="bg-transparent h-[35px] border-muted-foreground/20"
+            placeholder="Enter path here..."
+            ref={inputRef}
+          />
+          <AlertDescription className="text-muted-foreground/70">
+            Leave blank to move items to the root of the bucket.
+          </AlertDescription>
+        </Alert>
+        <Separator />
+      </>
+    )
+
+    return isDesktop ? (
+      <AlertDialog
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <AlertDialogTrigger asChild>{Trigger}</AlertDialogTrigger>
         <AlertDialogContent className="p-0">
-          <AlertDialogHeader>
-            <h5 className="text-lg font-medium p-4 pb-0">
-              Moving
-              <Button
-                variant={'nothing'}
-                className="py-0 px-2 text-lg"
-                label={{
-                  children: (
-                    <div className="flex flex-col sapce-y-2 p-1">
-                      {itemName.map((item, index) => (
-                        <span key={index}>{item}</span>
-                      ))}
-                    </div>
-                  ),
-                  side: 'top',
-                  showLabel: true,
-                }}
-              >
-                <span className="font-mono italic underline underline-offset-4">
-                  {itemName.length > 1
-                    ? `${itemName.length} file${itemName[0].length > 1 ? 's' : ''}`
-                    : `${itemName[0]?.slice(0, 15)}${itemName[0]?.length > 15 ? '... ' : ''}`}
-                </span>
-              </Button>
-              within
-              <Button
-                variant={'nothing'}
-                className="py-0 px-2 text-lg"
-                label={{
-                  children: currentBucket ? currentBucket : 'the bucket',
-                  showLabel: currentBucket.length > 5 ? true : false,
-                  side: 'top',
-                }}
-              >
-                <span className="font-mono italic underline underline-offset-4">
-                  {currentBucket
-                    ? `${currentBucket.length > 5 ? `${currentBucket.slice(0, 5)}...` : currentBucket}`
-                    : 'the bucket'}
-                </span>
-              </Button>
-            </h5>
-            <p className="text-sm text-muted-foreground px-4 !mt-0">
-              Enter the path to where you'd like to move the files to.
-            </p>
-
-            <Separator />
-            <div className="p-4">
-              <Alert
-                variant={'default'}
-                className="space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12 bg-muted/50"
-              >
-                <AlertTitle className="text-accent-foreground/70 flex iems-center gap-1">
-                  Path to new directory in
-                  <span className="font-mono italic underline underline-offset-4">{currentBucket}</span>
-                </AlertTitle>
-                <Input
-                  className="bg-transparent h-[35px] border-muted-foreground/20"
-                  placeholder="Enter path here..."
-                  ref={inputRef}
-                />
-                <AlertDescription className="text-muted-foreground/70">
-                  Leave blank to move items to the root of the bucket.
-                </AlertDescription>
-              </Alert>
-            </div>
-            <Separator />
-          </AlertDialogHeader>
-
+          <AlertDialogHeader className="p-4 pb-0 space-y-4">{Content}</AlertDialogHeader>
           <AlertDialogFooter className="px-4 pb-4">
             <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
               Cancel
@@ -566,6 +697,34 @@ export const UploadAlertMoveAction = React.memo(
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+    ) : (
+      <Drawer
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <DrawerTrigger asChild>{Trigger}</DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader className="space-y-2 [&_div]:text-start">{Content}</DrawerHeader>
+          <DrawerFooter className="px-4 pb-4 pt-2">
+            <DrawerClose className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+              Cancel
+            </DrawerClose>
+            <DrawerClose
+              className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
+              onClick={_ =>
+                moveAttachmentsToPath({
+                  setAttachments,
+                  setSelectedAttachment: setSelectedAttachments,
+                  selectedAttachments,
+                  path: inputRef.current?.value ?? '',
+                })
+              }
+            >
+              Move
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     )
   }
 )
@@ -580,78 +739,85 @@ export const UploadAlertDeleteAttachments = React.memo(
     ...props
   }: UploadAlertDeleteActionProps): JSX.Element => {
     const { setAttachments, currentBucket } = useUploadAdvancedContext()
+    const [open, setOpen] = React.useState<boolean>(false)
+    const isDesktop = useMediaQuery('(min-width: 768px)')
 
-    return (
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
+    const Trigger = (
+      <Button
+        size={size ?? 'xs'}
+        className={cn('justify-between w-full rounded-sm', className)}
+        variant={variant ?? 'destructive'}
+        icon={{ children: Trash }}
+        {...props}
+      >
+        Delete
+      </Button>
+    )
+
+    const Content = (
+      <>
+        <div className="text-lg font-medium text-start">
+          Confirm deletion of
           <Button
-            size={size ?? 'xs'}
-            className={cn('justify-between w-full rounded-sm', className)}
-            variant={variant ?? 'destructive'}
-            icon={{ children: Trash }}
-            {...props}
+            variant={'nothing'}
+            className="py-0 px-2 text-lg"
+            label={{
+              children: (
+                <div className="flex flex-col sapce-y-2 p-1">
+                  {itemName.map((item, index) => (
+                    <span key={index}>{item}</span>
+                  ))}
+                </div>
+              ),
+              side: 'top',
+              showLabel: true,
+            }}
           >
-            Delete
+            <span className="font-mono italic underline underline-offset-4">
+              {itemName.length > 1
+                ? `${itemName.length} file${itemName[0].length > 1 ? 's' : ''}`
+                : `${itemName[0]?.slice(0, 10)}${itemName[0]?.length > 10 ? '... ' : ''}`}
+            </span>
           </Button>
-        </AlertDialogTrigger>
+          from
+          <Button
+            variant={'nothing'}
+            className="py-0 px-2 text-lg"
+            label={{
+              children: currentBucket ? currentBucket : 'the bucket',
+              showLabel: currentBucket.length > 5 ? true : false,
+              side: 'top',
+            }}
+          >
+            <span className="font-mono italic underline underline-offset-4">
+              {currentBucket
+                ? `${currentBucket.length > 5 ? `${currentBucket.slice(0, 5)}...` : currentBucket}`
+                : 'the bucket'}
+            </span>
+          </Button>
+          <Separator className="mt-2" />
+        </div>
+
+        <Alert
+          variant="destructive"
+          className="space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12"
+        >
+          <AlertCircle />
+          <AlertTitle>This action cannot be undone.</AlertTitle>
+          <AlertDescription>Are you sure you want to delete the selected items?</AlertDescription>
+        </Alert>
+
+        <Separator />
+      </>
+    )
+    return isDesktop ? (
+      <AlertDialog
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <AlertDialogTrigger asChild>{Trigger}</AlertDialogTrigger>
         <AlertDialogContent className="p-0">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="p-4 pb-0">
-              Confirm deletion of
-              <Button
-                variant={'nothing'}
-                className="py-0 px-2 text-lg"
-                label={{
-                  children: (
-                    <div className="flex flex-col sapce-y-2 p-1">
-                      {itemName.map((item, index) => (
-                        <span key={index}>{item}</span>
-                      ))}
-                    </div>
-                  ),
-                  side: 'top',
-                  showLabel: true,
-                }}
-              >
-                <span className="font-mono italic underline underline-offset-4">
-                  {itemName.length > 1
-                    ? `${itemName.length} file${itemName[0].length > 1 ? 's' : ''}`
-                    : `${itemName[0]?.slice(0, 10)}${itemName[0]?.length > 10 ? '... ' : ''}`}
-                </span>
-              </Button>
-              from
-              <Button
-                variant={'nothing'}
-                className="py-0 px-2 text-lg"
-                label={{
-                  children: currentBucket ? currentBucket : 'the bucket',
-                  showLabel: currentBucket.length > 5 ? true : false,
-                  side: 'top',
-                }}
-              >
-                <span className="font-mono italic underline underline-offset-4">
-                  {currentBucket
-                    ? `${currentBucket.length > 5 ? `${currentBucket.slice(0, 5)}...` : currentBucket}`
-                    : 'the bucket'}
-                </span>
-              </Button>
-            </AlertDialogTitle>
-            <Separator />
-          </AlertDialogHeader>
-
-          <div className="px-4">
-            <Alert
-              variant="destructive"
-              className="space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12"
-            >
-              <AlertCircle />
-              <AlertTitle>This action cannot be undone.</AlertTitle>
-              <AlertDescription>Are you sure you want to delete the selected items?</AlertDescription>
-            </Alert>
-          </div>
-
-          <Separator />
-
+          <AlertDialogHeader className="p-4 pb-0 space-y-4">{Content}</AlertDialogHeader>
           <AlertDialogFooter className="px-4 pb-4">
             <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
               Cancel
@@ -667,6 +833,29 @@ export const UploadAlertDeleteAttachments = React.memo(
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+    ) : (
+      <Drawer
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <DrawerTrigger asChild>{Trigger}</DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader className="space-y-2 [&_div]:text-start">{Content}</DrawerHeader>
+          <DrawerFooter className="px-4 pb-4 pt-2">
+            <DrawerClose className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+              Cancel
+            </DrawerClose>
+            <DrawerClose
+              className={cn(
+                buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
+              )}
+              onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
+            >
+              Delete
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     )
   }
 )
@@ -821,43 +1010,67 @@ export const UploadAttachmentFolder = React.memo(
           </div>
           <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
         </div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              size={'xs'}
-              variant={'ghost'}
-              className="h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2"
-              icon={{ children: Ellipsis }}
-            />
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent className="">
-            <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full">
-              <UploadRenameAttachments attachment={attachmentFolder} />
-              <UploadDownloadAttachments
-                withinDropdown={true}
-                itemsName={[attachmentFolder.name]}
-                variant={'ghost'}
-              />
-              <Separator />
-              <UploadAlertDeleteAttachments
-                itemsName={[attachmentFolder.name + ' folder']}
-                command={{
-                  label: 'Alt+D',
-                  key: 'Alt+d',
-                  variant: 'nothing',
-                  className: 'text-accent-foreground/40 w-full ml-6',
-                }}
-                itemsToDelete={[attachmentFolder.id]}
-              />
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <UploadAttachmentActionsMenu attachment={attachmentFolder} />
       </div>
     )
   }
 )
+
+export const UploadAttachmentActionsMenu = ({ attachment }: { attachment: FileType | FolderType }) => {
+  const [open, setOpen] = React.useState<boolean>(false)
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  return isDesktop ? (
+    <DropdownMenu
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <DropdownMenuTrigger asChild>
+        <Button
+          size={'xs'}
+          variant={'ghost'}
+          className="h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2"
+          icon={{ children: Ellipsis }}
+        />
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent>
+        <UploadActionsMenu attachment={attachment} />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ) : (
+    <Drawer
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <DrawerTrigger
+        aria-label="Toggle Menu"
+        asChild
+      >
+        <Button
+          size={'xs'}
+          variant={'ghost'}
+          className="h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2"
+          icon={{ children: Ellipsis }}
+        />
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader className="text-left">
+          <DrawerTitle>Pick an action</DrawerTitle>
+          <DrawerDescription>Select an action to execute.</DrawerDescription>
+        </DrawerHeader>
+        <div className="p-4">
+          <UploadActionsMenu attachment={attachment} />
+        </div>
+        <DrawerFooter className="pt-4">
+          <DrawerClose asChild>
+            <Button variant="outline">Close</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}
 
 /**
  * Component representing a single attachment file.
@@ -879,7 +1092,7 @@ export const UploadAttachmentFile = React.memo(({ attachmentFile }: { attachment
   const exist_in_selected = selecttedAttachment.some(attachment => attachment.id === attachmentFile.id)
 
   return (
-    <div className={cn('relative group/file', previewFile && 'bg-card-foreground/15')}>
+    <div className={cn('relative group/file', previewFile?.id === attachmentFile.id && 'bg-card-foreground/15')}>
       <div
         className={cn(
           'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-2 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer'
@@ -908,47 +1121,39 @@ export const UploadAttachmentFile = React.memo(({ attachmentFile }: { attachment
           setSelectedAttachment(prev => prev.filter(attachment => attachment.id !== attachmentFile.id))
         }}
       />
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            size={'xs'}
-            variant={'ghost'}
-            className="h-4 w-6 absolute top-1/2 right-2 -translate-y-1/2"
-            icon={{ children: Ellipsis }}
-          />
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent className="">
-          <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full space-y-1">
-            <UploadRenameAttachments attachment={attachmentFile} />
-            <UploadDownloadAttachments
-              withinDropdown={true}
-              itemsName={[attachmentFile.name]}
-              variant={'ghost'}
-            />
-            <Separator />
-            <UploadAlertDeleteAttachments
-              itemsName={[attachmentFile.name]}
-              command={{
-                label: 'Alt+D',
-                key: 'Alt+d',
-                variant: 'nothing',
-                className: 'text-accent-foreground/40 w-full ml-6',
-              }}
-              itemsToDelete={[attachmentFile.id]}
-            />
-          </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <UploadAttachmentActionsMenu attachment={attachmentFile} />
     </div>
   )
 })
+
+const UploadActionsMenu = ({ attachment }: { attachment: FileType | FolderType }) => {
+  return (
+    <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full space-y-1">
+      <UploadRenameAttachments attachment={attachment} />
+      <UploadDownloadAttachments
+        withinDropdown={true}
+        itemsName={[attachment.name]}
+        variant={'ghost'}
+      />
+      <Separator />
+      <UploadAlertDeleteAttachments
+        itemsName={[attachment.name]}
+        command={{
+          label: 'Alt+D',
+          key: 'Alt+d',
+          variant: 'nothing',
+          className: 'text-accent-foreground/40 w-full ml-6',
+        }}
+        itemsToDelete={[attachment.id]}
+      />
+    </div>
+  )
+}
 
 export const UploadNavigationLayout = () => {
   const [open, setOpen] = React.useState(false)
 
   const { selectedFolder, currentBucket, setSelectedFolder } = useUploadAdvancedContext()
-  // const exist_in_tree =
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   return (
