@@ -107,6 +107,8 @@ export interface UploadAdvancedContextType<T extends Record<string, any>> extend
   selectedAttachments: FileType[] // Currently selected attachments
   setSelectedAttachments: React.Dispatch<React.SetStateAction<FileType[]>> // Function to update selected attachments
   currentBucket: string // Current bucket name
+  uploadView: 'column' | 'row' // Currently selected view
+  setUploadView: React.Dispatch<React.SetStateAction<'column' | 'row'>> // Function to update the view
 }
 
 /**

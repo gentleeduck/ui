@@ -79,7 +79,7 @@ const generateFolder = (level: number): FolderType => {
 const attachments: FolderType[] = Array.from({ length: 10 }, (_, i) => generateFolder(1)) // Start with level 1 for the root folder
 
 export default function Upload4Demo() {
-  console.log('Attachments:', attachments)
+  // console.log('Attachments:', attachments)
   return (
     <>
       <UploadAdvancedProvider

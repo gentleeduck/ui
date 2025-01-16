@@ -333,7 +333,7 @@ const combinedFiltersData = [
 const columns: TableHeaderType<TableDataType>[] = [
   {
     label: 'task',
-    className: 'w-[130px]',
+    className: 'w-[110px]',
     sortable: false,
   },
   {
