@@ -144,6 +144,10 @@ export type UploadRenameAttachmentButtonProps = {
   attachment: FileType | FolderType
 }
 
+export type UploadAdvacedAttachmentFolder = {
+  attachmentFolder: FolderType
+}
+
 /**
  * Props for the UploadAttachmentsTreeItem component.
  */

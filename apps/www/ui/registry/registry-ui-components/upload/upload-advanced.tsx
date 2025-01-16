@@ -11,37 +11,36 @@ import {
   SelectedFolderType,
   UploadAdvancedContextType,
   UploadAdvancedProviderProps,
+  UploadAttachmentsTreeItemProps,
 } from './upload.types'
 import {
-  EmptyFolder,
-  UploadAddFolderButton,
+  UploadAdvancedNoAttachments,
+  UploadAdvancedAddFolderButton,
+  UploadAdvancedAttachmentFile,
+  UploadAdvancedAttachmentFolder,
   UploadAdvancedButton,
-  UploadAlertDeleteAttachments,
-  UploadAlertMoveAction,
+  UploadAdvancedAlertDeleteAttachments,
+  UploadAdvancedAlertMoveAction,
   UploadAttachmentActionsMenu,
-  UploadAttachmentsTreeItem,
-  UploadDownloadAttachments,
-  UploadNavigationLayout,
+  UploadAdvancedDownloadAttachments,
+  UploadAdvancedNavigationLayout,
   UploadReloadButton,
-  UploadSearchButton,
-  UploadViewButton,
-} from './upload-chunks'
+  UploadAdvancedSearchButton,
+  UploadAdvancedSelectAllLayout,
+  UploadAdvancedViewButton,
+  UploadAdvancedAttachmentsRowFile,
+  UploadAdvancedAttachmentsRowFolder,
+} from './upload-advanced-chunks'
 
 import { format } from 'date-fns'
 import { filesize } from 'filesize'
 import { cn } from '@/lib'
-import { CONTENT_WIDTH_PREVIEW_OPEN, FILE_TYPE_ICONS, PREVIEW_WIDTH, TREE_HEIGHT } from './upload.constants'
+import { CONTENT_WIDTH_PREVIEW_OPEN, FILE_TYPE_ICONS, PREVIEW_WIDTH, TREE_HEIGHT, TREE_WIDTH } from './upload.constants'
 import { folderOpen, getFileType, searchAttachmentsByKey } from './upload.lib'
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '../table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../table'
 
 const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<FileType | FolderType> | null>(null)
 
-/**
- * Hook for accessing the context of the UploadAdvancedProvider.
- *
- * @returns {UploadAdvancedContextType<FileType | FolderType> | null} The context object.
- * @throws {Error} If the hook is used outside of an UploadAdvancedProvider.
- */
 export const useUploadAdvancedContext = (): UploadAdvancedContextType<FileType | FolderType> => {
   const context = React.useContext(UploadAdvancedContext)
   if (!context) {
@@ -50,14 +49,6 @@ export const useUploadAdvancedContext = (): UploadAdvancedContextType<FileType |
   return context
 }
 
-/**
- * The UploadAdvancedProvider component provides the context for all the other components in the
- * UploadAdvanced layout. It wraps the components in a context provider and provides the state and
- * functions to manage the attachments and folders.
- *
- * @param {UploadAdvancedProviderProps} props - The props for the component.
- * @returns {JSX.Element} The rendered component.
- */
 export const UploadAdvancedProvider = ({
   selectedFolder,
   attachments,
@@ -104,12 +95,6 @@ export const UploadAdvancedProvider = ({
   )
 }
 
-/**
- * A component that renders the top bar of the advanced upload component.
- * Contains the upload actions and the multiple select layout.
- *
- * @returns A JSX.Element
- */
 export const UploadAdvancedHeader = () => {
   return (
     <>
@@ -122,18 +107,12 @@ export const UploadAdvancedHeader = () => {
   )
 }
 
-/**
- * A component that renders the actions layout of the advanced upload component.
- * Contains the reload, view, upload file, add folder, and search buttons.
- *
- * @returns A JSX.Element
- */
 export const UploadAdvancedActionsLayout = () => {
   const { selectedAttachments } = useUploadAdvancedContext()
 
   return (
     <div className="flex items-center justify-between">
-      <UploadNavigationLayout />
+      <UploadAdvancedNavigationLayout />
       <div
         className={cn(
           'space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out',
@@ -141,33 +120,22 @@ export const UploadAdvancedActionsLayout = () => {
         )}
       >
         <UploadReloadButton />
-        <UploadViewButton />
+        <UploadAdvancedViewButton />
         <Separator
           orientation="vertical"
           className="h-6"
         />
         <UploadAdvancedButton />
-        <UploadAddFolderButton />
+        <UploadAdvancedAddFolderButton />
         <Separator
           orientation="vertical"
           className="h-6"
         />
-        <UploadSearchButton />
+        <UploadAdvancedSearchButton />
       </div>
     </div>
   )
 }
-
-/**
- * A layout component for multi-select actions in the advanced upload interface.
- *
- * Displays a floating action bar when one or more attachments are selected,
- * providing options to download, move, or delete the selected attachments.
- *
- * The bar includes a close button to clear the selection and shows the count
- * of selected attachments. It appears with a smooth transition effect and hides
- * when no attachments are selected.
- */
 
 export const UploadAdvancedMultiSelectLayout = () => {
   const { selectedAttachments, setSelectedAttachments } = useUploadAdvancedContext()
@@ -196,13 +164,13 @@ export const UploadAdvancedMultiSelectLayout = () => {
             orientation="vertical"
             className="h-6"
           />
-          <UploadDownloadAttachments itemsName={[...selectedAttachments.map(item => item.name)]} />
+          <UploadAdvancedDownloadAttachments itemsName={[...selectedAttachments.map(item => item.name)]} />
           <Separator
             orientation="vertical"
             className="h-6"
           />
-          <UploadAlertMoveAction itemsName={[...selectedAttachments.map(item => item.name)]} />
-          <UploadAlertDeleteAttachments
+          <UploadAdvancedAlertMoveAction itemsName={[...selectedAttachments.map(item => item.name)]} />
+          <UploadAdvancedAlertDeleteAttachments
             itemsName={[...selectedAttachments.map(item => item.name)]}
             className={cn(
               buttonVariants({
@@ -220,12 +188,6 @@ export const UploadAdvancedMultiSelectLayout = () => {
   )
 }
 
-/**
- * Component that displays the advanced content for file upload, including a preview of the uploaded file,
- * a scrollable area containing the file/folder tree, and tree extender elements for enhanced interaction.
- *
- * @returns {React.Element} The rendered component containing the file preview, tree, and scrollable area.
- */
 export const UploadAdnvacedContent = React.memo(() => {
   const { uploadView } = useUploadAdvancedContext()
   return (
@@ -235,6 +197,90 @@ export const UploadAdnvacedContent = React.memo(() => {
     </div>
   )
 })
+
+export const UploadAdvancedColumnView = () => {
+  const { previewFile } = useUploadAdvancedContext() ?? {}
+  return (
+    <ScrollArea className={cn(TREE_HEIGHT, previewFile && CONTENT_WIDTH_PREVIEW_OPEN)}>
+      <div className="flex items-center h-full rounded-md relative overflow-hidden">
+        <UploadAttachmentsTree />
+        <UploadTreeExtender />
+      </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
+  )
+}
+
+export const UploadAttachmentsTree = React.memo(({ attachments }: UploadAttachmentsTreeItemProps) => {
+  const { attachments: _attachments, uploadQuery } = useUploadAdvancedContext()
+
+  const filtered = (
+    uploadQuery
+      ? (attachments ?? _attachments)?.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
+      : (attachments ?? _attachments)
+  ) as (FileType | FolderType)[]
+
+  return (filtered ?? _attachments)?.length > 0 ? (
+    <div className="flex items-start h-full rounded-md">
+      <div className="flex flex-col h-full rounded-md">
+        <UploadAdvancedSelectAllLayout attachments={attachments ?? _attachments} />
+        <ScrollArea className={cn('rounded-md p-2 bg-muted/10', TREE_WIDTH, TREE_HEIGHT)}>
+          <div className="flex flex-col gap-1 h-full">
+            {filtered.map(attachment => {
+              if ((attachment as FileType).file) {
+                return (
+                  <UploadAdvancedAttachmentFile
+                    attachmentFile={attachment as FileType}
+                    key={attachment.id}
+                  />
+                )
+              }
+              return (
+                <UploadAdvancedAttachmentFolder
+                  key={attachment.id}
+                  attachmentFolder={attachment as FolderType}
+                />
+              )
+            })}
+          </div>
+        </ScrollArea>
+      </div>
+      <Separator orientation="vertical" />
+    </div>
+  ) : (
+    <UploadAdvancedNoAttachments />
+  )
+})
+
+export const UploadTreeExtender = (): JSX.Element => {
+  const { selectedFolder, attachments, uploadQuery } = useUploadAdvancedContext()
+
+  return (
+    <>
+      {selectedFolder.length > 0 &&
+        selectedFolder.map((folderContent, idx) => {
+          const item = searchAttachmentsByKey(attachments, folder => folder.id === folderContent?.id, 'content')
+          const filtered = !uploadQuery
+            ? (item as FolderType)?.content
+            : (item as FolderType)?.content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
+          return (
+            item && (
+              <div
+                key={item.id}
+                className="flex items-center h-full rounded-md"
+              >
+                <UploadAttachmentsTree
+                  attachments={filtered}
+                  key={item.id}
+                />
+                {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
+              </div>
+            )
+          )
+        })}
+    </>
+  )
+}
 
 export const UploadAdvancedRowView = () => {
   const { previewFile } = useUploadAdvancedContext() ?? {}
@@ -246,13 +292,13 @@ export const UploadAdvancedRowView = () => {
         previewFile && CONTENT_WIDTH_PREVIEW_OPEN
       )}
     >
-      <UploadAttachmentsTableItem />
+      <UploadAttachmentsRow />
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
   )
 }
 
-export const UploadAttachmentsTableItem = () => {
+export const UploadAttachmentsRow = () => {
   const { attachments, uploadQuery, selectedFolder } = useUploadAdvancedContext()
 
   const filtered = (
@@ -281,157 +327,19 @@ export const UploadAttachmentsTableItem = () => {
           <TableBody>
             {filtered.map(attachment =>
               (attachment as FolderType).files ? (
-                <UploadAdvancedAttachmentsTableFolder attachmentFolder={attachment as FolderType} />
+                <UploadAdvancedAttachmentsRowFolder attachmentFolder={attachment as FolderType} />
               ) : (
-                <UploadAdvancedAttachmentsTableFile attachmentFile={attachment as FileType} />
+                <UploadAdvancedAttachmentsRowFile attachmentFile={attachment as FileType} />
               )
             )}
           </TableBody>
         </Table>
       ) : (
         <div className="[&>div]:border-none [&_>div]:w-full [&_div]:h-full h-full">
-          <EmptyFolder />
+          <UploadAdvancedNoAttachments />
         </div>
       )}
     </div>
-  )
-}
-
-export const UploadAdvancedAttachmentsTableFile = ({ attachmentFile }: { attachmentFile: FileType }) => {
-  const fileType = getFileType(attachmentFile.file)
-  const {
-    setPreviewFile,
-    selectedAttachments: selecttedAttachment,
-    setSelectedAttachments: setSelectedAttachment,
-    previewFile,
-  } = useUploadAdvancedContext()
-  const exist_in_selected = selecttedAttachment.length
-    ? selecttedAttachment.some(attachment => attachment.id === attachmentFile.id)
-    : false
-
-  return (
-    <TableRow
-      className={cn(
-        '[&_td]:whitespace-nowrap [&_td]:py-2 [&_td]:text-xs group/row cursor-pointer',
-        previewFile?.id === attachmentFile.id && '!bg-card-foreground/10',
-        exist_in_selected && '!bg-card-foreground/10'
-      )}
-      onClick={() => setPreviewFile(attachmentFile)}
-    >
-      <TableCell className="font-medium w-[400px] relative group/file">
-        <div className={cn('relative w-full flex items-center justify-start gap-2 cursor-pointer')}>
-          <div
-            className={cn(
-              'relative [&_svg]:size-4 group-hover/file:opacity-0 opacity-100',
-              exist_in_selected && 'opacity-0'
-            )}
-          >
-            {FILE_TYPE_ICONS[fileType]}
-          </div>
-          <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFile.name}</h6>
-        </div>
-
-        <Checkbox
-          className={cn(
-            'absolute top-1/2 left-4 -translate-y-1/2 group-hover/file:opacity-100 opacity-0 w-[15px] h-[15px]',
-            exist_in_selected && '!opacity-100'
-          )}
-          checked={exist_in_selected}
-          onCheckedChange={e => {
-            if (e) return setSelectedAttachment(prev => [...prev, attachmentFile])
-            setSelectedAttachment(prev => prev.filter(attachment => attachment.id !== attachmentFile.id))
-          }}
-        />
-      </TableCell>
-      <TableCell className="w-[100px]"> -</TableCell>
-      <TableCell className="w-[100px]">-</TableCell>
-      <TableCell className="w-[200px]">
-        {format(new Date(attachmentFile?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
-      </TableCell>
-      <TableCell className="w-[200px] relative [&_div:last-child]:right-4">
-        <div>{format(new Date(attachmentFile?.updatedAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}</div>
-        <UploadAttachmentActionsMenu attachment={attachmentFile} />
-      </TableCell>
-    </TableRow>
-  )
-}
-
-export const UploadAdvancedAttachmentsTableFolder = ({ attachmentFolder }: { attachmentFolder: FolderType }) => {
-  const { selectedFolder, setSelectedFolder } = useUploadAdvancedContext()
-  const exist_in_tree = selectedFolder.length ? selectedFolder?.some(item => item.id === attachmentFolder.id) : false
-
-  return (
-    <TableRow
-      className="[&_td]:whitespace-nowrap [&_td]:py-2 [&_td]:text-xs cursor-pointer"
-      onClick={() => folderOpen({ attachmentFolder, setSelected: setSelectedFolder, exist_in_tree })}
-    >
-      <TableCell className="font-medium w-[400px] relative w-full flex items-center justify-start gap-2">
-        <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files > 0 && 'fill-white')} />}
-        </div>
-        <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
-      </TableCell>
-      <TableCell className="w-[100px]"> -</TableCell>
-      <TableCell className="w-[100px]">-</TableCell>
-      <TableCell className="w-[200px]">
-        {format(new Date(attachmentFolder?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
-      </TableCell>
-      <TableCell className="w-[200px] relative [&_div:last-child]:right-4">
-        <div>{format(new Date(attachmentFolder?.updatedAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}</div>
-        <UploadAttachmentActionsMenu attachment={attachmentFolder} />
-      </TableCell>
-    </TableRow>
-  )
-}
-
-export const UploadAdvancedColumnView = () => {
-  const { previewFile } = useUploadAdvancedContext() ?? {}
-  return (
-    <ScrollArea className={cn(TREE_HEIGHT, previewFile && CONTENT_WIDTH_PREVIEW_OPEN)}>
-      <div className="flex items-center h-full rounded-md relative overflow-hidden">
-        <UploadAttachmentsTreeItem />
-        <UploadTreeExtender />
-      </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
-  )
-}
-
-/**
- * A component that extends the upload tree by rendering the contents of the selected folders.
- * It retrieves the folder content from the attachments and filters it based on the upload query.
- * Each folder's content is rendered as an UploadAttachmentsTreeItem component.
- *
- * @returns {JSX.Element | null} The rendered upload tree extender component, or null if no folders are selected.
- */
-
-export const UploadTreeExtender = (): JSX.Element => {
-  const { selectedFolder, attachments, uploadQuery } = useUploadAdvancedContext()
-
-  return (
-    <>
-      {selectedFolder.length > 0 &&
-        selectedFolder.map((folderContent, idx) => {
-          const item = searchAttachmentsByKey(attachments, folder => folder.id === folderContent?.id, 'content')
-          const filtered = !uploadQuery
-            ? (item as FolderType)?.content
-            : (item as FolderType)?.content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
-          return (
-            item && (
-              <div
-                key={item.id}
-                className="flex items-center h-full rounded-md"
-              >
-                <UploadAttachmentsTreeItem
-                  attachments={filtered}
-                  key={item.id}
-                />
-                {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
-              </div>
-            )
-          )
-        })}
-    </>
   )
 }
 
@@ -496,7 +404,7 @@ export const UploadFilePreview = (): JSX.Element => {
               </p>
             </div>
             <div className="flex flex-row gap-2 [&_button]:px-3 mt-4 mb-2 ">
-              <UploadDownloadAttachments
+              <UploadAdvancedDownloadAttachments
                 itemsName={[previewFile?.name ?? '']}
                 withinDropdown={false}
               />
@@ -510,7 +418,7 @@ export const UploadFilePreview = (): JSX.Element => {
             </div>
             <Separator />
             <div className="my-2 flex flex-row gap-2 [&_button]:px-3">
-              <UploadAlertDeleteAttachments
+              <UploadAdvancedAlertDeleteAttachments
                 itemsName={[previewFile?.name ?? '']}
                 className={cn(
                   buttonVariants({

@@ -1,6 +1,6 @@
 export * from './upload'
 export * from './upload-advanced'
-export * from './upload-chunks'
+export * from './upload-advanced-chunks'
 export * from './upload-sonner'
 export * from './upload.lib'
 export * from './upload.assets'
