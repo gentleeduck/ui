@@ -83,7 +83,7 @@ export default function Upload4Demo() {
   return (
     <>
       <UploadAdvancedProvider
-        attachments={attachments} // Pass generated attachments here
+        // attachments={attachments} // Pass generated attachments here
         currentBucket="wildduck_attachments"
       >
         <UploadAdvancedHeader />

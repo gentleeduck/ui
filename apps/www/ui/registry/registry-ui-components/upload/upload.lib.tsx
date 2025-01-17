@@ -152,7 +152,6 @@ export function updateFolderContent<T extends FileType | FolderType>(
     if (item.id === folderId) {
       return {
         ...item,
-        files: (item as FolderType).files + newAttachments.length,
         content: [...(item as FolderType).content, ...newAttachments],
       }
     }
@@ -320,7 +319,6 @@ export function addFolderToPath({
   const emptyFolder: FolderType = {
     id: Math.random().toString(36).slice(2),
     name: folderName,
-    files: 0,
     content: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -333,7 +331,6 @@ export function addFolderToPath({
         return {
           ...item,
           content: [...item.content, emptyFolder],
-          files: item.files + 1,
           updatedAt: new Date(),
         }
       } else if ('content' in item) {
@@ -353,7 +350,6 @@ export function addFolderToPath({
         return {
           ...folder,
           content: [...folder.content, emptyFolder],
-          files: folder.files + 1,
           updatedAt: new Date(),
         }
       }
@@ -497,7 +493,6 @@ export const moveAttachmentsToPath = ({
       if (remainingPathParts.length === 0 && folder) {
         folder.content = [...folder.content, ...selectedAttachments] // Add new attachments to file's content
         folder.updatedAt = new Date() // Update the file's last updated time
-        folder.files += selectedAttachments.length // Update the file count
         return attachments
       }
 
@@ -507,7 +502,6 @@ export const moveAttachmentsToPath = ({
           id: `${currentFolderName}-${Date.now()}`,
           name: currentFolderName,
           content: remainingPathParts.length > 0 ? [] : selectedAttachments, // Only add attachments if it's the last part
-          files: remainingPathParts.length > 0 ? 1 : selectedAttachments.length, // Set file count based on content
           createdAt: new Date(),
           updatedAt: new Date(),
           treeLevel,
@@ -518,7 +512,6 @@ export const moveAttachmentsToPath = ({
       } else {
         // If folder exists, update it with new content at the last part
         folder.updatedAt = new Date() // Update the folder's last updated time
-        folder.files += selectedAttachments.length // Update the files count
       }
 
       // Continue processing subfolders if there are more path parts

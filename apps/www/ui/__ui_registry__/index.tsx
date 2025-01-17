@@ -225,8 +225,8 @@ export const Index: Record<string, any> = {
     files: [
       [
         { path: 'registry-ui-components/upload/index.ts', type: 'registry:ui' },
+        { path: 'registry-ui-components/upload/upload-advanced-chunks.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload-advanced.tsx', type: 'registry:ui' },
-        { path: 'registry-ui-components/upload/upload-chunks.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload-sonner.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.assets.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/upload/upload.constants.tsx', type: 'registry:ui' },
@@ -1137,6 +1137,18 @@ export const Index: Record<string, any> = {
     registryDependencies: ['table'],
     files: [[{ path: 'registry-examples-components/table/table-1.tsx', type: 'registry:example' }]],
     component: React.lazy(() => import('@/registry/registry-examples-components/table/table-1.tsx')),
+    source: '',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'table-2': {
+    name: 'table-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['table'],
+    files: [[{ path: 'registry-examples-components/table/table-2.tsx', type: 'registry:example' }]],
+    component: React.lazy(() => import('@/registry/registry-examples-components/table/table-2.tsx')),
     source: '',
     category: '',
     subcategory: '',

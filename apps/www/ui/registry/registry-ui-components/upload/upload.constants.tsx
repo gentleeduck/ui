@@ -39,7 +39,7 @@ export const PREVIEW_WIDTH = `w-[400px]`
 export const CONTENT_WIDTH_PREVIEW_OPEN = `w-[calc(100%-400px)]`
 
 // Items to display in the breadcrumb.
-export const ITEMS_TO_DISPLAY_BREADCRUMB = 3
+export const ITEMS_TO_DISPLAY_BREADCRUMB = 4
 
 /**
  * Content options for dropdown menus.
@@ -47,8 +47,8 @@ export const ITEMS_TO_DISPLAY_BREADCRUMB = 3
  */
 export const CONTENT_POILERPLATE: Record<string, DuckDropdownMenuRadioGroupProps['content']> = {
   view: [
-    { children: 'As Columns', value: 'As duck', icon: { children: Columns2 } },
-    { children: 'As Rows', value: 'duck', icon: { children: Rows2 } },
+    { children: 'As Columns', value: 'column', icon: { children: Columns2 } },
+    { children: 'As Rows', value: 'row', icon: { children: Rows2 } },
   ],
   sort: [
     { children: 'Name', value: 'name' },

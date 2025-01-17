@@ -90,6 +90,7 @@ import { debounceCallback } from '@/hooks'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { TableCell, TableRow } from '../table'
 import { format } from 'date-fns'
+import { filesize } from 'filesize'
 
 /**
  * A button to reload the upload view.
@@ -121,6 +122,8 @@ export const UploadReloadButton = (): JSX.Element => {
  * @returns {JSX.Element} The dropdown menu button.
  */
 export const UploadAdvancedViewButton = (): JSX.Element => {
+  const { uploadView, setUploadView } = useUploadAdvancedContext()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -136,6 +139,7 @@ export const UploadAdvancedViewButton = (): JSX.Element => {
         <DuckDropdownMenuItem
           title="View"
           content={CONTENT_POILERPLATE.view}
+          onChange={value => setUploadView(value as typeof uploadView)}
         />
         <DuckDropdownMenuItem
           title="Sort By"
@@ -946,8 +950,12 @@ export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmen
           }}
         />
       </TableCell>
-      <TableCell className="w-[100px]"> -</TableCell>
-      <TableCell className="w-[100px]">-</TableCell>
+      <TableCell className="w-[100px]">
+        {filesize(attachmentFile?.file ? +attachmentFile?.file.size : 0, {
+          round: 0,
+        })}
+      </TableCell>
+      <TableCell className="w-[100px]">{attachmentFile.type}</TableCell>
       <TableCell className="w-[200px]">
         {format(new Date(attachmentFile?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
       </TableCell>
@@ -970,11 +978,15 @@ export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attac
     >
       <TableCell className="font-medium relative w-full flex items-center justify-start gap-2">
         <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files > 0 && 'fill-white')} />}
+          {exist_in_tree ? (
+            <FolderOpen />
+          ) : (
+            <Folder className={cn(attachmentFolder.content.length > 0 && 'fill-white')} />
+          )}
         </div>
         <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
       </TableCell>
-      <TableCell className="w-[100px]"> -</TableCell>
+      <TableCell className="w-[100px]">-</TableCell>
       <TableCell className="w-[100px]">-</TableCell>
       <TableCell className="w-[200px]">
         {format(new Date(attachmentFolder?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
@@ -1017,7 +1029,11 @@ export const UploadAdvancedAttachmentFolder = React.memo(({ attachmentFolder }: 
         onClick={() => folderOpen({ attachmentFolder, setSelected, exist_in_tree })}
       >
         <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files > 0 && 'fill-white')} />}
+          {exist_in_tree ? (
+            <FolderOpen />
+          ) : (
+            <Folder className={cn(attachmentFolder.content.length > 0 && 'fill-white')} />
+          )}
         </div>
         <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
       </div>
@@ -1194,7 +1210,7 @@ export const UploadAdvancedNavigationLayout = () => {
               {currentBucket}
             </Button>
           </BreadcrumbItem>
-          {selectedFolder.length > ITEMS_TO_DISPLAY_BREADCRUMB ? (
+          {selectedFolder.length > 2 ? (
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -1211,7 +1227,10 @@ export const UploadAdvancedNavigationLayout = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
                       {selectedFolder.slice(0, -2).map(item => (
-                        <DropdownMenuItem key={item.id}>
+                        <DropdownMenuItem
+                          key={item.id}
+                          className="p-0"
+                        >
                           <Button
                             size={'xs'}
                             variant={'ghost'}
@@ -1271,32 +1290,29 @@ export const UploadAdvancedNavigationLayout = () => {
               </BreadcrumbItem>
             </>
           ) : null}
-          {selectedFolder.length > 1 &&
-            selectedFolder
-              .slice(selectedFolder.length === 2 ? -1 : -ITEMS_TO_DISPLAY_BREADCRUMB + 1)
-              .map((item, index) => (
-                <BreadcrumbItem
-                  key={index}
-                  className="!gap-0"
+          {selectedFolder.slice(-2).map((item, index) => (
+            <BreadcrumbItem
+              key={index}
+              className="!gap-0"
+            >
+              <BreadcrumbSeparator />
+              <BreadcrumbPage className="max-w-20 md:max-w-none">
+                <Button
+                  size={'xs'}
+                  variant={'ghost'}
+                  onClick={() =>
+                    folderOpen({
+                      attachmentFolder: item,
+                      setSelected: setSelectedFolder,
+                      exist_in_tree: selectedFolder?.some(item => item.id === item.id),
+                    })
+                  }
                 >
-                  <BreadcrumbSeparator />
-                  <BreadcrumbPage className="max-w-20 truncate md:max-w-none">
-                    <Button
-                      size={'xs'}
-                      variant={'ghost'}
-                      onClick={() =>
-                        folderOpen({
-                          attachmentFolder: item,
-                          setSelected: setSelectedFolder,
-                          exist_in_tree: selectedFolder?.some(item => item.id === item.id),
-                        })
-                      }
-                    >
-                      {item.name}
-                    </Button>
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              ))}
+                  {item.name}
+                </Button>
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          ))}
         </BreadcrumbList>
       </Breadcrumb>
     </>

@@ -66,10 +66,11 @@ export const DuckDropdownMenuSubWrapper = ({ itemSub, trigger, content }: DuckDr
 export type DuckDropdownMenuItemProps = {
   title: string
   content: DuckDropdownMenuRadioGroupProps['content']
+  onChange?: (value: string) => void
   subgroup?: boolean
 }
 
-export const DuckDropdownMenuItem = ({ title, content, subgroup = false }: DuckDropdownMenuItemProps) => {
+export const DuckDropdownMenuItem = ({ title, content, onChange, subgroup = false }: DuckDropdownMenuItemProps) => {
   const active = localStorage.getItem(title) || content[0].value
 
   const Content = () => {
@@ -78,6 +79,7 @@ export const DuckDropdownMenuItem = ({ title, content, subgroup = false }: DuckD
         radioGroup={{
           value: active,
           onValueChange: value => {
+            onChange?.(value)
             localStorage.setItem(title, value)
           },
         }}

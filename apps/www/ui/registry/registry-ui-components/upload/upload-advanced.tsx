@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react'
-import { Checkbox, ScrollBar, Separator } from '@/registry/default/ui'
+import { ScrollBar, Separator } from '@/registry/default/ui'
 import { ScrollArea } from '@/registry/default/ui'
 import { Button, buttonVariants } from '../button'
-import { Clipboard, Folder, FolderOpen, X } from 'lucide-react'
+import { Clipboard, X } from 'lucide-react'
 import {
   FileType,
   FolderType,
@@ -35,9 +35,9 @@ import {
 import { format } from 'date-fns'
 import { filesize } from 'filesize'
 import { cn } from '@/lib'
-import { CONTENT_WIDTH_PREVIEW_OPEN, FILE_TYPE_ICONS, PREVIEW_WIDTH, TREE_HEIGHT, TREE_WIDTH } from './upload.constants'
-import { folderOpen, getFileType, searchAttachmentsByKey } from './upload.lib'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../table'
+import { CONTENT_WIDTH_PREVIEW_OPEN, PREVIEW_WIDTH, TREE_HEIGHT, TREE_WIDTH } from './upload.constants'
+import { searchAttachmentsByKey } from './upload.lib'
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '../table'
 
 const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<FileType | FolderType> | null>(null)
 
@@ -63,7 +63,9 @@ export const UploadAdvancedProvider = ({
   const [previewFile, setPreviewFile] = React.useState<FileType | null>(null)
   const [uploadQuery, setUploadQuery] = React.useState<string>('')
   const [selectedAttachments, setSelectedAttachments] = React.useState<FileType[]>([])
-  const [uploadView, setUploadView] = React.useState<'column' | 'row'>('row')
+  const [uploadView, setUploadView] = React.useState<'column' | 'row'>(
+    (localStorage.getItem('View') as 'column' | 'row') ?? 'column'
+  )
 
   return (
     <UploadAdvancedContext.Provider
@@ -189,11 +191,15 @@ export const UploadAdvancedMultiSelectLayout = () => {
 }
 
 export const UploadAdnvacedContent = React.memo(() => {
-  const { uploadView } = useUploadAdvancedContext()
+  const Component = () => {
+    const { uploadView } = useUploadAdvancedContext()
+    return uploadView === 'column' ? <UploadAdvancedColumnView /> : <UploadAdvancedRowView />
+  }
+
   return (
     <div className="h-full relative">
       <UploadFilePreview />
-      {uploadView === 'column' ? <UploadAdvancedColumnView /> : <UploadAdvancedRowView />}
+      <Component />
     </div>
   )
 })
@@ -214,19 +220,19 @@ export const UploadAdvancedColumnView = () => {
 export const UploadAttachmentsTree = React.memo(({ attachments }: UploadAttachmentsTreeItemProps) => {
   const { attachments: _attachments, uploadQuery } = useUploadAdvancedContext()
 
-  const filtered = (
+  const filteredItems = (
     uploadQuery
       ? (attachments ?? _attachments)?.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
       : (attachments ?? _attachments)
   ) as (FileType | FolderType)[]
 
-  return (filtered ?? _attachments)?.length > 0 ? (
+  return (filteredItems ?? _attachments)?.length > 0 ? (
     <div className="flex items-start h-full rounded-md">
       <div className="flex flex-col h-full rounded-md">
         <UploadAdvancedSelectAllLayout attachments={attachments ?? _attachments} />
         <ScrollArea className={cn('rounded-md p-2 bg-muted/10', TREE_WIDTH, TREE_HEIGHT)}>
           <div className="flex flex-col gap-1 h-full">
-            {filtered.map(attachment => {
+            {filteredItems.map(attachment => {
               if ((attachment as FileType).file) {
                 return (
                   <UploadAdvancedAttachmentFile
@@ -301,19 +307,26 @@ export const UploadAdvancedRowView = () => {
 export const UploadAttachmentsRow = () => {
   const { attachments, uploadQuery, selectedFolder } = useUploadAdvancedContext()
 
-  const filtered = (
-    uploadQuery
-      ? (selectedFolder.length ? selectedFolder?.slice(-1)?.[0]?.content : attachments)?.filter(item =>
-          item.name.toLowerCase().includes(uploadQuery.toLowerCase())
-        )
-      : selectedFolder.length
-        ? selectedFolder?.slice(-1)?.[0]?.content
-        : attachments
-  ) as (FileType | FolderType)[]
+  const filteredItems = React.useMemo(() => {
+    // if (!uploadQuery) return selectedFolder?.length ? selectedFolder.slice(-1)[0].content || [] : attachments || []
+
+    if (!uploadQuery)
+      return selectedFolder?.length
+        ? (
+            searchAttachmentsByKey(
+              attachments,
+              folder => folder.id === selectedFolder.slice(-1)?.[0]?.id,
+              'content'
+            ) as FolderType
+          ).content || []
+        : attachments || []
+
+    return attachments?.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase())) || []
+  }, [attachments, uploadQuery, selectedFolder])
 
   return (
     <div className="w-full h-full">
-      {filtered?.length > 0 ? (
+      {filteredItems?.length > 0 ? (
         <Table>
           <TableHeader className="bg-muted/70 [&_th]:py-2 [&_th]:h-fit [&_th]:text-muted-foreground [&_th]:text-xs">
             <TableRow>
@@ -325,8 +338,8 @@ export const UploadAttachmentsRow = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filtered.map(attachment =>
-              (attachment as FolderType).files ? (
+            {filteredItems.map(attachment =>
+              (attachment as FolderType).content.length >= 0 ? (
                 <UploadAdvancedAttachmentsRowFolder attachmentFolder={attachment as FolderType} />
               ) : (
                 <UploadAdvancedAttachmentsRowFile attachmentFile={attachment as FileType} />

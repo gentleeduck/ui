@@ -298,11 +298,11 @@
         "type": "registry:ui"
       },
       {
-        "path": "registry-ui-components/upload/upload-advanced.tsx",
+        "path": "registry-ui-components/upload/upload-advanced-chunks.tsx",
         "type": "registry:ui"
       },
       {
-        "path": "registry-ui-components/upload/upload-chunks.tsx",
+        "path": "registry-ui-components/upload/upload-advanced.tsx",
         "type": "registry:ui"
       },
       {
@@ -1381,6 +1381,20 @@
     "files": [
       {
         "path": "registry-examples-components/table/table-1.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "table-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "table"
+    ],
+    "root_folder": "registry-examples-components/table",
+    "files": [
+      {
+        "path": "registry-examples-components/table/table-2.tsx",
         "type": "registry:example"
       }
     ]

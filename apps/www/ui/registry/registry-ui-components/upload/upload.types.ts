@@ -1,5 +1,6 @@
 import { ScrollArea } from '@/registry/default/ui'
 import { Button } from '../button'
+import { FileTypeEnum } from './upload.constants'
 
 // NOTE: UPLOAD TYPES
 
@@ -79,7 +80,6 @@ export type FolderType = {
   id: string // Unique identifier for the folder
   name: string // Name of the folder
   content: (FileType | FolderType)[] // Content of the folder (files and subfolders)
-  files: number // Number of files in the folder
   createdAt: Date // Creation date of the folder
   updatedAt: Date // Last updated date of the folder
   treeLevel: number // Level in the folder structure
