@@ -207,7 +207,13 @@ export const UploadAdnvacedContent = React.memo(() => {
 export const UploadAdvancedColumnView = () => {
   const { previewFile } = useUploadAdvancedContext() ?? {}
   return (
-    <ScrollArea className={cn(TREE_HEIGHT, previewFile && CONTENT_WIDTH_PREVIEW_OPEN)}>
+    <ScrollArea
+      className={cn(
+        'transition-all duration-300 ease-in-out w-full',
+        TREE_HEIGHT,
+        previewFile && CONTENT_WIDTH_PREVIEW_OPEN
+      )}
+    >
       <div className="flex items-center h-full rounded-md relative overflow-hidden">
         <UploadAttachmentsTree />
         <UploadTreeExtender />
@@ -339,7 +345,7 @@ export const UploadAttachmentsRow = () => {
           </TableHeader>
           <TableBody>
             {filteredItems.map(attachment =>
-              (attachment as FolderType).content.length >= 0 ? (
+              (attachment as FolderType).content?.length >= 0 ? (
                 <UploadAdvancedAttachmentsRowFolder attachmentFolder={attachment as FolderType} />
               ) : (
                 <UploadAdvancedAttachmentsRowFile attachmentFile={attachment as FileType} />
@@ -365,7 +371,9 @@ export const UploadAttachmentsRow = () => {
  * @returns {JSX.Element} The rendered file preview component.
  */
 export const UploadFilePreview = (): JSX.Element => {
-  const { previewFile, setPreviewFile } = useUploadAdvancedContext() ?? {}
+  const { previewFile, setPreviewFile, attachments } = useUploadAdvancedContext()
+
+  const file_exists = searchAttachmentsByKey(attachments, item => item.id === previewFile?.id, 'content')
 
   return (
     <>
@@ -373,7 +381,7 @@ export const UploadFilePreview = (): JSX.Element => {
         className={cn(
           PREVIEW_WIDTH,
           'absolute top-0 right-0 h-full duration-300 ease-in-out translate-x-[100%] z-10 dark:bg-[#121212] bg-card',
-          previewFile && 'translate-x-0'
+          file_exists && 'translate-x-0'
         )}
       >
         <ScrollArea className="h-full">

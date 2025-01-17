@@ -981,7 +981,7 @@ export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attac
           {exist_in_tree ? (
             <FolderOpen />
           ) : (
-            <Folder className={cn(attachmentFolder.content.length > 0 && 'fill-white')} />
+            <Folder className={cn(attachmentFolder.content?.length > 0 && 'fill-white')} />
           )}
         </div>
         <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
@@ -991,9 +991,11 @@ export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attac
       <TableCell className="w-[200px]">
         {format(new Date(attachmentFolder?.createdAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
       </TableCell>
-      <TableCell className="w-[200px] relative [&_div:last-child]:right-4">
+      <TableCell className="w [200px] flex items-center justify-between gap-12">
         <div>{format(new Date(attachmentFolder?.updatedAt ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}</div>
-        <UploadAttachmentActionsMenu attachment={attachmentFolder} />
+        <div className="relative py-2 ![&_button]:relative [&_button]:right-1">
+          <UploadAttachmentActionsMenu attachment={attachmentFolder} />
+        </div>
       </TableCell>
     </TableRow>
   )
@@ -1032,7 +1034,7 @@ export const UploadAdvancedAttachmentFolder = React.memo(({ attachmentFolder }: 
           {exist_in_tree ? (
             <FolderOpen />
           ) : (
-            <Folder className={cn(attachmentFolder.content.length > 0 && 'fill-white')} />
+            <Folder className={cn(attachmentFolder.content?.length > 0 && 'fill-white')} />
           )}
         </div>
         <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
