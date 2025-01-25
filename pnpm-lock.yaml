@@ -344,6 +344,9 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-rc.700
         version: 11.0.0-rc.700(typescript@5.7.3)
+      '@types/ws':
+        specifier: ^8.5.14
+        version: 8.5.14
       '@typescript-eslint/parser':
         specifier: ^5.62.0
         version: 5.62.0(eslint@8.57.1)(typescript@5.7.3)
@@ -539,6 +542,9 @@ importers:
       sonner:
         specifier: ^1.5.0
         version: 1.7.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      superjson:
+        specifier: ^2.2.2
+        version: 2.2.2
       swr:
         specifier: 2.2.6-beta.3
         version: 2.2.6-beta.3(react@18.3.1)
@@ -578,6 +584,9 @@ importers:
       wavesurfer.js:
         specifier: ^7.8.6
         version: 7.8.16
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0(bufferutil@4.0.9)
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -720,9 +729,6 @@ importers:
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
-      drizzle-kit:
-        specifier: ^0.30.2
-        version: 0.30.2
       drizzle-orm:
         specifier: ^0.38.4
         version: 0.38.4(@electric-sql/pglite@0.2.15)(@opentelemetry/api@1.9.0)(@types/pg@8.11.10)(@types/react@18.3.18)(pg@8.13.1)(react@18.3.1)
@@ -756,6 +762,9 @@ importers:
       uuidv7:
         specifier: ^1.0.2
         version: 1.0.2
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0(bufferutil@4.0.9)
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -766,6 +775,12 @@ importers:
       '@types/pg':
         specifier: ^8.11.10
         version: 8.11.10
+      drizzle-kit:
+        specifier: ^0.30.2
+        version: 0.30.2
+      tsx:
+        specifier: ^4.17.0
+        version: 4.19.2
       typescript:
         specifier: ^4.9.3
         version: 4.9.5
@@ -4482,6 +4497,9 @@ packages:
   '@types/wavesurfer.js@6.0.12':
     resolution: {integrity: sha512-oM9hYlPIVms4uwwoaGs9d0qp7Xk7IjSGkdwgmhUymVUIIilRfjtSQvoOgv4dpKiW0UozWRSyXfQqTobi0qWyCw==}
 
+  '@types/ws@8.5.14':
+    resolution: {integrity: sha512-bd/YFLW+URhBzMXurx7lWByOu+xzU9+kb3RboOteXYDfW+tr+JZa99OyNmPINEGB/ahzKrEuc8rcv4gnpJmxTw==}
+
   '@types/yoga-layout@1.9.2':
     resolution: {integrity: sha512-S9q47ByT2pPvD65IvrWp7qppVMpk9WGMbVq9wbWZOHg6tnXSD4vyhao6nOSBwwfDdV2p3Kx9evA9vI+XWTfDvw==}
 
@@ -7142,6 +7160,7 @@ packages:
 
   lodash.template@4.5.0:
     resolution: {integrity: sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==}
+    deprecated: This package is deprecated. Use https://socket.dev/npm/package/eta instead.
 
   lodash.templatesettings@4.2.0:
     resolution: {integrity: sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==}
@@ -13633,6 +13652,10 @@ snapshots:
   '@types/wavesurfer.js@6.0.12':
     dependencies:
       '@types/debounce': 1.2.4
+
+  '@types/ws@8.5.14':
+    dependencies:
+      '@types/node': 20.17.14
 
   '@types/yoga-layout@1.9.2': {}
 

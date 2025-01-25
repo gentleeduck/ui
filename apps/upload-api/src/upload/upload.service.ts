@@ -12,6 +12,8 @@ import {
   InsertFolderType,
 } from './upload.dto'
 import { MINIO } from '../minio/minio.service'
+import { FilesMutationType, FoldersMutationType, GetSchemaType, TRPC_RESPONSE } from '../globals'
+import { nestObjectsByTreeLevelAndFolderId } from './upload.lib'
 
 export class UploadService {
   public static async getBuckets({ user_id }: GetBucketsType) {
@@ -31,12 +33,14 @@ export class UploadService {
         message: `ERROR: failed to query this User .. with id ${user_id}`,
         _,
       }
-      console.log(error)
+      console.log(_)
       return error
     }
   }
 
-  public static async getBucket({ bucket_id }: GetBucketType) {
+  public static async getBucket({
+    bucket_id,
+  }: GetBucketType): Promise<TRPC_RESPONSE<(FilesMutationType | FoldersMutationType)[]>> {
     try {
       // Query for folders where bucket_id matches and folder_id is null
       const _folders = await db.query.folders.findMany({
@@ -51,17 +55,19 @@ export class UploadService {
       // Query for files where bucket_id matches
       const _files = await db.query.files.findMany({
         where(fields, operators) {
-          return operators.eq(fields.bucket_id, bucket_id)
+          return operators.and(
+            operators.eq(fields.bucket_id, bucket_id), // bucket_id should match
+            operators.isNull(fields.folder_id) // folder_id should be null
+          )
         },
       })
-      if (!_files && !_folders) {
-        return { message: 'No files or folders found', data: null }
-      }
+      if (!_files && !_folders) return { message: 'No files or folders found', data: null, _: null }
 
       // Return combined result of folders and files
       return {
-        data: [..._folders, ..._files],
+        data: [..._folders, ..._files] as (FilesMutationType | FoldersMutationType)[],
         message: `Bucket ${bucket_id} found`,
+        _: null,
       }
     } catch (_) {
       const error = {
@@ -161,35 +167,46 @@ export class UploadService {
     }
   }
 
-  public static async insertFile({ id, name, size, folder_id, bucket_id, tree_level, file }: InsertFileType) {
+  public static async insertFile({
+    id,
+    name,
+    size,
+    type,
+    folder_id,
+    bucket_id,
+    tree_level,
+    file,
+  }: InsertFileType): Promise<TRPC_RESPONSE<GetSchemaType<typeof files>>> {
     try {
       const _file = await MINIO.insertFile({
         id,
         name,
         file,
       })
-
       if (!_file.fileUrl) {
-        return { message: `No files uploaded with name ${name}`, data: null }
+        return { message: `No files uploaded with name ${name}`, data: null, _: null }
       }
+
       const _files = await db
         .insert(files)
         .values({
           name,
           url: _file.fileUrl,
           size,
+          type,
           folder_id,
           bucket_id,
           tree_level,
         })
         .returning()
       if (!_files) {
-        return { message: `No files uploaded with name ${name}`, data: null }
+        return { message: `No files uploaded with name ${name}`, data: null, _: null }
       }
 
       return {
         data: _files,
         message: `File ${name} uploaded`,
+        _: null,
       }
     } catch (_) {
       const error = {

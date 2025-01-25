@@ -11,6 +11,7 @@ import { uuidv7 } from 'uuidv7'
 import React from 'react'
 import { UploadSonnerContent, UploadSonnerContentMemo } from './upload-sonner'
 import { FileTypeEnum, MAX_FILE_SIZE } from './upload.constants'
+import { InsertFileType } from '../../../../upload-api/src/upload'
 
 export const uploadPromise = ({ files, toastId }: UploadPromiseArgs): Promise<UploadPromiseReturn> => {
   return new Promise(resolve => {
@@ -74,7 +75,7 @@ export function getRemainingTime(currentProgress: number, maxProgress: number) {
 }
 
 export async function advancedUploadAttachments(props: UploadFilesArgs) {
-  const { e, selectedFolder, setAttachments } = props
+  const { e, actions, ..._props } = props
 
   try {
     const files = e.currentTarget.files
@@ -84,26 +85,29 @@ export async function advancedUploadAttachments(props: UploadFilesArgs) {
         position: 'top-right',
       })
 
-    const newAttachments: FileType[] = []
+    const newAttachments: InsertFileType[] = []
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
+
+      if (!file) return
 
       if (file.size > MAX_FILE_SIZE) {
         toast.error(`File has exceeded the max size: ${file.name.slice(0, 15)}...`, { position: 'top-right' })
         continue // Skip this file and continue with the next
       }
 
-      const attachment: FileType = {
+      const attachment: InsertFileType = {
         id: uuidv7(),
-        file: file,
         name: file.name,
-        url: null,
         type: file.type,
-        size: file.size.toString(),
-        created_at: new Date(),
-        updated_at: new Date(),
-        tree_level: selectedFolder.length ? selectedFolder[selectedFolder.length - 1].tree_level + 1 : 1,
+        size: file.size,
+        file: await toBase64(file),
+        tree_level: _props.selectedFolder.length
+          ? (_props.selectedFolder[_props.selectedFolder.length - 1]?.tree_level ?? 0 + 1)
+          : 1,
+        bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d',
+        folder_id: '01947739-b994-7db2-b4ce-e9a65d188c80',
       }
 
       newAttachments.push(attachment)
@@ -113,6 +117,8 @@ export async function advancedUploadAttachments(props: UploadFilesArgs) {
     const toastId = uuidv7()
 
     // Upload promise
+    const files_response = await actions.upload(newAttachments, _props)
+    if (!files_response.data) return toast.error('Upload failed. Please try again.', { position: 'top-right' })
     const promise = await uploadPromise({ files: files.length, toastId })
 
     // Show upload progress toast
@@ -123,15 +129,15 @@ export async function advancedUploadAttachments(props: UploadFilesArgs) {
         id: toastId,
       })
 
-    setAttachments(old => {
-      if (selectedFolder.length > 0) {
-        const selectedFolderId = selectedFolder[selectedFolder.length - 1].id
+    _props.setAttachments(old => {
+      if (_props.selectedFolder.length > 0) {
+        const selectedFolderId = _props.selectedFolder[_props.selectedFolder.length - 1]?.id ?? ''
         // Update the attachments recursively
-        return updateFolderContent(old, selectedFolderId, newAttachments)
+        return updateFolderContent(old, selectedFolderId, files_response.data as unknown as (FileType | FolderType)[])
       }
 
       // If no folder is selected, just add new attachments to the old attachments
-      return [...old, ...newAttachments]
+      return [...old, ...files_response.data]
     })
 
     // Clear the input
@@ -602,3 +608,11 @@ export const uploadAttachmentPromise = (files: number, toastId: string): Promise
     }, 20) // Adjust the interval time as needed
   })
 }
+
+export const toBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = reject
+  })

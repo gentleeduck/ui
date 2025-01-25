@@ -37,7 +37,13 @@ import {
   UploadDownloadAttachmentsProps,
   UploadRenameAttachmentButtonProps,
 } from './upload.types'
-import { CONTENT_POILERPLATE, FILE_TYPE_ICONS, ITEMS_TO_DISPLAY_BREADCRUMB } from './upload.constants'
+import {
+  CONTENT_POILERPLATE,
+  FILE_TYPE_ICONS,
+  ITEMS_TO_DISPLAY_BREADCRUMB,
+  TREE_HEIGHT,
+  TREE_WIDTH,
+} from './upload.constants'
 import {
   addFolderToPath,
   advancedUploadAttachments,
@@ -99,12 +105,16 @@ import { filesize } from 'filesize'
  * @returns {JSX.Element} The reload button.
  */
 export const UploadReloadButton = (): JSX.Element => {
+  const ctx = useUploadAdvancedContext()
+
   // TODO: Implement reload functionality.
   return (
     <Button
       size={'xs'}
       icon={{ children: RefreshCw }}
-      onClick={() => {}}
+      onClick={() => {
+        ctx.actions.getInitialData(ctx)
+      }}
     >
       Reload
     </Button>
@@ -167,7 +177,7 @@ export const UploadAdvancedViewButton = (): JSX.Element => {
  */
 
 export const UploadAdvancedButton = (): JSX.Element => {
-  const { setAttachments, selectedFolder, setSelectedFolder } = useUploadAdvancedContext() ?? {}
+  const ctx = useUploadAdvancedContext() ?? {}
 
   return (
     <Button
@@ -181,7 +191,7 @@ export const UploadAdvancedButton = (): JSX.Element => {
         type="file"
         className="absolute w-full h-full opacity-0 cursor-pointer"
         multiple={true}
-        onChange={e => advancedUploadAttachments({ e, selectedFolder, setSelectedFolder, setAttachments })}
+        onChange={e => advancedUploadAttachments({ e, ...ctx })}
       />
       Upload file
     </Button>
@@ -951,7 +961,7 @@ export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmen
         />
       </TableCell>
       <TableCell className="w-[100px]">
-        {filesize(attachmentFile?.file ? +attachmentFile?.file.size : 0, {
+        {filesize(attachmentFile?.size ? attachmentFile?.size : 0, {
           round: 0,
         })}
       </TableCell>
@@ -1007,7 +1017,13 @@ export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attac
  */
 export const UploadAdvancedNoAttachments = (): JSX.Element => {
   return (
-    <div className="border-r border-r-border bg-muted/10 w-[250px] h-full p-4 flex items-center flex-col space-y-2 justify-center">
+    <div
+      className={cn(
+        'border-r border-r-border bg-muted/10 p-4 flex items-center flex-col space-y-2 justify-center',
+        TREE_WIDTH,
+        TREE_HEIGHT
+      )}
+    >
       <UploadOrDragSvg className="size-[100px]" />
       <p className="text-center w-full text-sm font-medium">Drop your files here</p>
       <p className="text-accent-foreground/70 text-center w-full text-xs max-w-[150px]">

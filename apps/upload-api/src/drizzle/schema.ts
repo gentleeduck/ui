@@ -37,7 +37,7 @@ const files = pgTable('files', {
     .notNull(),
   name: varchar('name', { length: 255 }).notNull(),
   url: varchar('url'),
-  type: char('type'),
+  type: varchar('type', { length: 255 }),
   size: integer('size'),
   tree_level: integer('tree_level').default(1),
   created_at: timestamp('created_at').notNull().defaultNow(),

@@ -1,7 +1,9 @@
 // Environment Variables
 
+import { config } from 'dotenv'
 import { envSchema } from './zod'
 
+config()
 // POSTGRES
 const POSTGRES_HOST = process.env.POSTGRES_HOST
 const POSTGRES_PORT = process.env.POSTGRES_PORT
@@ -22,7 +24,7 @@ const MINIO_BUCKET_REGION = process.env.MINIO_BUCKET_REGION
 // Connection String
 const CONNECTIONSTRING = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`
 
-export const ENV = {
+export const ENV = envSchema.parse({
   POSTGRES_HOST,
   POSTGRES_PORT,
   POSTGRES_DB,
@@ -37,4 +39,4 @@ export const ENV = {
   MINIO_ACCESS_KEY,
   MINIO_SECRET_KEY,
   MINIO_BUCKET_REGION,
-}
+})

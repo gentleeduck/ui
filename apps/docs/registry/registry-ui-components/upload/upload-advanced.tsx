@@ -55,6 +55,7 @@ export const UploadAdvancedProvider = ({
   className,
   currentBucket,
   children,
+  actions,
   ...props
 }: UploadAdvancedProviderProps): JSX.Element => {
   const [_selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>(selectedFolder ?? [])
@@ -85,6 +86,7 @@ export const UploadAdvancedProvider = ({
         currentBucket,
         uploadView,
         setUploadView,
+        actions,
       }}
     >
       <div
@@ -110,7 +112,7 @@ export const UploadAdvancedHeader = () => {
 }
 
 export const UploadAdvancedActionsLayout = () => {
-  const { selectedAttachments } = useUploadAdvancedContext()
+  const ctx = useUploadAdvancedContext()
 
   return (
     <div className="flex items-center justify-between">
@@ -118,7 +120,7 @@ export const UploadAdvancedActionsLayout = () => {
       <div
         className={cn(
           'space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out',
-          selectedAttachments.length > 0 ? 'translate-y-[-42px]' : 'translate-y-0'
+          ctx.selectedAttachments.length > 0 ? 'translate-y-[-42px]' : 'translate-y-0'
         )}
       >
         <UploadReloadButton />
@@ -209,7 +211,7 @@ export const UploadAdvancedColumnView = () => {
   return (
     <ScrollArea
       className={cn(
-        'transition-all duration-300 ease-in-out w-full',
+        'transition-all duration-300 ease-in-out w-full [&>div>div]:h-full',
         TREE_HEIGHT,
         previewFile && CONTENT_WIDTH_PREVIEW_OPEN
       )}
@@ -237,7 +239,7 @@ export const UploadAttachmentsTree = React.memo(({ attachments }: UploadAttachme
         <ScrollArea className={cn('rounded-md p-2 bg-muted/10', TREE_WIDTH, TREE_HEIGHT)}>
           <div className="flex flex-col gap-1 h-full">
             {filteredItems.map(attachment => {
-              if ((attachment as FileType).file) {
+              if ((attachment as FileType).url) {
                 return (
                   <UploadAdvancedAttachmentFile
                     attachmentFile={attachment as FileType}
@@ -373,6 +375,7 @@ export const UploadFilePreview = (): JSX.Element => {
 
   const file_exists = searchAttachmentsByKey(attachments, item => item.id === previewFile?.id, 'content')
 
+  console.log(previewFile)
   return (
     <>
       <div
@@ -393,7 +396,6 @@ export const UploadFilePreview = (): JSX.Element => {
           <div className="border-l border-l-border bg-muted/10 w-full h-full px-4 py-8">
             <div className="border border-border w-full h-[180px] flex items-center justify-center rounded-md overflow-hidden">
               <img
-                // src={URL.createObjectURL((previewFile?.file as Blob) ?? new Blob())}
                 src={previewFile?.url ?? ''}
                 className="object-contain size-full"
                 alt={previewFile?.name}
@@ -402,9 +404,9 @@ export const UploadFilePreview = (): JSX.Element => {
             <div className="my-4 flex flex-col gap-1">
               <h6 className="text-sm font-medium truncate max-w-[70%]">{previewFile?.name}</h6>
               <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
-                <span>{previewFile?.type}</span>-
+                <span>{previewFile?.type ?? 'not-specified'}</span>-
                 <span>
-                  {filesize(previewFile?.file ? +previewFile?.file.size : 0, {
+                  {filesize(previewFile?.size ?? 0, {
                     round: 0,
                   })}
                 </span>

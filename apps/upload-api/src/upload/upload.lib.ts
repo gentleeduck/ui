@@ -1,0 +1,28 @@
+import { FilesMutationType, FoldersMutationType } from '../globals'
+import { NestedObject } from './upload.types'
+
+export function nestObjectsByTreeLevelAndFolderId(data: (FilesMutationType | FoldersMutationType)[]): NestedObject[] {
+  const idToItemMap = new Map<string, FoldersMutationType>()
+  const roots: (FilesMutationType | FoldersMutationType)[] = []
+
+  // Map all items by their ID and initialize `content` array for folders
+  data.forEach(item => {
+    if (!item.folder_id) {
+      roots.push(item) // No folder_id means it's a root
+    } else {
+      // Store items in the map for potential parents
+      if (!idToItemMap.has(item.folder_id)) {
+        idToItemMap.set(item.folder_id, {
+          id: item.folder_id,
+          name: '',
+          tree_level: item.tree_level ?? 1 - 1, // Placeholder for parents if not defined
+          content: [],
+        })
+      }
+      idToItemMap.get(item.folder_id)!.content!.push(item)
+    }
+  })
+
+  console.log(roots)
+  return roots
+}

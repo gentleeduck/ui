@@ -7,10 +7,13 @@ import {
   UploadAdvancedHeader,
   FolderType,
   FileType,
+  UploadServerActions,
+  toBase64,
 } from '@/registry/registry-ui-components/upload'
 import { uuidv7 } from 'uuidv7'
 import { randFileName, randFileType, randNumber, randUuid } from '@ngneat/falso'
 import { trpc } from '@/trpc/react'
+import { Button } from '@/registry/default/ui/button'
 
 // Example random attachment URLs
 const randomAttachments = [
@@ -50,8 +53,8 @@ const MAX_DEPTH = 3 // Set a maximum depth for folder nesting
 
 const generateFolder = (level: number): FolderType => {
   const folderName = randFileName().split('.')[0]
-  const numFiles = randNumber({ min: 9, max: 15 }) // Random number of files
-  const numNestedFolders = level < MAX_DEPTH ? randNumber({ min: 3, max: 7 }) : 0 // Limit nested folders based on depth
+  const numFiles = randNumber({ min: 2, max: 2 }) // Random number of files
+  const numNestedFolders = level < MAX_DEPTH ? randNumber({ min: 1, max: 1 }) : 0 // Limit nested folders based on depth
 
   const content: (FileType | FolderType)[] = []
 
@@ -77,17 +80,24 @@ const generateFolder = (level: number): FolderType => {
 }
 
 // Generate the root folder with a set number of subfolders
-const attachments: FolderType[] = Array.from({ length: 10 }, (_, i) => generateFolder(1)) // Start with level 1 for the root folder
+const attachments: FolderType[] = Array.from({ length: 1 }, (_, i) => generateFolder(1)) // Start with level 1 for the root folder
 
 export default function Upload4Demo() {
-  // console.log('Attachments:', attachments)
-  trpc.upload.getBuckets.useQuery({
-    user_id: '246ad043-fdd6-4092-8e1d-3f1144970a5e',
+  // 1- make req to server to get attachments and give to the provider
+  trpc.ws.randomNumber.subscribe(undefined, {
+    onData: randomNumber => {
+      console.log('Received random number:', randomNumber)
+    },
+    onError: err => {
+      console.error('Subscription error:', err)
+    },
   })
+
   return (
     <>
       <UploadAdvancedProvider
-        attachments={attachments} // Pass generated attachments here
+        // attachments={attachments} // Pass generated attachments here
+        actions={serverActions}
         currentBucket="wildduck_attachments"
       >
         <UploadAdvancedHeader />
@@ -95,4 +105,20 @@ export default function Upload4Demo() {
       </UploadAdvancedProvider>
     </>
   )
+}
+
+export const serverActions: UploadServerActions = {
+  getInitialData: (async ctx => {
+    const data = await trpc.upload.getBucket.query({ bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d' })
+    ctx.setAttachments(data.data as any)
+  }) as UploadServerActions['getInitialData'],
+
+  upload: (async newAttachments => {
+    return await trpc.upload.insertFile.mutate(newAttachments[0]!)
+  }) as UploadServerActions['upload'],
+
+  getFolderData: (async ctx => {
+    const data = await trpc.upload.getBucket.query({ bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d' })
+    ctx.setAttachments(data.data as any)
+  }) as UploadServerActions['getFolderData'],
 }

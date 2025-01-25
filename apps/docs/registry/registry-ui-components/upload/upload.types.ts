@@ -1,6 +1,8 @@
 import { ScrollArea } from '@/registry/default/ui'
 import { Button } from '../button'
 import { FileTypeEnum } from './upload.constants'
+import { FilesMutationType, FoldersMutationType, TRPC_RESPONSE } from '../../../../upload-api/src/globals'
+import { InsertFileType } from '../../../../upload-api/src/upload'
 
 // NOTE: UPLOAD TYPES
 
@@ -61,28 +63,13 @@ export interface UploadtItemRemoveProps extends React.HTMLProps<HTMLDivElement> 
 /**
  * Type representing a file attachment.
  */
-export interface FileType {
-  id: string // Unique identifier for the file
-  file: Blob | null // The file blob
-  url: string | null // URL of the file
-  type: string // MIME type of the file
-  name: string // Name of the file
-  size: string // Size of the file
-  tree_level?: number // Level in the folder structure
-  created_at: Date // Creation date of the file
-  updated_at: Date // Last updated date of the file
-}
+export interface FileType extends FilesMutationType {}
 
 /**
  * Type representing a folder containing attachments.
  */
-export type FolderType = {
-  id: string // Unique identifier for the folder
-  name: string // Name of the folder
-  content: (FileType | FolderType)[] // Content of the folder (files and subfolders)
-  tree_level: number // Level in the folder structure
-  created_at: Date // Creation date of the folder
-  updated_at: Date // Last updated date of the folder
+export interface FolderType extends FoldersMutationType {
+  content: (FileType | FolderType)[]
 }
 
 /**
@@ -98,6 +85,11 @@ export type SelectedFolderType = FolderType & {}
  * @template T - The type of attachments.
  */
 export interface UploadAdvancedContextType<T extends Record<string, any>> extends UploadContextType<T> {
+  /**
+   * Currently selected folders
+   * @type {SelectedFolderType[]}
+   * @default []
+   */
   selectedFolder: SelectedFolderType[] // Currently selected folders
   setSelectedFolder: React.Dispatch<React.SetStateAction<SelectedFolderType[]>> // Function to update selected folders
   previewFile: FileType | null // Currently previewed file
@@ -109,6 +101,7 @@ export interface UploadAdvancedContextType<T extends Record<string, any>> extend
   currentBucket: string // Current bucket name
   uploadView: 'column' | 'row' // Currently selected view
   setUploadView: React.Dispatch<React.SetStateAction<'column' | 'row'>> // Function to update the view
+  actions: UploadServerActions
 }
 
 /**
@@ -119,6 +112,26 @@ export interface UploadAdvancedProviderProps extends React.HTMLProps<HTMLDivElem
   selectedFolder?: SelectedFolderType[] // Currently selected folders
   attachments?: (FileType | FolderType)[] // List of attachments
   currentBucket: string // Current bucket name
+  actions: UploadServerActions
+}
+
+export type UploadServerActions = {
+  getInitialData: <T extends TRPC_RESPONSE<(FilesMutationType | FoldersMutationType)[]>>(
+    ctx: Omit<UploadAdvancedContextType<FileType | FolderType>, 'actions'>
+  ) => Promise<T>
+
+  upload: <T extends TRPC_RESPONSE<FilesMutationType[]>>(
+    newAttachments: InsertFileType[],
+    ctx: Omit<UploadAdvancedContextType<FileType | FolderType>, 'actions'>
+  ) => Promise<T>
+
+  getFolderData: <T extends TRPC_RESPONSE<(FilesMutationType | FoldersMutationType)[]>>(
+    ctx: Omit<UploadAdvancedContextType<FileType | FolderType>, 'actions'>
+  ) => Promise<T>
+}
+
+export type WithoutSetKeys<T> = {
+  [K in keyof T as K extends `set${string}` ? never : K]: T[K]
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -137,7 +150,6 @@ export interface UploadDownloadAttachmentsProps extends React.ComponentPropsWith
 /**
  * Props for the UploadRenameAttachmentButton component.
  *
- * @typedef {Object} UploadRenameAttachmentButtonProps
  * @property {FileType|FolderType} attachment - The attachment to be uploaded or renamed.
  */
 export type UploadRenameAttachmentButtonProps = {
@@ -247,7 +259,7 @@ export declare class UploadManagerClass {
    *
    * @returns void
    */
-  public static advancedUploadAttachments({ e, selectedFolder, setAttachments }: UploadFilesArgs): Promise<void>
+  public static advancedUploadAttachments(props: UploadFilesArgs): Promise<void>
 
   /**
    * Simulates the file upload process and provides progress updates.
@@ -349,11 +361,8 @@ export interface HandleAttachmentProps {
 /**
  * Arguments for uploading files.
  */
-export type UploadFilesArgs = {
+export type UploadFilesArgs = UploadAdvancedContextType<FileType | FolderType> & {
   e: React.ChangeEvent<HTMLInputElement> // Change event from the input
-  selectedFolder: FolderType[] // Currently selected folder
-  setSelectedFolder: React.Dispatch<React.SetStateAction<FolderType[]>> // Function to set selected folders
-  setAttachments: React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>> // Function to set attachments
 }
 
 /**
@@ -376,12 +385,3 @@ export type UploadPromiseReturn = {
 }
 
 //////////////////////////////////////////////////
-export type UploadServerActions = {
-  upload: (e: React.ChangeEvent<HTMLInputElement>, ctx: UploadAdvancedContextType<FileType | FolderType> | null) => void
-}
-
-export const serverActions: UploadServerActions = {
-  upload: (e, ctx) => {
-    // ctx.
-  },
-}
