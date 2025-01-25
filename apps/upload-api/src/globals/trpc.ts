@@ -8,7 +8,7 @@
  */
 
 import { initTRPC, TRPCError } from '@trpc/server'
-// import superjson from 'superjson'
+import superjson from 'superjson'
 import { ZodError } from 'zod'
 
 /**
@@ -40,7 +40,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
  * errors on the backend.
  */
 const t = initTRPC.context<typeof createTRPCContext>().create({
-  // transformer: superjson,
+  transformer: superjson,
   errorFormatter({ shape, error }) {
     return {
       ...shape,
@@ -91,7 +91,7 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   const result = await next()
 
   const end = Date.now()
-  console.log(`[TRPC] ${path} took ${end - start}ms to execute`)
+  // console.log(`[TRPC] ${path} took ${end - start}ms to execute`)
 
   return result
 })

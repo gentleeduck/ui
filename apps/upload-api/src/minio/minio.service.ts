@@ -4,7 +4,7 @@ import { InsertFileType } from '../upload'
 import * as Minio from 'minio'
 
 // Instantiate the MinIO client with the object store service
-const minioClient = new Minio.Client({
+export const minioClient = new Minio.Client({
   endPoint: 'localhost',
   port: 9000,
   useSSL: false,
