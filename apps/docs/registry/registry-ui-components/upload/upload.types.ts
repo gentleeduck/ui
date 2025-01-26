@@ -116,6 +116,10 @@ export interface UploadAdvancedProviderProps extends React.HTMLProps<HTMLDivElem
 }
 
 export type UploadServerActions = {
+  /**
+   * this is the context that will be passed to the action
+   * you can use this to access the ctx and mutate and get the attachments.
+   */
   getInitialData: <T extends TRPC_RESPONSE<(FilesMutationType | FoldersMutationType)[]>>(
     ctx: Omit<UploadAdvancedContextType<FileType | FolderType>, 'actions'>
   ) => Promise<T>
