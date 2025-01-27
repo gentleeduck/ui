@@ -16,7 +16,7 @@ export const uploadRouter = createTRPCRouter({
   // NOTE: GETTTERs
   getBuckets: publicProcedure.input(getBucketsSchema).query(async ({ input }) => await UploadService.getBuckets(input)),
   getBucket: publicProcedure.input(getBucketSchema).query(async ({ input }) => await UploadService.getBucket(input)),
-  getFolder: publicProcedure.input(getFolderSchema).query(async ({ input }) => await UploadService.getBucket(input)),
+  getFolder: publicProcedure.input(getFolderSchema).query(async ({ input }) => await UploadService.getFolder(input)),
 
   // NOTE: INSERTERs
   insertBucket: publicProcedure

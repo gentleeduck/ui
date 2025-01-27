@@ -6,9 +6,8 @@ import { ScrollArea } from '@/registry/default/ui'
 import { Button, buttonVariants } from '../button'
 import { Clipboard, X } from 'lucide-react'
 import {
-  FileType,
-  FolderType,
-  SelectedFolderType,
+  SelectedBucketFoldersType,
+  StateWithExtraFeatures,
   UploadAdvancedContextType,
   UploadAdvancedProviderProps,
   UploadAttachmentsTreeItemProps,
@@ -21,7 +20,6 @@ import {
   UploadAdvancedButton,
   UploadAdvancedAlertDeleteAttachments,
   UploadAdvancedAlertMoveAction,
-  UploadAttachmentActionsMenu,
   UploadAdvancedDownloadAttachments,
   UploadAdvancedNavigationLayout,
   UploadReloadButton,
@@ -36,12 +34,14 @@ import { format } from 'date-fns'
 import { filesize } from 'filesize'
 import { cn } from '@/lib'
 import { CONTENT_WIDTH_PREVIEW_OPEN, PREVIEW_WIDTH, TREE_HEIGHT, TREE_WIDTH } from './upload.constants'
-import { searchAttachmentsByKey } from './upload.lib'
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '../table'
+import { BucketFilesType, BucketFoldersType } from '../../../../upload-api/src/globals'
 
-const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<FileType | FolderType> | null>(null)
+const UploadAdvancedContext = React.createContext<UploadAdvancedContextType<
+  BucketFilesType | BucketFoldersType
+> | null>(null)
 
-export const useUploadAdvancedContext = (): UploadAdvancedContextType<FileType | FolderType> => {
+export const useUploadAdvancedContext = (): UploadAdvancedContextType<BucketFilesType | BucketFoldersType> => {
   const context = React.useContext(UploadAdvancedContext)
   if (!context) {
     throw new Error('useUploadContext must be used within an UploadProvider')
@@ -58,12 +58,15 @@ export const UploadAdvancedProvider = ({
   actions,
   ...props
 }: UploadAdvancedProviderProps): JSX.Element => {
-  const [_selectedFolder, setSelectedFolder] = React.useState<SelectedFolderType[]>(selectedFolder ?? [])
-  const [_attachments, setAttachments] = React.useState<(FileType | FolderType)[]>(attachments ?? [])
-  const [attachmentsState, setAttachmentsState] = React.useState<(FileType | FolderType)[]>([])
-  const [previewFile, setPreviewFile] = React.useState<FileType | null>(null)
+  const [_selectedFolder, setSelectedFolder] = React.useState<SelectedBucketFoldersType>(new Map())
+  const [_attachments, setAttachments] = React.useState<StateWithExtraFeatures<BucketFilesType | BucketFoldersType>>({
+    state: 'pending',
+    data: [],
+  })
+  const [attachmentsState, setAttachmentsState] = React.useState<(BucketFilesType | BucketFoldersType)[]>([])
+  const [previewFile, setPreviewFile] = React.useState<BucketFilesType | null>(null)
   const [uploadQuery, setUploadQuery] = React.useState<string>('')
-  const [selectedAttachments, setSelectedAttachments] = React.useState<FileType[]>([])
+  const [selectedAttachments, setSelectedAttachments] = React.useState<BucketFilesType[]>([])
   const [uploadView, setUploadView] = React.useState<'column' | 'row'>(
     (localStorage.getItem('View') as 'column' | 'row') ?? 'column'
   )
@@ -113,10 +116,10 @@ export const UploadAdvancedHeader = () => {
 
 export const UploadAdvancedActionsLayout = () => {
   const ctx = useUploadAdvancedContext()
-
+  console.log(ctx.selectedFolder)
+  // <UploadAdvancedNavigationLayout />
   return (
     <div className="flex items-center justify-between">
-      <UploadAdvancedNavigationLayout />
       <div
         className={cn(
           'space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out',
@@ -207,17 +210,18 @@ export const UploadAdnvacedContent = React.memo(() => {
 })
 
 export const UploadAdvancedColumnView = () => {
-  const { previewFile, attachments } = useUploadAdvancedContext() ?? {}
+  const ctx = useUploadAdvancedContext() ?? {}
+
   return (
     <ScrollArea
       className={cn(
         'transition-all duration-300 ease-in-out w-full [&>div>div]:h-full',
         TREE_HEIGHT,
-        previewFile && CONTENT_WIDTH_PREVIEW_OPEN
+        ctx.previewFile && CONTENT_WIDTH_PREVIEW_OPEN
       )}
     >
       <div className="flex items-center h-full rounded-md relative overflow-hidden">
-        <UploadAttachmentsTree attachments={attachments} />
+        <UploadAttachmentsTree data={ctx.attachments} />
         <UploadTreeExtender />
       </div>
       <ScrollBar orientation="horizontal" />
@@ -225,71 +229,86 @@ export const UploadAdvancedColumnView = () => {
   )
 }
 
-export const UploadAttachmentsTree = React.memo(({ attachments }: UploadAttachmentsTreeItemProps) => {
+export const UploadAttachmentsTree = React.memo(({ data }: UploadAttachmentsTreeItemProps) => {
+  const { data: attachments, state } = data ?? {}
   const { uploadQuery } = useUploadAdvancedContext()
+
+  if (state === 'pending') {
+    return (
+      <div
+        className={cn(
+          'flex flex-col p-2 bg-muted/10 [&>div>div]:h-full border-r border-r-border gap-1 opacity-50',
+          TREE_WIDTH,
+          TREE_HEIGHT
+        )}
+      >
+        {Array.from({ length: parseInt(TREE_HEIGHT.match(/\d+/)?.[0] ?? '', 10) / 30 }).map((_, idx) => (
+          <Skeleton
+            className="h-[28px] w-full rounded-md"
+            key={idx}
+          />
+        ))}
+      </div>
+    )
+    // <Loader className="animate-spin opacity-50" />
+  }
+
+  if (state === 'error') {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <X /> Error
+      </div>
+    )
+  }
+
+  if (state === 'success' && !attachments?.length) {
+    return <UploadAdvancedNoAttachments />
+  }
 
   const filteredItems = (
     uploadQuery ? attachments?.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase())) : attachments
-  ) as (FileType | FolderType)[]
+  ) as (BucketFilesType | BucketFoldersType)[]
 
-  return filteredItems?.length > 0 ? (
-    <div className="flex items-start h-full rounded-md">
-      <div className="flex flex-col h-full rounded-md">
-        <UploadAdvancedSelectAllLayout attachments={attachments} />
-        <ScrollArea className={cn('rounded-md p-2 bg-muted/10', TREE_WIDTH, TREE_HEIGHT)}>
-          <div className="flex flex-col gap-1 h-full">
+  if (state === 'success' && filteredItems?.length > 0) {
+    return (
+      <div className="flex flex-col h-full border-r border-r-border">
+        <UploadAdvancedSelectAllLayout attachments={filteredItems} />
+        <ScrollArea className={cn('p-2 bg-muted/10 [&>div>div]:h-full', TREE_WIDTH, TREE_HEIGHT)}>
+          <div className="flex flex-col gap-1 h-full ">
             {filteredItems.map(attachment => {
-              if ((attachment as FileType).url) {
+              if ((attachment as BucketFilesType).url) {
                 return (
                   <UploadAdvancedAttachmentFile
-                    attachmentFile={attachment as FileType}
                     key={attachment.id}
+                    attachmentFile={attachment as BucketFilesType}
                   />
                 )
               }
               return (
                 <UploadAdvancedAttachmentFolder
                   key={attachment.id}
-                  attachmentFolder={attachment as FolderType}
+                  attachmentFolder={attachment as BucketFoldersType}
                 />
               )
             })}
           </div>
         </ScrollArea>
       </div>
-      <Separator orientation="vertical" />
-    </div>
-  ) : (
-    <UploadAdvancedNoAttachments />
-  )
+    )
+  }
 })
 
 export const UploadTreeExtender = (): JSX.Element => {
-  const { selectedFolder, attachments, uploadQuery } = useUploadAdvancedContext()
+  const ctx = useUploadAdvancedContext()
 
   return (
     <>
-      {selectedFolder.length > 0 &&
-        selectedFolder.map((folderContent, idx) => {
-          const item = searchAttachmentsByKey(attachments, folder => folder.id === folderContent?.id, 'content')
-          const filtered = !uploadQuery
-            ? (item as FolderType)?.content
-            : (item as FolderType)?.content.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase()))
-          return (
-            item && (
-              <div
-                key={item.id}
-                className="flex items-center h-full rounded-md"
-              >
-                <UploadAttachmentsTree
-                  attachments={filtered}
-                  key={item.id}
-                />
-                {idx !== selectedFolder.length - 1 && <Separator orientation="vertical" />}
-              </div>
-            )
-          )
-        })}
+      {Array.from(ctx.selectedFolder.values()).map((folderContent, idx) => (
+        <UploadAttachmentsTree
+          data={folderContent}
+          key={idx}
+        />
+      ))}
     </>
   )
 }
@@ -304,31 +323,20 @@ export const UploadAdvancedRowView = () => {
         previewFile && CONTENT_WIDTH_PREVIEW_OPEN
       )}
     >
-      <UploadAttachmentsRow />
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
   )
+  // <UploadAttachmentsRow />
 }
 
 export const UploadAttachmentsRow = () => {
-  const { attachments, uploadQuery, selectedFolder } = useUploadAdvancedContext()
+  const ctx = useUploadAdvancedContext()
 
-  const filteredItems = React.useMemo(() => {
-    // if (!uploadQuery) return selectedFolder?.length ? selectedFolder.slice(-1)[0].content || [] : attachments || []
-
-    if (!uploadQuery)
-      return selectedFolder?.length
-        ? (
-            searchAttachmentsByKey(
-              attachments,
-              folder => folder.id === selectedFolder.slice(-1)?.[0]?.id,
-              'content'
-            ) as FolderType
-          ).content || []
-        : attachments || []
-
-    return attachments?.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase())) || []
-  }, [attachments, uploadQuery, selectedFolder])
+  const filteredItems = (
+    ctx.uploadQuery
+      ? ctx.attachments.data?.filter(item => item.name.toLowerCase().includes(ctx.uploadQuery.toLowerCase()))
+      : ctx.attachments
+  ) as (BucketFilesType | BucketFoldersType)[]
 
   return (
     <div className="w-full h-full">
@@ -345,10 +353,10 @@ export const UploadAttachmentsRow = () => {
           </TableHeader>
           <TableBody>
             {filteredItems.map(attachment =>
-              (attachment as FolderType).content?.length >= 0 ? (
-                <UploadAdvancedAttachmentsRowFolder attachmentFolder={attachment as FolderType} />
+              (attachment as BucketFoldersType).files_count >= 0 ? (
+                <UploadAdvancedAttachmentsRowFolder attachmentFolder={attachment as BucketFoldersType} />
               ) : (
-                <UploadAdvancedAttachmentsRowFile attachmentFile={attachment as FileType} />
+                <UploadAdvancedAttachmentsRowFile attachmentFile={attachment as BucketFilesType} />
               )
             )}
           </TableBody>
@@ -362,27 +370,16 @@ export const UploadAttachmentsRow = () => {
   )
 }
 
-/**
- * A component that renders a preview of the selected file.
- *
- * When a file is selected, the preview appears with a smooth transition effect and displays the file's name, type, size, created and updated at information.
- * The preview also includes a download button, a button to copy the file's URL to the clipboard, and a delete button.
- *
- * @returns {JSX.Element} The rendered file preview component.
- */
 export const UploadFilePreview = (): JSX.Element => {
-  const { previewFile, setPreviewFile, attachments } = useUploadAdvancedContext()
+  const ctx = useUploadAdvancedContext()
 
-  const file_exists = searchAttachmentsByKey(attachments, item => item.id === previewFile?.id, 'content')
-
-  console.log(previewFile)
   return (
     <>
       <div
         className={cn(
           PREVIEW_WIDTH,
           'absolute top-0 right-0 h-full duration-300 ease-in-out translate-x-[100%] z-10 dark:bg-[#121212] bg-card',
-          file_exists && 'translate-x-0'
+          ctx.previewFile && 'translate-x-0'
         )}
       >
         <ScrollArea className="h-full">
@@ -391,22 +388,22 @@ export const UploadFilePreview = (): JSX.Element => {
             variant={'nothing'}
             className="absolute top-2 right-4 p-0"
             icon={{ children: X }}
-            onClick={() => setPreviewFile(null)}
+            onClick={() => ctx.setPreviewFile(null)}
           />
           <div className="border-l border-l-border bg-muted/10 w-full h-full px-4 py-8">
             <div className="border border-border w-full h-[180px] flex items-center justify-center rounded-md overflow-hidden">
               <img
-                src={previewFile?.url ?? ''}
+                src={ctx.previewFile?.url ?? ''}
                 className="object-contain size-full"
-                alt={previewFile?.name}
+                alt={ctx.previewFile?.name}
               />
             </div>
             <div className="my-4 flex flex-col gap-1">
-              <h6 className="text-sm font-medium truncate max-w-[70%]">{previewFile?.name}</h6>
+              <h6 className="text-sm font-medium truncate max-w-[70%]">{ctx.previewFile?.name}</h6>
               <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
-                <span>{previewFile?.type ?? 'not-specified'}</span>-
+                <span>{ctx.previewFile?.type ?? 'not-specified'}</span>-
                 <span>
-                  {filesize(previewFile?.size ?? 0, {
+                  {filesize(ctx.previewFile?.size ?? 0, {
                     round: 0,
                   })}
                 </span>
@@ -415,18 +412,22 @@ export const UploadFilePreview = (): JSX.Element => {
             <div className="my-4 flex flex-col gap-1">
               <h6 className="text-xs font-medium text-accent-foreground/90">Created at</h6>
               <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
-                {previewFile ? format(new Date(previewFile?.created_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a') : ''}
+                {ctx.previewFile
+                  ? format(new Date(ctx.previewFile?.created_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')
+                  : ''}
               </p>
             </div>
             <div className="my-4 flex flex-col gap-1">
               <h6 className="text-xs font-medium text-accent-foreground/90">Updated at</h6>
               <p className="text-accent-foreground/70 text-xs flex items-center gap-1 fno">
-                {previewFile ? format(new Date(previewFile?.updated_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a') : ''}
+                {ctx.previewFile
+                  ? format(new Date(ctx.previewFile?.updated_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')
+                  : ''}
               </p>
             </div>
             <div className="flex flex-row gap-2 [&_button]:px-3 mt-4 mb-2 ">
               <UploadAdvancedDownloadAttachments
-                itemsName={[previewFile?.name ?? '']}
+                itemsName={[ctx.previewFile?.name ?? '']}
                 withinDropdown={false}
               />
               <Button
@@ -440,7 +441,7 @@ export const UploadFilePreview = (): JSX.Element => {
             <Separator />
             <div className="my-2 flex flex-row gap-2 [&_button]:px-3">
               <UploadAdvancedAlertDeleteAttachments
-                itemsName={[previewFile?.name ?? '']}
+                itemsName={[ctx.previewFile?.name ?? '']}
                 className={cn(
                   buttonVariants({
                     className: 'w-fit',
@@ -449,7 +450,7 @@ export const UploadFilePreview = (): JSX.Element => {
                     border: 'destructive',
                   })
                 )}
-                itemsToDelete={[previewFile?.id ?? '']}
+                itemsToDelete={[ctx.previewFile?.id ?? '']}
               />
             </div>
           </div>

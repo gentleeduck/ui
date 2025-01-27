@@ -22,6 +22,13 @@
       "when": 1737759026820,
       "tag": "0002_clean_the_order",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1737934442303,
+      "tag": "0003_fancy_wallflower",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,1 @@
+ALTER TABLE "folders" ADD COLUMN "files_count" integer DEFAULT 0;

@@ -37,7 +37,7 @@ const files = pgTable('files', {
     .notNull(),
   name: varchar('name', { length: 255 }).notNull(),
   url: varchar('url'),
-  type: varchar('type', { length: 255 }),
+  type: varchar('type', { length: 255 }).notNull(),
   size: integer('size'),
   tree_level: integer('tree_level').default(1),
   created_at: timestamp('created_at').notNull().defaultNow(),
@@ -54,7 +54,8 @@ const folders = pgTable('folders', {
     .primaryKey()
     .notNull(),
   name: varchar('name', { length: 255 }).notNull(),
-  tree_level: integer('tree_level').default(1),
+  files_count: integer('files_count').default(0).notNull(),
+  tree_level: integer('tree_level').default(1).notNull(),
   created_at: timestamp('created_at').notNull().defaultNow(),
   updated_at: timestamp('updated_at').notNull().defaultNow(),
 

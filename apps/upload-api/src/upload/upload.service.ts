@@ -12,7 +12,7 @@ import {
   InsertFolderType,
 } from './upload.dto'
 import { MINIO } from '../minio/minio.service'
-import { FilesMutationType, FoldersMutationType, GetSchemaType, TRPC_RESPONSE } from '../globals'
+import { BucketFilesType, BucketFoldersType, GetSchemaType, TRPC_RESPONSE } from '../globals'
 import { nestObjectsByTreeLevelAndFolderId } from './upload.lib'
 
 export class UploadService {
@@ -40,7 +40,7 @@ export class UploadService {
 
   public static async getBucket({
     bucket_id,
-  }: GetBucketType): Promise<TRPC_RESPONSE<(FilesMutationType | FoldersMutationType)[]>> {
+  }: GetBucketType): Promise<TRPC_RESPONSE<(BucketFilesType | BucketFoldersType)[]>> {
     try {
       // Query for folders where bucket_id matches and folder_id is null
       const _folders = await db.query.folders.findMany({
@@ -65,9 +65,8 @@ export class UploadService {
 
       // Return combined result of folders and files
       return {
-        data: [..._folders, ..._files] as (FilesMutationType | FoldersMutationType)[],
+        data: [..._folders, ..._files] as (BucketFilesType | BucketFoldersType)[],
         message: `Bucket ${bucket_id} found`,
-        _: null,
       }
     } catch (_) {
       const error = {
@@ -80,7 +79,9 @@ export class UploadService {
     }
   }
 
-  public static async getFolder({ folder_id }: GetFolderType) {
+  public static async getFolder({
+    folder_id,
+  }: GetFolderType): Promise<TRPC_RESPONSE<(BucketFilesType | BucketFoldersType)[]>> {
     try {
       // Query for files where folder_id matches
       const _files = await db.query.files.findMany({
@@ -100,7 +101,7 @@ export class UploadService {
       }
       // Return combined result of folders and files
       return {
-        data: [..._folders, ..._files],
+        data: [..._folders, ..._files] as (BucketFilesType | BucketFoldersType)[],
         message: `Folder ${folder_id} found`,
       }
     } catch (_) {

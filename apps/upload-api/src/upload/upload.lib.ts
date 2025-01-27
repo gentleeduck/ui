@@ -1,9 +1,9 @@
-import { FilesMutationType, FoldersMutationType } from '../globals'
+import { BucketFilesType, BucketFoldersType } from '../globals'
 import { NestedObject } from './upload.types'
 
-export function nestObjectsByTreeLevelAndFolderId(data: (FilesMutationType | FoldersMutationType)[]): NestedObject[] {
-  const idToItemMap = new Map<string, FoldersMutationType>()
-  const roots: (FilesMutationType | FoldersMutationType)[] = []
+export function nestObjectsByTreeLevelAndFolderId(data: (BucketFilesType | BucketFoldersType)[]): NestedObject[] {
+  const idToItemMap = new Map<string, BucketFoldersType>()
+  const roots: (BucketFilesType | BucketFoldersType)[] = []
 
   // Map all items by their ID and initialize `content` array for folders
   data.forEach(item => {

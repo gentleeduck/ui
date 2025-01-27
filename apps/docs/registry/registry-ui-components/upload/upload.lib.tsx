@@ -1,17 +1,10 @@
 import { toast } from 'sonner'
-import {
-  FileType,
-  FolderType,
-  HandleAttachmentProps,
-  UploadFilesArgs,
-  UploadPromiseArgs,
-  UploadPromiseReturn,
-} from './upload.types'
+import { HandleAttachmentProps, UploadFilesArgs, UploadPromiseArgs, UploadPromiseReturn } from './upload.types'
 import { uuidv7 } from 'uuidv7'
 import React from 'react'
 import { UploadSonnerContent, UploadSonnerContentMemo } from './upload-sonner'
 import { FileTypeEnum, MAX_FILE_SIZE } from './upload.constants'
-import { InsertFileType } from '../../../../upload-api/src/upload'
+import { BucketFilesType, BucketFoldersType } from '../../../../upload-api/src/globals'
 
 export const uploadPromise = ({ files, toastId }: UploadPromiseArgs): Promise<UploadPromiseReturn> => {
   return new Promise(resolve => {
@@ -53,8 +46,8 @@ export const uploadPromise = ({ files, toastId }: UploadPromiseArgs): Promise<Up
 }
 
 export type FolderOpenArgs = {
-  attachmentFolder: FolderType
-  setSelected: React.Dispatch<React.SetStateAction<FolderType[]>>
+  attachmentFolder: BucketFoldersType
+  setSelected: React.Dispatch<React.SetStateAction<BucketFoldersType[]>>
   exist_in_tree: boolean
 }
 
@@ -133,7 +126,11 @@ export async function advancedUploadAttachments(props: UploadFilesArgs) {
       if (_props.selectedFolder.length > 0) {
         const selectedFolderId = _props.selectedFolder[_props.selectedFolder.length - 1]?.id ?? ''
         // Update the attachments recursively
-        return updateFolderContent(old, selectedFolderId, files_response.data as unknown as (FileType | FolderType)[])
+        return updateFolderContent(
+          old,
+          selectedFolderId,
+          files_response.data as unknown as (BucketFilesType | BucketFoldersType)[]
+        )
       }
 
       // If no folder is selected, just add new attachments to the old attachments
@@ -148,7 +145,7 @@ export async function advancedUploadAttachments(props: UploadFilesArgs) {
   }
 }
 
-export function updateFolderContent<T extends FileType | FolderType>(
+export function updateFolderContent<T extends BucketFilesType | BucketFoldersType>(
   array: T[],
   folderId: string,
   newAttachments: T[]
@@ -158,15 +155,15 @@ export function updateFolderContent<T extends FileType | FolderType>(
     if (item.id === folderId) {
       return {
         ...item,
-        content: [...(item as FolderType).content, ...newAttachments],
+        content: [...(item as BucketFoldersType).content, ...newAttachments],
       }
     }
 
     // If the current item contains nested folders, recursively call the function to go deeper
-    if (Array.isArray((item as FolderType).content)) {
+    if (Array.isArray((item as BucketFoldersType).content)) {
       return {
         ...item,
-        content: updateFolderContent((item as FolderType).content, folderId, newAttachments),
+        content: updateFolderContent((item as BucketFoldersType).content, folderId, newAttachments),
       }
     }
 
@@ -204,7 +201,7 @@ export const getAttachmentsToState = ({ e, setAttachmentsState }: HandleAttachme
 
   if (!files) return toast.error('Please select a file')
 
-  const newAttachments: FileType[] = []
+  const newAttachments: BucketFilesType[] = []
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
@@ -214,7 +211,7 @@ export const getAttachmentsToState = ({ e, setAttachmentsState }: HandleAttachme
     //   continue // Skip this file and continue with the next
     // }
 
-    const attachment: FileType = {
+    const attachment: BucketFilesType = {
       id: uuidv7(),
       file: file,
       name: file.name,
@@ -240,7 +237,7 @@ export const handleAdvancedAttachment = ({ e, setAttachmentsState }: HandleAttac
       position: 'top-right',
     })
 
-  const newAttachments: FileType[] = []
+  const newAttachments: BucketFilesType[] = []
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
@@ -250,7 +247,7 @@ export const handleAdvancedAttachment = ({ e, setAttachmentsState }: HandleAttac
     //   continue // Skip this file and continue with the next
     // }
 
-    const attachment: FileType = {
+    const attachment: BucketFilesType = {
       id: uuidv7(),
       file: file,
       name: file.name,
@@ -317,12 +314,12 @@ export function addFolderToPath({
   setSelectedFolder,
   folderName,
 }: {
-  selectedFolder: FolderType[]
-  setSelectedFolder: React.Dispatch<React.SetStateAction<FolderType[]>>
-  setAttachments: React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>>
+  selectedFolder: BucketFoldersType[]
+  setSelectedFolder: React.Dispatch<React.SetStateAction<BucketFoldersType[]>>
+  setAttachments: React.Dispatch<React.SetStateAction<(BucketFilesType | BucketFoldersType)[]>>
   folderName: string
 }) {
-  const emptyFolder: FolderType = {
+  const emptyFolder: BucketFoldersType = {
     id: Math.random().toString(36).slice(2),
     name: folderName,
     content: [],
@@ -331,7 +328,10 @@ export function addFolderToPath({
     tree_level: selectedFolder.length ? selectedFolder[selectedFolder.length - 1].tree_level + 1 : 1,
   }
 
-  const addToFolderTree = (items: (FileType | FolderType)[], selectedId: string): (FileType | FolderType)[] => {
+  const addToFolderTree = (
+    items: (BucketFilesType | BucketFoldersType)[],
+    selectedId: string
+  ): (BucketFilesType | BucketFoldersType)[] => {
     return items.map(item => {
       if ('content' in item && item.id === selectedId) {
         return {
@@ -349,7 +349,10 @@ export function addFolderToPath({
     })
   }
 
-  const updateSelectedFolder = (selectedFolder: FolderType[], emptyFolder: FolderType): FolderType[] => {
+  const updateSelectedFolder = (
+    selectedFolder: BucketFoldersType[],
+    emptyFolder: BucketFoldersType
+  ): BucketFoldersType[] => {
     return selectedFolder.map((folder, index) => {
       if (index === selectedFolder.length - 1) {
         // Update the most deeply selected folder
@@ -410,15 +413,18 @@ export function searchAttachmentsByKey<T>(array: T[], predicate: (item: T) => bo
  * @param targetIds The array of IDs of the folders to delete.
  * @returns Updated folder structure with the target folders and their nested content removed.
  */
-export function deleteAttachmentById<T extends FileType | FolderType>(attachments: T[], targetIds: string[]): T[] {
+export function deleteAttachmentById<T extends BucketFilesType | BucketFoldersType>(
+  attachments: T[],
+  targetIds: string[]
+): T[] {
   return attachments
     .filter(attachment => !targetIds.includes(attachment.id)) // Remove target folders at this level
     .map(attachment => {
-      if ((attachment as FolderType).content) {
+      if ((attachment as BucketFoldersType).content) {
         // Recursively check and clean nested content
         return {
           ...attachment,
-          content: deleteAttachmentById((attachment as FolderType).content, targetIds),
+          content: deleteAttachmentById((attachment as BucketFoldersType).content, targetIds),
         }
       }
       return attachment // Return folder if no nested content
@@ -432,7 +438,7 @@ export function deleteAttachmentById<T extends FileType | FolderType>(attachment
  * @param newName The new name for the target folders or files.
  * @returns Updated folder structure with the renamed items.
  */
-export function renameAttachmentById<T extends FileType | FolderType>(
+export function renameAttachmentById<T extends BucketFilesType | BucketFoldersType>(
   attachments: T[],
   targetIds: string[],
   newName: string
@@ -442,11 +448,11 @@ export function renameAttachmentById<T extends FileType | FolderType>(
       // Rename the folder or file
       return { ...attachment, name: newName, updated_at: new Date() }
     }
-    if ((attachment as FolderType).content) {
+    if ((attachment as BucketFoldersType).content) {
       // Recursively check and rename nested content
       return {
         ...attachment,
-        content: renameAttachmentById((attachment as FolderType).content, targetIds, newName),
+        content: renameAttachmentById((attachment as BucketFoldersType).content, targetIds, newName),
       }
     }
     return attachment // Return folder if no match
@@ -459,9 +465,9 @@ export const moveAttachmentsToPath = ({
   selectedAttachments,
   path,
 }: {
-  setAttachments: React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>>
-  setSelectedAttachment: React.Dispatch<React.SetStateAction<FileType[]>>
-  selectedAttachments: FileType[]
+  setAttachments: React.Dispatch<React.SetStateAction<(BucketFilesType | BucketFoldersType)[]>>
+  setSelectedAttachment: React.Dispatch<React.SetStateAction<BucketFilesType[]>>
+  selectedAttachments: BucketFilesType[]
   path: string
 }): void => {
   const pathParts = path.split('/').filter(part => part.trim() !== '')
@@ -475,10 +481,10 @@ export const moveAttachmentsToPath = ({
 
     // Recursively process each part of the path
     const processPath = (
-      attachments: (FileType | FolderType)[],
+      attachments: (BucketFilesType | BucketFoldersType)[],
       pathParts: string[],
       treeLevel: number
-    ): (FileType | FolderType)[] => {
+    ): (BucketFilesType | BucketFoldersType)[] => {
       if (pathParts.length === 0) {
         // If path is empty, add to root (main attachments array)
         if (treeLevel === 1) {
@@ -492,7 +498,7 @@ export const moveAttachmentsToPath = ({
 
       // Check if the current part is a folder or file
       let folder = attachments.find(attachment => 'name' in attachment && attachment.name === currentFolderName) as
-        | FolderType
+        | BucketFoldersType
         | undefined
 
       // If we are at the last path part and we are dealing with a file, add to the file content
@@ -543,8 +549,8 @@ export function selectAttachmentFromFolderContent({
   filesInCurrentTree,
   setSelectedAttachment,
 }: {
-  filesInCurrentTree: (FileType | FolderType)[]
-  setSelectedAttachment: React.Dispatch<React.SetStateAction<FileType[]>>
+  filesInCurrentTree: (BucketFilesType | BucketFoldersType)[]
+  setSelectedAttachment: React.Dispatch<React.SetStateAction<BucketFilesType[]>>
   checkState?: boolean
 }) {
   setSelectedAttachment(prevSelected => {
@@ -557,7 +563,7 @@ export function selectAttachmentFromFolderContent({
       return prevSelected.filter(attachment => !filesInCurrentTree.some(file => file.id === attachment.id))
     // Otherwise, add the files that are not already selected
     const newFiles = filesInCurrentTree.filter(file => !prevSelected.some(attachment => attachment.id === file.id))
-    return [...prevSelected, ...newFiles] as FileType[]
+    return [...prevSelected, ...newFiles] as BucketFilesType[]
   })
 }
 

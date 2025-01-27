@@ -14,6 +14,7 @@ import { uuidv7 } from 'uuidv7'
 import { randFileName, randFileType, randNumber, randUuid } from '@ngneat/falso'
 import { trpc } from '@/trpc/react'
 import { Button } from '@/registry/default/ui/button'
+import { UseQueryResult } from '@tanstack/react-query'
 
 // Example random attachment URLs
 const randomAttachments = [
@@ -101,16 +102,43 @@ export default function Upload4Demo() {
 
 export const serverActions: UploadServerActions = {
   getInitialData: (async ctx => {
-    const data = await trpc.upload.getBucket.query({ bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d' })
-    ctx.setAttachments(data.data as any)
+    const { data } = await trpc.upload.getBucket.query({ bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d' })
+
+    if (!data) return {}
+    ctx.setAttachments({
+      data: data,
+      state: 'success',
+    })
   }) as UploadServerActions['getInitialData'],
 
   upload: (async newAttachments => {
     return await trpc.upload.insertFile.mutate(newAttachments[0]!)
   }) as UploadServerActions['upload'],
 
-  getFolderData: (async ctx => {
-    const data = await trpc.upload.getBucket.query({ bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d' })
-    ctx.setAttachments(data.data as any)
+  getFolderData: (async (ctx, folder) => {
+    const { data } = await trpc.upload.getFolder.query({
+      folder_id: folder?.id ?? '',
+      bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d',
+    })
+
+    if (!data) return {}
+    ctx.setSelectedFolder(old =>
+      new Map(old).set(folder?.id ?? '', {
+        data: data,
+        state: 'success',
+      })
+    )
   }) as UploadServerActions['getFolderData'],
 }
+
+// const datad: Pick<
+//   UseQueryResult<
+//     {
+//       data: string
+//     },
+//     Error
+//   >,
+//   'data' | 'status'
+// >
+//
+//     datad.

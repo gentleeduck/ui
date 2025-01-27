@@ -1,18 +1,22 @@
 import { ScrollArea } from '@/registry/default/ui'
 import { Button } from '../button'
+import { BucketFilesType, BucketFoldersType, TRPC_RESPONSE } from '../../../../upload-api/src/globals'
 import { FileTypeEnum } from './upload.constants'
-import { FilesMutationType, FoldersMutationType, TRPC_RESPONSE } from '../../../../upload-api/src/globals'
-import { InsertFileType } from '../../../../upload-api/src/upload'
 
 // NOTE: UPLOAD TYPES
+
+export interface StateWithExtraFeatures<T extends Record<string, any>> {
+  data: T[] | null
+  state: 'pending' | 'success' | 'error'
+}
 
 /**
  * Context type for managing uploads.
  * @template T - The type of attachments.
  */
 export interface UploadContextType<T extends Record<string, any>> {
-  attachments: T[] // List of attachments
-  setAttachments: React.Dispatch<React.SetStateAction<T[]>> // Function to update attachments
+  attachments: StateWithExtraFeatures<T> // List of attachments
+  setAttachments: React.Dispatch<React.SetStateAction<StateWithExtraFeatures<T>>> // Function to update attachments
   attachmentsState: T[] // State of attachments
   setAttachmentsState: React.Dispatch<React.SetStateAction<T[]>> // Function to update attachments state
 }
@@ -49,7 +53,7 @@ export interface UploadContentProps extends React.ComponentPropsWithoutRef<typeo
  * @extends {React.HTMLProps<HTMLDivElement>}
  */
 export interface UploadItemProps extends React.HTMLProps<HTMLDivElement> {
-  attachment: FileType // The attachment to display
+  attachment: BucketFilesType // The attachment to display
 }
 
 /**
@@ -59,23 +63,10 @@ export interface UploadItemProps extends React.HTMLProps<HTMLDivElement> {
 export interface UploadtItemRemoveProps extends React.HTMLProps<HTMLDivElement> {}
 
 // NOTE: SHARED TYPES
-
-/**
- * Type representing a file attachment.
- */
-export interface FileType extends FilesMutationType {}
-
-/**
- * Type representing a folder containing attachments.
- */
-export interface FolderType extends FoldersMutationType {
-  content: (FileType | FolderType)[]
-}
-
 /**
  * Type representing a selected folder.
  */
-export type SelectedFolderType = FolderType & {}
+export type SelectedBucketFoldersType = StateWithExtraFeatures<Map<string, BucketFilesType | BucketFoldersType>>
 
 // ------------------------------------------------------------------------------------------------
 // NOTE: ADVANCED TYPES
@@ -85,19 +76,14 @@ export type SelectedFolderType = FolderType & {}
  * @template T - The type of attachments.
  */
 export interface UploadAdvancedContextType<T extends Record<string, any>> extends UploadContextType<T> {
-  /**
-   * Currently selected folders
-   * @type {SelectedFolderType[]}
-   * @default []
-   */
-  selectedFolder: SelectedFolderType[] // Currently selected folders
-  setSelectedFolder: React.Dispatch<React.SetStateAction<SelectedFolderType[]>> // Function to update selected folders
-  previewFile: FileType | null // Currently previewed file
-  setPreviewFile: React.Dispatch<React.SetStateAction<FileType | null>> // Function to update the previewed file
+  selectedFolder: SelectedBucketFoldersType // Currently selected folders
+  setSelectedFolder: React.Dispatch<React.SetStateAction<SelectedBucketFoldersType>> // Function to update selected folders
+  previewFile: BucketFilesType | null // Currently previewed file
+  setPreviewFile: React.Dispatch<React.SetStateAction<BucketFilesType | null>> // Function to update the previewed file
   uploadQuery: string // Current search query for uploads
   setUploadQuery: React.Dispatch<React.SetStateAction<string>> // Function to update the search query
-  selectedAttachments: FileType[] // Currently selected attachments
-  setSelectedAttachments: React.Dispatch<React.SetStateAction<FileType[]>> // Function to update selected attachments
+  selectedAttachments: BucketFilesType[] // Currently selected attachments
+  setSelectedAttachments: React.Dispatch<React.SetStateAction<BucketFilesType[]>> // Function to update selected attachments
   currentBucket: string // Current bucket name
   uploadView: 'column' | 'row' // Currently selected view
   setUploadView: React.Dispatch<React.SetStateAction<'column' | 'row'>> // Function to update the view
@@ -109,8 +95,8 @@ export interface UploadAdvancedContextType<T extends Record<string, any>> extend
  * @extends {React.HTMLProps<HTMLDivElement>}
  */
 export interface UploadAdvancedProviderProps extends React.HTMLProps<HTMLDivElement> {
-  selectedFolder?: SelectedFolderType[] // Currently selected folders
-  attachments?: (FileType | FolderType)[] // List of attachments
+  selectedFolder?: SelectedBucketFoldersType[] // Currently selected folders
+  attachments?: (BucketFilesType | BucketFoldersType)[] // List of attachments
   currentBucket: string // Current bucket name
   actions: UploadServerActions
 }
@@ -120,17 +106,18 @@ export type UploadServerActions = {
    * this is the context that will be passed to the action
    * you can use this to access the ctx and mutate and get the attachments.
    */
-  getInitialData: <T extends TRPC_RESPONSE<(FilesMutationType | FoldersMutationType)[]>>(
-    ctx: Omit<UploadAdvancedContextType<FileType | FolderType>, 'actions'>
+  getInitialData: <T extends TRPC_RESPONSE<(BucketFilesType | BucketFoldersType)[]>>(
+    ctx: Omit<UploadAdvancedContextType<BucketFilesType | BucketFoldersType>, 'actions'>
   ) => Promise<T>
 
-  upload: <T extends TRPC_RESPONSE<FilesMutationType[]>>(
-    newAttachments: InsertFileType[],
-    ctx: Omit<UploadAdvancedContextType<FileType | FolderType>, 'actions'>
+  upload: <T extends TRPC_RESPONSE<BucketFilesType[]>>(
+    newAttachments: BucketFilesType[],
+    ctx: Omit<UploadAdvancedContextType<BucketFilesType | BucketFoldersType>, 'actions'>
   ) => Promise<T>
 
-  getFolderData: <T extends TRPC_RESPONSE<(FilesMutationType | FoldersMutationType)[]>>(
-    ctx: Omit<UploadAdvancedContextType<FileType | FolderType>, 'actions'>
+  getFolderData: <T extends TRPC_RESPONSE<(BucketFilesType | BucketFoldersType)[]>>(
+    ctx: Omit<UploadAdvancedContextType<BucketFilesType | BucketFoldersType>, 'actions'>,
+    attachmentFolder: BucketFoldersType
   ) => Promise<T>
 }
 
@@ -154,21 +141,21 @@ export interface UploadDownloadAttachmentsProps extends React.ComponentPropsWith
 /**
  * Props for the UploadRenameAttachmentButton component.
  *
- * @property {FileType|FolderType} attachment - The attachment to be uploaded or renamed.
+ * @property {BucketFilesType|BucketFoldersType} attachment - The attachment to be uploaded or renamed.
  */
 export type UploadRenameAttachmentButtonProps = {
-  attachment: FileType | FolderType
+  attachment: BucketFilesType | BucketFoldersType
 }
 
 export type UploadAdvacedAttachmentFolder = {
-  attachmentFolder: FolderType
+  attachmentFolder: BucketFoldersType
 }
 
 /**
  * Props for the UploadAttachmentsTreeItem component.
  */
 export type UploadAttachmentsTreeItemProps = {
-  attachments: (FileType | FolderType)[] // List of attachments to display
+  data: StateWithExtraFeatures<BucketFilesType | BucketFoldersType> | null // List of attachments to display
 }
 
 /**
@@ -219,7 +206,7 @@ export declare class UploadManagerClass {
    * @returns void
    */
   public static renameAttachmentById(
-    setAttachments: React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>>,
+    setAttachments: React.Dispatch<React.SetStateAction<(BucketFilesType | BucketFoldersType)[]>>,
     targetIds: string[],
     newName: string
   ): void
@@ -234,10 +221,10 @@ export declare class UploadManagerClass {
    * @returns A new list of attachments with the renamed attachment(s).
    */
   private static renameAttachmentRecursive(
-    attachments: (FileType | FolderType)[],
+    attachments: (BucketFilesType | BucketFoldersType)[],
     targetIds: string[],
     newName: string
-  ): (FileType | FolderType)[]
+  ): (BucketFilesType | BucketFoldersType)[]
 
   /**
    * Selects files from a folder and adds or removes them from the list of selected attachments.
@@ -294,7 +281,7 @@ export declare class UploadManagerClass {
    *
    * @returns The type of the file (Audio, Text, Image, Video, Pdf, Unknown).
    */
-  public static getFileType(file: Blob | null): FileTypeEnum
+  public static getBucketFilesType(file: Blob | null): FileTypeEnum
 
   /**
    * Calculates the remaining time for the file upload based on the current progress.
@@ -320,8 +307,8 @@ export declare class UploadManagerClass {
  * Arguments for selecting attachments from folder content.
  */
 export type SelectAttachmentFromFolderContentArgs = {
-  filesInCurrentTree: (FileType | FolderType)[] // Files in the current tree
-  setSelectedAttachment: React.Dispatch<React.SetStateAction<FileType[]>> // Function to set selected attachments
+  filesInCurrentTree: (BucketFilesType | BucketFoldersType)[] // Files in the current tree
+  setSelectedAttachment: React.Dispatch<React.SetStateAction<BucketFilesType[]>> // Function to set selected attachments
   checkState?: boolean // Optional state check
 }
 
@@ -329,9 +316,9 @@ export type SelectAttachmentFromFolderContentArgs = {
  * Arguments for adding a folder to the current path.
  */
 export type addFolderToPathArgs = {
-  selectedFolder: FolderType[] // Currently selected folder
-  setSelectedFolder: React.Dispatch<React.SetStateAction<FolderType[]>> // Function to set selected folders
-  setAttachments: React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>> // Function to set attachments
+  selectedFolder: BucketFoldersType[] // Currently selected folder
+  setSelectedFolder: React.Dispatch<React.SetStateAction<BucketFoldersType[]>> // Function to set selected folders
+  setAttachments: React.Dispatch<React.SetStateAction<(BucketFilesType | BucketFoldersType)[]>> // Function to set attachments
   folderName: string | undefined // Name of the folder to add
 }
 
@@ -339,9 +326,9 @@ export type addFolderToPathArgs = {
  * Arguments for moving attachments to a specified path.
  */
 export type MoveAttachmentsToPath = {
-  setAttachments: React.Dispatch<React.SetStateAction<(FileType | FolderType)[]>> // Function to set attachments
-  setSelectedAttachment: React.Dispatch<React.SetStateAction<FileType[]>> // Function to set selected attachments
-  selectedAttachments: FileType[] // Currently selected attachments
+  setAttachments: React.Dispatch<React.SetStateAction<(BucketFilesType | BucketFoldersType)[]>> // Function to set attachments
+  setSelectedAttachment: React.Dispatch<React.SetStateAction<BucketFilesType[]>> // Function to set selected attachments
+  selectedAttachments: BucketFilesType[] // Currently selected attachments
   path: string // Path to move the attachments to
 }
 
@@ -349,8 +336,8 @@ export type MoveAttachmentsToPath = {
  * Arguments for opening a folder.
  */
 export type FolderOpenArgs = {
-  attachmentFolder: FolderType // The folder to open
-  setSelected: React.Dispatch<React.SetStateAction<FolderType[]>> // Function to set selected folders
+  attachmentFolder: BucketFoldersType // The folder to open
+  setSelected: React.Dispatch<React.SetStateAction<BucketFoldersType[]>> // Function to set selected folders
   exist_in_tree: boolean // Whether the folder exists in the tree
 }
 
@@ -359,13 +346,13 @@ export type FolderOpenArgs = {
  */
 export interface HandleAttachmentProps {
   e: React.ChangeEvent<HTMLInputElement> // Change event from the input
-  setAttachmentsState: React.Dispatch<React.SetStateAction<FileType[]>> // Function to set attachments state
+  setAttachmentsState: React.Dispatch<React.SetStateAction<BucketFilesType[]>> // Function to set attachments state
 }
 
 /**
  * Arguments for uploading files.
  */
-export type UploadFilesArgs = UploadAdvancedContextType<FileType | FolderType> & {
+export type UploadFilesArgs = UploadAdvancedContextType<BucketFilesType | BucketFoldersType> & {
   e: React.ChangeEvent<HTMLInputElement> // Change event from the input
 }
 

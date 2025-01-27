@@ -1,12 +1,11 @@
 'use client'
 
-import { QueryClientProvider, type QueryClient } from '@tanstack/react-query'
+import { QueryClientProvider, useQuery, UseQueryResult, type QueryClient } from '@tanstack/react-query'
 import {
   createTRPCClient,
   createWSClient,
   httpBatchLink,
   loggerLink,
-  splitLink,
   unstable_httpBatchStreamLink,
   wsLink,
 } from '@trpc/client'
@@ -17,6 +16,7 @@ import ws from 'ws'
 
 import { type AppRouter } from '../../upload-api/src/main'
 import { createQueryClient } from './query-client'
+import SuperJSON from 'superjson'
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined
 const getQueryClient = () => {
@@ -28,32 +28,21 @@ const getQueryClient = () => {
   return (clientQueryClientSingleton ??= createQueryClient())
 }
 
-// Create a WebSocket client
-const wsClient = createWSClient({
-  url: 'ws://localhost:4051',
-  connectionParams: async () => {
-    return {
-      token: 'supersecret',
-    }
-  },
-})
-
 export const trpc = createTRPCClient<AppRouter>({
   links: [
-    // Use `splitLink` to route subscription operations to `wsLink` and others to `httpBatchLink`
-    splitLink({
-      condition: op => op.type === 'subscription',
-      true: wsLink({
-        client: wsClient,
-      }),
-      false: httpBatchLink({
-        url: `http://localhost:4050/trpc`,
-        async headers() {
-          return {
-            // authorization: getAuthCookie(),
-          }
-        },
-      }),
+    httpBatchLink({
+      transformer: SuperJSON,
+      /**
+       * If you want to use SSR, you need to use the server's full URL
+       * @see https://trpc.io/docs/v11/ssr
+       **/
+      url: `http://localhost:4050/trpc`,
+      // You can pass any HTTP headers you wish here
+      async headers() {
+        return {
+          // authorization: getAuthCookie(),
+        }
+      },
     }),
     loggerLink({
       enabled: op => process.env.NODE_ENV === 'development' || (op.direction === 'down' && op.result instanceof Error),
@@ -86,6 +75,16 @@ export type RouterOutputs = inferRouterOutputs<AppRouter>
 
 export function TRPCReactProvider(props: { children: React.ReactNode }) {
   const queryClient = getQueryClient()
+
+  // const data = useQuery({ queryKey: ['todos'], queryFn: async () => {} })
+
+  // const datad: UseQueryResult<
+  //   {
+  //     data: string
+  //   },
+  //   Error
+  // >
+  // console.log('data', datad.data.)
 
   return <QueryClientProvider client={queryClient}>{props.children}</QueryClientProvider>
 }

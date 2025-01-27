@@ -29,8 +29,6 @@ import {
 import { Input } from '@/registry/default/ui/input'
 import { Button, buttonVariants } from '../button'
 import {
-  FileType,
-  FolderType,
   UploadAdvacedAttachmentFolder,
   UploadAlertDeleteActionProps,
   UploadAlertMoveActionProps,
@@ -97,6 +95,7 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 import { TableCell, TableRow } from '../table'
 import { format } from 'date-fns'
 import { filesize } from 'filesize'
+import { BucketFilesType, BucketFoldersType } from '../../../../upload-api/src/globals'
 
 /**
  * A button to reload the upload view.
@@ -106,15 +105,16 @@ import { filesize } from 'filesize'
  */
 export const UploadReloadButton = (): JSX.Element => {
   const ctx = useUploadAdvancedContext()
+  const handleReload = React.useCallback(() => {
+    ctx.actions.getInitialData(ctx)
+  }, [ctx])
 
   // TODO: Implement reload functionality.
   return (
     <Button
       size={'xs'}
       icon={{ children: RefreshCw }}
-      onClick={() => {
-        ctx.actions.getInitialData(ctx)
-      }}
+      onClick={handleReload}
     >
       Reload
     </Button>
@@ -374,7 +374,7 @@ export const UploadAdvancedRenameAttachments = ({ attachment }: UploadRenameAtta
           </DrawerHeader>
           <Input
             placeholder="Enter attachment name..."
-            defaultValue={attachment.name}
+            defaultValue={attachment.name ?? ''}
             ref={inputRef}
           />
         </div>
@@ -501,8 +501,8 @@ export const UploadAdvancedDownloadAttachments = React.memo(
           >
             <span className="font-mono italic underline underline-offset-4">
               {itemsName.length > 1
-                ? `${itemsName.length} file${itemsName[0].length > 1 ? 's' : ''}`
-                : `${itemsName[0]?.slice(0, 15)}${itemsName[0]?.length > 15 ? '... ' : ''}`}
+                ? `${itemsName.length} file${(itemsName[0]?.length ?? 1 > 1) ? 's' : ''}`
+                : `${itemsName[0]?.slice(0, 15)}${(itemsName[0]?.length ?? 1 > 15) ? '... ' : ''}`}
             </span>
           </Button>
           from
@@ -630,8 +630,8 @@ export const UploadAdvancedAlertMoveAction = React.memo(
           >
             <span className="font-mono italic underline underline-offset-4">
               {itemName.length > 1
-                ? `${itemName.length} file${itemName[0].length > 1 ? 's' : ''}`
-                : `${itemName[0]?.slice(0, 15)}${itemName[0]?.length > 15 ? '... ' : ''}`}
+                ? `${itemName.length} file${(itemName[0]?.length ?? 1 > 1) ? 's' : ''}`
+                : `${itemName[0]?.slice(0, 15)}${(itemName[0]?.length ?? 1 > 15) ? '... ' : ''}`}
             </span>
           </Button>
           within
@@ -783,8 +783,8 @@ export const UploadAdvancedAlertDeleteAttachments = React.memo(
           >
             <span className="font-mono italic underline underline-offset-4">
               {itemName.length > 1
-                ? `${itemName.length} file${itemName[0].length > 1 ? 's' : ''}`
-                : `${itemName[0]?.slice(0, 10)}${itemName[0]?.length > 10 ? '... ' : ''}`}
+                ? `${itemName.length} file${(itemName[0]?.length ?? 1 > 1) ? 's' : ''}`
+                : `${itemName[0]?.slice(0, 10)}${(itemName[0]?.length ?? 1 > 10) ? '... ' : ''}`}
             </span>
           </Button>
           from
@@ -868,54 +868,56 @@ export const UploadAdvancedAlertDeleteAttachments = React.memo(
   }
 )
 
-export const UploadAdvancedSelectAllLayout = React.memo((props: { attachments: (FileType | FolderType)[] }) => {
-  const { attachments } = props
-  const { setSelectedAttachments: setSelectedAttachment, selectedAttachments: selecttedAttachment } =
-    useUploadAdvancedContext()
-  const currentTreeLevel = attachments?.[0]?.tree_level
+export const UploadAdvancedSelectAllLayout = React.memo(
+  (props: { attachments: (BucketFilesType | BucketFoldersType)[] }) => {
+    const { attachments } = props
+    const { setSelectedAttachments: setSelectedAttachment, selectedAttachments: selecttedAttachment } =
+      useUploadAdvancedContext()
+    const currentTreeLevel = attachments?.[0]?.tree_level
 
-  // Get all selected folders in the current tree
-  const selectedInCurrentTree = selecttedAttachment.filter(attachment => attachment.tree_level === currentTreeLevel)
-  const filesInCurrentTree = attachments.filter(item => !(item as FolderType)?.content)
+    // Get all selected folders in the current tree
+    const selectedInCurrentTree = selecttedAttachment.filter(attachment => attachment.tree_level === currentTreeLevel)
+    const filesInCurrentTree = [] // attachments.filter(item => !(item as BucketFoldersType)?.content)
 
-  // Determine the `isChecked` state
-  const isChecked =
-    selectedInCurrentTree.length === filesInCurrentTree?.length
-      ? true // All selected
-      : selectedInCurrentTree.length > 0
-        ? 'indeterminate' // Some selected
-        : false // None selected
+    // Determine the `isChecked` state
+    const isChecked =
+      selectedInCurrentTree.length === filesInCurrentTree?.length
+        ? true // All selected
+        : selectedInCurrentTree.length > 0
+          ? 'indeterminate' // Some selected
+          : false // None selected
 
-  return (
-    <div
-      className={cn(
-        'flex items-center gap-2 p-2 bg-muted rounded-md mx-2 mt-2 -mb-1 transition-all duration-300 ease-in-out',
-        (selecttedAttachment.length === 0 || filesInCurrentTree?.length === 0) && '-mt-10 mb-2'
-      )}
-    >
-      <Checkbox
-        className="w-[15px] h-[15px] border-muted-foreground/80"
-        onCheckedChange={_ =>
-          selectAttachmentFromFolderContent({
-            filesInCurrentTree,
-            setSelectedAttachment,
-          })
-        }
-        checked={isChecked}
-      />
-      <span className="text-xs font-medium text-muted-foreground/80">
-        {isChecked === true
-          ? `All ${filesInCurrentTree?.length} file${selectedInCurrentTree.length === 1 ? ' is' : 's are'} selected`
-          : isChecked === 'indeterminate'
-            ? `${selectedInCurrentTree.length} file${selectedInCurrentTree.length === 1 ? ' is' : 's are'} selected`
-            : `Select all ${filesInCurrentTree?.length} file${filesInCurrentTree.length === 1 ? '' : 's'}`}
-      </span>
-    </div>
-  )
-})
+    return (
+      <div
+        className={cn(
+          'flex items-center gap-2 p-2 bg-muted rounded-md mx-2 mt-2 -mb-1 transition-all duration-300 ease-in-out',
+          (selecttedAttachment.length === 0 || filesInCurrentTree?.length === 0) && '-mt-10 mb-2'
+        )}
+      >
+        <Checkbox
+          className="w-[15px] h-[15px] border-muted-foreground/80"
+          onCheckedChange={_ =>
+            selectAttachmentFromFolderContent({
+              filesInCurrentTree,
+              setSelectedAttachment,
+            })
+          }
+          checked={isChecked}
+        />
+        <span className="text-xs font-medium text-muted-foreground/80">
+          {isChecked === true
+            ? `All ${filesInCurrentTree?.length} file${selectedInCurrentTree.length === 1 ? ' is' : 's are'} selected`
+            : isChecked === 'indeterminate'
+              ? `${selectedInCurrentTree.length} file${selectedInCurrentTree.length === 1 ? ' is' : 's are'} selected`
+              : `Select all ${filesInCurrentTree?.length} file${filesInCurrentTree.length === 1 ? '' : 's'}`}
+        </span>
+      </div>
+    )
+  }
+)
 
-export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmentFile: FileType }) => {
-  const fileType = getFileType(attachmentFile.file)
+export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmentFile: BucketFilesType }) => {
+  const fileType = getFileType(attachmentFile.type)
   const {
     setPreviewFile,
     selectedAttachments: selecttedAttachment,
@@ -977,7 +979,7 @@ export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmen
   )
 }
 
-export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attachmentFolder: FolderType }) => {
+export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attachmentFolder: BucketFoldersType }) => {
   const { selectedFolder, setSelectedFolder } = useUploadAdvancedContext()
   const exist_in_tree = selectedFolder.length ? selectedFolder?.some(item => item.id === attachmentFolder.id) : false
 
@@ -988,11 +990,7 @@ export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attac
     >
       <TableCell className="font-medium relative w-full flex items-center justify-start gap-2">
         <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? (
-            <FolderOpen />
-          ) : (
-            <Folder className={cn(attachmentFolder.content?.length > 0 && 'fill-white')} />
-          )}
+          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files_count > 0 && 'fill-white')} />}
         </div>
         <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
       </TableCell>
@@ -1033,9 +1031,24 @@ export const UploadAdvancedNoAttachments = (): JSX.Element => {
   )
 }
 
-export const UploadAdvancedAttachmentFolder = React.memo(({ attachmentFolder }: UploadAdvacedAttachmentFolder) => {
-  const { selectedFolder: selected, setSelectedFolder: setSelected } = useUploadAdvancedContext()
-  const exist_in_tree = selected?.some(item => item.id === attachmentFolder.id)
+export const UploadAdvancedAttachmentFolder = ({ attachmentFolder }: UploadAdvacedAttachmentFolder) => {
+  const ctx = useUploadAdvancedContext()
+  const exist_in_tree = ctx.selectedFolder.has(attachmentFolder.id)
+
+  const folderOpen = () => {
+    ctx.setSelectedFolder(prev => {
+      const map = new Map(prev)
+      if (map.has(attachmentFolder.id)) {
+        map.delete(attachmentFolder.id)
+        return map
+      }
+      ctx.actions.getFolderData(ctx, attachmentFolder)
+      return map.set(attachmentFolder.id, {
+        data: null,
+        state: 'pending',
+      })
+    })
+  }
 
   return (
     <div className="relative">
@@ -1044,23 +1057,19 @@ export const UploadAdvancedAttachmentFolder = React.memo(({ attachmentFolder }: 
           'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-2 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer [&_*]:select-none',
           exist_in_tree && 'bg-card-foreground/15'
         )}
-        onClick={() => folderOpen({ attachmentFolder, setSelected, exist_in_tree })}
+        onClick={folderOpen}
       >
         <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? (
-            <FolderOpen />
-          ) : (
-            <Folder className={cn(attachmentFolder.content?.length > 0 && 'fill-white')} />
-          )}
+          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files_count > 0 && 'fill-white')} />}
         </div>
         <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
       </div>
       <UploadAttachmentActionsMenu attachment={attachmentFolder} />
     </div>
   )
-})
+}
 
-export const UploadAttachmentActionsMenu = ({ attachment }: { attachment: FileType | FolderType }) => {
+export const UploadAttachmentActionsMenu = ({ attachment }: { attachment: BucketFilesType | BucketFoldersType }) => {
   const [open, setOpen] = React.useState<boolean>(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
@@ -1125,7 +1134,7 @@ export const UploadAttachmentActionsMenu = ({ attachment }: { attachment: FileTy
  *
  * @returns {React.Element} The rendered component.
  */
-export const UploadAdvancedAttachmentFile = React.memo(({ attachmentFile }: { attachmentFile: FileType }) => {
+export const UploadAdvancedAttachmentFile = React.memo(({ attachmentFile }: { attachmentFile: BucketFilesType }) => {
   const fileType = getFileType(attachmentFile.file)
   const {
     setPreviewFile,
@@ -1170,7 +1179,7 @@ export const UploadAdvancedAttachmentFile = React.memo(({ attachmentFile }: { at
   )
 })
 
-const UploadAdvancedActionsMenu = ({ attachment }: { attachment: FileType | FolderType }) => {
+const UploadAdvancedActionsMenu = ({ attachment }: { attachment: BucketFilesType | BucketFoldersType }) => {
   return (
     <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full space-y-1">
       <UploadAdvancedRenameAttachments attachment={attachment} />
@@ -1197,20 +1206,20 @@ const UploadAdvancedActionsMenu = ({ attachment }: { attachment: FileType | Fold
 export const UploadAdvancedNavigationLayout = () => {
   const [open, setOpen] = React.useState(false)
 
-  const { selectedFolder, currentBucket, setSelectedFolder } = useUploadAdvancedContext()
+  const ctx = useUploadAdvancedContext()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   return (
     <>
       <Breadcrumb>
         <BreadcrumbList className="flex-nowrap px-4 !gap-0">
-          {selectedFolder.length > 0 && (
+          {ctx.selectedFolder.size > 0 && (
             <BreadcrumbItem
-              onClick={() =>
-                setSelectedFolder(old =>
-                  old.length - 1 >= 0 ? old.filter(item => item.id !== old?.[old.length - 1]?.id) : old
-                )
-              }
+            // onClick={() =>
+            //   // ctx.setSelectedFolder(old =>
+            //   //   old.length - 1 >= 0 ? old.filter(item => item.id !== old?.[old.length - 1]?.id) : old
+            //   // )
+            // }
             >
               <Button
                 variant={'ghost'}
@@ -1220,15 +1229,17 @@ export const UploadAdvancedNavigationLayout = () => {
               />
             </BreadcrumbItem>
           )}
-          <BreadcrumbItem onClick={() => setSelectedFolder([])}>
+          <BreadcrumbItem
+          // onClick={() => setSelectedFolder([])}
+          >
             <Button
               size={'xs'}
               variant={'ghost'}
             >
-              {currentBucket}
+              {ctx.currentBucket}
             </Button>
           </BreadcrumbItem>
-          {selectedFolder.length > 2 ? (
+          {Array.from(ctx.selectedFolder.values()).length > 2 ? (
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -1244,26 +1255,28 @@ export const UploadAdvancedNavigationLayout = () => {
                       <BreadcrumbEllipsis className="h-4 w-4" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
-                      {selectedFolder.slice(0, -2).map(item => (
-                        <DropdownMenuItem
-                          key={item.id}
-                          className="p-0"
-                        >
-                          <Button
-                            size={'xs'}
-                            variant={'ghost'}
-                            onClick={() =>
-                              folderOpen({
-                                attachmentFolder: item,
-                                setSelected: setSelectedFolder,
-                                exist_in_tree: selectedFolder?.some(item => item.id === item.id),
-                              })
-                            }
+                      {Array.from(ctx.selectedFolder.values())
+                        .slice(0, -2)
+                        .map(item => (
+                          <DropdownMenuItem
+                            key={item.id}
+                            className="p-0"
                           >
-                            {item.name}
-                          </Button>
-                        </DropdownMenuItem>
-                      ))}
+                            <Button
+                              size={'xs'}
+                              variant={'ghost'}
+                              onClick={() =>
+                                folderOpen({
+                                  attachmentFolder: item,
+                                  setSelected: setSelectedFolder,
+                                  exist_in_tree: selectedFolder?.some(item => item.id === item.id),
+                                })
+                              }
+                            >
+                              {item.name}
+                            </Button>
+                          </DropdownMenuItem>
+                        ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 ) : (

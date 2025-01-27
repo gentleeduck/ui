@@ -1,26 +1,25 @@
 import { PgTable } from 'drizzle-orm/pg-core/table'
-import { files } from '../drizzle'
+import { files, folders } from '../drizzle'
 
 export type GetSchemaType<TColumns extends PgTable> = {
   [Key in keyof TColumns['_']['columns']]: TColumns['_']['columns'][Key]['_']['notNull'] extends true
     ? TColumns['_']['columns'][Key]['_']['data']
     : TColumns['_']['columns'][Key]['_']['data'] | null
-  // deno-lint-ignore ban-types
-} & {}
+}
 
-export type FilesMutationType = GetSchemaType<typeof files>
-export type FoldersMutationType = GetSchemaType<typeof files>
+export type BucketFilesType = GetSchemaType<typeof files>
+export type BucketFoldersType = GetSchemaType<typeof folders>
 
 export type TRPC_RESPONSE<T extends any> =
   | {
       data: null
       message: string
-      _: any
+      _?: any
     }
   | {
       data: T
       message: string
-      _: null
+      _?: string
     }
 
 export type PPData<T> = {
