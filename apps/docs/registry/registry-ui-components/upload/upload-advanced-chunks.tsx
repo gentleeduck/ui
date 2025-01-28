@@ -981,7 +981,7 @@ export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmen
 
 export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attachmentFolder: BucketFoldersType }) => {
   const { selectedFolder, setSelectedFolder } = useUploadAdvancedContext()
-  const exist_in_tree = selectedFolder.length ? selectedFolder?.some(item => item.id === attachmentFolder.id) : false
+  const exist_in_tree = selectedFolder.size ? selectedFolder?.some(item => item.id === attachmentFolder.id) : false
 
   return (
     <TableRow
@@ -1033,19 +1033,19 @@ export const UploadAdvancedNoAttachments = (): JSX.Element => {
 
 export const UploadAdvancedAttachmentFolder = ({ attachmentFolder }: UploadAdvacedAttachmentFolder) => {
   const ctx = useUploadAdvancedContext()
-  const exist_in_tree = ctx.selectedFolder.has(attachmentFolder.id)
+  const exist_in_tree = ctx.selectedFolder.size && ctx.selectedFolder.has(attachmentFolder.id)
 
   const folderOpen = () => {
     ctx.setSelectedFolder(prev => {
-      const map = new Map(prev)
+      const map = prev.size ? new Map(prev) : new Map()
       if (map.has(attachmentFolder.id)) {
         map.delete(attachmentFolder.id)
         return map
       }
       ctx.actions.getFolderData(ctx, attachmentFolder)
       return map.set(attachmentFolder.id, {
-        data: null,
         state: 'pending',
+        data: [],
       })
     })
   }
@@ -1135,7 +1135,7 @@ export const UploadAttachmentActionsMenu = ({ attachment }: { attachment: Bucket
  * @returns {React.Element} The rendered component.
  */
 export const UploadAdvancedAttachmentFile = React.memo(({ attachmentFile }: { attachmentFile: BucketFilesType }) => {
-  const fileType = getFileType(attachmentFile.file)
+  const fileType = getFileType(attachmentFile.type)
   const {
     setPreviewFile,
     selectedAttachments: selecttedAttachment,
@@ -1239,7 +1239,7 @@ export const UploadAdvancedNavigationLayout = () => {
               {ctx.currentBucket}
             </Button>
           </BreadcrumbItem>
-          {Array.from(ctx.selectedFolder.values()).length > 2 ? (
+          {ctx.selectedFolder.size && Array.from(ctx.selectedFolder?.values()).length > 2 ? (
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -1255,28 +1255,29 @@ export const UploadAdvancedNavigationLayout = () => {
                       <BreadcrumbEllipsis className="h-4 w-4" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
-                      {Array.from(ctx.selectedFolder.values())
-                        .slice(0, -2)
-                        .map(item => (
-                          <DropdownMenuItem
-                            key={item.id}
-                            className="p-0"
-                          >
-                            <Button
-                              size={'xs'}
-                              variant={'ghost'}
-                              onClick={() =>
-                                folderOpen({
-                                  attachmentFolder: item,
-                                  setSelected: setSelectedFolder,
-                                  exist_in_tree: selectedFolder?.some(item => item.id === item.id),
-                                })
-                              }
+                      {ctx.selectedFolder.size &&
+                        Array.from(ctx.selectedFolder.values())
+                          .slice(0, -2)
+                          .map(item => (
+                            <DropdownMenuItem
+                              // key={item.id}
+                              className="p-0"
                             >
-                              {item.name}
-                            </Button>
-                          </DropdownMenuItem>
-                        ))}
+                              <Button
+                                size={'xs'}
+                                variant={'ghost'}
+                                // onClick={() =>
+                                // folderOpen({
+                                //   attachmentFolder: item,
+                                //   setSelected: setSelectedFolder,
+                                //   exist_in_tree: selectedFolder?.some(item => item.id === item.id),
+                                // })
+                                // }
+                              >
+                                {item?.name ?? 'noname'}
+                              </Button>
+                            </DropdownMenuItem>
+                          ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 ) : (
@@ -1293,22 +1294,25 @@ export const UploadAdvancedNavigationLayout = () => {
                         <DrawerDescription>Select a page to navigate to.</DrawerDescription>
                       </DrawerHeader>
                       <div className="grid gap-1 px-4">
-                        {selectedFolder.slice(0, -2).map(item => (
-                          <Button
-                            key={item.id}
-                            size={'xs'}
-                            variant={'ghost'}
-                            onClick={() =>
-                              folderOpen({
-                                attachmentFolder: item,
-                                setSelected: setSelectedFolder,
-                                exist_in_tree: selectedFolder?.some(item => item.id === item.id),
-                              })
-                            }
-                          >
-                            {item.name}
-                          </Button>
-                        ))}
+                        {ctx.selectedFolder.size &&
+                          Array.from(ctx.selectedFolder.values())
+                            .slice(0, -2)
+                            .map(item => (
+                              <Button
+                                key={item.id}
+                                size={'xs'}
+                                variant={'ghost'}
+                                // onClick={() =>
+                                //   folderOpen({
+                                //     attachmentFolder: item,
+                                //     setSelected: setSelectedFolder,
+                                //     exist_in_tree: selectedFolder?.some(item => item.id === item.id),
+                                //   })
+                                // }
+                              >
+                                {item?.name ?? 'noname'}
+                              </Button>
+                            ))}
                       </div>
                       <DrawerFooter className="pt-4">
                         <DrawerClose asChild>
@@ -1321,29 +1325,32 @@ export const UploadAdvancedNavigationLayout = () => {
               </BreadcrumbItem>
             </>
           ) : null}
-          {selectedFolder.slice(-2).map((item, index) => (
-            <BreadcrumbItem
-              key={index}
-              className="!gap-0"
-            >
-              <BreadcrumbSeparator />
-              <BreadcrumbPage className="max-w-20 md:max-w-none">
-                <Button
-                  size={'xs'}
-                  variant={'ghost'}
-                  onClick={() =>
-                    folderOpen({
-                      attachmentFolder: item,
-                      setSelected: setSelectedFolder,
-                      exist_in_tree: selectedFolder?.some(item => item.id === item.id),
-                    })
-                  }
+          {ctx.selectedFolder.size &&
+            Array.from(ctx.selectedFolder.values())
+              .slice(-2)
+              .map((item, index) => (
+                <BreadcrumbItem
+                  key={index}
+                  className="!gap-0"
                 >
-                  {item.name}
-                </Button>
-              </BreadcrumbPage>
-            </BreadcrumbItem>
-          ))}
+                  <BreadcrumbSeparator />
+                  <BreadcrumbPage className="max-w-20 md:max-w-none">
+                    <Button
+                      size={'xs'}
+                      variant={'ghost'}
+                      // onClick={() =>
+                      //   folderOpen({
+                      //     attachmentFolder: item,
+                      //     setSelected: setSelectedFolder,
+                      //     exist_in_tree: selectedFolder?.some(item => item.id === item.id),
+                      //   })
+                      // }
+                    >
+                      {item?.name ?? 'noname'}
+                    </Button>
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              ))}
         </BreadcrumbList>
       </Breadcrumb>
     </>

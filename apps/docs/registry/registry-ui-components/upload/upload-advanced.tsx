@@ -59,7 +59,9 @@ export const UploadAdvancedProvider = ({
   ...props
 }: UploadAdvancedProviderProps): JSX.Element => {
   const [_selectedFolder, setSelectedFolder] = React.useState<SelectedBucketFoldersType>(new Map())
-  const [_attachments, setAttachments] = React.useState<StateWithExtraFeatures<BucketFilesType | BucketFoldersType>>({
+  const [_attachments, setAttachments] = React.useState<
+    StateWithExtraFeatures<(BucketFilesType | BucketFoldersType)[]>
+  >({
     state: 'pending',
     data: [],
   })
@@ -116,10 +118,10 @@ export const UploadAdvancedHeader = () => {
 
 export const UploadAdvancedActionsLayout = () => {
   const ctx = useUploadAdvancedContext()
-  console.log(ctx.selectedFolder)
-  // <UploadAdvancedNavigationLayout />
+  // console.log(ctx.selectedFolder)
   return (
     <div className="flex items-center justify-between">
+      <UploadAdvancedNavigationLayout />
       <div
         className={cn(
           'space-x-2 flex items-center place-content-end w-full m-0 p-2 transition-all duration-300 ease-in-out',
@@ -221,17 +223,26 @@ export const UploadAdvancedColumnView = () => {
       )}
     >
       <div className="flex items-center h-full rounded-md relative overflow-hidden">
-        <UploadAttachmentsTree data={ctx.attachments} />
-        <UploadTreeExtender />
+        <UploadAttachmentsTree
+          key={'main-tree'}
+          data={ctx.attachments}
+          uploadQuery={ctx.uploadQuery}
+        />
+        {Array.from(ctx.selectedFolder.entries()).map(([folderKey, folderContent], idx) => (
+          <UploadAttachmentsTree
+            key={`${idx}-${folderKey}`}
+            data={folderContent}
+            uploadQuery={ctx.uploadQuery}
+          />
+        ))}
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
   )
 }
 
-export const UploadAttachmentsTree = React.memo(({ data }: UploadAttachmentsTreeItemProps) => {
+export const UploadAttachmentsTree = React.memo(({ data, uploadQuery }: UploadAttachmentsTreeItemProps) => {
   const { data: attachments, state } = data ?? {}
-  const { uploadQuery } = useUploadAdvancedContext()
 
   if (state === 'pending') {
     return (
@@ -266,7 +277,9 @@ export const UploadAttachmentsTree = React.memo(({ data }: UploadAttachmentsTree
   }
 
   const filteredItems = (
-    uploadQuery ? attachments?.filter(item => item.name.toLowerCase().includes(uploadQuery.toLowerCase())) : attachments
+    uploadQuery
+      ? attachments?.filter(item => item?.name.toLowerCase().includes(uploadQuery.toLowerCase()))
+      : attachments
   ) as (BucketFilesType | BucketFoldersType)[]
 
   if (state === 'success' && filteredItems?.length > 0) {
@@ -297,21 +310,6 @@ export const UploadAttachmentsTree = React.memo(({ data }: UploadAttachmentsTree
     )
   }
 })
-
-export const UploadTreeExtender = (): JSX.Element => {
-  const ctx = useUploadAdvancedContext()
-
-  return (
-    <>
-      {Array.from(ctx.selectedFolder.values()).map((folderContent, idx) => (
-        <UploadAttachmentsTree
-          data={folderContent}
-          key={idx}
-        />
-      ))}
-    </>
-  )
-}
 
 export const UploadAdvancedRowView = () => {
   const { previewFile } = useUploadAdvancedContext() ?? {}

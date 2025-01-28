@@ -186,13 +186,13 @@ export function formatTime(seconds: number) {
   return `${seconds}s`
 }
 
-export const getFileType = (file: Blob | null): FileTypeEnum => {
-  if (!file) return FileTypeEnum.Unknown
-  if (file.type.startsWith('audio/')) return FileTypeEnum.Audio
-  if (file.type.startsWith('text/')) return FileTypeEnum.Text
-  if (file.type.startsWith('image/')) return FileTypeEnum.Image
-  if (file.type.startsWith('video/')) return FileTypeEnum.Video
-  if (file.type.startsWith('application/pdf')) return FileTypeEnum.Pdf
+export const getFileType = (type: string): FileTypeEnum => {
+  if (!type) return FileTypeEnum.Unknown
+  if (type.startsWith('audio/')) return FileTypeEnum.Audio
+  if (type.startsWith('text/')) return FileTypeEnum.Text
+  if (type.startsWith('image/')) return FileTypeEnum.Image
+  if (type.startsWith('video/')) return FileTypeEnum.Video
+  if (type.startsWith('application/pdf')) return FileTypeEnum.Pdf
   return FileTypeEnum.Unknown
 }
 

@@ -6,7 +6,7 @@ import { FileTypeEnum } from './upload.constants'
 // NOTE: UPLOAD TYPES
 
 export interface StateWithExtraFeatures<T extends Record<string, any>> {
-  data: T[] | null
+  data: T | null
   state: 'pending' | 'success' | 'error'
 }
 
@@ -15,8 +15,8 @@ export interface StateWithExtraFeatures<T extends Record<string, any>> {
  * @template T - The type of attachments.
  */
 export interface UploadContextType<T extends Record<string, any>> {
-  attachments: StateWithExtraFeatures<T> // List of attachments
-  setAttachments: React.Dispatch<React.SetStateAction<StateWithExtraFeatures<T>>> // Function to update attachments
+  attachments: StateWithExtraFeatures<T[]> // List of attachments
+  setAttachments: React.Dispatch<React.SetStateAction<StateWithExtraFeatures<T[]>>> // Function to update attachments
   attachmentsState: T[] // State of attachments
   setAttachmentsState: React.Dispatch<React.SetStateAction<T[]>> // Function to update attachments state
 }
@@ -66,7 +66,10 @@ export interface UploadtItemRemoveProps extends React.HTMLProps<HTMLDivElement> 
 /**
  * Type representing a selected folder.
  */
-export type SelectedBucketFoldersType = StateWithExtraFeatures<Map<string, BucketFilesType | BucketFoldersType>>
+export type SelectedBucketFoldersType = Map<
+  string,
+  StateWithExtraFeatures<(BucketFilesType | BucketFoldersType)[]> | null
+>
 
 // ------------------------------------------------------------------------------------------------
 // NOTE: ADVANCED TYPES
@@ -155,7 +158,8 @@ export type UploadAdvacedAttachmentFolder = {
  * Props for the UploadAttachmentsTreeItem component.
  */
 export type UploadAttachmentsTreeItemProps = {
-  data: StateWithExtraFeatures<BucketFilesType | BucketFoldersType> | null // List of attachments to display
+  data: StateWithExtraFeatures<(BucketFilesType | BucketFoldersType)[]> | null // List of attachments to display
+  uploadQuery: string
 }
 
 /**

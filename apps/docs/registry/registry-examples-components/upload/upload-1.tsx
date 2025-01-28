@@ -122,12 +122,14 @@ export const serverActions: UploadServerActions = {
     })
 
     if (!data) return {}
-    ctx.setSelectedFolder(old =>
-      new Map(old).set(folder?.id ?? '', {
+    ctx.setSelectedFolder(old => {
+      const oldMap = new Map(Object.entries(old || {})) // Convert object to a Map
+      oldMap.set(folder?.id ?? '', {
         data: data,
         state: 'success',
       })
-    )
+      return oldMap // Convert the Map back to an object
+    })
   }) as UploadServerActions['getFolderData'],
 }
 
