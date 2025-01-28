@@ -66,10 +66,7 @@ export interface UploadtItemRemoveProps extends React.HTMLProps<HTMLDivElement> 
 /**
  * Type representing a selected folder.
  */
-export type SelectedBucketFoldersType = Map<
-  string,
-  StateWithExtraFeatures<(BucketFilesType | BucketFoldersType)[]> | null
->
+export type SelectedFoldersType = Map<string, StateWithExtraFeatures<(BucketFilesType | BucketFoldersType)[]> | null>
 
 // ------------------------------------------------------------------------------------------------
 // NOTE: ADVANCED TYPES
@@ -79,8 +76,8 @@ export type SelectedBucketFoldersType = Map<
  * @template T - The type of attachments.
  */
 export interface UploadAdvancedContextType<T extends Record<string, any>> extends UploadContextType<T> {
-  selectedFolder: SelectedBucketFoldersType // Currently selected folders
-  setSelectedFolder: React.Dispatch<React.SetStateAction<SelectedBucketFoldersType>> // Function to update selected folders
+  selectedFolder: SelectedFoldersType // Currently selected folders
+  setSelectedFolder: React.Dispatch<React.SetStateAction<SelectedFoldersType>> // Function to update selected folders
   previewFile: BucketFilesType | null // Currently previewed file
   setPreviewFile: React.Dispatch<React.SetStateAction<BucketFilesType | null>> // Function to update the previewed file
   uploadQuery: string // Current search query for uploads
@@ -98,7 +95,7 @@ export interface UploadAdvancedContextType<T extends Record<string, any>> extend
  * @extends {React.HTMLProps<HTMLDivElement>}
  */
 export interface UploadAdvancedProviderProps extends React.HTMLProps<HTMLDivElement> {
-  selectedFolder?: SelectedBucketFoldersType[] // Currently selected folders
+  selectedFolder?: SelectedFoldersType[] // Currently selected folders
   attachments?: (BucketFilesType | BucketFoldersType)[] // List of attachments
   currentBucket: string // Current bucket name
   actions: UploadServerActions

@@ -6,7 +6,7 @@ import { ScrollArea } from '@/registry/default/ui'
 import { Button, buttonVariants } from '../button'
 import { Clipboard, X } from 'lucide-react'
 import {
-  SelectedBucketFoldersType,
+  SelectedFoldersType,
   StateWithExtraFeatures,
   UploadAdvancedContextType,
   UploadAdvancedProviderProps,
@@ -58,7 +58,7 @@ export const UploadAdvancedProvider = ({
   actions,
   ...props
 }: UploadAdvancedProviderProps): JSX.Element => {
-  const [_selectedFolder, setSelectedFolder] = React.useState<SelectedBucketFoldersType>(new Map())
+  const [_selectedFolder, setSelectedFolder] = React.useState<SelectedFoldersType>(new Map())
   const [_attachments, setAttachments] = React.useState<
     StateWithExtraFeatures<(BucketFilesType | BucketFoldersType)[]>
   >({

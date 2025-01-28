@@ -29,6 +29,7 @@ import {
 import { Input } from '@/registry/default/ui/input'
 import { Button, buttonVariants } from '../button'
 import {
+  SelectedFoldersType,
   UploadAdvacedAttachmentFolder,
   UploadAlertDeleteActionProps,
   UploadAlertMoveActionProps,
@@ -96,6 +97,8 @@ import { TableCell, TableRow } from '../table'
 import { format } from 'date-fns'
 import { filesize } from 'filesize'
 import { BucketFilesType, BucketFoldersType } from '../../../../upload-api/src/globals'
+import { uuidv7 } from 'uuidv7'
+import { toast } from 'sonner'
 
 /**
  * A button to reload the upload view.
@@ -249,14 +252,48 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
           </DialogClose>
           <DialogClose
             className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-            onClick={() =>
-              addFolderToPath({
-                selectedFolder,
-                setAttachments,
-                setSelectedFolder,
-                folderName: inputRef.current?.value ?? '',
+            onClick={() => {
+              // addFolderToPath({
+              //   selectedFolder,
+              //   setAttachments,
+              //   setSelectedFolder,
+              //   folderName: inputRef.current?.value ?? '',
+              // })
+
+              const last_key = JSON.parse(Array.from(selectedFolder.keys()).pop() ?? '{}') as BucketFoldersType
+              const tree_level = last_key ? last_key.tree_level + 1 : 1
+              const folderName = inputRef.current?.value ?? ''
+
+              const emptyFolder: BucketFoldersType = {
+                id: uuidv7(),
+                name: folderName,
+                created_at: new Date(),
+                updated_at: new Date(),
+                bucket_id: last_key?.bucket_id ?? '',
+                folder_id: last_key?.id ?? '',
+                files_count: 0,
+                tree_level,
+              }
+
+              // - [ ]  TODO: the server side action should be called here with `promise`.
+
+              const map = new Map(selectedFolder)
+              map.set(JSON.stringify(emptyFolder), {
+                state: 'pending',
+                data: [],
               })
-            }
+
+              //
+              // setSelectedFolder(oldSelectedFolder => {
+              //   if (!selectedFolder.length) {
+              //     // If no folder is selected, keep the selected folder unchanged
+              //     return oldSelectedFolder
+              //   }
+              //   return updateSelectedFolder(oldSelectedFolder, emptyFolder)
+              // })
+
+              toast.info('Folder added successfully!')
+            }}
           >
             Submit
           </DialogClose>
@@ -1043,7 +1080,7 @@ export const UploadAdvancedAttachmentFolder = ({ attachmentFolder }: UploadAdvac
         return map
       }
       ctx.actions.getFolderData(ctx, attachmentFolder)
-      return map.set(attachmentFolder.id, {
+      return map.set(JSON.stringify(attachmentFolder), {
         state: 'pending',
         data: [],
       })
@@ -1239,7 +1276,7 @@ export const UploadAdvancedNavigationLayout = () => {
               {ctx.currentBucket}
             </Button>
           </BreadcrumbItem>
-          {ctx.selectedFolder.size && Array.from(ctx.selectedFolder?.values()).length > 2 ? (
+          {Array.from(ctx.selectedFolder?.keys()).length > 2 ? (
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -1256,7 +1293,7 @@ export const UploadAdvancedNavigationLayout = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
                       {ctx.selectedFolder.size &&
-                        Array.from(ctx.selectedFolder.values())
+                        Array.from(ctx.selectedFolder.keys())
                           .slice(0, -2)
                           .map(item => (
                             <DropdownMenuItem
@@ -1274,7 +1311,7 @@ export const UploadAdvancedNavigationLayout = () => {
                                 // })
                                 // }
                               >
-                                {item?.name ?? 'noname'}
+                                {item}
                               </Button>
                             </DropdownMenuItem>
                           ))}
@@ -1295,11 +1332,11 @@ export const UploadAdvancedNavigationLayout = () => {
                       </DrawerHeader>
                       <div className="grid gap-1 px-4">
                         {ctx.selectedFolder.size &&
-                          Array.from(ctx.selectedFolder.values())
+                          Array.from(ctx.selectedFolder.keys())
                             .slice(0, -2)
                             .map(item => (
                               <Button
-                                key={item.id}
+                                key={item}
                                 size={'xs'}
                                 variant={'ghost'}
                                 // onClick={() =>
@@ -1310,7 +1347,7 @@ export const UploadAdvancedNavigationLayout = () => {
                                 //   })
                                 // }
                               >
-                                {item?.name ?? 'noname'}
+                                {item}
                               </Button>
                             ))}
                       </div>
@@ -1325,32 +1362,31 @@ export const UploadAdvancedNavigationLayout = () => {
               </BreadcrumbItem>
             </>
           ) : null}
-          {ctx.selectedFolder.size &&
-            Array.from(ctx.selectedFolder.values())
-              .slice(-2)
-              .map((item, index) => (
-                <BreadcrumbItem
-                  key={index}
-                  className="!gap-0"
-                >
-                  <BreadcrumbSeparator />
-                  <BreadcrumbPage className="max-w-20 md:max-w-none">
-                    <Button
-                      size={'xs'}
-                      variant={'ghost'}
-                      // onClick={() =>
-                      //   folderOpen({
-                      //     attachmentFolder: item,
-                      //     setSelected: setSelectedFolder,
-                      //     exist_in_tree: selectedFolder?.some(item => item.id === item.id),
-                      //   })
-                      // }
-                    >
-                      {item?.name ?? 'noname'}
-                    </Button>
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              ))}
+          {Array.from(ctx.selectedFolder.keys())
+            .slice(-2)
+            .map((item, index) => (
+              <BreadcrumbItem
+                key={index}
+                className="!gap-0"
+              >
+                <BreadcrumbSeparator />
+                <BreadcrumbPage className="max-w-20 md:max-w-none">
+                  <Button
+                    size={'xs'}
+                    variant={'ghost'}
+                    // onClick={() =>
+                    //   folderOpen({
+                    //     attachmentFolder: item,
+                    //     setSelected: setSelectedFolder,
+                    //     exist_in_tree: selectedFolder?.some(item => item.id === item.id),
+                    //   })
+                    // }
+                  >
+                    {item}
+                  </Button>
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            ))}
         </BreadcrumbList>
       </Breadcrumb>
     </>
