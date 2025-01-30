@@ -109,7 +109,7 @@ import { toast } from 'sonner'
 export const UploadReloadButton = (): JSX.Element => {
   const ctx = useUploadAdvancedContext()
   const handleReload = React.useCallback(() => {
-    ctx.actions.getInitialData(ctx)
+    ctx.actions.getInitial(ctx)
   }, [ctx])
 
   // TODO: Implement reload functionality.
@@ -211,9 +211,26 @@ export const UploadAdvancedButton = (): JSX.Element => {
  * @returns {JSX.Element} The upload folder button component.
  */
 export const UploadAdvancedAddFolderButton = (): JSX.Element => {
-  const { selectedFolder, setAttachments, setSelectedFolder } = useUploadAdvancedContext()
+  const ctx = useUploadAdvancedContext()
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const inputRef = React.useRef<HTMLInputElement | null>(null)
+
+  const handleCreateFolder = React.useCallback(async () => {
+    const last_key = JSON.parse(Array.from(ctx.selectedFolder.keys()).pop() ?? '{}') as BucketFoldersType
+
+    const emptyFolder: BucketFoldersType = {
+      id: uuidv7(),
+      name: inputRef.current?.value ?? '',
+      created_at: new Date(),
+      updated_at: new Date(),
+      bucket_id: last_key?.bucket_id ?? '01947739-b98e-78da-bae0-0b9f9278598d',
+      folder_id: last_key?.id ?? null,
+      files_count: 0,
+      tree_level: last_key.name ? last_key.tree_level + 1 : 1,
+    }
+    const folder = await ctx.actions.insertFolder(emptyFolder, ctx)
+    console.log(folder)
+  }, [ctx])
 
   const Trigger = (
     <Button
@@ -252,48 +269,7 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
           </DialogClose>
           <DialogClose
             className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-            onClick={() => {
-              // addFolderToPath({
-              //   selectedFolder,
-              //   setAttachments,
-              //   setSelectedFolder,
-              //   folderName: inputRef.current?.value ?? '',
-              // })
-
-              const last_key = JSON.parse(Array.from(selectedFolder.keys()).pop() ?? '{}') as BucketFoldersType
-              const tree_level = last_key ? last_key.tree_level + 1 : 1
-              const folderName = inputRef.current?.value ?? ''
-
-              const emptyFolder: BucketFoldersType = {
-                id: uuidv7(),
-                name: folderName,
-                created_at: new Date(),
-                updated_at: new Date(),
-                bucket_id: last_key?.bucket_id ?? '',
-                folder_id: last_key?.id ?? '',
-                files_count: 0,
-                tree_level,
-              }
-
-              // - [ ]  TODO: the server side action should be called here with `promise`.
-
-              const map = new Map(selectedFolder)
-              map.set(JSON.stringify(emptyFolder), {
-                state: 'pending',
-                data: [],
-              })
-
-              //
-              // setSelectedFolder(oldSelectedFolder => {
-              //   if (!selectedFolder.length) {
-              //     // If no folder is selected, keep the selected folder unchanged
-              //     return oldSelectedFolder
-              //   }
-              //   return updateSelectedFolder(oldSelectedFolder, emptyFolder)
-              // })
-
-              toast.info('Folder added successfully!')
-            }}
+            onClick={async () => await handleCreateFolder()}
           >
             Submit
           </DialogClose>
@@ -326,14 +302,7 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
           </DrawerClose>
           <DrawerClose
             className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-            onClick={() =>
-              addFolderToPath({
-                selectedFolder,
-                setAttachments,
-                setSelectedFolder,
-                folderName: inputRef.current?.value ?? '',
-              })
-            }
+            onClick={async () => await handleCreateFolder()}
           >
             Submit
           </DrawerClose>
@@ -1070,20 +1039,36 @@ export const UploadAdvancedNoAttachments = (): JSX.Element => {
 
 export const UploadAdvancedAttachmentFolder = ({ attachmentFolder }: UploadAdvacedAttachmentFolder) => {
   const ctx = useUploadAdvancedContext()
-  const exist_in_tree = ctx.selectedFolder.size && ctx.selectedFolder.has(attachmentFolder.id)
+  const exist_in_tree = ctx.selectedFolder.size && ctx.selectedFolder.has(JSON.stringify(attachmentFolder))
 
   const folderOpen = () => {
     ctx.setSelectedFolder(prev => {
       const map = prev.size ? new Map(prev) : new Map()
-      if (map.has(attachmentFolder.id)) {
-        map.delete(attachmentFolder.id)
-        return map
+      const currentTreeLevel = attachmentFolder.tree_level
+
+      // Iterate over each key in the map
+      for (let key of map.keys()) {
+        try {
+          // Parse the key back to an object to get its tree_level
+          const folder = JSON.parse(key)
+          // If the folder's tree_level is greater than or equal to the current tree_level, delete it
+          if (folder.tree_level >= currentTreeLevel) {
+            map.delete(key)
+          }
+        } catch (error) {
+          console.error('Failed to parse key:', key, error)
+        }
       }
-      ctx.actions.getFolderData(ctx, attachmentFolder)
-      return map.set(JSON.stringify(attachmentFolder), {
+
+      // Now add the new folder entry
+      const item = JSON.stringify(attachmentFolder)
+      // Call an action to get the folder (if required by your logic)
+      ctx.actions.getFolder(attachmentFolder, ctx)
+      map.set(item, {
         state: 'pending',
         data: [],
       })
+      return map
     })
   }
 
@@ -1311,7 +1296,7 @@ export const UploadAdvancedNavigationLayout = () => {
                                 // })
                                 // }
                               >
-                                {item}
+                                {(JSON.parse(item) as BucketFoldersType).name}
                               </Button>
                             </DropdownMenuItem>
                           ))}
@@ -1347,7 +1332,7 @@ export const UploadAdvancedNavigationLayout = () => {
                                 //   })
                                 // }
                               >
-                                {item}
+                                {(JSON.parse(item) as BucketFoldersType).name}
                               </Button>
                             ))}
                       </div>
@@ -1382,7 +1367,7 @@ export const UploadAdvancedNavigationLayout = () => {
                     //   })
                     // }
                   >
-                    {item}
+                    {(JSON.parse(item) as BucketFoldersType).name}
                   </Button>
                 </BreadcrumbPage>
               </BreadcrumbItem>

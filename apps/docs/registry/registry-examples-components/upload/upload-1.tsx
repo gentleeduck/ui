@@ -5,10 +5,7 @@ import {
   UploadAdvancedProvider,
   UploadAdnvacedContent,
   UploadAdvancedHeader,
-  FolderType,
-  FileType,
   UploadServerActions,
-  toBase64,
 } from '@/registry/registry-ui-components/upload'
 import { uuidv7 } from 'uuidv7'
 import { randFileName, randFileType, randNumber, randUuid } from '@ngneat/falso'
@@ -101,7 +98,7 @@ export default function Upload4Demo() {
 }
 
 export const serverActions: UploadServerActions = {
-  getInitialData: (async ctx => {
+  getInitial: (async ctx => {
     const { data } = await trpc.upload.getBucket.query({ bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d' })
 
     if (!data) return {}
@@ -109,38 +106,31 @@ export const serverActions: UploadServerActions = {
       data: data,
       state: 'success',
     })
-  }) as UploadServerActions['getInitialData'],
+  }) as UploadServerActions['getInitial'],
 
   upload: (async newAttachments => {
     return await trpc.upload.insertFile.mutate(newAttachments[0]!)
   }) as UploadServerActions['upload'],
 
-  getFolderData: (async (ctx, folder) => {
+  getFolder: (async (_folder, ctx) => {
     const { data } = await trpc.upload.getFolder.query({
-      folder_id: folder?.id ?? '',
+      folder_id: _folder?.id ?? '',
       bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d',
     })
 
     if (!data) return {}
     ctx.setSelectedFolder(old => {
-      const oldMap = new Map(Object.entries(old || {})) // Convert object to a Map
-      oldMap.set(folder?.id ?? '', {
+      const oldMap = new Map(Object.entries(old))
+      oldMap.set(JSON.stringify(_folder) ?? '', {
         data: data,
         state: 'success',
       })
-      return oldMap // Convert the Map back to an object
+      return oldMap
     })
-  }) as UploadServerActions['getFolderData'],
-}
+  }) as UploadServerActions['getFolder'],
 
-// const datad: Pick<
-//   UseQueryResult<
-//     {
-//       data: string
-//     },
-//     Error
-//   >,
-//   'data' | 'status'
-// >
-//
-//     datad.
+  insertFolder: (async _folder => {
+    const { data } = await trpc.upload.insertFolder.mutate(_folder)
+    return data
+  }) as UploadServerActions['insertFolder'],
+}

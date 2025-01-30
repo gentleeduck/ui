@@ -155,6 +155,7 @@ export class UploadService {
       if (!_folders) {
         return { message: `No folders uploaded with name ${name}`, data: null }
       }
+      console.log(_folders)
 
       return { data: _folders, message: `Folder ${name} uploaded` }
     } catch (_) {

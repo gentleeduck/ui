@@ -106,18 +106,23 @@ export type UploadServerActions = {
    * this is the context that will be passed to the action
    * you can use this to access the ctx and mutate and get the attachments.
    */
-  getInitialData: <T extends TRPC_RESPONSE<(BucketFilesType | BucketFoldersType)[]>>(
+  getInitial: <T extends TRPC_RESPONSE<(BucketFilesType | BucketFoldersType)[]>>(
     ctx: Omit<UploadAdvancedContextType<BucketFilesType | BucketFoldersType>, 'actions'>
   ) => Promise<T>
 
   upload: <T extends TRPC_RESPONSE<BucketFilesType[]>>(
-    newAttachments: BucketFilesType[],
+    _attachments: BucketFilesType[],
     ctx: Omit<UploadAdvancedContextType<BucketFilesType | BucketFoldersType>, 'actions'>
   ) => Promise<T>
 
-  getFolderData: <T extends TRPC_RESPONSE<(BucketFilesType | BucketFoldersType)[]>>(
-    ctx: Omit<UploadAdvancedContextType<BucketFilesType | BucketFoldersType>, 'actions'>,
-    attachmentFolder: BucketFoldersType
+  getFolder: <T extends TRPC_RESPONSE<(BucketFilesType | BucketFoldersType)[]>>(
+    _folder: BucketFoldersType,
+    ctx: Omit<UploadAdvancedContextType<BucketFilesType | BucketFoldersType>, 'actions'>
+  ) => Promise<T>
+
+  insertFolder: <T extends TRPC_RESPONSE<BucketFoldersType>>(
+    _folder: BucketFoldersType,
+    ctx: Omit<UploadAdvancedContextType<BucketFilesType | BucketFoldersType>, 'actions'>
   ) => Promise<T>
 }
 
