@@ -32,6 +32,7 @@ import {
   SelectedFoldersType,
   StateWithExtraFeatures,
   UploadAdvacedAttachmentFolder,
+  UploadAdvancedContextType,
   UploadAlertDeleteActionProps,
   UploadAlertMoveActionProps,
   UploadDownloadAttachmentsProps,
@@ -48,7 +49,6 @@ import {
   addFolderToPath,
   advancedUploadAttachments,
   deleteAttachmentById,
-  folderOpen,
   getFileType,
   moveAttachmentsToPath,
   renameAttachmentById,
@@ -872,7 +872,7 @@ export const UploadAdvancedAlertDeleteAttachments = React.memo(
               className={cn(
                 buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
               )}
-              onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
+              // onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
             >
               Delete
             </AlertDialogAction>
@@ -895,7 +895,7 @@ export const UploadAdvancedAlertDeleteAttachments = React.memo(
               className={cn(
                 buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
               )}
-              onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
+              // onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
             >
               Delete
             </DrawerClose>
@@ -934,12 +934,12 @@ export const UploadAdvancedSelectAllLayout = React.memo(
       >
         <Checkbox
           className="w-[15px] h-[15px] border-muted-foreground/80"
-          onCheckedChange={_ =>
-            selectAttachmentFromFolderContent({
-              filesInCurrentTree,
-              setSelectedAttachment,
-            })
-          }
+          // onCheckedChange={_ =>
+          //   selectAttachmentFromFolderContent({
+          //     filesInCurrentTree,
+          //     setSelectedAttachment,
+          //   })
+          // }
           checked={isChecked}
         />
         <span className="text-xs font-medium text-muted-foreground/80">
@@ -1017,30 +1017,30 @@ export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmen
   )
 }
 
-export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attachmentFolder: BucketFoldersType }) => {
-  const { selectedFolder, setSelectedFolder } = useUploadAdvancedContext()
-  const exist_in_tree = selectedFolder.size && selectedFolder.has(JSON.stringify(attachmentFolder)) ? true : false
+export const UploadAdvancedAttachmentsRowFolder = ({ folder }: { folder: BucketFoldersType }) => {
+  const ctx = useUploadAdvancedContext()
+  const exist_in_tree = ctx.selectedFolder.size && ctx.selectedFolder.has(JSON.stringify(folder)) ? true : false
 
   return (
     <TableRow
       className="[&_td]:whitespace-nowrap [&_td]:py-2 [&_td]:text-xs cursor-pointer"
-      onClick={() => folderOpen({ attachmentFolder, setSelected: setSelectedFolder, exist_in_tree })}
+      onClick={() => folderOpen({ _ctx: ctx, folder })}
     >
       <TableCell className="font-medium relative w-full flex items-center justify-start gap-2">
         <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files_count > 0 && 'fill-white')} />}
+          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(folder.files_count > 0 && 'fill-white')} />}
         </div>
-        <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
+        <h6 className="text-xs font-medium truncate max-w-[70%]">{folder.name} </h6>
       </TableCell>
       <TableCell className="w-[100px]">-</TableCell>
       <TableCell className="w-[100px]">-</TableCell>
       <TableCell className="w-[200px]">
-        {format(new Date(attachmentFolder?.created_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
+        {format(new Date(folder?.created_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
       </TableCell>
       <TableCell className="w [200px] flex items-center justify-between gap-12">
-        <div>{format(new Date(attachmentFolder?.updated_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}</div>
+        <div>{format(new Date(folder?.updated_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}</div>
         <div className="relative py-2 ![&_button]:relative [&_button]:right-1">
-          <UploadAttachmentActionsMenu attachment={attachmentFolder} />
+          <UploadAttachmentActionsMenu attachment={folder} />
         </div>
       </TableCell>
     </TableRow>
@@ -1069,53 +1069,58 @@ export const UploadAdvancedNoAttachments = (): JSX.Element => {
   )
 }
 
-export const UploadAdvancedAttachmentFolder = ({ attachmentFolder }: UploadAdvacedAttachmentFolder) => {
-  const ctx = useUploadAdvancedContext()
-  const exist_in_tree = ctx.selectedFolder.size && ctx.selectedFolder.has(JSON.stringify(attachmentFolder))
+export type folderOpenType = {
+  _ctx: UploadAdvancedContextType<BucketFilesType | BucketFoldersType>
+  folder: BucketFoldersType
+}
 
-  const folderOpen = async () => {
-    ctx.setSelectedFolder(prev => {
-      const newMap = new Map(prev)
-      const currentTreeLevel = attachmentFolder.tree_level
+const folderOpen = async ({ _ctx, folder }: folderOpenType) => {
+  _ctx.setSelectedFolder(prev => {
+    const newMap = new Map(prev)
+    const currentTreeLevel = folder.tree_level
 
-      // Iterate over the keys of the map
-      for (const key of newMap.keys()) {
-        try {
-          const folder = JSON.parse(key)
-          // Check if the folder's tree_level is greater than or equal to the current tree_level
-          if (folder.tree_level >= currentTreeLevel) {
-            newMap.delete(key)
-          }
-        } catch (error) {
-          console.error('Failed to parse key:', key, error)
+    // Iterate over the keys of the map
+    for (const key of newMap.keys()) {
+      try {
+        const folder = JSON.parse(key)
+        // Check if the folder's tree_level is greater than or equal to the current tree_level
+        if (folder.tree_level >= currentTreeLevel) {
+          newMap.delete(key)
         }
+      } catch (error) {
+        console.error('Failed to parse key:', key, error)
       }
+    }
 
-      // Add or update the current folder with a 'pending' state
-      const key = JSON.stringify(attachmentFolder)
-      newMap.set(key, {
-        state: 'pending',
-        data: [],
-      })
-
-      return newMap
+    // Add or update the current folder with a 'pending' state
+    const key = JSON.stringify(folder)
+    newMap.set(key, {
+      state: 'pending',
+      data: [],
     })
 
-    // Fetch the folder data
-    const folderResponse = await ctx.actions.getFolder(attachmentFolder, ctx)
+    return newMap
+  })
 
-    // Update the map with the fetched data and set the state to 'success'
-    ctx.setSelectedFolder(prev => {
-      const newMap = new Map(prev)
-      const key = JSON.stringify(attachmentFolder)
-      newMap.set(key, {
-        state: 'success',
-        data: folderResponse.data,
-      })
-      console.log(folderResponse.data)
-      return newMap
+  // Fetch the folder data
+  const folderResponse = await _ctx.actions.getFolder(folder, _ctx)
+
+  // Update the map with the fetched data and set the state to 'success'
+  _ctx.setSelectedFolder(prev => {
+    const newMap = new Map(prev)
+    const key = JSON.stringify(folder)
+    newMap.set(key, {
+      state: 'success',
+      data: folderResponse.data,
     })
-  }
+    console.log(folderResponse.data)
+    return newMap
+  })
+}
+
+export const UploadAdvancedAttachmentFolder = ({ folder }: UploadAdvacedAttachmentFolder) => {
+  const ctx = useUploadAdvancedContext()
+  const exist_in_tree = ctx.selectedFolder.size && ctx.selectedFolder.has(JSON.stringify(folder))
 
   return (
     <div className="relative">
@@ -1124,14 +1129,14 @@ export const UploadAdvancedAttachmentFolder = ({ attachmentFolder }: UploadAdvac
           'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-2 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer [&_*]:select-none',
           exist_in_tree && 'bg-card-foreground/15'
         )}
-        onClick={folderOpen}
+        onClick={() => folderOpen({ _ctx: ctx, folder: folder })}
       >
         <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(attachmentFolder.files_count > 0 && 'fill-white')} />}
+          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(folder.files_count > 0 && 'fill-white')} />}
         </div>
-        <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFolder.name} </h6>
+        <h6 className="text-xs font-medium truncate max-w-[70%]">{folder.name} </h6>
       </div>
-      <UploadAttachmentActionsMenu attachment={attachmentFolder} />
+      <UploadAttachmentActionsMenu attachment={folder} />
     </div>
   )
 }
@@ -1282,11 +1287,15 @@ export const UploadAdvancedNavigationLayout = () => {
         <BreadcrumbList className="flex-nowrap px-4 !gap-0">
           {ctx.selectedFolder.size > 0 && (
             <BreadcrumbItem
-            // onClick={() =>
-            //   // ctx.setSelectedFolder(old =>
-            //   //   old.length - 1 >= 0 ? old.filter(item => item.id !== old?.[old.length - 1]?.id) : old
-            //   // )
-            // }
+              onClick={() =>
+                ctx.setSelectedFolder(prev => {
+                  const newMap = new Map(prev)
+                  const lastKey = Array.from(newMap.keys()).pop()
+                  if (lastKey) newMap.delete(lastKey)
+
+                  return newMap
+                })
+              }
             >
               <Button
                 variant={'ghost'}
@@ -1296,9 +1305,7 @@ export const UploadAdvancedNavigationLayout = () => {
               />
             </BreadcrumbItem>
           )}
-          <BreadcrumbItem
-          // onClick={() => setSelectedFolder([])}
-          >
+          <BreadcrumbItem onClick={() => ctx.setSelectedFolder(new Map())}>
             <Button
               size={'xs'}
               variant={'ghost'}
@@ -1327,19 +1334,18 @@ export const UploadAdvancedNavigationLayout = () => {
                           .slice(0, -2)
                           .map(item => (
                             <DropdownMenuItem
-                              // key={item.id}
+                              key={item}
                               className="p-0"
                             >
                               <Button
                                 size={'xs'}
                                 variant={'ghost'}
-                                // onClick={() =>
-                                // folderOpen({
-                                //   attachmentFolder: item,
-                                //   setSelected: setSelectedFolder,
-                                //   exist_in_tree: selectedFolder?.some(item => item.id === item.id),
-                                // })
-                                // }
+                                onClick={() =>
+                                  folderOpen({
+                                    _ctx: ctx,
+                                    folder: JSON.parse(item) as BucketFoldersType,
+                                  })
+                                }
                               >
                                 {(JSON.parse(item) as BucketFoldersType).name}
                               </Button>
@@ -1369,13 +1375,12 @@ export const UploadAdvancedNavigationLayout = () => {
                                 key={item}
                                 size={'xs'}
                                 variant={'ghost'}
-                                // onClick={() =>
-                                //   folderOpen({
-                                //     attachmentFolder: item,
-                                //     setSelected: setSelectedFolder,
-                                //     exist_in_tree: selectedFolder?.some(item => item.id === item.id),
-                                //   })
-                                // }
+                                onClick={() =>
+                                  folderOpen({
+                                    _ctx: ctx,
+                                    folder: JSON.parse(item) as BucketFoldersType,
+                                  })
+                                }
                               >
                                 {(JSON.parse(item) as BucketFoldersType).name}
                               </Button>
@@ -1404,13 +1409,7 @@ export const UploadAdvancedNavigationLayout = () => {
                   <Button
                     size={'xs'}
                     variant={'ghost'}
-                    // onClick={() =>
-                    //   folderOpen({
-                    //     attachmentFolder: item,
-                    //     setSelected: setSelectedFolder,
-                    //     exist_in_tree: selectedFolder?.some(item => item.id === item.id),
-                    //   })
-                    // }
+                    onClick={() => folderOpen({ _ctx: ctx, folder: JSON.parse(item) as BucketFoldersType })}
                   >
                     {(JSON.parse(item) as BucketFoldersType).name}
                   </Button>

@@ -7,27 +7,32 @@ tags: ['upload']
 
 # Upload component TODOs:
 
-- [*] Click of the folder it should colabs it with it's nested.
-- [*] Upload it should upload in the folder opened if now in the root.
-- [*] Click of the file it has to show sheet with the preview depending on it's type.
-- [*] Add new folder should work on the current folder.
-- [*] Some actions to the file.
-- [*] Some actions to the folder.
-- [*] Attachment view styles.
-- [*] Upload sonner for uploading with some styles.
-- [*] The Delete button actions.
-- [*] Multiple select on the attachments.
-- [*] Multiple select menu.
-- [*] Search on the attachments.
-- [ ] Reload the attachments.
-- [ ] There should be sorting for the attachments.
-- [*] Add new folder should open a sheet or dialog with the steps to gen one.
-- [ ] The block should have a page back button and the name of the current folder.
-- [*] The Move button actions.
-- [*] The Delete Multiple button actions.
-- [*] The Move Multiple button actions.
-- [*] Make any action with input to be a form with more options.
-- [*] Integrate zod with all the forms.
-- [ ] Fix the dropdown menu to be unified.
+- [*] CLICK OF THE FOLDER IT SHOULD COLABS IT WITH IT'S NESTED.
+- [*] UPLOAD IT SHOULD UPLOAD IN THE FOLDER OPENED IF NOW IN THE ROOT.
+- [*] CLICK OF THE FILE IT HAS TO SHOW SHEET WITH THE PREVIEW DEPENDING ON IT'S TYPE.
+- [*] ADD NEW FOLDER SHOULD WORK ON THE CURRENT FOLDER.
+- [*] SOME ACTIONS TO THE FILE.
+- [*] SOME ACTIONS TO THE FOLDER.
+- [*] ATTACHMENT VIEW STYLES.
+- [*] UPLOAD SONNER FOR UPLOADING WITH SOME STYLES.
+- [*] THE DELETE BUTTON ACTIONS.
+- [*] MULTIPLE SELECT ON THE ATTACHMENTS.
+- [*] MULTIPLE SELECT MENU.
+- [*] SEARCH ON THE ATTACHMENTS.
+- [*] RELOAD THE ATTACHMENTS.
+- [ ] THERE SHOULD BE SORTING FOR THE ATTACHMENTS.
+- [*] ADD NEW FOLDER SHOULD OPEN A SHEET OR DIALOG WITH THE STEPS TO GEN ONE.
+- [ ] THE BLOCK SHOULD HAVE A PAGE BACK BUTTON AND THE NAME OF THE CURRENT FOLDER.
+- [*] THE MOVE BUTTON ACTIONS.
+- [*] THE DELETE MULTIPLE BUTTON ACTIONS.
+- [*] THE MOVE MULTIPLE BUTTON ACTIONS.
+- [*] MAKE ANY ACTION WITH INPUT TO BE A FORM WITH MORE OPTIONS.
+- [*] INTEGRATE ZOD WITH ALL THE FORMS.
+- [ ] FIX THE DROPDOWN MENU TO BE UNIFIED.
 - [ ] REFACTOR THE CODE TO BE CLEANER.
 - [ ] DOCUMENT THE CODE.
+- [ ] RFACTOR THE SERVER CODE TO INCLUDE THE STATUS.
+- [ ] ADD CACHING TO THE DATA.
+- [ ] DO SOME BENCHMARK ON THIS COMPONENT.
+- [ ] DO SOME BENCHMARK ON THIS UPLOAD API.
+- [ ] WHEN I SPAM FOLDER CLICKING SHOULD CANCEL ALL THE PREVIOUS FOLDER CLICKS.

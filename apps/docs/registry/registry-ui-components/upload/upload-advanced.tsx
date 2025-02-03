@@ -296,7 +296,7 @@ export const UploadAttachmentsTree = React.memo(({ data, uploadQuery }: UploadAt
               return (
                 <UploadAdvancedAttachmentFolder
                   key={attachment.id}
-                  attachmentFolder={attachment as BucketFoldersType}
+                  folder={attachment as BucketFoldersType}
                 />
               )
             })}
@@ -350,7 +350,7 @@ export const UploadAttachmentsRow = () => {
           <TableBody>
             {filteredItems.map(attachment =>
               (attachment as BucketFoldersType).files_count >= 0 ? (
-                <UploadAdvancedAttachmentsRowFolder attachmentFolder={attachment as BucketFoldersType} />
+                <UploadAdvancedAttachmentsRowFolder folder={attachment as BucketFoldersType} />
               ) : (
                 <UploadAdvancedAttachmentsRowFile attachmentFile={attachment as BucketFilesType} />
               )

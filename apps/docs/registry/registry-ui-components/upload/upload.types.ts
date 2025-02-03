@@ -153,7 +153,7 @@ export type UploadRenameAttachmentButtonProps = {
 }
 
 export type UploadAdvacedAttachmentFolder = {
-  attachmentFolder: BucketFoldersType
+  folder: BucketFoldersType
 }
 
 /**
