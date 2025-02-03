@@ -156,11 +156,3 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = 'Button'
 
 export { Button }
-
-export const hi = () => {
-  return (
-    <>
-      <div className={``}></div>
-    </>
-  )
-}

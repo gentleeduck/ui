@@ -14,6 +14,7 @@ import {
 import { MINIO } from '../minio/minio.service'
 import { BucketFilesType, BucketFoldersType, GetSchemaType, TRPC_RESPONSE } from '../globals'
 import { nestObjectsByTreeLevelAndFolderId } from './upload.lib'
+import { sql } from 'drizzle-orm'
 
 export class UploadService {
   public static async getBuckets({ user_id }: GetBucketsType) {
@@ -157,7 +158,7 @@ export class UploadService {
       }
       console.log(_folders)
 
-      return { data: _folders, message: `Folder ${name} uploaded` }
+      return { data: _folders[0], message: `Folder ${name} uploaded` }
     } catch (_) {
       const error = {
         data: null,

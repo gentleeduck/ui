@@ -107,7 +107,7 @@ export const UploadAdvancedProvider = ({
 export const UploadAdvancedHeader = () => {
   return (
     <>
-      <div className="w-full h-[42px] overflow-hidden relative">
+      <div className="w-full h-[42px] relative">
         <UploadAdvancedActionsLayout />
         <UploadAdvancedMultiSelectLayout />
       </div>
@@ -272,18 +272,14 @@ export const UploadAttachmentsTree = React.memo(({ data, uploadQuery }: UploadAt
     )
   }
 
-  if (state === 'success' && !attachments?.length) {
-    return <UploadAdvancedNoAttachments />
-  }
-
   const filteredItems = (
     uploadQuery
       ? attachments?.filter(item => item?.name.toLowerCase().includes(uploadQuery.toLowerCase()))
       : attachments
   ) as (BucketFilesType | BucketFoldersType)[]
 
-  if (state === 'success' && filteredItems?.length > 0) {
-    return (
+  if (state === 'success') {
+    return filteredItems?.length ? (
       <div className="flex flex-col h-full border-r border-r-border">
         <UploadAdvancedSelectAllLayout attachments={filteredItems} />
         <ScrollArea className={cn('p-2 bg-muted/10 [&>div>div]:h-full', TREE_WIDTH, TREE_HEIGHT)}>
@@ -307,6 +303,8 @@ export const UploadAttachmentsTree = React.memo(({ data, uploadQuery }: UploadAt
           </div>
         </ScrollArea>
       </div>
+    ) : (
+      <UploadAdvancedNoAttachments />
     )
   }
 })

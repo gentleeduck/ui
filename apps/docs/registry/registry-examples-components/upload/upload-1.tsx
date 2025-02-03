@@ -112,25 +112,16 @@ export const serverActions: UploadServerActions = {
     return await trpc.upload.insertFile.mutate(newAttachments[0]!)
   }) as UploadServerActions['upload'],
 
-  getFolder: (async (_folder, ctx) => {
-    const { data } = await trpc.upload.getFolder.query({
+  getFolder: (async _folder => {
+    const folder = await trpc.upload.getFolder.query({
       folder_id: _folder?.id ?? '',
       bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d',
     })
-
-    if (!data) return {}
-    ctx.setSelectedFolder(old => {
-      const oldMap = new Map(Object.entries(old))
-      oldMap.set(JSON.stringify(_folder) ?? '', {
-        data: data,
-        state: 'success',
-      })
-      return oldMap
-    })
+    return folder
   }) as UploadServerActions['getFolder'],
 
   insertFolder: (async _folder => {
-    const { data } = await trpc.upload.insertFolder.mutate(_folder)
-    return data
+    const folder = await trpc.upload.insertFolder.mutate(_folder)
+    return folder
   }) as UploadServerActions['insertFolder'],
 }

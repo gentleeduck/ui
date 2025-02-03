@@ -30,6 +30,7 @@ import { Input } from '@/registry/default/ui/input'
 import { Button, buttonVariants } from '../button'
 import {
   SelectedFoldersType,
+  StateWithExtraFeatures,
   UploadAdvacedAttachmentFolder,
   UploadAlertDeleteActionProps,
   UploadAlertMoveActionProps,
@@ -52,6 +53,7 @@ import {
   moveAttachmentsToPath,
   renameAttachmentById,
   selectAttachmentFromFolderContent,
+  uploadPromise,
 } from './upload.lib'
 import {
   Alert,
@@ -217,7 +219,6 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
 
   const handleCreateFolder = React.useCallback(async () => {
     const last_key = JSON.parse(Array.from(ctx.selectedFolder.keys()).pop() ?? '{}') as BucketFoldersType
-
     const emptyFolder: BucketFoldersType = {
       id: uuidv7(),
       name: inputRef.current?.value ?? '',
@@ -228,8 +229,38 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
       files_count: 0,
       tree_level: last_key.name ? last_key.tree_level + 1 : 1,
     }
-    const folder = await ctx.actions.insertFolder(emptyFolder, ctx)
-    console.log(folder)
+
+    const promise = new Promise(async (resolve, reject) => {
+      const folder = await ctx.actions.insertFolder(emptyFolder, ctx)
+
+      if (!folder.data) return reject()
+      if (folder.data?.tree_level === 1) {
+        ctx.setAttachments(prev => {
+          return {
+            ...prev,
+            data: prev.data ? [...prev.data, folder.data] : [folder.data],
+          } as typeof prev
+        })
+        return resolve(true)
+      }
+
+      ctx.setSelectedFolder(prev => {
+        const map = prev.size ? new Map(prev) : (new Map() as SelectedFoldersType)
+
+        map.set(JSON.stringify(last_key), {
+          state: 'success',
+          data: [...(map.get(JSON.stringify(last_key))?.data || []), folder.data],
+        })
+        return map
+      })
+      return resolve(true)
+    })
+
+    toast.promise(promise, {
+      loading: 'Creating folder, please wait...',
+      success: 'Folder created successfully!',
+      error: 'Folder creation failed. Please try again.',
+    })
   }, [ctx])
 
   const Trigger = (
@@ -237,8 +268,9 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
       className="relative w-[1.625rem]"
       size={'xs'}
       icon={{ children: FolderPlusIcon }}
+      label={{ children: 'Add folder', showLabel: true, side: 'bottom' }}
     >
-      <span className="sr-only">Upload attachments</span>
+      <span className="sr-only">Add folder</span>
     </Button>
   )
 
@@ -987,7 +1019,7 @@ export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmen
 
 export const UploadAdvancedAttachmentsRowFolder = ({ attachmentFolder }: { attachmentFolder: BucketFoldersType }) => {
   const { selectedFolder, setSelectedFolder } = useUploadAdvancedContext()
-  const exist_in_tree = selectedFolder.size ? selectedFolder?.some(item => item.id === attachmentFolder.id) : false
+  const exist_in_tree = selectedFolder.size && selectedFolder.has(JSON.stringify(attachmentFolder)) ? true : false
 
   return (
     <TableRow
@@ -1041,34 +1073,47 @@ export const UploadAdvancedAttachmentFolder = ({ attachmentFolder }: UploadAdvac
   const ctx = useUploadAdvancedContext()
   const exist_in_tree = ctx.selectedFolder.size && ctx.selectedFolder.has(JSON.stringify(attachmentFolder))
 
-  const folderOpen = () => {
+  const folderOpen = async () => {
     ctx.setSelectedFolder(prev => {
-      const map = prev.size ? new Map(prev) : new Map()
+      const newMap = new Map(prev)
       const currentTreeLevel = attachmentFolder.tree_level
 
-      // Iterate over each key in the map
-      for (let key of map.keys()) {
+      // Iterate over the keys of the map
+      for (const key of newMap.keys()) {
         try {
-          // Parse the key back to an object to get its tree_level
           const folder = JSON.parse(key)
-          // If the folder's tree_level is greater than or equal to the current tree_level, delete it
+          // Check if the folder's tree_level is greater than or equal to the current tree_level
           if (folder.tree_level >= currentTreeLevel) {
-            map.delete(key)
+            newMap.delete(key)
           }
         } catch (error) {
           console.error('Failed to parse key:', key, error)
         }
       }
 
-      // Now add the new folder entry
-      const item = JSON.stringify(attachmentFolder)
-      // Call an action to get the folder (if required by your logic)
-      ctx.actions.getFolder(attachmentFolder, ctx)
-      map.set(item, {
+      // Add or update the current folder with a 'pending' state
+      const key = JSON.stringify(attachmentFolder)
+      newMap.set(key, {
         state: 'pending',
         data: [],
       })
-      return map
+
+      return newMap
+    })
+
+    // Fetch the folder data
+    const folderResponse = await ctx.actions.getFolder(attachmentFolder, ctx)
+
+    // Update the map with the fetched data and set the state to 'success'
+    ctx.setSelectedFolder(prev => {
+      const newMap = new Map(prev)
+      const key = JSON.stringify(attachmentFolder)
+      newMap.set(key, {
+        state: 'success',
+        data: folderResponse.data,
+      })
+      console.log(folderResponse.data)
+      return newMap
     })
   }
 

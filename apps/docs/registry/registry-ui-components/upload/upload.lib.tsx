@@ -1,5 +1,11 @@
 import { toast } from 'sonner'
-import { HandleAttachmentProps, UploadFilesArgs, UploadPromiseArgs, UploadPromiseReturn } from './upload.types'
+import {
+  HandleAttachmentProps,
+  SelectedFoldersType,
+  UploadFilesArgs,
+  UploadPromiseArgs,
+  UploadPromiseReturn,
+} from './upload.types'
 import { uuidv7 } from 'uuidv7'
 import React from 'react'
 import { UploadSonnerContent, UploadSonnerContentMemo } from './upload-sonner'
@@ -47,16 +53,15 @@ export const uploadPromise = ({ files, toastId }: UploadPromiseArgs): Promise<Up
 
 export type FolderOpenArgs = {
   attachmentFolder: BucketFoldersType
-  setSelected: React.Dispatch<React.SetStateAction<BucketFoldersType[]>>
+  setSelected: React.Dispatch<React.SetStateAction<SelectedFoldersType>>
   exist_in_tree: boolean
 }
 
 export function folderOpen({ attachmentFolder, setSelected, exist_in_tree }: FolderOpenArgs) {
-  setSelected(old => {
-    if (!exist_in_tree)
-      return [...old.filter(item => !(item.tree_level >= attachmentFolder.tree_level) && item), attachmentFolder]
-
-    return old.filter(item => !(item.tree_level >= attachmentFolder.tree_level))
+  setSelected(prev => {
+    // if (!exist_in_tree)
+    //   return [...prev.filter(item => !(item.tree_level >= attachmentFolder.tree_level) && item), attachmentFolder]
+    // return prev.filter(item => !(item.tree_level >= attachmentFolder.tree_level))
   })
 }
 
