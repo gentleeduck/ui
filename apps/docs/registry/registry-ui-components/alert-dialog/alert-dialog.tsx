@@ -4,24 +4,6 @@ import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/registry/registry-ui-components'
-import {
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
-  SheetClose,
-  Sheet,
-} from '@/registry/default/ui/sheet'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerClose,
-} from '@/registry/default/ui/drawer'
 import { useDuckAlert } from './alert-dialog.hook'
 import {
   AlertDialogDialogProps,
@@ -29,25 +11,42 @@ import {
   AlertDialogSheetProps,
   AlertDialogWrapperType,
 } from './alert-dialog.types'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/registry/default/ui/ShadcnUI/dialog'
 import { DrawerWrapper } from '../drawer'
 import { SheetWrapper } from '../sheet'
 import { DialogWrapper } from '../dialog'
 
-//NOTE: Alert Dialog Primitive
+/**
+ * A component that renders an alert dialog using the AlertDialogPrimitive.Root component.
+ *
+ * This component is a type assertion of AlertDialogPrimitive.Root, ensuring that it retains
+ * the same type as the original component.
+ */
 const AlertDialog = AlertDialogPrimitive.Root as typeof AlertDialogPrimitive.Root
+
+/**
+ * A component that serves as the trigger for an alert dialog.
+ *
+ * This component is a wrapper around `AlertDialogPrimitive.Trigger` and is used to
+ * open the alert dialog when interacted with.
+ */
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger
+
+/**
+ * A component that renders the AlertDialog content inside a portal.
+ * This is a wrapper around the `AlertDialogPrimitive.Portal` component.
+ */
 const AlertDialogPortal = AlertDialogPrimitive.Portal
 
-//NOTE: Alert Dialog Overlay
+/**
+ * `AlertDialogOverlay` is a React forward reference component that renders an overlay for an alert dialog.
+ * It uses `AlertDialogPrimitive.Overlay` as the base component and applies additional styles and animations.
+ *
+ * @param {string} className - Additional class names to apply to the overlay.
+ * @param {object} props - Additional props to pass to the overlay component.
+ * @param {React.Ref} ref - A ref to be forwarded to the overlay component.
+ *
+ * @returns {JSX.Element} The rendered overlay component.
+ */
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
@@ -63,7 +62,16 @@ const AlertDialogOverlay = React.forwardRef<
 ))
 AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
 
-//NOTE: Alert Dialog Content
+/**
+ * `AlertDialogContent` is a React component that renders the content of an alert dialog.
+ * It uses `React.forwardRef` to pass a ref to the underlying `AlertDialogPrimitive.Content` component.
+ *
+ * @param {string} className - Additional class names to apply to the content.
+ * @param {object} props - Additional props to pass to the `AlertDialogPrimitive.Content` component.
+ * @param {React.Ref} ref - Ref to be forwarded to the `AlertDialogPrimitive.Content` component.
+ *
+ * @returns {JSX.Element} The rendered alert dialog content.
+ */
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
@@ -82,8 +90,17 @@ const AlertDialogContent = React.forwardRef<
 ))
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 
-//NOTE: Alert Dialog Header
-function AlertDialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+/**
+ * A component that renders the header of an alert dialog.
+ * It uses a flexbox layout to arrange its children in a vertical column
+ * and applies responsive text alignment.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names for styling.
+ *
+ * @returns {JSX.Element} The rendered header component.
+ */
+function AlertDialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
       className={cn('flex flex-col space-y-2 text-center sm:text-left', className)}
@@ -93,8 +110,18 @@ function AlertDialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDiv
 }
 AlertDialogHeader.displayName = 'AlertDialogHeader'
 
-//NOTE: Alert Dialog Footer
-function AlertDialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+/**
+ * A component that renders the footer of an alert dialog.
+ *
+ * It uses a flexbox layout to arrange its children in a vertical column
+ * on small screens and in a row with space between items on larger screens.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names for styling.
+ *
+ * @returns {JSX.Element} The rendered footer component.
+ */
+function AlertDialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
       className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
@@ -104,7 +131,17 @@ function AlertDialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDiv
 }
 AlertDialogFooter.displayName = 'AlertDialogFooter'
 
-//NOTE: Alert Dialog Title
+/**
+ * `AlertDialogTitle` is a React component that forwards its ref to the `AlertDialogPrimitive.Title` component.
+ * It accepts all props that `AlertDialogPrimitive.Title` accepts, along with an optional `className` prop
+ * to apply additional CSS classes.
+ *
+ * @param {Object} props - The props for the component.
+ * @param {string} [props.className] - Additional CSS classes to apply to the component.
+ * @param {React.Ref} ref - The ref to be forwarded to the `AlertDialogPrimitive.Title` component.
+ *
+ * @returns {JSX.Element} The rendered `AlertDialogPrimitive.Title` component with forwarded ref and applied props.
+ */
 const AlertDialogTitle = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
@@ -117,7 +154,16 @@ const AlertDialogTitle = React.forwardRef<
 ))
 AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
 
-//NOTE: Alert Dialog Description
+/**
+ * `AlertDialogDescription` is a React component that forwards its ref to the `AlertDialogPrimitive.Description` component.
+ * It accepts all props that `AlertDialogPrimitive.Description` accepts, along with an optional `className` prop for additional styling.
+ *
+ * @param {Object} props - The props for the component.
+ * @param {string} [props.className] - Additional class names to apply to the component.
+ * @param {React.Ref} ref - The ref to be forwarded to the `AlertDialogPrimitive.Description` component.
+ *
+ * @returns {JSX.Element} The rendered `AlertDialogPrimitive.Description` component with forwarded ref and applied class names.
+ */
 const AlertDialogDescription = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
@@ -130,7 +176,16 @@ const AlertDialogDescription = React.forwardRef<
 ))
 AlertDialogDescription.displayName = AlertDialogPrimitive.Description.displayName
 
-//NOTE: Alert Dialog Action
+/**
+ * `AlertDialogAction` is a React component that forwards its ref to the `AlertDialogPrimitive.Action` component.
+ * It accepts all the props of `AlertDialogPrimitive.Action` and an additional `className` prop for custom styling.
+ *
+ * @param {string} className - Additional class names to apply to the component.
+ * @param {React.Ref} ref - A ref that will be forwarded to the `AlertDialogPrimitive.Action` component.
+ * @param {object} props - All other props are passed through to the `AlertDialogPrimitive.Action` component.
+ *
+ * @returns {JSX.Element} The rendered `AlertDialogPrimitive.Action` component with forwarded ref and applied class names.
+ */
 const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
@@ -143,7 +198,18 @@ const AlertDialogAction = React.forwardRef<
 ))
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
 
-//NOTE: Alert Dialog Cancel
+/**
+ * `AlertDialogCancel` is a React forward reference component that renders a cancel button
+ * for an alert dialog using `AlertDialogPrimitive.Cancel`. It accepts all props that a
+ * `AlertDialogPrimitive.Cancel` component would accept, along with an optional `className`
+ * for additional styling.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names to apply to the button.
+ * @param {React.Ref} ref - The reference to be forwarded to the `AlertDialogPrimitive.Cancel` component.
+ *
+ * @returns {JSX.Element} The rendered cancel button for the alert dialog.
+ */
 const AlertDialogCancel = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Cancel>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
@@ -157,6 +223,21 @@ const AlertDialogCancel = React.forwardRef<
 
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
+/**
+ * Renders an alert dialog and a sheet component, managing their open states
+ * and handling user interactions through provided callbacks.
+ *
+ * @param {Object} props - The properties for configuring the AlertDialogWrapper.
+ * @param {Object} props.alertTrigger - Props for the alert dialog trigger.
+ * @param {Object} props.alertContent - Configuration for the alert dialog content.
+ * @param {Object} props.duckHook - The duck hook for managing the internal state.
+ *
+ * The component utilizes the `useDuckAlert` hook for managing its internal state
+ * and provides a structured layout for displaying an alert dialog with a trigger,
+ * content, header, footer, and actions, as well as a sheet with nested content
+ * and customizable headers and footers. The component handles user interactions
+ * with cancel and continue actions, updating the state and invoking provided callbacks.
+ */
 export function AlertDialogWrapper({ alertTrigger, alertContent, duckHook }: AlertDialogWrapperType) {
   const { _header: contentHeader, _footer: contentFooter, ...contentProps } = alertContent ?? {}
   const { _title, _description, ...headerProps } = contentHeader ?? {}
@@ -206,10 +287,12 @@ export function AlertDialogWrapper({ alertTrigger, alertContent, duckHook }: Ale
 }
 
 /**
- * Renders an alert dialog and a sheet component, managing their open states
- * and handling user interactions through provided callbacks.
+ * AlertDialogSheet is a component that provides a structured layout for displaying
+ * an alert dialog with a trigger, content, header, footer, and actions, as well as
+ * a sheet with nested content and customizable headers and footers. The component
+ * handles user interactions with cancel and continue actions, updating the state
+ * and invoking provided callbacks.
  *
- * @template T
  * @param {Object} props - The properties for configuring the AlertDialogSheet.
  * @param {Object} props.alertTrigger - Props for the alert dialog trigger.
  * @param {Object} props.alertContent - Configuration for the alert dialog content.
