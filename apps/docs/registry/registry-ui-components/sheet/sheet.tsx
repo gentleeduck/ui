@@ -2,21 +2,49 @@
 
 import * as React from 'react'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
-import { cva, type VariantProps } from 'class-variance-authority'
 import { X } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
-import { SheetWrapperProps } from './sheet.types'
-import { useDuckAlert } from '../alert-dialog/alert-dialog.hook'
+import { SheetContentProps, SheetWrapperProps } from './sheet.types'
+import { sheetVariants } from './sheet.constants'
 
+/**
+ * The `Sheet` component is a wrapper around the `SheetPrimitive.Root` component.
+ * It serves as the root element for a sheet component, which is typically used
+ * to display content in a modal or drawer-like interface.
+ */
 const Sheet = SheetPrimitive.Root
 
+/**
+ * A trigger component for the Sheet component.
+ *
+ * This component is used to open or activate the Sheet component.
+ * It is a part of the SheetPrimitive library.
+ */
 const SheetTrigger = SheetPrimitive.Trigger
 
+/**
+ * A component that provides a close button for the Sheet component.
+ * This is a wrapper around the `SheetPrimitive.Close` component.
+ */
 const SheetClose = SheetPrimitive.Close
 
+/**
+ * A portal component for rendering the Sheet component outside of its parent hierarchy.
+ * This is useful for rendering the Sheet in a different part of the DOM tree, such as at the root level.
+ */
 const SheetPortal = SheetPrimitive.Portal
 
+/**
+ * `SheetOverlay` is a React component that renders an overlay for a sheet component.
+ * It uses `React.forwardRef` to pass a ref to the underlying `SheetPrimitive.Overlay` component.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names to apply to the overlay.
+ * @param {React.Ref} ref - The ref to be forwarded to the `SheetPrimitive.Overlay` component.
+ *
+ * @returns {JSX.Element} The rendered overlay component.
+ */
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
@@ -32,28 +60,18 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
-const sheetVariants = cva(
-  'fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
-  {
-    variants: {
-      side: {
-        top: 'inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top',
-        bottom:
-          'inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom',
-        left: 'inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm',
-        right:
-          'inset-y-0 right-0 h-full w-3/4  border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm',
-      },
-    },
-    defaultVariants: {
-      side: 'right',
-    },
-  }
-)
-
-interface SheetContentProps
-  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+/**
+ * `SheetContent` is a React component that renders the content of a sheet.
+ * It uses `React.forwardRef` to pass a ref to the underlying `SheetPrimitive.Content` component.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} [props.side='right'] - The side of the sheet where the content will appear. Defaults to 'right'.
+ * @param {string} [props.className] - Additional class names to apply to the content.
+ * @param {React.ReactNode} props.children - The content to be rendered inside the sheet.
+ * @param {React.Ref} ref - The ref to be forwarded to the `SheetPrimitive.Content` component.
+ *
+ * @returns {JSX.Element} The rendered sheet content.
+ */
 
 const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
   ({ side = 'right', className, children, ...props }, ref) => (
@@ -75,22 +93,60 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
 )
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
-const SheetHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn('flex flex-col space-y-2 text-center sm:text-left', className)}
-    {...props}
-  />
-)
+/**
+ * SheetHeader component renders a header section for a sheet.
+ * It supports additional class names and props to customize the
+ * appearance and behavior of the header. The component uses a
+ * flexbox layout to arrange its children in a vertical column
+ * and applies responsive text alignment.
+ *
+ * @param {object} props - The properties passed to the component.
+ * @param {string} props.className - Additional class names for styling.
+ *
+ * @returns {JSX.Element} The rendered SheetHeader component.
+ */
+function SheetHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+  return (
+    <div
+      className={cn('flex flex-col space-y-2 text-center sm:text-left', className)}
+      {...props}
+    />
+  )
+}
 SheetHeader.displayName = 'SheetHeader'
 
-const SheetFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
-    {...props}
-  />
-)
+/**
+ * SheetFooter component renders a footer section for a sheet.
+ * It supports additional class names and props to customize the
+ * appearance and behavior of the footer. The component uses a
+ * flexbox layout to arrange its children in a column on small
+ * screens and in a row with space between items on larger screens.
+ *
+ * @param {object} props - The properties passed to the component.
+ * @param {string} props.className - Additional class names for styling.
+ *
+ * @returns {JSX.Element} The rendered SheetFooter component.
+ */
+function SheetFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+  return (
+    <div
+      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
+      {...props}
+    />
+  )
+}
 SheetFooter.displayName = 'SheetFooter'
 
+/**
+ * `SheetTitle` is a React component that forwards its ref to the `SheetPrimitive.Title` component.
+ * It applies additional class names for styling and accepts all props that `SheetPrimitive.Title` accepts.
+ *
+ * @param {string} className - Additional class names to apply to the component.
+ * @param {React.Ref} ref - A ref to be forwarded to the `SheetPrimitive.Title` component.
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>} props - All other props to be passed to the `SheetPrimitive.Title` component.
+ *
+ * @returns {JSX.Element} The rendered `SheetPrimitive.Title` component with forwarded ref and applied class names.
+ */
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
@@ -103,6 +159,16 @@ const SheetTitle = React.forwardRef<
 ))
 SheetTitle.displayName = SheetPrimitive.Title.displayName
 
+/**
+ * `SheetDescription` is a React forwardRef component that wraps around `SheetPrimitive.Description`.
+ * It allows you to pass a `ref` and additional props to the `SheetPrimitive.Description` component.
+ *
+ * @param {string} className - Additional class names to apply to the component.
+ * @param {React.Ref} ref - A ref to be forwarded to the `SheetPrimitive.Description` component.
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>} props - Additional props to be passed to the component.
+ *
+ * @returns {JSX.Element} A `SheetPrimitive.Description` component with forwarded ref and additional props.
+ */
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
@@ -115,7 +181,14 @@ const SheetDescription = React.forwardRef<
 ))
 SheetDescription.displayName = SheetPrimitive.Description.displayName
 
-function SheetWrapper({ trigger, content, duckHook }: SheetWrapperProps) {
+/**
+ * `SheetWrapper` is a React component that wraps a `Sheet` component and renders children elements
+ * conditionally based on the screen size. If the screen width is 768px or greater, a `Drawer` is rendered; otherwise,
+ * a `Sheet` is rendered.
+ * @param {SheetWrapperProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The rendered `Drawer` or `Sheet` component.
+ */
+function SheetWrapper({ trigger, content, duckHook }: SheetWrapperProps): JSX.Element {
   const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
   const {
     className: subHeaderClassName,

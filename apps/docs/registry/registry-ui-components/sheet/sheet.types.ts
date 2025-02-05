@@ -1,5 +1,16 @@
-import { UseDuckAlertReturnType, UserDuckAlertProps } from '../alert-dialog/alert-dialog.types'
+import * as SheetPrimitive from '@radix-ui/react-dialog'
+import { VariantProps } from 'class-variance-authority'
+import { UseDuckAlertReturnType } from '../alert-dialog'
 import { SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from './sheet'
+import { sheetVariants } from './sheet.constants'
+
+/**
+ * Content of the sheet
+ * @see https://www.radix-ui.com/docs/primitives/components/sheet
+ */
+export interface SheetContentProps
+  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
+    VariantProps<typeof sheetVariants> {}
 
 /**
  * A wrapper component for the [Radix UI Sheet](https://www.radix-ui.com/docs/primitives/components/sheet)
