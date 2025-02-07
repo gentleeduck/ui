@@ -2,50 +2,18 @@ import * as React from 'react'
 import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 import { Minus, Plus } from 'lucide-react'
 import { Button } from '@/registry/registry-ui-components'
-import { AlertDialogSheet } from '@/registry/registry-ui-components/alert-dialog/alert-dialog'
+import { AlertDialogSheet } from '@/registry/registry-ui-components/alert-dialog'
 import { toast } from 'sonner'
 
-const golas = [
-  {
-    goal: 400,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 239,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 349,
-  },
-]
+function generateRandomGoals(count: number, minGoal: number = 100, maxGoal: number = 500): { goal: number }[] {
+  const goals: { goal: number }[] = []
+  for (let i = 0; i < count; i++) {
+    goals.push({ goal: Math.floor(Math.random() * (maxGoal - minGoal + 1)) + minGoal })
+  }
+  return goals
+}
+
+const goals = generateRandomGoals(20)
 
 export default function AlertDialogDemo1() {
   const [goal, setGoal] = React.useState(350)
@@ -68,7 +36,7 @@ export default function AlertDialogDemo1() {
         _footer: {
           _submit: {
             onClick: () => {
-              toast.success('Goal updated!')
+              toast.success('progress Lost!')
             },
           },
         },
@@ -88,7 +56,14 @@ export default function AlertDialogDemo1() {
         },
         _footer: {
           className: 'flex w-full justify-between items-end',
-          _submit: <Button variant="default">Submit</Button>,
+          _submit: (
+            <Button
+              variant="default"
+              onClick={() => toast.success('Goal updated!')}
+            >
+              Submit
+            </Button>
+          ),
           _cancel: <Button variant="outline">Cancel</Button>,
         },
       }}
@@ -132,7 +107,7 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
             height="100%"
             className={'!w-[368px]'}
           >
-            <BarChart data={golas}>
+            <BarChart data={goals}>
               <Bar
                 dataKey="goal"
                 style={
