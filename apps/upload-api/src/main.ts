@@ -61,10 +61,9 @@ serve(
  * @see https://trpc.io/docs/v10/subscriptions#:~:text=/packages/server/src,codes.ts.
  */
 
-/* import { db } from './drizzle'
+import { db } from './drizzle'
 import { buckets, files, folders, users } from './drizzle'
-import { uuid } from 'drizzle-orm/pg-core'
-import { ENV } from './globals'
+
 const user = await db
   .insert(users)
   .values({
@@ -104,51 +103,9 @@ await db.insert(files).values({
 await db.insert(files).values({
   name: 'test',
   size: 12123123,
+  type: 'image/jpeg',
   url: 'test',
   tree_level: 1,
   folder_id: folder[0].id,
   bucket_id: bucket[0].id,
-}) */
-
-/* import http from 'node:http'
-
-const server = http.createServer((req, res) => {
-  // This will hold the chunks of the request body
-  let body = ''
-
-  // Set the encoding to utf8 so we get the body as a string
-  req.setEncoding('utf8')
-
-  // Listen for the 'data' event to receive the incoming chunks
-  req.on('data', chunk => {
-    console.log(`Received chunk: ${chunk}`)
-    body += chunk // Accumulate the chunk to body
-  })
-
-  // Listen for the 'end' event to signal that the request body is fully received
-  req.on('end', () => {
-    console.log('Request body fully received:')
-    console.log(body) // Process the full body here
-
-    // Send a response back to the client
-    res.writeHead(200, { 'Content-Type': 'application/json' })
-    res.end(
-      JSON.stringify({
-        message: 'Chunked data received successfully',
-        data: body,
-      })
-    )
-  })
-
-  // Handle errors (optional)
-  req.on('error', err => {
-    console.error('Error receiving request body:', err)
-    res.writeHead(500)
-    res.end('Error receiving data')
-  })
 })
-
-// Start the server on port 3000
-server.listen(3003, () => {
-  console.log('Server running at http://localhost:3003')
-}) */

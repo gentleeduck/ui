@@ -99,7 +99,7 @@ export default function Upload4Demo() {
 
 export const serverActions: UploadServerActions = {
   getInitial: (async ctx => {
-    const { data } = await trpc.upload.getBucket.query({ bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d' })
+    const { data } = await trpc.upload.getBucket.query({ bucket_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e' })
 
     if (!data) return {}
     ctx.setAttachments({
@@ -115,7 +115,7 @@ export const serverActions: UploadServerActions = {
   getFolder: (async _folder => {
     const folder = await trpc.upload.getFolder.query({
       folder_id: _folder?.id ?? '',
-      bucket_id: '01947739-b98e-78da-bae0-0b9f9278598d',
+      bucket_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e',
     })
     return folder
   }) as UploadServerActions['getFolder'],
