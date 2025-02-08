@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  minio:
+    image: minio/minio
+    ports:
+      - '9090:9090'
+      - '9001:9001'
+    environment:
+      MINIO_ROOT_USER: supa-storage
+      MINIO_ROOT_PASSWORD: secret1234
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+    command: server --console-address ":9001" /data
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://minio:9000/minio/health/live']
+      interval: 2s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  postgres_data:
+  minio_data:
+
+networks:
+  app-network:
+    driver: bridge

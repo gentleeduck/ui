@@ -1,0 +1,177 @@
+---
+title: Toggle
+description: A two-state button that can be either on or off.
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/toggle
+  api: https://www.radix-ui.com/docs/primitives/components/toggle#api-reference
+---
+
+<ComponentPreview
+  name="toggle-main"
+  description="A toggle component."
+/>
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add toggle
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @radix-ui/react-toggle
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="toggle" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Toggle } from '@/components/ui/toggle'
+```
+
+```tsx
+<Toggle>Toggle</Toggle>
+```
+
+## Examples
+
+### Default
+
+<ComponentPreview
+  name="toggle-2"
+  description="A toggle component."
+/>
+
+### Outline
+
+<ComponentPreview
+  name="toggle-3"
+  description="A toggle component using the outline variant."
+/>
+
+### With Text
+
+<ComponentPreview
+  name="toggle-4"
+  description="A toggle component with text."
+/>
+
+### Small
+
+<ComponentPreview
+  name="toggle-5"
+  description="A small toggle component."
+/>
+
+### Large
+
+<ComponentPreview
+  name="toggle-6"
+  description="A large toggle component."
+/>
+
+### Disabled
+
+<ComponentPreview
+  name="toggle-7"
+  description="A disabled toggle component."
+/>
+
+## API Reference
+
+### **Toggle Component**
+
+The `Toggle` component is a customizable toggle button built using Radix's `TogglePrimitive.Root`. It supports various styles and sizes using the `class-variance-authority` utility.
+
+---
+
+### **Properties**
+
+#### General Properties
+
+- **`variant`** (`'default' | 'outline'`, optional):  
+  Defines the visual style of the toggle.
+
+  - **`default`** (default): Transparent background.
+  - **`outline`**: Bordered style with hover effects.
+
+- **`size`** (`'default' | 'sm' | 'lg'`, optional):  
+  Sets the size of the toggle button.
+
+  - **`default`** (default): Medium-sized toggle.
+  - **`sm`**: Small toggle with reduced height and padding.
+  - **`lg`**: Large toggle with increased height and padding.
+
+- **`className`** (`string`, optional):  
+  Additional classes to apply custom styles.
+
+- **`...props`** (`React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root>`):  
+  Additional props are forwarded to the underlying Radix `TogglePrimitive.Root` component.
+
+---
+
+### **Class Variants**
+
+#### Base Styles
+
+The base styles apply common visual properties for all variants:
+
+- Rounded corners, font size, and padding.
+- Color transitions for hover, focus, and disabled states.
+- Supports Radix state-specific styles for `data-[state=on]`.
+
+#### Variant Styles
+
+The `variant` property provides predefined styling options:
+
+- **`default`**:
+
+  - Transparent background.
+  - Standard foreground colors.
+
+- **`outline`**:
+  - Adds a border with the `input` color.
+  - Changes background and text color on hover.
+
+#### Size Styles
+
+The `size` property adjusts height, padding, and minimum width:
+
+- **`default`**: `h-10 px-3 min-w-10`
+- **`sm`**: `h-9 px-2.5 min-w-9`
+- **`lg`**: `h-11 px-5 min-w-11`
+
+---
+
+### **Type Definitions**
+
+#### `ToggleVariantProps`
+
+Defines the types for the `variant` and `size` properties.

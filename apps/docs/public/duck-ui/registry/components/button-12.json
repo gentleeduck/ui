@@ -1,0 +1,15 @@
+{
+  "name": "button-12",
+  "type": "registry:example",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "registry-examples-components/button",
+  "files": [
+    {
+      "path": "registry-examples-components/button/button-12.tsx",
+      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button12Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Inbox button with 23 notifications\"\n        type=\"button\"\n        role=\"button\"\n        icon={{ children: Inbox }}\n        label={{\n          // variant: 'secondary',\n          children: '23',\n        }}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}
