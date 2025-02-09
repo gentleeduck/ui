@@ -1,8 +1,8 @@
-import React from 'react'
-import { DialogCustom } from '@/registry/default/ui'
+import * as React from 'react'
 import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 import { Minus, Plus } from 'lucide-react'
 import { Button } from '@/registry/registry-ui-components'
+import { AlertDialog } from '@/registry/registry-ui-components/alert-dialog/alert-dialog'
 
 const golas = [
   {
@@ -56,7 +56,7 @@ export default function AlertDialogDrawerDemo() {
   }
 
   return (
-    <DialogCustom<typeof goal>
+    <AlertDialog.Sheet
       type="sheet"
       drawerData={data.length > 0}
       header={{

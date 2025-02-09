@@ -18,8 +18,24 @@ import {
 } from './sheet'
 import { DialogCloseProps } from '@radix-ui/react-dialog'
 
+
+// NOTE: Alert Dialog Compound
+interface AlertDialogCompound {
+  Overlay: typeof AlertDialogPrimitive.Overlay
+  Content: typeof AlertDialogPrimitive.Content
+  Portal: typeof AlertDialogPrimitive.Portal
+  Header: typeof AlertDialogHeader
+  Footer: typeof AlertDialogFooter
+  Title: typeof AlertDialogTitle
+  Description: typeof AlertDialogDescription
+  Action: typeof AlertDialogAction
+  Cancel: typeof AlertDialogCancel
+  Trigger: typeof AlertDialogTrigger
+  Sheet: typeof AlertDialogSheet
+}
+
 //NOTE: Alert Dialog Primitive
-const AlertDialog = AlertDialogPrimitive.Root
+const AlertDialog = AlertDialogPrimitive.Root as typeof AlertDialogPrimitive.Root & AlertDialogCompound
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger
 const AlertDialogPortal = AlertDialogPrimitive.Portal
 
@@ -128,9 +144,21 @@ const AlertDialogCancel = React.forwardRef<
 ))
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
+// NOTE: Alert Dialog Compound Components
+AlertDialog.Overlay = AlertDialogOverlay
+AlertDialog.Content = AlertDialogContent
+AlertDialog.Header = AlertDialogHeader
+AlertDialog.Footer = AlertDialogFooter
+AlertDialog.Title = AlertDialogTitle
+AlertDialog.Action = AlertDialogAction
+AlertDialog.Cancel = AlertDialogCancel
+AlertDialog.Trigger = AlertDialogTrigger
+AlertDialog.Description = AlertDialogDescription
+
+
 //NOTE: Alert Dialog Drawer
-interface AlertDialogDrawerContentType extends Partial<React.ComponentPropsWithoutRef<typeof SheetContent>> {}
-interface AlertDialogDrawerTriggerentType extends Partial<React.ComponentPropsWithoutRef<typeof SheetTrigger>> {}
+interface AlertDialogDrawerContentType extends Partial<React.ComponentPropsWithoutRef<typeof SheetContent>> { }
+interface AlertDialogDrawerTriggerentType extends Partial<React.ComponentPropsWithoutRef<typeof SheetTrigger>> { }
 interface StateType {
   drawer: boolean
   alert: boolean
@@ -244,19 +272,19 @@ const AlertDialogSheet = ({ trigger, header, footer, content, actions, state }: 
             </div>
           </SheetContent>
         </Sheet>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+        <AlertDialog.Content>
+          <AlertDialog.Header>
+            <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
             <AlertDialogDescription>
               This action will consider these replies as Drafts, you can delete, adjust and send from Drafts section on
               the side header.
             </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
+          </AlertDialog.Header>
+          <AlertDialog.Footer>
             <AlertDialogCancel onClick={handleAlertCancel}>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleAlertContinue}>Continue</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
       </AlertDialog>
     </>
   )
@@ -306,15 +334,4 @@ const useDuckAlert = ({ actions, state: changeState }: AlertDialogSheetProps) =>
 
 export {
   AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogSheet,
 }
