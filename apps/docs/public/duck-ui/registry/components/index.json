@@ -1,5 +1,5 @@
 {
-  "name": "upload-5",
+  "name": "alert-dialog-main",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

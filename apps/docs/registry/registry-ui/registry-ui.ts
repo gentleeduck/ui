@@ -109,4 +109,13 @@ export const registry_ui: Registry = [
     root_folder: 'registry-ui-components/upload',
     files: [],
   },
+
+  {
+    name: "alert-dialog",
+    type: "registry:ui",
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: "registry-ui-components/alert-dialog",
+    files: [],
+  }
 ]
