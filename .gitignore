@@ -50,3 +50,9 @@ dist/
 
 # turbo
 .turbo
+.contentlayer
+tsconfig.tsbuildinfo
+__registry__
+
+
+certificates

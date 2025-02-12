@@ -1,0 +1,361 @@
+---
+title: Alert Dialog
+description: A modal dialog temporarily interrupts the user's workflow with important content, requiring immediate attention and a response before allowing further interaction.
+featured: true
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/alert-dialog
+  api: https://www.radix-ui.com/docs/primitives/components/alert-dialog#api-reference
+---
+
+<ComponentPreview
+  name="AlertDialogMainDemo"
+  description="An alert dialog with cancel and continue buttons."
+/>
+
+## Features
+
+- Customizable and animated overlay with fading and sliding transitions (`AlertDialogOverlay`).
+- Main dialog container with smooth fade and zoom animations (`AlertDialogContent`).
+- Trigger element to open the alert dialog (`AlertDialogTrigger`).
+- Support for rendering dialog in a React portal (`AlertDialogPortal`).
+- Flexible header section for titles and descriptions (`AlertDialogHeader`).
+- Responsive footer for action buttons with customizable layout (`AlertDialogFooter`).
+- Title component with customizable font and alignment (`AlertDialogTitle`).
+- Description component with muted text styling (`AlertDialogDescription`).
+- Action button with default styling for primary actions (`AlertDialogAction`).
+- Cancel button with outline variant and responsive margin (`AlertDialogCancel`).
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx duck-ui@latest add alert-dialog
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @radix-ui/react-alert-dialog
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="alert-dialog" />
+
+
+<Step>The Combobox is built using a composition of the `<Drawer/>`, `<Button/>`, `<Sheet/>` and the `<Dialog/>` component.</Step>
+
+<Step>You also will need to install the [`Drawer`](/docs/components/Drawer#installation),
+    [`Button`](/docs/components/Button#installation), [`Sheet`](/docs/components/Sheet#installation)
+    and [`Dialog`](/docs/components/Dialog#installation) components because some dependencies are inherited from them.</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button
+} from "@/components/ui"
+```
+
+```tsx
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="outline">Open</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Examples
+
+### Drawer 
+
+<ComponentPreview
+  name="AlertDialogDrawerDemo"
+  description="An alert dialog with cancel and continue buttons."
+/>
+
+### Sheet 
+
+<ComponentPreview
+  name="AlertDialogSheetDemo"
+  description="An alert dialog with cancel and continue buttons."
+/>
+
+### Dialog
+
+<ComponentPreview
+  name="AlertDialogDialogDemo"
+  description="An alert dialog with cancel and continue buttons."
+/>
+
+
+## API Reference
+
+### AlertDialogProps
+
+`AlertDialogProps` defines the properties for the `AlertDialog` component.
+
+***Key Properties***
+
+- **`defaultOpen`** (`boolean`, optional): Determines if the dialog should be open by default.
+
+- **`open`** (`boolean`, optional): Controls the visibility of the dialog.
+
+- **`onOpenChange`** (`function`, optional): Callback function triggered when the dialog opens or closes.
+
+---
+
+### AlertDialogDrawerContentType
+
+Defines properties for the content area of the dialog.
+
+***Key Property***
+
+- **`Content`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerContent>>`): Properties for the dialog's content area.
+
+---
+
+### AlertDialogDrawerTriggerType
+
+Defines properties for the trigger button of the dialog.
+
+***Key Property***
+
+- **`Trigger`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerTrigger>>`): Properties for the dialog's trigger button.
+
+---
+
+### StateType
+
+Represents the state of the drawer and alert dialog.
+
+***Key Properties***
+
+- **`drawer`** (`boolean`): Indicates if the drawer is open or closed.
+
+- **`alert`** (`boolean`): Indicates if the alert dialog is open or closed.
+
+---
+
+### AlertDialogDrawerDataType
+
+Handles the data and setter for the dialog.
+
+***Key Properties***
+
+- **`data`** (`T[]`): Array of data items for the dialog.
+
+- **`setData`** (`React.Dispatch<React.SetStateAction<T[]>>`): Function to set the data.
+
+---
+
+### AlertDialogDrawerActionsType
+
+Defines actions for the dialog, including cancel and continue.
+
+***Key Properties***
+
+- **`cancel`** (`() => void`): Function to handle cancel action.
+
+- **`continue`** (`() => void`): Function to handle continue action.
+
+---
+
+### AlertDialogDrawerHeaderType
+
+Defines properties for the header of the dialog.
+
+***Key Properties***
+
+- **`head`** (`React.ReactNode`): Header title of the dialog.
+
+- **`description`** (`React.ReactNode`): Header description of the dialog.
+
+- **`Additional Props`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerHeader>>`): Additional properties for the header.
+
+---
+
+### AlertDialogDrawerFooterType
+
+Defines properties for the footer of the dialog.
+
+***Key Properties***
+
+- **`cancel`** (`React.ReactNode`): Cancel button content in the footer.
+
+- **`submit`** (`React.ReactNode`): Submit button content in the footer.
+
+- **`Additional Props`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerFooter>>`): Additional properties for the footer.
+
+---
+
+### AlertDialogCustomProps
+
+Custom properties for the alert dialog component.
+
+***Key Properties***
+
+- **`type`** (`'drawer' | 'sheet' | 'dialog'`): Specifies the type of alert component.
+
+- **`state`** (`C`): The current state of the dialog.
+
+- **`header`** ([`AlertDialogDrawerHeaderType`](#alertdialogdrawerheadertype)): Header properties for the dialog.
+
+- **`footer`** ([`AlertDialogDrawerFooterType`](#alertdialogdrawerfootertype)): Footer properties for the dialog.
+
+- **`trigger`** ([`AlertDialogDrawerTriggerType`](#alertdialogdrawtriggertype)): Trigger properties for the dialog.
+
+- **`content`** ([`AlertDialogDrawerContentType`](#alertdialogdrawercontenttype)): Content properties for the dialog.
+
+- **`drawerData`** ([`AlertDialogDrawerDataType<T>`](#alertdialogdrawerdatatype)): Data and setter for managing dialog data.
+
+- **`actions`** ([`AlertDialogDrawerActionsType`](#alertdialogdraweractionstype)): Actions for the dialog (cancel and continue).
+
+---
+
+### AlertDialogTrigger
+
+A button that opens the dialog.
+
+***Key Properties***
+
+- **`asChild`** (`boolean`): If `true`, the trigger will be rendered as a child element.
+
+***Data Attributes***
+
+- **`data-state`**: Indicates the current state of the dialog (`"open"` | `"closed"`).
+
+---
+
+### AlertDialogPortal
+
+Portals the overlay and content parts into the body.
+
+***Key Properties***
+
+- **`forceMount`** (`boolean`): If `true`, forces the component to mount.
+
+- **`container`** (`HTMLElement`): The container element for the portal, defaulting to `document.body`.
+
+---
+
+### AlertDialogOverlay
+
+A layer that covers the inert portion of the view when the dialog is open.
+
+***Key Properties***
+
+- **`asChild`** (`boolean`): If `true`, the overlay will be rendered as a child element.
+
+- **`forceMount`** (`boolean`): If `true`, forces the overlay to mount.
+
+***Data Attributes***
+
+- **`data-state`**: Indicates the current state of the overlay (`"open"` | `"closed"`).
+
+---
+
+### AlertDialogContent
+
+Contains content to be rendered when the dialog is open.
+
+***Key Properties***
+
+- **`asChild`** (`boolean`): If `true`, the content will be rendered as a child element.
+
+- **`forceMount`** (`boolean`): If `true`, forces the content to mount.
+
+- **`onOpenAutoFocus`** (`function`): Callback for managing focus when the dialog opens.
+
+- **`onCloseAutoFocus`** (`function`): Callback for managing focus when the dialog closes.
+
+- **`onEscapeKeyDown`** (`function`): Callback for handling the Escape key press.
+
+***Data Attributes***
+
+- **`data-state`**: Indicates the current state of the content (`"open"` | `"closed"`).
+
+---
+
+### AlertDialogCancel
+
+A button that closes the dialog, visually distinguished from `AlertDialog.Action` buttons.
+
+***Key Property***
+
+- **`asChild`** (`boolean`): If `true`, the cancel button will be rendered as a child element.
+
+---
+
+### AlertDialogAction
+
+A button that performs an action and closes the dialog, visually distinguished from `AlertDialog.Cancel` buttons.
+
+***Key Property***
+
+- **`asChild`** (`boolean`): If `true`, the action button will be rendered as a child element.
+
+---
+
+### AlertDialogTitle
+
+An accessible name announced when the dialog is opened.
+
+***Key Property***
+
+- **`asChild`** (`boolean`): If `true`, the title will be rendered as a child element.
+
+---
+
+### AlertDialogDescription
+
+An accessible description announced when the dialog is opened.
+
+***Key Property***
+
+- **`asChild`** (`boolean`): If `true`, the description will be rendered as a child element.
+

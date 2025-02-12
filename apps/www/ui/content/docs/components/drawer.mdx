@@ -1,0 +1,226 @@
+---
+title: Drawer
+description: A drawer component for React.
+component: true
+links:
+  doc: https://github.com/emilkowalski/vaul
+---
+
+<ComponentPreview name="DrawerMainDemo" />
+
+## Features
+
+- **Background Scaling**: Scales the background when the drawer is open, requiring a `[vaul-drawer-wrapper]` element.
+- **Customizable Close Threshold**: Defines when the drawer should close based on swipe distance (0 to 1).
+- **Scroll Lock Timeout**: Sets a delay for drawer drag after scrolling (default: 500ms).
+- **Snap Points**: Specifies percentage or pixel values for how much of the screen the drawer should occupy.
+- **Fade Effect**: Applies a fade effect from a specific snap point.
+- **Modal Control**: Allows interaction with elements outside the drawer when set to false (default: true).
+- **Handle Only Dragging**: Restricts drawer dragging to the `<Drawer.Handle />` component (default: false).
+- **Direction Control**: Sets the direction of the drawer (top, bottom, left, right; default: bottom).
+- **Prevent Scroll Restoration**: Prevents scroll restoration after navigation within the drawer (default: true).
+- **Disable Scroll Prevention**: Disables scroll prevention mechanism to address autofocus issues (default: true).
+- **No Body Styles**: Omits body style changes from Vaul (default: false).
+- **Background Color on Scale**: Controls background color change when the drawer is open (default: true).
+- **No Drag Attribute**: Prevents dragging of the drawer when interacting with elements having `[data-vaul-no-drag]`.
+
+## About
+
+Drawer is built on top of [Vaul](https://github.com/emilkowalski/vaul) by [emilkowalski\_](https://twitter.com/emilkowalski_).
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx duck-ui@latest add drawer
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install vaul
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="drawer" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui"
+```
+
+```tsx showLineNumbers
+<Drawer>
+  <DrawerTrigger>Open</DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+      <DrawerDescription>This action cannot be undone.</DrawerDescription>
+    </DrawerHeader>
+    <DrawerFooter>
+      <Button>Submit</Button>
+      <DrawerClose>
+        <Button variant="outline">Cancel</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+```
+
+## Examples
+
+### Responsive Dialog
+
+You can combine the `Dialog` and `Drawer` components to create a responsive dialog. This renders a `Dialog` component on desktop and a `Drawer` on mobile.
+
+<ComponentPreview name="DrawerResponsiveDemo" />
+
+## API Reference 
+
+### Drawer Component Parameters
+
+`Drawer` is a component used to create a sliding drawer interface with customizable behavior and appearance.
+
+***Key Properties***
+
+- **`shouldScaleBackground`** (`boolean`): `true`, When `true`, scales the background when the drawer is open. Requires an element with the `[data-vaul-drawer-wrapper]` data attribute to handle background scaling.
+
+- **`closeThreshold`** (`number`): No default, Specifies a value between 0 and 1 that determines the threshold at which the drawer should close. For example, a value of `0.5` will close the drawer if the user swipes 50% or more of the drawer height.
+
+- **`scrollLockTimeout`** (`number`): `500`, The time in milliseconds during which the drawer remains non-draggable after scrolling content within it. This prevents accidental dragging while scrolling inside the drawer.
+
+- **`snapPoints`** (`array`): No default, An array of numbers representing the percentage of the screen height the drawer should snap to. For example, `[0.2, 0.5, 0.8]` would create snap points at 20%, 50%, and 80% of the screen height. Pixel values are also supported and are independent of screen height.
+
+- **`fadeFromIndex`** (`number`): Last snap point, Determines the index of the snap point from which the overlay fade effect begins. This allows for a smooth transition between snap points.
+
+- **`modal`** (`boolean`): `true`, When set to `false`, the drawer allows interaction with elements outside of it without closing. This is useful when you need the drawer to stay open while interacting with other parts of the interface.
+
+- **`handleOnly`** (`boolean`): `false`, If set to `true`, only the `<Drawer.Handle />` component can be used to drag the drawer. This prevents dragging from other parts of the drawer, providing more controlled interactions.
+
+- **`direction`** (`string`): `bottom`, Specifies the direction in which the drawer opens. Possible values include `top`, `bottom`, `left`, and `right`, allowing you to control where the drawer should appear from on the screen.
+
+- **`preventScrollRestoration`** (`boolean`): `true`, Prevents the scroll position from being restored when the drawer is closed after navigation inside it. This is particularly useful in preserving the user's position on a page after interacting with the drawer.
+
+- **`disablePreventScroll`** (`boolean`): `true`, Disables the mechanism that prevents page scrolling when the drawer is open. This mechanism can interfere with autofocus on inputs, particularly when the touch keyboard opens on mobile devices. Disabling this also occurs when `modal` is set to `false`.
+
+- **`noBodyStyles`** (`boolean`): `false`, When `true`, prevents the body from receiving any styles applied by Vaul. This allows for more customization and control over the page's styling when the drawer is in use.
+
+- **`setBackgroundColorOnScale`** (`boolean`): `true`, Controls whether the body's background color changes when the drawer is scaled. This can enhance the visual effect of the drawer opening and closing.
+
+- **`[data-vaul-no-drag]`** (`boolean`): No default, When applied to an element, prevents the drawer from being draggable when interacting with that element. This is useful for ensuring that specific interactions, such as clicking buttons or links, do not accidentally trigger the drawer's drag behavior.
+
+---
+
+**`DrawerTrigger` Component**
+
+The `DrawerTrigger` component is a direct export from `DrawerPrimitive.Trigger`.
+
+- **No additional props or ref forwarding.**
+
+---
+
+**`DrawerPortal` Component**
+
+The `DrawerPortal` component is a direct export from `DrawerPrimitive.Portal`.
+
+- **No additional props or ref forwarding.**
+
+---
+
+**`DrawerClose` Component**
+
+The `DrawerClose` component is a direct export from `DrawerPrimitive.Close`.
+
+- **No additional props or ref forwarding.**
+
+---
+
+**`DrawerOverlay` Component**
+
+The `DrawerOverlay` component renders an overlay with default styling.
+
+- **`className`** (`string`, optional): Custom CSS class names to apply to the `DrawerOverlay` component.
+- **`ref`** (`React.Ref<React.ElementRef<typeof DrawerPrimitive.Overlay>>`): Ref to the `DrawerPrimitive.Overlay` component.
+- **`...props`** (`React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>`): Additional properties passed to `DrawerPrimitive.Overlay`.
+
+---
+
+**`DrawerContent` Component**
+
+The `DrawerContent` component wraps `DrawerPrimitive.Content` with additional styling and includes `DrawerOverlay`.
+
+- **`className`** (`string`, optional): Custom CSS class names to apply to the `DrawerContent` component.
+- **`children`** (`React.ReactNode`): Content rendered inside the `DrawerContent`.
+- **`ref`** (`React.Ref<React.ElementRef<typeof DrawerPrimitive.Content>>`): Ref to the `DrawerPrimitive.Content` component.
+- **`...props`** (`React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>`): Additional properties passed to `DrawerPrimitive.Content`.
+
+---
+
+**`DrawerHeader` Component**
+
+The `DrawerHeader` component renders a header section within the drawer.
+
+- **`className`** (`string`, optional): Custom CSS class names to apply to the `DrawerHeader` component.
+- **`...props`** (`React.HTMLAttributes<HTMLDivElement>`): Additional properties passed to the `DrawerHeader` component.
+
+---
+
+**`DrawerFooter` Component**
+
+The `DrawerFooter` component renders a footer section within the drawer.
+
+- **`className`** (`string`, optional): Custom CSS class names to apply to the `DrawerFooter` component.
+- **`...props`** (`React.HTMLAttributes<HTMLDivElement>`): Additional properties passed to the `DrawerFooter` component.
+
+---
+
+**`DrawerTitle` Component**
+
+The `DrawerTitle` component renders the title inside the drawer.
+
+- **`className`** (`string`, optional): Custom CSS class names to apply to the `DrawerTitle` component.
+- **`ref`** (`React.Ref<React.ElementRef<typeof DrawerPrimitive.Title>>`): Ref to the `DrawerPrimitive.Title` component.
+- **`...props`** (`React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>`): Additional properties passed to `DrawerPrimitive.Title`.
+
+---
+
+**`DrawerDescription` Component**
+
+The `DrawerDescription` component renders a description inside the drawer.
+
+- **`className`** (`string`, optional): Custom CSS class names to apply to the `DrawerDescription` component.
+- **`ref`** (`React.Ref<React.ElementRef<typeof DrawerPrimitive.Description>>`): Ref to the `DrawerPrimitive.Description` component.
+- **`...props`** (`React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>`): Additional properties passed to `DrawerPrimitive.Description`.
+
