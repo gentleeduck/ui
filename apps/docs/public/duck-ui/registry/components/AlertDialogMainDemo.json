@@ -1,0 +1,16 @@
+{
+  "name": "AlertDialogMainDemo",
+  "type": "registry:example",
+  "registryDependencies": [
+    "alert-dialog",
+    "button"
+  ],
+  "root_folder": "registry-examples-components/alert-dialog",
+  "files": [
+    {
+      "path": "registry-examples-components/alert-dialog/AlertDialogMainDemo.tsx",
+      "content": "import { Button } from '@/registry/registry-ui-components'\nimport { AlertDialog } from '@/registry/registry-ui-components/alert-dialog/alert-dialog'\n\n\nexport default function AlertDialogMainDemo() {\n  return (\n    <>\n      <AlertDialog>\n        <AlertDialog.Trigger asChild>\n          <Button variant=\"outline\">Open</Button>\n        </AlertDialog.Trigger>\n        <AlertDialog.Content>\n          <AlertDialog.Header>\n            <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>\n            <AlertDialog.Description>\n              This action cannot be undone. This will permanently delete your account and remove your data from our\n              servers.\n            </AlertDialog.Description>\n          </AlertDialog.Header>\n          <AlertDialog.Footer>\n            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>\n            <AlertDialog.Action>Continue</AlertDialog.Action>\n          </AlertDialog.Footer>\n        </AlertDialog.Content>\n      </AlertDialog>\n    </>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}

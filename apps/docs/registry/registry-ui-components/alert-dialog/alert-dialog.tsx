@@ -4,42 +4,43 @@ import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/registry/registry-ui-components'
-import {
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
-  SheetClose,
-  Sheet,
-} from '@/registry/default/ui/sheet'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerClose,
-} from '@/registry/default/ui/drawer'
 import { useDuckAlert } from './alert-dialog.hook'
-import { AlertDialogDialogProps, AlertDialogDrawerProps, AlertDialogSheetProps } from './alert-dialog.types'
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/registry/default/ui/ShadcnUI/dialog'
+  AlertDialogDialogProps,
+  AlertDialogDrawerProps,
+  AlertDialogSheetProps,
+  AlertDialogWrapperType,
+} from './alert-dialog.types'
+import { DrawerWrapper } from '../drawer'
+import { SheetWrapper } from '../sheet'
+import { DialogWrapper } from '../dialog'
 
-//NOTE: Alert Dialog Primitive
+/**
+ * A component that renders an alert dialog using the AlertDialogPrimitive.Root component.
+ */
 const AlertDialog = AlertDialogPrimitive.Root as typeof AlertDialogPrimitive.Root
+
+/**
+ * A component that serves as the trigger for an alert dialog.
+ */
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger
+
+/**
+ * A component that renders the AlertDialog content inside a portal.
+ * This is a wrapper around the `AlertDialogPrimitive.Portal` component.
+ */
 const AlertDialogPortal = AlertDialogPrimitive.Portal
 
-//NOTE: Alert Dialog Overlay
+/**
+ * `AlertDialogOverlay` is a React forward reference component that renders an overlay for an alert dialog.
+ * It uses `AlertDialogPrimitive.Overlay` as the base component and applies additional styles and animations.
+ *
+ * @param {string} className - Additional class names to apply to the content.
+ * @param {React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>} props - Additional props to pass to the overlay component.
+ * @param {React.ElementRef} ref - Ref to be forwarded to the `AlertDialogPrimitive.Overlay` component.
+ *
+ * @returns {JSX.Element} The rendered overlay component.
+ */
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
@@ -55,7 +56,16 @@ const AlertDialogOverlay = React.forwardRef<
 ))
 AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
 
-//NOTE: Alert Dialog Content
+/**
+ * `AlertDialogContent` is a React component that renders the content of an alert dialog.
+ * It uses `React.forwardRef` to pass a ref to the underlying `AlertDialogPrimitive.Content` component.
+ *
+ * @param {string} className - Additional class names to apply to the content.
+ * @param {React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>} props - Additional props to pass to the `AlertDialogPrimitive.Content` component.
+ * @param {React.ElementRef} ref - Ref to be forwarded to the `AlertDialogPrimitive.Content` component.
+ *
+ * @returns {JSX.Element} The rendered alert dialog content.
+ */
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
@@ -74,8 +84,17 @@ const AlertDialogContent = React.forwardRef<
 ))
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 
-//NOTE: Alert Dialog Header
-function AlertDialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+/**
+ * A component that renders the header of an alert dialog.
+ * It uses a flexbox layout to arrange its children in a vertical column
+ * and applies responsive text alignment.
+ *
+ * @param {string} className - Additional class names to apply to the content.
+ * @param {React.HTMLAttributes<HTMLDivElement>} ...props - The properties passed to the component.
+ *
+ * @returns {JSX.Element} The rendered header component.
+ */
+function AlertDialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
       className={cn('flex flex-col space-y-2 text-center sm:text-left', className)}
@@ -85,8 +104,18 @@ function AlertDialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDiv
 }
 AlertDialogHeader.displayName = 'AlertDialogHeader'
 
-//NOTE: Alert Dialog Footer
-function AlertDialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+/**
+ * A component that renders the footer of an alert dialog.
+ *
+ * It uses a flexbox layout to arrange its children in a vertical column
+ * on small screens and in a row with space between items on larger screens.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names for styling.
+ *
+ * @returns {JSX.Element} The rendered footer component.
+ */
+function AlertDialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
       className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
@@ -96,7 +125,16 @@ function AlertDialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDiv
 }
 AlertDialogFooter.displayName = 'AlertDialogFooter'
 
-//NOTE: Alert Dialog Title
+/**
+ * `AlertDialogTitle` is a React component that forwards its ref to the `AlertDialogPrimitive.Title` component.
+ * It accepts all props that `AlertDialogPrimitive.Title` accepts, along with an optional `className` prop
+ * to apply additional CSS classes.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>} props - The props for the component.
+ * @param {React.ElementRef} ref - The ref to be forwarded to the `AlertDialogPrimitive.Title` component.
+ *
+ * @returns {JSX.Element} The rendered `AlertDialogPrimitive.Title` component with forwarded ref and applied props.
+ */
 const AlertDialogTitle = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
@@ -109,7 +147,15 @@ const AlertDialogTitle = React.forwardRef<
 ))
 AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
 
-//NOTE: Alert Dialog Description
+/**
+ * `AlertDialogDescription` is a React component that forwards its ref to the `AlertDialogPrimitive.Description` component.
+ * It accepts all props that `AlertDialogPrimitive.Description` accepts, along with an optional `className` prop for additional styling.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>} props - The props for the component.
+ * @param {React.ElementRef} ref - The ref to be forwarded to the `AlertDialogPrimitive.Description` component.
+ *
+ * @returns {JSX.Element} The rendered `AlertDialogPrimitive.Description` component with forwarded ref and applied class names.
+ */
 const AlertDialogDescription = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
@@ -122,7 +168,15 @@ const AlertDialogDescription = React.forwardRef<
 ))
 AlertDialogDescription.displayName = AlertDialogPrimitive.Description.displayName
 
-//NOTE: Alert Dialog Action
+/**
+ * `AlertDialogAction` is a React component that forwards its ref to the `AlertDialogPrimitive.Action` component.
+ * It accepts all the props of `AlertDialogPrimitive.Action` and an additional `className` prop for custom styling.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>} props - All other props are passed through to the `AlertDialogPrimitive.Action` component.
+ * @param {React.ElementRef} ref - A ref that will be forwarded to the `AlertDialogPrimitive.Action` component.
+ *
+ * @returns {JSX.Element} The rendered `AlertDialogPrimitive.Action` component with forwarded ref and applied class names.
+ */
 const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
@@ -135,7 +189,17 @@ const AlertDialogAction = React.forwardRef<
 ))
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
 
-//NOTE: Alert Dialog Cancel
+/**
+ * `AlertDialogCancel` is a React forward reference component that renders a cancel button
+ * for an alert dialog using `AlertDialogPrimitive.Cancel`. It accepts all props that a
+ * `AlertDialogPrimitive.Cancel` component would accept, along with an optional `className`
+ * for additional styling.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>} props - The properties passed to the component.
+ * @param {React.ElementRef} ref - The reference to be forwarded to the `AlertDialogPrimitive.Cancel` component.
+ *
+ * @returns {JSX.Element} The rendered cancel button for the alert dialog.
+ */
 const AlertDialogCancel = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Cancel>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
@@ -153,12 +217,70 @@ AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
  * Renders an alert dialog and a sheet component, managing their open states
  * and handling user interactions through provided callbacks.
  *
- * @template T
- * @param {Object} props - The properties for configuring the AlertDialogSheet.
- * @param {Object} props.alertTrigger - Props for the alert dialog trigger.
- * @param {Object} props.alertContent - Configuration for the alert dialog content.
- * @param {Object} props.content - Configuration for the sheet content.
- * @param {boolean} props.state - Initial state for controlling the dialog and sheet visibility.
+ * @param {AlertDialogWrapperType} props - The properties for configuring the AlertDialogWrapper.
+ *
+ * The component utilizes the `useDuckAlert` hook for managing its internal state
+ * and provides a structured layout for displaying an alert dialog with a trigger,
+ * content, header, footer, and actions, as well as a sheet with nested content
+ * and customizable headers and footers. The component handles user interactions
+ * with cancel and continue actions, updating the state and invoking provided callbacks.
+ */
+export function AlertDialogWrapper({ alertTrigger, alertContent, duckHook }: AlertDialogWrapperType) {
+  const { _header: contentHeader, _footer: contentFooter, ...contentProps } = alertContent ?? {}
+  const { _title, _description, ...headerProps } = contentHeader ?? {}
+  const { _submit, _cancel, ...footerProps } = contentFooter ?? {}
+
+  return (
+    <AlertDialog open={duckHook?.state.alert}>
+      <AlertDialogTrigger
+        {...alertTrigger}
+        onClick={e => {
+          duckHook?.setState({ shape: true, alert: false })
+          alertTrigger?.onClick?.(e)
+        }}
+      />
+      <AlertDialogContent {...contentProps}>
+        <AlertDialogHeader {...headerProps}>
+          {headerProps.children ? (
+            headerProps.children
+          ) : (
+            <>
+              <AlertDialogTitle {..._title} />
+              <AlertDialogDescription {..._description} />
+            </>
+          )}
+        </AlertDialogHeader>
+        <AlertDialogFooter {...footerProps}>
+          <AlertDialogCancel
+            {..._cancel}
+            children={!_cancel?.children && 'Cancel'}
+            onClick={e => {
+              duckHook?.handleAlertCancel()
+              _cancel?.onClick?.(e)
+            }}
+          />
+          <AlertDialogAction
+            {..._submit}
+            children={!_submit?.children && 'Continue'}
+            onClick={e => {
+              duckHook?.handleAlertContinue()
+              _submit?.onClick?.(e)
+            }}
+          />
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+
+/**
+ * AlertDialogSheet is a component that provides a structured layout for displaying
+ * an alert dialog with a trigger, content, header, footer, and actions, as well as
+ * a sheet with nested content and customizable headers and footers. The component
+ * handles user interactions with cancel and continue actions, updating the state
+ * and invoking provided callbacks.
+ *
+ * @param {AlertDialogSheetProps} props - The properties for configuring the AlertDialogSheet.
  *
  * The component utilizes the `useDuckAlert` hook for managing its internal state
  * and provides a structured layout for displaying an alert dialog with a trigger,
@@ -167,113 +289,19 @@ AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
  * with cancel and continue actions, updating the state and invoking provided callbacks.
  */
 function AlertDialogSheet<T = string>({ alertTrigger, alertContent, content, state }: AlertDialogSheetProps<T>) {
-  const { _header: contentHeader, _footer: contentFooter, ...contentProps } = alertContent ?? {}
-  const { _title, _description, ...headerProps } = contentHeader ?? {}
-  const { _submit, _cancel, ...footerProps } = contentFooter ?? {}
-  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
-  const {
-    className: subHeaderClassName,
-    children: subHeaderChildren,
-    _description: subDescription,
-    _title: subTitle,
-    ...subHeaderProps
-  } = _header ?? {}
-  const {
-    className: subFooterClassName,
-    children: subFooterChildren,
-    _submit: _subSubmit,
-    _cancel: _subCancel,
-    ...subFooterProps
-  } = _footer ?? {}
-
-  const {
-    state: changeState,
-    handleOpenChange,
-    handleAlertCancel,
-    handleAlertContinue,
-    setState,
-  } = useDuckAlert<T>({ state })
+  const duckHook = useDuckAlert({ state })
 
   return (
     <>
-      <AlertDialog open={changeState.alert}>
-        <AlertDialogTrigger
-          {...alertTrigger}
-          onClick={e => {
-            setState({ shape: true, alert: false })
-            alertTrigger?.onClick?.(e)
-          }}
-        />
-        <AlertDialogContent {...contentProps}>
-          <AlertDialogHeader {...headerProps}>
-            <AlertDialogTitle {..._title} />
-            <AlertDialogDescription {..._description} />
-          </AlertDialogHeader>
-          <AlertDialogFooter {...footerProps}>
-            <AlertDialogCancel
-              {..._cancel}
-              children={!_cancel?.children && 'Cancel'}
-              onClick={e => {
-                handleAlertCancel()
-                _cancel?.onClick?.(e)
-              }}
-            />
-            <AlertDialogAction
-              {..._submit}
-              children={!_submit?.children && 'Continue'}
-              onClick={e => {
-                handleAlertContinue()
-                _submit?.onClick?.(e)
-              }}
-            />
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <Sheet
-        open={changeState.shape}
-        onOpenChange={handleOpenChange}
-      >
-        <SheetContent
-          className={cn('flex flex-col w-full h-full', subContentClassName)}
-          {...subContentProps}
-        >
-          <div
-            data-role-wrapper
-            className="flex flex-col gap-4 w-full h-full"
-          >
-            {_header && (
-              <SheetHeader {...subHeaderProps}>
-                {subHeaderChildren ? (
-                  subHeaderChildren
-                ) : (
-                  <>
-                    <SheetTitle {...subTitle} />
-                    <SheetDescription {...subDescription} />
-                  </>
-                )}
-              </SheetHeader>
-            )}
-            {subcontentChildren}
-            <SheetFooter
-              className={cn('gap-2', subFooterClassName)}
-              {...subFooterProps}
-            >
-              <SheetClose
-                asChild
-                {..._subCancel}
-              />
-              <div
-                {..._subSubmit}
-                className={cn('ml-0', _subSubmit?.className)}
-                onClick={e => {
-                  setState({ shape: false, alert: false })
-                  _subSubmit?.onClick?.(e)
-                }}
-              />
-            </SheetFooter>
-          </div>
-        </SheetContent>
-      </Sheet>
+      <AlertDialogWrapper
+        alertTrigger={alertTrigger}
+        alertContent={alertContent}
+        duckHook={duckHook}
+      />
+      <SheetWrapper
+        content={content}
+        duckHook={duckHook}
+      />
     </>
   )
 }
@@ -287,11 +315,7 @@ AlertDialogSheet.displayName = 'AlertDialogSheet'
  * handles user interactions with cancel and continue actions, updating the state
  * and invoking provided callbacks.
  *
- * @param {Object} props - The properties for configuring the AlertDialogDrawer.
- * @param {Object} props.alertTrigger - Props for the alert dialog trigger.
- * @param {Object} props.alertContent - Configuration for the alert dialog content.
- * @param {Object} props.content - Configuration for the drawer content.
- * @param {boolean} props.state - Initial state for controlling the dialog and drawer visibility.
+ * @param {AlertDialogDrawerProps} props - The properties for configuring the AlertDialogDrawer.
  *
  * The component utilizes the `useDuckAlert` hook for managing its internal state
  * and provides a structured layout for displaying an alert dialog with a trigger,
@@ -301,113 +325,19 @@ AlertDialogSheet.displayName = 'AlertDialogSheet'
  */
 
 function AlertDialogDrawer<T = string>({ alertTrigger, alertContent, content, state }: AlertDialogDrawerProps<T>) {
-  const { _header: contentHeader, _footer: contentFooter, ...contentProps } = alertContent ?? {}
-  const { _title, _description, ...headerProps } = contentHeader ?? {}
-  const { _submit, _cancel, ...footerProps } = contentFooter ?? {}
-  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
-  const {
-    className: subHeaderClassName,
-    children: subHeaderChildren,
-    _description: subDescription,
-    _title: subTitle,
-    ...subHeaderProps
-  } = _header ?? {}
-  const {
-    className: subFooterClassName,
-    children: subFooterChildren,
-    _submit: _subSubmit,
-    _cancel: _subCancel,
-    ...subFooterProps
-  } = _footer ?? {}
-
-  const {
-    state: changeState,
-    handleOpenChange,
-    handleAlertCancel,
-    handleAlertContinue,
-    setState,
-  } = useDuckAlert<T>({ state })
+  const duckHook = useDuckAlert<T>({ state })
 
   return (
     <>
-      <AlertDialog open={changeState.alert}>
-        <AlertDialogTrigger
-          {...alertTrigger}
-          onClick={e => {
-            setState({ shape: true, alert: false })
-            alertTrigger?.onClick?.(e)
-          }}
-        />
-        <AlertDialogContent {...contentProps}>
-          <AlertDialogHeader {...headerProps}>
-            <AlertDialogTitle {..._title} />
-            <AlertDialogDescription {..._description} />
-          </AlertDialogHeader>
-          <AlertDialogFooter {...footerProps}>
-            <AlertDialogCancel
-              {..._cancel}
-              children={!_cancel?.children && 'Cancel'}
-              onClick={e => {
-                handleAlertCancel()
-                _cancel?.onClick?.(e)
-              }}
-            />
-            <AlertDialogAction
-              {..._submit}
-              children={!_submit?.children && 'Continue'}
-              onClick={e => {
-                handleAlertContinue()
-                _submit?.onClick?.(e)
-              }}
-            />
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <Drawer
-        open={changeState.shape}
-        onOpenChange={handleOpenChange}
-      >
-        <DrawerContent
-          className={cn('flex flex-col w-full h-full', subContentClassName)}
-          {...subContentProps}
-        >
-          <div
-            data-role-wrapper
-            className="flex flex-col gap-4 w-full h-full"
-          >
-            {_header && (
-              <DrawerHeader {...subHeaderProps}>
-                {subHeaderChildren ? (
-                  subHeaderChildren
-                ) : (
-                  <>
-                    <DrawerTitle {...subTitle} />
-                    <DrawerDescription {...subDescription} />
-                  </>
-                )}
-              </DrawerHeader>
-            )}
-            {subcontentChildren}
-            <DrawerFooter
-              className={cn('gap-2', subFooterClassName)}
-              {...subFooterProps}
-            >
-              <DrawerClose
-                asChild
-                {..._subCancel}
-              />
-              <div
-                {..._subSubmit}
-                className={cn('ml-0', _subSubmit?.className)}
-                onClick={e => {
-                  setState({ shape: false, alert: false })
-                  _subSubmit?.onClick?.(e)
-                }}
-              />
-            </DrawerFooter>
-          </div>
-        </DrawerContent>
-      </Drawer>
+      <AlertDialogWrapper
+        alertTrigger={alertTrigger}
+        alertContent={alertContent}
+        duckHook={duckHook}
+      />
+      <DrawerWrapper
+        content={content}
+        duckHook={duckHook}
+      />
     </>
   )
 }
@@ -419,11 +349,7 @@ AlertDialogSheet.displayName = 'AlertDialogDrawer'
  * and handling user interactions through provided callbacks.
  *
  * @template T
- * @param {Object} props - The properties for configuring the AlertDialogDialog.
- * @param {Object} props.alertTrigger - Props for the alert dialog trigger.
- * @param {Object} props.alertContent - Configuration for the alert dialog content.
- * @param {Object} props.content - Configuration for the dialog content.
- * @param {boolean} props.state - Initial state for controlling the dialog and alert visibility.
+ * @param {AlertDialogDialogProps} props - The properties for configuring the AlertDialogDialog.
  *
  * The component utilizes the `useDuckAlert` hook for managing its internal state
  * and provides a structured layout for displaying an alert dialog with a trigger,
@@ -433,113 +359,19 @@ AlertDialogSheet.displayName = 'AlertDialogDrawer'
  */
 
 function AlertDialogDialog<T = string>({ alertTrigger, alertContent, content, state }: AlertDialogDialogProps<T>) {
-  const { _header: contentHeader, _footer: contentFooter, ...contentProps } = alertContent ?? {}
-  const { _title, _description, ...headerProps } = contentHeader ?? {}
-  const { _submit, _cancel, ...footerProps } = contentFooter ?? {}
-  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
-  const {
-    className: subHeaderClassName,
-    children: subHeaderChildren,
-    _description: subDescription,
-    _title: subTitle,
-    ...subHeaderProps
-  } = _header ?? {}
-  const {
-    className: subFooterClassName,
-    children: subFooterChildren,
-    _submit: _subSubmit,
-    _cancel: _subCancel,
-    ...subFooterProps
-  } = _footer ?? {}
-
-  const {
-    state: changeState,
-    handleOpenChange,
-    handleAlertCancel,
-    handleAlertContinue,
-    setState,
-  } = useDuckAlert<T>({ state })
+  const duckHook = useDuckAlert<T>({ state })
 
   return (
     <>
-      <AlertDialog open={changeState.alert}>
-        <AlertDialogTrigger
-          {...alertTrigger}
-          onClick={e => {
-            setState({ shape: true, alert: false })
-            alertTrigger?.onClick?.(e)
-          }}
-        />
-        <AlertDialogContent {...contentProps}>
-          <AlertDialogHeader {...headerProps}>
-            <AlertDialogTitle {..._title} />
-            <AlertDialogDescription {..._description} />
-          </AlertDialogHeader>
-          <AlertDialogFooter {...footerProps}>
-            <AlertDialogCancel
-              {..._cancel}
-              children={!_cancel?.children && 'Cancel'}
-              onClick={e => {
-                handleAlertCancel()
-                _cancel?.onClick?.(e)
-              }}
-            />
-            <AlertDialogAction
-              {..._submit}
-              children={!_submit?.children && 'Continue'}
-              onClick={e => {
-                handleAlertContinue()
-                _submit?.onClick?.(e)
-              }}
-            />
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <Dialog
-        open={changeState.shape}
-        onOpenChange={handleOpenChange}
-      >
-        <DialogContent
-          className={cn('flex flex-col w-full h-full', subContentClassName)}
-          {...subContentProps}
-        >
-          <div
-            data-role-wrapper
-            className="flex flex-col gap-4 w-full h-full"
-          >
-            {_header && (
-              <DialogHeader {...subHeaderProps}>
-                {subHeaderChildren ? (
-                  subHeaderChildren
-                ) : (
-                  <>
-                    <DialogTitle {...subTitle} />
-                    <DialogDescription {...subDescription} />
-                  </>
-                )}
-              </DialogHeader>
-            )}
-            {subcontentChildren}
-            <DialogFooter
-              className={cn('gap-2', subFooterClassName)}
-              {...subFooterProps}
-            >
-              <DialogClose
-                asChild
-                {..._subCancel}
-              />
-              <div
-                {..._subSubmit}
-                className={cn('ml-0', _subSubmit?.className)}
-                onClick={e => {
-                  setState({ shape: false, alert: false })
-                  _subSubmit?.onClick?.(e)
-                }}
-              />
-            </DialogFooter>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <AlertDialogWrapper
+        alertTrigger={alertTrigger}
+        alertContent={alertContent}
+        duckHook={duckHook}
+      />
+      <DialogWrapper
+        content={content}
+        duckHook={duckHook}
+      />
     </>
   )
 }

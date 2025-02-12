@@ -6,9 +6,9 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import { cn } from '@/lib/utils'
 import { Button } from './button'
 import { HoverCardCustomView } from './hover-card'
-import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'
 import { CalendarDays } from 'lucide-react'
 import { TaggedUserType } from './swapy'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/registry-ui-components/tooltip'
 
 // ForwardedRef Components
 const Avatar = React.forwardRef<

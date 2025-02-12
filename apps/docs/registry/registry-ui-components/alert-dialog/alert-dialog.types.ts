@@ -1,12 +1,4 @@
 import {
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from '@/registry/default/ui/sheet'
-import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
@@ -16,22 +8,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from './alert-dialog'
-import {
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/registry/default/ui/drawer'
-import {
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/registry/default/ui/ShadcnUI/dialog'
+import { SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '../sheet'
+import { DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from '../drawer'
+import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../dialog'
 
 /**
  * Alert Dialog State
@@ -57,11 +36,7 @@ export type UseDuckAlertReturnType = {
  */
 export type UserDuckAlertProps<T> = Pick<AlertDialogSheetProps<T>, 'state'>
 
-/**
- * AlertDialogSheetProps
- */
-export type AlertDialogSheetProps<T = string> = {
-  state: T
+export type AlertDialogWrapperType = {
   alertTrigger: React.ComponentPropsWithoutRef<typeof AlertDialogTrigger>
   alertContent: React.ComponentPropsWithoutRef<typeof AlertDialogContent> & {
     _header?: React.ComponentPropsWithoutRef<typeof AlertDialogHeader> & {
@@ -73,6 +48,14 @@ export type AlertDialogSheetProps<T = string> = {
       _submit?: React.ComponentPropsWithoutRef<typeof AlertDialogAction>
     }
   }
+  duckHook?: UseDuckAlertReturnType
+}
+
+/**
+ * AlertDialogSheetProps
+ */
+export type AlertDialogSheetProps<T = string> = {
+  state: T
   content: Partial<React.ComponentPropsWithoutRef<typeof SheetContent>> & {
     _header?: React.ComponentPropsWithoutRef<typeof SheetHeader> & {
       _title?: React.ComponentPropsWithoutRef<typeof SheetTitle>
@@ -83,7 +66,7 @@ export type AlertDialogSheetProps<T = string> = {
       _submit?: React.HTMLProps<HTMLDivElement>
     }
   }
-}
+} & AlertDialogWrapperType
 
 /**
  * AlertDialogDrawerProps

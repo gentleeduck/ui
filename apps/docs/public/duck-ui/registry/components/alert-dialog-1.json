@@ -1,5 +1,5 @@
 {
-  "name": "alert-dialog-main",
+  "name": "alert-dialog-1",
   "type": "registry:example",
   "registryDependencies": [
     "alert-dialog",

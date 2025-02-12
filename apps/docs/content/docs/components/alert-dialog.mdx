@@ -56,18 +56,6 @@ npm install @radix-ui/react-alert-dialog
 
 <ComponentSource name="alert-dialog" />
 
-<Step>
-  The Combobox is built using a composition of the `<Drawer />
-  `, `<Button />
-  `, `<Sheet />` and the `<Dialog />` component.
-</Step>
-
-<Step>
-  You also will need to install the [`Drawer`](/docs/components/Drawer#installation),
-  [`Button`](/docs/components/Button#installation), [`Sheet`](/docs/components/Sheet#installation) and
-  [`Dialog`](/docs/components/Dialog#installation) components because some dependencies are inherited from them.
-</Step>
-
 <Step>Update the import paths to match your project setup.</Step>
 
 </Steps>
@@ -118,21 +106,21 @@ import {
 ### Drawer
 
 <ComponentPreview
-  name="alert-dialog-demo"
+  name="alert-dialog-2"
   description="An alert dialog with cancel and continue buttons."
 />
 
 ### Sheet
 
 <ComponentPreview
-  name="AlertDialogSheetDemo"
+  name="alert-dialog-3"
   description="An alert dialog with cancel and continue buttons."
 />
 
 ### Dialog
 
 <ComponentPreview
-  name="AlertDialogDialogDemo"
+  name="alert-dialog-4"
   description="An alert dialog with cancel and continue buttons."
 />
 
@@ -140,123 +128,13 @@ import {
 
 ### AlertDialogProps
 
-`AlertDialogProps` defines the properties for the `AlertDialog` component.
+Defines the properties for the `AlertDialog` component.
 
-**_Key Properties_**
+#### Key Properties
 
 - **`defaultOpen`** (`boolean`, optional): Determines if the dialog should be open by default.
-
 - **`open`** (`boolean`, optional): Controls the visibility of the dialog.
-
-- **`onOpenChange`** (`function`, optional): Callback function triggered when the dialog opens or closes.
-
----
-
-### AlertDialogDrawerContentType
-
-Defines properties for the content area of the dialog.
-
-**_Key Property_**
-
-- **`Content`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerContent>>`): Properties for the dialog's content area.
-
----
-
-### AlertDialogDrawerTriggerType
-
-Defines properties for the trigger button of the dialog.
-
-**_Key Property_**
-
-- **`Trigger`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerTrigger>>`): Properties for the dialog's trigger button.
-
----
-
-### StateType
-
-Represents the state of the drawer and alert dialog.
-
-**_Key Properties_**
-
-- **`drawer`** (`boolean`): Indicates if the drawer is open or closed.
-
-- **`alert`** (`boolean`): Indicates if the alert dialog is open or closed.
-
----
-
-### AlertDialogDrawerDataType
-
-Handles the data and setter for the dialog.
-
-**_Key Properties_**
-
-- **`data`** (`T[]`): Array of data items for the dialog.
-
-- **`setData`** (`React.Dispatch<React.SetStateAction<T[]>>`): Function to set the data.
-
----
-
-### AlertDialogDrawerActionsType
-
-Defines actions for the dialog, including cancel and continue.
-
-**_Key Properties_**
-
-- **`cancel`** (`() => void`): Function to handle cancel action.
-
-- **`continue`** (`() => void`): Function to handle continue action.
-
----
-
-### AlertDialogDrawerHeaderType
-
-Defines properties for the header of the dialog.
-
-**_Key Properties_**
-
-- **`head`** (`React.ReactNode`): Header title of the dialog.
-
-- **`description`** (`React.ReactNode`): Header description of the dialog.
-
-- **`Additional Props`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerHeader>>`): Additional properties for the header.
-
----
-
-### AlertDialogDrawerFooterType
-
-Defines properties for the footer of the dialog.
-
-**_Key Properties_**
-
-- **`cancel`** (`React.ReactNode`): Cancel button content in the footer.
-
-- **`submit`** (`React.ReactNode`): Submit button content in the footer.
-
-- **`Additional Props`** (`Partial<React.ComponentPropsWithoutRef<typeof DrawerFooter>>`): Additional properties for the footer.
-
----
-
-### AlertDialogCustomProps
-
-Custom properties for the alert dialog component.
-
-**_Key Properties_**
-
-- **`type`** (`'drawer' | 'sheet' | 'dialog'`): Specifies the type of alert component.
-
-- **`state`** (`C`): The current state of the dialog.
-
-- **`header`** ([`AlertDialogDrawerHeaderType`](#alertdialogdrawerheadertype)): Header properties for the dialog.
-
-- **`footer`** ([`AlertDialogDrawerFooterType`](#alertdialogdrawerfootertype)): Footer properties for the dialog.
-
-- **`trigger`** ([`AlertDialogDrawerTriggerType`](#alertdialogdrawtriggertype)): Trigger properties for the dialog.
-
-- **`content`** ([`AlertDialogDrawerContentType`](#alertdialogdrawercontenttype)): Content properties for the dialog.
-
-- **`drawerData`** ([`AlertDialogDrawerDataType<T>`](#alertdialogdrawerdatatype)): Data and setter for managing dialog data.
-
-- **`actions`** ([`AlertDialogDrawerActionsType`](#alertdialogdraweractionstype)): Actions for the dialog (cancel and continue).
+- **`onOpenChange`** (`(open: boolean) => void`, optional): Callback function triggered when the dialog opens or closes.
 
 ---
 
@@ -264,11 +142,11 @@ Custom properties for the alert dialog component.
 
 A button that opens the dialog.
 
-**_Key Properties_**
+#### Key Properties
 
 - **`asChild`** (`boolean`): If `true`, the trigger will be rendered as a child element.
 
-**_Data Attributes_**
+#### Data Attributes
 
 - **`data-state`**: Indicates the current state of the dialog (`"open"` | `"closed"`).
 
@@ -278,10 +156,9 @@ A button that opens the dialog.
 
 Portals the overlay and content parts into the body.
 
-**_Key Properties_**
+#### Key Properties
 
 - **`forceMount`** (`boolean`): If `true`, forces the component to mount.
-
 - **`container`** (`HTMLElement`): The container element for the portal, defaulting to `document.body`.
 
 ---
@@ -290,13 +167,12 @@ Portals the overlay and content parts into the body.
 
 A layer that covers the inert portion of the view when the dialog is open.
 
-**_Key Properties_**
+#### Key Properties
 
 - **`asChild`** (`boolean`): If `true`, the overlay will be rendered as a child element.
-
 - **`forceMount`** (`boolean`): If `true`, forces the overlay to mount.
 
-**_Data Attributes_**
+#### Data Attributes
 
 - **`data-state`**: Indicates the current state of the overlay (`"open"` | `"closed"`).
 
@@ -306,29 +182,69 @@ A layer that covers the inert portion of the view when the dialog is open.
 
 Contains content to be rendered when the dialog is open.
 
-**_Key Properties_**
+#### Key Properties
 
 - **`asChild`** (`boolean`): If `true`, the content will be rendered as a child element.
-
 - **`forceMount`** (`boolean`): If `true`, forces the content to mount.
+- **`onOpenAutoFocus`** (`(event: Event) => void`): Callback for managing focus when the dialog opens.
+- **`onCloseAutoFocus`** (`(event: Event) => void`): Callback for managing focus when the dialog closes.
+- **`onEscapeKeyDown`** (`(event: KeyboardEvent) => void`): Callback for handling the Escape key press.
 
-- **`onOpenAutoFocus`** (`function`): Callback for managing focus when the dialog opens.
-
-- **`onCloseAutoFocus`** (`function`): Callback for managing focus when the dialog closes.
-
-- **`onEscapeKeyDown`** (`function`): Callback for handling the Escape key press.
-
-**_Data Attributes_**
+#### Data Attributes
 
 - **`data-state`**: Indicates the current state of the content (`"open"` | `"closed"`).
 
 ---
 
+### AlertDialogHeader
+
+Renders the header of an alert dialog.
+
+#### Key Properties
+
+- **`className`** (`string`, optional): Additional class names for styling.
+- **`children`** (`React.ReactNode`): The content of the header.
+
+---
+
+### AlertDialogFooter
+
+Renders the footer of an alert dialog.
+
+#### Key Properties
+
+- **`className`** (`string`, optional): Additional class names for styling.
+- **`children`** (`React.ReactNode`): The content of the footer.
+
+---
+
+### AlertDialogTitle
+
+A text component for the alert dialog title.
+
+#### Key Properties
+
+- **`className`** (`string`, optional): Additional class names for styling.
+- **`children`** (`React.ReactNode`): The content of the title.
+
+---
+
+### AlertDialogDescription
+
+A text component for the alert dialog description.
+
+#### Key Properties
+
+- **`className`** (`string`, optional): Additional class names for styling.
+- **`children`** (`React.ReactNode`): The content of the description.
+
+---
+
 ### AlertDialogCancel
 
-A button that closes the dialog, visually distinguished from `AlertDialog.Action` buttons.
+A button that closes the dialog, visually distinguished from `AlertDialogAction`.
 
-**_Key Property_**
+#### Key Properties
 
 - **`asChild`** (`boolean`): If `true`, the cancel button will be rendered as a child element.
 
@@ -336,28 +252,173 @@ A button that closes the dialog, visually distinguished from `AlertDialog.Action
 
 ### AlertDialogAction
 
-A button that performs an action and closes the dialog, visually distinguished from `AlertDialog.Cancel` buttons.
+A button that performs an action and closes the dialog.
 
-**_Key Property_**
+#### Key Properties
 
 - **`asChild`** (`boolean`): If `true`, the action button will be rendered as a child element.
 
 ---
 
-### AlertDialogTitle
+### AlertDialogWrapper
 
-An accessible name announced when the dialog is opened.
+Renders an alert dialog and manages its open state, handling user interactions  
+through provided callbacks.
 
-**_Key Property_**
+#### Key Properties
 
-- **`asChild`** (`boolean`): If `true`, the title will be rendered as a child element.
+- **`alertTrigger`** ([`AlertDialogTrigger`](#alertdialogtrigger))
+- **`alertContent`** ([`AlertDialogContent`](#alertdialogcontent))
+- **`duckHook`** ([`UseDuckAlertReturnType`](#useduckalertreturntype))
 
 ---
 
-### AlertDialogDescription
+### AlertDialogSheet
 
-An accessible description announced when the dialog is opened.
+A component that displays an alert dialog with a trigger, content,  
+header, footer, and actions, as well as a sheet with nested content.  
+Manages visibility state and user interactions.
 
-**_Key Property_**
+#### Key Properties
 
-- **`asChild`** (`boolean`): If `true`, the description will be rendered as a child element.
+- **`alertTrigger`** ([`AlertDialogTrigger`](#alertdialogtrigger))
+- **`alertContent`** ([`AlertDialogContent`](#alertdialogcontent))
+- **`content`** ([`SheetContent`](#sheetcontent))
+- **`state`** (`boolean`): Initial state for controlling visibility.
+
+---
+
+### AlertDialogDrawer
+
+A component that provides a structured layout for displaying an alert dialog  
+along with a drawer that contains nested content and customizable headers and footers.  
+
+#### Key Properties
+
+- **`alertTrigger`** ([`AlertDialogTrigger`](#alertdialogtrigger))
+- **`alertContent`** ([`AlertDialogContent`](#alertdialogcontent))
+- **`content`** ([`DrawerContent`](#drawercontent))
+- **`state`** (`boolean`): Initial state for controlling visibility.
+
+---
+
+### AlertDialogDialog
+
+Displays an alert dialog with a trigger, content, header, footer,  
+and actions, along with a dialog containing nested content.  
+Manages user interactions and state updates.
+
+#### Key Properties
+
+- **`alertTrigger`** ([`AlertDialogTrigger`](#alertdialogtrigger))
+- **`alertContent`** ([`AlertDialogContent`](#alertdialogcontent))
+- **`content`** ([`DialogContent`](#dialogcontent))
+- **`state`** (`boolean`): Initial state for controlling visibility.
+
+---
+
+### Types
+
+#### `UseDuckAlertReturnType`
+
+Manages state and behavior for an alert dialog.
+
+```ts
+export type UseDuckAlertReturnType = {
+  handleAlertCancel: () => void
+  handleAlertContinue: () => void
+  handleOpenChange: (drawerState: boolean) => void
+  state: StateType
+  setState: React.Dispatch<React.SetStateAction<StateType>>
+}
+```
+
+#### `StateType`
+
+Defines the internal state shape for the alert dialog.
+
+```ts
+export interface StateType {
+  shape: boolean
+  alert: boolean
+}
+```
+
+#### `UserDuckAlertProps<T>`
+
+Props for managing alert dialog state.
+
+```ts
+export type UserDuckAlertProps<T> = Pick<AlertDialogSheetProps<T>, 'state'>
+```
+
+---
+
+## Changelog
+
+### 2025-02-12 **Simplified API, Improved State Handling & New Hook**
+
+We have **significantly improved** the AlertDialog API to make it more **predictable, modular, and type-safe**. The new approach focuses on reducing complexity, improving state handling, and enabling easy custom wrapper creation with a new **hook-based API**.
+
+### 🛠 **Fixes & Improvements**
+- **Refactored State Handling**: The previous implementation had issues where the dialog state didn't update correctly. This has been completely restructured for better control and predictability.
+- **Consistent API for Variants**: We standardized how drawers, dialogs, and sheets handle their props, making them more aligned.
+- **Enhanced Type Safety**: All components now utilize explicit **React types**, improving developer experience and reducing errors.
+- **Improved Responsiveness**: The components now behave consistently across various screen sizes.
+- **New Hook for Custom Wrappers**: The new `useDuckAlert` hook allows users to create **custom alert wrappers** with minimal effort.
+
+### 🔄 **Updated API**
+We **removed** `AlertDialogCustom` and introduced a simpler `AlertDialogWrapperProps` structure that relies on a new hook for **state management and component structuring**.
+
+```diff showLineNumbers 
+- interface AlertDialogCustomProps<C> {
+-   type: 'drawer' | 'dialog' | 'sheet'
+-   state: C
+-   header: AlertDialogDrawerHeaderType
+-   footer: AlertDialogDrawerFooterType
+-   trigger: AlertDialogDrawerTriggerentType
+-   content: AlertDialogDrawerContentType
+-   drawerData?: boolean
+-   actions?: AlertDialogDrawerActionsType
+- }
++ export interface AlertDialogWrapperProps { 
++   alertTrigger: React.ComponentPropsWithoutRef<typeof AlertDialogTrigger>
++   alertContent: React.ComponentPropsWithoutRef<typeof AlertDialogContent> & {
++     _header?: React.ComponentPropsWithoutRef<typeof AlertDialogHeader> & {
++       _title?: React.ComponentPropsWithoutRef<typeof AlertDialogTitle>
++       _description?: React.ComponentPropsWithoutRef<typeof AlertDialogDescription>
++     }
++     _footer?: React.ComponentPropsWithoutRef<typeof AlertDialogFooter> & {
++       _cancel?: React.ComponentPropsWithoutRef<typeof AlertDialogCancel>
++       _submit?: React.ComponentPropsWithoutRef<typeof AlertDialogAction>
++     }
++   }
++   duckHook?: UseDuckAlertReturnType
++ }
+```
+
+### 📌 **Key Changes**
+#### 1️⃣ **Removed `AlertDialogCustom` in Favor of Hook-Based API**
+- Instead of a complex component with deeply nested props, we now **expose a hook (`useDuckAlert`)** that allows users to **manage state and structure alerts dynamically**.
+
+#### 2️⃣ **New Hook: `useDuckAlert`**
+The new hook simplifies **creating custom alert dialogs** without modifying the core API.
+
+```tsx
+const { alertTrigger, alertContent } = useDuckAlert({
+  type: 'dialog', 
+  defaultOpen: false, 
+  actions: { cancel: handleCancel, submit: handleSubmit }
+})
+```
+
+#### 3️⃣ **Better Prop Structure for Alert Components**
+- Instead of passing multiple nested objects, we now pass a **flattened structure** with direct references to components.
+- Users can now **easily override any section** of the alert (`header`, `footer`, `content`) using the new prop-based approach.
+
+### 🚀 **What This Means for You**
+- If you're currently using `AlertDialogCustom`, migrate to `useDuckAlert` for a more **scalable and flexible** API.
+- The new **hook-based approach** enables you to create **custom wrappers effortlessly** without worrying about managing state manually.
+- Better **autocompletion, type safety, and predictability** in state updates.
+
+Let us know your feedback! 🎉

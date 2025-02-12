@@ -93,9 +93,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               disableTransitionOnChange
             >
               <div vaul-drawer-wrapper="">
-                <ScrollArea className="h-[100vh]">
-                  <div className="relative flex min-h-screen flex-col bg-background">{children}</div>
-                </ScrollArea>
+                <div className="relative flex min-h-screen flex-col bg-background">{children}</div>
               </div>
               <ThemeSwitcher />
               <Analytics />

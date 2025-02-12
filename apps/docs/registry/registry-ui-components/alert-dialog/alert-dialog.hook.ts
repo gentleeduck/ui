@@ -1,5 +1,4 @@
 import React from 'react'
-import { AlertDialogSheetProps } from './alert-dialog'
 import { StateType, UseDuckAlertReturnType, UserDuckAlertProps } from './alert-dialog.types'
 
 /**
