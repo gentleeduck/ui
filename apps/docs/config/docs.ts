@@ -48,11 +48,19 @@ export const docsConfig: DocsConfig = {
           title: 'Badge',
           href: '/docs/components/badge',
           items: [],
+          label: 'new',
         },
         {
           title: 'Button',
           href: '/docs/components/button',
-          items: [],
+          items: [
+            {
+              title: 'Button',
+              href: '/docs/components/button2',
+              items: [],
+            },
+          ],
+          // label: 'new',
         },
         {
           title: 'Combobox',
