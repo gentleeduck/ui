@@ -372,7 +372,7 @@ function DialogCloseResponsive({ children, ...props }: DialogCloseResponsiveProp
  * @param {DialogWrapperProps} props - The properties passed to the component.
  * @returns {JSX.Element} The rendered `Dialog` or `Drawer` component.
  */
-function DialogWrapper({ trigger, content, duckHook }: DialogWrapperProps): JSX.Element {
+function DialogWrapper({ trigger, content, duckHook, ...props }: DialogWrapperProps): JSX.Element {
   const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
   const {
     className: subHeaderClassName,
@@ -386,6 +386,7 @@ function DialogWrapper({ trigger, content, duckHook }: DialogWrapperProps): JSX.
     <DialogResponsive
       open={duckHook?.state.shape}
       onOpenChange={duckHook?.handleOpenChange}
+      {...props}
     >
       <DialogTriggerResponsive {...trigger} />
       <DialogContentResponsive

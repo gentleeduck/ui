@@ -158,6 +158,7 @@
     "lucide-react": "0.359.0",
     "markdown-wasm": "^1.2.0",
     "mini-svg-data-uri": "^1.4.4",
+    "motion": "^12.4.3",
     "next": "14.3.0-canary.43",
     "next-contentlayer2": "^0.4.6",
     "next-themes": "^0.2.1",

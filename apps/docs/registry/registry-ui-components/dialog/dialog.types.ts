@@ -53,7 +53,7 @@ export interface DialogCloseResponsiveProps extends React.ComponentPropsWithoutR
 /**
  * DialogWrapper Props
  */
-export type DialogWrapperProps = {
+export interface DialogWrapperProps extends DialogResponsiveProps {
   trigger?: DialogTriggerResponsiveProps
   content: DialogContentResponsiveProps & {
     _header?: DialogHeaderResponsiveProps & {

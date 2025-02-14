@@ -14,7 +14,10 @@ import { DrawerWrapperProps } from './drawer.types'
  *
  * @returns {JSX.Element} The rendered `DrawerPrimitive.Root` component.
  */
-function Drawer({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
+function Drawer({
+  shouldScaleBackground = true,
+  ...props
+}: React.ComponentProps<typeof DrawerPrimitive.Root>): JSX.Element {
   return (
     <DrawerPrimitive.Root
       shouldScaleBackground={shouldScaleBackground}
@@ -73,16 +76,19 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
  * @param {object} props - The properties passed to the component.
  * @param {string} [props.className] - Additional class names to apply to the drawer content.
  * @param {React.ReactNode} props.children - The content to be rendered inside the drawer.
+ * @param {object} props.overlay - The properties passed to the `DrawerOverlay` component.
  * @param {React.Ref} ref - The reference to the drawer content element.
  *
  * @returns {JSX.Element} The rendered drawer content component.
  */
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
+    overlay?: React.ComponentPropsWithoutRef<typeof DrawerOverlay>
+  }
+>(({ className, children, overlay, ...props }, ref) => (
   <DrawerPortal>
-    <DrawerOverlay />
+    <DrawerOverlay {...overlay} />
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
@@ -106,7 +112,7 @@ DrawerContent.displayName = 'DrawerContent'
  *
  * @returns {JSX.Element} The rendered header component.
  */
-function DrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function DrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
       className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)}
@@ -124,7 +130,7 @@ DrawerHeader.displayName = 'DrawerHeader'
  *
  * @returns {JSX.Element} The rendered footer component.
  */
-function DrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function DrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
       className={cn('mt-auto flex flex-col gap-2 p-4', className)}
@@ -185,46 +191,42 @@ DrawerDescription.displayName = DrawerPrimitive.Description.displayName
  * @param {DrawerWrapperProps} props - The properties passed to the component.
  * @returns {JSX.Element} The rendered `Drawer` or `Sheet` component.
  */
-function DrawerWrapper({ trigger, content, duckHook }: DrawerWrapperProps) {
-  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
-  const {
-    className: subHeaderClassName,
-    _description: subDescription,
-    _title: subTitle,
-    ...subHeaderProps
-  } = _header ?? {}
-  const { className: subFooterClassName, _submit: _subSubmit, _cancel: _subCancel, ...subFooterProps } = _footer ?? {}
+function DrawerWrapper({ trigger, content, duckHook, ...props }: DrawerWrapperProps): JSX.Element {
+  const { className: contentClassName, children: contentChildren, _header, _footer, ...contentProps } = content
+  const { className: headerClassName, _description, _title, ...headerProps } = _header ?? {}
+  const { className: footerClassName, _submit: _subSubmit, _cancel: _subCancel, ...footerProps } = _footer ?? {}
 
   return (
     <Drawer
       open={duckHook?.state.shape}
       onOpenChange={duckHook?.handleOpenChange}
+      {...props}
     >
       <DrawerTrigger {...trigger} />
       <DrawerContent
-        className={cn('flex flex-col w-full h-full', subContentClassName)}
-        {...subContentProps}
+        className={cn('flex flex-col w-full h-full', contentClassName)}
+        {...contentProps}
       >
         <div
           data-role-wrapper
           className="flex flex-col gap-4 w-full h-full"
         >
           {_header && (
-            <DrawerHeader {...subHeaderProps}>
-              {subHeaderProps.children ? (
-                subHeaderProps.children
+            <DrawerHeader {...headerProps}>
+              {headerProps.children ? (
+                headerProps.children
               ) : (
                 <>
-                  <DrawerTitle {...subTitle} />
-                  <DrawerDescription {...subDescription} />
+                  <DrawerTitle {..._title} />
+                  <DrawerDescription {..._description} />
                 </>
               )}
             </DrawerHeader>
           )}
-          {subcontentChildren}
+          {contentChildren}
           <DrawerFooter
-            className={cn('gap-2', subFooterClassName)}
-            {...subFooterProps}
+            className={cn('flex items-ceter gap-2', footerClassName)}
+            {...footerProps}
           >
             <DrawerClose
               asChild
@@ -232,7 +234,7 @@ function DrawerWrapper({ trigger, content, duckHook }: DrawerWrapperProps) {
             />
             <div
               {..._subSubmit}
-              className={cn('ml-0', _subSubmit?.className)}
+              className={cn('w-full', _subSubmit?.className)}
               onClick={e => {
                 duckHook?.setState({ shape: false, alert: false })
                 _subSubmit?.onClick?.(e)

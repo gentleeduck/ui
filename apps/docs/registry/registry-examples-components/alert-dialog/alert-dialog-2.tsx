@@ -15,7 +15,7 @@ function generateRandomGoals(count: number, minGoal: number = 100, maxGoal: numb
 
 const goals = generateRandomGoals(20)
 
-export default function AlertDialogDemo1() {
+export default function AlertDialogDemo2() {
   const [goal, setGoal] = React.useState(350)
 
   function onClick(adjustment: number) {

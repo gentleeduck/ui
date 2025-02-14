@@ -9,23 +9,23 @@ import { sheetVariants } from './sheet.constants'
  * @see https://www.radix-ui.com/docs/primitives/components/sheet
  */
 export interface SheetContentProps
-  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+    extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
+    VariantProps<typeof sheetVariants> { }
 
 /**
  * A wrapper component for the [Radix UI Sheet](https://www.radix-ui.com/docs/primitives/components/sheet)
  */
 export type SheetWrapperProps = {
-  trigger?: React.ComponentPropsWithoutRef<typeof SheetTrigger>
-  content: Partial<React.ComponentPropsWithoutRef<typeof SheetContent>> & {
-    _header?: React.ComponentPropsWithoutRef<typeof SheetHeader> & {
-      _title?: React.ComponentPropsWithoutRef<typeof SheetTitle>
-      _description?: React.ComponentPropsWithoutRef<typeof SheetDescription>
+    trigger?: React.ComponentPropsWithoutRef<typeof SheetTrigger>
+    content: Partial<React.ComponentPropsWithoutRef<typeof SheetContent>> & {
+        _header?: React.ComponentPropsWithoutRef<typeof SheetHeader> & {
+            _title?: React.ComponentPropsWithoutRef<typeof SheetTitle>
+            _description?: React.ComponentPropsWithoutRef<typeof SheetDescription>
+        }
+        _footer?: React.ComponentPropsWithoutRef<typeof SheetFooter> & {
+            _cancel?: React.ComponentPropsWithoutRef<typeof SheetClose>
+            _submit?: React.HTMLProps<HTMLDivElement>
+        }
     }
-    _footer?: React.ComponentPropsWithoutRef<typeof SheetFooter> & {
-      _cancel?: React.ComponentPropsWithoutRef<typeof SheetClose>
-      _submit?: React.HTMLProps<HTMLDivElement>
-    }
-  }
-  duckHook?: UseDuckAlertReturnType
-}
+    duckHook?: UseDuckAlertReturnType
+} & React.ComponentPropsWithoutRef<typeof SheetPrimitive.Root>

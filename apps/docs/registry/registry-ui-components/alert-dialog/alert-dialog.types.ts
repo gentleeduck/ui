@@ -56,7 +56,7 @@ export type AlertDialogWrapperType = {
  */
 export type AlertDialogSheetProps<T = string> = {
   state: T
-  content: Pick<SheetWrapperProps, 'content'>
+  content: SheetWrapperProps['content']
 } & AlertDialogWrapperType
 
 /**
@@ -64,7 +64,7 @@ export type AlertDialogSheetProps<T = string> = {
  */
 export type AlertDialogDrawerProps<T = string> = {
   state: T
-  content: Pick<DrawerWrapperProps, 'content'>
+  content: DrawerWrapperProps['content']
 } & AlertDialogWrapperType
 
 /**
@@ -72,5 +72,5 @@ export type AlertDialogDrawerProps<T = string> = {
  */
 export type AlertDialogDialogProps<T = string> = {
   state: T
-  content: Pick<DialogWrapperProps, 'content'>
+  content: DialogWrapperProps['content']
 } & AlertDialogWrapperType

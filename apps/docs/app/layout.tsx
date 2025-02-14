@@ -2,7 +2,7 @@ import '@/styles/globals.scss'
 import { Metadata, Viewport } from 'next'
 
 import { siteConfig } from '@/config/site'
-import { fontSans } from '@/lib/fonts'
+import { fontMono, fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import { Analytics } from '@/components/ui'
 import { ThemeProvider } from '@/components/providers'
@@ -84,16 +84,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
         suppressHydrationWarning
       >
         <head />
-        <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
+        <body className={cn('min-h-svh bg-background font-sans antialiased', fontSans.variable, fontMono.variable)}>
           <TRPCReactProvider>
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
+              enableColorScheme
             >
               <div vaul-drawer-wrapper="">
-                <div className="relative flex min-h-screen flex-col bg-background">{children}</div>
+                <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
               </div>
               <ThemeSwitcher />
               <Analytics />
@@ -107,4 +108,3 @@ export default function RootLayout({ children }: RootLayoutProps) {
     </>
   )
 }
-// <NewYorkToaster />

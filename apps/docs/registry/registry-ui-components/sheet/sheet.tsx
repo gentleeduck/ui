@@ -188,7 +188,7 @@ SheetDescription.displayName = SheetPrimitive.Description.displayName
  * @param {SheetWrapperProps} props - The properties passed to the component.
  * @returns {JSX.Element} The rendered `Drawer` or `Sheet` component.
  */
-function SheetWrapper({ trigger, content, duckHook }: SheetWrapperProps): JSX.Element {
+function SheetWrapper({ trigger, content, duckHook, ...props }: SheetWrapperProps): JSX.Element {
   const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
   const {
     className: subHeaderClassName,
@@ -202,6 +202,7 @@ function SheetWrapper({ trigger, content, duckHook }: SheetWrapperProps): JSX.El
     <Sheet
       open={duckHook?.state.shape}
       onOpenChange={duckHook?.handleOpenChange}
+      {...props}
     >
       <SheetTrigger {...trigger} />
       <SheetContent

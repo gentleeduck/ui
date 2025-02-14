@@ -55,25 +55,26 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/button',
           items: [
             {
+              //TODO: make new side bar type
               title: 'Button',
               href: '/docs/components/button2',
               items: [],
             },
           ],
-          // label: 'new',
-        },
-        {
-          title: 'Combobox',
-          href: '/docs/components/combobox',
-          items: [],
           label: 'new',
         },
-        {
-          title: 'Command',
-          href: '/docs/components/command',
-          items: [],
-          label: 'new',
-        },
+        // {
+        //   title: 'Combobox',
+        //   href: '/docs/components/combobox',
+        //   items: [],
+        //   label: 'new',
+        // },
+        // {
+        //   title: 'Command',
+        //   href: '/docs/components/command',
+        //   items: [],
+        //   label: 'new',
+        // },
         // {
         //   title: 'DropdowmMenu',
         //   href: '/docs/components/dropdowm-menu',
