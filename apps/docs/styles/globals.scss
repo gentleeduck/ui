@@ -220,19 +220,8 @@
 /*       1); */
 /* } */
 
-.one {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-  height: 60px;
-  background-color: hsl(var(--background));
-  transition: all 550ms;
-  transition-duration:
-    all 450s,
-    opacity 200ms;
-  will-change: transform, opacity;
-  transition-timing-function: linear(0,
+:root {
+  --duck-spring: linear(0,
       0.001 0.4%,
       0.007 0.9%,
       0.016 1.4%,
@@ -266,78 +255,8 @@
       0.996 63.9%,
       1 83.2%,
       1);
-}
-
-.one2 {
-  padding-top: 0;
-  padding-bottom: 0;
-  overflow: hidden;
-  opacity: 0;
-  height: 40px;
-  transform: translateY(-5rem) scale(0.8);
-  pointer-events: none;
-}
-
-.two {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-  padding-top: 0;
-  padding-bottom: 0;
-  transition: all 550ms;
-  will-change: transform, opacity;
-  transform: translateY(0);
-  overflow: hidden;
-  background-color: hsl(var(--background));
-  opacity: 0;
-  height: 60px;
-  pointer-events: none;
-  transition-timing-function: linear(0,
-      0.001 0.4%,
-      0.007 0.9%,
-      0.016 1.4%,
-      0.028 1.9%,
-      0.065 3%,
-      0.114 4.1%,
-      0.165 5.1%,
-      0.228 6.2%,
-      0.504 10.7%,
-      0.62 12.7%,
-      0.734 14.9%,
-      0.827 17%,
-      0.865 18%,
-      0.902 19.1%,
-      0.934 20.2%,
-      0.963 21.3%,
-      0.987 22.4%,
-      1.009 23.6%,
-      1.026 24.8%,
-      1.04 26%,
-      1.051 27.4%,
-      1.059 28.9%,
-      1.064 30.5%,
-      1.064 32.2%,
-      1.062 34%,
-      1.056 36.1%,
-      1.026 44.1%,
-      1.013 47.9%,
-      1.004 51.8%,
-      0.999 55.9%,
-      0.996 63.9%,
-      1 83.2%,
-      1);
-}
-
-.two2 {
-  animation-delay: 50ms;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  overflow: auto;
-  height: 320px;
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  pointer-events: auto;
+  --min-height: 0px;
+  --max-height: 300px;
 }
 
 @layer base {
