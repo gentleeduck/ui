@@ -259,6 +259,74 @@
   --max-height: 300px;
 }
 
+.parent {
+  display: grid;
+}
+
+.parent2 {
+  /* grid-template-rows: 1; */
+}
+
+.progress-mask {
+  -webkit-mask-image: linear-gradient(to right, #fb2c36, #00c951);
+  mask-image: linear-gradient(to right, #fb2c36, #00c951);
+}
+
+.one {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: hsl(var(--background));
+  transition: all 550ms;
+  height: calc(var(--max-height) / 2);
+  transition-duration:
+    all 450s,
+    opacity 200ms;
+  will-change: transform, opacity, grid;
+  transition-timing-function: var(--duck-spring);
+  overflow: hidden;
+}
+
+.one2 {
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  opacity: 0;
+  height: var(--min-height);
+  transform: translateY(-5rem) scale(0.8);
+  pointer-events: none;
+}
+
+.two {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: all 550ms;
+  will-change: transform, opacity, grid;
+  transform: translateY(0);
+  overflow: hidden;
+  background-color: hsl(var(--background));
+  opacity: 0;
+  height: var(--min-height);
+  overflow: hidden;
+
+  pointer-events: none;
+  transition-timing-function: var(--duck-spring);
+}
+
+.two2 {
+  animation-delay: 50ms;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  overflow: auto;
+  height: var(--max-height);
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
 @layer base {
   * {
     @apply border-border;
