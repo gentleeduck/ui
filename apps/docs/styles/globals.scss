@@ -275,10 +275,9 @@
 .one {
   display: grid;
   gap: 0.5rem;
-  padding: 1rem;
   background-color: hsl(var(--background));
   transition: all 550ms;
-  height: calc(var(--max-height) / 2);
+  height: calc(var(--max-height) / 1.2);
   transition-duration:
     all 450s,
     opacity 200ms;
@@ -288,8 +287,6 @@
 }
 
 .one2 {
-  padding-top: 0;
-  padding-bottom: 0;
   overflow: hidden;
   opacity: 0;
   height: var(--min-height);
@@ -300,9 +297,6 @@
 .two {
   display: grid;
   gap: 0.5rem;
-  padding: 1rem;
-  padding-top: 0;
-  padding-bottom: 0;
   transition: all 550ms;
   will-change: transform, opacity, grid;
   transform: translateY(0);
@@ -318,10 +312,8 @@
 
 .two2 {
   animation-delay: 50ms;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
   overflow: auto;
-  height: var(--max-height);
+  height: calc(var(--max-height) * 1.5);
   transform: translateY(0) scale(1);
   opacity: 1;
   pointer-events: auto;

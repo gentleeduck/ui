@@ -57,7 +57,7 @@ export default function DrawerDemo() {
     if (progress <= 95) return 'bg-lime-500'
     return 'bg-green-500'
   }
-
+  console.log(open)
   return (
     <Drawer
       fixed={true}
@@ -71,32 +71,73 @@ export default function DrawerDemo() {
           Hard Checklist
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="max-w-xs mx-auto after:hidden mb-8 rounded-xl">
-        <div className={cn('mx-auto w-full max-w-sm pt-2 overflow-hidden parent', open && 'parent2')}>
-          <DuckTransition1 className={cn(open && 'one2')}>
-            <HI
-              barCount={barCount}
-              filledBars={filledBars}
-              progress={progress}
-              getBadgeColor={getBadgeColor}
-              getBarColor={getBarColor}
-              setOpen={setOpen}
-              setProgress={setProgress}
-            />
-          </DuckTransition1>
-          <DuckTransition2 className={cn(open && 'two2')}>
-            <HI2 />
-          </DuckTransition2>
-        </div>
+      <DrawerContent className="max-w-xs mx-auto after:hidden mb-8 rounded-xl overflow-hidden">
+        <DuckTransitionProvider>
+          <div className={cn('mx-auto w-full max-w-sm p-4 overflow-hidden parent', open && 'parent2')}>
+            <DuckTransition1
+              value="layout-1"
+              className={cn(open && 'one2')}
+            >
+              <HI
+                barCount={barCount}
+                filledBars={filledBars}
+                progress={progress}
+                getBadgeColor={getBadgeColor}
+                getBarColor={getBarColor}
+                setOpen={setOpen}
+                setProgress={setProgress}
+              />
+            </DuckTransition1>
+            <DuckTransition2 className={cn(open && 'two2')}>
+              <HI2 setOpen={setOpen} />
+            </DuckTransition2>
+          </div>
+        </DuckTransitionProvider>
       </DrawerContent>
     </Drawer>
   )
 }
 
-export function DuckTransition1({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export type Layout = Map<string, { label: string; className: string }>
+export type DuckTransitionContextType = {
+  layouts: Layout
+  setLayouts: React.Dispatch<React.SetStateAction<Layout>>
+}
+
+const DuckTransitionContext = React.createContext<DuckTransitionContextType | null>(null)
+const useDuckTransitionContext = () => {
+  const context = React.useContext(DuckTransitionContext)
+  if (context === null) {
+    throw new Error('useDuckTransitionContext must be used within a DuckTransitionProvider')
+  }
+  return context
+}
+const DuckTransitionProvider = ({ children }: React.PropsWithChildren) => {
+  const [layouts, setLayouts] = React.useState<Layout>(new Map())
+  return <DuckTransitionContext.Provider value={{ layouts, setLayouts }}>{children}</DuckTransitionContext.Provider>
+}
+
+export interface DuckTransitionProps extends React.HTMLAttributes<HTMLDivElement> {
+  value: string
+}
+
+export function DuckTransition1({ className, children, value, ...props }: DuckTransitionProps) {
+  const { layouts, setLayouts } = useDuckTransitionContext() ?? {}
+  React.useEffect(() => {
+    setLayouts(prev => {
+      const newLayouts = new Map(prev)
+      newLayouts.set(value, { label: value, className: 'one' })
+      return newLayouts
+    })
+  }, [])
+
   return (
     <div
-      className={cn('one', className)}
+      className={cn(
+        // 'ease-[linear(0,_0.001_0.4%,_0.007_0.9%,_0.016_1.4%,_0.028_1.9%,_0.065_3%,_0.114_4.1%,_0.165_5.1%,_0.228_6.2%,_0.504_10.7%,_0.62_12.7%,_0.734_14.9%,_0.827_17%,_0.865_18%,_0.902_19.1%,_0.934_20.2%,_0.963_21.3%,_0.987_22.4%,_1.009_23.6%,_1.026_24.8%,_1.04_26%,_1.051_27.4%,_1.059_28.9%,_1.064_30.5%,_1.064_32.2%,_1.062_34%,_1.056_36.1%,_1.026_44.1%,_1.013_47.9%,_1.004_51.8%,_0.999_55.9%,_0.996_63.9%,_1_83.2%,_1)] p-4 flex flex-col gap-2 bg-background overflow-hidden',
+        layouts.get(value)?.className,
+        className
+      )}
       {...props}
     >
       {children}
@@ -158,29 +199,27 @@ export function HI(props: {
         ))}
       </div>
 
-      <Button
-        variant="secondary"
-        onClick={() => {
-          setOpen(!open)
-        }}
-      >
-        See checklist
-      </Button>
-
-      <DrawerFooter>
-        <DrawerClose asChild>
-          <Button
-            variant="secondary"
-            disabled={progress < 100}
-            className={cn(progress === 100 && 'bg-green-500 text-white hover:bg-green-500/90')}
-            onClick={() => {
-              setProgress(0)
-              toast.success('Wow duck you are done!')
-            }}
-          >
-            {progress === 100 ? 'Complete the checklist' : 'Go to checklist'}
-          </Button>
-        </DrawerClose>
+      <DrawerFooter className="px-0 pb-0">
+        <Button
+          variant="secondary"
+          onClick={() => {
+            console.info('hi, i was clicked!!')
+            setOpen(true)
+          }}
+        >
+          See checklist
+        </Button>
+        <Button
+          variant="secondary"
+          disabled={progress < 100}
+          className={cn(progress === 100 && 'bg-green-500 text-white hover:bg-green-500/90')}
+          onClick={() => {
+            // setProgress(0)
+            toast.success('Wow duck you are done!')
+          }}
+        >
+          {progress === 100 ? 'Complete the checklist' : 'Go to checklist'}
+        </Button>
       </DrawerFooter>
     </>
   )
