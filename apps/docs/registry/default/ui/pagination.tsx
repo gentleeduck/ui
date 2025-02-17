@@ -136,11 +136,11 @@ export const DuckPagination = React.forwardRef<HTMLUListElement, DuckPaginationP
           >
             <Button
               variant="outline"
-              size="icon"
-              className={cn('w-[32px] h-[32px] p-0', maxLeftClassName)}
+              size="sm"
+              className={cn('w-[32px] p-0', maxLeftClassName)}
               {...maxLeftProps}
             >
-              <ChevronsLeftIcon className="size-4" />
+              <ChevronsLeftIcon />
             </Button>
           </PaginationItem>
           <PaginationItem
@@ -149,11 +149,11 @@ export const DuckPagination = React.forwardRef<HTMLUListElement, DuckPaginationP
           >
             <Button
               variant="outline"
-              size="icon"
-              className={cn('w-[32px] h-[32px] p-0', leftClassName)}
+              size="sm"
+              className={cn('w-[32px] p-0', leftClassName)}
               {...leftProps}
             >
-              <ChevronLeftIcon className="size-4" />
+              <ChevronLeftIcon />
             </Button>
           </PaginationItem>
           <PaginationItem
@@ -162,11 +162,11 @@ export const DuckPagination = React.forwardRef<HTMLUListElement, DuckPaginationP
           >
             <Button
               variant="outline"
-              size="icon"
-              className={cn('w-[32px] h-[32px] p-0', rightClassName)}
+              size="sm"
+              className={cn('w-[32px] p-0', rightClassName)}
               {...rightProps}
             >
-              <ChevronRightIcon className="size-4" />
+              <ChevronRightIcon />
             </Button>
           </PaginationItem>
           <PaginationItem
@@ -175,11 +175,11 @@ export const DuckPagination = React.forwardRef<HTMLUListElement, DuckPaginationP
           >
             <Button
               variant="outline"
-              size="icon"
-              className={cn('w-[32px] h-[32px] p-0', maxRightClassName)}
+              size="sm"
+              className={cn('w-[32px] p-0', maxRightClassName)}
               {...maxRightProps}
             >
-              <ChevronsRightIcon className="size-4" />
+              <ChevronsRightIcon />
             </Button>
           </PaginationItem>
         </PaginationContent>

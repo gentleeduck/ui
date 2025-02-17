@@ -125,3 +125,23 @@ export const serverActions: UploadServerActions = {
     return folder
   }) as UploadServerActions['insertFolder'],
 }
+
+export async function foo() {
+  const folder = await trpc.upload.getFolder.query({
+    folder_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e',
+    bucket_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e',
+  })
+  return folder
+}
+
+export async function fooAxios() {
+  const { data } = await fetch('http://localhost:4000/trpc/upload.getFolder', {
+    folder_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e',
+    bucket_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e',
+  })
+  const folder = await trpc.upload.getFolder.query({
+    folder_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e',
+    bucket_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e',
+  })
+  return folder
+}

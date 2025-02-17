@@ -79,14 +79,10 @@ const Combobox = <T extends keyof Record<string, unknown> = string, Y extends ke
               role="combobox"
               secondIcon={{
                 children: ChevronsUpDown,
-                className: cn('ml-2 h-4 w-4 shrink-0 opacity-50 overflow-hidden', type === 'listbox' && 'hidden'),
+                className: cn('ml-2 opacity-50 overflow-hidden', type === 'listbox' && 'hidden'),
               }}
               aria-expanded={open}
-              className={cn(
-                `justify-between`,
-                type === 'combobox' ? 'w-[200px] [&_div]:w-[81%]' : 'rounded-lg border-dashed py-1 px-2 h-8',
-                triggerClassName
-              )}
+              className={cn(`justify-between`, type === 'combobox' && 'w-[200px] [&_div]:w-[81%]', triggerClassName)}
               command={
                 {
                   ...command,

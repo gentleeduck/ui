@@ -21,7 +21,7 @@ import { TableDropdownMenuOptionsType, TableHeaderType, TablePaginationType } fr
 
 import { cn, groupArrays } from '@/lib/utils'
 
-import { ArrowDownIcon, ArrowUpIcon, CirclePlus } from 'lucide-react'
+import { ArrowDownIcon, ArrowUpIcon, CirclePlus, LucideIcon } from 'lucide-react'
 import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
 
 /*
@@ -238,12 +238,7 @@ export const DuckTableSearch = ({ children, className, input, ...props }: DuckTa
   const { setSearch } = useDuckTable() ?? {}
 
   //NOTE: Debounce search
-  const debouncedSearch = useDebounceCallback((newValue: string) => {
-    setSearch?.(prev => ({
-      ...prev,
-      q: newValue,
-    }))
-  }, 500)
+  const debouncedSearch = useDebounceCallback((newValue: string) => setSearch?.(_ => ({ query: newValue })), 500)
 
   return (
     <div
@@ -292,7 +287,6 @@ const DuckTableSearchInput = React.forwardRef<React.ElementRef<typeof Input>, Du
       [inputRef]
     )
 
-    console.log(triggerProps, 'asdfasdf')
     return (
       <div
         className="flex flex-col"
@@ -363,12 +357,10 @@ export const DuckTableFilter = <
             title={filter?.title}
             wrapper={filter?.wrapper}
             trigger={{
-              icon: {
-                children: CirclePlus,
-                className: '!size-4 stroke-[1.5]',
-              },
+              icon: { children: CirclePlus },
               children: (triggerChildren ?? 'not found') as Y,
-              className: cn('[&>div>span]:text-xs ml-auto w-[88px] lg:w-auto capitalize', triggerClassName),
+              size: 'sm',
+              className: cn('', triggerClassName),
               ...triggerProps,
             }}
             onSelect={
@@ -434,13 +426,11 @@ export const TableBarViewButton = <T extends Record<string, any> = Record<string
     <>
       <DropdownMenuView
         trigger={{
-          children: (
-            <>
-              <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-              View
-            </>
-          ),
-          className: 'ml-auto [&>div]:h-8 h-8 w-[79px] lg:flex [&>div]:gap-0 text-xs',
+          size: 'sm',
+          icon: {
+            children: MixerHorizontalIcon as LucideIcon,
+          },
+          children: 'View',
           label: {
             children: 'Toggle columns',
             showCommand: true,
@@ -486,6 +476,7 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
             // console.log(column)
             const { children, className, sortable, label, showLabel, dropdownMenuOptions, currentSort, ...props } =
               column
+
             // const actionsArgs = {
             //   sortArray,
             //   setTableData,
@@ -513,7 +504,7 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
                   {idx === 0 && (
                     <TableHead
                       className={cn(
-                        'flex items-center w-full data-[state=open]:bg-accent text-xs capitalize h-[50px] py-2',
+                        'flex items-center w-full data-[state=open]:bg-accent text-xs capitalize h-[51px] py-2',
                         dropdownMenuOptions?.length && 'justify-end'
                       )}
                       {...props}
@@ -537,30 +528,30 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
                     </TableHead>
                   )}
                   <TableHead
-                    className={cn('h-[40px] py-2', className)}
+                    className={cn('py-2', sortable && 'px-1', className)}
                     {...props}
                   >
                     {/*NOTE: Rendering Sorting else rendering label*/}
                     {!sortable ? (
-                      <span>{(label as string) ?? children}</span>
+                      <span className="capitalize">{(label as string) ?? children}</span>
                     ) : (
-                      <div className={cn('flex items-center space-x-2', className)}>
+                      <div className={cn('flex items-center space-x-2')}>
                         {dropdownMenuOptions?.length && (
                           <DropdownMenuView<TableDropdownMenuOptionsType<T, C>>
                             trigger={{
-                              className: '-ml-3 h-8 data-[state=open]:bg-accent text-xs ',
-                              children: (
-                                <>
-                                  <span className="capitalize">{(label as string) ?? children}</span>
-                                  {headers[idx]?.currentSort === 'asc' ? (
-                                    <ArrowDownIcon className="ml-2 h-4 w-4" />
-                                  ) : headers[idx]?.currentSort === 'desc' ? (
-                                    <ArrowUpIcon className="ml-2 h-4 w-4" />
-                                  ) : (
-                                    <CaretSortIcon className="ml-2 h-4 w-4" />
-                                  )}
-                                </>
-                              ),
+                              size: 'sm',
+                              variant: 'ghost',
+                              className:
+                                'data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize',
+                              secondIcon: {
+                                // className: '-ml-3',
+                                children: (headers[idx]?.currentSort === 'asc'
+                                  ? ArrowDownIcon
+                                  : headers[idx]?.currentSort === 'desc'
+                                    ? ArrowUpIcon
+                                    : CaretSortIcon) as LucideIcon,
+                              },
+                              children: (label as string) ?? children,
                               label: showLabel
                                 ? {
                                     children: label.toString() + ' options',
@@ -569,11 +560,9 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
                                     side: 'top',
                                   }
                                 : undefined,
-                              variant: 'ghost',
-                              size: 'sm',
                             }}
                             content={{
-                              align: 'start',
+                              align: 'center',
                               options: {
                                 group: [2, 1],
                                 optionsData: fullDropDownMenuOptions as
@@ -843,12 +832,62 @@ export type DuckTableBodyProps<T> = {
   children: (data: T) => React.ReactNode
 }
 
-export const DuckTableBody = <T,>({ data, children }: DuckTableBodyProps<T>) => {
-  const { pagination } = useDuckTable() ?? {}
-  const tableDataGrouped = groupArrays<T>([pagination?.pageSize ?? PAGE_SIZE], data as T[])
+//NOTE: Function to split array into chunks
+const splitIntoChunks = <T,>(array: T[], chunkSize: number) => {
+  const chunks = []
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(array.slice(i, i + chunkSize))
+  }
+  return chunks
+}
+
+export const DuckTableBody = <T,>({ data, children }: DuckTableBodyProps<T[]>) => {
+  const { pagination, search, filterBy } = useDuckTable() ?? {}
+  const tableDataGrouped = groupArrays<T>([pagination?.pageSize ?? PAGE_SIZE], data)
   const pageIdx = pagination?.pageIndex ?? PAGE_INDEX
 
-  return <TableBody>{children(tableDataGrouped[pageIdx] as T)}</TableBody>
+  // NOTE: Filter the items using the search query and filter keys.
+  const filteredData = React.useMemo(() => {
+    if (!tableDataGrouped[pageIdx]?.length) return []
+
+    return tableDataGrouped[pageIdx]?.filter(item => {
+      const itemValues = Object.values(item as Record<string, unknown>).map(value =>
+        JSON.stringify(value).toLowerCase()
+      )
+
+      const matchesSearch = search?.query ? itemValues.some(value => value.includes(search.query.toLowerCase())) : false
+
+      const matchesFilterBy = filterBy?.length
+        ? itemValues.some(value => filterBy.some(q => value.includes(q.toLowerCase())))
+        : false
+
+      return (!search?.query && !filterBy?.length) || matchesSearch || matchesFilterBy
+    })
+  }, [search, filterBy, tableDataGrouped, pageIdx])
+
+  // NOTE: Split the data into chunks based on the group size.
+  const resultArrays = React.useMemo(
+    () => splitIntoChunks(filteredData, pagination?.pageSize ?? PAGE_SIZE),
+    [filteredData, pagination?.pageSize]
+  )
+
+  console.log(filteredData)
+
+  return (
+    (resultArrays[pageIdx]?.length ?? 0 > 0) && (
+      <div className="overflow-auto w-[862.667px] h-[159.334px]">
+        <TableBody>{children(resultArrays[pageIdx] as T[])}</TableBody>
+      </div>
+    )
+  )
+}
+
+export const EmptyTable = () => {
+  return (
+    <div className="w-full h-full flex items-center justify-center absolute top-1/2 left-1/2">
+      <h6 className="text-muted-foreground text-center"> No data </h6>
+    </div>
+  )
 }
 
 export interface DuckTableProps extends React.ComponentPropsWithoutRef<typeof Table> {
@@ -858,15 +897,13 @@ export interface DuckTableProps extends React.ComponentPropsWithoutRef<typeof Ta
 export const DuckTable = ({ wrapper, className, children, ...props }: DuckTableProps) => {
   const { className: wrapperClassName, ...wrapperProps } = wrapper! ?? {}
 
-  return (
-    <ScrollArea
-      className={cn('border border-border rounded-lg !overflow-visible', wrapperClassName)}
-      {...wrapperProps}
-    >
-      <Table {...props}>{children}</Table>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
-  )
+  //     <ScrollArea
+  // className={cn('border border-border rounded-lg !overflow-visible relative', wrapperClassName)}
+  // {...wrapperProps}
+  // >
+  // <ScrollBar orientation="horizontal" />
+  // </ScrollArea>
+  return <Table {...props}>{children}</Table>
 }
 
 DuckTable.displayName = 'DuckTable'

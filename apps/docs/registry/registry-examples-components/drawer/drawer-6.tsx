@@ -15,7 +15,7 @@ function generateRandomGoals(count: number, minGoal: number = 100, maxGoal: numb
 
 const goals = generateRandomGoals(20)
 
-export default function DrawerDemo5() {
+export default function DrawerDemo6() {
   const [open, setOpen] = React.useState<boolean>(false)
   const [goal, setGoal] = React.useState<number>(350)
 

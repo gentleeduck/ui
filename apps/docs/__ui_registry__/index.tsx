@@ -1395,4 +1395,16 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'drawer-8': {
+    name: 'drawer-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [[{ path: 'registry-examples-components/drawer/drawer-8.tsx', type: 'registry:example' }]],
+    component: React.lazy(() => import('@/registry/registry-examples-components/drawer/drawer-8.tsx')),
+    source: '',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
 }

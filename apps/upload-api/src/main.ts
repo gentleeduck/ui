@@ -43,18 +43,18 @@ app.use('/panel', c => {
   return c.html(panelHTML)
 })
 
-serve(
-  {
-    port: 4050,
-    fetch: app.fetch,
-  },
-  () => {
-    console.log(`🦆⋆🐧⋆ API: Listening on port ${4050}`)
-    console.log(`🦆⋆🐧⋆ TRPC: http://localhost:${4050}/trpc`)
-    console.log(`🦆⋆🐧⋆ TRPC_PANEL: http://localhost:${4050}/panel`)
-    console.log(`🦆⋆🐧⋆ WEBSOCKET: ws://localhost:${4051}`)
-  }
-)
+// serve(
+//   {
+//     port: 4050,
+//     fetch: app.fetch,
+//   },
+//   () => {
+//     console.log(`🦆⋆🐧⋆ API: Listening on port ${4050}`)
+//     console.log(`🦆⋆🐧⋆ TRPC: http://localhost:${4050}/trpc`)
+//     console.log(`🦆⋆🐧⋆ TRPC_PANEL: http://localhost:${4050}/panel`)
+//     console.log(`🦆⋆🐧⋆ WEBSOCKET: ws://localhost:${4051}`)
+//   }
+// )
 
 /**
  * @see https://trpc.io/docs/v10/subscriptions#:~:text=/packages/server/src,codes.ts.

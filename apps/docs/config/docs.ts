@@ -85,19 +85,20 @@ export const docsConfig: DocsConfig = {
           title: 'Drawer',
           href: '/docs/components/drawer',
           items: [],
-        },
-        {
-          title: 'Header',
-          href: '/docs/components/header',
-          items: [],
           label: 'new',
         },
-        {
-          title: 'NavGroup',
-          href: '/docs/components/nav-group',
-          items: [],
-          label: 'new',
-        },
+        // {
+        //   title: 'Header',
+        //   href: '/docs/components/header',
+        //   items: [],
+        //   label: 'new',
+        // },
+        // {
+        //   title: 'NavGroup',
+        //   href: '/docs/components/nav-group',
+        //   items: [],
+        //   label: 'new',
+        // },
         {
           title: 'Upload',
           href: '/docs/components/upload',

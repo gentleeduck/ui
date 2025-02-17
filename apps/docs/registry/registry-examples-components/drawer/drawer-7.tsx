@@ -1,273 +1,124 @@
-'use client'
-
 import * as React from 'react'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/registry/registry-ui-components/drawer'
-import { Button } from '@/registry/registry-ui-components/button'
-import { Badge } from '@/registry/registry-ui-components/badge'
-import { cn } from '@/lib'
-import { AnimatePresence, motion } from 'motion/react'
-import { AnimateNumber } from 'motion-number'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/registry/registry-ui-components/accordion'
+import { Bar, BarChart, ResponsiveContainer } from 'recharts'
+import { Minus, Plus } from 'lucide-react'
+import { Button } from '@/registry/registry-ui-components'
 import { toast } from 'sonner'
-import { Separator } from '@/registry/default/ui'
+import { DrawerWrapper } from '@/registry/registry-ui-components/drawer'
 
-export default function DrawerDemo() {
-  const [open, setOpen] = React.useState(false)
-  const [progress, setProgress] = React.useState(0)
-  const [count, setCount] = React.useState(30)
-  const barCount = 37
-  const filledBars = Math.floor((progress / 100) * barCount)
-  const autoIncrement = true
-
-  React.useEffect(() => {
-    if (autoIncrement && progress < 100) {
-      const timer = setInterval(() => {
-        setProgress(prev => Math.min(prev + 1, 100))
-      }, 50)
-      return () => clearInterval(timer)
-    }
-  }, [progress, autoIncrement])
-
-  const getBarColor = (index: number) => {
-    const progress = (index / barCount) * 100
-    if (progress <= 15) return 'bg-red-500'
-    if (progress <= 40) return 'bg-orange-500'
-    if (progress <= 65) return 'bg-yellow-500'
-    if (progress <= 90) return 'bg-lime-500'
-    return 'bg-green-500'
+function generateRandomGoals(count: number, minGoal: number = 100, maxGoal: number = 500): { goal: number }[] {
+  const goals: { goal: number }[] = []
+  for (let i = 0; i < count; i++) {
+    goals.push({ goal: Math.floor(Math.random() * (maxGoal - minGoal + 1)) + minGoal })
   }
-  // Calculate badge color based on progress
-  const getBadgeColor = (progress: number) => {
-    if (progress <= 15) return 'bg-red-500'
-    if (progress <= 40) return 'bg-orange-500'
-    if (progress <= 65) return 'bg-yellow-500'
-    if (progress <= 95) return 'bg-lime-500'
-    return 'bg-green-500'
+  return goals
+}
+
+const goals = generateRandomGoals(20)
+
+export default function DrawerDemo7() {
+  const [open, setOpen] = React.useState<boolean>(false)
+  const [goal, setGoal] = React.useState<number>(350)
+
+  function onClick(adjustment: number) {
+    setGoal(Math.max(200, Math.min(400, goal + adjustment)))
   }
-  console.log(open)
-  return (
-    <Drawer
-      fixed={true}
-      shouldScaleBackground={false}
-    >
-      <DrawerTrigger asChild>
-        <Button
-          variant="outline"
-          className="mt-20"
-        >
-          Hard Checklist
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent className="max-w-xs mx-auto after:hidden mb-8 rounded-xl overflow-hidden">
-        <DuckTransitionProvider>
-          <div className={cn('mx-auto w-full max-w-sm p-4 overflow-hidden parent', open && 'parent2')}>
-            <DuckTransition1
-              value="layout-1"
-              className={cn(open && 'one2')}
-            >
-              <HI
-                barCount={barCount}
-                filledBars={filledBars}
-                progress={progress}
-                getBadgeColor={getBadgeColor}
-                getBarColor={getBarColor}
-                setOpen={setOpen}
-                setProgress={setProgress}
-              />
-            </DuckTransition1>
-            <DuckTransition2 className={cn(open && 'two2')}>
-              <HI2 setOpen={setOpen} />
-            </DuckTransition2>
-          </div>
-        </DuckTransitionProvider>
-      </DrawerContent>
-    </Drawer>
-  )
-}
-
-export type Layout = Map<string, { label: string; className: string }>
-export type DuckTransitionContextType = {
-  layouts: Layout
-  setLayouts: React.Dispatch<React.SetStateAction<Layout>>
-}
-
-const DuckTransitionContext = React.createContext<DuckTransitionContextType | null>(null)
-const useDuckTransitionContext = () => {
-  const context = React.useContext(DuckTransitionContext)
-  if (context === null) {
-    throw new Error('useDuckTransitionContext must be used within a DuckTransitionProvider')
-  }
-  return context
-}
-const DuckTransitionProvider = ({ children }: React.PropsWithChildren) => {
-  const [layouts, setLayouts] = React.useState<Layout>(new Map())
-  return <DuckTransitionContext.Provider value={{ layouts, setLayouts }}>{children}</DuckTransitionContext.Provider>
-}
-
-export interface DuckTransitionProps extends React.HTMLAttributes<HTMLDivElement> {
-  value: string
-}
-
-export function DuckTransition1({ className, children, value, ...props }: DuckTransitionProps) {
-  const { layouts, setLayouts } = useDuckTransitionContext() ?? {}
-  React.useEffect(() => {
-    setLayouts(prev => {
-      const newLayouts = new Map(prev)
-      newLayouts.set(value, { label: value, className: 'one' })
-      return newLayouts
-    })
-  }, [])
 
   return (
-    <div
-      className={cn(
-        // 'ease-[linear(0,_0.001_0.4%,_0.007_0.9%,_0.016_1.4%,_0.028_1.9%,_0.065_3%,_0.114_4.1%,_0.165_5.1%,_0.228_6.2%,_0.504_10.7%,_0.62_12.7%,_0.734_14.9%,_0.827_17%,_0.865_18%,_0.902_19.1%,_0.934_20.2%,_0.963_21.3%,_0.987_22.4%,_1.009_23.6%,_1.026_24.8%,_1.04_26%,_1.051_27.4%,_1.059_28.9%,_1.064_30.5%,_1.064_32.2%,_1.062_34%,_1.056_36.1%,_1.026_44.1%,_1.013_47.9%,_1.004_51.8%,_0.999_55.9%,_0.996_63.9%,_1_83.2%,_1)] p-4 flex flex-col gap-2 bg-background overflow-hidden',
-        layouts.get(value)?.className,
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  )
-}
-
-export function DuckTransition2({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn('two', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  )
-}
-
-export function HI(props: {
-  progress: number
-  filledBars: number
-  barCount: number
-  getBadgeColor: (progress: number) => string
-  getBarColor: (index: number) => string
-  setProgress: React.Dispatch<React.SetStateAction<number>>
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}) {
-  const { progress, getBadgeColor, barCount, filledBars, getBarColor, setOpen, setProgress } = props
-
-  return (
-    <>
-      <div className="flex items-center justify-between">
-        <DrawerTitle className="text-md">Almost there.</DrawerTitle>
-        <Badge
-          variant="destructive"
-          className={`rounded-lg will-change-auto w-[50px] transition-colors duration-300 ${getBadgeColor(progress)}`}
-        >
-          <AnimateNumber
-            format={{ style: 'decimal', notation: 'standard' }}
-            prefix="%"
-            // animate={{ backgroundClip: 'text' }}
+    <DrawerWrapper
+      modal={false}
+      open={open}
+      trigger={{
+        children: (
+          <Button
+            onClick={() => setOpen(true)}
+            variant="outline"
           >
-            {progress}
-          </AnimateNumber>
-        </Badge>
-      </div>
-      <DrawerDescription>Complete the remaining steps in the checklist before going live.</DrawerDescription>
-      <div className="flex justify-between w-full">
-        {[...Array(barCount)].map((_, index) => (
-          <motion.div
-            key={index}
-            initial={{ height: '1rem' }}
-            animate={{ height: '1.5rem', scale: index < filledBars ? [1, 1.1, 1] : 1 }}
-            transition={{ duration: 0.5, delay: index * 0.008 }}
-            className={`w-[5px] h-[1rem] rounded-full transition-colors duration-300 ${
-              index < filledBars ? getBarColor(index) : 'bg-gray-200'
-            }`}
+            Open New Drawer
+          </Button>
+        ),
+      }}
+      content={{
+        className: 'h-[480px] [&>div]:max-w-sm [&>div]:mx-auto',
+        children: (
+          <ContentComponent
+            goal={goal}
+            onClick={onClick}
           />
-        ))}
-      </div>
-
-      <DrawerFooter className="px-0 pb-0">
-        <Button
-          variant="secondary"
-          onClick={() => {
-            console.info('hi, i was clicked!!')
-            setOpen(true)
-          }}
-        >
-          See checklist
-        </Button>
-        <Button
-          variant="secondary"
-          disabled={progress < 100}
-          className={cn(progress === 100 && 'bg-green-500 text-white hover:bg-green-500/90')}
-          onClick={() => {
-            // setProgress(0)
-            toast.success('Wow duck you are done!')
-          }}
-        >
-          {progress === 100 ? 'Complete the checklist' : 'Go to checklist'}
-        </Button>
-      </DrawerFooter>
-    </>
+        ),
+        _header: {
+          _title: { children: <>Goal</> },
+          _description: { children: <>Set your daily calorie goal</> },
+        },
+        _footer: {
+          className: 'flex-row',
+          _submit: {
+            children: (
+              <Button
+                variant="default"
+                className="w-full"
+                onClick={() => setOpen(false)}
+              >
+                Close Drawer
+              </Button>
+            ),
+          },
+        },
+      }}
+    />
   )
 }
 
-export function HI2(props: { setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
-  const { setOpen } = props
+export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (adjustment: number) => void }) => {
   return (
-    <>
-      <DrawerTitle className="text-md">Checklist</DrawerTitle>
-      <Separator />
-      <ul className="flex flex-col gap-3">
-        {[
-          { title: 'Plan the project', description: 'Outline key milestones and deliverables.' },
-          { title: 'Gather resources', description: 'Collect necessary tools, assets, and information.' },
-          { title: 'Start development', description: 'Begin coding and implementing core features.' },
-          { title: 'Testing phase', description: 'Perform debugging, QA, and performance optimizations.' },
-          { title: 'Launch & review', description: 'Deploy the project and gather feedback for improvements.' },
-        ].map((task, index) => (
-          <li
-            key={index}
-            className="flex items-start gap-3"
+    <div className="w-full flex items-start justify-center pt-4 pb-2">
+      <div className="p-4 pb-0">
+        <div className="flex items-center justify-center space-x-2">
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 shrink-0 rounded-full"
+            onClick={() => onClick(-10)}
+            disabled={goal <= 200}
           >
-            <input
-              type="checkbox"
-              className="w-4 h-4 mt-1 accent-green-500"
-              id={`todo-${index}`}
-            />
-            <div>
-              <label
-                htmlFor={`todo-${index}`}
-                className="text-md font-semibold block"
-              >
-                {task.title}
-              </label>
-              <p className="text-sm text-muted-foreground">{task.description}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <Button
-        variant="secondary"
-        onClick={() => {
-          setOpen(!open)
-        }}
-      >
-        See checklist
-      </Button>
-    </>
+            <Minus className="h-4 w-4" />
+            <span className="sr-only">Decrease</span>
+          </Button>
+          <div className="flex-1 text-center">
+            <div className="text-7xl font-bold tracking-tighter">{goal}</div>
+            <div className="text-[0.70rem] uppercase text-muted-foreground">Calories/day</div>
+          </div>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 shrink-0 rounded-full"
+            onClick={() => onClick(10)}
+            disabled={goal >= 400}
+          >
+            <Plus className="h-4 w-4" />
+            <span className="sr-only">Increase</span>
+          </Button>
+        </div>
+        <div className="mt-3 h-[120px] w-full">
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+            className={'!w-[368px]'}
+          >
+            <BarChart data={goals}>
+              <Bar
+                dataKey="goal"
+                style={
+                  {
+                    width: '50px',
+                    fill: 'hsl(var(--foreground))',
+                    opacity: 0.9,
+                  } as React.CSSProperties
+                }
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
   )
 }

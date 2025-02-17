@@ -76,7 +76,7 @@ export default function Table1Demo() {
             selectable={true}
           />
 
-          <DuckTableBody<typeof tableData> data={tableData}>
+          <DuckTableBody<(typeof tableData)[number]> data={tableData}>
             {data =>
               data.map((row, idx) => {
                 return (

@@ -1686,5 +1686,19 @@
         "type": "registry:example"
       }
     ]
+  },
+  {
+    "name": "drawer-8",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "registry-examples-components/drawer",
+    "files": [
+      {
+        "path": "registry-examples-components/drawer/drawer-8.tsx",
+        "type": "registry:example"
+      }
+    ]
   }
 ]
