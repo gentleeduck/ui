@@ -204,6 +204,8 @@ export const Index: Record<string, any> = {
     files: [
       [
         { path: 'registry-ui-components/table/index.ts', type: 'registry:ui' },
+        { path: 'registry-ui-components/table/table-advanced.tsx', type: 'registry:ui' },
+        { path: 'registry-ui-components/table/table-advanced.types.ts', type: 'registry:ui' },
         { path: 'registry-ui-components/table/table.constants.ts', type: 'registry:ui' },
         { path: 'registry-ui-components/table/table.hook.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/table/table.lib.ts', type: 'registry:ui' },
@@ -1198,6 +1200,18 @@ export const Index: Record<string, any> = {
     registryDependencies: ['table'],
     files: [[{ path: 'registry-examples-components/table/table-2.tsx', type: 'registry:example' }]],
     component: React.lazy(() => import('@/registry/registry-examples-components/table/table-2.tsx')),
+    source: '',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'table-3': {
+    name: 'table-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['table'],
+    files: [[{ path: 'registry-examples-components/table/table-3.tsx', type: 'registry:example' }]],
+    component: React.lazy(() => import('@/registry/registry-examples-components/table/table-3.tsx')),
     source: '',
     category: '',
     subcategory: '',

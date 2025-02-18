@@ -1,8 +1,7 @@
 import * as React from 'react'
- 
- mport { useDuckShortcut } from '@ahmedayob/duck-shortcut'
- mport { Checkbox } from '@/registry/default/ui/checkbox'
- mport { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
+
+import { Checkbox } from '@/registry/default/ui/checkbox'
+import { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
 import { PaginationCustomView } from '@/registry/default/ui/pagination'
 import { Input } from '@/registry/default/ui/input'
 import { Combobox, type ComboboxType } from '@/registry/default/ui/combobox'
@@ -239,17 +238,17 @@ const DuckTableSearchInput = React.forwardRef<
 
   //NOTE: Duck shortcut
   const inputRef = React.useRef<HTMLInputElement>(null)
-  useDuckShortcut(
-    {
-      keys: keys ?? ['ctrl+shift+f'],
-      onKeysPressed: () => {
-        if (inputRef.current) {
-          inputRef.current.focus()
-        }
-      },
-    },
-    [inputRef],
-  )
+  // useDuckShortcut(
+  //   {
+  //     keys: keys ?? ['ctrl+shift+f'],
+  //     onKeysPressed: () => {
+  //       if (inputRef.current) {
+  //         inputRef.current.focus()
+  //       }
+  //     },
+  //   },
+  //   [inputRef],
+  // )
 
   return (
     <div className="flex flex-col" ref={ref}>
@@ -929,25 +928,6 @@ export interface DuckTableProps
   wrapper?: React.ComponentPropsWithoutRef<typeof ScrollArea>
 }
 
-export const DuckTable = ({
-  wrapper,
-  className,
-  children,
-  ...props
-}: DuckTableProps) => {
-  const { className: wrapperClassName, ...wrapperProps } = wrapper! ?? {}
-
-  //     <ScrollArea
-  // className={cn('border border-border rounded-lg !overflow-visible relative', wrapperClassName)}
-  // {...wrapperProps}
-  // >
-  // <ScrollBar orientation="horizontal" />
-  // </ScrollArea>
-  return <Table {...props}>{children}</Table>
-}
-
-DuckTable.displayName = 'DuckTable'
-
 // const {children: captionChildren, className: captionClassName, ...captionProps } = caption! ?? []
 // const [selected, setSelected] = React.useState<TableContentDataType<C>[]>([])
 // const [tableData, setTableData] = React.useState<TableContentDataType<C>[]>(tableContentData)
@@ -1066,7 +1046,6 @@ DuckTable.displayName = 'DuckTable'
 //         setPaginationState={setPaginationState}
 //     />
 // )}
-DuckTable.displayName = 'TableCustomView'
 
 export {
   Table,
@@ -1077,5 +1056,4 @@ export {
   TableRow,
   TableCell,
   TableCaption,
-  DuckTable as TableCustomView,
 }

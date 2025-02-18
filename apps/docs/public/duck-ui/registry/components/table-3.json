@@ -1,0 +1,15 @@
+{
+  "name": "table-3",
+  "type": "registry:example",
+  "registryDependencies": [
+    "table"
+  ],
+  "root_folder": "registry-examples-components/table",
+  "files": [
+    {
+      "path": "registry-examples-components/table/table-3.tsx",
+      "content": "import React from 'react'\nimport { cn } from '@/lib'\nimport {\n  DuckTableContext,\n  DuckTableProps,\n  DuckTableProviderProps,\n  TableSearchStateType,\n} from './table-advanced.types'\nimport { Table } from './table'\nimport { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'\n\nexport const DuckTableProvider = <TColumnName extends string[]>({\n  table_data,\n  children,\n  className,\n  ...props\n}: DuckTableProviderProps<TColumnName>) => {\n  const [search, setSearch] = React.useState<TableSearchStateType>({\n    query: '',\n    queryBy: [],\n  })\n\n  return (\n    <DuckTableContext.Provider\n      value={{\n        table_data,\n        search,\n        setSearch,\n      }}\n    >\n      <div\n        className={cn(\n          `w-full- flex flex-col gap-4 w-[900px] h-[500px]`,\n          className,\n        )}\n        {...props}\n      >\n        {children}\n      </div>\n    </DuckTableContext.Provider>\n  )\n}\n\nexport const DuckTable = ({\n  wrapper,\n  className,\n  children,\n  ...props\n}: DuckTableProps) => {\n  const { className: wrapperClassName, ...wrapperProps } = wrapper! ?? {}\n\n  return (\n    <ScrollArea\n      className={cn(\n        'border border-border rounded-lg !overflow-visible relative',\n        wrapperClassName,\n      )}\n      {...wrapperProps}\n    >\n      <Table {...props}>{children}</Table>\n      <ScrollBar orientation=\"horizontal\" />\n    </ScrollArea>\n  )\n}\n\nDuckTable.displayName = 'DuckTable'\n",
+      "type": "registry:example"
+    }
+  ]
+}

@@ -74,13 +74,10 @@ export default function Table1Demo() {
           </DuckTableBarLeftSide>
         </DuckTableBar>
         <DuckTable>
-          <DuckTableHeader
-            headers={columns}
-            selectable={true}
-          />
+          <DuckTableHeader headers={columns} selectable={true} />
 
           <DuckTableBody<(typeof tableData)[number]> data={tableData}>
-            {data =>
+            {(data) =>
               data?.map((row, idx) => {
                 return (
                   <DuckTableRowWrapper
@@ -132,45 +129,48 @@ export const DuckTableRowWrapper = ({
                 <React.Fragment>
                   {/*NOTE: Rendering Checkbox */}
                   {idx === 0 && (
-                    <TableCell
-                      key={idx}
-                      {...props}
-                    >
+                    <TableCell key={idx} {...props}>
                       <Checkbox className="border-border" />
                     </TableCell>
                   )}
-                  <TableCell
-                    key={idx}
-                    {...props}
-                  >
+                  <TableCell key={idx} {...props}>
                     <div className="flex items-center gap-4 justify-between">
                       {/*NOTE: Rendering Label */}
 
                       {/*NOTE: Rendering the row column childrend */}
                       <div className="grid [&_*]:text-ellipsis [&_*]:overflow-hidden [&_*]:whitespace-nowrap">
-                        <span className={cn(Icon && 'flex items-center gap-2 [&_svg]:flex-shrink-0')}>
+                        <span
+                          className={cn(
+                            Icon &&
+                              'flex items-center gap-2 [&_svg]:flex-shrink-0',
+                          )}
+                        >
                           {Icon && <Icon {...iconProps} />}
                           {Icon ? <span> {children}</span> : children}
                         </span>
                       </div>
                       {/*NOTE: Dropdown Menu */}
-                      {idx === Object.values(row).length - 1 && optionsData?.length && (
-                        <DropdownMenuView
-                          trigger={{
-                            className: 'flex py-0 px-1 data-[state=open]:bg-muted h-fit',
-                            children: <span className="sr-only">Open menu</span>,
-                            variant: 'ghost',
-                            size: 'sm',
-                            icon: {
-                              children: Ellipsis,
-                            },
-                          }}
-                          content={{
-                            align: 'end',
-                            options,
-                          }}
-                        />
-                      )}
+                      {idx === Object.values(row).length - 1 &&
+                        optionsData?.length && (
+                          <DropdownMenuView
+                            trigger={{
+                              className:
+                                'flex py-0 px-1 data-[state=open]:bg-muted h-fit',
+                              children: (
+                                <span className="sr-only">Open menu</span>
+                              ),
+                              variant: 'ghost',
+                              size: 'sm',
+                              icon: {
+                                children: Ellipsis,
+                              },
+                            }}
+                            content={{
+                              align: 'end',
+                              options,
+                            }}
+                          />
+                        )}
                     </div>
                   </TableCell>
                 </React.Fragment>
@@ -197,7 +197,10 @@ const footerColumns: FooterColumnType[] = [
 
 const iconStyle = 'size-4 stroke-[1.5] text-muted-foreground'
 // Assuming you have separate filter arrays for StatusType and PriorityType
-const filtersDataForStatusType: ComboboxType<keyof TableDataType, StatusType>[] = [
+const filtersDataForStatusType: ComboboxType<
+  keyof TableDataType,
+  StatusType
+>[] = [
   {
     type: 'listbox',
     trigger: {
@@ -267,7 +270,10 @@ const filtersDataForStatusType: ComboboxType<keyof TableDataType, StatusType>[] 
   },
 ]
 
-const filtersDataForPriorityType: ComboboxType<keyof TableDataType, PriorityType>[] = [
+const filtersDataForPriorityType: ComboboxType<
+  keyof TableDataType,
+  PriorityType
+>[] = [
   {
     type: 'listbox',
     trigger: {
@@ -320,24 +326,24 @@ const filtersDataForPriorityType: ComboboxType<keyof TableDataType, PriorityType
 
 const combinedFiltersData = [
   ...filtersDataForStatusType.map(
-    filter =>
+    (filter) =>
       ({
         ...filter,
         type: 'combobox',
         onSelect: filter.onSelect,
-      }) as ComboboxType<StatusType | PriorityType, keyof TableDataType>
+      }) as ComboboxType<StatusType | PriorityType, keyof TableDataType>,
   ),
   ...filtersDataForPriorityType.map(
-    filter =>
+    (filter) =>
       ({
         ...filter,
         type: 'combobox',
         onSelect: filter.onSelect,
-      }) as ComboboxType<StatusType | PriorityType, keyof TableDataType>
+      }) as ComboboxType<StatusType | PriorityType, keyof TableDataType>,
   ),
 ]
 
-const columns: TableHeaderType<TableDataType>[] = [
+export const columns = [
   {
     label: 'task',
     className: 'w-[130px]',
@@ -348,14 +354,14 @@ const columns: TableHeaderType<TableDataType>[] = [
     className: 'w-[300px]',
     sortable: true,
     showLabel: false,
-    dropdownMenuOptions: tableHeaderDropDown,
+    // dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'label',
     className: 'w-[140px]',
     sortable: true,
     currentSort: 'not sorted',
-    dropdownMenuOptions: tableHeaderDropDown,
+    // dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'status',
@@ -363,15 +369,15 @@ const columns: TableHeaderType<TableDataType>[] = [
     // showLabel: true,
     className: 'w-[145px]',
     currentSort: 'not sorted',
-    dropdownMenuOptions: tableHeaderDropDown,
+    // dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'priority',
     className: 'w-[170px]',
     sortable: true,
-    dropdownMenuOptions: tableHeaderDropDown,
+    // dropdownMenuOptions: tableHeaderDropDown,
   },
-]
+] as const satisfies readonly TableHeaderType[]
 
 const statuses = [
   { name: 'In Progress', icon: Clock12 },

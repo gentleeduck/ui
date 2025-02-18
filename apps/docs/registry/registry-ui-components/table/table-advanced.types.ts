@@ -1,79 +1,85 @@
 import React from 'react'
-import { TableDataKey, TableHeaderType } from './table.types'
+import { ScrollArea } from '@/registry/default/ui/scroll-area'
 import { IconProps } from '@radix-ui/react-icons/dist/types'
-import { TableDataType } from '@/registry/default/example/TableAdvancedDemo'
+import { TableHeaderType } from './table.types'
+import { Table } from '@/registry/default/ui/ShadcnUI/table'
 
-const columns: TableHeaderType[] = [
-  {
-    label: 'label',
-    className: 'w-[130px]',
-    sortable: false,
-  },
-  {
-    label: 'title',
-    className: 'w-[300px]',
-    sortable: true,
-    showLabel: false,
-  },
-  {
-    label: 'label',
-    className: 'w-[140px]',
-    sortable: true,
-    currentSort: 'not sorted',
-  },
-  {
-    label: 'status',
-    sortable: true,
-    // showLabel: true,
-    className: 'w-[145px]',
-  },
-  {
-    label: 'priority',
-    className: 'w-[170px]',
-    sortable: true,
-  },
-] as const
+// ------------------------------------------------------------------------------------------------
+// NOTE:  These types are used for the `table-advanced` context.
+// ------------------------------------------------------------------------------------------------
 
-export type DuckTableContextType<TRow extends Record<string, unknown>> = {
-  table_data: TRow[]
+export interface DuckTableProviderProps<TColumnName extends string[]>
+  extends React.HTMLAttributes<HTMLDivElement> {
+  table_columns: readonly TableHeaderType[]
+  table_rows: TableContentDataType<TColumnName>[]
+}
+
+export type DuckTableContextType<TColumnName extends string[]> = {
+  table_columns: readonly TableHeaderType[]
+  table_rows: TableContentDataType<TColumnName>[]
   search: TableSearchStateType
   setSearch: React.Dispatch<React.SetStateAction<TableSearchStateType>>
-  // pagination: TablePaginationStateType
-  // setPagination: React.Dispatch<React.SetStateAction<TablePaginationStateType>>
-  // selection: TableSelectionStateType
-  // setSelection: React.Dispatch<React.SetStateAction<TableSelectionStateType>>
-  // columnsViewed: ColumnsViewedStateType<Column>[] | undefined
-  // setColumnsViewed:
-  //   | React.Dispatch<React.SetStateAction<ColumnsViewedStateType<Column>[]>>
-  //   | undefined
-  // order: OrderStateType[]
-  // setOrder: React.Dispatch<React.SetStateAction<OrderStateType[]>>
 }
 
-export type TableContentDataType<TKey extends Record<string, unknown>> = {
-  [key in keyof TKey]: { children?: TKey[key]; icon?: IconProps }
+export interface TableSearchStateType {
+  query: string
+  queryBy: string[]
 }
 
+export interface DuckTableProps
+  extends React.ComponentPropsWithoutRef<typeof Table> {
+  wrapper?: React.ComponentPropsWithoutRef<typeof ScrollArea>
+}
+
+// ------------------------------------------------------------------------------------------------
+// NOTE:  These types are used for the `table-advanced` context, hence i use them to get the types.
+// ------------------------------------------------------------------------------------------------
+
+/**
+ * Defines the column type for a table.
+ *
+ * ### Type Safety Guidelines:
+ * 1. Define the columns array as `const` to infer the most precise type.
+ * 2. Ensure the type satisfies `readonly TableColumnType[]` for full type safety.
+ *
+ * #### Inferring Type as a Union
+ * - Append `[number]` to the type to infer a union of possible labels.
+ * ```ts
+ * const label: GetColumnLabel<typeof columns>[number] = 'label'; // or any other column label
+ * ```
+ *
+ * #### Defining Columns and Extracting Labels
+ * ```ts
+ * // Define columns as a strongly typed readonly array
+ * const columns = [...] as const as readonly TableColumnType[];
+ * const label: GetColumnLabel<typeof columns> = ['label', 'title', 'status', 'priority'];
+ * ```
+ */
+export type GetColumnLabel<TColumn extends readonly TableHeaderType[]> = {
+  -readonly [K in keyof TColumn]: `${TColumn[K]['label']}`
+}
+export type TableContentDataType<TColumnName extends string[]> = {
+  [key in keyof TColumnName]: TableDataKey & {
+    children?: TColumnName[number]
+    icon?: IconProps
+  }
+}
+
+// ------------------------------------------------------------------------------------------------
+//NOTE: not used yet.
 export type TableDataFilteredType<T extends Record<string, unknown>> = {
   [K in keyof T]: [K, T[K]]
 }[keyof T][]
 
-type O<T extends { label: string }[]> = {
-  [K in keyof T]: T[K]['label']
+export interface TableDataKey extends React.HTMLProps<HTMLTableCellElement> {
+  // TODO: bro what the fuck is this, the old code looks bloated af.
+  // FIX: make sure to sue these in the feture
+  // withLabel?: Omit<LabelType, 'showCommand' | 'showLabel'>
+  // withIcon?: React.ReactNode
 }
-
-type H = O<typeof columns>
-const hi: H = {}
-
-const hi: DuckTableContextType<
-  TableContentDataType<typeof columns>
->['table_data'] = []
-
 export const DuckTableContext =
   React.createContext<DuckTableContextType<any> | null>(null)
 
-export interface DuckTableProviderProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
 export interface TablePaginationStateType {
   pageSize: number
   pageIndex: number
@@ -83,10 +89,6 @@ export interface TableSelectionStateType {
   rowSelected: Record<string, unknown>[]
 }
 
-export interface TableSearchStateType {
-  query: string
-  queryBy: string[]
-}
 export type ColumnsViewedStateType<T extends Record<string, unknown>> =
   TableHeaderType<T> | null
 
