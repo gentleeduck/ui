@@ -1,28 +1,52 @@
 import * as React from 'react'
-
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
-import { Checkbox } from '@/registry/default/ui/checkbox'
-import { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
+ 
+ mport { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+ mport { Checkbox } from '@/registry/default/ui/checkbox'
+ mport { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
 import { PaginationCustomView } from '@/registry/default/ui/pagination'
 import { Input } from '@/registry/default/ui/input'
 import { Combobox, type ComboboxType } from '@/registry/default/ui/combobox'
-import { CommandShortcut, type CommandListGroupDataType } from '@/registry/default/ui/command'
-import { type DropdownMenuOptionsDataType, DropdownMenuView } from '@/registry/default/ui/dropdown-menu'
-import { ContextCustomView, DuckContextMenuProps } from '@/registry/default/ui/context-menu'
+import {
+  CommandShortcut,
+  type CommandListGroupDataType,
+} from '@/registry/default/ui/command'
+import {
+  type DropdownMenuOptionsDataType,
+  DropdownMenuView,
+} from '@/registry/default/ui/dropdown-menu'
+import {
+  ContextCustomView,
+  DuckContextMenuProps,
+} from '@/registry/default/ui/context-menu'
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../tooltip'
 import { LabelType } from '../button'
 import { Badge } from '../badge'
 import { useDebounceCallback } from '@/hooks'
 import { get_options_data } from './table.lib'
 import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
 import { useDuckTable } from './table.hook'
-import { TableDropdownMenuOptionsType, TableHeaderType, TablePaginationType } from './table.types'
+import {
+  TableDropdownMenuOptionsType,
+  TableHeaderType,
+  TablePaginationType,
+} from './table.types'
 
 import { cn, groupArrays } from '@/lib/utils'
 
-import { ArrowDownIcon, ArrowUpIcon, CirclePlus, LucideIcon } from 'lucide-react'
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CirclePlus,
+  LucideIcon,
+} from 'lucide-react'
 import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
+import { Separator } from '@/registry/default/ui'
 
 /*
  *  - This's the normal table components.
@@ -30,199 +54,120 @@ import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
  *  this file to make sure you get the best performance, out of this table with
  *  a more customized design.
  */
-const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-  ({ className, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
-      <table
-        ref={ref}
-        className={cn('w-full caption-bottom text-sm', className)}
-        {...props}
-      />
-    </div>
-  )
-)
+const Table = React.forwardRef<
+  HTMLTableElement,
+  React.HTMLAttributes<HTMLTableElement>
+>(({ className, ...props }, ref) => (
+  <div className="relative w-full overflow-auto">
+    <table
+      ref={ref}
+      className={cn('w-full caption-bottom text-sm', className)}
+      {...props}
+    />
+  </div>
+))
 Table.displayName = 'Table'
 
-const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
-  ({ className, ...props }, ref) => (
-    <thead
-      ref={ref}
-      className={cn('[&_tr]:border-b', className)}
-      {...props}
-    />
-  )
-)
+const TableHeader = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <thead ref={ref} className={cn('[&_tr]:border-b', className)} {...props} />
+))
 TableHeader.displayName = 'TableHeader'
 
-const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
-  ({ className, ...props }, ref) => (
-    <tbody
-      ref={ref}
-      className={cn('[&_tr:last-child]:border-0', className)}
-      {...props}
-    />
-  )
-)
+const TableBody = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <tbody
+    ref={ref}
+    className={cn('[&_tr:last-child]:border-0', className)}
+    {...props}
+  />
+))
 TableBody.displayName = 'TableBody'
 
-const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
-  ({ className, ...props }, ref) => (
-    <tfoot
-      ref={ref}
-      className={cn('border-t bg-muted/50 font-medium [&>tr]:last:border-b-0', className)}
-      {...props}
-    />
-  )
-)
+const TableFooter = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <tfoot
+    ref={ref}
+    className={cn(
+      'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0',
+      className,
+    )}
+    {...props}
+  />
+))
 TableFooter.displayName = 'TableFooter'
 
-const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(
-  ({ className, ...props }, ref) => (
-    <tr
-      ref={ref}
-      className={cn('border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted', className)}
-      {...props}
-    />
-  )
-)
+const TableRow = React.forwardRef<
+  HTMLTableRowElement,
+  React.HTMLAttributes<HTMLTableRowElement>
+>(({ className, ...props }, ref) => (
+  <tr
+    ref={ref}
+    className={cn(
+      'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
+      className,
+    )}
+    {...props}
+  />
+))
 TableRow.displayName = 'TableRow'
 
-const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<HTMLTableCellElement>>(
-  ({ className, ...props }, ref) => (
-    <th
-      ref={ref}
-      className={cn(
-        'h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',
-        className
-      )}
-      {...props}
-    />
-  )
-)
+const TableHead = React.forwardRef<
+  HTMLTableCellElement,
+  React.ThHTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+  <th
+    ref={ref}
+    className={cn(
+      'h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',
+      className,
+    )}
+    {...props}
+  />
+))
 TableHead.displayName = 'TableHead'
 
-const TableCell = React.forwardRef<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>(
-  ({ className, ...props }, ref) => (
-    <td
-      ref={ref}
-      className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
-      {...props}
-    />
-  )
-)
+const TableCell = React.forwardRef<
+  HTMLTableCellElement,
+  React.TdHTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+  <td
+    ref={ref}
+    className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
+    {...props}
+  />
+))
 TableCell.displayName = 'TableCell'
 
-const TableCaption = React.forwardRef<HTMLTableCaptionElement, React.HTMLAttributes<HTMLTableCaptionElement>>(
-  ({ className, ...props }, ref) => (
-    <caption
-      ref={ref}
-      className={cn('mt-4 text-sm text-muted-foreground', className)}
-      {...props}
-    />
-  )
-)
+const TableCaption = React.forwardRef<
+  HTMLTableCaptionElement,
+  React.HTMLAttributes<HTMLTableCaptionElement>
+>(({ className, ...props }, ref) => (
+  <caption
+    ref={ref}
+    className={cn('mt-4 text-sm text-muted-foreground', className)}
+    {...props}
+  />
+))
 TableCaption.displayName = 'TableCaption'
 
-/*
- *  - From this point to the rest of the files are the components for the data table lib we made it's
- *  totally customizable, if you don't like something about this lib you can change it.
- *  - It's totally type safe and easy to use.
- */
-
-export type DuckTableContextType<Column extends Record<string, unknown>> = {
-  pagination: TablePaginationStateType
-  setPagination: React.Dispatch<React.SetStateAction<TablePaginationStateType>>
-  selection: TableSelectionStateType
-  setSelection: React.Dispatch<React.SetStateAction<TableSelectionStateType>>
-  search: TableSearchStateType
-  setSearch: React.Dispatch<React.SetStateAction<TableSearchStateType>>
-  columnsViewed: ColumnsViewedStateType<Column>[] | undefined
-  setColumnsViewed: React.Dispatch<React.SetStateAction<ColumnsViewedStateType<Column>[]>> | undefined
-  order: OrderStateType[]
-  setOrder: React.Dispatch<React.SetStateAction<OrderStateType[]>>
-  filterBy: FilterByType
-  setFilterBy: React.Dispatch<React.SetStateAction<FilterByType>>
-}
-
-export const DuckTableContext = React.createContext<DuckTableContextType<any> | null>(null)
-
-export interface DuckTableProviderProps extends React.HTMLAttributes<HTMLDivElement> {}
-export interface TablePaginationStateType {
-  pageSize: number
-  pageIndex: number
-}
-
-export type FilterByType = string[]
-
-export interface TableSelectionStateType {
-  rowSelected: Record<string, unknown>[]
-}
-
-export interface TableSearchStateType {
-  query: string
-}
-export type ColumnsViewedStateType<T extends Record<string, unknown>> = TableHeaderType<T> | null
-
-export type OrderStateType = {
-  orderBy: string
-  orderDir: 'asc' | 'desc'
-}
-
-export const DuckTableProvider = <Column extends Record<string, unknown>>({
+export const DuckTableBar = ({
   children,
   className,
   ...props
-}: DuckTableProviderProps) => {
-  const [pagination, setPagination] = React.useState<TablePaginationStateType>({
-    pageSize: PAGE_SIZE,
-    pageIndex: PAGE_INDEX,
-  })
-
-  const [selection, setSelection] = React.useState<TableSelectionStateType>({
-    rowSelected: [],
-  })
-
-  const [search, setSearch] = React.useState<TableSearchStateType>({
-    query: '',
-  })
-
-  const [filterBy, setFilterBy] = React.useState<FilterByType>([])
-
-  const [columnsViewed, setColumnsViewed] = React.useState<ColumnsViewedStateType<Column> | never[]>([])
-
-  const [order, setOrder] = React.useState<OrderStateType[]>([])
-
-  return (
-    <DuckTableContext.Provider
-      value={{
-        pagination,
-        setPagination,
-        selection,
-        setSelection,
-        search,
-        setSearch,
-        columnsViewed: columnsViewed as ColumnsViewedStateType<Column>[],
-        setColumnsViewed: setColumnsViewed as React.Dispatch<React.SetStateAction<ColumnsViewedStateType<Column>[]>>,
-        order,
-        setOrder,
-        filterBy,
-        setFilterBy,
-      }}
-    >
-      <div
-        className={cn(`w-full flex flex-col gap-4`, className)}
-        {...props}
-      >
-        {children}
-      </div>
-    </DuckTableContext.Provider>
-  )
-}
-
-export const DuckTableBar = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
+}: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
-      className={cn('flex items-end lg:items-center justify-between gap-2', className)}
+      className={cn(
+        'flex items-end lg:items-center justify-between gap-2',
+        className,
+      )}
       {...props}
     >
       {children}
@@ -234,11 +179,19 @@ export interface DuckTableSearchProps extends React.HTMLProps<HTMLDivElement> {
   input?: DuckTableSearchInputProps
 }
 
-export const DuckTableSearch = ({ children, className, input, ...props }: DuckTableSearchProps) => {
+export const DuckTableSearch = ({
+  children,
+  className,
+  input,
+  ...props
+}: DuckTableSearchProps) => {
   const { setSearch } = useDuckTable() ?? {}
 
   //NOTE: Debounce search
-  const debouncedSearch = useDebounceCallback((newValue: string) => setSearch?.(_ => ({ query: newValue })), 500)
+  const debouncedSearch = useDebounceCallback(
+    (newValue: string) => setSearch?.((_) => ({ query: newValue })),
+    500,
+  )
 
   return (
     <div
@@ -249,7 +202,8 @@ export const DuckTableSearch = ({ children, className, input, ...props }: DuckTa
         {...input}
         trigger={{
           ...input?.trigger,
-          onChange: (event: React.ChangeEvent<HTMLInputElement>) => debouncedSearch(event.target.value),
+          onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+            debouncedSearch(event.target.value),
         }}
       />
     </div>
@@ -263,67 +217,69 @@ export interface DuckTableSearchInputProps {
   keys?: string[]
 }
 
-const DuckTableSearchInput = React.forwardRef<React.ElementRef<typeof Input>, DuckTableSearchInputProps>(
-  ({ trigger, label, badge, keys }, ref) => {
-    const { children: badgeChildren = '⌃+⇧+F', className: badgeClassName, ...badgeProps } = badge ?? {}
-    const { children: labelChildren = 'Filter tasks...', className: labelClassName, ...labelProps } = label ?? {}
-    const {
-      className: triggerClassName = 'h-8 w-[150px] lg:w-[200px]',
-      placeholder = 'Filter tasks...',
-      ...triggerProps
-    } = trigger ?? {}
+const DuckTableSearchInput = React.forwardRef<
+  React.ElementRef<typeof Input>,
+  DuckTableSearchInputProps
+>(({ trigger, label, badge, keys }, ref) => {
+  const {
+    children: badgeChildren = '⌃+⇧+F',
+    className: badgeClassName,
+    ...badgeProps
+  } = badge ?? {}
+  const {
+    children: labelChildren = 'Filter tasks...',
+    className: labelClassName,
+    ...labelProps
+  } = label ?? {}
+  const {
+    className: triggerClassName = 'h-8 w-[150px] lg:w-[200px]',
+    placeholder = 'Filter tasks...',
+    ...triggerProps
+  } = trigger ?? {}
 
-    //NOTE: Duck shortcut
-    const inputRef = React.useRef<HTMLInputElement>(null)
-    useDuckShortcut(
-      {
-        keys: keys ?? ['ctrl+shift+f'],
-        onKeysPressed: () => {
-          if (inputRef.current) {
-            inputRef.current.focus()
-          }
-        },
+  //NOTE: Duck shortcut
+  const inputRef = React.useRef<HTMLInputElement>(null)
+  useDuckShortcut(
+    {
+      keys: keys ?? ['ctrl+shift+f'],
+      onKeysPressed: () => {
+        if (inputRef.current) {
+          inputRef.current.focus()
+        }
       },
-      [inputRef]
-    )
+    },
+    [inputRef],
+  )
 
-    return (
-      <div
-        className="flex flex-col"
-        ref={ref}
-      >
-        <Tooltip delayDuration={100}>
-          <TooltipTrigger>
-            <Input
-              className={cn('h-8 w-[150px] lg:w-[200px]', triggerClassName)}
-              ref={inputRef}
-              placeholder={placeholder}
-              {...triggerProps}
-            />
-          </TooltipTrigger>
-          <TooltipContent
-            className={cn('flex items-center gap-2 z-50 justify-start', labelClassName)}
-            {...labelProps}
-          >
-            <CommandShortcut
-              className="text-[.8rem]"
-              {...badgeProps}
-            >
-              <Badge
-                variant="secondary"
-                size="sm"
-                className="p-0 px-2"
-              >
-                {badgeChildren}
-              </Badge>
-            </CommandShortcut>
-            <p className="text-sm">{labelChildren}</p>
-          </TooltipContent>
-        </Tooltip>
-      </div>
-    )
-  }
-)
+  return (
+    <div className="flex flex-col" ref={ref}>
+      <Tooltip delayDuration={100}>
+        <TooltipTrigger>
+          <Input
+            className={cn('h-8 w-[150px] lg:w-[200px]', triggerClassName)}
+            ref={inputRef}
+            placeholder={placeholder}
+            {...triggerProps}
+          />
+        </TooltipTrigger>
+        <TooltipContent
+          className={cn(
+            'flex items-center gap-2 z-50 justify-start',
+            labelClassName,
+          )}
+          {...labelProps}
+        >
+          <CommandShortcut className="text-[.8rem]" {...badgeProps}>
+            <Badge variant="secondary" size="sm" className="p-0 px-2">
+              {badgeChildren}
+            </Badge>
+          </CommandShortcut>
+          <p className="text-sm">{labelChildren}</p>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  )
+})
 
 export interface DuckTableFilterProps<
   T extends Record<string, any> = Record<string, string>,
@@ -344,12 +300,13 @@ export const DuckTableFilter = <
   const { filterBy, setFilterBy } = useDuckTable() ?? {}
 
   return (
-    <div
-      className={cn('flex items-center gap-2', className)}
-      {...props}
-    >
+    <div className={cn('flex items-center gap-2', className)} {...props}>
       {filter?.map((filter, idx) => {
-        const { className: triggerClassName, children: triggerChildren, ...triggerProps } = filter?.trigger ?? {}
+        const {
+          className: triggerClassName,
+          children: triggerChildren,
+          ...triggerProps
+        } = filter?.trigger ?? {}
         return (
           <Combobox<Y, Extract<keyof T, string>>
             key={idx}
@@ -366,7 +323,9 @@ export const DuckTableFilter = <
             onSelect={
               filter?.onSelect ?? {
                 value: filterBy as Extract<keyof T, string>[],
-                setValue: setFilterBy as React.Dispatch<React.SetStateAction<Extract<keyof T, string>[]>>,
+                setValue: setFilterBy as React.Dispatch<
+                  React.SetStateAction<Extract<keyof T, string>[]>
+                >,
               }
             }
             content={{
@@ -379,48 +338,68 @@ export const DuckTableFilter = <
   )
 }
 
-export interface DuckTableBarRightSideProps extends React.HTMLProps<HTMLDivElement> {}
+export interface DuckTableBarRightSideProps
+  extends React.HTMLProps<HTMLDivElement> {}
 
-export const DuckTableBarRightSide = React.forwardRef<HTMLDivElement, DuckTableBarRightSideProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <div
-        className={cn('grid lg:flex items-center lg:justify-between gap-2', className)}
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </div>
-    )
-  }
-)
+export const DuckTableBarRightSide = React.forwardRef<
+  HTMLDivElement,
+  DuckTableBarRightSideProps
+>(({ className, children, ...props }, ref) => {
+  return (
+    <div
+      className={cn(
+        'grid lg:flex items-center lg:justify-between gap-2',
+        className,
+      )}
+      ref={ref}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+})
 
-export interface DuckTableBarLeftSideProps extends React.HTMLProps<HTMLDivElement> {}
+export interface DuckTableBarLeftSideProps
+  extends React.HTMLProps<HTMLDivElement> {}
 
-export const DuckTableBarLeftSide = React.forwardRef<HTMLDivElement, DuckTableBarLeftSideProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <div
-        className={cn('grid lg:flex items-center lg:justify-between gap-2', className)}
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </div>
-    )
-  }
-)
+export const DuckTableBarLeftSide = React.forwardRef<
+  HTMLDivElement,
+  DuckTableBarLeftSideProps
+>(({ className, children, ...props }, ref) => {
+  return (
+    <div
+      className={cn(
+        'grid lg:flex items-center lg:justify-between gap-2',
+        className,
+      )}
+      ref={ref}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+})
 
-export interface DuckTableBarActionsProps<T extends Record<string, unknown>, C extends boolean> {
+export interface DuckTableBarActionsProps<
+  T extends Record<string, unknown>,
+  C extends boolean,
+> {
   header: TableHeaderType<T, C>[]
 }
 
-export const TableBarViewButton = <T extends Record<string, any> = Record<string, string>, C extends boolean = false>({
+export const TableBarViewButton = <
+  T extends Record<string, any> = Record<string, string>,
+  C extends boolean = false,
+>({
   header,
 }: DuckTableBarActionsProps<T, C>) => {
   const { setColumnsViewed, columnsViewed } = useDuckTable<T>() ?? {}
 
-  const option_data = get_options_data<T>({ header, columnsViewed, setColumnsViewed })
+  const option_data = get_options_data<T>({
+    header,
+    columnsViewed,
+    setColumnsViewed,
+  })
 
   return (
     <>
@@ -464,7 +443,10 @@ export interface DuckTableHeaderProps<
   selectable?: boolean
 }
 
-export const DuckTableHeader = <T extends Record<string, any> = Record<string, string>, C extends boolean = true>({
+export const DuckTableHeader = <
+  T extends Record<string, any> = Record<string, string>,
+  C extends boolean = true,
+>({
   headers,
   selectable,
 }: DuckTableHeaderProps<T, C>) => {
@@ -474,8 +456,16 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
         <TableRow>
           {headers?.map((column, idx) => {
             // console.log(column)
-            const { children, className, sortable, label, showLabel, dropdownMenuOptions, currentSort, ...props } =
-              column
+            const {
+              children,
+              className,
+              sortable,
+              label,
+              showLabel,
+              dropdownMenuOptions,
+              currentSort,
+              ...props
+            } = column
 
             // const actionsArgs = {
             //   sortArray,
@@ -489,7 +479,7 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
             // } as unknown as TableDropdownMenuOptionsType<C>
 
             //NOTE: passing the actionsArgs to the onClick function
-            const fullDropDownMenuOptions = dropdownMenuOptions?.map(item => {
+            const fullDropDownMenuOptions = dropdownMenuOptions?.map((item) => {
               return {
                 ...item,
                 // onClick: (e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLDivElement>) => {
@@ -499,13 +489,13 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
             })
 
             return (
-              headers.some(header => header.children === column.children) && (
+              headers.some((header) => header.children === column.children) && (
                 <React.Fragment key={idx}>
                   {idx === 0 && (
                     <TableHead
                       className={cn(
                         'flex items-center w-full data-[state=open]:bg-accent text-xs capitalize h-[51px] py-2',
-                        dropdownMenuOptions?.length && 'justify-end'
+                        dropdownMenuOptions?.length && 'justify-end',
                       )}
                       {...props}
                     >
@@ -533,7 +523,9 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
                   >
                     {/*NOTE: Rendering Sorting else rendering label*/}
                     {!sortable ? (
-                      <span className="capitalize">{(label as string) ?? children}</span>
+                      <span className="capitalize">
+                        {(label as string) ?? children}
+                      </span>
                     ) : (
                       <div className={cn('flex items-center space-x-2')}>
                         {dropdownMenuOptions?.length && (
@@ -566,7 +558,9 @@ export const DuckTableHeader = <T extends Record<string, any> = Record<string, s
                               options: {
                                 group: [2, 1],
                                 optionsData: fullDropDownMenuOptions as
-                                  | DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T, C>>[]
+                                  | DropdownMenuOptionsDataType<
+                                      TableDropdownMenuOptionsType<T, C>
+                                    >[]
                                   | undefined,
                               },
                             }}
@@ -601,7 +595,9 @@ export const DuckTableBodyRow = <C extends Record<string, unknown>>({
     <ContextCustomView
       trigger={{
         ...trigger,
-        children: <TableRow {...props}>{children ?? trigger?.children}</TableRow>,
+        children: (
+          <TableRow {...props}>{children ?? trigger?.children}</TableRow>
+        ),
       }}
       wrapper={wrapper}
       content={content}
@@ -609,22 +605,25 @@ export const DuckTableBodyRow = <C extends Record<string, unknown>>({
   )
 }
 
-export interface DuckTableFooterProps extends Partial<React.ComponentPropsWithoutRef<typeof TableFooter>> {
+export interface DuckTableFooterProps
+  extends Partial<React.ComponentPropsWithoutRef<typeof TableFooter>> {
   columns: FooterColumnType[]
 }
-export type FooterColumnType = Partial<React.ComponentPropsWithoutRef<typeof TableCell>>
+export type FooterColumnType = Partial<
+  React.ComponentPropsWithoutRef<typeof TableCell>
+>
 
-export const DuckTableFooter = ({ className, columns }: DuckTableFooterProps) => {
+export const DuckTableFooter = ({
+  className,
+  columns,
+}: DuckTableFooterProps) => {
   return (
     <TableFooter className={cn(className)}>
       <TableRow>
         {columns?.map((item, idx) => {
           const { children, ...props } = item
           return (
-            <TableCell
-              key={idx}
-              {...props}
-            >
+            <TableCell key={idx} {...props}>
               {children}
             </TableCell>
           )
@@ -634,16 +633,27 @@ export const DuckTableFooter = ({ className, columns }: DuckTableFooterProps) =>
   )
 }
 
-export interface DuckTableDownBarProps extends React.HTMLProps<HTMLDivElement> {}
+export interface DuckTableDownBarProps
+  extends React.HTMLProps<HTMLDivElement> {}
 
-export const DuckTableDownBar = ({ children, className, ...props }: DuckTableDownBarProps) => {
+export const DuckTableDownBar = ({
+  children,
+  className,
+  ...props
+}: DuckTableDownBarProps) => {
   return (
-    <div
-      className={cn('grid lg:flex items-center lg:justify-between gap-4 lg::gap-0', className)}
-      {...props}
-    >
-      {children}
-    </div>
+    <>
+      <Separator />
+      <div
+        className={cn(
+          'grid lg:flex items-center lg:justify-between gap-4 lg::gap-0',
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    </>
   )
 }
 export type DuckTablePaginationProps = {}
@@ -655,9 +665,12 @@ export const DuckTablePagination = ({}: DuckTablePaginationProps) => {
     <PaginationCustomView
       right={{
         onClick: () => {
-          setPagination(old => ({
+          setPagination((old) => ({
             ...old,
-            pageIndex: old.pageIndex === old.pageSize - 1 ? old.pageSize - 1 : (old.pageIndex ?? 1) + 1,
+            pageIndex:
+              old.pageIndex === old.pageSize - 1
+                ? old.pageSize - 1
+                : (old.pageIndex ?? 1) + 1,
           }))
         },
         command: {
@@ -753,12 +766,18 @@ const TablePagination = <
 }: TablePaginationType<C>) => {
   //NOTE: gen the page length data
   const pageLengthData = paginations?.groupSize
-    ? Array.from({ length: Math.ceil(tableData.length / paginations.groupSize) }, (_, index) => {
-        const start = index * paginations.groupSize + 1
-        const end = Math.min((index + 1) * paginations.groupSize, tableData.length)
-        if (start > tableData.length) return null
-        return end.toString()
-      })
+    ? Array.from(
+        { length: Math.ceil(tableData.length / paginations.groupSize) },
+        (_, index) => {
+          const start = index * paginations.groupSize + 1
+          const end = Math.min(
+            (index + 1) * paginations.groupSize,
+            tableData.length,
+          )
+          if (start > tableData.length) return null
+          return end.toString()
+        },
+      )
         .filter(Boolean)
         .reduce((acc, curr) => {
           acc.push({ label: curr!, element: { children: curr! } })
@@ -788,7 +807,8 @@ const TablePagination = <
                 <Combobox<Extract<keyof C, string>, Y>
                   type="combobox"
                   content={{
-                    data: (pageLengthData ?? []) as CommandListGroupDataType<Y>[],
+                    data: (pageLengthData ??
+                      []) as CommandListGroupDataType<Y>[],
                     showSearchInput: false,
                     className: 'w-[5rem] h-fit',
                   }}
@@ -807,7 +827,9 @@ const TablePagination = <
                     className: 'w-[4.5rem] h-[32px] gap-0',
                   }}
                   onSelect={{
-                    setValue: setValue as React.Dispatch<React.SetStateAction<Y[]>>,
+                    setValue: setValue as React.Dispatch<
+                      React.SetStateAction<Y[]>
+                    >,
                     value: value as Y[],
                   }}
                 />
@@ -841,43 +863,55 @@ const splitIntoChunks = <T,>(array: T[], chunkSize: number) => {
   return chunks
 }
 
-export const DuckTableBody = <T,>({ data, children }: DuckTableBodyProps<T[]>) => {
+export const DuckTableBody = <T,>({
+  data,
+  children,
+}: DuckTableBodyProps<T[]>) => {
   const { pagination, search, filterBy } = useDuckTable() ?? {}
-  const tableDataGrouped = groupArrays<T>([pagination?.pageSize ?? PAGE_SIZE], data)
+  const tableDataGrouped = groupArrays<T>(
+    [pagination?.pageSize ?? PAGE_SIZE],
+    data,
+  )
   const pageIdx = pagination?.pageIndex ?? PAGE_INDEX
 
   // NOTE: Filter the items using the search query and filter keys.
   const filteredData = React.useMemo(() => {
     if (!tableDataGrouped[pageIdx]?.length) return []
 
-    return tableDataGrouped[pageIdx]?.filter(item => {
-      const itemValues = Object.values(item as Record<string, unknown>).map(value =>
-        JSON.stringify(value).toLowerCase()
+    return tableDataGrouped[pageIdx]?.filter((item) => {
+      const itemValues = Object.values(item as Record<string, unknown>).map(
+        (value) => JSON.stringify(value).toLowerCase(),
       )
 
-      const matchesSearch = search?.query ? itemValues.some(value => value.includes(search.query.toLowerCase())) : false
-
-      const matchesFilterBy = filterBy?.length
-        ? itemValues.some(value => filterBy.some(q => value.includes(q.toLowerCase())))
+      const matchesSearch = search?.query
+        ? itemValues.some((value) => value.includes(search.query.toLowerCase()))
         : false
 
-      return (!search?.query && !filterBy?.length) || matchesSearch || matchesFilterBy
+      const matchesFilterBy = filterBy?.length
+        ? itemValues.some((value) =>
+            filterBy.some((q) => value.includes(q.toLowerCase())),
+          )
+        : false
+
+      return (
+        (!search?.query && !filterBy?.length) ||
+        matchesSearch ||
+        matchesFilterBy
+      )
     })
   }, [search, filterBy, tableDataGrouped, pageIdx])
 
   // NOTE: Split the data into chunks based on the group size.
   const resultArrays = React.useMemo(
     () => splitIntoChunks(filteredData, pagination?.pageSize ?? PAGE_SIZE),
-    [filteredData, pagination?.pageSize]
+    [filteredData, pagination?.pageSize],
   )
 
   console.log(filteredData)
 
   return (
     (resultArrays[pageIdx]?.length ?? 0 > 0) && (
-      <div className="overflow-auto w-[862.667px] h-[159.334px]">
-        <TableBody>{children(resultArrays[pageIdx] as T[])}</TableBody>
-      </div>
+      <TableBody>{children(resultArrays[pageIdx] as T[])}</TableBody>
     )
   )
 }
@@ -890,11 +924,17 @@ export const EmptyTable = () => {
   )
 }
 
-export interface DuckTableProps extends React.ComponentPropsWithoutRef<typeof Table> {
+export interface DuckTableProps
+  extends React.ComponentPropsWithoutRef<typeof Table> {
   wrapper?: React.ComponentPropsWithoutRef<typeof ScrollArea>
 }
 
-export const DuckTable = ({ wrapper, className, children, ...props }: DuckTableProps) => {
+export const DuckTable = ({
+  wrapper,
+  className,
+  children,
+  ...props
+}: DuckTableProps) => {
   const { className: wrapperClassName, ...wrapperProps } = wrapper! ?? {}
 
   //     <ScrollArea
