@@ -1,8 +1,10 @@
-import React from 'react'
+import { Table } from '@/registry/default/ui/ShadcnUI/table'
+import { DropdownMenuOptionsDataType } from '@/registry/default/ui/dropdown-menu'
 import { ScrollArea } from '@/registry/default/ui/scroll-area'
 import { IconProps } from '@radix-ui/react-icons/dist/types'
-import { Table } from '@/registry/default/ui/ShadcnUI/table'
-import { LabelType } from '../button'
+import React from 'react'
+import { Button, LabelType } from '../button'
+import { sortArray } from './table.lib'
 
 // ------------------------------------------------------------------------------------------------
 // NOTE:  These types are used for the `table-advanced` context.
@@ -19,6 +21,15 @@ export type DuckTableContextType<TColumnName extends string[]> = {
   table_rows: TableContentDataType<TColumnName>[]
   search: TableSearchStateType
   setSearch: React.Dispatch<React.SetStateAction<TableSearchStateType>>
+  sortBy: Set<TableSortByStateType<TColumnName>>
+  setSortBy: React.Dispatch<
+    React.SetStateAction<Set<TableSortByStateType<TColumnName>>>
+  >
+}
+
+export type TableSortByStateType<TColumnName extends string[]> = {
+  label: TColumnName[number]
+  type: 'asc' | 'desc' | 'not sorted'
 }
 
 export interface TableSearchStateType {
@@ -26,13 +37,17 @@ export interface TableSearchStateType {
   queryBy: string[]
 }
 
+// ------------------------------------------------------------------------------------------------
+// NOTE:  These types are used for the `table-advanced` Components.
+// ------------------------------------------------------------------------------------------------
+
 export interface DuckTableProps
   extends React.ComponentPropsWithoutRef<typeof Table> {
   wrapper?: React.ComponentPropsWithoutRef<typeof ScrollArea>
 }
 
 // ------------------------------------------------------------------------------------------------
-// NOTE:  These types are used for the `table-advanced` context, hence i use them to get the types.
+// NOTE:  These types are used for the `table-advanced, hence i use them to get the types.
 // ------------------------------------------------------------------------------------------------
 
 /**
@@ -107,16 +122,32 @@ export type TableContentDataType<TColumnName extends readonly string[]> = {
 }
 
 // ------------------------------------------------------------------------------------------------
+// NOTE:  These types are used for the `table-advanced, constants.
+// ------------------------------------------------------------------------------------------------
 
-export interface TableColumnType<C extends boolean = true>
+export type TableColumnSortableType = React.ComponentPropsWithoutRef<
+  typeof Button
+> & { children: 'asc' | 'desc' | 'not sorted' }
+
+// ------------------------------------------------------------------------------------------------
+
+export interface TableColumnType<TSort extends boolean = true>
   extends Partial<React.HTMLProps<HTMLTableCellElement>> {
   label: string
   sortable?: boolean
   showLabel?: boolean
-  currentSort?: C extends true ? 'asc' | 'desc' | 'not sorted' : never
-  // dropdownMenuOptions?: C extends true
-  //   ? DropdownMenuOptionsDataType<TableDropdownMenuOptionsType<T, C>>[]
-  //   : never
+  currentSort?: TSort extends true ? 'asc' | 'desc' | 'not sorted' : never
+}
+
+export interface TableDropdownMenuOptionsType<T extends boolean> {
+  sortArray: typeof sortArray
+  setHeaders: React.Dispatch<React.SetStateAction<TableColumnType[]>>
+  headers: TableColumnType[]
+  tableData: TableContentDataType<T>[]
+  setTableData: React.Dispatch<React.SetStateAction<TableContentDataType<T>[]>>
+  data: TableContentDataType<T>[]
+  idx: number
+  column: TableColumnType
 }
 
 export interface TableColumnType extends React.HTMLProps<HTMLTableCellElement> {

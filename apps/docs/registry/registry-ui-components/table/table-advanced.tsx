@@ -4,11 +4,12 @@ import {
   DuckTableContextType,
   DuckTableProps,
   DuckTableProviderProps,
+  TableColumnType,
   TableSearchStateType,
+  TableSortByStateType,
 } from './table-advanced.types'
 import { Table } from './table'
 import { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
-import { TableDropdownMenuOptionsType, TableHeaderType } from './table.types'
 import {
   TableHead,
   TableHeader,
@@ -16,11 +17,21 @@ import {
 } from '@/registry/default/ui/ShadcnUI/table'
 import { Checkbox } from '@/registry/default/ui/checkbox'
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuOptionsDataType,
+  DropdownMenuRadioGroup,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
   DropdownMenuView,
 } from '@/registry/default/ui/dropdown-menu'
 import { ArrowDownIcon, ArrowUpIcon, LucideIcon } from 'lucide-react'
-import { CaretSortIcon } from '@radix-ui/react-icons'
+import { CaretSortIcon, EyeNoneIcon } from '@radix-ui/react-icons'
+import { Button } from '../button'
+import { dropdownMenuOptions } from './table-advanced.constants'
 
 export const DuckTableContext =
   React.createContext<DuckTableContextType<any> | null>(null)
@@ -45,6 +56,12 @@ export function DuckTableProvider<TColumnName extends string[]>({
     queryBy: [],
   })
 
+  const [sortBy, setSortBy] = React.useState<
+    Map<string, TableSortByStateType<TColumnName>>
+  >(new Map())
+
+  console.log(sortBy)
+
   return (
     <DuckTableContext.Provider
       value={{
@@ -52,6 +69,8 @@ export function DuckTableProvider<TColumnName extends string[]>({
         table_rows,
         search,
         setSearch,
+        setSortBy,
+        sortBy,
       }}
     >
       <div
@@ -93,9 +112,9 @@ DuckTable.displayName = 'DuckTable'
 
 // ------------------------------------------------------------------------------------------------
 
-export interface DuckTableHeaderProps {}
+export interface DuckTableHeaderProps { }
 
-export function DuckTableHeader({}: DuckTableHeaderProps) {
+export function DuckTableHeader({ }: DuckTableHeaderProps) {
   const { table_columns } = useDuckTable()
   return (
     <>
@@ -108,7 +127,6 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
               sortable,
               label,
               showLabel,
-              dropdownMenuOptions,
               currentSort,
               ...props
             } = column
@@ -124,48 +142,13 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
             //   tableData,
             // } as unknown as TableDropdownMenuOptionsType<C>
 
-            //NOTE: passing the actionsArgs to the onClick function
-            const fullDropDownMenuOptions = dropdownMenuOptions?.map((item) => {
-              return {
-                ...item,
-                onClick: (
-                  e:
-                    | React.MouseEvent<HTMLButtonElement>
-                    | React.MouseEvent<HTMLDivElement>,
-                ) => {
-                  // item.action?.(e, actionsArgs)
-                },
-              }
-            })
-
             return (
               <React.Fragment key={idx}>
                 {idx === 0 && (
-                  <TableHead
-                    className={cn(
-                      'flex items-center w-full data-[state=open]:bg-accent text-xs capitalize h-[51px] py-2',
-                      dropdownMenuOptions?.length && 'justify-end',
-                    )}
-                    {...props}
-                  >
-                    {
-                      //selectable && (
-                      <Checkbox
-                        className="border-border"
-                        // onClick={() =>
-                        //   // setSelected(selected.length === tableData.length ? [] : tableData.map(item => item)
-                        //               // )
-                        // }
-                        // checked={
-                        //   //   // selected.length === tableData.length
-                        //   //   //   ? true
-                        //   //   //   : selected.length < tableData.length && selected.length
-                        //   //   //     ? 'indeterminate'
-                        //   //   //     : false
-                        // }
-                      />
-                    }
-                  </TableHead>
+                  <DuckTableCheckbox
+                    type="header"
+                    className={cn(sortable && 'justify-end')}
+                  />
                 )}
                 <TableHead
                   className={cn('py-2', sortable && 'px-2', className)}
@@ -177,46 +160,11 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
                       {(label as string) ?? children}
                     </span>
                   ) : (
-                    <div className={cn('flex items-center space-x-2')}>
-                      {(dropdownMenuOptions?.length ?? 0) > 0 && (
-                        <DropdownMenuView
-                          trigger={{
-                            size: 'sm',
-                            variant: 'ghost',
-                            className:
-                              'data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize',
-                            secondIcon: {
-                              className: '-ml-3',
-                              children: (column?.currentSort === 'asc'
-                                ? ArrowDownIcon
-                                : column?.currentSort === 'desc'
-                                  ? ArrowUpIcon
-                                  : CaretSortIcon) as LucideIcon,
-                            },
-                            children: (label as string) ?? children,
-                            label: showLabel
-                              ? {
-                                  children: label.toString() + ' options',
-                                  className: 'capitalize',
-                                  showLabel: true,
-                                  side: 'top',
-                                }
-                              : undefined,
-                          }}
-                          content={{
-                            align: 'center',
-                            options: {
-                              group: [2, 1],
-                              optionsData: fullDropDownMenuOptions as
-                                | DropdownMenuOptionsDataType<
-                                    TableDropdownMenuOptionsType<T, C>
-                                  >[]
-                                | undefined,
-                            },
-                          }}
-                        />
-                      )}
-                    </div>
+                    <DuckTableHeadSelectable
+                      column={column}
+                      label={(label as string) ?? children}
+                      showLabel={showLabel}
+                    />
                   )}
                 </TableHead>
               </React.Fragment>
@@ -228,3 +176,127 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
   )
 }
 DuckTableHeader.displayName = 'TableCustomViewHeader'
+
+export interface DuckTableCheckboxProps
+  extends React.ComponentPropsWithoutRef<typeof TableHead> {
+  selectable?: boolean | undefined
+  type: 'header' | 'body'
+}
+
+export function DuckTableCheckbox({
+  className,
+  selectable,
+  type,
+  ...props
+}: DuckTableCheckboxProps) {
+  const Component =
+    //TODO: type to fix this type hence i want it to be compatible with both Row and Head.
+    (type === 'header' ? TableHead : TableRow) as typeof TableHead
+
+  return (
+    <Component
+      className={cn(
+        'flex items-center w-full data-[state=open]:bg-accent text-xs capitalize h-[51px] py-2',
+        className,
+      )}
+      {...props}
+    >
+      {selectable && (
+        <Checkbox
+          className="border-border"
+        // onClick={() => {
+        //   setSelected(selected.length === tableData.length ? [] : tableData.map(item => item)
+        // }}
+        // checked={
+        // selected.length === tableData.length
+        //   ? true
+        //   : selected.length < tableData.length && selected.length
+        //     ? 'indeterminate'
+        //     : false
+        // }
+        />
+      )}
+    </Component>
+  )
+}
+
+export interface DuckTableHeadSelectableProps<TSort extends boolean = true>
+  extends React.HTMLProps<HTMLDivElement> {
+  column: TableColumnType<TSort>
+  label: string
+  showLabel?: boolean | undefined
+}
+
+export function DuckTableHeadSelectable<TSort extends boolean = true>({
+  column,
+  label,
+  showLabel,
+  children,
+}: DuckTableHeadSelectableProps<TSort>) {
+  const { sortBy, setSortBy } = useDuckTable()
+
+  return (
+    <div className={cn('flex items-center space-x-2')}>
+      {(dropdownMenuOptions?.length ?? 0) > 0 && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize"
+              secondIcon={{
+                className: '-ml-3',
+                children: (column?.currentSort === 'asc'
+                  ? ArrowDownIcon
+                  : column?.currentSort === 'desc'
+                    ? ArrowUpIcon
+                    : CaretSortIcon) as LucideIcon,
+              }}
+              label={
+                showLabel
+                  ? {
+                    children: label.toString() + ' options',
+                    className: 'capitalize',
+                    showLabel: true,
+                    side: 'top',
+                  }
+                  : undefined
+              }
+            >
+              {(label as string) ?? children}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-48">
+            <DropdownMenuGroup>
+              {dropdownMenuOptions.map((item, idx) => {
+                return (
+                  <>
+                    {idx === dropdownMenuOptions.length - 1 && (
+                      <DropdownMenuSeparator />
+                    )}
+                    <DropdownMenuItem
+                      className="p-0 capitalize"
+                      key={idx}
+                      onClick={() => {
+                        setSortBy((prev) => {
+                          const new_set = new Map(prev)
+                          new_set.set(label, {
+                            label,
+                            type: item.children,
+                          })
+                          return new_set
+                        })
+                      }}
+                    >
+                      <Button {...item} />
+                    </DropdownMenuItem>
+                  </>
+                )
+              })}
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+    </div>
+  )
+}

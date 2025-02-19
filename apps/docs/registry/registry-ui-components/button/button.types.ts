@@ -5,6 +5,7 @@ import { LucideIcon } from 'lucide-react'
 import { buttonVariants } from './button.constants'
 import { Badge } from '@/registry/registry-ui-components/badge'
 import { Tooltip } from '@/registry/registry-ui-components/tooltip'
+import { ReactNode } from 'react'
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -28,7 +29,9 @@ export type IconType = {
   Omit<React.RefAttributes<SVGSVGElement>, 'children'>
 
 export interface LabelType
-  extends Partial<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>>,
+  extends Partial<
+      React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
+    >,
     Partial<React.ComponentPropsWithoutRef<typeof Badge>>,
     Partial<React.ComponentPropsWithoutRef<typeof Tooltip>> {
   showCommand?: boolean
