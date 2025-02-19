@@ -16,7 +16,6 @@ export * from './pagination'
 export * from './avatar'
 export * from './image'
 export * from './hover-card'
-export * from './popover'
 export * from './mdx-minimal-text-editor'
 
 export * from './ShadcnUI'

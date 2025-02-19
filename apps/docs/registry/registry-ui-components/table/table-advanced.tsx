@@ -8,8 +8,19 @@ import {
 } from './table-advanced.types'
 import { Table } from './table'
 import { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
-import { TableHeaderType } from './table.types'
-import { TableHeader, TableRow } from '@/registry/default/ui/ShadcnUI/table'
+import { TableDropdownMenuOptionsType, TableHeaderType } from './table.types'
+import {
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/registry/default/ui/ShadcnUI/table'
+import { Checkbox } from '@/registry/default/ui/checkbox'
+import {
+  DropdownMenuOptionsDataType,
+  DropdownMenuView,
+} from '@/registry/default/ui/dropdown-menu'
+import { ArrowDownIcon, ArrowUpIcon, LucideIcon } from 'lucide-react'
+import { CaretSortIcon } from '@radix-ui/react-icons'
 
 export const DuckTableContext =
   React.createContext<DuckTableContextType<any> | null>(null)
@@ -91,14 +102,13 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
       <TableHeader>
         <TableRow>
           {table_columns?.map((column, idx) => {
-            console.log(column)
             const {
               children,
               className,
               sortable,
               label,
               showLabel,
-              // dropdownMenuOptions,
+              dropdownMenuOptions,
               currentSort,
               ...props
             } = column
@@ -113,20 +123,102 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
             //   headers,
             //   tableData,
             // } as unknown as TableDropdownMenuOptionsType<C>
+
             //NOTE: passing the actionsArgs to the onClick function
-            // const fullDropDownMenuOptions = dropdownMenuOptions?.map((item) => {
-            //   return {
-            //     ...item,
-            //     // onClick: (e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLDivElement>) => {
-            //     //   item.action?.(e, actionsArgs)
-            //     // },
-            //   }
-            // })
+            const fullDropDownMenuOptions = dropdownMenuOptions?.map((item) => {
+              return {
+                ...item,
+                onClick: (
+                  e:
+                    | React.MouseEvent<HTMLButtonElement>
+                    | React.MouseEvent<HTMLDivElement>,
+                ) => {
+                  // item.action?.(e, actionsArgs)
+                },
+              }
+            })
+
             return (
               <React.Fragment key={idx}>
-                <span className="capitalize">
-                  {(label as string) ?? children}
-                </span>
+                {idx === 0 && (
+                  <TableHead
+                    className={cn(
+                      'flex items-center w-full data-[state=open]:bg-accent text-xs capitalize h-[51px] py-2',
+                      dropdownMenuOptions?.length && 'justify-end',
+                    )}
+                    {...props}
+                  >
+                    {
+                      //selectable && (
+                      <Checkbox
+                        className="border-border"
+                        // onClick={() =>
+                        //   // setSelected(selected.length === tableData.length ? [] : tableData.map(item => item)
+                        //               // )
+                        // }
+                        // checked={
+                        //   //   // selected.length === tableData.length
+                        //   //   //   ? true
+                        //   //   //   : selected.length < tableData.length && selected.length
+                        //   //   //     ? 'indeterminate'
+                        //   //   //     : false
+                        // }
+                      />
+                    }
+                  </TableHead>
+                )}
+                <TableHead
+                  className={cn('py-2', sortable && 'px-2', className)}
+                  {...props}
+                >
+                  {/*NOTE: Rendering Sorting else rendering label*/}
+                  {!sortable ? (
+                    <span className="capitalize">
+                      {(label as string) ?? children}
+                    </span>
+                  ) : (
+                    <div className={cn('flex items-center space-x-2')}>
+                      {(dropdownMenuOptions?.length ?? 0) > 0 && (
+                        <DropdownMenuView
+                          trigger={{
+                            size: 'sm',
+                            variant: 'ghost',
+                            className:
+                              'data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize',
+                            secondIcon: {
+                              className: '-ml-3',
+                              children: (column?.currentSort === 'asc'
+                                ? ArrowDownIcon
+                                : column?.currentSort === 'desc'
+                                  ? ArrowUpIcon
+                                  : CaretSortIcon) as LucideIcon,
+                            },
+                            children: (label as string) ?? children,
+                            label: showLabel
+                              ? {
+                                  children: label.toString() + ' options',
+                                  className: 'capitalize',
+                                  showLabel: true,
+                                  side: 'top',
+                                }
+                              : undefined,
+                          }}
+                          content={{
+                            align: 'center',
+                            options: {
+                              group: [2, 1],
+                              optionsData: fullDropDownMenuOptions as
+                                | DropdownMenuOptionsDataType<
+                                    TableDropdownMenuOptionsType<T, C>
+                                  >[]
+                                | undefined,
+                            },
+                          }}
+                        />
+                      )}
+                    </div>
+                  )}
+                </TableHead>
               </React.Fragment>
             )
           })}
@@ -136,82 +228,3 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
   )
 }
 DuckTableHeader.displayName = 'TableCustomViewHeader'
-//
-// {idx === 0 && (
-//   <TableHead
-//     className={cn(
-//       'flex items-center w-full data-[state=open]:bg-accent text-xs capitalize h-[51px] py-2',
-//       dropdownMenuOptions?.length && 'justify-end',
-//     )}
-//     {...props}
-//   >
-//     {selectable && (
-//       <Checkbox
-//         className="border-border"
-//         // onClick={() =>
-//         //   // setSelected(selected.length === tableData.length ? [] : tableData.map(item => item)
-//         //               // )
-//         // }
-//         // checked={
-//         //   //   // selected.length === tableData.length
-//         //   //   //   ? true
-//         //   //   //   : selected.length < tableData.length && selected.length
-//         //   //   //     ? 'indeterminate'
-//         //   //   //     : false
-//         // }
-//       />
-//     )}
-//   </TableHead>
-// )}
-// <TableHead
-//   className={cn('py-2', sortable && 'px-1', className)}
-//   {...props}
-// >
-//   {/*NOTE: Rendering Sorting else rendering label*/}
-//   {!sortable ? (
-//     <span className="capitalize">
-//       {(label as string) ?? children}
-//     </span>
-//   ) : (
-//     <div className={cn('flex items-center space-x-2')}>
-//       {dropdownMenuOptions?.length && (
-//         <DropdownMenuView<TableDropdownMenuOptionsType<T, C>>
-//           trigger={{
-//             size: 'sm',
-//             variant: 'ghost',
-//             className:
-//               'data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize',
-//             secondIcon: {
-//               // className: '-ml-3',
-//               children: (headers[idx]?.currentSort === 'asc'
-//                 ? ArrowDownIcon
-//                 : headers[idx]?.currentSort === 'desc'
-//                   ? ArrowUpIcon
-//                   : CaretSortIcon) as LucideIcon,
-//             },
-//             children: (label as string) ?? children,
-//             label: showLabel
-//               ? {
-//                   children: label.toString() + ' options',
-//                   className: 'capitalize',
-//                   showLabel: true,
-//                   side: 'top',
-//                 }
-//               : undefined,
-//           }}
-//           content={{
-//             align: 'center',
-//             options: {
-//               group: [2, 1],
-//               optionsData: fullDropDownMenuOptions as
-//                 | DropdownMenuOptionsDataType<
-//                     TableDropdownMenuOptionsType<T, C>
-//                   >[]
-//                 | undefined,
-//             },
-//           }}
-//         />
-//       )}
-//     </div>
-//   )}
-// </TableHead>

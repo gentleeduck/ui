@@ -354,14 +354,14 @@ export const columns = [
     className: 'w-[300px]',
     sortable: true,
     showLabel: false,
-    // dropdownMenuOptions: tableHeaderDropDown,
+    dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'label',
     className: 'w-[140px]',
     sortable: true,
     currentSort: 'not sorted',
-    // dropdownMenuOptions: tableHeaderDropDown,
+    dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'status',
@@ -369,13 +369,13 @@ export const columns = [
     // showLabel: true,
     className: 'w-[145px]',
     currentSort: 'not sorted',
-    // dropdownMenuOptions: tableHeaderDropDown,
+    dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'priority',
     className: 'w-[170px]',
     sortable: true,
-    // dropdownMenuOptions: tableHeaderDropDown,
+    dropdownMenuOptions: tableHeaderDropDown,
   },
 ] as const satisfies readonly TableHeaderType[]
 
