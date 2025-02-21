@@ -347,27 +347,21 @@ const columns: TableHeaderType<TableDataType>[] = [
     className: 'w-[200px]',
     sortable: true,
     showLabel: false,
-    dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'label',
     className: 'w-[90px]',
     sortable: true,
-    currentSort: 'not sorted',
-    dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'status',
     sortable: true,
     showLabel: true,
     className: 'w-[70px]',
-    currentSort: 'not sorted',
-    dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'priority',
     sortable: true,
-    dropdownMenuOptions: tableHeaderDropDown,
   },
 ]
 

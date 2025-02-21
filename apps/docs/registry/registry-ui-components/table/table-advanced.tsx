@@ -246,15 +246,15 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
               variant="ghost"
               aria-sort={column['aria-sort']}
               className="data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize"
-              secondIcon={{
-                className: '-ml-3 text-muted-foreground',
-                children:
-                  column['aria-sort'] === 'ascending'
-                    ? ArrowDownIcon
-                    : column['aria-sort'] === 'descending'
-                      ? ArrowUpIcon
-                      : ArrowUpDown,
-              }}
+              secondIcon={
+                column['aria-sort'] === 'ascending' ? (
+                  <ArrowDownIcon className="text-muted-foreground" />
+                ) : column['aria-sort'] === 'descending' ? (
+                  <ArrowUpIcon className="text-muted-foreground" />
+                ) : (
+                  <ArrowUpDown className="text-muted-foreground" />
+                )
+              }
               label={
                 showLabel
                   ? {

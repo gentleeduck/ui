@@ -5,7 +5,11 @@ import { Loader } from 'lucide-react'
 import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 import { toast } from 'sonner'
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/registry-ui-components/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/registry/registry-ui-components/tooltip'
 import { CommandShortcut } from '@/registry/default/ui/command'
 import { ButtonProps } from './button.types'
 import { buttonVariants } from './button.constants'
@@ -24,14 +28,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       label,
       children,
-      icon,
-      secondIcon,
+      icon: Icon,
+      secondIcon: Icon2,
       loading = false,
       animationIcon,
       command,
       ...props
     }: ButtonProps,
-    ref: React.ForwardedRef<HTMLButtonElement> | undefined
+    ref: React.ForwardedRef<HTMLButtonElement> | undefined,
   ) => {
     const {
       className: labelClassName,
@@ -46,10 +50,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ...labelProps
     } = label || {}
     const Component = asChild ? Slot : 'button'
-    const { children: Icon, ...iconProps } = icon ?? {}
-    const { children: SecondIcon, ...secondIconProps } = secondIcon ?? {}
-    const { icon: animationIconChildren, iconPlacement = 'right' } = animationIcon ?? {}
-    const { children: AnimationIcon, ...animationIconProps } = animationIconChildren ?? {}
+    const { icon: AniIcon, iconPlacement = 'right' } = animationIcon ?? {}
     const {
       className: commandClassName,
       variant: commandVariant,
@@ -61,7 +62,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ...commandProps
     } = command ?? {}
 
-    const fn = () => toast.info('NOTE: handling command shortcut without action')
+    const fn = () =>
+      toast.info('NOTE: handling command shortcut without action')
     //NOTE: handling command shortcut
     useDuckShortcut({ keys: [key ?? 'k'], onKeysPressed: action ?? fn })
 
@@ -72,7 +74,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <Badge
             variant={commandVariant ?? 'secondary'}
             size={commandSize ?? 'sm'}
-            className={cn('p-0 px-2 text-bold rounded-sm text-secondary-foreground', commandClassName)}
+            className={cn(
+              'p-0 px-2 text-bold rounded-sm text-secondary-foreground',
+              commandClassName,
+            )}
             {...commandProps}
           >
             {commandLabel}
@@ -93,24 +98,32 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             className={cn(
               buttonVariants({
                 variant,
-                size: size ? (isCollapsed ? 'icon' : size) : isCollapsed ? 'icon' : 'default',
+                size: size
+                  ? isCollapsed
+                    ? 'icon'
+                    : size
+                  : isCollapsed
+                    ? 'icon'
+                    : 'default',
                 border,
                 className,
-              })
+              }),
             )}
             disabled={loading}
             data-state={isCollapsed ? 'close' : 'open'}
             {...props}
           >
-            {AnimationIcon && iconPlacement === 'left' && (
+            {AniIcon && iconPlacement === 'left' && (
               <div className="w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-100 group-hover:pr-2 group-hover:opacity-100">
-                <AnimationIcon {...animationIconProps} />
+                {AniIcon}
               </div>
             )}
             <div className="flex items-center gap-2">
-              {!loading ? Icon && !!icon && !loading && <Icon {...iconProps} /> : <Loader className="animate-spin" />}
+              {!loading ? Icon : <Loader className="animate-spin" />}
               {!isCollapsed && children}
-              {!isCollapsed && command?.label && !showCommand && <CommandComponent />}
+              {!isCollapsed && command?.label && !showCommand && (
+                <CommandComponent />
+              )}
 
               {!isCollapsed && label && !showLabel && (
                 <Badge
@@ -119,16 +132,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                   className={cn(
                     'text-[.8rem] py-0 rounded-md px-1 font-meduim',
                     labelVariant === 'nothing' && 'text-accent',
-                    labelClassName
+                    labelClassName,
                   )}
                   {...labelProps}
                 />
               )}
-              {!isCollapsed && SecondIcon && <SecondIcon {...secondIconProps} />}
+              {!isCollapsed && Icon2 && Icon2}
             </div>
-            {AnimationIcon && iconPlacement === 'right' && (
+            {AniIcon && iconPlacement === 'right' && (
               <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
-                <AnimationIcon {...animationIconProps} />
+                {AniIcon}
               </div>
             )}
           </Component>
@@ -136,13 +149,19 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {(isCollapsed || showLabel) && label && (
           <TooltipContent
             {...labelProps}
-            className={cn('flex items-center gap-2 z-50 justify-start', labelClassName)}
+            className={cn(
+              'flex items-center gap-2 z-50 justify-start',
+              labelClassName,
+            )}
             side={side || 'right'}
           >
             {command?.label && showCommand && <CommandComponent />}
             {showLabel && (
               <span
-                className={cn('ml-auto text-[.9rem]', !showLabel && 'text-muted-foreground')}
+                className={cn(
+                  'ml-auto text-[.9rem]',
+                  !showLabel && 'text-muted-foreground',
+                )}
                 {...labelProps}
               />
             )}
@@ -150,7 +169,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       </Tooltip>
     )
-  }
+  },
 )
 
 Button.displayName = 'Button'

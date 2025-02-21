@@ -10,6 +10,15 @@ import {
   useDuckTable,
 } from '@/registry/registry-ui-components/table/table-advanced'
 import React from 'react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/registry/default/ui/dropdown-menu'
+import { Ellipsis } from 'lucide-react'
+import { Button } from '@/registry/registry-ui-components/button'
 
 export default function TableDemo3() {
   return (
@@ -49,7 +58,29 @@ export function Rows() {
                     <Component />
                   </div>
                 ) : (
-                  <Component />
+                  <div className="flex items-center justify-between gap-4">
+                    <Component />
+                    {idx === Array.from(tableColumns.values()).length - 1 && (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant={'ghost'}
+                            size={'sm'}
+                            className="py-0 px-1 h-auto"
+                          >
+                            <Ellipsis />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem>Profile</DropdownMenuItem>
+                          <DropdownMenuItem>Billing</DropdownMenuItem>
+                          <DropdownMenuItem>Team</DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>Subscription</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
+                  </div>
                 )}
               </TableCell>
             )

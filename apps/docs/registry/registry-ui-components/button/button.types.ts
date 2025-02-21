@@ -13,20 +13,15 @@ export interface ButtonProps
   asChild?: boolean
   isCollapsed?: boolean
   loading?: boolean
-  icon?: IconType
-  secondIcon?: IconType
+  icon?: React.ReactNode
+  secondIcon?: React.ReactNode
   label?: LabelType
   command?: CommandType
   animationIcon?: {
-    icon?: IconType
+    icon?: React.ReactNode
     iconPlacement?: 'left' | 'right'
   }
 }
-
-export type IconType = {
-  children: LucideIcon
-} & Omit<IconProps, 'children'> &
-  Omit<React.RefAttributes<SVGSVGElement>, 'children'>
 
 export interface LabelType
   extends Partial<
