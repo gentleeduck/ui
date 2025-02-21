@@ -320,13 +320,10 @@
 }
 
 @layer base {
+
   * {
     @apply border-border;
     scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--border)) transparent;
-    scrollbar-gutter: stable;
-    /* Prevents layout shifts */
   }
 
   html {
@@ -348,13 +345,21 @@
 
   body {
     @apply bg-background text-foreground;
-    /* font-feature-settings: "rlig" 1, "calt" 1; */
+    font-feature-settings: "rlig" 1, "calt" 1;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
+  }
+
+  //NOTE: TK FOR TRUCKTING THE TEXT
+  .duck-truncate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
   }
 }
 
 @layer utilities {
+
   .step {
     counter-increment: step;
   }

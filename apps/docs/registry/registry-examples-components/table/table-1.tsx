@@ -142,7 +142,7 @@ export const DuckTableRowWrapper = ({
                         <span
                           className={cn(
                             Icon &&
-                              'flex items-center gap-2 [&_svg]:flex-shrink-0',
+                            'flex items-center gap-2 [&_svg]:flex-shrink-0',
                           )}
                         >
                           {Icon && <Icon {...iconProps} />}
@@ -201,128 +201,128 @@ const filtersDataForStatusType: ComboboxType<
   keyof TableDataType,
   StatusType
 >[] = [
-  {
-    type: 'listbox',
-    trigger: {
-      children: 'status',
-      size: 'sm',
-      label: {
-        children: 'Filter Status',
-        showLabel: true,
-        showCommand: true,
-        side: 'top',
+    {
+      type: 'listbox',
+      trigger: {
+        children: 'status',
+        size: 'sm',
+        label: {
+          children: 'Filter Status',
+          showLabel: true,
+          showCommand: true,
+          side: 'top',
+        },
+        command: {
+          label: '⌃+⇧+S',
+          key: 'ctrl+shift+s',
+        },
       },
-      command: {
-        label: '⌃+⇧+S',
-        key: 'ctrl+shift+s',
+      content: {
+        showSearchInput: true,
+        data: [
+          {
+            label: 'Backlog',
+            element: {
+              icon: {
+                children: CircleHelp,
+                className: iconStyle,
+              },
+            },
+          },
+          {
+            label: 'Todo',
+            element: {
+              icon: {
+                children: Circle,
+                className: iconStyle,
+              },
+            },
+          },
+          {
+            label: 'In Progress',
+            element: {
+              icon: {
+                children: Clock12,
+                className: iconStyle,
+              },
+            },
+          },
+          {
+            label: 'Done',
+            element: {
+              icon: {
+                children: CircleCheck,
+                className: iconStyle,
+              },
+            },
+          },
+          {
+            label: 'Canceled',
+            element: {
+              icon: {
+                children: CircleX,
+                className: iconStyle,
+              },
+            },
+          },
+        ],
       },
     },
-    content: {
-      showSearchInput: true,
-      data: [
-        {
-          label: 'Backlog',
-          element: {
-            icon: {
-              children: CircleHelp,
-              className: iconStyle,
-            },
-          },
-        },
-        {
-          label: 'Todo',
-          element: {
-            icon: {
-              children: Circle,
-              className: iconStyle,
-            },
-          },
-        },
-        {
-          label: 'In Progress',
-          element: {
-            icon: {
-              children: Clock12,
-              className: iconStyle,
-            },
-          },
-        },
-        {
-          label: 'Done',
-          element: {
-            icon: {
-              children: CircleCheck,
-              className: iconStyle,
-            },
-          },
-        },
-        {
-          label: 'Canceled',
-          element: {
-            icon: {
-              children: CircleX,
-              className: iconStyle,
-            },
-          },
-        },
-      ],
-    },
-  },
-]
+  ]
 
 const filtersDataForPriorityType: ComboboxType<
   keyof TableDataType,
   PriorityType
 >[] = [
-  {
-    type: 'listbox',
-    trigger: {
-      children: 'priority',
-      label: {
-        children: 'Filter Method',
-        showLabel: true,
-        showCommand: true,
-        side: 'top',
+    {
+      type: 'listbox',
+      trigger: {
+        children: 'priority',
+        label: {
+          children: 'Filter Method',
+          showLabel: true,
+          showCommand: true,
+          side: 'top',
+        },
+        command: {
+          label: '⌃+⇧+M',
+          key: 'ctrl+shift+m',
+        },
       },
-      command: {
-        label: '⌃+⇧+M',
-        key: 'ctrl+shift+m',
+      content: {
+        showSearchInput: true,
+        data: [
+          {
+            label: 'Low',
+            element: {
+              icon: {
+                children: ArrowDownIcon,
+                className: 'size-4 stroke-[1.5]',
+              },
+            },
+          },
+          {
+            label: 'Medium',
+            element: {
+              icon: {
+                children: ArrowRightIcon,
+                className: 'size-4 stroke-[1.5]',
+              },
+            },
+          },
+          {
+            label: 'High',
+            element: {
+              icon: {
+                children: ArrowUpIcon,
+                className: 'size-4 stroke-[1.5]',
+              },
+            },
+          },
+        ],
       },
     },
-    content: {
-      showSearchInput: true,
-      data: [
-        {
-          label: 'Low',
-          element: {
-            icon: {
-              children: ArrowDownIcon,
-              className: 'size-4 stroke-[1.5]',
-            },
-          },
-        },
-        {
-          label: 'Medium',
-          element: {
-            icon: {
-              children: ArrowRightIcon,
-              className: 'size-4 stroke-[1.5]',
-            },
-          },
-        },
-        {
-          label: 'High',
-          element: {
-            icon: {
-              children: ArrowUpIcon,
-              className: 'size-4 stroke-[1.5]',
-            },
-          },
-        },
-      ],
-    },
-  },
-]
+  ]
 
 const combinedFiltersData = [
   ...filtersDataForStatusType.map(
@@ -354,28 +354,23 @@ export const columns = [
     className: 'w-[300px]',
     sortable: true,
     showLabel: false,
-    dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'label',
     className: 'w-[140px]',
     sortable: true,
     currentSort: 'not sorted',
-    dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'status',
     sortable: true,
-    // showLabel: true,
     className: 'w-[145px]',
     currentSort: 'not sorted',
-    dropdownMenuOptions: tableHeaderDropDown,
   },
   {
     label: 'priority',
     className: 'w-[170px]',
     sortable: true,
-    dropdownMenuOptions: tableHeaderDropDown,
   },
 ] as const satisfies readonly TableHeaderType[]
 

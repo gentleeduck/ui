@@ -1,10 +1,9 @@
 import { Table } from '@/registry/default/ui/ShadcnUI/table'
-import { DropdownMenuOptionsDataType } from '@/registry/default/ui/dropdown-menu'
 import { ScrollArea } from '@/registry/default/ui/scroll-area'
-import { IconProps } from '@radix-ui/react-icons/dist/types'
 import React from 'react'
 import { Button, LabelType } from '../button'
 import { sortArray } from './table.lib'
+import { TableBody } from './table'
 
 // ------------------------------------------------------------------------------------------------
 // NOTE:  These types are used for the `table-advanced` context.
@@ -17,19 +16,22 @@ export interface DuckTableProviderProps<TColumnName extends string[]>
 }
 
 export type DuckTableContextType<TColumnName extends string[]> = {
-  table_columns: readonly TableColumnType[]
-  table_rows: TableContentDataType<TColumnName>[]
+  tableColumns: Map<string, TableColumnType>
+  setTableColumns: React.Dispatch<
+    React.SetStateAction<Map<string, TableColumnType>>
+  >
+  tableRows: TableContentDataType<TColumnName>[]
+  selectedRows: Set<TableContentDataType<TColumnName>>
+  setSelectedRows: React.Dispatch<
+    React.SetStateAction<Set<TableContentDataType<TColumnName>>>
+  >
   search: TableSearchStateType
   setSearch: React.Dispatch<React.SetStateAction<TableSearchStateType>>
-  sortBy: Set<TableSortByStateType<TColumnName>>
-  setSortBy: React.Dispatch<
-    React.SetStateAction<Set<TableSortByStateType<TColumnName>>>
-  >
 }
 
 export type TableSortByStateType<TColumnName extends string[]> = {
   label: TColumnName[number]
-  type: 'asc' | 'desc' | 'not sorted'
+  type: React.HTMLProps<HTMLDivElement>['aria-sort']
 }
 
 export interface TableSearchStateType {
@@ -41,10 +43,49 @@ export interface TableSearchStateType {
 // NOTE:  These types are used for the `table-advanced` Components.
 // ------------------------------------------------------------------------------------------------
 
+/**
+ * Interface for the `DuckTable` component
+ */
 export interface DuckTableProps
   extends React.ComponentPropsWithoutRef<typeof Table> {
   wrapper?: React.ComponentPropsWithoutRef<typeof ScrollArea>
 }
+
+/**
+ * Interface for the `DuckTableHeader` component
+ */
+export interface DuckTableHeaderProps {}
+
+/**
+ * Interface for the `DuckTableHeadCheckbox` component
+ */
+export interface DuckTableHeadCheckboxProps
+  extends React.HTMLProps<HTMLDivElement> {}
+
+/**
+ * Interface for the `DuckTableRowCheckbox` component
+ */
+export interface DuckTableRowCheckboxProps<
+  TColumnName extends readonly TableColumnType[],
+> extends React.HTMLProps<HTMLDivElement> {
+  tableRow: TableContentDataType<GetColumnLabel<TColumnName>>
+}
+
+/**
+ * Interface for the `DuckTableHeadSelectable` component
+ */
+export interface DuckTableHeadSelectableProps<TSort extends boolean = true>
+  extends React.HTMLProps<HTMLDivElement> {
+  column: TableColumnType<TSort>
+  label: string
+  showLabel?: boolean | undefined
+}
+
+/**
+ * Interface for the `DuckTableBody` component
+ */
+export interface DuckTableBodyProps
+  extends React.ComponentPropsWithoutRef<typeof TableBody> {}
 
 // ------------------------------------------------------------------------------------------------
 // NOTE:  These types are used for the `table-advanced, hence i use them to get the types.
@@ -117,9 +158,72 @@ export type GetColumnLabel<TColumn extends readonly TableColumnType[]> = {
 export type TableContentDataType<TColumnName extends readonly string[]> = {
   [key in TColumnName[number]]: TableColumnType & {
     children?: TColumnName[number]
-    icon?: IconProps
+    icon?: React.ReactNode
   }
 }
+
+/**
+ * **Utility Type: Mutable**
+ * Converts all properties of a type `T` from readonly to mutable.
+ *
+ * @template T - The type to make mutable.
+ *
+ * @example
+ * ```ts
+ * type ReadonlyUser = { readonly name: string; readonly age: number };
+ * type MutableUser = Mutable<ReadonlyUser>;
+ * // Result:
+ * // {
+ * //   name: string;
+ * //   age: number;
+ * // }
+ * ```
+ */
+export type Mutable<T> = {
+  -readonly [K in keyof T]: T[K]
+} & {}
+
+/**
+ * **Utility Type: Immutable**
+ * Converts all properties of a type `T` from mutable to readonly.
+ *
+ * @template T - The type to make immutable.
+ *
+ * @example
+ * ```ts
+ * type User = { name: string; age: number };
+ * type ReadonlyUser = Immutable<User>;
+ * // Result:
+ * // {
+ * //   readonly name: string;
+ * //   readonly age: number;
+ * // }
+ * ```
+ */
+export type Immutable<T> = {
+  readonly [K in keyof T]: T[K]
+} & {}
+
+/**
+ * **Utility Type: Mapped**
+ * A type that directly maps all keys of a given type `T` to themselves.
+ *
+ * @template T - The type to map.
+ *
+ * @example
+ * ```ts
+ * type User = { name: string; age: number };
+ * type MappedUser = Mapped<User>;
+ * // Result (Same as User):
+ * // {
+ * //   name: string;
+ * //   age: number;
+ * // }
+ * ```
+ */
+export type Mapped<T> = {
+  [K in keyof T]: T[K]
+} & {}
 
 // ------------------------------------------------------------------------------------------------
 // NOTE:  These types are used for the `table-advanced, constants.
@@ -127,7 +231,7 @@ export type TableContentDataType<TColumnName extends readonly string[]> = {
 
 export type TableColumnSortableType = React.ComponentPropsWithoutRef<
   typeof Button
-> & { children: 'asc' | 'desc' | 'not sorted' }
+> & { children: React.HTMLProps<HTMLDivElement>['aria-sort'] }
 
 // ------------------------------------------------------------------------------------------------
 
@@ -136,7 +240,6 @@ export interface TableColumnType<TSort extends boolean = true>
   label: string
   sortable?: boolean
   showLabel?: boolean
-  currentSort?: TSort extends true ? 'asc' | 'desc' | 'not sorted' : never
 }
 
 export interface TableDropdownMenuOptionsType<T extends boolean> {
