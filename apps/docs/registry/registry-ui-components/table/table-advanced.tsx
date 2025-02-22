@@ -12,7 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/registry/default/ui/dropdown-menu'
+} from '../dropdown-menu'
 import { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
 import { ArrowDownIcon, ArrowUpDown, ArrowUpIcon } from 'lucide-react'
 import React from 'react'
@@ -314,7 +314,9 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
                           'w-full justify-start capitalize',
                           item.className,
                         )}
-                      />
+                      >
+                        {item.children}
+                      </Button>
                     </DropdownMenuItem>
                   </>
                 )

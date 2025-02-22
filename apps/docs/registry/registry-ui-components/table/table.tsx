@@ -12,7 +12,7 @@ import {
 import {
   type DropdownMenuOptionsDataType,
   DropdownMenuView,
-} from '@/registry/default/ui/dropdown-menu'
+} from '../dropdown-menu'
 import {
   ContextCustomView,
   DuckContextMenuProps,
@@ -339,7 +339,7 @@ export const DuckTableFilter = <
 }
 
 export interface DuckTableBarRightSideProps
-  extends React.HTMLProps<HTMLDivElement> {}
+  extends React.HTMLProps<HTMLDivElement> { }
 
 export const DuckTableBarRightSide = React.forwardRef<
   HTMLDivElement,
@@ -360,7 +360,7 @@ export const DuckTableBarRightSide = React.forwardRef<
 })
 
 export interface DuckTableBarLeftSideProps
-  extends React.HTMLProps<HTMLDivElement> {}
+  extends React.HTMLProps<HTMLDivElement> { }
 
 export const DuckTableBarLeftSide = React.forwardRef<
   HTMLDivElement,
@@ -489,7 +489,7 @@ export const DuckTableFooter = ({
 }
 
 export interface DuckTableDownBarProps
-  extends React.HTMLProps<HTMLDivElement> {}
+  extends React.HTMLProps<HTMLDivElement> { }
 
 export const DuckTableDownBar = ({
   children,
@@ -513,7 +513,7 @@ export const DuckTableDownBar = ({
 }
 export type DuckTablePaginationProps = {}
 
-export const DuckTablePagination = ({}: DuckTablePaginationProps) => {
+export const DuckTablePagination = ({ }: DuckTablePaginationProps) => {
   const { pagination, setPagination } = useDuckTable() ?? {}
   return (
     /*NOTE: Navigation */
@@ -622,22 +622,22 @@ const TablePagination = <
   //NOTE: gen the page length data
   const pageLengthData = paginations?.groupSize
     ? Array.from(
-        { length: Math.ceil(tableData.length / paginations.groupSize) },
-        (_, index) => {
-          const start = index * paginations.groupSize + 1
-          const end = Math.min(
-            (index + 1) * paginations.groupSize,
-            tableData.length,
-          )
-          if (start > tableData.length) return null
-          return end.toString()
-        },
-      )
-        .filter(Boolean)
-        .reduce((acc, curr) => {
-          acc.push({ label: curr!, element: { children: curr! } })
-          return acc
-        }, [] as CommandListGroupDataType[])
+      { length: Math.ceil(tableData.length / paginations.groupSize) },
+      (_, index) => {
+        const start = index * paginations.groupSize + 1
+        const end = Math.min(
+          (index + 1) * paginations.groupSize,
+          tableData.length,
+        )
+        if (start > tableData.length) return null
+        return end.toString()
+      },
+    )
+      .filter(Boolean)
+      .reduce((acc, curr) => {
+        acc.push({ label: curr!, element: { children: curr! } })
+        return acc
+      }, [] as CommandListGroupDataType[])
     : []
 
   return (
@@ -744,8 +744,8 @@ export const DuckTableBody = <T,>({
 
       const matchesFilterBy = filterBy?.length
         ? itemValues.some((value) =>
-            filterBy.some((q) => value.includes(q.toLowerCase())),
-          )
+          filterBy.some((q) => value.includes(q.toLowerCase())),
+        )
         : false
 
       return (

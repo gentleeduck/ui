@@ -13,7 +13,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuPortal,
-  DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
@@ -25,11 +24,11 @@ import {
 
 export interface DropdownMenuOptionsDataType
   extends Partial<
-    ButtonProps &
     React.ComponentPropsWithoutRef<typeof DropdownMenuCheckboxItem> &
     React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
     React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
   > {
+  icon: React.ReactNode
   command?: React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut> &
   CommandType
   nestedData?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent> &
@@ -37,8 +36,8 @@ export interface DropdownMenuOptionsDataType
 }
 
 export interface DropdownMenuOptionsType {
-  itemType: 'checkbox' | 'radio' | 'label'
-  optionsData: DropdownMenuOptionsDataType[]
+  itemType?: 'checkbox' | 'radio' | 'label'
+  optionsData?: DropdownMenuOptionsDataType[]
   group?: number[]
 }
 
@@ -103,13 +102,10 @@ export function DropdownMenuView({
                 return (
                   <React.Fragment key={`item-${idx}`}>
                     {!nestedData?.optionsData?.length ? (
-                      <DropdownWrapperContentItem
-                        item={item}
-                        itemType={options.itemType}
-                      />
+                      <DropdownWrapperContentItem item={item} idx={idx} />
                     ) : (
                       <DropdownMenuSub key={`sub-item-${idx}`}>
-                        <DropdownWrapperSubTrigger trigger={item} />
+                        <DropdownWrapperSubItem item={item} />
                         <DropdownMenuPortal>
                           <DropdownMenuSubContent
                             className={cn('w-[200px]', nestedClassName)}
@@ -119,7 +115,6 @@ export function DropdownMenuView({
                               return (
                                 <React.Fragment key={`nested-${idx}`}>
                                   <DropdownWrapperSubContent
-                                    itemType={nestedData?.itemType}
                                     nestedData={nestedItem}
                                   />
                                   {idx !== groupedNestedOption?.length - 1 && (
@@ -152,9 +147,24 @@ export function DropdownWrapperTrigger({
   trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> &
   ButtonProps
 }) {
+  const { className, command, icon, children, ...props } = trigger
   return (
-    <DropdownMenuTrigger asChild>
-      <Button variant="ghost" size="sm" {...trigger} />
+    <DropdownMenuTrigger
+      className={cn(
+        buttonVariants({ variant: 'ghost', size: 'sm', className }),
+      )}
+      {...props}
+    >
+      {icon && icon}
+      {children}
+      {command && (
+        <>
+          {command.label && (
+            <DropdownMenuShortcut {...command} children={command.label} />
+          )}
+          <Button command={command} className="sr-only hidden" />
+        </>
+      )}
     </DropdownMenuTrigger>
   )
 }
@@ -175,17 +185,13 @@ export function DropdownWrapperLabel({
 
 export function DropdownWrapperContentItem({
   item,
-  itemType,
-}: {
-  item: DropdownMenuOptionsDataType
-  itemType: 'checkbox' | 'radio' | 'label'
-}) {
+}: { item: DropdownMenuOptionsDataType; idx: number }) {
   const {
     children,
     className,
+    itemType = 'label',
     value,
-    icon,
-    command,
+    icon: Icon,
     nestedData,
     key: _key,
     ...props
@@ -199,40 +205,47 @@ export function DropdownWrapperContentItem({
         : DropdownMenuItem
 
   return (
-    <Component
-      value={value as string}
+    <DropdownMenuCheckboxItem
+      checked={true}
+      // value={value as string}
       className={cn(
         buttonVariants({
           variant: 'ghost',
           size: 'sm',
-          className: 'flex gap-2 items-center justify-start px-2',
         }),
-        itemType === 'checkbox' && 'pl-8',
-        itemType === 'radio' && '[&_span_svg]:w-[.5rem] pl-8',
+        'flex gap-2 items-center justify-start',
         className,
       )}
       {...props}
     >
-      {icon && item.icon}
+      {Icon && Icon}
       {children}
-      {command?.label && (
-        <DropdownMenuShortcut {...command} children={command.label} />
+      {item.command && (
+        <>
+          {item.command.label && (
+            <DropdownMenuShortcut
+              {...item.command}
+              children={item.command.label}
+            />
+          )}
+          <Button command={item.command} className="sr-only hidden" />
+        </>
       )}
-    </Component>
+    </DropdownMenuCheckboxItem>
   )
 }
 
-export function DropdownWrapperSubTrigger({
-  trigger,
-}: { trigger: DropdownMenuOptionsDataType }) {
-  const { children, className, icon, ...props } = trigger
+export function DropdownWrapperSubItem({
+  item,
+}: { item: DropdownMenuOptionsDataType }) {
+  const { children, className, icon, ...props } = item
   return (
     <DropdownMenuSubTrigger
       className={cn(
         buttonVariants({
           variant: 'ghost',
           size: 'sm',
-          className: 'w-full gap-2 px-2',
+          className: 'w-full gap-2 pr-1',
         }),
       )}
       {...props}
@@ -245,27 +258,28 @@ export function DropdownWrapperSubTrigger({
 
 export function DropdownWrapperSubContent({
   nestedData,
-  itemType,
-}: {
-  nestedData: DropdownMenuOptionsDataType[]
-  itemType: 'checkbox' | 'radio' | 'label'
-}) {
-  const Children = nestedData.map((item, idx) => {
-    const { children, value, icon: Icon, className, ...props } = item
-    const { label, ...commandProps } = item.command ?? {}
+}: { nestedData: DropdownMenuOptionsDataType[] }) {
+  return nestedData.map((nestedItemInner, idx) => {
+    const {
+      children,
+      itemType = 'label',
+      value,
+      icon: Icon,
+      className,
+      ...props
+    } = nestedItemInner
+    const { label, ...commandProps } = nestedItemInner.command ?? {}
 
-    const Component =
+    const NestedComponent =
       itemType === 'checkbox'
         ? DropdownMenuCheckboxItem
         : itemType === 'radio'
           ? DropdownMenuRadioItem
           : DropdownMenuItem
-    console.log(value)
 
     return (
-      <Component
+      <NestedComponent
         value={value as string}
-        checked={true}
         key={`nested-item-${idx}`}
         className={cn(
           buttonVariants({
@@ -273,31 +287,26 @@ export function DropdownWrapperSubContent({
             size: 'sm',
           }),
           'flex gap-2 items-center justify-start',
-          itemType !== 'label' && 'pl-8',
-          itemType === 'radio' && '[&_span_svg]:w-[.5rem]',
           className,
         )}
         {...props}
       >
         {Icon && Icon}
         {children}
-        {item.command && (
+        {nestedItemInner.command && (
           <>
             <DropdownMenuShortcut
               children={label}
               {...commandProps}
               key={`nested-item-shortcut-${idx}`}
             />
-            <Button command={item.command} className="sr-only hidden" />
+            <Button
+              command={nestedItemInner.command}
+              className="sr-only hidden"
+            />
           </>
         )}
-      </Component>
+      </NestedComponent>
     )
   })
-
-  return itemType === 'radio' ? (
-    <DropdownMenuRadioGroup value="date">{Children}</DropdownMenuRadioGroup>
-  ) : (
-    Children
-  )
 }

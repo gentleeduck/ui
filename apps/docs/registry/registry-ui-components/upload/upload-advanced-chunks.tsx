@@ -19,13 +19,13 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/registry/default/ui'
+} from '../drawer'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/registry/default/ui/dropdown-menu'
+} from '../dropdown-menu'
 import { Input } from '@/registry/default/ui/input'
 import { Button, buttonVariants } from '../button'
 import {
@@ -70,7 +70,13 @@ import {
   DialogDescription,
   DialogTitle,
 } from '@/registry/default/ui'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@/registry/default/ui'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from '@/registry/default/ui'
 import { DuckDropdownMenuItem } from '../dropdown-menu'
 import { useUploadAdvancedContext } from './upload-advanced'
 import { UploadOrDragSvg } from './upload.assets'
@@ -98,7 +104,10 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 import { TableCell, TableRow } from '../table'
 import { format } from 'date-fns'
 import { filesize } from 'filesize'
-import { BucketFilesType, BucketFoldersType } from '../../../../upload-api/src/globals'
+import {
+  BucketFilesType,
+  BucketFoldersType,
+} from '../../../../upload-api/src/globals'
 import { uuidv7 } from 'uuidv7'
 import { toast } from 'sonner'
 
@@ -116,11 +125,7 @@ export const UploadReloadButton = (): JSX.Element => {
 
   // TODO: Implement reload functionality.
   return (
-    <Button
-      size={'xs'}
-      icon={{ children: RefreshCw }}
-      onClick={handleReload}
-    >
+    <Button size={'xs'} icon={{ children: RefreshCw }} onClick={handleReload}>
       Reload
     </Button>
   )
@@ -142,10 +147,7 @@ export const UploadAdvancedViewButton = (): JSX.Element => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          size={'xs'}
-          icon={{ children: Rows2 }}
-        >
+        <Button size={'xs'} icon={{ children: Rows2 }}>
           View
         </Button>
       </DropdownMenuTrigger>
@@ -154,7 +156,7 @@ export const UploadAdvancedViewButton = (): JSX.Element => {
         <DuckDropdownMenuItem
           title="View"
           content={CONTENT_POILERPLATE.view}
-          onChange={value => setUploadView(value as typeof uploadView)}
+          onChange={(value) => setUploadView(value as typeof uploadView)}
         />
         <DuckDropdownMenuItem
           title="Sort By"
@@ -196,7 +198,7 @@ export const UploadAdvancedButton = (): JSX.Element => {
         type="file"
         className="absolute w-full h-full opacity-0 cursor-pointer"
         multiple={true}
-        onChange={e => advancedUploadAttachments({ e, ...ctx })}
+        onChange={(e) => advancedUploadAttachments({ e, ...ctx })}
       />
       Upload file
     </Button>
@@ -218,7 +220,9 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
   const inputRef = React.useRef<HTMLInputElement | null>(null)
 
   const handleCreateFolder = React.useCallback(async () => {
-    const last_key = JSON.parse(Array.from(ctx.selectedFolder.keys()).pop() ?? '{}') as BucketFoldersType
+    const last_key = JSON.parse(
+      Array.from(ctx.selectedFolder.keys()).pop() ?? '{}',
+    ) as BucketFoldersType
     const emptyFolder: BucketFoldersType = {
       id: uuidv7(),
       name: inputRef.current?.value ?? '',
@@ -235,7 +239,7 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
 
       if (!folder.data) return reject()
       if (folder.data?.tree_level === 1) {
-        ctx.setAttachments(prev => {
+        ctx.setAttachments((prev) => {
           return {
             ...prev,
             data: prev.data ? [...prev.data, folder.data] : [folder.data],
@@ -244,12 +248,17 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
         return resolve(true)
       }
 
-      ctx.setSelectedFolder(prev => {
-        const map = prev.size ? new Map(prev) : (new Map() as SelectedFoldersType)
+      ctx.setSelectedFolder((prev) => {
+        const map = prev.size
+          ? new Map(prev)
+          : (new Map() as SelectedFoldersType)
 
         map.set(JSON.stringify(last_key), {
           state: 'success',
-          data: [...(map.get(JSON.stringify(last_key))?.data || []), folder.data],
+          data: [
+            ...(map.get(JSON.stringify(last_key))?.data || []),
+            folder.data,
+          ],
         })
         return map
       })
@@ -280,7 +289,9 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
       <DialogContent>
         <div>
           <DialogHeader className="p-2">
-            <DialogTitle className="text-lg font-medium pb-0">Create a new folder</DialogTitle>
+            <DialogTitle className="text-lg font-medium pb-0">
+              Create a new folder
+            </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
               Enter the name of the folder you'd like to create.
             </DialogDescription>
@@ -294,7 +305,13 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
         </div>
         <DialogFooter>
           <DialogClose
-            className={cn(buttonVariants({ className: 'px-8', size: 'sm', variant: 'outline' }))}
+            className={cn(
+              buttonVariants({
+                className: 'px-8',
+                size: 'sm',
+                variant: 'outline',
+              }),
+            )}
             onClick={() => inputRef.current && (inputRef.current.value = '')}
           >
             Cancel
@@ -314,7 +331,9 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
       <DrawerContent className="p-4">
         <div>
           <DrawerHeader className="p-2 text-start">
-            <DrawerTitle className="text-lg font-medium pb-0">Create a new folder</DrawerTitle>
+            <DrawerTitle className="text-lg font-medium pb-0">
+              Create a new folder
+            </DrawerTitle>
             <DrawerDescription className="text-sm text-muted-foreground">
               Enter the name of the folder you'd like to create.
             </DrawerDescription>
@@ -327,7 +346,13 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
         </div>
         <DrawerFooter className="px-0">
           <DrawerClose
-            className={cn(buttonVariants({ className: 'px-8', size: 'sm', variant: 'outline' }))}
+            className={cn(
+              buttonVariants({
+                className: 'px-8',
+                size: 'sm',
+                variant: 'outline',
+              }),
+            )}
             onClick={() => inputRef.current && (inputRef.current.value = '')}
           >
             Cancel
@@ -349,7 +374,9 @@ export const UploadAdvancedAddFolderButton = (): JSX.Element => {
  * @param {{ attachment: FileType | FolderType }} props
  * @returns {JSX.Element} The rename attachment button component.
  */
-export const UploadAdvancedRenameAttachments = ({ attachment }: UploadRenameAttachmentButtonProps): JSX.Element => {
+export const UploadAdvancedRenameAttachments = ({
+  attachment,
+}: UploadRenameAttachmentButtonProps): JSX.Element => {
   const { setAttachments } = useUploadAdvancedContext()
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const inputRef = React.useRef<HTMLInputElement | null>(null)
@@ -371,7 +398,9 @@ export const UploadAdvancedRenameAttachments = ({ attachment }: UploadRenameAtta
       <DialogContent>
         <div>
           <DialogHeader className="p-2">
-            <DialogTitle className="text-lg font-medium pb-0">Rename the attachment</DialogTitle>
+            <DialogTitle className="text-lg font-medium pb-0">
+              Rename the attachment
+            </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
               Enter the name of the attachment you'd like to rename.
             </DialogDescription>
@@ -385,14 +414,28 @@ export const UploadAdvancedRenameAttachments = ({ attachment }: UploadRenameAtta
         </div>
         <DialogFooter>
           <DialogClose
-            className={cn(buttonVariants({ className: 'px-8', size: 'sm', variant: 'outline' }))}
+            className={cn(
+              buttonVariants({
+                className: 'px-8',
+                size: 'sm',
+                variant: 'outline',
+              }),
+            )}
             onClick={() => inputRef.current && (inputRef.current.value = '')}
           >
             Cancel
           </DialogClose>
           <DialogClose
             className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-            onClick={() => setAttachments(_ => renameAttachmentById(_, [attachment.id], inputRef.current?.value ?? ''))}
+            onClick={() =>
+              setAttachments((_) =>
+                renameAttachmentById(
+                  _,
+                  [attachment.id],
+                  inputRef.current?.value ?? '',
+                ),
+              )
+            }
           >
             Submit
           </DialogClose>
@@ -405,7 +448,9 @@ export const UploadAdvancedRenameAttachments = ({ attachment }: UploadRenameAtta
       <DrawerContent className="p-4">
         <div>
           <DrawerHeader className="p-2 text-start">
-            <DrawerTitle className="text-lg font-medium pb-0">Rename the attachment</DrawerTitle>
+            <DrawerTitle className="text-lg font-medium pb-0">
+              Rename the attachment
+            </DrawerTitle>
             <DrawerDescription className="text-sm text-muted-foreground">
               Enter the name of the attachment you'd like to rename.
             </DrawerDescription>
@@ -418,14 +463,28 @@ export const UploadAdvancedRenameAttachments = ({ attachment }: UploadRenameAtta
         </div>
         <DrawerFooter>
           <DrawerClose
-            className={cn(buttonVariants({ className: 'px-8', size: 'sm', variant: 'outline' }))}
+            className={cn(
+              buttonVariants({
+                className: 'px-8',
+                size: 'sm',
+                variant: 'outline',
+              }),
+            )}
             onClick={() => inputRef.current && (inputRef.current.value = '')}
           >
             Cancel
           </DrawerClose>
           <DrawerClose
             className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-            onClick={() => setAttachments(_ => renameAttachmentById(_, [attachment.id], inputRef.current?.value ?? ''))}
+            onClick={() =>
+              setAttachments((_) =>
+                renameAttachmentById(
+                  _,
+                  [attachment.id],
+                  inputRef.current?.value ?? '',
+                ),
+              )
+            }
           >
             Submit
           </DrawerClose>
@@ -453,7 +512,9 @@ export const UploadAdvancedSearchButton = (): JSX.Element => {
   }, [open])
 
   const debounceSearch = debounceCallback(() => {
-    inputRef.current?.value ? setUploadQuery(inputRef.current?.value) : setUploadQuery('')
+    inputRef.current?.value
+      ? setUploadQuery(inputRef.current?.value)
+      : setUploadQuery('')
   }, 1000)
 
   return (
@@ -476,15 +537,16 @@ export const UploadAdvancedSearchButton = (): JSX.Element => {
             variant: 'secondary',
             border: 'secondary',
             size: 'xs',
-            className: 'relative h-[1.625rem] overflow-hidden w-[200px] hidden [&_svg]:pointer-events-auto',
+            className:
+              'relative h-[1.625rem] overflow-hidden w-[200px] hidden [&_svg]:pointer-events-auto',
           }),
-          open && 'flex'
+          open && 'flex',
         )}
       >
         <Search className="absolute top-1/2 -translate-y-1/2 left-2 size-[0.875rem] z-10" />
         <Input
           autoFocus={true}
-          onChange={_ => debounceSearch()}
+          onChange={(_) => debounceSearch()}
           className="pl-6 w-[200px] h-[1.625rem] text-xs text-accent-foreground/50 bg-transparent placeholder:text-xs placeholder:text-accent-foreground/50"
           placeholder="Search file or folder..."
           ref={inputRef}
@@ -503,7 +565,12 @@ export const UploadAdvancedSearchButton = (): JSX.Element => {
 }
 
 export const UploadAdvancedDownloadAttachments = React.memo(
-  ({ itemsName, size, withinDropdown = false, ...props }: UploadDownloadAttachmentsProps): JSX.Element => {
+  ({
+    itemsName,
+    size,
+    withinDropdown = false,
+    ...props
+  }: UploadDownloadAttachmentsProps): JSX.Element => {
     const { currentBucket } = useUploadAdvancedContext()
     const isDesktop = useMediaQuery('(min-width: 768px)')
 
@@ -511,7 +578,7 @@ export const UploadAdvancedDownloadAttachments = React.memo(
       <Button
         size={size ?? 'xs'}
         icon={{ children: Download }}
-        onClick={() => {}}
+        onClick={() => { }}
         {...props}
       >
         Download
@@ -560,7 +627,9 @@ export const UploadAdvancedDownloadAttachments = React.memo(
             </span>
           </Button>
         </h5>
-        <p className="text-sm text-muted-foreground px-4 !mt-0">Select the items you'd like to download.</p>
+        <p className="text-sm text-muted-foreground px-4 !mt-0">
+          Select the items you'd like to download.
+        </p>
 
         <Separator />
       </>
@@ -573,22 +642,34 @@ export const UploadAdvancedDownloadAttachments = React.memo(
           <AlertDialogHeader>{Content}</AlertDialogHeader>
 
           <AlertDialogFooter>
-            <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+            <AlertDialogCancel
+              className={cn(
+                buttonVariants({
+                  variant: 'outline',
+                  className: 'px-8',
+                  size: 'sm',
+                }),
+              )}
+            >
               Cancel
             </AlertDialogCancel>
             {withinDropdown ? (
               <DropdownMenuItem className="p-0">
                 <AlertDialogAction
-                  className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-                  onClick={() => {}}
+                  className={cn(
+                    buttonVariants({ className: 'px-8', size: 'sm' }),
+                  )}
+                  onClick={() => { }}
                 >
                   Download
                 </AlertDialogAction>
               </DropdownMenuItem>
             ) : (
               <AlertDialogAction
-                className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-                onClick={() => {}}
+                className={cn(
+                  buttonVariants({ className: 'px-8', size: 'sm' }),
+                )}
+                onClick={() => { }}
               >
                 Download
               </AlertDialogAction>
@@ -603,22 +684,34 @@ export const UploadAdvancedDownloadAttachments = React.memo(
           <DrawerHeader>{Content}</DrawerHeader>
 
           <DrawerFooter>
-            <DrawerClose className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+            <DrawerClose
+              className={cn(
+                buttonVariants({
+                  variant: 'outline',
+                  className: 'px-8',
+                  size: 'sm',
+                }),
+              )}
+            >
               Cancel
             </DrawerClose>
             {withinDropdown ? (
               <DropdownMenuItem className="p-0">
                 <DrawerClose
-                  className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-                  onClick={() => {}}
+                  className={cn(
+                    buttonVariants({ className: 'px-8', size: 'sm' }),
+                  )}
+                  onClick={() => { }}
                 >
                   Download
                 </DrawerClose>
               </DropdownMenuItem>
             ) : (
               <DrawerClose
-                className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-                onClick={() => {}}
+                className={cn(
+                  buttonVariants({ className: 'px-8', size: 'sm' }),
+                )}
+                onClick={() => { }}
               >
                 Download
               </DrawerClose>
@@ -627,22 +720,26 @@ export const UploadAdvancedDownloadAttachments = React.memo(
         </DrawerContent>
       </Drawer>
     )
-  }
+  },
 )
 
 export const UploadAdvancedAlertMoveAction = React.memo(
-  ({ itemsName: itemName, ...props }: UploadAlertMoveActionProps): JSX.Element => {
-    const { currentBucket, selectedAttachments, setSelectedAttachments, setAttachments } = useUploadAdvancedContext()
+  ({
+    itemsName: itemName,
+    ...props
+  }: UploadAlertMoveActionProps): JSX.Element => {
+    const {
+      currentBucket,
+      selectedAttachments,
+      setSelectedAttachments,
+      setAttachments,
+    } = useUploadAdvancedContext()
     const [open, setOpen] = React.useState<boolean>(false)
     const isDesktop = useMediaQuery('(min-width: 768px)')
     const inputRef = React.useRef<HTMLInputElement | null>(null)
 
     const Trigger = (
-      <Button
-        size={'xs'}
-        icon={{ children: Move }}
-        {...props}
-      >
+      <Button size={'xs'} icon={{ children: Move }} {...props}>
         Move
       </Button>
     )
@@ -700,7 +797,9 @@ export const UploadAdvancedAlertMoveAction = React.memo(
         >
           <AlertTitle className="text-accent-foreground/70 flex iems-center gap-1">
             Path to new directory in
-            <span className="font-mono italic underline underline-offset-4">{currentBucket}</span>
+            <span className="font-mono italic underline underline-offset-4">
+              {currentBucket}
+            </span>
           </AlertTitle>
           <Input
             className="bg-transparent h-[35px] border-muted-foreground/20"
@@ -716,20 +815,27 @@ export const UploadAdvancedAlertMoveAction = React.memo(
     )
 
     return isDesktop ? (
-      <AlertDialog
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogTrigger asChild>{Trigger}</AlertDialogTrigger>
         <AlertDialogContent className="p-0">
-          <AlertDialogHeader className="p-4 pb-0 space-y-4">{Content}</AlertDialogHeader>
+          <AlertDialogHeader className="p-4 pb-0 space-y-4">
+            {Content}
+          </AlertDialogHeader>
           <AlertDialogFooter className="px-4 pb-4">
-            <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+            <AlertDialogCancel
+              className={cn(
+                buttonVariants({
+                  variant: 'outline',
+                  className: 'px-8',
+                  size: 'sm',
+                }),
+              )}
+            >
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-              onClick={_ =>
+              onClick={(_) =>
                 moveAttachmentsToPath({
                   setAttachments,
                   setSelectedAttachment: setSelectedAttachments,
@@ -744,20 +850,27 @@ export const UploadAdvancedAlertMoveAction = React.memo(
         </AlertDialogContent>
       </AlertDialog>
     ) : (
-      <Drawer
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{Trigger}</DrawerTrigger>
         <DrawerContent>
-          <DrawerHeader className="space-y-2 [&_div]:text-start">{Content}</DrawerHeader>
+          <DrawerHeader className="space-y-2 [&_div]:text-start">
+            {Content}
+          </DrawerHeader>
           <DrawerFooter className="px-4 pb-4 pt-2">
-            <DrawerClose className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+            <DrawerClose
+              className={cn(
+                buttonVariants({
+                  variant: 'outline',
+                  className: 'px-8',
+                  size: 'sm',
+                }),
+              )}
+            >
               Cancel
             </DrawerClose>
             <DrawerClose
               className={cn(buttonVariants({ className: 'px-8', size: 'sm' }))}
-              onClick={_ =>
+              onClick={(_) =>
                 moveAttachmentsToPath({
                   setAttachments,
                   setSelectedAttachment: setSelectedAttachments,
@@ -772,7 +885,7 @@ export const UploadAdvancedAlertMoveAction = React.memo(
         </DrawerContent>
       </Drawer>
     )
-  }
+  },
 )
 
 export const UploadAdvancedAlertDeleteAttachments = React.memo(
@@ -850,29 +963,43 @@ export const UploadAdvancedAlertDeleteAttachments = React.memo(
         >
           <AlertCircle />
           <AlertTitle>This action cannot be undone.</AlertTitle>
-          <AlertDescription>Are you sure you want to delete the selected items?</AlertDescription>
+          <AlertDescription>
+            Are you sure you want to delete the selected items?
+          </AlertDescription>
         </Alert>
 
         <Separator />
       </>
     )
     return isDesktop ? (
-      <AlertDialog
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogTrigger asChild>{Trigger}</AlertDialogTrigger>
         <AlertDialogContent className="p-0">
-          <AlertDialogHeader className="p-4 pb-0 space-y-4">{Content}</AlertDialogHeader>
+          <AlertDialogHeader className="p-4 pb-0 space-y-4">
+            {Content}
+          </AlertDialogHeader>
           <AlertDialogFooter className="px-4 pb-4">
-            <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+            <AlertDialogCancel
+              className={cn(
+                buttonVariants({
+                  variant: 'outline',
+                  className: 'px-8',
+                  size: 'sm',
+                }),
+              )}
+            >
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               className={cn(
-                buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
+                buttonVariants({
+                  variant: 'destructive',
+                  border: 'destructive',
+                  className: 'px-8',
+                  size: 'sm',
+                }),
               )}
-              // onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
+            // onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
             >
               Delete
             </AlertDialogAction>
@@ -880,22 +1007,34 @@ export const UploadAdvancedAlertDeleteAttachments = React.memo(
         </AlertDialogContent>
       </AlertDialog>
     ) : (
-      <Drawer
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{Trigger}</DrawerTrigger>
         <DrawerContent>
-          <DrawerHeader className="space-y-2 [&_div]:text-start">{Content}</DrawerHeader>
+          <DrawerHeader className="space-y-2 [&_div]:text-start">
+            {Content}
+          </DrawerHeader>
           <DrawerFooter className="px-4 pb-4 pt-2">
-            <DrawerClose className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}>
+            <DrawerClose
+              className={cn(
+                buttonVariants({
+                  variant: 'outline',
+                  className: 'px-8',
+                  size: 'sm',
+                }),
+              )}
+            >
               Cancel
             </DrawerClose>
             <DrawerClose
               className={cn(
-                buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
+                buttonVariants({
+                  variant: 'destructive',
+                  border: 'destructive',
+                  className: 'px-8',
+                  size: 'sm',
+                }),
               )}
-              // onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
+            // onClick={() => setAttachments(old => deleteAttachmentById(old, itemsToDelete))}
             >
               Delete
             </DrawerClose>
@@ -903,18 +1042,22 @@ export const UploadAdvancedAlertDeleteAttachments = React.memo(
         </DrawerContent>
       </Drawer>
     )
-  }
+  },
 )
 
 export const UploadAdvancedSelectAllLayout = React.memo(
   (props: { attachments: (BucketFilesType | BucketFoldersType)[] }) => {
     const { attachments } = props
-    const { setSelectedAttachments: setSelectedAttachment, selectedAttachments: selecttedAttachment } =
-      useUploadAdvancedContext()
+    const {
+      setSelectedAttachments: setSelectedAttachment,
+      selectedAttachments: selecttedAttachment,
+    } = useUploadAdvancedContext()
     const currentTreeLevel = attachments?.[0]?.tree_level
 
     // Get all selected folders in the current tree
-    const selectedInCurrentTree = selecttedAttachment.filter(attachment => attachment.tree_level === currentTreeLevel)
+    const selectedInCurrentTree = selecttedAttachment.filter(
+      (attachment) => attachment.tree_level === currentTreeLevel,
+    )
     const filesInCurrentTree = [] // attachments.filter(item => !(item as BucketFoldersType)?.content)
 
     // Determine the `isChecked` state
@@ -929,7 +1072,9 @@ export const UploadAdvancedSelectAllLayout = React.memo(
       <div
         className={cn(
           'flex items-center gap-2 p-2 bg-muted rounded-md mx-2 mt-2 -mb-1 transition-all duration-300 ease-in-out',
-          (selecttedAttachment.length === 0 || filesInCurrentTree?.length === 0) && '-mt-10 mb-2'
+          (selecttedAttachment.length === 0 ||
+            filesInCurrentTree?.length === 0) &&
+          '-mt-10 mb-2',
         )}
       >
         <Checkbox
@@ -951,10 +1096,12 @@ export const UploadAdvancedSelectAllLayout = React.memo(
         </span>
       </div>
     )
-  }
+  },
 )
 
-export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmentFile: BucketFilesType }) => {
+export const UploadAdvancedAttachmentsRowFile = ({
+  attachmentFile,
+}: { attachmentFile: BucketFilesType }) => {
   const fileType = getFileType(attachmentFile.type)
   const {
     setPreviewFile,
@@ -963,7 +1110,9 @@ export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmen
     previewFile,
   } = useUploadAdvancedContext()
   const exist_in_selected = selecttedAttachment.length
-    ? selecttedAttachment.some(attachment => attachment.id === attachmentFile.id)
+    ? selecttedAttachment.some(
+      (attachment) => attachment.id === attachmentFile.id,
+    )
     : false
 
   return (
@@ -971,32 +1120,41 @@ export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmen
       className={cn(
         '[&_td]:whitespace-nowrap [&_td]:py-2 [&_td]:text-xs group/row cursor-pointer',
         previewFile?.id === attachmentFile.id && '!bg-card-foreground/10',
-        exist_in_selected && '!bg-card-foreground/10'
+        exist_in_selected && '!bg-card-foreground/10',
       )}
       onClick={() => setPreviewFile(attachmentFile)}
     >
       <TableCell className="font-medium w-[400px] relative group/file">
-        <div className={cn('relative w-full flex items-center justify-start gap-2 cursor-pointer')}>
+        <div
+          className={cn(
+            'relative w-full flex items-center justify-start gap-2 cursor-pointer',
+          )}
+        >
           <div
             className={cn(
               'relative [&_svg]:size-4 group-hover/file:opacity-0 opacity-100',
-              exist_in_selected && 'opacity-0'
+              exist_in_selected && 'opacity-0',
             )}
           >
             {FILE_TYPE_ICONS[fileType]}
           </div>
-          <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFile.name}</h6>
+          <h6 className="text-xs font-medium truncate max-w-[70%]">
+            {attachmentFile.name}
+          </h6>
         </div>
 
         <Checkbox
           className={cn(
             'absolute top-1/2 left-4 -translate-y-1/2 group-hover/file:opacity-100 opacity-0 w-[15px] h-[15px]',
-            exist_in_selected && '!opacity-100'
+            exist_in_selected && '!opacity-100',
           )}
           checked={exist_in_selected}
-          onCheckedChange={e => {
-            if (e) return setSelectedAttachment(prev => [...prev, attachmentFile])
-            setSelectedAttachment(prev => prev.filter(attachment => attachment.id !== attachmentFile.id))
+          onCheckedChange={(e) => {
+            if (e)
+              return setSelectedAttachment((prev) => [...prev, attachmentFile])
+            setSelectedAttachment((prev) =>
+              prev.filter((attachment) => attachment.id !== attachmentFile.id),
+            )
           }}
         />
       </TableCell>
@@ -1007,19 +1165,32 @@ export const UploadAdvancedAttachmentsRowFile = ({ attachmentFile }: { attachmen
       </TableCell>
       <TableCell className="w-[100px]">{attachmentFile.type}</TableCell>
       <TableCell className="w-[200px]">
-        {format(new Date(attachmentFile?.created_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
+        {format(
+          new Date(attachmentFile?.created_at ?? Date.now()),
+          'dd/MM/yyyy hh:mm:ss a',
+        )}
       </TableCell>
       <TableCell className="w-[200px] relative [&_div:last-child]:right-4">
-        <div>{format(new Date(attachmentFile?.updated_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}</div>
+        <div>
+          {format(
+            new Date(attachmentFile?.updated_at ?? Date.now()),
+            'dd/MM/yyyy hh:mm:ss a',
+          )}
+        </div>
         <UploadAttachmentActionsMenu attachment={attachmentFile} />
       </TableCell>
     </TableRow>
   )
 }
 
-export const UploadAdvancedAttachmentsRowFolder = ({ folder }: { folder: BucketFoldersType }) => {
+export const UploadAdvancedAttachmentsRowFolder = ({
+  folder,
+}: { folder: BucketFoldersType }) => {
   const ctx = useUploadAdvancedContext()
-  const exist_in_tree = ctx.selectedFolder.size && ctx.selectedFolder.has(JSON.stringify(folder)) ? true : false
+  const exist_in_tree =
+    ctx.selectedFolder.size && ctx.selectedFolder.has(JSON.stringify(folder))
+      ? true
+      : false
 
   return (
     <TableRow
@@ -1028,17 +1199,31 @@ export const UploadAdvancedAttachmentsRowFolder = ({ folder }: { folder: BucketF
     >
       <TableCell className="font-medium relative w-full flex items-center justify-start gap-2">
         <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(folder.files_count > 0 && 'fill-white')} />}
+          {exist_in_tree ? (
+            <FolderOpen />
+          ) : (
+            <Folder className={cn(folder.files_count > 0 && 'fill-white')} />
+          )}
         </div>
-        <h6 className="text-xs font-medium truncate max-w-[70%]">{folder.name} </h6>
+        <h6 className="text-xs font-medium truncate max-w-[70%]">
+          {folder.name}{' '}
+        </h6>
       </TableCell>
       <TableCell className="w-[100px]">-</TableCell>
       <TableCell className="w-[100px]">-</TableCell>
       <TableCell className="w-[200px]">
-        {format(new Date(folder?.created_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}
+        {format(
+          new Date(folder?.created_at ?? Date.now()),
+          'dd/MM/yyyy hh:mm:ss a',
+        )}
       </TableCell>
       <TableCell className="w [200px] flex items-center justify-between gap-12">
-        <div>{format(new Date(folder?.updated_at ?? Date.now()), 'dd/MM/yyyy hh:mm:ss a')}</div>
+        <div>
+          {format(
+            new Date(folder?.updated_at ?? Date.now()),
+            'dd/MM/yyyy hh:mm:ss a',
+          )}
+        </div>
         <div className="relative py-2 ![&_button]:relative [&_button]:right-1">
           <UploadAttachmentActionsMenu attachment={folder} />
         </div>
@@ -1057,11 +1242,13 @@ export const UploadAdvancedNoAttachments = (): JSX.Element => {
       className={cn(
         'border-r border-r-border bg-muted/10 p-4 flex items-center flex-col space-y-2 justify-center',
         TREE_WIDTH,
-        TREE_HEIGHT
+        TREE_HEIGHT,
       )}
     >
       <UploadOrDragSvg className="size-[100px]" />
-      <p className="text-center w-full text-sm font-medium">Drop your files here</p>
+      <p className="text-center w-full text-sm font-medium">
+        Drop your files here
+      </p>
       <p className="text-accent-foreground/70 text-center w-full text-xs max-w-[150px]">
         Or upload them via the "Upload file" button above
       </p>
@@ -1075,7 +1262,7 @@ export type folderOpenType = {
 }
 
 const folderOpen = async ({ _ctx, folder }: folderOpenType) => {
-  _ctx.setSelectedFolder(prev => {
+  _ctx.setSelectedFolder((prev) => {
     const newMap = new Map(prev)
     const currentTreeLevel = folder.tree_level
 
@@ -1106,7 +1293,7 @@ const folderOpen = async ({ _ctx, folder }: folderOpenType) => {
   const folderResponse = await _ctx.actions.getFolder(folder, _ctx)
 
   // Update the map with the fetched data and set the state to 'success'
-  _ctx.setSelectedFolder(prev => {
+  _ctx.setSelectedFolder((prev) => {
     const newMap = new Map(prev)
     const key = JSON.stringify(folder)
     newMap.set(key, {
@@ -1118,38 +1305,46 @@ const folderOpen = async ({ _ctx, folder }: folderOpenType) => {
   })
 }
 
-export const UploadAdvancedAttachmentFolder = ({ folder }: UploadAdvacedAttachmentFolder) => {
+export const UploadAdvancedAttachmentFolder = ({
+  folder,
+}: UploadAdvacedAttachmentFolder) => {
   const ctx = useUploadAdvancedContext()
-  const exist_in_tree = ctx.selectedFolder.size && ctx.selectedFolder.has(JSON.stringify(folder))
+  const exist_in_tree =
+    ctx.selectedFolder.size && ctx.selectedFolder.has(JSON.stringify(folder))
 
   return (
     <div className="relative">
       <div
         className={cn(
           'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-2 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer [&_*]:select-none',
-          exist_in_tree && 'bg-card-foreground/15'
+          exist_in_tree && 'bg-card-foreground/15',
         )}
         onClick={() => folderOpen({ _ctx: ctx, folder: folder })}
       >
         <div className="relative [&_svg]:size-4">
-          {exist_in_tree ? <FolderOpen /> : <Folder className={cn(folder.files_count > 0 && 'fill-white')} />}
+          {exist_in_tree ? (
+            <FolderOpen />
+          ) : (
+            <Folder className={cn(folder.files_count > 0 && 'fill-white')} />
+          )}
         </div>
-        <h6 className="text-xs font-medium truncate max-w-[70%]">{folder.name} </h6>
+        <h6 className="text-xs font-medium truncate max-w-[70%]">
+          {folder.name}{' '}
+        </h6>
       </div>
       <UploadAttachmentActionsMenu attachment={folder} />
     </div>
   )
 }
 
-export const UploadAttachmentActionsMenu = ({ attachment }: { attachment: BucketFilesType | BucketFoldersType }) => {
+export const UploadAttachmentActionsMenu = ({
+  attachment,
+}: { attachment: BucketFilesType | BucketFoldersType }) => {
   const [open, setOpen] = React.useState<boolean>(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   return isDesktop ? (
-    <DropdownMenu
-      open={open}
-      onOpenChange={setOpen}
-    >
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button
           size={'xs'}
@@ -1164,14 +1359,8 @@ export const UploadAttachmentActionsMenu = ({ attachment }: { attachment: Bucket
       </DropdownMenuContent>
     </DropdownMenu>
   ) : (
-    <Drawer
-      open={open}
-      onOpenChange={setOpen}
-    >
-      <DrawerTrigger
-        aria-label="Toggle Menu"
-        asChild
-      >
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger aria-label="Toggle Menu" asChild>
         <Button
           size={'xs'}
           variant={'ghost'}
@@ -1206,52 +1395,68 @@ export const UploadAttachmentActionsMenu = ({ attachment }: { attachment: Bucket
  *
  * @returns {React.Element} The rendered component.
  */
-export const UploadAdvancedAttachmentFile = React.memo(({ attachmentFile }: { attachmentFile: BucketFilesType }) => {
-  const fileType = getFileType(attachmentFile.type)
-  const {
-    setPreviewFile,
-    selectedAttachments: selecttedAttachment,
-    setSelectedAttachments: setSelectedAttachment,
-    previewFile,
-  } = useUploadAdvancedContext()
-  const exist_in_selected = selecttedAttachment.some(attachment => attachment.id === attachmentFile.id)
+export const UploadAdvancedAttachmentFile = React.memo(
+  ({ attachmentFile }: { attachmentFile: BucketFilesType }) => {
+    const fileType = getFileType(attachmentFile.type)
+    const {
+      setPreviewFile,
+      selectedAttachments: selecttedAttachment,
+      setSelectedAttachments: setSelectedAttachment,
+      previewFile,
+    } = useUploadAdvancedContext()
+    const exist_in_selected = selecttedAttachment.some(
+      (attachment) => attachment.id === attachmentFile.id,
+    )
 
-  return (
-    <div className={cn('relative group/file', previewFile?.id === attachmentFile.id && 'bg-card-foreground/15')}>
+    return (
       <div
         className={cn(
-          'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-2 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer'
+          'relative group/file',
+          previewFile?.id === attachmentFile.id && 'bg-card-foreground/15',
         )}
-        onClick={() => setPreviewFile(attachmentFile)}
       >
         <div
           className={cn(
-            'relative [&_svg]:size-4 group-hover/file:opacity-0 opacity-100',
-            exist_in_selected && 'opacity-0'
+            'relative bg-card-foreground/5 rounded-md overflow-hidden w-full flex items-center justify-start gap-2 p-2 hover:bg-card-foreground/15 transition-all cursor-pointer',
           )}
+          onClick={() => setPreviewFile(attachmentFile)}
         >
-          {FILE_TYPE_ICONS[fileType]}
+          <div
+            className={cn(
+              'relative [&_svg]:size-4 group-hover/file:opacity-0 opacity-100',
+              exist_in_selected && 'opacity-0',
+            )}
+          >
+            {FILE_TYPE_ICONS[fileType]}
+          </div>
+          <h6 className="text-xs font-medium truncate max-w-[70%]">
+            {attachmentFile.name}
+          </h6>
         </div>
-        <h6 className="text-xs font-medium truncate max-w-[70%]">{attachmentFile.name}</h6>
+
+        <Checkbox
+          className={cn(
+            'absolute top-1/2 left-2 -translate-y-1/2 group-hover/file:opacity-100 opacity-0 w-[15px] h-[15px]',
+            exist_in_selected && '!opacity-100',
+          )}
+          checked={exist_in_selected}
+          onCheckedChange={(e) => {
+            if (e)
+              return setSelectedAttachment((prev) => [...prev, attachmentFile])
+            setSelectedAttachment((prev) =>
+              prev.filter((attachment) => attachment.id !== attachmentFile.id),
+            )
+          }}
+        />
+        <UploadAttachmentActionsMenu attachment={attachmentFile} />
       </div>
+    )
+  },
+)
 
-      <Checkbox
-        className={cn(
-          'absolute top-1/2 left-2 -translate-y-1/2 group-hover/file:opacity-100 opacity-0 w-[15px] h-[15px]',
-          exist_in_selected && '!opacity-100'
-        )}
-        checked={exist_in_selected}
-        onCheckedChange={e => {
-          if (e) return setSelectedAttachment(prev => [...prev, attachmentFile])
-          setSelectedAttachment(prev => prev.filter(attachment => attachment.id !== attachmentFile.id))
-        }}
-      />
-      <UploadAttachmentActionsMenu attachment={attachmentFile} />
-    </div>
-  )
-})
-
-const UploadAdvancedActionsMenu = ({ attachment }: { attachment: BucketFilesType | BucketFoldersType }) => {
+const UploadAdvancedActionsMenu = ({
+  attachment,
+}: { attachment: BucketFilesType | BucketFoldersType }) => {
   return (
     <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full space-y-1">
       <UploadAdvancedRenameAttachments attachment={attachment} />
@@ -1288,7 +1493,7 @@ export const UploadAdvancedNavigationLayout = () => {
           {ctx.selectedFolder.size > 0 && (
             <BreadcrumbItem
               onClick={() =>
-                ctx.setSelectedFolder(prev => {
+                ctx.setSelectedFolder((prev) => {
                   const newMap = new Map(prev)
                   const lastKey = Array.from(newMap.keys()).pop()
                   if (lastKey) newMap.delete(lastKey)
@@ -1306,10 +1511,7 @@ export const UploadAdvancedNavigationLayout = () => {
             </BreadcrumbItem>
           )}
           <BreadcrumbItem onClick={() => ctx.setSelectedFolder(new Map())}>
-            <Button
-              size={'xs'}
-              variant={'ghost'}
-            >
+            <Button size={'xs'} variant={'ghost'}>
               {ctx.currentBucket}
             </Button>
           </BreadcrumbItem>
@@ -1318,10 +1520,7 @@ export const UploadAdvancedNavigationLayout = () => {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 {isDesktop ? (
-                  <DropdownMenu
-                    open={open}
-                    onOpenChange={setOpen}
-                  >
+                  <DropdownMenu open={open} onOpenChange={setOpen}>
                     <DropdownMenuTrigger
                       className="flex items-center gap-1"
                       aria-label="Toggle menu"
@@ -1332,18 +1531,17 @@ export const UploadAdvancedNavigationLayout = () => {
                       {ctx.selectedFolder.size &&
                         Array.from(ctx.selectedFolder.keys())
                           .slice(0, -2)
-                          .map(item => (
-                            <DropdownMenuItem
-                              key={item}
-                              className="p-0"
-                            >
+                          .map((item) => (
+                            <DropdownMenuItem key={item} className="p-0">
                               <Button
                                 size={'xs'}
                                 variant={'ghost'}
                                 onClick={() =>
                                   folderOpen({
                                     _ctx: ctx,
-                                    folder: JSON.parse(item) as BucketFoldersType,
+                                    folder: JSON.parse(
+                                      item,
+                                    ) as BucketFoldersType,
                                   })
                                 }
                               >
@@ -1354,23 +1552,22 @@ export const UploadAdvancedNavigationLayout = () => {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 ) : (
-                  <Drawer
-                    open={open}
-                    onOpenChange={setOpen}
-                  >
+                  <Drawer open={open} onOpenChange={setOpen}>
                     <DrawerTrigger aria-label="Toggle Menu">
                       <BreadcrumbEllipsis className="h-4 w-4" />
                     </DrawerTrigger>
                     <DrawerContent>
                       <DrawerHeader className="text-left">
                         <DrawerTitle>Navigate to</DrawerTitle>
-                        <DrawerDescription>Select a page to navigate to.</DrawerDescription>
+                        <DrawerDescription>
+                          Select a page to navigate to.
+                        </DrawerDescription>
                       </DrawerHeader>
                       <div className="grid gap-1 px-4">
                         {ctx.selectedFolder.size &&
                           Array.from(ctx.selectedFolder.keys())
                             .slice(0, -2)
-                            .map(item => (
+                            .map((item) => (
                               <Button
                                 key={item}
                                 size={'xs'}
@@ -1378,7 +1575,9 @@ export const UploadAdvancedNavigationLayout = () => {
                                 onClick={() =>
                                   folderOpen({
                                     _ctx: ctx,
-                                    folder: JSON.parse(item) as BucketFoldersType,
+                                    folder: JSON.parse(
+                                      item,
+                                    ) as BucketFoldersType,
                                   })
                                 }
                               >
@@ -1400,16 +1599,18 @@ export const UploadAdvancedNavigationLayout = () => {
           {Array.from(ctx.selectedFolder.keys())
             .slice(-2)
             .map((item, index) => (
-              <BreadcrumbItem
-                key={index}
-                className="!gap-0"
-              >
+              <BreadcrumbItem key={index} className="!gap-0">
                 <BreadcrumbSeparator />
                 <BreadcrumbPage className="max-w-20 md:max-w-none">
                   <Button
                     size={'xs'}
                     variant={'ghost'}
-                    onClick={() => folderOpen({ _ctx: ctx, folder: JSON.parse(item) as BucketFoldersType })}
+                    onClick={() =>
+                      folderOpen({
+                        _ctx: ctx,
+                        folder: JSON.parse(item) as BucketFoldersType,
+                      })
+                    }
                   >
                     {(JSON.parse(item) as BucketFoldersType).name}
                   </Button>

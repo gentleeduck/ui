@@ -6,16 +6,20 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive: 'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground',
+        destructive:
+          'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground',
         warning: 'bg-warning/90 hover:bg-warning/70 text-warning-foreground',
         outline:
           'border border-input text-accent-foreground bg-background hover:bg-accent hover:text-accent-foreground',
         dashed:
           'border border-dashed border-input text-accent-foreground bg-background hover:bg-accent/50 hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent text-accent-foreground hover:text-accent-foreground',
+        secondary:
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost:
+          'hover:bg-accent text-accent-foreground hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        expand_icon: 'group relative text-primary-foreground bg-primary hover:bg-primary/90',
+        expand_icon:
+          'group relative text-primary-foreground bg-primary hover:bg-primary/90',
         ring_hover:
           'bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 hover:ring-2 hover:ring-primary/90 hover:ring-offset-2',
         shine:
@@ -31,7 +35,7 @@ export const buttonVariants = cva(
         nothing: '',
       },
       size: {
-        icon: 'h-10 w-10 p-0 [&_svg]:h-[1.4rem] [&_svg]:w-[1.4rem]',
+        icon: 'h-8 w-8 p-0 [&_svg]:h-[1.4rem] [&_svg]:w-[1.4rem]',
         xs: 'text-xs px-2.5 py-1 h-[1.625rem] [&_svg]:h-[0.875rem] [&_svg]:w-[0.875rem]',
         sm: `text-sm leading-4 px-3 py-2 h-[34px] [&_svg]:h-[1.125rem] [&_svg]:w-[1.125rem]`,
         default: `text-sm px-4 py-2 h-[2.5rem] [&_svg]:h-[1.25rem] [&_svg]:w-[1.25rem]`,
@@ -43,9 +47,12 @@ export const buttonVariants = cva(
       border: {
         default: '',
         primary: 'border border-border/40 hover:border-border/80',
-        secondary: 'border border-secondary/40 hover:border-secondary bg-secondary/40 hover:bg-secondary/65',
-        destructive: 'border border-destructive/40 hover:border-destructive bg-destructive/40 hover:bg-destructive/65',
-        warning: 'border border-warning/40 hover:border-warning bg-warning/40 hover:bg-warning/65',
+        secondary:
+          'border border-secondary/40 hover:border-secondary bg-secondary/40 hover:bg-secondary/65',
+        destructive:
+          'border border-destructive/40 hover:border-destructive bg-destructive/40 hover:bg-destructive/65',
+        warning:
+          'border border-warning/40 hover:border-warning bg-warning/40 hover:bg-warning/65',
       },
     },
     defaultVariants: {
@@ -53,5 +60,5 @@ export const buttonVariants = cva(
       size: 'default',
       border: 'default',
     },
-  }
+  },
 )

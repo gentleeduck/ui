@@ -259,6 +259,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "registry-ui-components/table/table-advanced.constants.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "registry-ui-components/table/table-advanced.tsx",
         "type": "registry:ui"
       },

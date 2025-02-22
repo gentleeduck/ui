@@ -204,6 +204,7 @@ export const Index: Record<string, any> = {
     files: [
       [
         { path: 'registry-ui-components/table/index.ts', type: 'registry:ui' },
+        { path: 'registry-ui-components/table/table-advanced.constants.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/table/table-advanced.tsx', type: 'registry:ui' },
         { path: 'registry-ui-components/table/table-advanced.types.ts', type: 'registry:ui' },
         { path: 'registry-ui-components/table/table.constants.ts', type: 'registry:ui' },
