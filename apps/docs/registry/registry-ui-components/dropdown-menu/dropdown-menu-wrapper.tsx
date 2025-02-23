@@ -25,13 +25,14 @@ import {
 
 export interface DropdownMenuOptionsDataType
   extends Partial<
-    ButtonProps &
     React.ComponentPropsWithoutRef<typeof DropdownMenuCheckboxItem> &
     React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
     React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
   > {
+  type: 'drawer' | 'dialog' | 'sheet' | 'item'
   command?: React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut> &
   CommandType
+  icon?: React.ReactNode
   nestedData?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent> &
   DropdownMenuOptionsType
 }
@@ -42,20 +43,59 @@ export interface DropdownMenuOptionsType {
   group?: number[]
 }
 
-export interface DropdownMenuViewProps {
-  wrapper?: React.ComponentPropsWithoutRef<typeof DropdownMenu>
+export interface DropdownMenuViewProps
+  extends React.ComponentPropsWithoutRef<typeof DropdownMenu> {
+  trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> &
+  ButtonProps
   content: {
     label?: React.ComponentPropsWithoutRef<typeof DropdownMenuLabel>
     options: DropdownMenuOptionsType
   } & React.ComponentPropsWithoutRef<typeof DropdownMenuContent>
-  trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> &
-  ButtonProps
+}
+
+export interface DropdownMenuContextType {
+  open: { id: `item-${number}`; value: boolean }
+  setOpen: React.Dispatch<
+    React.SetStateAction<{ id: `item-${number}`; value: boolean }>
+  >
+}
+
+export const DropdownMenuContext =
+  React.createContext<DropdownMenuContextType | null>(null)
+
+export const useDropdownMenuContext = () => {
+  const context = React.useContext(DropdownMenuContext)
+  if (!context) {
+    throw new Error(
+      'useDropdownMenuContext must be used within a DropdownMenuContextProvider',
+    )
+  }
+  return context
+}
+
+export const DropdownMenuProvider = ({
+  children,
+}: {
+  children: React.ReactNode
+}) => {
+  const [open, setOpen] = React.useState<{
+    id: `item-${number}`
+    value: boolean
+  }>({
+    id: 'item-0',
+    value: false,
+  })
+  return (
+    <DropdownMenuContext.Provider value={{ open, setOpen }}>
+      {children}
+    </DropdownMenuContext.Provider>
+  )
 }
 
 export function DropdownMenuView({
-  wrapper,
   content,
   trigger,
+  ...props
 }: DropdownMenuViewProps) {
   const {
     className: optionsClassName,
@@ -71,7 +111,7 @@ export function DropdownMenuView({
   )
 
   return (
-    <DropdownMenu modal={wrapper?.modal ?? false}>
+    <DropdownMenu {...props}>
       <DropdownWrapperTrigger trigger={trigger} />
 
       <DropdownMenuContent
@@ -104,6 +144,7 @@ export function DropdownMenuView({
                   <React.Fragment key={`item-${idx}`}>
                     {!nestedData?.optionsData?.length ? (
                       <DropdownWrapperContentItem
+                        id={`item-${idx}`}
                         item={item}
                         itemType={options.itemType}
                       />
@@ -176,9 +217,11 @@ export function DropdownWrapperLabel({
 export function DropdownWrapperContentItem({
   item,
   itemType,
+  id,
 }: {
   item: DropdownMenuOptionsDataType
   itemType: 'checkbox' | 'radio' | 'label'
+  id: `item-${number}`
 }) {
   const {
     children,
@@ -187,9 +230,13 @@ export function DropdownWrapperContentItem({
     icon,
     command,
     nestedData,
+    type,
     key: _key,
+    onClick,
     ...props
   } = item
+
+  const { setOpen } = useDropdownMenuContext()
 
   const Component =
     itemType === 'checkbox'
@@ -211,6 +258,13 @@ export function DropdownWrapperContentItem({
         itemType === 'radio' && '[&_span_svg]:w-[.5rem] pl-8',
         className,
       )}
+      onClick={(e) => {
+        onClick?.(e)
+        setOpen({
+          id,
+          value: true,
+        })
+      }}
       {...props}
     >
       {icon && item.icon}
