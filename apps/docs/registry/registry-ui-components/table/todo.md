@@ -6,5 +6,6 @@
 
 
 
-- [ ] make the dropdown-menu wrapper compantable with the sheet wrappers.
+- [*] make the dropdown-menu wrapper compantable with the sheet wrappers.
 - [ ] add edit functionality to the table.
+- [ ] add delete functionality to the table.

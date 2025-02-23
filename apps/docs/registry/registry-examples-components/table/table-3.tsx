@@ -31,7 +31,22 @@ import {
 } from '@/registry/registry-ui-components/dropdown-menu/dropdown-menu-wrapper'
 import { toast } from 'sonner'
 import { SheetWrapper } from '@/registry/registry-ui-components/sheet'
-import { Button } from '@/registry/registry-ui-components/button'
+import {
+  Button,
+  buttonVariants,
+} from '@/registry/registry-ui-components/button'
+import { cn } from '@/lib/cn'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/registry/registry-ui-components/alert-dialog'
 
 export default function TableDemo3() {
   return (
@@ -73,10 +88,10 @@ export function Rows() {
                       <Component />
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center justify-between gap-4 w-full">
                       <Component />
                       {idx === Array.from(tableColumns.values()).length - 1 && (
-                        <RowOptions key={idx} id={`item-${idx}`} />
+                        <RowOptions key={idx} idx={idx} />
                       )}
                     </div>
                   )}
@@ -90,10 +105,46 @@ export function Rows() {
   })
 }
 
-export const RowOptions = ({ id }: { id: `item-${number}` }) => {
+export const RowOptions = ({ idx }: { idx: number }) => {
   const { open, setOpen } = useDropdownMenuContext()
+  console.log(open?.id, `sheet-${idx}`)
+
   return (
     <>
+      {/* NOTE: THE FIRST TEST*/}
+      <SheetWrapper
+        open={open?.id.includes(`sheet`) && open.value}
+        onOpenChange={(value) => {
+          setOpen((_) => ({
+            ..._!,
+            value,
+          }))
+        }}
+        trigger={{ className: 'sr-only' }}
+        content={{
+          children: <div className={cn('h-full')}>you're amazing wildduck</div>,
+          _header: {
+            _title: { children: <>Edit the table row</> },
+            _description: { children: <>Set your daily calorie goal</> },
+          },
+          _footer: {
+            className: 'flex w-full justify-between items-end',
+            _submit: {
+              children: (
+                <Button
+                  variant="default"
+                  onClick={() => toast.success('Goal updated!')}
+                >
+                  Submit
+                </Button>
+              ),
+            },
+            _cancel: { children: <Button variant="outline">Cancel</Button> },
+          },
+        }}
+      />
+
+      {/* NOTE: THE MAIN TEST*/}
       <DropdownMenuView
         trigger={{
           variant: 'ghost',
@@ -111,42 +162,43 @@ export const RowOptions = ({ id }: { id: `item-${number}` }) => {
           },
           className: 'min-w-[180px]',
         }}
-        // modal={false}
-        open={!!open.id}
-      // onOpenChange={setOpen}
       />
-
-      <SheetWrapper
-        open={open.value}
+      {/* NOTE: the second test*/}
+      <AlertDialog
+        open={open?.id.includes(`dialog`) && open.value}
         onOpenChange={(value) => {
-          console.log(value)
-          setOpen({
-            id: open.id,
+          setOpen((_) => ({
+            ..._!,
             value,
-          })
+          }))
         }}
-        content={{
-          className:
-            '[&>div]:flex [&>div]:flex-col [&>div]:place-content-center [&>div]:w-fit [&>div]:place-self-center sm:max-w-[450px]',
-          children: 'asdfasdf',
-          _header: {
-            _title: { children: <>Goal</> },
-            _description: { children: <>Set your daily calorie goal</> },
-          },
-          _footer: {
-            className: 'flex w-full justify-between items-end',
-            _submit: (
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="px-8">Cancel</AlertDialogCancel>
+            <AlertDialogAction asChild>
               <Button
-                variant="default"
-                onClick={() => toast.success('Goal updated!')}
+                className={cn(
+                  buttonVariants({
+                    variant: 'destructive',
+                    border: 'destructive',
+                    className: 'px-8',
+                  }),
+                )}
               >
-                Submit
+                Delete
               </Button>
-            ),
-            _cancel: <Button variant="outline">Cancel</Button>,
-          },
-        }}
-      />
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   )
 }
@@ -154,11 +206,13 @@ export const RowOptions = ({ id }: { id: `item-${number}` }) => {
 function menuItems() {
   return [
     {
-      className: 'px-0',
+      icon: <Pen />,
+      actionType: 'sheet',
       children: 'Settings',
     },
     {
       children: 'Delete',
+      actionType: 'dialog',
       icon: <Trash2 />,
       className:
         'bg-destructive/10 text-destructive hover:!bg-destructive hover:!text-white',

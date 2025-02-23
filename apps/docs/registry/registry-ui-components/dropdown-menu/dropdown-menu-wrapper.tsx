@@ -29,7 +29,7 @@ export interface DropdownMenuOptionsDataType
     React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
     React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
   > {
-  type: 'drawer' | 'dialog' | 'sheet' | 'item'
+  actionType: 'drawer' | 'dialog' | 'sheet' | 'item'
   command?: React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut> &
   CommandType
   icon?: React.ReactNode
@@ -53,11 +53,13 @@ export interface DropdownMenuViewProps
   } & React.ComponentPropsWithoutRef<typeof DropdownMenuContent>
 }
 
+export type ItemActionOpenState = {
+  id: `${DropdownMenuOptionsDataType['actionType']}-${number}`
+  value: boolean
+}
 export interface DropdownMenuContextType {
-  open: { id: `item-${number}`; value: boolean }
-  setOpen: React.Dispatch<
-    React.SetStateAction<{ id: `item-${number}`; value: boolean }>
-  >
+  open: ItemActionOpenState | null
+  setOpen: React.Dispatch<React.SetStateAction<ItemActionOpenState | null>>
 }
 
 export const DropdownMenuContext =
@@ -78,13 +80,7 @@ export const DropdownMenuProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  const [open, setOpen] = React.useState<{
-    id: `item-${number}`
-    value: boolean
-  }>({
-    id: 'item-0',
-    value: false,
-  })
+  const [open, setOpen] = React.useState<ItemActionOpenState | null>(null)
   return (
     <DropdownMenuContext.Provider value={{ open, setOpen }}>
       {children}
@@ -144,7 +140,7 @@ export function DropdownMenuView({
                   <React.Fragment key={`item-${idx}`}>
                     {!nestedData?.optionsData?.length ? (
                       <DropdownWrapperContentItem
-                        id={`item-${idx}`}
+                        idx={idx}
                         item={item}
                         itemType={options.itemType}
                       />
@@ -217,11 +213,11 @@ export function DropdownWrapperLabel({
 export function DropdownWrapperContentItem({
   item,
   itemType,
-  id,
+  idx,
 }: {
   item: DropdownMenuOptionsDataType
   itemType: 'checkbox' | 'radio' | 'label'
-  id: `item-${number}`
+  idx: number
 }) {
   const {
     children,
@@ -230,7 +226,7 @@ export function DropdownWrapperContentItem({
     icon,
     command,
     nestedData,
-    type,
+    actionType,
     key: _key,
     onClick,
     ...props
@@ -261,7 +257,7 @@ export function DropdownWrapperContentItem({
       onClick={(e) => {
         onClick?.(e)
         setOpen({
-          id,
+          id: `${actionType}-${idx}`,
           value: true,
         })
       }}
