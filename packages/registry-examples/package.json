@@ -1,0 +1,16 @@
+{
+  "name": "@duck/registry-examples",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/"
+  },
+  "scripts": {},
+  "devDependencies": {
+    "@duck/registry-ui": "workspace:*",
+    "@duck/typescript-config": "workspace:*",
+    "tsx": "^4.17.0",
+    "zod": "catalog:"
+  }
+}

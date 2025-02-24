@@ -3,16 +3,16 @@
   "type": "registry:ui",
   "dependencies": [],
   "registryDependencies": [],
-  "root_folder": "registry-ui-components/textarea",
+  "root_folder": "textarea",
   "files": [
     {
-      "path": "registry-ui-components/textarea/index.ts",
-      "content": "export * from './textarea'\n",
+      "path": "textarea/index.ts",
+      "content": "",
       "type": "registry:ui"
     },
     {
-      "path": "registry-ui-components/textarea/textarea.tsx",
-      "content": "import * as React from 'react'\n\nimport { cn } from '@/lib/utils'\n\nconst Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(\n  ({ className, ...props }, ref) => {\n    return (\n      <textarea\n        className={cn(\n          'flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',\n          className\n        )}\n        ref={ref}\n        {...props}\n      />\n    )\n  }\n)\nTextarea.displayName = 'Textarea'\n\nexport { Textarea }\n",
+      "path": "textarea/textarea.tsx",
+      "content": "",
       "type": "registry:ui"
     }
   ]

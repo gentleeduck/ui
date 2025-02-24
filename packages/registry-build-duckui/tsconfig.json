@@ -1,0 +1,12 @@
+{
+  "extends": "@duck/typescript-config/internal-package.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "base": "./",
+    "paths": {
+      "~/registers": ["../registers"]
+    }
+  },
+  "include": [".", "../"],
+  "exclude": ["node_modules", "dist"]
+}

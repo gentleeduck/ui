@@ -4,11 +4,11 @@
   "registryDependencies": [
     "button"
   ],
-  "root_folder": "registry-examples-components/button",
+  "root_folder": "button",
   "files": [
     {
-      "path": "registry-examples-components/button/button-19.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components/button'\nimport { Apple, ArrowLeft } from 'lucide-react'\n\nexport default function Button19Demo() {\n  return (\n    <div className=\"block\">\n      <Button\n        aria-label=\"Expand inbox button\"\n        type=\"button\"\n        role=\"button\"\n        variant=\"expand_icon\"\n        animationIcon={{\n          icon: { children: ArrowLeft },\n          iconPlacement: 'left',\n        }}\n        secondIcon={{ children: Apple }}\n      >\n        Button\n      </Button>\n    </div>\n  )\n}\n",
+      "path": "button/button-19.tsx",
+      "content": "",
       "type": "registry:example"
     }
   ]

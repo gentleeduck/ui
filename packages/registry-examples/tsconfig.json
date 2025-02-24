@@ -1,0 +1,17 @@
+{
+  "extends": "@duck/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "base": "./",
+    "paths": {
+      "~/registry-ui": "./index.ts"
+    }
+  },
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

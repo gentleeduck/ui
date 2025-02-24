@@ -4,11 +4,11 @@
   "registryDependencies": [
     "textarea"
   ],
-  "root_folder": "registry-examples-components/textarea",
+  "root_folder": "textarea",
   "files": [
     {
-      "path": "registry-examples-components/textarea/textarea-3.tsx",
-      "content": "import { Textarea } from '@/registry/registry-ui-components/textarea'\n\nexport default function Textarea3Demo() {\n  return (\n    <Textarea\n      placeholder=\"Type your message here.\"\n      disabled\n    />\n  )\n}\n",
+      "path": "textarea/textarea-3.tsx",
+      "content": "",
       "type": "registry:example"
     }
   ]

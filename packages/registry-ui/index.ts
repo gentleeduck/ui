@@ -1,3 +1,1 @@
-import { main } from './main'
-
-main()
+export * from './src'

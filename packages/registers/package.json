@@ -1,0 +1,15 @@
+{
+  "name": "@duck/registers",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {},
+  "devDependencies": {
+    "@duck/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "zod": "catalog:"
+  }
+}

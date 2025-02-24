@@ -4,11 +4,11 @@
   "registryDependencies": [
     "tooltip"
   ],
-  "root_folder": "registry-examples-components/tooltip",
+  "root_folder": "tooltip",
   "files": [
     {
-      "path": "registry-examples-components/tooltip/tooltip-2.tsx",
-      "content": "import { Button } from '@/registry/registry-ui-components'\nimport { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/registry/registry-ui-components/tooltip'\n\nexport default function Tooltip2Demo() {\n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\">Hover</Button>\n        </TooltipTrigger>\n        <TooltipContent>Tooltip Content</TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  )\n}\n",
+      "path": "tooltip/tooltip-2.tsx",
+      "content": "",
       "type": "registry:example"
     }
   ]

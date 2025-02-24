@@ -4,11 +4,11 @@
   "registryDependencies": [
     "badge"
   ],
-  "root_folder": "registry-examples-components/badge",
+  "root_folder": "badge",
   "files": [
     {
-      "path": "registry-examples-components/badge/badge-7.tsx",
-      "content": "import { Badge } from '@/registry/registry-ui-components'\n\nexport default function Badge6Demo() {\n  return (\n    <Badge\n      arial-label=\"Badge\"\n      role=\"button\"\n      variant={'outline'}\n    >\n      Badge\n    </Badge>\n  )\n}\n",
+      "path": "badge/badge-7.tsx",
+      "content": "",
       "type": "registry:example"
     }
   ]

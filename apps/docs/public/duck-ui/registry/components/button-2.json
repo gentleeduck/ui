@@ -4,11 +4,11 @@
   "registryDependencies": [
     "button"
   ],
-  "root_folder": "registry-examples-components/button",
+  "root_folder": "button",
   "files": [
     {
-      "path": "registry-examples-components/button/button-2.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components/button'\n\nexport default function ButtonSimpleDemo() {\n  return (\n    <Button\n      aria-label=\"Simple button\"\n      variant={'default'}\n      type=\"button\"\n      role=\"button\"\n    >\n      Button\n    </Button>\n  )\n}\n",
+      "path": "button/button-2.tsx",
+      "content": "",
       "type": "registry:example"
     }
   ]
