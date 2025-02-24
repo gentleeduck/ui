@@ -1,7 +1,7 @@
 # Duck UI
 
 <p align="center">
-  <img src="./apps/www/ui/public/logo.png" alt="Duck UI Logo" width="200"/>
+  <img src="./apps/docs/public/logo.png" alt="Duck UI Logo" width="200"/>
 </p>
 
 Welcome to **Duck UI**, a modern UI component library designed for flexibility and ease of use. This library provides a set of high-quality React components, styled with a clean and responsive design, perfect for building user interfaces in web applications.
@@ -28,7 +28,7 @@ Duck UI is licensed under the [MIT License](LICENSE).
 
 ## 📧 Contact
 
-For any questions or support, please contact us at [support@ahmedayob.com](mailto:support@ahmedayob.com).
+For any questions or support, please contact us at [duckui@duck.com](mailto:duckui@duck.com).
 
 ---
 
