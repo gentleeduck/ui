@@ -1,5 +1,5 @@
-import { main } from './main'
-import { envSchema } from './main/main.dto'
-import { config } from 'dotenv'
+// //NOTE: Uncomment this if you want to run or test this locally
+// import { main } from './main'
+// main()
 
-main()
+export * from './main'

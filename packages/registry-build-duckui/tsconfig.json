@@ -3,9 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "base": "./",
-    "paths": {
-      "~/registers": ["../registers"]
-    }
+    "paths": {}
   },
   "include": [".", "../"],
   "exclude": ["node_modules", "dist"]

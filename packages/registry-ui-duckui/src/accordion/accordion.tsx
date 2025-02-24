@@ -5,7 +5,6 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { ChevronDown } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
-import { IconType } from '../button'
 
 const Accordion = AccordionPrimitive.Root
 
@@ -24,10 +23,14 @@ AccordionItem.displayName = 'AccordionItem'
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
-    icon?: IconType
+    icon?: React.ReactNode
   }
 >(({ className, children, icon, ...props }, ref) => {
-  const { children: iconChildren, className: iconClassName, ...iconProps } = icon ?? {}
+  const {
+    children: iconChildren,
+    className: iconClassName,
+    ...iconProps
+  } = icon ?? {}
   const Icon = iconChildren
 
   return (
@@ -36,14 +39,17 @@ const AccordionTrigger = React.forwardRef<
         ref={ref}
         className={cn(
           'flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
-          className
+          className,
         )}
         {...props}
       >
         {children}
         {Icon ? (
           <Icon
-            className={cn('h-4 w-4 shrink-0 transition-transform duration-200', iconClassName)}
+            className={cn(
+              'h-4 w-4 shrink-0 transition-transform duration-200',
+              iconClassName,
+            )}
             {...iconProps}
           />
         ) : (
