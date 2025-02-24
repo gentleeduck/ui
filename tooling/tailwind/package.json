@@ -22,12 +22,6 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@duck/eslint-config": "workspace:*",
-    "@duck/prettier-config": "workspace:*",
-    "@duck/tsconfig": "workspace:*",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "typescript": "catalog:"
-  },
-  "prettier": "@duck/prettier-config"
+    "@duck/typescript-config": "workspace:*"
+  }
 }

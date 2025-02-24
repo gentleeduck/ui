@@ -1,5 +1,5 @@
 {
-  "extends": "@duck/tsconfig/base.json",
+  "extends": "@duck/typescript-config/base.json",
   "compilerOptions": {
     "lib": ["ES2022", "dom", "dom.iterable"],
     "jsx": "preserve",
@@ -14,6 +14,17 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".contentlayer/generated"],
-  "exclude": ["tailwind.config.ts", "node_modules", "./scripts/build-registry.mts", "./eslint.config.ts", "**/Notion/"]
-}
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".contentlayer/generated"
+  ],
+  "exclude": [
+    "tailwind.config.ts",
+    "node_modules",
+    "./scripts/build-registry.mts",
+    "./eslint.config.ts",
+    "**/Notion/"
+ }
