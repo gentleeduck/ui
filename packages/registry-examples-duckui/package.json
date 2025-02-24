@@ -1,5 +1,5 @@
 {
-  "name": "@duck/registry-examples",
+  "name": "@duck/registry-examples-duckui",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -14,3 +14,4 @@
     "zod": "catalog:"
   }
 }
+

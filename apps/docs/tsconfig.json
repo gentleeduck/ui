@@ -27,4 +27,5 @@
     "./scripts/build-registry.mts",
     "./eslint.config.ts",
     "**/Notion/"
- }
+  ]
+}

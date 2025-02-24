@@ -1,11 +1,8 @@
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
-import { IconProps } from '@radix-ui/react-icons/dist/types'
 import { VariantProps } from 'class-variance-authority'
-import { LucideIcon } from 'lucide-react'
 import { buttonVariants } from './button.constants'
-import { Badge } from '@/registry/registry-ui-components/badge'
-import { Tooltip } from '@/registry/registry-ui-components/tooltip'
-import { ReactNode } from 'react'
+import { Badge } from '../badge'
+import { Tooltip } from '../tooltip'
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
