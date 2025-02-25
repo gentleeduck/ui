@@ -1,8 +1,6 @@
+import { Style, Theme } from '@duck/registers'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-
-import { Style } from '@/registry/styles'
-import { Theme } from '@/registry/themes'
 
 type Config = {
   style: Style['name']

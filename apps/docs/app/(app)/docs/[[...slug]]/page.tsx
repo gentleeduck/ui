@@ -7,14 +7,14 @@ import Link from 'next/link'
 import { ChevronRightIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import Balancer from 'react-wrap-balancer'
 
-import { siteConfig } from '@/config/site'
-import { getTableOfContents } from '@/lib/toc'
-import { absoluteUrl, cn } from '@/lib/utils'
-import { Mdx } from '@/components/mdx-components'
-import { DocsPager } from '@/components/pager'
-import { DashboardTableOfContents } from '@/components/toc'
-import { badgeVariants } from '@/registry/default/ui/'
-import { ScrollArea } from '@/registry/default/ui/'
+import { siteConfig } from '~/config/site'
+import { getTableOfContents } from '~/lib/toc'
+import { absoluteUrl, cn } from '~/lib/utils'
+import { Mdx } from '~/components/mdx-components'
+import { DocsPager } from '~/components/pager'
+import { DashboardTableOfContents } from '~/components/toc'
+import { ScrollArea } from '../../../../../../packages/_oldstuff_refactor/default/ui/scroll-area'
+import { badgeVariants } from '@duck/registry-ui-duckui/badge'
 
 interface DocPageProps {
   params: Promise<{
@@ -24,7 +24,7 @@ interface DocPageProps {
 
 async function getDocFromParams({ params }: DocPageProps) {
   const slug = params.slug?.join('/') || ''
-  const doc = allDocs.find(doc => doc.slugAsParams === slug)
+  const doc = allDocs.find((doc) => doc.slugAsParams === slug)
 
   if (!doc) {
     return null
@@ -68,8 +68,10 @@ export async function generateMetadata(props: DocPageProps): Promise<Metadata> {
   }
 }
 
-export async function generateStaticParams(): Promise<DocPageProps['params'][]> {
-  return allDocs.map(doc => ({
+export async function generateStaticParams(): Promise<
+  DocPageProps['params'][]
+> {
+  return allDocs.map((doc) => ({
     slug: doc.slugAsParams.split('/'),
   }))
 }
@@ -93,7 +95,9 @@ export default async function DocPage(props: DocPageProps) {
           <div className="text-foreground">{doc.title}</div>
         </div>
         <div className="space-y-2">
-          <h1 className={cn('scroll-m-20 text-3xl font-bold tracking-tight')}>{doc.title}</h1>
+          <h1 className={cn('scroll-m-20 text-3xl font-bold tracking-tight')}>
+            {doc.title}
+          </h1>
           {doc.description && (
             <p className="text-base text-muted-foreground">
               <Balancer>{doc.description}</Balancer>

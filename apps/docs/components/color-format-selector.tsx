@@ -2,11 +2,16 @@
 
 import * as React from 'react'
 
-import { getColorFormat, type Color } from '@/lib/colors'
-import { cn } from '@/lib/utils'
-import { useColors } from '@/hooks/use-colors'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/registry/default/ui'
-import { Skeleton } from '@/registry/default/ui'
+import { useColors } from '~/hooks/use-colors'
+import { type Color, getColorFormat } from '~/lib/colors'
+import { cn } from '~/lib/utils'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/select'
+import { Skeleton } from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/skeleton'
 
 export function ColorFormatSelector({
   color,
@@ -23,21 +28,17 @@ export function ColorFormatSelector({
   }
 
   return (
-    <Select
-      value={format}
-      onValueChange={setFormat}
-    >
+    <Select value={format} onValueChange={setFormat}>
       <SelectTrigger
         className={cn('h-7 w-auto gap-1.5 rounded-lg pr-2 text-xs', className)}
         {...props}
       >
         <span className="font-medium">Format: </span>
-        <span className="font-mono text-xs text-muted-foreground">{format}</span>
+        <span className="font-mono text-xs text-muted-foreground">
+          {format}
+        </span>
       </SelectTrigger>
-      <SelectContent
-        align="end"
-        className="rounded-xl"
-      >
+      <SelectContent align="end" className="rounded-xl">
         {Object.entries(formats).map(([format, value]) => (
           <SelectItem
             key={format}
@@ -45,7 +46,9 @@ export function ColorFormatSelector({
             className="gap-2 rounded-lg [&>span]:flex [&>span]:items-center [&>span]:gap-2"
           >
             <span className="font-medium">{format}</span>
-            <span className="font-mono text-xs text-muted-foreground">{value}</span>
+            <span className="font-mono text-xs text-muted-foreground">
+              {value}
+            </span>
           </SelectItem>
         ))}
       </SelectContent>
@@ -53,7 +56,10 @@ export function ColorFormatSelector({
   )
 }
 
-export function ColorFormatSelectorSkeleton({ className, ...props }: React.ComponentProps<typeof Skeleton>) {
+export function ColorFormatSelectorSkeleton({
+  className,
+  ...props
+}: React.ComponentProps<typeof Skeleton>) {
   return (
     <Skeleton
       className={cn('h-7 w-[116px] gap-1.5 rounded-lg', className)}

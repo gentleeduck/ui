@@ -1,12 +1,18 @@
 'use client'
 
 import * as React from 'react'
-import { type SelectTriggerProps } from '@radix-ui/react-select'
 
-import { cn } from '@/lib/utils'
-import { useConfig } from '@/hooks/use-config'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/registry/default/ui/'
-import { Style, styles } from '@/registry/styles'
+import { Style, styles } from '@duck/registers'
+import { useConfig } from '~/hooks/use-config'
+import { cn } from '~/lib/utils'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectTriggerProps,
+} from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/select'
 
 export function StyleSwitcher({ className, ...props }: SelectTriggerProps) {
   const [config, setConfig] = useConfig()
@@ -22,19 +28,18 @@ export function StyleSwitcher({ className, ...props }: SelectTriggerProps) {
       }
     >
       <SelectTrigger
-        className={cn('h-7 w-[145px] text-xs [&_svg]:h-4 [&_svg]:w-4', className)}
+        className={cn(
+          'h-7 w-[145px] text-xs [&_svg]:h-4 [&_svg]:w-4',
+          className,
+        )}
         {...props}
       >
         <span className="text-muted-foreground">Style: </span>
         <SelectValue placeholder="Select style" />
       </SelectTrigger>
       <SelectContent>
-        {styles.map(style => (
-          <SelectItem
-            key={style.name}
-            value={style.name}
-            className="text-xs"
-          >
+        {styles.map((style) => (
+          <SelectItem key={style.name} value={style.name} className="text-xs">
             {style.label}
           </SelectItem>
         ))}

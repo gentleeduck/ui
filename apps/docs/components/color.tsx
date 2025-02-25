@@ -3,11 +3,11 @@
 import { Check, Clipboard } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { type Color } from '@/lib/colors'
-import { trackEvent } from '@/lib/events'
-import { useColors } from '@/hooks/use-colors'
-import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
-import { copyToClipboardWithMeta } from '@/components/copy-button'
+import { type Color } from '~/lib/colors'
+import { trackEvent } from '~/lib/events'
+import { useColors } from '~/hooks/use-colors'
+import { useCopyToClipboard } from '~/hooks/use-copy-to-clipboard'
+import { copyToClipboardWithMeta } from '~/components/copy-button'
 
 export function Color({ color }: { color: Color }) {
   const { format } = useColors()
@@ -36,7 +36,11 @@ export function Color({ color }: { color: Color }) {
         toast.success(`Copied ${color[format]} to clipboard.`)
       }}
     >
-      {isCopied ? <Check className="group-hover:opacity-100" /> : <Clipboard className="group-hover:opacity-100" />}
+      {isCopied ? (
+        <Check className="group-hover:opacity-100" />
+      ) : (
+        <Clipboard className="group-hover:opacity-100" />
+      )}
       <div className="w-full flex-1 rounded-md bg-[--bg] md:rounded-lg" />
       <div className="flex w-full flex-col items-center justify-center gap-1">
         <span className="hidden font-mono text-xs tabular-nums text-muted-foreground transition-colors group-hover:text-foreground lg:flex">

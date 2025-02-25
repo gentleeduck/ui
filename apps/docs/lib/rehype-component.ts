@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import { UnistNode, UnistTree } from 'types/unist'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'
@@ -31,7 +31,7 @@ export function rehypeComponent() {
           let items: ItemType[] = get_component_source(files)
 
           node.children?.push(
-            ...items.map(item =>
+            ...items.map((item) =>
               u('element', {
                 tagName: 'pre',
                 properties: {
@@ -52,8 +52,8 @@ export function rehypeComponent() {
                     ],
                   }),
                 ],
-              })
-            )
+              }),
+            ),
           )
         } catch (error) {
           console.error(error)
@@ -80,7 +80,7 @@ export function rehypeComponent() {
           // For now a simple regex should do.
           source = source.replaceAll(
             `@/registry/registry-ui-components`,
-            `@/components/${src.split('/')[0].split('-')[1]}`
+            `@/components/${src.split('/')[0].split('-')[1]}`,
           )
           source = source.replaceAll('export default', 'export')
 
@@ -105,7 +105,7 @@ export function rehypeComponent() {
                   ],
                 }),
               ],
-            })
+            }),
           )
         } catch (error) {
           console.error(error)
@@ -192,15 +192,16 @@ export function rehypeComponent() {
 }
 
 function getNodeAttributeByName(node: UnistNode, name: string) {
-  return node.attributes?.find(attribute => attribute.name === name)
+  return node.attributes?.find((attribute) => attribute.name === name)
 }
 
 type ItemType = { name: string; type: string; src: string }
 function get_component_source(files: { type: string; path: string }[]) {
   let item: ItemType[] = []
+  // biome-ignore lint/style/useForOf: <explanation>
   for (let i = 0; i < files.length; i++) {
-    const filePath = path.join(process.cwd(), 'registry', files[i].path)
-    let source = `// ${files[i].path.split('/').splice(1).join('/')}\n\n`
+    const filePath = path.join(process.cwd(), 'registry', files[i]?.path)
+    let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n\n`
     try {
       source += fs.readFileSync(filePath, 'utf8')
 
@@ -209,10 +210,14 @@ function get_component_source(files: { type: string; path: string }[]) {
       // For now a simple regex should do.
       source = source.replaceAll(
         `@/registry/registry-ui-components`,
-        `@/components/${files[i].path.split('/')[0].split('-')[1]}`
+        `@/components/${files[i]?.path.split('/')[0]?.split('-')[1]}`,
       )
       source = source.replaceAll('export default', 'export')
-      item.push({ name: files[i].path.split('/')?.pop() ?? 'file', type: files[i].type, src: source })
+      item.push({
+        name: files[i]?.path.split('/')?.pop() ?? 'file',
+        type: files[i]?.type,
+        src: source,
+      })
     } catch (error) {
       console.error(`Error reading file ${filePath}:`, error)
     }

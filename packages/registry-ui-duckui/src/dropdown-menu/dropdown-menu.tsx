@@ -181,6 +181,7 @@ const DropdownMenuShortcut = ({
 }
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
+export * from '@radix-ui/react-dropdown-menu'
 export {
   DropdownMenu,
   DropdownMenuTrigger,

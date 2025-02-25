@@ -72,7 +72,7 @@ const DialogOverlay = React.forwardRef<
     ref={ref}
     className={cn(
       'fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-      className
+      className,
     )}
     {...props}
   />
@@ -100,7 +100,7 @@ const DialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         'fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg',
-        className
+        className,
       )}
       {...props}
     >
@@ -125,10 +125,16 @@ DialogContent.displayName = DialogPrimitive.Content.displayName
  * @param {string} props.className - Additional class names for styling.
  * @returns {JSX.Element} The rendered DialogHeader component.
  */
-function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+function DialogHeader({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
-      className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)}
+      className={cn(
+        'flex flex-col space-y-1.5 text-center sm:text-left',
+        className,
+      )}
       {...props}
     />
   )
@@ -146,10 +152,16 @@ DialogHeader.displayName = 'DialogHeader'
  * @param {string} props.className - Additional class names for styling.
  * @returns {JSX.Element} The rendered DialogFooter component.
  */
-function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+function DialogFooter({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
-      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
+      className={cn(
+        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+        className,
+      )}
       {...props}
     />
   )
@@ -171,7 +183,10 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+    className={cn(
+      'text-lg font-semibold leading-none tracking-tight',
+      className,
+    )}
     {...props}
   />
 ))
@@ -208,7 +223,10 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName
  * @param {DialogResponsiveProps} props - The props to be passed to the `Dialog` or `Drawer` component.
  * @returns {JSX.Element} The rendered `Dialog` or `Drawer` component.
  */
-function DialogResponsive({ children, ...props }: DialogResponsiveProps): JSX.Element {
+function DialogResponsive({
+  children,
+  ...props
+}: DialogResponsiveProps): JSX.Element {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
@@ -229,7 +247,10 @@ DialogResponsive.displayName = 'DialogResponsive'
  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogTrigger` or `DrawerTrigger`.
  * @returns {JSX.Element} The rendered `DialogTrigger` or `DrawerTrigger` component.
  */
-function DialogTriggerResponsive({ children, ...props }: DialogTriggerResponsiveProps): JSX.Element {
+function DialogTriggerResponsive({
+  children,
+  ...props
+}: DialogTriggerResponsiveProps): JSX.Element {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
@@ -250,14 +271,23 @@ DialogTriggerResponsive.displayName = 'DialogTriggerResponsive'
  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogContent` or `DrawerContent`.
  * @returns {JSX.Element} The rendered `DialogContent` or `DrawerContent` component.
  */
-function DialogContentResponsive({ children, ...props }: DialogContentResponsiveProps): JSX.Element {
+function DialogContentResponsive({
+  children,
+  ...props
+}: DialogContentResponsiveProps): JSX.Element {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
     return <DialogContent {...props}>{children}</DialogContent>
   }
 
-  return <DrawerContent {...(props as React.ComponentPropsWithoutRef<typeof DrawerContent>)}>{children}</DrawerContent>
+  return (
+    <DrawerContent
+      {...(props as React.ComponentPropsWithoutRef<typeof DrawerContent>)}
+    >
+      {children}
+    </DrawerContent>
+  )
 }
 
 DialogContentResponsive.displayName = 'DialogContentResponsive'
@@ -271,7 +301,10 @@ DialogContentResponsive.displayName = 'DialogContentResponsive'
  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogHeader` or `DrawerHeader`.
  * @returns {JSX.Element} The rendered `DialogHeader` or `DrawerHeader` component.
  */
-function DialogHeaderResponsive({ children, ...props }: DialogHeaderResponsiveProps): JSX.Element {
+function DialogHeaderResponsive({
+  children,
+  ...props
+}: DialogHeaderResponsiveProps): JSX.Element {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
@@ -292,7 +325,10 @@ DialogHeaderResponsive.displayName = 'DialogHeaderResponsive'
  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogFooter` or `DrawerFooter`.
  * @returns {JSX.Element} The rendered `DialogFooter` or `DrawerFooter` component.
  */
-function DialogFooterResponsive({ children, ...props }: DialogFooterResponsiveProps): JSX.Element {
+function DialogFooterResponsive({
+  children,
+  ...props
+}: DialogFooterResponsiveProps): JSX.Element {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
@@ -313,7 +349,10 @@ DialogFooterResponsive.displayName = 'DialogFooterResponsive'
  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogTitle` or `DrawerTitle`.
  * @returns {JSX.Element} The rendered `DialogTitle` or `DrawerTitle` component.
  */
-function DialogTitleResponsive({ children, ...props }: DialogTitleResponsiveProps): JSX.Element {
+function DialogTitleResponsive({
+  children,
+  ...props
+}: DialogTitleResponsiveProps): JSX.Element {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
@@ -334,7 +373,10 @@ DialogTitleResponsive.displayName = 'DialogTitleResponsive'
  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogDescription` or `DrawerDescription`.
  * @returns {JSX.Element} The rendered `DialogDescription` or `DrawerDescription` component.
  */
-function DialogDescriptionResponsive({ children, ...props }: DialogDescriptionResponsiveProps): JSX.Element {
+function DialogDescriptionResponsive({
+  children,
+  ...props
+}: DialogDescriptionResponsiveProps): JSX.Element {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
@@ -355,7 +397,10 @@ DialogDescriptionResponsive.displayName = 'DialogDescriptionResponsive'
  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogClose` or `DrawerClose`.
  * @returns {JSX.Element} The rendered `DialogClose` or `DrawerClose` component.
  */
-function DialogCloseResponsive({ children, ...props }: DialogCloseResponsiveProps): JSX.Element {
+function DialogCloseResponsive({
+  children,
+  ...props
+}: DialogCloseResponsiveProps): JSX.Element {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
@@ -372,15 +417,31 @@ function DialogCloseResponsive({ children, ...props }: DialogCloseResponsiveProp
  * @param {DialogWrapperProps} props - The properties passed to the component.
  * @returns {JSX.Element} The rendered `Dialog` or `Drawer` component.
  */
-function DialogWrapper({ trigger, content, duckHook, ...props }: DialogWrapperProps): JSX.Element {
-  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
+function DialogWrapper({
+  trigger,
+  content,
+  duckHook,
+  ...props
+}: DialogWrapperProps): JSX.Element {
+  const {
+    className: subContentClassName,
+    children: subcontentChildren,
+    _header,
+    _footer,
+    ...subContentProps
+  } = content
   const {
     className: subHeaderClassName,
     _description: subDescription,
     _title: subTitle,
     ...subHeaderProps
   } = _header ?? {}
-  const { className: subFooterClassName, _submit: _subSubmit, _cancel: _subCancel, ...subFooterProps } = _footer ?? {}
+  const {
+    className: subFooterClassName,
+    _submit: _subSubmit,
+    _cancel: _subCancel,
+    ...subFooterProps
+  } = _footer ?? {}
 
   return (
     <DialogResponsive
@@ -393,10 +454,7 @@ function DialogWrapper({ trigger, content, duckHook, ...props }: DialogWrapperPr
         className={cn('flex flex-col w-full h-full', subContentClassName)}
         {...subContentProps}
       >
-        <div
-          data-role-wrapper
-          className="flex flex-col gap-4 w-full h-full"
-        >
+        <div data-role-wrapper className="flex flex-col gap-4 w-full h-full">
           {_header && (
             <DialogHeaderResponsive {...subHeaderProps}>
               {subHeaderProps.children ? (
@@ -414,14 +472,11 @@ function DialogWrapper({ trigger, content, duckHook, ...props }: DialogWrapperPr
             className={cn('gap-2', subFooterClassName)}
             {...subFooterProps}
           >
-            <DialogCloseResponsive
-              asChild
-              {..._subCancel}
-            />
+            <DialogCloseResponsive asChild {..._subCancel} />
             <div
               {..._subSubmit}
               className={cn('ml-0', _subSubmit?.className)}
-              onClick={e => {
+              onClick={(e) => {
                 duckHook?.setState({ shape: false, alert: false })
                 _subSubmit?.onClick?.(e)
               }}
@@ -445,6 +500,7 @@ export {
   DialogCloseResponsive,
 }
 
+export * from '@radix-ui/react-dialog'
 export {
   Dialog,
   DialogPortal,

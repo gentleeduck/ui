@@ -1,15 +1,20 @@
 'use client'
 import Link from 'next/link'
 
-import { siteConfig } from '@/config/site'
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@/components/page-header'
-import { CopyButton } from '@/components/copy-button'
+import { siteConfig } from '~/config/site'
+import {
+  PageActions,
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from '~/components/page-header'
+import { CopyButton } from '~/components/copy-button'
 import { toast } from 'sonner'
-import { Announcement } from '@/components/announcement'
-import { ThemeWrapper } from '@/components/theme-wrapper'
-import { ThemeCustomizer } from '@/components/theme-customizer'
+import { Announcement } from '~/components/announcement'
+import { ThemeWrapper } from '~/components/theme-wrapper'
+import { ThemeCustomizer } from '~/components/theme-customizer'
 import { ThemesTabs } from './themes/tabs'
-import { buttonVariants } from '@/registry/registry-ui-components'
+import { buttonVariants } from '@duck/registry-ui-duckui/button'
 
 export default function IndexPage() {
   return (
@@ -25,13 +30,17 @@ export default function IndexPage() {
               Simplify UI Creation with Elegant and Versatile Components.
             </PageHeaderHeading>
             <PageHeaderDescription className="mb-8 sm:text-xl max-w-[800px] text-muted-foreground font-normal">
-              Duck UI is a versatile UI library that simplifies creating modern, customizable interfaces. It provides a
-              set of pre-built components for fast and consistent design across applications.
+              Duck UI is a versatile UI library that simplifies creating modern,
+              customizable interfaces. It provides a set of pre-built components
+              for fast and consistent design across applications.
             </PageHeaderDescription>
             <PageActions className="flex flex-row items-center gap-5 w-fit">
               <Link
                 href={'/docs'}
-                className={buttonVariants({ className: 'px-6 text-[1rem] w-[130px]', size: 'lg' })}
+                className={buttonVariants({
+                  className: 'px-6 text-[1rem] w-[130px]',
+                  size: 'lg',
+                })}
               >
                 Get Stared
               </Link>

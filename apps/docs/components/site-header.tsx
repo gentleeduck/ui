@@ -1,13 +1,13 @@
 import Link from 'next/link'
 
-import { siteConfig } from '@/config/site'
-import { cn } from '@/lib/utils'
-import { CommandMenu } from '@/components/command-menu'
-import { Icons } from '@/components/icons'
-import { MainNav } from '@/components/main-nav'
-import { MobileNav } from '@/components/mobile-nav'
-import { ModeToggle } from '@/components/mode-toggle'
-import { buttonVariants } from '@/registry/registry-ui-components'
+import { siteConfig } from '~/config/site'
+import { cn } from '~/lib/utils'
+import { CommandMenu } from '~/components/command-menu'
+import { Icons } from '~/components/icons'
+import { MainNav } from '~/components/main-nav'
+import { MobileNav } from '~/components/mobile-nav'
+import { ModeToggle } from '~/components/mode-toggle'
+import { buttonVariants } from '@duck/registry-ui-duckui/button'
 
 export function SiteHeader() {
   return (
@@ -30,7 +30,7 @@ export function SiteHeader() {
                   buttonVariants({
                     variant: 'ghost',
                   }),
-                  'h-8 w-8 px-0'
+                  'h-8 w-8 px-0',
                 )}
               >
                 <Icons.gitHub className="h-4 w-4" />
@@ -47,7 +47,7 @@ export function SiteHeader() {
                   buttonVariants({
                     variant: 'ghost',
                   }),
-                  'h-8 w-8 px-0'
+                  'h-8 w-8 px-0',
                 )}
               >
                 <Icons.twitter className="h-3 w-3 fill-current" />

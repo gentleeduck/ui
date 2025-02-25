@@ -1,4 +1,8 @@
-import { Alert, AlertDescription, AlertTitle } from '@/registry/default/ui/'
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/alert'
 
 interface CalloutProps {
   icon?: string

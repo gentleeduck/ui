@@ -7,8 +7,11 @@
 import { registry_ui } from './registry-ui'
 import { registry_examples } from './registry-examples'
 import { Registry } from './registry-schema'
+export * from './registry-ui'
+export * from './registry-examples'
 export * from './registry-schema'
 export * from './registry-colors'
+export * from './styles'
 
 export const registry: Registry = [
   ...registry_ui,

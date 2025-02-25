@@ -3,14 +3,13 @@
 import * as React from 'react'
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 import { useTheme } from 'next-themes'
-
-import { Button } from '@/registry/registry-ui-components'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/registry/registry-ui-components/dropdown-menu'
+} from '@duck/registry-ui-duckui/dropdown-menu'
+import { Button } from '@duck/registry-ui-duckui/button'
 
 export function ModeToggle() {
   const { setTheme } = useTheme()

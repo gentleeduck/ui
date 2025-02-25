@@ -1,20 +1,18 @@
 import '@/styles/globals.scss'
 import { Metadata, Viewport } from 'next'
 
-import { siteConfig } from '@/config/site'
-import { fontMono, fontSans } from '@/lib/fonts'
-import { cn } from '@/lib/utils'
-import { Analytics } from '@/components/ui'
-import { ThemeProvider } from '@/components/providers'
-import { TailwindIndicator } from '@/components/tailwind-indicator'
-import { ThemeSwitcher } from '@/components/theme-switcher'
-import { DefaultToaster } from '@/registry/registry-ui-components/toast'
-import { ScrollArea } from '@/registry/default/ui'
-import { DefaultSonner } from '@/registry/registry-ui-components/sonner'
-// import { Toaster as NewYorkToaster } from '@/registry/default/ui/'
+import { siteConfig } from '~/config/site'
+import { fontMono, fontSans } from '~/lib/fonts'
+import { cn } from '~/lib/utils'
+import { Analytics } from '~/components/ui'
+import { ThemeProvider } from '~/components/providers'
+import { TailwindIndicator } from '~/components/tailwind-indicator'
+import { ThemeSwitcher } from '~/components/theme-switcher'
+import { DefaultToaster } from '@duck/registry-ui-duckui/toast'
+import { DefaultSonner } from '@duck/registry-ui-duckui/sonner'
 
 import localFont from 'next/font/local'
-import { TRPCReactProvider } from '@/trpc/react'
+import { TRPCReactProvider } from '~/trpc/react'
 
 // Font files can be colocated inside of `pages`
 const EmojiFont = localFont({ src: '../assets/fonts/font.ttf' })

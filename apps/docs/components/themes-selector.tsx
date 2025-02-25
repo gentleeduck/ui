@@ -3,15 +3,25 @@
 import * as React from 'react'
 import { useTheme } from 'next-themes'
 
-import { THEMES, Theme } from '@/lib/themes'
-import { cn } from '@/lib/utils'
-import { useMediaQuery } from '@/hooks/use-media-query'
-import { useThemesConfig } from '@/hooks/use-themes-config'
-import { Skeleton } from '@/registry/default/ui/'
-import { ToggleGroup, ToggleGroupItem } from '@/registry/default/ui/'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/default/ui/'
+import { THEMES, Theme } from '~/lib/themes'
+import { cn } from '~/lib/utils'
+import { useMediaQuery } from '~/hooks/use-media-query'
+import { useThemesConfig } from '~/hooks/use-themes-config'
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from '@duck/registry-ui-duckui/toggle-group'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@duck/registry-ui-duckui/tooltip'
+import { Skeleton } from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/skeleton'
 
-export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentProps<'div'> & { themes?: Theme[] }) {
+export function ThemesSwitcher({
+  themes = THEMES,
+  className,
+}: React.ComponentProps<'div'> & { themes?: Theme[] }) {
   const { theme: mode } = useTheme()
   const [mounted, setMounted] = React.useState(false)
   const { themesConfig, setThemesConfig } = useThemesConfig()
@@ -25,9 +35,12 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
   if (!mounted) {
     return (
       <div
-        className={cn('flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1', className)}
+        className={cn(
+          'flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1',
+          className,
+        )}
       >
-        {themes.map(theme => (
+        {themes.map((theme) => (
           <div
             key={theme.id}
             className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-transparent"
@@ -43,20 +56,24 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
     <ToggleGroup
       type="single"
       value={activeTheme.name}
-      onValueChange={value => {
-        const theme = themes.find(theme => theme.name === value)
+      onValueChange={(value) => {
+        const theme = themes.find((theme) => theme.name === value)
         if (!theme) {
           return
         }
 
         setThemesConfig({ ...themesConfig, activeTheme: theme })
       }}
-      className={cn('flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1', className)}
+      className={cn(
+        'flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1',
+        className,
+      )}
     >
-      {themes.map(theme => {
+      {themes.map((theme) => {
         const isActive = theme.name === activeTheme.name
         const isDarkTheme = ['Midnight'].includes(theme.name)
-        const cssVars = mounted && mode === 'dark' ? theme.cssVars.dark : theme.cssVars.light
+        const cssVars =
+          mounted && mode === 'dark' ? theme.cssVars.dark : theme.cssVars.light
 
         return (
           <Tooltip key={theme.name}>
@@ -65,7 +82,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
                 value={theme.name}
                 className={cn(
                   'group flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border-2 border-transparent p-0 hover:bg-transparent focus-visible:bg-transparent aria-checked:border-[--color-1]',
-                  mounted && isDarkTheme && mode !== 'dark' ? 'invert-[1]' : ''
+                  mounted && isDarkTheme && mode !== 'dark' ? 'invert-[1]' : '',
                 )}
                 style={
                   {
@@ -81,7 +98,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
                   <div
                     className={cn(
                       'grid h-12 w-12 -translate-x-1/4 -translate-y-1/4 grid-cols-2 overflow-hidden rounded-md transition-all ease-in-out group-hover:rotate-45',
-                      isActive ? 'rotate-45 group-hover:rotate-0' : 'rotate-0'
+                      isActive ? 'rotate-45 group-hover:rotate-0' : 'rotate-0',
                     )}
                   >
                     <span className="flex h-6 w-6 bg-[--color-1]" />

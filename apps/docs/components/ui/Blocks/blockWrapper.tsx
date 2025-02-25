@@ -3,17 +3,24 @@
 import * as React from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { useLiftMode } from '@/hooks/use-lift-mode'
-import { Block } from '@/registry/schema'
+import { useLiftMode } from '~/hooks/use-lift-mode'
+import { Block } from '@duck/registers'
 
-export function BlockWrapper({ block, children }: React.PropsWithChildren<{ block: Block }>) {
+export function BlockWrapper({
+  block,
+  children,
+}: React.PropsWithChildren<{ block: Block }>) {
   const { isLiftMode } = useLiftMode(block.name)
 
   React.useEffect(() => {
     const components = document.querySelectorAll('[x-chunk]')
     block.chunks?.map((chunk, index) => {
-      const $chunk = document.querySelector<HTMLElement>(`[x-chunk="${chunk.name}"]`)
-      const $wrapper = document.querySelector<HTMLElement>(`[x-chunk-container="${chunk.name}"]`)
+      const $chunk = document.querySelector<HTMLElement>(
+        `[x-chunk="${chunk.name}"]`,
+      )
+      const $wrapper = document.querySelector<HTMLElement>(
+        `[x-chunk-container="${chunk.name}"]`,
+      )
 
       const $component = components[index]
 

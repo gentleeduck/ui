@@ -1,19 +1,18 @@
 'use client'
 
-import * as React from 'react'
-import { DropdownMenuTriggerProps } from '@radix-ui/react-dropdown-menu'
 import { CheckIcon, ClipboardIcon } from 'lucide-react'
+import * as React from 'react'
 import { NpmCommands } from 'types/unist'
 
-import { Event, trackEvent } from '@/lib/events'
-import { cn } from '@/lib/utils'
-import { Button, ButtonProps } from '@/registry/registry-ui-components/button'
+import { Button, ButtonProps } from '@duck/registry-ui-duckui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/registry/registry-ui-components/dropdown-menu'
+} from '@duck/registry-ui-duckui/dropdown-menu'
+import { Event, trackEvent } from '~/lib/events'
+import { cn } from '~/lib/utils'
 
 interface CopyButtonProps extends ButtonProps {
   value: string

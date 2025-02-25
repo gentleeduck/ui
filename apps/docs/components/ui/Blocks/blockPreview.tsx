@@ -3,15 +3,22 @@
 import * as React from 'react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 
-import { cn } from '@/lib/utils'
-import { useConfig } from '@/hooks/use-config'
-import { useLiftMode } from '@/hooks/use-lift-mode'
-import { BlockToolbar } from '@/components/ui'
-import { Icons } from '@/components/icons'
-import { Tabs, TabsContent, ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/registry/default/ui'
-import { Block } from '@/registry/schema'
+import { cn } from '~/lib/utils'
+import { useConfig } from '~/hooks/use-config'
+import { useLiftMode } from '~/hooks/use-lift-mode'
+import { BlockToolbar } from '~/components/ui'
+import { Icons } from '~/components/icons'
+import { Block } from '@duck/registers'
+import { Tabs, TabsContent } from '@duck/registry-ui-duckui/tabs'
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '../../../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/resizable'
 
-export function BlockPreview({ block }: { block: Block & { hasLiftMode: boolean } }) {
+export function BlockPreview({
+  block,
+}: { block: Block & { hasLiftMode: boolean } }) {
   const [config] = useConfig()
   const { isLiftMode } = useLiftMode(block.name)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -32,23 +39,17 @@ export function BlockPreview({ block }: { block: Block & { hasLiftMode: boolean 
         } as React.CSSProperties
       }
     >
-      <BlockToolbar
-        block={block}
-        resizablePanelRef={ref}
-      />
+      <BlockToolbar block={block} resizablePanelRef={ref} />
       <TabsContent
         value="preview"
         className="relative after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-lg after:bg-muted"
       >
-        <ResizablePanelGroup
-          direction="horizontal"
-          className="relative z-10"
-        >
+        <ResizablePanelGroup direction="horizontal" className="relative z-10">
           <ResizablePanel
             ref={ref}
             className={cn(
               'relative rounded-lg border bg-background',
-              isLiftMode ? 'border-border/50' : 'border-border'
+              isLiftMode ? 'border-border/50' : 'border-border',
             )}
             defaultSize={100}
             minSize={30}
@@ -72,13 +73,10 @@ export function BlockPreview({ block }: { block: Block & { hasLiftMode: boolean 
           <ResizableHandle
             className={cn(
               'relative hidden w-3 bg-transparent p-0 after:absolute after:right-0 after:top-1/2 after:h-8 after:w-[6px] after:-translate-y-1/2 after:translate-x-[-1px] after:rounded-full after:bg-border after:transition-all after:hover:h-10 sm:block',
-              isLiftMode && 'invisible'
+              isLiftMode && 'invisible',
             )}
           />
-          <ResizablePanel
-            defaultSize={0}
-            minSize={0}
-          />
+          <ResizablePanel defaultSize={0} minSize={0} />
         </ResizablePanelGroup>
       </TabsContent>
       <TabsContent value="code">

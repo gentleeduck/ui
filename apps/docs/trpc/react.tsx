@@ -1,18 +1,8 @@
 'use client'
 
-import { QueryClientProvider, useQuery, UseQueryResult, type QueryClient } from '@tanstack/react-query'
-import {
-  createTRPCClient,
-  createWSClient,
-  httpBatchLink,
-  loggerLink,
-  unstable_httpBatchStreamLink,
-  wsLink,
-} from '@trpc/client'
-import { createTRPCReact } from '@trpc/react-query'
+import { QueryClientProvider, type QueryClient } from '@tanstack/react-query'
+import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client'
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server'
-// import SuperJSON from 'superjson'
-import ws from 'ws'
 
 import { type AppRouter } from '../../upload-api/src/main'
 import { createQueryClient } from './query-client'
@@ -45,7 +35,9 @@ export const trpc = createTRPCClient<AppRouter>({
       },
     }),
     loggerLink({
-      enabled: op => process.env.NODE_ENV === 'development' || (op.direction === 'down' && op.result instanceof Error),
+      enabled: (op) =>
+        process.env.NODE_ENV === 'development' ||
+        (op.direction === 'down' && op.result instanceof Error),
     }),
     // unstable_httpBatchStreamLink({
     //   // transformer: SuperJSON,
@@ -86,7 +78,11 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
   // >
   // console.log('data', datad.data.)
 
-  return <QueryClientProvider client={queryClient}>{props.children}</QueryClientProvider>
+  return (
+    <QueryClientProvider client={queryClient}>
+      {props.children}
+    </QueryClientProvider>
+  )
 }
 
 function getBaseUrl() {

@@ -3,10 +3,11 @@
 import * as React from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { cn } from '@/lib/utils'
-import { useLiftMode } from '@/hooks/use-lift-mode'
-import { V0Button, BlockCopyButton } from '@/components/ui'
-import { Block, type BlockChunk } from '@/registry/schema'
+import { cn } from '~/lib/utils'
+import { useLiftMode } from '~/hooks/use-lift-mode'
+import { V0Button, BlockCopyButton } from '~/components/ui'
+import { Block, BlockChunk } from '@duck/registers'
+// import { Block, type BlockChunk } from '~/registry/schema'
 
 export function BlockChunk({
   block,
@@ -30,7 +31,10 @@ export function BlockChunk({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { ease: 'easeOut', duration: 0.2 } }}
           transition={{ ease: 'easeIn', duration: 0.2 }}
-          className={cn('group rounded-xl bg-background shadow-xl transition', chunk.container?.className)}
+          className={cn(
+            'group rounded-xl bg-background shadow-xl transition',
+            chunk.container?.className,
+          )}
           {...props}
         >
           <div className="relative z-30">{children}</div>

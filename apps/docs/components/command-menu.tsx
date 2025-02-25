@@ -1,14 +1,21 @@
 'use client'
 
-import * as React from 'react'
-import { useRouter } from 'next/navigation'
-import { type DialogProps } from '@radix-ui/react-dialog'
-import { CircleIcon, FileIcon, LaptopIcon, MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import { type DialogProps } from '@duck/registry-ui-duckui/dialog'
+import {
+  CircleIcon,
+  FileIcon,
+  LaptopIcon,
+  MoonIcon,
+  SunIcon,
+} from '@radix-ui/react-icons'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/navigation'
+import * as React from 'react'
 
-import { docsConfig } from '@/config/docs'
-import { cn } from '@/lib/utils'
-import { Button } from '@/registry/registry-ui-components'
+import { Button } from '@duck/registry-ui-duckui/button'
+import { Command } from 'lucide-react'
+import { docsConfig } from '~/config/docs'
+import { cn } from '~/lib/utils'
 import {
   CommandDialog,
   CommandEmpty,
@@ -17,8 +24,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/registry/default/ui/'
-import { Command } from 'lucide-react'
+} from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/command'
 
 export function CommandMenu({ ...props }: DialogProps) {
   const router = useRouter()
@@ -38,7 +44,7 @@ export function CommandMenu({ ...props }: DialogProps) {
         }
 
         e.preventDefault()
-        setOpen(open => !open)
+        setOpen((open) => !open)
       }
     }
 
@@ -57,7 +63,7 @@ export function CommandMenu({ ...props }: DialogProps) {
         variant="outline"
         size={'sm'}
         className={cn(
-          'relative h-8 w-full justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-64'
+          'relative h-8 w-full justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-64',
         )}
         onClick={() => setOpen(true)}
         {...props}
@@ -69,17 +75,14 @@ export function CommandMenu({ ...props }: DialogProps) {
           <span className="text-md">K</span>
         </kbd>
       </Button>
-      <CommandDialog
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Links">
             {docsConfig.mainNav
-              .filter(navitem => !navitem.external)
-              .map(navItem => (
+              .filter((navitem) => !navitem.external)
+              .map((navItem) => (
                 <CommandItem
                   key={navItem.href}
                   value={navItem.title}
@@ -92,12 +95,9 @@ export function CommandMenu({ ...props }: DialogProps) {
                 </CommandItem>
               ))}
           </CommandGroup>
-          {docsConfig.sidebarNav.map(group => (
-            <CommandGroup
-              key={group.title}
-              heading={group.title}
-            >
-              {group.items.map(navItem => (
+          {docsConfig.sidebarNav.map((group) => (
+            <CommandGroup key={group.title} heading={group.title}>
+              {group.items.map((navItem) => (
                 <CommandItem
                   key={navItem.href}
                   value={navItem.title}

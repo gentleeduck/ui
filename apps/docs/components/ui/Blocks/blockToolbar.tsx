@@ -4,25 +4,28 @@ import * as React from 'react'
 import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 
-import { trackEvent } from '@/lib/events'
-import { cn } from '@/lib/utils'
-import { useLiftMode } from '@/hooks/use-lift-mode'
-import { StyleSwitcher } from '@/components/style-switcher'
-import { BlockCopyButton, V0Button } from '@/components/ui'
+import { trackEvent } from '~/lib/events'
+import { cn } from '~/lib/utils'
+import { useLiftMode } from '~/hooks/use-lift-mode'
+import { StyleSwitcher } from '~/components/style-switcher'
+import { BlockCopyButton, V0Button } from '~/components/ui'
+import { Block } from '@duck/registers'
+import { TabsList, TabsTrigger } from '@duck/registry-ui-duckui/tabs'
+import { Separator } from '../../../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/separator'
 import {
-  Label,
-  Badge,
-  TabsList,
-  TabsTrigger,
-  ToggleGroup,
-  ToggleGroupItem,
   Popover,
   PopoverContent,
   PopoverTrigger,
+} from '@duck/registry-ui-duckui/popover'
+import { Badge } from '@duck/registry-ui-duckui/badge'
+import {
+  Label,
   Switch,
-  Separator,
-} from '@/registry/default/ui'
-import { Block } from '@/registry/schema'
+} from '../../../../../packages/_oldstuff_refactor/default/ui'
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from '@duck/registry-ui-duckui/toggle-group'
 
 export function BlockToolbar({
   block,
@@ -52,10 +55,7 @@ export function BlockToolbar({
             Code
           </TabsTrigger>
         </TabsList>
-        <Separator
-          orientation="vertical"
-          className="mx-2 hidden h-4 md:flex"
-        />
+        <Separator orientation="vertical" className="mx-2 hidden h-4 md:flex" />
         <StyleSwitcher
           className="h-[calc(theme(spacing.7)_-_1px)] dark:h-7"
           disabled={isLiftMode}
@@ -73,15 +73,22 @@ export function BlockToolbar({
             sideOffset={20}
             className="space-y-3 rounded-[0.5rem] text-sm"
           >
-            <p className="font-medium">What is the difference between the New York and Default style?</p>
-            <p>A style comes with its own set of components, animations, icons and more.</p>
-            <p>
-              The <span className="font-medium">Default</span> style has larger inputs, uses lucide-react for icons and
-              tailwindcss-animate for animations.
+            <p className="font-medium">
+              What is the difference between the New York and Default style?
             </p>
             <p>
-              The <span className="font-medium">New York</span> style ships with smaller buttons and inputs. It also
-              uses shadows on cards and buttons.
+              A style comes with its own set of components, animations, icons
+              and more.
+            </p>
+            <p>
+              The <span className="font-medium">Default</span> style has larger
+              inputs, uses lucide-react for icons and tailwindcss-animate for
+              animations.
+            </p>
+            <p>
+              The <span className="font-medium">New York</span> style ships with
+              smaller buttons and inputs. It also uses shadows on cards and
+              buttons.
             </p>
           </PopoverContent>
         </Popover>
@@ -107,16 +114,13 @@ export function BlockToolbar({
           {block.hasLiftMode && (
             <>
               <div className="flex h-7 items-center justify-between gap-2">
-                <Label
-                  htmlFor={`lift-mode-${block.name}`}
-                  className="text-xs"
-                >
+                <Label htmlFor={`lift-mode-${block.name}`} className="text-xs">
                   Lift Mode
                 </Label>
                 <Switch
                   id={`lift-mode-${block.name}`}
                   checked={isLiftMode}
-                  onCheckedChange={value => {
+                  onCheckedChange={(value) => {
                     resizablePanelRef.current?.resize(100)
                     toggleLiftMode(block.name)
 
@@ -142,9 +146,9 @@ export function BlockToolbar({
               disabled={isLiftMode}
               type="single"
               defaultValue="100"
-              onValueChange={value => {
+              onValueChange={(value) => {
                 if (resizablePanelRef.current) {
-                  resizablePanelRef.current.resize(parseInt(value))
+                  resizablePanelRef.current.resize(Number.parseInt(value))
                 }
               }}
             >

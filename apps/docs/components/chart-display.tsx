@@ -1,8 +1,12 @@
-import { getBlock } from '@/lib/blocks'
-import { cn } from '@/lib/utils'
-import { ChartToolbar } from '@/components/chart-toolbar'
+import { getBlock } from '~/lib/blocks'
+import { cn } from '~/lib/utils'
+import { ChartToolbar } from '~/components/chart-toolbar'
 
-export async function ChartDisplay({ name, children, className }: { name: string } & React.ComponentProps<'div'>) {
+export async function ChartDisplay({
+  name,
+  children,
+  className,
+}: { name: string } & React.ComponentProps<'div'>) {
   const chart = await getBlock(name)
 
   // Cannot (and don't need to) pass to the client.
@@ -17,7 +21,7 @@ export async function ChartDisplay({ name, children, className }: { name: string
     <div
       className={cn(
         'themes-wrapper group relative flex flex-col overflow-hidden rounded-xl border shadow transition-all duration-200 ease-in-out hover:z-30',
-        className
+        className,
       )}
     >
       <ChartToolbar
@@ -26,7 +30,9 @@ export async function ChartDisplay({ name, children, className }: { name: string
       >
         {children}
       </ChartToolbar>
-      <div className="relative z-10 [&>div]:rounded-none [&>div]:border-none [&>div]:shadow-none">{children}</div>
+      <div className="relative z-10 [&>div]:rounded-none [&>div]:border-none [&>div]:shadow-none">
+        {children}
+      </div>
     </div>
   )
 }

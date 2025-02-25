@@ -3,10 +3,14 @@
 import * as React from 'react'
 import { CheckIcon, ClipboardIcon } from 'lucide-react'
 
-import { Event, trackEvent } from '@/lib/events'
-import { cn } from '@/lib/utils'
-import { Button, ButtonProps } from '@/registry/registry-ui-components'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/registry/default/ui'
+import { Event, trackEvent } from '~/lib/events'
+import { cn } from '~/lib/utils'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@duck/registry-ui-duckui/tooltip'
+import { Button, ButtonProps } from '@duck/registry-ui-duckui/button'
 
 export function BlockCopyButton({
   event,
@@ -33,7 +37,10 @@ export function BlockCopyButton({
         <Button
           size="icon"
           variant="outline"
-          className={cn('[&_svg]-h-3.5 h-7 w-7 rounded-[6px] [&_svg]:w-3.5 flex place-content-center', className)}
+          className={cn(
+            '[&_svg]-h-3.5 h-7 w-7 rounded-[6px] [&_svg]:w-3.5 flex place-content-center',
+            className,
+          )}
           onClick={() => {
             navigator.clipboard.writeText(code)
             trackEvent({

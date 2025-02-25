@@ -1,9 +1,9 @@
-import { themeColorsToCssVariables } from '@/lib/charts'
+import { themeColorsToCssVariables } from './charts'
 
 const _THEMES = [
   {
     name: 'Default',
-    id: 'default-shadcn',
+    id: 'default-duckui',
     colors: {
       background: '0 0% 100%',
       foreground: '240 10% 3.9%',
@@ -471,7 +471,7 @@ const _THEMES = [
   },
 ] as const
 
-export const THEMES = _THEMES.map(theme => ({
+export const THEMES = _THEMES.map((theme) => ({
   ...theme,
   cssVars: {
     light: themeColorsToCssVariables(theme.colors),

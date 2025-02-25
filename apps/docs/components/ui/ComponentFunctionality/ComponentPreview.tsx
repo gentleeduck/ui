@@ -1,16 +1,19 @@
 'use client'
 
 import * as React from 'react'
-import { Index } from '@/__ui_registry__'
+import { Index } from '~/__ui_registry__'
 
-import { cn } from '@/lib/utils'
-import { useConfig } from '@/hooks/use-config'
-import { CopyButton } from '@/components/copy-button'
-import { Icons } from '@/components/icons'
-import { ThemeWrapper } from '@/components/theme-wrapper'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/registry/default/ui/'
-import { styles } from '@/registry/styles'
-import { VariantsSwitcher } from '../VariantsSwitcher'
+import { cn } from '~/lib/utils'
+import { useConfig } from '~/hooks/use-config'
+import { CopyButton } from '~/components/copy-button'
+import { Icons } from '~/components/icons'
+import { ThemeWrapper } from '~/components/theme-wrapper'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@duck/registry-ui-duckui/tabs'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
@@ -43,7 +46,10 @@ export function ComponentPreview({
     if (!Component) {
       return (
         <p className="text-sm text-muted-foreground">
-          Component <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">{name}</code>{' '}
+          Component{' '}
+          <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+            {name}
+          </code>{' '}
           not found in registry.
         </p>
       )
@@ -53,8 +59,12 @@ export function ComponentPreview({
   }, [name])
 
   const codeString = React.useMemo(() => {
-    if (typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined') {
-      const Button = React.Children.toArray(Code.props.children) as React.ReactElement[]
+    if (
+      typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined'
+    ) {
+      const Button = React.Children.toArray(
+        Code.props.children,
+      ) as React.ReactElement[]
       return Button[1]?.props?.value || Button[1]?.props?.__rawString__ || null
     }
   }, [Code])
@@ -64,10 +74,7 @@ export function ComponentPreview({
       className={cn('group relative my-4 flex flex-col space-y-2', className)}
       {...props}
     >
-      <Tabs
-        defaultValue="preview"
-        className="relative mr-auto w-full"
-      >
+      <Tabs defaultValue="preview" className="relative mr-auto w-full">
         <div className="flex items-center justify-between pb-3">
           {!hideCode && (
             <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
@@ -86,10 +93,7 @@ export function ComponentPreview({
             </TabsList>
           )}
         </div>
-        <TabsContent
-          value="preview"
-          className="relative rounded-md border"
-        >
+        <TabsContent value="preview" className="relative rounded-md border">
           <div className="flex items-center justify-between p-4">
             <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
@@ -102,11 +106,14 @@ export function ComponentPreview({
           </div>
           <ThemeWrapper defaultTheme="zinc">
             <div
-              className={cn('preview flex min-h-[350px] w-full justify-center p-10', {
-                'items-center': align === 'center',
-                'items-start': align === 'start',
-                'items-end': align === 'end',
-              })}
+              className={cn(
+                'preview flex min-h-[350px] w-full justify-center p-10',
+                {
+                  'items-center': align === 'center',
+                  'items-start': align === 'start',
+                  'items-end': align === 'end',
+                },
+              )}
             >
               <React.Suspense
                 fallback={
@@ -123,7 +130,9 @@ export function ComponentPreview({
         </TabsContent>
         <TabsContent value="code">
           <div className="flex flex-col space-y-4">
-            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[350px] [&_pre]:overflow-auto">{Code}</div>
+            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[350px] [&_pre]:overflow-auto">
+              {Code}
+            </div>
           </div>
         </TabsContent>
       </Tabs>

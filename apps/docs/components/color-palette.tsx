@@ -1,8 +1,11 @@
 import * as React from 'react'
 
-import { type ColorPalette } from '@/lib/colors'
-import { Color } from '@/components/color'
-import { ColorFormatSelector, ColorFormatSelectorSkeleton } from '@/components/color-format-selector'
+import { type ColorPalette } from '~/lib/colors'
+import { Color } from '~/components/color'
+import {
+  ColorFormatSelector,
+  ColorFormatSelectorSkeleton,
+} from '~/components/color-format-selector'
 
 export function ColorPalette({ colorPalette }: { colorPalette: ColorPalette }) {
   return (
@@ -22,11 +25,8 @@ export function ColorPalette({ colorPalette }: { colorPalette: ColorPalette }) {
         </React.Suspense>
       </div>
       <div className="flex flex-col gap-1 p-2 sm:flex-row sm:gap-2">
-        {colorPalette.colors.map(color => (
-          <Color
-            key={color.hex}
-            color={color}
-          />
+        {colorPalette.colors.map((color) => (
+          <Color key={color.hex} color={color} />
         ))}
       </div>
     </div>

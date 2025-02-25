@@ -1,12 +1,20 @@
 {
   "extends": "@duck/typescript-config/base.json",
   "compilerOptions": {
-    "lib": ["ES2022", "dom", "dom.iterable"],
+    "lib": [
+      "ES2022",
+      "dom",
+      "dom.iterable"
+    ],
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
+      "~/*": [
+        "./*"
+      ],
+      "contentlayer/generated": [
+        "./.contentlayer/generated"
+      ]
     },
     "plugins": [
       {
@@ -19,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".contentlayer/generated"
+    ".contentlayer/generated",
+    "../../packages/"
   ],
   "exclude": [
     "tailwind.config.ts",

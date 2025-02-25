@@ -2,7 +2,7 @@
 
 import { track } from '@vercel/analytics/server'
 
-const EDIT_IN_V0_SOURCE = 'ui.shadcn.com'
+const EDIT_IN_V0_SOURCE = 'duckui.org'
 
 export async function editInV0({
   name,
@@ -31,7 +31,8 @@ export async function editInV0({
       body: JSON.stringify({ description, code, source: EDIT_IN_V0_SOURCE }),
       headers: {
         'x-v0-edit-secret': process.env.V0_EDIT_SECRET!,
-        'x-vercel-protection-bypass': process.env.DEPLOYMENT_PROTECTION_BYPASS || 'not-set',
+        'x-vercel-protection-bypass':
+          process.env.DEPLOYMENT_PROTECTION_BYPASS || 'not-set',
         'Content-Type': 'application/json',
       },
     })
