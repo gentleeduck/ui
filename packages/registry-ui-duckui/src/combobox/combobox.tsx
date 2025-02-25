@@ -2,8 +2,13 @@
 
 import * as React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { Command, CommandEmpty, CommandGroup, CommandList } from '../command'
-import { cn } from '@/lib/utils'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandList,
+} from '~/old-registry-ui'
+import { cn } from '@duck/libs/cn'
 
 export type ComboboxContextType<T extends unknown[] = unknown[]> = {
   open: boolean
@@ -30,7 +35,7 @@ export const useComboboxContext = <T extends unknown[]>() => {
 
 export interface ComboboxType<T extends unknown[]>
   extends Omit<React.ComponentPropsWithoutRef<typeof Command>, 'children'>,
-    React.ComponentPropsWithoutRef<typeof Popover> {
+  React.ComponentPropsWithoutRef<typeof Popover> {
   data: T
 }
 
@@ -105,7 +110,7 @@ export const ComboboxTrigger = React.forwardRef<
 
 export interface ComboboxItemProps
   extends React.HTMLProps<HTMLDivElement>,
-    React.ComponentPropsWithoutRef<typeof Popover> {
+  React.ComponentPropsWithoutRef<typeof Popover> {
   notFound?: string
 }
 

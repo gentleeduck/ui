@@ -10,7 +10,6 @@
   "scripts": {},
   "devDependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
-    "@duck/typescript-config": "workspace:*",
     "@radix-ui/react-accessible-icon": "^1.1.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -94,7 +93,10 @@
     "zod": "catalog:",
     "@types/react": "^18.3.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "@duck/typescript-config": "workspace:*",
+    "@duck/libs": "workspace:*",
+    "@duck/hooks": "workspace:*"
   },
   "dependencies": {}
 }

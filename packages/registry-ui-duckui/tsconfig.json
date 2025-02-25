@@ -5,20 +5,10 @@
     "outDir": "./dist",
     "base": "./",
     "paths": {
-      "~/old-registry-ui": [
-        "../_oldstuff_refactor/default/ui/index.ts"
-      ],
-      "~/*": [
-        "./*"
-      ]
+      "~/old-registry-ui": ["../_oldstuff_refactor/default/ui/index.ts"],
+      "~/*": ["./*"]
     }
   },
-  "include": [
-    ".",
-    "../_oldstuff_refactor/default/ui/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": [".", "../_oldstuff_refactor/default/ui/*"],
+  "exclude": ["node_modules", "dist"]
 }

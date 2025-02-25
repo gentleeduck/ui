@@ -1,0 +1,24 @@
+{
+  "name": "@duck/hooks",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*/index.ts",
+    ".": "./index.ts"
+  },
+  "scripts": {},
+  "devDependencies": {
+    "@duck/typescript-config": "workspace:*",
+    "typescript": "catalog:",
+    "@types/node": "catalog:",
+    "zod": "catalog:",
+    "clsx": "^1.2.1",
+    "tailwind-merge": "^1.14.0",
+    "react": "catalog:react18",
+    "react-dom": "catalog:react18",
+    "@types/react-dom": "catalog:react18",
+    "@types/react": "catalog:react18"
+  },
+  "dependencies": {}
+}

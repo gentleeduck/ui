@@ -1,6 +1,13 @@
+import { cn } from '@duck/libs/cn'
+import { AlertCircle, Trash } from 'lucide-react'
+import React from 'react'
 import {
   Alert,
   AlertDescription,
+  AlertTitle,
+  Separator,
+} from '~/old-registry-ui'
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -8,14 +15,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTrigger,
-  AlertTitle,
-  DropdownMenuShortcut,
-  Separator,
-} from '@/registry/default/ui'
-import { Button, buttonVariants, CommandType } from '../button'
-import { AlertCircle, Trash } from 'lucide-react'
-import { cn } from '@/lib'
-import React from 'react'
+} from '../alert-dialog'
+import { Button, CommandType, buttonVariants } from '../button'
 
 export const UploadAlertDelete = ({
   itemName,
@@ -38,7 +39,7 @@ export const UploadAlertDelete = ({
           className={cn('justify-between w-full rounded-sm', className)}
           variant={'ghost'}
           command={command}
-          icon={{ children: Trash }}
+          icon={<Trash />}
         >
           Delete
         </Button>
@@ -47,7 +48,9 @@ export const UploadAlertDelete = ({
         <AlertDialogHeader>
           <h5 className="text-lg font-medium p-4 pb-0">
             Confirt deletion of{' '}
-            <span className="font-mono italic underline underline-offset-4">{itemName.split(' ')[0]}</span>{' '}
+            <span className="font-mono italic underline underline-offset-4">
+              {itemName.split(' ')[0]}
+            </span>{' '}
             {itemName.split(' ')[1]}
           </h5>
           <Separator />
@@ -58,7 +61,9 @@ export const UploadAlertDelete = ({
             >
               <AlertCircle />
               <AlertTitle>This action cannot be undone.</AlertTitle>
-              <AlertDescription>Are you sure you want to delete the selected file?</AlertDescription>
+              <AlertDescription>
+                Are you sure you want to delete the selected file?
+              </AlertDescription>
             </Alert>
           </div>
           <Separator />
@@ -66,14 +71,25 @@ export const UploadAlertDelete = ({
 
         <AlertDialogFooter className="px-4 pb-4">
           <AlertDialogCancel
-            className={cn(buttonVariants({ variant: 'outline', className: 'px-8', size: 'sm' }))}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                className: 'px-8',
+                size: 'sm',
+              }),
+            )}
             onClick={onCancel}
           >
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
             className={cn(
-              buttonVariants({ variant: 'destructive', border: 'destructive', className: 'px-8', size: 'sm' })
+              buttonVariants({
+                variant: 'destructive',
+                border: 'destructive',
+                className: 'px-8',
+                size: 'sm',
+              }),
             )}
             onClick={onContinue}
           >

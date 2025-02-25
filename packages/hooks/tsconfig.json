@@ -1,0 +1,16 @@
+{
+  "extends": "@duck/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "base": "./",
+    "paths": {}
+  },
+  "include": [
+    ".",
+    "../"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
