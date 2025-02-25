@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 import { buttonVariants } from './button.constants'
 import { ButtonProps } from './button.types'
 
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { CommandShortcut } from '~/old-registry-ui'
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
