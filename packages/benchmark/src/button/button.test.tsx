@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { render } from '@testing-library/react'
-import { Button } from '@duck/registry-ui-duckui'
+import { Button } from '@duck/registry-ui-duckui/button'
 
 describe('Performance Benchmark', () => {
   test('should measure render time', () => {
