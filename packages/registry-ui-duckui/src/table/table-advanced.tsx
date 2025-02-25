@@ -1,10 +1,6 @@
-import { cn } from '@/lib'
-import {
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/registry/default/ui/ShadcnUI/table'
-import { Checkbox } from '@/registry/default/ui/checkbox'
+//@ts-nocheck
+import { cn } from '@duck/libs/cn'
+import { TableHead, TableHeader, TableRow } from '../table'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../dropdown-menu'
-import { ScrollArea, ScrollBar } from '@/registry/default/ui/scroll-area'
 import { ArrowDownIcon, ArrowUpDown, ArrowUpIcon } from 'lucide-react'
 import React from 'react'
 import { Button } from '../button'
@@ -33,7 +28,7 @@ import {
   TableContentDataType,
   TableSearchStateType,
 } from './table-advanced.types'
-import { Input } from '@/registry/default/ui/input'
+import { Checkbox, Input, ScrollArea, ScrollBar } from '~/old-registry-ui'
 
 export const DuckTableContext =
   React.createContext<DuckTableContextType<any> | null>(null)
@@ -125,7 +120,7 @@ DuckTable.displayName = 'DuckTable'
 
 // ------------------------------------------------------------------------------------------------
 
-export function DuckTableHeader({ }: DuckTableHeaderProps) {
+export function DuckTableHeader({}: DuckTableHeaderProps) {
   const { tableColumns } = useDuckTable()
   return (
     <>
@@ -259,11 +254,11 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
               label={
                 showLabel
                   ? {
-                    children: label.toString() + ' options',
-                    className: 'capitalize',
-                    showLabel: true,
-                    side: 'top',
-                  }
+                      children: label.toString() + ' options',
+                      className: 'capitalize',
+                      showLabel: true,
+                      side: 'top',
+                    }
                   : undefined
               }
             >
@@ -367,7 +362,7 @@ export function DuckTableRowCheckbox<
   )
 }
 
-export interface DuckTableTopBarProps extends React.HTMLProps<HTMLDivElement> { }
+export interface DuckTableTopBarProps extends React.HTMLProps<HTMLDivElement> {}
 
 export function DuckTableTopBar({
   className,
@@ -382,7 +377,7 @@ export function DuckTableTopBar({
 }
 
 export interface DuckTableSearchInputProps
-  extends React.HTMLProps<HTMLDivElement> { }
+  extends React.HTMLProps<HTMLDivElement> {}
 
 export function DuckTableSearchInput({
   className,

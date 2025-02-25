@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { sheetVariants } from './sheet.constants'
 
@@ -52,7 +52,7 @@ const SheetOverlay = React.forwardRef<
   <SheetPrimitive.Overlay
     className={cn(
       'fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-      className
+      className,
     )}
     {...props}
     ref={ref}
@@ -73,24 +73,25 @@ SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
  * @returns {JSX.Element} The rendered sheet content.
  */
 
-const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-  ({ side = 'right', className, children, ...props }, ref) => (
-    <SheetPortal>
-      <SheetOverlay />
-      <SheetPrimitive.Content
-        ref={ref}
-        className={cn(sheetVariants({ side }), className)}
-        {...props}
-      >
-        {children}
-        <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </SheetPrimitive.Close>
-      </SheetPrimitive.Content>
-    </SheetPortal>
-  )
-)
+const SheetContent = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Content>,
+  SheetContentProps
+>(({ side = 'right', className, children, ...props }, ref) => (
+  <SheetPortal>
+    <SheetOverlay />
+    <SheetPrimitive.Content
+      ref={ref}
+      className={cn(sheetVariants({ side }), className)}
+      {...props}
+    >
+      {children}
+      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+        <X className="h-4 w-4" />
+        <span className="sr-only">Close</span>
+      </SheetPrimitive.Close>
+    </SheetPrimitive.Content>
+  </SheetPortal>
+))
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
 /**
@@ -105,10 +106,16 @@ SheetContent.displayName = SheetPrimitive.Content.displayName
  *
  * @returns {JSX.Element} The rendered SheetHeader component.
  */
-function SheetHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+function SheetHeader({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
-      className={cn('flex flex-col space-y-2 text-center sm:text-left', className)}
+      className={cn(
+        'flex flex-col space-y-2 text-center sm:text-left',
+        className,
+      )}
       {...props}
     />
   )
@@ -127,10 +134,16 @@ SheetHeader.displayName = 'SheetHeader'
  *
  * @returns {JSX.Element} The rendered SheetFooter component.
  */
-function SheetFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+function SheetFooter({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
-      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
+      className={cn(
+        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+        className,
+      )}
       {...props}
     />
   )
@@ -188,15 +201,31 @@ SheetDescription.displayName = SheetPrimitive.Description.displayName
  * @param {SheetWrapperProps} props - The properties passed to the component.
  * @returns {JSX.Element} The rendered `Drawer` or `Sheet` component.
  */
-function SheetWrapper({ trigger, content, duckHook, ...props }: SheetWrapperProps): JSX.Element {
-  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
+function SheetWrapper({
+  trigger,
+  content,
+  duckHook,
+  ...props
+}: SheetWrapperProps): JSX.Element {
+  const {
+    className: subContentClassName,
+    children: subcontentChildren,
+    _header,
+    _footer,
+    ...subContentProps
+  } = content
   const {
     className: subHeaderClassName,
     _description: subDescription,
     _title: subTitle,
     ...subHeaderProps
   } = _header ?? {}
-  const { className: subFooterClassName, _submit: _subSubmit, _cancel: _subCancel, ...subFooterProps } = _footer ?? {}
+  const {
+    className: subFooterClassName,
+    _submit: _subSubmit,
+    _cancel: _subCancel,
+    ...subFooterProps
+  } = _footer ?? {}
 
   return (
     <Sheet
@@ -209,10 +238,7 @@ function SheetWrapper({ trigger, content, duckHook, ...props }: SheetWrapperProp
         className={cn('flex flex-col w-full h-full', subContentClassName)}
         {...subContentProps}
       >
-        <div
-          data-role-wrapper
-          className="flex flex-col gap-4 w-full h-full"
-        >
+        <div data-role-wrapper className="flex flex-col gap-4 w-full h-full">
           {_header && (
             <SheetHeader {...subHeaderProps}>
               {subHeaderProps.children ? (
@@ -230,14 +256,11 @@ function SheetWrapper({ trigger, content, duckHook, ...props }: SheetWrapperProp
             className={cn('gap-2', subFooterClassName)}
             {...subFooterProps}
           >
-            <SheetClose
-              asChild
-              {..._subCancel}
-            />
+            <SheetClose asChild {..._subCancel} />
             <div
               {..._subSubmit}
               className={cn('ml-0', _subSubmit?.className)}
-              onClick={e => {
+              onClick={(e) => {
                 duckHook?.setState({ shape: false, alert: false })
                 _subSubmit?.onClick?.(e)
               }}

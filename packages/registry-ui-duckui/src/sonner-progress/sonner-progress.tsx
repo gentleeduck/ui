@@ -1,6 +1,6 @@
 import { Loader2 } from 'lucide-react'
-import { Progress } from '@/registry/default/ui'
 import { SonnerProgressType } from './sonner-progress.types'
+import { Progress } from '~/old-registry-ui'
 
 /**
  * A component to display a progress bar with a message and an optional action button. Meant to be rendered in toasts
@@ -13,12 +13,14 @@ import { SonnerProgressType } from './sonner-progress.types'
  *    { id: toastId, closeButton: false }
  *  )
  */
-export const SonnerProgress = ({ progress, progressPrefix, action, message }: SonnerProgressType) => (
+export const SonnerProgress = ({
+  progress,
+  progressPrefix,
+  action,
+  message,
+}: SonnerProgressType) => (
   <div className="flex gap-3 w-full">
-    <Loader2
-      className="animate-spin text-foreground-muted mt-0.5"
-      size={16}
-    />
+    <Loader2 className="animate-spin text-foreground-muted mt-0.5" size={16} />
     <div className="flex flex-col gap-2 w-full">
       <div className="flex w-full justify-between">
         <p className="text-foreground text-sm">{message}</p>
@@ -27,12 +29,11 @@ export const SonnerProgress = ({ progress, progressPrefix, action, message }: So
           {`${Number(progress).toFixed(0)}%`}
         </p>
       </div>
-      <Progress
-        value={progress}
-        className="w-full"
-      />
+      <Progress value={progress} className="w-full" />
       <div className="flex flex-row gap-2 items-center justify-between">
-        <small className="text-foreground-lighter text-xs">Please do not close the browser</small>
+        <small className="text-foreground-lighter text-xs">
+          Please do not close the browser
+        </small>
         {action}
       </div>
     </div>

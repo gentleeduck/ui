@@ -1,3 +1,4 @@
+//@ts-noCheck
 import { Table } from '@/registry/default/ui/ShadcnUI/table'
 import { ScrollArea } from '@/registry/default/ui/scroll-area'
 import React from 'react'

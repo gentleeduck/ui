@@ -1,9 +1,13 @@
 {
-  "extends": "@duck/typescript-config/base.json",
+  "extends": "@duck/typescript-config/react.json",
   "compilerOptions": {
+    "strict": false,
+    "
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "outDir": "./dist",
-    "base": "./",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "paths": {
       "~/*": [
         "./*"
@@ -11,7 +15,7 @@
     }
   },
   "include": [
-    ".",
+    "src",
     "../registry-ui-duckui/**"
   ],
   "exclude": [

@@ -1,3 +1,4 @@
+//@ts-noCheck
 import * as React from 'react'
 
 import { Checkbox } from '@/registry/default/ui/checkbox'

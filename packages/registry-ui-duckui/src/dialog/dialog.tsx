@@ -1,22 +1,23 @@
+'use client'
+
 import * as React from 'react'
+import * as DialogPrimitive from '@radix-ui/react-dialog'
+import { X } from 'lucide-react'
 
-export function useMediaQuery(query: string) {
-  const [value, setValue] = React.useState(false)
-
-  React.useEffect(() => {
-    function onChange(event: MediaQueryListEvent) {
-      setValue(event.matches)
-    }
-
-    const result = matchMedia(query)
-    result.addEventListener('change', onChange)
-    setValue(result.matches)
-
-    return () => result.removeEventListener('change', onChange)
-  }, [query])
-
-  return value
-}
+import { cn } from '@duck/libs/cn'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '../drawer'
+import { useMediaQuery } from '@duck/hooks'
+import {
+  DialogCloseResponsiveProps,
   DialogContentResponsiveProps,
   DialogDescriptionResponsiveProps,
   DialogFooterResponsiveProps,

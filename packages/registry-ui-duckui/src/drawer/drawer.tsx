@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { DrawerWrapperProps } from './drawer.types'
 
 /**
@@ -93,7 +93,7 @@ const DrawerContent = React.forwardRef<
       ref={ref}
       className={cn(
         'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
-        className
+        className,
       )}
       {...props}
     >
@@ -112,7 +112,10 @@ DrawerContent.displayName = 'DrawerContent'
  *
  * @returns {JSX.Element} The rendered header component.
  */
-function DrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+function DrawerHeader({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
       className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)}
@@ -130,7 +133,10 @@ DrawerHeader.displayName = 'DrawerHeader'
  *
  * @returns {JSX.Element} The rendered footer component.
  */
-function DrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+function DrawerFooter({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
       className={cn('mt-auto flex flex-col gap-2 p-4', className)}
@@ -156,7 +162,10 @@ const DrawerTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Title
     ref={ref}
-    className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+    className={cn(
+      'text-lg font-semibold leading-none tracking-tight',
+      className,
+    )}
     {...props}
   />
 ))
@@ -191,10 +200,31 @@ DrawerDescription.displayName = DrawerPrimitive.Description.displayName
  * @param {DrawerWrapperProps} props - The properties passed to the component.
  * @returns {JSX.Element} The rendered `Drawer` or `Sheet` component.
  */
-function DrawerWrapper({ trigger, content, duckHook, ...props }: DrawerWrapperProps): JSX.Element {
-  const { className: contentClassName, children: contentChildren, _header, _footer, ...contentProps } = content
-  const { className: headerClassName, _description, _title, ...headerProps } = _header ?? {}
-  const { className: footerClassName, _submit: _subSubmit, _cancel: _subCancel, ...footerProps } = _footer ?? {}
+function DrawerWrapper({
+  trigger,
+  content,
+  duckHook,
+  ...props
+}: DrawerWrapperProps): JSX.Element {
+  const {
+    className: contentClassName,
+    children: contentChildren,
+    _header,
+    _footer,
+    ...contentProps
+  } = content
+  const {
+    className: headerClassName,
+    _description,
+    _title,
+    ...headerProps
+  } = _header ?? {}
+  const {
+    className: footerClassName,
+    _submit: _subSubmit,
+    _cancel: _subCancel,
+    ...footerProps
+  } = _footer ?? {}
 
   return (
     <Drawer
@@ -207,10 +237,7 @@ function DrawerWrapper({ trigger, content, duckHook, ...props }: DrawerWrapperPr
         className={cn('flex flex-col w-full h-full', contentClassName)}
         {...contentProps}
       >
-        <div
-          data-role-wrapper
-          className="flex flex-col gap-4 w-full h-full"
-        >
+        <div data-role-wrapper className="flex flex-col gap-4 w-full h-full">
           {_header && (
             <DrawerHeader {...headerProps}>
               {headerProps.children ? (
@@ -228,14 +255,11 @@ function DrawerWrapper({ trigger, content, duckHook, ...props }: DrawerWrapperPr
             className={cn('flex items-ceter gap-2', footerClassName)}
             {...footerProps}
           >
-            <DrawerClose
-              asChild
-              {..._subCancel}
-            />
+            <DrawerClose asChild {..._subCancel} />
             <div
               {..._subSubmit}
               className={cn('w-full', _subSubmit?.className)}
-              onClick={e => {
+              onClick={(e) => {
                 duckHook?.setState({ shape: false, alert: false })
                 _subSubmit?.onClick?.(e)
               }}

@@ -3,12 +3,16 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "ES2022",
-    "lib": ["ES2022"],
+    "target": "ESNext",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ],
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
-     "incremental": true,
+    "incremental": true,
     "disableSourceOfProjectReferenceRedirect": true,
     "tsBuildInfoFile": "${configDir}/.cache/tsbuildinfo.json",
     "strict": true,
@@ -23,10 +27,15 @@
     "inlineSources": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "allowImportingTsExtensions": true,
     "preserveWatchOutput": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "preserve"
   },
-  "exclude": ["node_modules", "build", "dist", ".next", ".expo"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    ".next",
+    ".expo"
+  ]
 }
