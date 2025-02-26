@@ -17,4 +17,4 @@ export * from './image'
 export * from './hover-card'
 export * from './mdx-minimal-text-editor'
 
-export * from './ShadcnUI'
+// export * from './ShadcnUI'

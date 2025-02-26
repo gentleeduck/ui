@@ -9,11 +9,22 @@
     ],
     "baseUrl": ".",
     "outDir": "./dist",
-    "module": "Preserve",
+    "module": "ESNext",
+    "jsx": "preserve",
     "moduleResolution": "node",
+    "target": "ESNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "paths": {
+      "~/old-registry-ui/*": [
+        "../_oldstuff_refactor/ui/*"
+      ],
       "~/*": [
         "./*"
+      ],
+      "@duck/registry-ui-duckui/*": [
+        "../registry-ui-duckui/src/*"
       ]
     },
     "plugins": [
@@ -23,7 +34,8 @@
     ]
   },
   "include": [
-    "."
+    ".",
+    "../_oldstuff_refactor/ui/index.ts"
   ],
   "exclude": [
     "node_modules",
