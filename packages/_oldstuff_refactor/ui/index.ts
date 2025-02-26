@@ -1,3 +1,4 @@
+export * from './shadcn'
 export * from './nav-group'
 export * from './header'
 export * from './command'
