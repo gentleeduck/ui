@@ -1,3 +1,4 @@
+export * from './shadcn'
 export * from './nav-group'
 export * from './header'
 export * from './command'
@@ -16,4 +17,4 @@ export * from './image'
 export * from './hover-card'
 export * from './mdx-minimal-text-editor'
 
-export * from './ShadcnUI'
+// export * from './ShadcnUI'
