@@ -26,13 +26,6 @@ const AccordionTrigger = React.forwardRef<
     icon?: React.ReactNode
   }
 >(({ className, children, icon, ...props }, ref) => {
-  const {
-    children: iconChildren,
-    className: iconClassName,
-    ...iconProps
-  } = icon ?? {}
-  const Icon = iconChildren
-
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
@@ -44,17 +37,13 @@ const AccordionTrigger = React.forwardRef<
         {...props}
       >
         {children}
-        {Icon ? (
-          <Icon
-            className={cn(
-              'h-4 w-4 shrink-0 transition-transform duration-200',
-              iconClassName,
-            )}
-            {...iconProps}
-          />
-        ) : (
-          <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
-        )}
+        <span
+          className={cn(
+            '[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200',
+          )}
+        >
+          {icon ? icon : <ChevronDown />}
+        </span>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )

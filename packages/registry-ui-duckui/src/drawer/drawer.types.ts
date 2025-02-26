@@ -1,7 +1,6 @@
 import { Drawer as DrawerPrimitive } from 'vaul'
 import { UseDuckAlertReturnType } from '../alert-dialog/alert-dialog.types'
 import {
-  Drawer,
   DrawerClose,
   DrawerContent,
   DrawerDescription,

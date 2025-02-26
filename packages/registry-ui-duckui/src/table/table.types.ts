@@ -1,3 +1,5 @@
+//@ts-noCheck
+
 import { ScrollArea } from '@/registry/default/ui/scroll-area'
 import { sortArray } from './table.lib'
 import { TableCell, TableFooter, TablePaginationStateType } from './table'

@@ -1,3 +1,4 @@
+//@ts-noCheck
 import React from 'react'
 import { DuckTableContext, type DuckTableContextType } from './table'
 

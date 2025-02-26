@@ -1,20 +1,26 @@
 {
-  "extends": "@duck/typescript-config/base.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "./dist",
-    "base": "./",
-    "paths": {
-      "~/*": [
-        "./*"
-      ]
-    }
+    "lib": [
+      "esnext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "module": "nodeNExt",
+    "moduleResolution": "nodenext",
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": [
-    "."
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
+    "./*",
+    "../registry-ui-duckui/*"
   ]
 }

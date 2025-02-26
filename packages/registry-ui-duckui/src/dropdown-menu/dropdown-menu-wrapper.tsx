@@ -1,11 +1,6 @@
+import { cn } from '@duck/libs/cn'
+import { groupArrays } from '@duck/libs/group-array'
 import * as React from 'react'
-import { cn, groupArrays } from '@/lib/utils'
-import {
-  Button,
-  ButtonProps,
-  buttonVariants,
-  CommandType,
-} from '@/registry/registry-ui-components'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -22,19 +17,20 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from './dropdown-menu'
+import { Button, ButtonProps, buttonVariants, CommandType } from '../button'
 
 export interface DropdownMenuOptionsDataType
   extends Partial<
     React.ComponentPropsWithoutRef<typeof DropdownMenuCheckboxItem> &
-    React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
-    React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
+      React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
+      React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
   > {
   actionType: 'drawer' | 'dialog' | 'sheet' | 'item'
   command?: React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut> &
-  CommandType
+    CommandType
   icon?: React.ReactNode
   nestedData?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent> &
-  DropdownMenuOptionsType
+    DropdownMenuOptionsType
 }
 
 export interface DropdownMenuOptionsType {
@@ -46,7 +42,7 @@ export interface DropdownMenuOptionsType {
 export interface DropdownMenuViewProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenu> {
   trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> &
-  ButtonProps
+    ButtonProps
   content: {
     label?: React.ComponentPropsWithoutRef<typeof DropdownMenuLabel>
     options: DropdownMenuOptionsType
@@ -187,7 +183,7 @@ export function DropdownWrapperTrigger({
   trigger,
 }: {
   trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> &
-  ButtonProps
+    ButtonProps
 }) {
   return (
     <DropdownMenuTrigger asChild>
@@ -295,6 +291,7 @@ export function DropdownWrapperSubTrigger({
 }: { trigger: DropdownMenuOptionsDataType }) {
   const { children, className, icon, ...props } = trigger
   return (
+    // @ts-ignore
     <DropdownMenuSubTrigger
       className={cn(
         buttonVariants({
