@@ -4,11 +4,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "ESNext",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
@@ -18,6 +14,8 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
     "noEmit": true,
     "composite": false,
     "declaration": true,
@@ -29,11 +27,5 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "preserve"
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist",
-    ".next",
-    ".expo"
-  ]
+  "exclude": ["node_modules", "build", "dist", ".next", ".expo"]
 }

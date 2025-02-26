@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "main": "./src/index.ts",
   "exports": {
     "./*": "./src/*/index.ts"
   },
@@ -91,7 +90,7 @@
     "@tiptap/react": "^2.5.7",
     "@tiptap/starter-kit": "^2.5.7",
     "@tiptap/suggestion": "^2.5.7",
-    "@types/react": "^18.3.3",
+    "@types/react": "^18.3.18",
     "class-variance-authority": "^0.7.0",
     "clsx": "^1.2.1",
     "lucide-react": "0.359.0",
@@ -105,6 +104,7 @@
     "zod": "catalog:"
   },
   "dependencies": {
-    "react-day-picker": "^8.10.1"
+    "react-day-picker": "^8.10.1",
+    "typescript": "catalog:"
   }
 }

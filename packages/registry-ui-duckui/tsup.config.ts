@@ -10,4 +10,5 @@ export default defineConfig({
   minify: true,
   target: 'esnext',
   treeshake: true,
+  shims: true, // ✅ Add this to resolve JSX issues
 })
