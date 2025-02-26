@@ -16,7 +16,7 @@ const addVariablesForColors = ({ addBase, theme }) => {
 
 const config: Config = {
   darkMode: ['class'],
-  content: ['./*.{ts,tsx}', '../registry-ui-duckui/**/*.{ts,tsx}'],
+  content: ['./src/**/*.{ts,tsx}', './node_modules/@duck/registry-ui-duckui/src/**/*.{ts,tsx}',"!./node_modules"],
   theme: {
     container: {
       center: true,
