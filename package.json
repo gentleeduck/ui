@@ -16,6 +16,18 @@
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
-  "packageManager": "pnpm@10.2.1"
+  "packageManager": "pnpm@10.2.1",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@ffprobe-installer/linux-x64",
+      "@parcel/watcher",
+      "@swc/core",
+      "contentlayer2",
+      "core-js-pure",
+      "esbuild",
+      "protobufjs",
+      "sharp"
+    ]
+  }
 }
-
