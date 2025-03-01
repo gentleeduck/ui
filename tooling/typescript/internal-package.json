@@ -7,7 +7,7 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "noEmit": false,
-    "moduleResolution": "bundler"
+    "module": "Preserve",
+    "moduleResolution": "Bundler"
   }
 }
-

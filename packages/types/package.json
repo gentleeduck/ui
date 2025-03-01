@@ -1,0 +1,19 @@
+{
+  "name": "@duck/types",
+  "version": "1.0.0",
+  "description": "this is a package for types",
+  "type": "module",
+  "types": "index.ts",
+  "main": "index.ts",
+  "scripts": {
+    "start:env": "tsx ./index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@duck/biome-config": "workspace:*",
+    "@duck/typescript-config": "workspace:*"
+  }
+}

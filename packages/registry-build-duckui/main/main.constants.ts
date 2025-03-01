@@ -1,14 +1,14 @@
 import { registry_item_type_schema } from '@duck/registers'
 import path from 'node:path'
 import { z } from 'zod'
-import { envSchema } from './main.dto.ts'
 import { config } from 'dotenv'
+import { envSchema } from './main.dto'
 
 config()
 export const ENV = await envSchema.parseAsync(process.env)
 export const REGISTRY_PATH = path.join(
   process.cwd(),
-  `../..${ENV.REGISTRY_OUTPUT_PATH}public/duck-ui/registry/`,
+  `../..${ENV.REGISTRY_OUTPUT_PATH}public/duck-ui/`,
 )
 
 export const PUBLIC_REGISTRY_PATH = path.join(REGISTRY_PATH, 'components')

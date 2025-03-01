@@ -1,5 +1,5 @@
 {
-    "name": "@zaher/biome-config",
+    "name": "@duck/biome-config",
     "private": true,
     "version": "0.1.0",
     "type": "module",

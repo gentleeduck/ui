@@ -1,3 +1,5 @@
+export const BASE_COLORS_NAMES = ['slate', 'gray', 'zinc', 'neutral', 'stone']
+
 export const BASE_STYLES = `@tailwind base;
 @tailwind components;
 @tailwind utilities;

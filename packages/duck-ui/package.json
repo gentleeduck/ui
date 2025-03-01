@@ -12,8 +12,16 @@
     "url": "git+https://github.com/gentelduck/ui.git",
     "directory": "packages/cli"
   },
-  "files": ["dist"],
-  "keywords": ["components", "ui", "tailwind", "radix-ui", "duck-ui"],
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "components",
+    "ui",
+    "tailwind",
+    "radix-ui",
+    "duck-ui"
+  ],
   "type": "module",
   "exports": "./dist/index.js",
   "bin": {
@@ -52,6 +60,7 @@
   "devDependencies": {
     "@types/babel__core": "^7.20.1",
     "@types/diff": "^5.0.3",
+    "@types/figlet": "^1.7.0",
     "@types/fs-extra": "^11.0.1",
     "@types/lodash.template": "^4.5.3",
     "@types/prompts": "^2.4.2",

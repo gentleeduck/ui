@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "contentlayer2 build && pnpm build:reg && next dev -p 3004",
     "build": "contentlayer2 build && pnpm build:reg && next build",
-    "build:reg": "./scripts/run-registry-build.sh && prettier --log-level silent --write \"./__ui_registry__/**\" --cache",
+    "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/**",
     "build:docs": "contentlayer2 build",
     "seed:tasks": "tsx --tsconfig ./tsconfig.json ./app/(app)/examples/tasks/data/seed.ts",
     "start": "next start -p 3001",

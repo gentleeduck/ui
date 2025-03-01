@@ -20,7 +20,10 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true
   },
   "include": [
     "next-env.d.ts",

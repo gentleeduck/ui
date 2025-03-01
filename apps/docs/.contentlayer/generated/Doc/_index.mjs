@@ -17,5 +17,7 @@ import docs__components__tooltipMdx from './docs__components__tooltip.mdx.json' 
 import docs__components__uploadMdx from './docs__components__upload.mdx.json' assert { type: 'json' }
 import docs__installation__indexMdx from './docs__installation__index.mdx.json' assert { type: 'json' }
 import docs__installation__manualMdx from './docs__installation__manual.mdx.json' assert { type: 'json' }
+import docs__installation__nextMdx from './docs__installation__next.mdx.json' assert { type: 'json' }
+import docs__installation__viteMdx from './docs__installation__vite.mdx.json' assert { type: 'json' }
 
-export const allDocs = [docs__indexMdx, docs__components__accordionMdx, docs__components__alertDialogMdx, docs__components__badgeMdx, docs__components__buttonMdx, docs__components__drawerMdx, docs__components__sonnerMdx, docs__components__tableMdx, docs__components__tabsMdx, docs__components__textareaMdx, docs__components__toastMdx, docs__components__toggleGroupMdx, docs__components__toggleMdx, docs__components__tooltipMdx, docs__components__uploadMdx, docs__installation__indexMdx, docs__installation__manualMdx]
+export const allDocs = [docs__indexMdx, docs__components__accordionMdx, docs__components__alertDialogMdx, docs__components__badgeMdx, docs__components__buttonMdx, docs__components__drawerMdx, docs__components__sonnerMdx, docs__components__tableMdx, docs__components__tabsMdx, docs__components__textareaMdx, docs__components__toastMdx, docs__components__toggleGroupMdx, docs__components__toggleMdx, docs__components__tooltipMdx, docs__components__uploadMdx, docs__installation__indexMdx, docs__installation__manualMdx, docs__installation__nextMdx, docs__installation__viteMdx]
