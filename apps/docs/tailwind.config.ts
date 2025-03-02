@@ -6,7 +6,7 @@ import baseConfig from '@duck/tailwind-config/web'
 export default {
   // We need to append the path to the UI package to the content array so that
   // those classes are included correctly.
-  content: [...baseConfig.content, '../../packages/ui/src/*.{ts,tsx,mdx,md,mjs,mts}', './**/*.{ts,tsx,md,mdx}'],
+  content: ['../node_modules/@duck/registry-ui-duckui/src/**/*.{ts,tsx'],
   presets: [baseConfig],
   theme: {
     extend: {

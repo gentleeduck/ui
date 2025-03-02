@@ -5,12 +5,7 @@ import { flattenColorPalette } from 'tailwindcss/lib/util/flattenColorPalette'
 /** @type {import('tailwindcss').Config} */
 const config: import('tailwindcss').Config = {
   darkMode: ['class'],
-  content: [
-    'app/**/*.{ts,tsx}',
-    'components/**/*.{ts,tsx}',
-    'content/**/*.mdx',
-    'registry/**/*.{ts,tsx}',
-  ],
+
   theme: {
     container: {
       center: true,
