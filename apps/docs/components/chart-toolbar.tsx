@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { BlockCopyButton } from '~/components/ui'
 import { ChartCodeViewer } from '~/components/chart-code-viewer'
 

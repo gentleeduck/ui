@@ -6,14 +6,14 @@ import { useRouter } from 'next/navigation'
 
 import { docsConfig } from '~/config/docs'
 import { siteConfig } from '~/config/site'
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { Icons } from '~/components/icons'
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from '@duck/registry-ui-duckui/sheet'
-import { ScrollArea } from '../../../packages/_oldstuff_refactor/default/ui/scroll-area'
+import { ScrollArea } from '../../../packages/_oldstuff_refactor/ui/scroll-area'
 import { Button } from '@duck/registry-ui-duckui/button'
 
 export function MobileNav() {

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "contentlayer2 build && pnpm build:reg && next dev -p 3004",
+    "dev:without-build": "next dev -p 3004",
     "build": "contentlayer2 build && pnpm build:reg && next build",
     "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/**",
     "build:docs": "contentlayer2 build",

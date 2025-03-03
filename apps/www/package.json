@@ -8,6 +8,8 @@
     "start": "vinxi start"
   },
   "dependencies": {
+    "@duck/registry-ui-duckui": "workspace:*",
+    "@duck/libs": "workspace:*",
     "@tanstack/react-query": "^5.66.0",
     "@tanstack/react-query-devtools": "^5.66.0",
     "@tanstack/react-router": "^1.111.7",

@@ -10,7 +10,7 @@ import { buttonVariants } from './button.constants'
 import { ButtonProps } from './button.types'
 
 import { cn } from '@duck/libs/cn'
-import { CommandShortcut } from '../../../_oldstuff_refactor/ui/command'
+import { CommandShortcut } from '../../_oldstuff_refactor/ui/command'
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (

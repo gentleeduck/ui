@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 import { PieChart } from 'lucide-react'
-import { Separator } from '../../../packages/_oldstuff_refactor/default/ui'
+import { Separator } from '../../../packages/_oldstuff_refactor/ui'
 
 export function Announcement() {
   return (

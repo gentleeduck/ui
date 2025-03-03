@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { useMediaQuery } from '~/hooks/use-media-query'
 import { useThemesConfig } from '~/hooks/use-themes-config'
 import { V0Button, BlockCopyButton } from '~/components/ui'

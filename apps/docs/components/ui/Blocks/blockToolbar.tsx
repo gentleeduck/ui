@@ -5,13 +5,13 @@ import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 
 import { trackEvent } from '~/lib/events'
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { StyleSwitcher } from '~/components/style-switcher'
 import { BlockCopyButton, V0Button } from '~/components/ui'
 import { Block } from '@duck/registers'
 import { TabsList, TabsTrigger } from '@duck/registry-ui-duckui/tabs'
-import { Separator } from '../../../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/separator'
+import { Separator } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/separator'
 import {
   Popover,
   PopoverContent,
@@ -19,13 +19,10 @@ import {
 } from '@duck/registry-ui-duckui/popover'
 import { Badge } from '@duck/registry-ui-duckui/badge'
 import {
-  Label,
-  Switch,
-} from '../../../../../packages/_oldstuff_refactor/default/ui'
-import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@duck/registry-ui-duckui/toggle-group'
+import { Label, Switch } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
 
 export function BlockToolbar({
   block,

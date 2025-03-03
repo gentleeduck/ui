@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { Style, styles } from '@duck/registers'
 import { useConfig } from '~/hooks/use-config'
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
   SelectTriggerProps,
-} from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/select'
+} from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/select'
 
 export function StyleSwitcher({ className, ...props }: SelectTriggerProps) {
   const [config, setConfig] = useConfig()

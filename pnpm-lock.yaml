@@ -518,6 +518,12 @@ importers:
 
   apps/www:
     dependencies:
+      '@duck/libs':
+        specifier: workspace:*
+        version: link:../../packages/libs
+      '@duck/registry-ui-duckui':
+        specifier: workspace:*
+        version: link:../../packages/registry-ui-duckui
       '@tanstack/react-query':
         specifier: ^5.66.0
         version: 5.66.0(react@19.0.0)

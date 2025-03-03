@@ -3,7 +3,7 @@
 import { forwardRef } from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@duck/libs/cn'
 
 const DrawerTrigger = DrawerPrimitive.Trigger
 

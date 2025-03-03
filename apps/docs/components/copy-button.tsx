@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@duck/registry-ui-duckui/dropdown-menu'
 import { Event, trackEvent } from '~/lib/events'
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 
 interface CopyButtonProps extends ButtonProps {
   value: string

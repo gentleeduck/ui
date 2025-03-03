@@ -7,7 +7,7 @@ import { useMDXComponent } from 'next-contentlayer2/hooks'
 import { NpmCommands } from 'types/unist'
 
 import { Event } from '~/lib/events'
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { Callout } from '~/components/callout'
 import { CodeBlockWrapper } from '~/components/code-block-wrapper'
 import {
@@ -28,7 +28,7 @@ import {
   AlertDescription,
   AlertTitle,
   AspectRatio,
-} from '../../../packages/_oldstuff_refactor/default/ui'
+} from '../../../packages/_oldstuff_refactor/ui'
 import {
   Tabs,
   TabsContent,

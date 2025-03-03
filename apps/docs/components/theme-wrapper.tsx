@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { useConfig } from '~/hooks/use-config'
 
 interface ThemeWrapperProps extends React.ComponentProps<'div'> {

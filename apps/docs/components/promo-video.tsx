@@ -1,6 +1,6 @@
 'use client'
 
-import { AspectRatio } from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI'
+import { AspectRatio } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI'
 
 export function PromoVideo() {
   return (

@@ -13,7 +13,7 @@
     "moduleResolution": "bundler",
     "paths": {
       "~/old-registry-ui": [
-        "../_oldstuff_refactor/ui/index.ts"
+        "../_oldstuff_refactor/ui/*"
       ],
       "~/*": [
         "./*"
@@ -26,8 +26,7 @@
     ]
   },
   "include": [
-    ".",
-    "../_oldstuff_refactor/default/ui/index.ts"
+    "."
   ],
   "exclude": [
     "node_modules",

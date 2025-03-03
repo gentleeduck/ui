@@ -6,7 +6,7 @@ import { Loader2 } from 'lucide-react'
 import { useFormStatus } from 'react-dom'
 import { toast } from 'sonner'
 
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { Block, Style } from '@duck/registers'
 import {
   Tooltip,

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { useConfig } from '~/hooks/use-config'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { BlockToolbar } from '~/components/ui'
@@ -14,7 +14,7 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from '../../../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/resizable'
+} from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/resizable'
 
 export function BlockPreview({
   block,

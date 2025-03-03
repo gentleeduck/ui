@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { allDocs } from 'contentlayer/generated'
 
-import '@/styles/mdx.css'
+import '~/styles/mdx.css'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ChevronRightIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
@@ -9,12 +9,13 @@ import Balancer from 'react-wrap-balancer'
 
 import { siteConfig } from '~/config/site'
 import { getTableOfContents } from '~/lib/toc'
-import { absoluteUrl, cn } from '~/lib/utils'
 import { Mdx } from '~/components/mdx-components'
 import { DocsPager } from '~/components/pager'
 import { DashboardTableOfContents } from '~/components/toc'
-import { ScrollArea } from '../../../../../../packages/_oldstuff_refactor/default/ui/scroll-area'
+import { ScrollArea } from '../../../../../../packages/_oldstuff_refactor/ui/scroll-area'
 import { badgeVariants } from '@duck/registry-ui-duckui/badge'
+import { absoluteUrl } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 
 interface DocPageProps {
   params: Promise<{

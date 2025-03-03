@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { useColors } from '~/hooks/use-colors'
 import { type Color, getColorFormat } from '~/lib/colors'
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import {
   Select,
   SelectContent,

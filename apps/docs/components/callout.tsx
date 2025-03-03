@@ -2,7 +2,7 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/alert'
+} from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/alert'
 
 interface CalloutProps {
   icon?: string

@@ -15,7 +15,7 @@ import * as React from 'react'
 import { Button } from '@duck/registry-ui-duckui/button'
 import { Command } from 'lucide-react'
 import { docsConfig } from '~/config/docs'
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import {
   CommandDialog,
   CommandEmpty,
@@ -24,7 +24,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/command'
+} from '../../../packages/_oldstuff_refactor/ui/command'
 
 export function CommandMenu({ ...props }: DialogProps) {
   const router = useRouter()

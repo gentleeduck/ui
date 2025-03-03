@@ -3,11 +3,10 @@
 import * as React from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { V0Button, BlockCopyButton } from '~/components/ui'
-import { Block, BlockChunk } from '@duck/registers'
-// import { Block, type BlockChunk } from '~/registry/schema'
+import { Block,type BlockChunk} from '@duck/registers'
 
 export function BlockChunk({
   block,

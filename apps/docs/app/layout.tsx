@@ -1,4 +1,4 @@
-import '@/styles/globals.scss'
+import '~/styles/globals.scss'
 import { Metadata, Viewport } from 'next'
 
 import { siteConfig } from '~/config/site'

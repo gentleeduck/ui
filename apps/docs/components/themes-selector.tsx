@@ -4,7 +4,7 @@ import * as React from 'react'
 import { useTheme } from 'next-themes'
 
 import { THEMES, Theme } from '~/lib/themes'
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { useMediaQuery } from '~/hooks/use-media-query'
 import { useThemesConfig } from '~/hooks/use-themes-config'
 import {
@@ -16,7 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@duck/registry-ui-duckui/tooltip'
-import { Skeleton } from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/skeleton'
+import { Skeleton } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/skeleton'
 
 export function ThemesSwitcher({
   themes = THEMES,

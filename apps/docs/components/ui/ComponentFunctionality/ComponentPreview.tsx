@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Index } from '~/__ui_registry__'
 
-import { cn } from '~/lib/utils'
+import { cn } from '@duck/libs/cn'
 import { useConfig } from '~/hooks/use-config'
 import { CopyButton } from '~/components/copy-button'
 import { Icons } from '~/components/icons'

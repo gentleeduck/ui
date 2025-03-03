@@ -3,13 +3,17 @@
 import { promises as fs } from 'fs'
 import { tmpdir } from 'os'
 import path from 'path'
-import { Index } from '@/__ui_registry__'
+import { Index } from '~/__ui_registry__'
 import { Project, ScriptKind, SourceFile, SyntaxKind } from 'ts-morph'
 import { z } from 'zod'
 
-import { highlightCode } from '@/lib/highlight-code'
-import { BlockChunk, block_schema, registry_entry_schema } from '@/registry'
-import { Style } from '@/registry/styles'
+import { highlightCode } from '~/lib/highlight-code'
+import {
+  BlockChunk,
+  block_schema,
+  registry_entry_schema,
+  Style,
+} from '@duck/registers'
 
 const DEFAULT_BLOCKS_STYLE = 'default' satisfies Style['name']
 
@@ -17,12 +21,17 @@ const project = new Project({
   compilerOptions: {},
 })
 
-export async function getAllBlockIds(style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
+export async function getAllBlockIds(
+  style: Style['name'] = DEFAULT_BLOCKS_STYLE,
+) {
   const blocks = await _getAllBlocks(style)
-  return blocks.map(block => block.name)
+  return blocks.map((block) => block.name)
 }
 
-export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
+export async function getBlock(
+  name: string,
+  style: Style['name'] = DEFAULT_BLOCKS_STYLE,
+) {
   const entry = Index[style][name]
 
   const content = await _getBlockContent(name, style)
@@ -38,18 +47,23 @@ export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOC
 
       sourceFile
         .getDescendantsOfKind(SyntaxKind.JsxOpeningElement)
-        .filter(node => {
+        .filter((node) => {
           return node.getAttribute('x-chunk') !== undefined
         })
-        ?.map(component => {
-          component.getAttribute('x-chunk')?.asKind(SyntaxKind.JsxAttribute)?.remove()
+        ?.map((component) => {
+          component
+            .getAttribute('x-chunk')
+            ?.asKind(SyntaxKind.JsxAttribute)
+            ?.remove()
         })
 
       return {
         ...chunk,
-        code: sourceFile.getText().replaceAll(`@/registry/${style}/`, '@/components/'),
+        code: sourceFile
+          .getText()
+          .replaceAll(`@/registry/${style}/`, '@/components/'),
       }
-    })
+    }),
   )
 
   return block_schema.parse({
@@ -66,10 +80,15 @@ export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOC
 async function _getAllBlocks(style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
   const index = z.record(registry_entry_schema).parse(Index[style])
 
-  return Object.values(index).filter(block => block.type === 'components:block')
+  return Object.values(index).filter(
+    (block) => block.type === 'components:block',
+  )
 }
 
-async function _getBlockCode(name: string, style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
+async function _getBlockCode(
+  name: string,
+  style: Style['name'] = DEFAULT_BLOCKS_STYLE,
+) {
   const entry = Index[style][name]
   if (!entry) {
     console.error(`Block ${name} not found in style ${style}`)
@@ -128,7 +147,9 @@ function _extractVariable(sourceFile: SourceFile, name: string) {
     return null
   }
 
-  const value = variable.getInitializerIfKindOrThrow(SyntaxKind.StringLiteral).getLiteralValue()
+  const value = variable
+    .getInitializerIfKindOrThrow(SyntaxKind.StringLiteral)
+    .getLiteralValue()
 
   variable.remove()
 
