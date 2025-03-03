@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority'
 
 export const buttonVariants = cva(
-  'relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 font-regular',
+  'relative inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 font-regular',
   {
     variants: {
       variant: {
@@ -35,14 +35,15 @@ export const buttonVariants = cva(
         nothing: '',
       },
       size: {
-        icon: 'size-[1.125rem] p-0 [&_svg]:size-[1.4rem]',
-        xs: 'text-xs px-2.5 py-1 h-[1.625rem] [&_svg]:size-[0.875rem]',
-        sm: 'text-sm leading-4 px-3 py-2 h-[34px] [&_svg]:h-[1.125rem]',
-        lg: 'text-md px-4 py-2 h-[2.8125rem] [&_svg]:size-[1.25rem]',
-        default: 'text-sm px-4 py-2 h-[2.5rem] [&_svg]:size-[1.25rem]',
-        xl: 'text-lg px-6 py-3 h-[3.125rem] [&_svg]:size-[1.5rem]',
-        xxl: 'text-xl px-8 py-4 h-[3.625rem] [&_svg]:size-[1.625rem]',
-        xxxl: 'text-2xl px-12 py-6 h-[4.375rem] [&_svg]:size-[1.875rem]',
+        icon: 'size-[1.125rem] p-0 [&_svg]:size-[1.4rem] rounded-md',
+        xs: 'text-xs px-2.5 py-1 h-[1.625rem] [&_svg]:size-[0.875rem] rounded-md',
+        sm: 'text-sm leading-4 px-3 py-2 h-[34px] [&_svg]:h-[1.125rem] rounded-md',
+        lg: 'text-md px-4 py-2 h-[2.8125rem] [&_svg]:size-[1.25rem] rounded-md',
+        default:
+          'text-sm px-4 py-2 h-[2.5rem] [&_svg]:size-[1.25rem] rounded-md',
+        xl: 'text-lg px-6 py-3 h-[3.125rem] [&_svg]:size-[1.5rem] rounded-lg',
+        xxl: 'text-xl px-8 py-4 h-[3.625rem] [&_svg]:size-[1.625rem] rounded-lg',
+        xxxl: 'text-2xl px-[4rem] py-6 h-[4.375rem] [&_svg]:size-[1.875rem] rounded-lg',
       },
       border: {
         default: '',

@@ -30,7 +30,11 @@ const config: import('next').NextConfig = {
   reactStrictMode: true,
 
   /** Enables hot reloading for local packages without a build step */
-  transpilePackages: ['@duck/validators'],
+  transpilePackages: [
+    '@duck/validators',
+    '@duck/registry-ui-duckui',
+    '@duck/registry-examples-duckui',
+  ],
 
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },

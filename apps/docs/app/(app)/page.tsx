@@ -15,64 +15,40 @@ import { ThemeWrapper } from '~/components/theme-wrapper'
 import { ThemeCustomizer } from '~/components/theme-customizer'
 import { ThemesTabs } from './themes/tabs'
 import { buttonVariants } from '@duck/registry-ui-duckui/button'
+import { cn } from '@duck/libs/cn'
 
 export default function IndexPage() {
   return (
     <>
-      <div className="flex items-start gap-4 p-4  select-none container mt-12">
-        <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,#18181be6)]"></div>
-        <div className="flex sm:min-h-[93vh] min-h-[88vh] flex-col items-center justify-center text-center px-2 py-8 h-[50rem] w-full dark:bg-background bg-white dark:bg-grid-white/[0.1] bg-grid-black/[0.1] ">
-          {
-            // <Announcement />
-          }
-          <PageHeader className="container flex flex-col items-center justify-center gap-4">
-            <PageHeaderHeading className="text-3xl font-bold mb-4 sm:text-7xl lg:text-7xl">
-              Simplify UI Creation with Elegant and Versatile Components.
-            </PageHeaderHeading>
-            <PageHeaderDescription className="mb-8 sm:text-xl max-w-[800px] text-muted-foreground font-normal">
-              Duck UI is a versatile UI library that simplifies creating modern,
-              customizable interfaces. It provides a set of pre-built components
-              for fast and consistent design across applications.
-            </PageHeaderDescription>
-            <PageActions className="flex flex-row items-center gap-5 w-fit">
-              <Link
-                href={'/docs'}
-                className={buttonVariants({
-                  className: 'px-6 text-[1rem] w-[130px]',
-                  size: 'lg',
-                })}
-              >
-                Get Stared
-              </Link>
-              <Link
-                href={siteConfig.links.github}
-                className={buttonVariants({
-                  variant: 'outline',
-                  className: 'px-6 text-[1rem] w-[130px]',
-                  size: 'lg',
-                })}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Github
-              </Link>
-            </PageActions>
-          </PageHeader>
-          <span className="flex flex-row items-center gap-3 text-primary text-md max-[800px]:mb-12 bg-secondary px-6 py-2 border border-solid border-border rounded-3xl">
-            <span className="flex flex-row items-center gap-1.5 font-mono">
-              <span className="text-blue-500 font-semibold">npx</span>
-              <span className="text-red-500">duck-ui@latest</span>
-              <span>init</span>
-            </span>
-            <CopyButton
-              variant={'outline'}
-              value="npx duck-ui@latest init"
-              onClick={() => {
-                toast.success('Copied to clipboard')
-              }}
-            />
-          </span>
+      <div className="grid gap-8 grid-cols-2 select-none container h-[90svh]">
+        <PageHeader className="flex flex-col justify-center px-0">
+          <PageHeaderHeading className="text-3xl font-semibold mb-3 sm:text-7xl lg:text-6xl px-0">
+            Build Beautiful UIs with Simplicity and Power.
+          </PageHeaderHeading>
+          <PageHeaderDescription className="mb-3 sm:text-xl max-w-[800px] text-muted-foreground font-normal">
+            Bring life to your own website with a pack full of ideas made
+            specially for magical websites.
+          </PageHeaderDescription>
+          <Link
+            href={'/docs'}
+            className={cn(
+              buttonVariants({
+                variant: 'default',
+                size: 'xxl',
+              }),
+            )}
+          >
+            Get Stared
+          </Link>
+        </PageHeader>
+        <div className="flex flex-col justify-center items-center">
+          <img src={'/home.png'} width="100%" />
         </div>
+      </div>
+      <div>
+        {
+          // <Announcement />
+        }
         {/*  <div className="container">
                        <ThemeWrapper
                          defaultTheme="zinc"
@@ -96,3 +72,31 @@ export default function IndexPage() {
     </>
   )
 }
+
+// <span className="">
+//   <span className="flex flex-row items-center gap-1.5 font-mono">
+//     <span className="text-blue-500 font-semibold">npx</span>
+//     <span className="text-red-500">duck-ui@latest</span>
+//     <span>init</span>
+//   </span>
+//   <CopyButton
+//     variant={'outline'}
+//     value="npx duck-ui@latest init"
+//     onClick={() => {
+//       toast.success('Copied to clipboard')
+//     }}
+//   />
+// </span>
+//
+// <Link
+//   href={'/docs'}
+//   className={cn(
+//     buttonVariants({
+//       variant: 'default',
+//       size: 'xxxl',
+//       className: 'px-12',
+//     }),
+//   )}
+// >
+//   Get Stared
+// </Link>

@@ -8,9 +8,9 @@ export default {
   // those classes are included correctly.
   content: [
     // '!./node_modules/',
-    './**/*.tsx',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    '../../packages/registry-ui-duckui/button/**/*.tsx',
+    './app/**/*.tsx',
+    './components/**/*.tsx',
+    '../../packages/registry-ui-duckui/**/*.tsx',
   ],
   presets: [baseConfig],
   theme: {
