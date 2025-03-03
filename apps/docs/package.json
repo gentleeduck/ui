@@ -72,7 +72,7 @@
     "mini-svg-data-uri": "^1.4.4",
     "motion": "^12.4.3",
     "motion-number": "^1.0.0",
-    "next": "14.3.0-canary.43",
+    "next": "14.2.24",
     "next-contentlayer2": "^0.4.6",
     "next-themes": "^0.2.1",
     "ora": "^6.3.1",
