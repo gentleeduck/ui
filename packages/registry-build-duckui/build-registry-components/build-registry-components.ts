@@ -63,6 +63,7 @@ export async function build_registry_components({
     const dirPath = path.dirname(filePath)
 
     spinner.text = `🧭 Building registry component: ${item.name} (${idx + 1}/${registry_count}) (${styleText('green', item.type)})`
+
     await fs.mkdir(dirPath, { recursive: true })
     await fs.writeFile(filePath, JSON.stringify(payload.data, null, 2), {
       encoding: 'utf8',

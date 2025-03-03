@@ -10,14 +10,14 @@ import { GetComponentFilesArgs } from './build-registry-tsx.types'
  * @param {GetComponentFilesArgs} params- The registry component item.
  * @param {z.infer<typeof registry_schema>[number]} params.item - The registry component item.
  * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
- * @returns {Promise<string>} - The formatted TSX entry for the registry.
+ * @returns {Promise<string>} - The formatted TSXentry for the registry.
  */
 export async function build_registry_tsx({
   item,
   spinner,
 }: GetComponentFilesArgs): Promise<string> {
   try {
-    const component_path = `@/registry/${item?.files?.[0]?.path}`
+    const component_path = `${item.type.includes('ui') ? `@duck/registry-ui-duckui` : `@duck/registry-examples-duckui/${item.root_folder}`}/${item?.name}`
     // TODO: Implement chunk handling in the schema
     // TODO: Handle `source_file_name` for blocks
     const chunks: z.infer<typeof registry_schema>[number]['chunks'] = []

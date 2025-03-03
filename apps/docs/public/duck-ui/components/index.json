@@ -1,5 +1,5 @@
 {
-  "name": "drawer-8",
+  "name": "button-9",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

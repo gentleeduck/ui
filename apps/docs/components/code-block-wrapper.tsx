@@ -2,13 +2,13 @@
 
 import * as React from 'react'
 
-import { cn } from '~/lib/utils'
+import { Button } from '@duck/registry-ui-duckui/button'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '../../../packages/_oldstuff_refactor/default/ui'
-import { Button } from '@duck/registry-ui-duckui/button'
+} from '../../../packages/_oldstuff_refactor/ui/ShadcnUI'
+import { cn } from '@duck/libs/cn'
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
   expandButtonTitle?: string

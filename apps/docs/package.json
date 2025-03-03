@@ -111,6 +111,7 @@
   },
   "devDependencies": {
     "@duck/registers": "workspace:*",
+    "@duck/libs": "workspace:*",
     "@duck/registry-build-duckui": "workspace:*",
     "@duck/registry-examples-duckui": "workspace:*",
     "@duck/registry-ui-duckui": "workspace:*",

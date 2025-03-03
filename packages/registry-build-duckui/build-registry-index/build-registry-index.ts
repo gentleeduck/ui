@@ -33,8 +33,8 @@ export async function build_registry_index({
 > {
   try {
     spinner.text = `🧭 Building registry index... (${styleText('green', registry.length.toString())} components)`
-
     spinner.text = `🧭 Retrieving ${styleText('green', 'ui')} component files...`
+
     const uiItems = await Promise.all(
       registry
         .filter((item) => item.type === 'registry:ui')
@@ -50,6 +50,7 @@ export async function build_registry_index({
     )
 
     spinner.text = `🧭 Retrieving ${styleText('green', 'example')} component files...`
+
     const exampleItems = await Promise.all(
       registry
         .filter((item) => item.type === 'registry:example')
@@ -68,25 +69,20 @@ export async function build_registry_index({
     const exampleItemsMapped = exampleItems.flatMap((item, idx) => {
       if (!item?.files?.length) {
         spinner.fail(`🧭 No files found for example item: ${item?.name}`)
-        return
+        process.exit(1)
       }
 
       spinner.text = `🧭 Transforming registry index... (${styleText('green', idx.toString())} of ${styleText('green', exampleItems.length.toString())})`
-      const files = item.files.splice(1) // Extract all files except the first
-      return [
-        {
-          ...item,
-          files: [item.files[0]], // Keep the first file
-        },
-        ...files.map((file) => ({
-          ...item,
-          name: file.path.split('/').pop()?.split('.')[0], // Extract name from filename
-          files: [file],
-        })),
-      ]
+
+      return item.files.map((file) => ({
+        ...item,
+        name: file.path.split('/').pop()?.split('.')[0], // Extract name from filename
+        files: [file],
+      }))
     })
 
     spinner.text = `🧭 Writing registry index to file... (${styleText('green', (uiItems.length + exampleItemsMapped.length).toString())} items)`
+
     const registryJson = JSON.stringify(
       [...uiItems, ...exampleItemsMapped],
       null,

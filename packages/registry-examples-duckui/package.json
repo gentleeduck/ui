@@ -3,15 +3,17 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "main": "./index.ts",
   "exports": {
-    "./*": "./src/*"
+    "./*": "./*"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@duck/registry-ui": "workspace:*",
     "@duck/typescript-config": "workspace:*",
     "tsx": "^4.17.0",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "tsup": "^8.2.4"
   }
 }

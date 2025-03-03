@@ -27,23 +27,23 @@ export async function main() {
   }
 
   // 3- build the registry index.
-  const index = await build_registry_index({
+  const _registry = await build_registry_index({
     registry: registry_valid.data,
     spinner,
   })
-  if (!index) return
+  if (!_registry) return
 
   // 4- build components and registry and styles
   let tsx_content: string
   tsx_content = tsx_index
 
-  for (const item of index) {
+  for (const item of _registry) {
     // 1- build the components in the public folder.
     await build_registry_components({
       item,
       spinner,
-      registry_count: index.length,
-      idx: index.indexOf(item),
+      registry_count: _registry.length,
+      idx: _registry.indexOf(item),
     })
     // 2- build the __registry__/
     tsx_content += await build_registry_tsx({ item, spinner })

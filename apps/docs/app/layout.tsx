@@ -3,7 +3,6 @@ import { Metadata, Viewport } from 'next'
 
 import { siteConfig } from '~/config/site'
 import { fontMono, fontSans } from '~/lib/fonts'
-import { cn } from '~/lib/utils'
 import { Analytics } from '~/components/ui'
 import { ThemeProvider } from '~/components/providers'
 import { TailwindIndicator } from '~/components/tailwind-indicator'
@@ -13,6 +12,7 @@ import { DefaultSonner } from '@duck/registry-ui-duckui/sonner'
 
 import localFont from 'next/font/local'
 import { TRPCReactProvider } from '~/trpc/react'
+import { cn } from '@duck/libs/cn'
 
 // Font files can be colocated inside of `pages`
 const EmojiFont = localFont({ src: '../assets/fonts/font.ttf' })
