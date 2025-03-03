@@ -8,8 +8,9 @@
   "files": [
     {
       "path": "upload/upload-3.tsx",
-      "content": "",
-      "type": "registry:example"
+      "content": "import { UploadProfile, UploadProvider } from '@/registry/registry-ui-components/upload'\n\nexport default function Upload3Demo() {\n  return (\n    <>\n      <UploadProvider>\n        <UploadProfile />\n      </UploadProvider>\n    </>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/upload-3.tsx"
     }
   ]
 }

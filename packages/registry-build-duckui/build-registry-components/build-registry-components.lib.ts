@@ -1,13 +1,12 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { create_temp_source_file, project } from '../main'
+import { create_temp_source_file, ENV, project } from '../main'
 import { ScriptKind, SourceFile } from 'ts-morph'
 import {
   GenTempSourceFilesParams,
   GetFileContentParams,
   GetFileTargetParams,
 } from './build-registry-components.types'
-import { Logger } from '../logger'
 
 // ----------------------------------------------------------------------------
 
@@ -15,19 +14,25 @@ import { Logger } from '../logger'
  * Determines the target path for a given file based on the registry entry type.
  *
  * @param {GetFileTargetParams} params - Parameters containing the registry item and file data.
+ * @param {z.infer<typeof registry_entry_schema>} params.item - The registry entry object.
+ * @param {z.infer<typeof registry_item_file_schema>} params.file - The file schema object.
+ * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
  * @returns {Promise<string | undefined>} The computed target path or `undefined` if no target is found.
  */
 export async function get_file_target({
   item,
   file,
+  spinner,
 }: GetFileTargetParams): Promise<string | undefined> {
   try {
     let target = file.target
+    spinner.text = `🧭 Determining file target: ${target}`
 
     if (!target || target.trim() === '') {
       const fileName = file.path.split('/').pop()
       if (!fileName) {
-        throw new Error('Invalid file path structure.')
+        spinner.fail('Invalid file path structure.')
+        process.exit(0)
       }
 
       switch (item.type) {
@@ -48,15 +53,13 @@ export async function get_file_target({
       }
     }
 
-    Logger.success('File target determined successfully', target)
+    spinner.text = `File target determined successfully: ${target}`
     return target
   } catch (error) {
-    Logger.error(
-      `Failed to determine file target: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
+    spinner.fail(
+      `Failed to determine file target: ${error instanceof Error ? error.message : String(error)}`,
     )
-    return undefined
+    process.exit(1)
   }
 }
 
@@ -65,22 +68,30 @@ export async function get_file_target({
 /**
  * Reads the content of a given file from the registry directory.
  *
- * @param {GetFileContentParams} params - Parameters containing the file data.
+ * @param {GetFileContentParams} file - Parameters containing the file data.
+ * @param {z.infer<typeof registry_item_file_schema>} params.file - The file schema object.
+ * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
  * @returns {Promise<string | undefined>} The file content as a string, or undefined if reading fails.
  */
 export async function get_file_content({
   file,
+  spinner,
 }: GetFileContentParams): Promise<string | undefined> {
   try {
-    const filePath = path.join(process.cwd(), 'registry', file.path)
+    const filePath = path.join(
+      process.cwd(),
+      `../${file.type.includes('ui') ? ENV.REGISTRY_UI_PATH : ENV.REGISTRY_EXAMPLES_PATH}/${file.path}`,
+    )
+    spinner.text = `🧭 Reading file content: ${filePath}`
     const content = await fs.readFile(filePath, 'utf8')
-    Logger.success('File content read successfully', filePath)
+    spinner.text = `File content read successfully: ${filePath}`
+
     return content
   } catch (error) {
-    Logger.error(
+    spinner.fail(
       `Failed to read file content: ${error instanceof Error ? error.message : String(error)}`,
     )
-    return undefined
+    process.exit(1)
   }
 }
 
@@ -90,14 +101,19 @@ export async function get_file_content({
  * Generates a temporary TypeScript source file.
  *
  * @param {GenTempSourceFilesParams} params - Parameters including the file data and optional content.
+ * @param {z.infer<typeof registry_item_file_schema>} params.file - The file schema object.
+ * @param {z.infer<typeof registry_item_file_schema>} params.file - The file schema object.
+ * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
  * @returns {Promise<SourceFile | undefined>} The generated temporary source file, or undefined if processing fails.
  */
 export async function gen_temp_source_files({
   file,
   content,
+  spinner,
 }: GenTempSourceFilesParams): Promise<SourceFile | undefined> {
   try {
     const tempFilePath = await create_temp_source_file(file.path)
+    spinner.text = `🧭 Generating temporary source file: ${tempFilePath}`
     const sourceFile = project.createSourceFile(tempFilePath, content, {
       scriptKind: ScriptKind.TSX,
     })
@@ -107,12 +123,12 @@ export async function gen_temp_source_files({
     sourceFile.getVariableDeclaration('containerClassName')?.remove()
     sourceFile.getVariableDeclaration('description')?.remove()
 
-    Logger.success('Temporary source file generated successfully', tempFilePath)
+    spinner.text = `🧭 Temporary source file generated successfully: ${tempFilePath}`
     return sourceFile
   } catch (error) {
-    Logger.error(
+    spinner.fail(
       `Failed to generate temporary source file: ${error instanceof Error ? error.message : String(error)}`,
     )
-    return undefined
+    process.exit(1)
   }
 }

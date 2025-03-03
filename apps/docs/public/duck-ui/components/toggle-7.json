@@ -8,8 +8,9 @@
   "files": [
     {
       "path": "toggle/toggle-7.tsx",
-      "content": "",
-      "type": "registry:example"
+      "content": "import { Toggle } from '@/registry/registry-ui-components/toggle'\nimport { Underline } from 'lucide-react'\n\nexport default function Toggle1Demo() {\n  return (\n    <Toggle\n      aria-label=\"Toggle underline\"\n      disabled\n    >\n      <Underline className=\"h-4 w-4\" />\n    </Toggle>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/toggle-7.tsx"
     }
   ]
 }

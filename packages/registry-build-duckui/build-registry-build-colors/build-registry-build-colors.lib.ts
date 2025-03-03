@@ -13,25 +13,34 @@ import {
   THEME_STYLES_WITH_VARIABLES,
 } from './build-registry-build-colors.constants'
 import { REGISTRY_PATH } from '../main'
-import { Logger } from '../logger'
+import rimraf from 'rimraf'
+import { existsSync } from 'node:fs'
+import { Ora } from 'ora'
 
 // ----------------------------------------------------------------------------
 
 /**
  * Builds and writes the colors index file from the registry.
  *
+ * @async
  * @param {Record<string, any>} colors_data - The color data object to populate.
  * @param {string} colors_target_path - The target directory for the index.json file.
+ * @param {import("ora").Ora} spinner - The spinner instance for displaying progress.
  * @returns {Promise<void>} Resolves when the colors index is successfully written.
  * @throws {Error} If writing the file fails.
+ *
+ * //FIX: remove the any type when you modify the registry the next time.
+ * //TODO: add the new theme to the registry
  */
 export async function registry_build_colors_index(
   colors_data: Record<string, any>,
   colors_target_path: string,
+  spinner: Ora,
 ): Promise<void> {
   try {
     if (!registry_colors || typeof registry_colors !== 'object') {
-      Logger.throwFatalError('Invalid registry_colors: Expected an object.')
+      spinner.fail('Invalid registry_colors: Expected an object.')
+      process.exit(0)
     }
 
     for (const [color, value] of Object.entries(registry_colors)) {
@@ -44,7 +53,8 @@ export async function registry_build_colors_index(
         if (Array.isArray(value)) {
           colors_data[color] = value.map((item) => {
             if (!item.rgb || !item.hsl) {
-              Logger.error(`Invalid color array item: ${JSON.stringify(item)}`)
+              spinner.fail(`Invalid color array item: ${JSON.stringify(item)}`)
+              process.exit(0)
             }
             return {
               ...item,
@@ -63,7 +73,8 @@ export async function registry_build_colors_index(
 
         if (typeof value === 'object' && value !== null) {
           if (!value.rgb || !value.hsl) {
-            Logger.error(`Invalid color object: ${JSON.stringify(value)}`)
+            spinner.fail(`Invalid color object: ${JSON.stringify(value)}`)
+            process.exit(0)
           }
           colors_data[color] = {
             ...value,
@@ -79,22 +90,25 @@ export async function registry_build_colors_index(
           continue
         }
 
-        Logger.error(
-          `Unexpected value type for color "${color}": ${JSON.stringify(value)}`,
-        )
+        spinner.text = `🧭 Invalid color value: ${JSON.stringify(value)}`
+        process.exit(0)
       } catch (error) {
-        Logger.error(`Error processing color "${color}": ${error}`)
+        spinner.fail(
+          `🧭 Error processing color "${color}": ${error instanceof Error ? error.message : String(error)}`,
+        )
+        process.exit(0)
       }
     }
 
     const filePath = path.join(colors_target_path, 'index.json')
 
     await fs.writeFile(filePath, JSON.stringify(colors_data, null, 2), 'utf8')
-    Logger.success('Successfully generated colors index', filePath)
+    spinner.text = `🧭 Created colors index: ${filePath}`
   } catch (error) {
-    Logger.throwFatalError(
+    spinner.fail(
       `Failed to build registry colors index: ${error instanceof Error ? error.message : String(error)}`,
     )
+    process.exit(0)
   }
 }
 
@@ -103,14 +117,18 @@ export async function registry_build_colors_index(
 /**
  * Builds the base registry colors by mapping Tailwind-like color scales to CSS variables.
  *
+ * @async
  * @param {Record<string, any>} colors_data - The color data mapping base colors to their scales and HSL values.
+ * @param {import("ora").Ora} spinner - The spinner instance for displaying progress.
  * @returns {Promise<void>} Resolves when the colors are processed.
  * @throws {Error} If any processing step fails.
  */
 export async function build_registry_colors_base(
   colors_data: Record<string, any>,
+  spinner: Ora,
 ): Promise<void> {
   try {
+    spinner.text = '🧭 Creating registry base colors'
     for (const base_color of BASE_COLORS_NAMES) {
       const base: Record<string, any> = {
         inlineColors: {},
@@ -133,10 +151,10 @@ export async function build_registry_colors_base(
 
             const [resolved_base, scale] = resolved_color.split('-')
             if (!resolved_base) {
-              Logger.error(
+              spinner.fail(
                 'Failed to build registry base colors: resolved_base not found',
               )
-              return
+              process.exit(0)
             }
 
             const color = scale
@@ -158,9 +176,10 @@ export async function build_registry_colors_base(
       })
     }
   } catch (error) {
-    Logger.throwFatalError(
+    spinner.fail(
       `Failed to build registry base colors: ${error instanceof Error ? error.message : String(error)}`,
     )
+    process.exit(0)
   }
 }
 
@@ -169,10 +188,14 @@ export async function build_registry_colors_base(
 /**
  * Generates and writes CSS themes from the registry base colors.
  *
+ * @async
+ * @param {import("ora").Ora} spinner - The spinner instance for displaying progress.
  * @returns {Promise<void>} Resolves when the themes.css file is successfully generated.
  * @throws {Error} If writing the file fails.
  */
-export async function build_registry_colors_themes(): Promise<void> {
+export async function build_registry_colors_themes(
+  spinner: Ora,
+): Promise<void> {
   try {
     const theme_css: string[] = registry_base_colors.map((theme) =>
       template(THEME_STYLES_WITH_VARIABLES)({
@@ -182,13 +205,15 @@ export async function build_registry_colors_themes(): Promise<void> {
     )
 
     const filePath = path.join(REGISTRY_PATH, 'themes.css')
+    spinner.text = `🧭 Creating themes.css: ${filePath}`
 
     await fs.writeFile(filePath, theme_css.join('\n'), 'utf8')
-    Logger.success('Successfully generated theme CSS', filePath)
+    spinner.text = `🧭 Created themes.css: ${filePath}`
   } catch (error) {
-    Logger.throwFatalError(
+    spinner.fail(
       `Failed to build registry color themes: ${error instanceof Error ? error.message : String(error)}`,
     )
+    process.exit(0)
   }
 }
 
@@ -197,15 +222,19 @@ export async function build_registry_colors_themes(): Promise<void> {
 /**
  * Builds and writes theme items based on base colors and color mappings.
  *
+ * @async
  * @param {Record<string, any>} colors_data - The color data object.
+ * @param {import("ora").Ora} spinner - The spinner instance for displaying progress.
  * @returns {Promise<void>} Resolves when all theme items are built and written.
  * @throws {Error} If writing the theme files fails.
  */
 export async function build_registry_themes_item(
   colors_data: Record<string, any>,
+  spinner: Ora,
 ): Promise<void> {
   try {
     const themes_target_path = path.join(REGISTRY_PATH, 'themes')
+    spinner.text = `🧭 Creating themes directory: ${themes_target_path}`
 
     // Remove existing themes directory
     rimraf.sync(themes_target_path)
@@ -227,15 +256,15 @@ export async function build_registry_themes_item(
 
             const [resolved_base, scale] = resolved_color.split('-')
             if (!resolved_base) {
-              Logger.error(
+              spinner.fail(
                 'Failed to build registry base colors: resolved_base not found',
               )
-              return
+              process.exit(0)
             }
 
             const color = scale
               ? colors_data[resolved_base]?.find(
-                  (item: any) => item.scale === parseInt(scale),
+                  (item: any) => item.scale === Number.parseInt(scale),
                 )
               : colors_data[resolved_base]
 
@@ -253,11 +282,12 @@ export async function build_registry_themes_item(
 
       const filePath = path.join(themes_target_path, `${payload.name}.json`)
       await fs.writeFile(filePath, JSON.stringify(payload, null, 2), 'utf8')
-      Logger.success(`Successfully generated theme file`, filePath)
+      spinner.text = `🧭 Created theme: ${filePath}`
     }
   } catch (error) {
-    Logger.throwFatalError(
+    spinner.fail(
       `Failed to build registry themes: ${error instanceof Error ? error.message : String(error)}`,
     )
+    process.exit(0)
   }
 }

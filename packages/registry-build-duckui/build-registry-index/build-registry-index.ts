@@ -5,7 +5,8 @@ import rimraf from 'rimraf'
 import { registry_schema } from '@duck/registers'
 import { REGISTRY_PATH } from '../main'
 import { get_component_files } from './build-registry-index.lib'
-import { Logger } from '../logger'
+import { styleText } from 'node:util'
+import { BuildRegistryIndexParams } from './build-registry-index.types'
 
 // ----------------------------------------------------------------------------
 
@@ -19,38 +20,58 @@ import { Logger } from '../logger'
  *
  * @async
  * @param {z.infer<typeof registry_schema>} registry - The full registry data.
+ * @param {import("ora").Ora} spinner - The spinner instance for displaying progress.
  *
  * @returns {Promise<z.infer<typeof registry_schema> | undefined>}
  *          The updated registry with indexed files, or `undefined` if an error occurs.
  */
-export async function build_registry_index(
-  registry: z.infer<typeof registry_schema>,
-): Promise<z.infer<typeof registry_schema> | undefined> {
+export async function build_registry_index({
+  registry,
+  spinner,
+}: BuildRegistryIndexParams): Promise<
+  z.infer<typeof registry_schema> | undefined
+> {
   try {
-    Logger.success('Building registry index...', {
-      registryCount: registry.length,
-    })
+    spinner.text = `🧭 Building registry index... (${styleText('green', registry.length.toString())} components)`
 
-    // 1- Retrieve component files for UI and examples
+    spinner.text = `🧭 Retrieving ${styleText('green', 'ui')} component files...`
     const uiItems = await Promise.all(
       registry
         .filter((item) => item.type === 'registry:ui')
-        .map((item) => get_component_files(item, 'registry:ui')),
+        .map((item, idx) =>
+          get_component_files({
+            item,
+            type: 'registry:ui',
+            spinner,
+            idx,
+            registry_count: registry.length,
+          }),
+        ),
     )
 
+    spinner.text = `🧭 Retrieving ${styleText('green', 'example')} component files...`
     const exampleItems = await Promise.all(
       registry
         .filter((item) => item.type === 'registry:example')
-        .map((item) => get_component_files(item, 'registry:example')),
+        .map((item) =>
+          get_component_files({
+            item,
+            type: 'registry:example',
+            spinner,
+            idx: 0,
+            registry_count: registry.length,
+          }),
+        ),
     )
 
-    // 2- Transform example items by separating their files
-    const exampleItemsMapped = exampleItems.flatMap((item) => {
+    spinner.text = `🧭 Transforming registry index...`
+    const exampleItemsMapped = exampleItems.flatMap((item, idx) => {
       if (!item?.files?.length) {
-        Logger.error(`No files found for example item: ${item?.name}`)
+        spinner.fail(`🧭 No files found for example item: ${item?.name}`)
         return
       }
 
+      spinner.text = `🧭 Transforming registry index... (${styleText('green', idx.toString())} of ${styleText('green', exampleItems.length.toString())})`
       const files = item.files.splice(1) // Extract all files except the first
       return [
         {
@@ -65,7 +86,7 @@ export async function build_registry_index(
       ]
     })
 
-    // 3- Convert to JSON and replace index.json
+    spinner.text = `🧭 Writing registry index to file... (${styleText('green', (uiItems.length + exampleItemsMapped.length).toString())} items)`
     const registryJson = JSON.stringify(
       [...uiItems, ...exampleItemsMapped],
       null,
@@ -79,17 +100,13 @@ export async function build_registry_index(
       'utf8',
     )
 
-    Logger.success('Registry index built successfully', {
-      registryPath: REGISTRY_PATH,
-      totalItems: uiItems.length + exampleItemsMapped.length,
-    })
-
     return [...uiItems, ...exampleItemsMapped] as z.infer<
       typeof registry_schema
     >
   } catch (error) {
-    return Logger.throwFatalError(
-      `Failed to build registry index: ${error instanceof Error ? error.message : String(error)}`,
+    spinner.fail(
+      `🧭 Failed to build registry index: ${error instanceof Error ? error.message : String(error)}`,
     )
+    process.exit(1)
   }
 }

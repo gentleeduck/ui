@@ -3,7 +3,8 @@ import fg from 'fast-glob'
 import path from 'node:path'
 import { registry_schema } from '@duck/registers'
 import { ENV } from '../main'
-import { Logger } from '../logger'
+import { styleText } from 'node:util'
+import { GetComponentFilesArgs } from './build-registry-index.types'
 
 // ----------------------------------------------------------------------------
 
@@ -14,18 +15,27 @@ import { Logger } from '../logger'
  * and returns an updated registry item containing these files.
  *
  * @async
- * @param {z.infer<typeof registry_schema>[0]} item - The registry component item to retrieve files for.
- * @param {z.infer<typeof registry_schema>[0]['type']} type - The type of the registry component.
+ * @param {GetComponentFilesArgs} args - The arguments required to fetch component files.
+ * @param {z.infer<typeof registry_schema>[0]} args.item - The registry component item to retrieve files for.
+ * @param {z.infer<typeof registry_schema>[0]['type']} args.type - The type of the registry component.
+ * @param {import("ora").Ora} args.spinner - The spinner instance for displaying progress.
+ * @param {number} args.idx - The current index of the item in the registry.
+ * @param {number} args.registry_count - The total number of items in the registry.
  *
- * @returns {Promise<z.infer<typeof registry_schema>[0]|undefined>} A promise that resolves to the item with its associated files.
+ * @returns {Promise<z.infer<typeof registry_schema>[0] | undefined>} A promise that resolves to the item with its associated files.
  * If no files are found, an empty `files` array is returned.
  *
  * @throws {Error} If an unexpected error occurs while retrieving the files, it is logged via `Logger.error`.
  */
-export async function get_component_files(
-  item: z.infer<typeof registry_schema>[0],
-  type: z.infer<typeof registry_schema>[0]['type'],
-): Promise<z.infer<typeof registry_schema>[0] | undefined> {
+export async function get_component_files({
+  item,
+  type,
+  spinner,
+  idx,
+  registry_count,
+}: GetComponentFilesArgs): Promise<
+  z.infer<typeof registry_schema>[0] | undefined
+> {
   try {
     // Determine the base path depending on the type of registry item
     const basePath = `..${type.includes('ui') ? ENV.REGISTRY_UI_PATH : ENV.REGISTRY_EXAMPLES_PATH}${item.root_folder}`
@@ -35,12 +45,9 @@ export async function get_component_files(
     const files = await fg.glob('*.{ts,tsx}', { cwd: cwdPath, deep: 1 })
 
     if (files.length === 0) {
-      Logger.warn(`No TypeScript or TSX files found in: ${cwdPath}`)
+      spinner.warn(`No TypeScript or TSX files found in: ${cwdPath}`)
     } else {
-      Logger.success('Component files retrieved successfully', {
-        basePath,
-        fileCount: files.length,
-      })
+      spinner.text = `🧭 Retrieving ${styleText('green', type)} component files... (${styleText('yellow', idx.toString())}/${styleText('yellow', registry_count.toString())})`
     }
 
     // Return the item with an updated list of its files
@@ -52,8 +59,9 @@ export async function get_component_files(
       })),
     }
   } catch (error) {
-    return Logger.throwFatalError(
+    spinner.fail(
       `Failed to retrieve component files: ${error instanceof Error ? error.message : String(error)}`,
     )
+    process.exit(1)
   }
 }

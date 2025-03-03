@@ -8,8 +8,9 @@
   "files": [
     {
       "path": "button/button-10.tsx",
-      "content": "",
-      "type": "registry:example"
+      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button10Demo() {\n  return (\n    <>\n      <Button\n        loading={true}\n        icon={{ children: Inbox }}\n        aria-label=\"Loading inbox button\"\n        aria-busy=\"true\"\n        type=\"button\"\n        role=\"button\"\n      >\n        <span>Button</span>\n      </Button>\n    </>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/button-10.tsx"
     }
   ]
 }

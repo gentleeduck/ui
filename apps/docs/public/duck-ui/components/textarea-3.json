@@ -8,8 +8,9 @@
   "files": [
     {
       "path": "textarea/textarea-3.tsx",
-      "content": "",
-      "type": "registry:example"
+      "content": "import { Textarea } from '@/registry/registry-ui-components/textarea'\n\nexport default function Textarea3Demo() {\n  return (\n    <Textarea\n      placeholder=\"Type your message here.\"\n      disabled\n    />\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/textarea-3.tsx"
     }
   ]
 }

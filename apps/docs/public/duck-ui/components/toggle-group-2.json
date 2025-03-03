@@ -8,8 +8,9 @@
   "files": [
     {
       "path": "toggle-group/toggle-group-2.tsx",
-      "content": "",
-      "type": "registry:example"
+      "content": "import { Bold, Italic, Underline } from 'lucide-react'\n\nimport { ToggleGroup, ToggleGroupItem } from '@/registry/registry-ui-components/toggle-group'\n\nexport default function ToggleGroup1Demo() {\n  return (\n    <ToggleGroup type=\"multiple\">\n      <ToggleGroupItem\n        value=\"bold\"\n        aria-label=\"Toggle bold\"\n      >\n        <Bold className=\"h-4 w-4\" />\n      </ToggleGroupItem>\n      <ToggleGroupItem\n        value=\"italic\"\n        aria-label=\"Toggle italic\"\n      >\n        <Italic className=\"h-4 w-4\" />\n      </ToggleGroupItem>\n      <ToggleGroupItem\n        value=\"underline\"\n        aria-label=\"Toggle underline\"\n      >\n        <Underline className=\"h-4 w-4\" />\n      </ToggleGroupItem>\n    </ToggleGroup>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/toggle-group-2.tsx"
     }
   ]
 }

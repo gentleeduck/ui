@@ -4,1312 +4,2243 @@
 import * as React from "react"
 
 export const Index: Record<string, any> = {
-  "button": {
-    name: "button",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: ["tooltip","command","badge"],
-    files: [[{"path":"button/button.constants.ts","type":"registry:ui"},{"path":"button/button.tsx","type":"registry:ui"},{"path":"button/button.types.ts","type":"registry:ui"},{"path":"button/index.ts","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/button/button.constants.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "badge": {
-    name: "badge",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: ["tooltip"],
-    files: [[{"path":"badge/badge.constants.ts","type":"registry:ui"},{"path":"badge/badge.tsx","type":"registry:ui"},{"path":"badge/badge.types.ts","type":"registry:ui"},{"path":"badge/index.ts","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/badge/badge.constants.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "tooltip": {
-    name: "tooltip",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"tooltip/index.ts","type":"registry:ui"},{"path":"tooltip/tooltiop.tsx","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/tooltip/index.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "accordion": {
-    name: "accordion",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"accordion/accordion.tsx","type":"registry:ui"},{"path":"accordion/index.ts","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/accordion/accordion.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle": {
-    name: "toggle",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"toggle/index.ts","type":"registry:ui"},{"path":"toggle/toggle.constants.ts","type":"registry:ui"},{"path":"toggle/toggle.tsx","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/toggle/index.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-group": {
-    name: "toggle-group",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"toggle-group/index.ts","type":"registry:ui"},{"path":"toggle-group/toggle-group.tsx","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/toggle-group/index.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toast": {
-    name: "toast",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"toast/index.ts","type":"registry:ui"},{"path":"toast/toast.constants.ts","type":"registry:ui"},{"path":"toast/toast.hook.ts","type":"registry:ui"},{"path":"toast/toast.lib.ts","type":"registry:ui"},{"path":"toast/toast.tsx","type":"registry:ui"},{"path":"toast/toast.type.ts","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/toast/index.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "sonner": {
-    name: "sonner",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"sonner/index.ts","type":"registry:ui"},{"path":"sonner/sonner-v2.tsx","type":"registry:ui"},{"path":"sonner/sonner.tsx","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/sonner/index.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "textarea": {
-    name: "textarea",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"textarea/index.ts","type":"registry:ui"},{"path":"textarea/textarea.tsx","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/textarea/index.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "tabs": {
-    name: "tabs",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"tabs/index.ts","type":"registry:ui"},{"path":"tabs/tabs.tsx","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/tabs/index.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "table": {
-    name: "table",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: ["combobox","input","pagination","scroll-area","dropdown","command","button","checkbox","badge","context-menu","tooltip"],
-    files: [[{"path":"table/index.ts","type":"registry:ui"},{"path":"table/table-advanced.constants.tsx","type":"registry:ui"},{"path":"table/table-advanced.tsx","type":"registry:ui"},{"path":"table/table-advanced.types.ts","type":"registry:ui"},{"path":"table/table.constants.ts","type":"registry:ui"},{"path":"table/table.hook.tsx","type":"registry:ui"},{"path":"table/table.lib.ts","type":"registry:ui"},{"path":"table/table.tsx","type":"registry:ui"},{"path":"table/table.types.ts","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/table/index.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "upload": {
-    name: "upload",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: ["alert-dialog","input","context-menu","scroll-area","button"],
-    files: [[{"path":"upload/index.ts","type":"registry:ui"},{"path":"upload/upload-advanced-chunks.tsx","type":"registry:ui"},{"path":"upload/upload-advanced.tsx","type":"registry:ui"},{"path":"upload/upload-sonner.tsx","type":"registry:ui"},{"path":"upload/upload.assets.tsx","type":"registry:ui"},{"path":"upload/upload.constants.tsx","type":"registry:ui"},{"path":"upload/upload.dto.ts","type":"registry:ui"},{"path":"upload/upload.lib.tsx","type":"registry:ui"},{"path":"upload/upload.tsx","type":"registry:ui"},{"path":"upload/upload.types.ts","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/upload/index.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "alert-dialog": {
-    name: "alert-dialog",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"alert-dialog/alert-dialog.hook.ts","type":"registry:ui"},{"path":"alert-dialog/alert-dialog.tsx","type":"registry:ui"},{"path":"alert-dialog/alert-dialog.types.ts","type":"registry:ui"},{"path":"alert-dialog/index.ts","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog.hook.ts")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "drawer": {
-    name: "drawer",
-    description: "",
-    type: "registry:ui",
-    registryDependencies: [],
-    files: [[{"path":"drawer/drawer.tsx","type":"registry:ui"},{"path":"drawer/drawer.types.ts","type":"registry:ui"},{"path":"drawer/index.ts","type":"registry:ui"}]],
-    component: React.lazy(() => import("@/registry/drawer/drawer.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-main": {
-    name: "button-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-10": {
-    name: "button-10",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-10.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-10.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-11": {
-    name: "button-11",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-11.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-11.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-12": {
-    name: "button-12",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-12.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-12.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-13": {
-    name: "button-13",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-13.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-13.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-14": {
-    name: "button-14",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-14.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-14.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-15": {
-    name: "button-15",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-15.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-15.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-16": {
-    name: "button-16",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-16.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-16.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-17": {
-    name: "button-17",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-17.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-17.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-18": {
-    name: "button-18",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-18.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-18.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-19": {
-    name: "button-19",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-19.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-19.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-2": {
-    name: "button-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-20": {
-    name: "button-20",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-20.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-20.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-21": {
-    name: "button-21",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-21.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-21.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-22": {
-    name: "button-22",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-22.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-22.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-23": {
-    name: "button-23",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-23.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-23.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-24": {
-    name: "button-24",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-24.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-24.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-25": {
-    name: "button-25",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-25.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-25.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-26": {
-    name: "button-26",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-26.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-26.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-27": {
-    name: "button-27",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-27.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-27.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-28": {
-    name: "button-28",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-28.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-28.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-29": {
-    name: "button-29",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-29.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-29.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-3": {
-    name: "button-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-30": {
-    name: "button-30",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-30.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-30.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-31": {
-    name: "button-31",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-31.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-31.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-32": {
-    name: "button-32",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-32.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-32.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-4": {
-    name: "button-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-5": {
-    name: "button-5",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-5.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-5.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-6": {
-    name: "button-6",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-6.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-6.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-7": {
-    name: "button-7",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-7.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-7.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-8": {
-    name: "button-8",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-8.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-8.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "button-9": {
-    name: "button-9",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["button"],
-    files: [[{"path":"button/button-9.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/button/button-9.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "badge-main": {
-    name: "badge-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["badge"],
-    files: [[{"path":"badge/badge-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/badge/badge-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "badge-2": {
-    name: "badge-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["badge"],
-    files: [[{"path":"badge/badge-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/badge/badge-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "badge-3": {
-    name: "badge-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["badge"],
-    files: [[{"path":"badge/badge-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/badge/badge-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "badge-4": {
-    name: "badge-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["badge"],
-    files: [[{"path":"badge/badge-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/badge/badge-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "badge-5": {
-    name: "badge-5",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["badge"],
-    files: [[{"path":"badge/badge-5.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/badge/badge-5.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "badge-6": {
-    name: "badge-6",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["badge"],
-    files: [[{"path":"badge/badge-6.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/badge/badge-6.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "badge-7": {
-    name: "badge-7",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["badge"],
-    files: [[{"path":"badge/badge-7.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/badge/badge-7.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "badge-8": {
-    name: "badge-8",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["badge"],
-    files: [[{"path":"badge/badge-8.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/badge/badge-8.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "tooltip-main": {
-    name: "tooltip-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["tooltip"],
-    files: [[{"path":"tooltip/tooltip-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/tooltip/tooltip-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "tooltip-2": {
-    name: "tooltip-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["tooltip"],
-    files: [[{"path":"tooltip/tooltip-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/tooltip/tooltip-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "accordion-main": {
-    name: "accordion-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["accordion"],
-    files: [[{"path":"accordion/accordion-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/accordion/accordion-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "accordion-2": {
-    name: "accordion-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["accordion"],
-    files: [[{"path":"accordion/accordion-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/accordion/accordion-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "accordion-3": {
-    name: "accordion-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["accordion"],
-    files: [[{"path":"accordion/accordion-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/accordion/accordion-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "accordion-4": {
-    name: "accordion-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["accordion"],
-    files: [[{"path":"accordion/accordion-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/accordion/accordion-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-main": {
-    name: "toggle-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle"],
-    files: [[{"path":"toggle/toggle-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle/toggle-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-2": {
-    name: "toggle-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle"],
-    files: [[{"path":"toggle/toggle-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle/toggle-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-3": {
-    name: "toggle-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle"],
-    files: [[{"path":"toggle/toggle-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle/toggle-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-4": {
-    name: "toggle-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle"],
-    files: [[{"path":"toggle/toggle-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle/toggle-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-5": {
-    name: "toggle-5",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle"],
-    files: [[{"path":"toggle/toggle-5.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle/toggle-5.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-6": {
-    name: "toggle-6",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle"],
-    files: [[{"path":"toggle/toggle-6.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle/toggle-6.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-7": {
-    name: "toggle-7",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle"],
-    files: [[{"path":"toggle/toggle-7.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle/toggle-7.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-group-main": {
-    name: "toggle-group-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle-group"],
-    files: [[{"path":"toggle-group/toggle-group-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle-group/toggle-group-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-group-2": {
-    name: "toggle-group-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle-group"],
-    files: [[{"path":"toggle-group/toggle-group-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle-group/toggle-group-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-group-3": {
-    name: "toggle-group-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle-group"],
-    files: [[{"path":"toggle-group/toggle-group-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle-group/toggle-group-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-group-4": {
-    name: "toggle-group-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle-group"],
-    files: [[{"path":"toggle-group/toggle-group-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle-group/toggle-group-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-group-5": {
-    name: "toggle-group-5",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle-group"],
-    files: [[{"path":"toggle-group/toggle-group-5.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle-group/toggle-group-5.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-group-6": {
-    name: "toggle-group-6",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle-group"],
-    files: [[{"path":"toggle-group/toggle-group-6.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle-group/toggle-group-6.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toggle-group-7": {
-    name: "toggle-group-7",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toggle-group"],
-    files: [[{"path":"toggle-group/toggle-group-7.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toggle-group/toggle-group-7.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toast-main": {
-    name: "toast-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toast"],
-    files: [[{"path":"toast/toast-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toast/toast-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toast-2": {
-    name: "toast-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toast"],
-    files: [[{"path":"toast/toast-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toast/toast-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toast-3": {
-    name: "toast-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toast"],
-    files: [[{"path":"toast/toast-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toast/toast-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toast-4": {
-    name: "toast-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toast"],
-    files: [[{"path":"toast/toast-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toast/toast-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "toast-5": {
-    name: "toast-5",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["toast"],
-    files: [[{"path":"toast/toast-5.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/toast/toast-5.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "sonner-main": {
-    name: "sonner-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["sonner"],
-    files: [[{"path":"sonner/sonner-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/sonner/sonner-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "sonner-2": {
-    name: "sonner-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["sonner"],
-    files: [[{"path":"sonner/sonner-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/sonner/sonner-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "textarea-main": {
-    name: "textarea-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["textarea"],
-    files: [[{"path":"textarea/textarea-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/textarea/textarea-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "textarea-2": {
-    name: "textarea-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["textarea"],
-    files: [[{"path":"textarea/textarea-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/textarea/textarea-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "textarea-3": {
-    name: "textarea-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["textarea"],
-    files: [[{"path":"textarea/textarea-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/textarea/textarea-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "textarea-4": {
-    name: "textarea-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["textarea"],
-    files: [[{"path":"textarea/textarea-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/textarea/textarea-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "textarea-5": {
-    name: "textarea-5",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["textarea"],
-    files: [[{"path":"textarea/textarea-5.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/textarea/textarea-5.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "textarea-6": {
-    name: "textarea-6",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["textarea"],
-    files: [[{"path":"textarea/textarea-6.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/textarea/textarea-6.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "textarea-7": {
-    name: "textarea-7",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["textarea"],
-    files: [[{"path":"textarea/textarea-7.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/textarea/textarea-7.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "tabs-main": {
-    name: "tabs-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["tabs"],
-    files: [[{"path":"tabs/tabs-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/tabs/tabs-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "table-main": {
-    name: "table-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["table"],
-    files: [[{"path":"table/table-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/table/table-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "table-2": {
-    name: "table-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["table"],
-    files: [[{"path":"table/table-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/table/table-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "table-3": {
-    name: "table-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["table"],
-    files: [[{"path":"table/table-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/table/table-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "upload-main": {
-    name: "upload-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["upload"],
-    files: [[{"path":"upload/upload-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/upload/upload-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "upload-2": {
-    name: "upload-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["upload"],
-    files: [[{"path":"upload/upload-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/upload/upload-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "upload-3": {
-    name: "upload-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["upload"],
-    files: [[{"path":"upload/upload-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/upload/upload-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "upload-4": {
-    name: "upload-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["upload"],
-    files: [[{"path":"upload/upload-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/upload/upload-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "upload-5": {
-    name: "upload-5",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["upload"],
-    files: [[{"path":"upload/upload-5.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/upload/upload-5.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "alert-dialog-main": {
-    name: "alert-dialog-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["alert-dialog","button"],
-    files: [[{"path":"alert-dialog/alert-dialog-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "alert-dialog-2": {
-    name: "alert-dialog-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["alert-dialog","button"],
-    files: [[{"path":"alert-dialog/alert-dialog-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "alert-dialog-3": {
-    name: "alert-dialog-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["alert-dialog","button"],
-    files: [[{"path":"alert-dialog/alert-dialog-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "alert-dialog-4": {
-    name: "alert-dialog-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["alert-dialog","button"],
-    files: [[{"path":"alert-dialog/alert-dialog-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "drawer-main": {
-    name: "drawer-main",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["drawer"],
-    files: [[{"path":"drawer/drawer-1.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/drawer/drawer-1.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "drawer-2": {
-    name: "drawer-2",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["drawer"],
-    files: [[{"path":"drawer/drawer-2.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/drawer/drawer-2.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "drawer-3": {
-    name: "drawer-3",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["drawer"],
-    files: [[{"path":"drawer/drawer-3.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/drawer/drawer-3.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "drawer-4": {
-    name: "drawer-4",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["drawer"],
-    files: [[{"path":"drawer/drawer-4.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/drawer/drawer-4.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "drawer-5": {
-    name: "drawer-5",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["drawer"],
-    files: [[{"path":"drawer/drawer-5.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/drawer/drawer-5.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "drawer-6": {
-    name: "drawer-6",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["drawer"],
-    files: [[{"path":"drawer/drawer-6.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/drawer/drawer-6.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "drawer-7": {
-    name: "drawer-7",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["drawer"],
-    files: [[{"path":"drawer/drawer-7.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/drawer/drawer-7.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
-  "drawer-8": {
-    name: "drawer-8",
-    description: "",
-    type: "registry:example",
-    registryDependencies: ["drawer"],
-    files: [[{"path":"drawer/drawer-8.tsx","type":"registry:example"}]],
-    component: React.lazy(() => import("@/registry/drawer/drawer-8.tsx")),
-    source: "",
-    category: "",
-    subcategory: "",
-    chunks: []
-  },
+    "button": {
+      name: "button",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["tooltip","command","badge"],
+      files: [
+  {
+    "path": "button/button.constants.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "button/button.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "button/button.types.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "button/index.ts",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button.constants.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "badge": {
+      name: "badge",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["tooltip"],
+      files: [
+  {
+    "path": "badge/badge.constants.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "badge/badge.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "badge/badge.types.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "badge/index.ts",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/badge/badge.constants.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "tooltip": {
+      name: "tooltip",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "tooltip/index.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "tooltip/tooltiop.tsx",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/tooltip/index.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "accordion": {
+      name: "accordion",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "accordion/accordion.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "accordion/index.ts",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/accordion/accordion.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle": {
+      name: "toggle",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "toggle/index.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "toggle/toggle.constants.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "toggle/toggle.tsx",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle/index.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-group": {
+      name: "toggle-group",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "toggle-group/index.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "toggle-group/toggle-group.tsx",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle-group/index.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toast": {
+      name: "toast",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "toast/index.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "toast/toast.constants.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "toast/toast.hook.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "toast/toast.lib.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "toast/toast.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "toast/toast.type.ts",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/toast/index.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "sonner": {
+      name: "sonner",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "sonner/index.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "sonner/sonner-v2.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "sonner/sonner.tsx",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/sonner/index.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "textarea": {
+      name: "textarea",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "textarea/index.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "textarea/textarea.tsx",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/textarea/index.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "tabs": {
+      name: "tabs",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "tabs/index.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "tabs/tabs.tsx",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/tabs/index.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "table": {
+      name: "table",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["combobox","input","pagination","scroll-area","dropdown","command","button","checkbox","badge","context-menu","tooltip"],
+      files: [
+  {
+    "path": "table/index.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "table/table-advanced.constants.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "table/table-advanced.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "table/table-advanced.types.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "table/table.constants.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "table/table.hook.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "table/table.lib.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "table/table.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "table/table.types.ts",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/table/index.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "upload": {
+      name: "upload",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["alert-dialog","input","context-menu","scroll-area","button"],
+      files: [
+  {
+    "path": "upload/index.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "upload/upload-advanced-chunks.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "upload/upload-advanced.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "upload/upload-sonner.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "upload/upload.assets.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "upload/upload.constants.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "upload/upload.dto.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "upload/upload.lib.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "upload/upload.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "upload/upload.types.ts",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/upload/index.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "alert-dialog": {
+      name: "alert-dialog",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "alert-dialog/alert-dialog.hook.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "alert-dialog/alert-dialog.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "alert-dialog/alert-dialog.types.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "alert-dialog/index.ts",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog.hook.ts")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "drawer": {
+      name: "drawer",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [
+  {
+    "path": "drawer/drawer.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "drawer/drawer.types.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "drawer/index.ts",
+    "type": "registry:ui"
+  }
+],
+      component: React.lazy(() => import("@/registry/drawer/drawer.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-main": {
+      name: "button-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-10": {
+      name: "button-10",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-10.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-10.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-11": {
+      name: "button-11",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-11.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-11.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-12": {
+      name: "button-12",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-12.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-12.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-13": {
+      name: "button-13",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-13.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-13.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-14": {
+      name: "button-14",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-14.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-14.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-15": {
+      name: "button-15",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-15.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-15.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-16": {
+      name: "button-16",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-16.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-16.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-17": {
+      name: "button-17",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-17.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-17.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-18": {
+      name: "button-18",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-18.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-18.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-19": {
+      name: "button-19",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-19.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-19.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-2": {
+      name: "button-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-20": {
+      name: "button-20",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-20.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-20.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-21": {
+      name: "button-21",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-21.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-21.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-22": {
+      name: "button-22",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-22.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-22.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-23": {
+      name: "button-23",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-23.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-23.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-24": {
+      name: "button-24",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-24.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-24.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-25": {
+      name: "button-25",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-25.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-25.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-26": {
+      name: "button-26",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-26.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-26.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-27": {
+      name: "button-27",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-27.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-27.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-28": {
+      name: "button-28",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-28.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-28.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-29": {
+      name: "button-29",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-29.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-29.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-3": {
+      name: "button-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-30": {
+      name: "button-30",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-30.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-30.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-31": {
+      name: "button-31",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-31.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-31.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-32": {
+      name: "button-32",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-32.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-32.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-4": {
+      name: "button-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-5": {
+      name: "button-5",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-5.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-5.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-6": {
+      name: "button-6",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-6.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-6.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-7": {
+      name: "button-7",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-7.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-7.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-8": {
+      name: "button-8",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-8.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-8.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "button-9": {
+      name: "button-9",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["button"],
+      files: [
+  {
+    "path": "button/button-9.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/button/button-9.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "badge-main": {
+      name: "badge-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["badge"],
+      files: [
+  {
+    "path": "badge/badge-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/badge/badge-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "badge-2": {
+      name: "badge-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["badge"],
+      files: [
+  {
+    "path": "badge/badge-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/badge/badge-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "badge-3": {
+      name: "badge-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["badge"],
+      files: [
+  {
+    "path": "badge/badge-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/badge/badge-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "badge-4": {
+      name: "badge-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["badge"],
+      files: [
+  {
+    "path": "badge/badge-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/badge/badge-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "badge-5": {
+      name: "badge-5",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["badge"],
+      files: [
+  {
+    "path": "badge/badge-5.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/badge/badge-5.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "badge-6": {
+      name: "badge-6",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["badge"],
+      files: [
+  {
+    "path": "badge/badge-6.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/badge/badge-6.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "badge-7": {
+      name: "badge-7",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["badge"],
+      files: [
+  {
+    "path": "badge/badge-7.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/badge/badge-7.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "badge-8": {
+      name: "badge-8",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["badge"],
+      files: [
+  {
+    "path": "badge/badge-8.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/badge/badge-8.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "tooltip-main": {
+      name: "tooltip-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["tooltip"],
+      files: [
+  {
+    "path": "tooltip/tooltip-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/tooltip/tooltip-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "tooltip-2": {
+      name: "tooltip-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["tooltip"],
+      files: [
+  {
+    "path": "tooltip/tooltip-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/tooltip/tooltip-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "accordion-main": {
+      name: "accordion-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["accordion"],
+      files: [
+  {
+    "path": "accordion/accordion-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/accordion/accordion-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "accordion-2": {
+      name: "accordion-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["accordion"],
+      files: [
+  {
+    "path": "accordion/accordion-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/accordion/accordion-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "accordion-3": {
+      name: "accordion-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["accordion"],
+      files: [
+  {
+    "path": "accordion/accordion-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/accordion/accordion-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "accordion-4": {
+      name: "accordion-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["accordion"],
+      files: [
+  {
+    "path": "accordion/accordion-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/accordion/accordion-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-main": {
+      name: "toggle-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle"],
+      files: [
+  {
+    "path": "toggle/toggle-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle/toggle-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-2": {
+      name: "toggle-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle"],
+      files: [
+  {
+    "path": "toggle/toggle-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle/toggle-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-3": {
+      name: "toggle-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle"],
+      files: [
+  {
+    "path": "toggle/toggle-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle/toggle-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-4": {
+      name: "toggle-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle"],
+      files: [
+  {
+    "path": "toggle/toggle-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle/toggle-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-5": {
+      name: "toggle-5",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle"],
+      files: [
+  {
+    "path": "toggle/toggle-5.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle/toggle-5.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-6": {
+      name: "toggle-6",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle"],
+      files: [
+  {
+    "path": "toggle/toggle-6.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle/toggle-6.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-7": {
+      name: "toggle-7",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle"],
+      files: [
+  {
+    "path": "toggle/toggle-7.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle/toggle-7.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-group-main": {
+      name: "toggle-group-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle-group"],
+      files: [
+  {
+    "path": "toggle-group/toggle-group-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle-group/toggle-group-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-group-2": {
+      name: "toggle-group-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle-group"],
+      files: [
+  {
+    "path": "toggle-group/toggle-group-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle-group/toggle-group-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-group-3": {
+      name: "toggle-group-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle-group"],
+      files: [
+  {
+    "path": "toggle-group/toggle-group-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle-group/toggle-group-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-group-4": {
+      name: "toggle-group-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle-group"],
+      files: [
+  {
+    "path": "toggle-group/toggle-group-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle-group/toggle-group-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-group-5": {
+      name: "toggle-group-5",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle-group"],
+      files: [
+  {
+    "path": "toggle-group/toggle-group-5.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle-group/toggle-group-5.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-group-6": {
+      name: "toggle-group-6",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle-group"],
+      files: [
+  {
+    "path": "toggle-group/toggle-group-6.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle-group/toggle-group-6.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toggle-group-7": {
+      name: "toggle-group-7",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toggle-group"],
+      files: [
+  {
+    "path": "toggle-group/toggle-group-7.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toggle-group/toggle-group-7.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toast-main": {
+      name: "toast-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toast"],
+      files: [
+  {
+    "path": "toast/toast-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toast/toast-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toast-2": {
+      name: "toast-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toast"],
+      files: [
+  {
+    "path": "toast/toast-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toast/toast-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toast-3": {
+      name: "toast-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toast"],
+      files: [
+  {
+    "path": "toast/toast-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toast/toast-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toast-4": {
+      name: "toast-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toast"],
+      files: [
+  {
+    "path": "toast/toast-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toast/toast-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "toast-5": {
+      name: "toast-5",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["toast"],
+      files: [
+  {
+    "path": "toast/toast-5.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/toast/toast-5.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "sonner-main": {
+      name: "sonner-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["sonner"],
+      files: [
+  {
+    "path": "sonner/sonner-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/sonner/sonner-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "sonner-2": {
+      name: "sonner-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["sonner"],
+      files: [
+  {
+    "path": "sonner/sonner-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/sonner/sonner-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "textarea-main": {
+      name: "textarea-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["textarea"],
+      files: [
+  {
+    "path": "textarea/textarea-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/textarea/textarea-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "textarea-2": {
+      name: "textarea-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["textarea"],
+      files: [
+  {
+    "path": "textarea/textarea-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/textarea/textarea-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "textarea-3": {
+      name: "textarea-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["textarea"],
+      files: [
+  {
+    "path": "textarea/textarea-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/textarea/textarea-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "textarea-4": {
+      name: "textarea-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["textarea"],
+      files: [
+  {
+    "path": "textarea/textarea-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/textarea/textarea-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "textarea-5": {
+      name: "textarea-5",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["textarea"],
+      files: [
+  {
+    "path": "textarea/textarea-5.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/textarea/textarea-5.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "textarea-6": {
+      name: "textarea-6",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["textarea"],
+      files: [
+  {
+    "path": "textarea/textarea-6.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/textarea/textarea-6.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "textarea-7": {
+      name: "textarea-7",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["textarea"],
+      files: [
+  {
+    "path": "textarea/textarea-7.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/textarea/textarea-7.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "tabs-main": {
+      name: "tabs-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["tabs"],
+      files: [
+  {
+    "path": "tabs/tabs-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/tabs/tabs-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "table-main": {
+      name: "table-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["table"],
+      files: [
+  {
+    "path": "table/table-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/table/table-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "table-2": {
+      name: "table-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["table"],
+      files: [
+  {
+    "path": "table/table-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/table/table-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "table-3": {
+      name: "table-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["table"],
+      files: [
+  {
+    "path": "table/table-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/table/table-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "upload-main": {
+      name: "upload-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["upload"],
+      files: [
+  {
+    "path": "upload/upload-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/upload/upload-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "upload-2": {
+      name: "upload-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["upload"],
+      files: [
+  {
+    "path": "upload/upload-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/upload/upload-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "upload-3": {
+      name: "upload-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["upload"],
+      files: [
+  {
+    "path": "upload/upload-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/upload/upload-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "upload-4": {
+      name: "upload-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["upload"],
+      files: [
+  {
+    "path": "upload/upload-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/upload/upload-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "upload-5": {
+      name: "upload-5",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["upload"],
+      files: [
+  {
+    "path": "upload/upload-5.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/upload/upload-5.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "alert-dialog-main": {
+      name: "alert-dialog-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["alert-dialog","button"],
+      files: [
+  {
+    "path": "alert-dialog/alert-dialog-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "alert-dialog-2": {
+      name: "alert-dialog-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["alert-dialog","button"],
+      files: [
+  {
+    "path": "alert-dialog/alert-dialog-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "alert-dialog-3": {
+      name: "alert-dialog-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["alert-dialog","button"],
+      files: [
+  {
+    "path": "alert-dialog/alert-dialog-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "alert-dialog-4": {
+      name: "alert-dialog-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["alert-dialog","button"],
+      files: [
+  {
+    "path": "alert-dialog/alert-dialog-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/alert-dialog/alert-dialog-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "drawer-main": {
+      name: "drawer-main",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["drawer"],
+      files: [
+  {
+    "path": "drawer/drawer-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/drawer/drawer-1.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "drawer-2": {
+      name: "drawer-2",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["drawer"],
+      files: [
+  {
+    "path": "drawer/drawer-2.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/drawer/drawer-2.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "drawer-3": {
+      name: "drawer-3",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["drawer"],
+      files: [
+  {
+    "path": "drawer/drawer-3.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/drawer/drawer-3.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "drawer-4": {
+      name: "drawer-4",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["drawer"],
+      files: [
+  {
+    "path": "drawer/drawer-4.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/drawer/drawer-4.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "drawer-5": {
+      name: "drawer-5",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["drawer"],
+      files: [
+  {
+    "path": "drawer/drawer-5.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/drawer/drawer-5.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "drawer-6": {
+      name: "drawer-6",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["drawer"],
+      files: [
+  {
+    "path": "drawer/drawer-6.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/drawer/drawer-6.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "drawer-7": {
+      name: "drawer-7",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["drawer"],
+      files: [
+  {
+    "path": "drawer/drawer-7.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/drawer/drawer-7.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
+    "drawer-8": {
+      name: "drawer-8",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["drawer"],
+      files: [
+  {
+    "path": "drawer/drawer-8.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@/registry/drawer/drawer-8.tsx")),
+      source: "",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
 }

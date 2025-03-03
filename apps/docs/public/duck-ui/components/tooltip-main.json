@@ -8,8 +8,9 @@
   "files": [
     {
       "path": "tooltip/tooltip-1.tsx",
-      "content": "",
-      "type": "registry:example"
+      "content": "import { Button } from '@/registry/registry-ui-components'\nimport { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/registry/registry-ui-components/tooltip'\n\nexport default function Tooltip1Demo() {\n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\">Hover</Button>\n        </TooltipTrigger>\n        <TooltipContent>\n          <p>Add to library</p>\n        </TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/tooltip-1.tsx"
     }
   ]
 }

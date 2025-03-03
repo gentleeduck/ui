@@ -8,8 +8,9 @@
   "files": [
     {
       "path": "toggle/toggle-5.tsx",
-      "content": "",
-      "type": "registry:example"
+      "content": "import { Toggle } from '@/registry/registry-ui-components/toggle'\nimport { Italic } from 'lucide-react'\n\nexport default function Toggle1Demo() {\n  return (\n    <Toggle\n      size=\"sm\"\n      aria-label=\"Toggle italic\"\n    >\n      <Italic className=\"h-4 w-4\" />\n    </Toggle>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/toggle-5.tsx"
     }
   ]
 }
