@@ -1,5 +1,5 @@
 {
-  "name": "alert-dialog-main",
+  "name": "alert-dialog-4",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

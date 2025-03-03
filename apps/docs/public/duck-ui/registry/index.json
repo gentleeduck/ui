@@ -343,7 +343,15 @@
     "root_folder": "registry-ui-components/alert-dialog",
     "files": [
       {
+        "path": "registry-ui-components/alert-dialog/alert-dialog.hook.ts",
+        "type": "registry:ui"
+      },
+      {
         "path": "registry-ui-components/alert-dialog/alert-dialog.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "registry-ui-components/alert-dialog/alert-dialog.types.ts",
         "type": "registry:ui"
       },
       {
@@ -1497,6 +1505,51 @@
     "files": [
       {
         "path": "registry-examples-components/alert-dialog/alert-dialog-1.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "alert-dialog-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "alert-dialog",
+      "button"
+    ],
+    "root_folder": "registry-examples-components/alert-dialog",
+    "files": [
+      {
+        "path": "registry-examples-components/alert-dialog/alert-dialog-2.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "alert-dialog-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "alert-dialog",
+      "button"
+    ],
+    "root_folder": "registry-examples-components/alert-dialog",
+    "files": [
+      {
+        "path": "registry-examples-components/alert-dialog/alert-dialog-3.tsx",
+        "type": "registry:example"
+      }
+    ]
+  },
+  {
+    "name": "alert-dialog-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "alert-dialog",
+      "button"
+    ],
+    "root_folder": "registry-examples-components/alert-dialog",
+    "files": [
+      {
+        "path": "registry-examples-components/alert-dialog/alert-dialog-4.tsx",
         "type": "registry:example"
       }
     ]

@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils'
 import { Icons } from '@/components/icons'
 import { Button } from '@/registry/registry-ui-components'
 import { ScrollArea } from '@/registry/default/ui/'
-import { Sheet, SheetContent, SheetTrigger } from '@/registry/default/ui/'
+import { Sheet, SheetContent, SheetTrigger } from '@/registry/registry-ui-components/sheet'
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
