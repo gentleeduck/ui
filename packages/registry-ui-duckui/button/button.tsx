@@ -80,66 +80,72 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       </CommandShortcut>
     )
 
+    const ButtonBody = (
+      <Component
+        ref={ref}
+        className={cn(
+          buttonVariants({
+            variant,
+            size: size
+              ? isCollapsed
+                ? 'icon'
+                : size
+              : isCollapsed
+                ? 'icon'
+                : 'default',
+            border,
+            className,
+          }),
+        )}
+        disabled={loading}
+        data-state={isCollapsed ? 'close' : 'open'}
+        {...props}
+      >
+        {AniIcon && iconPlacement === 'left' && (
+          <div className="w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-100 group-hover:pr-2 group-hover:opacity-100">
+            {AniIcon}
+          </div>
+        )}
+        <div className="flex items-center gap-2">
+          {!loading ? Icon : <Loader className="animate-spin" />}
+          {!isCollapsed && size !== 'icon' && children}
+          {!isCollapsed && command?.label && !showCommand && (
+            <CommandComponent />
+          )}
+
+          {!isCollapsed && label && !showLabel && (
+            <Badge
+              variant={labelVariant ?? 'secondary'}
+              size={labelSize ?? 'default'}
+              className={cn(
+                'text-[.8rem] py-0 rounded-md px-1 font-meduim',
+                labelVariant === 'nothing' && 'text-accent',
+                labelClassName,
+              )}
+              {...labelProps}
+            />
+          )}
+          {!isCollapsed && Icon2 && Icon2}
+        </div>
+        {AniIcon && iconPlacement === 'right' && (
+          <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
+            {AniIcon}
+          </div>
+        )}
+      </Component>
+    )
+
+    if (!label?.showLabel) {
+      return ButtonBody
+    }
+
     return (
       <Tooltip
         delayDuration={delayDuration}
         open={open}
         onOpenChange={onOpenChange}
       >
-        <TooltipTrigger asChild>
-          <Component
-            ref={ref}
-            className={cn(
-              buttonVariants({
-                variant,
-                size: size
-                  ? isCollapsed
-                    ? 'icon'
-                    : size
-                  : isCollapsed
-                    ? 'icon'
-                    : 'default',
-                border,
-                className,
-              }),
-            )}
-            disabled={loading}
-            data-state={isCollapsed ? 'close' : 'open'}
-            {...props}
-          >
-            {AniIcon && iconPlacement === 'left' && (
-              <div className="w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-100 group-hover:pr-2 group-hover:opacity-100">
-                {AniIcon}
-              </div>
-            )}
-            <div className="flex items-center gap-2">
-              {!loading ? Icon : <Loader className="animate-spin" />}
-              {!isCollapsed && children}
-              {!isCollapsed && command?.label && !showCommand && (
-                <CommandComponent />
-              )}
-
-              {!isCollapsed && label && !showLabel && (
-                <Badge
-                  variant={labelVariant ?? 'secondary'}
-                  size={labelSize ?? 'default'}
-                  className={cn(
-                    'text-[.8rem] py-0 rounded-md px-1 font-meduim',
-                    labelVariant === 'nothing' && 'text-accent',
-                    labelClassName,
-                  )}
-                  {...labelProps}
-                />
-              )}
-              {!isCollapsed && Icon2 && Icon2}
-            </div>
-            {AniIcon && iconPlacement === 'right' && (
-              <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
-                {AniIcon}
-              </div>
-            )}
-          </Component>
-        </TooltipTrigger>
+        <TooltipTrigger asChild>{ButtonBody}</TooltipTrigger>
         {(isCollapsed || showLabel) && label && (
           <TooltipContent
             {...labelProps}

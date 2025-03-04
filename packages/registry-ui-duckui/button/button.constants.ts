@@ -5,16 +5,18 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        default:
+          'bg-primary text-primary-foreground hover:bg-primary/90 shadow',
         destructive:
-          'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground',
-        warning: 'bg-warning/90 hover:bg-warning/70 text-warning-foreground',
+          'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground shadow-sm',
+        warning:
+          'bg-warning/90 hover:bg-warning/70 text-warning-foreground shadow-sm',
         outline:
-          'border border-input text-accent-foreground bg-background hover:bg-accent hover:text-accent-foreground',
+          'border border-input text-accent-foreground bg-background hover:bg-accent hover:text-accent-foreground shadow-sm',
         dashed:
-          'border border-dashed border-input text-accent-foreground bg-background hover:bg-accent/50 hover:text-accent-foreground',
+          'border border-dashed border-input text-accent-foreground bg-background hover:bg-accent/50 hover:text-accent-foreground shadow-sm',
         secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm',
         ghost:
           'hover:bg-accent text-accent-foreground hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
@@ -35,15 +37,18 @@ export const buttonVariants = cva(
         nothing: '',
       },
       size: {
-        icon: 'size-[1.125rem] p-0 [&_svg]:size-[1.4rem] rounded-md',
-        xs: 'text-xs px-2.5 py-1 h-[1.625rem] [&_svg]:size-[0.875rem] rounded-md',
-        sm: 'text-sm leading-4 px-3 py-2 h-[34px] [&_svg]:h-[1.125rem] rounded-md',
-        lg: 'text-md px-4 py-2 h-[2.8125rem] [&_svg]:size-[1.25rem] rounded-md',
+        icon: 'text-base h-[2.5em] w-[2.5em] p-0 [&_svg]:size-[1.2em] rounded-md',
+        xs: 'text-xs h-[2.5em] px-[1em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
+        sm: 'text-sm h-[2.5em] px-[1em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
+        md: 'text-base h-[2.5em] px-[1.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
         default:
-          'text-sm px-4 py-2 h-[2.5rem] [&_svg]:size-[1.25rem] rounded-md',
-        xl: 'text-lg px-6 py-3 h-[3.125rem] [&_svg]:size-[1.5rem] rounded-lg',
-        xxl: 'text-xl px-8 py-4 h-[3.625rem] [&_svg]:size-[1.625rem] rounded-lg',
-        xxxl: 'text-2xl px-[4rem] py-6 h-[4.375rem] [&_svg]:size-[1.875rem] rounded-lg',
+          'text-base h-[2.5em] px-[1.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
+        lg: 'text-lg h-[2.75em] px-[1.5em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
+        xl: 'text-xl h-[3em] px-[1.75em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
+        '2xl':
+          'text-2xl h-[3.25em] px-[2em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
+        '3xl':
+          'text-3xl h-[3.5em] px-[2.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
       },
       border: {
         default: '',
