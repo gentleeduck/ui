@@ -1,0 +1,39 @@
+{
+  "extends": "@duck/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": [
+      "ES2022",
+      "dom",
+      "dom.iterable"
+    ],
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+      "contentlayer/generated": [
+        "./.contentlayer/generated"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "strictNullChecks": true
+  },
+  "include": [
+    ".",
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    ".contentlayer/generated",
+    "../../packages/registry-ui-duckui/**/*.{ts,tsx}"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
