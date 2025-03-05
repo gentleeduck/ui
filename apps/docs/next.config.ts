@@ -1,18 +1,10 @@
-// import type { NextConfig } from 'next'
-// import { withContentlayer } from 'next-contentlayer2'
-//
-// const nextConfig: NextConfig = {
-//   transpilePackages: [
-//     '@duck/registry-ui-duckui',
-//     '@duck/registry-examples-duckui',
-//   ],
-// }
-//
-// module.exports = withContentlayer(nextConfig)
+import type { NextConfig } from 'next'
 
-// next.config.js
-import { withContentlayer } from 'next-contentlayer'
+const nextConfig: NextConfig = {
+  transpilePackages: [
+    '@duck/registry-ui-duckui',
+    '@duck/registry-examples-duckui',
+  ],
+}
 
-const nextConfig = { reactStrictMode: true, swcMinify: true }
-
-module.exports = withContentlayer(nextConfig)
+export default nextConfig

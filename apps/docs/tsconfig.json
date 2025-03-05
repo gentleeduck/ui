@@ -18,8 +18,8 @@
       "~/*": [
         "./*"
       ],
-      "contentlayer/generated": [
-        "./contentlayer/generated"
+      "#site/content": [
+        "./.velite"
       ]
     },
     "plugins": [
@@ -27,16 +27,18 @@
         "name": "next"
       }
     ],
-    "isolatedModules": true
+    "isolatedModules": true,
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".contentlayer/generated"
+    ".velite"
   ],
   "exclude": [
+    "node_modules",
     "dist"
   ]
 }

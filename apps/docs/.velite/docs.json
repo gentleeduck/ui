@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Hello world",
+    "slug": "hello-world",
+    "date": "1992-02-25T11:22:00.000Z",
+    "metadata": {
+      "readingTime": 1,
+      "wordCount": 15
+    },
+    "excerpt": "HI this is mr wildducuk the CEO of the gentelduck's union\n\nconst hi = {\n  name: 'world'\n}\n",
+    "content": "<p>HI this is mr <em>wildducuk</em> the <code>CEO</code> of the gentelduck's union</p>\n<hr>\n<pre><code class=\"language-ts\">const hi = {\n  name: 'world'\n}\n</code></pre>",
+    "permalink": "/docs/hello-world"
+  }
+]

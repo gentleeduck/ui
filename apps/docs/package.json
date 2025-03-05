@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build:docs": "contentlayer2 build",
+    "dev:docs": "pnpm velite dev",
     "build": "next build",
+    "build:docs": "pnpm velite",
     "start": "next start",
     "lint": "next lint"
   },
@@ -37,6 +38,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "velite": "^0.2.2"
   }
 }
