@@ -5,10 +5,17 @@
     "date": "1992-02-25T11:22:00.000Z",
     "metadata": {
       "readingTime": 1,
-      "wordCount": 15
+      "wordCount": 3
     },
-    "excerpt": "HI this is mr wildducuk the CEO of the gentelduck's union\n\nconst hi = {\n  name: 'world'\n}\n",
-    "content": "<p>HI this is mr <em>wildducuk</em> the <code>CEO</code> of the gentelduck's union</p>\n<hr>\n<pre><code class=\"language-ts\">const hi = {\n  name: 'world'\n}\n</code></pre>",
+    "description": "Hello world",
+    "links": {
+      "doc": "https://duckduckgo.com",
+      "api": "https://duckduckgo.com"
+    },
+    "excerpt": "asdfasdfasdf\nconst a = 1\n",
+    "body": "const{Fragment:e,jsx:n,jsxs:t}=arguments[0];function _createMdxContent(r){const c={code:\"code\",p:\"p\",pre:\"pre\",...r.components};return t(e,{children:[n(c.p,{children:\"asdfasdfasdf\"}),\"\\n\",n(c.pre,{children:n(c.code,{className:\"language-ts\",children:\"const a = 1\\n\"})})]})}return{default:function(e={}){const{wrapper:t}=e.components||{};return t?n(t,{...e,children:n(_createMdxContent,{...e})}):_createMdxContent(e)}};",
+    "toc": [],
+    "content": "<p>asdfasdfasdf</p>\n<pre><code class=\"language-ts\">const a = 1\n</code></pre>",
     "permalink": "/docs/hello-world"
   }
 ]

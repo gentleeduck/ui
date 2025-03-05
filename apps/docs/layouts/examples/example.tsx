@@ -1,9 +1,7 @@
 'use client'
 
 import { Button } from '@duck/registry-ui-duckui/button'
-import { TooltipProvider } from '@duck/registry-ui-duckui/tooltip'
 import { Calendar, Grab, LineChart } from 'lucide-react'
-import { Button as BButton } from '../../app/page'
 import { Card } from '../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
 
 export function MainExample() {
@@ -25,8 +23,7 @@ export function MainExample() {
         </Button>
       </div>
 
-      <Card className="w-[500px] h-[584px]">
-      </Card>
+      <Card className="w-[500px] h-[584px]"></Card>
     </div>
   )
 }

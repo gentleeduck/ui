@@ -7,10 +7,10 @@
       "dom",
       "dom.iterable"
     ],
-    "baseUrl": ".",
     "outDir": "./dist",
-    "module": "Preserve",
+    "baseUrl": ".",
     "moduleResolution": "bundler",
+    "module": "esnext",
     "paths": {
       "~/old-registry-ui": [
         "../_oldstuff_refactor/ui/*"
@@ -23,13 +23,13 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "isolatedModules": true
   },
   "include": [
     "."
   ],
   "exclude": [
-    "node_modules",
     "dist"
   ]
 }

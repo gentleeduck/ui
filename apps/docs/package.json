@@ -14,6 +14,8 @@
     "@ahmedayob/duck-shortcut": "^0.0.2",
     "@duck/hooks": "workspace:*",
     "@duck/libs": "workspace:*",
+    "@duck/registers": "workspace:*",
+    "@duck/registry-examples-duckui": "workspace:*",
     "@duck/registry-ui-duckui": "workspace:*",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.2",
@@ -23,13 +25,19 @@
     "contentlayer2": "^0.4.6",
     "date-fns": "^2.30.0",
     "lucide-react": "0.359.0",
+    "mdast-util-toc": "^6.1.1",
     "next": "15.2.0",
     "next-contentlayer": "^0.3.4",
     "next-contentlayer2": "^0.4.6",
-    "react": "^19.0.0",
+    "next-themes": "^0.2.1",
+    "react": "link:@vercel/analytics/react",
     "react-dom": "^19.0.0",
+    "remark": "^14.0.3",
+    "sonner": "^1.7.4",
     "tailwind-merge": "^1.14.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "unist-util-visit": "^4.1.2",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@duck/typescript-config": "workspace:*",
@@ -38,7 +46,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
-    "typescript": "^5",
+    "typescript": "^5.6.3",
     "velite": "^0.2.2"
   }
 }

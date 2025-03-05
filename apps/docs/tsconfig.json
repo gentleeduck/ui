@@ -7,19 +7,19 @@
       "dom",
       "dom.iterable"
     ],
+    "jsx": "preserve",
     "baseUrl": ".",
-    "outDir": "./dist",
-    "module": "Preserve",
     "moduleResolution": "bundler",
+    "module": "esnext",
     "paths": {
+      "~/velite": [
+        "./.velite/*"
+      ],
       "~/old-registry-ui": [
         "../_oldstuff_refactor/ui/*"
       ],
       "~/*": [
         "./*"
-      ],
-      "#site/content": [
-        "./.velite"
       ]
     },
     "plugins": [
@@ -27,8 +27,7 @@
         "name": "next"
       }
     ],
-    "isolatedModules": true,
-    "strictNullChecks": true
+    "isolatedModules": true
   },
   "include": [
     "next-env.d.ts",
