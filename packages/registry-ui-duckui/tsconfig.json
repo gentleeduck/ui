@@ -2,34 +2,25 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@duck/typescript-config/base.json",
   "compilerOptions": {
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.iterable"
-    ],
-    "outDir": "./dist",
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "baseUrl": ".",
+    "outDir": "./dist",
+    "module": "Preserve",
     "moduleResolution": "bundler",
-    "module": "esnext",
     "paths": {
-      "~/old-registry-ui": [
-        "../_oldstuff_refactor/ui/*"
-      ],
-      "~/*": [
-        "./*"
-      ]
+      "~/old-registry-ui": ["../_oldstuff_refactor/ui/index.ts"],
+      "~/*": ["./*"]
     },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "isolatedModules": true
+    ]
   },
   "include": [
-    "."
+    "./**/.ts",
+    "./**/.tsx",
+    "../_oldstuff_refactor/default/ui/index.ts"
   ],
-  "exclude": [
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }
