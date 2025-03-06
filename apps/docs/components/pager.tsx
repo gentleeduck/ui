@@ -1,22 +1,22 @@
-import Link from 'next/link'
-import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
-import { Doc } from 'contentlayer/generated'
-import { NavItem, NavItemWithChildren } from 'types/nav'
+import { Icons } from '~/components/icons'
 
-import { docsConfig } from '~/config/docs'
-import { cn } from '@duck/libs/cn'
-import { buttonVariants } from '@duck/registry-ui-duckui/button'
-
-interface DocsPagerProps {
-  doc: Doc
+export interface NavItem {
+  title: string
+  href?: string
+  disabled?: boolean
+  external?: boolean
+  icon?: keyof typeof Icons
+  label?: string
+  collapsable?: boolean
 }
 
-export function DocsPager({ doc }: DocsPagerProps) {
-  const pager = getPagerForDoc(doc)
+export interface NavItemWithChildren extends NavItem {
+  items: NavItemWithChildren[]
+}
 
-  if (!pager) {
-    return null
-  }
+export interface MainNavItem extends NavItem {}
+
+export interface SidebarNavItem extends NavItemWithChildren {}
 
   return (
     <div className="flex flex-row items-center justify-between">

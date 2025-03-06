@@ -1,6 +1,7 @@
 'use client'
 
 import { type DialogProps } from '@duck/registry-ui-duckui/dialog'
+//FIX: please ditch this to lucide.
 import {
   CircleIcon,
   FileIcon,

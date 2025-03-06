@@ -7,6 +7,7 @@ export interface NavItem {
   external?: boolean
   icon?: keyof typeof Icons
   label?: string
+  collapsible?: boolean
 }
 
 export interface NavItemWithChildren extends NavItem {
