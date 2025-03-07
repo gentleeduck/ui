@@ -1,22 +1,23 @@
-import { Icons } from '~/components/icons'
+import Link from 'next/link'
+import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import { NavItem, NavItemWithChildren } from 'types/nav'
 
-export interface NavItem {
-  title: string
-  href?: string
-  disabled?: boolean
-  external?: boolean
-  icon?: keyof typeof Icons
-  label?: string
-  collapsable?: boolean
+import { docsConfig } from '~/config/docs'
+import { cn } from '@duck/libs/cn'
+import { buttonVariants } from '@duck/registry-ui-duckui/button'
+import { Docs } from '../.velite'
+
+interface DocsPagerProps {
+  doc: Docs
 }
 
-export interface NavItemWithChildren extends NavItem {
-  items: NavItemWithChildren[]
-}
+export function DocsPager({ doc }: DocsPagerProps) {
+  const pager = getPagerForDoc(doc)
 
-export interface MainNavItem extends NavItem {}
-
-export interface SidebarNavItem extends NavItemWithChildren {}
+  console.log(pager)
+  if (!pager) {
+    return null
+  }
 
   return (
     <div className="flex flex-row items-center justify-between">
@@ -42,7 +43,7 @@ export interface SidebarNavItem extends NavItemWithChildren {}
   )
 }
 
-export function getPagerForDoc(doc: Doc) {
+export function getPagerForDoc(doc: Docs) {
   const nav = doc.slug.startsWith('/docs/charts')
     ? docsConfig.chartsNav
     : docsConfig.sidebarNav
@@ -50,6 +51,7 @@ export function getPagerForDoc(doc: Doc) {
   const activeIndex = flattenedLinks.findIndex(
     (link) => doc.slug === link?.href,
   )
+  console.log(activeIndex, 'nav var')
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
   const next =
     activeIndex !== flattenedLinks.length - 1

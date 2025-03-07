@@ -9,6 +9,9 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import { getTableOfContents } from '~/lib/toc'
 import { Mdx } from '~/components/mdx'
+import { DocsPager } from '~/components/pager'
+import { ScrollArea } from '../../../../../../packages/_oldstuff_refactor/ui/scroll-area'
+import { DashboardTableOfContents } from '~/components/toc'
 
 interface DocPageProps {
   params: {
@@ -49,7 +52,7 @@ const PostLayout = async ({
   params,
 }: { params: Promise<{ slug: string }> }) => {
   const _param = await params
-  const doc = docs.find((post) => _param.slug.includes(post?.slug))
+  const doc = docs.find((post) => _param.slug.includes(post?.title))
   // const Content = getMDXComponent(post.body.code)
 
   // const content = await getTableOfContents(doc?.content || '')
@@ -58,6 +61,10 @@ const PostLayout = async ({
   if (!doc) {
     notFound()
   }
+
+  const toc = await getTableOfContents(doc.content)
+
+  console.log(toc, 'haapppyt talk')
 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
@@ -106,26 +113,24 @@ const PostLayout = async ({
             )}
           </div>
         ) : null}
+        <div className="pb-12 pt-8">
+          <Mdx code={doc.body} />
+        </div>
         {
-          <div className="pb-12 pt-8">
-            <Mdx code={doc.body} />
-          </div>
           // <DocsPager doc={doc} />
         }
       </div>
-      {
-        // doc.toc && (
-        //         <div className="hidden text-sm xl:block">
-        //           <div className="sticky top-16 -mt-10 pt-4">
-        //             <ScrollArea className="pb-10">
-        //               <div className="sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] py-12">
-        //                 <DashboardTableOfContents toc={toc} />
-        //               </div>
-        //             </ScrollArea>
-        //           </div>
-        //         </div>
-        //       )
-      }
+      {doc.toc && (
+        <div className="hidden text-sm xl:block">
+          <div className="sticky top-16 -mt-10 pt-4">
+            <ScrollArea className="pb-10">
+              <div className="sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] py-12">
+                <DashboardTableOfContents toc={doc.toc} />
+              </div>
+            </ScrollArea>
+          </div>
+        </div>
+      )}
     </main>
   )
 }
