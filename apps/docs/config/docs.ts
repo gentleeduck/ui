@@ -17,6 +17,7 @@ export const docsConfig: DocsConfig = {
   sidebarNav: [
     {
       title: 'Getting Started',
+      collapsible: false,
       items: [
         {
           title: 'Introduction',
@@ -32,6 +33,7 @@ export const docsConfig: DocsConfig = {
     },
     {
       title: 'Components',
+      collapsible: false,
       items: [
         {
           title: 'Accordion',

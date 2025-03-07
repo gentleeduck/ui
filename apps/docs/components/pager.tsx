@@ -1,19 +1,20 @@
 import Link from 'next/link'
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
-import { Doc } from 'contentlayer/generated'
 import { NavItem, NavItemWithChildren } from 'types/nav'
 
 import { docsConfig } from '~/config/docs'
 import { cn } from '@duck/libs/cn'
 import { buttonVariants } from '@duck/registry-ui-duckui/button'
+import { Docs } from '../.velite'
 
 interface DocsPagerProps {
-  doc: Doc
+  doc: Docs
 }
 
 export function DocsPager({ doc }: DocsPagerProps) {
   const pager = getPagerForDoc(doc)
 
+  console.log(pager)
   if (!pager) {
     return null
   }
@@ -42,7 +43,7 @@ export function DocsPager({ doc }: DocsPagerProps) {
   )
 }
 
-export function getPagerForDoc(doc: Doc) {
+export function getPagerForDoc(doc: Docs) {
   const nav = doc.slug.startsWith('/docs/charts')
     ? docsConfig.chartsNav
     : docsConfig.sidebarNav
@@ -50,6 +51,7 @@ export function getPagerForDoc(doc: Doc) {
   const activeIndex = flattenedLinks.findIndex(
     (link) => doc.slug === link?.href,
   )
+  console.log(activeIndex, 'nav var')
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
   const next =
     activeIndex !== flattenedLinks.length - 1
