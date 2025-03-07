@@ -8,7 +8,6 @@ import { cn } from '@duck/libs/cn'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import { type DocsConfig } from '~/config/docs'
-import { Button } from '@duck/registry-ui-duckui/button'
 
 export interface DocsSidebarNavProps {
   config: DocsConfig
@@ -26,42 +25,32 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
     setOpenIndexes((prev) => ({ ...prev, [index]: !prev[index] }))
   }
 
-  return (
-    items.length && (
-      <div className="w-full flex flex-col">
-        {items.map((item, index) => (
-          <div key={index} className="flex flex-col gap-1">
-            <Button
-              className="flex justify-between w-full text-start text-sm font-semibold"
-              onClick={() => toggleCategory(index)}
-              variant={'ghost'}
-              secondIcon={
-                <ChevronDown
-                  className={cn(
-                    'transition-transform',
-                    openIndexes[index] ? 'rotate-180' : 'rotate-0',
-                  )}
-                />
-              }
-            >
-              {item.title}
-              {item.label && (
-                <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
-                  {item.label}
-                </span>
+  return items.length && (
+    <div className="w-full">
+      {items.map((item, index) => (
+        <div key={index}>
+          <button
+            className="flex justify-between cursor-pointer rounded-md w-full text-start px-2 py-1 text-sm font-semibold"
+            onClick={() => toggleCategory(index)}
+          >
+            {item.title}
+            <ChevronDown
+              className={cn(
+                'transition-transform',
+                openIndexes[index] ? 'rotate-180' : 'rotate-0',
               )}
-            </Button>
-            {item?.items?.length && (
-              <DocsSidebarNavItems
-                className={openIndexes[index] ? '!grid-rows-[1fr]' : ''}
-                items={item.items}
-                pathname={pathname}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-    )
+            />
+          </button>
+          {item?.items?.length && (
+            <DocsSidebarNavItems
+              className={openIndexes[index] ? '!grid-rows-[1fr]' : ''}
+              items={item.items}
+              pathname={pathname}
+            />
+          )}
+        </div>
+      ))}
+    </div>
   )
 }
 
@@ -84,58 +73,45 @@ export function DocsSidebarNavItems({
       )}
     >
       <ul className="overflow-hidden transition-all ps-2">
-        {items.map((item, index) => (
-          <DocsSidebarNavItem key={index} item={item} pathname={pathname} />
-        ))}
+        {items.map((item, index) =>
+          item.href && !item.disabled ? (
+            <li key={index}>
+              <Link
+                href={item.href}
+                className={cn(
+                  'group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:underline',
+                  pathname === item.href
+                    ? 'font-medium text-foreground'
+                    : 'text-muted-foreground',
+                )}
+                target={item.external ? '_blank' : ''}
+                rel={item.external ? 'noreferrer' : ''}
+              >
+                {item.title}
+                {item.label && (
+                  <span className="ml-2 rounded-md bg-[#89b4fa] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
+                    {item.label}
+                  </span>
+                )}
+              </Link>
+            </li>
+          ) : (
+            <span
+              key={index}
+              className={cn(
+                'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
+              )}
+            >
+              {item.title}
+              {item.label && (
+                <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline">
+                  {item.label}
+                </span>
+              )}
+            </span>
+          ),
+        )}
       </ul>
     </div>
   ) : null
-}
-
-export function DocsSidebarNavItem({
-  item,
-  pathname,
-}: {
-  item: SidebarNavItem
-  pathname: string | null
-}) {
-  if (item.href && !item.disabled) {
-    return (
-      <li>
-        <Link
-          href={item.href}
-          className={cn(
-            'group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:underline',
-            pathname === item.href
-              ? 'font-medium text-foreground'
-              : 'text-muted-foreground',
-          )}
-          target={item.external ? '_blank' : ''}
-          rel={item.external ? 'noreferrer' : ''}
-        >
-          {item.title}
-          {item.label && (
-            <span className="ml-2 rounded-md bg-[#89b4fa] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
-              {item.label}
-            </span>
-          )}
-        </Link>
-      </li>
-    )
-  }
-
-  return (
-    <span
-      className={cn(
-        'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
-      )}
-    >
-      {item.title}
-      {item.label && (
-        <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline">
-          {item.label}
-        </span>
-      )}
-    </span>
-  )
 }
