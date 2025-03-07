@@ -16,52 +16,59 @@ export interface DocsSidebarNavProps {
 
 export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
   const pathname = usePathname()
-  const [openIndexes, setOpenIndexes] = useState<{ [key: number]: boolean }>({})
 
   const items = pathname?.startsWith('/charts')
     ? config.chartsNav
     : config.sidebarNav
 
-  const toggleCategory = (index: number) => {
-    setOpenIndexes((prev) => ({ ...prev, [index]: !prev[index] }))
-  }
-
   return (
     items.length && (
       <div className="w-full flex flex-col">
         {items.map((item, index) => (
-          <div key={index} className="flex flex-col gap-1">
-            <Button
-              className="flex justify-between w-full text-start text-sm font-semibold"
-              onClick={() => toggleCategory(index)}
-              variant={'ghost'}
-              secondIcon={
-                <ChevronDown
-                  className={cn(
-                    'transition-transform',
-                    openIndexes[index] ? 'rotate-180' : 'rotate-0',
-                  )}
-                />
-              }
-            >
-              {item.title}
-              {item.label && (
-                <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
-                  {item.label}
-                </span>
-              )}
-            </Button>
-            {item?.items?.length && (
-              <DocsSidebarNavItems
-                className={openIndexes[index] ? '!grid-rows-[1fr]' : ''}
-                items={item.items}
-                pathname={pathname}
-              />
-            )}
-          </div>
+          <CategoryItem key={index} item={item} pathname={pathname} />
         ))}
       </div>
     )
+  )
+}
+
+// Memoized category component to prevent unnecessary re-renders
+const CategoryItem = ({
+  item,
+  pathname,
+}: { item: SidebarNavItem; pathname: string | null }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  return (
+    <div className="flex flex-col gap-1">
+      <Button
+        className="flex justify-between w-full text-start text-sm font-semibold"
+        onClick={() => setIsOpen(!isOpen)}
+        variant={'ghost'}
+        secondIcon={
+          <ChevronDown
+            className={cn(
+              'transition-transform',
+              isOpen ? 'rotate-180' : 'rotate-0',
+            )}
+          />
+        }
+      >
+        {item.title}
+        {item.label && (
+          <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
+            {item.label}
+          </span>
+        )}
+      </Button>
+      {item?.items?.length && (
+        <DocsSidebarNavItems
+          className={isOpen ? '!grid-rows-[1fr]' : ''}
+          items={item.items}
+          pathname={pathname}
+        />
+      )}
+    </div>
   )
 }
 
@@ -76,20 +83,22 @@ export function DocsSidebarNavItems({
   pathname,
   className,
 }: DocsSidebarNavItemsProps) {
-  return items?.length ? (
-    <div
-      className={cn(
-        'grid text-sm transition-all duration-500 grid-rows-[0fr] will-change-[grid-template-rows]',
-        className,
-      )}
-    >
-      <ul className="overflow-hidden transition-all ps-2">
-        {items.map((item, index) => (
-          <DocsSidebarNavItem key={index} item={item} pathname={pathname} />
-        ))}
-      </ul>
-    </div>
-  ) : null
+  return (
+    items?.length && (
+      <div
+        className={cn(
+          'grid text-sm transition-all duration-500 grid-rows-[0fr] will-change-[grid-template-rows]',
+          className,
+        )}
+      >
+        <ul className="overflow-hidden transition-all ps-2">
+          {items.map((item, index) => (
+            <DocsSidebarNavItem key={index} item={item} pathname={pathname} />
+          ))}
+        </ul>
+      </div>
+    )
+  )
 }
 
 export function DocsSidebarNavItem({
