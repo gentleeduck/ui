@@ -16,9 +16,19 @@ export const docsSchema = s
     content: s.markdown(), // transform markdown to html
   })
   //NOTE:: more additional fields (computed fields)
-  .transform((data) => ({
+  .transform((data, { path, meta }) => ({
     ...data,
-    permalink: `/docs/components/${data.title}`,
+    slug: `${meta.path.split('/').slice(-3, -1).join('/')}/${meta.path.split('/').pop()?.replace('.mdx', '')}`,
+    permalink: `${meta.path.split('/').slice(-2, -1).join('/')}/${meta.path.split('/').pop()?.replace('.mdx', '')}`,
+    sourceFilePath: path,
+    sourceFileName: meta.path.split('/').pop(),
+    sourceFileDir: meta.path.split('/').slice(-3, -1).join('/'),
+    contentType: meta.path.split('.').pop(),
+    flattenedPath: meta.path
+      .split('/')
+      .slice(-2, -1)
+      .join('/')
+      .replace(/\.mdx$/, ''),
   }))
 
 export const docs = defineCollection({

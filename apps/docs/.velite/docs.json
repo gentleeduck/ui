@@ -21,6 +21,12 @@
       }
     ],
     "content": "<h2>Features</h2>\n<ul>\n<li><strong>Customizable</strong>: Easily adjust the button's variant, size, and appearance.</li>\n<li><strong>Keyboard Shortcuts</strong>: Assign keyboard shortcuts for enhanced user interactions.</li>\n<li><strong>Tooltip Integration</strong>: Display tooltips with custom delay and content.</li>\n<li><strong>Icon Support</strong>: Include primary and secondary icons alongside text or as standalone elements.</li>\n<li><strong>Collapsible</strong>: Optionally collapse the button to icon-only mode.</li>\n<li><strong>Loading State</strong>: Display a loading spinner while actions are in progress.</li>\n<li><strong>Label Support</strong>: Add labels with flexible positioning and style.</li>\n</ul>\n<h2>Installation</h2>",
-    "permalink": "/docs/components/button"
+    "slug": "docs/components/button",
+    "permalink": "components/button",
+    "sourceFilePath": [],
+    "sourceFileName": "button.mdx",
+    "sourceFileDir": "docs/components",
+    "contentType": "mdx",
+    "flattenedPath": "components"
   }
 ]

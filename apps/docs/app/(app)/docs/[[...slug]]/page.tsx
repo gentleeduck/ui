@@ -116,9 +116,7 @@ const PostLayout = async ({
         <div className="pb-12 pt-8">
           <Mdx code={doc.body} />
         </div>
-        {
-          // <DocsPager doc={doc} />
-        }
+        {<DocsPager doc={doc} />}
       </div>
       {doc.toc && (
         <div className="hidden text-sm xl:block">

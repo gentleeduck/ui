@@ -44,12 +44,12 @@ export function DocsPager({ doc }: DocsPagerProps) {
 }
 
 export function getPagerForDoc(doc: Docs) {
-  const nav = doc.slug.startsWith('/docs/charts')
+  const nav = doc.title.startsWith('/docs/charts')
     ? docsConfig.chartsNav
     : docsConfig.sidebarNav
   const flattenedLinks = [null, ...flatten(nav), null]
   const activeIndex = flattenedLinks.findIndex(
-    (link) => doc.slug === link?.href,
+    (link) => doc.title === link?.href,
   )
   console.log(activeIndex, 'nav var')
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
