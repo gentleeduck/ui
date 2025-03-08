@@ -19,8 +19,9 @@ import { BuildRegistryIndexParams } from './build-registry-index.types'
  * 3. Writes the structured registry data into `index.json`, replacing any previous version.
  *
  * @async
- * @param {z.infer<typeof registry_schema>} registry - The full registry data.
- * @param {import("ora").Ora} spinner - The spinner instance for displaying progress.
+ * @param {BuildRegistryIndexParams} props - The arguments required to build the registry index.
+ * @param {z.infer<typeof registry_schema>} props.registry - The full registry data.
+ * @param {import("ora").Ora} props.spinner - The spinner instance for displaying progress.
  *
  * @returns {Promise<z.infer<typeof registry_schema> | undefined>}
  *          The updated registry with indexed files, or `undefined` if an error occurs.

@@ -32,7 +32,7 @@ export async function build_registry_tsx({
       registryDependencies: ${JSON.stringify(item.registryDependencies)},
       files: ${JSON.stringify(item.files, null, 2)},
       component: React.lazy(() => import("${component_path}")),
-      source: "${source_file_name}",
+      source: "${item.source}",
       category: "${item.category ?? ''}",
       subcategory: "${item.subcategory ?? ''}",
       chunks: [

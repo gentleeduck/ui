@@ -57,6 +57,7 @@ export async function get_component_files({
         path: `${item.root_folder}/${file}`,
         type: item.type,
       })),
+      source: `${type.includes('ui') ? ENV.REGISTRY_UI_PATH : ENV.REGISTRY_EXAMPLES_PATH}${item.root_folder}`,
     }
   } catch (error) {
     spinner.fail(

@@ -6,14 +6,14 @@ export const docsSchema = s
   .object({
     title: s.string().max(99),
     // slug: s.slug('docs'),
-    metadata: s.metadata(), // extract markdown reading-time, word-count, etc.
+    metadata: s.metadata().optional(), // extract markdown reading-time, word-count, etc.
     description: s.string(),
 
     links: docsLinksSchema.optional(),
-    excerpt: s.excerpt(), // excerpt of markdown content
+    excerpt: s.excerpt().optional(), // excerpt of markdown content
+    content: s.markdown().optional(), // transform markdown to html
     body: s.mdx(),
     toc: s.toc(),
-    content: s.markdown(), // transform markdown to html
   })
   //NOTE:: more additional fields (computed fields)
   .transform((data, { path, meta }) => ({
