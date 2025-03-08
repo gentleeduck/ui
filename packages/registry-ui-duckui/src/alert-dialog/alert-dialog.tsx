@@ -248,13 +248,9 @@ export function AlertDialogWrapper({
   alertContent,
   duckHook,
 }: AlertDialogWrapperType) {
-  const {
-    _header: contentHeader,
-    _footer: contentFooter,
-    ...contentProps
-  } = alertContent ?? {}
-  const { _title, _description, ...headerProps } = contentHeader ?? {}
-  const { _submit, _cancel, ...footerProps } = contentFooter ?? {}
+  const { _header, _footer, ...contentProps } = alertContent ?? {}
+  const { _title, _description, ...headerProps } = _header ?? {}
+  const { _submit, _cancel, ...footerProps } = _footer ?? {}
 
   return (
     <AlertDialog open={duckHook?.state.alert}>
@@ -276,23 +272,28 @@ export function AlertDialogWrapper({
             </>
           )}
         </AlertDialogHeader>
+
         <AlertDialogFooter {...footerProps}>
           <AlertDialogCancel
             {..._cancel}
-            children={!_cancel?.children && 'Cancel'}
             onClick={(e) => {
               duckHook?.handleAlertCancel()
               _cancel?.onClick?.(e)
             }}
-          />
+            asChild
+          >
+            {_cancel?.children ?? 'Cancel'}
+          </AlertDialogCancel>
           <AlertDialogAction
             {..._submit}
-            children={!_submit?.children && 'Continue'}
             onClick={(e) => {
               duckHook?.handleAlertContinue()
               _submit?.onClick?.(e)
             }}
-          />
+            asChild
+          >
+            {_submit?.children ?? 'Continue'}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

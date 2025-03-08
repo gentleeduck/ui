@@ -1,3 +1,4 @@
+import { RegistryEntryFile } from '@duck/registers'
 import fs from 'node:fs'
 import path from 'node:path'
 import { UnistNode, UnistTree } from 'types/unist'
@@ -38,15 +39,22 @@ function getNodeAttributeByName(node: UnistNode, name: string) {
 
 type ItemType = { name: string; type: string; src: string }
 
-function get_component_source(files: { type: string; path: string }[]) {
+function get_component_source(files: RegistryEntryFile[]) {
+  console.log(files, 'files')
   let item: ItemType[] = []
   // biome-ignore lint/style/useForOf: <explanation>
   for (let i = 0; i < files.length; i++) {
-    const filePath = path.join(process.cwd(), 'registry', files[i]?.path)
+    if (!files[i]?.path) {
+      console.log(`ERROR: no path found for file ${files[i]?.path}`)
+    }
+    const filePath = path.join(
+      `../../packages/registry-${files[i]?.type === 'registry:ui' ? 'ui' : 'examples'}-duckui/src/`,
+      files[i]!.path,
+    )
+    console.log(filePath)
     let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n\n`
     try {
       source += fs.readFileSync(filePath, 'utf8')
-
       // Replace imports.
       // TODO: Use @swc/core and a visitor to replace this.
       // For now a simple regex should do.
@@ -56,8 +64,8 @@ function get_component_source(files: { type: string; path: string }[]) {
       )
       source = source.replaceAll('export default', 'export')
       item.push({
-        name: files[i]?.path.split('/')?.pop() ?? 'file',
-        type: files[i]?.type,
+        name: files[i]!.path.split('/')?.pop() ?? 'file',
+        type: files[i]!.type,
         src: source,
       })
     } catch (error) {
@@ -85,35 +93,33 @@ export function componentSource({
 
   try {
     const component = Index[`${name}`]
-    const files = component.files[0]
-    console.log(component, 'name')
-    // let items: ItemType[] = get_component_source(files)
+    let items: ItemType[] = get_component_source(component.files)
 
-    // node.children?.push(
-    //   ...items.map((item) =>
-    //     u('element', {
-    //       tagName: 'pre',
-    //       properties: {
-    //         __src__: item.src,
-    //         __rawString__: item.src,
-    //       },
-    //       children: [
-    //         u('element', {
-    //           tagName: 'code',
-    //           properties: {
-    //             className: ['language-tsx'],
-    //           },
-    //           children: [
-    //             {
-    //               type: 'text',
-    //               value: item.src,
-    //             },
-    //           ],
-    //         }),
-    //       ],
-    //     }),
-    //   ),
-    // )
+    node.children?.push(
+      ...items.map((item) =>
+        u('element', {
+          tagName: 'pre',
+          properties: {
+            __src__: item.src,
+            __rawString__: item.src,
+          },
+          children: [
+            u('element', {
+              tagName: 'code',
+              properties: {
+                className: ['language-tsx'],
+              },
+              children: [
+                {
+                  type: 'text',
+                  value: item.src,
+                },
+              ],
+            }),
+          ],
+        }),
+      ),
+    )
   } catch (error) {
     console.error(error)
   }

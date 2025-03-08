@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    "./*": "./*"
+    "./*": "./src/*"
   },
   "scripts": {
     "build": "tsup"
@@ -12,8 +12,17 @@
   "devDependencies": {
     "@duck/registry-ui": "workspace:*",
     "@duck/typescript-config": "workspace:*",
+    "@duck/registry-ui-duckui": "workspace:*",
+    "tsup": "^8.2.4",
     "tsx": "^4.17.0",
-    "zod": "catalog:",
-    "tsup": "^8.2.4"
+    "zod": "catalog:"
+  },
+  "dependencies": {
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "lucide-react": "0.359.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sonner": "^2.0.1"
   }
 }

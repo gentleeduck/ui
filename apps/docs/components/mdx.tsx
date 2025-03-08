@@ -25,6 +25,7 @@ import { CodeBlockWrapper } from './code-block-wrapper'
 import { CopyButton, CopyNpmCommandButton } from './copy-button'
 import { Event } from '~/lib/events'
 import { CodeBlock } from './mdx/code-block'
+import { ComponentSource } from './ui'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -175,7 +176,7 @@ const components = {
   // Callout,
   // ComponentPreview,
   // ComponentExample,
-  // ComponentSource,
+  ComponentSource,
   AspectRatio,
   CodeBlockWrapper: ({ ...props }) => (
     <CodeBlockWrapper className="rounded-md border" {...props} />

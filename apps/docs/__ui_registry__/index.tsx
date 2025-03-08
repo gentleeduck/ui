@@ -10,22 +10,22 @@ export const Index: Record<string, any> = {
       type: "registry:ui",
       registryDependencies: ["tooltip","command","badge"],
       files: [
-    {
-        "path": "button/button.constants.ts",
-        "type": "registry:ui"
-    },
-    {
-        "path": "button/button.tsx",
-        "type": "registry:ui"
-    },
-    {
-        "path": "button/button.types.ts",
-        "type": "registry:ui"
-    },
-    {
-        "path": "button/index.ts",
-        "type": "registry:ui"
-    }
+  {
+    "path": "button/button.constants.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "button/button.tsx",
+    "type": "registry:ui"
+  },
+  {
+    "path": "button/button.types.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "button/index.ts",
+    "type": "registry:ui"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-ui-duckui/button")),
       source: "/registry-ui-duckui/src/button",
@@ -41,13 +41,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-1.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-1.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-1")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -60,13 +60,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-10.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-10.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-10")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -79,13 +79,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-11.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-11.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-11")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -98,13 +98,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-12.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-12.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-12")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -117,13 +117,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-13.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-13.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-13")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -136,13 +136,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-14.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-14.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-14")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -155,13 +155,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-15.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-15.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-15")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -174,13 +174,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-16.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-16.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-16")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -193,13 +193,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-17.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-17.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-17")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -212,13 +212,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-18.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-18.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-18")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -231,13 +231,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-19.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-19.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-19")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -250,13 +250,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-2.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-2.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-2")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -269,13 +269,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-20.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-20.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-20")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -288,13 +288,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-21.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-21.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-21")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -307,13 +307,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-22.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-22.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-22")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -326,13 +326,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-23.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-23.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-23")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -345,13 +345,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-24.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-24.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-24")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -364,13 +364,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-25.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-25.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-25")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -383,13 +383,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-26.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-26.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-26")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -402,13 +402,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-27.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-27.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-27")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -421,13 +421,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-28.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-28.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-28")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -440,13 +440,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-29.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-29.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-29")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -459,13 +459,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-3.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-3.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-3")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -478,13 +478,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-30.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-30.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-30")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -497,13 +497,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-31.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-31.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-31")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -516,13 +516,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-32.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-32.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-32")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -535,13 +535,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-4.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-4.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-4")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -554,13 +554,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-5.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-5.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-5")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -573,13 +573,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-6.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-6.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-6")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -592,13 +592,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-7.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-7.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-7")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -611,13 +611,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-8.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-8.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-8")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [
@@ -630,13 +630,13 @@ export const Index: Record<string, any> = {
       type: "registry:example",
       registryDependencies: ["button"],
       files: [
-    {
-        "path": "button/button-9.tsx",
-        "type": "registry:example"
-    }
+  {
+    "path": "button/button-9.tsx",
+    "type": "registry:example"
+  }
 ],
       component: React.lazy(() => import("@duck/registry-examples-duckui/button/button-9")),
-      source: "/registry-examples-duckui/button",
+      source: "/registry-examples-duckui/src/button",
       category: "",
       subcategory: "",
       chunks: [

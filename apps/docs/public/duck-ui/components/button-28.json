@@ -13,5 +13,5 @@
       "target": "components/button-28.tsx"
     }
   ],
-  "source": "/registry-examples-duckui/button"
+  "source": "/registry-examples-duckui/src/button"
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { editInV0 } from '~/actions/edit-in-v0'
+// import { editInV0 } from '~/actions/edit-in-v0'
 import { Loader2 } from 'lucide-react'
 import { useFormStatus } from 'react-dom'
 import { toast } from 'sonner'
@@ -13,7 +13,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@duck/registry-ui-duckui/tooltip'
-import { ButtonProps } from '@duck/registry-ui-duckui/button'
+import { Button, ButtonProps } from '@duck/registry-ui-duckui/button'
 
 type Size = 'default' | 'icon'
 
@@ -88,33 +88,32 @@ export function V0Button({
   return (
     <form
       action={async () => {
-        try {
-          const result = await editInV0({
-            name: block.name,
-            description: block.description || '',
-            code: block.code,
-            style: block.style,
-          })
-
-          if (result?.error) {
-            throw new Error(result.error)
-          }
-
-          if (result?.url) {
-            const popupOpened = window.open(result.url, '_blank')
-            if (!popupOpened) {
-              toast.warning('Pop-up window blocked.', {
-                description:
-                  'Click the pop-up button in your browser to continue.',
-                duration: 5000,
-              })
-            }
-          }
-        } catch (error) {
-          if (error instanceof Error) {
-            toast.error(error.message)
-          }
-        }
+        // try {
+        // const result = await editInV0({
+        //   name: block.name,
+        //   description: block.description || '',
+        //   code: block.code,
+        //   style: block.style,
+        // })
+        // if (result?.error) {
+        //     throw new Error(result.error)
+        //   }
+        //
+        //   if (result?.url) {
+        //     const popupOpened = window.open(result.url, '_blank')
+        //     if (!popupOpened) {
+        //       toast.warning('Pop-up window blocked.', {
+        //         description:
+        //           'Click the pop-up button in your browser to continue.',
+        //         duration: 5000,
+        //       })
+        //     }
+        //   }
+        // } catch (error) {
+        //   if (error instanceof Error) {
+        //     toast.error(error.message)
+        //   }
+        // }
       }}
     >
       <Form size={size} className={className} disabled={disabled} {...props} />
