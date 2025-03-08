@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+// import './mdx.css'
 import { cn } from '@duck/libs/cn'
 import { ThemeProvider } from '~/components/providers'
 import { TailwindIndicator } from '~/components/tailwind-indicator'

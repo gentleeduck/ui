@@ -12,6 +12,7 @@ import { Mdx } from '~/components/mdx'
 import { DocsPager } from '~/components/pager'
 import { ScrollArea } from '../../../../../../packages/_oldstuff_refactor/ui/scroll-area'
 import { DashboardTableOfContents } from '~/components/toc'
+// import '../../../mdx.css'
 
 interface DocPageProps {
   params: {

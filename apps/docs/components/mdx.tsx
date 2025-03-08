@@ -21,6 +21,10 @@ import {
 } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI'
 import { NpmCommands } from '~/types/unist'
 import Link from 'next/link'
+import { CodeBlockWrapper } from './code-block-wrapper'
+import { CopyButton, CopyNpmCommandButton } from './copy-button'
+import { Event } from '~/lib/events'
+import { CodeBlock } from './mdx/code-block'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -155,61 +159,7 @@ const components = {
       {...props}
     />
   ),
-  // pre: ({
-  //   className,
-  //   __rawString__,
-  //   __npmCommand__,
-  //   __yarnCommand__,
-  //   __pnpmCommand__,
-  //   __bunCommand__,
-  //   __withMeta__,
-  //   __src__,
-  //   __event__,
-  //   //NOTE: todo make sure to add this to the types
-  //   // __title__,
-  //   ...props
-  // }: React.HTMLAttributes<HTMLPreElement> & {
-  //   __rawString__?: string
-  //   __withMeta__?: boolean
-  //   __title__?: string
-  //   __src__?: string
-  //   __event__?: Event['name']
-  // } & NpmCommands) => {
-  //   return (
-  //     <div className="">
-  //       <pre
-  //         className={cn(
-  //           'mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-secondary py-4 dark:bg-[#cdd6f403]',
-  //           className,
-  //         )}
-  //         {...props}
-  //       />
-  //       {__rawString__ && !__npmCommand__ && (
-  //         <CopyButton
-  //           value={__rawString__}
-  //           src={__src__}
-  //           variant={'outline'}
-  //           event={__event__}
-  //           className={cn('absolute right-4 top-4', __withMeta__ && 'top-16')}
-  //         />
-  //       )}
-  //       {__npmCommand__ &&
-  //         __yarnCommand__ &&
-  //         __pnpmCommand__ &&
-  //         __bunCommand__ && (
-  //           <CopyNpmCommandButton
-  //             commands={{
-  //               __npmCommand__,
-  //               __yarnCommand__,
-  //               __pnpmCommand__,
-  //               __bunCommand__,
-  //             }}
-  //             className={cn('absolute right-4 top-4', __withMeta__ && 'top-16')}
-  //           />
-  //         )}
-  //     </div>
-  //   )
-  // },
+  pre: CodeBlock,
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
     return (
       <code
@@ -227,9 +177,9 @@ const components = {
   // ComponentExample,
   // ComponentSource,
   AspectRatio,
-  // CodeBlockWrapper: ({ ...props }) => (
-  //   <CodeBlockWrapper className="rounded-md border" {...props} />
-  // ),
+  CodeBlockWrapper: ({ ...props }) => (
+    <CodeBlockWrapper className="rounded-md border" {...props} />
+  ),
   Step: ({ className, ...props }: React.ComponentProps<'h3'>) => (
     <h3
       className={cn(

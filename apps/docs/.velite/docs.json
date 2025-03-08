@@ -1,32 +1,15 @@
 [
   {
     "title": "button",
-    "metadata": {
-      "readingTime": 1,
-      "wordCount": 71
-    },
     "description": "A customizable button component for triggering actions in your application.",
-    "excerpt": "Features\n\nCustomizable: Easily adjust the button's variant, size, and appearance.\nKeyboard Shortcuts: Assign keyboard shortcuts for enhanced user interactions.\nTooltip Integration: Display tooltips with custom delay and content.\nIcon Support: Include primary a",
-    "body": "const{Fragment:n,jsx:e,jsxs:t}=arguments[0];function _createMdxContent(r){const i={h2:\"h2\",li:\"li\",strong:\"strong\",ul:\"ul\",...r.components};return t(n,{children:[e(i.h2,{children:\"Features\"}),\"\\n\",t(i.ul,{children:[\"\\n\",t(i.li,{children:[e(i.strong,{children:\"Customizable\"}),\": Easily adjust the button's variant, size, and appearance.\"]}),\"\\n\",t(i.li,{children:[e(i.strong,{children:\"Keyboard Shortcuts\"}),\": Assign keyboard shortcuts for enhanced user interactions.\"]}),\"\\n\",t(i.li,{children:[e(i.strong,{children:\"Tooltip Integration\"}),\": Display tooltips with custom delay and content.\"]}),\"\\n\",t(i.li,{children:[e(i.strong,{children:\"Icon Support\"}),\": Include primary and secondary icons alongside text or as standalone elements.\"]}),\"\\n\",t(i.li,{children:[e(i.strong,{children:\"Collapsible\"}),\": Optionally collapse the button to icon-only mode.\"]}),\"\\n\",t(i.li,{children:[e(i.strong,{children:\"Loading State\"}),\": Display a loading spinner while actions are in progress.\"]}),\"\\n\",t(i.li,{children:[e(i.strong,{children:\"Label Support\"}),\": Add labels with flexible positioning and style.\"]}),\"\\n\"]}),\"\\n\",e(i.h2,{children:\"Installation\"})]})}return{default:function(n={}){const{wrapper:t}=n.components||{};return t?e(t,{...n,children:e(_createMdxContent,{...n})}):_createMdxContent(n)}};",
-    "toc": [
-      {
-        "title": "Features",
-        "url": "#features",
-        "items": []
-      },
-      {
-        "title": "Installation",
-        "url": "#installation",
-        "items": []
-      }
-    ],
-    "content": "<h2>Features</h2>\n<ul>\n<li><strong>Customizable</strong>: Easily adjust the button's variant, size, and appearance.</li>\n<li><strong>Keyboard Shortcuts</strong>: Assign keyboard shortcuts for enhanced user interactions.</li>\n<li><strong>Tooltip Integration</strong>: Display tooltips with custom delay and content.</li>\n<li><strong>Icon Support</strong>: Include primary and secondary icons alongside text or as standalone elements.</li>\n<li><strong>Collapsible</strong>: Optionally collapse the button to icon-only mode.</li>\n<li><strong>Loading State</strong>: Display a loading spinner while actions are in progress.</li>\n<li><strong>Label Support</strong>: Add labels with flexible positioning and style.</li>\n</ul>\n<h2>Installation</h2>",
-    "slug": "/C:\\Users\\felfel\\Desktop\\work\\ui\\apps\\docs\\content\\docs\\components\\button",
-    "permalink": "/C:\\Users\\felfel\\Desktop\\work\\ui\\apps\\docs\\content\\docs\\components\\button",
+    "body": "const{jsx:t}=arguments[0];function _createMdxContent(n){const{ComponentSource:e}=n.components||{};return e||function(t,n){throw new Error(\"Expected \"+(n?\"component\":\"object\")+\" `\"+t+\"` to be defined: you likely forgot to import, pass, or provide it.\")}(\"ComponentSource\",!0),t(e,{name:\"button\"})}return{default:function(n={}){const{wrapper:e}=n.components||{};return e?t(e,{...n,children:t(_createMdxContent,{...n})}):_createMdxContent(n)}};",
+    "toc": [],
+    "slug": "docs/components/button",
+    "permalink": "components/button",
     "sourceFilePath": [],
-    "sourceFileName": "C:\\Users\\felfel\\Desktop\\work\\ui\\apps\\docs\\content\\docs\\components\\button.mdx",
-    "sourceFileDir": "",
+    "sourceFileName": "button.mdx",
+    "sourceFileDir": "docs/components",
     "contentType": "mdx",
-    "flattenedPath": ""
+    "flattenedPath": "components"
   }
 ]

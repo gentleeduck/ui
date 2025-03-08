@@ -24,19 +24,29 @@ export function DocsPager({ doc }: DocsPagerProps) {
       {pager?.prev?.href && (
         <Link
           href={pager.prev.href}
-          className={buttonVariants({ variant: 'outline' })}
+          className={cn(
+            buttonVariants({
+              variant: 'outline',
+              className: 'items-center flex ',
+            }),
+          )}
         >
-          <ChevronLeftIcon className="mr-2 h-4 w-4" />
-          {pager.prev.title}
+          <ChevronLeftIcon className="mr-2 size-4" />
+          <span>{pager.prev.title}</span>
         </Link>
       )}
       {pager?.next?.href && (
         <Link
           href={pager.next.href}
-          className={cn(buttonVariants({ variant: 'outline' }), 'ml-auto')}
+          className={cn(
+            buttonVariants({
+              variant: 'outline',
+              className: 'items-center flex ',
+            }),
+          )}
         >
-          {pager.next.title}
-          <ChevronRightIcon className="ml-2 h-4 w-4" />
+          <span>{pager.next.title}</span>
+          <ChevronRightIcon className="ml-2 size-4" />
         </Link>
       )}
     </div>
@@ -48,8 +58,8 @@ export function getPagerForDoc(doc: Docs) {
     ? docsConfig.chartsNav
     : docsConfig.sidebarNav
   const flattenedLinks = [null, ...flatten(nav), null]
-  const activeIndex = flattenedLinks.findIndex(
-    (link) => doc.title === link?.href,
+  const activeIndex = flattenedLinks.findIndex((link) =>
+    link?.href?.includes(doc.slug ?? doc.title),
   )
   console.log(activeIndex, 'nav var')
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
