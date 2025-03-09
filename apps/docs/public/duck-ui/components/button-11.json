@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "button/button-11.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@/registry/registry-ui-components/button'\nimport { ChevronsRight, Inbox } from 'lucide-react'\n\nexport default function Button11Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Inbox button with 23 notifications\"\n        type=\"button\"\n        role=\"button\"\n        icon={{ children: Inbox }}\n        secondIcon={{\n          children: ChevronsRight,\n        }}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@duck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\nimport { toast } from 'sonner'\n\nexport default function Button16Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Open inbox and trigger command\"\n        type=\"button\"\n        role=\"button\"\n        icon={{ children: Inbox }}\n        label={{\n          showCommand: true,\n          showLabel: true,\n        }}\n        command={{\n          key: 'alt+l',\n          label: 'alt+l',\n          action: () =>\n            toast('Your inbox has been updated', {\n              description: `you have clicked the 'command label' button`,\n            }),\n        }}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-11.tsx"
     }

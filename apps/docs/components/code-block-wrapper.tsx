@@ -21,9 +21,13 @@ export function CodeBlockWrapper({
   ...props
 }: CodeBlockProps) {
   const [isOpened, setIsOpened] = React.useState(false)
+
   return (
-    <Collapsible open={isOpened} onOpenChange={setIsOpened}>
-      <div className={cn('relative overflow-hidden', className)} {...props}>
+    <Collapsible open={isOpened} onOpenChange={setIsOpened} className="">
+      <div
+        className={cn('relative overflow-hidden rounded-md border', className)}
+        {...props}
+      >
         <CollapsibleContent
           forceMount
           className={cn('overflow-hidden', !isOpened && 'max-h-32')}
@@ -33,7 +37,7 @@ export function CodeBlockWrapper({
               '[&_pre]:my-0 [&_pre]:max-h-[650px] [&_div:last-child_pre]:pb-[50px]',
               !isOpened
                 ? '[&_pre]:overflow-hidden'
-                : '[&_pre]:overflow-auto] [&_pre]:mt-2',
+                : '[&_pre]:overflow-auto [&_pre]:mt-2',
             )}
           >
             {children}

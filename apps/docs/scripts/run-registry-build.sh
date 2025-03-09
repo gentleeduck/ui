@@ -34,8 +34,7 @@ fi
 # Log: Script completed
 echo "🏁 Script execution finished."
 
-
-
+#
 # NOTE: THIS SHOULD BE THE OUTPUT
 #
 # > @duck/docs@0.0.1 build:reg /mnt/1T_wild/wildduck/@duck-ui/apps/docs

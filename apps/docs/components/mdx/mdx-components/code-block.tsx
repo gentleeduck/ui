@@ -1,7 +1,7 @@
 import { cn } from '@duck/libs/cn'
 import { NpmCommands } from '~/types/unist'
 import { Event } from '~/lib/events'
-import { CopyButton, CopyNpmCommandButton } from '../copy-button'
+import { CopyButton, CopyNpmCommandButton } from '../../copy-button'
 
 export type CodeBlockProps = React.HTMLAttributes<HTMLPreElement> & {
   __rawString__?: string
@@ -23,19 +23,24 @@ export function CodeBlock({
   __event__,
   ...props
 }: CodeBlockProps) {
-  console.log(props)
+  console.log(__rawString__)
+
   return (
-    <div className="">
-      <pre className={cn(className)} {...props} />
-      {__rawString__ && !__npmCommand__ && (
+    <div>
+      <pre className={cn(className)} {...props} tabIndex={0} />
+      {__rawString__ && (
         <CopyButton
           value={__rawString__}
           src={__src__}
           variant={'outline'}
           event={__event__}
-          className={cn('absolute right-4 top-4', __withMeta__ && 'top-16')}
+          className={cn(
+            'absolute right-4 top-4 group-hover:opacity-100',
+            __withMeta__ && 'top-6',
+          )}
         />
       )}
+
       {__npmCommand__ &&
         __yarnCommand__ &&
         __pnpmCommand__ &&

@@ -8,10 +8,10 @@ import { cn } from '@duck/libs/cn'
 import { notFound } from 'next/navigation'
 import React from 'react'
 import { getTableOfContents } from '~/lib/toc'
-import { Mdx } from '~/components/mdx'
 import { DocsPager } from '~/components/pager'
 // import { ScrollArea } from '../../../../../../packages/_oldstuff_refactor/ui/scroll-area'
 import { DashboardTableOfContents } from '~/components/toc'
+import { Mdx } from '~/components/mdx/mdx'
 // import '../../../mdx.css'
 
 interface DocPageProps {

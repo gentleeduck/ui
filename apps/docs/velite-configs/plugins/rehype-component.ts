@@ -39,9 +39,9 @@ function getNodeAttributeByName(node: UnistNode, name: string) {
 
 type ItemType = { name: string; type: string; src: string }
 
-function get_component_source(files: RegistryEntryFile[]) {
-  console.log(files, 'files')
+export function get_component_source(files: RegistryEntryFile[]): ItemType[] {
   let item: ItemType[] = []
+
   // biome-ignore lint/style/useForOf: <explanation>
   for (let i = 0; i < files.length; i++) {
     if (!files[i]?.path) {
@@ -51,8 +51,8 @@ function get_component_source(files: RegistryEntryFile[]) {
       `../../packages/registry-${files[i]?.type === 'registry:ui' ? 'ui' : 'examples'}-duckui/src/`,
       files[i]!.path,
     )
-    console.log(filePath)
     let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n\n`
+
     try {
       source += fs.readFileSync(filePath, 'utf8')
       // Replace imports.
@@ -83,9 +83,6 @@ export function componentSource({
   srcPath?: string
 }) {
   const name = getNodeAttributeByName(node, 'name')?.value as string
-  const fileName = getNodeAttributeByName(node, 'fileName')?.value as
-    | string
-    | undefined
 
   if (!name && !srcPath) {
     return null
@@ -93,7 +90,7 @@ export function componentSource({
 
   try {
     const component = Index[`${name}`]
-    let items: ItemType[] = get_component_source(component.files)
+    let items = get_component_source(component.files)
 
     node.children?.push(
       ...items.map((item) =>
@@ -102,6 +99,7 @@ export function componentSource({
           properties: {
             __src__: item.src,
             __rawString__: item.src,
+            asdfasdf: 'asdfasdf',
           },
           children: [
             u('element', {
@@ -136,42 +134,42 @@ export function componentPreview({ node }: { node: UnistNode }) {
     const component = Index[`${name}`]
     const src = component.files[0][0].path
 
-    // // Read the source file.
-    // const filePath = path.join(process.cwd(), 'registry', src)
-    // let source = fs.readFileSync(filePath, 'utf8')
-    //
-    // // Replace imports.
-    // // TODO: Use @swc/core and a visitor to replace this.
-    // // For now a simple regex should do.
-    // source = source.replaceAll(
-    //   `@/registry/registry-ui-components`,
-    //   `@/components/${src.split('/')[0].split('-')[1]}`,
-    // )
-    // source = source.replaceAll('export default', 'export')
-    //
-    // // Add code as children so that rehype can take over at build time.
-    // node.children?.push(
-    //   u('element', {
-    //     tagName: 'pre',
-    //     properties: {
-    //       __src__: source,
-    //     },
-    //     children: [
-    //       u('element', {
-    //         tagName: 'code',
-    //         properties: {
-    //           className: ['language-tsx'],
-    //         },
-    //         children: [
-    //           {
-    //             type: 'text',
-    //             value: source,
-    //           },
-    //         ],
-    //       }),
-    //     ],
-    //   }),
-    // )
+    // Read the source file.
+    const filePath = path.join(process.cwd(), 'registry', src)
+    let source = fs.readFileSync(filePath, 'utf8')
+
+    // Replace imports.
+    // TODO: Use @swc/core and a visitor to replace this.
+    // For now a simple regex should do.
+    source = source.replaceAll(
+      `@/registry/registry-ui-components`,
+      `@/components/${src.split('/')[0].split('-')[1]}`,
+    )
+    source = source.replaceAll('export default', 'export')
+
+    // Add code as children so that rehype can take over at build time.
+    node.children?.push(
+      u('element', {
+        tagName: 'pre',
+        properties: {
+          __src__: source,
+        },
+        children: [
+          u('element', {
+            tagName: 'code',
+            properties: {
+              className: ['language-tsx'],
+            },
+            children: [
+              {
+                type: 'text',
+                value: source,
+              },
+            ],
+          }),
+        ],
+      }),
+    )
   } catch (error) {
     console.error(error)
   }
