@@ -7,11 +7,10 @@ export type CodeBlockProps = React.HTMLAttributes<HTMLPreElement> & {
   __rawString__?: string
   __withMeta__?: boolean
   __title__?: string
-  __src__?: string
   __event__?: Event['name']
 } & NpmCommands
 
-export function CodeBlock({
+export function PreBlock({
   className,
   __rawString__,
   __npmCommand__,
@@ -19,19 +18,17 @@ export function CodeBlock({
   __pnpmCommand__,
   __bunCommand__,
   __withMeta__,
-  __src__,
   __event__,
   ...props
 }: CodeBlockProps) {
-  console.log(__rawString__)
+  console.log(__rawString__, props)
 
   return (
     <div>
       <pre className={cn(className)} {...props} tabIndex={0} />
-      {__rawString__ && (
+      {__rawString__ && !__npmCommand__ && (
         <CopyButton
           value={__rawString__}
-          src={__src__}
           variant={'outline'}
           event={__event__}
           className={cn(

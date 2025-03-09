@@ -17,7 +17,6 @@ import { cn } from '@duck/libs/cn'
 
 interface CopyButtonProps extends ButtonProps {
   value: string
-  src?: string
   event?: Event['name']
 }
 
@@ -31,7 +30,6 @@ export async function copyToClipboardWithMeta(value: string, event?: Event) {
 export function CopyButton({
   value,
   className,
-  src,
   variant = 'ghost',
   event,
   ...props
@@ -58,11 +56,11 @@ export function CopyButton({
           value,
           event
             ? {
-                name: event,
-                properties: {
-                  code: value,
-                },
-              }
+              name: event,
+              properties: {
+                code: value,
+              },
+            }
             : undefined,
         )
         setHasCopied(true)

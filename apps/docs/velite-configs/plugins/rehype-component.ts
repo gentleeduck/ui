@@ -29,6 +29,7 @@ export function rehypeComponent() {
           node,
         })
       }
+      // console.log(node, 'asdfasdf')
     })
   }
 }
@@ -93,19 +94,18 @@ export function componentSource({
     let items = get_component_source(component.files)
 
     node.children?.push(
-      ...items.map((item) =>
-        u('element', {
+      ...items.map((item) => {
+        return u('element', {
           tagName: 'pre',
           properties: {
-            __src__: item.src,
-            __rawString__: item.src,
-            asdfasdf: 'asdfasdf',
+            __rawString__: 'asdfasd',
           },
           children: [
             u('element', {
               tagName: 'code',
               properties: {
                 className: ['language-tsx'],
+                // __rawString__: item.src,
               },
               children: [
                 {
@@ -115,9 +115,10 @@ export function componentSource({
               ],
             }),
           ],
-        }),
-      ),
+        })
+      }),
     )
+    // console.dir(node.children, { deptH: 4 })
   } catch (error) {
     console.error(error)
   }

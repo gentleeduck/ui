@@ -2,6 +2,7 @@
 
 @import "tailwindcss";
 @source "../node_modules/@duck/registry-ui-duckui";
+@source "../../packages/registry-ui-duckui";
 
 @plugin "tailwindcss-animate";
 
@@ -237,11 +238,12 @@ pre {
 }
 
 [data-rehype-pretty-code-fragment] {
-  @apply mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-secondary pb-4 dark:bg-[#26262640] [&_code]:bg-transparent pt-4 relative;
+  @apply mb-4 max-h-[650px] overflow-x-auto rounded-md border bg-secondary pb-4 dark:bg-[#26262640] [&_code]:bg-transparent pt-4 relative;
 }
 
 [data-rehype-pretty-code-title] {
   @apply pb-3 px-4 font-mono font-semibold text-sm text-muted-foreground;
+  font-family: "JetBrains Mono", serif;
 }
 
 [data-theme="light"] {
