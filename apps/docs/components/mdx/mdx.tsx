@@ -18,14 +18,14 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '../../../packages/_oldstuff_refactor/ui/ShadcnUI'
+} from '../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
 import { NpmCommands } from '~/types/unist'
 import Link from 'next/link'
-import { CodeBlockWrapper } from './code-block-wrapper'
+import { CodeBlockWrapper } from '../code-block-wrapper'
 import { CopyButton, CopyNpmCommandButton } from './copy-button'
 import { Event } from '~/lib/events'
-import { CodeBlock } from './mdx/code-block'
-import { ComponentSource } from './ui'
+import { CodeBlock } from './mdx-components'
+import { ComponentPreview, ComponentSource } from '../ui'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -174,7 +174,7 @@ const components = {
   },
   Image,
   // Callout,
-  // ComponentPreview,
+  ComponentPreview,
   // ComponentExample,
   ComponentSource,
   AspectRatio,

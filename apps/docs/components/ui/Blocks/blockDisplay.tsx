@@ -1,6 +1,6 @@
-import { BlockPreview } from '~/components/ui'
-import { getBlock } from '~/lib/blocks'
 import { styles } from '@duck/registers'
+import { BlockPreview } from '~/components/mdx/mdx-components'
+import { getBlock } from '~/lib/blocks'
 
 export async function BlockDisplay({ name }: { name: string }) {
   const blocks = await Promise.all(

@@ -28,6 +28,7 @@ export function metadataPlugin() {
               ...child,
               properties: {
                 ...child?.properties,
+                __rawString__: child.children?.[0]?.value,
                 __event__: match?.[0],
               },
             }
