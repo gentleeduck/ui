@@ -22,6 +22,8 @@ import {
 import { NpmCommands } from '~/types/unist'
 import Link from 'next/link'
 import { CodeBlockWrapper } from '../code-block-wrapper'
+// ! FIX: fix the path for the import copy-button
+// @ts-expect-error Cannot find module './copy-button' or its corresponding type declarations.ts(2307)
 import { CopyButton, CopyNpmCommandButton } from './copy-button'
 import { Event } from '~/lib/events'
 import { CodeBlock } from './mdx-components'

@@ -60,11 +60,18 @@ export function ComponentPreview({
 
   const codeString = React.useMemo(() => {
     if (
+
+      // ! FIX:
+      //  @ts-expect-error 'Code.props' is of type 'unknown'.ts(18046)
       typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined'
     ) {
       const Button = React.Children.toArray(
+        // ! FIX:
+        //  @ts-expect-error Property 'children' does not exist on type '{}'.ts(2339)
         Code.props.children,
       ) as React.ReactElement[]
+      // ! FIX:
+      //  @ts-expect-error Property '__rawString__' does not exist on type '{}'.ts(2339)
       return Button[1]?.props?.value || Button[1]?.props?.__rawString__ || null
     }
   }, [Code])

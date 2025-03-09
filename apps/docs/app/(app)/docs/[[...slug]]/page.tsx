@@ -63,7 +63,7 @@ const PostLayout = async ({
     notFound()
   }
 
-  const toc = await getTableOfContents(doc.content)
+  const toc = await getTableOfContents(doc.content || '')
 
   console.log(toc, 'haapppyt talk')
 

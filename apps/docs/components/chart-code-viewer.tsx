@@ -7,7 +7,7 @@ import { V0Button, BlockCopyButton } from '~/components/ui'
 import { Block } from '@duck/registers'
 import { Button } from '@duck/registry-ui-duckui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@duck/registry-ui-duckui/tabs'
-import { Drawer, DrawerContent, DrawerTrigger, DrawerTrigger } from '@duck/registry-ui-duckui/drawer'
+import { Drawer, DrawerContent, DrawerTrigger } from '@duck/registry-ui-duckui/drawer'
 import { Sheet, SheetContent, SheetTrigger } from '@duck/registry-ui-duckui/sheet'
 
 export function ChartCodeViewer({ chart, className, children }: { chart: Block } & React.ComponentProps<'div'>) {

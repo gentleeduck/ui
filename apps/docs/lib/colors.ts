@@ -71,7 +71,7 @@ export function getColors() {
 export type Color = ReturnType<typeof getColors>[number]['colors'][number]
 
 function getForegroundFromBackground(rgb: string) {
-  const [r, g, b] = rgb.split(' ').map(Number)
+  const [r, g, b] = rgb.split(' ').map(Number) as [number, number, number]
 
   function toLinear(number: number): number {
     const base = number / 255

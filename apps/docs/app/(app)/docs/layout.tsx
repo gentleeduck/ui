@@ -1,5 +1,4 @@
 import { docsConfig } from '~/config/docs'
-import { ScrollArea } from '../../../../../packages/_oldstuff_refactor/ui/scroll-area'
 import { DocsSidebarNav } from '~/components/docs-side-bar'
 
 interface DocsLayoutProps {

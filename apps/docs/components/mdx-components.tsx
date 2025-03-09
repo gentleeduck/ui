@@ -23,12 +23,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@duck/registry-ui-duckui/accordion'
+// ! FIX: fix paths for the imports alert and aspect-ratio
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-  AspectRatio,
-} from '../../../packages/_oldstuff_refactor/ui'
+} from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/alert'
+import { AspectRatio } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI'
+
 import {
   Tabs,
   TabsContent,
@@ -325,7 +327,8 @@ export function Mdx({ code }: MdxProps) {
 
   return (
     <div className="mdx">
-      <Component components={components} />
+      {/* ! FIX: type any */}
+      <Component components={components as any} />
     </div>
   )
 }

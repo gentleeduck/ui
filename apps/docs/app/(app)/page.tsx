@@ -29,7 +29,7 @@ import { toast } from 'sonner'
 import { Announcement } from '~/components/announcement'
 import { ThemeWrapper } from '~/components/theme-wrapper'
 import { ThemeCustomizer } from '~/components/theme-customizer'
-import { ThemesTabs } from './themes/tabs'
+// import { ThemesTabs } from './themes/tabs'
 import { buttonVariants } from '@duck/registry-ui-duckui/button'
 import { cn } from '@duck/libs/cn'
 

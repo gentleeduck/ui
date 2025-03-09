@@ -9,7 +9,6 @@ import { DefaultToaster } from '@duck/registry-ui-duckui/toast'
 import { DefaultSonner } from '@duck/registry-ui-duckui/sonner'
 import { ThemeSwitcher } from '~/components/theme-switcher'
 
-import Button from '@duck/registry-examples-duckui/button/button-1'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
