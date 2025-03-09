@@ -2,6 +2,7 @@
 
 @import "tailwindcss";
 @source "../node_modules/@duck/registry-ui-duckui";
+@source "../components/";
 
 @plugin "tailwindcss-animate";
 
@@ -131,6 +132,16 @@
   html {
     @apply scroll-smooth;
   }
+
+  .show-scroll-hover {
+    overflow-y: hidden;
+  }
+  .show-scroll-hover:hover {
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+
 
   ::-webkit-scrollbar {
     width: 5px;
