@@ -29,7 +29,8 @@
   "include": [
     ".",
     ".next/types/**/*.ts",
-    "../../packages/_oldstuff_refactor/"
+    "../../packages/_oldstuff_refactor/",
+    "../../packages/registry-ui-duckui/"
   ],
   "exclude": [
     "dist"

@@ -3,19 +3,16 @@
 import * as React from 'react'
 
 import { Command as CommandPrimitive } from 'cmdk'
-import { ScrollArea } from './scroll-area'
+import { ScrollArea } from '../scroll-area'
 
 import { Check, Search } from 'lucide-react'
 import { cn } from '@duck/libs/cn'
 import { groupDataByNumbers } from '@duck/libs/group-data-by-numbers'
-import { Button } from '@duck/registry-ui-duckui/button'
-import { Separator } from './ShadcnUI/separator'
-import { Checkbox } from './checkbox'
-import {
-  Dialog,
-  DialogContent,
-  DialogProps,
-} from '@duck/registry-ui-duckui/dialog'
+import { Button } from '../button'
+import { Separator } from '../separator'
+import { Checkbox } from '../checkbox'
+import { Dialog, DialogContent } from '@duck/registry-ui-duckui/dialog'
+import { DialogProps } from '@radix-ui/react-dialog'
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,

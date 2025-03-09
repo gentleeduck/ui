@@ -10,7 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@duck/registry-ui-duckui/dropdown-menu'
+} from '../../../packages/registry-ui-duckui/src/dropdown-menu'
 
 export default function Home() {
   return (

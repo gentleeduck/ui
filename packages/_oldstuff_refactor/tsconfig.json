@@ -7,10 +7,17 @@
       "dom",
       "dom.iterable"
     ],
+    "jsx": "preserve",
     "baseUrl": ".",
-    "outDir": "./dist",
-    "module": "Preserve",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noErrorTruncation": true,
+    "useDefineForClassFields": true,
+    "strictPropertyInitialization": false,
     "paths": {
       "~/*": [
         "./*"

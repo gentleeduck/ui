@@ -25,7 +25,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '../../../packages/_oldstuff_refactor/ui/command'
+} from '@duck/registry-ui-duckui/command'
 
 export function CommandMenu({ ...props }: DialogProps) {
   const router = useRouter()

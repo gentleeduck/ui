@@ -1,13 +1,14 @@
 import Link from 'next/link'
 
-import { siteConfig } from '~/config/site'
 import { cn } from '@duck/libs/cn'
+import { buttonVariants } from '@duck/registry-ui-duckui/button'
+import { Github, Twitter } from 'lucide-react'
 import { CommandMenu } from '~/components/command-menu'
 import { Icons } from '~/components/icons'
 import { MainNav } from '~/components/main-nav'
 import { MobileNav } from '~/components/mobile-nav'
-import { ModeToggle } from '~/components/mode-toggle'
-import { buttonVariants } from '@duck/registry-ui-duckui/button'
+import { siteConfig } from '~/config/site'
+import { ModeSwitcher } from './mode-toggle'
 
 export function SiteHeader() {
   return (
@@ -30,11 +31,11 @@ export function SiteHeader() {
                   className={cn(
                     buttonVariants({
                       variant: 'ghost',
+                      size: 'icon',
                     }),
-                    'h-8 w-8 px-0',
                   )}
                 >
-                  <Icons.gitHub className="h-4 w-4" />
+                  <Github />
                   <span className="sr-only">GitHub</span>
                 </div>
               </Link>
@@ -47,15 +48,15 @@ export function SiteHeader() {
                   className={cn(
                     buttonVariants({
                       variant: 'ghost',
+                      size: 'icon',
                     }),
-                    'h-8 w-8 px-0',
                   )}
                 >
-                  <Icons.twitter className="h-3 w-3 fill-current" />
+                  <Twitter />
                   <span className="sr-only">Twitter</span>
                 </div>
               </Link>
-              <ModeToggle />
+              <ModeSwitcher />
             </nav>
           </div>
         </div>

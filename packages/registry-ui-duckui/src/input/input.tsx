@@ -6,12 +6,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@duck/registry-ui-duckui/tooltip'
-import { CommandShortcut } from './command'
+import { CommandShortcut } from '../command'
 import { Badge } from '@duck/registry-ui-duckui/badge'
 import { LabelType } from '@duck/registry-ui-duckui/button'
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement> { }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {

@@ -37,7 +37,7 @@ export const buttonVariants = cva(
         nothing: '',
       },
       size: {
-        icon: 'text-base h-[2.5em] w-[2.5em] p-0 [&_svg]:size-[1.2em] rounded-md',
+        icon: 'text-base size-[2em] p-0 [&_svg]:size-[1.1em] rounded-md',
         xs: 'text-xs h-[2.5em] px-[1em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
         sm: 'text-sm h-[2.5em] px-[1em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
         md: 'text-base h-[2.5em] px-[1.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',

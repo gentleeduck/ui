@@ -15,7 +15,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '../drawer'
-import { useMediaQuery } from '@duck/hooks'
+
 import {
   DialogCloseResponsiveProps,
   DialogContentResponsiveProps,
@@ -27,6 +27,10 @@ import {
   DialogTriggerResponsiveProps,
   DialogWrapperProps,
 } from './dialog.types'
+
+//FIX: remmote this import from any file.
+import { DialogProps } from '@radix-ui/react-dialog'
+import { useMediaQuery } from '@duck/hooks'
 
 /**
  * Dialog component that serves as the root for the dialog primitive.
@@ -500,7 +504,6 @@ export {
   DialogCloseResponsive,
 }
 
-export * from '@radix-ui/react-dialog'
 export {
   Dialog,
   DialogPortal,
@@ -513,4 +516,5 @@ export {
   DialogTitle,
   DialogDescription,
   DialogWrapper,
+  type DialogProps,
 }

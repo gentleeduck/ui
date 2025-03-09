@@ -11,7 +11,7 @@ import { StyleSwitcher } from '~/components/style-switcher'
 import { BlockCopyButton, V0Button } from '~/components/ui'
 import { Block } from '@duck/registers'
 import { TabsList, TabsTrigger } from '@duck/registry-ui-duckui/tabs'
-import { Separator } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/separator'
+import { Separator } from '@duck/registry-ui-duckui/separator'
 import {
   Popover,
   PopoverContent,
@@ -22,7 +22,10 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@duck/registry-ui-duckui/toggle-group'
-import { Label, Switch } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
+import {
+  Label,
+  Switch,
+} from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
 
 export function BlockToolbar({
   block,
