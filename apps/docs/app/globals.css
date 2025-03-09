@@ -1,9 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 
 @import "tailwindcss";
-@source "../node_modules/@duck/registry-ui-duckui";
-@source "../components/";
-@source "../../packages/registry-ui-duckui";
+@source '../../../packages/duck-ui/src/dropdown-menu';
 
 @plugin "tailwindcss-animate";
 
@@ -137,12 +135,11 @@
   .show-scroll-hover {
     overflow-y: hidden;
   }
+
   .show-scroll-hover:hover {
     overflow-y: auto;
     scrollbar-width: none;
   }
-
-
 
   ::-webkit-scrollbar {
     width: 5px;

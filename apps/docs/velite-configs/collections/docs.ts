@@ -5,13 +5,11 @@ export const docsLinksSchema = s.object({ doc: s.string(), api: s.string() })
 export const docsSchema = s
   .object({
     title: s.string().max(99),
-    // slug: s.slug('docs'),
-    metadata: s.metadata().optional(), // extract markdown reading-time, word-count, etc.
+    metadata: s.metadata().optional(),
     description: s.string(),
-
     links: docsLinksSchema.optional(),
-    excerpt: s.excerpt().optional(), // excerpt of markdown content
-    content: s.markdown().optional(), // transform markdown to html
+    excerpt: s.excerpt().optional(),
+    content: s.markdown().optional(),
     body: s.mdx(),
     toc: s.toc(),
   })
