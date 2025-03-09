@@ -1,40 +1,27 @@
 import { UnistNode, UnistTree } from '../uniset'
+import { visit } from 'unist-util-visit'
 
 export function metadataPlugin() {
   return (tree: UnistTree): UnistTree => {
-    return {
-      ...tree,
-      children: tree.children.map((node: UnistNode) => {
-        return {
-          ...node,
-          children: node.children?.map((child: UnistNode) => {
-            let match = [] as unknown as RegExpExecArray
+    visit(tree, 'element', (node: UnistNode) => {
+      if (node.tagName === 'code' && node.children) {
+        let match = [] as unknown as RegExpExecArray
 
-            if (child?.type === 'element' && child?.tagName === 'code') {
-              if (child?.tagName !== 'code') {
-                return child
-              }
-
-              if (child.data?.meta) {
-                match = [
-                  ...match,
-                  ((child.data.meta as string).match(/event="([^"]*)"/) ??
-                    [])[1],
-                ] as unknown as RegExpExecArray
-              }
-            }
-
-            return {
-              ...child,
-              properties: {
-                ...child?.properties,
-                __rawString__: child.children?.[0]?.value,
-                __event__: match?.[0],
-              },
-            }
-          }),
+        if (node.data?.meta) {
+          match = [
+            ...match,
+            ((node.data.meta as string).match(/event="([^"]*)"/) ?? [])[1],
+          ] as unknown as RegExpExecArray
         }
-      }),
-    }
+
+        node.properties = {
+          ...node.properties,
+          __rawString__: node.children?.[0]?.value,
+          __event__: match?.[0],
+        }
+      }
+    })
+
+    return tree
   }
 }

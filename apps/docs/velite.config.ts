@@ -44,7 +44,7 @@ const config = defineConfig({
           },
           getHighlighter,
           onVisitLine(node: UnistNode) {
-            console.log(node)
+            // console.log(node)
             // Prevent lines from collapsing in `display: grid` mode, and allow empty
             // lines to be copy/pasted
             if (node.children?.length === 0) {
@@ -61,12 +61,12 @@ const config = defineConfig({
           },
         },
       ],
-      // rehypePreBlockSource,
+      rehypePreBlockSource,
 
       () =>
         (tree: UnistTree): UnistTree => {
           tree.children.map((node: UnistNode) => {
-            // console.dir(node, { depth: 5 })
+            console.dir(node, { depth: 7 })
           })
           return tree
         },
