@@ -3,7 +3,7 @@
 import * as React from 'react'
 
 import { cn } from '@duck/libs/cn'
-import { CodeBlockWrapper } from '~/components/code-block-wrapper'
+import { CodeBlockWrapper } from './code-block-wrapper'
 
 interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode[]
@@ -15,7 +15,6 @@ export function ComponentSource({
   className,
   ...props
 }: ComponentSourceProps) {
-  // console.log(children, props)
   return (
     <CodeBlockWrapper
       expandButtonTitle="Expand"

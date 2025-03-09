@@ -7,7 +7,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '../../../packages/_oldstuff_refactor/ui/ShadcnUI'
+} from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
 import { cn } from '@duck/libs/cn'
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -23,21 +23,28 @@ export function CodeBlockWrapper({
   const [isOpened, setIsOpened] = React.useState(false)
 
   return (
-    <Collapsible open={isOpened} onOpenChange={setIsOpened} className="">
+    <Collapsible
+      open={isOpened}
+      onOpenChange={setIsOpened}
+      className="overflow-hidden"
+    >
       <div
         className={cn('relative overflow-hidden rounded-md border', className)}
         {...props}
       >
         <CollapsibleContent
           forceMount
-          className={cn('overflow-hidden', !isOpened && 'max-h-32')}
+          className={cn(
+            'overflow-hidden will-change-auto',
+            !isOpened && 'max-h-32',
+          )}
         >
           <div
             className={cn(
-              '[&_pre]:my-0 [&_pre]:max-h-[650px] [&_div:last-child_pre]:pb-[50px]',
+              '[&_pre]:my-0 [&_pre]:max-h-[650px] [&_div:last-child_pre]:pb-[50px] transition-all',
               !isOpened
-                ? '[&_pre]:overflow-hidden'
-                : '[&_pre]:overflow-auto [&_pre]:mt-2',
+                ? '[&_pre]:overflow-hidden [&_[data-rehype-pretty-code-fragment]]:border-none'
+                : '[&_pre]:overflow-auto m-4 [&>div]:border',
             )}
           >
             {children}
@@ -45,10 +52,10 @@ export function CodeBlockWrapper({
         </CollapsibleContent>
         <div
           className={cn(
-            'absolute flex items-center justify-center bg-gradient-to-b p-2 rounded-lg',
+            'absolute flex items-center justify-center bg-gradient-to-b p-2 rounded-md',
             isOpened
-              ? 'inset-x-[1px] bottom-0 h-12 from-accent/10 to-accent-foreground/5 border-b border-b-solid'
-              : 'from-accent/10 to-accent-foreground/5 inset-0',
+              ? 'inset-x-0 bottom-0 h-12 bg-gradient-to-t from-zinc-700/50 to-transparent'
+              : 'inset-0 bg-gradient-to-t from-zinc-700/50 to-transparent',
           )}
         >
           <CollapsibleTrigger asChild>

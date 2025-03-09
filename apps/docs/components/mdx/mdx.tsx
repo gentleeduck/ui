@@ -21,13 +21,9 @@ import {
 } from '../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
 import { NpmCommands } from '~/types/unist'
 import Link from 'next/link'
-import { CodeBlockWrapper } from '../code-block-wrapper'
-// ! FIX: fix the path for the import copy-button
-// @ts-expect-error Cannot find module './copy-button' or its corresponding type declarations.ts(2307)
-import { CopyButton, CopyNpmCommandButton } from './copy-button'
 import { Event } from '~/lib/events'
-import { CodeBlock } from './mdx-components'
-import { ComponentPreview, ComponentSource } from '../ui'
+import { CodeBlockWrapper, ComponentSource, PreBlock } from './mdx-components'
+import { ComponentPreview } from '../ui'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -162,7 +158,7 @@ const components = {
       {...props}
     />
   ),
-  pre: CodeBlock,
+  pre: PreBlock,
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
     return (
       <code
@@ -176,13 +172,11 @@ const components = {
   },
   Image,
   // Callout,
-  ComponentPreview,
+  // ComponentPreview,
   // ComponentExample,
   ComponentSource,
   AspectRatio,
-  CodeBlockWrapper: ({ ...props }) => (
-    <CodeBlockWrapper className="rounded-md border" {...props} />
-  ),
+  CodeBlockWrapper, //className="" />,
   Step: ({ className, ...props }: React.ComponentProps<'h3'>) => (
     <h3
       className={cn(
