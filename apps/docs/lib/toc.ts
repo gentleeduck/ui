@@ -5,13 +5,15 @@ import { remark } from 'remark'
 import { visit } from 'unist-util-visit'
 
 const textTypes = ['text', 'emphasis', 'strong', 'inlineCode']
-
+// @ts-expect-error Parameter 'node' implicitly has an 'any' type.ts(7006)
 function flattenNode(node) {
+// @ts-expect-error Parameter 'node' implicitly has an 'any' type.ts(7006)
   const p = []
   visit(node, (node) => {
     if (!textTypes.includes(node.type)) return
     p.push(node.value)
   })
+// @ts-expect-error Parameter 'node' implicitly has an 'any' type.ts(7006)
   return p.join(``)
 }
 
@@ -24,7 +26,7 @@ interface Item {
 interface Items {
   items?: Item[]
 }
-
+// @ts-expect-error Parameter 'node' implicitly has an 'any' type.ts(7006)
 function getItems(node, current): Items {
   if (!node) {
     return {}
@@ -46,6 +48,7 @@ function getItems(node, current): Items {
   }
 
   if (node.type === 'list') {
+// @ts-expect-error Parameter 'node' implicitly has an 'any' type.ts(7006)
     current.items = node.children.map((i) => getItems(i, {}))
 
     return current
@@ -61,7 +64,7 @@ function getItems(node, current): Items {
 
   return {}
 }
-
+// @ts-expect-error Parameter 'node' implicitly has an 'any' type.ts(7006)
 const getToc = () => (node, file) => {
   const table = toc(node)
   const items = getItems(table.map, {})

@@ -4,10 +4,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { cn } from '@duck/libs/cn'
-import {
-  ScrollArea,
-  ScrollBar,
-} from '../../../packages/_oldstuff_refactor/default/ui/scroll-area'
 
 const links = [
   {
@@ -47,8 +43,7 @@ export function ChartsNav({
   const pathname = usePathname()
 
   return (
-    <ScrollArea className="max-w-[600px] lg:max-w-none">
-      <div className={cn('flex items-center', className)} {...props}>
+      <div className={cn('flex items-center max-w-[600px] lg:max-w-none show-scroll-hover', className)} {...props}>
         {links.map((example, index) => (
           <Link
             href={example.href}
@@ -65,7 +60,6 @@ export function ChartsNav({
           </Link>
         ))}
       </div>
-      <ScrollBar orientation="horizontal" className="invisible" />
-    </ScrollArea>
   )
 }
+

@@ -60,7 +60,7 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
 
   return (
     <div className="relative">
-      <ScrollArea className="max-w-[600px] lg:max-w-none">
+      <div className="max-w-[600px] lg:max-w-none show-scroll-hover">
         <div className={cn('mb-4 flex items-center', className)} {...props}>
           {examples.map((example, index) => (
             <Link
@@ -78,8 +78,8 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
             </Link>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" className="invisible" />
-      </ScrollArea>
+        {/* <ScrollBar orientation="horizontal" className="invisible" /> */}
+      </div>
     </div>
   )
 }

@@ -200,7 +200,8 @@ function get_component_source(files: { type: string; path: string }[]) {
   let item: ItemType[] = []
   // biome-ignore lint/style/useForOf: <explanation>
   for (let i = 0; i < files.length; i++) {
-    const filePath = path.join(process.cwd(), 'registry', files[i]?.path)
+    // ! NOTE: This is a temporary solution
+    const filePath = path.join(process.cwd(), 'registry', files[i]?.path || '')
     let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n\n`
     try {
       source += fs.readFileSync(filePath, 'utf8')
@@ -215,7 +216,8 @@ function get_component_source(files: { type: string; path: string }[]) {
       source = source.replaceAll('export default', 'export')
       item.push({
         name: files[i]?.path.split('/')?.pop() ?? 'file',
-        type: files[i]?.type,
+        // ! NOTE: This is a temporary solution
+        type: files[i]?.type ?? 'unknown',
         src: source,
       })
     } catch (error) {

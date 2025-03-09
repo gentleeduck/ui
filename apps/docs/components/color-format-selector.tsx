@@ -10,8 +10,9 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/select'
-import { Skeleton } from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/skeleton'
+} from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/select'
+import { Skeleton } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/skeleton'
+
 
 export function ColorFormatSelector({
   color,

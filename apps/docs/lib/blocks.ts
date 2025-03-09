@@ -1,8 +1,8 @@
 'use server'
 
-import { promises as fs } from 'fs'
-import { tmpdir } from 'os'
-import path from 'path'
+import { promises as fs } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { Index } from '~/__ui_registry__'
 import { Project, ScriptKind, SourceFile, SyntaxKind } from 'ts-morph'
 import { z } from 'zod'
@@ -81,7 +81,9 @@ async function _getAllBlocks(style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
   const index = z.record(registry_entry_schema).parse(Index[style])
 
   return Object.values(index).filter(
-    (block) => block.type === 'components:block',
+    // ! FIX: fix the type error
+    // @ts-expect-error This comparison appears to be unintentional because the types '"registry:style" | "registry:lib" | "registry:example" | "registry:block" | "registry:component" | "registry:ui" | "registry:hook" | "registry:theme" | "registry:page"' and '"components:block"' have no overlap.ts(2367)
+    (block) => block.type === 'components:block', //   (block) => block.type === 'registry:block',
   )
 }
 

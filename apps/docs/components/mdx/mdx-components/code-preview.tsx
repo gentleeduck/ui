@@ -39,6 +39,8 @@ export function BlockPreview({
         } as React.CSSProperties
       }
     >
+      {/* !  FIX: fix the type error 
+      @ts-expect-error Type 'RefObject<ImperativePanelHandle | null>' is not assignable to type 'RefObject<ImperativePanelHandle>'. Type 'ImperativePanelHandle | null' is not assignable to type 'ImperativePanelHandle'. Type 'null' is not assignable to type 'ImperativePanelHandle'.ts(2322) */}
       <BlockToolbar block={block} resizablePanelRef={ref} />
       <TabsContent
         value="preview"

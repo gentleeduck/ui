@@ -29,8 +29,8 @@ export function ComponentExample({
 }: ComponentExampleProps) {
   const [Example, Code, ...Children] = React.Children.toArray(
     children,
-  ) as React.ReactElement[]
-
+    // ! FIX: remove type any
+  ) as React.ReactElement<any>[]
   const codeString = React.useMemo(() => {
     if (
       typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined'
@@ -38,7 +38,8 @@ export function ComponentExample({
       const [, Button] = React.Children.toArray(
         Code.props.children,
       ) as React.ReactElement[]
-      return Button?.props?.value || Button?.props?.__rawString__ || null
+      // ! FIX: remove type any
+      return (Button?.props as any)?.value || (Button?.props as any)?.__rawString__ || null
     }
   }, [Code])
 
