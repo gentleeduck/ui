@@ -1,19 +1,19 @@
 'use client'
 
-import * as React from 'react'
 import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/navigation'
+import * as React from 'react'
 
-import { docsConfig } from '~/config/docs'
-import { siteConfig } from '~/config/site'
 import { cn } from '@duck/libs/cn'
-import { Icons } from '~/components/icons'
+import { Button } from '@duck/registry-ui-duckui/button'
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from '@duck/registry-ui-duckui/sheet'
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Icons } from '~/components/icons'
+import { docsConfig } from '~/config/docs'
+import { siteConfig } from '~/config/site'
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -66,7 +66,7 @@ export function MobileNav() {
           <Icons.logo className="mr-2 h-4 w-4" />
           <span className="font-bold">{siteConfig.name}</span>
         </MobileLink>
-        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6 show-scroll-hover">
+        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6 hide-scroll">
           <div className="flex flex-col space-y-3">
             {docsConfig.mainNav?.map(
               (item) =>

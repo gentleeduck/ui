@@ -133,13 +133,16 @@
     @apply scroll-smooth;
   }
 
+  .hide-scroll {
+    scrollbar-width: none;
+  }
   .show-scroll-hover {
-    overflow-y: hidden;
+    scrollbar-width: none;
   }
 
   .show-scroll-hover:hover {
-    overflow-y: auto;
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
   }
 
   ::-webkit-scrollbar {
