@@ -102,17 +102,13 @@ export function ComponentPreview({
           <div className="flex items-center justify-between p-4 absolute w-full">
             <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
-              <CopyButton
-                value={codeString}
-                variant="outline"
-                className="h-7 w-7 text-foreground opacity-100 hover:bg-muted hover:text-foreground [&_svg]:h-3.5 [&_svg]:w-3.5"
-              />
+              <CopyButton value={codeString} variant="outline" />
             </div>
           </div>
           <ThemeWrapper defaultTheme="zinc">
             <div
               className={cn(
-                'preview flex min-h-[350px] w-full justify-center p-10',
+                'preview flex min-h-[450px] w-full justify-center p-10',
                 {
                   'items-center': align === 'center',
                   'items-start': align === 'start',
@@ -135,7 +131,7 @@ export function ComponentPreview({
         </TabsContent>
         <TabsContent value="code">
           <div className="flex flex-col space-y-4">
-            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[350px] [&_pre]:overflow-auto">
+            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[450px] [&_pre]:overflow-auto">
               {Code}
             </div>
           </div>

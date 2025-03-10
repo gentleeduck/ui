@@ -27,7 +27,7 @@ export function PreBlock({
     <div>
       <pre
         className={cn(
-          'max-h-[650px] overflow-x-auto rounded-md py-4',
+          'max-h-[650px] overflow-x-auto rounded-md py-3',
           className,
         )}
         {...props}
