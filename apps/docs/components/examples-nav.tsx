@@ -5,10 +5,6 @@ import { usePathname } from 'next/navigation'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 
 import { cn } from '@duck/libs/cn'
-import {
-  ScrollArea,
-  ScrollBar,
-} from '../../../packages/_oldstuff_refactor/ui/scroll-area'
 
 const examples = [
   {
@@ -60,7 +56,7 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
 
   return (
     <div className="relative">
-      <div className="max-w-[600px] lg:max-w-none show-scroll-hover">
+      <div className="max-w-[600px] lg:max-w-none hide-scroll">
         <div className={cn('mb-4 flex items-center', className)} {...props}>
           {examples.map((example, index) => (
             <Link
@@ -78,7 +74,6 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
             </Link>
           ))}
         </div>
-        {/* <ScrollBar orientation="horizontal" className="invisible" /> */}
       </div>
     </div>
   )

@@ -122,8 +122,8 @@ const PostLayout = async ({
       {doc.toc && (
         <div className="hidden text-sm xl:block">
           <div className="sticky top-16 -mt-10 pt-4">
-            {/* NOTE: show-scroll-hover */}
-            <div className="show-scroll-hover pb-10 sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] py-12">
+            {/* NOTE: hide-scroll */}
+            <div className="hide-scroll pb-10 sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] py-12">
               <DashboardTableOfContents toc={doc.toc} />
             </div>
           </div>
