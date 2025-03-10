@@ -5,10 +5,10 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@duck/registry-ui-duckui/tooltip'
+} from '../tooltip'
 import { CommandShortcut } from '../command'
-import { Badge } from '@duck/registry-ui-duckui/badge'
-import { LabelType } from '@duck/registry-ui-duckui/button'
+import { Badge } from '../badge'
+import { LabelType } from '../button'
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> { }

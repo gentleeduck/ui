@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-noCheck
 import { cn } from '@duck/libs/cn'
 import { TableHead, TableHeader, TableRow } from '../table'
 import {
@@ -28,7 +28,9 @@ import {
   TableContentDataType,
   TableSearchStateType,
 } from './table-advanced.types'
-import { Checkbox, Input, ScrollArea, ScrollBar } from '~/old-registry-ui'
+import { ScrollArea, ScrollBar } from '../scroll-area/'
+import { Checkbox } from '../checkbox'
+import { Input } from '../input'
 
 export const DuckTableContext =
   React.createContext<DuckTableContextType<any> | null>(null)

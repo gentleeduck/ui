@@ -8,13 +8,13 @@
       "dom.iterable"
     ],
     "baseUrl": ".",
+    "incremental": false,
+    "rootDir": "./",
     "outDir": "./dist",
     "module": "Preserve",
+    "allowImportingTsExtensions": true,
     "moduleResolution": "bundler",
     "paths": {
-      "~/old-registry-ui": [
-        "../_oldstuff_refactor/ui/index.ts"
-      ],
       "~/*": [
         "./*"
       ]
@@ -26,9 +26,8 @@
     ]
   },
   "include": [
-    "./**/.ts",
-    "./**/.tsx",
-    "../_oldstuff_refactor/default/ui/index.ts"
+    "./**/*.ts",
+    "./**/*.tsx"
   ],
   "exclude": [
     "node_modules",

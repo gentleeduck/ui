@@ -1,6 +1,6 @@
-//@ts-noCheck
-import { Table } from '@/registry/default/ui/ShadcnUI/table'
-import { ScrollArea } from '@/registry/default/ui/scroll-area'
+// @ts-noCheck
+import { Table } from './table'
+import { ScrollArea } from '../scroll-area'
 import React from 'react'
 import { Button, LabelType } from '../button'
 import { sortArray } from './table.lib'

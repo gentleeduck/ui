@@ -107,6 +107,12 @@
     "zod": "catalog:"
   },
   "dependencies": {
-    "cmdk": "^1.0.0"
+    "@radix-ui/react-radio-group": "^1.2.0",
+    "cmdk": "^1.0.0",
+    "embla-carousel-react": "8.0.0-rc15",
+    "input-otp": "^1.2.4",
+    "react-hook-form": "^7.52.2",
+    "react-resizable-panels": "^2.0.23",
+    "recharts": "2.12.7"
   }
 }

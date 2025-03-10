@@ -1,7 +1,10 @@
-//@ts-noCheck
+// @ts-noCheck
 import { DropdownMenuOptionsDataType } from '@/registry/default/ui/dropdown-menu'
-import { Order, TableContentDataType, TableHeaderType } from './table.types'
-import { ColumnsViewedStateType } from './table'
+import {
+  ColumnsViewedStateType,
+  TableContentDataType,
+} from './table-advanced.types'
+import { Order, TableHeaderType } from './table.types'
 
 export function sortArray<T>(
   columns: TableHeaderType[],

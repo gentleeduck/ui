@@ -10,7 +10,7 @@ import { DrawerWrapperProps } from './drawer.types'
  * `Drawer` is a React component that renders a drawer interface.
  *
  * @param {React.ComponentProps<typeof DrawerPrimitive.Root>} props - The props to be passed to the `DrawerPrimitive.Root` component.
- * @param {boolean} [shouldScaleBackground] - If true, the drawer will scale the background when it is open.
+ * @param {boolean} [props.shouldScaleBackground] - If true, the drawer will scale the background when it is open.
  *
  * @returns {JSX.Element} The rendered `DrawerPrimitive.Root` component.
  */

@@ -1,6 +1,6 @@
 import { Loader2 } from 'lucide-react'
 import { SonnerProgressType } from './sonner-progress.types'
-import { Progress } from '~/old-registry-ui'
+import { Progress } from '../progress'
 
 /**
  * A component to display a progress bar with a message and an optional action button. Meant to be rendered in toasts

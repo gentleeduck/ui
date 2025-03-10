@@ -1,18 +1,16 @@
 'use client'
 
-import * as React from 'react'
-
-import { Command as CommandPrimitive } from 'cmdk'
-import { ScrollArea } from '../scroll-area'
-
-import { Check, Search } from 'lucide-react'
 import { cn } from '@duck/libs/cn'
 import { groupDataByNumbers } from '@duck/libs/group-data-by-numbers'
-import { Button } from '../button'
-import { Separator } from '../separator'
-import { Checkbox } from '../checkbox'
 import { Dialog, DialogContent } from '@duck/registry-ui-duckui/dialog'
 import { DialogProps } from '@radix-ui/react-dialog'
+import { Command as CommandPrimitive } from 'cmdk'
+import { Check, Search } from 'lucide-react'
+import React from 'react'
+import { Button } from '../button'
+import { Checkbox } from '../checkbox'
+import { ScrollArea } from '../scroll-area'
+import { Separator } from '../separator'
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -29,7 +27,7 @@ const Command = React.forwardRef<
 ))
 Command.displayName = CommandPrimitive.displayName
 
-interface CommandDialogProps extends DialogProps { }
+interface CommandDialogProps extends DialogProps {}
 
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
@@ -164,8 +162,8 @@ interface OnSelectType {
 interface ListItemElementType
   extends Partial<
     React.ComponentPropsWithoutRef<typeof CommandItem> &
-    React.CustomComponentPropsWithRef<typeof Button>
-  > { }
+      React.CustomComponentPropsWithRef<typeof Button>
+  > {}
 
 interface CommandListGroupType {
   type?: 'combobox' | 'listbox'
@@ -220,10 +218,10 @@ const CommandListGroup = React.forwardRef(
                           'data-[disabled=true]:opacity-50',
                           selected.includes(
                             (el?.label as string) ??
-                            (el?.element?.children as string),
+                              (el?.element?.children as string),
                           ) &&
-                          type === 'combobox' &&
-                          'bg-accent text-accent-foreground',
+                            type === 'combobox' &&
+                            'bg-accent text-accent-foreground',
                           className,
                         )}
                         onSelect={onSelect?.key}
@@ -236,7 +234,7 @@ const CommandListGroup = React.forwardRef(
                                 'mr-2 h-4 w-4',
                                 selected.includes(
                                   (el?.label as string) ??
-                                  (el?.element?.children as string),
+                                    (el?.element?.children as string),
                                 )
                                   ? 'opacity-100'
                                   : 'opacity-0',
@@ -246,7 +244,7 @@ const CommandListGroup = React.forwardRef(
                             <Checkbox
                               checked={selected.includes(
                                 (el?.label as string) ??
-                                (el?.element?.children as string),
+                                  (el?.element?.children as string),
                               )}
                               className={cn(
                                 'mr-2 h-4 w-4  border-muted-foreground',
