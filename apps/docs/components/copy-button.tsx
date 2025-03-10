@@ -10,7 +10,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuTriggerProps,
 } from '@duck/registry-ui-duckui/dropdown-menu'
 import { Event, trackEvent } from '~/lib/events'
 import { cn } from '@duck/libs/cn'
@@ -72,7 +71,9 @@ export function CopyButton({
   )
 }
 
-interface CopyWithClassNamesProps extends DropdownMenuTriggerProps {
+type HI = typeof DropdownMenuTrigger
+
+interface CopyWithClassNamesProps extends HI {
   value: string
   classNames: string
   className?: string
