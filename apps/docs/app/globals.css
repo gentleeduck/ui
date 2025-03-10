@@ -247,7 +247,7 @@ pre {
 }
 
 [data-rehype-pretty-code-fragment] {
-  @apply mb-4 max-h-[650px] overflow-x-auto rounded-md border bg-secondary pb-4 dark:bg-[#26262640] [&_code]:bg-transparent pt-4 relative;
+  @apply mb-4 max-h-[650px] overflow-x-auto rounded-md border bg-secondary dark:bg-[#26262640] [&_code]:bg-transparent relative;
 }
 
 [data-rehype-pretty-code-title] {
@@ -285,7 +285,7 @@ pre {
   @apply px-2;
 }
 
-[data-rehype-pretty-code-fragment] [data-line-numbers]>.line::before {
+[data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
   @apply text-zinc-50/40 text-xs;
   counter-increment: line;
   content: counter(line);
@@ -312,14 +312,14 @@ pre {
   @apply bg-zinc-900;
 }
 
-[data-rehype-pretty-code-title]+pre {
+[data-rehype-pretty-code-title] + pre {
   @apply mt-2;
 }
 
-.mdx>.steps:first-child>h3:first-child {
+.mdx > .steps:first-child > h3:first-child {
   @apply mt-0;
 }
 
-.steps>h3 {
+.steps > h3 {
   @apply mt-8 mb-4 text-base font-semibold;
 }

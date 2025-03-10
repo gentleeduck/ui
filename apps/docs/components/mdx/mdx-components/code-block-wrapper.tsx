@@ -55,7 +55,7 @@ export function CodeBlockWrapper({
             'absolute flex items-center justify-center bg-gradient-to-b p-2 rounded-md',
             isOpened
               ? 'inset-x-0 bottom-0 h-12 bg-gradient-to-t from-zinc-700/50 to-transparent'
-              : 'inset-0 bg-gradient-to-t from-zinc-700/50 to-transparent',
+              : 'inset-0 bg-gradient-to-t from-zinc-800/40 to-transparent backdrop-blur-sm',
           )}
         >
           <CollapsibleTrigger asChild>

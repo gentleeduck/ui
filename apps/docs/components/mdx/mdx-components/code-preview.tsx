@@ -16,7 +16,7 @@ import {
   ResizablePanelGroup,
 } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/resizable'
 
-export function BlockPreview({
+export function CodePreview({
   block,
 }: { block: Block & { hasLiftMode: boolean } }) {
   const [config] = useConfig()

@@ -1,5 +1,5 @@
 import { styles } from '@duck/registers'
-import { BlockPreview } from '~/components/mdx/mdx-components'
+import { CodePreview } from '~/components/mdx/mdx-components'
 import { getBlock } from '~/lib/blocks'
 
 export async function BlockDisplay({ name }: { name: string }) {
@@ -24,6 +24,6 @@ export async function BlockDisplay({ name }: { name: string }) {
   }
 
   return blocks.map((block) => (
-    <BlockPreview key={`${block.style}-${block.name}`} block={block} />
+    <CodePreview key={`${block.style}-${block.name}`} block={block} />
   ))
 }
