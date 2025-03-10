@@ -22,8 +22,12 @@ import {
 import { NpmCommands } from '~/types/unist'
 import Link from 'next/link'
 import { Event } from '~/lib/events'
-import { CodeBlockWrapper, ComponentSource, PreBlock } from './mdx-components'
-import { ComponentPreview } from '../ui'
+import {
+  CodeBlockWrapper,
+  ComponentPreview,
+  ComponentSource,
+  PreBlock,
+} from './mdx-components'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -163,7 +167,7 @@ const components = {
     return (
       <code
         className={cn(
-          'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm',
+          'relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm grid min-w-full break-words border-0',
           className,
         )}
         {...props}
@@ -172,8 +176,8 @@ const components = {
   },
   Image,
   // Callout,
-  // ComponentPreview,
   // ComponentExample,
+  ComponentPreview,
   ComponentSource,
   AspectRatio,
   CodeBlockWrapper, //className="" />,

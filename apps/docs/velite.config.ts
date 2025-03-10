@@ -66,7 +66,7 @@ const config = defineConfig({
       () =>
         (tree: UnistTree): UnistTree => {
           tree.children.map((node: UnistNode) => {
-            console.dir(node, { depth: 7 })
+            // console.dir(node, { depth: 7 })
           })
           return tree
         },

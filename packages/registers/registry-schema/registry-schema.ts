@@ -19,6 +19,8 @@ export const registry_item_file_schema = z.object({
   target: z.string().optional(),
 })
 
+export type RegistryItemFile = z.infer<typeof registry_item_file_schema>
+
 export const registry_item_tailwind_schema = z.object({
   config: z.object({
     content: z.array(z.string()).optional(),
@@ -63,11 +65,9 @@ export const registry_entry_schema = z.object({
   docs: z.string().optional(),
 })
 
-export type RegistryEntryFile = z.infer<typeof registry_item_file_schema>
+export type RegistryEntry = z.infer<typeof registry_entry_schema>
 
 export const registry_schema = z.array(registry_entry_schema)
-
-export type RegistryEntry = z.infer<typeof registry_entry_schema>
 
 export type Registry = z.infer<typeof registry_schema>
 

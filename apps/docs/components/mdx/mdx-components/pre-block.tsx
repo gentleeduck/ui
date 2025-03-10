@@ -25,7 +25,14 @@ export function PreBlock({
 
   return (
     <div>
-      <pre className={cn(className)} {...props} tabIndex={0} />
+      <pre
+        className={cn(
+          'max-h-[650px] overflow-x-auto rounded-md py-4',
+          className,
+        )}
+        {...props}
+        tabIndex={0}
+      />
       {__rawString__ && !__npmCommand__ && (
         <CopyButton
           value={__rawString__}

@@ -1,4 +1,4 @@
-import { RegistryEntryFile } from '@duck/registers'
+import { RegistryItemFile } from '@duck/registers'
 import fs from 'node:fs'
 import path from 'node:path'
 import { UnistNode, UnistTree } from 'types/unist'
@@ -29,7 +29,6 @@ export function rehypeComponent() {
           node,
         })
       }
-      // console.log(node, 'asdfasdf')
     })
   }
 }
@@ -40,7 +39,7 @@ function getNodeAttributeByName(node: UnistNode, name: string) {
 
 type ItemType = { name: string; type: string; src: string }
 
-export function get_component_source(files: RegistryEntryFile[]): ItemType[] {
+export function get_component_source(files: RegistryItemFile[]): ItemType[] {
   let item: ItemType[] = []
 
   // biome-ignore lint/style/useForOf: <explanation>
@@ -91,7 +90,7 @@ export function componentSource({
 
   try {
     const component = Index[`${name}`]
-    let items = get_component_source(component.files)
+    let items = get_component_source(component?.files ?? [])
 
     node.children?.push(
       ...items.map((item) => {
@@ -133,18 +132,21 @@ export function componentPreview({ node }: { node: UnistNode }) {
 
   try {
     const component = Index[`${name}`]
-    const src = component.files[0][0].path
+    const src = component?.files?.[0]?.path
 
     // Read the source file.
-    const filePath = path.join(process.cwd(), 'registry', src)
+    const filePath = path.join(
+      process.cwd(),
+      `../../packages/registry-examples-duckui/src/${src}`,
+    )
     let source = fs.readFileSync(filePath, 'utf8')
 
     // Replace imports.
     // TODO: Use @swc/core and a visitor to replace this.
     // For now a simple regex should do.
     source = source.replaceAll(
-      `@/registry/registry-ui-components`,
-      `@/components/${src.split('/')[0].split('-')[1]}`,
+      `@duck/registry-ui-duckui`,
+      `~/components/${src?.split('/')[0]?.split('-')[1] ?? 'this is broken path'}`,
     )
     source = source.replaceAll('export default', 'export')
 

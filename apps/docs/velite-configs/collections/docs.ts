@@ -5,11 +5,11 @@ export const docsLinksSchema = s.object({ doc: s.string(), api: s.string() })
 export const docsSchema = s
   .object({
     title: s.string().max(99),
-    metadata: s.metadata().optional(),
+    metadata: s.metadata(),
     description: s.string(),
     links: docsLinksSchema.optional(),
-    excerpt: s.excerpt().optional(),
-    content: s.markdown().optional(),
+    excerpt: s.excerpt(),
+    content: s.markdown(),
     body: s.mdx(),
     toc: s.toc(),
   })

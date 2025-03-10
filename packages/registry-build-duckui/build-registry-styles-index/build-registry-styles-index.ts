@@ -1,10 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { REGISTRY_PATH } from '../main'
-import { registry_schema, RegistryEntry } from '@duck/registers'
-import { z } from 'zod'
-import { Logger } from '../logger'
-import { Ora } from 'ora'
+import { RegistryEntry } from '@duck/registers'
 import { styleText } from 'node:util'
 import { BuildRegistryStylesIndexParams } from './build-registry-styles-index.types'
 

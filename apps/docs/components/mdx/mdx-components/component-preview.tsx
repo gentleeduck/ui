@@ -4,7 +4,6 @@ import * as React from 'react'
 import { Index } from '~/__ui_registry__'
 
 import { cn } from '@duck/libs/cn'
-import { useConfig } from '~/hooks/use-config'
 import { CopyButton } from '~/components/copy-button'
 import { Icons } from '~/components/icons'
 import { ThemeWrapper } from '~/components/theme-wrapper'
@@ -60,7 +59,6 @@ export function ComponentPreview({
 
   const codeString = React.useMemo(() => {
     if (
-
       // ! FIX:
       //  @ts-expect-error 'Code.props' is of type 'unknown'.ts(18046)
       typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined'
@@ -101,7 +99,7 @@ export function ComponentPreview({
           )}
         </div>
         <TabsContent value="preview" className="relative rounded-md border">
-          <div className="flex items-center justify-between p-4">
+          <div className="flex items-center justify-between p-4 absolute w-full">
             <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
               <CopyButton

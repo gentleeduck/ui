@@ -246,15 +246,6 @@ pre {
   font-weight: 500 !important;
 }
 
-[data-rehype-pretty-code-fragment] {
-  @apply mb-4 max-h-[650px] overflow-x-auto rounded-md border bg-secondary dark:bg-[#26262640] [&_code]:bg-transparent relative;
-}
-
-[data-rehype-pretty-code-title] {
-  @apply pb-3 px-4 font-mono font-semibold text-sm text-muted-foreground;
-  font-family: "JetBrains Mono", serif;
-}
-
 [data-theme="light"] {
   display: block;
 }
@@ -271,8 +262,12 @@ pre {
   display: block;
 }
 
+[data-rehype-pretty-code-fragment] {
+  @apply overflow-x-auto rounded-md border bg-secondary dark:bg-zinc-900 relative;
+}
+
 [data-rehype-pretty-code-fragment] code {
-  @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0;
+  /* @apply ; */
   counter-reset: line;
   box-decoration-break: clone;
 }
@@ -290,14 +285,13 @@ pre {
   counter-increment: line;
   content: counter(line);
   display: inline-block;
+  width: 1.8rem;
+  margin-right: 1.4rem;
   text-align: right;
-  margin-right: 1rem;
-  width: 1rem;
-  opacity: 0.76;
 }
 
 [data-rehype-pretty-code-fragment] .line--highlighted {
-  @apply bg-zinc-800/5 dark:bg-[#89b4fa14];
+  @apply bg-zinc-700/50;
 }
 
 [data-rehype-pretty-code-fragment] .line-highlighted span {
@@ -310,6 +304,11 @@ pre {
 
 .dark [data-rehype-pretty-code-fragment] .word--highlighted {
   @apply bg-zinc-900;
+}
+
+[data-rehype-pretty-code-title] {
+  @apply mt-4 px-4 text-sm font-medium text-accent-foreground/50;
+  font-family: "JetBrains Mono", serif;
 }
 
 [data-rehype-pretty-code-title] + pre {
