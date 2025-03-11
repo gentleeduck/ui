@@ -22,10 +22,9 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@duck/registry-ui-duckui/toggle-group'
-import {
-  Label,
-  Switch,
-} from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
+import { Label } from '@duck/registry-ui-duckui/label'
+
+import { Switch } from '@duck/registry-ui-duckui/switch'
 
 export function BlockToolbar({
   block,

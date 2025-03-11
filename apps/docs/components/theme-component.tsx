@@ -18,6 +18,7 @@ export function ThemeComponent({ name, ...props }: ThemeComponentProps) {
   const [config] = useConfig()
 
   const Preview = React.useMemo(() => {
+    //@ts-ignore
     const Component = Index[config.style][name]?.component
 
     if (!Component) {

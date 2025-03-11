@@ -2,7 +2,7 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/alert'
+} from '@duck/registry-ui-duckui/alert'
 
 interface CalloutProps {
   icon?: string

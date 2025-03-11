@@ -125,7 +125,7 @@ export function CopyWithClassNames({
   )
 }
 
-interface CopyNpmCommandButtonProps extends DropdownMenuTriggerProps {
+interface CopyNpmCommandButtonProps extends React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> {
   commands: Required<NpmCommands>
 }
 

@@ -27,7 +27,9 @@ export function rehypeComponent() {
 
         try {
           const component = Index[`${name}`]
+          // @ts-ignore
           const files = component.files[0]
+          // @ts-ignore
           let items: ItemType[] = get_component_source(files)
 
           node.children?.push(
@@ -69,6 +71,7 @@ export function rehypeComponent() {
 
         try {
           const component = Index[`${name}`]
+          //@ts-ignore
           const src = component.files[0][0].path
 
           // Read the source file.

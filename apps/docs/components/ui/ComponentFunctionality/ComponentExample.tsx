@@ -39,7 +39,11 @@ export function ComponentExample({
         Code.props.children,
       ) as React.ReactElement[]
       // ! FIX: remove type any
-      return (Button?.props as any)?.value || (Button?.props as any)?.__rawString__ || null
+      return (
+        (Button?.props as any)?.value ||
+        (Button?.props as any)?.__rawString__ ||
+        null
+      )
     }
   }, [Code])
 
@@ -65,6 +69,7 @@ export function ComponentExample({
             </TabsTrigger>
           </TabsList>
           {extractedClassNames ? (
+            // @ts-ignore
             <CopyWithClassNames
               value={codeString}
               classNames={extractedClassNames}

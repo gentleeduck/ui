@@ -2,6 +2,8 @@
 
 import * as React from 'react'
 import { Index } from '~/__ui_registry__'
+import { Crown, TriangleAlert } from 'lucide-react'
+import { Button } from '@duck/registry-ui-duckui/button'
 
 import { cn } from '@duck/libs/cn'
 import { CopyButton } from '~/components/copy-button'
@@ -40,6 +42,7 @@ export function ComponentPreview({
   const Code = Codes[0]
 
   const Preview = React.useMemo(() => {
+    //@ts-ignore
     const Component = Index[name]?.component
 
     if (!Component) {
@@ -147,8 +150,6 @@ export function ComponentPreview({
     </div>
   )
 }
-import { Crown, TriangleAlert } from 'lucide-react'
-import { Button } from '@duck/registry-ui-duckui/button'
 
 export const BuildTab = () => {
   return (

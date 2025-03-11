@@ -2,8 +2,8 @@
 
 import * as React from 'react'
 
-import { Mdx } from './mdx-components'
 import { docs } from '~/.velite'
+import { Mdx } from '../mdx'
 
 interface FrameworkDocsProps extends React.HTMLAttributes<HTMLDivElement> {
   data: string

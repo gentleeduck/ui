@@ -1,29 +1,53 @@
 'use client'
 
-import { Button } from '@duck/registry-ui-duckui/button'
-import { Calendar, Grab, LineChart } from 'lucide-react'
-import { Card } from '../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
+import * as React from 'react'
+import { Index } from '~/__ui_registry__'
 
-export function MainExample() {
+import { cn } from '@duck/libs/cn'
+import { useConfig } from '~/hooks/use-config'
+import { Icons } from '~/components/icons'
+
+interface ThemeComponentProps extends React.HTMLAttributes<HTMLDivElement> {
+  name: string
+  extractClassname?: boolean
+  extractedClassNames?: string
+  align?: 'center' | 'start' | 'end'
+}
+
+export function ThemeComponent({ name, ...props }: ThemeComponentProps) {
+  const [config] = useConfig()
+
+  const Preview = React.useMemo(() => {
+    //@ts-ignore
+    const Component = Index[config.style][name]?.component
+
+    if (!Component) {
+      return (
+        <p className="text-sm text-muted-foreground">
+          Component{' '}
+          <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+            {name}
+          </code>{' '}
+          not found in registry.
+        </p>
+      )
+    }
+
+    return <Component />
+  }, [name, config.style])
+
   return (
-    <div className="flex flex-col gap-3 items-center">
-      <Button variant={'outline'} size={'default'} icon={<Calendar />}>
-        Mettings
-      </Button>
-      <div className="relative">
-        <Grab className="size-4 absolute -top-2 right-8 z-10 fill-white" />
-
-        <Button
-          variant={'outline'}
-          size={'default'}
-          className="bg-secondary"
-          icon={<LineChart />}
-        >
-          Analytics
-        </Button>
-      </div>
-
-      <Card className="w-[500px] h-[584px]"></Card>
+    <div className={cn('relative')} {...props}>
+      <React.Suspense
+        fallback={
+          <div className="flex items-center text-sm text-muted-foreground">
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            Loading...
+          </div>
+        }
+      >
+        {Preview}
+      </React.Suspense>
     </div>
   )
 }

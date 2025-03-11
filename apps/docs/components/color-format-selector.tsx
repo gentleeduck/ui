@@ -10,9 +10,8 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/select'
-import { Skeleton } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/skeleton'
-
+} from '@duck/registry-ui-duckui/select'
+import { Skeleton } from '@duck/registry-ui-duckui/skeleton'
 
 export function ColorFormatSelector({
   color,

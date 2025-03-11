@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { cn } from '@duck/libs/cn'
-import { AspectRatio } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/aspect-ratio'
+import { AspectRatio } from '@duck/registry-ui-duckui/aspect-ratio'
 
 export function ComponentCard({
   className,

@@ -18,7 +18,7 @@ import { useConfig } from '~/hooks/use-config'
 import { cn } from '@duck/libs/cn'
 
 import '~/styles/mdx.css'
-import { Theme ,registry_themes } from '@duck/registers'
+import { Theme, registry_themes } from '@duck/registers'
 import {
   Drawer,
   DrawerContent,
@@ -42,8 +42,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@duck/registry-ui-duckui/dialog'
-import { Skeleton } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/skeleton'
-import { Label } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/label'
+import { Skeleton } from '@duck/registry-ui-duckui/skeleton'
+import { Label } from '@duck/registry-ui-duckui/label'
 
 export function ThemeCustomizer() {
   const [config, setConfig] = useConfig()
@@ -82,7 +82,9 @@ export function ThemeCustomizer() {
           {mounted ? (
             <>
               {['zinc', 'rose', 'blue', 'green', 'orange'].map((color) => {
-                const theme = registry_themes.find((theme) => theme.name === color)
+                const theme = registry_themes.find(
+                  (theme) => theme.name === color,
+                )
                 const isActive = config.theme === color
 
                 if (!theme) {
@@ -359,7 +361,9 @@ function CopyCodeButton({
   ...props
 }: React.ComponentProps<typeof Button>) {
   const [config] = useConfig()
-  const activeTheme = registry_themes.find((theme) => theme.name === config.theme)
+  const activeTheme = registry_themes.find(
+    (theme) => theme.name === config.theme,
+  )
   const [hasCopied, setHasCopied] = React.useState(false)
 
   React.useEffect(() => {
@@ -443,7 +447,9 @@ function CopyCodeButton({
 
 function CustomizerCode() {
   const [config] = useConfig()
-  const activeTheme = registry_themes.find((theme) => theme.name === config.theme)
+  const activeTheme = registry_themes.find(
+    (theme) => theme.name === config.theme,
+  )
 
   return (
     <ThemeWrapper defaultTheme="zinc" className="relative space-y-4">

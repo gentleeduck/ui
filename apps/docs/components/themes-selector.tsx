@@ -16,7 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@duck/registry-ui-duckui/tooltip'
-import { Skeleton } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/skeleton'
+import { Skeleton } from '@duck/registry-ui-duckui/skeleton'
 
 export function ThemesSwitcher({
   themes = THEMES,

@@ -15,8 +15,7 @@ import {
   Radar,
 } from 'lucide-react'
 import { Block } from '@duck/registers'
-// @ts-expect-error Module '"../../../packages/_oldstuff_refactor/ui"' has no exported member 'Separator'.ts(2305)
-import { Separator } from '../../../packages/_oldstuff_refactor/ui'
+import { Separator } from '@duck/registry-ui-duckui/separator'
 
 export function ChartToolbar({
   chart,

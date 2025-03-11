@@ -19,7 +19,18 @@ export function ColorPalette({ colorPalette }: { colorPalette: ColorPalette }) {
         </div>
         <React.Suspense fallback={<ColorFormatSelectorSkeleton />}>
           <ColorFormatSelector
-            color={colorPalette.colors[0] ?? { className: '', id: '', name: '', scale: 0, hex: '', rgb: '', hsl: '', foreground: '' }}
+            color={
+              colorPalette.colors[0] ?? {
+                className: '',
+                id: '',
+                name: '',
+                scale: 0,
+                hex: '',
+                rgb: '',
+                hsl: '',
+                foreground: '',
+              }
+            }
             className="ml-auto"
           />
         </React.Suspense>

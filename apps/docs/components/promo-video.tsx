@@ -1,16 +1,17 @@
 'use client'
 
-import { AspectRatio } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI'
+import * as React from 'react'
+import { Provider as JotaiProvider } from 'jotai'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
+import { ThemeProviderProps } from 'next-themes/dist/types'
+import { TooltipProvider } from '@duck/registry-ui-duckui/tooltip'
 
-export function PromoVideo() {
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
-    <AspectRatio
-      ratio={16 / 9}
-      className="overflow-hidden rounded-lg border bg-white shadow-xl"
-    >
-      <video autoPlay muted playsInline>
-        <source src="video goes here" type="video/mp4" />
-      </video>
-    </AspectRatio>
+    <JotaiProvider>
+      <NextThemesProvider {...props}>
+        <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
+      </NextThemesProvider>
+    </JotaiProvider>
   )
 }

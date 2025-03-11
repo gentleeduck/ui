@@ -11,10 +11,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectTriggerProps,
-} from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/select'
+} from '@duck/registry-ui-duckui/select'
 
-export function StyleSwitcher({ className, ...props }: SelectTriggerProps) {
+export function StyleSwitcher({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof SelectTrigger>) {
   const [config, setConfig] = useConfig()
 
   return (

@@ -1,8 +1,9 @@
-import { defineConfig } from 'velite'
-import { docs } from '~/velite-configs'
+import { defineConfig, s } from 'velite'
+// import { docs } from '~/velite-configs'
 
 import { getHighlighter, loadTheme } from '@shikijs/compat'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+// @ts-ignore
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import { codeImport } from 'remark-code-import'
@@ -25,7 +26,36 @@ import { Nodes } from 'hast'
 
 const config = defineConfig({
   collections: {
-    docs,
+    docs: {
+      name: 'Docs',
+      pattern: 'docs/**/*.mdx',
+      schema: s
+        .object({
+          title: s.string().max(99),
+          metadata: s.metadata(),
+          description: s.string(),
+          links: s.object({ doc: s.string(), api: s.string() }).optional(),
+          excerpt: s.excerpt(),
+          content: s.markdown(),
+          body: s.mdx(),
+          toc: s.toc(),
+        })
+        //NOTE:: more additional fields (computed fields)
+        .transform((data, { path, meta }) => ({
+          ...data,
+          slug: `${meta.path.split('/').slice(-3, -1).join('/')}/${meta.path.split('/').pop()?.replace('.mdx', '')}`,
+          permalink: `${meta.path.split('/').slice(-2, -1).join('/')}/${meta.path.split('/').pop()?.replace('.mdx', '')}`,
+          sourceFilePath: path,
+          sourceFileName: meta.path.split('/').pop(),
+          sourceFileDir: meta.path.split('/').slice(-3, -1).join('/'),
+          contentType: meta.path.split('.').pop(),
+          flattenedPath: meta.path
+            .split('/')
+            .slice(-2, -1)
+            .join('/')
+            .replace(/\.mdx$/, ''),
+        })),
+    },
   },
   mdx: {
     remarkPlugins: [remarkGfm, codeImport],
@@ -82,6 +112,6 @@ const config = defineConfig({
       // ],
     ] as PluggableList,
   },
-})
+}) as any
 
 export default config

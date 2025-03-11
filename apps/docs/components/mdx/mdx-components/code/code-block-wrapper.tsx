@@ -1,4 +1,3 @@
-export * from './resizable'
 import React from 'react'
 import {
   Collapsible,

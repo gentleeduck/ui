@@ -1,7 +1,7 @@
 import { cn } from '@duck/libs/cn'
 import { NpmCommands } from '~/types/unist'
 import { Event } from '~/lib/events'
-import { CopyButton, CopyNpmCommandButton } from '../../copy-button'
+import { CopyButton, CopyNpmCommandButton } from '~/components/copy-button'
 
 export type CodeBlockProps = React.HTMLAttributes<HTMLPreElement> & {
   __rawString__?: string

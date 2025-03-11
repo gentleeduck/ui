@@ -14,7 +14,7 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/resizable'
+} from '@duck/registry-ui-duckui/resizable'
 
 export function CodePreview({
   block,
