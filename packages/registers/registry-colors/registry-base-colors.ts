@@ -612,6 +612,7 @@ export const registry_base_colors: ColorBase = [
         'chart-4': '43 74% 66%',
         'chart-5': '27 87% 67%',
       },
+      //
       dark: {
         background: '222.2 84% 4.9%',
         foreground: '210 40% 98%',
