@@ -10,7 +10,7 @@ export default function Button21Demo() {
         type="button"
         role="button"
         variant="gooey_right"
-        icon={{ children: Inbox }}
+        icon={<Inbox />}
       >
         Button
       </Button>

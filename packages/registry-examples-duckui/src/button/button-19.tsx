@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '@duck/registry-ui-duckui/button'
-import { Apple, ArrowLeft } from 'lucide-react'
+import { Apple, ArrowLeft, Inbox } from 'lucide-react'
 
 export default function Button19Demo() {
   return (
@@ -11,10 +11,10 @@ export default function Button19Demo() {
         role="button"
         variant="expand_icon"
         animationIcon={{
-          icon: { children: ArrowLeft },
+          icon: <ArrowLeft />,
           iconPlacement: 'left',
         }}
-        secondIcon={{ children: Apple }}
+        icon={<Inbox />}
       >
         Button
       </Button>

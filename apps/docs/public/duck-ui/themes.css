@@ -605,7 +605,7 @@
 
   --ring: 221.2 83.2% 53.3%;
 
-  --radius: ;
+  --radius: 0.95rem;
 }
 
 .dark .theme-blue {

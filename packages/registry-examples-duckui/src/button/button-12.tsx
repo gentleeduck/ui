@@ -10,7 +10,7 @@ export default function Button16Demo() {
         aria-label="Open inbox and trigger command"
         type="button"
         role="button"
-        icon={{ children: Inbox }}
+        icon={<Inbox />}
         label={{
           showCommand: true,
           showLabel: true,

@@ -11,10 +11,10 @@ export default function Button18Demo() {
         role="button"
         variant="expand_icon"
         animationIcon={{
-          icon: { children: ArrowRight },
+          icon: <ArrowRight />,
           iconPlacement: 'right',
         }}
-        icon={{ children: Inbox }}
+        icon={<Inbox />}
       >
         Button
       </Button>

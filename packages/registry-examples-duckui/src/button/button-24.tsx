@@ -2,20 +2,17 @@ import React from 'react'
 import { Button } from '@duck/registry-ui-duckui/button'
 import { Inbox } from 'lucide-react'
 
-export default function Button24Demo() {
+export default function Button9Demo() {
   return (
-    <div className="block">
+    <>
       <Button
+        icon={<Inbox />}
         aria-label="Inbox button"
         type="button"
         role="button"
-        variant="link_hover2"
-        icon={{
-          children: Inbox,
-        }}
       >
         Button
       </Button>
-    </div>
+    </>
   )
 }

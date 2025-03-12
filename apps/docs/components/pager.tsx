@@ -14,7 +14,7 @@ interface DocsPagerProps {
 export function DocsPager({ doc }: DocsPagerProps) {
   const pager = getPagerForDoc(doc)
 
-  console.log(pager)
+  // console.log(pager)
   if (!pager) {
     return null
   }
@@ -61,7 +61,7 @@ export function getPagerForDoc(doc: Docs) {
   const activeIndex = flattenedLinks.findIndex((link) =>
     link?.href?.includes(doc.slug ?? doc.title),
   )
-  console.log(activeIndex, 'nav var')
+  // console.log(activeIndex, 'nav var')
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
   const next =
     activeIndex !== flattenedLinks.length - 1

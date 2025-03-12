@@ -6,22 +6,66 @@ featured: true
 component: true
 ---
 
+#### **Primary Icon**
 
-<ComponentSource name="button" />
-<ComponentPreview name="button-1" />
+- **`icon`** ([`IconType`](#icontype), optional):
+  - Specifies the primary icon displayed within the button.
 
+#### **Secondary Icon**
 
-```tsx title="home-page-partial.tsx"
-import { Button } from "~/components/ui/button"
+- **`secondIcon`** ([`IconType`](#icontype), optional):
+  - Adds a secondary icon to appear alongside the primary icon.
 
-export default function Home() {
-  return (
-    <div>
-      <Button>Click me</Button>
-    </div>
-  )
-}
-```
+#### **Animation Icon**
 
+- **`animationIcon`** (`{ icon: [IconType](#icontype), iconPlacement: 'left' | 'right' }`, optional):
+  - Defines an animated icon that appears on hover, with `iconPlacement` specifying its position.
 
+---
 
+## Type Definitions
+
+### IconType
+
+Defines an icon component from the Lucide library.
+
+- **`children`** (LucideIcon): The icon component.
+- **Additional SVG Props**: Includes all `React.SVGProps` for SVG customization.
+
+---
+
+### LabelType
+
+Configures an optional label with tooltip support for additional context.
+
+- **`showCommand`** (`boolean`, optional): Show the command on the `Tooltip`.
+- **`showLabel`** (`boolean`, optional): Show the label on the `Tooltip`.
+- **`delayDuration`** (`number`, optional): The delay the `Tooltip` gonna take to me mounted.
+- **`...BadgeProps`** ([`BadgeType`](/docs/components/badge#api-reference),optional): The rest of `Badge` component props.
+- **`...TooltipProps`** ([`TooltipType`](/docs/components/tooltip#api-reference),optional): The rest
+  of `Tooltip` component props.
+- **`...TooltipContent`**
+  ([`TooltipContentType`](/docs/components/tooltip#tooltipcontent),optional): The rest of
+  `TooltipContent` component props.
+
+---
+
+### CommandType
+
+Provides keyboard command handling and displays an associated shortcut or action label, it defines a command for keyboard shortcuts, with an action function, state management, and label.
+
+- **`label`** (`string`, optional): The label for the `Command`.
+- **`key`** (`string`, optional): The key for the `Command`.
+- **`show`** (`boolean`, optional): To show the `Command` body on the button.
+- **`action`** (`() => void`): The function that executes with the `Command`.
+- **`shortcut`** (`string[]`, optional): The keyboard keys associated with the `Command`.
+- [**`...BadgeProps`**](/docs/components/badge#api-reference) (optional): The rest of `Badge` components props.
+
+## Changelog
+
+### 2024-12-19 
+
+- **New Variants:** Added new button variants, including muted, dashed, and warning styles.
+- **Border Props:** Introduced new button border properties to allow borders with hover effects.
+- **Hook Update:** Removed state from the `useDuckShortcut` hook, previously imported from `@ahmedayoub/shortcut`.
+- **Documentation:** Updated documentation to reflect the latest changes to the Button component.

@@ -35,6 +35,13 @@ import {
 } from '@duck/registry-ui-duckui/accordion'
 import Image from 'next/image'
 import runtime from 'react/jsx-runtime'
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from '@duck/registry-ui-duckui/alert'
+import { ComponentExample } from '../ui'
+import { AspectRatio } from '@duck/registry-ui-duckui/aspect-ratio'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -46,9 +53,9 @@ const components = {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  // Alert,
-  // AlertTitle,
-  // AlertDescription,
+  Alert,
+  AlertTitle,
+  AlertDescription,
   h1: H1,
   h2: H2,
   h3: H3,
@@ -90,10 +97,10 @@ const components = {
   code: Code,
   Image,
   Callout,
-  // ComponentExample,
+  ComponentExample,
   ComponentPreview,
   ComponentSource,
-  // AspectRatio,
+  AspectRatio,
   CodeBlockWrapper,
   Step: ({ className, ...props }: React.ComponentProps<'h3'>) => (
     <h3
@@ -110,10 +117,10 @@ const components = {
       {...props}
     />
   ),
-  Tab,
-  TabList,
-  TabTrigger,
-  TabContent,
+  Tabs: Tab,
+  TabsList: TabList,
+  TabsTrigger: TabTrigger,
+  TabsContent: TabContent,
   FrameworkDocs,
   Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link

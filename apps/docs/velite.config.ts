@@ -63,8 +63,8 @@ const config = defineConfig({
     rehypePlugins: [
       rehypeSlug,
       rehypeComponent,
-      // rehypeExtractTitle,
-      // metadataPlugin,
+      rehypeExtractTitle,
+      metadataPlugin,
       [
         rehypePrettyCode,
         {
@@ -101,15 +101,15 @@ const config = defineConfig({
           return tree
         },
       // rehypeNpmCommand,
-      // [
-      //   rehypeAutolinkHeadings,
-      //   {
-      //     properties: {
-      //       className: ['subheading-anchor'],
-      //       ariaLabel: 'Link to section',
-      //     },
-      //   },
-      // ],
+      [
+        rehypeAutolinkHeadings,
+        {
+          properties: {
+            className: ['subheading-anchor'],
+            ariaLabel: 'Link to section',
+          },
+        },
+      ],
     ] as PluggableList,
   },
 }) as any

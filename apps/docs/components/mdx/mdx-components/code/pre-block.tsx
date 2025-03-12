@@ -21,7 +21,7 @@ export function PreBlock({
   __event__,
   ...props
 }: CodeBlockProps) {
-  console.log(__rawString__, props)
+  // console.log(__rawString__, props)
 
   return (
     <div>

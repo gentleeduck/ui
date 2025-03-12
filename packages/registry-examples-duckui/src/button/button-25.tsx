@@ -20,7 +20,7 @@ export default function Button24Demo() {
       aria-expanded={open}
       aria-pressed={open}
       isCollapsed={open}
-      icon={{ children: Inbox }}
+      icon={<Inbox />}
       variant="default"
       tabIndex={0}
       loading={false}

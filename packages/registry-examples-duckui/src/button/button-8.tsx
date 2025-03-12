@@ -6,7 +6,7 @@ export default function Button9Demo() {
   return (
     <>
       <Button
-        icon={{ children: Inbox }}
+        icon={<Inbox />}
         aria-label="Inbox button"
         type="button"
         role="button"

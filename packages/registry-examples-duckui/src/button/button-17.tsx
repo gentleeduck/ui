@@ -1,22 +1,23 @@
 import React from 'react'
 import { Button } from '@duck/registry-ui-duckui/button'
-import { Inbox } from 'lucide-react'
+import { Apple, ArrowLeft, Inbox } from 'lucide-react'
 
-export default function Button17Demo() {
-  const [open, setOpen] = React.useState<boolean>(false)
-
+export default function Button19Demo() {
   return (
-    <>
+    <div className="block">
       <Button
-        aria-label="Inbox button with 23 notifications"
+        aria-label="Expand inbox button"
         type="button"
         role="button"
-        isCollapsed={open}
-        icon={{ children: Inbox }}
-        onClick={() => setOpen(!open)}
+        variant="expand_icon"
+        animationIcon={{
+          icon: <ArrowLeft />,
+          iconPlacement: 'left',
+        }}
+        icon={<Inbox />}
       >
         Button
       </Button>
-    </>
+    </div>
   )
 }
