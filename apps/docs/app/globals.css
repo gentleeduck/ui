@@ -6,24 +6,41 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 @font-face {
-  font-family: 'Geist';
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(/fonts/Geist-VF.woff2) format("woff2")
+  font-family: "Adjusted Lucida Sans Typewriter Fallback";
+  src: local(Lucida Sans Typewriter);
+  size-adjust: 119%;
+  ascent-override: 86%;
+  descent-override: 16%;
+  line-gap-override: 30%;
 }
 
 @font-face {
-  font-family: 'Mono';
+  font-family: "Adjusted Arial Fallback";
+  src: local(Arial);
+  size-adjust: 99%;
+  ascent-override: 101%;
+  descent-override: 26%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Geist";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/fonts/Geist-VF.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Mono";
   font-weight: 500;
   font-display: optional;
-  src: url(/fonts/JetBrainsMono-MD.woff2) format("woff2")
+  src: url(/fonts/JetBrainsMono-MD.woff2) format("woff2");
 }
 
 :root {
-  --font-sans: 'Geist';
-  --font-mono: 'Mono';
+  --font-sans: "Geist", "Adjusted Arial Fallback";
+  --font-mono: "Mono", "Adjusted Lucida Sans Typewriter Fallback";
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -240,7 +257,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: "Mono", monospace !important;
+  font-family: var(--font-mono) !important;
   font-optical-sizing: auto !important;
   font-style: normal !important;
   font-weight: 500 !important;
