@@ -54,18 +54,10 @@ const PostLayout = async ({
 }: { params: Promise<{ slug: string }> }) => {
   const _param = await params
   const doc = docs.find((post) => _param.slug.includes(post?.title))
-  // const Content = getMDXComponent(post.body.code)
-
-  // const content = await getTableOfContents(doc?.content || '')
-  // console.log(content, doc?.body)
 
   if (!doc) {
     notFound()
   }
-
-  const toc = await getTableOfContents(doc.content || '')
-
-  // console.log(toc, 'haapppyt talk')
 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">

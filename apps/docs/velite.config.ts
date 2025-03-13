@@ -100,7 +100,7 @@ const config = defineConfig({
           })
           return tree
         },
-      // rehypeNpmCommand,
+      rehypeNpmCommand,
       [
         rehypeAutolinkHeadings,
         {
@@ -112,6 +112,6 @@ const config = defineConfig({
       ],
     ] as PluggableList,
   },
-}) as any
+})
 
 export default config
