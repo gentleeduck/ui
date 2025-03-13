@@ -200,6 +200,8 @@ const components = {
         {__rawString__ && !__npmCommand__ && (
           <CopyButton
             value={__rawString__}
+            // ! FIX: src type prop
+            // @ts-expect-error Type '{ value: string; src: string | undefined; variant: "outline"; event: "copy_npm_command" | "copy_usage_import_code" | "copy_usage_code" | "copy_primitive_code" | "copy_theme_code" | "copy_block_code" | "copy_chunk_code" | "enable_lift_mode" | "copy_chart_code" | "copy_chart_theme" | "copy_chart_data" | "copy_color" | undefined; className: string; }' is not assignable to type 'IntrinsicAttributes & CopyButtonProps'. Property 'src' does not exist on type 'IntrinsicAttributes & CopyButtonProps'.ts(2322) 
             src={__src__}
             variant={'outline'}
             event={__event__}
