@@ -26,6 +26,7 @@ export function SiteHeader() {
                 href={siteConfig.links.github}
                 target="_blank"
                 rel="noreferrer"
+                aria-label='GitHub'
               >
                 <div
                   className={cn(
@@ -36,13 +37,13 @@ export function SiteHeader() {
                   )}
                 >
                   <Github />
-                  <span className="sr-only">GitHub</span>
                 </div>
               </Link>
               <Link
                 href={siteConfig.links.twitter}
                 target="_blank"
                 rel="noreferrer"
+                aria-label='Twitter'
               >
                 <div
                   className={cn(
@@ -53,7 +54,6 @@ export function SiteHeader() {
                   )}
                 >
                   <Twitter />
-                  <span className="sr-only">Twitter</span>
                 </div>
               </Link>
               <ModeSwitcher />

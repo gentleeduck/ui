@@ -45,7 +45,7 @@ export default function IndexPage() {
             specially for magical websites.
           </PageHeaderDescription>
           <Link
-            href={'/docs'}
+            href={'/docs/components/button'}
             className={cn(
               buttonVariants({
                 variant: 'default',

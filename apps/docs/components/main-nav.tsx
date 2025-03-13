@@ -21,7 +21,7 @@ export function MainNav() {
         </span>
       </Link>
       <nav className="flex items-center gap-4 text-sm xl:gap-6">
-        <Link
+        {/* <Link
           href="/docs/installation"
           className={cn(
             'transition-colors hover:text-foreground/80',
@@ -88,7 +88,7 @@ export function MainNav() {
           )}
         >
           Colors
-        </Link>
+        </Link> */}
       </nav>
     </div>
   )
