@@ -6,8 +6,8 @@ export default function Button9Demo() {
   return (
     <>
       <Button
-        icon={<Inbox />}
         aria-label="Inbox button"
+        variant={'gooey_right'}
         type="button"
         role="button"
       >

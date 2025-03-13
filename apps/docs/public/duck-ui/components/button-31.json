@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "button/button-31.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@duck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button9Demo() {\n  return (\n    <>\n      <Button\n        icon={{ children: Inbox }}\n        aria-label=\"Inbox button\"\n        type=\"button\"\n        role=\"button\"\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@duck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button9Demo() {\n  return (\n    <>\n      <Button\n        icon={<Inbox />}\n        aria-label=\"Inbox button\"\n        type=\"button\"\n        role=\"button\"\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-31.tsx"
     }

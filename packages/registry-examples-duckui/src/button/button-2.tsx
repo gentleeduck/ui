@@ -1,19 +1,15 @@
 import React from 'react'
 import { Button } from '@duck/registry-ui-duckui/button'
-import { Inbox } from 'lucide-react'
 
-export default function Button21Demo() {
+export default function ButtonSimpleDemo() {
   return (
-    <div className="block">
-      <Button
-        aria-label="Inbox button"
-        type="button"
-        role="button"
-        variant="gooey_right"
-        icon={<Inbox />}
-      >
-        Button
-      </Button>
-    </div>
+    <Button
+      aria-label="Simple button"
+      variant={'default'}
+      type="button"
+      role="button"
+    >
+      Button
+    </Button>
   )
 }

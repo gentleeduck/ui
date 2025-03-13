@@ -140,14 +140,12 @@ export function componentPreview({ node }: { node: UnistNode }) {
       `../../packages/registry-examples-duckui/src/${src}`,
     )
     let source = fs.readFileSync(filePath, 'utf8')
+    console.log(src?.split('/')[0])
 
     // Replace imports.
     // TODO: Use @swc/core and a visitor to replace this.
     // For now a simple regex should do.
-    source = source.replaceAll(
-      `@duck/registry-ui-duckui`,
-      `~/components/${src?.split('/')[0]?.split('-')[1] ?? 'this is broken path'}`,
-    )
+    source = source.replaceAll(`@duck/registry-ui-duckui`, `~/components`)
     source = source.replaceAll('export default', 'export')
 
     // Add code as children so that rehype can take over at build time.
