@@ -25,6 +25,7 @@ export function ModeSwitcher() {
       variant="ghost"
       className="group/toggle"
       onClick={toggleTheme}
+      aria-label='toggle theme'
       icon={
         <>
           <SunIcon className="hidden [html.dark_&]:block" />
@@ -33,7 +34,6 @@ export function ModeSwitcher() {
       }
       size={'icon'}
     >
-      <span className="sr-only">Toggle theme</span>
     </Button>
   )
 }

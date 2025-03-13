@@ -45,6 +45,7 @@ export function CopyButton({
     <Button
       size="icon"
       variant={variant}
+      aria-label='Copy'
       className={cn(
         'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
         className,
@@ -66,7 +67,6 @@ export function CopyButton({
       }}
       {...props}
     >
-      <span className="sr-only">Copy</span>
     </Button>
   )
 }

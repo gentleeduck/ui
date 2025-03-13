@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "Adjusted Lucida Sans Typewriter Fallback";
-  src: local(Lucida Sans Typewriter);
+  src: local("Lucida Sans Typewriter");
   size-adjust: 119%;
   ascent-override: 86%;
   descent-override: 16%;
@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: "Adjusted Arial Fallback";
-  src: local(Arial);
+  src: local("Arial");
   size-adjust: 99%;
   ascent-override: 101%;
   descent-override: 26%;
@@ -34,7 +34,7 @@
 @font-face {
   font-family: "Mono";
   font-weight: 500;
-  font-display: optional;
+  font-display: fallback;
   src: url(/fonts/JetBrainsMono-MD.woff2) format("woff2");
 }
 
