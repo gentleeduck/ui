@@ -3,6 +3,9 @@
 
 ## THE UI COMPONENT:
 
+review all data- based classes for better performance
+
+
 - [ ] ACCORDION:
     - [ ] MAKE THE COMPONENT.
     - [ ] MAKE EXAMPLES FOR THE COMPONENT.
