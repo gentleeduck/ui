@@ -57,7 +57,7 @@ export default function IndexPage() {
           </Link>
         </PageHeader>
         <div className="flex flex-col justify-center items-center">
-          <img src={'/home.png'} width="100%" />
+          <img src={'/home.avif'} width="100%" />
         </div>
       </div>
       <div>

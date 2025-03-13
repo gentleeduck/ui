@@ -23,7 +23,7 @@ import { Nodes } from 'hast'
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
 
 // rehypeExtractTitle.js
-// ! FIX type error
+// ! FIX: type error
 const config = defineConfig({
   collections: {
     docs: {
