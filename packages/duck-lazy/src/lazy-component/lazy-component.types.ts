@@ -1,6 +1,6 @@
 export type UseLazyLoadOptions = {
   isVisible: boolean
-  elementRef: React.RefObject<HTMLDivElement> | null
+  elementRef: React.RefObject<HTMLDivElement | null>
 }
 
 export interface DuckLazyProps extends React.HTMLProps<HTMLDivElement> {}

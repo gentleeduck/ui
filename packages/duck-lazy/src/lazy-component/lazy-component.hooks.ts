@@ -16,7 +16,7 @@ import { UseLazyLoadOptions } from './lazy-component.types'
  * Hook to handle lazy loading of components
  *
  * @param options - IntersectionObserver options
- * @returns {isVisible: boolean, elementRef: React.RefObject<HTMLDivElement>}
+ * @returns {isVisible: boolean, elementRef: React.RefObject<HTMLDivElement|null>}
  *
  * @see [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
  *
