@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { DuckLazy } from '@duck/lazy/lazy-component'
 import { Index } from '~/__ui_registry__'
 import { Crown, TriangleAlert } from 'lucide-react'
 import { Button } from '@duck/registry-ui-duckui/button'
@@ -79,7 +80,7 @@ export function ComponentPreview({
   }, [Code])
 
   return (
-    <div
+    <DuckLazy
       className={cn('group relative my-4 flex flex-col space-y-2', className)}
       {...props}
     >
@@ -138,7 +139,7 @@ export function ComponentPreview({
         </TabsContent>
         <BuildTab />
       </Tabs>
-    </div>
+    </DuckLazy>
   )
 }
 

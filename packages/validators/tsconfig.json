@@ -1,5 +1,7 @@
 {
-  "extends": "@acme/tsconfig/internal-package.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@duck/typescript-config/internal.json",
   "include": ["src"],
   "exclude": ["node_modules"]
 }
+

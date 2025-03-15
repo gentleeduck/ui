@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
+    "@duck/lazy": "workspace:*",
     "@duck/hooks": "workspace:*",
     "@duck/libs": "workspace:*",
     "@duck/registers": "workspace:*",

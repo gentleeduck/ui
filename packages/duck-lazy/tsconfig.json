@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@duck/typescript-config/internal-package.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": [
+      "ES2022",
+      "dom",
+      "dom.iterable"
+    ],
+    "baseUrl": ".",
+    "incremental": false,
+    "rootDir": "./",
+    "outDir": "./dist",
+    "module": "Preserve",
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler"
+  },
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

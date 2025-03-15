@@ -62,7 +62,10 @@ const PostLayout = async ({
 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
-      <div className="mx-auto w-full min-w-0 max-w-2xl" style={{contain: 'paint'}}>
+      <div
+        className="mx-auto w-full min-w-0 max-w-2xl"
+        style={{ contain: 'paint' }}
+      >
         <div className="mb-4 flex items-center space-x-1 text-sm leading-none text-muted-foreground">
           <div className="truncate">Docs</div>
           <ChevronRightIcon className="h-3.5 w-3.5" />
@@ -115,7 +118,7 @@ const PostLayout = async ({
       {doc.toc && (
         <div className="hidden text-sm xl:block">
           <div className="sticky top-16 -mt-10 pt-4">
-            {/* NOTE: hide-scroll */}
+            {/*! FIX: this should scroll */}
             <div className="hide-scroll pb-10 sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] py-12">
               <DashboardTableOfContents toc={doc.toc} />
             </div>

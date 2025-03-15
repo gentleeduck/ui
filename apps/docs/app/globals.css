@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @source "../node_modules/@duck/registry-ui-duckui";
+@source "../node_modules/@duck/lazy";
 @source "../../../packages/_oldstuff_refactor/ui";
 
 @plugin "tailwindcss-animate";

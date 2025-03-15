@@ -1,0 +1,36 @@
+{
+  "name": "@duck/lazy",
+  "version": "1.0.0",
+  "description": "this is a package for lazy components",
+  "type": "module",
+  "types": "index.ts",
+  "main": "index.ts",
+  "exports": {
+    "./*": "./src/*/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "tsc",
+    "ci": "pnpm run lint && pnpm run build",
+    "release": "pnpm run ci && changeset publish"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "changeset": "^0.2.6",
+    "husky": "^9.1.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@duck/biome-config": "workspace:*",
+    "@duck/typescript-config": "workspace:*"
+  }
+}
