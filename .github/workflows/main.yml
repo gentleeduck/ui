@@ -17,5 +17,5 @@ jobs:
           node-version: 20.x
           cache: "pnpm"
 
-      - run: cd ./packages/duck-lazy && pnpm install --no-frozen-lockfile
-      - run: pnpm run lint && pnpm run build
+      - run: pnpm install --no-frozen-lockfile
+      - run: cd ./packages/duck-ui && pnpm run lint && pnpm run build
