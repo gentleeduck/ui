@@ -25,6 +25,13 @@ import { DuckLazyProps } from './lazy-component.types'
  *   <div>Content</div>
  * </DuckLazy>
  * ```
+ *
+ * - Add custom styles to the **placeholder** div
+ * ```tsx
+ * <DuckLazy className={'[&_div[data-slot="placeholder"]]:h-[512px]'} {...props}>
+ *   {children}
+ * </DuckLazy>
+ * ```
  */
 export function DuckLazy({
   children,
@@ -36,13 +43,14 @@ export function DuckLazy({
   })
 
   return (
-    <div ref={elementRef} {...props}>
+    <div ref={elementRef} {...props} data-slot="wrapper">
       {isVisible ? (
         children
       ) : (
-        <div>
-          <div className="animate-pulse h-84 mb-4 bg-muted"></div>
-        </div>
+        <div
+          data-slot="placeholder"
+          className="animate-pulse h-[512px] mb-4 bg-muted"
+        />
       )}
     </div>
   )

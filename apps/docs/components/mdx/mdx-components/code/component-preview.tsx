@@ -81,7 +81,10 @@ export function ComponentPreview({
 
   return (
     <DuckLazy
-      className={cn('group relative my-4 flex flex-col space-y-2', className)}
+      className={cn(
+        'group relative my-4 flex flex-col space-y-2 [&_div[data-slot="placeholder"]]:h-[512px]',
+        className,
+      )}
       {...props}
     >
       <Tabs defaultValue="preview" className="relative mr-auto w-full">

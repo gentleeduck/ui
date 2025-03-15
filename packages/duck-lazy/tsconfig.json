@@ -1,6 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@duck/typescript-config/internal-package.json",
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": [
@@ -13,8 +12,12 @@
     "rootDir": "./",
     "outDir": "./dist",
     "module": "Preserve",
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
     "."
