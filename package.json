@@ -16,8 +16,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "@changesets/cli": "^2.27.7"
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "packageManager": "pnpm@10.2.1",
   "pnpm": {
@@ -34,6 +33,6 @@
     ]
   },
   "dependencies": {
-    "changeset": "^0.2.6"
+    "@changesets/cli": "^2.27.7"
   }
 }
