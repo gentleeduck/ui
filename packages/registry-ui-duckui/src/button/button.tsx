@@ -10,7 +10,6 @@ import { buttonVariants } from './button.constants'
 import { ButtonProps } from './button.types'
 
 import { cn } from '@duck/libs/cn'
-import { CommandShortcut } from '../command'
 import { TooltipProvider } from '@radix-ui/react-tooltip'
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -33,15 +32,20 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }: ButtonProps,
     ref: React.ForwardedRef<HTMLButtonElement> | undefined,
   ) => {
-    const { side, delayDuration, open, onOpenChange, ...labelProps } =
-      label || {}
+    const {
+      side,
+      delayDuration,
+      open,
+      onOpenChange,
+      showLabel,
+      showCommand,
+      ...labelProps
+    } = label || {}
 
     const Component = asChild ? Slot : 'button'
 
     const {
       className: commandClassName,
-      variant: commandVariant,
-      size: commandSize,
       label: commandLabel,
       show: commandShow,
       key,
@@ -54,23 +58,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     // Handle keyboard shortcut Badge
-    const CommandComponent = () => (
-      <CommandShortcut className="text-[.8rem]">
-        {(commandShow ?? true) && (
-          <Badge
-            variant={commandVariant ?? 'secondary'}
-            size={commandSize ?? 'sm'}
-            className={cn(
-              'p-0 px-2 text-bold rounded-sm text-secondary-foreground',
-              commandClassName,
-            )}
-            {...commandProps}
-          >
-            {commandLabel}
-          </Badge>
-        )}
-      </CommandShortcut>
-    )
+    const CommandComponent = () =>
+      (commandShow ?? true) && (
+        <kbd
+          className={cn(
+            'inline-flex items-center font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-[.7rem] py-[.12rem] px-2 rounded-sm text-secondary-foreground !font-sans',
+            commandClassName,
+          )}
+          {...commandProps}
+        >
+          {commandLabel}
+        </kbd>
+      )
 
     const ButtonBody = (
       <Component
@@ -97,11 +96,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <div className="flex items-center gap-2">
           {!loading ? icon : <Loader className="animate-spin" />}
           {!isCollapsed && size !== 'icon' && children}
-          {!isCollapsed && command?.label && !label?.showCommand && (
+          {!isCollapsed && command?.label && !showCommand && (
             <CommandComponent />
           )}
 
-          {!isCollapsed && label && !label.showLabel && (
+          {!isCollapsed && label && !showLabel && (
             <Badge
               variant={label.variant ?? 'secondary'}
               size={label.size ?? 'default'}
@@ -123,7 +122,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       </Component>
     )
 
-    if (!label?.showLabel) {
+    if (!showLabel) {
       return ButtonBody
     }
 
@@ -141,21 +140,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           >
             {ButtonBody}
           </TooltipTrigger>
-          {(isCollapsed || label.showLabel) && label && (
+          {(isCollapsed || showLabel) && label && (
             <TooltipContent
               {...labelProps}
               className={cn(
-                'flex items-center gap-2 z-50 justify-start',
+                'flex items-center gap-2 z-50 justify-start px-2',
                 label.className,
               )}
               side={side || 'right'}
             >
-              {command?.label && label.showCommand && <CommandComponent />}
-              {label.showLabel && (
+              {command?.label && showCommand && <CommandComponent />}
+              {showLabel && (
                 <span
                   className={cn(
                     'ml-auto text-[.9rem]',
-                    !label.showLabel && 'text-muted-foreground',
+                    !showLabel && 'text-muted-foreground',
                   )}
                   {...labelProps}
                 />

@@ -3,12 +3,12 @@ import Link from 'next/link'
 import { cn } from '@duck/libs/cn'
 import { buttonVariants } from '@duck/registry-ui-duckui/button'
 import { Github, Twitter } from 'lucide-react'
-import { CommandMenu } from '~/components/command-menu'
 import { Icons } from '~/components/icons'
 import { MainNav } from '~/components/main-nav'
 import { MobileNav } from '~/components/mobile-nav'
 import { siteConfig } from '~/config/site'
 import { ModeSwitcher } from './mode-toggle'
+import { CommandMenu } from './layouts/command-menu'
 
 export function SiteHeader() {
   return (
@@ -26,7 +26,7 @@ export function SiteHeader() {
                 href={siteConfig.links.github}
                 target="_blank"
                 rel="noreferrer"
-                aria-label='GitHub'
+                aria-label="GitHub"
               >
                 <div
                   className={cn(
@@ -43,7 +43,7 @@ export function SiteHeader() {
                 href={siteConfig.links.twitter}
                 target="_blank"
                 rel="noreferrer"
-                aria-label='Twitter'
+                aria-label="Twitter"
               >
                 <div
                   className={cn(
