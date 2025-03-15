@@ -1,19 +1,15 @@
-import { docs } from '../../../../.velite'
-import { SLUG_METADATA } from '~/config/metadata'
-import { Metadata, ResolvingMetadata } from 'next'
-import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'
-import Link from 'next/link'
-import { badgeVariants } from '@duck/registry-ui-duckui/badge'
 import { cn } from '@duck/libs/cn'
+import { badgeVariants } from '@duck/registry-ui-duckui/badge'
+import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'
+import { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
-import { getTableOfContents } from '~/lib/toc'
-import { DocsPager } from '~/components/pager'
-// import { ScrollArea } from '../../../../../../packages/_oldstuff_refactor/ui/scroll-area'
-import { DashboardTableOfContents } from '~/components/toc'
 import { Mdx } from '~/components/mdx/mdx'
-import { Exalidraw } from '~/components/mdx/mdx-components/exalidraw'
-// import '../../../mdx.css'
+import { DocsPager } from '~/components/pager'
+import { DashboardTableOfContents } from '~/components/toc'
+import { SLUG_METADATA } from '~/config/metadata'
+import { docs } from '../../../../.velite'
 
 interface DocPageProps {
   params: {
@@ -37,10 +33,7 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata(
-  props: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
   const doc = await getDocFromParams({ params })
 

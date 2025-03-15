@@ -3,7 +3,8 @@
 
 ## THE UI COMPONENT:
 
-review all data- based classes for better performance
+- [ ] review all data- based classes for better performance
+- [ ] edit the warning and destructive color on the light mode.
 
 
 - [ ] ACCORDION:

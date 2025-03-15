@@ -8,7 +8,7 @@ import { trackEvent } from '~/lib/events'
 import { cn } from '@duck/libs/cn'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { StyleSwitcher } from '~/components/style-switcher'
-import { BlockCopyButton, V0Button } from '~/components/ui'
+import { BlockCopyButton } from '~/components/ui'
 import { Block } from '@duck/registers'
 import { TabsList, TabsTrigger } from '@duck/registry-ui-duckui/tabs'
 import { Separator } from '@duck/registry-ui-duckui/separator'
@@ -25,6 +25,7 @@ import {
 import { Label } from '@duck/registry-ui-duckui/label'
 
 import { Switch } from '@duck/registry-ui-duckui/switch'
+import { V0Button } from '~/components/V0'
 
 export function BlockToolbar({
   block,

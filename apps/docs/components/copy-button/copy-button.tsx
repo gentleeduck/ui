@@ -2,9 +2,8 @@
 
 import { CheckIcon, ClipboardIcon } from 'lucide-react'
 import * as React from 'react'
-import { NpmCommands } from 'types/unist'
 
-import { Button, ButtonProps } from '@duck/registry-ui-duckui/button'
+import { Button } from '@duck/registry-ui-duckui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,11 +12,11 @@ import {
 } from '@duck/registry-ui-duckui/dropdown-menu'
 import { Event, trackEvent } from '~/lib/events'
 import { cn } from '@duck/libs/cn'
-
-interface CopyButtonProps extends ButtonProps {
-  value: string
-  event?: Event['name']
-}
+import {
+  CopyButtonProps,
+  CopyNpmCommandButtonProps,
+  CopyWithClassNamesProps,
+} from './copy-button.types'
 
 export async function copyToClipboardWithMeta(value: string, event?: Event) {
   navigator.clipboard.writeText(value)
@@ -45,11 +44,8 @@ export function CopyButton({
     <Button
       size="icon"
       variant={variant}
-      aria-label='Copy'
-      className={cn(
-        'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
-        className,
-      )}
+      aria-label="Copy"
+      className={className}
       icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
       onClick={() => {
         copyToClipboardWithMeta(
@@ -66,17 +62,8 @@ export function CopyButton({
         setHasCopied(true)
       }}
       {...props}
-    >
-    </Button>
+    />
   )
-}
-
-type HI = typeof DropdownMenuTrigger
-
-interface CopyWithClassNamesProps extends HI {
-  value: string
-  classNames: string
-  className?: string
 }
 
 export function CopyWithClassNames({
@@ -109,6 +96,7 @@ export function CopyWithClassNames({
             className,
           )}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
+          {...props}
         >
           <span className="sr-only">Copy</span>
         </Button>
@@ -123,11 +111,6 @@ export function CopyWithClassNames({
       </DropdownMenuContent>
     </DropdownMenu>
   )
-}
-
-interface CopyNpmCommandButtonProps
-  extends React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> {
-  commands: Required<NpmCommands>
 }
 
 export function CopyNpmCommandButton({
@@ -173,6 +156,7 @@ export function CopyNpmCommandButton({
             className,
           )}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
+          {...props}
         >
           <span className="sr-only">Copy</span>
         </Button>

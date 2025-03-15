@@ -5,8 +5,9 @@ import { AnimatePresence, motion } from 'motion/react'
 
 import { cn } from '@duck/libs/cn'
 import { useLiftMode } from '~/hooks/use-lift-mode'
-import { V0Button, BlockCopyButton } from '~/components/ui'
+import { BlockCopyButton } from '~/components/ui'
 import { Block, type BlockChunk } from '@duck/registers'
+import { V0Button } from '~/components/V0'
 
 export function BlockChunk({
   block,

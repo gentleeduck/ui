@@ -1,5 +1,5 @@
+import { DocsSidebarNav } from '~/components/layouts'
 import { docsConfig } from '~/config/docs'
-import { DocsSidebarNav } from '~/components/docs-side-bar'
 
 interface DocsLayoutProps {
   children: React.ReactNode

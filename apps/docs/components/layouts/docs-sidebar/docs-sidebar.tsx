@@ -5,10 +5,7 @@ import { usePathname } from 'next/navigation'
 import { SidebarNavItem } from 'types/nav'
 
 import { cn } from '@duck/libs/cn'
-import { ChevronDown } from 'lucide-react'
-import { useState } from 'react'
 import { type DocsConfig } from '~/config/docs'
-import { Button } from '@duck/registry-ui-duckui/button'
 
 export interface DocsSidebarNavProps {
   config: DocsConfig
@@ -37,37 +34,21 @@ const CategoryItem = ({
   item,
   pathname,
 }: { item: SidebarNavItem; pathname: string | null }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-
   return (
-    <div className="flex flex-col gap-1">
-      <Button
-        className="flex justify-between w-full text-start text-sm font-semibold"
-        onClick={() => setIsOpen(!isOpen)}
-        variant={'ghost'}
-        secondIcon={
-          <ChevronDown
-            className={cn(
-              'transition-transform',
-              isOpen ? 'rotate-180' : 'rotate-0',
-            )}
-          />
-        }
-      >
+    <div className="flex flex-col gap-1 mb-2">
+      <div className="flex items-center justify-between w-full text-start text-sm font-semibold [&>div]:justify-between [&>div]:w-full h-[36px]">
         {item.title}
         {item.label && (
           <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
             {item.label}
           </span>
         )}
-      </Button>
-      {item?.items?.length && (
-        <DocsSidebarNavItems
-          className={isOpen ? '!grid-rows-[1fr]' : ''}
-          items={item.items}
-          pathname={pathname}
-        />
-      )}
+      </div>
+      <div className="border-l">
+        {item?.items?.length && (
+          <DocsSidebarNavItems items={item.items} pathname={pathname} />
+        )}
+      </div>
     </div>
   )
 }
@@ -85,18 +66,11 @@ export function DocsSidebarNavItems({
 }: DocsSidebarNavItemsProps) {
   return (
     items?.length && (
-      <div
-        className={cn(
-          'grid text-sm transition-all duration-500 grid-rows-[0fr] will-change-[grid-template-rows]',
-          className,
-        )}
-      >
-        <ul className="overflow-hidden transition-all ps-2">
-          {items.map((item, index) => (
-            <DocsSidebarNavItem key={index} item={item} pathname={pathname} />
-          ))}
-        </ul>
-      </div>
+      <ul className={cn('overflow-hidden transition-all', className)}>
+        {items.map((item, index) => (
+          <DocsSidebarNavItem key={index} item={item} pathname={pathname} />
+        ))}
+      </ul>
     )
   )
 }
@@ -110,11 +84,11 @@ export function DocsSidebarNavItem({
 }) {
   if (item.href && !item.disabled) {
     return (
-      <li>
+      <li className={cn(pathname === item.href && 'border-l border-primary')}>
         <Link
           href={item.href}
           className={cn(
-            'group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:underline',
+            'group flex w-full items-center px-4 py-1',
             pathname === item.href
               ? 'font-medium text-foreground'
               : 'text-muted-foreground',

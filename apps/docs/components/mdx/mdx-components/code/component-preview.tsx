@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { DuckLazy } from '@duck/lazy/lazy-component'
 import { Index } from '~/__ui_registry__'
-import { Crown, TriangleAlert } from 'lucide-react'
+import { Crown } from 'lucide-react'
 import { Button } from '@duck/registry-ui-duckui/button'
 
 import { cn } from '@duck/libs/cn'
@@ -16,7 +16,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@duck/registry-ui-duckui/tabs'
-import Image from 'next/image'
+import { V0Button } from '~/components/V0'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
@@ -94,7 +94,7 @@ export function ComponentPreview({
               {TABS.map((tab) => (
                 <TabsTrigger
                   value={tab.value}
-                  className="data-[state=active]:bg-secondary data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] rounded-none cursor-pointer"
+                  className="data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] rounded-none cursor-pointer data-[state=active]:shadow-none"
                 >
                   {tab.name}
                 </TabsTrigger>
@@ -153,7 +153,7 @@ export const BuildTab = () => {
         <img src="/builder.png" alt="build" className="object-cover" />
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/30 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[450px] top-0 left-0 inset-0">
+      <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[450px] top-0 left-0 inset-0">
         <div className="flex items-center gap-4">
           <Button
             className="font-bold"

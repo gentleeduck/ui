@@ -25,6 +25,7 @@ export default function Button24Demo() {
       tabIndex={0}
       loading={false}
       type="button"
+      className="[data-open='false']:bg-red-500"
       onClick={handleClick}
       label={{
         children: 'Click me 🎉',

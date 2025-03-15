@@ -14,7 +14,7 @@ export default function Button19Demo() {
           icon: <ArrowLeft />,
           iconPlacement: 'left',
         }}
-        icon={<Inbox />}
+        secondIcon={<Inbox />}
       >
         Button
       </Button>

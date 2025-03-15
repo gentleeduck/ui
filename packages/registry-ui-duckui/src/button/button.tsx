@@ -24,8 +24,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       label,
       children,
-      icon: Icon,
-      secondIcon: Icon2,
+      icon,
+      secondIcon,
       loading = false,
       animationIcon,
       command,
@@ -33,20 +33,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }: ButtonProps,
     ref: React.ForwardedRef<HTMLButtonElement> | undefined,
   ) => {
-    const {
-      className: labelClassName,
-      variant: labelVariant,
-      size: labelSize,
-      side,
-      showLabel,
-      showCommand,
-      delayDuration = 0,
-      open,
-      onOpenChange,
-      ...labelProps
-    } = label || {}
+    const { side, delayDuration, open, onOpenChange, ...labelProps } =
+      label || {}
+
     const Component = asChild ? Slot : 'button'
-    const { icon: AniIcon, iconPlacement = 'right' } = animationIcon ?? {}
+
     const {
       className: commandClassName,
       variant: commandVariant,
@@ -87,50 +78,46 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           buttonVariants({
             variant,
-            size: size
-              ? isCollapsed
-                ? 'icon'
-                : size
-              : isCollapsed
-                ? 'icon'
-                : 'default',
+            size,
             border,
             className,
           }),
         )}
         disabled={loading}
-        data-state={isCollapsed ? 'close' : 'open'}
+        data-open={isCollapsed}
+        data-loading={loading}
+        aria-expanded={isCollapsed}
         {...props}
       >
-        {AniIcon && iconPlacement === 'left' && (
-          <div className="w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-100 group-hover:pr-2 group-hover:opacity-100">
-            {AniIcon}
+        {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
+          <div className="w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100">
+            {animationIcon?.icon}
           </div>
         )}
         <div className="flex items-center gap-2">
-          {!loading ? Icon : <Loader className="animate-spin" />}
+          {!loading ? icon : <Loader className="animate-spin" />}
           {!isCollapsed && size !== 'icon' && children}
-          {!isCollapsed && command?.label && !showCommand && (
+          {!isCollapsed && command?.label && !label?.showCommand && (
             <CommandComponent />
           )}
 
-          {!isCollapsed && label && !showLabel && (
+          {!isCollapsed && label && !label.showLabel && (
             <Badge
-              variant={labelVariant ?? 'secondary'}
-              size={labelSize ?? 'default'}
+              variant={label.variant ?? 'secondary'}
+              size={label.size ?? 'default'}
               className={cn(
                 'text-[.8rem] py-0 rounded-md px-1 font-meduim',
-                labelVariant === 'nothing' && 'text-accent',
-                labelClassName,
+                label.variant === 'nothing' && 'text-accent',
+                label.className,
               )}
               {...labelProps}
             />
           )}
-          {!isCollapsed && Icon2 && Icon2}
+          {!isCollapsed && secondIcon && secondIcon}
         </div>
-        {AniIcon && iconPlacement === 'right' && (
-          <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
-            {AniIcon}
+        {animationIcon?.icon && animationIcon.iconPlacement === 'right' && (
+          <div className="w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
+            {animationIcon?.icon}
           </div>
         )}
       </Component>
@@ -147,22 +134,28 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           open={open}
           onOpenChange={onOpenChange}
         >
-          <TooltipTrigger asChild>{ButtonBody}</TooltipTrigger>
-          {(isCollapsed || showLabel) && label && (
+          <TooltipTrigger
+            asChild
+            aria-haspopup="true"
+            aria-label="button with tooltip"
+          >
+            {ButtonBody}
+          </TooltipTrigger>
+          {(isCollapsed || label.showLabel) && label && (
             <TooltipContent
               {...labelProps}
               className={cn(
                 'flex items-center gap-2 z-50 justify-start',
-                labelClassName,
+                label.className,
               )}
               side={side || 'right'}
             >
-              {command?.label && showCommand && <CommandComponent />}
-              {showLabel && (
+              {command?.label && label.showCommand && <CommandComponent />}
+              {label.showLabel && (
                 <span
                   className={cn(
                     'ml-auto text-[.9rem]',
-                    !showLabel && 'text-muted-foreground',
+                    !label.showLabel && 'text-muted-foreground',
                   )}
                   {...labelProps}
                 />

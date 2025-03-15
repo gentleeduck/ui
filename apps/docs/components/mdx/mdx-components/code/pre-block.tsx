@@ -19,6 +19,7 @@ export function Pre({
   __bunCommand__,
   __withMeta__,
   __event__,
+  __title__,
   ...props
 }: CodeBlockProps) {
   // console.log(__rawString__, props)

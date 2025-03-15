@@ -38,17 +38,13 @@ export const buttonVariants = cva(
       },
       size: {
         icon: 'text-base size-[2em] p-0 [&_svg]:size-[1.1em] rounded-md',
-        xs: 'text-xs h-[2.5em] px-[1em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
-        sm: 'text-sm h-[2.5em] px-[1em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
-        default:
-          'text-base h-[2.5em] px-[1.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
-        md: 'text-base h-[2.5em] px-[1.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
-        lg: 'text-lg h-[2.75em] px-[1.5em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
-        xl: 'text-xl h-[3em] px-[1.75em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
-        '2xl':
-          'text-2xl h-[3.25em] px-[2em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
-        '3xl':
-          'text-3xl h-[3.5em] px-[2.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
+        xs: 'h-6 px-2 py-1 text-xs [&_svg]:size-[1.3em] rounded-sm',
+        sm: 'h-8 px-3 py-1.5 text-sm [&_svg]:size-[1.3em] rounded-md',
+        default: 'h-9 px-4 py-2 text-base [&_svg]:size-[1.3em] rounded-md',
+        lg: 'h-10 px-6 py-2.5 text-lg [&_svg]:size-[1.3em] rounded-md',
+        xl: 'h-12 px-8 py-3 text-xl [&_svg]:size-[1.3em] rounded-lg',
+        '2xl': 'h-14 px-10 py-3.5 text-2xl [&_svg]:size-[1.3em] rounded-lg',
+        '3xl': 'h-16 px-12 py-4 text-3xl [&_svg]:size-[1.3em] rounded-lg',
       },
       border: {
         default: '',
