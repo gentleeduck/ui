@@ -37,9 +37,7 @@ export const useLazyLoad = (
   React.useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry?.isIntersecting) {
-        setTimeout(() => {
-          setIsVisible(true)
-        }, 300)
+        setIsVisible(true)
         observer.disconnect() // Stop observing once the element is visible
       }
     }, options)
