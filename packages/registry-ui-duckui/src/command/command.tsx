@@ -27,7 +27,7 @@ const Command = React.forwardRef<
 ))
 Command.displayName = CommandPrimitive.displayName
 
-interface CommandDialogProps extends DialogProps {}
+interface CommandDialogProps extends DialogProps { }
 
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
@@ -45,7 +45,7 @@ const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
-  <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
+  <div className="flex items-center border-b px-3 gap-1" cmdk-input-wrapper="">
     <Search className="h-4 w-4 shrink-0 opacity-50" />
     <CommandPrimitive.Input
       ref={ref}
@@ -162,8 +162,8 @@ interface OnSelectType {
 interface ListItemElementType
   extends Partial<
     React.ComponentPropsWithoutRef<typeof CommandItem> &
-      React.CustomComponentPropsWithRef<typeof Button>
-  > {}
+    React.CustomComponentPropsWithRef<typeof Button>
+  > { }
 
 interface CommandListGroupType {
   type?: 'combobox' | 'listbox'
@@ -218,10 +218,10 @@ const CommandListGroup = React.forwardRef(
                           'data-[disabled=true]:opacity-50',
                           selected.includes(
                             (el?.label as string) ??
-                              (el?.element?.children as string),
+                            (el?.element?.children as string),
                           ) &&
-                            type === 'combobox' &&
-                            'bg-accent text-accent-foreground',
+                          type === 'combobox' &&
+                          'bg-accent text-accent-foreground',
                           className,
                         )}
                         onSelect={onSelect?.key}
@@ -234,7 +234,7 @@ const CommandListGroup = React.forwardRef(
                                 'mr-2 h-4 w-4',
                                 selected.includes(
                                   (el?.label as string) ??
-                                    (el?.element?.children as string),
+                                  (el?.element?.children as string),
                                 )
                                   ? 'opacity-100'
                                   : 'opacity-0',
@@ -244,7 +244,7 @@ const CommandListGroup = React.forwardRef(
                             <Checkbox
                               checked={selected.includes(
                                 (el?.label as string) ??
-                                  (el?.element?.children as string),
+                                (el?.element?.children as string),
                               )}
                               className={cn(
                                 'mr-2 h-4 w-4  border-muted-foreground',

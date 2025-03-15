@@ -32,7 +32,6 @@ export interface LabelType
 }
 
 export type CommandType = {
-  label?: string
   key: string
   show?: boolean
   action?: <T>(arg?: T) => void
