@@ -43,7 +43,7 @@ export function CommandMenu({ ...props }: DialogProps) {
         variant="outline"
         size={'sm'}
         className={cn(
-          'relative h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:justify-between pr-2 md:w-40 lg:w-64',
+          'relative h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between pr-2 md:w-40 lg:w-64',
         )}
         onClick={() => setOpen(true)}
         command={{

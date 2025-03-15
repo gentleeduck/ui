@@ -90,10 +90,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {animationIcon?.icon}
           </div>
         )}
-        <div className="flex items-center gap-2 w-full">
+        <div className="flex items-center gap-2">
           {!loading ? icon : <Loader className="animate-spin" />}
           {!isCollapsed && size !== 'icon' && children}
-          {!isCollapsed && !showCommand && <CommandComponent />}
+          {!isCollapsed && command?.children && !showCommand && (
+            <CommandComponent />
+          )}
 
           {!isCollapsed && label && !showLabel && (
             <Badge
@@ -144,7 +146,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               )}
               side={side || 'right'}
             >
-              {showCommand && <CommandComponent />}
+              {command?.children && showCommand && <CommandComponent />}
               {showLabel && (
                 <span
                   className={cn(
