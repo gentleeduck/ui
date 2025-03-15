@@ -1,5 +1,5 @@
 {
-  "name": "@duck/libs",
+  "name": "@gentelduck/libs",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -9,7 +9,7 @@
   },
   "scripts": {},
   "devDependencies": {
-    "@duck/typescript-config": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "zod": "catalog:",
     "clsx": "^1.2.1",

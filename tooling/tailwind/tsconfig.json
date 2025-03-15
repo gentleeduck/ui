@@ -1,23 +1,19 @@
 {
-  "extends": "@duck/typescript-config/base.json",
+  "extends": "@gentelduck/typescript-config/base.json",
   "compilerOptions": {
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.iterable"
-    ],
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./*"
-      ],
-      "contentlayer/generated": [
-        "./.contentlayer/generated"
-      ]
-    },
-    "plugins": [
-      {
+    "./*
+    ],
+  
+      "content
+    layer/generated
+    : ["./
+  .contentlayer/generated"]
+       {
         "name": "next"
       }
     ]

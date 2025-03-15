@@ -1,5 +1,5 @@
 {
-  "extends": "@duck/typescript-config/base.json",
+  "extends": "@gentelduck/typescript-config/base.json",
   "compilerOptions": {
     "lib": [
       "ES2022",

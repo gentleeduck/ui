@@ -1,5 +1,5 @@
 {
-  "name": "@duck/tailwind-config",
+  "name": "@gentelduck/tailwind-config",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -22,6 +22,6 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@duck/typescript-config": "workspace:*"
+    "@gentelduck/typescript-config": "workspace:*"
   }
 }

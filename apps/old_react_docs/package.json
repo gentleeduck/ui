@@ -1,5 +1,5 @@
 {
-  "name": "@duck/docs",
+  "name": "@gentelduck/docs",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -110,13 +110,13 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@duck/registers": "workspace:*",
-    "@duck/libs": "workspace:*",
-    "@duck/registry-build-duckui": "workspace:*",
-    "@duck/registry-examples-duckui": "workspace:*",
-    "@duck/registry-ui-duckui": "workspace:*",
-    "@duck/tailwind-config": "workspace:*",
-    "@duck/typescript-config": "workspace:*",
+    "@gentelduck/registers": "workspace:*",
+    "@gentelduck/libs": "workspace:*",
+    "@gentelduck/registry-build-duckui": "workspace:*",
+    "@gentelduck/registry-examples-duckui": "workspace:*",
+    "@gentelduck/registry-ui-duckui": "workspace:*",
+    "@gentelduck/tailwind-config": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
     "@shikijs/compat": "^1.12.1",
     "@types/emoji-mart": "^3.0.14",
     "@types/figlet": "^1.7.0",

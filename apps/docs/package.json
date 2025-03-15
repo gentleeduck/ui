@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
-    "@duck/hooks": "workspace:*",
-    "@duck/lazy": "workspace:*",
-    "@duck/libs": "workspace:*",
-    "@duck/registers": "workspace:*",
-    "@duck/registry-examples-duckui": "workspace:*",
-    "@duck/registry-ui-duckui": "workspace:*",
+    "@gentelduck/hooks": "workspace:*",
+    "@gentelduck/lazy": "workspace:*",
+    "@gentelduck/libs": "workspace:*",
+    "@gentelduck/registers": "workspace:*",
+    "@gentelduck/registry-examples-duckui": "workspace:*",
+    "@gentelduck/registry-ui-duckui": "workspace:*",
     "@excalidraw/excalidraw": "^0.17.2",
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-slot": "^1.1.2",
@@ -67,7 +67,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@duck/typescript-config": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

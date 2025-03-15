@@ -1,5 +1,5 @@
 {
-  "name": "@duck/hooks",
+  "name": "@gentelduck/hooks",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -9,7 +9,7 @@
   },
   "scripts": {},
   "devDependencies": {
-    "@duck/typescript-config": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
     "typescript": "catalog:",
     "@types/node": "catalog:",
     "zod": "catalog:",

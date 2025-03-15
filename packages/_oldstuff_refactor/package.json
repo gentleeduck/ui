@@ -1,5 +1,5 @@
 {
-  "name": "@duck/registry-ui",
+  "name": "@gentelduck/registry-ui",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -15,11 +15,11 @@
   },
   "devDependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
-    "@duck/hooks": "workspace:*",
-    "@duck/libs": "workspace:*",
-    "@duck/registry-examples-duckui": "workspace:*",
-    "@duck/registry-ui-duckui": "workspace:*",
-    "@duck/typescript-config": "workspace:*",
+    "@gentelduck/hooks": "workspace:*",
+    "@gentelduck/libs": "workspace:*",
+    "@gentelduck/registry-examples-duckui": "workspace:*",
+    "@gentelduck/registry-ui-duckui": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
     "@radix-ui/react-accessible-icon": "^1.1.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",

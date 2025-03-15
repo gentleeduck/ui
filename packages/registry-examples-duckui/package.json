@@ -1,5 +1,5 @@
 {
-  "name": "@duck/registry-examples-duckui",
+  "name": "@gentelduck/registry-examples-duckui",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -10,9 +10,9 @@
     "build": "tsup"
   },
   "devDependencies": {
-    "@duck/registry-ui": "workspace:*",
-    "@duck/typescript-config": "workspace:*",
-    "@duck/registry-ui-duckui": "workspace:*",
+    "@gentelduck/registry-ui": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
+    "@gentelduck/registry-ui-duckui": "workspace:*",
     "tsup": "^8.2.4",
     "tsx": "^4.17.0",
     "zod": "catalog:"

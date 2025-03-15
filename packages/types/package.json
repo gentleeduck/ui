@@ -1,5 +1,5 @@
 {
-  "name": "@duck/types",
+  "name": "@gentelduck/types",
   "version": "1.0.0",
   "description": "this is a package for types",
   "type": "module",
@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
-    "@duck/biome-config": "workspace:*",
-    "@duck/typescript-config": "workspace:*"
+    "@gentelduck/biome-config": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*"
   }
 }
