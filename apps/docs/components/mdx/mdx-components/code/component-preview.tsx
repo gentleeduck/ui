@@ -15,6 +15,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@duck/registry-ui-duckui/tabs'
+import Image from 'next/image'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
@@ -85,25 +86,15 @@ export function ComponentPreview({
       <Tabs defaultValue="preview" className="relative mr-auto w-full">
         <div className="flex items-center justify-between pb-3">
           {!hideCode && (
-            <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 overflow-x-auto">
-              <TabsTrigger
-                value="preview"
-                className="data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[3px] rounded-none"
-              >
-                Preview
-              </TabsTrigger>
-              <TabsTrigger
-                value="code"
-                className="data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[3px] rounded-none"
-              >
-                Code
-              </TabsTrigger>
-              <TabsTrigger
-                value="build"
-                className="data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[3px] rounded-none"
-              >
-                Build
-              </TabsTrigger>
+            <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 overflow-x-auto [&_button]:shadow-none">
+              {TABS.map((tab) => (
+                <TabsTrigger
+                  value={tab.value}
+                  className="data-[state=active]:bg-secondary data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] rounded-none cursor-pointer"
+                >
+                  {tab.name}
+                </TabsTrigger>
+              ))}
             </TabsList>
           )}
         </div>
@@ -154,31 +145,19 @@ export function ComponentPreview({
 export const BuildTab = () => {
   return (
     <TabsContent value="build" className="relative overflow-hidden">
-      <div className="h-[450px]">
-        llorem asdlkfajs;dflk asd;lfk jasd;lfk jasd;lkfj as;ldkfjas;dlkfj
-        a;sldkfj a;sldkf jasdlkfnjpowadifjpnqwemo ijpqweoc im,qwpoiuhfp,o
-        wgfhasodifj maspdlkfj poiqwaesf hmlorem asdlkfajs;dflk asd;lfk jasd;lfk
-        jasd;lkfj as;ldkfjas;dlkfj a;sldkfj a;sldkf jasdlkfnjpowadifjpnqwemo
-        ijpqweoc im,qwpoiuhfp,o wgfhasodifj maspdlkfj poiqwaesf hmlorem
-        asdlkfajs;dflk asd;lfk jasd;lfk jasd;lkfj as;ldkfjas;dlkfj a;sldkfj
-        a;sldkf jasdlkfnjpowadifjpnqwemo ijpqweoc im,qwpoiuhfp,o wgfhasodifj
-        maspdlkfj poiqwaesf hmorem asdlkfajs;dflk asd;lfk jasd;lfk jasd;lkfj
-        as;ldkfjas;dlkfj a;sldkfj a;sldkf jasdlkfnjpowadifjpnqwemo ijpqweoc
-        im,qwpoiuhfp,o wgfhasodifj maspdlkfj poiqwaesf hm
+      <div className="h-[450px] overflow-hidden rounded-lg">
+        <img src="/builder.png" alt="build" className="object-cover" />
       </div>
-      <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[450px] top-0 left-0 inset-0">
+
+      <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/30 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[450px] top-0 left-0 inset-0">
         <div className="flex items-center gap-4">
           <Button
             className="font-bold"
             size={'xs'}
             label={{
               children: (
-                <div className="w-[500px] font-mono p-2">
-                  design custom components, layouts, or full websites, and
-                  export production-ready code. Includes real-time TypeScript,
-                  API integration (REST/GraphQL), CI/CD templates, and a
-                  customizable design system. Perfect for building dashboards or
-                  full-stack apps. Upgrade now!
+                <div className="text-center">
+                  Know more about me click me! <br /> BTW i am coming soon...
                 </div>
               ),
               showLabel: true,
@@ -193,3 +172,18 @@ export const BuildTab = () => {
     </TabsContent>
   )
 }
+
+export const TABS = [
+  {
+    name: 'Preview',
+    value: 'preview',
+  },
+  {
+    name: 'Code',
+    value: 'code',
+  },
+  {
+    name: 'Build',
+    value: 'build',
+  },
+]

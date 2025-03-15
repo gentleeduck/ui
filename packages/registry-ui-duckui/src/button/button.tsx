@@ -11,6 +11,7 @@ import { ButtonProps } from './button.types'
 
 import { cn } from '@duck/libs/cn'
 import { CommandShortcut } from '../command'
+import { TooltipProvider } from '@radix-ui/react-tooltip'
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -140,34 +141,36 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     return (
-      <Tooltip
-        delayDuration={delayDuration}
-        open={open}
-        onOpenChange={onOpenChange}
-      >
-        <TooltipTrigger asChild>{ButtonBody}</TooltipTrigger>
-        {(isCollapsed || showLabel) && label && (
-          <TooltipContent
-            {...labelProps}
-            className={cn(
-              'flex items-center gap-2 z-50 justify-start',
-              labelClassName,
-            )}
-            side={side || 'right'}
-          >
-            {command?.label && showCommand && <CommandComponent />}
-            {showLabel && (
-              <span
-                className={cn(
-                  'ml-auto text-[.9rem]',
-                  !showLabel && 'text-muted-foreground',
-                )}
-                {...labelProps}
-              />
-            )}
-          </TooltipContent>
-        )}
-      </Tooltip>
+      <TooltipProvider>
+        <Tooltip
+          delayDuration={delayDuration}
+          open={open}
+          onOpenChange={onOpenChange}
+        >
+          <TooltipTrigger asChild>{ButtonBody}</TooltipTrigger>
+          {(isCollapsed || showLabel) && label && (
+            <TooltipContent
+              {...labelProps}
+              className={cn(
+                'flex items-center gap-2 z-50 justify-start',
+                labelClassName,
+              )}
+              side={side || 'right'}
+            >
+              {command?.label && showCommand && <CommandComponent />}
+              {showLabel && (
+                <span
+                  className={cn(
+                    'ml-auto text-[.9rem]',
+                    !showLabel && 'text-muted-foreground',
+                  )}
+                  {...labelProps}
+                />
+              )}
+            </TooltipContent>
+          )}
+        </Tooltip>
+      </TooltipProvider>
     )
   },
 )

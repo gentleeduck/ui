@@ -40,9 +40,9 @@ export const buttonVariants = cva(
         icon: 'text-base size-[2em] p-0 [&_svg]:size-[1.1em] rounded-md',
         xs: 'text-xs h-[2.5em] px-[1em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
         sm: 'text-sm h-[2.5em] px-[1em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
-        md: 'text-base h-[2.5em] px-[1.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
         default:
           'text-base h-[2.5em] px-[1.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
+        md: 'text-base h-[2.5em] px-[1.25em] py-[0.5em] [&_svg]:size-[1.3em] rounded-md',
         lg: 'text-lg h-[2.75em] px-[1.5em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
         xl: 'text-xl h-[3em] px-[1.75em] py-[0.5em] [&_svg]:size-[1.3em] rounded-lg',
         '2xl':

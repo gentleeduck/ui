@@ -3,11 +3,11 @@ import { FC } from 'react'
 
 interface CodeProps extends React.HTMLAttributes<HTMLElement> {}
 
-export const Code: FC<CodeProps> = ({ className, ...props }) => {
+export const CodeBlock: FC<CodeProps> = ({ className, ...props }) => {
   return (
     <code
       className={cn(
-        'relative rounded font-mono text-sm grid min-w-full break-words border-0',
+        'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm',
         className,
       )}
       {...props}
