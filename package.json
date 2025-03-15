@@ -32,5 +32,8 @@
       "protobufjs",
       "sharp"
     ]
+  },
+  "dependencies": {
+    "changeset": "^0.2.6"
   }
 }
