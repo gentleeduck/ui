@@ -18,4 +18,4 @@ jobs:
           cache: "pnpm"
 
       - run: pnpm install --no-frozen-lockfile
-      - run: cd ./packages/duck-ui && pnpm run lint && pnpm run build
+      - run: cd ./packages/duck-lazy && pnpm run lint && pnpm run build
