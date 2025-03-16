@@ -1,2 +1,6 @@
 import React from 'react'
-export interface LazyImageProps extends React.HTMLProps<HTMLImageElement> {}
+
+export type LazyImageProps = {
+  options: IntersectionObserverInit
+  placeholder: string
+} & React.HTMLProps<HTMLImageElement>

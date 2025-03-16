@@ -1,33 +1,6 @@
-/**
- * @module duck/lazy
- * @author wildduck
- * @license MIT
- * @version 1.0.0
- * @description this is a package for lazy components
- * @category hooks
- * @description Hook to handle lazy loading of components
- * @see [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
- */
-
 import React from 'react'
 import { UseLazyLoadOptions } from './lazy-component.types'
 
-/**
- * Hook to handle lazy loading of components
- *
- * @param options - IntersectionObserver options
- * @returns {isVisible: boolean, elementRef: React.RefObject<HTMLDivElement|null>}
- *
- * @see [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
- *
- * @example
- * ```tsx
- * const { isVisible, elementRef } = useLazyLoad({
- *   rootMargin: '0px', // Adjust this to trigger rendering earlier or later
- *   threshold: 0.1, // Trigger when 10% of the element is visible
- * })
- * ```
- */
 export const useLazyLoad = (
   options?: IntersectionObserverInit,
 ): UseLazyLoadOptions => {

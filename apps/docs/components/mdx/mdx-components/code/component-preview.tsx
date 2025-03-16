@@ -1,86 +1,85 @@
-'use client'
+/**
+ * @module duck/lazy
+ * @author wildduck
+ * @license MIT
+ * @version 1.0.0
+ * @description this is a package for lazy components
+ * @category hooks
+ * @description Hook to handle lazy loading of components
+ * @see [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+ */
 
-import * as React from 'react'
-import { DuckLazy } from '@gentelduck/lazy/lazy-component'
-import { Index } from '~/__ui_registry__'
-import { Crown } from 'lucide-react'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { useLazyLoad } from './lazy-component.hooks'
+import { DuckLazyProps } from './lazy-component.types'
 
-import { cn } from '@gentelduck/libs/cn'
-import { CopyButton } from '~/components/copy-button'
-import { Icons } from '~/components/icons'
-import { ThemeWrapper } from '~/components/theme-wrapper'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@gentelduck/registry-ui-duckui/tabs'
-import { V0Button } from '~/components/V0'
-
-interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
-  name: string
-  extractClassname?: boolean
-  extractedClassNames?: string
-  align?: 'center' | 'start' | 'end'
-  description?: string
-  hideCode?: boolean
-  showSettings?: boolean
-}
-
-export function ComponentPreview({
-  name,
+/**
+ * @function DuckLazy
+ * @description Hook to handle lazy loading of components
+ * @param {DuckLazyProps} props
+ * @param {React.ReactNode} props.children
+ * @returns {React.JSX.Element}
+ *
+ * @example
+ * ```tsx
+ * <DuckLazy>
+ *   <div>Content</div>
+ * </DuckLazy>
+ * ```
+ *
+ * - Add custom styles to the **placeholder** div
+ * ```tsx
+ * <DuckLazy className={'[&_div[data-slot="placeholder"]]:h-[512px]'} {...props}>
+ *   {children}
+ * </DuckLazy>
+ * ```
+ */
+export function DuckLazyComponent({
   children,
-  className,
-  extractClassname,
-  extractedClassNames,
-  align = 'center',
-  description,
-  hideCode = false,
-  showSettings = false,
+  options,
   ...props
-}: ComponentPreviewProps) {
-  const Codes = React.Children.toArray(children) as React.ReactElement[]
-  const Code = Codes[0]
+}: DuckLazyProps): React.JSX.Element {
+  const { isVisible, elementRef } = useLazyLoad({
+    rootMargin: '0px', // Adjust this to trigger rendering earlier or later
+    threshold: 0.1, // Trigger when 10% of the element is visible
+    ...options,
+  })
 
-  const Preview = React.useMemo(() => {
-    //@ts-ignore
-    const Component = Index[name]?.component
-
-    if (!Component) {
-      return (
-        <p className='text-sm text-muted-foreground'>
-          Component{' '}
-          <code className='relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm'>
-            {name}
-          </code>{' '}
-          not found in registry.
-        </p>
-      )
-    }
-
-    return <Component />
-  }, [name])
-
-  const codeString = React.useMemo(() => {
-    if (
-      // ! FIX:
-      //  @ts-expect-error 'Code.props' is of type 'unknown'.ts(18046)
-      typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined'
-    ) {
-      const Button = React.Children.toArray(
-        // ! FIX:
-        //  @ts-expect-error Property 'children' does not exist on type '{}'.ts(2339)
-        Code.props.children
-      ) as React.ReactElement[]
-      // ! FIX:
-      //  @ts-expect-error Property '__rawString__' does not exist on type '{}'.ts(2339)
+  return (
+    <div
+      ref={elementRef}
+      {...props}
+      data-slot="wrapper"
+      aria-label="lazy-component"
+      aria-details="This component is lazy-loaded and will be displayed when visible"
+      aria-description="This component is lazy-loaded"
+      aria-describedby="lazy"
+      aria-busy={isVisible ? 'false' : 'true'}
+      aria-hidden={isVisible ? 'false' : 'true'}
+      role="region" // Define the region role to help screen readers understand the content context
+      tabIndex={isVisible ? 0 : -1} // Make the element focusable once visible
+      aria-live="polite" // Announce changes to content when it becomes visible
+      aria-relevant="additions" // Make screen readers announce any added content
+      aria-atomic="true" // Ensure that changes in the container are read out as atomic units
+    >
+      {isVisible ? (
+        children
+      ) : (
+        <div
+          data-slot="placeholder"
+          className="animate-pulse h-[512px] mb-4 bg-muted"
+          role="status" // Indicate to screen readers that this is a placeholder
+          aria-live="polite" // Announce the loading state to screen readers
+        />
+      )}
+    </div>
+  )
+}
       return Button[1]?.props?.value || Button[1]?.props?.__rawString__ || null
     }
   }, [Code])
 
   return (
-    <DuckLazy
+    <DuckLazyComponent
       className={cn(
         'group relative my-4 flex flex-col space-y-2 [&_div[data-slot="placeholder"]]:h-[512px]',
         className
@@ -151,7 +150,7 @@ export function ComponentPreview({
         </TabsContent>
         <BuildTab />
       </Tabs>
-    </DuckLazy>
+    </DuckLazyComponent>
   )
 }
 
