@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useLazyImage } from './lazy-image.hooks'
 import { LazyImageProps } from './lazy-image.types'
 
@@ -8,10 +9,12 @@ import { LazyImageProps } from './lazy-image.types'
  *
  * @param {Object} props - The props to configure the component.
  * @param {string} [props.className] - Optional class name to apply to the container element for custom styling.
- * @param {number} [props.width=200] - Width of the image in pixels. Default is 200px.
- * @param {number} [props.height=200] - Height of the image in pixels. Default is 200px.
+ * @param {number|`${number}`} [props.width=200] - Width of the image in pixels. Default is 200px.
+ * @param {number|`${number}`} [props.height=200] - Height of the image in pixels. Default is 200px.
  * @param {string} props.src - The URL of the image to be loaded lazily.
  * @param {string} [props.placeholder] - The URL of the placeholder image to be shown while the main image is loading.
+ * @param {boolean} [props.nextImage] - The next image option enables lazy loading for Next.js applications. Set this to `true` if
+ * you're using `NextJs` application.
  * @param {IntersectionObserverInit} [props.options] - Custom options for the IntersectionObserver (e.g., `rootMargin`, `threshold`).
  * @param {string} [props.alt='Image'] - Alt text for the image, providing a description for screen readers.
  *
@@ -32,6 +35,7 @@ export function DuckLazyImage({
   height = 200,
   src,
   placeholder,
+  nextImage,
   options,
   alt = 'Image', // Make sure to add an alt text for the image
   ...props
@@ -45,6 +49,7 @@ export function DuckLazyImage({
     threshold: 0.1, // Trigger when 10% of the image is visible
     ...options,
   })
+  const Component = Image || 'img'
 
   return (
     <div
@@ -56,20 +61,20 @@ export function DuckLazyImage({
       aria-hidden={isLoaded ? 'false' : 'true'} // Hide image from assistive tech until it loads
       tabIndex={0} // Ensure this component can be focused (good for accessibility)
     >
-      <img
+      <Component
         loading="lazy"
         src={src}
         width={width}
         height={height}
         alt={alt} // Always provide an alt text to make the image accessible
-        className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        {...props}
+        className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'} ${nextImage && 'opacity-100'}`}
         aria-hidden={isLoaded ? 'false' : 'true'} // Hide the image from screen readers until it is loaded
         aria-describedby={isLoaded ? 'image-loaded' : undefined} // Link to description once image loads
+        {...props}
       />
 
       {placeholder && !isLoaded && (
-        <img
+        <Component
           loading="lazy"
           src={placeholder}
           width={width}
@@ -77,17 +82,19 @@ export function DuckLazyImage({
           alt="Image is loading..." // Provide alt text for the placeholder image
           className={`transition-opacity ${isLoaded ? 'opacity-0' : 'opacity-100'}`}
           aria-hidden={isLoaded ? 'true' : 'false'} // Hide placeholder once image loads
+          {...props}
         />
       )}
 
-      <div
-        className={`animate-pulse transition-all inset-0 absolute ${
-          !isLoaded ? 'opacity-100 bg-muted' : 'opacity-0 bg-transparent'
-        }`}
-        role="status" // Let screen readers know this is a loading status
-        aria-live="polite" // Announce the loading state
-        aria-hidden={isLoaded ? 'true' : 'false'} // Hide the loading spinner after image loads
-      />
+      {!nextImage && (
+        <div
+          className={`animate-pulse transition-all inset-0 absolute ${!isLoaded ? 'opacity-100 bg-muted' : 'opacity-0 bg-transparent'
+            }`}
+          role="status" // Let screen readers know this is a loading status
+          aria-live="polite" // Announce the loading state
+          aria-hidden={isLoaded ? 'true' : 'false'} // Hide the loading spinner after image loads
+        />
+      )}
     </div>
   )
 }

@@ -23,8 +23,11 @@ export type UseLazyImageReturn = {
  *
  * @interface
  * @extends {React.HTMLProps<HTMLImageElement>} - Extends default HTML image element props to allow for flexibility in the component.
+ * @property {number|`${number}`} width - The width of the image in pixels.
+ * @property {number|`${number}`} height - The height of the image in pixels.
  * @property {IntersectionObserverInit} [options] - Configuration for the IntersectionObserver to control when the lazy-loaded image becomes visible.
- * @property {string} placeholder - The URL of the placeholder image to display while the target image is being loaded.
+ * @property {string} [placeholder] - The URL of the placeholder image to display while the target image is being loaded.
+ * @property {boolean} [nextImage] - A boolean indicating whether the image is being used in a Next.js application.
  *
  * @example
  * // Example of using LazyImageProps
@@ -39,7 +42,10 @@ export type UseLazyImageReturn = {
  * />
  * ```
  */
-export type LazyImageProps = {
+export interface LazyImageProps extends React.HTMLProps<HTMLImageElement> {
   options?: IntersectionObserverInit
-  placeholder: string
-} & React.HTMLProps<HTMLImageElement>
+  placeholder?: string
+  nextImage?: boolean
+  width: number | `${number}`
+  height: number | `${number}`
+}

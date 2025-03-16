@@ -5,6 +5,18 @@ const nextConfig: NextConfig = {
     '@gentelduck/registry-ui-duckui',
     '@gentelduck/registry-examples-duckui',
   ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'zpgqhogoevbgpxustvmo.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.discordapp.net', // Add this line for Discord images
+      },
+    ],
+  },
 }
 
 export default nextConfig
