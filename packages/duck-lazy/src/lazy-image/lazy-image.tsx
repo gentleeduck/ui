@@ -1,6 +1,31 @@
 import { useLazyImage } from './lazy-image.hooks'
 import { LazyImageProps } from './lazy-image.types'
 
+/**
+ * `DuckLazyImage` is a React component that lazily loads an image when it comes into view.
+ * It supports lazy loading of images to improve performance, shows a placeholder image while the main image loads,
+ * and includes several accessibility features to ensure compatibility with assistive technologies like screen readers.
+ *
+ * @param {Object} props - The props to configure the component.
+ * @param {string} [props.className] - Optional class name to apply to the container element for custom styling.
+ * @param {number} [props.width=200] - Width of the image in pixels. Default is 200px.
+ * @param {number} [props.height=200] - Height of the image in pixels. Default is 200px.
+ * @param {string} props.src - The URL of the image to be loaded lazily.
+ * @param {string} [props.placeholder] - The URL of the placeholder image to be shown while the main image is loading.
+ * @param {IntersectionObserverInit} [props.options] - Custom options for the IntersectionObserver (e.g., `rootMargin`, `threshold`).
+ * @param {string} [props.alt='Image'] - Alt text for the image, providing a description for screen readers.
+ *
+ * @returns {React.JSX.Element} The `DuckLazyImage` component. A div wrapping an `img` tag with lazy loading and placeholder functionality.
+ *
+ * ## Usage Example:
+ * ```tsx
+ * <DuckLazyImage
+ *   src="https://example.com/image.jpg"
+ *   placeholder="https://example.com/placeholder.jpg"
+ *   alt="A stunning mountain landscape"
+ * />
+ * ```
+ */
 export function DuckLazyImage({
   className,
   width = 200,
@@ -10,7 +35,7 @@ export function DuckLazyImage({
   options,
   alt = 'Image', // Make sure to add an alt text for the image
   ...props
-}: LazyImageProps) {
+}: LazyImageProps): React.JSX.Element {
   if (!src) {
     throw new Error('src is required')
   }
