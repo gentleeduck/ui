@@ -4,7 +4,7 @@
  *
  * @interface
  * @property {boolean} isLoaded - A boolean indicating if the image has finished loading.
- * @property {React.RefObject<HTMLImageElement>} imageRef - A React ref object pointing to the DOM image element being observed.
+ * @property {React.RefObject<HTMLImageElement|null>} imageRef - A React ref object pointing to the DOM image element being observed.
  *
  * @example
  * const { isLoaded, imageRef } = useLazyImage({
@@ -14,7 +14,7 @@
  */
 export type UseLazyImageReturn = {
   isLoaded: boolean
-  imageRef: React.RefObject<HTMLImageElement>
+  imageRef: React.RefObject<HTMLImageElement | null>
 }
 
 /**
@@ -42,9 +42,13 @@ export type UseLazyImageReturn = {
  * />
  * ```
  */
-export interface LazyImageProps extends React.HTMLProps<HTMLImageElement> {
+export interface LazyImageProps
+  extends React.DetailedHTMLProps<
+    React.ImgHTMLAttributes<HTMLImageElement>,
+    HTMLImageElement
+  > {
   options?: IntersectionObserverInit
-  placeholder?: string
+  placeholder?: string | undefined
   nextImage?: boolean
   width: number | `${number}`
   height: number | `${number}`
