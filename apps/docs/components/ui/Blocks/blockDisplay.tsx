@@ -1,4 +1,4 @@
-import { styles } from '@duck/registers'
+import { styles } from '@gentelduck/registers'
 import { CodePreview } from '~/components/mdx/mdx-components'
 import { getBlock } from '~/lib/blocks'
 
@@ -16,7 +16,7 @@ export async function BlockDisplay({ name }: { name: string }) {
         ...block,
         hasLiftMode,
       }
-    }),
+    })
   )
 
   if (!blocks?.length) {
@@ -24,6 +24,9 @@ export async function BlockDisplay({ name }: { name: string }) {
   }
 
   return blocks.map((block) => (
-    <CodePreview key={`${block.style}-${block.name}`} block={block} />
+    <CodePreview
+      key={`${block.style}-${block.name}`}
+      block={block}
+    />
   ))
 }

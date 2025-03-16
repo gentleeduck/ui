@@ -11,29 +11,29 @@ import template from 'lodash.template'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 import { copyToClipboardWithMeta } from '~/components/copy-button'
 import { ThemeWrapper } from '~/components/theme-wrapper'
 import { useConfig } from '~/hooks/use-config'
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 
 import '~/styles/mdx.css'
-import { Theme, registry_themes } from '@duck/registers'
+import { Theme, registry_themes } from '@gentelduck/registers'
 import {
   Drawer,
   DrawerContent,
   DrawerTrigger,
-} from '@duck/registry-ui-duckui/drawer'
+} from '@gentelduck/registry-ui-duckui/drawer'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@duck/registry-ui-duckui/popover'
+} from '@gentelduck/registry-ui-duckui/popover'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@duck/registry-ui-duckui/tooltip'
+} from '@gentelduck/registry-ui-duckui/tooltip'
 import {
   Dialog,
   DialogContent,
@@ -41,9 +41,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@duck/registry-ui-duckui/dialog'
-import { Skeleton } from '@duck/registry-ui-duckui/skeleton'
-import { Label } from '@duck/registry-ui-duckui/label'
+} from '@gentelduck/registry-ui-duckui/dialog'
+import { Skeleton } from '@gentelduck/registry-ui-duckui/skeleton'
+import { Label } from '@gentelduck/registry-ui-duckui/label'
 
 export function ThemeCustomizer() {
   const [config, setConfig] = useConfig()
@@ -55,35 +55,38 @@ export function ThemeCustomizer() {
   }, [])
 
   return (
-    <div className="flex items-center gap-2">
+    <div className='flex items-center gap-2'>
       <Drawer>
         <DrawerTrigger asChild>
-          <Button size="sm" className="md:hidden">
+          <Button
+            size='sm'
+            className='md:hidden'
+          >
             Customize
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="p-6 pt-0">
+        <DrawerContent className='p-6 pt-0'>
           <Customizer />
         </DrawerContent>
       </Drawer>
-      <div className="hidden items-center md:flex">
+      <div className='hidden items-center md:flex'>
         <Popover>
           <PopoverTrigger asChild>
-            <Button size="sm">Customize</Button>
+            <Button size='sm'>Customize</Button>
           </PopoverTrigger>
           <PopoverContent
-            align="start"
-            className="z-40 w-[340px] rounded-[12px] bg-white p-6 dark:bg-zinc-950"
+            align='start'
+            className='z-40 w-[340px] rounded-[12px] bg-white p-6 dark:bg-zinc-950'
           >
             <Customizer />
           </PopoverContent>
         </Popover>
-        <div className="ml-2 hidden items-center gap-0.5">
+        <div className='ml-2 hidden items-center gap-0.5'>
           {mounted ? (
             <>
               {['zinc', 'rose', 'blue', 'green', 'orange'].map((color) => {
                 const theme = registry_themes.find(
-                  (theme) => theme.name === color,
+                  (theme) => theme.name === color
                 )
                 const isActive = config.theme === color
 
@@ -105,29 +108,33 @@ export function ThemeCustomizer() {
                           'flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs',
                           isActive
                             ? 'border-[--theme-primary]'
-                            : 'border-transparent',
+                            : 'border-transparent'
                         )}
                         style={
                           {
-                            '--theme-primary': `hsl(${theme?.activeColor[mode === 'dark' ? 'dark' : 'light']})`,
+                            '--theme-primary': `hsl(${
+                              theme?.activeColor[
+                                mode === 'dark' ? 'dark' : 'light'
+                              ]
+                            })`,
                           } as React.CSSProperties
                         }
                       >
                         <span
                           className={cn(
-                            'flex h-5 w-5 items-center justify-center rounded-full bg-[--theme-primary]',
+                            'flex h-5 w-5 items-center justify-center rounded-full bg-[--theme-primary]'
                           )}
                         >
                           {isActive && (
-                            <CheckIcon className="h-4 w-4 text-white" />
+                            <CheckIcon className='h-4 w-4 text-white' />
                           )}
                         </span>
-                        <span className="sr-only">{theme.label}</span>
+                        <span className='sr-only'>{theme.label}</span>
                       </button>
                     </TooltipTrigger>
                     <TooltipContent
-                      align="center"
-                      className="rounded-[0.5rem] bg-zinc-900 text-zinc-50"
+                      align='center'
+                      className='rounded-[0.5rem] bg-zinc-900 text-zinc-50'
                     >
                       {theme.label}
                     </TooltipContent>
@@ -136,17 +143,21 @@ export function ThemeCustomizer() {
               })}
             </>
           ) : (
-            <div className="mr-1 flex items-center gap-4">
-              <Skeleton className="h-5 w-5 rounded-full" />
-              <Skeleton className="h-5 w-5 rounded-full" />
-              <Skeleton className="h-5 w-5 rounded-full" />
-              <Skeleton className="h-5 w-5 rounded-full" />
-              <Skeleton className="h-5 w-5 rounded-full" />
+            <div className='mr-1 flex items-center gap-4'>
+              <Skeleton className='h-5 w-5 rounded-full' />
+              <Skeleton className='h-5 w-5 rounded-full' />
+              <Skeleton className='h-5 w-5 rounded-full' />
+              <Skeleton className='h-5 w-5 rounded-full' />
+              <Skeleton className='h-5 w-5 rounded-full' />
             </div>
           )}
         </div>
       </div>
-      <CopyCodeButton variant="ghost" size="sm" className="[&_svg]:hidden" />
+      <CopyCodeButton
+        variant='ghost'
+        size='sm'
+        className='[&_svg]:hidden'
+      />
     </div>
   )
 }
@@ -162,22 +173,22 @@ function Customizer() {
 
   return (
     <ThemeWrapper
-      defaultTheme="zinc"
-      className="flex flex-col space-y-4 md:space-y-6"
+      defaultTheme='zinc'
+      className='flex flex-col space-y-4 md:space-y-6'
     >
-      <div className="flex items-start pt-4 md:pt-0">
-        <div className="space-y-1 pr-2">
-          <div className="font-semibold leading-none tracking-tight">
+      <div className='flex items-start pt-4 md:pt-0'>
+        <div className='space-y-1 pr-2'>
+          <div className='font-semibold leading-none tracking-tight'>
             Customize
           </div>
-          <div className="text-xs text-muted-foreground">
+          <div className='text-xs text-muted-foreground'>
             Pick a style and color for your components.
           </div>
         </div>
         <Button
-          variant="ghost"
-          size="icon"
-          className="ml-auto rounded-[0.5rem]"
+          variant='ghost'
+          size='icon'
+          className='ml-auto rounded-[0.5rem]'
           onClick={() => {
             setConfig({
               ...config,
@@ -187,10 +198,10 @@ function Customizer() {
           }}
         >
           <ResetIcon />
-          <span className="sr-only">Reset</span>
+          <span className='sr-only'>Reset</span>
         </Button>
       </div>
-      <div className="flex flex-1 flex-col space-y-4 md:space-y-6">
+      <div className='flex flex-1 flex-col space-y-4 md:space-y-6'>
         {
           // <div className="space-y-1.5">
           //          <div className="flex w-full items-center">
@@ -251,16 +262,16 @@ function Customizer() {
           //        </div>
         }
 
-        <div className="space-y-1.5">
-          <Label className="text-xs">Color</Label>
-          <div className="grid grid-cols-3 gap-2">
+        <div className='space-y-1.5'>
+          <Label className='text-xs'>Color</Label>
+          <div className='grid grid-cols-3 gap-2'>
             {registry_themes.map((theme) => {
               const isActive = config.theme === theme.name
 
               return mounted ? (
                 <Button
                   variant={'outline'}
-                  size="sm"
+                  size='sm'
                   key={theme.name}
                   onClick={() => {
                     setConfig({
@@ -270,37 +281,42 @@ function Customizer() {
                   }}
                   className={cn(
                     'justify-start',
-                    isActive && 'border-2 border-primary',
+                    isActive && 'border-2 border-primary'
                   )}
                   style={
                     {
-                      '--theme-primary': `hsl(${theme?.activeColor[mode === 'dark' ? 'dark' : 'light']})`,
+                      '--theme-primary': `hsl(${
+                        theme?.activeColor[mode === 'dark' ? 'dark' : 'light']
+                      })`,
                     } as React.CSSProperties
                   }
                 >
                   <span
                     className={cn(
-                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]',
+                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]'
                     )}
                   >
-                    {isActive && <CheckIcon className="h-4 w-4 text-white" />}
+                    {isActive && <CheckIcon className='h-4 w-4 text-white' />}
                   </span>
                   {theme.label}
                 </Button>
               ) : (
-                <Skeleton className="h-8 w-full" key={theme.name} />
+                <Skeleton
+                  className='h-8 w-full'
+                  key={theme.name}
+                />
               )
             })}
           </div>
         </div>
-        <div className="space-y-1.5">
-          <Label className="text-xs">Radius</Label>
-          <div className="grid grid-cols-5 gap-2">
+        <div className='space-y-1.5'>
+          <Label className='text-xs'>Radius</Label>
+          <div className='grid grid-cols-5 gap-2'>
             {['0', '0.3', '0.5', '0.75', '1.0'].map((value) => {
               return (
                 <Button
                   variant={'outline'}
-                  size="sm"
+                  size='sm'
                   key={value}
                   onClick={() => {
                     setConfig({
@@ -310,7 +326,7 @@ function Customizer() {
                   }}
                   className={cn(
                     config.radius === Number.parseFloat(value) &&
-                      'border-2 border-primary',
+                      'border-2 border-primary'
                   )}
                 >
                   {value}
@@ -319,34 +335,34 @@ function Customizer() {
             })}
           </div>
         </div>
-        <div className="space-y-1.5">
-          <Label className="text-xs">Mode</Label>
-          <div className="grid grid-cols-3 gap-2">
+        <div className='space-y-1.5'>
+          <Label className='text-xs'>Mode</Label>
+          <div className='grid grid-cols-3 gap-2'>
             {mounted ? (
               <>
                 <Button
                   variant={'outline'}
-                  size="sm"
+                  size='sm'
                   onClick={() => setMode('light')}
                   className={cn(mode === 'light' && 'border-2 border-primary')}
                 >
-                  <SunIcon className="mr-1 -translate-x-1" />
+                  <SunIcon className='mr-1 -translate-x-1' />
                   Light
                 </Button>
                 <Button
                   variant={'outline'}
-                  size="sm"
+                  size='sm'
                   onClick={() => setMode('dark')}
                   className={cn(mode === 'dark' && 'border-2 border-primary')}
                 >
-                  <MoonIcon className="mr-1 -translate-x-1" />
+                  <MoonIcon className='mr-1 -translate-x-1' />
                   Dark
                 </Button>
               </>
             ) : (
               <>
-                <Skeleton className="h-8 w-full" />
-                <Skeleton className="h-8 w-full" />
+                <Skeleton className='h-8 w-full' />
+                <Skeleton className='h-8 w-full' />
               </>
             )}
           </div>
@@ -362,7 +378,7 @@ function CopyCodeButton({
 }: React.ComponentProps<typeof Button>) {
   const [config] = useConfig()
   const activeTheme = registry_themes.find(
-    (theme) => theme.name === config.theme,
+    (theme) => theme.name === config.theme
   )
   const [hasCopied, setHasCopied] = React.useState(false)
 
@@ -390,31 +406,37 @@ function CopyCodeButton({
           {...props}
         >
           {hasCopied ? (
-            <CheckIcon className="mr-2 h-4 w-4" />
+            <CheckIcon className='mr-2 h-4 w-4' />
           ) : (
-            <CopyIcon className="mr-2 h-4 w-4" />
+            <CopyIcon className='mr-2 h-4 w-4' />
           )}
           Copy code
         </Button>
       )}
       <Dialog>
         <DialogTrigger asChild>
-          <Button className={cn('hidden md:flex', className)} {...props}>
+          <Button
+            className={cn('hidden md:flex', className)}
+            {...props}
+          >
             Copy code
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-w-2xl outline-none">
+        <DialogContent className='max-w-2xl outline-none'>
           <DialogHeader>
             <DialogTitle>Theme</DialogTitle>
             <DialogDescription>
               Copy and paste the following code into your CSS file.
             </DialogDescription>
           </DialogHeader>
-          <ThemeWrapper defaultTheme="zinc" className="relative">
+          <ThemeWrapper
+            defaultTheme='zinc'
+            className='relative'
+          >
             <CustomizerCode />
             {activeTheme && (
               <Button
-                size="sm"
+                size='sm'
                 onClick={() => {
                   copyToClipboardWithMeta(
                     getThemeCode(activeTheme, config.radius),
@@ -424,16 +446,16 @@ function CopyCodeButton({
                         theme: activeTheme.name,
                         radius: config.radius,
                       },
-                    },
+                    }
                   )
                   setHasCopied(true)
                 }}
-                className="absolute right-4 top-4 bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
+                className='absolute right-4 top-4 bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground'
               >
                 {hasCopied ? (
-                  <CheckIcon className="mr-2 h-4 w-4" />
+                  <CheckIcon className='mr-2 h-4 w-4' />
                 ) : (
-                  <CopyIcon className="mr-2 h-4 w-4" />
+                  <CopyIcon className='mr-2 h-4 w-4' />
                 )}
                 Copy
               </Button>
@@ -448,21 +470,24 @@ function CopyCodeButton({
 function CustomizerCode() {
   const [config] = useConfig()
   const activeTheme = registry_themes.find(
-    (theme) => theme.name === config.theme,
+    (theme) => theme.name === config.theme
   )
 
   return (
-    <ThemeWrapper defaultTheme="zinc" className="relative space-y-4">
-      <div data-rehype-pretty-code-fragment="">
-        <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
-          <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
-            <span className="line text-white">@layer base &#123;</span>
-            <span className="line text-white">&nbsp;&nbsp;:root &#123;</span>
-            <span className="line text-white">
+    <ThemeWrapper
+      defaultTheme='zinc'
+      className='relative space-y-4'
+    >
+      <div data-rehype-pretty-code-fragment=''>
+        <pre className='max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900'>
+          <code className='relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm'>
+            <span className='line text-white'>@layer base &#123;</span>
+            <span className='line text-white'>&nbsp;&nbsp;:root &#123;</span>
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--background:{' '}
               {activeTheme?.cssVars.light['background']};
             </span>
-            <span className="line text-white">
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--foreground:{' '}
               {activeTheme?.cssVars.light['foreground']};
             </span>
@@ -476,7 +501,7 @@ function CustomizerCode() {
               'destructive',
             ].map((prefix) => (
               <>
-                <span className="line text-white">
+                <span className='line text-white'>
                   &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
                   {
                     activeTheme?.cssVars.light[
@@ -485,7 +510,7 @@ function CustomizerCode() {
                   }
                   ;
                 </span>
-                <span className="line text-white">
+                <span className='line text-white'>
                   &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{' '}
                   {
                     activeTheme?.cssVars.light[
@@ -496,25 +521,25 @@ function CustomizerCode() {
                 </span>
               </>
             ))}
-            <span className="line text-white">
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--border:{' '}
               {activeTheme?.cssVars.light['border']};
             </span>
-            <span className="line text-white">
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--input:{' '}
               {activeTheme?.cssVars.light['input']};
             </span>
-            <span className="line text-white">
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--ring:{' '}
               {activeTheme?.cssVars.light['ring']};
             </span>
-            <span className="line text-white">
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;
             </span>
             {['chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5'].map(
               (prefix) => (
                 <>
-                  <span className="line text-white">
+                  <span className='line text-white'>
                     &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
                     {
                       activeTheme?.cssVars.light[
@@ -524,16 +549,16 @@ function CustomizerCode() {
                     ;
                   </span>
                 </>
-              ),
+              )
             )}
-            <span className="line text-white">&nbsp;&nbsp;&#125;</span>
-            <span className="line text-white">&nbsp;</span>
-            <span className="line text-white">&nbsp;&nbsp;.dark &#123;</span>
-            <span className="line text-white">
+            <span className='line text-white'>&nbsp;&nbsp;&#125;</span>
+            <span className='line text-white'>&nbsp;</span>
+            <span className='line text-white'>&nbsp;&nbsp;.dark &#123;</span>
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--background:{' '}
               {activeTheme?.cssVars.dark['background']};
             </span>
-            <span className="line text-white">
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--foreground:{' '}
               {activeTheme?.cssVars.dark['foreground']};
             </span>
@@ -547,7 +572,7 @@ function CustomizerCode() {
               'destructive',
             ].map((prefix) => (
               <>
-                <span className="line text-white">
+                <span className='line text-white'>
                   &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
                   {
                     activeTheme?.cssVars.dark[
@@ -556,7 +581,7 @@ function CustomizerCode() {
                   }
                   ;
                 </span>
-                <span className="line text-white">
+                <span className='line text-white'>
                   &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{' '}
                   {
                     activeTheme?.cssVars.dark[
@@ -567,22 +592,22 @@ function CustomizerCode() {
                 </span>
               </>
             ))}
-            <span className="line text-white">
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--border:{' '}
               {activeTheme?.cssVars.dark['border']};
             </span>
-            <span className="line text-white">
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--input:{' '}
               {activeTheme?.cssVars.dark['input']};
             </span>
-            <span className="line text-white">
+            <span className='line text-white'>
               &nbsp;&nbsp;&nbsp;&nbsp;--ring:{' '}
               {activeTheme?.cssVars.dark['ring']};
             </span>
             {['chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5'].map(
               (prefix) => (
                 <>
-                  <span className="line text-white">
+                  <span className='line text-white'>
                     &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
                     {
                       activeTheme?.cssVars.dark[
@@ -592,10 +617,10 @@ function CustomizerCode() {
                     ;
                   </span>
                 </>
-              ),
+              )
             )}
-            <span className="line text-white">&nbsp;&nbsp;&#125;</span>
-            <span className="line text-white">&#125;</span>
+            <span className='line text-white'>&nbsp;&nbsp;&#125;</span>
+            <span className='line text-white'>&#125;</span>
           </code>
         </pre>
       </div>

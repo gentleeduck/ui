@@ -1,8 +1,8 @@
 'use client'
 
-import { cn } from '@duck/libs/cn'
-import { groupDataByNumbers } from '@duck/libs/group-data-by-numbers'
-import { Dialog, DialogContent } from '@duck/registry-ui-duckui/dialog'
+import { cn } from '@gentelduck/libs/cn'
+import { groupDataByNumbers } from '@gentelduck/libs/group-data-by-numbers'
+import { Dialog, DialogContent } from '@gentelduck/registry-ui-duckui/dialog'
 import { DialogProps } from '@radix-ui/react-dialog'
 import { Command as CommandPrimitive } from 'cmdk'
 import { Check, Search } from 'lucide-react'
@@ -20,20 +20,20 @@ const Command = React.forwardRef<
     ref={ref}
     className={cn(
       'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
-      className,
+      className
     )}
     {...props}
   />
 ))
 Command.displayName = CommandPrimitive.displayName
 
-interface CommandDialogProps extends DialogProps { }
+interface CommandDialogProps extends DialogProps {}
 
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
     <Dialog {...props}>
-      <DialogContent className="overflow-hidden p-0 shadow-lg">
-        <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+      <DialogContent className='overflow-hidden p-0 shadow-lg'>
+        <Command className='[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5'>
           {children}
         </Command>
       </DialogContent>
@@ -45,13 +45,16 @@ const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
-  <div className="flex items-center border-b px-3 gap-1" cmdk-input-wrapper="">
-    <Search className="h-4 w-4 shrink-0 opacity-50" />
+  <div
+    className='flex items-center border-b px-3 gap-1'
+    cmdk-input-wrapper=''
+  >
+    <Search className='h-4 w-4 shrink-0 opacity-50' />
     <CommandPrimitive.Input
       ref={ref}
       className={cn(
         'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
-        className,
+        className
       )}
       {...props}
     />
@@ -79,7 +82,7 @@ const CommandEmpty = React.forwardRef<
 >((props, ref) => (
   <CommandPrimitive.Empty
     ref={ref}
-    className="py-6 text-center text-sm"
+    className='py-6 text-center text-sm'
     {...props}
   />
 ))
@@ -94,7 +97,7 @@ const CommandGroup = React.forwardRef<
     ref={ref}
     className={cn(
       'overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground',
-      className,
+      className
     )}
     {...props}
   />
@@ -122,7 +125,7 @@ const CommandItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50",
-      className,
+      className
     )}
     {...props}
   />
@@ -138,7 +141,7 @@ const CommandShortcut = ({
     <span
       className={cn(
         'ml-auto text-xs tracking-widest text-muted-foreground',
-        className,
+        className
       )}
       {...props}
     />
@@ -147,7 +150,7 @@ const CommandShortcut = ({
 CommandShortcut.displayName = 'CommandShortcut'
 
 interface CommandListGroupDataType<
-  T extends keyof Record<string, unknown> = string,
+  T extends keyof Record<string, unknown> = string
 > {
   label?: T
   element?: ListItemElementType
@@ -162,8 +165,8 @@ interface OnSelectType {
 interface ListItemElementType
   extends Partial<
     React.ComponentPropsWithoutRef<typeof CommandItem> &
-    React.CustomComponentPropsWithRef<typeof Button>
-  > { }
+      React.CustomComponentPropsWithRef<typeof Button>
+  > {}
 
 interface CommandListGroupType {
   type?: 'combobox' | 'listbox'
@@ -188,7 +191,7 @@ const CommandListGroup = React.forwardRef(
       checkabble = false,
       type,
     }: CommandListGroupType,
-    ref: React.Ref<HTMLDivElement>,
+    ref: React.Ref<HTMLDivElement>
   ) => {
     const groupedData = groupDataByNumbers(data, group || [data.length])
 
@@ -198,14 +201,17 @@ const CommandListGroup = React.forwardRef(
           <CommandList
             className={cn(
               'overflow-hidden max-h-full',
-              type === 'listbox' && '',
+              type === 'listbox' && ''
             )}
             ref={ref}
           >
             <CommandEmpty>No framework found.</CommandEmpty>
             {groupedData.map((group, idx) => {
               return (
-                <CommandGroup heading={groupheading?.[idx]} key={idx}>
+                <CommandGroup
+                  heading={groupheading?.[idx]}
+                  key={idx}
+                >
                   {group.map((el, idx) => {
                     const { children, className, icon, ...props } =
                       el.element ?? {}
@@ -218,11 +224,11 @@ const CommandListGroup = React.forwardRef(
                           'data-[disabled=true]:opacity-50',
                           selected.includes(
                             (el?.label as string) ??
-                            (el?.element?.children as string),
+                              (el?.element?.children as string)
                           ) &&
-                          type === 'combobox' &&
-                          'bg-accent text-accent-foreground',
-                          className,
+                            type === 'combobox' &&
+                            'bg-accent text-accent-foreground',
+                          className
                         )}
                         onSelect={onSelect?.key}
                         {...(props as typeof CommandItem)}
@@ -234,24 +240,24 @@ const CommandListGroup = React.forwardRef(
                                 'mr-2 h-4 w-4',
                                 selected.includes(
                                   (el?.label as string) ??
-                                  (el?.element?.children as string),
+                                    (el?.element?.children as string)
                                 )
                                   ? 'opacity-100'
-                                  : 'opacity-0',
+                                  : 'opacity-0'
                               )}
                             />
                           ) : (
                             <Checkbox
                               checked={selected.includes(
                                 (el?.label as string) ??
-                                (el?.element?.children as string),
+                                  (el?.element?.children as string)
                               )}
                               className={cn(
-                                'mr-2 h-4 w-4  border-muted-foreground',
+                                'mr-2 h-4 w-4  border-muted-foreground'
                               )}
                             />
                           ))}
-                        <span className="flex items-center gap-2">
+                        <span className='flex items-center gap-2'>
                           {icon && icon}
                           {children ?? el?.label}
                         </span>
@@ -270,9 +276,9 @@ const CommandListGroup = React.forwardRef(
           <>
             <Separator />
             <Button
-              variant="ghost"
+              variant='ghost'
               size={'sm'}
-              className="justify-center m-1 w-auto py-2 text-xs"
+              className='justify-center m-1 w-auto py-2 text-xs'
               onClick={() => {
                 if (onSelect?.clear) {
                   onSelect.clear()
@@ -285,7 +291,7 @@ const CommandListGroup = React.forwardRef(
         )}
       </>
     )
-  },
+  }
 )
 
 CommandListGroup.displayName = 'CommandListGroup'

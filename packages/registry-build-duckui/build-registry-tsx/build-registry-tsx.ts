@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { registry_schema } from '@duck/registers'
+import { registry_schema } from '@gentelduck/registers'
 import { GetComponentFilesArgs } from './build-registry-tsx.types'
 
 // ----------------------------------------------------------------------------
@@ -17,7 +17,11 @@ export async function build_registry_tsx({
   spinner,
 }: GetComponentFilesArgs): Promise<string> {
   try {
-    const component_path = `${item.type.includes('ui') ? `@duck/registry-ui-duckui` : `@duck/registry-examples-duckui/${item.root_folder}`}/${item?.name}`
+    const component_path = `${
+      item.type.includes('ui')
+        ? `@gentelduck/registry-ui-duckui`
+        : `@gentelduck/registry-examples-duckui/${item.root_folder}`
+    }/${item?.name}`
     // TODO: Implement chunk handling in the schema
     // TODO: Handle `source_file_name` for blocks
     const chunks: z.infer<typeof registry_schema>[number]['chunks'] = []
@@ -46,7 +50,7 @@ export async function build_registry_tsx({
         container: {
           className: "${chunk.container?.className ?? ''}"
         }
-      }`,
+      }`
           )
           .join(',\n')}
       ]
@@ -57,7 +61,9 @@ export async function build_registry_tsx({
     return registryEntry
   } catch (error) {
     spinner.fail(
-      `Failed to build TSX registry entry: ${error instanceof Error ? error.message : String(error)}`,
+      `Failed to build TSX registry entry: ${
+        error instanceof Error ? error.message : String(error)
+      }`
     )
     process.exit(0)
   }

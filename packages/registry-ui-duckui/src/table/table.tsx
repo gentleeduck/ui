@@ -17,14 +17,14 @@ import {
 } from '../tooltip'
 import { LabelType } from '../button'
 import { Badge } from '../badge'
-import { useDebounceCallback } from '@duck/hooks/use-debounce'
+import { useDebounceCallback } from '@gentelduck/hooks/use-debounce'
 import { get_options_data } from './table.lib'
 import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
 import { useDuckTable } from './table.hook'
 import { TableHeaderType, TablePaginationType } from './table.types'
 
-import { cn } from '@duck/libs/cn'
-import { groupArrays } from '@duck/libs/group-array'
+import { cn } from '@gentelduck/libs/cn'
+import { groupArrays } from '@gentelduck/libs/group-array'
 
 import { CirclePlus, LucideIcon } from 'lucide-react'
 import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
@@ -40,7 +40,7 @@ const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
+  <div className='relative w-full overflow-auto'>
     <table
       ref={ref}
       className={cn('w-full caption-bottom text-sm', className)}
@@ -54,7 +54,11 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn('[&_tr]:border-b', className)} {...props} />
+  <thead
+    ref={ref}
+    className={cn('[&_tr]:border-b', className)}
+    {...props}
+  />
 ))
 TableHeader.displayName = 'TableHeader'
 
@@ -78,7 +82,7 @@ const TableFooter = React.forwardRef<
     ref={ref}
     className={cn(
       'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0',
-      className,
+      className
     )}
     {...props}
   />
@@ -93,7 +97,7 @@ const TableRow = React.forwardRef<
     ref={ref}
     className={cn(
       'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
-      className,
+      className
     )}
     {...props}
   />
@@ -108,7 +112,7 @@ const TableHead = React.forwardRef<
     ref={ref}
     className={cn(
       'h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',
-      className,
+      className
     )}
     {...props}
   />
@@ -148,7 +152,7 @@ export const DuckTableBar = ({
     <div
       className={cn(
         'flex items-end lg:items-center justify-between gap-2',
-        className,
+        className
       )}
       {...props}
     >
@@ -172,7 +176,7 @@ export const DuckTableSearch = ({
   //NOTE: Debounce search
   const debouncedSearch = useDebounceCallback(
     (newValue: string) => setSearch?.((_) => ({ query: newValue })),
-    500,
+    500
   )
 
   return (
@@ -235,7 +239,10 @@ const DuckTableSearchInput = React.forwardRef<
   //
 
   return (
-    <div className="flex flex-col" ref={ref}>
+    <div
+      className='flex flex-col'
+      ref={ref}
+    >
       <Tooltip delayDuration={100}>
         <TooltipTrigger>
           <Input
@@ -248,16 +255,23 @@ const DuckTableSearchInput = React.forwardRef<
         <TooltipContent
           className={cn(
             'flex items-center gap-2 z-50 justify-start',
-            labelClassName,
+            labelClassName
           )}
           {...labelProps}
         >
-          <CommandShortcut className="text-[.8rem]" {...badgeProps}>
-            <Badge variant="secondary" size="sm" className="p-0 px-2">
+          <CommandShortcut
+            className='text-[.8rem]'
+            {...badgeProps}
+          >
+            <Badge
+              variant='secondary'
+              size='sm'
+              className='p-0 px-2'
+            >
               {badgeChildren}
             </Badge>
           </CommandShortcut>
-          <p className="text-sm">{labelChildren}</p>
+          <p className='text-sm'>{labelChildren}</p>
         </TooltipContent>
       </Tooltip>
     </div>
@@ -266,14 +280,14 @@ const DuckTableSearchInput = React.forwardRef<
 
 export interface DuckTableFilterProps<
   T extends Record<string, any> = Record<string, string>,
-  Y extends keyof Record<string, unknown> = string,
+  Y extends keyof Record<string, unknown> = string
 > extends React.HTMLProps<HTMLDivElement> {
   filter: ComboboxType<Y, Extract<keyof T, string>>[]
 }
 
 export const DuckTableFilter = <
   T extends Record<string, any> = Record<string, string>,
-  Y extends keyof Record<string, unknown> = string,
+  Y extends keyof Record<string, unknown> = string
 >({
   children,
   filter,
@@ -283,7 +297,10 @@ export const DuckTableFilter = <
   const { filterBy, setFilterBy } = useDuckTable() ?? {}
 
   return (
-    <div className={cn('flex items-center gap-2', className)} {...props}>
+    <div
+      className={cn('flex items-center gap-2', className)}
+      {...props}
+    >
       {filter?.map((filter, idx) => {
         const {
           className: triggerClassName,
@@ -332,7 +349,7 @@ export const DuckTableBarRightSide = React.forwardRef<
     <div
       className={cn(
         'grid lg:flex items-center lg:justify-between gap-2',
-        className,
+        className
       )}
       ref={ref}
       {...props}
@@ -353,7 +370,7 @@ export const DuckTableBarLeftSide = React.forwardRef<
     <div
       className={cn(
         'grid lg:flex items-center lg:justify-between gap-2',
-        className,
+        className
       )}
       ref={ref}
       {...props}
@@ -365,14 +382,14 @@ export const DuckTableBarLeftSide = React.forwardRef<
 
 export interface DuckTableBarActionsProps<
   T extends Record<string, unknown>,
-  C extends boolean,
+  C extends boolean
 > {
   header: TableHeaderType<T, C>[]
 }
 
 export const TableBarViewButton = <
   T extends Record<string, any> = Record<string, string>,
-  C extends boolean = false,
+  C extends boolean = false
 >({
   header,
 }: DuckTableBarActionsProps<T, C>) => {
@@ -461,7 +478,10 @@ export const DuckTableFooter = ({
         {columns?.map((item, idx) => {
           const { children, ...props } = item
           return (
-            <TableCell key={idx} {...props}>
+            <TableCell
+              key={idx}
+              {...props}
+            >
               {children}
             </TableCell>
           )
@@ -485,7 +505,7 @@ export const DuckTableDownBar = ({
       <div
         className={cn(
           'grid lg:flex items-center lg:justify-between gap-4 lg::gap-0',
-          className,
+          className
         )}
         {...props}
       >
@@ -591,7 +611,7 @@ export const DuckTablePagination = ({}: DuckTablePaginationProps) => {
 
 const TablePagination = <
   C extends Record<string, unknown> = Record<string, string>,
-  Y extends keyof Record<string, unknown> = string,
+  Y extends keyof Record<string, unknown> = string
 >({
   resultArrays,
   selected,
@@ -610,11 +630,11 @@ const TablePagination = <
           const start = index * paginations.groupSize + 1
           const end = Math.min(
             (index + 1) * paginations.groupSize,
-            tableData.length,
+            tableData.length
           )
           if (start > tableData.length) return null
           return end.toString()
-        },
+        }
       )
         .filter(Boolean)
         .reduce((acc, curr) => {
@@ -625,25 +645,25 @@ const TablePagination = <
 
   return (
     <>
-      <div className="grid lg:flex items-center lg:justify-between gap-4 lg::gap-0">
-        <div className="flex items-center justify-between">
+      <div className='grid lg:flex items-center lg:justify-between gap-4 lg::gap-0'>
+        <div className='flex items-center justify-between'>
           {/*NOTE: Select Count */}
           {paginations?.showSelectCount && (
-            <span className="flex items-center justify-center text-sm font-medium text-muted-foreground whitespace-nowrap">
+            <span className='flex items-center justify-center text-sm font-medium text-muted-foreground whitespace-nowrap'>
               {selected.length} of {tableData.length} row(s) selected.
             </span>
           )}
         </div>
-        <div className="flex items-center lg:justify-between lg:gap-4">
+        <div className='flex items-center lg:justify-between lg:gap-4'>
           {/*NOTE: Group Size */}
           {paginations?.showGroup && (
-            <div className="flex items-center gap-2">
-              <span className="max-2xl:hidden flex items-center justify-center text-sm font-medium text-muted-foreground whitespace-nowrap">
+            <div className='flex items-center gap-2'>
+              <span className='max-2xl:hidden flex items-center justify-center text-sm font-medium text-muted-foreground whitespace-nowrap'>
                 Rows per page
               </span>
               <TooltipProvider>
                 <Combobox<Extract<keyof C, string>, Y>
-                  type="combobox"
+                  type='combobox'
                   content={{
                     data: (pageLengthData ??
                       []) as CommandListGroupDataType<Y>[],
@@ -675,7 +695,7 @@ const TablePagination = <
             </div>
           )}
           {paginations?.showPageCount && (
-            <span className="max-lg:hidden flex items-center justify-center text-sm font-medium text-muted-foreground whitespace-nowrap">
+            <span className='max-lg:hidden flex items-center justify-center text-sm font-medium text-muted-foreground whitespace-nowrap'>
               Page {paginationState.activePage + 1} of {resultArrays.length}
             </span>
           )}
@@ -708,7 +728,7 @@ export const DuckTableBody = <T,>({
   const { pagination, search, filterBy } = useDuckTable() ?? {}
   const tableDataGrouped = groupArrays<T>(
     [pagination?.pageSize ?? PAGE_SIZE],
-    data,
+    data
   )
   const pageIdx = pagination?.pageIndex ?? PAGE_INDEX
 
@@ -718,7 +738,7 @@ export const DuckTableBody = <T,>({
 
     return tableDataGrouped[pageIdx]?.filter((item) => {
       const itemValues = Object.values(item as Record<string, unknown>).map(
-        (value) => JSON.stringify(value).toLowerCase(),
+        (value) => JSON.stringify(value).toLowerCase()
       )
 
       const matchesSearch = search?.query
@@ -727,7 +747,7 @@ export const DuckTableBody = <T,>({
 
       const matchesFilterBy = filterBy?.length
         ? itemValues.some((value) =>
-            filterBy.some((q) => value.includes(q.toLowerCase())),
+            filterBy.some((q) => value.includes(q.toLowerCase()))
           )
         : false
 
@@ -742,7 +762,7 @@ export const DuckTableBody = <T,>({
   // NOTE: Split the data into chunks based on the group size.
   const resultArrays = React.useMemo(
     () => splitIntoChunks(filteredData, pagination?.pageSize ?? PAGE_SIZE),
-    [filteredData, pagination?.pageSize],
+    [filteredData, pagination?.pageSize]
   )
 
   console.log(filteredData)
@@ -756,8 +776,8 @@ export const DuckTableBody = <T,>({
 
 export const EmptyTable = () => {
   return (
-    <div className="w-full h-full flex items-center justify-center absolute top-1/2 left-1/2">
-      <h6 className="text-muted-foreground text-center"> No data </h6>
+    <div className='w-full h-full flex items-center justify-center absolute top-1/2 left-1/2'>
+      <h6 className='text-muted-foreground text-center'> No data </h6>
     </div>
   )
 }

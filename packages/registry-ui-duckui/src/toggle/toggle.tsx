@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as TogglePrimitive from '@radix-ui/react-toggle'
 import { type VariantProps } from 'class-variance-authority'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { toggleVariants } from './toggle.constants'
 
 const Toggle = React.forwardRef<

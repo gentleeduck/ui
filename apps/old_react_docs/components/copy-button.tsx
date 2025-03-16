@@ -4,15 +4,15 @@ import { CheckIcon, ClipboardIcon } from 'lucide-react'
 import * as React from 'react'
 import { NpmCommands } from 'types/unist'
 
-import { Button, ButtonProps } from '@duck/registry-ui-duckui/button'
+import { Button, ButtonProps } from '@gentelduck/registry-ui-duckui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@duck/registry-ui-duckui/dropdown-menu'
+} from '@gentelduck/registry-ui-duckui/dropdown-menu'
 import { Event, trackEvent } from '~/lib/events'
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 
 interface CopyButtonProps extends ButtonProps {
   value: string
@@ -45,11 +45,11 @@ export function CopyButton({
 
   return (
     <Button
-      size="icon"
+      size='icon'
       variant={variant}
       className={cn(
         'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
-        className,
+        className
       )}
       icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
       onClick={() => {
@@ -57,18 +57,18 @@ export function CopyButton({
           value,
           event
             ? {
-              name: event,
-              properties: {
-                code: value,
-              },
-            }
-            : undefined,
+                name: event,
+                properties: {
+                  code: value,
+                },
+              }
+            : undefined
         )
         setHasCopied(true)
       }}
       {...props}
     >
-      <span className="sr-only">Copy</span>
+      <span className='sr-only'>Copy</span>
     </Button>
   )
 }
@@ -102,18 +102,18 @@ export function CopyWithClassNames({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          size="icon"
-          variant="outline"
+          size='icon'
+          variant='outline'
           className={cn(
             'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
-            className,
+            className
           )}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
         >
-          <span className="sr-only">Copy</span>
+          <span className='sr-only'>Copy</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align='end'>
         <DropdownMenuItem onClick={() => copyToClipboard(value)}>
           Component
         </DropdownMenuItem>
@@ -153,25 +153,25 @@ export function CopyNpmCommandButton({
       })
       setHasCopied(true)
     },
-    [],
+    []
   )
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          size="icon"
-          variant="outline"
+          size='icon'
+          variant='outline'
           className={cn(
             'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
-            className,
+            className
           )}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
         >
-          <span className="sr-only">Copy</span>
+          <span className='sr-only'>Copy</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align='end'>
         <DropdownMenuItem
           onClick={() => copyCommand(commands.__npmCommand__, 'npm')}
         >

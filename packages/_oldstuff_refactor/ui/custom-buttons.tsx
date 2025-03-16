@@ -3,8 +3,8 @@ import React from 'react'
 // import { IoMdHeartEmpty } from 'react-icons/io'
 // import { LucideIcon } from 'lucide-react'
 import { LikedType, TaggedUserType } from './swapy'
-import { Button, ButtonProps } from '@duck/registry-ui-duckui/button'
-import { cn } from '@duck/libs/cn'
+import { Button, ButtonProps } from '@gentelduck/registry-ui-duckui/button'
+import { cn } from '@gentelduck/libs/cn'
 
 export interface LikeButtonProps extends Omit<ButtonProps, 'onClick'> {
   user: TaggedUserType
@@ -13,7 +13,10 @@ export interface LikeButtonProps extends Omit<ButtonProps, 'onClick'> {
   onClick?: ({
     e,
     state,
-  }: { e: React.MouseEvent<HTMLButtonElement>; state: LikeState }) => void
+  }: {
+    e: React.MouseEvent<HTMLButtonElement>
+    state: LikeState
+  }) => void
 }
 
 export interface LikeState {
@@ -59,11 +62,11 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   return (
     <Button
-      size="icon"
-      variant="nothing"
+      size='icon'
+      variant='nothing'
       className={cn(
         'rounded-full h-auto w-auto',
-        likeState.hasLiked && 'btn-love',
+        likeState.hasLiked && 'btn-love'
       )}
       onClick={(e) => {
         onClick && onClick({ e, state: likeState })
@@ -79,14 +82,17 @@ const LikeButton: React.FC<LikeButtonProps> = ({
         <div
           className={cn(
             'relative grid place-content-center h-4 overflow-hidden leading-4 transition',
-            likeState.scrollTo,
+            likeState.scrollTo
           )}
           style={{
-            width: `${Math.min(48, Math.max(24, String(likeState.current).length * 12))}px`,
+            width: `${Math.min(
+              48,
+              Math.max(24, String(likeState.current).length * 12)
+            )}px`,
           }}
         >
-          <span className="absolute top-0 left-0">{likeState.current}</span>
-          <span className="absolute top-0 left-0">{likeState.prev}</span>
+          <span className='absolute top-0 left-0'>{likeState.current}</span>
+          <span className='absolute top-0 left-0'>{likeState.prev}</span>
         </div>
       )}
     </Button>

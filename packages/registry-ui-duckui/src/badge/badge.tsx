@@ -4,7 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 import { BadgeProps } from './badge.types'
 import { badgeVariants } from './badge.constants'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
   ({ className, variant, size, label, ...props }, ref) => {
@@ -22,7 +22,7 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
         )}
       </Tooltip>
     )
-  },
+  }
 )
 
 Badge.displayName = 'Badge'

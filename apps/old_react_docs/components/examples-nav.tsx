@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import {
   ScrollArea,
   ScrollBar,
@@ -53,15 +53,18 @@ const examples = [
   },
 ]
 
-interface ExamplesNavProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface ExamplesNavProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
   const pathname = usePathname()
 
   return (
-    <div className="relative">
-      <ScrollArea className="max-w-[600px] lg:max-w-none">
-        <div className={cn('mb-4 flex items-center', className)} {...props}>
+    <div className='relative'>
+      <ScrollArea className='max-w-[600px] lg:max-w-none'>
+        <div
+          className={cn('mb-4 flex items-center', className)}
+          {...props}
+        >
           {examples.map((example, index) => (
             <Link
               href={example.href}
@@ -71,14 +74,17 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
                 pathname?.startsWith(example.href) ||
                   (index === 0 && pathname === '/')
                   ? 'bg-muted font-medium text-primary'
-                  : 'text-muted-foreground',
+                  : 'text-muted-foreground'
               )}
             >
               {example.name}
             </Link>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" className="invisible" />
+        <ScrollBar
+          orientation='horizontal'
+          className='invisible'
+        />
       </ScrollArea>
     </div>
   )
@@ -98,12 +104,12 @@ export function ExampleCodeLink({ pathname }: ExampleCodeLinkProps) {
   return (
     <Link
       href={example?.code}
-      target="_blank"
-      rel="nofollow"
-      className="absolute right-0 top-0 hidden items-center rounded-[0.5rem] text-sm font-medium md:flex"
+      target='_blank'
+      rel='nofollow'
+      className='absolute right-0 top-0 hidden items-center rounded-[0.5rem] text-sm font-medium md:flex'
     >
       View code
-      <ArrowRightIcon className="ml-1 h-4 w-4" />
+      <ArrowRightIcon className='ml-1 h-4 w-4' />
     </Link>
   )
 }

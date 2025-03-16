@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 
 const links = [
   {
@@ -46,7 +46,7 @@ export function ChartsNav({
     <div
       className={cn(
         'flex items-center max-w-[600px] lg:max-w-none hide-scroll',
-        className,
+        className
       )}
       {...props}
     >
@@ -59,7 +59,7 @@ export function ChartsNav({
             pathname?.startsWith(example.href) ||
               (index === 0 && pathname === '/')
               ? 'bg-muted font-medium text-primary'
-              : 'text-muted-foreground',
+              : 'text-muted-foreground'
           )}
         >
           {example.name}

@@ -1,18 +1,18 @@
 'use client'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@duck/registry-ui-duckui/accordion'
+} from '@gentelduck/registry-ui-duckui/accordion'
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from '@duck/registry-ui-duckui/alert'
-import { AspectRatio } from '@duck/registry-ui-duckui/aspect-ratio'
+} from '@gentelduck/registry-ui-duckui/alert'
+import { AspectRatio } from '@gentelduck/registry-ui-duckui/aspect-ratio'
 import Image from 'next/image'
 import Link from 'next/link'
 import * as React from 'react'
@@ -24,7 +24,7 @@ import { ComponentExample } from '../ui'
 import {
   A,
   Callout,
-  CodeBlock as Code,
+  Code,
   CodeBlockWrapper,
   CodePreview,
   ComponentPreview,
@@ -50,7 +50,7 @@ import {
   TableHeader,
   TableRow,
 } from './mdx-components'
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)

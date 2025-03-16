@@ -1,1 +1,1 @@
-# `@duck/lazy`
+# `@gentelduck/lazy`

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { SidebarNavItem } from 'types/nav'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { type DocsConfig } from '~/config/docs'
 
 export interface DocsSidebarNavProps {
@@ -20,9 +20,13 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
 
   return (
     items.length && (
-      <div className="w-full flex flex-col">
+      <div className='w-full flex flex-col'>
         {items.map((item, index) => (
-          <CategoryItem key={index} item={item} pathname={pathname} />
+          <CategoryItem
+            key={index}
+            item={item}
+            pathname={pathname}
+          />
         ))}
       </div>
     )
@@ -33,20 +37,26 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
 const CategoryItem = ({
   item,
   pathname,
-}: { item: SidebarNavItem; pathname: string | null }) => {
+}: {
+  item: SidebarNavItem
+  pathname: string | null
+}) => {
   return (
-    <div className="flex flex-col gap-1 mb-2">
-      <div className="flex items-center justify-between w-full text-start text-sm font-semibold [&>div]:justify-between [&>div]:w-full h-[36px]">
+    <div className='flex flex-col gap-1 mb-2'>
+      <div className='flex items-center justify-between w-full text-start text-sm font-semibold [&>div]:justify-between [&>div]:w-full h-[36px]'>
         {item.title}
         {item.label && (
-          <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
+          <span className='ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline'>
             {item.label}
           </span>
         )}
       </div>
-      <div className="border-l">
+      <div className='border-l'>
         {item?.items?.length && (
-          <DocsSidebarNavItems items={item.items} pathname={pathname} />
+          <DocsSidebarNavItems
+            items={item.items}
+            pathname={pathname}
+          />
         )}
       </div>
     </div>
@@ -68,7 +78,11 @@ export function DocsSidebarNavItems({
     items?.length && (
       <ul className={cn('overflow-hidden transition-all', className)}>
         {items.map((item, index) => (
-          <DocsSidebarNavItem key={index} item={item} pathname={pathname} />
+          <DocsSidebarNavItem
+            key={index}
+            item={item}
+            pathname={pathname}
+          />
         ))}
       </ul>
     )
@@ -91,14 +105,14 @@ export function DocsSidebarNavItem({
             'group flex w-full items-center px-4 py-1',
             pathname === item.href
               ? 'font-medium text-foreground'
-              : 'text-muted-foreground',
+              : 'text-muted-foreground'
           )}
           target={item.external ? '_blank' : ''}
           rel={item.external ? 'noreferrer' : ''}
         >
           {item.title}
           {item.label && (
-            <span className="ml-2 rounded-md bg-[#89b4fa] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
+            <span className='ml-2 rounded-md bg-[#89b4fa] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline'>
               {item.label}
             </span>
           )}
@@ -110,12 +124,12 @@ export function DocsSidebarNavItem({
   return (
     <span
       className={cn(
-        'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
+        'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline'
       )}
     >
       {item.title}
       {item.label && (
-        <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline">
+        <span className='ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline'>
           {item.label}
         </span>
       )}

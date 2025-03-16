@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { CodeBlockWrapper } from '~/components/code-block-wrapper'
 
 interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -17,7 +17,7 @@ export function ComponentSource({
 }: ComponentSourceProps) {
   return (
     <CodeBlockWrapper
-      expandButtonTitle="Expand"
+      expandButtonTitle='Expand'
       className={cn('my-6 overflow-hidden rounded-md', className)}
     >
       {children}

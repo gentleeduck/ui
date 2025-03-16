@@ -3,8 +3,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { NavItem, NavItemWithChildren } from 'types/nav'
 
 import { docsConfig } from '~/config/docs'
-import { cn } from '@duck/libs/cn'
-import { buttonVariants } from '@duck/registry-ui-duckui/button'
+import { cn } from '@gentelduck/libs/cn'
+import { buttonVariants } from '@gentelduck/registry-ui-duckui/button'
 import { Docs } from '../.velite'
 
 interface DocsPagerProps {
@@ -20,7 +20,7 @@ export function DocsPager({ doc }: DocsPagerProps) {
   }
 
   return (
-    <div className="flex flex-row items-center justify-between">
+    <div className='flex flex-row items-center justify-between'>
       {pager?.prev?.href && (
         <Link
           href={pager.prev.href}
@@ -28,10 +28,10 @@ export function DocsPager({ doc }: DocsPagerProps) {
             buttonVariants({
               variant: 'outline',
               className: 'items-center flex ',
-            }),
+            })
           )}
         >
-          <ChevronLeftIcon className="mr-2 size-4" />
+          <ChevronLeftIcon className='mr-2 size-4' />
           <span>{pager.prev.title}</span>
         </Link>
       )}
@@ -42,11 +42,11 @@ export function DocsPager({ doc }: DocsPagerProps) {
             buttonVariants({
               variant: 'outline',
               className: 'items-center flex ',
-            }),
+            })
           )}
         >
           <span>{pager.next.title}</span>
-          <ChevronRightIcon className="ml-2 size-4" />
+          <ChevronRightIcon className='ml-2 size-4' />
         </Link>
       )}
     </div>
@@ -59,7 +59,7 @@ export function getPagerForDoc(doc: Docs) {
     : docsConfig.sidebarNav
   const flattenedLinks = [null, ...flatten(nav), null]
   const activeIndex = flattenedLinks.findIndex((link) =>
-    link?.href?.includes(doc.slug ?? doc.title),
+    link?.href?.includes(doc.slug ?? doc.title)
   )
   // console.log(activeIndex, 'nav var')
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null

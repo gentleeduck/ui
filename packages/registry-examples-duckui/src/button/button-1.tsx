@@ -1,4 +1,4 @@
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 import { ArrowBigUpDash, ShieldAlert } from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'
@@ -11,9 +11,9 @@ export default function Button1Demo() {
         isCollapsed={open}
         icon={<ArrowBigUpDash />}
         aria-label={'button'}
-        type="button"
-        role="button"
-        size="default"
+        type='button'
+        role='button'
+        size='default'
         aria-expanded={open}
         tabIndex={0}
         loading={false}

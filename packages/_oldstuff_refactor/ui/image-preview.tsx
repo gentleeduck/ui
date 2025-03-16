@@ -1,5 +1,5 @@
 //
-// import { cn } from '@duck/libs/cn'
+// import { cn } from '@gentelduck/libs/cn'
 // import React from 'react'
 // import { AsyncImage } from 'loadable-image'
 // import { AttachmentType } from './upload'
@@ -11,10 +11,10 @@
 //   DialogResponsive,
 //   DialogTitleResponsive,
 //   DialogTriggerResponsive,
-// } from '@duck/registry-ui-duckui/dialog'
+// } from '@gentelduck/registry-ui-duckui/dialog'
 // import { ScrollArea } from './scroll-area'
 // import { filesize } from 'filesize'
-// import { useMediaQuery } from '@duck/hooks/'
+// import { useMediaQuery } from '@gentelduck/hooks/'
 //
 // export interface ImagePreviewContextType {
 //   isDesktop: boolean

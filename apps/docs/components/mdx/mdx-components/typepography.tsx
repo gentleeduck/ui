@@ -1,5 +1,5 @@
 import React from 'react'
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import Link from 'next/link'
 
 interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {}
@@ -11,7 +11,7 @@ export function H1({ className, ...props }: HeadingProps) {
     <h1
       className={cn(
         'font-heading mt-2 scroll-m-20 text-4xl font-bold',
-        className,
+        className
       )}
       {...props}
     />
@@ -23,7 +23,7 @@ export function H2({ className, ...props }: HeadingProps) {
     <h2
       className={cn(
         'font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0',
-        className,
+        className
       )}
       {...props}
     />
@@ -35,7 +35,7 @@ export function H3({ className, ...props }: HeadingProps) {
     <h3
       className={cn(
         'font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight',
-        className,
+        className
       )}
       {...props}
     />
@@ -47,7 +47,7 @@ export function H4({ className, ...props }: HeadingProps) {
     <h4
       className={cn(
         'font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight',
-        className,
+        className
       )}
       {...props}
     />
@@ -59,7 +59,7 @@ export function H5({ className, ...props }: HeadingProps) {
     <h5
       className={cn(
         'mt-8 scroll-m-20 text-lg font-semibold tracking-tight',
-        className,
+        className
       )}
       {...props}
     />
@@ -71,7 +71,7 @@ export function H6({ className, ...props }: HeadingProps) {
     <h6
       className={cn(
         'mt-8 scroll-m-20 text-base font-semibold tracking-tight',
-        className,
+        className
       )}
       {...props}
     />
@@ -115,7 +115,7 @@ export function LinkedCard({
     <Link
       className={cn(
         'flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow transition-colors hover:bg-muted/50 sm:p-10',
-        className,
+        className
       )}
       {...props}
     />
@@ -123,5 +123,10 @@ export function LinkedCard({
 }
 
 export function Hr({ ...props }: React.HTMLAttributes<HTMLHRElement>) {
-  return <hr className="my-4 md:my-8" {...props} />
+  return (
+    <hr
+      className='my-4 md:my-8'
+      {...props}
+    />
+  )
 }

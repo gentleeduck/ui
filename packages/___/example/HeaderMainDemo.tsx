@@ -1,4 +1,11 @@
-import { ArrowRightFromLine, Calendar, Cloudy, Home, Mail, ServerCog } from 'lucide-react'
+import {
+  ArrowRightFromLine,
+  Calendar,
+  Cloudy,
+  Home,
+  Mail,
+  ServerCog,
+} from 'lucide-react'
 import { DuckSwitcher, Header, TooltipProvider } from '@/registry/default/ui'
 import { useAtom } from 'jotai'
 import { buttonVarieties } from '@/hooks/use-varieties'
@@ -27,9 +34,9 @@ const data: ButtonProps[] = [
 ]
 
 const emails = [
-  { email: 'wildduck@duck.org', icon: Mail, label: 'mail' },
+  { email: 'wildduck@gentelduck.org', icon: Mail, label: 'mail' },
   { email: 'mona@gmail.com', icon: Cloudy, label: 'cloud' },
-  { email: 'hannan@duck.du', icon: ServerCog, label: 'server' },
+  { email: 'hannan@gentelduck.du', icon: ServerCog, label: 'server' },
 ]
 
 export default function HeaderMainDemo() {
@@ -69,14 +76,21 @@ export default function HeaderMainDemo() {
               <Button
                 is_collapsed={O}
                 icon={{ children: ArrowRightFromLine }}
-                className={cn('my-1 mx-2 justify-between', !O && 'w-[250px]', O && 'justify-center')}
+                className={cn(
+                  'my-1 mx-2 justify-between',
+                  !O && 'w-[250px]',
+                  O && 'justify-center'
+                )}
                 title={'Collapse'}
                 variant={'secondary'}
                 size={O ? 'icon' : 'default'}
                 onClick={() =>
                   setVariety({
                     ...variety,
-                    default: { ...variety.default, variety: { ...variety.default.variety, open: !O } },
+                    default: {
+                      ...variety.default,
+                      variety: { ...variety.default.variety, open: !O },
+                    },
                   })
                 }
               />,

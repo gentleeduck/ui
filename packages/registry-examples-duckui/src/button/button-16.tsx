@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 import { Inbox } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -7,9 +7,9 @@ export default function Button16Demo() {
   return (
     <>
       <Button
-        aria-label="Open inbox and trigger command"
-        type="button"
-        role="button"
+        aria-label='Open inbox and trigger command'
+        type='button'
+        role='button'
         icon={<Inbox />}
         label={{
           showCommand: true,

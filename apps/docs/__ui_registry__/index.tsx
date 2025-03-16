@@ -27,7 +27,9 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
     ],
-    component: React.lazy(() => import('@duck/registry-ui-duckui/button')),
+    component: React.lazy(
+      () => import('@gentelduck/registry-ui-duckui/button')
+    ),
     source: '/registry-ui-duckui/src/button',
     category: '',
     subcategory: '',
@@ -45,7 +47,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-1'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-1')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -64,7 +66,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-10'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-10')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -83,7 +85,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-11'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-11')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -102,7 +104,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-12'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-12')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -121,7 +123,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-13'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-13')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -140,7 +142,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-14'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-14')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -159,7 +161,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-15'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-15')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -178,7 +180,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-16'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-16')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -197,7 +199,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-17'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-17')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -216,7 +218,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-18'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-18')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -235,7 +237,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-19'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-19')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -254,7 +256,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-2'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-2')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -273,7 +275,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-20'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-20')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -292,7 +294,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-21'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-21')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -311,7 +313,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-22'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-22')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -330,7 +332,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-23'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-23')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -349,7 +351,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-24'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-24')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -368,7 +370,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-25'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-25')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -387,7 +389,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-26'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-26')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -406,7 +408,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-27'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-27')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -425,7 +427,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-28'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-28')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -444,7 +446,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-29'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-29')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -463,7 +465,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-3'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-3')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -482,7 +484,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-30'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-30')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -501,7 +503,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-31'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-31')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -520,7 +522,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-32'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-32')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -539,7 +541,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-4'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-4')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -558,7 +560,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-5'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-5')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -577,7 +579,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-6'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-6')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -596,7 +598,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-7'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-7')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -615,7 +617,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-8'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-8')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -634,7 +636,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@duck/registry-examples-duckui/button/button-9'),
+      () => import('@gentelduck/registry-examples-duckui/button/button-9')
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',

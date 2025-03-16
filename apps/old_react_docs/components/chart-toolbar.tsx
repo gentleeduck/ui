@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { BlockCopyButton } from '~/components/ui'
 import { ChartCodeViewer } from '~/components/chart-code-viewer'
 
@@ -14,7 +14,7 @@ import {
   PieChart,
   Radar,
 } from 'lucide-react'
-import { Block } from '@duck/registers'
+import { Block } from '@gentelduck/registers'
 import { Separator } from '../../../packages/_oldstuff_refactor/default/ui/ShadcnUI/separator'
 
 export function ChartToolbar({
@@ -24,17 +24,20 @@ export function ChartToolbar({
 }: { chart: Block } & React.ComponentProps<'div'>) {
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      <div className="flex items-center gap-1.5 pl-1 text-[13px] text-muted-foreground [&>svg]:h-[0.9rem] [&>svg]:w-[0.9rem]">
+      <div className='flex items-center gap-1.5 pl-1 text-[13px] text-muted-foreground [&>svg]:h-[0.9rem] [&>svg]:w-[0.9rem]'>
         <ChartTitle chart={chart} />
       </div>
-      <div className="ml-auto flex items-center gap-2 [&>form]:flex">
+      <div className='ml-auto flex items-center gap-2 [&>form]:flex'>
         <BlockCopyButton
-          event="copy_chart_code"
+          event='copy_chart_code'
           name={chart.name}
           code={chart.code}
-          className="[&_svg]-h-3 h-6 w-6 rounded-[6px] bg-transparent text-foreground shadow-none hover:bg-muted dark:text-foreground [&_svg]:w-3"
+          className='[&_svg]-h-3 h-6 w-6 rounded-[6px] bg-transparent text-foreground shadow-none hover:bg-muted dark:text-foreground [&_svg]:w-3'
         />
-        <Separator orientation="vertical" className="mx-0 hidden h-4 md:flex" />
+        <Separator
+          orientation='vertical'
+          className='mx-0 hidden h-4 md:flex'
+        />
         <ChartCodeViewer chart={chart}>{children}</ChartCodeViewer>
       </div>
     </div>

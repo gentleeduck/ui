@@ -2,13 +2,13 @@
 
 import * as React from 'react'
 
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI'
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
   expandButtonTitle?: string
@@ -22,8 +22,14 @@ export function CodeBlockWrapper({
 }: CodeBlockProps) {
   const [isOpened, setIsOpened] = React.useState(false)
   return (
-    <Collapsible open={isOpened} onOpenChange={setIsOpened}>
-      <div className={cn('relative overflow-hidden', className)} {...props}>
+    <Collapsible
+      open={isOpened}
+      onOpenChange={setIsOpened}
+    >
+      <div
+        className={cn('relative overflow-hidden', className)}
+        {...props}
+      >
         <CollapsibleContent
           forceMount
           className={cn('overflow-hidden', !isOpened && 'max-h-32')}
@@ -33,7 +39,7 @@ export function CodeBlockWrapper({
               '[&_pre]:my-0 [&_pre]:max-h-[650px] [&_div:last-child_pre]:pb-[50px]',
               !isOpened
                 ? '[&_pre]:overflow-hidden'
-                : '[&_pre]:overflow-auto] [&_pre]:mt-2',
+                : '[&_pre]:overflow-auto] [&_pre]:mt-2'
             )}
           >
             {children}
@@ -44,11 +50,14 @@ export function CodeBlockWrapper({
             'absolute flex items-center justify-center bg-gradient-to-b p-2 rounded-lg',
             isOpened
               ? 'inset-x-[1px] bottom-0 h-12 from-accent/10 to-accent-foreground/5 border-b border-b-solid'
-              : 'from-accent/10 to-accent-foreground/5 inset-0',
+              : 'from-accent/10 to-accent-foreground/5 inset-0'
           )}
         >
           <CollapsibleTrigger asChild>
-            <Button variant="secondary" className="h-8 text-xs">
+            <Button
+              variant='secondary'
+              className='h-8 text-xs'
+            >
               {isOpened ? 'Collapse' : expandButtonTitle}
             </Button>
           </CollapsibleTrigger>

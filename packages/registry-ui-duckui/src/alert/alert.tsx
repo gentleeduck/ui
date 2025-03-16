@@ -1,5 +1,5 @@
 import React from 'react'
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { AlertCircle, Trash } from 'lucide-react'
 import {
   AlertDialog,
@@ -21,7 +21,7 @@ const Alert = React.forwardRef<
 >(({ className, variant, ...props }, ref) => (
   <div
     ref={ref}
-    role="alert"
+    role='alert'
     className={cn(alertVariants({ variant }), className)}
     {...props}
   />
@@ -80,20 +80,20 @@ export const UploadAlertDelete = ({
           Delete
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="p-0">
+      <AlertDialogContent className='p-0'>
         <AlertDialogHeader>
-          <h5 className="text-lg font-medium p-4 pb-0">
+          <h5 className='text-lg font-medium p-4 pb-0'>
             Confirt deletion of{' '}
-            <span className="font-mono italic underline underline-offset-4">
+            <span className='font-mono italic underline underline-offset-4'>
               {itemName.split(' ')[0]}
             </span>{' '}
             {itemName.split(' ')[1]}
           </h5>
           <Separator />
-          <div className="p-4">
+          <div className='p-4'>
             <Alert
               variant={'destructive'}
-              className="space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12"
+              className='space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12'
             >
               <AlertCircle />
               <AlertTitle>This action cannot be undone.</AlertTitle>
@@ -105,14 +105,14 @@ export const UploadAlertDelete = ({
           <Separator />
         </AlertDialogHeader>
 
-        <AlertDialogFooter className="px-4 pb-4">
+        <AlertDialogFooter className='px-4 pb-4'>
           <AlertDialogCancel
             className={cn(
               buttonVariants({
                 variant: 'outline',
                 className: 'px-8',
                 size: 'sm',
-              }),
+              })
             )}
             onClick={onCancel}
           >
@@ -125,7 +125,7 @@ export const UploadAlertDelete = ({
                 border: 'destructive',
                 className: 'px-8',
                 size: 'sm',
-              }),
+              })
             )}
             onClick={onContinue}
           >

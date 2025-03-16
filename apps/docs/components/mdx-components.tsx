@@ -7,7 +7,7 @@
 // import { NpmCommands } from 'types/unist'
 //
 // import { Event } from '~/lib/events'
-// import { cn } from '@duck/libs/cn'
+// import { cn } from '@gentelduck/libs/cn'
 // import { Callout } from '~/components/callout'
 // import { CodeBlockWrapper } from '~/components/code-block-wrapper'
 // import {
@@ -22,7 +22,7 @@
 //   AccordionContent,
 //   AccordionItem,
 //   AccordionTrigger,
-// } from '@duck/registry-ui-duckui/accordion'
+// } from '@gentelduck/registry-ui-duckui/accordion'
 // // ! FIX: fix paths for the imports alert and aspect-ratio
 // import {
 //   Alert,
@@ -36,7 +36,7 @@
 //   TabsContent,
 //   TabsList,
 //   TabsTrigger,
-// } from '@duck/registry-ui-duckui/tabs'
+// } from '@gentelduck/registry-ui-duckui/tabs'
 //
 // const components = {
 //   Accordion,

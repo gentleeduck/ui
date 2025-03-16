@@ -2,8 +2,8 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   transpilePackages: [
-    '@duck/registry-ui-duckui',
-    '@duck/registry-examples-duckui',
+    '@gentelduck/registry-ui-duckui',
+    '@gentelduck/registry-examples-duckui',
   ],
 }
 

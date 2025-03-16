@@ -1,4 +1,4 @@
-import { registry_schema } from '@duck/registers'
+import { registry_schema } from '@gentelduck/registers'
 import { Ora } from 'ora'
 import { z } from 'zod'
 

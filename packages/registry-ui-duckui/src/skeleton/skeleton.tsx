@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 
 function Skeleton({
   className,

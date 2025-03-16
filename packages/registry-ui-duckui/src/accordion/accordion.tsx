@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { ChevronDown } from 'lucide-react'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 
 const Accordion = AccordionPrimitive.Root
 
@@ -27,19 +27,19 @@ const AccordionTrigger = React.forwardRef<
   }
 >(({ className, children, icon, ...props }, ref) => {
   return (
-    <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Header className='flex'>
       <AccordionPrimitive.Trigger
         ref={ref}
         className={cn(
           'flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
-          className,
+          className
         )}
         {...props}
       >
         {children}
         <span
           className={cn(
-            '[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200',
+            '[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200'
           )}
         >
           {icon ? icon : <ChevronDown />}
@@ -56,7 +56,7 @@ const AccordionContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Content
     ref={ref}
-    className="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+    className='overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down'
     {...props}
   >
     <div className={cn('pb-4 pt-0', className)}>{children}</div>

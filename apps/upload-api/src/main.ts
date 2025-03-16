@@ -30,7 +30,7 @@ app.use(
 import { renderTrpcPanel } from 'trpc-ui'
 
 // @ts-ignore: trpcServer is not typed
-app.use('/panel', c => {
+app.use('/panel', (c) => {
   const panelHTML = renderTrpcPanel(appRouter, {
     url: 'http://localhost:4000/trpc', // Base url of your trpc server
     meta: {
@@ -68,7 +68,7 @@ const user = await db
   .insert(users)
   .values({
     name: 'wildduck',
-    email: 'duckui@duck.com',
+    email: 'duckui@gentelduck.com',
     password: 'wildduck',
   })
   .returning({ id: users.id })

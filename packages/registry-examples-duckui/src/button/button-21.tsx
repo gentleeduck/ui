@@ -1,15 +1,15 @@
 import React from 'react'
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 import { Inbox } from 'lucide-react'
 
 export default function Button9Demo() {
   return (
     <>
       <Button
-        aria-label="Inbox button"
+        aria-label='Inbox button'
         variant={'gooey_right'}
-        type="button"
-        role="button"
+        type='button'
+        role='button'
       >
         Button
       </Button>

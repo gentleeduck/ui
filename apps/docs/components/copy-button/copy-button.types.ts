@@ -1,5 +1,5 @@
-import { ButtonProps } from '@duck/registry-ui-duckui/button'
-import { DropdownMenuTrigger } from '@duck/registry-ui-duckui/dropdown-menu'
+import { ButtonProps } from '@gentelduck/registry-ui-duckui/button'
+import { DropdownMenuTrigger } from '@gentelduck/registry-ui-duckui/dropdown-menu'
 import { Event } from '~/lib/events'
 import { NpmCommands } from '~/types/unist'
 

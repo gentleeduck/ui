@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 import { buttonVariants } from './button.constants'
 import { ButtonProps } from './button.types'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { TooltipProvider } from '@radix-ui/react-tooltip'
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -30,7 +30,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       command,
       ...props
     }: ButtonProps,
-    ref: React.ForwardedRef<HTMLButtonElement> | undefined,
+    ref: React.ForwardedRef<HTMLButtonElement> | undefined
   ) => {
     const {
       side,
@@ -62,7 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <kbd
           className={cn(
             'inline-flex items-center font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-[.7rem] py-[.12rem] px-2 rounded-sm text-secondary-foreground !font-sans',
-            commandClassName,
+            commandClassName
           )}
           {...commandProps}
         />
@@ -77,7 +77,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             size,
             border,
             className,
-          }),
+          })
         )}
         disabled={loading}
         data-open={isCollapsed}
@@ -86,12 +86,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
-          <div className="w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100">
+          <div className='w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100'>
             {animationIcon?.icon}
           </div>
         )}
-        <div className="flex items-center gap-2">
-          {!loading ? icon : <Loader className="animate-spin" />}
+        <div className='flex items-center gap-2'>
+          {!loading ? icon : <Loader className='animate-spin' />}
           {!isCollapsed && size !== 'icon' && children}
           {!isCollapsed && command?.children && !showCommand && (
             <CommandComponent />
@@ -104,7 +104,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               className={cn(
                 'text-[.8rem] py-0 rounded-md px-1 font-meduim',
                 label.variant === 'nothing' && 'text-accent',
-                label.className,
+                label.className
               )}
               {...labelProps}
             />
@@ -112,7 +112,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {!isCollapsed && secondIcon && secondIcon}
         </div>
         {animationIcon?.icon && animationIcon.iconPlacement === 'right' && (
-          <div className="w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
+          <div className='w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100'>
             {animationIcon?.icon}
           </div>
         )}
@@ -132,8 +132,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         >
           <TooltipTrigger
             asChild
-            aria-haspopup="true"
-            aria-label="button with tooltip"
+            aria-haspopup='true'
+            aria-label='button with tooltip'
           >
             {ButtonBody}
           </TooltipTrigger>
@@ -142,7 +142,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               {...labelProps}
               className={cn(
                 'flex items-center gap-2 z-50 justify-start px-2',
-                label.className,
+                label.className
               )}
               side={side || 'right'}
             >
@@ -151,7 +151,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 <span
                   className={cn(
                     'ml-auto text-[.9rem]',
-                    !showLabel && 'text-muted-foreground',
+                    !showLabel && 'text-muted-foreground'
                   )}
                   {...labelProps}
                 />
@@ -161,7 +161,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </Tooltip>
       </TooltipProvider>
     )
-  },
+  }
 )
 
 Button.displayName = 'Button'

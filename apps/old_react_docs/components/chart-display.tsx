@@ -1,5 +1,5 @@
 import { getBlock } from '~/lib/blocks'
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { ChartToolbar } from '~/components/chart-toolbar'
 
 export async function ChartDisplay({
@@ -21,16 +21,16 @@ export async function ChartDisplay({
     <div
       className={cn(
         'themes-wrapper group relative flex flex-col overflow-hidden rounded-xl border shadow transition-all duration-200 ease-in-out hover:z-30',
-        className,
+        className
       )}
     >
       <ChartToolbar
         chart={chart}
-        className="relative z-20 flex justify-end border-b bg-card px-3 py-2.5 text-card-foreground"
+        className='relative z-20 flex justify-end border-b bg-card px-3 py-2.5 text-card-foreground'
       >
         {children}
       </ChartToolbar>
-      <div className="relative z-10 [&>div]:rounded-none [&>div]:border-none [&>div]:shadow-none">
+      <div className='relative z-10 [&>div]:rounded-none [&>div]:border-none [&>div]:shadow-none'>
         {children}
       </div>
     </div>

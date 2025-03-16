@@ -1,17 +1,13 @@
 import * as React from 'react'
 
-import { cn } from '@duck/libs/cn'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '../tooltip'
+import { cn } from '@gentelduck/libs/cn'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 import { CommandShortcut } from '../command'
 import { Badge } from '../badge'
 import { LabelType } from '../button'
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> { }
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
@@ -20,13 +16,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         type={type}
         className={cn(
           'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-          className,
+          className
         )}
         ref={ref}
         {...props}
       />
     )
-  },
+  }
 )
 Input.displayName = 'Input'
 
@@ -52,7 +48,7 @@ const InputCustomView = React.forwardRef<
   } = label ?? {}
   const { className: triggerClassName, ...triggerProps } = trigger ?? {}
   return (
-    <div className="flex flex-col">
+    <div className='flex flex-col'>
       <Tooltip delayDuration={0}>
         <TooltipTrigger>
           <Input
@@ -64,16 +60,23 @@ const InputCustomView = React.forwardRef<
         <TooltipContent
           className={cn(
             'flex items-center gap-2 z-50 justify-start',
-            labelClassName,
+            labelClassName
           )}
           {...labelProps}
         >
-          <CommandShortcut className="text-[.8rem]" {...badgeProps}>
-            <Badge variant="secondary" size="sm" className="p-0 px-2">
+          <CommandShortcut
+            className='text-[.8rem]'
+            {...badgeProps}
+          >
+            <Badge
+              variant='secondary'
+              size='sm'
+              className='p-0 px-2'
+            >
               {badgeChildren}
             </Badge>
           </CommandShortcut>
-          <p className="text-sm">{labelChildren}</p>
+          <p className='text-sm'>{labelChildren}</p>
         </TooltipContent>
       </Tooltip>
     </div>

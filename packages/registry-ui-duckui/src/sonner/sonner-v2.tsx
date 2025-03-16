@@ -4,7 +4,7 @@
 import { useTheme } from 'next-themes'
 import { Toaster as Sonner } from 'sonner'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { StatusIcon } from './../../StatusIcon'
 import { buttonVariants } from '../button'
 
@@ -18,14 +18,14 @@ const SonnerToaster = ({ toastOptions, ...props }: ToasterProps) => {
   return (
     <Sonner
       icons={{
-        warning: <StatusIcon variant="warning" />,
-        error: <StatusIcon variant="destructive" />,
-        info: <StatusIcon variant="default" />,
+        warning: <StatusIcon variant='warning' />,
+        error: <StatusIcon variant='destructive' />,
+        info: <StatusIcon variant='default' />,
       }}
       theme={theme as ToasterProps['theme']}
       // pointer-events-auto is needed to fix the toast when above radix modals. Set the width to 420px to fix the toast
       // progress component (bottom row rendered in two lines).
-      className="toaster group pointer-events-auto"
+      className='toaster group pointer-events-auto'
       // fontFamily: 'inherit' is needed to use the same font as the rest of the app
       style={{ fontFamily: 'inherit' }}
       toastOptions={{
@@ -43,7 +43,7 @@ const SonnerToaster = ({ toastOptions, ...props }: ToasterProps) => {
             'items-start',
             'font-normal',
             'text-sm',
-            'group-[.toaster]:bg-overlay group-[.toaster]:text-foreground group-[.toaster]:border group-[.toaster]:border-overlay group-[.toaster]:shadow-lg',
+            'group-[.toaster]:bg-overlay group-[.toaster]:text-foreground group-[.toaster]:border group-[.toaster]:border-overlay group-[.toaster]:shadow-lg'
           ),
           icon: 'mt-0.5',
           title: '!font-normal',
@@ -51,11 +51,11 @@ const SonnerToaster = ({ toastOptions, ...props }: ToasterProps) => {
             'text-xs group-[.toast]:text-foreground-lighter transition-opacity group-data-[expanded=false]:opacity-0 group-data-[front=true]:!opacity-100',
           actionButton: cn(
             'block',
-            buttonVariants({ type: 'primary', size: 'tiny' }),
+            buttonVariants({ type: 'primary', size: 'tiny' })
           ),
           cancelButton: cn(
             'block',
-            buttonVariants({ type: 'default', size: 'tiny' }),
+            buttonVariants({ type: 'default', size: 'tiny' })
           ),
           // success: 'group toast group-[.toaster]:!bg-brand-200 group-[.toaster]:border-brand-500',
           warning:
@@ -68,7 +68,7 @@ const SonnerToaster = ({ toastOptions, ...props }: ToasterProps) => {
             'hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100',
             'group-[.destructive]:text-destructive-300 group-[.destructive]:hover:text-destructive-50',
             'group-[.destructive]:focus:ring-destructive-400 group-[.destructive]:focus:ring-offset-destructive-600',
-            'left-auto transform-none bg-transparent border-0 border-transparent hover:!bg-transparent hover:border-transparent',
+            'left-auto transform-none bg-transparent border-0 border-transparent hover:!bg-transparent hover:border-transparent'
           ),
           content: 'grow',
           //group-[.toaster]:bg-overlay group-[.toaster]:text-foreground group-[.toaster]:border group-[.toaster]:border-overlay

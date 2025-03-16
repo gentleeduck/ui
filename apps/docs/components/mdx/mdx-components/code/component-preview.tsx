@@ -1,12 +1,12 @@
 'use client'
 
 import * as React from 'react'
-import { DuckLazy } from '@duck/lazy/lazy-component'
+import { DuckLazy } from '@gentelduck/lazy/lazy-component'
 import { Index } from '~/__ui_registry__'
 import { Crown } from 'lucide-react'
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { CopyButton } from '~/components/copy-button'
 import { Icons } from '~/components/icons'
 import { ThemeWrapper } from '~/components/theme-wrapper'
@@ -15,7 +15,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@duck/registry-ui-duckui/tabs'
+} from '@gentelduck/registry-ui-duckui/tabs'
 import { V0Button } from '~/components/V0'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -49,9 +49,9 @@ export function ComponentPreview({
 
     if (!Component) {
       return (
-        <p className="text-sm text-muted-foreground">
+        <p className='text-sm text-muted-foreground'>
           Component{' '}
-          <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+          <code className='relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm'>
             {name}
           </code>{' '}
           not found in registry.
@@ -71,7 +71,7 @@ export function ComponentPreview({
       const Button = React.Children.toArray(
         // ! FIX:
         //  @ts-expect-error Property 'children' does not exist on type '{}'.ts(2339)
-        Code.props.children,
+        Code.props.children
       ) as React.ReactElement[]
       // ! FIX:
       //  @ts-expect-error Property '__rawString__' does not exist on type '{}'.ts(2339)
@@ -83,18 +83,21 @@ export function ComponentPreview({
     <DuckLazy
       className={cn(
         'group relative my-4 flex flex-col space-y-2 [&_div[data-slot="placeholder"]]:h-[512px]',
-        className,
+        className
       )}
       {...props}
     >
-      <Tabs defaultValue="preview" className="relative mr-auto w-full">
-        <div className="flex items-center justify-between pb-3">
+      <Tabs
+        defaultValue='preview'
+        className='relative mr-auto w-full'
+      >
+        <div className='flex items-center justify-between pb-3'>
           {!hideCode && (
-            <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 overflow-x-auto [&_button]:shadow-none">
+            <TabsList className='w-full justify-start rounded-none border-b bg-transparent p-0 overflow-x-auto [&_button]:shadow-none'>
               {TABS.map((tab) => (
                 <TabsTrigger
                   value={tab.value}
-                  className="data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] rounded-none cursor-pointer data-[state=active]:shadow-none"
+                  className='data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] rounded-none cursor-pointer data-[state=active]:shadow-none'
                 >
                   {tab.name}
                 </TabsTrigger>
@@ -102,14 +105,20 @@ export function ComponentPreview({
             </TabsList>
           )}
         </div>
-        <TabsContent value="preview" className="relative rounded-md border">
-          <div className="flex items-center justify-between p-4 absolute w-full">
-            <span className="text-sm text-muted-foreground">{}</span>
-            <div className="flex items-center gap-2">
-              <CopyButton value={codeString} variant="outline" />
+        <TabsContent
+          value='preview'
+          className='relative rounded-md border'
+        >
+          <div className='flex items-center justify-between p-4 absolute w-full'>
+            <span className='text-sm text-muted-foreground'>{}</span>
+            <div className='flex items-center gap-2'>
+              <CopyButton
+                value={codeString}
+                variant='outline'
+              />
             </div>
           </div>
-          <ThemeWrapper defaultTheme="zinc">
+          <ThemeWrapper defaultTheme='zinc'>
             <div
               className={cn(
                 'preview flex min-h-[450px] w-full justify-center p-10',
@@ -117,13 +126,13 @@ export function ComponentPreview({
                   'items-center': align === 'center',
                   'items-start': align === 'start',
                   'items-end': align === 'end',
-                },
+                }
               )}
             >
               <React.Suspense
                 fallback={
-                  <div className="flex w-full items-center justify-center text-sm text-muted-foreground">
-                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  <div className='flex w-full items-center justify-center text-sm text-muted-foreground'>
+                    <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
                     Loading...
                   </div>
                 }
@@ -133,9 +142,9 @@ export function ComponentPreview({
             </div>
           </ThemeWrapper>
         </TabsContent>
-        <TabsContent value="code">
-          <div className="flex flex-col space-y-4">
-            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[450px] [&_pre]:overflow-auto">
+        <TabsContent value='code'>
+          <div className='flex flex-col space-y-4'>
+            <div className='w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[450px] [&_pre]:overflow-auto'>
               {Code}
             </div>
           </div>
@@ -148,19 +157,26 @@ export function ComponentPreview({
 
 export const BuildTab = () => {
   return (
-    <TabsContent value="build" className="relative overflow-hidden">
-      <div className="h-[450px] overflow-hidden rounded-lg">
-        <img src="/builder.png" alt="build" className="object-cover" />
+    <TabsContent
+      value='build'
+      className='relative overflow-hidden'
+    >
+      <div className='h-[450px] overflow-hidden rounded-lg'>
+        <img
+          src='/builder.png'
+          alt='build'
+          className='object-cover'
+        />
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[450px] top-0 left-0 inset-0">
-        <div className="flex items-center gap-4">
+      <div className='flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[450px] top-0 left-0 inset-0'>
+        <div className='flex items-center gap-4'>
           <Button
-            className="font-bold"
+            className='font-bold'
             size={'xs'}
             label={{
               children: (
-                <div className="text-center">
+                <div className='text-center'>
                   Know more about me click me! <br /> BTW i am coming soon...
                 </div>
               ),

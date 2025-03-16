@@ -4,8 +4,8 @@ import React from 'react'
 
 import { NavCollabsedType, NavGroup, NavGroupProps, NavType } from './nav-group'
 import { Separator } from './ShadcnUI/separator'
-import { cn } from '@duck/libs/cn'
-import { filteredObject } from '@duck/libs/filtered-object'
+import { cn } from '@gentelduck/libs/cn'
+import { filteredObject } from '@gentelduck/libs/filtered-object'
 
 type HeaderProps<T extends boolean> = {
   header: HeaderType
@@ -41,21 +41,21 @@ const Header = <T extends boolean>({
         position === 'side'
           ? 'flex-col h-full'
           : position === 'top'
-            ? 'items-center'
-            : '',
-        className,
+          ? 'items-center'
+          : '',
+        className
       )}
       {...props}
     >
       {logo && logo}
-      {position === 'side' && <Separator className="my-1" />}
+      {position === 'side' && <Separator className='my-1' />}
       <NavGroup<T>
         position={position}
         nav={{ ...nav.nav, isCollabsed: navIsCollabsed } as NavType<true>}
         navigationKeys={nav.navigationKeys}
       />
 
-      {position === 'side' && <Separator className="my-1" />}
+      {position === 'side' && <Separator className='my-1' />}
       <div>
         {footer &&
           footer.buttons.map((button, idx) => (

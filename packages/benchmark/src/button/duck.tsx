@@ -1,5 +1,5 @@
-import { Button } from '@duck/registry-ui-duckui/button'
-import { TooltipProvider } from '@duck/registry-ui-duckui/tooltip'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { TooltipProvider } from '@gentelduck/registry-ui-duckui/tooltip'
 import { useState } from 'react'
 
 function DuckButton() {

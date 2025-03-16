@@ -28,7 +28,7 @@ Duck UI is licensed under the [MIT License](LICENSE).
 
 ## 📧 Contact
 
-For any questions or support, please contact us at [duckui@duck.com](mailto:duckui@duck.com).
+For any questions or support, please contact us at [duckui@gentelduck.com](mailto:duckui@gentelduck.com).
 
 ---
 
@@ -37,4 +37,5 @@ Thank you for using Duck UI! We hope it helps you build beautiful and functional
 Happy coding!
 
 //
+
 <!-- git filter-repo --path node_modules --invert-paths -->

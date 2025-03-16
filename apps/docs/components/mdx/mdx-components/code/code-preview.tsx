@@ -3,22 +3,24 @@
 import * as React from 'react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { useConfig } from '~/hooks/use-config'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { BlockToolbar } from '~/components/ui'
 import { Icons } from '~/components/icons'
-import { Block } from '@duck/registers'
-import { Tabs, TabsContent } from '@duck/registry-ui-duckui/tabs'
+import { Block } from '@gentelduck/registers'
+import { Tabs, TabsContent } from '@gentelduck/registry-ui-duckui/tabs'
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from '@duck/registry-ui-duckui/resizable'
+} from '@gentelduck/registry-ui-duckui/resizable'
 
 export function CodePreview({
   block,
-}: { block: Block & { hasLiftMode: boolean } }) {
+}: {
+  block: Block & { hasLiftMode: boolean }
+}) {
   const [config] = useConfig()
   const { isLiftMode } = useLiftMode(block.name)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -39,12 +41,11 @@ export function CodePreview({
         } as React.CSSProperties
       }
     >
-      {/* !  FIX: fix the type error 
-      @ts-expect-error Type 'RefObject<ImperativePanelHandle | null>' is not assignable to type 'RefObject<ImperativePanelHandle>'. Type 'ImperativePanelHandle | null' is not assignable to type 'ImperativePanelHandle'. Type 'null' is not assignable to type 'ImperativePanelHandle'.ts(2322) */}
+      {/* @ts-ignore */}
       <BlockToolbar block={block} resizablePanelRef={ref} />
       <TabsContent
         value="preview"
-      // className="relative after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-lg after:bg-muted"
+        // className="relative after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-lg after:bg-muted"
       >
         <ResizablePanelGroup direction="horizontal" className="relative z-10">
           <ResizablePanel

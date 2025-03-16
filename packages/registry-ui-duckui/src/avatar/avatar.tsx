@@ -3,7 +3,7 @@
 import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { HoverCardCustomView } from '../hover-card'
 import { CalendarDays } from 'lucide-react'
 // import { TaggedUserType } from './swapy'
@@ -18,7 +18,7 @@ const Avatar = React.forwardRef<
     ref={ref}
     className={cn(
       'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
-      className,
+      className
     )}
     {...props}
   />
@@ -45,7 +45,7 @@ const AvatarFallback = React.forwardRef<
     ref={ref}
     className={cn(
       'flex h-full w-full items-center justify-center rounded-full bg-muted',
-      className,
+      className
     )}
     {...props}
   />
@@ -64,7 +64,10 @@ export interface AvatarCustomProps
 const AvatarCustom = React.forwardRef<HTMLSpanElement, AvatarCustomProps>(
   ({ avatar_image, fallback, hover_card, profile_button, ...props }, ref) => {
     const Trigger = ({ className }: { className?: string }) => (
-      <Avatar {...props} className={cn(props.className, className)}>
+      <Avatar
+        {...props}
+        className={cn(props.className, className)}
+      >
         <AvatarImage
           {...avatar_image}
           className={cn(avatar_image.className, 'object-cover')}
@@ -84,18 +87,18 @@ const AvatarCustom = React.forwardRef<HTMLSpanElement, AvatarCustomProps>(
               {profile_button ? (
                 'Profile'
               ) : (
-                <div className="flex items-start gap-4">
-                  <Trigger className="w-12 h-12 m-0 border-none" />
-                  <div className="space-y-1">
-                    <h4 className="text-sm font-semibold">
+                <div className='flex items-start gap-4'>
+                  <Trigger className='w-12 h-12 m-0 border-none' />
+                  <div className='space-y-1'>
+                    <h4 className='text-sm font-semibold'>
                       @{hover_card.name}
                     </h4>
-                    <p className="text-sm">
+                    <p className='text-sm'>
                       I'am a UI/UX Designer from Canada.
                     </p>
-                    <div className="flex items-center pt-2">
-                      <CalendarDays className="mr-2 h-4 w-4 opacity-70" />
-                      <span className="text-xs text-muted-foreground">
+                    <div className='flex items-center pt-2'>
+                      <CalendarDays className='mr-2 h-4 w-4 opacity-70' />
+                      <span className='text-xs text-muted-foreground'>
                         Joined December 2021
                       </span>
                     </div>
@@ -109,7 +112,7 @@ const AvatarCustom = React.forwardRef<HTMLSpanElement, AvatarCustomProps>(
     ) : (
       <Trigger />
     )
-  },
+  }
 )
 
 AvatarCustom.displayName = 'AvatarCustom'
@@ -130,13 +133,17 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
   ({ max_users, users, className, ...props }, ref) => {
     const max = max_users ?? users.length
     return (
-      <div className={cn('flex items-center', className)} {...props} ref={ref}>
+      <div
+        className={cn('flex items-center', className)}
+        {...props}
+        ref={ref}
+      >
         {users.slice(0, max).map((user) => (
           <AvatarCustom
             key={user.id}
             className={cn(
               'border-muted-foreground/80 border-[2px]',
-              'mr-[-1.2rem]',
+              'mr-[-1.2rem]'
             )}
             avatar_image={{
               src: user.avatarUrl,
@@ -152,7 +159,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
         {users.length > max && (
           <Tooltip>
             <TooltipTrigger>
-              <div className="relative w-[37px] h-[37px] rounded-full bg-primary flex items-center justify-center font-medium cursor-pointer text-background text-sm z-[3]">
+              <div className='relative w-[37px] h-[37px] rounded-full bg-primary flex items-center justify-center font-medium cursor-pointer text-background text-sm z-[3]'>
                 +{users.length - max}
               </div>
             </TooltipTrigger>
@@ -160,7 +167,10 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
               className={cn('w-42 flex flex-col justify-between px-2')}
             >
               {users.slice(max, users.length).map((user, idx) => (
-                <p key={idx} className="text-sm">
+                <p
+                  key={idx}
+                  className='text-sm'
+                >
                   {user.name}
                 </p>
               ))}
@@ -169,7 +179,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
         )}
       </div>
     )
-  },
+  }
 )
 
 AvatarGroup.displayName = 'AvatarGroup'

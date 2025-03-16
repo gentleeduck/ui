@@ -1,8 +1,8 @@
 // 'use client'
 // import * as React from 'react'
-// import { cn } from '@duck/libs/cn'
-// import {  groupArrays } from '@duck/libs/group-array'
-// import { Button, ButtonProps } from '@duck/registry-ui-duckui/button'
+// import { cn } from '@gentelduck/libs/cn'
+// import {  groupArrays } from '@gentelduck/libs/group-array'
+// import { Button, ButtonProps } from '@gentelduck/registry-ui-duckui/button'
 // import { Separator } from './ShadcnUI/separator'
 //
 // type NavGroupProps<T extends boolean> = {

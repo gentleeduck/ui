@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { registry_colors } from '@duck/registers'
+import { registry_colors } from '@gentelduck/registers'
 
 const colorSchema = z.object({
   name: z.string(),
@@ -44,7 +44,7 @@ export function getColors() {
           colors: color.map((color) => {
             const rgb = color.rgb.replace(
               /^rgb\((\d+),(\d+),(\d+)\)$/,
-              '$1 $2 $3',
+              '$1 $2 $3'
             )
 
             return {
@@ -55,14 +55,14 @@ export function getColors() {
               rgb,
               hsl: color.hsl.replace(
                 /^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/,
-                '$1 $2 $3',
+                '$1 $2 $3'
               ),
               foreground: getForegroundFromBackground(rgb),
             }
           }),
         }
       })
-      .filter(Boolean),
+      .filter(Boolean)
   )
 
   return tailwindColors

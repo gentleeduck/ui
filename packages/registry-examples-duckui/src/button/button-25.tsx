@@ -1,7 +1,7 @@
 import React from 'react'
 import { Inbox } from 'lucide-react'
 import { toast } from 'sonner'
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 
 export default function Button24Demo() {
   const [open, setOpen] = React.useState<boolean>(false)
@@ -15,16 +15,16 @@ export default function Button24Demo() {
 
   return (
     <Button
-      role="button"
-      aria-label="Inbox button"
+      role='button'
+      aria-label='Inbox button'
       aria-expanded={open}
       aria-pressed={open}
       isCollapsed={open}
       icon={<Inbox />}
-      variant="default"
+      variant='default'
       tabIndex={0}
       loading={false}
-      type="button"
+      type='button'
       className="[data-open='false']:bg-red-500"
       onClick={handleClick}
       label={{

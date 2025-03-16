@@ -1,16 +1,34 @@
 import * as React from 'react'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { useMediaQuery } from '~/hooks/use-media-query'
 import { useThemesConfig } from '~/hooks/use-themes-config'
-import { V0Button, BlockCopyButton } from '~/components/ui'
-import { Block } from '@duck/registers'
-import { Button } from '@duck/registry-ui-duckui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@duck/registry-ui-duckui/tabs'
-import { Drawer, DrawerContent, DrawerTrigger } from '@duck/registry-ui-duckui/drawer'
-import { Sheet, SheetContent, SheetTrigger } from '@duck/registry-ui-duckui/sheet'
+import { BlockCopyButton } from '~/components/ui'
+import { Block } from '@gentelduck/registers'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@gentelduck/registry-ui-duckui/tabs'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+} from '@gentelduck/registry-ui-duckui/drawer'
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@gentelduck/registry-ui-duckui/sheet'
+import { V0Button } from './V0'
 
-export function ChartCodeViewer({ chart, className, children }: { chart: Block } & React.ComponentProps<'div'>) {
+export function ChartCodeViewer({
+  chart,
+  className,
+  children,
+}: { chart: Block } & React.ComponentProps<'div'>) {
   const [tab, setTab] = React.useState('code')
   const { themesConfig } = useThemesConfig()
   const isDesktop = useMediaQuery('(min-width: 768px)')
@@ -123,10 +141,7 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
               <code data-line-numbers="">
                 <span className="line text-zinc-700">{`/* ${themesConfig?.activeTheme.name} */`}</span>
                 {themeCode.split('\n').map((line, index) => (
-                  <span
-                    key={index}
-                    className="line"
-                  >
+                  <span key={index} className="line">
                     {line}
                   </span>
                 ))}
@@ -143,7 +158,10 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
       <Drawer>
         <DrawerTrigger asChild>{button}</DrawerTrigger>
         <DrawerContent
-          className={cn('flex max-h-[80vh] flex-col sm:max-h-[90vh] [&>div.bg-muted]:shrink-0', className)}
+          className={cn(
+            'flex max-h-[80vh] flex-col sm:max-h-[90vh] [&>div.bg-muted]:shrink-0',
+            className,
+          )}
         >
           <div className="flex h-full flex-col overflow-auto">{content}</div>
         </DrawerContent>
@@ -158,7 +176,7 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
         side="right"
         className={cn(
           'flex flex-col gap-0 border-l-0 p-0 dark:border-l sm:max-w-sm md:w-[700px] md:max-w-[700px]',
-          className
+          className,
         )}
       >
         {content}

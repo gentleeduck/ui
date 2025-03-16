@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 import { META_THEME_COLORS } from '~/config/site'
 import { useMetaColor } from '~/hooks/use-meta-colors'
 
@@ -16,121 +16,23 @@ export function ModeSwitcher() {
     setMetaColor(
       resolvedTheme === 'dark'
         ? META_THEME_COLORS.light
-        : META_THEME_COLORS.dark,
+        : META_THEME_COLORS.dark
     )
   }, [resolvedTheme, setTheme, setMetaColor])
 
   return (
     <Button
-      variant="ghost"
-      className="group/toggle"
+      variant='ghost'
+      className='group/toggle'
       onClick={toggleTheme}
       aria-label='toggle theme'
       icon={
         <>
-          <SunIcon className="hidden [html.dark_&]:block" />
-          <MoonIcon className="hidden [html.light_&]:block" />
+          <SunIcon className='hidden [html.dark_&]:block' />
+          <MoonIcon className='hidden [html.light_&]:block' />
         </>
       }
       size={'icon'}
-    >
-    </Button>
+    ></Button>
   )
 }
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 

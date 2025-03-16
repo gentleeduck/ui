@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import './globals.css'
 // import './mdx.css'
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { ThemeProvider } from '~/components/providers'
 import { TailwindIndicator } from '~/components/tailwind-indicator'
-import { DefaultToaster } from '@duck/registry-ui-duckui/toast'
-// import { DefaultSonner } from '@duck/registry-ui-duckui/sonner'
+import { DefaultToaster } from '@gentelduck/registry-ui-duckui/toast'
+// import { DefaultSonner } from '@gentelduck/registry-ui-duckui/sonner'
 import { ThemeSwitcher } from '~/components/theme-switcher'
 
 export const metadata: Metadata = {
@@ -19,40 +19,43 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang='en'
+      suppressHydrationWarning
+    >
       <head>
         <link
-          href="/fonts/Geist-VF.woff2"
-          rel="preload"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
+          href='/fonts/Geist-VF.woff2'
+          rel='preload'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
         />
         <link
-          href="/fonts/JetBrainsMono-MD.woff2"
-          rel="preload"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
+          href='/fonts/JetBrainsMono-MD.woff2'
+          rel='preload'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
         />
       </head>
       <body className={cn('min-h-svh bg-background font-sans antialiased')}>
         <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
+          attribute='class'
+          defaultTheme='system'
           enableSystem
           disableTransitionOnChange
           enableColorScheme
         >
-          <div vaul-drawer-wrapper="">
-            <div className="relative flex min-h-svh flex-col bg-background">
+          <div vaul-drawer-wrapper=''>
+            <div className='relative flex min-h-svh flex-col bg-background'>
               {children}
             </div>
           </div>
           <ThemeSwitcher />
           {/* <DefaultSonner /> */}
           <DefaultToaster />
-          { process.env.NODE_ENV === 'development' && <TailwindIndicator /> }
+          {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
         </ThemeProvider>
       </body>
     </html>

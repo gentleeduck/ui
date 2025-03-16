@@ -4,8 +4,8 @@ import { Doc } from 'contentlayer/generated'
 import { NavItem, NavItemWithChildren } from 'types/nav'
 
 import { docsConfig } from '~/config/docs'
-import { cn } from '@duck/libs/cn'
-import { buttonVariants } from '@duck/registry-ui-duckui/button'
+import { cn } from '@gentelduck/libs/cn'
+import { buttonVariants } from '@gentelduck/registry-ui-duckui/button'
 
 interface DocsPagerProps {
   doc: Doc
@@ -19,13 +19,13 @@ export function DocsPager({ doc }: DocsPagerProps) {
   }
 
   return (
-    <div className="flex flex-row items-center justify-between">
+    <div className='flex flex-row items-center justify-between'>
       {pager?.prev?.href && (
         <Link
           href={pager.prev.href}
           className={buttonVariants({ variant: 'outline' })}
         >
-          <ChevronLeftIcon className="mr-2 h-4 w-4" />
+          <ChevronLeftIcon className='mr-2 h-4 w-4' />
           {pager.prev.title}
         </Link>
       )}
@@ -35,7 +35,7 @@ export function DocsPager({ doc }: DocsPagerProps) {
           className={cn(buttonVariants({ variant: 'outline' }), 'ml-auto')}
         >
           {pager.next.title}
-          <ChevronRightIcon className="ml-2 h-4 w-4" />
+          <ChevronRightIcon className='ml-2 h-4 w-4' />
         </Link>
       )}
     </div>
@@ -48,7 +48,7 @@ export function getPagerForDoc(doc: Doc) {
     : docsConfig.sidebarNav
   const flattenedLinks = [null, ...flatten(nav), null]
   const activeIndex = flattenedLinks.findIndex(
-    (link) => doc.slug === link?.href,
+    (link) => doc.slug === link?.href
   )
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
   const next =

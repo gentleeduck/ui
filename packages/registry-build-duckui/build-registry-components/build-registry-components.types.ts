@@ -3,7 +3,7 @@ import {
   registry_entry_schema,
   registry_item_file_schema,
   registry_schema,
-} from '@duck/registers'
+} from '@gentelduck/registers'
 import { Ora } from 'ora'
 
 export type GetComponentFilesParams = {

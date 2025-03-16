@@ -31,9 +31,9 @@ const config: import('next').NextConfig = {
 
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
-    '@duck/validators',
-    '@duck/registry-ui-duckui',
-    '@duck/registry-examples-duckui',
+    '@gentelduck/validators',
+    '@gentelduck/registry-ui-duckui',
+    '@gentelduck/registry-examples-duckui',
   ],
 
   /** We already do linting and typechecking as separate tasks in CI */

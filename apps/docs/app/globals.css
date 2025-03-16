@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@source "../node_modules/@duck/registry-ui-duckui";
-@source "../node_modules/@duck/lazy";
+@import 'tailwindcss';
+@source "../node_modules/@gentelduck/registry-ui-duckui";
+@source "../node_modules/@gentelduck/lazy";
 @source "../../../packages/_oldstuff_refactor/ui";
 
 @plugin "tailwindcss-animate";
@@ -8,8 +8,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
-  font-family: "Adjusted Lucida Sans Typewriter Fallback";
-  src: local("Lucida Sans Typewriter");
+  font-family: 'Adjusted Lucida Sans Typewriter Fallback';
+  src: local('Lucida Sans Typewriter');
   size-adjust: 119%;
   ascent-override: 86%;
   descent-override: 16%;
@@ -17,8 +17,8 @@
 }
 
 @font-face {
-  font-family: "Adjusted Arial Fallback";
-  src: local("Arial");
+  font-family: 'Adjusted Arial Fallback';
+  src: local('Arial');
   size-adjust: 99%;
   ascent-override: 101%;
   descent-override: 26%;
@@ -26,22 +26,22 @@
 }
 
 @font-face {
-  font-family: "Geist";
+  font-family: 'Geist';
   font-weight: 100 900;
   font-display: swap;
-  src: url(/fonts/Geist-VF.woff2) format("woff2");
+  src: url(/fonts/Geist-VF.woff2) format('woff2');
 }
 
 @font-face {
-  font-family: "Mono";
+  font-family: 'Mono';
   font-weight: 500;
   font-display: fallback;
-  src: url(/fonts/JetBrainsMono-MD.woff2) format("woff2");
+  src: url(/fonts/JetBrainsMono-MD.woff2) format('woff2');
 }
 
 :root {
-  --font-sans: "Geist", "Adjusted Arial Fallback";
-  --font-mono: "Mono", "Adjusted Lucida Sans Typewriter Fallback";
+  --font-sans: 'Geist', 'Adjusted Arial Fallback';
+  --font-mono: 'Mono', 'Adjusted Lucida Sans Typewriter Fallback';
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -186,7 +186,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }
@@ -214,7 +214,7 @@
   }
 
   .chunk-container::after {
-    content: "";
+    content: '';
     @apply absolute -inset-4 shadow-xl rounded-xl border;
   }
 
@@ -275,19 +275,19 @@ pre {
   font-weight: 500 !important;
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   display: block;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   display: none;
 }
 
-.dark [data-theme="light"] {
+.dark [data-theme='light'] {
   display: none;
 }
 
-.dark [data-theme="dark"] {
+.dark [data-theme='dark'] {
   display: block;
 }
 
@@ -309,7 +309,7 @@ pre {
   @apply px-2;
 }
 
-[data-rehype-pretty-code-fragment] [data-line-numbers]>.line::before {
+[data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
   @apply text-zinc-50/40 text-xs;
   counter-increment: line;
   content: counter(line);
@@ -339,14 +339,14 @@ pre {
   @apply mt-2 pt-6 px-4 text-sm font-medium text-foreground;
 }
 
-[data-rehype-pretty-code-title]+pre {
+[data-rehype-pretty-code-title] + pre {
   @apply mt-2;
 }
 
-.mdx>.steps:first-child>h3:first-child {
+.mdx > .steps:first-child > h3:first-child {
   @apply mt-0;
 }
 
-.steps>h3 {
+.steps > h3 {
   @apply mt-8 mb-4 text-base font-semibold;
 }

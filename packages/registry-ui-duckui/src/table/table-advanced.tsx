@@ -1,5 +1,5 @@
 // @ts-noCheck
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { TableHead, TableHeader, TableRow } from '../table'
 import {
   DropdownMenu,
@@ -41,7 +41,7 @@ export function useDuckTable<TColumnName extends readonly TableColumnType[]>() {
   >(
     DuckTableContext as unknown as React.Context<
       DuckTableContextType<GetColumnLabel<TColumnName>>
-    >,
+    >
   )
   if (!context) {
     throw new Error('useTableProvider must be used within an TableProvider')
@@ -86,7 +86,7 @@ export function DuckTableProvider<TColumnName extends string[]>({
       <div
         className={cn(
           `w-full- flex flex-col gap-4 w-[800px] h-[500px]`,
-          className,
+          className
         )}
         {...props}
       >
@@ -109,12 +109,12 @@ export function DuckTable({
     <ScrollArea
       className={cn(
         'border border-border rounded-lg !overflow-visible relative',
-        wrapperClassName,
+        wrapperClassName
       )}
       {...wrapperProps}
     >
       <Table {...props}>{children}</Table>
-      <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation='horizontal' />
     </ScrollArea>
   )
 }
@@ -140,7 +140,7 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
 
             const Component = () =>
               !sortable ? (
-                <span className="capitalize">
+                <span className='capitalize'>
                   {(label as string) ?? children}
                 </span>
               ) : (
@@ -159,14 +159,14 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
                       'py-2',
                       idx === 0 && 'justify-start ',
                       sortable && 'px-2',
-                      className,
+                      className
                     )}
                     {...props}
                   >
                     {idx === 0 ? (
-                      <div className="flex items-center gap-4">
+                      <div className='flex items-center gap-4'>
                         <DuckTableHeadCheckbox
-                          type="header"
+                          type='header'
                           className={cn(sortable && 'justify-end')}
                         />
                         {/*NOTE: Rendering Sorting else rendering label*/}
@@ -197,12 +197,12 @@ export function DuckTableHeadCheckbox({
     <div
       className={cn(
         'flex items-center w-fit data-[state=open]:bg-accent text-xs capitalize',
-        className,
+        className
       )}
       {...props}
     >
       <Checkbox
-        className="border-border"
+        className='border-border'
         onClick={() => {
           setSelectedRows(() => {
             if (selectedRows.size === tableRows.length) {
@@ -215,8 +215,8 @@ export function DuckTableHeadCheckbox({
           selectedRows.size === tableRows.length
             ? true
             : selectedRows.size < tableRows.length && selectedRows.size
-              ? 'indeterminate'
-              : false
+            ? 'indeterminate'
+            : false
         }
       />
     </div>
@@ -237,20 +237,20 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              size="sm"
-              aria-label="table-column-options"
-              aria-controls="dropdown-menu"
-              name="dropdown-menu-trigger"
-              variant="ghost"
+              size='sm'
+              aria-label='table-column-options'
+              aria-controls='dropdown-menu'
+              name='dropdown-menu-trigger'
+              variant='ghost'
               aria-sort={column['aria-sort']}
-              className="data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize"
+              className='data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize'
               secondIcon={
                 column['aria-sort'] === 'ascending' ? (
-                  <ArrowDownIcon className="text-muted-foreground" />
+                  <ArrowDownIcon className='text-muted-foreground' />
                 ) : column['aria-sort'] === 'descending' ? (
-                  <ArrowUpIcon className="text-muted-foreground" />
+                  <ArrowUpIcon className='text-muted-foreground' />
                 ) : (
-                  <ArrowUpDown className="text-muted-foreground" />
+                  <ArrowUpDown className='text-muted-foreground' />
                 )
               }
               label={
@@ -267,7 +267,7 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
               {(label as string) ?? children}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-48">
+          <DropdownMenuContent className='w-48'>
             <DropdownMenuGroup>
               {dropdownMenuOptions.map((item, idx) => {
                 return (
@@ -276,7 +276,7 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
                       <DropdownMenuSeparator />
                     )}
                     <DropdownMenuItem
-                      className="p-0"
+                      className='p-0'
                       key={idx}
                       onClick={() => {
                         setTableColumns((prev) => {
@@ -310,7 +310,7 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
                         {...item}
                         className={cn(
                           'w-full justify-start capitalize',
-                          item.className,
+                          item.className
                         )}
                       >
                         {item.children}
@@ -332,7 +332,7 @@ export function DuckTableBody({ children }: DuckTableBodyProps) {
 }
 
 export function DuckTableRowCheckbox<
-  TColumnName extends readonly TableColumnType[],
+  TColumnName extends readonly TableColumnType[]
 >({ className, tableRow, ...props }: DuckTableRowCheckboxProps<TColumnName>) {
   const { selectedRows, setSelectedRows } = useDuckTable()
 
@@ -340,19 +340,19 @@ export function DuckTableRowCheckbox<
     <div
       className={cn(
         'flex items-center w-fit data-[state=open]:bg-accent text-xs capitalize',
-        className,
+        className
       )}
       {...props}
     >
       <Checkbox
-        className="border-border"
+        className='border-border'
         onClick={() => {
           setSelectedRows(() => {
             if (selectedRows.has(tableRow)) {
               return new Set(
                 Array.from(selectedRows.values()).filter(
-                  (item) => item !== tableRow,
-                ),
+                  (item) => item !== tableRow
+                )
               )
             }
             return new Set([...selectedRows, tableRow])
@@ -372,7 +372,10 @@ export function DuckTableTopBar({
   ...props
 }: DuckTableTopBarProps) {
   return (
-    <div className={cn('', className)} {...props}>
+    <div
+      className={cn('', className)}
+      {...props}
+    >
       {children}
     </div>
   )
@@ -386,8 +389,11 @@ export function DuckTableSearchInput({
   ...props
 }: DuckTableSearchInputProps) {
   return (
-    <div className={cn('flex-1', className)} {...props}>
-      <Input placeholder="Search..." />
+    <div
+      className={cn('flex-1', className)}
+      {...props}
+    >
+      <Input placeholder='Search...' />
     </div>
   )
 }

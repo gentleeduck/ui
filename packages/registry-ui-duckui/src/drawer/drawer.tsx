@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-import { cn } from '@duck/libs/cn'
+import { cn } from '@gentelduck/libs/cn'
 import { DrawerWrapperProps } from './drawer.types'
 
 /**
@@ -93,11 +93,11 @@ const DrawerContent = React.forwardRef<
       ref={ref}
       className={cn(
         'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
-        className,
+        className
       )}
       {...props}
     >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+      <div className='mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted' />
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>
@@ -164,7 +164,7 @@ const DrawerTitle = React.forwardRef<
     ref={ref}
     className={cn(
       'text-lg font-semibold leading-none tracking-tight',
-      className,
+      className
     )}
     {...props}
   />
@@ -237,7 +237,10 @@ function DrawerWrapper({
         className={cn('flex flex-col w-full h-full', contentClassName)}
         {...contentProps}
       >
-        <div data-role-wrapper className="flex flex-col gap-4 w-full h-full">
+        <div
+          data-role-wrapper
+          className='flex flex-col gap-4 w-full h-full'
+        >
           {_header && (
             <DrawerHeader {...headerProps}>
               {headerProps.children ? (
@@ -255,7 +258,10 @@ function DrawerWrapper({
             className={cn('flex items-ceter gap-2', footerClassName)}
             {...footerProps}
           >
-            <DrawerClose asChild {..._subCancel} />
+            <DrawerClose
+              asChild
+              {..._subCancel}
+            />
             <div
               {..._subSubmit}
               className={cn('w-full', _subSubmit?.className)}

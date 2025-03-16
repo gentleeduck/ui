@@ -1,6 +1,6 @@
 import { BlockPreview } from '~/components/ui'
 import { getBlock } from '~/lib/blocks'
-import { styles } from '@duck/registers'
+import { styles } from '@gentelduck/registers'
 
 export async function BlockDisplay({ name }: { name: string }) {
   const blocks = await Promise.all(
@@ -16,7 +16,7 @@ export async function BlockDisplay({ name }: { name: string }) {
         ...block,
         hasLiftMode,
       }
-    }),
+    })
   )
 
   if (!blocks?.length) {
@@ -24,6 +24,9 @@ export async function BlockDisplay({ name }: { name: string }) {
   }
 
   return blocks.map((block) => (
-    <BlockPreview key={`${block.style}-${block.name}`} block={block} />
+    <BlockPreview
+      key={`${block.style}-${block.name}`}
+      block={block}
+    />
   ))
 }

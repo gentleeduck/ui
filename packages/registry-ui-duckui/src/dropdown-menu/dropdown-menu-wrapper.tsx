@@ -1,5 +1,5 @@
-import { cn } from '@duck/libs/cn'
-import { groupArrays } from '@duck/libs/group-array'
+import { cn } from '@gentelduck/libs/cn'
+import { groupArrays } from '@gentelduck/libs/group-array'
 import * as React from 'react'
 import {
   DropdownMenu,
@@ -194,7 +194,9 @@ export function DropdownWrapperTrigger({
 
 export function DropdownWrapperLabel({
   label,
-}: { label?: React.ComponentProps<typeof DropdownMenuLabel> }) {
+}: {
+  label?: React.ComponentProps<typeof DropdownMenuLabel>
+}) {
   const { className, ...props } = label ?? {}
   return (
     label && (
@@ -265,7 +267,7 @@ export function DropdownWrapperContentItem({
         <>
           <DropdownMenuShortcut
             {...item.command}
-            children={item.command.label}
+            children={item.command.children}
           />
           <Button
             className="sr-only hidden"
@@ -288,7 +290,9 @@ export function DropdownWrapperContentItem({
 
 export function DropdownWrapperSubTrigger({
   trigger,
-}: { trigger: DropdownMenuOptionsDataType }) {
+}: {
+  trigger: DropdownMenuOptionsDataType
+}) {
   const { children, className, icon, ...props } = trigger
   return (
     // @ts-ignore
@@ -317,7 +321,7 @@ export function DropdownWrapperSubContent({
 }) {
   const Children = nestedData.map((item, idx) => {
     const { children, value, icon: Icon, className, ...props } = item
-    const { label, ...commandProps } = item.command ?? {}
+    const { children: commandChildren, ...commandProps } = item.command ?? {}
 
     const Component =
       itemType === 'checkbox'
@@ -349,7 +353,7 @@ export function DropdownWrapperSubContent({
         {item.command && (
           <>
             <DropdownMenuShortcut
-              children={label}
+              children={commandChildren}
               {...commandProps}
               key={`nested-item-shortcut-${idx}`}
             />

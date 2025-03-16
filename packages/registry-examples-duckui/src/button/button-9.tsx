@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@duck/registry-ui-duckui/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 import { Inbox } from 'lucide-react'
 
 export default function Button9Demo() {
@@ -7,9 +7,9 @@ export default function Button9Demo() {
     <>
       <Button
         icon={<Inbox />}
-        aria-label="Inbox button"
-        type="button"
-        role="button"
+        aria-label='Inbox button'
+        type='button'
+        role='button'
       >
         Button
       </Button>

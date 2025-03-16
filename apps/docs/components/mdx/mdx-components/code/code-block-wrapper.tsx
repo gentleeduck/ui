@@ -3,9 +3,9 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@duck/registry-ui-duckui/collapsible'
-import { cn } from '@duck/libs/cn'
-import { Button } from '@duck/registry-ui-duckui/button'
+} from '@gentelduck/registry-ui-duckui/collapsible'
+import { cn } from '@gentelduck/libs/cn'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
   expandButtonTitle?: string
@@ -23,7 +23,7 @@ export function CodeBlockWrapper({
     <Collapsible
       open={isOpened}
       onOpenChange={setIsOpened}
-      className="overflow-hidden"
+      className='overflow-hidden'
     >
       <div
         className={cn('relative overflow-hidden rounded-md border', className)}
@@ -33,7 +33,7 @@ export function CodeBlockWrapper({
           forceMount
           className={cn(
             'overflow-hidden will-change-auto',
-            !isOpened && 'max-h-32',
+            !isOpened && 'max-h-32'
           )}
         >
           <div
@@ -41,7 +41,7 @@ export function CodeBlockWrapper({
               '[&_pre]:my-0 [&_pre]:max-h-[650px] [&_div:last-child_pre]:pb-[50px] transition-all',
               !isOpened
                 ? '[&_pre]:overflow-hidden [&_[data-rehype-pretty-code-fragment]]:border-none'
-                : '[&_pre]:overflow-auto m-4 [&>div]:border',
+                : '[&_pre]:overflow-auto m-4 [&>div]:border'
             )}
           >
             {children}
@@ -52,11 +52,14 @@ export function CodeBlockWrapper({
             'absolute flex items-center justify-center bg-gradient-to-b p-2 rounded-md',
             isOpened
               ? 'inset-x-0 bottom-0 h-12 bg-gradient-to-t from-zinc-700/50 to-transparent'
-              : 'inset-0 bg-gradient-to-t from-zinc-800/10 dark:from-zinc-800/40 to-transparent backdrop-blur-[4px]',
+              : 'inset-0 bg-gradient-to-t from-zinc-800/10 dark:from-zinc-800/40 to-transparent backdrop-blur-[4px]'
           )}
         >
           <CollapsibleTrigger asChild>
-            <Button variant="secondary" className="h-8 text-xs">
+            <Button
+              variant='secondary'
+              className='h-8 text-xs'
+            >
               {isOpened ? 'Collapse' : expandButtonTitle}
             </Button>
           </CollapsibleTrigger>
