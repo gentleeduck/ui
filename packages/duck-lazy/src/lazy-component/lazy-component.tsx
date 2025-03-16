@@ -14,7 +14,7 @@ import { DuckLazyProps } from './lazy-component.types'
  * @param {Object} props - The props to configure the component.
  * @param {React.ReactNode} props.children - The content to display once the component is visible.
  * @param {IntersectionObserverInit} [props.options] - Optional configuration for the `IntersectionObserver`. Allows customization of when the component becomes visible.
- * @param {React.HTMLProps<HTMLDivElement>} [props] - Additional props passed to the root `<div>` element.
+ * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional props passed to the root `<div>` element.
  *
  * @returns {React.JSX.Element} A `div` element that wraps the lazy-loaded content and provides the appropriate accessibility attributes.
  *

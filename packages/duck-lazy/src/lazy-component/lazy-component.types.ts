@@ -23,7 +23,7 @@ export type UseLazyLoadReturn = {
  *
  * @interface
  * @extends {React.HTMLProps<HTMLDivElement>} - Extends default HTML div element props to allow for flexibility in the component.
- * @property {IntersectionObserverInit} options - Configuration for the IntersectionObserver to control when the lazy-loaded component becomes visible.
+ * @property {IntersectionObserverInit} [options] - Configuration for the IntersectionObserver to control when the lazy-loaded component becomes visible.
  *
  * @example
  * // Example of using DuckLazyProps
@@ -37,5 +37,5 @@ export type UseLazyLoadReturn = {
  * </DuckLazyComponent>
  */
 export interface DuckLazyProps extends React.HTMLProps<HTMLDivElement> {
-  options: IntersectionObserverInit
+  options?: IntersectionObserverInit
 }
