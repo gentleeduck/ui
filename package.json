@@ -18,7 +18,7 @@
     "lint": "turbo lint",
     "format": "biome format --write ./",
     "build:lazy": "pnpm --filter=@gentelduck/lazy run ci",
-    "publish:lazy": "pnpm --filter=@gentelduck/lazy run publish",
+    "publish:lazy": "pnpm changeset publish",
     "publish:duckui": "pnpm --filter=@gentelduck/lazy run publish"
   },
   "packageManager": "pnpm@10.2.1",
@@ -39,4 +39,3 @@
     "@changesets/cli": "^2.27.7"
   }
 }
-
