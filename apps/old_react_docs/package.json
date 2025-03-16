@@ -104,7 +104,7 @@
     "uuidv7": "^1.0.2",
     "vaul": "0.9.0",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^0.31.4",
+    "vitest": "^3.0.8",
     "wavesurfer.js": "^7.8.6",
     "ws": "^8.18.0",
     "zod": "^3.24.1"
