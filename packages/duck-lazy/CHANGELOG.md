@@ -1,5 +1,11 @@
 # @gentelduck/lazy
 
+## 1.2.0
+
+### Minor Changes
+
+- 8f28d58: added nexjs integrations and added new docs.
+
 ## 1.1.0
 
 ### Minor Changes
