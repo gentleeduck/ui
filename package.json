@@ -17,7 +17,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "biome format --write ./",
-    "publish:lazy": "cd ./packages/duck-lazy && changeset publish"
+    "build:lazy": "pnpm --filter=@gentelduck/lazy run ci",
+    "publish:lazy": "pnpm --filter=@gentelduck/lazy run release"
   },
   "packageManager": "pnpm@10.2.1",
   "pnpm": {
