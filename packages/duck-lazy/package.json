@@ -1,7 +1,7 @@
 {
   "name": "@gentelduck/lazy",
   "version": "1.0.0",
-  "description": "this is a package for lazy components that gonna let you lazy load your images and also virtulize your components on the client",
+  "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "type": "module",
   "types": "index.ts",
   "main": "index.ts",
@@ -16,9 +16,29 @@
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "lazy-loading",
+    "react",
+    "virtualization",
+    "components",
+    "performance",
+    "intersection-observer",
+    "image-lazy-loading",
+    "lazy-load",
+    "accessibility",
+    "react-lazy-load"
+  ],
+  "author": "wilddcuk",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentelduck/ui/tree/master/packages/duck-lazy"
+  },
+  "bugs": {
+    "url": "https://github.com/gentelduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-lazy#readme",
+  "dependencies": {},
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
     "@types/react": "^19.0.10",
@@ -32,5 +52,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }
