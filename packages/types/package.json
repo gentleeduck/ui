@@ -2,6 +2,7 @@
   "name": "@gentelduck/types",
   "version": "1.0.0",
   "description": "this is a package for types",
+  "private": true,
   "type": "module",
   "types": "index.ts",
   "main": "index.ts",
