@@ -1,4 +1,4 @@
-# @gentelduck/lazy
+# `@gentelduck/lazy`
 
 `@gentelduck/lazy` is a lightweight and accessible React library for lazy-loading images and components. It uses the `IntersectionObserver` API to trigger the loading of content when it enters the viewport, providing smooth, efficient, and accessible lazy loading.
 
@@ -72,8 +72,9 @@ function MyImageComponent() {
 - `placeholder`: The URL of the placeholder image to display while the image is loading.
 - `alt`: A descriptive alt text for the image.
 - `options`: IntersectionObserver options (e.g., `rootMargin`, `threshold`).
-- `width` (optional): The width of the image.
-- `height` (optional): The height of the image.
+- `width`: The width of the image (required).
+- `height`: The height of the image (required).
+- `nextImage` (optional): Set to `true` if using the `next/image` component for Next.js optimization.
 
 ### `useLazyLoad` Hook
 
@@ -137,15 +138,113 @@ function LazyImage({ src, placeholder }) {
 - `isLoaded`: Boolean indicating whether the image has finished loading.
 - `imageRef`: A `React.Ref` to be attached to the `img` element.
 
-## Accessibility
+---
 
-The package provides robust accessibility features, including:
+## `DuckLazyImage` Component
+
+The `DuckLazyImage` component lazily loads an image when it comes into view. It supports lazy loading of images to improve performance, shows a placeholder image while the main image loads, and includes several accessibility features to ensure compatibility with assistive technologies like screen readers.
+
+### Usage Example
+
+```tsx
+import { DuckLazyImage } from '@gentelduck/lazy'
+
+function MyImageComponent() {
+  return (
+    <DuckLazyImage
+      src="https://example.com/image.jpg"
+      placeholder="https://example.com/placeholder.jpg"
+      alt="A description of the image"
+      width={400}
+      height={300}
+      options={{ rootMargin: '100px', threshold: 0.25 }}
+    />
+  )
+}
+```
+
+### Props
+
+- `src`: The URL of the image to load (required).
+- `placeholder`: The URL of the placeholder image to display while the image is loading.
+- `alt`: A descriptive alt text for the image (required for accessibility).
+- `options` (optional): IntersectionObserver options (e.g., `rootMargin`, `threshold`).
+- `width`: The width of the image in pixels (required).
+- `height`: The height of the image in pixels (required).
+- `nextImage` (optional): If using Next.js, set to `true` to optimize the image with `next/image`.
+
+---
+
+## Integration with **Next.js**
+
+In Next.js applications, you can easily integrate `DuckLazyImage` with the `next/image` component for better performance and automatic image optimization. 
+
+### Usage in Next.js
+
+When using Next.js, set the `nextImage` prop to `true` to ensure compatibility with Next.js's image optimization:
+
+```tsx
+import { DuckLazyImage } from '@gentelduck/lazy'
+
+function MyNextImageComponent() {
+  return (
+    <DuckLazyImage
+      nextImage // Ensure Next.js optimization is applied
+      src="https://example.com/image.jpg"
+      placeholder="https://example.com/placeholder.jpg"
+      alt="A description of the image"
+      width={400}
+      height={300}
+      options={{ rootMargin: '100px', threshold: 0.25 }}
+    />
+  )
+}
+```
+
+### Benefits for Next.js Users:
+- **Optimized Image Loading**: Lazy load images and improve the performance of your Next.js application.
+- **Automatic Image Optimization**: Leverage Next.js’s built-in image optimization by using `next/image` when `nextImage` is set to `true`.
+
+---
+
+## Integration with **React**
+
+In standard React applications (without Next.js), `DuckLazyImage` works as a regular `img` tag with lazy loading, ensuring your images load only when they enter the viewport.
+
+### Usage in React
+
+```tsx
+import { DuckLazyImage } from '@gentelduck/lazy'
+
+function MyReactImageComponent() {
+  return (
+    <DuckLazyImage
+      src="https://example.com/image.jpg"
+      placeholder="https://example.com/placeholder.jpg"
+      alt="A description of the image"
+      width={400}
+      height={300}
+      options={{ rootMargin: '100px', threshold: 0.25 }}
+    />
+  )
+}
+```
+
+---
+
+## Accessibility Features
+
+`@gentelduck/lazy` provides robust accessibility features to ensure that your lazy-loaded images and components are compatible with assistive technologies:
 
 - **`aria-live="polite"`** for announcing loading and visibility changes.
 - **`role="img"`** for images to indicate their purpose to screen readers.
 - **`aria-hidden`** to hide elements from assistive technologies until they are fully loaded.
 - **`aria-label`** for providing descriptive alt text for both images and components.
 - **`aria-relevant`** and **`aria-atomic`** for managing live updates and ensuring screen readers announce changes in atomic units.
+  
+These accessibility features ensure that your users, regardless of their device or accessibility needs, have a smooth and accessible experience.
+
+---
 
 ## Contributing
 

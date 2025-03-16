@@ -73,6 +73,7 @@ function PlaceHolder({
   height = 200,
   src,
   loading,
+  decoding,
   alt,
   nextImage,
   ...props
@@ -82,6 +83,7 @@ function PlaceHolder({
     <Component
       loading={loading ?? 'lazy'}
       style={{ transform: 'translate3d(0,0,0)' }}
+      decoding={decoding ?? 'async'}
       width={width}
       src={src as (string | StaticImport) & string}
       height={height}
