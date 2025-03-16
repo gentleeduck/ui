@@ -1,6 +1,6 @@
 {
   "name": "@gentelduck/lazy",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "type": "module",
   "types": "./dist/index.d.ts",
