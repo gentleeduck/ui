@@ -17,6 +17,13 @@ import {
   CopyNpmCommandButtonProps,
   CopyWithClassNamesProps,
 } from './copy-button.types'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@gentelduck/registry-ui-duckui/tabs'
+import { Separator } from '@gentelduck/registry-ui-duckui/separator'
 
 export async function copyToClipboardWithMeta(value: string, event?: Event) {
   navigator.clipboard.writeText(value)
@@ -37,7 +44,7 @@ export function CopyButton({
   React.useEffect(() => {
     setTimeout(() => {
       setHasCopied(false)
-    }, 2000)
+    }, 3000)
   }, [hasCopied])
 
   return (
@@ -45,19 +52,38 @@ export function CopyButton({
       size='icon'
       variant={variant}
       aria-label='Copy'
-      className={className}
-      icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
+      disabled={hasCopied}
+      className={cn(
+        '[&_svg]:w-3.5 !size-6.5 [&_svg]:transition-all',
+        className,
+      )}
+      icon={
+        <>
+          <CheckIcon
+            className={cn(
+              'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+              hasCopied ? 'opacity-100' : 'opacity-0',
+            )}
+          />
+          <ClipboardIcon
+            className={cn(
+              'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+              hasCopied ? 'opacity-0' : 'opacity-100',
+            )}
+          />
+        </>
+      }
       onClick={() => {
         copyToClipboardWithMeta(
           value,
           event
             ? {
-                name: event,
-                properties: {
-                  code: value,
-                },
-              }
-            : undefined
+              name: event,
+              properties: {
+                code: value,
+              },
+            }
+            : undefined,
         )
         setHasCopied(true)
       }}
@@ -91,10 +117,7 @@ export function CopyWithClassNames({
         <Button
           size='icon'
           variant='outline'
-          className={cn(
-            'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
-            className
-          )}
+          className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           {...props}
         >
@@ -137,13 +160,8 @@ export function CopyNpmCommandButton({
       })
       setHasCopied(true)
     },
-    []
+    [],
   )
-
-  // return<div>
-  //
-  //
-  // </div>
 
   return (
     <DropdownMenu>
@@ -151,10 +169,7 @@ export function CopyNpmCommandButton({
         <Button
           size='icon'
           variant='outline'
-          className={cn(
-            'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
-            className
-          )}
+          className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           {...props}
         >

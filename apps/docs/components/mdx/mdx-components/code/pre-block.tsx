@@ -28,8 +28,8 @@ export function Pre({
     <div className=''>
       <pre
         className={cn(
-          'mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-secondary py-4 dark:bg-[#cdd6f403]',
-          className
+          'mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-secondary py-4 dark:bg-[#cdd6f403] relative',
+          className,
         )}
         {...props}
       />

@@ -33,6 +33,30 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
+    "name": "toggle",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-toggle"
+    ],
+    "registryDependencies": [],
+    "root_folder": "toggle",
+    "files": [
+      {
+        "path": "toggle/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "toggle/toggle.constants.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "toggle/toggle.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/toggle"
+  },
+  {
     "name": "button-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -511,5 +535,110 @@
       }
     ],
     "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "toggle-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle"
+    ],
+    "root_folder": "toggle",
+    "files": [
+      {
+        "path": "toggle/toggle-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle"
+  },
+  {
+    "name": "toggle-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle"
+    ],
+    "root_folder": "toggle",
+    "files": [
+      {
+        "path": "toggle/toggle-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle"
+  },
+  {
+    "name": "toggle-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle"
+    ],
+    "root_folder": "toggle",
+    "files": [
+      {
+        "path": "toggle/toggle-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle"
+  },
+  {
+    "name": "toggle-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle"
+    ],
+    "root_folder": "toggle",
+    "files": [
+      {
+        "path": "toggle/toggle-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle"
+  },
+  {
+    "name": "toggle-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle"
+    ],
+    "root_folder": "toggle",
+    "files": [
+      {
+        "path": "toggle/toggle-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle"
+  },
+  {
+    "name": "toggle-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle"
+    ],
+    "root_folder": "toggle",
+    "files": [
+      {
+        "path": "toggle/toggle-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle"
+  },
+  {
+    "name": "toggle-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle"
+    ],
+    "root_folder": "toggle",
+    "files": [
+      {
+        "path": "toggle/toggle-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle"
   }
 ]

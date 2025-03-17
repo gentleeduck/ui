@@ -33,14 +33,14 @@ export const registry_ui: Registry = [
   //   root_folder: 'accordion',
   //   files: [],
   // },
-  // {
-  //   name: 'toggle',
-  //   type: 'registry:ui',
-  //   dependencies: ['@radix-ui/react-toggle'],
-  //   registryDependencies: [],
-  //   root_folder: 'toggle',
-  //   files: [],
-  // },
+  {
+    name: 'toggle',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-toggle'],
+    registryDependencies: [],
+    root_folder: 'toggle',
+    files: [],
+  },
   // {
   //   name: 'toggle-group',
   //   type: 'registry:ui',
