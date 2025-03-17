@@ -1275,8 +1275,8 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0
       esbuild:
-        specifier: ^0.23.1
-        version: 0.23.1
+        specifier: ^0.25.0
+        version: 0.25.1
       jsdom:
         specifier: ^25.0.0
         version: 25.0.1
