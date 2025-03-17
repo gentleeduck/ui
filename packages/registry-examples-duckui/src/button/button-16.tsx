@@ -17,7 +17,7 @@ export default function Button16Demo() {
         }}
         command={{
           key: 'alt+l',
-          label: 'alt+l',
+          children: 'alt+l',
           action: () =>
             toast('Your inbox has been updated', {
               description: `you have clicked the 'command label' button`,

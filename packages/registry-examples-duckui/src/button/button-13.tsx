@@ -9,7 +9,6 @@ export default function Button13Demo() {
         aria-label='Inbox button with 23 notifications'
         type='button'
         role='button'
-        icon={<Inbox />}
         label={{
           variant: 'nothing',
           children: '23',

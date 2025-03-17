@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { Inbox } from 'lucide-react'
 
 export default function Button23Demo() {
   return (
@@ -10,7 +9,6 @@ export default function Button23Demo() {
         type='button'
         role='button'
         variant='link_hover1'
-        icon={<Inbox />}
       >
         Button
       </Button>

@@ -10,7 +10,6 @@ export default function Button20Demo() {
         type='button'
         role='button'
         variant='ring_hover'
-        icon={<Inbox />}
       >
         Button
       </Button>

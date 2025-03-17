@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { ArrowRight, Inbox } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 export default function Button18Demo() {
   return (
@@ -14,7 +14,6 @@ export default function Button18Demo() {
           icon: <ArrowRight />,
           iconPlacement: 'right',
         }}
-        icon={<Inbox />}
       >
         Button
       </Button>

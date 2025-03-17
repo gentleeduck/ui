@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { Inbox } from 'lucide-react'
 
 export default function Button12Demo() {
   return (
@@ -9,7 +8,6 @@ export default function Button12Demo() {
         aria-label='Inbox button with 23 notifications'
         type='button'
         role='button'
-        icon={<Inbox />}
         label={{
           children: '23',
         }}

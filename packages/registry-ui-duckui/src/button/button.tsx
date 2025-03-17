@@ -30,7 +30,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       command,
       ...props
     }: ButtonProps,
-    ref: React.ForwardedRef<HTMLButtonElement> | undefined
+    ref: React.ForwardedRef<HTMLButtonElement> | undefined,
   ) => {
     const {
       side,
@@ -62,7 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <kbd
           className={cn(
             'inline-flex items-center font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-[.7rem] py-[.12rem] px-2 rounded-sm text-secondary-foreground !font-sans',
-            commandClassName
+            commandClassName,
           )}
           {...commandProps}
         />
@@ -74,15 +74,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           buttonVariants({
             variant,
-            size,
+            size: isCollapsed ? 'icon' : size,
             border,
             className,
-          })
+          }),
         )}
         disabled={loading}
-        data-open={isCollapsed}
+        data-open={!isCollapsed}
         data-loading={loading}
-        aria-expanded={isCollapsed}
+        aria-expanded={!isCollapsed}
         {...props}
       >
         {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
@@ -104,7 +104,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               className={cn(
                 'text-[.8rem] py-0 rounded-md px-1 font-meduim',
                 label.variant === 'nothing' && 'text-accent',
-                label.className
+                label.className,
               )}
               {...labelProps}
             />
@@ -142,16 +142,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               {...labelProps}
               className={cn(
                 'flex items-center gap-2 z-50 justify-start px-2',
-                label.className
+                label.className,
               )}
               side={side || 'right'}
             >
               {command?.children && showCommand && <CommandComponent />}
-              {showLabel && (
+              {showLabel && label.children && (
                 <span
                   className={cn(
                     'ml-auto text-[.9rem]',
-                    !showLabel && 'text-muted-foreground'
+                    !showLabel && 'text-muted-foreground',
                   )}
                   {...labelProps}
                 />
@@ -161,7 +161,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </Tooltip>
       </TooltipProvider>
     )
-  }
+  },
 )
 
 Button.displayName = 'Button'

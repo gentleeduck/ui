@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { ChevronsRight, Inbox } from 'lucide-react'
+import { ChevronsRight } from 'lucide-react'
 
 export default function Button11Demo() {
   return (
@@ -9,7 +9,6 @@ export default function Button11Demo() {
         aria-label='Inbox button with 23 notifications'
         type='button'
         role='button'
-        icon={<Inbox />}
         secondIcon={<ChevronsRight />}
       >
         Button

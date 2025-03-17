@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { Apple, ArrowLeft, Inbox } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 
 export default function Button19Demo() {
   return (
@@ -14,7 +14,6 @@ export default function Button19Demo() {
           icon: <ArrowLeft />,
           iconPlacement: 'left',
         }}
-        secondIcon={<Inbox />}
       >
         Button
       </Button>
