@@ -4,7 +4,10 @@ import Mousetrap from 'mousetrap'
 import type { DuckShortcutProps } from './'
 import { normalizeShortcuts } from '../Getkeys'
 
-export const useDuckShortcut: React.FC<DuckShortcutProps> = ({ keys, onKeysPressed }) => {
+export const useDuckShortcut: React.FC<DuckShortcutProps> = ({
+    keys,
+    onKeysPressed,
+}) => {
     // Normalize the shortcuts in a state
     const normalizedKeys = React.useMemo(() => normalizeShortcuts(keys), [keys])
 

@@ -1,5 +1,5 @@
 {
-    "name": "@ahmedayob/duck-shortcut",
+    "name": "@gentelduck/shortcut",
     "version": "0.0.2",
     "main": "index.js",
     "module": "dist/index.mjs",

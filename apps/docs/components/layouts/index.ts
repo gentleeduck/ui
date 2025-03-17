@@ -1,2 +1,5 @@
 export * from './docs-sidebar'
 export * from './command-menu'
+export * from './site-header'
+export * from './site-footer'
+export * from './tailwind-indicator'

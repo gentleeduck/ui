@@ -52,7 +52,7 @@ export function DuckLazyComponent({
 }: DuckLazyProps): React.JSX.Element {
   const { isVisible, elementRef } = useLazyLoad({
     rootMargin: '0px', // Adjust this to trigger rendering earlier or later
-    threshold: 0.1, // Trigger when 10% of the element is visible
+    threshold: 0.8, // Trigger when 10% of the element is visible
     ...options,
   })
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { HH } from './fuck'
+import { HH } from './hack'
 
 export default function Page() {
   return <HH />
