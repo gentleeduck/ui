@@ -1,5 +1,5 @@
 {
-  "name": "button-9",
+  "name": "toggle-group-7",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

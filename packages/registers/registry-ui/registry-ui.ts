@@ -41,14 +41,14 @@ export const registry_ui: Registry = [
   //   root_folder: 'toggle',
   //   files: [],
   // },
-  // {
-  //   name: 'toggle-group',
-  //   type: 'registry:ui',
-  //   dependencies: ['@radix-ui/react-toggle-group'],
-  //   registryDependencies: [],
-  //   root_folder: 'toggle-group',
-  //   files: [],
-  // },
+  {
+    name: 'toggle-group',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-toggle-group'],
+    registryDependencies: [],
+    root_folder: 'toggle-group',
+    files: [],
+  },
   // {
   //   name: 'toast',
   //   type: 'registry:ui',

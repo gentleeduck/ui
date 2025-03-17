@@ -36,13 +36,13 @@ export const registry_examples: Registry = [
   //   root_folder: 'toggle',
   //   files: [],
   // },
-  // {
-  //   name: 'toggle-group-examples',
-  //   type: 'registry:example',
-  //   registryDependencies: ['toggle-group'],
-  //   root_folder: 'toggle-group',
-  //   files: [],
-  // },
+  {
+    name: 'toggle-group-examples',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    root_folder: 'toggle-group',
+    files: [],
+  },
   // {
   //   name: 'toast-examples',
   //   type: 'registry:example',
