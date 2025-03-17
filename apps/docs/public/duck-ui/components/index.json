@@ -1,5 +1,5 @@
 {
-  "name": "button-9",
+  "name": "tooltip-2",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

@@ -35,6 +35,29 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  tooltip: {
+    name: 'tooltip',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'tooltip/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'tooltip/tooltiop.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-ui-duckui/tooltip'),
+    ),
+    source: '/registry-ui-duckui/src/tooltip',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'button-1': {
     name: 'button-1',
     description: '',
@@ -639,6 +662,44 @@ export const Index: Record<string, any> = {
       () => import('@gentelduck/registry-examples-duckui/button/button-9'),
     ),
     source: '/registry-examples-duckui/src/button',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'tooltip-1': {
+    name: 'tooltip-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['tooltip', 'button'],
+    files: [
+      {
+        path: 'tooltip/tooltip-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/tooltip/tooltip-1'),
+    ),
+    source: '/registry-examples-duckui/src/tooltip',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'tooltip-2': {
+    name: 'tooltip-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['tooltip', 'button'],
+    files: [
+      {
+        path: 'tooltip/tooltip-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/tooltip/tooltip-2'),
+    ),
+    source: '/registry-examples-duckui/src/tooltip',
     category: '',
     subcategory: '',
     chunks: [],

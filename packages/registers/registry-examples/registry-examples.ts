@@ -15,13 +15,13 @@ export const registry_examples: Registry = [
   //   root_folder: 'badge',
   //   files: [],
   // },
-  // {
-  //   name: 'tooltip-examples',
-  //   type: 'registry:example',
-  //   registryDependencies: ['tooltip'],
-  //   root_folder: 'tooltip',
-  //   files: [],
-  // },
+  {
+    name: 'tooltip-examples',
+    type: 'registry:example',
+    registryDependencies: ['tooltip', 'button'],
+    root_folder: 'tooltip',
+    files: [],
+  },
   // {
   //   name: 'accordion-examples',
   //   type: 'registry:example',

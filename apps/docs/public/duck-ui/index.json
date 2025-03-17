@@ -33,6 +33,26 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
+    "name": "tooltip",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-tooltip"
+    ],
+    "registryDependencies": [],
+    "root_folder": "tooltip",
+    "files": [
+      {
+        "path": "tooltip/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "tooltip/tooltiop.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/tooltip"
+  },
+  {
     "name": "button-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -511,5 +531,37 @@
       }
     ],
     "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "tooltip-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "tooltip",
+      "button"
+    ],
+    "root_folder": "tooltip",
+    "files": [
+      {
+        "path": "tooltip/tooltip-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/tooltip"
+  },
+  {
+    "name": "tooltip-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "tooltip",
+      "button"
+    ],
+    "root_folder": "tooltip",
+    "files": [
+      {
+        "path": "tooltip/tooltip-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/tooltip"
   }
 ]
