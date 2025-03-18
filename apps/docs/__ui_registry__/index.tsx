@@ -35,6 +35,27 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  tabs: {
+    name: 'tabs',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'tabs/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'tabs/tabs.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentelduck/registry-ui-duckui/tabs')),
+    source: '/registry-ui-duckui/src/tabs',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'button-1': {
     name: 'button-1',
     description: '',
@@ -639,6 +660,25 @@ export const Index: Record<string, any> = {
       () => import('@gentelduck/registry-examples-duckui/button/button-9'),
     ),
     source: '/registry-examples-duckui/src/button',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'tabs-1': {
+    name: 'tabs-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['tabs'],
+    files: [
+      {
+        path: 'tabs/tabs-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/tabs/tabs-1'),
+    ),
+    source: '/registry-examples-duckui/src/tabs',
     category: '',
     subcategory: '',
     chunks: [],

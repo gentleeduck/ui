@@ -64,13 +64,13 @@ export const registry_examples: Registry = [
   //   root_folder: 'textarea',
   //   files: [],
   // },
-  // {
-  //   name: 'tabs-examples',
-  //   type: 'registry:example',
-  //   registryDependencies: ['tabs'],
-  //   root_folder: 'tabs',
-  //   files: [],
-  // },
+  {
+    name: 'tabs-examples',
+    type: 'registry:example',
+    registryDependencies: ['tabs'],
+    root_folder: 'tabs',
+    files: [],
+  },
   // {
   //   name: 'table-examples',
   //   type: 'registry:example',

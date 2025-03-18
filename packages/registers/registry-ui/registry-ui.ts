@@ -73,14 +73,14 @@ export const registry_ui: Registry = [
   //   root_folder: 'textarea',
   //   files: [],
   // },
-  // {
-  //   name: 'tabs',
-  //   type: 'registry:ui',
-  //   dependencies: ['@radix-ui/react-tabs'],
-  //   registryDependencies: [],
-  //   root_folder: 'tabs',
-  //   files: [],
-  // },
+  {
+    name: 'tabs',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-tabs'],
+    registryDependencies: [],
+    root_folder: 'tabs',
+    files: [],
+  },
   // {
   //   name: 'table',
   //   type: 'registry:ui',

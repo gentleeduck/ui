@@ -33,6 +33,26 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
+    "name": "tabs",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-tabs"
+    ],
+    "registryDependencies": [],
+    "root_folder": "tabs",
+    "files": [
+      {
+        "path": "tabs/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "tabs/tabs.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/tabs"
+  },
+  {
     "name": "button-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -511,5 +531,20 @@
       }
     ],
     "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "tabs-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "tabs"
+    ],
+    "root_folder": "tabs",
+    "files": [
+      {
+        "path": "tabs/tabs-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/tabs"
   }
 ]
