@@ -4,8 +4,8 @@ import * as React from 'react'
 import { Index } from '~/__ui_registry__'
 
 import { cn } from '@gentelduck/libs/cn'
-import { useConfig } from '~/hooks/use-config'
 import { Icons } from '~/components/icons'
+import { useConfig } from '~/hooks/use-config'
 
 interface ThemeComponentProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
@@ -24,7 +24,7 @@ export function ThemeComponent({ name, ...props }: ThemeComponentProps) {
       return (
         <p className='text-sm text-muted-foreground'>
           Component{' '}
-          <code className='relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm'>
+          <code className='relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm'>
             {name}
           </code>{' '}
           not found in registry.
@@ -36,10 +36,7 @@ export function ThemeComponent({ name, ...props }: ThemeComponentProps) {
   }, [name, config.style])
 
   return (
-    <div
-      className={cn('relative')}
-      {...props}
-    >
+    <div className={cn('relative')} {...props}>
       <React.Suspense
         fallback={
           <div className='flex items-center text-sm text-muted-foreground'>

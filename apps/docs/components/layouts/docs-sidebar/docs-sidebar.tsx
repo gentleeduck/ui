@@ -76,7 +76,7 @@ export function DocsSidebarNavItems({
 }: DocsSidebarNavItemsProps) {
   return (
     items?.length && (
-      <ul className={cn('overflow-hidden transition-all', className)}>
+      <ul>
         {items.map((item, index) => (
           <DocsSidebarNavItem
             key={index}
@@ -102,7 +102,7 @@ export function DocsSidebarNavItem({
         <Link
           href={item.href}
           className={cn(
-            'group flex w-full items-center px-4 py-1',
+            'group flex w-full items-center px-4 py-1 focus-visible:border-l border-primary focus-visible:outline-none',
             pathname === item.href
               ? 'font-medium text-foreground'
               : 'text-muted-foreground'

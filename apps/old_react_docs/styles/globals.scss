@@ -507,7 +507,7 @@
 
   .div.hi {
     [data-radix-popper-content-wrapper] {
-      @apply bg-gray-800 text-white p-4 rounded shadow-lg;
+      @apply bg-gray-800 text-white p-4 rounded-sm shadow-lg;
     }
   }
 
@@ -597,7 +597,7 @@ section#id {
   }
 
   .mention {
-    @apply font-medium bg-foreground/10 px-1 rounded text-sm hover:bg-foreground/20 transition cursor-pointer text-primary/80;
+    @apply font-medium bg-foreground/10 px-1 rounded-sm text-sm hover:bg-foreground/20 transition cursor-pointer text-primary/80;
   }
 
   @layer components {
@@ -862,7 +862,7 @@ section#id {
 
 /* MENTION */
 .mention {
-  @apply font-medium bg-foreground/10 px-1 !my-[0px] rounded text-sm hover:bg-foreground/20 transition cursor-pointer text-primary/60 py-[2px];
+  @apply font-medium bg-foreground/10 px-1 !my-[0px] rounded-sm text-sm hover:bg-foreground/20 transition cursor-pointer text-primary/60 py-[2px];
 }
 
 /*  COMMENT */

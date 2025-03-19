@@ -265,7 +265,7 @@
 //       <MDXTextEditorToolbar editor={editor} />
 //       <ScrollArea
 //         className={cn(
-//           'mdx__minimal__text__editor max-h-[4.5rem] rounded-sm text-[0.7rem] py-[5px] px-2 overflow-x-hidden overflow-y-scroll',
+//           'mdx__minimal__text__editor max-h-[4.5rem] rounded-xs text-[0.7rem] py-[5px] px-2 overflow-x-hidden overflow-y-scroll',
 //           valid && 'disabled',
 //         )}
 //       >

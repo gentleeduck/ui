@@ -82,7 +82,7 @@ export function ComponentPreview({
   return (
     <DuckLazyComponent
       className={cn(
-        'group relative my-4 flex flex-col space-y-2 [&_div[data-slot="placeholder"]]:h-[512px]',
+        'group relative my-4 flex flex-col  [&_div[data-slot="placeholder"]]:h-[512px]',
         className,
       )}
       {...props}
@@ -90,19 +90,19 @@ export function ComponentPreview({
       <Tabs defaultValue="preview" className="relative mr-auto w-full">
         <div className="flex items-center justify-between pb-3">
           {!hideCode && (
-            <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 overflow-x-auto [&_button]:shadow-none">
+            <TabsList className="w-full justify-start border-b bg-transparent p-1 rounded-none overflow-x-auto [&_button]:shadow-none">
               {TABS.map((tab) => (
                 <TabsTrigger
                   value={tab.value}
-                  className="data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] rounded-none cursor-pointer data-[state=active]:shadow-none"
-                >
+                  className="data-[state=active]:text-primary border-b-transparent data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer data-[state=active]:shadow-none"
+                > 
                   {tab.name}
                 </TabsTrigger>
               ))}
             </TabsList>
           )}
         </div>
-        <TabsContent value="preview" className="relative rounded-md border">
+        <TabsContent value="preview" className="relative rounded-md border mx-2 max-w-full min-w-2/5 resize-x overflow-auto">
           <div className="flex items-center justify-between p-4 absolute w-full">
             <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
@@ -112,7 +112,7 @@ export function ComponentPreview({
           <ThemeWrapper defaultTheme="zinc">
             <div
               className={cn(
-                'preview flex min-h-[450px] w-full justify-center p-10',
+                'preview  flex max-h-[450px]   w-full justify-center p-10',
                 {
                   'items-center': align === 'center',
                   'items-start': align === 'start',
@@ -135,7 +135,7 @@ export function ComponentPreview({
         </TabsContent>
         <TabsContent value="code">
           <div className="flex flex-col space-y-4">
-            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[450px] [&_pre]:overflow-auto">
+            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:overflow-auto">
               {Code}
             </div>
           </div>

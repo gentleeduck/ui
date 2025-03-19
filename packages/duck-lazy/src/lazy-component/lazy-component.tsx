@@ -68,7 +68,7 @@ export function DuckLazyComponent({
       aria-busy={isVisible ? 'false' : 'true'}
       aria-hidden={isVisible ? 'false' : 'true'}
       role='region' // Define the region role to help screen readers understand the content context
-      tabIndex={isVisible ? 0 : -1} // Make the element focusable once visible
+      // tabIndex={isVisible ? 0 : -1} // Make the element focusable once visible
       aria-live='polite' // Announce changes to content when it becomes visible
       aria-relevant='additions' // Make screen readers announce any added content
       aria-atomic='true' // Ensure that changes in the container are read out as atomic units

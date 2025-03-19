@@ -1,12 +1,9 @@
 'use client'
 
-import * as React from 'react'
 import { useTheme } from 'next-themes'
+import * as React from 'react'
 
-import { THEMES, Theme } from '~/lib/themes'
 import { cn } from '@gentelduck/libs/cn'
-import { useMediaQuery } from '~/hooks/use-media-query'
-import { useThemesConfig } from '~/hooks/use-themes-config'
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -16,6 +13,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@gentelduck/registry-ui-duckui/tooltip'
+import { useMediaQuery } from '~/hooks/use-media-query'
+import { useThemesConfig } from '~/hooks/use-themes-config'
+import { THEMES, Theme } from '~/lib/themes'
 import { Skeleton } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/skeleton'
 
 export function ThemesSwitcher({
@@ -37,7 +37,7 @@ export function ThemesSwitcher({
       <div
         className={cn(
           'flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1',
-          className
+          className,
         )}
       >
         {themes.map((theme) => (
@@ -45,7 +45,7 @@ export function ThemesSwitcher({
             key={theme.id}
             className='flex h-10 w-10 items-center justify-center rounded-lg border-2 border-transparent'
           >
-            <Skeleton className='h-6 w-6 rounded-sm' />
+            <Skeleton className='h-6 w-6 rounded-xs' />
           </div>
         ))}
       </div>
@@ -66,7 +66,7 @@ export function ThemesSwitcher({
       }}
       className={cn(
         'flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1',
-        className
+        className,
       )}
     >
       {themes.map((theme) => {
@@ -82,7 +82,7 @@ export function ThemesSwitcher({
                 value={theme.name}
                 className={cn(
                   'group flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border-2 border-transparent p-0 hover:bg-transparent focus-visible:bg-transparent aria-checked:border-[--color-1]',
-                  mounted && isDarkTheme && mode !== 'dark' ? 'invert-[1]' : ''
+                  mounted && isDarkTheme && mode !== 'dark' ? 'invert-[1]' : '',
                 )}
                 style={
                   {
@@ -94,11 +94,11 @@ export function ThemesSwitcher({
                   } as React.CSSProperties
                 }
               >
-                <div className='h-6 w-6 overflow-hidden rounded-sm'>
+                <div className='h-6 w-6 overflow-hidden rounded-xs'>
                   <div
                     className={cn(
                       'grid h-12 w-12 -translate-x-1/4 -translate-y-1/4 grid-cols-2 overflow-hidden rounded-md transition-all ease-in-out group-hover:rotate-45',
-                      isActive ? 'rotate-45 group-hover:rotate-0' : 'rotate-0'
+                      isActive ? 'rotate-45 group-hover:rotate-0' : 'rotate-0',
                     )}
                   >
                     <span className='flex h-6 w-6 bg-[--color-1]' />
