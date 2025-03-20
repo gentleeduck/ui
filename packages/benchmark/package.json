@@ -13,6 +13,7 @@
     "@gentelduck/registry-ui-duckui": "workspace:*",
     "@gentelduck/tailwind-config": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/vite": "^4.0.14",
     "@types/react": "^19.0.10",
