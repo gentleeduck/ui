@@ -2,17 +2,20 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import { ListFilesOptions } from './list-files.types'
 import { FolderInfo } from './list-files.dto'
+import { highlighter } from '../text-styling'
 
 export async function list_files({
   cwds,
   depth = Number.POSITIVE_INFINITY,
   filter = [],
+  spinner,
 }: ListFilesOptions): Promise<FolderInfo[]> {
   async function processDirectory(
     cwd: string,
     depth: number,
   ): Promise<FolderInfo> {
     if (depth === 0) return {} as FolderInfo
+    spinner.text = `Processing directory: ${cwd}`
 
     const entries = fs.readdirSync(cwd, { withFileTypes: true })
     const stats = fs.statSync(cwd)
@@ -28,14 +31,17 @@ export async function list_files({
 
     for (const entry of entries) {
       if (filter.includes(entry.name)) {
-        continue // Skip reading the file/folder if it's in the filter list
+        spinner.text = highlighter.warn(
+          `Skipping filtered file/folder: ${entry.name}`,
+        )
+        continue
       }
 
       const fullPath = path.join(cwd, entry.name)
       const entryStats = fs.statSync(fullPath)
 
       if (entry.isDirectory()) {
-        // Recursively list subdirectories
+        spinner.text = `Entering directory: ${fullPath}`
         const subdirectory = await processDirectory(fullPath, depth - 1)
         folderInfo.subdirectories.push(subdirectory)
       } else {
@@ -51,6 +57,7 @@ export async function list_files({
       }
     }
 
+    spinner.text = highlighter.success(`Processed directory: ${cwd}`)
     return folderInfo
   }
 
