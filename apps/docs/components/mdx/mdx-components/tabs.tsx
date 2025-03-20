@@ -25,7 +25,7 @@ export function TabList({
   return (
     <TabsList
       className={cn(
-        'w-full justify-start rounded-none border-b bg-transparent p-0',
+        'w-full justify-start rounded-none border-b bg-transparent p-2',
         className
       )}
       {...props}

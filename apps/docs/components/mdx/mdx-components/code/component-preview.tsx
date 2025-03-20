@@ -102,7 +102,7 @@ export function ComponentPreview({
             </TabsList>
           )}
         </div>
-        <TabsContent value="preview" className="relative rounded-md border mx-2 max-w-full min-w-2/5 resize-x overflow-auto">
+        <TabsContent value="preview" className="relative rounded-md border mx-2 max-w-full min-w-2/5">
           <div className="flex items-center justify-between p-4 absolute w-full">
             <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
@@ -112,7 +112,7 @@ export function ComponentPreview({
           <ThemeWrapper defaultTheme="zinc">
             <div
               className={cn(
-                'preview  flex max-h-[450px]   w-full justify-center p-10',
+                'preview  flex min-h-[450px]   w-full justify-center p-10',
                 {
                   'items-center': align === 'center',
                   'items-start': align === 'start',
