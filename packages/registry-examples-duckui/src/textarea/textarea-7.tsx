@@ -8,9 +8,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@gentelduck/registry-ui-duckui/form'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { Textarea } from '@gentelduck/registry-ui-duckui/textarea'
+} from '@/registry/default/ui/ShadcnUI'
+import { Button } from '@/registry/registry-ui-components/button'
+import { Textarea } from '@/registry/registry-ui-components/textarea'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -35,8 +35,8 @@ export default function Textarea7Demo() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast('You submitted the following values:', {
       description: (
-        <pre className='mt-2 w-[300px] rounded-md bg-zinc-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
+        <pre className="mt-2 w-[300px] rounded-md bg-zinc-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
     })
@@ -44,17 +44,20 @@ export default function Textarea7Demo() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-2/3 space-y-6'>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-2/3 space-y-6"
+      >
         <FormField
           control={form.control}
-          name='bio'
+          name="bio"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Bio</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder='Tell us a little bit about yourself'
-                  className='resize-none'
+                  placeholder="Tell us a little bit about yourself"
+                  className="resize-none"
                   {...field}
                 />
               </FormControl>
@@ -65,7 +68,7 @@ export default function Textarea7Demo() {
             </FormItem>
           )}
         />
-        <Button type='submit'>Submit</Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   )
