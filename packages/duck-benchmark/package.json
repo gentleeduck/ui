@@ -1,7 +1,7 @@
 {
-  "name": "@gentelduck/duck-ui",
+  "name": "@gentelduck/benchmark",
   "version": "0.0.2",
-  "description": "Add components to your apps.",
+  "description": "this is the benchmark tool for the duck-ui components, it's a black magic tool to let you know weather your code suck or good.",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -10,19 +10,14 @@
   "author": "wildduck (https://github.com/wildduck2)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gentelduck/ui.git",
-    "directory": "packages/cli"
+    "url": "https://github.com/gentelduck/ui/tree/master/packages/duck-benchmark"
   },
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "components",
-    "ui",
-    "tailwind",
-    "radix-ui",
-    "duck-ui"
-  ],
+  "bugs": {
+    "url": "https://github.com/gentelduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-benchmark#readme",
+  "files": ["dist"],
+  "keywords": ["components", "ui", "tailwind", "radix-ui", "duck-ui"],
   "type": "module",
   "exports": "./dist/index.js",
   "bin": {
@@ -72,10 +67,6 @@
     "type-fest": "^3.8.0",
     "typescript": "^5"
   },
-  "bugs": {
-    "url": "https://github.com/gentelduck/ui/issues"
-  },
-  "homepage": "https://github.com/gentelduck/ui#readme",
   "main": "index.js",
   "directories": {
     "test": "test"
