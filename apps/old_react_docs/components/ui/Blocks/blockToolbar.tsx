@@ -1,31 +1,31 @@
 'use client'
 
-import * as React from 'react'
 import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
+import * as React from 'react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 
-import { trackEvent } from '~/lib/events'
 import { cn } from '@gentelduck/libs/cn'
-import { useLiftMode } from '~/hooks/use-lift-mode'
-import { StyleSwitcher } from '~/components/style-switcher'
-import { BlockCopyButton, V0Button } from '~/components/ui'
 import { Block } from '@gentelduck/registers'
-import { TabsList, TabsTrigger } from '@gentelduck/registry-ui-duckui/tabs'
-import { Separator } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/separator'
+import { Badge } from '@gentelduck/registry-ui-duckui/badge'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@gentelduck/registry-ui-duckui/popover'
-import { Badge } from '@gentelduck/registry-ui-duckui/badge'
+import { TabsList, TabsTrigger } from '@gentelduck/registry-ui-duckui/tabs'
 import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@gentelduck/registry-ui-duckui/toggle-group'
+import { StyleSwitcher } from '~/components/style-switcher'
+import { BlockCopyButton, V0Button } from '~/components/ui'
+import { useLiftMode } from '~/hooks/use-lift-mode'
+import { trackEvent } from '~/lib/events'
 import {
   Label,
   Switch,
 } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI'
+import { Separator } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/separator'
 
 export function BlockToolbar({
   block,
@@ -42,23 +42,20 @@ export function BlockToolbar({
         <TabsList className='hidden h-7 rounded-md p-0 px-[calc(theme(spacing.1)_-_2px)] py-[theme(spacing.1)] sm:flex'>
           <TabsTrigger
             value='preview'
-            className='h-[1.45rem] rounded-sm px-2 text-xs'
+            className='h-[1.45rem] rounded-xs px-2 text-xs'
             disabled={isLiftMode}
           >
             Preview
           </TabsTrigger>
           <TabsTrigger
             value='code'
-            className='h-[1.45rem] rounded-sm px-2 text-xs'
+            className='h-[1.45rem] rounded-xs px-2 text-xs'
             disabled={isLiftMode}
           >
             Code
           </TabsTrigger>
         </TabsList>
-        <Separator
-          orientation='vertical'
-          className='mx-2 hidden h-4 md:flex'
-        />
+        <Separator orientation='vertical' className='mx-2 hidden h-4 md:flex' />
         <StyleSwitcher
           className='h-[calc(theme(spacing.7)_-_1px)] dark:h-7'
           disabled={isLiftMode}
@@ -117,10 +114,7 @@ export function BlockToolbar({
           {block.hasLiftMode && (
             <>
               <div className='flex h-7 items-center justify-between gap-2'>
-                <Label
-                  htmlFor={`lift-mode-${block.name}`}
-                  className='text-xs'
-                >
+                <Label htmlFor={`lift-mode-${block.name}`} className='text-xs'>
                   Lift Mode
                 </Label>
                 <Switch
@@ -147,7 +141,7 @@ export function BlockToolbar({
               />
             </>
           )}
-          <div className='hidden h-[28px] items-center gap-1.5 rounded-md border p-[2px] shadow-sm md:flex'>
+          <div className='hidden h-[28px] items-center gap-1.5 rounded-md border p-[2px] shadow-xs md:flex'>
             <ToggleGroup
               disabled={isLiftMode}
               type='single'
@@ -160,19 +154,19 @@ export function BlockToolbar({
             >
               <ToggleGroupItem
                 value='100'
-                className='h-[22px] w-[22px] rounded-sm p-0'
+                className='h-[22px] w-[22px] rounded-xs p-0'
               >
                 <Monitor className='h-3.5 w-3.5' />
               </ToggleGroupItem>
               <ToggleGroupItem
                 value='60'
-                className='h-[22px] w-[22px] rounded-sm p-0'
+                className='h-[22px] w-[22px] rounded-xs p-0'
               >
                 <Tablet className='h-3.5 w-3.5' />
               </ToggleGroupItem>
               <ToggleGroupItem
                 value='30'
-                className='h-[22px] w-[22px] rounded-sm p-0'
+                className='h-[22px] w-[22px] rounded-xs p-0'
               >
                 <Smartphone className='h-3.5 w-3.5' />
               </ToggleGroupItem>

@@ -45,7 +45,7 @@
 //
 //   return (
 //     <NodeViewWrapper className="inline-flex">
-//       <span className="font-medium bg-foreground/10 px-1 !my-[0px] rounded text-sm hover:bg-foreground/20 transition cursor-pointer text-primary/60">
+//       <span className="font-medium bg-foreground/10 px-1 !my-[0px] rounded-sm text-sm hover:bg-foreground/20 transition cursor-pointer text-primary/60">
 //         @{label}
 //       </span>
 //     </NodeViewWrapper>
