@@ -1,12 +1,14 @@
 {
   "name": "button-21",
   "type": "registry:example",
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "button",
   "files": [
     {
       "path": "button/button-21.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentelduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button9Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Inbox button\"\n        variant={'gooey_right'}\n        type=\"button\"\n        role=\"button\"\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@gentelduck/registry-ui-duckui/button'\n\nexport default function Button9Demo() {\n  return (\n    <>\n      <Button\n        aria-label='Inbox button'\n        variant={'gooey_right'}\n        type='button'\n        role='button'\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-21.tsx"
     }
