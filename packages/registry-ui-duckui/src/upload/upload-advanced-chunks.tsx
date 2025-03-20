@@ -904,7 +904,7 @@
 //     const Trigger = (
 //       <Button
 //         size={size ?? 'xs'}
-//         className={cn('justify-between w-full rounded-sm', className)}
+//         className={cn('justify-between w-full rounded-xs', className)}
 //         variant={variant ?? 'destructive'}
 //         icon={<Trash />}
 //         {...props}
@@ -1458,7 +1458,7 @@
 //   attachment,
 // }: { attachment: BucketFilesType | BucketFoldersType }) => {
 //   return (
-//     <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-sm [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full space-y-1">
+//     <div className="flex flex-col items-start justify-start [&_button]:justify-between [&_button]:w-full [&_button]:rounded-xs [&>div]:p-0 [&>div]:justify-between [&>div]:flex [&>div]:items-center [&>div]:w-full space-y-1">
 //       <UploadAdvancedRenameAttachments attachment={attachment} />
 //       <UploadAdvancedDownloadAttachments
 //         withinDropdown={true}

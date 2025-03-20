@@ -10,12 +10,9 @@ export default function Button1Demo() {
       <Button
         isCollapsed={open}
         icon={<ArrowBigUpDash />}
-        aria-label={'button'}
-        type='button'
-        role='button'
+        aria-label={'advanced button'}
         size='default'
         aria-expanded={open}
-        tabIndex={0}
         loading={false}
         onClick={() => setOpen((prev) => !prev)}
         label={{

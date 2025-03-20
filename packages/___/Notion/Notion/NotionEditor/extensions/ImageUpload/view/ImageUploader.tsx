@@ -1,7 +1,7 @@
-import { Icon, Spinner, Button } from '@/components/ui/Notion/ui'
-import { useDropZone, useFileUpload, useUploader } from './hooks'
-import { cn } from '@/utils'
-import { ChangeEvent, useCallback } from 'react'
+import { ButtononIconSSSpinner } from '@/components/ui/Notion/ui'
+import { cn@utils
+import { ChangeEvent, useCallbackangeEventreactllbackangeEventreactllbackangeEventreactllbackangeEventreactllbackangeEventreactllbackangeEventreactllbackangeEventreactllbackangeEventreactllbackangeEventreactllbackangeEventreactllback } from 'react'
+import { useDropZone, useFileUpload, useUploaderad, useUp./hooksrad, useUp./hooksrad, useUp./hooksrad, useUp./hooksrad, useUp./hooksrad, useUp./hooksrad, useUp./hooksrad, useUp./hooksrad, useUp./hooksrad, useUp./hooksr } from './hooks'
 
 export const ImageUploader = ({ onUpload }: { onUpload: (url: string) => void }) => {
   const { loading, uploadFile } = useUploader({ onUpload })
@@ -15,7 +15,7 @@ export const ImageUploader = ({ onUpload }: { onUpload: (url: string) => void })
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center p-8 rounded-lg min-h-[10rem] bg-opacity-80">
+      <div className="flex items-center justify-center p-8 rounded-lg min-h-[10rem] bg-black/80">
         <Spinner
           className="text-neutral-500"
           size={1.5}
@@ -25,7 +25,7 @@ export const ImageUploader = ({ onUpload }: { onUpload: (url: string) => void })
   }
 
   const wrapperClass = cn(
-    'flex flex-col items-center justify-center px-8 py-10 rounded-lg bg-opacity-80',
+    'flex flex-col items-center justify-center px-8 py-10 rounded-lg bg-black/80',
     draggedInside && 'bg-neutral-100'
   )
 
