@@ -50,9 +50,8 @@ export async function list_files({
           name: entry.name,
           path: fullPath,
           size: entryStats.size,
-          createdAt: entryStats.birthtime,
-          modifiedAt: entryStats.mtime,
-          isDirectory: false,
+          created_at: entryStats.birthtime,
+          modified_at: entryStats.mtime,
         })
       }
     }
