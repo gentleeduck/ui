@@ -1,3 +1,2 @@
-!/bin/bash
 
-sudo node ../duck-benchmark/dist/index.js init
+sudo tsx ../duck-benchmark/dist/index.js init

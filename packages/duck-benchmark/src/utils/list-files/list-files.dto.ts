@@ -4,18 +4,12 @@ export const fileInfoSchema = z.object({
   name: z.string(),
   path: z.string(),
   size: z.number(),
-  createdAt: z.date(),
-  modifiedAt: z.date(),
-  isDirectory: z.boolean(),
-  compileTimeMs: z.number().optional(),
-  bundleSize: z.number().optional(),
+  created_at: z.date(),
+  modified_at: z.date(),
+  compile_time_ms: z.number().optional(),
+  render_time_ms: z.number().optional(),
+  bundle_size: z.number().optional(),
   errors: z.array(z.string()).optional(),
-  compile_info: z
-    .object({
-      compileTimeMs: z.number(),
-      bundleSize: z.number(),
-    })
-    .optional(),
 })
 
 export type FileInfo = z.infer<typeof fileInfoSchema>
