@@ -17,14 +17,14 @@ export const registry_ui: Registry = [
   //   root_folder: 'badge',
   //   files: [],
   // },
-  // {
-  //   name: 'tooltip',
-  //   type: 'registry:ui',
-  //   dependencies: ['@radix-ui/react-tooltip'],
-  //   registryDependencies: [],
-  //   root_folder: 'tooltip',
-  //   files: [],
-  // },
+  {
+    name: 'tooltip',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-tooltip'],
+    registryDependencies: [],
+    root_folder: 'tooltip',
+    files: [],
+  },
   // {
   //   name: 'accordion',
   //   type: 'registry:ui',

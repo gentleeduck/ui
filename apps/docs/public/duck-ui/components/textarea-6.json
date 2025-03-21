@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "textarea/textarea-6.tsx",
-      "content": "import { Button } from '@/registry/registry-ui-components/button'\nimport { Textarea } from '@/registry/registry-ui-components/textarea'\n\nexport default function Textarea6Demo() {\n  return (\n    <div className=\"grid w-full gap-2\">\n      <Textarea placeholder=\"Type your message here.\" />\n      <Button>Send message</Button>\n    </div>\n  )\n}\n",
+      "content": "import { Label } from '@gentelduck/registry-ui-duckui/label'\nimport { Textarea } from '@gentelduck/registry-ui-duckui/textarea'\n\nexport default function Textarea4Demo() {\n  return (\n    <div className='grid w-full gap-1.5'>\n      <Label htmlFor='message'>Your message</Label>\n      <Textarea placeholder='Type your message here.' id='message' />\n    </div>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/textarea-6.tsx"
     }

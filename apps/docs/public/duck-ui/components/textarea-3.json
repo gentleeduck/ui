@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "textarea/textarea-3.tsx",
-      "content": "import { Textarea } from '@/registry/registry-ui-components/textarea'\n\nexport default function Textarea3Demo() {\n  return (\n    <Textarea\n      placeholder=\"Type your message here.\"\n      disabled\n    />\n  )\n}\n",
+      "content": "import { Label } from '@gentelduck/registry-ui-duckui/label'\nimport { Textarea } from '@gentelduck/registry-ui-duckui/textarea'\n\nexport default function Textarea4Demo() {\n  return (\n    <div className='grid w-full gap-1.5'>\n      <Label htmlFor='message'>Your message</Label>\n      <Textarea placeholder='Type your message here.' id='message' />\n    </div>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/textarea-3.tsx"
     }
