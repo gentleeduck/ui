@@ -1,0 +1,690 @@
+[
+  {
+    "name": "button",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-slot",
+      "@ahmedayob/duck-shortcut"
+    ],
+    "registryDependencies": [
+      "tooltip",
+      "command",
+      "badge"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button.constants.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "button/button.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "button/button.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "button/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/button"
+  },
+  {
+    "name": "tooltip",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-tooltip"
+    ],
+    "registryDependencies": [],
+    "root_folder": "tooltip",
+    "files": [
+      {
+        "path": "tooltip/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "tooltip/tooltiop.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/tooltip"
+  },
+  {
+    "name": "textarea",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "textarea",
+    "files": [
+      {
+        "path": "textarea/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "textarea/textarea.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/textarea"
+  },
+  {
+    "name": "button-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-10",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-11",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-11.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-12",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-12.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-13",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-13.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-14",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-14.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-15",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-15.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-16",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-16.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-17",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-17.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-18",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-18.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-19",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-19.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-20",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-20.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-21",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-21.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-22",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-22.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-23",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-23.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-24",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-24.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-25",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-25.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-26",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-26.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-27",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-27.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-28",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-28.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-29",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-29.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-30",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-30.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-31",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-31.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-32",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-32.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-8",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "button-9",
+    "type": "registry:example",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "files": [
+      {
+        "path": "button/button-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "tooltip-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "tooltip",
+      "button"
+    ],
+    "root_folder": "tooltip",
+    "files": [
+      {
+        "path": "tooltip/tooltip-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/tooltip"
+  },
+  {
+    "name": "tooltip-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "tooltip",
+      "button"
+    ],
+    "root_folder": "tooltip",
+    "files": [
+      {
+        "path": "tooltip/tooltip-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/tooltip"
+  },
+  {
+    "name": "textarea-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "textarea"
+    ],
+    "root_folder": "textarea",
+    "files": [
+      {
+        "path": "textarea/textarea-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/textarea"
+  },
+  {
+    "name": "textarea-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "textarea"
+    ],
+    "root_folder": "textarea",
+    "files": [
+      {
+        "path": "textarea/textarea-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/textarea"
+  },
+  {
+    "name": "textarea-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "textarea"
+    ],
+    "root_folder": "textarea",
+    "files": [
+      {
+        "path": "textarea/textarea-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/textarea"
+  },
+  {
+    "name": "textarea-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "textarea"
+    ],
+    "root_folder": "textarea",
+    "files": [
+      {
+        "path": "textarea/textarea-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/textarea"
+  },
+  {
+    "name": "textarea-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "textarea"
+    ],
+    "root_folder": "textarea",
+    "files": [
+      {
+        "path": "textarea/textarea-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/textarea"
+  },
+  {
+    "name": "textarea-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "textarea"
+    ],
+    "root_folder": "textarea",
+    "files": [
+      {
+        "path": "textarea/textarea-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/textarea"
+  },
+  {
+    "name": "textarea-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "textarea"
+    ],
+    "root_folder": "textarea",
+    "files": [
+      {
+        "path": "textarea/textarea-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/textarea"
+  }
+]
