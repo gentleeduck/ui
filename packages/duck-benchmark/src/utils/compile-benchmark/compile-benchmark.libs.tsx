@@ -32,7 +32,7 @@ export async function compile_file({ file, spinner, cwd }: CompileFileParams) {
     const compile_time_ms = performance.now() - start
     const bundle_size = fs.existsSync(`${cwd}/${out_dir}`)
       ? fs.statSync(`${cwd}/${out_dir}`).size
-      : 0
+      : 12
 
     spinner.text = `Compiled ${file.name} in ${compile_time_ms.toFixed(2)}ms (${(bundle_size / 1024).toFixed(2)}kb)`
     return {

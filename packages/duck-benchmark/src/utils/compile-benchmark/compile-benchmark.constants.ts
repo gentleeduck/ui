@@ -9,7 +9,7 @@ import path from 'node:path'
 export default defineConfig({
   build: {
     sourcemap: false,
-    outDir: 'dist/${fileInfo.name}',
+    outDir: 'dist',
     lib: {
       entry: path.resolve(__dirname, '${fileInfo.path}'), 
       name: 'App',
