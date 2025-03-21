@@ -65,14 +65,14 @@ export const registry_ui: Registry = [
   //   root_folder: 'sonner',
   //   files: [],
   // },
-  // {
-  //   name: 'textarea',
-  //   type: 'registry:ui',
-  //   dependencies: [],
-  //   registryDependencies: [],
-  //   root_folder: 'textarea',
-  //   files: [],
-  // },
+  {
+    name: 'textarea',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'textarea',
+    files: [],
+  },
   // {
   //   name: 'tabs',
   //   type: 'registry:ui',

@@ -21,7 +21,6 @@
     "publish:lazy": "pnpm changeset publish",
     "publish:duckui": "pnpm --filter=@gentelduck/lazy run publish"
   },
-  "packageManager": "pnpm@10.2.1",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@biomejs/biome",

@@ -317,7 +317,7 @@
 //   return (
 //     <div
 //       className={cn(
-//         'size-4 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 cursor-pointer',
+//         'size-4 rounded-md focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 cursor-pointer',
 //         className,
 //       )}
 //       ref={ref}
@@ -361,7 +361,7 @@
 //             </div>
 //             <DropdownMenuView
 //               trigger={{
-//                 icon: { children: Ellipsis, className: 'h-4 w-4 rounded' },
+//                 icon: { children: Ellipsis, className: 'h-4 w-4 rounded-sm'  },
 //                 variant: 'outline',
 //                 size: 'icon',
 //                 className: 'h-4 w-6 absolute bottom-2 right-2',
@@ -374,7 +374,7 @@
 //                       children: 'Download',
 //                       icon: {
 //                         children: Download,
-//                         className: 'h-4 w-4 rounded',
+//                         className: 'h-4 w-4 rounded-sm' ,
 //                       },
 //                       onClick: () => {
 //                         downloadAttachment({ attachment: attachment! })
@@ -383,7 +383,7 @@
 //                     {
 //                       children: 'Delete',
 //                       className: 'text-red-500 bg-red-500/10',
-//                       icon: { children: Trash, className: 'h-4 w-4 rounded' },
+//                       icon: { children: Trash, className: 'h-4 w-4 rounded-sm'  },
 //                       onClick: () => { },
 //                     },
 //                   ],

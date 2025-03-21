@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "tooltip-2",
+=======
+  "name": "textarea-7",
+>>>>>>> 6fe86dcecb47ccc4424e3056b76ca6dee4d9d92f
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

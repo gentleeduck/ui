@@ -30,7 +30,7 @@ build
 # misc
 .DS_Store
 *.pem
-
+/.velite
 # debug
 npm-debug.log*
 yarn-debug.log*
