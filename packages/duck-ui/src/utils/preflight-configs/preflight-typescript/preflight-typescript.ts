@@ -10,7 +10,6 @@ import {
 } from './preflight-typescript.libs'
 import { preflight_typescript_options_schema } from './preflight-typescript.dto'
 
-// Check if TypeScript is installed
 export async function preflight_typescript(cwd: string, spinner: Ora) {
   try {
     spinner.text = `${highlighter.info('Checking for TypeScript...')}`
@@ -19,13 +18,14 @@ export async function preflight_typescript(cwd: string, spinner: Ora) {
     )
     if (is_ts_installed) {
       spinner.text = `${highlighter.info('TypeScript is already installed...')}`
-      return true
+      return
     }
 
     spinner.stop()
     const options = await prompts(typescript_prompts)
     const { typescript } = preflight_typescript_options_schema.parse(options)
 
+    console.log(typescript)
     spinner.start()
     if (!typescript) {
       spinner.text = `${highlighter.info('TypeScript is not installed...')}`
@@ -33,10 +33,9 @@ export async function preflight_typescript(cwd: string, spinner: Ora) {
     }
 
     await install_typescript(cwd, spinner)
-    await adding_typescript_config(cwd, typescript, spinner)
-    return true
+    await adding_typescript_config(cwd, spinner)
   } catch (error) {
     spinner.text = `${highlighter.info('TypeScript is not installed...')}${highlighter.error(error as string)}`
-    return false
+    process.exit(0)
   }
 }

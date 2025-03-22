@@ -1,0 +1,17 @@
+{
+  "rsc": "true",
+  "monorepo": false,
+  "tailwind": {
+    "baseColor": "zinc",
+    "css": "./src/styles.css",
+    "cssVariables": false,
+    "prefix": ""
+  },
+  "aliases": {
+    "ui": "~/ui",
+    "libs": "~/libs",
+    "hooks": "~/hooks",
+    "pages": "~/pages",
+    "layouts": "~/layouts"
+  }
+}

@@ -1,5 +1,0 @@
-export * from './get-project-type'
-export * from './get-project-type.lib'
-export * from './get-project-type.types'
-export * from './get-project-type.dto'
-export * from './get-project-type.constants'

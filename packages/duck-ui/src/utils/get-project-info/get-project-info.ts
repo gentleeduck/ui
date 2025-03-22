@@ -1,7 +1,7 @@
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import { IGNORED_DIRECTORIES } from './get-project-info.constants'
-import path from 'path'
+import path from 'node:path'
 import { loadConfig } from 'tsconfig-paths'
 import { type PackageJson } from 'type-fest'
 import { logger } from '../text-styling'
@@ -65,7 +65,9 @@ export function get_package_json(): PackageJson | null {
 
   const package_json_path = path.join(process.cwd(), 'package.json')
 
-  const package_json: PackageJson = JSON.parse(fs.readFileSync(package_json_path, 'utf8'))
+  const package_json: PackageJson = JSON.parse(
+    fs.readFileSync(package_json_path, 'utf8'),
+  )
 
   return package_json
 }

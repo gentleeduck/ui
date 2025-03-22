@@ -1,11 +1,5 @@
-import prompts from 'prompts'
-import { tailwindcss_prompts } from './pref-light-tailwindcss.constants'
-import { pref_light_tailwindcss_options_schema } from './pref-light-tailwindcss.dto'
-import {
-  checkTailwindCssInstalled,
-  install_tailwindcss,
-} from './pref-light-tailwindcss.lib'
-import { highlighter, logger } from '../../text-styling'
+import { checkTailwindCssInstalled } from './pref-light-tailwindcss.lib'
+import { highlighter } from '../../text-styling'
 import { Ora } from 'ora'
 
 export async function preflight_tailwindcss(

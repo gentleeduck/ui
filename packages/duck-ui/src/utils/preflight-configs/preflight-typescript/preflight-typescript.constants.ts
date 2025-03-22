@@ -14,24 +14,6 @@ export const typescript_prompts: PromptObject<'typescript'>[] = [
 
 export const typescript_dependencies = ['typescript']
 
-export const js_config = `{
-  "compilerOptions": {
-    "target": "es6",                   // Target ECMAScript version
-    "module": "commonjs",               // Specify module code generation
-    "baseUrl": ".",                     // Base directory for non-relative module names
-    "paths": {
-      "~/*": ["./src/*"]  // Define path aliases
-    }
-    "jsx": "react-jsx",                 // Set JSX handling for React projects
-    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
-    "esModuleInterop": true,            // Import compatibility for CommonJS and ES modules
-    "strict": true                      // Enable all strict type-checking options
-  },
-  "include": ["src"],                   // Include files in the src folder
-  "exclude": ["node_modules", "dist"]   // Exclude folders from the config
-}
-`
-
 export const ts_config = `{
   "compilerOptions": {
     "target": "es6", // Target ECMAScript version

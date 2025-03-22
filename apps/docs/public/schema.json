@@ -2,58 +2,68 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "style": {
+    "project_type": {
       "type": "string",
-      "enum": ["default", "new-york"]
+      "enum": [
+        "NEXT_JS",
+        "VITE",
+        "CREATE_REACT_APP",
+        "UNKNOWN"
+      ],
+      "description": "Please select a valid project type.",
+      "errorMessage": "Invalid value for projectType."
     },
-    "tailwind": {
-      "type": "object",
-      "properties": {
-        "config": {
-          "type": "string"
-        },
-        "css": {
-          "type": "string"
-        },
-        "baseColor": {
-          "type": "string"
-        },
-        "cssVariables": {
-          "type": "boolean"
-        },
-        "prefix": {
-          "type": "string"
-        }
-      },
-      "required": ["config", "css", "baseColor", "cssVariables"]
+    "base_color": {
+      "type": "string",
+      "enum": [
+        "zinc",
+        "slate",
+        "gray",
+        "neutral",
+        "red",
+        "rose",
+        "orange",
+        "green",
+        "blue"
+      ],
+      "description": "The primary color theme for your project.",
+      "errorMessage": "Please select a valid base color."
     },
-    "rsc": {
-      "type": "boolean"
+    "alias": {
+      "type": "string",
+      "description": "Defines the alias used for importing modules.",
+      "minLength": 1,
+      "default": "~",
+      "errorMessage": "Import alias cannot be empty."
     },
-    "tsx": {
-      "type": "boolean"
+    "monorepo": {
+      "type": "boolean",
+      "description": "Indicates if your project is inside a monorepo.",
+      "errorMessage": "Invalid value for monorepo."
     },
-    "aliases": {
-      "type": "object",
-      "properties": {
-        "utils": {
-          "type": "string"
-        },
-        "components": {
-          "type": "string"
-        },
-        "ui": {
-          "type": "string"
-        },
-        "lib": {
-          "type": "string"
-        },
-        "hooks": {
-          "type": "string"
-        }
-      },
-      "required": ["utils", "components"]
+    "css": {
+      "type": "string",
+      "description": "Specifies the location of your global CSS file.",
+      "minLength": 1,
+      "errorMessage": "CSS file path cannot be empty."
+    },
+    "css_variables": {
+      "type": "boolean",
+      "description": "Determines whether CSS variables will be used.",
+      "errorMessage": "Invalid value for cssVariables."
+    },
+    "prefix": {
+      "type": "string",
+      "description": "A custom prefix for component class names or variables.",
+      "default": ""
     }
   },
-  "required": ["style", "tailwind", "rsc", "aliases"]
+  "required": [
+    "project_type",
+    "base_color",
+    "alias",
+    "monorepo",
+    "css",
+    "css_variables"
+  ]
 }
