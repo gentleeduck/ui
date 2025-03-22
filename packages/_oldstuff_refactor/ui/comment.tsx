@@ -8,7 +8,7 @@
 // import { ScrollArea } from './scroll-area'
 // import { filesize } from 'filesize'
 // import { Button } from '@/registry/registry-ui-components'
-// import { 
+// import {
 //   ArrowBigUp,
 //   BadgeCheck,
 //   Bug,
@@ -122,7 +122,7 @@
 //   return (
 //     <div
 //       className={cn(
-//         'size-4 rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 cursor-pointer',
+//         'size-4 rounded-md focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 cursor-pointer',
 //         className
 //       )}
 //       ref={ref}
@@ -216,7 +216,7 @@
 //   ({ children, className, ...props }, ref) => {
 //     return (
 //       <div
-//         className={cn('flex flex-col flex-shrink-0 basis-8 flex-grow-0 items-center mr-2 ', className)}
+//         className={cn('flex flex-col shrink-0 basis-8 grow-0 items-center mr-2 ', className)}
 //         ref={ref}
 //         {...props}
 //       >
@@ -533,7 +533,7 @@
 //               {
 //                 // <DropdownMenuView
 //                 //                 trigger={{
-//                 //                   icon: { children: Ellipsis, className: 'h-6 w-6 rounded' },
+//                 //                   icon: { children: Ellipsis, className: 'h-6 w-6 rounded-sm'  },
 //                 //                   variant: 'ghost',
 //                 //                   size: 'icon',
 //                 //                   className: 'h-4 w-6',
@@ -805,7 +805,7 @@
 //
 //       <DropdownMenuView
 //         trigger={{
-//           icon: { children: Ellipsis, className: 'h-4 w-4 rounded' },
+//           icon: { children: Ellipsis, className: 'h-4 w-4 rounded-sm'  },
 //           variant: 'ghost',
 //           size: 'icon',
 //           className: 'h-4 w-6',
@@ -859,7 +859,7 @@
 //         trigger={{
 //           children: (
 //             <Button
-//               icon={{ children: Plus, className: 'h-4 w-4 rounded' }}
+//               icon={{ children: Plus, className: 'h-4 w-4 rounded-sm'  }}
 //               className="rounded-full h-8 w-8 bg-secondary/20 mr-2"
 //               variant="outline"
 //               size="icon"

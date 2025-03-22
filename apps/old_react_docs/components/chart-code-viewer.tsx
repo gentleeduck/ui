@@ -1,28 +1,23 @@
 import * as React from 'react'
 
 import { cn } from '@gentelduck/libs/cn'
-import { useMediaQuery } from '~/hooks/use-media-query'
-import { useThemesConfig } from '~/hooks/use-themes-config'
-import { V0Button, BlockCopyButton } from '~/components/ui'
 import { Block } from '@gentelduck/registers'
 import { Button } from '@gentelduck/registry-ui-duckui/button'
+import {} from '@gentelduck/registry-ui-duckui/drawer'
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@gentelduck/registry-ui-duckui/sheet'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@gentelduck/registry-ui-duckui/tabs'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-  DrawerTrigger,
-} from '@gentelduck/registry-ui-duckui/drawer'
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from '@gentelduck/registry-ui-duckui/sheet'
+import { BlockCopyButton, V0Button } from '~/components/ui'
+import { useMediaQuery } from '~/hooks/use-media-query'
+import { useThemesConfig } from '~/hooks/use-themes-config'
 
 export function ChartCodeViewer({
   chart,
@@ -76,13 +71,13 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
           <TabsList className='h-7 w-auto rounded-md p-0 px-[calc(theme(spacing.1)_-_2px)] py-[theme(spacing.1)]'>
             <TabsTrigger
               value='code'
-              className='h-[1.45rem] rounded-sm px-2 text-xs'
+              className='h-[1.45rem] rounded-xs px-2 text-xs'
             >
               Code
             </TabsTrigger>
             <TabsTrigger
               value='theme'
-              className='h-[1.45rem] rounded-sm px-2 text-xs'
+              className='h-[1.45rem] rounded-xs px-2 text-xs'
             >
               Theme
             </TabsTrigger>
@@ -141,10 +136,7 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
               <code data-line-numbers=''>
                 <span className='line text-zinc-700'>{`/* ${themesConfig?.activeTheme.name} */`}</span>
                 {themeCode.split('\n').map((line, index) => (
-                  <span
-                    key={index}
-                    className='line'
-                  >
+                  <span key={index} className='line'>
                     {line}
                   </span>
                 ))}
@@ -163,7 +155,7 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
         <DrawerContent
           className={cn(
             'flex max-h-[80vh] flex-col sm:max-h-[90vh] [&>div.bg-muted]:shrink-0',
-            className
+            className,
           )}
         >
           <div className='flex h-full flex-col overflow-auto'>{content}</div>
@@ -179,7 +171,7 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
         side='right'
         className={cn(
           'flex flex-col gap-0 border-l-0 p-0 dark:border-l sm:max-w-sm md:w-[700px] md:max-w-[700px]',
-          className
+          className,
         )}
       >
         {content}

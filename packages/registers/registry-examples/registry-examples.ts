@@ -15,13 +15,13 @@ export const registry_examples: Registry = [
   //   root_folder: 'badge',
   //   files: [],
   // },
-  // {
-  //   name: 'tooltip-examples',
-  //   type: 'registry:example',
-  //   registryDependencies: ['tooltip'],
-  //   root_folder: 'tooltip',
-  //   files: [],
-  // },
+  {
+    name: 'tooltip-examples',
+    type: 'registry:example',
+    registryDependencies: ['tooltip', 'button'],
+    root_folder: 'tooltip',
+    files: [],
+  },
   // {
   //   name: 'accordion-examples',
   //   type: 'registry:example',
@@ -71,6 +71,20 @@ export const registry_examples: Registry = [
     root_folder: 'tabs',
     files: [],
   },
+  {
+    name: 'textarea-examples',
+    type: 'registry:example',
+    registryDependencies: ['textarea'],
+    root_folder: 'textarea',
+    files: [],
+  },
+  // {
+  //   name: 'tabs-examples',
+  //   type: 'registry:example',
+  //   registryDependencies: ['tabs'],
+  //   root_folder: 'tabs',
+  //   files: [],
+  // },
   // {
   //   name: 'table-examples',
   //   type: 'registry:example',

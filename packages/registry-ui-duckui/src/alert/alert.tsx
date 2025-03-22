@@ -1,6 +1,7 @@
-import React from 'react'
 import { cn } from '@gentelduck/libs/cn'
+import { VariantProps } from 'class-variance-authority'
 import { AlertCircle, Trash } from 'lucide-react'
+import React from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +13,6 @@ import {
 } from '../alert-dialog'
 import { Button, CommandType, buttonVariants } from '../button'
 import { Separator } from '../separator'
-import { VariantProps } from 'class-variance-authority'
 import { alertVariants } from './alert.constants'
 
 const Alert = React.forwardRef<
@@ -72,7 +72,7 @@ export const UploadAlertDelete = ({
       <AlertDialogTrigger asChild>
         <Button
           size={'xs'}
-          className={cn('justify-between w-full rounded-sm', className)}
+          className={cn('justify-between w-full rounded-xs', className)}
           variant={'ghost'}
           command={command}
           icon={<Trash />}
@@ -112,7 +112,7 @@ export const UploadAlertDelete = ({
                 variant: 'outline',
                 className: 'px-8',
                 size: 'sm',
-              })
+              }),
             )}
             onClick={onCancel}
           >
@@ -125,7 +125,7 @@ export const UploadAlertDelete = ({
                 border: 'destructive',
                 className: 'px-8',
                 size: 'sm',
-              })
+              }),
             )}
             onClick={onContinue}
           >
