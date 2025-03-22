@@ -3,6 +3,7 @@ import { Ora } from 'ora'
 import { get_project_type } from '../get-project-type'
 import { preflight_typescript } from './preflight-typescript'
 import { preflight_duckui } from './preflight-duckui'
+import { preflight_tailwindcss } from './preflight-tailwindcss'
 
 export type PrefLightTypescriptOptions = {
   cwd: string
@@ -15,6 +16,7 @@ export async function preflight_configs({
 }: PrefLightTypescriptOptions): Promise<void> {
   spinner.text = `${highlighter.info('Preflighting required configs...')}`
   await preflight_typescript(cwd, spinner)
+  await preflight_tailwindcss(cwd, spinner)
   await preflight_duckui(cwd, spinner)
 
   //

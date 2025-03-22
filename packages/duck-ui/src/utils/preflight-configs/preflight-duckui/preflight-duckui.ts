@@ -15,7 +15,7 @@ import { init_duckui_config } from './preflight-duckui.libs'
 
 export async function preflight_duckui(cwd: string, spinner: Ora) {
   try {
-    spinner.text = `${highlighter.info('Checking for duck-ui config...')}`
+    spinner.text = `Checking for ${highlighter.info('duck-ui')} config...`
     const files = fg.sync(['duck-ui.config.json'], {
       cwd,
       deep: 1,
@@ -23,7 +23,8 @@ export async function preflight_duckui(cwd: string, spinner: Ora) {
     })
 
     if (files.length) {
-      spinner.text = `${highlighter.info('duck-ui config found...')}`
+      spinner.text = `The ${highlighter.info('duck-ui')} config found...`
+      return
     }
 
     spinner.stop()
@@ -32,11 +33,11 @@ export async function preflight_duckui(cwd: string, spinner: Ora) {
     spinner.start()
 
     if (!duckui) {
-      spinner.text = `${highlighter.info('Required config not found...')}`
+      spinner.text = `The required ${highlighter.info('duck-ui')} config not found...`
       process.exit(0)
     }
 
-    spinner.text = `${highlighter.info('Initializing duck-ui config...')}`
+    spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
     spinner.stop()
     const config_options = await prompts(duckui_config_prompts)
     const parse_config_options = duckui_prompts_schema.parse(config_options)
@@ -44,6 +45,11 @@ export async function preflight_duckui(cwd: string, spinner: Ora) {
 
     await init_duckui_config(cwd, spinner, parse_config_options)
   } catch (error) {
-    spinner.text = `${highlighter.info('No duck-ui config found...')}${highlighter.error(error as string)}`
+    spinner.fail(
+      `Failed to preflight required ${highlighter.error('duck-ui')} configs...\n ${highlighter.error(
+        error as string,
+      )}`,
+    )
+    process.exit(0)
   }
 }

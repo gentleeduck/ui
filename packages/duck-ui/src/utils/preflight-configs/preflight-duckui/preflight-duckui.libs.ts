@@ -11,20 +11,19 @@ export async function init_duckui_config(
   duck_config: DuckuiPrompts,
 ) {
   try {
-    spinner.text = `${highlighter.info('Initializing duck-ui config...')}`
+    spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
 
-    console.log(duck_config)
-    spinner.text = `${highlighter.info('Writing duck-ui config...')}`
+    spinner.text = `Writing ${highlighter.info('duck-ui')} config...`
     await fs.writeFile(
       path.join(cwd, 'duck-ui.config.json'),
       default_duckui_config(duck_config),
       'utf-8',
     )
 
-    spinner.succeed(`${highlighter.info('duck-ui config initialized...')}`)
+    spinner.succeed(`${highlighter.info('duck-ui')} config initialized...`)
   } catch (error) {
     spinner.fail(
-      `${highlighter.error('Failed to initialize duck-ui config...')}`,
+      `Failed to initialize ${highlighter.error('duck-ui config...')}\n ${highlighter.error(error as string)}`,
     )
     process.exit(0)
   }

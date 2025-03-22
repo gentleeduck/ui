@@ -1,57 +1,61 @@
 import { execa } from 'execa'
-import path from 'node:path'
-import {
-  get_package_manager,
-  getPackageRunner,
-} from '../../get-package-manager'
-import { spinner } from '../../spinner'
-import { highlighter, logger } from '../../text-styling'
-import {
-  default_config,
-  default_css_without_duckui,
-  tailwindcss_dependencies,
-  tailwindcss_init,
-  tailwindcss_prompts,
-} from './pref-light-tailwindcss.constants'
-import fs from 'fs-extra'
-import { get_project_type, ProjectTypeEnum } from '../../get-project-type'
-import { Ora } from 'ora'
-import { IGNORED_DIRECTORIES } from '../../get-project-info'
 import fg from 'fast-glob'
+import fs from 'fs-extra'
+import path from 'node:path'
+import { Ora } from 'ora'
 import { ZodError } from 'zod'
+import { get_package_manager } from '../../get-package-manager'
+import { IGNORED_DIRECTORIES } from '../../get-project-info'
+import { highlighter } from '../../text-styling'
+import { duckui_prompts_schema, PROJECT_TYPE } from '../preflight-duckui'
+import {
+  post_css_nextjs,
+  tailwindcss_install_prompts,
+  tailwindcss_poiler,
+  tailwindcss_vite,
+} from './pref-light-tailwindcss.constants'
 import prompts from 'prompts'
-import { pref_light_tailwindcss_options_schema } from './pref-light-tailwindcss.dto'
 
-// Check if TailwindCss is installed
 export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
   try {
     spinner.text = `${highlighter.info('Checking for TailwindCss...')}`
 
-    const tailwindcss = fg.globSync('tailwind.config.*', {
+    const styles_files = await fg.async('**.css', {
       cwd,
-      deep: 1,
+      deep: 3,
+      globstar: true,
       ignore: IGNORED_DIRECTORIES,
+      objectMode: true,
     })
 
-    if (tailwindcss.length) {
-      spinner.text = `${highlighter.info('TailwindCss is already installed...')}`
-      return true
+    let is_tailwind_installed: boolean = false
+
+    // biome-ignore lint/style/useForOf: <explanation>
+    for (let i = 0; i < styles_files.length; i++) {
+      const file = styles_files[i]
+      const content = await fs.readFile(
+        path.join((file.dirent as never)['parentPath'], file.name),
+        'utf-8',
+      )
+      is_tailwind_installed = content.includes('@import "tailwindcss"')
     }
 
-    const options = await prompts(tailwindcss_prompts)
-    const { tailwind } = pref_light_tailwindcss_options_schema.parse(options)
+    if (is_tailwind_installed) {
+      spinner.text = `${highlighter.info('TailwindCss is already installed...')}`
+      return is_tailwind_installed
+    }
 
-    if (!tailwind) return
-
-    await install_tailwindcss(cwd, spinner)
-
-    return true
+    return is_tailwind_installed
   } catch (error) {
     if (error instanceof ZodError) {
-      spinner.text = `${highlighter.error('Wrong Options..')}${highlighter.error(error.message)}`
+      spinner.fail(
+        `${highlighter.error('Wrong Options..')}${highlighter.error(error.message)}`,
+      )
     }
 
-    spinner.text = `${highlighter.error('TailwindCss is not installed...')}${highlighter.error(error as string)}`
+    spinner.fail(
+      `${highlighter.error('TailwindCss is not installed...')}${highlighter.error(error as string)}`,
+    )
     process.exit(0)
   }
 }
@@ -59,10 +63,26 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
 export async function install_tailwindcss(cwd: string, spinner: Ora) {
   spinner.text = `${highlighter.info('Installing TailwindCSS...')}`
 
+  spinner.stop()
+  const options = await prompts(tailwindcss_install_prompts)
+
+  const { project_type, css } = duckui_prompts_schema
+    .pick({ project_type: true, css: true })
+    .parse(options)
+  spinner.start()
+
+  if (!project_type || !css) {
+    spinner.fail(`${highlighter.error('No project type selected...')}`)
+    return
+  }
+
   const packageManager = await get_package_manager(cwd)
   const { failed: installation_step_1 } = await execa(
     packageManager,
-    [packageManager !== 'npm' ? 'install' : 'add', ...tailwindcss_dependencies],
+    [
+      packageManager !== 'npm' ? 'install' : 'add',
+      ...tailwindcss_dependencies(project_type, css, cwd),
+    ],
     {
       cwd: cwd,
       shell: true,
@@ -70,65 +90,43 @@ export async function install_tailwindcss(cwd: string, spinner: Ora) {
   )
   if (installation_step_1) return spinner.fail(`${installation_step_1}`)
 
-  const packageRunner = await getPackageRunner(cwd, packageManager)
-  const { failed: installation_step_2 } = await execa(
-    packageRunner,
-    [...tailwindcss_init],
-    {
-      cwd: cwd,
-      shell: true,
-    },
-  )
-  if (installation_step_2) return spinner.fail(`${installation_step_2}`)
-
-  await adding_tailwind_config(cwd)
-
   spinner.text = `${highlighter.info('TailwindCSS is installed...')}`
 }
 
-export async function adding_tailwind_config(cwd: string) {
-  const is_ts = false //await check_typeScript_installed(cwd)
-  const type = await get_project_type(cwd)
+export const tailwindcss_dependencies = (
+  project_type: (typeof PROJECT_TYPE)[number],
+  css_path: string,
+  cwd: string,
+) => {
+  try {
+    switch (project_type) {
+      case 'NEXT_JS':
+        fs.writeFileSync(path.join(cwd, 'postcss.config.mjs'), post_css_nextjs)
+        fs.writeFileSync(
+          path.join(cwd, css_path, 'styles.css'),
+          tailwindcss_poiler,
+        )
+        return ['tailwindcss', 'postcss', '@tailwindcss/postcss']
 
-  const tailwind_config_spinner = spinner(
-    highlighter.info('Adding TailwindCSS config...'),
-  ).start()
+      case 'VITE':
+      case 'TANSTACK_START':
+        fs.writeFileSync(path.join(cwd, 'vite.config.ts'), tailwindcss_vite)
+        fs.writeFileSync(
+          path.join(cwd, css_path, 'styles.css'),
+          tailwindcss_poiler,
+        )
+        return ['tailwindcss', '@tailwindcss/vite']
 
-  if (is_ts) {
-    await execa(
-      `mv ${path.join(cwd, 'tailwind.config.js')} ${path.join(cwd, `tailwind.config.ts`)}`,
-      {
-        shell: true,
-        cwd,
-      },
-    )
+      default:
+        fs.writeFileSync(path.join(cwd, 'vite.config.ts'), tailwindcss_vite)
+        fs.writeFileSync(
+          path.join(cwd, css_path, 'styles.css'),
+          tailwindcss_poiler,
+        )
+        return ['tailwindcss', '@tailwindcss/vite']
+    }
+  } catch (error) {
+    console.log(error)
+    process.exit(0)
   }
-
-  await fs.writeFile(
-    path.join(cwd, `tailwind.config.${is_ts ? 'ts' : 'js'}`),
-    tailwind_config(type),
-  )
-
-  await fs.writeFile(
-    path.join(cwd, css_file_path(type)),
-    css_file_content(type),
-  )
-
-  logger.break()
-  tailwind_config_spinner.succeed()
-}
-
-// NOTE: you have to support other types of projects
-export const tailwind_config = (type: keyof typeof ProjectTypeEnum) => {
-  return type === 'UNKNOWN' ? default_config : default_config
-}
-
-export const css_file_path = (type: keyof typeof ProjectTypeEnum) => {
-  return type === 'UNKNOWN' ? './style.css' : './style.css'
-}
-
-export function css_file_content(type: keyof typeof ProjectTypeEnum) {
-  return type === 'UNKNOWN'
-    ? default_css_without_duckui
-    : default_css_without_duckui
 }

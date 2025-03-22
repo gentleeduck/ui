@@ -1,10 +1,11 @@
 {
-  "rsc": "true",
+  "schema": "https://duckui.vercel.app/schema.json",
+  "rsc": "false",
   "monorepo": false,
   "tailwind": {
     "baseColor": "zinc",
     "css": "./src/styles.css",
-    "cssVariables": false,
+    "cssVariables": true,
     "prefix": ""
   },
   "aliases": {
