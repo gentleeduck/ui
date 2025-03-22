@@ -1,15 +1,12 @@
 'use client'
 
-import * as React from 'react'
 import { DuckLazyComponent } from '@gentelduck/lazy/lazy-component'
-import { Index } from '~/__ui_registry__'
-import { Crown } from 'lucide-react'
 import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Crown } from 'lucide-react'
+import * as React from 'react'
+import { Index } from '~/__ui_registry__'
 
 import { cn } from '@gentelduck/libs/cn'
-import { CopyButton } from '~/components/copy-button'
-import { Icons } from '~/components/icons'
-import { ThemeWrapper } from '~/components/theme-wrapper'
 import {
   Tabs,
   TabsContent,
@@ -17,6 +14,9 @@ import {
   TabsTrigger,
 } from '@gentelduck/registry-ui-duckui/tabs'
 import { V0Button } from '~/components/V0'
+import { CopyButton } from '~/components/copy-button'
+import { Icons } from '~/components/icons'
+import { ThemeWrapper } from '~/components/theme-wrapper'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
