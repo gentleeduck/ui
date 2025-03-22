@@ -9,7 +9,7 @@ catalog:
   '@trpc/react-query': ^11.0.0-rc.477
   '@trpc/server': ^11.0.0-rc.477
   '@types/node': ^20.17.18
-  tailwindcss: ^3.4.14
+  tailwindcss: ^4
   typescript: ^5.6.3
   zod: ^3.23.8
 

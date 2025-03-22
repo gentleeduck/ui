@@ -1,5 +1,8 @@
+import fs from 'fs-extra'
+import { Ora } from 'ora'
 import { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
+import { PROJECT_TYPE } from '../preflight-duckui'
 
 export const tailwindcss_prompts: PromptObject<string>[] = [
   {
@@ -12,28 +15,38 @@ export const tailwindcss_prompts: PromptObject<string>[] = [
   },
 ]
 
-//NOTE: willing to support more when we have more frameworks to support with duck-ui
-export const tailwindcss_dependencies = [
-  'tailwindcss',
-  'postcss',
-  'autoprefixer',
+export const tailwindcss_install_prompts: PromptObject<string>[] = [
+  {
+    type: 'select',
+    name: 'project_type',
+    message: `Select your ${highlighter.info('project type')} to install TailwindCSS correctly`,
+    choices: PROJECT_TYPE.map((project) => ({
+      title: project,
+      value: project,
+    })),
+    initial: 0,
+  },
+  {
+    type: 'text',
+    name: 'css',
+    message: `Type where's your ${highlighter.info('CSS')} file? (Enter for default)`,
+    initial: './src/',
+  },
 ]
 
-export const tailwindcss_init = ['tailwindcss', 'init', '-p']
+export const post_css_nextjs = `const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+export default config;`
 
-export const default_config = `/** @type {import('tailwindcss').Config} */
-    export default {
-    content: [
-      "./index.html",
-      "./src/**/*.{js,ts,jsx,tsx}",
-    ],
-    theme: {
-      extend: {},
-    },
-    plugins: [],
-  };`
+export const tailwindcss_vite = `import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
+export default defineConfig({
+  plugins: [
+    tailwindcss(),
+  ],
+})`
 
-export const default_css_without_duckui = `@tailwind base;
-@tailwind components;
-@tailwind utilities;
-`
+export const tailwindcss_poiler = `@import "tailwindcss";`

@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    tailwindcss:
+      specifier: ^4
+      version: 3.4.17
     typescript:
       specifier: ^5.6.3
       version: 5.7.3
@@ -1461,14 +1464,20 @@ importers:
 
   packages/duck-ui/test:
     dependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4.0.12
+        version: 4.0.12
+      '@tailwindcss/vite':
+        specifier: ^4.0.14
+        version: 4.0.14(vite@6.2.2(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(sass@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.5.3)
       postcss:
-        specifier: ^8.4.47
+        specifier: ^8.5.3
         version: 8.5.3
       tailwindcss:
-        specifier: ^3.4.14
+        specifier: 'catalog:'
         version: 3.4.17(ts-node@10.9.2(@swc/core@1.11.8(@swc/helpers@0.5.15))(@types/node@22.13.10)(typescript@5.7.3))
     devDependencies:
       typescript:
