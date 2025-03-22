@@ -3,14 +3,12 @@ import { highlighter } from '../../text-styling'
 import { get_package_manager } from '../../get-package-manager'
 import { execa } from 'execa'
 import {
-  js_config,
   ts_config,
   typescript_dependencies,
 } from './preflight-typescript.constants'
 import fs from 'fs-extra'
 import path from 'node:path'
 
-// Install Typescript
 export async function install_typescript(cwd: string, spinner: Ora) {
   try {
     spinner.text = `${highlighter.info('Installing TypeScript...')}`
@@ -42,15 +40,8 @@ export async function install_typescript(cwd: string, spinner: Ora) {
 }
 
 // Add Typescript config
-export async function adding_typescript_config(
-  cwd: string,
-  is_ts: boolean,
-  spinner: Ora,
-) {
+export async function adding_typescript_config(cwd: string, spinner: Ora) {
   spinner.text = `${highlighter.info('Adding TypeScript config...')}`
 
-  await fs.writeFile(
-    path.join(cwd, `${is_ts ? 'ts' : 'js'}config.json`),
-    is_ts ? ts_config : js_config,
-  )
+  await fs.writeFile(path.join(cwd, 'tsconfig.json'), ts_config, 'utf-8')
 }

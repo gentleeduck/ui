@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { init_options_schema, InitOptions } from './init.dto'
-import { preflight_configs, get_project_type } from '@/src/utils'
-import { spinner as Spinner } from '@/src/utils/spinner'
+import { spinner as Spinner } from '~/utils/spinner'
+import { preflight_configs } from '~/utils/preflight-configs'
 
 export async function init_command_action(opt: InitOptions) {
   const spinner = Spinner('Initializing...').start()

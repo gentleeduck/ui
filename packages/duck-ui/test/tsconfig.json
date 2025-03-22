@@ -15,8 +15,7 @@
     "allowSyntheticDefaultImports": true, // Synthetic default imports for compatibility
     "baseUrl": ".", // Base directory for module resolution
     "paths": {
-      // Define path aliases
-      "@/*": ["./src/*"]
+      "~/*": ["./src/*"] // Define path aliases
     }
   },
   "include": ["src"], // Include all source files in the src directory

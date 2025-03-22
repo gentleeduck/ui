@@ -1,14 +1,31 @@
 import { Ora } from 'ora'
-import { ProjectTypeEnum } from '../../get-project-type'
 import { default_duckui_config } from './preflight-duckui.constants'
+import { DuckuiPrompts } from './preflight-duckui.dto'
+import { highlighter } from '~/utils/text-styling'
+import path from 'node:path'
+import fs from 'fs-extra'
 
 export async function init_duckui_config(
   cwd: string,
-  duckui: boolean,
   spinner: Ora,
-  type: keyof typeof ProjectTypeEnum,
-  is_ts: boolean,
+  duck_config: DuckuiPrompts,
 ) {
-  // const config = JSON.stringify(default_duckui_config(type, is_ts, '', '~'))
-  // console.log('\n\n', JSON.parse(config))
+  try {
+    spinner.text = `${highlighter.info('Initializing duck-ui config...')}`
+
+    console.log(duck_config)
+    spinner.text = `${highlighter.info('Writing duck-ui config...')}`
+    await fs.writeFile(
+      path.join(cwd, 'duck-ui.config.json'),
+      default_duckui_config(duck_config),
+      'utf-8',
+    )
+
+    spinner.succeed(`${highlighter.info('duck-ui config initialized...')}`)
+  } catch (error) {
+    spinner.fail(
+      `${highlighter.error('Failed to initialize duck-ui config...')}`,
+    )
+    process.exit(0)
+  }
 }

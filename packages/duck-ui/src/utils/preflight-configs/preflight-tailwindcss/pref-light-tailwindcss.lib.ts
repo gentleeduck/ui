@@ -8,16 +8,13 @@ import { spinner } from '../../spinner'
 import { highlighter, logger } from '../../text-styling'
 import {
   default_config,
+  default_css_without_duckui,
   tailwindcss_dependencies,
   tailwindcss_init,
   tailwindcss_prompts,
 } from './pref-light-tailwindcss.constants'
 import fs from 'fs-extra'
-import {
-  get_project_type,
-  ProjectType,
-  ProjectTypeEnum,
-} from '../../get-project-type'
+import { get_project_type, ProjectTypeEnum } from '../../get-project-type'
 import { Ora } from 'ora'
 import { IGNORED_DIRECTORIES } from '../../get-project-info'
 import fg from 'fast-glob'
@@ -46,7 +43,7 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
 
     if (!tailwind) return
 
-    await install_tailwindcss(cwd)
+    await install_tailwindcss(cwd, spinner)
 
     return true
   } catch (error) {

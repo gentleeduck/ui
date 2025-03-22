@@ -1,4 +1,4 @@
-import { REGISTRY_URL } from '@/src/main'
+import { REGISTRY_URL } from '~/main'
 import { pathnameSchema, pathSchema } from './url-mutating.dto'
 
 function isUrl(url: string): boolean {
