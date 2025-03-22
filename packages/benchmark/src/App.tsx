@@ -7,17 +7,21 @@
 
 import { lazy } from 'react'
 
-const DuckTextarea = lazy(() => import('./textarea/duck'))
-const NativeTextarea = lazy(() => import('./textarea/native'))
-const ShadcnTextarea = lazy(() => import('./textarea/shadcn'))
+// const DuckButton = lazy(() => import('./button/duck'))
+// const NativeButton = lazy(() => import('./button/native'))
+// const ShadcnButton = lazy(() => import('./button/shadcn'))
+// const DuckTextarea = lazy(() => import('./textarea/duck'))
+// const NativeTextarea = lazy(() => import('./textarea/native'))
+// const ShadcnTextarea = lazy(() => import('./textarea/shadcn'))
+const DuckTabs = lazy(() => import('./tabs/duck'))
+const ShadcnTabs = lazy(() => import('./tabs/shadcn'))
 
 function App() {
 
   return (
     <div className="flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4">
-      <ShadcnTextarea />
-      <NativeTextarea />
-      <DuckTextarea /> 
+      <ShadcnTabs />
+      <DuckTabs /> 
     </div>
   )
 }

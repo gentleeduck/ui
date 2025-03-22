@@ -727,6 +727,25 @@ export const Index: Record<string, any> = {
         
       ]
     },
+    "tabs-1": {
+      name: "tabs-1",
+      description: "",
+      type: "registry:example",
+      registryDependencies: ["tabs"],
+      files: [
+  {
+    "path": "tabs/tabs-1.tsx",
+    "type": "registry:example"
+  }
+],
+      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/tabs/tabs-1")),
+      source: "/registry-examples-duckui/src/tabs",
+      category: "",
+      subcategory: "",
+      chunks: [
+        
+      ]
+    },
     "textarea-1": {
       name: "textarea-1",
       description: "",

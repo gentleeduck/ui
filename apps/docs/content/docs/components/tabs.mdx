@@ -1,0 +1,141 @@
+---
+title: tabs
+description: A set of layered sections of content—known as tab panels—that are displayed one at a time.
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/tabs
+  api: https://www.radix-ui.com/docs/primitives/components/tabs#api-reference
+---
+
+<ComponentPreview
+  name="tabs-1"
+  description="A tabs component with two forms."
+/>
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add tabs
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @radix-ui/react-tabs
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="tabs" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+```
+
+```tsx
+<Tabs
+  defaultValue="account"
+  className="w-[400px]"
+>
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Make changes to your account here.</TabsContent>
+  <TabsContent value="password">Change your password here.</TabsContent>
+</Tabs>
+```
+
+## API Reference  
+
+### **Tabs Component**  
+
+The `Tabs` component is the root container that manages tab navigation and state.  
+
+- **Inherits all properties from `TabsPrimitive.Root`**  
+
+---
+
+### **TabsList**  
+
+A container that holds tab triggers, providing a structured layout for tab navigation.  
+
+- **Inherits all properties from `TabsPrimitive.List`**  
+- **`className`** (`string`, optional):  
+  - Additional CSS classes for styling the list container.  
+
+#### **Default Styles**  
+- Rounded container with a muted background.  
+- Uses `inline-flex` for layout, ensuring proper spacing.  
+- Text color is set to a muted foreground for clarity.  
+
+---
+
+### **TabsTrigger**  
+
+A clickable element that acts as a trigger for its corresponding tab content.  
+
+- **Inherits all properties from `TabsPrimitive.Trigger`**  
+- **`className`** (`string`, optional):  
+  - Additional CSS classes for styling the tab trigger.  
+
+#### **Default Styles**  
+- Responsive design with appropriate padding.  
+- Smooth transition effects for an interactive experience.  
+- `focus-visible` ring to enhance accessibility.  
+- Active state includes distinct background and foreground colors.  
+
+---
+
+### **TabsContent**  
+
+A container that holds the content corresponding to an active tab.  
+
+- **Inherits all properties from `TabsPrimitive.Content`**  
+- **`className`** (`string`, optional):  
+  - Additional CSS classes for styling the content area.  
+
+#### **Default Styles**  
+- `margin-top` spacing for visual separation.  
+- `focus-visible` ring for improved accessibility.  
+
+---
+
+### **Accessibility**  
+
+The `Tabs` system follows WAI-ARIA accessibility standards, ensuring:  
+- Full keyboard navigation support.  
+- Proper focus management for smooth interactions.  
+- Correct ARIA roles assigned to triggers and content for screen readers.  
+
+---
+
+### **Customization**  
+
+All `Tabs` components accept the `className` prop, allowing easy customization using utility classes.  
+- The `cn` utility helps with conditional class merging, making styling flexible.  
+
