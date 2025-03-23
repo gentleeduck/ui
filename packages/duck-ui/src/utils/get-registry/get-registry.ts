@@ -34,10 +34,9 @@ export async function get_registry_item(name: Lowercase<string>) {
 
 export async function get_registry_base_color(theme: string) {
   try {
-    const [result] = await fetch_registry_url([`themes/${theme}.json`])
+    const result = await fetch_registry_url([`themes/${theme}.css`])
 
-    // return result
-    return registrycolor_scheme.parse(result)
+    return result
   } catch (error) {
     logger.error({ args: [`Failed to fetch from registry.`, error] })
     return null

@@ -4,9 +4,7 @@ import rimraf from 'rimraf'
 import { existsSync } from 'node:fs'
 import { REGISTRY_PATH } from '../main/main.constants'
 import {
-  build_registry_colors_base,
-  build_registry_colors_themes,
-  build_registry_themes_item,
+  build_registry_themes,
   registry_build_colors_index,
 } from './build-registry-build-colors.lib'
 import { BuildRegistryColorsParams } from './build-registry-build-colors.types'
@@ -28,27 +26,19 @@ export async function registry_build_colors({
   try {
     const colors_target_path = path.join(REGISTRY_PATH, 'colors')
 
-    // Remove existing colors directory and recreate it
+    spinner.text = `🧭 Creating colors directory: ${colors_target_path}`
     rimraf.sync(colors_target_path)
     if (!existsSync(colors_target_path)) {
       await fs.mkdir(colors_target_path, { recursive: true })
     }
 
-    spinner.text = `🧭 Creating colors directory: ${colors_target_path}`
-
     const colors_data: Record<string, unknown> = {}
 
-    // Build index.json
+    spinner.text = `🧭 Creating colors index.json: ${colors_target_path}`
     await registry_build_colors_index(colors_data, colors_target_path, spinner)
 
-    // Build base colors
-    await build_registry_colors_base(colors_data, spinner)
-
-    // Build themes
-    await build_registry_colors_themes(spinner)
-
-    // Build theme item
-    await build_registry_themes_item(colors_data, spinner)
+    spinner.text = '🧭 Creating registry base colors'
+    await build_registry_themes(spinner)
 
     spinner.text = `🧭 Writing colors index.json: ${colors_target_path}`
   } catch (error) {
