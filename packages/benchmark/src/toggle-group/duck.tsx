@@ -1,10 +1,10 @@
 import { Bold, Italic, Underline } from 'lucide-react'
- 
+
 import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@gentelduck/registry-ui-duckui/toggle-group'
- 
+
 export default function ToggleGroup1Demo() {
   return (
     <ToggleGroup type='single'>

@@ -17,6 +17,13 @@ import {
   CopyNpmCommandButtonProps,
   CopyWithClassNamesProps,
 } from './copy-button.types'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@gentelduck/registry-ui-duckui/tabs'
+import { Separator } from '@gentelduck/registry-ui-duckui/separator'
 
 export async function copyToClipboardWithMeta(value: string, event?: Event) {
   navigator.clipboard.writeText(value)
@@ -37,7 +44,7 @@ export function CopyButton({
   React.useEffect(() => {
     setTimeout(() => {
       setHasCopied(false)
-    }, 2000)
+    }, 3000)
   }, [hasCopied])
 
   return (
@@ -91,11 +98,7 @@ export function CopyWithClassNames({
         <Button
           size='icon'
           variant='outline'
-          aria-label='Copy'
-          className={cn(
-            'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3 shadow-none rounded-sm',
-            className,
-          )}
+          className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           {...props}
         >
@@ -140,22 +143,13 @@ export function CopyNpmCommandButton({
     [],
   )
 
-  // return<div>
-  //
-  //
-  // </div>
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           size='icon'
           variant='outline'
-          aria-label='Copy'
-          className={cn(
-            'relative z-10 w-6.5 h-6.5 [&_svg]:h-3.5 [&_svg]:w-3.5 shadow-none rounded-sm',
-            className,
-          )}
+          className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           {...props}
         >

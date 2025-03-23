@@ -58,23 +58,27 @@ export const Index: Record<string, any> = {
         
       ]
     },
-    "toggle-group": {
-      name: "toggle-group",
+    "toggle": {
+      name: "toggle",
       description: "",
       type: "registry:ui",
       registryDependencies: [],
       files: [
   {
-    "path": "toggle-group/index.ts",
+    "path": "toggle/index.ts",
     "type": "registry:ui"
   },
   {
-    "path": "toggle-group/toggle-group.tsx",
+    "path": "toggle/toggle.constants.ts",
+    "type": "registry:ui"
+  },
+  {
+    "path": "toggle/toggle.tsx",
     "type": "registry:ui"
   }
 ],
-      component: React.lazy(() => import("@gentelduck/registry-ui-duckui/toggle-group")),
-      source: "/registry-ui-duckui/src/toggle-group",
+      component: React.lazy(() => import("@gentelduck/registry-ui-duckui/toggle")),
+      source: "/registry-ui-duckui/src/toggle",
       category: "",
       subcategory: "",
       chunks: [
@@ -750,133 +754,133 @@ export const Index: Record<string, any> = {
         
       ]
     },
-    "toggle-group-1": {
-      name: "toggle-group-1",
+    "toggle-1": {
+      name: "toggle-1",
       description: "",
       type: "registry:example",
-      registryDependencies: ["toggle-group"],
+      registryDependencies: ["toggle"],
       files: [
   {
-    "path": "toggle-group/toggle-group-1.tsx",
+    "path": "toggle/toggle-1.tsx",
     "type": "registry:example"
   }
 ],
-      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle-group/toggle-group-1")),
-      source: "/registry-examples-duckui/src/toggle-group",
+      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle/toggle-1")),
+      source: "/registry-examples-duckui/src/toggle",
       category: "",
       subcategory: "",
       chunks: [
         
       ]
     },
-    "toggle-group-2": {
-      name: "toggle-group-2",
+    "toggle-2": {
+      name: "toggle-2",
       description: "",
       type: "registry:example",
-      registryDependencies: ["toggle-group"],
+      registryDependencies: ["toggle"],
       files: [
   {
-    "path": "toggle-group/toggle-group-2.tsx",
+    "path": "toggle/toggle-2.tsx",
     "type": "registry:example"
   }
 ],
-      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle-group/toggle-group-2")),
-      source: "/registry-examples-duckui/src/toggle-group",
+      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle/toggle-2")),
+      source: "/registry-examples-duckui/src/toggle",
       category: "",
       subcategory: "",
       chunks: [
         
       ]
     },
-    "toggle-group-3": {
-      name: "toggle-group-3",
+    "toggle-3": {
+      name: "toggle-3",
       description: "",
       type: "registry:example",
-      registryDependencies: ["toggle-group"],
+      registryDependencies: ["toggle"],
       files: [
   {
-    "path": "toggle-group/toggle-group-3.tsx",
+    "path": "toggle/toggle-3.tsx",
     "type": "registry:example"
   }
 ],
-      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle-group/toggle-group-3")),
-      source: "/registry-examples-duckui/src/toggle-group",
+      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle/toggle-3")),
+      source: "/registry-examples-duckui/src/toggle",
       category: "",
       subcategory: "",
       chunks: [
         
       ]
     },
-    "toggle-group-4": {
-      name: "toggle-group-4",
+    "toggle-4": {
+      name: "toggle-4",
       description: "",
       type: "registry:example",
-      registryDependencies: ["toggle-group"],
+      registryDependencies: ["toggle"],
       files: [
   {
-    "path": "toggle-group/toggle-group-4.tsx",
+    "path": "toggle/toggle-4.tsx",
     "type": "registry:example"
   }
 ],
-      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle-group/toggle-group-4")),
-      source: "/registry-examples-duckui/src/toggle-group",
+      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle/toggle-4")),
+      source: "/registry-examples-duckui/src/toggle",
       category: "",
       subcategory: "",
       chunks: [
         
       ]
     },
-    "toggle-group-5": {
-      name: "toggle-group-5",
+    "toggle-5": {
+      name: "toggle-5",
       description: "",
       type: "registry:example",
-      registryDependencies: ["toggle-group"],
+      registryDependencies: ["toggle"],
       files: [
   {
-    "path": "toggle-group/toggle-group-5.tsx",
+    "path": "toggle/toggle-5.tsx",
     "type": "registry:example"
   }
 ],
-      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle-group/toggle-group-5")),
-      source: "/registry-examples-duckui/src/toggle-group",
+      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle/toggle-5")),
+      source: "/registry-examples-duckui/src/toggle",
       category: "",
       subcategory: "",
       chunks: [
         
       ]
     },
-    "toggle-group-6": {
-      name: "toggle-group-6",
+    "toggle-6": {
+      name: "toggle-6",
       description: "",
       type: "registry:example",
-      registryDependencies: ["toggle-group"],
+      registryDependencies: ["toggle"],
       files: [
   {
-    "path": "toggle-group/toggle-group-6.tsx",
+    "path": "toggle/toggle-6.tsx",
     "type": "registry:example"
   }
 ],
-      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle-group/toggle-group-6")),
-      source: "/registry-examples-duckui/src/toggle-group",
+      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle/toggle-6")),
+      source: "/registry-examples-duckui/src/toggle",
       category: "",
       subcategory: "",
       chunks: [
         
       ]
     },
-    "toggle-group-7": {
-      name: "toggle-group-7",
+    "toggle-7": {
+      name: "toggle-7",
       description: "",
       type: "registry:example",
-      registryDependencies: ["toggle-group"],
+      registryDependencies: ["toggle"],
       files: [
   {
-    "path": "toggle-group/toggle-group-7.tsx",
+    "path": "toggle/toggle-7.tsx",
     "type": "registry:example"
   }
 ],
-      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle-group/toggle-group-7")),
-      source: "/registry-examples-duckui/src/toggle-group",
+      component: React.lazy(() => import("@gentelduck/registry-examples-duckui/toggle/toggle-7")),
+      source: "/registry-examples-duckui/src/toggle",
       category: "",
       subcategory: "",
       chunks: [
