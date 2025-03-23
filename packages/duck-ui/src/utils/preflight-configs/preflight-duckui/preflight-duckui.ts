@@ -15,12 +15,13 @@ import {
   preflight_duckui_options_schema,
 } from './preflight-duckui.dto'
 import { init_duckui_config } from './preflight-duckui.libs'
+import { InitOptions } from '~/commands/init'
 
-export async function preflight_duckui(cwd: string, spinner: Ora) {
+export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
   try {
     spinner.text = `Checking for ${highlighter.info('duck-ui')} config...`
     const files = fg.sync(['duck-ui.config.json'], {
-      cwd,
+      cwd: _options.cwd,
       deep: 1,
       ignore: IGNORED_DIRECTORIES,
     })
@@ -48,35 +49,43 @@ export async function preflight_duckui(cwd: string, spinner: Ora) {
 
     const theme_css = await get_registry_base_color('zinc')
 
-    const exists = fs.existsSync(path.join(cwd, parse_config_options.css))
+    const exists = fs.existsSync(
+      path.join(_options.cwd, parse_config_options.css),
+    )
     if (exists) {
       const old_content = await fs.readFile(
-        path.join(cwd, parse_config_options.css),
+        path.join(_options.cwd, parse_config_options.css),
         'utf-8',
       )
       if (old_content.length > 20) {
-        spinner.stop()
-        const overwrite = await prompts({
-          type: 'confirm',
-          name: 'overwrite',
-          message: `The ${highlighter.info(
-            'duck-ui',
-          )} config already exists, do you want to overwrite it?`,
-        })
-        spinner.start()
+        let { overwrite }: prompts.Answers<'overwrite'> = { overwrite: true }
+        if (!_options.yes) {
+          spinner.stop()
+          overwrite = await prompts({
+            type: 'confirm',
+            name: 'overwrite',
+            message: `The ${highlighter.info(
+              'duck-ui',
+            )} config already exists, do you want to overwrite it?`,
+          })
+          spinner.start()
+        }
 
         if (overwrite) {
           fs.writeFileSync(
-            path.join(cwd, parse_config_options.css),
+            path.join(_options.cwd, parse_config_options.css),
             old_content + theme_css,
           )
         }
       }
     }
 
-    fs.writeFileSync(path.join(cwd, parse_config_options.css), theme_css)
+    fs.writeFileSync(
+      path.join(_options.cwd, parse_config_options.css),
+      theme_css,
+    )
 
-    await init_duckui_config(cwd, spinner, parse_config_options)
+    await init_duckui_config(_options.cwd, spinner, parse_config_options)
   } catch (error) {
     spinner.fail(
       `Failed to preflight required ${highlighter.error('duck-ui')} configs...\n ${highlighter.error(

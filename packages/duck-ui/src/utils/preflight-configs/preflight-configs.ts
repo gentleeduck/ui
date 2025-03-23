@@ -1,23 +1,19 @@
 import { Ora } from 'ora'
+import { InitOptions } from '~/commands/init'
 import { highlighter } from '../text-styling'
 import { preflight_duckui } from './preflight-duckui'
 import { preflight_tailwindcss } from './preflight-tailwindcss'
 import { preflight_typescript } from './preflight-typescript'
 
-export type PrefLightTypescriptOptions = {
-  cwd: string
-  spinner: Ora
-}
-
-export async function preflight_configs({
-  cwd,
-  spinner,
-}: PrefLightTypescriptOptions): Promise<void> {
+export async function preflight_configs(
+  _options: InitOptions,
+  spinner: Ora,
+): Promise<void> {
   try {
     spinner.text = `${highlighter.info('Preflighting required configs...')}`
-    await preflight_typescript(cwd, spinner)
-    await preflight_tailwindcss(cwd, spinner)
-    await preflight_duckui(cwd, spinner)
+    await preflight_typescript(_options, spinner)
+    await preflight_tailwindcss(_options, spinner)
+    await preflight_duckui(_options, spinner)
 
     spinner.text = `${highlighter.info('Configs preflighted...')}`
   } catch (error) {
