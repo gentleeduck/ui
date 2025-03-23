@@ -35,7 +35,7 @@ import { Ora } from 'ora'
 export async function registry_build_colors_index(
   colors_data: Record<string, any>,
   colors_target_path: string,
-  spinner: Ora
+  spinner: Ora,
 ): Promise<void> {
   try {
     if (!registry_colors || typeof registry_colors !== 'object') {
@@ -60,11 +60,11 @@ export async function registry_build_colors_index(
               ...item,
               rgbChannel: item.rgb.replace(
                 /^rgb\((\d+),(\d+),(\d+)\)$/,
-                '$1 $2 $3'
+                '$1 $2 $3',
               ),
               hslChannel: item.hsl.replace(
                 /^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/,
-                '$1 $2 $3'
+                '$1 $2 $3',
               ),
             }
           })
@@ -80,11 +80,11 @@ export async function registry_build_colors_index(
             ...value,
             rgbChannel: value.rgb.replace(
               /^rgb\((\d+),(\d+),(\d+)\)$/,
-              '$1 $2 $3'
+              '$1 $2 $3',
             ),
             hslChannel: value.hsl.replace(
               /^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/,
-              '$1 $2 $3'
+              '$1 $2 $3',
             ),
           }
           continue
@@ -96,7 +96,7 @@ export async function registry_build_colors_index(
         spinner.fail(
           `🧭 Error processing color "${color}": ${
             error instanceof Error ? error.message : String(error)
-          }`
+          }`,
         )
         process.exit(0)
       }
@@ -110,7 +110,7 @@ export async function registry_build_colors_index(
     spinner.fail(
       `Failed to build registry colors index: ${
         error instanceof Error ? error.message : String(error)
-      }`
+      }`,
     )
     process.exit(0)
   }
@@ -129,7 +129,7 @@ export async function registry_build_colors_index(
  */
 export async function build_registry_colors_base(
   colors_data: Record<string, any>,
-  spinner: Ora
+  spinner: Ora,
 ): Promise<void> {
   try {
     spinner.text = '🧭 Creating registry base colors'
@@ -156,14 +156,14 @@ export async function build_registry_colors_base(
             const [resolved_base, scale] = resolved_color.split('-')
             if (!resolved_base) {
               spinner.fail(
-                'Failed to build registry base colors: resolved_base not found'
+                'Failed to build registry base colors: resolved_base not found',
               )
               process.exit(0)
             }
 
             const color = scale
               ? colors_data[resolved_base]?.find(
-                  (item: any) => item.scale === Number.parseInt(scale)
+                  (item: any) => item.scale === Number.parseInt(scale),
                 )
               : colors_data[resolved_base]
 
@@ -174,16 +174,21 @@ export async function build_registry_colors_base(
         }
       }
 
-      base.inlineColorsTemplate = template(BASE_STYLES)({})
-      base.cssVarsTemplate = template(BASE_STYLES_WITH_VARIABLES)({
-        colors: base.cssVars,
-      })
+      console.log(
+        template(BASE_STYLES_WITH_VARIABLES)({
+          colors: base.cssVars,
+        }),
+      )
+      // base.inlineColorsTemplate = template(BASE_STYLES)({})
+      // base.cssVarsTemplate = template(BASE_STYLES_WITH_VARIABLES)({
+      //   colors: base.cssVars,
+      // })
     }
   } catch (error) {
     spinner.fail(
       `Failed to build registry base colors: ${
         error instanceof Error ? error.message : String(error)
-      }`
+      }`,
     )
     process.exit(0)
   }
@@ -200,14 +205,14 @@ export async function build_registry_colors_base(
  * @throws {Error} If writing the file fails.
  */
 export async function build_registry_colors_themes(
-  spinner: Ora
+  spinner: Ora,
 ): Promise<void> {
   try {
     const theme_css: string[] = registry_base_colors.map((theme) =>
       template(THEME_STYLES_WITH_VARIABLES)({
         colors: theme.cssVars,
         theme: theme.name,
-      })
+      }),
     )
 
     const filePath = path.join(REGISTRY_PATH, 'themes.css')
@@ -219,7 +224,7 @@ export async function build_registry_colors_themes(
     spinner.fail(
       `Failed to build registry color themes: ${
         error instanceof Error ? error.message : String(error)
-      }`
+      }`,
     )
     process.exit(0)
   }
@@ -238,7 +243,7 @@ export async function build_registry_colors_themes(
  */
 export async function build_registry_themes_item(
   colors_data: Record<string, any>,
-  spinner: Ora
+  spinner: Ora,
 ): Promise<void> {
   try {
     const themes_target_path = path.join(REGISTRY_PATH, 'themes')
@@ -265,14 +270,14 @@ export async function build_registry_themes_item(
             const [resolved_base, scale] = resolved_color.split('-')
             if (!resolved_base) {
               spinner.fail(
-                'Failed to build registry base colors: resolved_base not found'
+                'Failed to build registry base colors: resolved_base not found',
               )
               process.exit(0)
             }
 
             const color = scale
               ? colors_data[resolved_base]?.find(
-                  (item: any) => item.scale === Number.parseInt(scale)
+                  (item: any) => item.scale === Number.parseInt(scale),
                 )
               : colors_data[resolved_base]
 
@@ -296,7 +301,7 @@ export async function build_registry_themes_item(
     spinner.fail(
       `Failed to build registry themes: ${
         error instanceof Error ? error.message : String(error)
-      }`
+      }`,
     )
     process.exit(0)
   }
