@@ -15,14 +15,16 @@ import { lazy } from 'react'
 // const ShadcnTextarea = lazy(() => import('./textarea/shadcn'))
 // const DuckTabs = lazy(() => import('./tabs/duck'))
 // const ShadcnTabs = lazy(() => import('./tabs/shadcn'))
-const DuckToggleGroup = lazy(() => import('./toggle-group/duck'))
-const ShadcnToggleGroup = lazy(() => import('./toggle-group/toggle-group'))
+// const DuckToggleGroup = lazy(() => import('./toggle-group/duck'))
+// const ShadcnToggleGroup = lazy(() => import('./toggle-group/toggle-group'))
+const DuckToggle = lazy(() => import('./toggle/duck'))
+const ShadcnToggle = lazy(() => import('./toggle/toggle'))
 
 function App() {
   return (
-    <div className="flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4">
-      <ShadcnToggleGroup /> 
-      <DuckToggleGroup />
+    <div className='flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4'>
+      <ShadcnToggle />
+      <DuckToggle />
     </div>
   )
 }
