@@ -583,6 +583,21 @@
     "source": "/registry-examples-duckui/src/tooltip"
   },
   {
+    "name": "tabs-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "tabs"
+    ],
+    "root_folder": "tabs",
+    "files": [
+      {
+        "path": "tabs/tabs-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/tabs"
+  },
+  {
     "name": "textarea-1",
     "type": "registry:example",
     "registryDependencies": [
