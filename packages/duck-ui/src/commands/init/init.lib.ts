@@ -44,8 +44,5 @@ export async function init_command_action(opt: InitOptions) {
 
   // console.dir(components, { depth: null })
 
-  const registrydf = await get_registry_base_color('zinc')
-  console.log(registrydf)
-
   spinner.succeed('🧑 Done.!, enjoy mr duck!🦆')
 }
