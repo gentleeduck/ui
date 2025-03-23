@@ -57,6 +57,20 @@ export const registry_examples: Registry = [
   //   root_folder: 'sonner',
   //   files: [],
   // },
+  // {
+  //   name: 'textarea-examples',
+  //   type: 'registry:example',
+  //   registryDependencies: ['textarea'],
+  //   root_folder: 'textarea',
+  //   files: [],
+  // },
+  {
+    name: 'tabs-examples',
+    type: 'registry:example',
+    registryDependencies: ['tabs'],
+    root_folder: 'tabs',
+    files: [],
+  },
   {
     name: 'textarea-examples',
     type: 'registry:example',

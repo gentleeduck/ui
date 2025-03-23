@@ -3,14 +3,22 @@ import fs from 'fs-extra'
 import { loadConfig } from 'tsconfig-paths'
 import { default_js_config, explorer } from './get-project-config.constants'
 import { resolve_import } from '../resolve-import'
-import { config_cchema, raw_config_schema, RawConfigType } from './get-project-config.dto'
-import path from 'path'
-import { get_tailwindcss_file, get_ts_config_alias_prefix } from '../get-project-info'
+import {
+  config_cchema,
+  raw_config_schema,
+  RawConfigType,
+} from './get-project-config.dto'
+import path from 'node:path'
+import {
+  get_tailwindcss_file,
+  get_ts_config_alias_prefix,
+} from '../get-project-info'
 import { highlighter, logger } from '../text-styling'
-import { get_project_type } from '../get-project-type'
-import { checkTypeScriptInstalled } from '../pref-light-typescript'
+// import { checkTypeScriptInstalled } from '../pref-light-typescript'
 
-export async function get_raw_config(cwd: string): Promise<RawConfigType | null> {
+export async function get_raw_config(
+  cwd: string,
+): Promise<RawConfigType | null> {
   try {
     const rawConfig = await explorer.search(cwd)
     if (!rawConfig) {
@@ -37,12 +45,17 @@ export async function get_config(cwd: string) {
 }
 
 // Resolve Config Paths
-export async function resolve_config_paths(cwd: string, config: RawConfigType): Promise<RawConfigType> {
+export async function resolve_config_paths(
+  cwd: string,
+  config: RawConfigType,
+): Promise<RawConfigType> {
   const ts_config = loadConfig(cwd)
 
   if (ts_config.resultType === 'failed') {
     return logger.error({
-      args: [`Failed to leaod ${config.tsx ? 'tsconfig' : 'jsconfig'}.json. ${ts_config.message ?? ''}`.trim()],
+      args: [
+        `Failed to leaod ${config.tsx ? 'tsconfig' : 'jsconfig'}.json. ${ts_config.message ?? ''}`.trim(),
+      ],
     })
   }
 
@@ -67,18 +80,20 @@ export async function get_project_config(cwd: string) {
     return project_config
   }
 
-  const project_type = await get_project_type(cwd)
+  const project_type = '' //await get_project_type(cwd)
   const tailwindcss_file = await get_tailwindcss_file(cwd)
   const ts_config_alias_prefix = await get_ts_config_alias_prefix(cwd)
 
   if (!project_type || !tailwindcss_file || !ts_config_alias_prefix) {
     logger.error({
-      args: [`Failed to get project config!, ${chalk.bgRed.white('TailwindCss')} is required`],
+      args: [
+        `Failed to get project config!, ${chalk.bgRed.white('TailwindCss')} is required`,
+      ],
     })
     return null
   }
 
-  const is_tsx = await checkTypeScriptInstalled(cwd)
+  const is_tsx = false // await checkTypeScriptInstalled(cwd)
 
   const config: RawConfigType = {
     $schema: 'https://duckui.vercel.app/schema.json',
@@ -104,7 +119,11 @@ export async function get_project_config(cwd: string) {
     : default_js_config(config)
 
   try {
-    await fs.writeFile(path.join(cwd, `duck-ui.config.${is_tsx ? 'ts' : 'js'}`), configString, 'utf8')
+    await fs.writeFile(
+      path.join(cwd, `duck-ui.config.${is_tsx ? 'ts' : 'js'}`),
+      configString,
+      'utf8',
+    )
   } catch (error) {
     console.log(error)
     logger.error({

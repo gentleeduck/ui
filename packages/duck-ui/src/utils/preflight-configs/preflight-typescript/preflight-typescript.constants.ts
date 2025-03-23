@@ -14,45 +14,62 @@ export const typescript_prompts: PromptObject<'typescript'>[] = [
 
 export const typescript_dependencies = ['typescript']
 
-export const js_config = `{
-  "compilerOptions": {
-    "target": "es6",                   // Target ECMAScript version
-    "module": "commonjs",               // Specify module code generation
-    "baseUrl": ".",                     // Base directory for non-relative module names
-    "paths": {
-      "~/*": ["./src/*"]  // Define path aliases
-    }
-    "jsx": "react-jsx",                 // Set JSX handling for React projects
-    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
-    "esModuleInterop": true,            // Import compatibility for CommonJS and ES modules
-    "strict": true                      // Enable all strict type-checking options
-  },
-  "include": ["src"],                   // Include files in the src folder
-  "exclude": ["node_modules", "dist"]   // Exclude folders from the config
-}
-`
-
 export const ts_config = `{
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "es6", // Target ECMAScript version
-    "module": "commonjs", // Module system used in Node.js
-    "lib": ["dom", "es6", "dom.iterable", "scripthost"], // Standard library
-    "jsx": "react-jsx", // JSX support for React
-    "outDir": "./dist", // Output directory for compiled files
-    "rootDir": "./src", // Root directory of source files
-    "strict": true, // Enable strict type checking
-    "moduleResolution": "node", // Module resolution strategy
-    "esModuleInterop": true, // Allow default imports from CommonJS
-    "skipLibCheck": true, // Skip type checking of declaration files
-    "forceConsistentCasingInFileNames": true, // Enforce consistent file naming
-    "resolveJsonModule": true, // Support importing JSON files
-    "allowSyntheticDefaultImports": true, // Synthetic default imports for compatibility
-    "baseUrl": ".", // Base directory for module resolution
+    "lib": [
+      "ES2022",
+      "dom",
+      "dom.iterable"
+    ],
+    "baseUrl": ".",
+    "incremental": false,
+    "rootDir": "./",
+    "outDir": "./dist",
+    "module": "Preserve",
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "disableSourceOfProjectReferenceRedirect": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "checkJs": true,
+    "noEmit": true,
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
     "paths": {
-      "~/*": ["./src/*"] // Define path aliases
-    }
+      "~/*": [
+        "./*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src"], // Include all source files in the src directory
-  "exclude": ["node_modules", "dist", "tests"] // Exclude directories from compilation
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "node_modules",
+    "build",
+    "dist"
+  ]
 }
 `

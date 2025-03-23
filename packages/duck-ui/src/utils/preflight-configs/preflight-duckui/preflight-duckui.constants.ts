@@ -1,5 +1,13 @@
 import { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
+import { DuckuiPrompts } from './preflight-duckui.dto'
+
+export const PROJECT_TYPE = [
+  'NEXT_JS',
+  'TANSTACK_START',
+  'VITE',
+  'UNKNOWN',
+] as const
 
 export const duckui_prompts: PromptObject<'duckui'>[] = [
   {
@@ -15,8 +23,19 @@ export const duckui_prompts: PromptObject<'duckui'>[] = [
 export const duckui_config_prompts: PromptObject[] = [
   {
     type: 'select',
-    name: 'baseColor',
-    message: `${highlighter.info('Select a base color for your project')}`,
+    name: 'project_type',
+    message: `Select your ${highlighter.info('project type')}`,
+    choices: PROJECT_TYPE.map((project) => ({
+      title: project,
+      value: project,
+    })),
+
+    initial: 0,
+  },
+  {
+    type: 'select',
+    name: 'base_color',
+    message: `Select a ${highlighter.info('base color')} for your project`,
     choices: [
       { title: 'Zinc', value: 'zinc' },
       { title: 'Slate', value: 'slate' },
@@ -28,32 +47,69 @@ export const duckui_config_prompts: PromptObject[] = [
       { title: 'Green', value: 'green' },
       { title: 'Blue', value: 'blue' },
     ],
-    initial: 1,
+    initial: 0,
+  },
+  {
+    type: 'text',
+    name: 'alias',
+    message: `Type your import ${highlighter.info('alias')}`,
+    initial: '~',
+  },
+  {
+    type: 'confirm',
+    name: 'monorepo',
+    message: `Do you have a ${highlighter.info('monorepo?')}`,
+    initial: false,
+    active: 'yes',
+    inactive: 'no',
+  },
+  {
+    type: 'text',
+    name: 'css',
+    message: `Type where's your ${highlighter.info('CSS')} file?`,
+    initial: './src/styles.css',
+  },
+  {
+    type: 'confirm',
+    name: 'css_variables',
+    message: `You want to se ${highlighter.info('CSS')} variables?`,
+    initial: false,
+    active: 'yes',
+    inactive: 'no',
+  },
+  {
+    type: 'text',
+    name: 'prefix',
+    message: `Type your Tailwind ${highlighter.info('prefix?')} (Enter for none)`,
+    initial: '',
   },
 ]
 
-export const default_duckui_config = (
-  project_type: string,
-  ts_config_alias_prefix: string,
-  monorepo: boolean,
-  baseColor: string,
-  prefix: string,
-  css: string,
-  cssVariables: boolean,
-) => ({
-  rsc: ['NEXT_JS'].includes(project_type),
+export const default_duckui_config = ({
+  project_type,
   monorepo,
-  tailwind: {
-    baseColor,
-    css,
-    cssVariables,
-    prefix,
+  css,
+  prefix,
+  alias,
+  base_color,
+  css_variables,
+}: DuckuiPrompts) => {
+  return `{
+  "schema": "https://duckui.vercel.app/schema.json",
+  "rsc": "${['NEXT_JS'].includes(project_type)}",
+  "monorepo": ${monorepo},
+  "tailwind": {
+    "baseColor": "${base_color}",
+    "css": "${css}",
+    "cssVariables": ${css_variables},
+    "prefix": "${prefix}"
   },
-  aliases: {
-    ui: `${ts_config_alias_prefix}/ui`,
-    libs: `${ts_config_alias_prefix}/libs`,
-    hooks: `${ts_config_alias_prefix}/hooks`,
-    pages: `${ts_config_alias_prefix}/pages`,
-    layouts: `${ts_config_alias_prefix}/layouts`,
-  },
-})
+  "aliases": {
+    "ui": "${alias}/ui",
+    "libs": "${alias}/libs",
+    "hooks": "${alias}/hooks",
+    "pages": "${alias}/pages",
+    "layouts": "${alias}/layouts"
+  }
+}`
+}
