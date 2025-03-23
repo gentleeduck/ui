@@ -1,36 +1,27 @@
-import { highlighter } from '../text-styling'
 import { Ora } from 'ora'
-import { get_project_type } from '../get-project-type'
-import { preflight_typescript } from './preflight-typescript'
+import { InitOptions } from '~/commands/init'
+import { highlighter } from '../text-styling'
 import { preflight_duckui } from './preflight-duckui'
 import { preflight_tailwindcss } from './preflight-tailwindcss'
+import { preflight_typescript } from './preflight-typescript'
 
-export type PrefLightTypescriptOptions = {
-  cwd: string
-  spinner: Ora
-}
+export async function preflight_configs(
+  _options: InitOptions,
+  spinner: Ora,
+): Promise<void> {
+  try {
+    spinner.text = `${highlighter.info('Preflighting required configs...')}`
+    await preflight_typescript(_options, spinner)
+    await preflight_tailwindcss(_options, spinner)
+    await preflight_duckui(_options, spinner)
 
-export async function preflight_configs({
-  cwd,
-  spinner,
-}: PrefLightTypescriptOptions): Promise<void> {
-  spinner.text = `${highlighter.info('Preflighting required configs...')}`
-  await preflight_typescript(cwd, spinner)
-  await preflight_tailwindcss(cwd, spinner)
-  await preflight_duckui(cwd, spinner)
-
-  //
-  // console.log(is_configured, is_ts_installed)
-  // if (is_ts_installed || is_configured) return
-  //
-  // logger.warn({
-  //   args: [
-  //     `${highlighter.info('TypeScript')} is not installed. You need to install ${highlighter.info('TypeScript')}...`,
-  //   ],
-  // })
-  //
-  // const { typescript } = pref_light_typescript_options_schema.parse(options)
-  // if (!typescript) return
-  //
-  // await install_typescript(cwd, typescript)
+    spinner.text = `${highlighter.info('Configs preflighted...')}`
+  } catch (error) {
+    spinner.fail(
+      `Failed to preflight required configs...\n ${highlighter.error(
+        error as string,
+      )}`,
+    )
+    process.exit(0)
+  }
 }
