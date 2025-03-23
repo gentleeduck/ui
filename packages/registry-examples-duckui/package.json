@@ -11,18 +11,20 @@
   },
   "devDependencies": {
     "@gentelduck/registry-ui": "workspace:*",
-    "@gentelduck/typescript-config": "workspace:*",
     "@gentelduck/registry-ui-duckui": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
     "tsup": "^8.2.4",
-    "tsx": "^4.17.0",
-    "zod": "catalog:"
+    "tsx": "^4.17.0"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.10.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "lucide-react": "0.359.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "sonner": "^2.0.1"
+    "react-hook-form": "^7.54.2",
+    "sonner": "^2.0.1",
+    "zod": "catalog:"
   }
 }

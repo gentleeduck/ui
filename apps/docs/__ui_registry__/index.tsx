@@ -35,25 +35,48 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  'toggle-group': {
-    name: 'toggle-group',
+  tooltip: {
+    name: 'tooltip',
     description: '',
     type: 'registry:ui',
     registryDependencies: [],
     files: [
       {
-        path: 'toggle-group/index.ts',
+        path: 'tooltip/index.ts',
         type: 'registry:ui',
       },
       {
-        path: 'toggle-group/toggle-group.tsx',
+        path: 'tooltip/tooltiop.tsx',
         type: 'registry:ui',
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/toggle-group'),
+      () => import('@gentelduck/registry-ui-duckui/tooltip'),
     ),
-    source: '/registry-ui-duckui/src/toggle-group',
+    source: '/registry-ui-duckui/src/tooltip',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  textarea: {
+    name: 'textarea',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'textarea/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'textarea/textarea.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-ui-duckui/textarea'),
+    ),
+    source: '/registry-ui-duckui/src/textarea',
     category: '',
     subcategory: '',
     chunks: [],
@@ -666,156 +689,192 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  'toggle-group-1': {
-    name: 'toggle-group-1',
+  'tooltip-1': {
+    name: 'tooltip-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['toggle-group'],
+    registryDependencies: ['tooltip', 'button'],
     files: [
       {
-        path: 'toggle-group/toggle-group-1.tsx',
+        path: 'tooltip/tooltip-1.tsx',
         type: 'registry:example',
       },
     ],
     component: React.lazy(
-      () =>
-        import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-1'
-        ),
+      () => import('@gentelduck/registry-examples-duckui/tooltip/tooltip-1'),
     ),
-    source: '/registry-examples-duckui/src/toggle-group',
+    source: '/registry-examples-duckui/src/tooltip',
     category: '',
     subcategory: '',
     chunks: [],
   },
-  'toggle-group-2': {
-    name: 'toggle-group-2',
+  'tooltip-2': {
+    name: 'tooltip-2',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['toggle-group'],
+    registryDependencies: ['tooltip', 'button'],
     files: [
       {
-        path: 'toggle-group/toggle-group-2.tsx',
+        path: 'tooltip/tooltip-2.tsx',
         type: 'registry:example',
       },
     ],
     component: React.lazy(
-      () =>
-        import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-2'
-        ),
+      () => import('@gentelduck/registry-examples-duckui/tooltip/tooltip-2'),
     ),
-    source: '/registry-examples-duckui/src/toggle-group',
+    source: '/registry-examples-duckui/src/tooltip',
     category: '',
     subcategory: '',
     chunks: [],
   },
-  'toggle-group-3': {
-    name: 'toggle-group-3',
+  'tabs-1': {
+    name: 'tabs-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['toggle-group'],
+    registryDependencies: ['tabs'],
     files: [
       {
-        path: 'toggle-group/toggle-group-3.tsx',
+        path: 'tabs/tabs-1.tsx',
         type: 'registry:example',
       },
     ],
     component: React.lazy(
-      () =>
-        import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-3'
-        ),
+      () => import('@gentelduck/registry-examples-duckui/tabs/tabs-1'),
     ),
-    source: '/registry-examples-duckui/src/toggle-group',
+    source: '/registry-examples-duckui/src/tabs',
     category: '',
     subcategory: '',
     chunks: [],
   },
-  'toggle-group-4': {
-    name: 'toggle-group-4',
+  'textarea-1': {
+    name: 'textarea-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['toggle-group'],
+    registryDependencies: ['textarea'],
     files: [
       {
-        path: 'toggle-group/toggle-group-4.tsx',
+        path: 'textarea/textarea-1.tsx',
         type: 'registry:example',
       },
     ],
     component: React.lazy(
-      () =>
-        import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-4'
-        ),
+      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-1'),
     ),
-    source: '/registry-examples-duckui/src/toggle-group',
+    source: '/registry-examples-duckui/src/textarea',
     category: '',
     subcategory: '',
     chunks: [],
   },
-  'toggle-group-5': {
-    name: 'toggle-group-5',
+  'textarea-2': {
+    name: 'textarea-2',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['toggle-group'],
+    registryDependencies: ['textarea'],
     files: [
       {
-        path: 'toggle-group/toggle-group-5.tsx',
+        path: 'textarea/textarea-2.tsx',
         type: 'registry:example',
       },
     ],
     component: React.lazy(
-      () =>
-        import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-5'
-        ),
+      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-2'),
     ),
-    source: '/registry-examples-duckui/src/toggle-group',
+    source: '/registry-examples-duckui/src/textarea',
     category: '',
     subcategory: '',
     chunks: [],
   },
-  'toggle-group-6': {
-    name: 'toggle-group-6',
+  'textarea-3': {
+    name: 'textarea-3',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['toggle-group'],
+    registryDependencies: ['textarea'],
     files: [
       {
-        path: 'toggle-group/toggle-group-6.tsx',
+        path: 'textarea/textarea-3.tsx',
         type: 'registry:example',
       },
     ],
     component: React.lazy(
-      () =>
-        import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-6'
-        ),
+      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-3'),
     ),
-    source: '/registry-examples-duckui/src/toggle-group',
+    source: '/registry-examples-duckui/src/textarea',
     category: '',
     subcategory: '',
     chunks: [],
   },
-  'toggle-group-7': {
-    name: 'toggle-group-7',
+  'textarea-4': {
+    name: 'textarea-4',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['toggle-group'],
+    registryDependencies: ['textarea'],
     files: [
       {
-        path: 'toggle-group/toggle-group-7.tsx',
+        path: 'textarea/textarea-4.tsx',
         type: 'registry:example',
       },
     ],
     component: React.lazy(
-      () =>
-        import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-7'
-        ),
+      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-4'),
     ),
-    source: '/registry-examples-duckui/src/toggle-group',
+    source: '/registry-examples-duckui/src/textarea',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'textarea-5': {
+    name: 'textarea-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['textarea'],
+    files: [
+      {
+        path: 'textarea/textarea-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-5'),
+    ),
+    source: '/registry-examples-duckui/src/textarea',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'textarea-6': {
+    name: 'textarea-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['textarea'],
+    files: [
+      {
+        path: 'textarea/textarea-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-6'),
+    ),
+    source: '/registry-examples-duckui/src/textarea',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'textarea-7': {
+    name: 'textarea-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['textarea'],
+    files: [
+      {
+        path: 'textarea/textarea-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-7'),
+    ),
+    source: '/registry-examples-duckui/src/textarea',
     category: '',
     subcategory: '',
     chunks: [],

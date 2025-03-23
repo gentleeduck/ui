@@ -1,4 +1,4 @@
-import { Button } from '@/registry/registry-ui-components/button'
+import { Button } from '@gentelduck/registry-ui-duckui/button'
 import {
   Card,
   CardContent,
@@ -6,10 +6,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  Input,
-  Label,
-} from '@/registry/default/ui'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/registry/registry-ui-components/tabs'
+} from '@gentelduck/registry-ui-duckui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentelduck/registry-ui-duckui/tabs'
+import { Input } from '@gentelduck/registry-ui-duckui/input'
+import { Label } from '@gentelduck/registry-ui-duckui/label'
 
 export default function Tabs1Demo() {
   return (
