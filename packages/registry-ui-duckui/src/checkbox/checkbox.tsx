@@ -1,12 +1,10 @@
-import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import * as LabelPrimitive from '@radix-ui/react-label'
+import * as React from 'react'
 
 import { Check } from 'lucide-react'
-import { Label, labelVariants } from '../label'
+import { Label } from '../label'
 
 import { cn } from '@gentelduck/libs/cn'
-import { VariantProps } from 'class-variance-authority'
 
 // Checkbox
 const Checkbox = React.forwardRef<
@@ -16,8 +14,8 @@ const Checkbox = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      'peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground border-solid',
-      className
+      'peer h-4 w-4 shrink-0 rounded-xs border border-primary ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground border-solid',
+      className,
     )}
     {...props}
   >
@@ -33,26 +31,22 @@ Checkbox.displayName = CheckboxPrimitive.Root.displayName
 // CheckboxWithLabel
 export interface CheckboxWithLabelProps
   extends React.HTMLProps<HTMLDivElement> {
-  checkbox: React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
-  checkbox_label: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
-    VariantProps<typeof labelVariants>
+  _checkbox: React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
+  _label: React.ComponentPropsWithoutRef<typeof Label>
 }
 
 const CheckboxWithLabel = React.forwardRef<
   React.ElementRef<'div'>,
   CheckboxWithLabelProps
->(({ id, checkbox, checkbox_label, className, ...props }, ref) => {
-  const { className: labelClassName, ...labelProps } = checkbox_label
+>(({ id, _checkbox, _label, className, ...props }, ref) => {
+  const { className: labelClassName, ...labelProps } = _label
   return (
     <div
       ref={ref}
       className={cn('flex items-center justify-start gap-2', className)}
       {...props}
     >
-      <Checkbox
-        id={id}
-        {...checkbox}
-      />
+      <Checkbox id={id} {..._checkbox} />
       <Label
         htmlFor={id}
         className={cn('curosor-pointer', labelClassName)}
@@ -78,7 +72,7 @@ const CheckboxGroup = React.forwardRef<
   React.ElementRef<'div'>,
   CheckboxGroupProps
 >(({ subtasks, subtasks_default_values, ...props }, ref) => {
-  const { checkbox, checkbox_label } = subtasks_default_values || {}
+  const { _checkbox, _label } = subtasks_default_values || {}
   return (
     <>
       <div
@@ -95,11 +89,11 @@ const CheckboxGroup = React.forwardRef<
             >
               <CheckboxWithLabel
                 id={id}
-                checkbox={{
-                  ...checkbox,
+                _checkbox={{
+                  ..._checkbox,
                   className: 'w-4 h-4 rounded-full border-muted-foreground/80',
                 }}
-                checkbox_label={{ ...checkbox_label, children: title }}
+                _label={{ ..._label, children: title }}
               />
             </div>
           )

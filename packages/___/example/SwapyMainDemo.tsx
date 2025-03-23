@@ -3,12 +3,22 @@ import { cn } from '@/lib'
 
 import { Button } from '@/registry/registry-ui-components'
 import {
-  DialogCustom,
+  EllipsisVertical,
+  MessageSquare,
+  Paperclip,
+  Plus,
+  Reply,
+  X,
+} from 'lucide-react'
+import React from 'react'
+import {
   AvatarGroup,
   Badge,
-  type CommentType,
   CheckboxGroup,
+  type CommentType,
+  DialogCustom,
   ImageGroup,
+  ImageProps,
   InitDataType,
   Kanban,
   KanbanColumnAddRowBodyArgs,
@@ -17,10 +27,7 @@ import {
   PopoverWrapper,
   Separator,
   TaggedUserType,
-  ImageProps,
 } from '../ui'
-import { EllipsisVertical, MessageSquare, Paperclip, Plus, Reply, X } from 'lucide-react'
-import React from 'react'
 import { MDXProvider } from './mdx-context-provider'
 
 export const users: TaggedUserType[] = [
@@ -38,7 +45,8 @@ export const users: TaggedUserType[] = [
       {
         id: 'badge-1',
         title: 'duckui',
-        imgUrl: 'https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/duckui%20(1).png',
+        imgUrl:
+          'https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/duckui%20(1).png',
       },
     ],
     avatarUrl:
@@ -127,7 +135,8 @@ export const initData: InitDataType = {
     'task-1': {
       id: 'task-1',
       title: 'Page "About" and "Contact" components',
-      description: "Page 'About' and 'Contact' components are not rendered because it is not the main page",
+      description:
+        "Page 'About' and 'Contact' components are not rendered because it is not the main page",
       subtasks: [
         {
           id: 'subtask-1',
@@ -264,10 +273,13 @@ export const initData: InitDataType = {
 
 export default function SwapyMainDemo() {
   return (
-    <div className="flex items-start gap-4 p-4  select-none">
+    <div className='flex items-start gap-4 p-4  select-none'>
       <Kanban
         initData={initData}
-        kanbanColumnHeader={{ children: KanbanColumnHeaderTemplate, className: 'bg-red-500' }}
+        kanbanColumnHeader={{
+          children: KanbanColumnHeaderTemplate,
+          className: 'bg-red-500',
+        }}
         kanbanColumnAddRow={{ children: KanbanColumnAddRowTemplate }}
         kanbanColumnRow={{
           children: KanbanColumnRowTemplate,
@@ -281,7 +293,9 @@ export default function SwapyMainDemo() {
   )
 }
 
-export const KanbanColumnAddRowTemplate: React.FC<KanbanColumnAddRowBodyArgs> = () => {
+export const KanbanColumnAddRowTemplate: React.FC<
+  KanbanColumnAddRowBodyArgs
+> = () => {
   const [goal, setGoal] = React.useState(350)
 
   function onClick(adjustment: number) {
@@ -290,7 +304,7 @@ export const KanbanColumnAddRowTemplate: React.FC<KanbanColumnAddRowBodyArgs> = 
 
   return (
     <DialogCustom
-      type="sheet"
+      type='sheet'
       // drawerData={data.length > 0}
       header={{
         head: 'Add Task',
@@ -298,13 +312,13 @@ export const KanbanColumnAddRowTemplate: React.FC<KanbanColumnAddRowBodyArgs> = 
       }}
       footer={{
         className: 'flex w-full justify-between items-end',
-        submit: <Button variant="default">Submit</Button>,
-        cancel: <Button variant="outline">Cancel</Button>,
+        submit: <Button variant='default'>Submit</Button>,
+        cancel: <Button variant='outline'>Cancel</Button>,
       }}
       state={goal}
       trigger={{
         children: (
-          <div className="flex items-center gap-2 mb-1rem mx-2 border-1 border-transparent">
+          <div className='flex items-center gap-2 mb-1rem mx-2 border-1 border-transparent'>
             <Button
               // variant={'secondary'}
               className={cn('w-full')}
@@ -317,53 +331,51 @@ export const KanbanColumnAddRowTemplate: React.FC<KanbanColumnAddRowBodyArgs> = 
       content={{
         className:
           '[&>div]:flex [&>div]:flex-col [&>div]:place-content-center [&>div]:w-full [&>div]:place-self-center sm:max-w-[450px]',
-        children: (
-          <ContentComponent
-            goal={goal}
-            onClick={onClick}
-          />
-        ),
+        children: <ContentComponent goal={goal} onClick={onClick} />,
       }}
     />
   )
 }
-export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (adjustment: number) => void }) => {
+export const ContentComponent = ({
+  goal,
+  onClick,
+}: { goal: number; onClick: (adjustment: number) => void }) => {
   const [title, setTitle] = React.useState<string>('')
   return (
-    <div className="w-full h-[84vh] flex items-start justify-center pt-4 pb-2">
-      <div className="p-4 pb-0">
-        <form className="w-full">
+    <div className='w-full h-[84vh] flex items-start justify-center pt-4 pb-2'>
+      <div className='p-4 pb-0'>
+        <form className='w-full'>
           <div>
-            <div className="mb-4">
+            <div className='mb-4'>
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="goal"
+                className='block text-gray-700 text-sm font-bold mb-2'
+                htmlFor='goal'
               >
                 title
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="goal"
-                type="number"
-                placeholder="Goal"
+                className='shadow appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline'
+                id='goal'
+                type='number'
+                placeholder='Goal'
                 value={title}
-                onChange={e => setTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
-            <div className="mb-4">
+            <div className='mb-4'>
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="goal"
+                className='block text-gray-700 text-sm font-bold mb-2'
+                htmlFor='goal'
               >
                 title
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="goal"
-                type="number"
-                placeholder="Goal"
+                className='shadow appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline'
+                id='goal'
+                type='number'
+                placeholder='Goal'
                 value={title}
-                onChange={e => setTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
           </div>
@@ -373,14 +385,13 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
   )
 }
 
-export const KanbanColumnHeaderTemplate: React.FC<KanbanColumnRowBodyContentArgs> = ({ column }) => {
+export const KanbanColumnHeaderTemplate: React.FC<
+  KanbanColumnRowBodyContentArgs
+> = ({ column }) => {
   return (
     <>
       <div className={cn('flex items-center gap-2')}>
-        <Badge
-          size={'icon'}
-          className={cn('size-[9px] bg-red-500')}
-        />
+        <Badge size={'icon'} className={cn('size-[9px] bg-red-500')} />
         <h3>{column.title}</h3>
         <span>{column.taskIds.length}</span>
       </div>
@@ -390,33 +401,51 @@ export const KanbanColumnHeaderTemplate: React.FC<KanbanColumnRowBodyContentArgs
     </>
   )
 }
-export const KanbanColumnRowTemplate: React.FC<KanbanColumnRowComponentArgs> = ({ task }) => {
-  const { id, links, title, labels, options, comments, subtasks, attachments, description, taggedUsers } = task ?? {}
+export const KanbanColumnRowTemplate: React.FC<
+  KanbanColumnRowComponentArgs
+> = ({ task }) => {
+  const {
+    id,
+    links,
+    title,
+    labels,
+    options,
+    comments,
+    subtasks,
+    attachments,
+    description,
+    taggedUsers,
+  } = task ?? {}
   return (
-    <div className="w-full">
+    <div className='w-full'>
       <div className={cn('flex items-center justify-between mb-[1rem]')}>
         <div className={cn('flex items-center gap-2')}>
           {labels.map((label, index) => (
-            <Badge
-              key={label.id}
-              className={cn('', label.className)}
-            >
+            <Badge key={label.id} className={cn('', label.className)}>
               {label.content}
             </Badge>
           ))}
         </div>
         <EllipsisVertical className={cn('size-5')} />
       </div>
-      <div className={cn('flex flex-col items-center justify-between mb-[1rem] gap-2')}>
-        <h3 className={cn('text-lg font leading-none tracking-tight')}>{title}</h3>
+      <div
+        className={cn(
+          'flex flex-col items-center justify-between mb-[1rem] gap-2',
+        )}
+      >
+        <h3 className={cn('text-lg font leading-none tracking-tight')}>
+          {title}
+        </h3>
         <p className={cn('text-sm text-muted-foreground')}>{description}</p>
       </div>
-      <div className={cn('flex flex-col items-center justify-between mb-[1rem]')}>
+      <div
+        className={cn('flex flex-col items-center justify-between mb-[1rem]')}
+      >
         <CheckboxGroup subtasks={subtasks} />
         <Separator className={cn('my-2 h-[1px] bg-muted-foreground/20')} />
         <Button
-          variant="outline"
-          className="w-full hover:bg-muted-foreground/20 justify-start"
+          variant='outline'
+          className='w-full hover:bg-muted-foreground/20 justify-start'
           icon={{
             children: Plus,
           }}
@@ -424,10 +453,10 @@ export const KanbanColumnRowTemplate: React.FC<KanbanColumnRowComponentArgs> = (
           Add subtask
         </Button>
       </div>
-      <div className="flex items-center justify-start gap-2 mb-3">
+      <div className='flex items-center justify-start gap-2 mb-3'>
         <ImageGroup
           imgs={
-            attachments.map(attachment => ({
+            attachments.map((attachment) => ({
               image: {
                 ...attachment,
               },
@@ -437,17 +466,16 @@ export const KanbanColumnRowTemplate: React.FC<KanbanColumnRowComponentArgs> = (
         />
       </div>
       <Separator className={cn('my-2 h-[1px]')} />
-      <div className={cn('relative overflow flex items-center justify-between')}>
+      <div
+        className={cn('relative overflow flex items-center justify-between')}
+      >
         <div className={cn('flex items-center justify-start gap-2 shrink-0')}>
-          <AvatarGroup
-            users={taggedUsers}
-            max_users={2}
-          />
+          <AvatarGroup users={taggedUsers} max_users={2} />
         </div>
         <div className={cn('flex items-center justify-start gap-1 shrink-0')}>
           <CommentsLayout comments={comments} />
           <Button
-            className="p-0"
+            className='p-0'
             variant={'ghost'}
             size={'icon'}
             icon={{
@@ -472,7 +500,9 @@ export interface CommentsLayoutProps {
 }
 
 export const CommentsLayout: React.FC<CommentsLayoutProps> = ({ comments }) => {
-  const [commentsArr, setCommentsArr] = React.useState<CommentType[]>(comments || [])
+  const [commentsArr, setCommentsArr] = React.useState<CommentType[]>(
+    comments || [],
+  )
   const editorMention = React.useRef<TaggedUserType | null>(null)
   const [editorFocus, setEditorFocus] = React.useState<boolean>(false)
 
@@ -488,7 +518,7 @@ export const CommentsLayout: React.FC<CommentsLayoutProps> = ({ comments }) => {
           asChild: true,
           children: (
             <Button
-              className="p-0"
+              className='p-0'
               variant={'ghost'}
               size={'icon'}
               icon={{
@@ -525,7 +555,7 @@ export const ReplyButton = () => {
     <Button
       // size={'icon'}
       variant={'ghost'}
-      className="w-5 h-5 p-3"
+      className='w-5 h-5 p-3'
       icon={{
         children: Reply,
       }}

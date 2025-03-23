@@ -8,11 +8,6 @@
   },
   "license": "MIT",
   "author": "wildduck (https://github.com/wildduck2)",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gentelduck/ui.git",
-    "directory": "packages/cli"
-  },
   "files": [
     "dist"
   ],
@@ -42,6 +37,7 @@
   },
   "dependencies": {
     "@antfu/ni": "^0.21.12",
+    "@gentelduck/registers": "workspace:*",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
     "chalk": "5.2.0",
@@ -72,12 +68,16 @@
     "type-fest": "^3.8.0",
     "typescript": "^5"
   },
-  "bugs": {
-    "url": "https://github.com/gentelduck/ui/issues"
-  },
-  "homepage": "https://github.com/gentelduck/ui#readme",
   "main": "index.js",
   "directories": {
     "test": "test"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentelduck/ui/tree/master/packages/duck-ui"
+  },
+  "bugs": {
+    "url": "https://github.com/gentelduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-ui#readme"
 }

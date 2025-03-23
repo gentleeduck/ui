@@ -5,7 +5,7 @@ function NativeButton() {
 
   return (
     <>
-      <button className='border rounded-lg px-4 py-2 shadow-sm' onClick={() => setCount((count) => count + 1)}>
+      <button className='border border-background rounded-lg px-4 py-2 shadow-sm' onClick={() => setCount((count) => count + 1)}>
         count is {count}
       </button>
     </>

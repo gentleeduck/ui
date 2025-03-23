@@ -1,5 +1,5 @@
-import { Textarea } from '@/registry/registry-ui-components/textarea'
+import { Textarea } from '@gentelduck/registry-ui-duckui/textarea'
 
 export default function Textarea2Demo() {
-  return <Textarea placeholder="Type your message here." />
+  return <Textarea placeholder='Type your message here.' />
 }

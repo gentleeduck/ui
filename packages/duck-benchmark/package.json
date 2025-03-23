@@ -1,0 +1,86 @@
+{
+  "name": "@gentelduck/benchmark",
+  "version": "0.0.2",
+  "description": "this is the benchmark tool for the duck-ui components, it's a black magic tool to let you know weather your code suck or good.",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "wildduck (https://github.com/wildduck2)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentelduck/ui/tree/master/packages/duck-benchmark"
+  },
+  "bugs": {
+    "url": "https://github.com/gentelduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-benchmark#readme",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "components",
+    "ui",
+    "tailwind",
+    "radix-ui",
+    "duck-ui"
+  ],
+  "type": "module",
+  "exports": "./dist/index.js",
+  "bin": {
+    "duck-ui": "dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "start": "node dist/index.js",
+    "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
+    "build": "tsup",
+    "lint": "tsc",
+    "ci": "pnpm run lint && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@antfu/ni": "^0.21.12",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "autoprefixer": "^10.4.20",
+    "axios": "^1.7.9",
+    "chalk": "5.2.0",
+    "commander": "^10.0.1",
+    "cosmiconfig": "^8.3.6",
+    "execa": "^9.4.1",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
+    "globals": "^15.11.0",
+    "https-proxy-agent": "^7.0.5",
+    "kleur": "^4.1.5",
+    "log-symbols": "^7.0.0",
+    "ora": "^6.3.1",
+    "postcss": "^8.4.49",
+    "prompts": "^2.4.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.1",
+    "@types/diff": "^5.0.3",
+    "@types/figlet": "^1.7.0",
+    "@types/fs-extra": "^11.0.1",
+    "@types/lodash.template": "^4.5.3",
+    "@types/prompts": "^2.4.2",
+    "rimraf": "^4.4.1",
+    "tsup": "^8.2.4",
+    "type-fest": "^3.8.0",
+    "typescript": "^5"
+  },
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  }
+}

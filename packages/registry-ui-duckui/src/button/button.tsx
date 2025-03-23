@@ -61,7 +61,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       (commandShow ?? true) && (
         <kbd
           className={cn(
-            'inline-flex items-center font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-secondary text-[.7rem] py-[.12rem] px-2 rounded-sm text-secondary-foreground !font-sans',
+            'inline-flex items-center font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 bg-secondary text-[.7rem] py-[.12rem] px-2 rounded-xs text-secondary-foreground !font-sans',
             commandClassName,
           )}
           {...commandProps}
@@ -102,7 +102,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               variant={label.variant ?? 'secondary'}
               size={label.size ?? 'default'}
               className={cn(
-                'text-[.8rem] py-0 rounded-md px-1 font-meduim',
+                'text-[.8rem] py-0 rounded-md px-1 font-medium',
                 label.variant === 'nothing' && 'text-accent',
                 label.className,
               )}

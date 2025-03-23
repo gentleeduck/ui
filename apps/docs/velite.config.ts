@@ -70,7 +70,7 @@ const config = defineConfig({
         {
           theme: {
             dark: 'catppuccin-mocha',
-            light: 'catppuccin-latte',
+            light: 'github-light',
           },
           getHighlighter,
           onVisitLine(node: UnistNode) {

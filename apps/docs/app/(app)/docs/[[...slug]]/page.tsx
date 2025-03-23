@@ -67,8 +67,12 @@ const PostLayout = async ({
           <div className='text-foreground'>{doc.title}</div>
         </div>
         <div className='space-y-2'>
-          <h1 className={cn('scroll-m-20 text-3xl font-bold tracking-tight')}>
-            {doc.title}
+          <h1
+            className={cn(
+              'scroll-m-20 text-3xl font-bold tracking-tight capitalize',
+            )}
+          >
+            {doc.title.split('-').join(' ')}
           </h1>
           {doc.description && (
             <p className='text-base text-muted-foreground'>
@@ -113,8 +117,7 @@ const PostLayout = async ({
       {doc.toc && (
         <div className='hidden text-sm xl:block'>
           <div className='sticky top-16 -mt-10 pt-4'>
-            {/*! FIX: this should scroll */}
-            <div className='hide-scroll pb-10 sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] py-12'>
+            <div className='show-scroll-hover overflow-y-auto pb-10 sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] py-12'>
               <DashboardTableOfContents toc={doc.toc} />
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { REGISTRY_URL } from '@/src/main'
+import { REGISTRY_URL } from '~/main'
 import axios from 'axios'
 import { highlighter, logger } from '../text-styling'
 import { error_messages } from './get-registry.constants'
@@ -30,7 +30,7 @@ export function get_registry_url(path: string) {
 export async function fetch_registry_url(paths: string[]) {
   try {
     const results = await Promise.all(
-      paths.map(async path => {
+      paths.map(async (path) => {
         const url = get_registry_url(path)
         const response = await axios.get(url)
 
@@ -39,7 +39,7 @@ export async function fetch_registry_url(paths: string[]) {
         }
 
         return response.data
-      })
+      }),
     )
 
     return results
@@ -56,24 +56,24 @@ export function check_status(response: any, url: string) {
   if (response.status === 401) {
     throw new Error(
       `You are not authorized to access the component at ${highlighter.info(
-        url
-      )}.\nIf this is a remote registry, you may need to authenticate.`
+        url,
+      )}.\nIf this is a remote registry, you may need to authenticate.`,
     )
   }
 
   if (response.status === 404) {
     throw new Error(
       `The component at ${highlighter.info(
-        url
-      )} was not found.\nIt may not exist at the registry. Please make sure it is a valid component.`
+        url,
+      )} was not found.\nIt may not exist at the registry. Please make sure it is a valid component.`,
     )
   }
 
   if (response.status === 403) {
     throw new Error(
       `You do not have access to the component at ${highlighter.info(
-        url
-      )}.\nIf this is a remote registry, you may need to authenticate or a token.`
+        url,
+      )}.\nIf this is a remote registry, you may need to authenticate or a token.`,
     )
   }
 

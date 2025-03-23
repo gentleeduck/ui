@@ -1,6 +1,8 @@
 import { Agent, detect } from '@antfu/ni'
 
-export async function get_package_manager(cwd: string): Promise<Exclude<Agent, 'yarn@berry' | 'pnpm@6'>> {
+export async function get_package_manager(
+  cwd: string,
+): Promise<Exclude<Agent, 'yarn@berry' | 'pnpm@6'>> {
   const packageManager = await detect({
     programmatic: true,
     cwd,
@@ -15,7 +17,7 @@ export async function get_package_manager(cwd: string): Promise<Exclude<Agent, '
 
 export async function getPackageRunner(
   cwd: string,
-  pm: Exclude<Agent, 'yarn@berry' | 'pnpm@6'>
+  pm: Exclude<Agent, 'yarn@berry' | 'pnpm@6'>,
 ): Promise<'pnpm dlx' | 'bunx' | 'npx'> {
   const packageManager = pm ?? (await get_package_manager(cwd))
 

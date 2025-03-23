@@ -11,14 +11,22 @@ import template from 'lodash.template'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 
+import { cn } from '@gentelduck/libs/cn'
 import { Button } from '@gentelduck/registry-ui-duckui/button'
 import { copyToClipboardWithMeta } from '~/components/copy-button'
 import { ThemeWrapper } from '~/components/theme-wrapper'
 import { useConfig } from '~/hooks/use-config'
-import { cn } from '@gentelduck/libs/cn'
 
 import '~/styles/mdx.css'
 import { Theme, registry_themes } from '@gentelduck/registers'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@gentelduck/registry-ui-duckui/dialog'
 import {
   Drawer,
   DrawerContent,
@@ -34,16 +42,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@gentelduck/registry-ui-duckui/tooltip'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@gentelduck/registry-ui-duckui/dialog'
-import { Skeleton } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/skeleton'
 import { Label } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/label'
+import { Skeleton } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/skeleton'
 
 export function ThemeCustomizer() {
   const [config, setConfig] = useConfig()
@@ -58,10 +58,7 @@ export function ThemeCustomizer() {
     <div className='flex items-center gap-2'>
       <Drawer>
         <DrawerTrigger asChild>
-          <Button
-            size='sm'
-            className='md:hidden'
-          >
+          <Button size='sm' className='md:hidden'>
             Customize
           </Button>
         </DrawerTrigger>
@@ -86,7 +83,7 @@ export function ThemeCustomizer() {
             <>
               {['zinc', 'rose', 'blue', 'green', 'orange'].map((color) => {
                 const theme = registry_themes.find(
-                  (theme) => theme.name === color
+                  (theme) => theme.name === color,
                 )
                 const isActive = config.theme === color
 
@@ -108,7 +105,7 @@ export function ThemeCustomizer() {
                           'flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs',
                           isActive
                             ? 'border-[--theme-primary]'
-                            : 'border-transparent'
+                            : 'border-transparent',
                         )}
                         style={
                           {
@@ -122,7 +119,7 @@ export function ThemeCustomizer() {
                       >
                         <span
                           className={cn(
-                            'flex h-5 w-5 items-center justify-center rounded-full bg-[--theme-primary]'
+                            'flex h-5 w-5 items-center justify-center rounded-full bg-[--theme-primary]',
                           )}
                         >
                           {isActive && (
@@ -153,11 +150,7 @@ export function ThemeCustomizer() {
           )}
         </div>
       </div>
-      <CopyCodeButton
-        variant='ghost'
-        size='sm'
-        className='[&_svg]:hidden'
-      />
+      <CopyCodeButton variant='ghost' size='sm' className='[&_svg]:hidden' />
     </div>
   )
 }
@@ -281,7 +274,7 @@ function Customizer() {
                   }}
                   className={cn(
                     'justify-start',
-                    isActive && 'border-2 border-primary'
+                    isActive && 'border-2 border-primary',
                   )}
                   style={
                     {
@@ -293,7 +286,7 @@ function Customizer() {
                 >
                   <span
                     className={cn(
-                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]'
+                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]',
                     )}
                   >
                     {isActive && <CheckIcon className='h-4 w-4 text-white' />}
@@ -301,10 +294,7 @@ function Customizer() {
                   {theme.label}
                 </Button>
               ) : (
-                <Skeleton
-                  className='h-8 w-full'
-                  key={theme.name}
-                />
+                <Skeleton className='h-8 w-full' key={theme.name} />
               )
             })}
           </div>
@@ -326,7 +316,7 @@ function Customizer() {
                   }}
                   className={cn(
                     config.radius === Number.parseFloat(value) &&
-                      'border-2 border-primary'
+                      'border-2 border-primary',
                   )}
                 >
                   {value}
@@ -378,7 +368,7 @@ function CopyCodeButton({
 }: React.ComponentProps<typeof Button>) {
   const [config] = useConfig()
   const activeTheme = registry_themes.find(
-    (theme) => theme.name === config.theme
+    (theme) => theme.name === config.theme,
   )
   const [hasCopied, setHasCopied] = React.useState(false)
 
@@ -415,24 +405,18 @@ function CopyCodeButton({
       )}
       <Dialog>
         <DialogTrigger asChild>
-          <Button
-            className={cn('hidden md:flex', className)}
-            {...props}
-          >
+          <Button className={cn('hidden md:flex', className)} {...props}>
             Copy code
           </Button>
         </DialogTrigger>
-        <DialogContent className='max-w-2xl outline-none'>
+        <DialogContent className='max-w-2xl outline-hidden'>
           <DialogHeader>
             <DialogTitle>Theme</DialogTitle>
             <DialogDescription>
               Copy and paste the following code into your CSS file.
             </DialogDescription>
           </DialogHeader>
-          <ThemeWrapper
-            defaultTheme='zinc'
-            className='relative'
-          >
+          <ThemeWrapper defaultTheme='zinc' className='relative'>
             <CustomizerCode />
             {activeTheme && (
               <Button
@@ -446,7 +430,7 @@ function CopyCodeButton({
                         theme: activeTheme.name,
                         radius: config.radius,
                       },
-                    }
+                    },
                   )
                   setHasCopied(true)
                 }}
@@ -470,17 +454,14 @@ function CopyCodeButton({
 function CustomizerCode() {
   const [config] = useConfig()
   const activeTheme = registry_themes.find(
-    (theme) => theme.name === config.theme
+    (theme) => theme.name === config.theme,
   )
 
   return (
-    <ThemeWrapper
-      defaultTheme='zinc'
-      className='relative space-y-4'
-    >
+    <ThemeWrapper defaultTheme='zinc' className='relative space-y-4'>
       <div data-rehype-pretty-code-fragment=''>
         <pre className='max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900'>
-          <code className='relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm'>
+          <code className='relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm'>
             <span className='line text-white'>@layer base &#123;</span>
             <span className='line text-white'>&nbsp;&nbsp;:root &#123;</span>
             <span className='line text-white'>
@@ -549,7 +530,7 @@ function CustomizerCode() {
                     ;
                   </span>
                 </>
-              )
+              ),
             )}
             <span className='line text-white'>&nbsp;&nbsp;&#125;</span>
             <span className='line text-white'>&nbsp;</span>
@@ -617,7 +598,7 @@ function CustomizerCode() {
                     ;
                   </span>
                 </>
-              )
+              ),
             )}
             <span className='line text-white'>&nbsp;&nbsp;&#125;</span>
             <span className='line text-white'>&#125;</span>
