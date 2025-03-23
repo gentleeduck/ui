@@ -7,7 +7,7 @@ import {
 
 export default function ToggleGroup1Demo() {
   return (
-    <ToggleGroup disabled type='single'>
+    <ToggleGroup type='single'>
       <ToggleGroupItem value='bold' aria-label='Toggle bold'>
         <Bold className='h-4 w-4' />
       </ToggleGroupItem>
