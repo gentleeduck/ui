@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@antfu/ni": "^0.21.12",
+    "@gentelduck/registers": "workspace:*",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
     "chalk": "5.2.0",

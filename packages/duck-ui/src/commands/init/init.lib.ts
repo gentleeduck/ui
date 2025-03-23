@@ -1,7 +1,13 @@
 import path from 'node:path'
-import { init_options_schema, InitOptions } from './init.dto'
-import { spinner as Spinner } from '~/utils/spinner'
+import prompts from 'prompts'
+import {
+  get_registry_base_color,
+  get_registry_index,
+  get_registry_item,
+} from '~/utils/get-registry'
 import { preflight_configs } from '~/utils/preflight-configs'
+import { spinner as Spinner } from '~/utils/spinner'
+import { InitOptions, init_options_schema } from './init.dto'
 
 export async function init_command_action(opt: InitOptions) {
   const spinner = Spinner('Initializing...').start()
@@ -9,18 +15,37 @@ export async function init_command_action(opt: InitOptions) {
   const cwd = path.resolve(options.cwd)
 
   await preflight_configs({ cwd, spinner })
-  // await pref_light_tailwindcss(cwd)
-  // const config = await get_project_config(cwd)
 
-  // logger.success({ with_icon: true, args: [, 'Done.!, preflight passed'] })
+  const registry = await get_registry_index()
+  const filtered_registry = registry?.filter(
+    (item) => item.type === 'registry:ui',
+  )
 
-  // console.log(config)
+  spinner.stop()
+  const prompt: { component: string[] } = await prompts([
+    {
+      type: 'multiselect',
+      name: 'component',
+      message: 'Select component to install',
+      choices: filtered_registry!.map((item) => ({
+        title: item.name,
+        value: item.name,
+      })),
+    },
+  ])
 
-  // const registry = await get_registry_index()
-  // const registry = await get_registry_item('button', 'default')
-  // const registry = await get_registry_base_color()
+  const components = await Promise.all(
+    prompt.component?.map(async (item) => {
+      return await get_registry_item(item as Lowercase<string>)
+    }),
+  )
 
-  // console.log(registry)
+  spinner.start()
 
-  spinner.succeed('Done.!, enjoy your duck! :)')
+  // console.dir(components, { depth: null })
+
+  const registrydf = await get_registry_base_color('zinc')
+  console.log(registrydf)
+
+  spinner.succeed('🧑 Done.!, enjoy mr duck!🦆')
 }

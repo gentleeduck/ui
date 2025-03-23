@@ -4,54 +4,54 @@ export type HSL = `${number} ${number}% ${number}%`
 export type Radius = `${number}px` | `${number}rem`
 
 // HSL color schema
-export const hslSchema = z.string() as z.ZodType<HSL>
+export const hsl_schema = z.string() as z.ZodType<HSL>
 export const radiusSchema = z.string() as z.ZodType<Radius>
 
 // CSS variables schema
-export const cssVarsSchema = z.object({
-  background: hslSchema,
-  foreground: hslSchema,
-  card: hslSchema,
-  'card-foreground': hslSchema,
-  popover: hslSchema,
-  'popover-foreground': hslSchema,
-  primary: hslSchema,
-  'primary-foreground': hslSchema,
-  secondary: hslSchema,
-  'secondary-foreground': hslSchema,
-  muted: hslSchema,
-  'muted-foreground': hslSchema,
-  accent: hslSchema,
-  'accent-foreground': hslSchema,
-  destructive: hslSchema,
-  'destructive-foreground': hslSchema,
-  border: hslSchema,
-  input: hslSchema,
-  ring: hslSchema,
+export const css_vars_schema = z.object({
+  background: hsl_schema,
+  foreground: hsl_schema,
+  card: hsl_schema,
+  'card-foreground': hsl_schema,
+  popover: hsl_schema,
+  'popover-foreground': hsl_schema,
+  primary: hsl_schema,
+  'primary-foreground': hsl_schema,
+  secondary: hsl_schema,
+  'secondary-foreground': hsl_schema,
+  muted: hsl_schema,
+  'muted-foreground': hsl_schema,
+  accent: hsl_schema,
+  'accent-foreground': hsl_schema,
+  destructive: hsl_schema,
+  'destructive-foreground': hsl_schema,
+  border: hsl_schema,
+  input: hsl_schema,
+  ring: hsl_schema,
   radius: radiusSchema,
-  'chart-1': hslSchema,
-  'chart-2': hslSchema,
-  'chart-3': hslSchema,
-  'chart-4': hslSchema,
-  'chart-5': hslSchema,
+  'chart-1': hsl_schema,
+  'chart-2': hsl_schema,
+  'chart-3': hsl_schema,
+  'chart-4': hsl_schema,
+  'chart-5': hsl_schema,
 })
-export type CSSVars = z.infer<typeof cssVarsSchema>
+export type CSSVars = z.infer<typeof css_vars_schema>
 
-export const colorScheme = z.object({
+export const color_scheme = z.object({
   name: z.string(),
   label: z.string(),
   activeColor: z.object({
-    light: hslSchema,
-    dark: hslSchema,
+    light: hsl_schema,
+    dark: hsl_schema,
   }),
   cssVars: z.object({
-    light: cssVarsSchema,
-    dark: cssVarsSchema,
+    light: css_vars_schema,
+    dark: css_vars_schema,
   }),
 })
-export type ColorScheme = z.infer<typeof colorScheme>
+export type ColorScheme = z.infer<typeof color_scheme>
 
-export const colorBaseSchema = z.array(colorScheme).min(1, {
+export const color_base_schema = z.array(color_scheme).min(1, {
   message: 'At least one color scheme is required',
 })
-export type ColorBase = z.infer<typeof colorBaseSchema>
+export type ColorBase = z.infer<typeof color_base_schema>
