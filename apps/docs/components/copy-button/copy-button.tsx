@@ -98,15 +98,7 @@ export function CopyWithClassNames({
         <Button
           size='icon'
           variant='outline'
-<<<<<<< HEAD
           className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
-=======
-          aria-label='Copy'
-          className={cn(
-            'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3 shadow-none rounded-sm',
-            className,
-          )}
->>>>>>> 3c788679a89301dd600e2844144bb98795ae1e07
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           {...props}
         >
@@ -157,15 +149,7 @@ export function CopyNpmCommandButton({
         <Button
           size='icon'
           variant='outline'
-<<<<<<< HEAD
           className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
-=======
-          aria-label='Copy'
-          className={cn(
-            'relative z-10 w-6.5 h-6.5 [&_svg]:h-3.5 [&_svg]:w-3.5 shadow-none rounded-sm',
-            className,
-          )}
->>>>>>> 3c788679a89301dd600e2844144bb98795ae1e07
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           {...props}
         >
