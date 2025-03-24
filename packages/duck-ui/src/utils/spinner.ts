@@ -4,7 +4,7 @@ export function spinner(
   text: Options['text'],
   options?: {
     silent?: boolean
-  }
+  },
 ) {
   return ora({
     color: 'yellow',

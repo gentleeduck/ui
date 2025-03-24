@@ -9,7 +9,7 @@ export const init_command_config: InitCommandConfig = {
       description: 'skip confirmation prompt.',
       defaultValue: false,
     },
-    option_3: {
+    option_2: {
       flags: '-c, --cwd <cwd>',
       description: 'the working directory. defaults to the current directory.',
       defaultValue: process.cwd(),

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { PROJECT_TYPE } from './preflight-duckui.constants'
+import { BASE_COLORS, PROJECT_TYPE } from './preflight-duckui.constants'
 
 export const preflight_duckui_options_schema = z.object({
   duckui: z
@@ -67,3 +67,23 @@ export const duckui_prompts_schema = z.object({
 })
 
 export type DuckuiPrompts = z.infer<typeof duckui_prompts_schema>
+
+export const duck_ui_schema = z.object({
+  schema: z.string().url(),
+  rsc: z.boolean(),
+  monorepo: z.boolean(),
+  tailwind: z.object({
+    baseColor: z.enum(BASE_COLORS),
+    css: z.string(),
+    cssVariables: z.boolean(),
+    prefix: z.string(),
+  }),
+  aliases: z.object({
+    ui: z.string(),
+    libs: z.string(),
+    hooks: z.string(),
+    pages: z.string(),
+    layouts: z.string(),
+  }),
+})
+export type DuckUI = z.infer<typeof duck_ui_schema>

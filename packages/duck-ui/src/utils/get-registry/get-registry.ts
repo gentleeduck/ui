@@ -1,10 +1,5 @@
 import { logger } from '../text-styling'
-import {
-  registrycolor_scheme,
-  registry_color_base_schema,
-  registry_entry_schema,
-  registry_schema,
-} from './get-registry.dto'
+import { registry_entry_schema, registry_schema } from './get-registry.dto'
 
 import { fetch_registry_url, is_url } from './get-registry.lib'
 

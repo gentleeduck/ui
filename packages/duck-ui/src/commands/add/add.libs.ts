@@ -1,8 +1,10 @@
-import path from 'node:path'
 import prompts from 'prompts'
 import { get_registry_index, get_registry_item } from '~/utils/get-registry'
 import { spinner as Spinner } from '~/utils/spinner'
 import { addOptions, add_options_schema } from './add.dto'
+import { registry_component_install } from '~/utils/registry-mutation'
+import { get_duckui_config } from '~/utils/get-project-info'
+import { Registry } from '@gentelduck/registers'
 
 export async function add_command_action(opt: addOptions) {
   const spinner = Spinner('initializing...').start()
@@ -12,6 +14,8 @@ export async function add_command_action(opt: addOptions) {
   const filtered_registry = registry?.filter(
     (item) => item.type === 'registry:ui',
   )
+
+  spinner.stop()
   const prompt: { component: string[] } = await prompts([
     {
       type: 'multiselect',
@@ -25,10 +29,25 @@ export async function add_command_action(opt: addOptions) {
   ])
   spinner.start()
 
+  spinner.text = `🦆 Fetching components...`
   const components = await Promise.all(
     prompt.component?.map(async (item) => {
       return await get_registry_item(item as Lowercase<string>)
     }),
+  )
+
+  if (!components.length) {
+    spinner.fail('🦆 No components found')
+    process.exit(0)
+  }
+
+  const duckui_config = await get_duckui_config(process.cwd(), spinner)
+
+  await registry_component_install(
+    components as Registry,
+    duckui_config,
+    options,
+    spinner,
   )
 
   spinner.succeed('🧑 Done.!, enjoy mr duck!🦆')
