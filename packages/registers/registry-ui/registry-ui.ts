@@ -25,14 +25,14 @@ export const registry_ui: Registry = [
     root_folder: 'tooltip',
     files: [],
   },
-  // {
-  //   name: 'accordion',
-  //   type: 'registry:ui',
-  //   dependencies: ['@radix-ui/react-accordion'],
-  //   registryDependencies: [],
-  //   root_folder: 'accordion',
-  //   files: [],
-  // },
+  {
+    name: 'accordion',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-accordion'],
+    registryDependencies: [],
+    root_folder: 'accordion',
+    files: [],
+  },
   {
     name: 'toggle',
     type: 'registry:ui',

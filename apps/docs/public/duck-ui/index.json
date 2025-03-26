@@ -53,6 +53,26 @@
     "source": "/registry-ui-duckui/src/tooltip"
   },
   {
+    "name": "accordion",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-accordion"
+    ],
+    "registryDependencies": [],
+    "root_folder": "accordion",
+    "files": [
+      {
+        "path": "accordion/accordion.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "accordion/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/accordion"
+  },
+  {
     "name": "toggle",
     "type": "registry:ui",
     "dependencies": [
@@ -605,6 +625,66 @@
       }
     ],
     "source": "/registry-examples-duckui/src/tooltip"
+  },
+  {
+    "name": "accordion-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "accordion"
+    ],
+    "root_folder": "accordion",
+    "files": [
+      {
+        "path": "accordion/accordion-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/accordion"
+  },
+  {
+    "name": "accordion-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "accordion"
+    ],
+    "root_folder": "accordion",
+    "files": [
+      {
+        "path": "accordion/accordion-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/accordion"
+  },
+  {
+    "name": "accordion-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "accordion"
+    ],
+    "root_folder": "accordion",
+    "files": [
+      {
+        "path": "accordion/accordion-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/accordion"
+  },
+  {
+    "name": "accordion-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "accordion"
+    ],
+    "root_folder": "accordion",
+    "files": [
+      {
+        "path": "accordion/accordion-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/accordion"
   },
   {
     "name": "toggle-1",
