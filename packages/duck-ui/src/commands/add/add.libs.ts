@@ -5,6 +5,7 @@ import { addOptions, add_options_schema } from './add.dto'
 import { registry_component_install } from '~/utils/registry-mutation'
 import { get_duckui_config } from '~/utils/get-project-info'
 import { Registry } from '@gentelduck/registers'
+import { highlighter } from '~/utils'
 
 export async function add_command_action(opt: addOptions) {
   const spinner = Spinner('initializing...').start()
@@ -20,7 +21,7 @@ export async function add_command_action(opt: addOptions) {
     {
       type: 'multiselect',
       name: 'component',
-      message: 'Select component to install',
+      message: '💡 Select component to install',
       choices: filtered_registry!.map((item) => ({
         title: item.name,
         value: item.name,
@@ -29,9 +30,11 @@ export async function add_command_action(opt: addOptions) {
   ])
   spinner.start()
 
-  spinner.text = `🦆 Fetching components...`
   const components = await Promise.all(
-    prompt.component?.map(async (item) => {
+    prompt.component?.map(async (item, idx) => {
+      spinner.text = `🦆 Fetching components... ${highlighter.info(
+        `[${idx}/${prompt.component.length}]`,
+      )}`
       return await get_registry_item(item as Lowercase<string>)
     }),
   )
@@ -40,6 +43,10 @@ export async function add_command_action(opt: addOptions) {
     spinner.fail('🦆 No components found')
     process.exit(0)
   }
+
+  spinner.succeed(
+    `🦆 Fetched component${components.length > 1 ? 's' : ''} ${highlighter.info(`[${components.length}/${prompt.component.length}]`)}`,
+  )
 
   const duckui_config = await get_duckui_config(process.cwd(), spinner)
 

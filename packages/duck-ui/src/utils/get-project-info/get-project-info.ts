@@ -7,6 +7,7 @@ import { IGNORED_DIRECTORIES } from './get-project-info.constants'
 import { Ora } from 'ora'
 import { duck_ui_schema } from '../preflight-configs/preflight-duckui'
 import { ZodError } from 'zod'
+import { ts_config_schema } from './get-project-info.dto'
 
 // Get package.json
 export function get_package_json(): PackageJson | null {
@@ -65,6 +66,36 @@ export async function get_duckui_config(cwd: string, spinner: Ora) {
       )
     }
 
+    process.exit(1)
+  }
+}
+
+export async function get_ts_config(cwd: string, spinner: Ora) {
+  try {
+    spinner.text = `🦆 Getting ${highlighter.info('ts')} configs...`
+
+    const files = fg.sync(['tsconfig.json'], {
+      cwd,
+      deep: 1,
+      ignore: IGNORED_DIRECTORIES,
+    })
+
+    if (!files.length) {
+      spinner.fail(`🦆 No ${highlighter.info('ts')} configs found`)
+      process.exit(1)
+    }
+
+    const ts_config_raw = await fs.readFile(
+      path.join(cwd, 'tsconfig.json'),
+      'utf8',
+    )
+
+    // Then unwrap the optional/nullable layers to access the inner object
+    const ts_config = ts_config_schema.parse(JSON.parse(ts_config_raw))
+
+    return ts_config
+  } catch (error) {
+    spinner.fail(`🦆 Failed to get ${highlighter.info('ts')} configs: ${error}`)
     process.exit(1)
   }
 }
