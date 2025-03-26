@@ -67,8 +67,12 @@ const PostLayout = async ({
           <div className='text-foreground'>{doc.title}</div>
         </div>
         <div className='space-y-2'>
-          <h1 className={cn('scroll-m-20 text-3xl font-bold tracking-tight')}>
-            {doc.title}
+          <h1
+            className={cn(
+              'scroll-m-20 text-3xl font-bold tracking-tight capitalize',
+            )}
+          >
+            {doc.title.split('-').join(' ')}
           </h1>
           {doc.description && (
             <p className='text-base text-muted-foreground'>

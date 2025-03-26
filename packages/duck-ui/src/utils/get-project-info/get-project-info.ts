@@ -1,54 +1,13 @@
+import path from 'node:path'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
-import { IGNORED_DIRECTORIES } from './get-project-info.constants'
-import path from 'node:path'
-import { loadConfig } from 'tsconfig-paths'
 import { type PackageJson } from 'type-fest'
-import { logger } from '../text-styling'
-
-// Get TailwindCss File
-export async function get_tailwindcss_file(cwd: string) {
-  const files = fg.sync(['**/*.css', '**/*.scss', '**/*.sass'], {
-    cwd,
-    deep: 3,
-    ignore: IGNORED_DIRECTORIES,
-  })
-
-  if (!files.length) {
-    return null
-  }
-
-  for (const file of files) {
-    const content = await fs.readFile(path.resolve(cwd, file), 'utf8')
-
-    if (
-      content.includes('@tailwind base') ||
-      content.includes('@tailwind components') ||
-      content.includes('@tailwind utilities')
-    ) {
-      return file
-    }
-  }
-
-  return null
-}
-
-// Get Ts Config Alias Prefix
-export async function get_ts_config_alias_prefix(cwd: string) {
-  const ts_config = loadConfig(cwd)
-
-  if (ts_config.resultType === 'failed' || !ts_config.paths) {
-    return null
-  }
-
-  for (const [alias, paths] of Object.entries(ts_config.paths)) {
-    if (paths.includes('./src/*') || paths.includes('./*')) {
-      return alias.at(0)
-    }
-  }
-
-  return null
-}
+import { highlighter, logger } from '../text-styling'
+import { IGNORED_DIRECTORIES } from './get-project-info.constants'
+import { Ora } from 'ora'
+import { duck_ui_schema } from '../preflight-configs/preflight-duckui'
+import { ZodError } from 'zod'
+import { ts_config_schema } from './get-project-info.dto'
 
 // Get package.json
 export function get_package_json(): PackageJson | null {
@@ -70,4 +29,73 @@ export function get_package_json(): PackageJson | null {
   )
 
   return package_json
+}
+
+export async function get_duckui_config(cwd: string, spinner: Ora) {
+  try {
+    spinner.text = `🦆 Getting ${highlighter.info('duckui')} configs...`
+
+    const files = fg.sync(['duck-ui.config.json'], {
+      cwd,
+      deep: 1,
+      ignore: IGNORED_DIRECTORIES,
+    })
+
+    if (!files.length) {
+      spinner.fail(`🦆 No ${highlighter.info('duckui')} configs found`)
+      process.exit(1)
+    }
+
+    const duckui_config_raw = await fs.readFile(
+      path.join(cwd, 'duck-ui.config.json'),
+      'utf8',
+    )
+
+    const duckui_config = JSON.parse(duckui_config_raw) // Ensure JSON parsing
+    const duckui_parsed_config = duck_ui_schema.parse(duckui_config)
+
+    return duckui_parsed_config
+  } catch (error) {
+    if (error instanceof ZodError) {
+      spinner.fail(
+        `🦆 Failed to get ${highlighter.info('duckui')} configs: ${error.message}`,
+      )
+    } else {
+      spinner.fail(
+        `🦆 Failed to get ${highlighter.info('duckui')} configs: ${error}`,
+      )
+    }
+
+    process.exit(1)
+  }
+}
+
+export async function get_ts_config(cwd: string, spinner: Ora) {
+  try {
+    spinner.text = `🦆 Getting ${highlighter.info('ts')} configs...`
+
+    const files = fg.sync(['tsconfig.json'], {
+      cwd,
+      deep: 1,
+      ignore: IGNORED_DIRECTORIES,
+    })
+
+    if (!files.length) {
+      spinner.fail(`🦆 No ${highlighter.info('ts')} configs found`)
+      process.exit(1)
+    }
+
+    const ts_config_raw = await fs.readFile(
+      path.join(cwd, 'tsconfig.json'),
+      'utf8',
+    )
+
+    // Then unwrap the optional/nullable layers to access the inner object
+    const ts_config = ts_config_schema.parse(JSON.parse(ts_config_raw))
+
+    return ts_config
+  } catch (error) {
+    spinner.fail(`🦆 Failed to get ${highlighter.info('ts')} configs: ${error}`)
+    process.exit(1)
+  }
 }
