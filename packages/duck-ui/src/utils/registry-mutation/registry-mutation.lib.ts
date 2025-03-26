@@ -1,11 +1,14 @@
+import path from 'node:path'
+import { execa } from 'execa'
+import fs from 'fs-extra'
 import { Ora } from 'ora'
-import { Registry } from '../get-registry'
+import prompts from 'prompts'
+import { get_package_manager } from '../get-package-manager'
+import { get_ts_config } from '../get-project-info'
+import { get_registry_item, Registry } from '../get-registry'
 import { DuckUI } from '../preflight-configs/preflight-duckui'
 import { highlighter } from '../text-styling'
-import { get_ts_config } from '../get-project-info'
-import prompts from 'prompts'
-import path from 'node:path'
-import fs from 'fs-extra'
+import { DependenciesType } from './registry-mutation.types'
 
 export async function get_installation_config(
   duck_config: DuckUI,
@@ -65,29 +68,39 @@ export async function process_components(
   spinner: Ora,
 ) {
   try {
+    const dependencies = {
+      dependencies: [],
+      dev_dependencies: [],
+      registry_dependencies: [],
+    } as DependenciesType
+
     await Promise.all(
       components.map(async (component, idx) => {
         spinner.text = `🦆 Installing component: ${highlighter.info(`${component.name}`)}`
 
-        const componentType = component.type.split(':').pop()!
+        const component_ype = component.type.split(':').pop()!
         const component_path = path.resolve(
-          `${write_path}/${componentType}/${component.root_folder}`,
+          `${write_path}/${component_ype}/${component.root_folder}`,
         )
 
         if (!fs.existsSync(component_path)) {
-          spinner.text = `Creating directory: ${componentType}/${component.root_folder}`
+          spinner.text = `Creating directory: ${component_ype}/${component.root_folder}`
           await fs.mkdir(component_path, { recursive: true })
           spinner.succeed(
-            `⚡ Created directory: ${componentType}/${component.root_folder}`,
+            `⚡ Created directory: ${component_ype}/${component.root_folder}`,
           )
         }
         await process_component_files(
           component,
           write_path,
-          componentType,
+          component_ype,
           spinner,
         )
-        await process_component_dependencies(component, componentType, spinner)
+        dependencies.dependencies.push(...(component.dependencies ?? []))
+        dependencies.dev_dependencies.push(...(component.devDependencies ?? []))
+        dependencies.registry_dependencies.push(
+          ...(component.registryDependencies ?? []),
+        )
 
         spinner.succeed(
           `🦋 Installed component${components.length > 1 ? 's' : ''}: ${highlighter.info(
@@ -96,25 +109,55 @@ export async function process_components(
         )
       }),
     )
+    await install_registry_dependencies(dependencies, spinner)
+    await process_component_dependencies(dependencies, spinner)
   } catch (error) {
-    spinner.fail(`🦆 Failed to install components`)
+    spinner.fail(
+      `🦆 Failed to install components, ${highlighter.error(error as string)}`,
+    )
     throw error
   }
+}
+
+export async function install_registry_dependencies(
+  { registry_dependencies }: DependenciesType,
+  spinner: Ora,
+) {
+  const components = await Promise.all(
+    registry_dependencies.map(async (item, idx) => {
+      spinner.text = `🦆 Fetching components... ${highlighter.info(
+        `[${idx}/${registry_dependencies.length}]`,
+      )}`
+      return await get_registry_item(item as Lowercase<string>)
+    }),
+  )
+
+  if (!components.length) {
+    spinner.fail('🦆 No components found')
+    process.exit(0)
+  }
+  console.log(components)
+
+  spinner.succeed(
+    `🦋 Fetched necessary component${components.length > 1 ? 's' : ''} ${highlighter.info(
+      `[${components.length}]`,
+    )}`,
+  )
 }
 
 export async function process_component_files(
   component: Registry[0],
   write_path: string,
-  componentType: string,
+  component_type: string,
   spinner: Ora,
 ) {
   if (!component.files?.length) {
-    spinner.warn(`🦆 No files found for component: ${componentType}`)
+    spinner.warn(`🦆 No files found for component: ${component_type}`)
     return
   }
 
   for (const file of component.files) {
-    const file_path = path.resolve(`${write_path}/${componentType}`, file.path)
+    const file_path = path.resolve(`${write_path}/${component_type}`, file.path)
 
     try {
       if (fs.existsSync(file_path)) {
@@ -145,22 +188,42 @@ export async function process_component_files(
 }
 
 export async function process_component_dependencies(
-  component: Registry[0],
-  componentType: string,
+  { dependencies, dev_dependencies }: DependenciesType,
   spinner: Ora,
 ) {
   try {
-    spinner.text = `🦋 Installing dependencies for component: ${componentType}`
+    spinner.start(`🦋 Installing dependencies`)
+    console.log(dependencies, dev_dependencies)
 
-    if (!component.dependencies?.length) {
-      spinner.warn(`🦆 No dependencies found for component: ${componentType}`)
+    if (dependencies.length === 0 && dev_dependencies.length === 0) {
+      spinner.warn(`🦆 No dependencies found`)
       return
     }
 
-    console.log(component.dependencies, component.registryDependencies)
-  } catch (error) {
-    spinner.fail(
-      `🦆 Failed to install dependencies for component: ${componentType}`,
+    // Merge all dependencies into a single list
+    const allDependencies = [...dependencies, ...dev_dependencies]
+
+    spinner.text = `🔧 Installing ${highlighter.info(allDependencies.length)} dependencies...`
+
+    const packageManager = await get_package_manager(process.cwd())
+    const { failed: installation_step_1 } = await execa(
+      packageManager,
+      [
+        packageManager !== 'npm' ? 'add' : 'install',
+        'lucide-react',
+        ...allDependencies,
+      ],
+      {
+        cwd: process.cwd(),
+        shell: true,
+        stdio: 'ignore',
+      },
     )
+    if (installation_step_1) return spinner.fail(`${installation_step_1}`)
+
+    spinner.succeed(`🦋 Successfully installed dependencies`)
+  } catch (error) {
+    spinner.fail(`🦆 Failed to install dependencies`)
+    console.error(error)
   }
 }
