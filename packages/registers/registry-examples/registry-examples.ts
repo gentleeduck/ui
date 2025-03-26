@@ -22,18 +22,18 @@ export const registry_examples: Registry = [
     root_folder: 'tooltip',
     files: [],
   },
-  // {
-  //   name: 'accordion-examples',
-  //   type: 'registry:example',
-  //   registryDependencies: ['accordion'],
-  //   root_folder: 'accordion',
-  //   files: [],
-  // },
   {
     name: 'toggle-examples',
     type: 'registry:example',
     registryDependencies: ['toggle'],
     root_folder: 'toggle',
+    files: [],
+  },
+  {
+    name: 'accordion-examples',
+    type: 'registry:example',
+    registryDependencies: ['accordion'],
+    root_folder: 'accordion',
     files: [],
   },
   // {
