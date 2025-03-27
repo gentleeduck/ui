@@ -1,15 +1,16 @@
+import { Button } from "./button"
 import { useState } from 'react'
 
-function NativeButton() {
+function ShadcnButton() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <button className='border border-background rounded-lg px-4 py-2 shadow-sm' onClick={() => setCount((count) => count + 1)}>
-        count is {count}
-      </button>
+        <Button asChild onClick={() => setCount((count) => count + 1)}>
+          <a href="">count is {count}</a>
+        </Button>
     </>
   )
 }
 
-export default NativeButton
+export default ShadcnButton

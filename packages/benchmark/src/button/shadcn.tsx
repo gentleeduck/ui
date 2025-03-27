@@ -6,8 +6,8 @@ function ShadcnButton() {
 
   return (
     <>
-        <Button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <Button asChild onClick={() => setCount((count) => count + 1)}>
+          <a href="">count is {count}</a>
         </Button>
     </>
   )
