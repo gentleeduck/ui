@@ -8,13 +8,13 @@ export const registry_ui: Registry = [
     registryDependencies: [],
     root_folder: 'accordion',
   },
-  {
-    name: 'alert-dialog',
-    type: 'registry:ui',
-    dependencies: [],
-    registryDependencies: [],
-    root_folder: 'alert-dialog',
-  },
+  // {
+  //   name: 'alert-dialog',
+  //   type: 'registry:ui',
+  //   dependencies: [],
+  //   registryDependencies: [],
+  //   root_folder: 'alert-dialog',
+  // },
   {
     name: 'badge',
     type: 'registry:ui',
@@ -134,13 +134,13 @@ export const registry_ui: Registry = [
     registryDependencies: [],
     root_folder: 'sonner',
   },
-  {
-    name: 'table',
-    type: 'registry:ui',
-    dependencies: [],
-    registryDependencies: [],
-    root_folder: 'table',
-  },
+  // {
+  //   name: 'table',
+  //   type: 'registry:ui',
+  //   dependencies: [],
+  //   registryDependencies: [],
+  //   root_folder: 'table',
+  // },
   {
     name: 'tabs',
     type: 'registry:ui',
@@ -154,13 +154,6 @@ export const registry_ui: Registry = [
     dependencies: [],
     registryDependencies: [],
     root_folder: 'textarea',
-  },
-  {
-    name: 'toast',
-    type: 'registry:ui',
-    dependencies: [],
-    registryDependencies: [],
-    root_folder: 'toast',
   },
   {
     name: 'toggle',
@@ -183,11 +176,11 @@ export const registry_ui: Registry = [
     registryDependencies: [],
     root_folder: 'tooltip',
   },
-  {
-    name: 'upload',
-    type: 'registry:ui',
-    dependencies: [],
-    registryDependencies: [],
-    root_folder: 'upload',
-  },
+  // {
+  //   name: 'upload',
+  //   type: 'registry:ui',
+  //   dependencies: [],
+  //   registryDependencies: [],
+  //   root_folder: 'upload',
+  // },
 ]

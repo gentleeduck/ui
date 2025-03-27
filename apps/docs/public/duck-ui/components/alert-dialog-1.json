@@ -1,0 +1,17 @@
+{
+  "name": "alert-dialog-1",
+  "type": "registry:example",
+  "registryDependencies": [
+    "alert-dialog"
+  ],
+  "root_folder": "alert-dialog",
+  "files": [
+    {
+      "path": "alert-dialog/alert-dialog-1.tsx",
+      "content": "import { Button } from '@/registry/registry-ui-components'\r\nimport {\r\n  AlertDialog,\r\n  AlertDialogAction,\r\n  AlertDialogCancel,\r\n  AlertDialogContent,\r\n  AlertDialogDescription,\r\n  AlertDialogFooter,\r\n  AlertDialogHeader,\r\n  AlertDialogTitle,\r\n  AlertDialogTrigger,\r\n} from '@/registry/registry-ui-components/alert-dialog'\r\n\r\nexport default function AlertDialogMainDemo() {\r\n  return (\r\n    <>\r\n      <AlertDialog>\r\n        <AlertDialogTrigger asChild>\r\n          <Button variant=\"outline\">Open</Button>\r\n        </AlertDialogTrigger>\r\n        <AlertDialogContent>\r\n          <AlertDialogHeader>\r\n            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>\r\n            <AlertDialogDescription>\r\n              This action cannot be undone This will permanently delete your account and remove your data from our\r\n              servers\r\n            </AlertDialogDescription>\r\n          </AlertDialogHeader>\r\n          <AlertDialogFooter>\r\n            <AlertDialogCancel>Cancel</AlertDialogCancel>\r\n            <AlertDialogAction>Continue</AlertDialogAction>\r\n          </AlertDialogFooter>\r\n        </AlertDialogContent>\r\n      </AlertDialog>\r\n    </>\r\n  )\r\n}\r\n",
+      "type": "registry:example",
+      "target": "components/alert-dialog-1.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/alert-dialog"
+}

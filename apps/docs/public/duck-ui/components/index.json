@@ -1,5 +1,5 @@
 {
-  "name": "drawer-8",
+  "name": "tooltip-2",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

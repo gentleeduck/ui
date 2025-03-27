@@ -2,8 +2,7 @@
   "name": "tooltip-2",
   "type": "registry:example",
   "registryDependencies": [
-    "tooltip",
-    "button"
+    "tooltip"
   ],
   "root_folder": "tooltip",
   "files": [

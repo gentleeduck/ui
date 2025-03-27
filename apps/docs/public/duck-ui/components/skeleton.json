@@ -1,0 +1,22 @@
+{
+  "name": "skeleton",
+  "type": "registry:ui",
+  "dependencies": [],
+  "registryDependencies": [],
+  "root_folder": "skeleton",
+  "files": [
+    {
+      "path": "skeleton/index.ts",
+      "content": "export * from './skeleton'\n",
+      "type": "registry:ui",
+      "target": "components/ui/index.ts"
+    },
+    {
+      "path": "skeleton/skeleton.tsx",
+      "content": "import * as React from 'react'\nimport { cn } from '@gentelduck/libs/cn'\n\nfunction Skeleton({\n  className,\n  ...props\n}: React.HTMLAttributes<HTMLDivElement>) {\n  return (\n    <div\n      className={cn('animate-pulse rounded-md bg-muted', className)}\n      {...props}\n    />\n  )\n}\n\nexport { Skeleton }\n",
+      "type": "registry:ui",
+      "target": "components/ui/skeleton.tsx"
+    }
+  ],
+  "source": "/registry-ui-duckui/src/skeleton"
+}

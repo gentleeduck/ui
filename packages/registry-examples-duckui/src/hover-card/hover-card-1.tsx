@@ -12,7 +12,7 @@ import {
   HoverCardTrigger,
 } from '@gentelduck/registry-ui-duckui/hover-card'
 
-export function HoverCardDemo() {
+export default function HoverCardDemo() {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>

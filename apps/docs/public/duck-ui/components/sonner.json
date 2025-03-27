@@ -1,10 +1,7 @@
 {
   "name": "sonner",
   "type": "registry:ui",
-  "dependencies": [
-    "sonner",
-    "next-themes"
-  ],
+  "dependencies": [],
   "registryDependencies": [],
   "root_folder": "sonner",
   "files": [

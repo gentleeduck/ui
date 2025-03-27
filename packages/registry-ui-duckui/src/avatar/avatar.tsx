@@ -6,7 +6,6 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import { cn } from '@gentelduck/libs/cn'
 import { HoverCardCustomView } from '../hover-card'
 import { CalendarDays } from 'lucide-react'
-// import { TaggedUserType } from './swapy'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 
 // ForwardedRef Components
@@ -18,7 +17,7 @@ const Avatar = React.forwardRef<
     ref={ref}
     className={cn(
       'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
-      className
+      className,
     )}
     {...props}
   />
@@ -45,7 +44,7 @@ const AvatarFallback = React.forwardRef<
     ref={ref}
     className={cn(
       'flex h-full w-full items-center justify-center rounded-full bg-muted',
-      className
+      className,
     )}
     {...props}
   />
@@ -64,10 +63,7 @@ export interface AvatarCustomProps
 const AvatarCustom = React.forwardRef<HTMLSpanElement, AvatarCustomProps>(
   ({ avatar_image, fallback, hover_card, profile_button, ...props }, ref) => {
     const Trigger = ({ className }: { className?: string }) => (
-      <Avatar
-        {...props}
-        className={cn(props.className, className)}
-      >
+      <Avatar {...props} className={cn(props.className, className)}>
         <AvatarImage
           {...avatar_image}
           className={cn(avatar_image.className, 'object-cover')}
@@ -112,7 +108,7 @@ const AvatarCustom = React.forwardRef<HTMLSpanElement, AvatarCustomProps>(
     ) : (
       <Trigger />
     )
-  }
+  },
 )
 
 AvatarCustom.displayName = 'AvatarCustom'
@@ -133,17 +129,13 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
   ({ max_users, users, className, ...props }, ref) => {
     const max = max_users ?? users.length
     return (
-      <div
-        className={cn('flex items-center', className)}
-        {...props}
-        ref={ref}
-      >
+      <div className={cn('flex items-center', className)} {...props} ref={ref}>
         {users.slice(0, max).map((user) => (
           <AvatarCustom
             key={user.id}
             className={cn(
               'border-muted-foreground/80 border-[2px]',
-              'mr-[-1.2rem]'
+              'mr-[-1.2rem]',
             )}
             avatar_image={{
               src: user.avatarUrl,
@@ -167,10 +159,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
               className={cn('w-42 flex flex-col justify-between px-2')}
             >
               {users.slice(max, users.length).map((user, idx) => (
-                <p
-                  key={idx}
-                  className='text-sm'
-                >
+                <p key={idx} className='text-sm'>
                   {user.name}
                 </p>
               ))}
@@ -179,7 +168,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
         )}
       </div>
     )
-  }
+  },
 )
 
 AvatarGroup.displayName = 'AvatarGroup'

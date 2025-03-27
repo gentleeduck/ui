@@ -1,0 +1,17 @@
+{
+  "name": "slider-2",
+  "type": "registry:example",
+  "registryDependencies": [
+    "slider"
+  ],
+  "root_folder": "slider",
+  "files": [
+    {
+      "path": "slider/slider-2.tsx",
+      "content": "",
+      "type": "registry:example",
+      "target": "components/slider-2.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/slider"
+}

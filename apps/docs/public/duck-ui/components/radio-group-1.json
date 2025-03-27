@@ -1,0 +1,17 @@
+{
+  "name": "radio-group-1",
+  "type": "registry:example",
+  "registryDependencies": [
+    "radio-group"
+  ],
+  "root_folder": "radio-group",
+  "files": [
+    {
+      "path": "radio-group/radio-group-1.tsx",
+      "content": "import { Label } from '@gentelduck/registry-ui-duckui/label'\nimport {\n  RadioGroup,\n  RadioGroupItem,\n} from '@gentelduck/registry-ui-duckui/radio-group'\n\nexport function RadioGroupDemo() {\n  return (\n    <RadioGroup defaultValue='comfortable'>\n      <div className='flex items-center space-x-2'>\n        <RadioGroupItem value='default' id='r1' />\n        <Label htmlFor='r1'>Default</Label>\n      </div>\n      <div className='flex items-center space-x-2'>\n        <RadioGroupItem value='comfortable' id='r2' />\n        <Label htmlFor='r2'>Comfortable</Label>\n      </div>\n      <div className='flex items-center space-x-2'>\n        <RadioGroupItem value='compact' id='r3' />\n        <Label htmlFor='r3'>Compact</Label>\n      </div>\n    </RadioGroup>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/radio-group-1.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/radio-group"
+}

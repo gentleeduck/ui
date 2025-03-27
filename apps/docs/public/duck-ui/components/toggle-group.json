@@ -1,9 +1,7 @@
 {
   "name": "toggle-group",
   "type": "registry:ui",
-  "dependencies": [
-    "@radix-ui/react-toggle-group"
-  ],
+  "dependencies": [],
   "registryDependencies": [],
   "root_folder": "toggle-group",
   "files": [

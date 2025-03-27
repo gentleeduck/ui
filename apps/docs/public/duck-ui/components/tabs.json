@@ -1,9 +1,7 @@
 {
   "name": "tabs",
   "type": "registry:ui",
-  "dependencies": [
-    "@radix-ui/react-tabs"
-  ],
+  "dependencies": [],
   "registryDependencies": [],
   "root_folder": "tabs",
   "files": [

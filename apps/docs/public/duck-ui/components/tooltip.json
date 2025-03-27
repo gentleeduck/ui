@@ -1,9 +1,7 @@
 {
   "name": "tooltip",
   "type": "registry:ui",
-  "dependencies": [
-    "@radix-ui/react-tooltip"
-  ],
+  "dependencies": [],
   "registryDependencies": [],
   "root_folder": "tooltip",
   "files": [

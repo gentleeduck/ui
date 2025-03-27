@@ -50,10 +50,8 @@ const PostLayout = async ({
 }) => {
   const _param = await params
   const doc = docs.find((post) => {
-    console.log(post.title)
     return _param.slug.includes(post?.title)
   })
-  console.log(doc, _param)
 
   if (!doc) {
     notFound()

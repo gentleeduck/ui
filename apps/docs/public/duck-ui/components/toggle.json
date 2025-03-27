@@ -1,9 +1,7 @@
 {
   "name": "toggle",
   "type": "registry:ui",
-  "dependencies": [
-    "@radix-ui/react-toggle"
-  ],
+  "dependencies": [],
   "registryDependencies": [],
   "root_folder": "toggle",
   "files": [
