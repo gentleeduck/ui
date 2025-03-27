@@ -34,7 +34,9 @@ const config = defineConfig({
           title: s.string().max(99),
           metadata: s.metadata(),
           description: s.string(),
-          links: s.object({ doc: s.string(), api: s.string() }).optional(),
+          links: s
+            .object({ doc: s.string().optional(), api: s.string().optional() })
+            .optional(),
           excerpt: s.excerpt(),
           content: s.markdown(),
           body: s.mdx(),

@@ -40,12 +40,12 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/accordion',
           items: [],
         },
-        {
-          title: 'AlertDialog',
-          href: '/docs/components/alert-dialog',
-          items: [],
-          label: 'new',
-        },
+        // {
+        //   title: 'AlertDialog',
+        //   href: '/docs/components/alert-dialog',
+        //   items: [],
+        //   label: 'new',
+        // },
         {
           title: 'Badge',
           href: '/docs/components/badge',
@@ -101,24 +101,24 @@ export const docsConfig: DocsConfig = {
         //   items: [],
         //   label: 'new',
         // },
-        {
-          title: 'Upload',
-          href: '/docs/components/upload',
-          items: [],
-          label: 'new',
-        },
+        // {
+        //   title: 'Upload',
+        //   href: '/docs/components/upload',
+        //   items: [],
+        //   label: 'new',
+        // },
         // {
         //   title: 'Swapy',
         //   href: '/docs/components/swapy',
         //   label: 'new',
         //   items: [],
         // },
-        {
-          title: 'Table',
-          href: '/docs/components/table',
-          items: [],
-          label: 'new',
-        },
+        // {
+        //   title: 'Table',
+        //   href: '/docs/components/table',
+        //   items: [],
+        //   label: 'new',
+        // },
         {
           title: 'Tabs',
           href: '/docs/components/tabs',
@@ -127,11 +127,6 @@ export const docsConfig: DocsConfig = {
         {
           title: 'Text Area',
           href: '/docs/components/textarea',
-          items: [],
-        },
-        {
-          title: 'Toast',
-          href: '/docs/components/toast',
           items: [],
         },
         {

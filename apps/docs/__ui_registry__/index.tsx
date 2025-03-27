@@ -108,6 +108,56 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'toggle-group': {
+    name: 'toggle-group',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'toggle-group/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'toggle-group/toggle-group.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-ui-duckui/toggle-group'),
+    ),
+    source: '/registry-ui-duckui/src/toggle-group',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  sonner: {
+    name: 'sonner',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'sonner/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'sonner/sonner-v2.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'sonner/sonner.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-ui-duckui/sonner'),
+    ),
+    source: '/registry-ui-duckui/src/sonner',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   textarea: {
     name: 'textarea',
     description: '',
@@ -127,6 +177,54 @@ export const Index: Record<string, any> = {
       () => import('@gentelduck/registry-ui-duckui/textarea'),
     ),
     source: '/registry-ui-duckui/src/textarea',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  tabs: {
+    name: 'tabs',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'tabs/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'tabs/tabs.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentelduck/registry-ui-duckui/tabs')),
+    source: '/registry-ui-duckui/src/tabs',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  drawer: {
+    name: 'drawer',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'drawer/drawer.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'drawer/drawer.types.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'drawer/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-ui-duckui/drawer'),
+    ),
+    source: '/registry-ui-duckui/src/drawer',
     category: '',
     subcategory: '',
     chunks: [],
@@ -739,6 +837,158 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'badge-1': {
+    name: 'badge-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/badge/badge-1'),
+    ),
+    source: '/registry-examples-duckui/src/badge',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'badge-2': {
+    name: 'badge-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/badge/badge-2'),
+    ),
+    source: '/registry-examples-duckui/src/badge',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'badge-3': {
+    name: 'badge-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/badge/badge-3'),
+    ),
+    source: '/registry-examples-duckui/src/badge',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'badge-4': {
+    name: 'badge-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/badge/badge-4'),
+    ),
+    source: '/registry-examples-duckui/src/badge',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'badge-5': {
+    name: 'badge-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/badge/badge-5'),
+    ),
+    source: '/registry-examples-duckui/src/badge',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'badge-6': {
+    name: 'badge-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/badge/badge-6'),
+    ),
+    source: '/registry-examples-duckui/src/badge',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'badge-7': {
+    name: 'badge-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/badge/badge-7'),
+    ),
+    source: '/registry-examples-duckui/src/badge',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'badge-8': {
+    name: 'badge-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/badge/badge-8'),
+    ),
+    source: '/registry-examples-duckui/src/badge',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'tooltip-1': {
     name: 'tooltip-1',
     description: '',
@@ -990,6 +1240,198 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'toggle-group-1': {
+    name: 'toggle-group-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    files: [
+      {
+        path: 'toggle-group/toggle-group-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () =>
+        import(
+          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-1'
+        ),
+    ),
+    source: '/registry-examples-duckui/src/toggle-group',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'toggle-group-2': {
+    name: 'toggle-group-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    files: [
+      {
+        path: 'toggle-group/toggle-group-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () =>
+        import(
+          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-2'
+        ),
+    ),
+    source: '/registry-examples-duckui/src/toggle-group',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'toggle-group-3': {
+    name: 'toggle-group-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    files: [
+      {
+        path: 'toggle-group/toggle-group-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () =>
+        import(
+          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-3'
+        ),
+    ),
+    source: '/registry-examples-duckui/src/toggle-group',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'toggle-group-4': {
+    name: 'toggle-group-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    files: [
+      {
+        path: 'toggle-group/toggle-group-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () =>
+        import(
+          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-4'
+        ),
+    ),
+    source: '/registry-examples-duckui/src/toggle-group',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'toggle-group-5': {
+    name: 'toggle-group-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    files: [
+      {
+        path: 'toggle-group/toggle-group-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () =>
+        import(
+          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-5'
+        ),
+    ),
+    source: '/registry-examples-duckui/src/toggle-group',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'toggle-group-6': {
+    name: 'toggle-group-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    files: [
+      {
+        path: 'toggle-group/toggle-group-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () =>
+        import(
+          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-6'
+        ),
+    ),
+    source: '/registry-examples-duckui/src/toggle-group',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'toggle-group-7': {
+    name: 'toggle-group-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    files: [
+      {
+        path: 'toggle-group/toggle-group-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () =>
+        import(
+          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-7'
+        ),
+    ),
+    source: '/registry-examples-duckui/src/toggle-group',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'sonner-1': {
+    name: 'sonner-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['sonner'],
+    files: [
+      {
+        path: 'sonner/sonner-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/sonner/sonner-1'),
+    ),
+    source: '/registry-examples-duckui/src/sonner',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'sonner-2': {
+    name: 'sonner-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['sonner'],
+    files: [
+      {
+        path: 'sonner/sonner-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/sonner/sonner-2'),
+    ),
+    source: '/registry-examples-duckui/src/sonner',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'tabs-1': {
     name: 'tabs-1',
     description: '',
@@ -1138,6 +1580,158 @@ export const Index: Record<string, any> = {
       () => import('@gentelduck/registry-examples-duckui/textarea/textarea-7'),
     ),
     source: '/registry-examples-duckui/src/textarea',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-1': {
+    name: 'drawer-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-1'),
+    ),
+    source: '/registry-examples-duckui/src/drawer',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-2': {
+    name: 'drawer-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-2'),
+    ),
+    source: '/registry-examples-duckui/src/drawer',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-3': {
+    name: 'drawer-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-3'),
+    ),
+    source: '/registry-examples-duckui/src/drawer',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-4': {
+    name: 'drawer-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-4'),
+    ),
+    source: '/registry-examples-duckui/src/drawer',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-5': {
+    name: 'drawer-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-5'),
+    ),
+    source: '/registry-examples-duckui/src/drawer',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-6': {
+    name: 'drawer-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-6'),
+    ),
+    source: '/registry-examples-duckui/src/drawer',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-7': {
+    name: 'drawer-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-7'),
+    ),
+    source: '/registry-examples-duckui/src/drawer',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-8': {
+    name: 'drawer-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(
+      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-8'),
+    ),
+    source: '/registry-examples-duckui/src/drawer',
     category: '',
     subcategory: '',
     chunks: [],

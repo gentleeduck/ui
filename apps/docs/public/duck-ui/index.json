@@ -97,6 +97,51 @@
     "source": "/registry-ui-duckui/src/toggle"
   },
   {
+    "name": "toggle-group",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-toggle-group"
+    ],
+    "registryDependencies": [],
+    "root_folder": "toggle-group",
+    "files": [
+      {
+        "path": "toggle-group/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "toggle-group/toggle-group.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/toggle-group"
+  },
+  {
+    "name": "sonner",
+    "type": "registry:ui",
+    "dependencies": [
+      "sonner",
+      "next-themes"
+    ],
+    "registryDependencies": [],
+    "root_folder": "sonner",
+    "files": [
+      {
+        "path": "sonner/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sonner/sonner-v2.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sonner/sonner.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/sonner"
+  },
+  {
     "name": "textarea",
     "type": "registry:ui",
     "dependencies": [],
@@ -113,6 +158,48 @@
       }
     ],
     "source": "/registry-ui-duckui/src/textarea"
+  },
+  {
+    "name": "tabs",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-tabs"
+    ],
+    "registryDependencies": [],
+    "root_folder": "tabs",
+    "files": [
+      {
+        "path": "tabs/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "tabs/tabs.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/tabs"
+  },
+  {
+    "name": "drawer",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "drawer/drawer.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "drawer/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/drawer"
   },
   {
     "name": "button-1",
@@ -595,6 +682,126 @@
     "source": "/registry-examples-duckui/src/button"
   },
   {
+    "name": "badge-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "badge",
+    "files": [
+      {
+        "path": "badge/badge-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/badge"
+  },
+  {
+    "name": "badge-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "badge",
+    "files": [
+      {
+        "path": "badge/badge-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/badge"
+  },
+  {
+    "name": "badge-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "badge",
+    "files": [
+      {
+        "path": "badge/badge-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/badge"
+  },
+  {
+    "name": "badge-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "badge",
+    "files": [
+      {
+        "path": "badge/badge-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/badge"
+  },
+  {
+    "name": "badge-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "badge",
+    "files": [
+      {
+        "path": "badge/badge-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/badge"
+  },
+  {
+    "name": "badge-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "badge",
+    "files": [
+      {
+        "path": "badge/badge-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/badge"
+  },
+  {
+    "name": "badge-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "badge",
+    "files": [
+      {
+        "path": "badge/badge-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/badge"
+  },
+  {
+    "name": "badge-8",
+    "type": "registry:example",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "badge",
+    "files": [
+      {
+        "path": "badge/badge-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/badge"
+  },
+  {
     "name": "tooltip-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -792,6 +999,141 @@
     "source": "/registry-examples-duckui/src/toggle"
   },
   {
+    "name": "toggle-group-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "toggle-group",
+    "files": [
+      {
+        "path": "toggle-group/toggle-group-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle-group"
+  },
+  {
+    "name": "toggle-group-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "toggle-group",
+    "files": [
+      {
+        "path": "toggle-group/toggle-group-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle-group"
+  },
+  {
+    "name": "toggle-group-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "toggle-group",
+    "files": [
+      {
+        "path": "toggle-group/toggle-group-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle-group"
+  },
+  {
+    "name": "toggle-group-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "toggle-group",
+    "files": [
+      {
+        "path": "toggle-group/toggle-group-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle-group"
+  },
+  {
+    "name": "toggle-group-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "toggle-group",
+    "files": [
+      {
+        "path": "toggle-group/toggle-group-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle-group"
+  },
+  {
+    "name": "toggle-group-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "toggle-group",
+    "files": [
+      {
+        "path": "toggle-group/toggle-group-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle-group"
+  },
+  {
+    "name": "toggle-group-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "toggle-group",
+    "files": [
+      {
+        "path": "toggle-group/toggle-group-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/toggle-group"
+  },
+  {
+    "name": "sonner-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "sonner"
+    ],
+    "root_folder": "sonner",
+    "files": [
+      {
+        "path": "sonner/sonner-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/sonner"
+  },
+  {
+    "name": "sonner-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "sonner"
+    ],
+    "root_folder": "sonner",
+    "files": [
+      {
+        "path": "sonner/sonner-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/sonner"
+  },
+  {
     "name": "tabs-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -910,5 +1252,125 @@
       }
     ],
     "source": "/registry-examples-duckui/src/textarea"
+  },
+  {
+    "name": "drawer-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
+  },
+  {
+    "name": "drawer-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
+  },
+  {
+    "name": "drawer-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
+  },
+  {
+    "name": "drawer-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
+  },
+  {
+    "name": "drawer-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
+  },
+  {
+    "name": "drawer-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
+  },
+  {
+    "name": "drawer-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
+  },
+  {
+    "name": "drawer-8",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
   }
 ]

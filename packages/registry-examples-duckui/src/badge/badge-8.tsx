@@ -1,11 +1,11 @@
-import { Badge } from '@/registry/registry-ui-components'
+import { Badge } from '@gentelduck/registry-ui-duckui/badge'
 import { Info } from 'lucide-react'
 
 export default function Badge8Demo() {
   return (
     <Badge
-      arial-label="Badge"
-      role="button"
+      arial-label='Badge'
+      role='button'
       variant={'outline'}
       size={'icon'}
       label={{

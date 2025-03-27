@@ -28,7 +28,7 @@ import {
   DialogWrapperProps,
 } from './dialog.types'
 
-import { useMediaQuery } from '@gentelduck/hooks'
+import { useMediaQuery } from '@gentelduck/hooks/use-media-query'
 //FIX: remmote this import from any file.
 import { DialogProps } from '@radix-ui/react-dialog'
 
