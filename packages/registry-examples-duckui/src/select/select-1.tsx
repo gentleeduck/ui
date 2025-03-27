@@ -32,7 +32,7 @@ const FormSchema = z.object({
     .email(),
 })
 
-export function SelectForm() {
+export default function SelectForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })

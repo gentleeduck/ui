@@ -25,7 +25,7 @@ const FormSchema = z.object({
   }),
 })
 
-export function RadioGroupForm() {
+export default function RadioGroupForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })

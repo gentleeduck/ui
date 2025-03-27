@@ -1,6 +1,6 @@
 import { Separator } from '@gentelduck/registry-ui-duckui/separator'
 
-export function SeparatorDemo() {
+export default function SeparatorDemo() {
   return (
     <div>
       <div className='space-y-1'>
