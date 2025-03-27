@@ -64,6 +64,30 @@ export const registry_examples: Registry = [
     root_folder: 'textarea',
     files: [],
   },
+  {
+    name: 'checkbox',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-checkbox'],
+    registryDependencies: [],
+    root_folder: 'checkbox',
+    files: [],
+  },
+  {
+    name: 'input',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'input',
+    files: [],
+  },
+  {
+    name: 'label',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'label',
+    files: [],
+  }
   // {
   //   name: 'table-examples',
   //   type: 'registry:example',

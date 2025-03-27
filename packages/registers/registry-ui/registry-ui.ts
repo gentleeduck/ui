@@ -9,14 +9,14 @@ export const registry_ui: Registry = [
     root_folder: 'button',
     files: [],
   },
-  // {
-  //   name: 'badge',
-  //   type: 'registry:ui',
-  //   dependencies: ['@radix-ui/react-slot'],
-  //   registryDependencies: ['tooltip'],
-  //   root_folder: 'badge',
-  //   files: [],
-  // },
+  {
+    name: 'badge',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-slot'],
+    registryDependencies: ['tooltip'],
+    root_folder: 'badge',
+    files: [],
+  },
   {
     name: 'tooltip',
     type: 'registry:ui',
@@ -66,13 +66,30 @@ export const registry_ui: Registry = [
     files: [],
   },
   {
-    name: 'tabs',
+    name: 'checkbox',
     type: 'registry:ui',
-    dependencies: ['@radix-ui/react-tabs'],
+    dependencies: ['@radix-ui/react-checkbox'],
     registryDependencies: [],
-    root_folder: 'tabs',
+    root_folder: 'checkbox',
     files: [],
   },
+  {
+    name: 'input',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'input',
+    files: [],
+  },
+  {
+    name: 'label',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'label',
+    files: [],
+  }
+
   // {
   //   name: 'table',
   //   type: 'registry:ui',
@@ -93,6 +110,14 @@ export const registry_ui: Registry = [
   //   root_folder: 'table',
   //   files: [],
   // },
+  {
+    name: 'tabs',
+    type: 'registry:ui',
+    dependencies: ['@radix-ui/react-tabs'],
+    registryDependencies: [],
+    root_folder: 'tabs',
+    files: [],
+  },
   // {
   //   name: 'upload',
   //   type: 'registry:ui',
