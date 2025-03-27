@@ -21,7 +21,7 @@ const FormSchema = z.object({
   security_emails: z.boolean(),
 })
 
-export function SwitchForm() {
+export default function SwitchForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {

@@ -18,7 +18,7 @@ const SHEET_SIDES = ['top', 'right', 'bottom', 'left'] as const
 
 type SheetSide = (typeof SHEET_SIDES)[number]
 
-export function SheetSide() {
+export default function SheetSide() {
   return (
     <div className='grid grid-cols-2 gap-2'>
       {SHEET_SIDES.map((side) => (
