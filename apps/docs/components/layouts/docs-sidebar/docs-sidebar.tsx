@@ -22,11 +22,7 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
     items.length && (
       <div className='w-full flex flex-col'>
         {items.map((item, index) => (
-          <CategoryItem
-            key={index}
-            item={item}
-            pathname={pathname}
-          />
+          <CategoryItem key={index} item={item} pathname={pathname} />
         ))}
       </div>
     )
@@ -53,10 +49,7 @@ const CategoryItem = ({
       </div>
       <div className='border-l'>
         {item?.items?.length && (
-          <DocsSidebarNavItems
-            items={item.items}
-            pathname={pathname}
-          />
+          <DocsSidebarNavItems items={item.items} pathname={pathname} />
         )}
       </div>
     </div>
@@ -78,11 +71,7 @@ export function DocsSidebarNavItems({
     items?.length && (
       <ul>
         {items.map((item, index) => (
-          <DocsSidebarNavItem
-            key={index}
-            item={item}
-            pathname={pathname}
-          />
+          <DocsSidebarNavItem key={index} item={item} pathname={pathname} />
         ))}
       </ul>
     )
@@ -102,10 +91,10 @@ export function DocsSidebarNavItem({
         <Link
           href={item.href}
           className={cn(
-            'group flex w-full items-center px-4 py-1 focus-visible:border-l border-primary focus-visible:outline-none',
+            'group flex w-full items-center px-4 py-1 focus-visible:border-l border-primary focus-visible:outline-none text-sm',
             pathname === item.href
               ? 'font-medium text-foreground'
-              : 'text-muted-foreground'
+              : 'text-muted-foreground',
           )}
           target={item.external ? '_blank' : ''}
           rel={item.external ? 'noreferrer' : ''}
@@ -124,7 +113,7 @@ export function DocsSidebarNavItem({
   return (
     <span
       className={cn(
-        'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline'
+        'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
       )}
     >
       {item.title}

@@ -40,12 +40,12 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/accordion',
           items: [],
         },
-        // {
-        //   title: 'AlertDialog',
-        //   href: '/docs/components/alert-dialog',
-        //   items: [],
-        //   label: 'new',
-        // },
+        {
+          title: 'AlertDialog',
+          href: '/docs/components/alert-dialog',
+          items: [],
+          label: 'new',
+        },
         {
           title: 'Badge',
           href: '/docs/components/badge',
@@ -57,7 +57,6 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/button',
           items: [
             {
-              //TODO: make new side bar type
               title: 'Button',
               href: '/docs/components/button2',
               items: [],
@@ -95,24 +94,89 @@ export const docsConfig: DocsConfig = {
         //   items: [],
         //   label: 'new',
         // },
+        {
+          title: 'Hover Card',
+          href: '/docs/components/hover-card',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Input',
+          href: '/docs/components/input',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Label',
+          href: '/docs/components/label',
+          items: [],
+          label: 'new',
+        },
         // {
         //   title: 'NavGroup',
         //   href: '/docs/components/nav-group',
         //   items: [],
         //   label: 'new',
         // },
-        // {
-        //   title: 'Upload',
-        //   href: '/docs/components/upload',
-        //   items: [],
-        //   label: 'new',
-        // },
-        // {
-        //   title: 'Swapy',
-        //   href: '/docs/components/swapy',
-        //   label: 'new',
-        //   items: [],
-        // },
+        {
+          title: 'Progress',
+          href: '/docs/components/progress',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Radio Group',
+          href: '/docs/components/radio-group',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Scroll Area',
+          href: '/docs/components/scroll-area',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Select',
+          href: '/docs/components/select',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Separator',
+          href: '/docs/components/separator',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Sheet',
+          href: '/docs/components/sheet',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Skeleton',
+          href: '/docs/components/skeleton',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Slider',
+          href: '/docs/components/slider',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Sonner',
+          href: '/docs/components/sonner',
+          items: [],
+        },
+        {
+          title: 'Switch',
+          href: '/docs/components/switch',
+          items: [],
+          label: 'new',
+        },
         // {
         //   title: 'Table',
         //   href: '/docs/components/table',
@@ -130,11 +194,6 @@ export const docsConfig: DocsConfig = {
           items: [],
         },
         {
-          title: 'sonner',
-          href: '/docs/components/sonner',
-          items: [],
-        },
-        {
           title: 'Toggle',
           href: '/docs/components/toggle',
           items: [],
@@ -149,6 +208,12 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/tooltip',
           items: [],
         },
+        // {
+        //   title: 'Upload',
+        //   href: '/docs/components/upload',
+        //   items: [],
+        //   label: 'new',
+        // },
       ],
     },
   ],
