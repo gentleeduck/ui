@@ -1,33 +1,30 @@
-'use client'
-
 import { cn } from '@gentelduck/libs/cn'
 import { groupDataByNumbers } from '@gentelduck/libs/group-data-by-numbers'
 import { Dialog, DialogContent } from '@gentelduck/registry-ui-duckui/dialog'
 import { DialogProps } from '@radix-ui/react-dialog'
 import { Command as CommandPrimitive } from 'cmdk'
 import { Check, Search } from 'lucide-react'
-import React from 'react'
-import { Button } from '../button'
+import React, { useMemo } from 'react'
 import { Checkbox } from '../checkbox'
 import { ScrollArea } from '../scroll-area'
 import { Separator } from '../separator'
+import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+import { Button } from '../button'
+import {
+  CommandBadgeProps,
+  CommandEmptyProps,
+  CommandInputProps,
+  CommandItemProps,
+  CommandListProps,
+  CommandProps,
+} from './command.types'
+import { Input } from '../input'
+import {
+  debounceCallback,
+  useDebounceCallback,
+} from '@gentelduck/hooks/use-debounce'
 
-const Command = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive>
->(({ className, ...props }, ref) => (
-  <CommandPrimitive
-    ref={ref}
-    className={cn(
-      'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
-      className,
-    )}
-    {...props}
-  />
-))
-Command.displayName = CommandPrimitive.displayName
-
-interface CommandDialogProps extends DialogProps {}
+interface CommandDialogProps extends DialogProps { }
 
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
@@ -40,51 +37,6 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
     </Dialog>
   )
 }
-
-const CommandInput = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Input>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
->(({ className, ...props }, ref) => (
-  <div className='flex items-center border-b px-3 gap-1' cmdk-input-wrapper=''>
-    <Search className='h-4 w-4 shrink-0 opacity-50' />
-    <CommandPrimitive.Input
-      ref={ref}
-      className={cn(
-        'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
-        className,
-      )}
-      {...props}
-    />
-  </div>
-))
-
-CommandInput.displayName = CommandPrimitive.Input.displayName
-
-const CommandList = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
->(({ className, ...props }, ref) => (
-  <CommandPrimitive.List
-    ref={ref}
-    className={cn('max-h-[300px] overflow-y-auto overflow-x-hidden', className)}
-    {...props}
-  />
-))
-
-CommandList.displayName = CommandPrimitive.List.displayName
-
-const CommandEmpty = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Empty>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
->((props, ref) => (
-  <CommandPrimitive.Empty
-    ref={ref}
-    className='py-6 text-center text-sm'
-    {...props}
-  />
-))
-
-CommandEmpty.displayName = CommandPrimitive.Empty.displayName
 
 const CommandGroup = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Group>,
@@ -100,8 +52,6 @@ const CommandGroup = React.forwardRef<
   />
 ))
 
-CommandGroup.displayName = CommandPrimitive.Group.displayName
-
 const CommandSeparator = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
@@ -112,197 +62,131 @@ const CommandSeparator = React.forwardRef<
     {...props}
   />
 ))
-CommandSeparator.displayName = CommandPrimitive.Separator.displayName
 
-const CommandItem = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
->(({ className, ...props }, ref) => (
-  <CommandPrimitive.Item
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center rounded-xs px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50",
-      className,
-    )}
-    {...props}
-  />
-))
+/* --------------------------------------------------------------------------------------------- */
 
-CommandItem.displayName = CommandPrimitive.Item.displayName
+export type CommandContextType = {
+  search: string
+  setSearch: React.Dispatch<React.SetStateAction<string>>
+}
+const CommandContext = React.createContext<CommandContextType | null>(null)
+function useCommandContext() {
+  const context = React.useContext(CommandContext)
+  if (!context) {
+    throw new Error('useCommandContext must be used within a CommandProvider')
+  }
+  return context
+}
 
-const CommandShortcut = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) => {
+function Command({ className, ref, ...props }: CommandProps) {
+  const [search, setSearch] = React.useState<string>('')
+
   return (
-    <span
+    <CommandContext.Provider
+      value={{
+        search,
+        setSearch,
+      }}
+    >
+      <div
+        ref={ref}
+        className={cn(
+          'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
+          className,
+        )}
+        {...props}
+      />
+    </CommandContext.Provider>
+  )
+}
+
+function CommandInput({ className, ref, ...props }: CommandInputProps) {
+  const { setSearch } = useCommandContext()
+  const debouncedSetSearch = useDebounceCallback(setSearch, 300)
+
+  return (
+    <div
+      className='flex items-center border-b px-3 gap-1'
+      cmdk-input-wrapper=''
+    >
+      <Search className='h-4 w-4 shrink-0 opacity-50' />
+      <input
+        ref={ref}
+        onChange={(e) => debouncedSetSearch(e.target.value)}
+        className={cn(
+          'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
+          className,
+        )}
+        {...props}
+      />
+    </div>
+  )
+}
+
+export function CommandEmpty({ className, ref, ...props }: CommandEmptyProps) {
+  return <h6 ref={ref} className='py-6 text-center text-sm' {...props} />
+}
+
+function CommandList({ className, children, ref, ...props }: CommandListProps) {
+  const { search } = useCommandContext()
+  return (
+    <ul
+      ref={ref}
       className={cn(
-        'ml-auto text-xs tracking-widest text-muted-foreground',
+        'max-h-[300px] overflow-y-auto overflow-x-hidden p-1',
         className,
       )}
+      children={children(search)}
       {...props}
     />
   )
 }
-CommandShortcut.displayName = 'CommandShortcut'
 
-interface CommandListGroupDataType<
-  T extends keyof Record<string, unknown> = string,
-> {
-  label?: T
-  element?: ListItemElementType
-  onSelect?: OnSelectType
-}
-
-interface OnSelectType {
-  key?: <T extends string>(arg?: T) => void
-  clear?: <T extends string>(arg?: T) => void
-}
-
-interface ListItemElementType
-  extends Partial<
-    React.ComponentPropsWithoutRef<typeof CommandItem> &
-      React.CustomComponentPropsWithRef<typeof Button>
-  > {}
-
-interface CommandListGroupType {
-  type?: 'combobox' | 'listbox'
-  data: CommandListGroupDataType[]
-  group?: number[]
-  groupheading?: string[]
-  onSelect?: OnSelectType
-  selected: string[]
-  className?: string
-  checkabble?: boolean
-}
-
-const CommandListGroup = React.forwardRef(
-  (
-    {
-      data,
-      onSelect,
-      selected,
-      group,
-      groupheading,
+const CommandItem = ({ className, ref, ...props }: CommandItemProps) => (
+  <li
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-xs px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:size-4 flex gap-2",
       className,
-      checkabble = false,
-      type,
-    }: CommandListGroupType,
-    ref: React.Ref<HTMLDivElement>,
-  ) => {
-    const groupedData = groupDataByNumbers(data, group || [data.length])
-
-    return (
-      <>
-        <ScrollArea className={cn(className)}>
-          <CommandList
-            className={cn(
-              'overflow-hidden max-h-full',
-              type === 'listbox' && '',
-            )}
-            ref={ref}
-          >
-            <CommandEmpty>No framework found.</CommandEmpty>
-            {groupedData.map((group, idx) => {
-              return (
-                <CommandGroup heading={groupheading?.[idx]} key={idx}>
-                  {group.map((el, idx) => {
-                    const { children, className, icon, ...props } =
-                      el.element ?? {}
-
-                    return (
-                      <CommandItem
-                        key={idx}
-                        value={el.label}
-                        className={cn(
-                          'data-[disabled=true]:opacity-50',
-                          selected.includes(
-                            (el?.label as string) ??
-                              (el?.element?.children as string),
-                          ) &&
-                            type === 'combobox' &&
-                            'bg-accent text-accent-foreground',
-                          className,
-                        )}
-                        onSelect={onSelect?.key}
-                        {...(props as typeof CommandItem)}
-                      >
-                        {checkabble &&
-                          (type === 'combobox' ? (
-                            <Check
-                              className={cn(
-                                'mr-2 h-4 w-4',
-                                selected.includes(
-                                  (el?.label as string) ??
-                                    (el?.element?.children as string),
-                                )
-                                  ? 'opacity-100'
-                                  : 'opacity-0',
-                              )}
-                            />
-                          ) : (
-                            <Checkbox
-                              checked={selected.includes(
-                                (el?.label as string) ??
-                                  (el?.element?.children as string),
-                              )}
-                              className={cn(
-                                'mr-2 h-4 w-4  border-muted-foreground',
-                              )}
-                            />
-                          ))}
-                        <span className='flex items-center gap-2'>
-                          {icon && icon}
-                          {children ?? el?.label}
-                        </span>
-                        <CommandShortcut>
-                          {el.element?.label?.children}
-                        </CommandShortcut>
-                      </CommandItem>
-                    )
-                  })}
-                </CommandGroup>
-              )
-            })}
-          </CommandList>
-        </ScrollArea>
-        {selected.length > 0 && type === 'listbox' && (
-          <>
-            <Separator />
-            <Button
-              variant='ghost'
-              size={'sm'}
-              className='justify-center m-1 w-auto py-2 text-xs'
-              onClick={() => {
-                if (onSelect?.clear) {
-                  onSelect.clear()
-                }
-              }}
-            >
-              Clear Filter
-            </Button>
-          </>
-        )}
-      </>
-    )
-  },
+    )}
+    {...props}
+  />
 )
 
-CommandListGroup.displayName = 'CommandListGroup'
+function CommandShortcut({
+  className,
+  keys,
+  onKeysPressed,
+  ref,
+  ...props
+}: CommandBadgeProps) {
+  useDuckShortcut({
+    keys,
+    onKeysPressed: () => {
+      window.event?.preventDefault()
+      onKeysPressed()
+    },
+  })
+
+  return (
+    <kbd
+      className={cn(
+        'inline-flex items-center gap-[2px] transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 text-[.7rem] py-[.12rem] px-2 rounded-[4px] text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none ml-auto text-xs tracking-widest text-muted-foreground',
+        className,
+      )}
+      ref={ref}
+      {...props}
+    />
+  )
+}
 
 export {
   Command,
   CommandDialog,
   CommandInput,
   CommandList,
-  CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandShortcut,
   CommandSeparator,
-  CommandListGroup,
-  type CommandDialogProps,
-  type CommandListGroupDataType,
-  type ListItemElementType,
-  type CommandListGroupType,
 }

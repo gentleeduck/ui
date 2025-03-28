@@ -1,2 +1,2 @@
 export * from './command'
-export * from './command.hook'
+export * from './command.types'
