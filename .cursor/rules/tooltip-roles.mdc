@@ -1,0 +1,28 @@
+---
+description: we are creating tooltip instead of radix ui tooltip
+globs: 
+alwaysApply: false
+---
+# Cursor Rule Tooltip
+
+## Overview
+This document outlines the implementation of a high-performance tooltip system, similar to Radix UI, but optimized for performance and usability. The tooltip should:
+
+- Be lightweight and fast
+- Minimize re-renders
+- Use native event listeners efficiently
+- Provide accessible ARIA attributes
+- Support delay and position control
+
+## Resoureces
+  - https://github.com/radix-ui/primitives/tree/main/packages/react/tooltip
+  - @hay.tsx
+
+
+## Rules
+  - Do not use `js` to handle the animation on hover make it with `tailwindcss`.
+  - Refactor the `tooltipo arrow` to be sudo element `::after` to the `TooltipContent`.
+  - Reduce the code written to reduce the bundle size of the component.
+  - Fix the animation with transform origin the center the direction.
+
+
