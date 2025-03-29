@@ -23,8 +23,10 @@
 // const ShadcnBadge = lazy(()=> import('./duck/badge/badge')) 
 // const DuckLabel = lazy(()=> import('./duck/label/duck')) 
 // const ShadcnLabel = lazy(()=> import('./duck/label/label')) 
-import DuckLabel from './duck/label/duck'
-import ShadcnLabel from './duck/label/label'
+// import DuckLabel from './duck/label/duck'
+// import ShadcnLabel from './duck/label/label'
+// import DuckCheckbox from './duck/checkbox/duck'
+import ShadcnCheckbox from './duck/checkbox/checkbox'
 
 function App() {
   return (
@@ -43,8 +45,10 @@ function App() {
       <ShadcnToggle /> */}
       {/* <DuckBadge />
       <ShadcnBadge /> */}
-      <DuckLabel />
-      <ShadcnLabel />
+      {/* <DuckLabel />
+      <ShadcnLabel /> */}
+      {/* <DuckCheckbox /> */}
+      {/* <ShadcnCheckbox /> */}
     </div>
   )
 }
