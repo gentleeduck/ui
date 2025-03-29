@@ -1148,6 +1148,9 @@ importers:
       '@gentelduck/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript
+      '@radix-ui/react-accordion':
+        specifier: ^1.2.0
+        version: 1.2.3(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radix-ui/react-checkbox':
         specifier: ^1.1.1
         version: 1.1.4(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)

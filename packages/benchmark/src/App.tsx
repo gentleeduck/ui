@@ -32,6 +32,8 @@
 // import ShadcnHoverCard from './duck/hover-card/hover-card'
 // import DuckSlider from './duck/slider/duck'
 // import ShadcnSlider from './duck/slider/slider'
+// import DuckAccordion from './duck/accordion/duck'
+import ShadcnAccordion from './duck/accordion/accordion'
 // function Ui() {
 //   return (<>
 //     {/* <div className='flex flex-col gap-4 p-4'>
@@ -71,8 +73,8 @@ function App() {
   return (
     <div className='flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4'>
       {/* <Ui /> */}
-{/* <DuckSlider /> */}
-{/* <ShadcnSlider /> */}
+      {/* <DuckAccordion /> */}
+      <ShadcnAccordion />
     </div>
   )
 }
