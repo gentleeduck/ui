@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Button,
-  ButtonTooltip,
-  TooltipExample,
-  TooltipTrigger,
-} from "@gentelduck/registry-ui-duckui/button";
+import { ButonCommand, Button, ButtonCommand } from "@gentelduck/registry-ui-duckui/button";
 import { Label } from "@gentelduck/registry-ui-duckui/label";
 import {
   RadioGroup,
@@ -15,7 +10,14 @@ import {
   Tooltip,
   TooltipContent,
 } from "@gentelduck/registry-ui-duckui/tooltip";
-import { Calendar, Grab, LineChart, Pointer } from "lucide-react";
+import {
+  ArrowBigDown,
+  Calendar,
+  Command,
+  Grab,
+  LineChart,
+  Pointer,
+} from "lucide-react";
 
 export function MainExample() {
   // <Button
@@ -45,6 +47,14 @@ export function MainExample() {
           </Button>
         </Tooltip>
       </div>
+
+      <Button variant={"outline"} size={"default"} icon={<Calendar />}>
+        Mettings
+        <ButtonCommand>
+          <Command className="!size-3" />
+          +K
+        </ButtonCommand>
+      </Button>
 
       <Button variant={"outline"} size={"default"} icon={<Calendar />}>
         Mettings
