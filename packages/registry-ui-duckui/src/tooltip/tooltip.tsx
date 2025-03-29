@@ -1,31 +1,106 @@
-'use client'
+"use client";
 
-import * as React from 'react'
-import * as TooltipPrimitive from '@radix-ui/react-tooltip'
+import * as React from "react";
+import { cn } from "@gentelduck/libs/cn";
+import { tooltipVariants, tooltipArrowVariants } from "./tooltip.constants";
+import { useTooltipPosition, useViewportChanges } from "./tooltip.hooks";
+import type { TooltipContentProps, TooltipProps } from "./tooltip.types";
+import { buttonVariants } from "../button";
 
-import { cn } from '@gentelduck/libs/cn'
+export const Tooltip = ({
+  content,
+  children,
+  delayDuration = 500,
+  border,
+  size,
+  className,
+  disabled = false,
+  variant,
+}: TooltipProps) => {
+  if (disabled || content.length < 2) return <>{children}</>;
 
-const TooltipProvider = TooltipPrimitive.Provider
+  const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+  const contentRef = React.useRef<HTMLDivElement | null>(null);
 
-const Tooltip = TooltipPrimitive.Root
+  const { updatePosition } = useTooltipPosition(
+    content[1]?.position!,
+    content[1]?.sideOffset,
+    content[1].autoPosition,
+    //NOTE: add the `ref` here
+    { triggerRef, contentRef }
+  );
 
-const TooltipTrigger = TooltipPrimitive.Trigger
+  const setupViewportListeners = useViewportChanges(updatePosition, disabled);
 
-const TooltipContent = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
-  <TooltipPrimitive.Content
-    ref={ref}
-    sideOffset={sideOffset}
-    className={cn(
-      'z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-      className
-    )}
-    {...props}
-  />
-))
+  // Handle viewport changes
+  React.useEffect(setupViewportListeners, [setupViewportListeners]);
 
-TooltipContent.displayName = TooltipPrimitive.Content.displayName
+  const Conetent = content[0];
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+  return (
+    <button
+      className={cn(
+        "group/tooltip relative inline-block",
+        buttonVariants({ variant, size, border, className })
+      )}
+      style={
+        {
+          "--tooltip-delay": `${delayDuration}ms`,
+          "--side-offset": `${content[1].sideOffset}px`,
+        } as React.CSSProperties
+      }
+      onMouseEnter={updatePosition}
+      onFocus={updatePosition}
+    >
+      {/* TRIGGER */}
+      {children}
+
+      {/* CONTENT */}
+      {<Conetent {...content[1]} />}
+    </button>
+  );
+};
+
+export function TooltipContent({
+  position,
+  variant,
+  autoPosition,
+  sideOffset,
+  contentRef,
+  triggerRef,
+  className,
+  showArrow = false,
+  children,
+  ...props
+}: TooltipContentProps) {
+  const tooltipId = React.useId();
+  const { computedPosition } = useTooltipPosition(
+    position!,
+    sideOffset,
+    autoPosition,
+    { triggerRef, contentRef }
+  );
+  return (
+    <div
+      ref={contentRef}
+      id={tooltipId}
+      role="tooltip"
+      className={cn(
+        "w-full text-xs",
+        tooltipVariants({ variant, position: computedPosition }),
+        className
+      )}
+      data-side={computedPosition}
+    >
+      {children}
+      {showArrow && (
+        <span
+          className={cn(tooltipArrowVariants({ position: computedPosition }))}
+          aria-hidden="true"
+        />
+      )}
+    </div>
+  );
+}
+
+Tooltip.displayName = "Tooltip";
