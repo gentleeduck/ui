@@ -23,8 +23,11 @@
 // import ShadcnSwitch from './duck/switch/switch'
 // import DuckRadioGroup from './duck/radio-group/duck'
 // import ShadcnRadioGroup from './duck/radio-group/radio-group'
-import DuckInput from './duck/input/duck'
+// import DuckInput from './duck/input/duck'
 // import ShadcnInput from './duck/input/input'
+// import DuckScrollAreaExp from './duck/scroll-area/experimental'
+// import DuckScrollArea from './duck/scroll-area/duck'
+import ShadcnScrollArea from './duck/scroll-area/scroll-area'
 
 function Ui() {
   return (<>
@@ -65,8 +68,9 @@ function App() {
   return (
     <div className='flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4'>
       <Ui />
-      <DuckInput/>
-      {/* <ShadcnInput />  */}
+      {/* <DuckScrollAreaExp/> */}
+      {/* <DuckScrollArea/> */}
+      <ShadcnScrollArea/>
 
     </div>
   )
