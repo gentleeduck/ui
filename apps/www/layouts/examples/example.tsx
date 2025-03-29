@@ -38,18 +38,11 @@ export function MainExample() {
     <div className="flex flex-col gap-3 items-center">
       <div className="relative w-full">
         <Pointer className="size-4 absolute top-3 right-0 z-10 fill-white" />
-        <Tooltip
-          variant={"outline"}
-          content={[
-            TooltipContent,
-            {
-              children: "5 meetings remaining for today.",
-              sideOffset: 4,
-              className: "w-[250px]",
-            },
-          ]}
-        >
-          Mettings
+        <Tooltip>
+          <TooltipContent>5 meetings remaining for today.</TooltipContent>
+          <Button variant={"outline"} size={"default"} icon={<Calendar />}>
+            Mettings
+          </Button>
         </Tooltip>
       </div>
 
@@ -69,27 +62,5 @@ export function MainExample() {
         </Button>
       </div>
     </div>
-  );
-}
-
-export function RadioGroupDemo() {
-  return (
-    <RadioGroup
-      defaultValue="comfortable"
-      // defaultValue : 'default' | 'comfortable' | 'compact'
-    >
-      <div className="flex items-center space-x-2">
-        <RadioGroupItem value="default" id="r1" />
-        <Label htmlFor="r1">Default</Label>
-      </div>
-      <div className="flex items-center space-x-2">
-        <RadioGroupItem value="comfortable" id="r2" />
-        <Label htmlFor="r2">Comfortable</Label>
-      </div>
-      <div className="flex items-center space-x-2">
-        <RadioGroupItem value="compact" id="r3" />
-        <Label htmlFor="r3">Compact</Label>
-      </div>
-    </RadioGroup>
   );
 }

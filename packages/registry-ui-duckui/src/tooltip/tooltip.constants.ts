@@ -3,13 +3,11 @@ import { cva } from "class-variance-authority";
 export const tooltipVariants = cva(
   [
     // Base styles
-    "z-50 absolute rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md overflow-hidden",
+    "flex z-50 absolute rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md overflow-hidden",
     // Animation base
     "select-none will-change-[transform,opacity]",
     "animate-in duration-[150ms] ease-in-out",
     "fade-in-0 zoom-in-95",
-    // Exit animations
-    "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-100",
   ].join(" "),
   {
     variants: {
@@ -30,25 +28,21 @@ export const tooltipVariants = cva(
           "bottom-[calc(100%+var(--side-offset))] left-1/2 -translate-x-1/2",
           "origin-[var(--radix-tooltip-content-transform-origin)]",
           "data-[side=top]:slide-in-from-bottom-2",
-          "data-[state=closed]:data-[side=top]:slide-out-to-bottom-2",
         ],
         bottom: [
           "top-[calc(100%+var(--side-offset))] left-1/2 -translate-x-1/2",
           "origin-[var(--radix-tooltip-content-transform-origin)]",
           "data-[side=bottom]:slide-in-from-top-2",
-          "data-[state=closed]:data-[side=bottom]:slide-out-to-top-2",
         ],
         left: [
           "right-[calc(100%+var(--side-offset))] top-1/2 -translate-y-1/2",
           "origin-[var(--radix-tooltip-content-transform-origin)]",
           "data-[side=left]:slide-in-from-right-2",
-          "data-[state=closed]:data-[side=left]:slide-out-to-right-2",
         ],
         right: [
           "left-[calc(100%+var(--side-offset))] top-1/2 -translate-y-1/2",
           "origin-[var(--radix-tooltip-content-transform-origin)]",
           "data-[side=right]:slide-in-from-left-2",
-          "data-[state=closed]:data-[side=right]:slide-out-to-left-2",
         ],
       },
     },
@@ -67,22 +61,10 @@ export const tooltipArrowVariants = cva(
   {
     variants: {
       position: {
-        top: [
-          "bottom-[-4px] left-1/2 -translate-x-1/2",
-          "border-r border-b",
-        ],
-        bottom: [
-          "top-[-4px] left-1/2 -translate-x-1/2",
-          "border-l border-t",
-        ],
-        left: [
-          "right-[-4px] top-1/2 -translate-y-1/2",
-          "border-t border-r",
-        ],
-        right: [
-          "left-[-4px] top-1/2 -translate-y-1/2",
-          "border-b border-l",
-        ],
+        top: ["bottom-[-4px] left-1/2 -translate-x-1/2", "border-r border-b"],
+        bottom: ["top-[-4px] left-1/2 -translate-x-1/2", "border-l border-t"],
+        left: ["right-[-4px] top-1/2 -translate-y-1/2", "border-t border-r"],
+        right: ["left-[-4px] top-1/2 -translate-y-1/2", "border-b border-l"],
       },
     },
     defaultVariants: {

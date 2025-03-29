@@ -3,99 +3,55 @@
 import * as React from "react";
 import { cn } from "@gentelduck/libs/cn";
 import { tooltipVariants, tooltipArrowVariants } from "./tooltip.constants";
-import { useTooltipPosition, useViewportChanges } from "./tooltip.hooks";
 import type { TooltipContentProps, TooltipProps } from "./tooltip.types";
-import { buttonVariants } from "../button";
 
 export const Tooltip = ({
-  content,
   children,
   delayDuration = 500,
-  border,
+  sideOffset = 4,
   size,
   className,
-  disabled = false,
-  variant,
+  asChild,
+  ...props
 }: TooltipProps) => {
-  if (disabled || content.length < 2) return <>{children}</>;
-
-  const triggerRef = React.useRef<HTMLButtonElement | null>(null);
-  const contentRef = React.useRef<HTMLDivElement | null>(null);
-
-  const { updatePosition } = useTooltipPosition(
-    content[1]?.position!,
-    content[1]?.sideOffset,
-    content[1].autoPosition,
-    //NOTE: add the `ref` here
-    { triggerRef, contentRef }
-  );
-
-  const setupViewportListeners = useViewportChanges(updatePosition, disabled);
-
-  // Handle viewport changes
-  React.useEffect(setupViewportListeners, [setupViewportListeners]);
-
-  const Conetent = content[0];
-
   return (
-    <button
+    <div
       className={cn(
-        "group/tooltip relative inline-block",
-        buttonVariants({ variant, size, border, className })
+        "relative inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 font-regular cursor-pointer",
+        "group/tooltip flex w-full"
       )}
       style={
         {
           "--tooltip-delay": `${delayDuration}ms`,
-          "--side-offset": `${content[1].sideOffset}px`,
+          "--side-offset": `${sideOffset}px`,
         } as React.CSSProperties
       }
-      onMouseEnter={updatePosition}
-      onFocus={updatePosition}
+      {...props}
     >
-      {/* TRIGGER */}
       {children}
-
-      {/* CONTENT */}
-      {<Conetent {...content[1]} />}
-    </button>
+    </div>
   );
 };
 
 export function TooltipContent({
   position,
   variant,
-  autoPosition,
-  sideOffset,
-  contentRef,
-  triggerRef,
   className,
   showArrow = false,
   children,
   ...props
 }: TooltipContentProps) {
-  const tooltipId = React.useId();
-  const { computedPosition } = useTooltipPosition(
-    position!,
-    sideOffset,
-    autoPosition,
-    { triggerRef, contentRef }
-  );
   return (
     <div
-      ref={contentRef}
-      id={tooltipId}
       role="tooltip"
-      className={cn(
-        "w-full text-xs",
-        tooltipVariants({ variant, position: computedPosition }),
-        className
-      )}
-      data-side={computedPosition}
+      className={cn(tooltipVariants({ variant, position }), className)}
+      data-side={position}
+      {...props}
     >
       {children}
       {showArrow && (
         <span
-          className={cn(tooltipArrowVariants({ position: computedPosition }))}
+          className={cn(tooltipArrowVariants({ position }))}
           aria-hidden="true"
         />
       )}
