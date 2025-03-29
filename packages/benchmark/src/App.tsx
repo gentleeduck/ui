@@ -21,10 +21,10 @@
 // import ShadcnCheckbox from './duck/checkbox/checkbox'
 // import DuckSwitch from './duck/switch/duck'
 // import ShadcnSwitch from './duck/switch/switch'
-import DuckRadioGroup from './duck/radio-group/duck'
+// import DuckRadioGroup from './duck/radio-group/duck'
 // import ShadcnRadioGroup from './duck/radio-group/radio-group'
-// const ShadcnSwitch = lazy(()=> import('./duck/switch/switch'))
-// const DuckSwitch = lazy(()=> import('./duck/switch/duck'))
+import DuckInput from './duck/input/duck'
+// import ShadcnInput from './duck/input/input'
 
 function Ui() {
   return (<>
@@ -65,8 +65,8 @@ function App() {
   return (
     <div className='flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4'>
       <Ui />
-      {/* <ShadcnRadioGroup /> */}
-      <DuckRadioGroup /> 
+      <DuckInput/>
+      {/* <ShadcnInput />  */}
 
     </div>
   )

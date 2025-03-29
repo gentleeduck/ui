@@ -1,10 +1,10 @@
 import * as React from 'react'
 
 import { cn } from '@gentelduck/libs/cn'
-import { Badge } from '../badge'
-import { LabelType } from '../button'
-import { CommandShortcut } from '../command'
-import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
+// import { Badge } from '../badge'
+// import { LabelType } from '../button'
+// import { CommandShortcut } from '../command'
+// import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -26,56 +26,56 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 )
 Input.displayName = 'Input'
 
-export interface InputCustomViewProps {
-  trigger: React.ComponentPropsWithoutRef<typeof Input>
-  label?: LabelType
-  badge?: React.ComponentPropsWithoutRef<typeof CommandShortcut>
-}
+// export interface InputCustomViewProps {
+//   trigger: React.ComponentPropsWithoutRef<typeof Input>
+//   label?: LabelType
+//   badge?: React.ComponentPropsWithoutRef<typeof CommandShortcut>
+// }
 
-const InputCustomView = React.forwardRef<
-  React.ElementRef<typeof Input>,
-  InputCustomViewProps
->(({ trigger, label, badge }, ref) => {
-  const {
-    children: badgeChildren,
-    className: badgeClassName,
-    ...badgeProps
-  } = badge ?? {}
-  const {
-    children: labelChildren,
-    className: labelClassName,
-    ...labelProps
-  } = label ?? {}
-  const { className: triggerClassName, ...triggerProps } = trigger ?? {}
-  return (
-    <div className='flex flex-col'>
-      <Tooltip delayDuration={0}>
-        <TooltipTrigger>
-          <Input
-            ref={ref}
-            className={cn('h-8 w-[150px] lg:w-[200px]', triggerClassName)}
-            {...triggerProps}
-          />
-        </TooltipTrigger>
-        <TooltipContent
-          className={cn(
-            'flex items-center gap-2 z-50 justify-start',
-            labelClassName,
-          )}
-          {...labelProps}
-        >
-          <CommandShortcut className='text-[.8rem]' {...badgeProps}>
-            <Badge variant='secondary' size='sm' className='p-0 px-2'>
-              {badgeChildren}
-            </Badge>
-          </CommandShortcut>
-          <p className='text-sm'>{labelChildren}</p>
-        </TooltipContent>
-      </Tooltip>
-    </div>
-  )
-})
+// const InputCustomView = React.forwardRef<
+//   React.ElementRef<typeof Input>,
+//   InputCustomViewProps
+// >(({ trigger, label, badge }, ref) => {
+//   const {
+//     children: badgeChildren,
+//     className: badgeClassName,
+//     ...badgeProps
+//   } = badge ?? {}
+//   const {
+//     children: labelChildren,
+//     className: labelClassName,
+//     ...labelProps
+//   } = label ?? {}
+//   const { className: triggerClassName, ...triggerProps } = trigger ?? {}
+//   return (
+//     <div className='flex flex-col'>
+//       <Tooltip delayDuration={0}>
+//         <TooltipTrigger>
+//           <Input
+//             ref={ref}
+//             className={cn('h-8 w-[150px] lg:w-[200px]', triggerClassName)}
+//             {...triggerProps}
+//           />
+//         </TooltipTrigger>
+//         <TooltipContent
+//           className={cn(
+//             'flex items-center gap-2 z-50 justify-start',
+//             labelClassName,
+//           )}
+//           {...labelProps}
+//         >
+//           <CommandShortcut className='text-[.8rem]' {...badgeProps}>
+//             <Badge variant='secondary' size='sm' className='p-0 px-2'>
+//               {badgeChildren}
+//             </Badge>
+//           </CommandShortcut>
+//           <p className='text-sm'>{labelChildren}</p>
+//         </TooltipContent>
+//       </Tooltip>
+//     </div>
+//   )
+// })
 
-InputCustomView.displayName = 'InputWithLabel'
+// InputCustomView.displayName = 'InputWithLabel'
 
-export { Input, InputCustomView }
+export { Input }
