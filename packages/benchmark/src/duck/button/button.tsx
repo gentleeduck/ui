@@ -1,13 +1,11 @@
 import { Button } from "@/components/ui/button"
-import { useState } from 'react'
 
 function ShadcnButton() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-        <Button asChild onClick={() => setCount((count) => count + 1)}>
-          <a href="">count is {count}</a>
+        <Button asChild>
+          <a href="">count is</a>
         </Button>
     </>
   )
