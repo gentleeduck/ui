@@ -33,7 +33,9 @@
 // import DuckSlider from './duck/slider/duck'
 // import ShadcnSlider from './duck/slider/slider'
 // import DuckAccordion from './duck/accordion/duck'
-import ShadcnAccordion from './duck/accordion/accordion'
+// import ShadcnAccordion from './duck/accordion/accordion'
+// import DuckProgress from './duck/progress/duck'
+import ShadcnProgress from './duck/progress/progress'
 // function Ui() {
 //   return (<>
 //     {/* <div className='flex flex-col gap-4 p-4'>
@@ -73,8 +75,8 @@ function App() {
   return (
     <div className='flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4'>
       {/* <Ui /> */}
-      {/* <DuckAccordion /> */}
-      <ShadcnAccordion />
+      {/* <DuckProgress /> */}
+      <ShadcnProgress />
     </div>
   )
 }
