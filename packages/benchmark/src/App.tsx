@@ -29,8 +29,9 @@
 // import DuckScrollArea from './duck/scroll-area/duck'
 // import ShadcnScrollArea from './duck/scroll-area/scroll-area'
 // import DuckHoverCard from './duck/hover-card/duck'
-import ShadcnHoverCard from './duck/hover-card/hover-card'
-
+// import ShadcnHoverCard from './duck/hover-card/hover-card'
+// import DuckSlider from './duck/slider/duck'
+// import ShadcnSlider from './duck/slider/slider'
 // function Ui() {
 //   return (<>
 //     {/* <div className='flex flex-col gap-4 p-4'>
@@ -70,8 +71,8 @@ function App() {
   return (
     <div className='flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4'>
       {/* <Ui /> */}
-{/* <DuckHoverCard /> */}
-<ShadcnHoverCard />
+{/* <DuckSlider /> */}
+{/* <ShadcnSlider /> */}
     </div>
   )
 }
