@@ -42,7 +42,9 @@
 // import DuckSeparatorExp from './duck/separator/experimental'
 // import ShadcnSeparator from './duck/separator/separator'
 // import DuckSkeleton from './duck/skeleton/duck'
-import ShadcnSkeleton from './duck/skeleton/skeleton'
+// import ShadcnSkeleton from './duck/skeleton/skeleton'
+import DuckSheet from './duck/sheet/duck'
+import ShadcnSheet from './duck/sheet/sheet'
 // function Ui() {
 //   return (<>
 //     {/* <div className='flex flex-col gap-4 p-4'>
@@ -82,8 +84,8 @@ function App() {
   return (
     <div className='flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4'>
       {/* <Ui /> */}
-      <ShadcnSkeleton />
-      {/* <DuckSeparatorExp /> */}
+      <DuckSheet />
+      <ShadcnSheet />
     </div>
   )
 }
