@@ -27,51 +27,51 @@
 // import ShadcnInput from './duck/input/input'
 // import DuckScrollAreaExp from './duck/scroll-area/experimental'
 // import DuckScrollArea from './duck/scroll-area/duck'
-import ShadcnScrollArea from './duck/scroll-area/scroll-area'
+// import ShadcnScrollArea from './duck/scroll-area/scroll-area'
+// import DuckHoverCard from './duck/hover-card/duck'
+import ShadcnHoverCard from './duck/hover-card/hover-card'
 
-function Ui() {
-  return (<>
-    {/* <div className='flex flex-col gap-4 p-4'>
-      <NativeButton />
-      <NativeTextarea />
-    </div> */}
+// function Ui() {
+//   return (<>
+//     {/* <div className='flex flex-col gap-4 p-4'>
+//       <NativeButton />
+//       <NativeTextarea />
+//     </div> */}
 
-    {/* <div className='flex flex-col gap-4 p-4'>
-      <DuckButton />
-      <DuckTextarea />
-      <DuckTabs />
-      <DuckToggleGroup />
-      <DuckToggle />
-      <DuckBadge />
-      <DuckLabel />
-      <DuckCheckbox />
-      <DuckSwitch />
-    </div>
+//     {/* <div className='flex flex-col gap-4 p-4'>
+//       <DuckButton />
+//       <DuckTextarea />
+//       <DuckTabs />
+//       <DuckToggleGroup />
+//       <DuckToggle />
+//       <DuckBadge />
+//       <DuckLabel />
+//       <DuckCheckbox />
+//       <DuckSwitch />
+//     </div>
 
-    <div className='flex flex-col gap-4 p-4'>
-      <ShadcnButton />
-      <ShadcnTextarea />
-      <ShadcnTabs />
-      <ShadcnToggleGroup />
-      <ShadcnToggle />
-      <ShadcnBadge />
-      <ShadcnLabel />
-      <ShadcnCheckbox />
-      <ShadcnSwitch />
-    </div> */}
-  </>
+//     <div className='flex flex-col gap-4 p-4'>
+//       <ShadcnButton />
+//       <ShadcnTextarea />
+//       <ShadcnTabs />
+//       <ShadcnToggleGroup />
+//       <ShadcnToggle />
+//       <ShadcnBadge />
+//       <ShadcnLabel />
+//       <ShadcnCheckbox />
+//       <ShadcnSwitch />
+//     </div> */}
+//   </>
 
-  )
-}
+//   )
+// }
 
 function App() {
   return (
     <div className='flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4'>
-      <Ui />
-      {/* <DuckScrollAreaExp/> */}
-      {/* <DuckScrollArea/> */}
-      <ShadcnScrollArea/>
-
+      {/* <Ui /> */}
+{/* <DuckHoverCard /> */}
+<ShadcnHoverCard />
     </div>
   )
 }
