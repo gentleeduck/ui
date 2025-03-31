@@ -123,9 +123,6 @@ export function MainExample() {
           +K
         </CommandShortcut>
       </Button>
-      <Button variant={'outline'} size={'default'} icon={<Calendar />}>
-        Mettings
-      </Button>
       <div className='relative'>
         <Grab className='size-3 absolute -top-1 right-8 z-10 fill-white' />
 
@@ -140,7 +137,7 @@ export function MainExample() {
       </div>
       <Command className='rounded-lg border shadow-md md:min-w-[450px] pb-2'>
         <CommandInput placeholder='Search...' />
-        <CommandList className='max-h-[280px]'>
+        <CommandList className='max-h-[299px]'>
           {(search) => {
             const filteredGroups = items
               .map((group) => ({
