@@ -34,6 +34,7 @@ import {
 } from 'lucide-react'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -55,6 +56,7 @@ import {
 import { CssVariable } from 'next/dist/compiled/@next/font'
 import { Input } from '@gentelduck/registry-ui-duckui/input'
 import { Label } from '@gentelduck/registry-ui-duckui/label'
+import React from 'react'
 
 export function MainExample() {
   const items = [
@@ -63,8 +65,8 @@ export function MainExample() {
       items: [
         { name: 'Dashboard', icon: <LayoutDashboard />, key: 'ctrl+D' },
         { name: 'Projects', icon: <Folder />, key: 'ctrl+P' },
-        { name: 'Teams', icon: <Users />, key: 'ctrl+T' },
         { name: 'Reports', icon: <BarChart />, key: 'ctrl+R' },
+        { name: 'Teams', icon: <Users />, key: 'ctrl+T' },
       ],
     },
     {
@@ -161,8 +163,8 @@ export function MainExample() {
 
             return filteredGroups.length > 0 ? (
               filteredGroups.map((group, idx) => (
-                <>
-                  <CommandGroup key={group.title} heading={group.title}>
+                <React.Fragment key={group.title}>
+                  <CommandGroup heading={group.title}>
                     {group.items.map((item) => (
                       <CommandItem key={item.key}>
                         {item.icon}
@@ -180,7 +182,7 @@ export function MainExample() {
                     ))}
                   </CommandGroup>
                   {idx !== filteredGroups.length - 1 && <CommandSeparator />}
-                </>
+                </React.Fragment>
               ))
             ) : (
               <CommandEmpty>No results found.</CommandEmpty>
@@ -189,48 +191,34 @@ export function MainExample() {
         </CommandList>
       </Command>
 
-      {
-        // <Dialog>
-        //   <DialogTrigger asChild>
-        //     <Button variant='outline'>Edit Profile</Button>
-        //   </DialogTrigger>
-        //   <DialogContent className='sm:max-w-[425px]'>
-        //     <DialogHeader>
-        //       <DialogTitle>Edit profile</DialogTitle>
-        //       <DialogDescription>
-        //         Make changes to your profile here. Click save when you're done.
-        //       </DialogDescription>
-        //     </DialogHeader>
-        //     <div className='grid gap-4 py-4'>
-        //       <div className='grid grid-cols-4 items-center gap-4'>
-        //         <Label htmlFor='name' className='text-right'>
-        //           Name
-        //         </Label>
-        //         <Input id='name' value='Pedro Duarte' className='col-span-3' />
-        //       </div>
-        //       <div className='grid grid-cols-4 items-center gap-4'>
-        //         <Label htmlFor='username' className='text-right'>
-        //           Username
-        //         </Label>
-        //         <Input id='username' value='@peduarte' className='col-span-3' />
-        //       </div>
-        //     </div>
-        //     <DialogFooter>
-        //       <Button type='submit'>Save changes</Button>
-        //     </DialogFooter>
-        //   </DialogContent>
-        // </Dialog>
-      }
-
-      <dialog
-        open
-        className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background p-6 shadow-lg border rounded-md '
-      >
-        <p>Greetings, one and all!</p>
-        <form method='dialog'>
-          <button>OK</button>
-        </form>
-      </dialog>
+      <Dialog>
+        <DialogTrigger>Edit Profile</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className='grid gap-4 py-4'>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='name' className='text-right'>
+                Name
+              </Label>
+              <Input id='name' value='wild duck' className='col-span-3' />
+            </div>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='username' className='text-right'>
+                Username
+              </Label>
+              <Input id='username' value='@wildduck2' className='col-span-3' />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose>Save changes</DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

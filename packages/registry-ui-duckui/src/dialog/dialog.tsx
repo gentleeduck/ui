@@ -1,221 +1,160 @@
-import { VariantProps } from 'class-variance-authority'
-import { tooltipVariants } from './tooltip.constants'
+import { cn } from '@gentelduck/libs/cn'
+import { Button, ButtonProps } from '../button'
+import React from 'react'
+import { X } from 'lucide-react'
 
 /**
- * Props for the Tooltip component.
- *
- * This interface extends the standard HTML div properties (except for the "content" prop)
- * and adds additional tooltip-specific properties.
+ * A component that serves as the trigger for opening a dialog.
+ * It is a wrapper around the `DialogPrimitive.Trigger` component.
  */
-export interface TooltipProps extends React.HTMLProps<HTMLButtonElement> {
-  /** If true, the tooltip will render its child element directly, inheriting its styles. */
-  asChild?: boolean
-  /** The delay in milliseconds before the tooltip is shown after hover or focus. */
-  delayDuration?: number
-  /** The offset distance in pixels between the tooltip and the trigger element. */
-  sideOffset?: number
-}
 
 /**
- * Props for the TooltipContent component.
- *
- * This interface extends the standard HTML div properties and includes variant properties
- * from the tooltipVariants configuration, allowing for style customization.
+ * A component that renders a dialog portal using the DialogPrimitive.Portal.
+ * This component is used to create a portal for the dialog, allowing it to be rendered
+ * outside of the DOM hierarchy of its parent component.
  */
-export interface TooltipContentProps
-  extends React.HTMLProps<HTMLDivElement>,
-    VariantProps<typeof tooltipVariants> {
-  /** Determines whether an arrow should be rendered on the tooltip to point at the trigger element.*/
-  showArrow?: boolean
-}
-// //FIX: remmote this import from any file.
-// import { DialogProps } from '@radix-ui/react-dialog'
-//
-// /**
-//  * Dialog component that serves as the root for the dialog primitive.
-//  * This component is used to create a dialog interface in the application.
-//  */
-// const Dialog = DialogPrimitive.Root
-//
-// /**
-//  * A component that serves as the trigger for opening a dialog.
-//  * It is a wrapper around the `DialogPrimitive.Trigger` component.
-//  */
-// const DialogTrigger = DialogPrimitive.Trigger
-//
-// /**
-//  * A component that renders a dialog portal using the DialogPrimitive.Portal.
-//  * This component is used to create a portal for the dialog, allowing it to be rendered
-//  * outside of the DOM hierarchy of its parent component.
-//  */
 // const DialogPortal = DialogPrimitive.Portal
-//
-// /**
-//  * A component that provides a button to close the dialog.
-//  * This is a wrapper around the `DialogPrimitive.Close` component.
-//  */
-// const DialogClose = DialogPrimitive.Close
-//
-// /**
-//  * `DialogOverlay` is a React forwardRef component that renders an overlay for a dialog.
-//  * It uses `DialogPrimitive.Overlay` as the base component and applies additional styles
-//  * and animations based on the dialog's state.
-//  *
-//  * @param {string} className - Additional class names to apply to the overlay.
-//  * @param {React.Ref} ref - A ref to be forwarded to the `DialogPrimitive.Overlay` component.
-//  * @param {object} props - Additional props to be passed to the `DialogPrimitive.Overlay` component.
-//  *
-//  * @returns {JSX.Element} The rendered overlay component.
-//  */
-// const DialogOverlay = React.forwardRef<
-//   React.ElementRef<typeof DialogPrimitive.Overlay>,
-//   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
-// >(({ className, ...props }, ref) => (
-//   <DialogPrimitive.Overlay
-//     ref={ref}
-//     className={cn(
-//       'fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-//       className,
-//     )}
-//     {...props}
-//   />
-// ))
-// DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
-//
-// /**
-//  * `DialogContent` is a React component that renders the content of a dialog.
-//  * It uses `React.forwardRef` to pass a ref to the underlying `DialogPrimitive.Content` component.
-//  *
-//  * @param {Object} props - The properties passed to the component.
-//  * @param {string} [props.className] - Additional class names to apply to the dialog content.
-//  * @param {React.ReactNode} props.children - The content to be displayed inside the dialog.
-//  * @param {React.Ref} ref - The ref to be forwarded to the `DialogPrimitive.Content` component.
-//  *
-//  * @returns {JSX.Element} The rendered dialog content component.
-//  */
-// const DialogContent = React.forwardRef<
-//   React.ElementRef<typeof DialogPrimitive.Content>,
-//   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
-// >(({ className, children, ...props }, ref) => (
-//   <DialogPortal>
-//     <DialogOverlay />
-//     <DialogPrimitive.Content
-//       ref={ref}
-//       className={cn(
-//         'fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95  sm:rounded-lg',
-//         className,
-//       )}
-//       {...props}
-//     >
-//       {children}
-//       <DialogPrimitive.Close className='absolute right-4 top-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground'>
-//         <X className='h-4 w-4' />
-//         <span className='sr-only'>Close</span>
-//       </DialogPrimitive.Close>
-//     </DialogPrimitive.Content>
-//   </DialogPortal>
-// ))
-// DialogContent.displayName = DialogPrimitive.Content.displayName
-//
-// /**
-//  * DialogHeader component renders a header section for a dialog.
-//  * It supports additional class names and props to customize the
-//  * appearance and behavior of the header. The component uses a
-//  * flexbox layout to arrange its children in a vertical column
-//  * and applies responsive text alignment.
-//  *
-//  * @param {object} props - The properties passed to the component.
-//  * @param {string} props.className - Additional class names for styling.
-//  * @returns {JSX.Element} The rendered DialogHeader component.
-//  */
-// function DialogHeader({
-//   className,
-//   ...props
-// }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
-//   return (
-//     <div
-//       className={cn(
-//         'flex flex-col space-y-1.5 text-center sm:text-left',
-//         className,
-//       )}
-//       {...props}
-//     />
-//   )
-// }
-// DialogHeader.displayName = 'DialogHeader'
-//
-// /**
-//  * DialogFooter component renders a footer section for a dialog.
-//  * It supports additional class names and props to customize the
-//  * appearance and behavior of the footer. The component uses a
-//  * flexbox layout to arrange its children in a column on small
-//  * screens and in a row with space between items on larger screens.
-//  *
-//  * @param {object} props - The properties passed to the component.
-//  * @param {string} props.className - Additional class names for styling.
-//  * @returns {JSX.Element} The rendered DialogFooter component.
-//  */
-// function DialogFooter({
-//   className,
-//   ...props
-// }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
-//   return (
-//     <div
-//       className={cn(
-//         'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-//         className,
-//       )}
-//       {...props}
-//     />
-//   )
-// }
-// DialogFooter.displayName = 'DialogFooter'
-//
-// /**
-//  * `DialogTitle` is a React component that forwards its ref to the `DialogPrimitive.Title` component.
-//  * It accepts all props that `DialogPrimitive.Title` accepts, along with an optional `className` prop
-//  * to customize its styling.
-//  *
-//  * @param {string} className - Optional additional class names to apply to the component.
-//  * @param {React.Ref} ref - A ref that will be forwarded to the `DialogPrimitive.Title` component.
-//  * @returns {JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
-//  */
-// const DialogTitle = React.forwardRef<
-//   React.ElementRef<typeof DialogPrimitive.Title>,
-//   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
-// >(({ className, ...props }, ref) => (
-//   <DialogPrimitive.Title
-//     ref={ref}
-//     className={cn(
-//       'text-lg font-semibold leading-none tracking-tight',
-//       className,
-//     )}
-//     {...props}
-//   />
-// ))
-// DialogTitle.displayName = DialogPrimitive.Title.displayName
-//
-// /**
-//  * `DialogDescription` is a React component that forwards its ref to the `DialogPrimitive.Description` component.
-//  * It applies additional class names to style the description text.
-//  *
-//  * @param {string} className - Additional class names to apply to the description text.
-//  * @param {React.Ref} ref - The ref to be forwarded to the `DialogPrimitive.Description` component.
-//  * @param {object} props - Additional props to be passed to the `DialogPrimitive.Description` component.
-//  *
-//  * @returns {JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
-//  */
-// const DialogDescription = React.forwardRef<
-//   React.ElementRef<typeof DialogPrimitive.Description>,
-//   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
-// >(({ className, ...props }, ref) => (
-//   <DialogPrimitive.Description
-//     ref={ref}
-//     className={cn('text-sm text-muted-foreground', className)}
-//     {...props}
-//   />
-// ))
-// DialogDescription.displayName = DialogPrimitive.Description.displayName
+
+/**
+ * A component that provides a button to close the dialog.
+ * This is a wrapper around the `DialogPrimitive.Close` component.
+ */
+export interface DialogCloseProps
+  extends React.ComponentPropsWithoutRef<typeof Button> {}
+export function DialogClose({ onClick, ...props }: DialogCloseProps) {
+  const { setOpen } = useDialogContext()
+  return (
+    <Button
+      onClick={(e) => {
+        setOpen(false)
+        onClick?.(e)
+      }}
+      {...(props as ButtonProps)}
+    />
+  )
+}
+
+/**
+ * `DialogOverlay` is a React forwardRef component that renders an overlay for a dialog.
+ * It uses `DialogPrimitive.Overlay` as the base component and applies additional styles
+ * and animations based on the dialog's state.
+ *
+ * @param {string} className - Additional class names to apply to the overlay.
+ * @param {React.Ref} ref - A ref to be forwarded to the `DialogPrimitive.Overlay` component.
+ * @param {object} props - Additional props to be passed to the `DialogPrimitive.Overlay` component.
+ *
+ * @returns {JSX.Element} The rendered overlay component.
+ */
+export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> {}
+const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
+  <div
+    ref={ref}
+    className={cn(
+      'fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+      'data-[state=open]:opacity-100 data-[state=closed]:opacity-0 data-[state=closed]:pointer-events-none',
+    )}
+    {...props}
+  />
+)
+///
+
+/**
+ * DialogHeader component renders a header section for a dialog.
+ * It supports additional class names and props to customize the
+ * appearance and behavior of the header. The component uses a
+ * flexbox layout to arrange its children in a vertical column
+ * and applies responsive text alignment.
+ *
+ * @param {object} props - The properties passed to the component.
+ * @param {string} props.className - Additional class names for styling.
+ * @returns {JSX.Element} The rendered DialogHeader component.
+ */
+export function DialogHeader({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+  return (
+    <div
+      className={cn(
+        'flex flex-col space-y-1.5 text-center sm:text-left',
+        className,
+      )}
+      {...props}
+    />
+  )
+}
+
+/**
+ * DialogFooter component renders a footer section for a dialog.
+ * It supports additional class names and props to customize the
+ * appearance and behavior of the footer. The component uses a
+ * flexbox layout to arrange its children in a column on small
+ * screens and in a row with space between items on larger screens.
+ *
+ * @param {object} props - The properties passed to the component.
+ * @param {string} props.className - Additional class names for styling.
+ * @returns {JSX.Element} The rendered DialogFooter component.
+ */
+export function DialogFooter({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+  return (
+    <div
+      className={cn(
+        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+        className,
+      )}
+      {...props}
+    />
+  )
+}
+
+/**
+ * `DialogTitle` is a React component that forwards its ref to the `DialogPrimitive.Title` component.
+ * It accepts all props that `DialogPrimitive.Title` accepts, along with an optional `className` prop
+ * to customize its styling.
+ *
+ * @param {string} className - Optional additional class names to apply to the component.
+ * @param {React.Ref} ref - A ref that will be forwarded to the `DialogPrimitive.Title` component.
+ * @returns {JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
+ */
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
+export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
+  return (
+    <h3
+      ref={ref}
+      className={cn(
+        'text-lg font-semibold leading-none tracking-tight',
+        className,
+      )}
+      {...props}
+    />
+  )
+}
+/**
+ * `DialogDescription` is a React component that forwards its ref to the `DialogPrimitive.Description` component.
+ * It applies additional class names to style the description text.
+ *
+ * @param {string} className - Additional class names to apply to the description text.
+ * @param {React.Ref} ref - The ref to be forwarded to the `DialogPrimitive.Description` component.
+ * @param {object} props - Additional props to be passed to the `DialogPrimitive.Description` component.
+ *
+ * @returns {JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
+ */
+export interface DialogDescriptionProps
+  extends React.HTMLProps<HTMLParagraphElement> {}
+export const DialogDescription = ({
+  className,
+  ref,
+  ...props
+}: DialogDescriptionProps) => (
+  <p
+    ref={ref}
+    className={cn('text-sm text-muted-foreground', className)}
+    {...props}
+  />
+)
 //
 // /**
 //  * `DialogResponsive` is a React component that conditionally renders either a `Dialog` or a `Drawer` depending
@@ -518,11 +457,83 @@ export interface TooltipContentProps
 //   type DialogProps,
 // }
 
-export interface DialogProps extends React.HTMLProps<HTMLDivElement> { }
+export interface DialogContextType {
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-export function Dialog({ children }: DialogProps) {
-  return <div>
-    <button
+export const DialogContext = React.createContext<DialogContextType | null>(null)
 
-  </div>
+export function useDialogContext() {
+  const context = React.useContext(DialogContext)
+
+  if (!context) {
+    throw new Error('useDialogContext must be used within a DialogProvider')
+  }
+  return context
+}
+
+export function Dialog({ children, ...props }: DialogProps) {
+  const [open, setOpen] = React.useState(false)
+  return (
+    <DialogContext.Provider value={{ open, setOpen }}>
+      {children}
+    </DialogContext.Provider>
+  )
+}
+
+export interface DialogProps
+  extends React.ComponentPropsWithoutRef<typeof Button> {}
+
+export function DialogTrigger({ onClick, ...props }: DialogProps) {
+  const { setOpen } = useDialogContext()
+  return (
+    <Button
+      onClick={(e) => {
+        setOpen(true)
+        onClick?.(e)
+      }}
+      {...(props as ButtonProps)}
+    />
+  )
+}
+
+export interface DialogContentProps
+  extends React.HTMLProps<HTMLDialogElement> {}
+
+export function DialogContent({
+  children,
+  className,
+  ...props
+}: DialogContentProps): JSX.Element {
+  const { open, setOpen } = useDialogContext()
+
+  return (
+    <>
+      <dialog
+        data-state={open ? 'open' : 'closed'}
+        className={cn(
+          `
+          fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg transform 
+          -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg
+          sm:rounded-lg sm:max-w-[425px] z-[51] duration-300 ease-out
+          data-[state=open]:opacity-100 data-[state=open]:scale-100
+          data-[state=closed]:opacity-0 data-[state=closed]:scale-95
+          data-[state=closed]:hidden`,
+          className,
+        )}
+        {...props}
+      >
+        <X
+          onClick={() => setOpen(false)}
+          className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
+        />
+        {children}
+      </dialog>
+      <DialogOverlay
+        onClick={() => setOpen(false)}
+        data-state={open ? 'open' : 'closed'}
+      />
+    </>
+  )
 }
