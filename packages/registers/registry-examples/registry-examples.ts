@@ -8,13 +8,6 @@ export const registry_examples: Registry = [
     root_folder: 'accordion',
     files: [],
   },
-  // {
-  //   name: 'alert-dialog-examples',
-  //   type: 'registry:example',
-  //   registryDependencies: ['alert-dialog'],
-  //   root_folder: 'alert-dialog',
-  //   files: [],
-  // },
   {
     name: 'badge-examples',
     type: 'registry:example',
@@ -134,13 +127,6 @@ export const registry_examples: Registry = [
     root_folder: 'sonner',
     files: [],
   },
-  // {
-  //   name: 'table-examples',
-  //   type: 'registry:example',
-  //   registryDependencies: ['table'],
-  //   root_folder: 'table',
-  //   files: [],
-  // },
   {
     name: 'tabs-examples',
     type: 'registry:example',
@@ -176,11 +162,4 @@ export const registry_examples: Registry = [
     root_folder: 'tooltip',
     files: [],
   },
-  // {
-  //   name: 'upload-examples',
-  //   type: 'registry:example',
-  //   registryDependencies: ['upload'],
-  //   root_folder: 'upload',
-  //   files: [],
-  // },
 ]

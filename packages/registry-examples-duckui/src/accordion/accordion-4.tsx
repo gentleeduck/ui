@@ -11,6 +11,7 @@ export default function Accordion1Demo() {
     <Accordion type='multiple' className='w-full'>
       <AccordionItem value='item-1'>
         <AccordionTrigger className='hover:no-underline' icon={<Plus />}>
+
           Is it accessible?
         </AccordionTrigger>
         <AccordionContent>

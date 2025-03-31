@@ -1,0 +1,52 @@
+{
+  "name": "@gentelduck/state",
+  "version": "1.2.0",
+  "description": "A package for state management",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "private": false,
+  "exports": {
+    "./*": "./src/*/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "tsc",
+    "ci": "pnpm run lint && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "performance"
+  ],
+  "author": "wilddcuk",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentelduck/ui/tree/master/packages/duck-state"
+  },
+  "bugs": {
+    "url": "https://github.com/gentelduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-state#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@types/react": "^19.0.10",
+    "husky": "^9.1.7",
+    "tsup": "^8.4.0"
+  },
+  "peerDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -10,6 +10,7 @@
     "module": "Preserve",
     "allowImportingTsExtensions": true,
     "moduleResolution": "bundler",
+    "jsx": "react-jsx",
     "paths": {
       "~/*": ["./*"]
     },
