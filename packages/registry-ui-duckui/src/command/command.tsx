@@ -297,7 +297,6 @@ function CommandSeparator({
 
 export {
   Command,
-  // CommandDialog,
   CommandInput,
   CommandList,
   CommandGroup,
@@ -305,6 +304,7 @@ export {
   CommandEmpty,
   CommandShortcut,
   CommandSeparator,
+  // CommandDialog,
 }
 
 // interface CommandDialogProps extends DialogP rop s {}

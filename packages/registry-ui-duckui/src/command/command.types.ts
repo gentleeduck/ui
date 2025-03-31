@@ -18,7 +18,7 @@ export interface CommandInputProps extends React.HTMLProps<HTMLInputElement> {}
 export interface CommandListProps
   extends Omit<React.HTMLProps<HTMLUListElement>, 'children'> {
   /** A render function that returns the command items.*/
-  children: (search: string) => React.ReactNode
+  children: (/** The current search string */ search: string) => React.ReactNode
 }
 
 /**
