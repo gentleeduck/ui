@@ -32,6 +32,15 @@ import {
   Smile,
   User,
 } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@gentelduck/registry-ui-duckui/dialog'
 
 import {
   Command,
@@ -44,6 +53,8 @@ import {
   CommandShortcut,
 } from '@gentelduck/registry-ui-duckui/command'
 import { CssVariable } from 'next/dist/compiled/@next/font'
+import { Input } from '@gentelduck/registry-ui-duckui/input'
+import { Label } from '@gentelduck/registry-ui-duckui/label'
 
 export function MainExample() {
   const items = [
@@ -177,6 +188,49 @@ export function MainExample() {
           }}
         </CommandList>
       </Command>
+
+      {
+        // <Dialog>
+        //   <DialogTrigger asChild>
+        //     <Button variant='outline'>Edit Profile</Button>
+        //   </DialogTrigger>
+        //   <DialogContent className='sm:max-w-[425px]'>
+        //     <DialogHeader>
+        //       <DialogTitle>Edit profile</DialogTitle>
+        //       <DialogDescription>
+        //         Make changes to your profile here. Click save when you're done.
+        //       </DialogDescription>
+        //     </DialogHeader>
+        //     <div className='grid gap-4 py-4'>
+        //       <div className='grid grid-cols-4 items-center gap-4'>
+        //         <Label htmlFor='name' className='text-right'>
+        //           Name
+        //         </Label>
+        //         <Input id='name' value='Pedro Duarte' className='col-span-3' />
+        //       </div>
+        //       <div className='grid grid-cols-4 items-center gap-4'>
+        //         <Label htmlFor='username' className='text-right'>
+        //           Username
+        //         </Label>
+        //         <Input id='username' value='@peduarte' className='col-span-3' />
+        //       </div>
+        //     </div>
+        //     <DialogFooter>
+        //       <Button type='submit'>Save changes</Button>
+        //     </DialogFooter>
+        //   </DialogContent>
+        // </Dialog>
+      }
+
+      <dialog
+        open
+        className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background p-6 shadow-lg border rounded-md '
+      >
+        <p>Greetings, one and all!</p>
+        <form method='dialog'>
+          <button>OK</button>
+        </form>
+      </dialog>
     </div>
   )
 }

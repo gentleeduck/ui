@@ -7,8 +7,7 @@ import { tooltipVariants } from './tooltip.constants'
  * This interface extends the standard HTML div properties (except for the "content" prop)
  * and adds additional tooltip-specific properties.
  */
-export interface TooltipProps
-  extends Omit<React.HTMLProps<HTMLDivElement>, 'content'> {
+export interface TooltipProps extends React.HTMLProps<HTMLButtonElement> {
   /** If true, the tooltip will render its child element directly, inheriting its styles. */
   asChild?: boolean
   /** The delay in milliseconds before the tooltip is shown after hover or focus. */
