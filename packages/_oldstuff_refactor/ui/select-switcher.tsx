@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from './ShadcnUI/select'
 import {
-  Tooltip,
+  TooltipTrigger,
   TooltipContent,
   TooltipTrigger,
 } from '@gentelduck/registry-ui-duckui/tooltip'
@@ -40,7 +40,7 @@ export function DuckSwitcher({
     accounts.find((account) => account.email === selectedAccount)?.icon || Mail
 
   return (
-    <Tooltip delayDuration={0}>
+    <TooltipTrigger delayDuration={0}>
       <Select
         defaultValue={selectedAccount}
         onValueChange={setSelectedAccount}
@@ -94,6 +94,6 @@ export function DuckSwitcher({
       >
         {accounts.find((account) => account.email === selectedAccount)?.label}
       </TooltipContent>
-    </Tooltip>
+    </TooltipTrigger>
   )
 }

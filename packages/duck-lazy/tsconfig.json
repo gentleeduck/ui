@@ -11,7 +11,7 @@
     "incremental": false,
     "rootDir": "./",
     "outDir": "./dist",
-    "module": "Preserve",
+    "module": "preserve",
     "moduleResolution": "bundler",
     "paths": {
       "~/*": [

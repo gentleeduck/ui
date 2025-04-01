@@ -756,6 +756,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
+      sonner:
+        specifier: ^2.0.1
+        version: 2.0.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       tailwind-merge:
         specifier: ^1.14.0
         version: 1.14.0
@@ -1762,7 +1765,7 @@ importers:
   packages/registry-ui-duckui:
     dependencies:
       '@radix-ui/react-hover-card':
-        specifier: ^1.1.1
+        specifier: ^1.1.6
         version: 1.1.6(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radix-ui/react-radio-group':
         specifier: ^1.2.0
@@ -1792,6 +1795,9 @@ importers:
       '@gentelduck/hooks':
         specifier: workspace:*
         version: link:../hooks
+      '@gentelduck/lazy':
+        specifier: workspace:*
+        version: link:../duck-lazy
       '@gentelduck/libs':
         specifier: workspace:*
         version: link:../libs
@@ -2051,8 +2057,8 @@ importers:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
       sonner:
-        specifier: ^1.7.4
-        version: 1.7.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: ^2.0.1
+        version: 2.0.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       tsup:
         specifier: ^8.2.4
         version: 8.4.0(@swc/core@1.11.8(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.7.3)(yaml@2.7.0)
@@ -2071,6 +2077,9 @@ importers:
 
   packages/sandbox-test:
     dependencies:
+      jotai:
+        specifier: ^2.9.3
+        version: 2.12.1(@types/react@19.0.10)(react@19.0.0)
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -2081,6 +2090,12 @@ importers:
       '@eslint/js':
         specifier: ^9.21.0
         version: 9.22.0
+      '@gentelduck/state':
+        specifier: workspace:*
+        version: link:../@duck-state
+      '@gentelduck/typescript-config':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
       '@types/react':
         specifier: ^19.0.10
         version: 19.0.10

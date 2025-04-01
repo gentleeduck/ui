@@ -13,42 +13,50 @@ import { DialogFooter, DialogHeader } from './dialog'
 /**
  * DialogResponsiveProps
  */
-export interface DialogResponsiveProps extends React.ComponentPropsWithoutRef<typeof Dialog> {}
+export interface DialogResponsiveProps
+  extends React.ComponentPropsWithoutRef<typeof Dialog> {}
 
 /**
  * DialogTriggerResponsiveProps
  */
-export interface DialogTriggerResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
+export interface DialogTriggerResponsiveProps
+  extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
 
 /**
  * DialogContentResponsiveProps
  */
-export interface DialogContentResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogContent> {}
+export interface DialogContentResponsiveProps
+  extends React.ComponentPropsWithoutRef<typeof DialogContent> {}
 
 /**
  * DialogHeaderResponsiveProps
  */
-export interface DialogHeaderResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogHeader> {}
+export interface DialogHeaderResponsiveProps
+  extends React.ComponentPropsWithoutRef<typeof DialogHeader> {}
 
 /**
  * DialogFooterResponsiveProps
  */
-export interface DialogFooterResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogFooter> {}
+export interface DialogFooterResponsiveProps
+  extends React.ComponentPropsWithoutRef<typeof DialogFooter> {}
 
 /**
  * DialogTitleResponsiveProps
  */
-export interface DialogTitleResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogTitle> {}
+export interface DialogTitleResponsiveProps
+  extends React.ComponentPropsWithoutRef<typeof DialogTitle> {}
 
 /**
  * DialogDescriptionResponsiveProps
  */
-export interface DialogDescriptionResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogDescription> {}
+export interface DialogDescriptionResponsiveProps
+  extends React.ComponentPropsWithoutRef<typeof DialogDescription> {}
 
 /**
  * DialogCloseResponsiveProps
  */
-export interface DialogCloseResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogClose> {}
+export interface DialogCloseResponsiveProps
+  extends React.ComponentPropsWithoutRef<typeof DialogClose> {}
 
 /**
  * DialogWrapper Props

@@ -1,10 +1,15 @@
 'use client'
 
 import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { Tooltip, TooltipContent } from '@gentelduck/registry-ui-duckui/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@gentelduck/registry-ui-duckui/tooltip'
 import {
   BarChart,
   Bell,
+  CalendarIcon,
   Folder,
   Globe,
   Grab,
@@ -24,15 +29,6 @@ import {
 import { toast } from 'sonner'
 
 import {
-  Command as CCommand,
-  Calculator,
-  Calendar,
-  CreditCard,
-  Settings,
-  Smile,
-  User,
-} from 'lucide-react'
-import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -42,7 +38,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@gentelduck/registry-ui-duckui/dialog'
+import {
+  Command as CCommand,
+  Calculator,
+  Calendar,
+  CreditCard,
+  Settings,
+  Smile,
+  User,
+} from 'lucide-react'
 
+import { Avatar } from '@gentelduck/registry-ui-duckui/avatar'
 import {
   Command,
   CommandEmpty,
@@ -53,39 +59,45 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@gentelduck/registry-ui-duckui/command'
-import { CssVariable } from 'next/dist/compiled/@next/font'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@gentelduck/registry-ui-duckui/hover-card'
 import { Input } from '@gentelduck/registry-ui-duckui/input'
 import { Label } from '@gentelduck/registry-ui-duckui/label'
+import { CssVariable } from 'next/dist/compiled/@next/font'
 import React from 'react'
+import Image from 'next/image'
 
 export function MainExample() {
   const items = [
-    {
-      title: 'Navigation',
-      items: [
-        { name: 'Dashboard', icon: <LayoutDashboard />, key: 'ctrl+D' },
-        { name: 'Projects', icon: <Folder />, key: 'ctrl+P' },
-        { name: 'Reports', icon: <BarChart />, key: 'ctrl+R' },
-        { name: 'Teams', icon: <Users />, key: 'ctrl+T' },
-      ],
-    },
-    {
-      title: 'User Actions',
-      items: [
-        { name: 'Create New Task', icon: <PlusCircle />, key: 'ctrl+N' },
-        { name: 'Assign User', icon: <UserPlus />, key: 'ctrl+A' },
-        { name: 'Delete Item', icon: <Trash2 />, key: 'ctrl+Del' },
-      ],
-    },
-    {
-      title: 'Settings',
-      items: [
-        { name: 'Profile Settings', icon: <UserCog />, key: 'ctrl+S' },
-        { name: 'Notifications', icon: <Bell />, key: 'ctrl+O' },
-        { name: 'Dark Mode', icon: <Moon />, key: 'ctrl+M' },
-        { name: 'Language', icon: <Globe />, key: 'ctrl+L' },
-      ],
-    },
+    // {
+    //   title: 'Navigation',
+    //   items: [
+    //     { name: 'Dashboard', icon: <LayoutDashboard />, key: 'ctrl+D' },
+    //     { name: 'Projects', icon: <Folder />, key: 'ctrl+P' },
+    //     { name: 'Reports', icon: <BarChart />, key: 'ctrl+R' },
+    //     { name: 'Teams', icon: <Users />, key: 'ctrl+T' },
+    //   ],
+    // },
+    // {
+    //   title: 'User Actions',
+    //   items: [
+    //     { name: 'Create New Task', icon: <PlusCircle />, key: 'ctrl+N' },
+    //     { name: 'Assign User', icon: <UserPlus />, key: 'ctrl+A' },
+    //     { name: 'Delete Item', icon: <Trash2 />, key: 'ctrl+Del' },
+    //   ],
+    // },
+    // {
+    //   title: 'Settings',
+    //   items: [
+    //     { name: 'Profile Settings', icon: <UserCog />, key: 'ctrl+S' },
+    //     { name: 'Notifications', icon: <Bell />, key: 'ctrl+O' },
+    //     { name: 'Dark Mode', icon: <Moon />, key: 'ctrl+M' },
+    //     { name: 'Language', icon: <Globe />, key: 'ctrl+L' },
+    //   ],
+    // },
     {
       title: 'System',
       items: [
@@ -100,21 +112,17 @@ export function MainExample() {
     <div className='flex flex-col gap-3 items-center'>
       <div className='relative'>
         <Pointer className='size-3 absolute top-3 right-0 z-10 fill-white' />
-        <Tooltip>
-          <TooltipContent>5 meetings remaining for today.</TooltipContent>
-          <Button
+        <Tooltip open={true} className=''>
+          <TooltipTrigger
             variant={'outline'}
             size={'default'}
             icon={<Calendar />}
-            autoFocus={true}
-            className='!ring-0 !outline-0 ring-offset-0 focus:ring-0 focus:outline-0 focus-visible:ring-0 bg-muted'
-            style={{
-              //@ts-ignore
-              '--ring': '0',
-            }}
+            className='group-data-[method="forced"]/tooltip:bg-muted'
           >
             Mettings
-          </Button>
+          </TooltipTrigger>
+
+          <TooltipContent>5 meetings remaining for today.</TooltipContent>
         </Tooltip>
       </div>
       <Button variant={'outline'} size={'default'} icon={<Calendar />}>
@@ -191,8 +199,45 @@ export function MainExample() {
         </CommandList>
       </Command>
 
+      <Avatar
+        src={
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO7X9JwxJjzfJ6Aqa7NIR9Gf2LpTLrma2ffw&s'
+        }
+        alt='WD'
+      />
+
+      <div>
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <Button variant='link'>@wildduck</Button>
+          </HoverCardTrigger>
+          <HoverCardContent className='w-80'>
+            <div className='flex justify-between space-x-4'>
+              <Avatar
+                src={
+                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO7X9JwxJjzfJ6Aqa7NIR9Gf2LpTLrma2ffw&s'
+                }
+                alt='WD'
+              />
+              <div className='space-y-1'>
+                <h4 className='text-sm font-semibold'>@nextjs</h4>
+                <p className='text-sm'>
+                  The React Framework – created and maintained by @vercel.
+                </p>
+                <div className='flex items-center pt-2'>
+                  <CalendarIcon className='mr-2 h-4 w-4 opacity-70' />{' '}
+                  <span className='text-xs text-muted-foreground'>
+                    Joined December 2021
+                  </span>
+                </div>
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
+      </div>
+
       <Dialog>
-        <DialogTrigger>Edit Profile</DialogTrigger>
+        <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>

@@ -17,9 +17,14 @@ export const tooltipVariants = cva(
           'group-hover/tooltip:opacity-100 group-hover/tooltip:scale-100',
           'group-focus-within/tooltip:opacity-100 group-focus-within/tooltip:scale-100',
           'group-hover/tooltip:transition-all group-hover/tooltip:duration-200 group-hover/tooltip:ease-[cubic-bezier(0.16,1,0.3,1)]',
-          'group-hover/tooltip:transition-delay-[var(--tooltip-delay)]',
+          'group-hover/tooltip:delay-[var(--tooltip-delay)]',
           'group-focus-within/tooltip:transition-all group-focus-within/tooltip:duration-200 group-focus-within/tooltip:ease-[cubic-bezier(0.16,1,0.3,1)]',
-          'group-focus-within/tooltip:transition-delay-[var(--tooltip-delay)]',
+          'group-focus-within/tooltip:delay-[var(--tooltip-delay)]',
+
+          // if the open prop is true this is will simulate the open on hover
+          'group-data-[method="forced"]/tooltip:opacity-100 group-data-[method="forced"]/tooltip:scale-100',
+          'group-data-[method="forced"]/tooltip:transition-all group-data-[method="forced"]/tooltip:duration-200 group-data-[method="forced"]/tooltip:ease-[cubic-bezier(0.16,1,0.3,1)]',
+          'group-data-[method="forced"]/tooltip:delay-[var(--tooltip-delay)]',
         ],
         custom: '',
       },
