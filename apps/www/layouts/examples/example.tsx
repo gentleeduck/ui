@@ -206,35 +206,7 @@ export function MainExample() {
         alt='WD'
       />
 
-      <div>
-        <HoverCard>
-          <HoverCardTrigger asChild>
-            <Button variant='link'>@wildduck</Button>
-          </HoverCardTrigger>
-          <HoverCardContent className='w-80'>
-            <div className='flex justify-between space-x-4'>
-              <Avatar
-                src={
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO7X9JwxJjzfJ6Aqa7NIR9Gf2LpTLrma2ffw&s'
-                }
-                alt='WD'
-              />
-              <div className='space-y-1'>
-                <h4 className='text-sm font-semibold'>@nextjs</h4>
-                <p className='text-sm'>
-                  The React Framework – created and maintained by @vercel.
-                </p>
-                <div className='flex items-center pt-2'>
-                  <CalendarIcon className='mr-2 h-4 w-4 opacity-70' />{' '}
-                  <span className='text-xs text-muted-foreground'>
-                    Joined December 2021
-                  </span>
-                </div>
-              </div>
-            </div>
-          </HoverCardContent>
-        </HoverCard>
-      </div>
+      <div></div>
 
       <Dialog>
         <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
@@ -264,6 +236,36 @@ export function MainExample() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <HoverCard open={true}>
+        <HoverCardTrigger asChild>
+          <Button variant='link'>@wildduck</Button>
+        </HoverCardTrigger>
+        <HoverCardContent className='w-80'>
+          <div className='flex justify-between space-x-4'>
+            <Avatar
+              src={
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO7X9JwxJjzfJ6Aqa7NIR9Gf2LpTLrma2ffw&s'
+              }
+              alt='WD'
+            />
+            <div className='space-y-1'>
+              <h4 className='text-sm font-semibold'>@wildduck</h4>
+              <p className='text-sm'>
+                The CEO of
+                <em className='font-semibold underline'> @gentelduck </em> , the
+                most powerful duck in the world
+              </p>
+              <div className='flex items-center pt-2'>
+                <CalendarIcon className='mr-2 h-4 w-4 opacity-70' />{' '}
+                <span className='text-xs text-muted-foreground'>
+                  Joined December 2021
+                </span>
+              </div>
+            </div>
+          </div>
+        </HoverCardContent>
+      </HoverCard>
     </div>
   )
 }
