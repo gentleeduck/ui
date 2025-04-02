@@ -37,6 +37,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  useDialogContext,
 } from '@gentelduck/registry-ui-duckui/dialog'
 import {
   Command as CCommand,
@@ -67,8 +68,9 @@ import {
 import { Input } from '@gentelduck/registry-ui-duckui/input'
 import { Label } from '@gentelduck/registry-ui-duckui/label'
 import { CssVariable } from 'next/dist/compiled/@next/font'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
+import { AspectRatio } from '@gentelduck/registry-ui-duckui/aspect-ratio'
 
 export function MainExample() {
   const items = [
@@ -201,41 +203,21 @@ export function MainExample() {
 
       <Avatar
         src={
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO7X9JwxJjzfJ6Aqa7NIR9Gf2LpTLrma2ffw&s'
+          'https://sdmntprwestus.oaiusercontent.com/files/00000000-f2d0-5230-ae93-4d6e5d21c643/raw?se=2025-04-02T18%3A50%3A56Z&sp=r&sv=2024-08-04&sr=b&scid=5a891375-aaa2-5f3a-b791-40362a011415&skoid=3f3a9132-9530-48ef-96b7-fee5a811733f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T16%3A08%3A39Z&ske=2025-04-03T16%3A08%3A39Z&sks=b&skv=2024-08-04&sig=Ff%2B6OD2Y8WCvbX%2BHZL/yCf0mi0%2BZ3IZZlrkUvhLK7js%3D'
         }
         alt='WD'
       />
 
-      <div></div>
+      <TestFetch />
 
-      <Dialog>
-        <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <div className='grid gap-4 py-4'>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='name' className='text-right'>
-                Name
-              </Label>
-              <Input id='name' value='wild duck' className='col-span-3' />
-            </div>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='username' className='text-right'>
-                Username
-              </Label>
-              <Input id='username' value='@wildduck2' className='col-span-3' />
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose>Save changes</DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <AspectRatio ratio={16 / 9} className='bg-muted'>
+        <Image
+          src='https://sdmntprwestus.oaiusercontent.com/files/00000000-f2d0-5230-ae93-4d6e5d21c643/raw?se=2025-04-02T18%3A50%3A56Z&sp=r&sv=2024-08-04&sr=b&scid=5a891375-aaa2-5f3a-b791-40362a011415&skoid=3f3a9132-9530-48ef-96b7-fee5a811733f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T16%3A08%3A39Z&ske=2025-04-03T16%3A08%3A39Z&sks=b&skv=2024-08-04&sig=Ff%2B6OD2Y8WCvbX%2BHZL/yCf0mi0%2BZ3IZZlrkUvhLK7js%3D'
+          alt='Photo by Drew Beamer'
+          fill
+          className='h-full w-full rounded-md object-cover'
+        />
+      </AspectRatio>
 
       <HoverCard open={true}>
         <HoverCardTrigger asChild>
@@ -245,7 +227,7 @@ export function MainExample() {
           <div className='flex justify-between space-x-4'>
             <Avatar
               src={
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO7X9JwxJjzfJ6Aqa7NIR9Gf2LpTLrma2ffw&s'
+                'https://sdmntprwestus.oaiusercontent.com/files/00000000-f2d0-5230-ae93-4d6e5d21c643/raw?se=2025-04-02T18%3A50%3A56Z&sp=r&sv=2024-08-04&sr=b&scid=5a891375-aaa2-5f3a-b791-40362a011415&skoid=3f3a9132-9530-48ef-96b7-fee5a811733f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-02T16%3A08%3A39Z&ske=2025-04-03T16%3A08%3A39Z&sks=b&skv=2024-08-04&sig=Ff%2B6OD2Y8WCvbX%2BHZL/yCf0mi0%2BZ3IZZlrkUvhLK7js%3D'
               }
               alt='WD'
             />
@@ -267,5 +249,56 @@ export function MainExample() {
         </HoverCardContent>
       </HoverCard>
     </div>
+  )
+}
+
+function TestFetch() {
+  return (
+    <Dialog>
+      <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+      <Content />
+    </Dialog>
+  )
+}
+
+function Content() {
+  // const { open } = useDialogContext()
+  // useEffect(() => {
+  //   if (open) {
+  //     ; (async () => {
+  //       const rs = await fetch('http://localhost:3008/')
+  //       console.log(rs)
+  //     })()
+  //   }
+  // }, [open])
+
+  return (
+    <>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription>
+        </DialogHeader>
+        <div className='grid gap-4 py-4'>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='name' className='text-right'>
+              Name
+            </Label>
+            <Input id='name' value='wild duck' className='col-span-3' />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='username' className='text-right'>
+              Username
+            </Label>
+            <Input id='username' value='@wildduck2' className='col-span-3' />
+          </div>
+        </div>
+        <DialogFooter>
+          <DialogClose>Save changes</DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </>
   )
 }
