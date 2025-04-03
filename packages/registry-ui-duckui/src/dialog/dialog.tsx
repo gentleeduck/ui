@@ -3,22 +3,98 @@ import { Button, ButtonProps } from "../button";
 import React from "react";
 import { X } from "lucide-react";
 
-/**
- * A component that serves as the trigger for opening a dialog.
- * It is a wrapper around the `DialogPrimitive.Trigger` component.
- */
+export interface DialogContextType {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-/**
- * A component that renders a dialog portal using the DialogPrimitive.Portal.
- * This component is used to create a portal for the dialog, allowing it to be rendered
- * outside of the DOM hierarchy of its parent component.
- */
-// const DialogPortal = DialogPrimitive.Portal
+export const DialogContext = React.createContext<DialogContextType | null>(
+  null
+);
 
-/**
- * A component that provides a button to close the dialog.
- * This is a wrapper around the `DialogPrimitive.Close` component.
- */
+export function useDialogContext() {
+  const context = React.useContext(DialogContext);
+
+  if (!context) {
+    throw new Error("useDialogContext must be used within a DialogProvider");
+  }
+  return context;
+}
+
+export function Dialog({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <DialogContext.Provider value={{ open, setOpen }}>
+      {children}
+    </DialogContext.Provider>
+  );
+}
+
+export interface DialogProps
+  extends React.ComponentPropsWithoutRef<typeof Button> {}
+
+export function DialogTrigger({ onClick, ...props }: DialogProps) {
+  const { setOpen } = useDialogContext();
+  return (
+    <Button
+      onClick={(e) => {
+        setOpen(true);
+        onClick?.(e);
+      }}
+      {...(props as ButtonProps)}
+    />
+  );
+}
+
+export interface DialogContentProps
+  extends React.HTMLProps<HTMLDialogElement> {}
+
+export function DialogContent({
+  children,
+  className,
+  ...props
+}: DialogContentProps): JSX.Element {
+  const { open, setOpen } = useDialogContext();
+  const [shouldrender, setShouldRender] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (open) {
+      setShouldRender(true);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [open]);
+
+  return (
+    <>
+      {shouldrender ? (
+        <>
+          <dialog
+            data-state={open ? "open" : "closed"}
+            role="dialog-content"
+            className={cn(
+              "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] z-[52] duration-300 ease-out data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=closed]:opacity-0 data-[state=closed]:scale-95 data-[state=closed]:hidden",
+              className
+            )}
+            {...props}
+          >
+            <X
+              onClick={() => setOpen(false)}
+              className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition"
+            />
+            {children}
+          </dialog>
+          <DialogOverlay
+            onClick={() => setOpen(false)}
+            data-state={open ? "open" : "closed"}
+          />
+        </>
+      ) : null}
+    </>
+  );
+}
+
 export interface DialogCloseProps
   extends React.ComponentPropsWithoutRef<typeof Button> {}
 export function DialogClose({ onClick, ...props }: DialogCloseProps) {
@@ -458,94 +534,9 @@ export const DialogDescription = ({
 //   type DialogProps,
 // }
 
-export interface DialogContextType {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export const DialogContext = React.createContext<DialogContextType | null>(
-  null
-);
-
-export function useDialogContext() {
-  const context = React.useContext(DialogContext);
-
-  if (!context) {
-    throw new Error("useDialogContext must be used within a DialogProvider");
-  }
-  return context;
-}
-
-export function Dialog({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = React.useState(false);
-  return (
-    <DialogContext.Provider value={{ open, setOpen }}>
-      {children}
-    </DialogContext.Provider>
-  );
-}
-
-export interface DialogProps
-  extends React.ComponentPropsWithoutRef<typeof Button> {}
-
-export function DialogTrigger({ onClick, ...props }: DialogProps) {
-  const { setOpen } = useDialogContext();
-  return (
-    <Button
-      onClick={(e) => {
-        setOpen(true);
-        onClick?.(e);
-      }}
-      {...(props as ButtonProps)}
-    />
-  );
-}
-
-export interface DialogContentProps
-  extends React.HTMLProps<HTMLDialogElement> {}
-
-export function DialogContent({
-  children,
-  className,
-  ...props
-}: DialogContentProps): JSX.Element {
-  const { open, setOpen } = useDialogContext();
-  const [shouldrender, setShouldRender] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    if (open) {
-      setShouldRender(true);
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [open]);
-
-  return (
-    <>
-      {shouldrender ? (
-        <>
-          <dialog
-            data-state={open ? "open" : "closed"}
-            role="dialog-content"
-            className={cn(
-              "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] z-[52] duration-300 ease-out data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=closed]:opacity-0 data-[state=closed]:scale-95 data-[state=closed]:hidden",
-              className
-            )}
-            {...props}
-          >
-            <X
-              onClick={() => setOpen(false)}
-              className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition"
-            />
-            {children}
-          </dialog>
-          <DialogOverlay
-            onClick={() => setOpen(false)}
-            data-state={open ? "open" : "closed"}
-          />
-        </>
-      ) : null}
-    </>
-  );
-}
+/**
+ * A component that renders a dialog portal using the DialogPrimitive.Portal.
+ * This component is used to create a portal for the dialog, allowing it to be rendered
+ * outside of the DOM hierarchy of its parent component.
+ */
+// const DialogPortal = DialogPrimitive.Portal
