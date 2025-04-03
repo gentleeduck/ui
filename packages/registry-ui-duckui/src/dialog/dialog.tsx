@@ -510,9 +510,11 @@ export function DialogContent({
   ...props
 }: DialogContentProps): JSX.Element {
   const { open, setOpen } = useDialogContext();
+  const [shouldrender, setShouldRender] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (open) {
+      setShouldRender(true);
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -521,25 +523,29 @@ export function DialogContent({
 
   return (
     <>
-      <dialog
-        data-state={open ? "open" : "closed"}
-        role="dialog-content"
-        className={cn(
-          "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] z-[52] duration-300 ease-out data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=closed]:opacity-0 data-[state=closed]:scale-95 data-[state=closed]:hidden",
-          className
-        )}
-        {...props}
-      >
-        <X
-          onClick={() => setOpen(false)}
-          className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition"
-        />
-        {children}
-      </dialog>
-      <DialogOverlay
-        onClick={() => setOpen(false)}
-        data-state={open ? "open" : "closed"}
-      />
+      {shouldrender ? (
+        <>
+          <dialog
+            data-state={open ? "open" : "closed"}
+            role="dialog-content"
+            className={cn(
+              "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] z-[52] duration-300 ease-out data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=closed]:opacity-0 data-[state=closed]:scale-95 data-[state=closed]:hidden",
+              className
+            )}
+            {...props}
+          >
+            <X
+              onClick={() => setOpen(false)}
+              className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition"
+            />
+            {children}
+          </dialog>
+          <DialogOverlay
+            onClick={() => setOpen(false)}
+            data-state={open ? "open" : "closed"}
+          />
+        </>
+      ) : null}
     </>
   );
 }

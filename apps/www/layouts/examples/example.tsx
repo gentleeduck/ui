@@ -252,32 +252,22 @@ function TestFetch() {
     <Dialog>
       <div>
         <DialogTrigger variant={"outline"}>Edit Profile</DialogTrigger>
-        <Fetch children={<Content />} />
+        <DialogContent>
+          <Fetch />
+        </DialogContent>
       </div>
     </Dialog>
   );
 }
 
-function Fetch({ children }: { children: React.ReactNode }) {
-  const F = ({ children }: { children: React.ReactNode }) => {
-    useEffect(() => {
-      // if (open) {
-      (async () => {
-        const rs = await fetch("http://localhost:3008/");
-        console.log(rs);
-      })();
-      // }
-    }, []);
-    return <>{children}</>;
-  };
-  return (
-    <DialogContent>
-      <F children={children} />
-    </DialogContent>
-  );
-}
+function Fetch() {
+  React.useEffect(() => {
+    (async () => {
+      const rs = await fetch("http://localhost:3000/");
+      console.log(rs);
+    })();
+  }, []);
 
-function Content() {
   return (
     <>
       <DialogHeader>
@@ -301,7 +291,7 @@ function Content() {
         </div>
       </div>
       <DialogFooter>
-        <DialogClose>Save changes</DialogClose>
+        <Button>Save changes</Button>
       </DialogFooter>
     </>
   );
