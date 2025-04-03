@@ -133,3 +133,9 @@
 /* .group\/tooltip[data-method="forced"] {
   background-color: red !important;
 } */
+
+
+
+button[data-open="false"]+div{
+  background: #000;
+}
