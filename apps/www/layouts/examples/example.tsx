@@ -203,7 +203,40 @@ export function MainExample() {
 
       <Avatar src={""} alt="WD" />
 
-      <TestFetch />
+      <Dialog>
+        <div>
+          <DialogTrigger variant={"outline"}>Edit Profile</DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit profile</DialogTitle>
+              <DialogDescription>
+                Make changes to your profile here. Click save when you're done.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Name
+                </Label>
+                <Input id="name" value="wild duck" className="col-span-3" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Username
+                </Label>
+                <Input
+                  id="username"
+                  value="@wildduck2"
+                  className="col-span-3"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button>Save changes</Button>
+            </DialogFooter>
+          </DialogContent>
+        </div>
+      </Dialog>
 
       <AspectRatio ratio={16 / 9} className="bg-muted">
         <Image
@@ -244,55 +277,5 @@ export function MainExample() {
         </HoverCardContent>
       </HoverCard>
     </div>
-  );
-}
-
-function TestFetch() {
-  return (
-    <Dialog>
-      <div>
-        <DialogTrigger variant={"outline"}>Edit Profile</DialogTrigger>
-        <DialogContent>
-          <Fetch />
-        </DialogContent>
-      </div>
-    </Dialog>
-  );
-}
-
-function Fetch() {
-  React.useEffect(() => {
-    (async () => {
-      const rs = await fetch("http://localhost:3000/");
-      console.log(rs);
-    })();
-  }, []);
-
-  return (
-    <>
-      <DialogHeader>
-        <DialogTitle>Edit profile</DialogTitle>
-        <DialogDescription>
-          Make changes to your profile here. Click save when you're done.
-        </DialogDescription>
-      </DialogHeader>
-      <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="name" className="text-right">
-            Name
-          </Label>
-          <Input id="name" value="wild duck" className="col-span-3" />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="username" className="text-right">
-            Username
-          </Label>
-          <Input id="username" value="@wildduck2" className="col-span-3" />
-        </div>
-      </div>
-      <DialogFooter>
-        <Button>Save changes</Button>
-      </DialogFooter>
-    </>
   );
 }
