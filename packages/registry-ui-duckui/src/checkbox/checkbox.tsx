@@ -1,37 +1,25 @@
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import * as React from 'react'
 
-import { Check } from 'lucide-react'
 import { Label } from '../label'
 
 import { cn } from '@gentelduck/libs/cn'
 
-// Checkbox
-const Checkbox = React.forwardRef<
-  React.ElementRef<typeof CheckboxPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <CheckboxPrimitive.Root
+export interface CheckboxProps extends React.HTMLProps<HTMLInputElement> { }
+const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (
+  <input
     ref={ref}
+    type='checkbox'
     className={cn(
       'peer h-4 w-4 shrink-0 rounded-xs border border-primary ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground border-solid',
       className,
     )}
     {...props}
-  >
-    <CheckboxPrimitive.Indicator
-      className={cn('flex items-center justify-center text-current')}
-    >
-      <Check className='h-4 w-4' />
-    </CheckboxPrimitive.Indicator>
-  </CheckboxPrimitive.Root>
-))
-Checkbox.displayName = CheckboxPrimitive.Root.displayName
+  />
+)
 
-// CheckboxWithLabel
 export interface CheckboxWithLabelProps
   extends React.HTMLProps<HTMLDivElement> {
-  _checkbox: React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
+  _checkbox: React.ComponentPropsWithoutRef<typeof Checkbox>
   _label: React.ComponentPropsWithoutRef<typeof Label>
 }
 
@@ -56,22 +44,17 @@ const CheckboxWithLabel = React.forwardRef<
   )
 })
 
-// CheckboxGroup
-export interface CheckboxProps
-  extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {
-  id: string
-  title: string
-}
-
 export interface CheckboxGroupProps extends React.HTMLProps<HTMLDivElement> {
   subtasks: CheckboxProps[]
   subtasks_default_values?: CheckboxWithLabelProps
 }
 
-const CheckboxGroup = React.forwardRef<
-  React.ElementRef<'div'>,
-  CheckboxGroupProps
->(({ subtasks, subtasks_default_values, ...props }, ref) => {
+const CheckboxGroup = ({
+  subtasks,
+  subtasks_default_values,
+  ref,
+  ...props
+}: CheckboxGroupProps) => {
   const { _checkbox, _label } = subtasks_default_values || {}
   return (
     <>
@@ -101,6 +84,6 @@ const CheckboxGroup = React.forwardRef<
       </div>
     </>
   )
-})
+}
 
 export { Checkbox, CheckboxGroup, CheckboxWithLabel }
