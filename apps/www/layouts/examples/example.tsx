@@ -72,6 +72,7 @@ import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { AspectRatio } from '@gentelduck/registry-ui-duckui/aspect-ratio'
 import { Checkbox } from '@gentelduck/registry-ui-duckui/checkbox'
+import { Badge } from '@gentelduck/registry-ui-duckui/badge'
 
 export function MainExample() {
   const items = [
@@ -147,6 +148,10 @@ export function MainExample() {
           +K
         </CommandShortcut>
       </Button>
+      <Badge variant={'default'} size={'default'}>
+        Inbox
+      </Badge>
+
       <div className='relative'>
         <Grab className='size-3 absolute -top-1 right-8 z-10 fill-white' />
 
@@ -249,7 +254,7 @@ export function MainExample() {
       </AspectRatio>
 
       <AvatarGroup imgs={avatar_group} maxVisible={5} className='my-4' />
-      <div>
+      <div className='flex items-center gap-2'>
         <Checkbox />
         <label>Checkbox</label>
       </div>
