@@ -14,6 +14,7 @@
     "@gentelduck/hooks": "workspace:*",
     "@gentelduck/libs": "workspace:*",
     "@gentelduck/tailwind-config": "workspace:*",
+    "@gentelduck/lazy": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
     "@radix-ui/react-accessible-icon": "^1.1.0",
     "@radix-ui/react-accordion": "^1.2.0",
@@ -106,7 +107,7 @@
     "zod": "catalog:"
   },
   "dependencies": {
-    "@radix-ui/react-hover-card": "^1.1.1",
+    "@radix-ui/react-hover-card": "^1.1.6",
     "@radix-ui/react-radio-group": "^1.2.0",
     "cmdk": "^1.0.0",
     "embla-carousel-react": "8.0.0-rc15",

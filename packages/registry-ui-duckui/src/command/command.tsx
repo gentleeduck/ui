@@ -164,7 +164,7 @@ function CommandList({
     <ul
       ref={ref}
       className={cn(
-        'max-h-[300px] overflow-y-auto overflow-x-hidden p-1 [scrollbar-width:thin] [scrollbar-gutter:stable]',
+        'max-h-[300px] overflow-y-auto overflow-x-hidden [scrollbar-width:thin] [scrollbar-gutter:stable]',
         className,
       )}
       children={children(search)}
@@ -195,12 +195,12 @@ function CommandGroup({
     <div
       ref={ref}
       className={cn(
-        'overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground',
+        'overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground',
         className,
       )}
       {...props}
     >
-      <h3 className='text-sm text-muted-foreground mb-1 pl-1'>{heading}</h3>
+      <h3 className='text-sm text-muted-foreground pb-1 pl-1'>{heading}</h3>
       {children}
     </div>
   )
@@ -289,7 +289,7 @@ function CommandSeparator({
   return (
     <div
       ref={ref}
-      className={cn('-mx-1 h-px bg-border', className)}
+      className={cn('-mx-1 h-px bg-border mx-2', className)}
       {...props}
     />
   )

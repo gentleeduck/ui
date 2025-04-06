@@ -10,7 +10,7 @@ import { DropdownMenuView } from '../dropdown-menu'
 import { ContextCustomView, DuckContextMenuProps } from '../context-menu'
 
 import {
-  Tooltip,
+  TooltipTrigger,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
@@ -243,7 +243,7 @@ const DuckTableSearchInput = React.forwardRef<
       className='flex flex-col'
       ref={ref}
     >
-      <Tooltip delayDuration={100}>
+      <TooltipTrigger delayDuration={100}>
         <TooltipTrigger>
           <Input
             className={cn('h-8 w-[150px] lg:w-[200px]', triggerClassName)}
@@ -273,7 +273,7 @@ const DuckTableSearchInput = React.forwardRef<
           </CommandShortcut>
           <p className='text-sm'>{labelChildren}</p>
         </TooltipContent>
-      </Tooltip>
+      </TooltipTrigger>
     </div>
   )
 })
