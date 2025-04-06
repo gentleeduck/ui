@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from '../alert-dialog'
-import { Button, CommandType, buttonVariants } from '../button'
+import { Button, buttonVariants } from '../button'
 import { Separator } from '../separator'
 import { alertVariants } from './alert.constants'
 
