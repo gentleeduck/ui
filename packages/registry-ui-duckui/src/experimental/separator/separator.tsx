@@ -16,8 +16,8 @@ const Separator = (
   ) => (
     <hr
       className={cn(
-        'shrink-0 bg-border',
-        orientation === 'horizontal' ? 'h-px w-full' : 'h-full w-px',
+        'border-border border',
+        orientation === 'horizontal' ? 'w-full border-x' : 'h-full border-y',
         className
       )}
       {...props}
