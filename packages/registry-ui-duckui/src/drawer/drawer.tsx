@@ -12,12 +12,12 @@ import { DrawerWrapperProps } from './drawer.types'
  * @param {React.ComponentProps<typeof DrawerPrimitive.Root>} props - The props to be passed to the `DrawerPrimitive.Root` component.
  * @param {boolean} [props.shouldScaleBackground] - If true, the drawer will scale the background when it is open.
  *
- * @returns {JSX.Element} The rendered `DrawerPrimitive.Root` component.
+ * @returns {React.JSX.Element} The rendered `DrawerPrimitive.Root` component.
  */
 function Drawer({
   shouldScaleBackground = true,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>): JSX.Element {
+}: React.ComponentProps<typeof DrawerPrimitive.Root>): React.JSX.Element {
   return (
     <DrawerPrimitive.Root
       shouldScaleBackground={shouldScaleBackground}
@@ -55,7 +55,7 @@ const DrawerClose = DrawerPrimitive.Close
  * @param {string} [props.className] - Additional class names to apply to the overlay.
  * @param {React.Ref} ref - The reference to be forwarded to the `DrawerPrimitive.Overlay` component.
  *
- * @returns {JSX.Element} The rendered overlay component.
+ * @returns {React.JSX.Element} The rendered overlay component.
  */
 const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
@@ -79,7 +79,7 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
  * @param {object} props.overlay - The properties passed to the `DrawerOverlay` component.
  * @param {React.Ref} ref - The reference to the drawer content element.
  *
- * @returns {JSX.Element} The rendered drawer content component.
+ * @returns {React.JSX.Element} The rendered drawer content component.
  */
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
@@ -110,12 +110,12 @@ DrawerContent.displayName = 'DrawerContent'
  * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the component.
  * @param {string} [props.className] - Additional class names to apply to the header.
  *
- * @returns {JSX.Element} The rendered header component.
+ * @returns {React.JSX.Element} The rendered header component.
  */
 function DrawerHeader({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)}
@@ -131,12 +131,12 @@ DrawerHeader.displayName = 'DrawerHeader'
  * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the component.
  * @param {string} [props.className] - Additional class names to apply to the footer.
  *
- * @returns {JSX.Element} The rendered footer component.
+ * @returns {React.JSX.Element} The rendered footer component.
  */
 function DrawerFooter({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn('mt-auto flex flex-col gap-2 p-4', className)}
@@ -205,7 +205,7 @@ function DrawerWrapper({
   content,
   duckHook,
   ...props
-}: DrawerWrapperProps): JSX.Element {
+}: DrawerWrapperProps): React.JSX.Element {
   const {
     className: contentClassName,
     children: contentChildren,

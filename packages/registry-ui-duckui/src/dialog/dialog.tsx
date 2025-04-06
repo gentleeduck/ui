@@ -53,7 +53,7 @@ export function DialogContent({
   children,
   className,
   ...props
-}: DialogContentProps): JSX.Element {
+}: DialogContentProps): React.JSX.Element {
   const { open, setOpen } = useDialogContext();
   const [shouldrender, setShouldRender] = React.useState<boolean>(false);
 
@@ -119,7 +119,7 @@ export function DialogClose({ onClick, ...props }: DialogCloseProps) {
  * @param {React.Ref} ref - A ref to be forwarded to the `DialogPrimitive.Overlay` component.
  * @param {object} props - Additional props to be passed to the `DialogPrimitive.Overlay` component.
  *
- * @returns {JSX.Element} The rendered overlay component.
+ * @returns {React.JSX.Element} The rendered overlay component.
  */
 export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> {}
 const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
@@ -144,12 +144,12 @@ const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
  *
  * @param {object} props - The properties passed to the component.
  * @param {string} props.className - Additional class names for styling.
- * @returns {JSX.Element} The rendered DialogHeader component.
+ * @returns {React.JSX.Element} The rendered DialogHeader component.
  */
 export function DialogHeader({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn(
@@ -170,12 +170,12 @@ export function DialogHeader({
  *
  * @param {object} props - The properties passed to the component.
  * @param {string} props.className - Additional class names for styling.
- * @returns {JSX.Element} The rendered DialogFooter component.
+ * @returns {React.JSX.Element} The rendered DialogFooter component.
  */
 export function DialogFooter({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn(
@@ -194,7 +194,7 @@ export function DialogFooter({
  *
  * @param {string} className - Optional additional class names to apply to the component.
  * @param {React.Ref} ref - A ref that will be forwarded to the `DialogPrimitive.Title` component.
- * @returns {JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
+ * @returns {React.JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
  */
 export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
@@ -217,7 +217,7 @@ export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
  * @param {React.Ref} ref - The ref to be forwarded to the `DialogPrimitive.Description` component.
  * @param {object} props - Additional props to be passed to the `DialogPrimitive.Description` component.
  *
- * @returns {JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
+ * @returns {React.JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
  */
 export interface DialogDescriptionProps
   extends React.HTMLProps<HTMLParagraphElement> {}
@@ -240,12 +240,12 @@ export const DialogDescription = ({
 //  *
 //  * @param {React.ReactNode} children - The children elements to be rendered by the `Dialog` or `Drawer`.
 //  * @param {DialogResponsiveProps} props - The props to be passed to the `Dialog` or `Drawer` component.
-//  * @returns {JSX.Element} The rendered `Dialog` or `Drawer` component.
+//  * @returns {React.JSX.Element} The rendered `Dialog` or `Drawer` component.
 //  */
 // function DialogResponsive({
 //   children,
 //   ...props
-// }: DialogResponsiveProps): JSX.Element {
+// }: DialogResponsiveProps): React.JSX.Element {
 //   const isDesktop = useMediaQuery('(min-width: 768px)')
 //
 //   if (isDesktop) {
@@ -264,12 +264,12 @@ export const DialogDescription = ({
 //  *
 //  * @param {DialogTriggerResponsiveProps} props - The properties passed to the component.
 //  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogTrigger` or `DrawerTrigger`.
-//  * @returns {JSX.Element} The rendered `DialogTrigger` or `DrawerTrigger` component.
+//  * @returns {React.JSX.Element} The rendered `DialogTrigger` or `DrawerTrigger` component.
 //  */
 // function DialogTriggerResponsive({
 //   children,
 //   ...props
-// }: DialogTriggerResponsiveProps): JSX.Element {
+// }: DialogTriggerResponsiveProps): React.JSX.Element {
 //   const isDesktop = useMediaQuery('(min-width: 768px)')
 //
 //   if (isDesktop) {
@@ -288,12 +288,12 @@ export const DialogDescription = ({
 //  *
 //  * @param {DialogContentResponsiveProps} props - The properties passed to the component.
 //  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogContent` or `DrawerContent`.
-//  * @returns {JSX.Element} The rendered `DialogContent` or `DrawerContent` component.
+//  * @returns {React.JSX.Element} The rendered `DialogContent` or `DrawerContent` component.
 //  */
 // function DialogContentResponsive({
 //   children,
 //   ...props
-// }: DialogContentResponsiveProps): JSX.Element {
+// }: DialogContentResponsiveProps): React.JSX.Element {
 //   const isDesktop = useMediaQuery('(min-width: 768px)')
 //
 //   if (isDesktop) {
@@ -318,12 +318,12 @@ export const DialogDescription = ({
 //  *
 //  * @param {DialogHeaderResponsiveProps} props - The properties passed to the component.
 //  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogHeader` or `DrawerHeader`.
-//  * @returns {JSX.Element} The rendered `DialogHeader` or `DrawerHeader` component.
+//  * @returns {React.JSX.Element} The rendered `DialogHeader` or `DrawerHeader` component.
 //  */
 // function DialogHeaderResponsive({
 //   children,
 //   ...props
-// }: DialogHeaderResponsiveProps): JSX.Element {
+// }: DialogHeaderResponsiveProps): React.JSX.Element {
 //   const isDesktop = useMediaQuery('(min-width: 768px)')
 //
 //   if (isDesktop) {
@@ -342,12 +342,12 @@ export const DialogDescription = ({
 //  *
 //  * @param {DialogFooterResponsiveProps} props - The properties passed to the component.
 //  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogFooter` or `DrawerFooter`.
-//  * @returns {JSX.Element} The rendered `DialogFooter` or `DrawerFooter` component.
+//  * @returns {React.JSX.Element} The rendered `DialogFooter` or `DrawerFooter` component.
 //  */
 // function DialogFooterResponsive({
 //   children,
 //   ...props
-// }: DialogFooterResponsiveProps): JSX.Element {
+// }: DialogFooterResponsiveProps): React.JSX.Element {
 //   const isDesktop = useMediaQuery('(min-width: 768px)')
 //
 //   if (isDesktop) {
@@ -366,12 +366,12 @@ export const DialogDescription = ({
 //  *
 //  * @param {DialogTitleResponsiveProps} props - The properties passed to the component.
 //  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogTitle` or `DrawerTitle`.
-//  * @returns {JSX.Element} The rendered `DialogTitle` or `DrawerTitle` component.
+//  * @returns {React.JSX.Element} The rendered `DialogTitle` or `DrawerTitle` component.
 //  */
 // function DialogTitleResponsive({
 //   children,
 //   ...props
-// }: DialogTitleResponsiveProps): JSX.Element {
+// }: DialogTitleResponsiveProps): React.JSX.Element {
 //   const isDesktop = useMediaQuery('(min-width: 768px)')
 //
 //   if (isDesktop) {
@@ -390,12 +390,12 @@ export const DialogDescription = ({
 //  *
 //  * @param {DialogDescriptionResponsiveProps} props - The properties passed to the component.
 //  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogDescription` or `DrawerDescription`.
-//  * @returns {JSX.Element} The rendered `DialogDescription` or `DrawerDescription` component.
+//  * @returns {React.JSX.Element} The rendered `DialogDescription` or `DrawerDescription` component.
 //  */
 // function DialogDescriptionResponsive({
 //   children,
 //   ...props
-// }: DialogDescriptionResponsiveProps): JSX.Element {
+// }: DialogDescriptionResponsiveProps): React.JSX.Element {
 //   const isDesktop = useMediaQuery('(min-width: 768px)')
 //
 //   if (isDesktop) {
@@ -414,12 +414,12 @@ export const DialogDescription = ({
 //  *
 //  * @param {DialogCloseResponsiveProps} props - The properties passed to the component.
 //  * @param {React.ReactNode} children - The children elements to be rendered by the `DialogClose` or `DrawerClose`.
-//  * @returns {JSX.Element} The rendered `DialogClose` or `DrawerClose` component.
+//  * @returns {React.JSX.Element} The rendered `DialogClose` or `DrawerClose` component.
 //  */
 // function DialogCloseResponsive({
 //   children,
 //   ...props
-// }: DialogCloseResponsiveProps): JSX.Element {
+// }: DialogCloseResponsiveProps): React.JSX.Element {
 //   const isDesktop = useMediaQuery('(min-width: 768px)')
 //
 //   if (isDesktop) {
@@ -434,14 +434,14 @@ export const DialogDescription = ({
 //  * conditionally based on the screen size. If the screen width is 768px or greater, a `Dialog` is rendered; otherwise,
 //  * a `Drawer` is rendered.
 //  * @param {DialogWrapperProps} props - The properties passed to the component.
-//  * @returns {JSX.Element} The rendered `Dialog` or `Drawer` component.
+//  * @returns {React.JSX.Element} The rendered `Dialog` or `Drawer` component.
 //  */
 // function DialogWrapper({
 //   trigger,
 //   content,
 //   duckHook,
 //   ...props
-// }: DialogWrapperProps): JSX.Element {
+// }: DialogWrapperProps): React.JSX.Element {
 //   const {
 //     className: subContentClassName,
 //     children: subcontentChildren,

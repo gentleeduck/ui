@@ -25,7 +25,7 @@ import { Loader } from 'lucide-react'
  * @param {React.Ref<HTMLButtonElement>} [props.ref] - A ref to the button element.
  * @param {object} [...props] - Additional props pdocsassed to the button component.
  *
- * @returns {JSX.Element} A button element with the specified configurations.
+ * @returns {React.JSX.Element} A button element with the specified configurations.
  */
 function Button({
   children,
@@ -41,7 +41,7 @@ function Button({
   animationIcon,
   ref,
   ...props
-}: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }): JSX.Element {
+}: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }): React.JSX.Element {
   const Component = (asChild ? Slot : 'button') as React.ElementType
 
   const Button = (
@@ -88,12 +88,12 @@ function Button({
  * @param {React.ReactNode} [props.children] - The JSX element or node to be rendered.
  * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional props to be passed to the rendered element.
  *
- * @returns {JSX.Element} The rendered element with the passed props.
+ * @returns {React.JSX.Element} The rendered element with the passed props.
  */
 function Slot({
   children,
   ...props
-}: React.HTMLProps<HTMLDivElement>): JSX.Element {
+}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   if (!React.isValidElement(children)) {
     return <div {...props}>{children}</div>
   }
