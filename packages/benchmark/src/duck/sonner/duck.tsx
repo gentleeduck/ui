@@ -1,10 +1,10 @@
 import { toast } from 'sonner'
-import { DefaultSonner } from '@gentelduck/registry-ui-duckui/sonner'
+import { Toaster } from '@gentelduck/registry-ui-duckui/sonner'
 
 export default function DrawerDemo() {
   return (
     <>
-      <DefaultSonner />
+      <Toaster />
 
       <button
         onClick={() =>

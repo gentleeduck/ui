@@ -43,7 +43,7 @@ const SheetPortal = SheetPrimitive.Portal
  * @param {string} [props.className] - Additional class names to apply to the overlay.
  * @param {React.Ref} ref - The ref to be forwarded to the `SheetPrimitive.Overlay` component.
  *
- * @returns {JSX.Element} The rendered overlay component.
+ * @returns {React.JSX.Element} The rendered overlay component.
  */
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
@@ -70,7 +70,7 @@ SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
  * @param {React.ReactNode} props.children - The content to be rendered inside the sheet.
  * @param {React.Ref} ref - The ref to be forwarded to the `SheetPrimitive.Content` component.
  *
- * @returns {JSX.Element} The rendered sheet content.
+ * @returns {React.JSX.Element} The rendered sheet content.
  */
 
 const SheetContent = React.forwardRef<
@@ -104,12 +104,12 @@ SheetContent.displayName = SheetPrimitive.Content.displayName
  * @param {object} props - The properties passed to the component.
  * @param {string} props.className - Additional class names for styling.
  *
- * @returns {JSX.Element} The rendered SheetHeader component.
+ * @returns {React.JSX.Element} The rendered SheetHeader component.
  */
 function SheetHeader({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn(
@@ -132,12 +132,12 @@ SheetHeader.displayName = 'SheetHeader'
  * @param {object} props - The properties passed to the component.
  * @param {string} props.className - Additional class names for styling.
  *
- * @returns {JSX.Element} The rendered SheetFooter component.
+ * @returns {React.JSX.Element} The rendered SheetFooter component.
  */
 function SheetFooter({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn(
@@ -158,7 +158,7 @@ SheetFooter.displayName = 'SheetFooter'
  * @param {React.Ref} ref - A ref to be forwarded to the `SheetPrimitive.Title` component.
  * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>} props - All other props to be passed to the `SheetPrimitive.Title` component.
  *
- * @returns {JSX.Element} The rendered `SheetPrimitive.Title` component with forwarded ref and applied class names.
+ * @returns {React.JSX.Element} The rendered `SheetPrimitive.Title` component with forwarded ref and applied class names.
  */
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
@@ -180,7 +180,7 @@ SheetTitle.displayName = SheetPrimitive.Title.displayName
  * @param {React.Ref} ref - A ref to be forwarded to the `SheetPrimitive.Description` component.
  * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>} props - Additional props to be passed to the component.
  *
- * @returns {JSX.Element} A `SheetPrimitive.Description` component with forwarded ref and additional props.
+ * @returns {React.JSX.Element} A `SheetPrimitive.Description` component with forwarded ref and additional props.
  */
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
@@ -199,14 +199,14 @@ SheetDescription.displayName = SheetPrimitive.Description.displayName
  * conditionally based on the screen size. If the screen width is 768px or greater, a `Drawer` is rendered; otherwise,
  * a `Sheet` is rendered.
  * @param {SheetWrapperProps} props - The properties passed to the component.
- * @returns {JSX.Element} The rendered `Drawer` or `Sheet` component.
+ * @returns {React.JSX.Element} The rendered `Drawer` or `Sheet` component.
  */
 function SheetWrapper({
   trigger,
   content,
   duckHook,
   ...props
-}: SheetWrapperProps): JSX.Element {
+}: SheetWrapperProps): React.JSX.Element {
   const {
     className: subContentClassName,
     children: subcontentChildren,
