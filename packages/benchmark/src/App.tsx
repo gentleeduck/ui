@@ -89,9 +89,9 @@ function App() {
     <div className='flex flex-col mx-10 h-screen justify-center  items-center gap-4'>
       {/* <Ui /> */}
       {/* <DuckSonner /> */}
-      <DuckSeparatorExp />
-      <DuckSeparator  />
-      <ShadcnSeparator  />
+      <DuckSeparatorExp /> /* Experimental */
+      <DuckSeparator  />  /* radix ui based */
+      <ShadcnSeparator  /> /* other */
     </div>
   )
 }
