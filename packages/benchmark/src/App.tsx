@@ -21,8 +21,9 @@
 // import ShadcnCheckbox from './duck/checkbox/checkbox'
 // import DuckSwitch from './duck/switch/duck'
 // import ShadcnSwitch from './duck/switch/switch'
-// import DuckRadioGroup from './duck/radio-group/duck'
-// import ShadcnRadioGroup from './duck/radio-group/radio-group'
+import DuckRadioExp from './duck/radio-group/experimental'
+import DuckRadioGroup from './duck/radio-group/duck'
+import ShadcnRadioGroup from './duck/radio-group/radio-group'
 // import DuckInput from './duck/input/duck'
 // import ShadcnInput from './duck/input/input'
 // import DuckScrollAreaExp from './duck/scroll-area/experimental'
@@ -38,9 +39,9 @@
 // import ShadcnProgress from './duck/progress/progress'
 // import DuckSelect from './duck/select/duck'
 // import ShadcnSelect from './duck/select/select'
-import DuckSeparator from './duck/separator/duck'
-import DuckSeparatorExp from './duck/separator/experimental'
-import ShadcnSeparator from './duck/separator/separator'
+// import DuckSeparator from './duck/separator/duck'
+// import DuckSeparatorExp from './duck/separator/experimental'
+// import ShadcnSeparator from './duck/separator/separator'
 // import DuckSkeleton from './duck/skeleton/duck'
 // import ShadcnSkeleton from './duck/skeleton/skeleton'
 // import DuckSheet from './duck/sheet/duck'
@@ -89,9 +90,9 @@ function App() {
     <div className='flex flex-col mx-10 h-screen justify-center  items-center gap-4'>
       {/* <Ui /> */}
       {/* <DuckSonner /> */}
-      <DuckSeparatorExp /> /* Experimental */
-      <DuckSeparator  />  /* radix ui based */
-      <ShadcnSeparator  /> /* other */
+      <DuckRadioExp />  Experimental
+      <DuckRadioGroup  />   radix ui based 
+      <ShadcnRadioGroup  />  other 
     </div>
   )
 }
