@@ -1,49 +1,47 @@
-import { cn } from "@gentelduck/libs/cn";
-import { Button, ButtonProps } from "../button";
-import React from "react";
-import { X } from "lucide-react";
+import { cn } from '@gentelduck/libs/cn'
+import { Button, ButtonProps } from '../button'
+import React from 'react'
+import { X } from 'lucide-react'
 
 export interface DialogContextType {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const DialogContext = React.createContext<DialogContextType | null>(
-  null
-);
+export const DialogContext = React.createContext<DialogContextType | null>(null)
 
 export function useDialogContext() {
-  const context = React.useContext(DialogContext);
+  const context = React.useContext(DialogContext)
 
   if (!context) {
-    throw new Error("useDialogContext must be used within a DialogProvider");
+    throw new Error('useDialogContext must be used within a DialogProvider')
   }
-  return context;
+  return context
 }
 
 export function Dialog({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
   return (
     <DialogContext.Provider value={{ open, setOpen }}>
       {children}
     </DialogContext.Provider>
-  );
+  )
 }
 
 export interface DialogProps
   extends React.ComponentPropsWithoutRef<typeof Button> {}
 
 export function DialogTrigger({ onClick, ...props }: DialogProps) {
-  const { setOpen } = useDialogContext();
+  const { setOpen } = useDialogContext()
   return (
     <Button
       onClick={(e) => {
-        setOpen(true);
-        onClick?.(e);
+        setOpen(true)
+        onClick?.(e)
       }}
       {...(props as ButtonProps)}
     />
-  );
+  )
 }
 
 export interface DialogContentProps
@@ -54,60 +52,60 @@ export function DialogContent({
   className,
   ...props
 }: DialogContentProps): JSX.Element {
-  const { open, setOpen } = useDialogContext();
-  const [shouldrender, setShouldRender] = React.useState<boolean>(false);
+  const { open, setOpen } = useDialogContext()
+  const [shouldrender, setShouldRender] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     if (open) {
-      setShouldRender(true);
-      document.body.style.overflow = "hidden";
+      setShouldRender(true)
+      document.body.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto'
     }
-  }, [open]);
+  }, [open])
 
   return (
     <>
       {shouldrender ? (
         <>
           <dialog
-            data-state={open ? "open" : "closed"}
-            role="dialog-content"
+            data-state={open ? 'open' : 'closed'}
+            role='dialog-content'
             className={cn(
-              "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] z-[52] duration-300 ease-out data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=closed]:opacity-0 data-[state=closed]:scale-95 data-[state=closed]:hidden",
-              className
+              'fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] z-[52] duration-300 ease-out data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=closed]:opacity-0 data-[state=closed]:scale-95 data-[state=closed]:hidden',
+              className,
             )}
             {...props}
           >
             <X
               onClick={() => setOpen(false)}
-              className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition"
+              className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
             />
             {children}
           </dialog>
           <DialogOverlay
             onClick={() => setOpen(false)}
-            data-state={open ? "open" : "closed"}
+            data-state={open ? 'open' : 'closed'}
           />
         </>
       ) : null}
     </>
-  );
+  )
 }
 
 export interface DialogCloseProps
   extends React.ComponentPropsWithoutRef<typeof Button> {}
 export function DialogClose({ onClick, ...props }: DialogCloseProps) {
-  const { setOpen } = useDialogContext();
+  const { setOpen } = useDialogContext()
   return (
     <Button
       onClick={(e) => {
-        setOpen(false);
-        onClick?.(e);
+        setOpen(false)
+        onClick?.(e)
       }}
       {...(props as ButtonProps)}
     />
-  );
+  )
 }
 
 /**
@@ -126,13 +124,13 @@ const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
   <div
     ref={ref}
     className={cn(
-      "fixed inset-0 z-[51] bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-      "data-[state=open]:opacity-100 data-[state=closed]:opacity-0 data-[state=closed]:pointer-events-none",
-      className
+      'fixed inset-0 z-[51] bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+      'data-[state=open]:opacity-100 data-[state=closed]:opacity-0 data-[state=closed]:pointer-events-none',
+      className,
     )}
     {...props}
   />
-);
+)
 ///
 
 /**
@@ -153,12 +151,12 @@ export function DialogHeader({
   return (
     <div
       className={cn(
-        "flex flex-col space-y-1.5 text-center sm:text-left",
-        className
+        'flex flex-col space-y-1.5 text-center sm:text-left',
+        className,
       )}
       {...props}
     />
-  );
+  )
 }
 
 /**
@@ -179,12 +177,12 @@ export function DialogFooter({
   return (
     <div
       className={cn(
-        "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-        className
+        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+        className,
       )}
       {...props}
     />
-  );
+  )
 }
 
 /**
@@ -202,12 +200,12 @@ export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
     <h3
       ref={ref}
       className={cn(
-        "text-lg font-semibold leading-none tracking-tight",
-        className
+        'text-lg font-semibold leading-none tracking-tight',
+        className,
       )}
       {...props}
     />
-  );
+  )
 }
 /**
  * `DialogDescription` is a React component that forwards its ref to the `DialogPrimitive.Description` component.
@@ -228,10 +226,10 @@ export const DialogDescription = ({
 }: DialogDescriptionProps) => (
   <p
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn('text-sm text-muted-foreground', className)}
     {...props}
   />
-);
+)
 //
 // /**
 //  * `DialogResponsive` is a React component that conditionally renders either a `Dialog` or a `Drawer` depending
