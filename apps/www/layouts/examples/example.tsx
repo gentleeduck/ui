@@ -65,6 +65,16 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentelduck/registry-ui-duckui/card'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@gentelduck/registry-ui-duckui/sheet'
 
 export function MainExample() {
   const items = [
@@ -143,6 +153,37 @@ export function MainExample() {
       <Badge variant={'default'} size={'default'}>
         Inbox
       </Badge>
+
+      <Sheet>
+        <SheetTrigger variant='outline'>Open</SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Edit profile</SheetTitle>
+            <SheetDescription>
+              Make changes to your profile here. Click save when you're done.
+            </SheetDescription>
+          </SheetHeader>
+          <div className='grid gap-4 py-4'>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='name' className='text-right'>
+                Name
+              </Label>
+              <Input id='name' value='Pedro Duarte' className='col-span-3' />
+            </div>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='username' className='text-right'>
+                Username
+              </Label>
+              <Input id='username' value='@peduarte' className='col-span-3' />
+            </div>
+          </div>
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button type='submit'>Save changes</Button>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
 
       <Tabs
         defaultValue='account'
@@ -283,6 +324,40 @@ export function MainExample() {
               <Input id='username' value='@wildduck2' className='col-span-3' />
             </div>
           </div>
+
+          <Dialog>
+            <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit profile</DialogTitle>
+                <DialogDescription>
+                  Make changes to your profile here. Click save when you're
+                  done.
+                </DialogDescription>
+              </DialogHeader>
+              <div className='grid gap-4 py-4'>
+                <div className='grid grid-cols-4 items-center gap-4'>
+                  <Label htmlFor='name' className='text-right'>
+                    Name
+                  </Label>
+                  <Input id='name' value='wild duck' className='col-span-3' />
+                </div>
+                <div className='grid grid-cols-4 items-center gap-4'>
+                  <Label htmlFor='username' className='text-right'>
+                    Username
+                  </Label>
+                  <Input
+                    id='username'
+                    value='@wildduck2'
+                    className='col-span-3'
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button>Save changes</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
           <DialogFooter>
             <Button>Save changes</Button>
           </DialogFooter>

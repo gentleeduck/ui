@@ -28,10 +28,10 @@ export function Dialog({ children }: { children: React.ReactNode }) {
   )
 }
 
-export interface DialogProps
-  extends React.ComponentPropsWithoutRef<typeof Button> {}
+export interface DialogTriggerProps
+  extends React.ComponentPropsWithoutRef<typeof Button> { }
 
-export function DialogTrigger({ onClick, ...props }: DialogProps) {
+export function DialogTrigger({ onClick, ...props }: DialogTriggerProps) {
   const { setOpen } = useDialogContext()
   return (
     <Button
@@ -45,7 +45,7 @@ export function DialogTrigger({ onClick, ...props }: DialogProps) {
 }
 
 export interface DialogContentProps
-  extends React.HTMLProps<HTMLDialogElement> {}
+  extends React.HTMLProps<HTMLDialogElement> { }
 
 export function DialogContent({
   children,
@@ -94,7 +94,7 @@ export function DialogContent({
 }
 
 export interface DialogCloseProps
-  extends React.ComponentPropsWithoutRef<typeof Button> {}
+  extends React.ComponentPropsWithoutRef<typeof Button> { }
 export function DialogClose({ onClick, ...props }: DialogCloseProps) {
   const { setOpen } = useDialogContext()
   return (
@@ -119,7 +119,7 @@ export function DialogClose({ onClick, ...props }: DialogCloseProps) {
  *
  * @returns {JSX.Element} The rendered overlay component.
  */
-export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> {}
+export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> { }
 const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
   <div
     ref={ref}
@@ -194,7 +194,7 @@ export function DialogFooter({
  * @param {React.Ref} ref - A ref that will be forwarded to the `DialogPrimitive.Title` component.
  * @returns {JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
   return (
     <h3
@@ -218,7 +218,7 @@ export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
  * @returns {JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
  */
 export interface DialogDescriptionProps
-  extends React.HTMLProps<HTMLParagraphElement> {}
+  extends React.HTMLProps<HTMLParagraphElement> { }
 export const DialogDescription = ({
   className,
   ref,

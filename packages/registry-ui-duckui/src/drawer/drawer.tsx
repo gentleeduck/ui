@@ -28,7 +28,7 @@ function Drawer({
 Drawer.displayName = 'Drawer'
 
 /**
- * A component that serves as the trigger for opening the Drawer.
+ * A component that serves as the trigger for opening  the Drawer.
  * It is a wrapper around the `DrawerPrimitive.Trigger` component.
  *
  * @component
@@ -50,7 +50,7 @@ const DrawerClose = DrawerPrimitive.Close
 /**
  * `DrawerOverlay` is a React component that renders an overlay for a drawer.
  * It uses `React.forwardRef` to pass down a ref to the underlying `DrawerPrimitive.Overlay` component.
- *
+ * 
  * @param {Object} props - The properties passed to the component.
  * @param {string} [props.className] - Additional class names to apply to the overlay.
  * @param {React.Ref} ref - The reference to be forwarded to the `DrawerPrimitive.Overlay` component.
@@ -73,7 +73,7 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
  * `DrawerContent` is a React component that renders the content of a drawer using `DrawerPrimitive.Content`.
  * It is wrapped in a `DrawerPortal` and includes a `DrawerOverlay`.
  *
- * @param {object} props - The properties passed to the component.
+ * @param {object} props - The properties passed to the component. 
  * @param {string} [props.className] - Additional class names to apply to the drawer content.
  * @param {React.ReactNode} props.children - The content to be rendered inside the drawer.
  * @param {object} props.overlay - The properties passed to the `DrawerOverlay` component.
@@ -93,9 +93,9 @@ const DrawerContent = React.forwardRef<
       ref={ref}
       className={cn(
         'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
-        className
+        className,
       )}
-      {...props}
+      {...props} 
     >
       <div className='mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted' />
       {children}
@@ -111,20 +111,22 @@ DrawerContent.displayName = 'DrawerContent'
  * @param {string} [props.className] - Additional class names to apply to the header.
  *
  * @returns {JSX.Element} The rendered header component.
- */
+ */ 
 function DrawerHeader({
   className,
+  ref,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLProps<HTMLDivElement>): JSX.Element {
   return (
     <div
       className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)}
+      ref={ref}
       {...props}
     />
   )
 }
 DrawerHeader.displayName = 'DrawerHeader'
-
+ 
 /**
  * A component that renders the footer of a drawer.
  *
@@ -139,7 +141,7 @@ function DrawerFooter({
 }: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   return (
     <div
-      className={cn('mt-auto flex flex-col gap-2 p-4', className)}
+      className={cn('mt-auto flex flex-col gap-2 p-4', className)} 
       {...props}
     />
   )
@@ -155,7 +157,7 @@ DrawerFooter.displayName = 'DrawerFooter'
  * @param {object} props - Additional props to be passed to the `DrawerPrimitive.Title` component.
  *
  * @returns {JSX.Element} The rendered `DrawerPrimitive.Title` component with forwarded ref and applied class names.
- */
+ */ 
 const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
@@ -164,7 +166,7 @@ const DrawerTitle = React.forwardRef<
     ref={ref}
     className={cn(
       'text-lg font-semibold leading-none tracking-tight',
-      className
+      className,
     )}
     {...props}
   />
@@ -237,10 +239,7 @@ function DrawerWrapper({
         className={cn('flex flex-col w-full h-full', contentClassName)}
         {...contentProps}
       >
-        <div
-          data-role-wrapper
-          className='flex flex-col gap-4 w-full h-full'
-        >
+        <div data-role-wrapper className='flex flex-col gap-4 w-full h-full'>
           {_header && (
             <DrawerHeader {...headerProps}>
               {headerProps.children ? (
@@ -258,10 +257,7 @@ function DrawerWrapper({
             className={cn('flex items-ceter gap-2', footerClassName)}
             {...footerProps}
           >
-            <DrawerClose
-              asChild
-              {..._subCancel}
-            />
+            <DrawerClose asChild {..._subCancel} />
             <div
               {..._subSubmit}
               className={cn('w-full', _subSubmit?.className)}
