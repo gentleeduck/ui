@@ -30,7 +30,7 @@
   "devDependencies": {
     "@gentelduck/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^20.17.24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",

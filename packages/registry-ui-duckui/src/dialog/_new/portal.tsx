@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom'
-import { useLayoutEffect } from './use-helpers'
+import { useLayoutEffect } from './layout'
 
 export interface PortalProps extends React.HTMLProps<HTMLDivElement> {
   /**
@@ -28,3 +28,57 @@ function Portal({ container, ref, ...props }: PortalProps) {
 }
 
 export { Portal }
+   
+   
+   
+  
+   
+   
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
