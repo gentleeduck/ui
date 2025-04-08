@@ -134,8 +134,6 @@
   background-color: red !important;
 } */
 
-
-
-button[data-open="false"]+div{
+button[data-open="false"] + div {
   background: #000;
 }

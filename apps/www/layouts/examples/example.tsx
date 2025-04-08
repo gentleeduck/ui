@@ -305,77 +305,65 @@ export function MainExample() {
 
       <Dialog>
         <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
-        <DialogPortal>
-          <DialogContent tabIndex={0}>
-            <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
-              <DialogDescription>
-                Make changes to your profile here. Click save when you're done.
-              </DialogDescription>
-            </DialogHeader>
-            <div className='grid gap-4 py-4'>
-              <div className='grid grid-cols-4 items-center gap-4'>
-                <Label htmlFor='name' className='text-right'>
-                  Name
-                </Label>
-                <Input id='name' value='wild duck' className='col-span-3' />
-              </div>
-              <div className='grid grid-cols-4 items-center gap-4'>
-                <Label htmlFor='username' className='text-right'>
-                  Username
-                </Label>
-                <Input
-                  id='username'
-                  value='@wildduck2'
-                  className='col-span-3'
-                />
-              </div>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className='grid gap-4 py-4'>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='name' className='text-right'>
+                Name
+              </Label>
+              <Input id='name' value='wild duck' className='col-span-3' />
             </div>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='username' className='text-right'>
+                Username
+              </Label>
+              <Input id='username' value='@wildduck2' className='col-span-3' />
+            </div>
+          </div>
 
-            <Dialog>
-              <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
-              <DialogPortal>
-                <DialogContent tabIndex={1}>
-                  <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
-                    <DialogDescription>
-                      Make changes to your profile here. Click save when you're
-                      done.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className='grid gap-4 py-4'>
-                    <div className='grid grid-cols-4 items-center gap-4'>
-                      <Label htmlFor='name' className='text-right'>
-                        Name
-                      </Label>
-                      <Input
-                        id='name'
-                        value='wild duck'
-                        className='col-span-3'
-                      />
-                    </div>
-                    <div className='grid grid-cols-4 items-center gap-4'>
-                      <Label htmlFor='username' className='text-right'>
-                        Username
-                      </Label>
-                      <Input
-                        id='username'
-                        value='@wildduck2'
-                        className='col-span-3'
-                      />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button>Save changes</Button>
-                  </DialogFooter>
-                </DialogContent>
-              </DialogPortal>
-            </Dialog>
-            <DialogFooter>
-              <Button>Save changes</Button>
-            </DialogFooter>
-          </DialogContent>
-        </DialogPortal>
+          <Dialog>
+            <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit profile</DialogTitle>
+                <DialogDescription>
+                  Make changes to your profile here. Click save when you're
+                  done.
+                </DialogDescription>
+              </DialogHeader>
+              <div className='grid gap-4 py-4'>
+                <div className='grid grid-cols-4 items-center gap-4'>
+                  <Label htmlFor='name' className='text-right'>
+                    Name
+                  </Label>
+                  <Input id='name' value='wild duck' className='col-span-3' />
+                </div>
+                <div className='grid grid-cols-4 items-center gap-4'>
+                  <Label htmlFor='username' className='text-right'>
+                    Username
+                  </Label>
+                  <Input
+                    id='username'
+                    value='@wildduck2'
+                    className='col-span-3'
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button>Save changes</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          <DialogFooter>
+            <Button>Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
       </Dialog>
 
       <AspectRatio ratio={16 / 9} className='bg-muted'>

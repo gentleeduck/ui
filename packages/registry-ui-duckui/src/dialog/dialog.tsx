@@ -4,9 +4,12 @@ import React from 'react'
 import { X } from 'lucide-react'
 import { Portal, PortalProps } from './_new/portal'
 
+let INSTANCE = 0
+
 export interface DialogContextType {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  index: number
 }
 
 export const DialogContext = React.createContext<DialogContextType | null>(null)
@@ -22,15 +25,19 @@ export function useDialogContext() {
 
 export function Dialog({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false)
+  const idx = React.useMemo(() => {
+    return (INSTANCE += 1)
+  }, [])
+
   return (
-    <DialogContext.Provider value={{ open, setOpen }}>
+    <DialogContext.Provider value={{ open, setOpen, index: idx }}>
       {children}
     </DialogContext.Provider>
   )
 }
 
 export interface DialogTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof Button> { }
+  extends React.ComponentPropsWithoutRef<typeof Button> {}
 
 export function DialogTrigger({ onClick, ...props }: DialogTriggerProps) {
   const { setOpen } = useDialogContext()
@@ -45,41 +52,47 @@ export function DialogTrigger({ onClick, ...props }: DialogTriggerProps) {
   )
 }
 
-export interface DialogContentProps extends React.HTMLProps<HTMLDialogElement> {
-  index: number
-}
+export interface DialogContentProps
+  extends React.HTMLProps<HTMLDialogElement> {}
 
 export function DialogContent({
   children,
   className,
-  index,
   ...props
 }: DialogContentProps): JSX.Element {
-  const { open, setOpen } = useDialogContext()
+  const { open, setOpen, index } = useDialogContext()
   const [shouldrender, setShouldRender] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     if (open) {
       setShouldRender(true)
-      document.body.style.overflow = 'hidden'
+      console.log(index)
+      if (index === 0) {
+        console.log('hi')
+        document.body.style.overflow = 'hidden'
+      }
     } else {
-      document.body.style.overflow = 'auto'
+      if (index === 0) {
+        document.body.style.overflow = 'auto'
+      }
     }
   }, [open])
+  const idx = 50 + ((index ?? 1) + 5)
 
   return (
-    <>
+    <DialogPortal>
       {shouldrender ? (
         <>
           <dialog
+            // open={open}
             data-state={open ? 'open' : 'closed'}
             role='dialog-content'
             className={cn(
-              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] z-[52] duration-300 ease-out data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=closed]:opacity-0 data-[state=closed]:scale-95 data-[state=closed]:hidden',
+              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] z-[52] duration-300 ease-out data-[state=open]:opacity-100 data-[state=open]:scale-100 data-[state=closed]:opacity-0 data-[state=closed]:scale-95 data-[state=closed]:hidden shadow-md',
               className,
             )}
             style={{
-              zIndex: 50 + ((index ?? 1) + 5),
+              zIndex: idx + 1,
             }}
             tabIndex={index}
             {...props}
@@ -90,19 +103,14 @@ export function DialogContent({
             />
             {children}
           </dialog>
-          <DialogOverlay
-            tabIndex={index}
-            onClick={() => setOpen(false)}
-            data-state={open ? 'open' : 'closed'}
-          />
         </>
       ) : null}
-    </>
+    </DialogPortal>
   )
 }
 
 export interface DialogCloseProps
-  extends React.ComponentPropsWithoutRef<typeof Button> { }
+  extends React.ComponentPropsWithoutRef<typeof Button> {}
 export function DialogClose({ onClick, ...props }: DialogCloseProps) {
   const { setOpen } = useDialogContext()
   return (
@@ -145,10 +153,6 @@ const DialogOverlay = ({
       'data-[state=open]:opacity-100 data-[state=closed]:opacity-0 data-[state=closed]:pointer-events-none',
       className,
     )}
-    style={{
-      zIndex: 50 + ((index ?? 1) + 5) - 1,
-    }}
-    tabIndex={index}
     {...props}
   />
 )
@@ -215,7 +219,7 @@ export function DialogFooter({
  * @param {React.Ref} ref - A ref that will be forwarded to the `DialogPrimitive.Title` component.
  * @returns {JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
   return (
     <h2
@@ -239,7 +243,7 @@ export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
  * @returns {JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
  */
 export interface DialogDescriptionProps
-  extends React.HTMLProps<HTMLParagraphElement> { }
+  extends React.HTMLProps<HTMLParagraphElement> {}
 export const DialogDescription = ({
   className,
   ref,
