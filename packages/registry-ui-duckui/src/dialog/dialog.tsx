@@ -87,9 +87,8 @@ export function DialogContent({
             open={open}
             data-state={open ? 'open' : 'closed'}
             className={cn(
-              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] z-[52] duration-300 ease-out',
-              'data-[state=open]:animate-fade-in data-[state=open]:animate-scale-in data-[state=closed]:animate-fade-out data-[state=closed]:animate-scale-out',
-              // 'data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:hidden shadow-md',
+              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out',
+              'data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:hidden shadow-md',
               className,
             )}
             style={{
@@ -110,7 +109,7 @@ export function DialogContent({
             style={{
               zIndex: idx,
             }}
-            // data-state={open ? 'open' : 'closed'}
+            data-state={open ? 'open' : 'closed'}
           />
         </>
       ) : null}

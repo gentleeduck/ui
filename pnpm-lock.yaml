@@ -765,6 +765,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.0.12)
+      vaul:
+        specifier: 0.9.0
+        version: 0.9.0(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
     devDependencies:
       '@gentelduck/typescript-config':
         specifier: workspace:*

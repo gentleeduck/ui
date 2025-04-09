@@ -1,28 +1,13 @@
 'use client'
 
-import React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { DialogProps, DrawerContextType } from './drawer.types'
-
-export const DrawerContext = React.createContext<DrawerContextType | null>(null)
-
-export const useDrawerContext = () => {
-  const context = React.useContext(DrawerContext)
-  if (!context) {
-    throw new Error('useDrawerContext must be used within a Drawer')
-  }
-  return context
-}
-
-import './drawer.css'
-import {
-  set,
-  getTranslate,
-  dampenValue,
-  isVertical,
-  reset,
-  getScale,
-} from './drawer.libs'
+import React from 'react'
+import { DrawerContext, useDrawerContext } from './context'
+import './style.css'
+import { usePreventScroll, isInput } from './use-prevent-scroll'
+import { useComposedRefs } from './use-composed-refs'
+import { useSnapPoints } from './use-snap-points'
+import { set, getTranslate, dampenValue, isVertical, reset } from './helpers'
 import {
   TRANSITIONS,
   VELOCITY_THRESHOLD,
@@ -32,26 +17,127 @@ import {
   NESTED_DISPLACEMENT,
   WINDOW_TOP_OFFSET,
   DRAG_CLASS,
-} from './drawer.constants'
-import { DrawerDirection } from './drawer.types'
-import {
-  useScaleBackground,
-  usePreventScroll,
-  isInput,
-  useComposedRefs,
-  useSnapPoints,
-  useControllableState,
-  usePositionFixed,
-} from './drawer.hooks'
-import { isIOS, isMobileFirefox } from './drawer.libs'
-// import {
-//   DialogClose,
-//   DialogDescription,
-//   DialogPortal,
-//   DialogTitle,
-//   DialogTrigger,
-// } from '~/src/dialog'
-import { DialogContent, DialogOverlay } from '@radix-ui/react-dialog'
+} from './constants'
+import { DrawerDirection } from './types'
+import { useControllableState } from './use-controllable-state'
+import { useScaleBackground } from './use-scale-background'
+import { usePositionFixed } from './use-position-fixed'
+import { isIOS, isMobileFirefox } from './browser'
+
+export interface WithFadeFromProps {
+  /**
+   * Array of numbers from 0 to 100 that corresponds to % of the screen a given snap point should take up.
+   * Should go from least visible. Example `[0.2, 0.5, 0.8]`.
+   * You can also use px values, which doesn't take screen height into account.
+   */
+  snapPoints: (number | string)[]
+  /**
+   * Index of a `snapPoint` from which the overlay fade should be applied. Defaults to the last snap point.
+   */
+  fadeFromIndex: number
+}
+
+export interface WithoutFadeFromProps {
+  /**
+   * Array of numbers from 0 to 100 that corresponds to % of the screen a given snap point should take up.
+   * Should go from least visible. Example `[0.2, 0.5, 0.8]`.
+   * You can also use px values, which doesn't take screen height into account.
+   */
+  snapPoints?: (number | string)[]
+  fadeFromIndex?: never
+}
+
+export type DialogProps = {
+  activeSnapPoint?: number | string | null
+  setActiveSnapPoint?: (snapPoint: number | string | null) => void
+  children?: React.ReactNode
+  open?: boolean
+  /**
+   * Number between 0 and 1 that determines when the drawer should be closed.
+   * Example: threshold of 0.5 would close the drawer if the user swiped for 50% of the height of the drawer or more.
+   * @default 0.25
+   */
+  closeThreshold?: number
+  /**
+   * When `true` the `body` doesn't get any styles assigned from Vaul
+   */
+  noBodyStyles?: boolean
+  onOpenChange?: (open: boolean) => void
+  shouldScaleBackground?: boolean
+  /**
+   * When `false` we don't change body's background color when the drawer is open.
+   * @default true
+   */
+  setBackgroundColorOnScale?: boolean
+  /**
+   * Duration for which the drawer is not draggable after scrolling content inside of the drawer.
+   * @default 500ms
+   */
+  scrollLockTimeout?: number
+  /**
+   * When `true`, don't move the drawer upwards if there's space, but rather only change it's height so it's fully scrollable when the keyboard is open
+   */
+  fixed?: boolean
+  /**
+   * When `true` only allows the drawer to be dragged by the `<Drawer.Handle />` component.
+   * @default false
+   */
+  handleOnly?: boolean
+  /**
+   * When `false` dragging, clicking outside, pressing esc, etc. will not close the drawer.
+   * Use this in combination with the `open` prop, otherwise you won't be able to open/close the drawer.
+   * @default true
+   */
+  dismissible?: boolean
+  onDrag?: (
+    event: React.PointerEvent<HTMLDivElement>,
+    percentageDragged: number,
+  ) => void
+  onRelease?: (event: React.PointerEvent<HTMLDivElement>, open: boolean) => void
+  /**
+   * When `false` it allows to interact with elements outside of the drawer without closing it.
+   * @default true
+   */
+  modal?: boolean
+  nested?: boolean
+  onClose?: () => void
+  /**
+   * Direction of the drawer. Can be `top` or `bottom`, `left`, `right`.
+   * @default 'bottom'
+   */
+  direction?: 'top' | 'bottom' | 'left' | 'right'
+  /**
+   * Opened by default, skips initial enter animation. Still reacts to `open` state changes
+   * @default false
+   */
+  defaultOpen?: boolean
+  /**
+   * When set to `true` prevents scrolling on the document body on mount, and restores it on unmount.
+   * @default false
+   */
+  disablePreventScroll?: boolean
+  /**
+   * When `true` Vaul will reposition inputs rather than scroll then into view if the keyboard is in the way.
+   * Setting it to `false` will fall back to the default browser behavior.
+   * @default true when {@link snapPoints} is defined
+   */
+  repositionInputs?: boolean
+  /**
+   * Disabled velocity based swiping for snap points.
+   * This means that a snap point won't be skipped even if the velocity is high enough.
+   * Useful if each snap point in a drawer is equally important.
+   * @default false
+   */
+  snapToSequentialPoint?: boolean
+  container?: HTMLElement | null
+  /**
+   * Gets triggered after the open or close animation ends, it receives an `open` argument with the `open` state of the drawer by the time the function was triggered.
+   * Useful to revert any state changes for example.
+   */
+  onAnimationEnd?: (open: boolean) => void
+  preventScrollRestoration?: boolean
+  autoFocus?: boolean
+} & (WithFadeFromProps | WithoutFadeFromProps)
 
 export function Root({
   open: openProp,
@@ -186,6 +272,10 @@ export function Root({
     noBodyStyles,
   })
 
+  function getScale() {
+    return (window.innerWidth - WINDOW_TOP_OFFSET) / window.innerWidth
+  }
+
   function onPress(event: React.PointerEvent<HTMLDivElement>) {
     if (!dismissible && !snapPoints) return
     if (drawerRef.current && !drawerRef.current.contains(event.target as Node))
@@ -292,6 +382,139 @@ export function Root({
 
     // No scrollable parents not scrolled to the top found, so drag
     return true
+  }
+
+  function onDrag(event: React.PointerEvent<HTMLDivElement>) {
+    if (!drawerRef.current) {
+      return
+    }
+
+    // We need to know how much of the drawer has been dragged in percentages so that we can transform background accordingly
+    if (isDragging) {
+      const directionMultiplier =
+        direction === 'bottom' || direction === 'right' ? 1 : -1
+      const draggedDistance =
+        (pointerStart.current -
+          (isVertical(direction) ? event.pageY : event.pageX)) *
+        directionMultiplier
+      const isDraggingInDirection = draggedDistance > 0
+
+      // Pre condition for disallowing dragging in the close direction.
+      const noCloseSnapPointsPreCondition =
+        snapPoints && !dismissible && !isDraggingInDirection
+
+      // Disallow dragging down to close when first snap point is the active one and dismissible prop is set to false.
+      if (noCloseSnapPointsPreCondition && activeSnapPointIndex === 0) return
+
+      // We need to capture last time when drag with scroll was triggered and have a timeout between
+      const absDraggedDistance = Math.abs(draggedDistance)
+      const wrapper = document.querySelector('[data-vaul-drawer-wrapper]')
+      const drawerDimension =
+        direction === 'bottom' || direction === 'top'
+          ? drawerHeightRef.current
+          : drawerWidthRef.current
+
+      // Calculate the percentage dragged, where 1 is the closed position
+      let percentageDragged = absDraggedDistance / drawerDimension
+      const snapPointPercentageDragged = getSnapPointsPercentageDragged(
+        absDraggedDistance,
+        isDraggingInDirection,
+      )
+
+      if (snapPointPercentageDragged !== null) {
+        percentageDragged = snapPointPercentageDragged
+      }
+
+      // Disallow close dragging beyond the smallest snap point.
+      if (noCloseSnapPointsPreCondition && percentageDragged >= 1) {
+        return
+      }
+
+      if (
+        !isAllowedToDrag.current &&
+        !shouldDrag(event.target, isDraggingInDirection)
+      )
+        return
+      drawerRef.current.classList.add(DRAG_CLASS)
+      // If shouldDrag gave true once after pressing down on the drawer, we set isAllowedToDrag to true and it will remain true until we let go, there's no reason to disable dragging mid way, ever, and that's the solution to it
+      isAllowedToDrag.current = true
+      set(drawerRef.current, {
+        transition: 'none',
+      })
+
+      set(overlayRef.current, {
+        transition: 'none',
+      })
+
+      if (snapPoints) {
+        onDragSnapPoints({ draggedDistance })
+      }
+
+      // Run this only if snapPoints are not defined or if we are at the last snap point (highest one)
+      if (isDraggingInDirection && !snapPoints) {
+        const dampenedDraggedDistance = dampenValue(draggedDistance)
+
+        const translateValue =
+          Math.min(dampenedDraggedDistance * -1, 0) * directionMultiplier
+        set(drawerRef.current, {
+          transform: isVertical(direction)
+            ? `translate3d(0, ${translateValue}px, 0)`
+            : `translate3d(${translateValue}px, 0, 0)`,
+        })
+        return
+      }
+
+      const opacityValue = 1 - percentageDragged
+
+      if (
+        shouldFade ||
+        (fadeFromIndex && activeSnapPointIndex === fadeFromIndex - 1)
+      ) {
+        onDragProp?.(event, percentageDragged)
+
+        set(
+          overlayRef.current,
+          {
+            opacity: `${opacityValue}`,
+            transition: 'none',
+          },
+          true,
+        )
+      }
+
+      if (wrapper && overlayRef.current && shouldScaleBackground) {
+        // Calculate percentageDragged as a fraction (0 to 1)
+        const scaleValue = Math.min(
+          getScale() + percentageDragged * (1 - getScale()),
+          1,
+        )
+        const borderRadiusValue = 8 - percentageDragged * 8
+
+        const translateValue = Math.max(0, 14 - percentageDragged * 14)
+
+        set(
+          wrapper,
+          {
+            borderRadius: `${borderRadiusValue}px`,
+            transform: isVertical(direction)
+              ? `scale(${scaleValue}) translate3d(0, ${translateValue}px, 0)`
+              : `scale(${scaleValue}) translate3d(${translateValue}px, 0, 0)`,
+            transition: 'none',
+          },
+          true,
+        )
+      }
+
+      if (!snapPoints) {
+        const translateValue = absDraggedDistance * directionMultiplier
+
+        set(drawerRef.current, {
+          transform: isVertical(direction)
+            ? `translate3d(0, ${translateValue}px, 0)`
+            : `translate3d(${translateValue}px, 0, 0)`,
+        })
+      }
+    }
   }
 
   React.useEffect(() => {
@@ -651,7 +874,7 @@ export function Root({
           onOpenChange,
           onPress,
           onRelease,
-          // onDrag,
+          onDrag,
           dismissible,
           shouldAnimate,
           handleOnly,
@@ -720,7 +943,9 @@ export const Overlay = React.forwardRef<
 
 Overlay.displayName = 'Drawer.Overlay'
 
-export type ContentProps = React.ComponentPropsWithoutRef<typeof DialogContent>
+export type ContentProps = React.ComponentPropsWithoutRef<
+  typeof DialogPrimitive.Content
+>
 
 export const Content = React.forwardRef<HTMLDivElement, ContentProps>(function (
   { onPointerDownOutside, style, onOpenAutoFocus, ...rest },
@@ -1038,7 +1263,7 @@ export function NestedRoot({
   )
 }
 
-type PortalProps = React.ComponentPropsWithRef<typeof DialogPrimitive.Portal>
+type PortalProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Portal>
 
 export function Portal(props: PortalProps) {
   const context = useDrawerContext()

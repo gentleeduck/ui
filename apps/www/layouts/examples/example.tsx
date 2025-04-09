@@ -11,6 +11,8 @@ import {
   Grab,
   LineChart,
   LogOut,
+  Minus,
+  Plus,
   Pointer,
   RefreshCcw,
   X,
@@ -76,9 +78,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@gentelduck/registry-ui-duckui/sheet'
-// import { DialogPortal } from '../../../../packages/registry-ui-duckui/src/dialog/_new/dialog'
+import { Drawer } from 'vaul'
+import { DuckDR } from '@gentelduck/registry-ui-duckui/drawer'
 
 export function MainExample() {
+  return (
+    <>
+      <DuckDR />
+    </>
+  )
   const items = [
     // {
     //   title: 'Navigation',
@@ -115,6 +123,22 @@ export function MainExample() {
       ],
     },
   ]
+
+  return (
+    <>
+      <Drawer.Root>
+        <Drawer.Trigger>
+          <Button>Open</Button>
+        </Drawer.Trigger>
+        <Drawer.Portal>
+          <Drawer.Content>
+            <Drawer.Title>Title</Drawer.Title>
+          </Drawer.Content>
+          <Drawer.Overlay />
+        </Drawer.Portal>
+      </Drawer.Root>
+    </>
+  )
 
   return (
     <div className='flex flex-col gap-3 items-center'>

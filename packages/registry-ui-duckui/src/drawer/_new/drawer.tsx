@@ -1,213 +1,103 @@
-import React from 'react'
-import { DrawerContextType } from './drawer.types'
-import { Button } from '../../button'
-import { cn } from '@gentelduck/libs/cn'
+import { useState } from 'react'
+import { Drawer } from '../src'
 
-export const DrawerContext = React.createContext<DrawerContextType | null>(null)
+export function DuckDR() {
+  const [open, setOpen] = useState(false)
+  const [fullyControlled, setFullyControlled] = useState(false)
 
-const useDrawerContext = () => {
-  const context = React.useContext(DrawerContext)
-  if (!context) {
-    throw new Error('useDrawerContext must be used within a Drawer')
-  }
-  return context
-}
-
-export interface DrawerProps {
-  children: React.ReactNode
-}
-
-function Drawer({ children }: DrawerProps) {
-  const [open, setOpen] = React.useState(false)
-
-  return (
-    <DrawerContext.Provider value={{ open, setOpen }}>
-      {children}
-    </DrawerContext.Provider>
-  )
-}
-
-export interface DrawerTriggerProps
-  extends React.ComponentPropsWithRef<typeof Button> { }
-
-function DrawerTrigger({
-  variant = 'outline',
-  onClick,
-  ref,
-  ...props
-}: DrawerTriggerProps) {
-  const { setOpen } = useDrawerContext()
-  return (
-    <Button
-      variant={'outline'}
-      ref={ref}
-      onClick={(e) => {
-        setOpen(true)
-        onClick?.(e)
-      }}
-      {...props}
-    />
-  )
-}
-
-export interface DrawerContentProps extends React.HTMLProps<HTMLDivElement> { }
-
-function DrawerContent({
-  className,
-  children,
-  ref,
-  ...props
-}: DrawerContentProps) {
-  const { open, setOpen } = useDrawerContext()
-
-  const [shouldrender, setShouldRender] = React.useState<boolean>(false)
-
-  React.useEffect(() => {
-    if (open) {
-      setShouldRender(true)
-      // document.body.style.scale = '0.9'
-      // document.body.style.overflow = 'hidden'
-    } else {
-      // document.body.style.overflow = 'auto'
-    }
-  }, [open])
-
-  return (
-    <>
-      <DrawerOverlay
-        onClick={() => setOpen(false)}
-        data-state={open ? 'open' : 'closed'}
-      />
-      <div
-        className={cn(
-          'fixed inset-x-0 bottom-0 z-[51] mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
-          className,
-        )}
-        ref={ref}
-        {...props}
-      >
-        <div className='mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted'></div>
-        {children}
-      </div>
-    </>
-  )
-}
-
-export interface DrawerOverlayProps extends React.HTMLProps<HTMLDivElement> { }
-function DrawerOverlay({
-  className,
-  children,
-  ref,
-  ...props
-}: DrawerOverlayProps) {
   return (
     <div
-      ref={ref}
-      className={cn(
-        'fixed inset-0 z-[51] bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-        'data-[state=open]:opacity-100 data-[state=closed]:opacity-0 data-[state=closed]:pointer-events-none',
-        className,
-      )}
-      {...props}
+      className='w-screen h-screen bg-white p-8 flex justify-center items-center'
+      data-vaul-drawer-wrapper=''
     >
-      {children}
+      <Drawer.Root>
+        <Drawer.Trigger className='relative flex h-10 flex-shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-white px-4 text-sm font-medium shadow-sm transition-all hover:bg-[#FAFAFA] dark:bg-[#161615] dark:hover:bg-[#1A1A19] dark:text-white'>
+          Open Drawer
+        </Drawer.Trigger>
+        <Drawer.Portal>
+          <Drawer.Overlay className='fixed inset-0 bg-black/40' />
+          <Drawer.Content className='bg-gray-100 flex flex-col rounded-t-[10px] mt-24 h-fit fixed bottom-0 left-0 right-0 outline-none'>
+            <div className='p-4 bg-white rounded-t-[10px] flex-1'>
+              <div
+                aria-hidden
+                className='mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mb-8'
+              />
+              <div className='max-w-md mx-auto'>
+                <Drawer.Title className='font-medium mb-4 text-gray-900'>
+                  Drawer for React.
+                </Drawer.Title>
+                <p className='text-gray-600 mb-2'>
+                  This component can be used as a Dialog replacement on mobile
+                  and tablet devices. You can read about why and how it was
+                  built{' '}
+                  <a
+                    target='_blank'
+                    className='underline'
+                    href='https://emilkowal.ski/ui/building-a-drawer-component'
+                  >
+                    here
+                  </a>
+                  .
+                </p>
+                <p className='text-gray-600 mb-2'>
+                  This one specifically is the most simplest setup you can have,
+                  just a simple drawer with a trigger.
+                </p>
+              </div>
+            </div>
+            <div className='p-4 bg-gray-100 border-t border-gray-200 mt-auto'>
+              <div className='flex gap-6 justify-end max-w-md mx-auto'>
+                <a
+                  className='text-xs text-gray-600 flex items-center gap-0.25'
+                  href='https://github.com/emilkowalski/vaul'
+                  target='_blank'
+                >
+                  GitHub
+                  <svg
+                    fill='none'
+                    height='16'
+                    stroke='currentColor'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    viewBox='0 0 24 24'
+                    width='16'
+                    aria-hidden='true'
+                    className='w-3 h-3 ml-1'
+                  >
+                    <path d='M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6'></path>
+                    <path d='M15 3h6v6'></path>
+                    <path d='M10 14L21 3'></path>
+                  </svg>
+                </a>
+                <a
+                  className='text-xs text-gray-600 flex items-center gap-0.25'
+                  href='https://twitter.com/emilkowalski_'
+                  target='_blank'
+                >
+                  Twitter
+                  <svg
+                    fill='none'
+                    height='16'
+                    stroke='currentColor'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    viewBox='0 0 24 24'
+                    width='16'
+                    aria-hidden='true'
+                    className='w-3 h-3 ml-1'
+                  >
+                    <path d='M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6'></path>
+                    <path d='M15 3h6v6'></path>
+                    <path d='M10 14L21 3'></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
     </div>
   )
-}
-
-export interface DrawerHeaderProps extends React.HTMLProps<HTMLDivElement> { }
-
-function DrawerHeader({
-  className,
-  ref,
-  ...props
-}: DrawerHeaderProps): JSX.Element {
-  return (
-    <div
-      className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)}
-      ref={ref}
-      {...props}
-    />
-  )
-}
-
-export interface DrawerTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
-
-function DrawerTitle({ className, children, ref, ...props }: DrawerTitleProps) {
-  return (
-    <h2
-      className={cn('text-lg font-semibold leading-none tracking-tight')}
-      ref={ref}
-      {...props}
-    >
-      {children}
-    </h2>
-  )
-}
-
-export interface DrawerDescriptionProps
-  extends React.HTMLProps<HTMLParagraphElement> { }
-
-function DrawerDescription({
-  className,
-  children,
-  ref,
-  ...props
-}: DrawerDescriptionProps) {
-  return (
-    <p className={cn('text-sm text-muted-foreground')} ref={ref} {...props}>
-      {children}
-    </p>
-  )
-}
-
-export interface DrawerFooterProps extends React.HTMLProps<HTMLDivElement> { }
-function DrawerFooter({
-  className,
-  ref,
-  ...props
-}: DrawerFooterProps): JSX.Element {
-  return (
-    <div
-      className={cn('mt-auto flex flex-col gap-2 p-4', className)}
-      ref={ref}
-      {...props}
-    />
-  )
-}
-
-export interface DrawerCloseProps
-  extends React.ComponentPropsWithRef<typeof Button> { }
-
-function DrawerClose({
-  variant = 'outline',
-  onClick,
-  ref,
-  ...props
-}: DrawerCloseProps) {
-  const { setOpen } = useDrawerContext()
-  return (
-    <Button
-      variant={'outline'}
-      ref={ref}
-      onClick={(e) => {
-        onClick?.(e)
-        setOpen(false)
-      }}
-      {...props}
-    />
-  )
-}
-
-export {
-  Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  DrawerOverlay,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerClose,
-  useDrawerContext,
 }
