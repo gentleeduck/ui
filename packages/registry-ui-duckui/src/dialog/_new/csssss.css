@@ -1,137 +1,178 @@
-.trigger {
+@import "tailwindcss";
+@source "../node_modules/@gentelduck/registry-ui-duckui/";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
-.overlay {
-  /* ensures overlay is positioned correctly */
-  position: fixed;
-  inset: 0;
-  /* ------ */
-  background-color: rgb(0 0 0 / 0.2);
+:root {
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
 }
 
-.scrollableOverlay {
-  overflow: auto;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
 }
 
-.contentDefault,
-.contentSheet {
-  /* ensures good default position for content */
-  position: fixed;
-  top: 0;
-  left: 0;
-  /* ------ */
-  min-width: 300px;
-  min-height: 150px;
-  padding: 50px;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 2px 10px rgb(0 0 0 / 0.12);
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
-.contentDefault {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.contentScrollable {
-  overflow: auto;
-  max-height: 300px;
-}
-
-.contentInScrollableOverlay {
-  margin-top: 50px;
-  margin-bottom: 50px;
-}
-
-.contentSheet {
-  left: initial;
-  right: 0;
-  min-width: 300px;
-  min-height: 100vh;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.close {
-}
-
-@keyframes dialog-fadeIn {
-  from {
-    opacity: 0;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
 
-  to {
-    opacity: 1;
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-@keyframes dialog-fadeOut {
-  from {
-    opacity: 1;
+@theme {
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
 
-  to {
-    opacity: 0;
-  }
-}
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
 
-@keyframes dialog-scaleIn {
-  from {
-    transform: translate(-50%, -50%) scale(0.75);
-  }
-
-  to {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-.animatedOverlay {
-  &[data-state="open"] {
-    animation: dialog-fadeIn 300ms ease-out;
+    to {
+      opacity: 0;
+    }
   }
 
-  &[data-state="closed"] {
-    animation: dialog-fadeOut 300ms ease-in;
-  }
-}
+  @keyframes scale-in {
+    from {
+      transform: scale(0.95);
+    }
 
-.animatedContent {
-  &[data-state="open"] {
-    animation: dialog-fadeIn 150ms ease-out, dialog-scaleIn 200ms ease-out;
-  }
-
-  &[data-state="closed"] {
-    animation: dialog-fadeOut 300ms ease-in;
-  }
-}
-
-.duration50 {
-  animation-duration: 50ms;
-}
-
-.chromaticContent {
-  padding: 10px;
-  min-width: auto;
-  min-height: auto;
-}
-
-.triggerAttr,
-.overlayAttr,
-.contentAttr,
-.closeAttr {
-  background-color: rgb(0 0 255 / 0.3);
-  border: 2px solid blue;
-  padding: 10px;
-
-  &[data-state="closed"] {
-    border-color: red;
+    to {
+      transform: scale(1);
+    }
   }
 
-  &[data-state="open"] {
-    border-color: green;
+  @keyframes scale-out {
+    from {
+      transform: scale(1);
+    }
+
+    to {
+      transform: scale(0.95);
+    }
   }
+
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-fade-out: fade-out 0.2s ease-in;
+  --animate-scale-in: scale-in 0.2s ease-out;
+  --animate-scale-out: scale-out 0.2s ease-in;
 }
