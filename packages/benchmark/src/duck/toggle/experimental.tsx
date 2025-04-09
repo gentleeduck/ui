@@ -1,6 +1,6 @@
 // import { Bold } from "lucide-react"
 
-import { Toggle } from "@gentelduck/registry-ui-duckui/toggle"
+import { Toggle } from "@gentelduck/registry-ui-duckui/experimental/toggle"
 
 export default function ToggleDemo() {
   return (
