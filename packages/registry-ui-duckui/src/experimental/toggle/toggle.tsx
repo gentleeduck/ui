@@ -5,7 +5,7 @@ import { type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@gentelduck/libs/cn'
 import { toggleVariants } from './toggle.constants'
-import { Slot } from '@radix-ui/react-slot'
+import { Slot } from '../../button'
 
 interface ToggleProps
   extends Omit<React.HTMLProps<HTMLInputElement>, 'size'>,

@@ -9,8 +9,8 @@
 // import DuckToggleGroup from './duck/toggle-group/duck'
 // import ShadcnToggleGroup from './duck/toggle-group/toggle-group'
 import DuckToggleExp from './duck/toggle/experimental'
-import DuckToggle from './duck/toggle/duck'
-import ShadcnToggle from './duck/toggle/toggle'
+// import DuckToggle from './duck/toggle/duck'
+// import ShadcnToggle from './duck/toggle/toggle'
 // import DuckBadge from './duck/badge/duck'
 // import ShadcnBadge from './duck/badge/badge'
 
