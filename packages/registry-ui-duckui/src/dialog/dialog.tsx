@@ -4,6 +4,7 @@ import React from 'react'
 import { X } from 'lucide-react'
 import { Portal, PortalProps } from './_new/portal'
 
+let DIALOG_STACK: number[] = []
 let INSTANCE = 0
 
 export interface DialogContextType {
@@ -61,58 +62,81 @@ export function DialogContent({
   ...props
 }: DialogContentProps): JSX.Element {
   const { open, setOpen, index } = useDialogContext()
-  const [shouldrender, setShouldRender] = React.useState<boolean>(false)
+  const [shouldRender, setShouldRender] = React.useState<boolean>(false)
+  const ref = React.useRef<HTMLDialogElement>(null)
 
   React.useEffect(() => {
     if (open) {
+      ref.current?.close()
+      // Add this dialog to the stack when opened
+      DIALOG_STACK.push(index)
       setShouldRender(true)
-      console.log(index)
-      if (index === 0) {
-        console.log('hi')
+
+      if (DIALOG_STACK.length === 1) {
         document.body.style.overflow = 'hidden'
       }
     } else {
-      if (index === 0) {
+      ref.current?.showModal()
+      // Remove this dialog from the stack when closed
+      DIALOG_STACK = DIALOG_STACK.filter((dialogId) => dialogId !== index)
+
+      if (DIALOG_STACK.length === 0) {
         document.body.style.overflow = 'auto'
       }
     }
-  }, [open])
-  const idx = 50 + ((index ?? 1) + 5)
+
+    // Only handle ESC key for the topmost dialog
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        // Only close if this is the topmost dialog
+        if (DIALOG_STACK[DIALOG_STACK.length - 1] === index) {
+          event.preventDefault()
+          event.stopPropagation()
+          setOpen(false)
+        }
+      }
+    }
+
+    if (open) {
+      document.addEventListener('keydown', handleKeyDown)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [open, index, setOpen])
+
+  const zIndex = 50 + ((index ?? 10) + 5)
 
   return (
     <DialogPortal>
-      {shouldrender ? (
-        <>
-          <dialog
-            open={open}
-            data-state={open ? 'open' : 'closed'}
-            className={cn(
-              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out',
-              'data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:hidden shadow-md',
-              className,
-            )}
-            style={{
-              zIndex: idx + 1,
-            }}
-            tabIndex={index}
-            {...props}
-          >
-            <X
-              onClick={() => setOpen(false)}
-              className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
-            />
-            {children}
-          </dialog>
-          <DialogOverlay
-            index={index}
-            onClick={() => setOpen(false)}
-            style={{
-              zIndex: idx,
-            }}
-            data-state={open ? 'open' : 'closed'}
-          />
-        </>
-      ) : null}
+      <dialog
+        open={open}
+        ref={ref}
+        data-state={open ? 'open' : 'closed'}
+        className={cn(
+          'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out',
+          'data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:hidden shadow-md',
+          className,
+        )}
+        style={{
+          zIndex: zIndex + 1,
+        }}
+        {...props}
+      >
+        <X
+          onClick={() => setOpen(false)}
+          className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
+        />
+        {children}
+      </dialog>
+      <DialogOverlay
+        onClick={() => setOpen(false)}
+        style={{
+          zIndex,
+        }}
+        data-state={open ? 'open' : 'closed'}
+      />
     </DialogPortal>
   )
 }
@@ -140,20 +164,12 @@ export function DialogClose({ onClick, ...props }: DialogCloseProps) {
  * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
  * @param {string} [props.className] - Additional class names to apply to the overlay.
  * @param {React.RefObject<HTMLDivElement>} [props.ref] - A ref to be forwarded to the `DialogPrimitive.Overlay` component.
- * @param {number} [props.index] - The index of the overlay.
  * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional props to be passed to the `DialogPrimitive.Overlay` component.
  *
  * @returns {JSX.Element} The rendered overlay component.
  */
-export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> {
-  index: number
-}
-const DialogOverlay = ({
-  className,
-  index,
-  ref,
-  ...props
-}: DialogOverlayProps) => (
+export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> {}
+const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
   <div
     ref={ref}
     className={cn(

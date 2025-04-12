@@ -11,8 +11,6 @@ import {
   Grab,
   LineChart,
   LogOut,
-  Minus,
-  Plus,
   Pointer,
   RefreshCcw,
   X,
@@ -78,15 +76,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@gentelduck/registry-ui-duckui/sheet'
-import { Drawer } from 'vaul'
-import { DuckDR } from '@gentelduck/registry-ui-duckui/drawer'
+// import { DialogPortal } from '../../../../packages/registry-ui-duckui/src/dialog/_new/dialog'
 
 export function MainExample() {
-  return (
-    <>
-      <DuckDR />
-    </>
-  )
   const items = [
     // {
     //   title: 'Navigation',
@@ -123,22 +115,6 @@ export function MainExample() {
       ],
     },
   ]
-
-  return (
-    <>
-      <Drawer.Root>
-        <Drawer.Trigger>
-          <Button>Open</Button>
-        </Drawer.Trigger>
-        <Drawer.Portal>
-          <Drawer.Content>
-            <Drawer.Title>Title</Drawer.Title>
-          </Drawer.Content>
-          <Drawer.Overlay />
-        </Drawer.Portal>
-      </Drawer.Root>
-    </>
-  )
 
   return (
     <div className='flex flex-col gap-3 items-center'>
@@ -329,65 +305,77 @@ export function MainExample() {
 
       <Dialog>
         <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <div className='grid gap-4 py-4'>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='name' className='text-right'>
-                Name
-              </Label>
-              <Input id='name' value='wild duck' className='col-span-3' />
-            </div>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='username' className='text-right'>
-                Username
-              </Label>
-              <Input id='username' value='@wildduck2' className='col-span-3' />
-            </div>
-          </div>
-
-          <Dialog>
-            <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Edit profile</DialogTitle>
-                <DialogDescription>
-                  Make changes to your profile here. Click save when you're
-                  done.
-                </DialogDescription>
-              </DialogHeader>
-              <div className='grid gap-4 py-4'>
-                <div className='grid grid-cols-4 items-center gap-4'>
-                  <Label htmlFor='name' className='text-right'>
-                    Name
-                  </Label>
-                  <Input id='name' value='wild duck' className='col-span-3' />
-                </div>
-                <div className='grid grid-cols-4 items-center gap-4'>
-                  <Label htmlFor='username' className='text-right'>
-                    Username
-                  </Label>
-                  <Input
-                    id='username'
-                    value='@wildduck2'
-                    className='col-span-3'
-                  />
-                </div>
+        <DialogPortal>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit profile</DialogTitle>
+              <DialogDescription>
+                Make changes to your profile here. Click save when you're done.
+              </DialogDescription>
+            </DialogHeader>
+            <div className='grid gap-4 py-4'>
+              <div className='grid grid-cols-4 items-center gap-4'>
+                <Label htmlFor='name' className='text-right'>
+                  Name
+                </Label>
+                <Input id='name' value='wild duck' className='col-span-3' />
               </div>
-              <DialogFooter>
-                <Button>Save changes</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-          <DialogFooter>
-            <Button>Save changes</Button>
-          </DialogFooter>
-        </DialogContent>
+              <div className='grid grid-cols-4 items-center gap-4'>
+                <Label htmlFor='username' className='text-right'>
+                  Username
+                </Label>
+                <Input
+                  id='username'
+                  value='@wildduck2'
+                  className='col-span-3'
+                />
+              </div>
+            </div>
+
+            <Dialog>
+              <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+              <DialogPortal>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogDescription>
+                      Make changes to your profile here. Click save when you're
+                      done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className='grid gap-4 py-4'>
+                    <div className='grid grid-cols-4 items-center gap-4'>
+                      <Label htmlFor='name' className='text-right'>
+                        Name
+                      </Label>
+                      <Input
+                        id='name'
+                        value='wild duck'
+                        className='col-span-3'
+                      />
+                    </div>
+                    <div className='grid grid-cols-4 items-center gap-4'>
+                      <Label htmlFor='username' className='text-right'>
+                        Username
+                      </Label>
+                      <Input
+                        id='username'
+                        value='@wildduck2'
+                        className='col-span-3'
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button>Save changes</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </DialogPortal>
+            </Dialog>
+            <DialogFooter>
+              <Button>Save changes</Button>
+            </DialogFooter>
+          </DialogContent>
+        </DialogPortal>
       </Dialog>
 
       <AspectRatio ratio={16 / 9} className='bg-muted'>
