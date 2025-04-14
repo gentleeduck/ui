@@ -26,6 +26,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogPortal,
+  Plugins,
 } from '@gentelduck/registry-ui-duckui/dialog'
 import { Command as CCommand, Calendar } from 'lucide-react'
 
@@ -76,6 +77,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@gentelduck/registry-ui-duckui/sheet'
+import {
+  useEscape,
+  useScopedContext,
+  useScrollRemove,
+} from '../../../../packages/registry-ui-duckui/src/dialog/dialog.hook'
 // import { DialogPortal } from '../../../../packages/registry-ui-duckui/src/dialog/_new/dialog'
 
 export function MainExample() {

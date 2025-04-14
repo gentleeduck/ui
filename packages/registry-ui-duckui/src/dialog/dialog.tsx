@@ -38,7 +38,7 @@ export function Dialog({ children }: { children: React.ReactNode }) {
 }
 
 export interface DialogTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof Button> {}
+  extends React.ComponentPropsWithoutRef<typeof Button> { }
 
 export function DialogTrigger({ onClick, ...props }: DialogTriggerProps) {
   const { setOpen } = useDialogContext()
@@ -54,7 +54,7 @@ export function DialogTrigger({ onClick, ...props }: DialogTriggerProps) {
 }
 
 export interface DialogContentProps
-  extends React.HTMLProps<HTMLDialogElement> {}
+  extends React.HTMLProps<HTMLDialogElement> { }
 
 export function DialogContent({
   children,
@@ -67,7 +67,6 @@ export function DialogContent({
 
   React.useEffect(() => {
     if (open) {
-      ref.current?.close()
       // Add this dialog to the stack when opened
       DIALOG_STACK.push(index)
       setShouldRender(true)
@@ -76,7 +75,6 @@ export function DialogContent({
         document.body.style.overflow = 'hidden'
       }
     } else {
-      ref.current?.showModal()
       // Remove this dialog from the stack when closed
       DIALOG_STACK = DIALOG_STACK.filter((dialogId) => dialogId !== index)
 
@@ -110,39 +108,43 @@ export function DialogContent({
 
   return (
     <DialogPortal>
-      <dialog
-        open={open}
-        ref={ref}
-        data-state={open ? 'open' : 'closed'}
-        className={cn(
-          'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out',
-          'data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:hidden shadow-md',
-          className,
-        )}
-        style={{
-          zIndex: zIndex + 1,
-        }}
-        {...props}
-      >
-        <X
-          onClick={() => setOpen(false)}
-          className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
-        />
-        {children}
-      </dialog>
-      <DialogOverlay
-        onClick={() => setOpen(false)}
-        style={{
-          zIndex,
-        }}
-        data-state={open ? 'open' : 'closed'}
-      />
+      {shouldRender ? (
+        <>
+          <dialog
+            open={open}
+            ref={ref}
+            data-state={open ? 'open' : 'closed'}
+            className={cn(
+              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out',
+              'data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:hidden shadow-md',
+              className,
+            )}
+            style={{
+              zIndex: zIndex + 1,
+            }}
+            {...props}
+          >
+            <X
+              onClick={() => setOpen(false)}
+              className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
+            />
+            {children}
+          </dialog>
+          <DialogOverlay
+            onClick={() => setOpen(false)}
+            style={{
+              zIndex,
+            }}
+            data-state={open ? 'open' : 'closed'}
+          />
+        </>
+      ) : null}
     </DialogPortal>
   )
 }
 
 export interface DialogCloseProps
-  extends React.ComponentPropsWithoutRef<typeof Button> {}
+  extends React.ComponentPropsWithoutRef<typeof Button> { }
 export function DialogClose({ onClick, ...props }: DialogCloseProps) {
   const { setOpen } = useDialogContext()
   return (
@@ -168,7 +170,7 @@ export function DialogClose({ onClick, ...props }: DialogCloseProps) {
  *
  * @returns {JSX.Element} The rendered overlay component.
  */
-export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> {}
+export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> { }
 const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
   <div
     ref={ref}
@@ -243,7 +245,7 @@ export function DialogFooter({
  * @param {React.Ref} ref - A ref that will be forwarded to the `DialogPrimitive.Title` component.
  * @returns {JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
   return (
     <h2
@@ -267,7 +269,7 @@ export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
  * @returns {JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
  */
 export interface DialogDescriptionProps
-  extends React.HTMLProps<HTMLParagraphElement> {}
+  extends React.HTMLProps<HTMLParagraphElement> { }
 export const DialogDescription = ({
   className,
   ref,
