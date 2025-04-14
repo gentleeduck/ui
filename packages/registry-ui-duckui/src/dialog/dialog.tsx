@@ -70,6 +70,7 @@ export function DialogContent({
     if (open) {
       // Add this dialog to the stack when opened
       DIALOG_STACK.push(index)
+
       setShouldRender(true)
 
       if (DIALOG_STACK.length === 1) {
@@ -105,19 +106,26 @@ export function DialogContent({
     }
   }, [open, index, setOpen])
 
+  React.useEffect(() => {
+    ref.current?.querySelector('input')?.focus()
+  }, [])
+
   const zIndex = 50 + ((index ?? 10) + 5)
 
   return (
     <DialogPortal>
       {shouldRender ? (
         <>
-          <dialog
+          <div
+            // tabIndex={index}
             open={open}
-            ref={ref}
+            // ref={ref}
+            autoFocus
+            tabIndex={98999}
             data-state={open ? 'open' : 'closed'}
             className={cn(
-              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out',
-              'data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:hidden shadow-md',
+              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:hidden shadow-md',
+              'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-8 focus:bg-red-500',
               className,
             )}
             style={{
@@ -130,7 +138,7 @@ export function DialogContent({
               className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
             />
             {children}
-          </dialog>
+          </div>
           <DialogOverlay
             onClick={() => setOpen(false)}
             style={{
