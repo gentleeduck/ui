@@ -7,47 +7,28 @@ import {
   TooltipTrigger,
 } from '@gentelduck/registry-ui-duckui/tooltip'
 import {
-  BarChart,
-  Bell,
   CalendarIcon,
-  Folder,
-  Globe,
   Grab,
-  LayoutDashboard,
   LineChart,
   LogOut,
-  Moon,
-  PlusCircle,
   Pointer,
   RefreshCcw,
-  Trash2,
-  UserCog,
-  UserPlus,
-  Users,
   X,
 } from 'lucide-react'
 import { toast } from 'sonner'
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  useDialogContext,
+  DialogPortal,
+  Plugins,
 } from '@gentelduck/registry-ui-duckui/dialog'
-import {
-  Command as CCommand,
-  Calculator,
-  Calendar,
-  CreditCard,
-  Settings,
-  Smile,
-  User,
-} from 'lucide-react'
+import { Command as CCommand, Calendar } from 'lucide-react'
 
 import { Avatar, AvatarGroup } from '@gentelduck/registry-ui-duckui/avatar'
 import {
@@ -67,8 +48,7 @@ import {
 } from '@gentelduck/registry-ui-duckui/hover-card'
 import { Input } from '@gentelduck/registry-ui-duckui/input'
 import { Label } from '@gentelduck/registry-ui-duckui/label'
-import { CssVariable } from 'next/dist/compiled/@next/font'
-import React, { useEffect } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import { AspectRatio } from '@gentelduck/registry-ui-duckui/aspect-ratio'
 import { Checkbox } from '@gentelduck/registry-ui-duckui/checkbox'
@@ -87,6 +67,22 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentelduck/registry-ui-duckui/card'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@gentelduck/registry-ui-duckui/sheet'
+import {
+  useEscape,
+  useScopedContext,
+  useScrollRemove,
+} from '../../../../packages/registry-ui-duckui/src/dialog/dialog.hook'
+// import { DialogPortal } from '../../../../packages/registry-ui-duckui/src/dialog/_new/dialog'
 
 export function MainExample() {
   const items = [
@@ -127,17 +123,85 @@ export function MainExample() {
   ]
 
   return (
-    <>
+    <div className='flex flex-col gap-3 items-center'>
+      <div className='relative'>
+        <Pointer className='size-3 absolute top-3 right-0 z-10 fill-white' />
+        <Tooltip open={true} className=''>
+          <TooltipTrigger
+            variant={'outline'}
+            size={'default'}
+            icon={<Calendar />}
+            className='group-data-[method="forced"]/tooltip:bg-muted'
+          >
+            Mettings
+          </TooltipTrigger>
+
+          <TooltipContent>5 meetings remaining for today.</TooltipContent>
+        </Tooltip>
+      </div>
+      <Button variant={'outline'} size={'default'} icon={<Calendar />}>
+        Mettings
+        <CommandShortcut
+          keys='ctrl+k'
+          className='bg-muted'
+          onKeysPressed={() => {
+            toast('Event has been created', {
+              description: 'Sunday, December 03, 2023 at 9:00 AM',
+              action: {
+                label: 'Undo',
+                onClick: () => console.log('Undo'),
+              },
+            })
+          }}
+        >
+          <CCommand className='!size-3' />
+          +K
+        </CommandShortcut>
+      </Button>
+      <Badge variant={'default'} size={'default'}>
+        Inbox
+      </Badge>
+
+      <Sheet>
+        <SheetTrigger variant='outline'>Open</SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Edit profile</SheetTitle>
+            <SheetDescription>
+              Make changes to your profile here. Click save when you're done.
+            </SheetDescription>
+          </SheetHeader>
+          <div className='grid gap-4 py-4'>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='name' className='text-right'>
+                Name
+              </Label>
+              <Input id='name' value='Pedro Duarte' className='col-span-3' />
+            </div>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='username' className='text-right'>
+                Username
+              </Label>
+              <Input id='username' value='@peduarte' className='col-span-3' />
+            </div>
+          </div>
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button type='submit'>Save changes</Button>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+
       <Tabs
         defaultValue='account'
         className='w-[400px] grid'
         listValues={['account', 'password']}
       >
-        <TabsList
-          className='grid w-full grid-cols-2'
-          listValues={['account', 'password']}
-        >
-          <TabsTrigger value='account'>Account</TabsTrigger>
+        <TabsList className='grid w-full grid-cols-2'>
+          <TabsTrigger value='account' defaultChecked={true}>
+            Account
+          </TabsTrigger>
           <TabsTrigger value='password'>Password</TabsTrigger>
         </TabsList>
         <TabsContent value='account'>
@@ -187,48 +251,6 @@ export function MainExample() {
           </Card>
         </TabsContent>
       </Tabs>
-    </>
-  )
-
-  return (
-    <div className='flex flex-col gap-3 items-center'>
-      <div className='relative'>
-        <Pointer className='size-3 absolute top-3 right-0 z-10 fill-white' />
-        <Tooltip open={true} className=''>
-          <TooltipTrigger
-            variant={'outline'}
-            size={'default'}
-            icon={<Calendar />}
-            className='group-data-[method="forced"]/tooltip:bg-muted'
-          >
-            Mettings
-          </TooltipTrigger>
-
-          <TooltipContent>5 meetings remaining for today.</TooltipContent>
-        </Tooltip>
-      </div>
-      <Button variant={'outline'} size={'default'} icon={<Calendar />}>
-        Mettings
-        <CommandShortcut
-          keys='ctrl+k'
-          className='bg-muted'
-          onKeysPressed={() => {
-            toast('Event has been created', {
-              description: 'Sunday, December 03, 2023 at 9:00 AM',
-              action: {
-                label: 'Undo',
-                onClick: () => console.log('Undo'),
-              },
-            })
-          }}
-        >
-          <CCommand className='!size-3' />
-          +K
-        </CommandShortcut>
-      </Button>
-      <Badge variant={'default'} size={'default'}>
-        Inbox
-      </Badge>
 
       <div className='relative'>
         <Grab className='size-3 absolute -top-1 right-8 z-10 fill-white' />
@@ -288,8 +310,8 @@ export function MainExample() {
       <Avatar src={''} alt='WD' />
 
       <Dialog>
-        <div>
-          <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+        <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+        <DialogPortal>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Edit profile</DialogTitle>
@@ -315,11 +337,51 @@ export function MainExample() {
                 />
               </div>
             </div>
+
+            <Dialog>
+              <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+              <DialogPortal>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogDescription>
+                      Make changes to your profile here. Click save when you're
+                      done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className='grid gap-4 py-4'>
+                    <div className='grid grid-cols-4 items-center gap-4'>
+                      <Label htmlFor='name' className='text-right'>
+                        Name
+                      </Label>
+                      <Input
+                        id='name'
+                        value='wild duck'
+                        className='col-span-3'
+                      />
+                    </div>
+                    <div className='grid grid-cols-4 items-center gap-4'>
+                      <Label htmlFor='username' className='text-right'>
+                        Username
+                      </Label>
+                      <Input
+                        id='username'
+                        value='@wildduck2'
+                        className='col-span-3'
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button>Save changes</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </DialogPortal>
+            </Dialog>
             <DialogFooter>
               <Button>Save changes</Button>
             </DialogFooter>
           </DialogContent>
-        </div>
+        </DialogPortal>
       </Dialog>
 
       <AspectRatio ratio={16 / 9} className='bg-muted'>

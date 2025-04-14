@@ -103,7 +103,7 @@ function CommandInput({
   ...props
 }: CommandInputProps): JSX.Element {
   const { setSearch } = useCommandContext()
-  const debouncedSetSearch = useDebounceCallback(setSearch, 0)
+  const debouncedSetSearch = useDebounceCallback(setSearch, 400)
 
   return (
     <div

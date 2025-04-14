@@ -131,11 +131,6 @@
 }
 
 @theme {
-  --animate-fade-in: fade-in 0.2s ease-out;
-  --animate-fade-out: fade-out 0.2s ease-in;
-  --animate-scale-in: scale-in 0.2s ease-out;
-  --animate-scale-out: scale-out 0.2s ease-in;
-
   @keyframes fade-in {
     from {
       opacity: 0;
@@ -175,4 +170,9 @@
       transform: scale(0.95);
     }
   }
+
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-fade-out: fade-out 0.2s ease-in;
+  --animate-scale-in: scale-in 0.2s ease-out;
+  --animate-scale-out: scale-out 0.2s ease-in;
 }
