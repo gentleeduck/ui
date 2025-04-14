@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { cn } from '@gentelduck/libs/cn'
 import { buttonVariants } from '../button'
-import { DialogWrapper } from '../dialog'
+// import { DialogWrapper } from '../dialog'
 import { DrawerWrapper } from '../drawer'
 import { SheetWrapper } from '../sheet'
 import { useDuckAlert } from './alert-dialog.hook'
@@ -98,7 +98,7 @@ AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 function AlertDialogHeader({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn(
@@ -125,7 +125,7 @@ AlertDialogHeader.displayName = 'AlertDialogHeader'
 function AlertDialogFooter({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn(
@@ -392,7 +392,7 @@ AlertDialogSheet.displayName = 'AlertDialogDrawer'
 function AlertDialogDialog<T = string>({
   alertTrigger,
   alertContent,
-  content,
+  // content,
   state,
 }: AlertDialogDialogProps<T>) {
   const duckHook = useDuckAlert<T>({ state })
@@ -404,7 +404,8 @@ function AlertDialogDialog<T = string>({
         alertContent={alertContent}
         duckHook={duckHook}
       />
-      <DialogWrapper content={content} duckHook={duckHook} />
+      {/* ! FIX: create DialogWrapper  */}
+      {/* <DialogWrapper content={content} duckHook={duckHook} /> */} 
     </>
   )
 }

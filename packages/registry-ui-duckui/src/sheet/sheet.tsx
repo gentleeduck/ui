@@ -82,7 +82,7 @@ function SheetClose({ onClick, ...props }: SheetCloseProps) {
  * @param {React.Ref} ref - A ref to be forwarded to the `SheetPrimitive.Overlay` component.
  * @param {object} props - Additional props to be passed to the `SheetPrimitive.Overlay` component.
  *
- * @returns {JSX.Element} The rendered overlay component.
+ * @returns {React.JSX.Element} The rendered overlay component.
  */
 export interface SheetOverlayProps extends React.HTMLProps<HTMLDivElement> { }
 const SheetOverlay = ({ className, ref, ...props }: SheetOverlayProps) => (
@@ -200,6 +200,7 @@ function SheetFooter({
   ref,
   ...props
 }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+
   return (
     <div
       ref={ref}

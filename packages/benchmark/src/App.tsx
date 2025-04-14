@@ -38,9 +38,9 @@
 // import ShadcnProgress from './duck/progress/progress'
 // import DuckSelect from './duck/select/duck'
 // import ShadcnSelect from './duck/select/select'
-// import DuckSeparator from './duck/separator/duck'
-// import DuckSeparatorExp from './duck/separator/experimental'
-// import ShadcnSeparator from './duck/separator/separator'
+import DuckSeparator from './duck/separator/duck'
+import DuckSeparatorExp from './duck/separator/experimental'
+import ShadcnSeparator from './duck/separator/separator'
 // import DuckSkeleton from './duck/skeleton/duck'
 // import ShadcnSkeleton from './duck/skeleton/skeleton'
 // import DuckSheet from './duck/sheet/duck'
@@ -48,7 +48,7 @@
 // import DuckDrawer from './duck/drawer/duck'
 // import ShadcnDrawer from './duck/drawer/drawer'
 // import DuckSonner from './duck/sonner/duck'
-import ShadcnSonner from './duck/sonner/sonner'
+// import ShadcnSonner from './duck/sonner/sonner'
 // function Ui() {
 //   return (<>
 //     {/* <div className='flex flex-col gap-4 p-4'>
@@ -86,10 +86,12 @@ import ShadcnSonner from './duck/sonner/sonner'
 
 function App() {
   return (
-    <div className='flex flex-col w-11/12 mx-10 h-screen justify-center  items-center gap-4'>
+    <div className='flex flex-col mx-10 h-screen justify-center  items-center gap-4'>
       {/* <Ui /> */}
       {/* <DuckSonner /> */}
-      <ShadcnSonner />
+      <DuckSeparatorExp /> /* Experimental */
+      <DuckSeparator  />  /* radix ui based */
+      <ShadcnSeparator  /> /* other */
     </div>
   )
 }

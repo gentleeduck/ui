@@ -6,7 +6,7 @@ import { badgeVariants } from './badge.constants'
 import { cn } from '@gentelduck/libs/cn'
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
-  ({ className, variant, size, label, ...props }, ref) => {
+  ({ className, variant, size, ...props }, ref) => {
     return (
       <div
         className={cn(badgeVariants({ variant, size }), className)}

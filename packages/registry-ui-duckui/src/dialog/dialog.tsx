@@ -65,6 +65,7 @@ export function DialogContent({
   const [shouldRender, setShouldRender] = React.useState<boolean>(false)
   const ref = React.useRef<HTMLDialogElement>(null)
 
+
   React.useEffect(() => {
     if (open) {
       // Add this dialog to the stack when opened
@@ -168,7 +169,7 @@ export function DialogClose({ onClick, ...props }: DialogCloseProps) {
  * @param {React.RefObject<HTMLDivElement>} [props.ref] - A ref to be forwarded to the `DialogPrimitive.Overlay` component.
  * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional props to be passed to the `DialogPrimitive.Overlay` component.
  *
- * @returns {JSX.Element} The rendered overlay component.
+ * @returns {React.JSX.Element} The rendered overlay component.
  */
 export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> { }
 const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
@@ -193,12 +194,12 @@ const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
  *
  * @param {object} props - The properties passed to the component.
  * @param {string} props.className - Additional class names for styling.
- * @returns {JSX.Element} The rendered DialogHeader component.
+ * @returns {React.JSX.Element} The rendered DialogHeader component.
  */
 export function DialogHeader({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn(
@@ -219,12 +220,12 @@ export function DialogHeader({
  *
  * @param {object} props - The properties passed to the component.
  * @param {string} props.className - Additional class names for styling.
- * @returns {JSX.Element} The rendered DialogFooter component.
+ * @returns {React.JSX.Element} The rendered DialogFooter component.
  */
 export function DialogFooter({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       className={cn(
@@ -243,7 +244,7 @@ export function DialogFooter({
  *
  * @param {string} className - Optional additional class names to apply to the component.
  * @param {React.Ref} ref - A ref that will be forwarded to the `DialogPrimitive.Title` component.
- * @returns {JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
+ * @returns {React.JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
  */
 export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
@@ -266,7 +267,7 @@ export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
  * @param {React.Ref} ref - The ref to be forwarded to the `DialogPrimitive.Description` component.
  * @param {object} props - Additional props to be passed to the `DialogPrimitive.Description` component.
  *
- * @returns {JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
+ * @returns {React.JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
  */
 export interface DialogDescriptionProps
   extends React.HTMLProps<HTMLParagraphElement> { }
@@ -281,6 +282,7 @@ export const DialogDescription = ({
     {...props}
   />
 )
+
 
 interface DialogPortalProps {
   children?: React.ReactNode
