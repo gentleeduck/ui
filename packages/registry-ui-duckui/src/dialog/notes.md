@@ -51,18 +51,18 @@
 | - Optional overlay component                     | ✅ Done           |
 | - Click outside to close                         | ✅ To Do          |
 | **Portals**                                      |                   |
-| - Uses React portal                              | ⬜ To Do          |
-| - Prevents z-index and overflow issues           | ⬜ To Do          |
+| - Uses React portal                              | ✅ To Do          |
+| - Prevents z-index and overflow issues           | ✅ To Do          |
 | **Composition**                                  |                   |
 | - Composable low-level building blocks           | ✅ To Do          |
 | - Full control over structure and styling        | ✅ To Do          |
 | **Animations**                                   |                   |
 | - Data attributes for animations                 | ⬜ To Do          |
 | **Controlled Modes**                             |                   |
-| - Controlled mode                                | ⬜ To Do          |
-| - Uncontrolled mode                              | ⬜ To Do          |
+| - Controlled mode                                | ✅ To Do          |
+| - Uncontrolled mode                              | ✅ To Do          |
 | **Nested Dialogs**                               |                   |
-| - Stackable dialogs                              | ⬜ To Do          |
+| - Stackable dialogs                              | ✅ To Do          |
 | **Screen Reader Support**                        |                   |
 | - Title & description association                | ⬜ To Do          |
 | **Customization**                                |                   |

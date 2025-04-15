@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @source "../node_modules/@gentelduck/registry-ui-duckui/";
 
-@plugin "tailwindcss-animate";
+/* @plugin "tailwindcss-animate"; */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -131,12 +131,7 @@
 }
 
 @theme {
-  --animate-fade-in: fade-in 0.2s ease-out;
-  --animate-fade-out: fade-out 0.2s ease-in;
-  --animate-scale-in: scale-in 0.2s ease-out;
-  --animate-scale-out: scale-out 0.2s ease-in;
-
-  @keyframes fade-in {
+  @keyframes fade-in-0 {
     from {
       opacity: 0;
     }
@@ -146,7 +141,7 @@
     }
   }
 
-  @keyframes fade-out {
+  @keyframes fade-out-0 {
     from {
       opacity: 1;
     }
@@ -156,7 +151,7 @@
     }
   }
 
-  @keyframes scale-in {
+  @keyframes zoom-in-95 {
     from {
       transform: scale(0.95);
     }
@@ -166,7 +161,7 @@
     }
   }
 
-  @keyframes scale-out {
+  @keyframes zoom-out-95 {
     from {
       transform: scale(1);
     }
@@ -175,4 +170,53 @@
       transform: scale(0.95);
     }
   }
+
+  @keyframes slide-in-from-left-1_2 {
+    from {
+      left: 25%;
+    }
+
+    to {
+      left: 50%;
+    }
+  }
+
+  @keyframes slide-out-to-left-1_2 {
+    from {
+      left: 50%;
+    }
+
+    to {
+      left: 25%;
+    }
+  }
+
+  @keyframes slide-in-from-top-48 {
+    from {
+      top: 48%;
+    }
+
+    to {
+      top: 50%;
+    }
+  }
+
+  @keyframes slide-out-to-top-48 {
+    from {
+      top: 50%;
+    }
+
+    to {
+      top: 48%;
+    }
+  }
+
+  --animate-wiggle-in: fade-in-0 200ms ease-out,
+  zoom-in-95 200ms ease-out,
+  slide-in-from-left-1_2 200ms ease-out,
+  slide-in-from-top-48 200ms ease-out;
+  --animate-wiggle-out: fade-out-0 200ms ease-in,
+  zoom-out-95 200ms ease-in,
+  slide-out-to-left-1_2 200ms ease-in,
+  slide-out-to-top-48 200ms ease-in;
 }

@@ -2,7 +2,8 @@ import { cn } from '@gentelduck/libs/cn'
 import { Button, ButtonProps } from '../button'
 import React from 'react'
 import { X } from 'lucide-react'
-import { Portal, PortalProps } from './_new/portal'
+import { Portal, PortalProps } from '../portal'
+import { Presence } from './_new/presence'
 
 let DIALOG_STACK: number[] = []
 let INSTANCE = 0
@@ -75,11 +76,11 @@ export interface DialogContentProps
 export function DialogContent({
   children,
   className,
+  ref,
   ...props
 }: DialogContentProps): JSX.Element {
   const { open, onOpenChange, index } = useDialogContext()
   const [shouldRender, setShouldRender] = React.useState<boolean>(false)
-  const ref = React.useRef<HTMLDialogElement>(null)
 
   React.useEffect(() => {
     if (open) {
@@ -89,14 +90,14 @@ export function DialogContent({
       setShouldRender(true)
 
       if (DIALOG_STACK.length === 1) {
-        document.body.style.overflow = 'hidden'
+        // document.body.style.overflow = 'hidden'
       }
     } else {
       // Remove this dialog from the stack when closed
       DIALOG_STACK = DIALOG_STACK.filter((dialogId) => dialogId !== index)
 
       if (DIALOG_STACK.length === 0) {
-        document.body.style.overflow = 'auto'
+        // document.body.style.overflow = 'auto'
       }
     }
 
@@ -125,17 +126,16 @@ export function DialogContent({
 
   return (
     <DialogPortal>
-      {shouldRender ? (
+      <Presence present={open}>
         <>
           <dialog
-            // tabIndex={index}
             open={open}
-            // ref={ref}
+            ref={ref}
             autoFocus
             tabIndex={-1}
             data-state={open ? 'open' : 'closed'}
             className={cn(
-              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:hidden shadow-md',
+              'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out data-[state=open]:fade-in data-[state=open]:scale-in data-[state=closed]:fade-out data-[state=closed]:scale-out data-[state=closed]:pointer-events-none shadow-md transition-all',
               'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-8 focus:bg-red-500',
               className,
             )}
@@ -158,7 +158,7 @@ export function DialogContent({
             data-state={open ? 'open' : 'closed'}
           />
         </>
-      ) : null}
+      </Presence>
     </DialogPortal>
   )
 }
