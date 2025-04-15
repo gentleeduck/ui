@@ -309,7 +309,12 @@ export function MainExample() {
 
       <Avatar src={''} alt='WD' />
 
-      <Dialog>
+      <Dialog
+        open={true}
+        onOpenChange={(open) => {
+          console.log(open, 'fuck')
+        }}
+      >
         <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
         <DialogPortal>
           <DialogContent>

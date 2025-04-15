@@ -9,7 +9,7 @@ let INSTANCE = 0
 
 export interface DialogContextType {
   open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  onOpenChange: (open: boolean) => void
   index: number
 }
 
@@ -24,28 +24,44 @@ export function useDialogContext() {
   return context
 }
 
-export function Dialog({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = React.useState(false)
+export function Dialog({
+  children,
+  open: openProp,
+  onOpenChange,
+}: {
+  children: React.ReactNode
+  open?: boolean
+  onOpenChange?: (booean: boolean) => void
+}) {
+  const [open, setOpen] = React.useState<boolean>(openProp ?? false)
+
+  const onChangeHandler = (open: boolean) => {
+    onOpenChange?.(open)
+    setOpen(open)
+  }
+
   const idx = React.useMemo(() => {
     return (INSTANCE += 1)
   }, [])
 
   return (
-    <DialogContext.Provider value={{ open, setOpen, index: idx }}>
+    <DialogContext.Provider
+      value={{ open, onOpenChange: onChangeHandler, index: idx }}
+    >
       {children}
     </DialogContext.Provider>
   )
 }
 
 export interface DialogTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof Button> { }
+  extends React.ComponentPropsWithoutRef<typeof Button> {}
 
 export function DialogTrigger({ onClick, ...props }: DialogTriggerProps) {
-  const { setOpen } = useDialogContext()
+  const { onOpenChange } = useDialogContext()
   return (
     <Button
       onClick={(e) => {
-        setOpen(true)
+        onOpenChange(true)
         onClick?.(e)
       }}
       {...(props as ButtonProps)}
@@ -54,14 +70,14 @@ export function DialogTrigger({ onClick, ...props }: DialogTriggerProps) {
 }
 
 export interface DialogContentProps
-  extends React.HTMLProps<HTMLDialogElement> { }
+  extends React.HTMLProps<HTMLDialogElement> {}
 
 export function DialogContent({
   children,
   className,
   ...props
 }: DialogContentProps): JSX.Element {
-  const { open, setOpen, index } = useDialogContext()
+  const { open, onOpenChange, index } = useDialogContext()
   const [shouldRender, setShouldRender] = React.useState<boolean>(false)
   const ref = React.useRef<HTMLDialogElement>(null)
 
@@ -91,7 +107,7 @@ export function DialogContent({
         if (DIALOG_STACK[DIALOG_STACK.length - 1] === index) {
           event.preventDefault()
           event.stopPropagation()
-          setOpen(false)
+          onOpenChange(false)
         }
       }
     }
@@ -103,7 +119,7 @@ export function DialogContent({
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [open, index, setOpen])
+  }, [open, index, onOpenChange])
 
   const zIndex = 50 + ((index ?? 10) + 5)
 
@@ -129,13 +145,13 @@ export function DialogContent({
             {...props}
           >
             <X
-              onClick={() => setOpen(false)}
+              onClick={() => onOpenChange(false)}
               className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
             />
             {children}
           </dialog>
           <DialogOverlay
-            onClick={() => setOpen(false)}
+            onClick={() => onOpenChange(false)}
             style={{
               zIndex,
             }}
@@ -148,18 +164,9 @@ export function DialogContent({
 }
 
 export interface DialogCloseProps
-  extends React.ComponentPropsWithoutRef<typeof Button> { }
-export function DialogClose({ onClick, ...props }: DialogCloseProps) {
-  const { setOpen } = useDialogContext()
-  return (
-    <Button
-      onClick={(e) => {
-        setOpen(false)
-        onClick?.(e)
-      }}
-      {...(props as ButtonProps)}
-    />
-  )
+  extends React.ComponentPropsWithoutRef<typeof Button> {}
+export function DialogClose(props: DialogCloseProps) {
+  return <Button {...props} />
 }
 
 /**
@@ -174,7 +181,7 @@ export function DialogClose({ onClick, ...props }: DialogCloseProps) {
  *
  * @returns {JSX.Element} The rendered overlay component.
  */
-export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> { }
+export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> {}
 const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
   <div
     ref={ref}
@@ -249,7 +256,7 @@ export function DialogFooter({
  * @param {React.Ref} ref - A ref that will be forwarded to the `DialogPrimitive.Title` component.
  * @returns {JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
   return (
     <h2
@@ -273,7 +280,7 @@ export function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
  * @returns {JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
  */
 export interface DialogDescriptionProps
-  extends React.HTMLProps<HTMLParagraphElement> { }
+  extends React.HTMLProps<HTMLParagraphElement> {}
 export const DialogDescription = ({
   className,
   ref,
