@@ -105,12 +105,12 @@ export interface DialogTriggerProps
   extends React.ComponentPropsWithoutRef<typeof Button> { }
 
 export function DialogTrigger({ onClick, ...props }: DialogTriggerProps) {
-  const { toggleDialog } = useDialogContext()
+  const { openDialog } = useDialogContext()
 
   return (
     <Button
       onClick={(e) => {
-        toggleDialog()
+        openDialog()
         onClick?.(e)
 
       }}
