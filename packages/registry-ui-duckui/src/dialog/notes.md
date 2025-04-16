@@ -19,7 +19,7 @@
 | - Escape key to close                            | ✅ To Do          |
 | - Tab/Shift+Tab to cycle focus                   | ✅ To Do          |
 | **Overlay**                                      |                   |
-| - Optional overlay component                     | ✅ To Do           |
+| - Optional overlay component                     | ✅ To Do          |
 | - Click outside to close                         | ✅ To Do          |
 | **Portals**                                      |                   |
 | - Uses React portal                              | ✅ To Do          |
@@ -29,6 +29,7 @@
 | - Full control over structure and styling        | ✅ To Do          |
 | **Animations**                                   |                   |
 | - Data attributes for animations                 | ✅ To Do          |
+| - Custom animations                              | ✅ To Do          |
 | **Controlled Modes**                             |                   |
 | - Controlled mode                                | ✅ To Do          |
 | - Uncontrolled mode                              | ✅ To Do          |
@@ -41,5 +42,4 @@
 | **Modularity**                                   |                   |
 | - Can be composed with other primitives          | ✅ To Do          |
 | **Docs**                                         | ✅ To Do          |
-| ✅ To Do          |
 
