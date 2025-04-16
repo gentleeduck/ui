@@ -1,53 +1,105 @@
 import { cn } from '@gentelduck/libs/cn'
 import { Button, ButtonProps } from '../../button'
-import React, { useRef } from 'react'
+import React from 'react'
 import { X } from 'lucide-react'
 
 export interface DialogContextType {
   toggleDialog: () => void
+  openDialog: () => void
+  closeDialog: () => void
+  ref: React.RefObject<HTMLDialogElement>
 }
 
 export const DialogContext = React.createContext<DialogContextType | null>(null)
 
 export function useDialogContext() {
   const context = React.useContext(DialogContext)
-
   if (!context) {
     throw new Error('useDialogContext must be used within a DialogProvider')
   }
   return context
 }
 
-{/* <Dialog toggleDialog={toggleDialog} ref={dialogRef}>
-  {dialogContent}
-</Dialog> */}
+export function Dialog({ children }: { children: React.ReactNode }) {
+  const dialogRef = React.useRef<HTMLDialogElement>(null)
 
+  const openDialog = () => {
+    const dialog = dialogRef.current
+    if (!dialog) return
 
-
-export function Dialog({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  function toggleDialog() {
-    if (!dialogRef.current) {
-      return;
+    document.body.style.overflow = 'hidden'
+    try {
+      dialog.showModal()
+    } catch (e) {
+      console.warn('Dialog failed to open', e)
     }
-    dialogRef.current.hasAttribute("open")
-      ? dialogRef.current.close()
-      : dialogRef.current.showModal();
   }
 
+  const closeDialog = () => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    document.body.style.overflow = 'auto'
+    dialog.close()
+  }
+
+  const toggleDialog = () => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    dialog.open ? closeDialog() : openDialog()
+  }
+
+  React.useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    const handleClose = () => {
+      document.body.style.overflow = 'auto'
+    }
+
+    dialog.addEventListener('close', handleClose)
+    return () => dialog.removeEventListener('close', handleClose)
+  }, [])
+
   return (
-    <DialogContext.Provider
-      value={{ toggleDialog }}
-    >
+    <DialogContext.Provider value={{ toggleDialog, openDialog, closeDialog, ref: dialogRef as React.RefObject<HTMLDialogElement> }}>
       {children}
     </DialogContext.Provider>
   )
 }
+
+export function DialogContent({
+  children,
+  className,
+  ...props
+}: React.HTMLProps<HTMLDialogElement>) {
+  const { closeDialog, ref } = useDialogContext()
+
+  return (
+    <dialog
+      ref={ref}
+      {...props}
+      className={cn(
+        'fixed left-1/2 top-1/2 open:grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] transition-all ease-[cubic-bezier(1,0.235,0,1.65)] starting:open:backdrop-none starting:open:opacity-0 starting:open:scale-90',
+        className
+      )}
+      onClick={(e) => {
+        if (e.currentTarget === e.target) closeDialog()
+      }}
+    >
+      <button
+        aria-label='close'
+        className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded-md hover:opacity-100 transition-all'
+        onClick={closeDialog}
+      >
+        <X aria-hidden />
+      </button>
+      {children}
+    </dialog>
+  )
+}
+
 
 export interface DialogTriggerProps
   extends React.ComponentPropsWithoutRef<typeof Button> { }
@@ -64,45 +116,6 @@ export function DialogTrigger({ onClick, ...props }: DialogTriggerProps) {
       }}
       {...(props as ButtonProps)}
     />
-  )
-}
-
-export interface DialogContentProps
-  extends React.HTMLProps<HTMLDialogElement> { }
-
-export function DialogContent({
-  children,
-  className,
-  ref,
-  ...props
-}: DialogContentProps): JSX.Element {
-  const { toggleDialog } = useDialogContext()
-
-  return (
-    <>
-      <dialog
-        ref={ref}
-        className={cn(
-          'fixed left-1/2 top-1/2 grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] duration-300 ease-out transition-all',
-          // 'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-8',
-          'backdrop:bg-black/50 backdrop:backdrop-blur-sm',
-          className,
-        )}
-        {...props}
-        onClick={(e) => {
-          if (e.currentTarget === e.target) {
-            toggleDialog();
-          }
-        }}
-      >
-        <X
-          onClick={toggleDialog}
-          // onClick={() => onOpenChange(false)}
-          className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
-        />
-        {children}
-      </dialog>
-    </>
   )
 }
 
