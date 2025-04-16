@@ -7,7 +7,7 @@ export default function Sandbox() {
   return (
     <>
       <Dialog>
-        <DialogTrigger className="absolute top-0 left-0" variant={'outline'}>Edit Profile</DialogTrigger>
+        <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Edit profile</DialogTitle>
