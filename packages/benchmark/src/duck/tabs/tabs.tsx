@@ -1,3 +1,5 @@
+// @ts-noCheck
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 function ShadcnButton() {

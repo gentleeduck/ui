@@ -103,7 +103,7 @@ export function Dialog({
 export function DialogTrigger({
   onClick,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Button>): JSX.Element {
+}: React.ComponentPropsWithoutRef<typeof Button>): React.JSX.Element {
   const { onOpenChange } = useDialogContext()
 
   return (

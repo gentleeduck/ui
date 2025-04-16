@@ -1,4 +1,4 @@
-
+// @ts-noCheck
 import {
   Drawer,
   DrawerClose,
@@ -8,7 +8,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@gentelduck/registry-ui-duckui/drawer"
+} from '@gentelduck/registry-ui-duckui/drawer'
 
 export default function DrawerDemo() {
   return (

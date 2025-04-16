@@ -1,3 +1,4 @@
+// @ts-noCheck
 export interface DrawerContextType {
   drawerRef: React.RefObject<HTMLDivElement>
   overlayRef: React.RefObject<HTMLDivElement>

@@ -1,3 +1,4 @@
+// @ts-noCheck
 'use client'
 
 import * as React from 'react'

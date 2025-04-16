@@ -34,7 +34,7 @@ function Sheet({ children }: { children: React.ReactNode }) {
 }
 
 export interface SheetTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof Button> { }
+  extends React.ComponentPropsWithoutRef<typeof Button> {}
 
 function SheetTrigger({ onClick, ...props }: SheetTriggerProps) {
   const { setOpen } = useSheetContext()
@@ -54,7 +54,7 @@ function SheetTrigger({ onClick, ...props }: SheetTriggerProps) {
  * This is a wrapper around the `SheetPrimitive.Close` component.
  */
 export interface SheetCloseProps
-  extends React.ComponentPropsWithoutRef<typeof Button> { }
+  extends React.ComponentPropsWithoutRef<typeof Button> {}
 function SheetClose({ onClick, ...props }: SheetCloseProps) {
   const { setOpen } = useSheetContext()
   return (
@@ -84,7 +84,7 @@ function SheetClose({ onClick, ...props }: SheetCloseProps) {
  *
  * @returns {React.JSX.Element} The rendered overlay component.
  */
-export interface SheetOverlayProps extends React.HTMLProps<HTMLDivElement> { }
+export interface SheetOverlayProps extends React.HTMLProps<HTMLDivElement> {}
 const SheetOverlay = ({ className, ref, ...props }: SheetOverlayProps) => (
   <div
     ref={ref}
@@ -200,7 +200,6 @@ function SheetFooter({
   ref,
   ...props
 }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-
   return (
     <div
       ref={ref}

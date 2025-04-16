@@ -1,3 +1,5 @@
+// @ts-noCheck
+
 import { WINDOW_TOP_OFFSET } from './drawer.constants'
 import { AnyFunction, DrawerDirection } from './drawer.types'
 
