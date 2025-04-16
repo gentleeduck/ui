@@ -67,25 +67,36 @@ export function DialogContent({
   className,
   ...props
 }: React.HTMLProps<HTMLDialogElement>) {
-  const { closeDialog, ref } = useDialogContext()
+  const { ref, closeDialog: closeImmediately } = useDialogContext()
+  const [isClosing, setIsClosing] = React.useState(false)
 
+  const handleCloseWithAnimation = () => {
+    if (!ref.current) return
+    setIsClosing(true)
+
+    setTimeout(() => {
+      setIsClosing(false)
+      closeImmediately()
+    }, 200)
+  }
   return (
     <dialog
       ref={ref}
       {...props}
       className={cn(
-        'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-[425px] max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg',
+        'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-[425px] max-w-lg gap-4 animate-jump border border-border bg-background p-6 shadow-lg sm:rounded-lg',
         'transition-all ease-[cubic-bezier(1,0.235,0,1.65)] backdrop:bg-black/50 opacity-100 starting:open:opacity-0 starting:open:scale-90 will-change-[opacity,scale]',
+        isClosing && 'scale-90 opacity-0 backdrop:bg-transparent',
         className
       )}
       onClick={(e) => {
-        if (e.currentTarget === e.target) closeDialog()
+        if (e.currentTarget === e.target) handleCloseWithAnimation()
       }}
     >
       <button
         aria-label='close'
         className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded-md hover:opacity-100 transition-all'
-        onClick={closeDialog}
+        onClick={handleCloseWithAnimation}
       >
         <X aria-hidden />
       </button>
