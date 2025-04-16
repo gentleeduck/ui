@@ -74,7 +74,8 @@ export function DialogContent({
       ref={ref}
       {...props}
       className={cn(
-        'fixed left-1/2 top-1/2 open:grid w-full max-w-lg transform -translate-x-1/2 -translate-y-1/2 gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg sm:max-w-[425px] transition-all ease-[cubic-bezier(1,0.235,0,1.65)] starting:open:backdrop-none starting:open:opacity-0 starting:open:scale-90',
+        'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-[425px] max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg',
+        'transition-all ease-[cubic-bezier(1,0.235,0,1.65)] backdrop:bg-black/50 opacity-100 starting:open:opacity-0 starting:open:scale-90 will-change-[opacity,scale]',
         className
       )}
       onClick={(e) => {
