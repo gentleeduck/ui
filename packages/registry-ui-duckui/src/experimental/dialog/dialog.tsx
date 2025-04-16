@@ -25,11 +25,10 @@ export function Dialog({ children }: { children: React.ReactNode }) {
 
   const openDialog = () => {
     const dialog = dialogRef.current
-    if (!dialog) return
 
     document.body.style.overflow = 'hidden'
     try {
-      dialog.showModal()
+      dialog?.showModal()
     } catch (e) {
       console.warn('Dialog failed to open', e)
     }
@@ -37,29 +36,23 @@ export function Dialog({ children }: { children: React.ReactNode }) {
 
   const closeDialog = () => {
     const dialog = dialogRef.current
-    if (!dialog) return
 
     document.body.style.overflow = 'auto'
-    dialog.close()
+    dialog?.close()
   }
 
+  // rc remove no need for this
   const toggleDialog = () => {
     const dialog = dialogRef.current
-    if (!dialog) return
 
-    dialog.open ? closeDialog() : openDialog()
+    dialog?.open ? closeDialog() : openDialog()
   }
 
   React.useEffect(() => {
     const dialog = dialogRef.current
-    if (!dialog) return
 
-    const handleClose = () => {
-      document.body.style.overflow = 'auto'
-    }
-
-    dialog.addEventListener('close', handleClose)
-    return () => dialog.removeEventListener('close', handleClose)
+    dialog?.addEventListener('close', closeDialog)
+    return () => dialog?.removeEventListener('close', closeDialog)
   }, [])
 
   return (
