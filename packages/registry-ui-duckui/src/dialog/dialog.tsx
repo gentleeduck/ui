@@ -67,6 +67,10 @@ export function Dialog({
   }
 
   React.useEffect(() => {
+    open && dialogRef.current?.showModal()
+  }, [])
+
+  React.useEffect(() => {
     const dialog = dialogRef.current
 
     dialog?.addEventListener('close', () => _onOpenChange(false))
@@ -157,6 +161,8 @@ export function DialogContent({
       onOpenChange(false)
     },200)
   }
+
+  console.log(_shouldRender)
 
   return (
     <dialog
