@@ -1173,6 +1173,9 @@ importers:
 
   packages/benchmark:
     dependencies:
+      '@gentelduck/motion':
+        specifier: workspace:*
+        version: link:../duck-motion
       '@gentelduck/registry-examples-duckui':
         specifier: workspace:*
         version: link:../registry-examples-duckui
@@ -1434,6 +1437,33 @@ importers:
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(@swc/core@1.11.8(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
+
+  packages/duck-motion:
+    devDependencies:
+      '@gentelduck/hooks':
+        specifier: workspace:*
+        version: link:../hooks
+      '@gentelduck/libs':
+        specifier: workspace:*
+        version: link:../libs
+      '@gentelduck/typescript-config':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.0.0(react@19.0.0)
+      tsup:
+        specifier: ^8.2.4
+        version: 8.4.0(@swc/core@1.11.8(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.7.3)(yaml@2.7.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.7.3
+      zod:
+        specifier: 'catalog:'
+        version: 3.24.2
 
   packages/duck-shortcut:
     dependencies:
@@ -1804,9 +1834,6 @@ importers:
       '@gentelduck/libs':
         specifier: workspace:*
         version: link:../libs
-      '@gentelduck/tailwind-config':
-        specifier: workspace:*
-        version: link:../../tooling/tailwind
       '@gentelduck/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript

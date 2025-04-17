@@ -1,10 +1,13 @@
 {
-  "name": "@gentelduck/registry-ui-duckui",
+  "name": "@gentelduck/motion",
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "types": "./index.ts",
   "exports": {
-    "./*": "./src/*/index.ts"
+    "./css": {
+      "import": "./index.css"
+    }
   },
   "scripts": {
     "build": "tsup"

@@ -1,0 +1,36 @@
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-fade {
+  0% {
+    opacity: 0;
+    scale: 50%;
+
+  }
+  100% {
+    opacity: 1;
+    scale: 100%;
+  }
+}
+
+/* .animation-fade {
+  animation: fade 10s;
+} */
+
+
+.ease-fade::backdrop {
+  animation: fade  150ms var(--easing-spring);
+  /* @apply ease-duck-spring; */
+}
+
+.ease-scale {
+  animation: scale-fade 150ms var(--easing-spring);
+  /* @apply ease-duck-spring; */
+}
+
