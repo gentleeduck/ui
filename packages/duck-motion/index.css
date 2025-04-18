@@ -2,6 +2,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -10,27 +11,25 @@
 @keyframes scale-fade {
   0% {
     opacity: 0;
-    scale: 50%;
-
+    scale: 80%;
+    filter: blur(3px);
   }
+
   100% {
     opacity: 1;
     scale: 100%;
+    filter: blur(0px);
   }
 }
 
-/* .animation-fade {
-  animation: fade 10s;
-} */
-
+:root {
+  --duck-motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 .ease-fade::backdrop {
-  animation: fade  150ms var(--easing-spring);
-  /* @apply ease-duck-spring; */
+  animation: fade 300ms var(--duck-motion-ease);
 }
 
 .ease-scale {
-  animation: scale-fade 150ms var(--easing-spring);
-  /* @apply ease-duck-spring; */
+  animation: scale-fade 300ms var(--duck-motion-ease);
 }
-

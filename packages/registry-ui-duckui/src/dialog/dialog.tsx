@@ -155,7 +155,7 @@ export function DialogContent({
     setTimeout(() => {
       setIsClosing(false)
       onOpenChange(false)
-    },0)
+    },200)
   }
 
   return (
@@ -165,7 +165,7 @@ export function DialogContent({
       className={cn(
         'open:grid ease-fade ease-scale inset-1/2 -translate-1/2 w-full sm:max-w-[425px] max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg',
         'transition-all ease-(easing-spring) backdrop:bg-black/50 opacity-100  will-change-[opacity,scale]',
-        // isClosing && 'scale-90 opacity-0 backdrop:bg-transparent',
+        isClosing && 'scale-90 opacity-20 backdrop:opacity-20',
         className,
       )}
       onClick={(e) => {
