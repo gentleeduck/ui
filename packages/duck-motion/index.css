@@ -27,9 +27,9 @@
 }
 
 .ease-fade::backdrop {
-  animation: fade 300ms var(--duck-motion-ease);
+  animation: fade 350ms var(--duck-motion-ease);
 }
 
 .ease-scale {
-  animation: scale-fade 300ms var(--duck-motion-ease);
+  animation: scale-fade 350ms var(--duck-motion-ease);
 }
