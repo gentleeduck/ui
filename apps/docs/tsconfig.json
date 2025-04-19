@@ -7,7 +7,7 @@
       "dom",
       "dom.iterable"
     ],
-    "jsx": "preserve",
+    "jsx": "react",
     "baseUrl": ".",
     "moduleResolution": "bundler",
     "module": "esnext",

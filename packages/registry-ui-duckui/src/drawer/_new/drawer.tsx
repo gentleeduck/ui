@@ -1,4 +1,3 @@
-// @ts-noCheck
 import { useState } from 'react'
 import { Drawer } from '../src'
 
