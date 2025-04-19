@@ -75,8 +75,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@gentelduck/registry-ui-duckui/sheet'
+import { VaulDrawer } from './hi'
 
 export function MainExample() {
+  return <VaulDrawer />
   const items = [
     // {
     //   title: 'Navigation',

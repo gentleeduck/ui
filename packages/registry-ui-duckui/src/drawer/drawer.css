@@ -119,22 +119,6 @@
   height: 200%;
 }
 
-[data-duck-drawer][data-duck-drawer-direction="left"]::after {
-  left: initial;
-  right: 100%;
-  top: 0;
-  bottom: 0;
-  width: 200%;
-}
-
-[data-duck-drawer][data-duck-drawer-direction="right"]::after {
-  left: 100%;
-  right: initial;
-  top: 0;
-  bottom: 0;
-  width: 200%;
-}
-
 [data-duck-overlay][data-duck-snap-points="true"]:not(
     [data-duck-snap-points-overlay="true"]
   ):not([data-state="closed"]) {
@@ -220,6 +204,12 @@
   }
 }
 
+@keyframes slideToTop {
+  to {
+    transform: translate3d(0, calc(var(--initial-transform, 100%) * -1), 0);
+  }
+}
+
 @keyframes slideFromTop {
   from {
     transform: translate3d(0, calc(var(--initial-transform, 100%) * -1), 0);
@@ -227,12 +217,6 @@
 
   to {
     transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes slideToTop {
-  to {
-    transform: translate3d(0, calc(var(--initial-transform, 100%) * -1), 0);
   }
 }
 

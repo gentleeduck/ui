@@ -122,11 +122,46 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    scroll-behavior: smooth;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  .hide-scroll {
+    scrollbar-width: none;
+  }
+
+  .show-scroll-hover {
+    scrollbar-width: none;
+  }
+
+  .show-scroll-hover:hover {
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 5px;
   }
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
   }
 }
 

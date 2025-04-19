@@ -265,3 +265,7 @@
     transform: translate3d(var(--initial-transform, 100%), 0, 0);
   }
 }
+
+body {
+  background: black;
+}
