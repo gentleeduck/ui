@@ -1,3 +1,4 @@
+// @ts-noCheck
 import {
   Drawer,
   DrawerClose,

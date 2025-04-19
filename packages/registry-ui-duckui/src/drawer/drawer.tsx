@@ -1,290 +1,338 @@
-'use client'
-
-import * as React from 'react'
-import { Drawer as DrawerPrimitive } from 'vaul'
-
+import React from 'react'
+import { Button } from '../button'
+import { DrawerContextType, DrawerProps } from './drawer.types'
 import { cn } from '@gentelduck/libs/cn'
-import { DrawerWrapperProps } from './drawer.types'
+import { X } from 'lucide-react'
+import './src/style.css'
+import {
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '../dialog'
+import { useScaleBackground } from './drawer.hooks'
+import { usePreventScroll } from './src/use-prevent-scroll'
 
 /**
- * `Drawer` is a React component that renders a drawer interface.
+ * Context for managing the open state of the Drawer.
  *
- * @param {React.ComponentProps<typeof DrawerPrimitive.Root>} props - The props to be passed to the `DrawerPrimitive.Root` component.
- * @param {boolean} [props.shouldScaleBackground] - If true, the drawer will scale the background when it is open.
- *
- * @returns {React.JSX.Element} The rendered `DrawerPrimitive.Root` component.
  */
-function Drawer({
+export const DrawerContext = React.createContext<DrawerContextType | null>(null)
+
+/**
+ * Hook to access the DrawerContext. It holds the open state of the Drawer
+ * and a function to update it.
+ *
+ * @returns {DrawerContextType} The Drawer context object.
+ * @throws {Error} If the hook is used outside of a Drawer.
+ */
+export function useDrawerContext(name: string = 'Drawer'): DrawerContextType {
+  const context = React.useContext(DrawerContext)
+  if (!context) {
+    throw new Error(`useDrawerContext must be used within a ${name}`)
+  }
+  return context
+}
+
+/**
+ * Drawer component that provides a context for managing its open state and
+ * behavior. It uses a ref to handle the underlying HTMLDrawerElement.
+ *
+ * @param {DrawerProps} props - The properties for the Drawer component.
+ * @param {React.ReactNode} props.children - The content to be rendered inside the Drawer.
+ * @param {boolean} [props.open] - Initial open state of the Drawer.
+ * @param {(state:boolean)=>void} [props.onOpenChange] - Callback function to handle state changes of the Drawer.
+ *
+ * @returns {React.JSX.Element} A context provider that manages the Drawer state and renders its children.
+ */
+export function DrawerRoot({
+  children,
+  open: openProp,
+  onOpenChange,
+  direction = 'bottom',
+  noBodyStyles = false,
   shouldScaleBackground = true,
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>): React.JSX.Element {
+  setBackgroundColorOnScale = true,
+  disablePreventScroll,
+}: DrawerProps): React.JSX.Element {
+  const DrawerRef = React.useRef<HTMLDialogElement | null>(null)
+  const [open, setOpen] = React.useState<boolean>(openProp ?? false)
+
+  const _onOpenChange = (state: boolean) => {
+    try {
+      const Drawer = DrawerRef.current
+
+      if (!state) {
+        const Drawer = DrawerRef.current
+
+        setOpen(false)
+        //FIX: the animation is not working on exit, so i mocked this behaviour.
+        setTimeout(() => {
+          Drawer?.close()
+        }, 300)
+        // document.body.style.overflow = 'auto'
+        return onOpenChange?.(false)
+      }
+      Drawer?.showModal()
+      // document.body.style.overflow = 'hidden'
+      setOpen(true)
+      onOpenChange?.(true)
+    } catch (e) {
+      console.warn('Drawer failed to toggle', e)
+    }
+  }
+
+  React.useEffect(() => {
+    open && DrawerRef.current?.showModal()
+  }, [])
+
+  React.useEffect(() => {
+    const Drawer = DrawerRef.current
+
+    Drawer?.addEventListener('close', () => _onOpenChange(false))
+    return () =>
+      Drawer?.removeEventListener('close', () => _onOpenChange(false))
+  }, [])
+
+  useScaleBackground({
+    open,
+    noBodyStyles,
+    setBackgroundColorOnScale,
+    shouldScaleBackground,
+    direction,
+  })
+
   return (
-    <DrawerPrimitive.Root
-      shouldScaleBackground={shouldScaleBackground}
+    <DrawerContext.Provider
+      value={{
+        open: open ?? false,
+        onOpenChange: _onOpenChange,
+        ref: DrawerRef,
+        direction,
+        shouldScaleBackground,
+        setBackgroundColorOnScale,
+        noBodyStyles,
+      }}
+    >
+      {children}
+    </DrawerContext.Provider>
+  )
+}
+
+/**
+ * A component that serves as a trigger for the Drawer.
+ *
+ * It takes all the props of the Button component and an additional
+ * `onClick` property that is called when the Drawer is opened.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof Button>} props - The properties for the Button component.
+ * @param {Function} [props.onClick] - Callback function to handle click events on the button.
+ * @param {React.ReactNode} [props.children] - The content to be rendered inside the button.
+ * @param {React.ComponentPropsWithoutRef<typeof Button>} [...props] - The properties for the Button component.
+ *
+ * @returns {React.JSX.Element} A button that toggles the Drawer on click.
+ */
+export function DrawerTrigger({
+  onClick,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof Button>): React.JSX.Element {
+  const { onOpenChange } = useDrawerContext()
+
+  return (
+    <Button
+      onClick={(e) => {
+        onOpenChange(true)
+        onClick?.(e)
+      }}
       {...props}
     />
   )
 }
-Drawer.displayName = 'Drawer'
 
 /**
- * A component that serves as the trigger for opening  the Drawer.
- * It is a wrapper around the `DrawerPrimitive.Trigger` component.
+ * DrawerContent component to be used inside a Drawer.
  *
- * @component
+ * It takes all the props of the HTMLDrawerElement and an additional
+ * `className` property to apply additional CSS classes.
+ *
+ * @param {React.HTMLProps<HTMLDrawerElement>} props - The properties for the Drawer content.
+ * @param {React.ReactNode} [props.children] - The content to be rendered inside the Drawer.
+ * @param {string} [props.className] - Additional CSS classes to apply to the Drawer content.
+ * @param {boolean} [props.renderOnce] - Whether to render the content only once.
+ * @param {React.HTMLProps<HTMLDrawerElement>} [...props] - The properties for the Drawer content.
+ *
+ * @returns {React.JSX.Element} The Drawer content component with applied props and classes.
  */
-const DrawerTrigger = DrawerPrimitive.Trigger
-
-/**
- * A component that provides a portal for rendering the Drawer component.
- * This allows the Drawer to be rendered outside of its parent component's DOM hierarchy.
- */
-const DrawerPortal = DrawerPrimitive.Portal
-
-/**
- * A component that represents the close button for the Drawer component.
- * It is a wrapper around the `DrawerPrimitive.Close` component.
- */
-const DrawerClose = DrawerPrimitive.Close
-
-/**
- * `DrawerOverlay` is a React component that renders an overlay for a drawer.
- * It uses `React.forwardRef` to pass down a ref to the underlying `DrawerPrimitive.Overlay` component.
- * 
- * @param {Object} props - The properties passed to the component.
- * @param {string} [props.className] - Additional class names to apply to the overlay.
- * @param {React.Ref} ref - The reference to be forwarded to the `DrawerPrimitive.Overlay` component.
- *
- * @returns {React.JSX.Element} The rendered overlay component.
- */
-const DrawerOverlay = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
->(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Overlay
-    ref={ref}
-    className={cn('fixed inset-0 z-50 bg-black/80', className)}
-    {...props}
-  />
-))
-DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
-
-/**
- * `DrawerContent` is a React component that renders the content of a drawer using `DrawerPrimitive.Content`.
- * It is wrapped in a `DrawerPortal` and includes a `DrawerOverlay`.
- *
- * @param {object} props - The properties passed to the component. 
- * @param {string} [props.className] - Additional class names to apply to the drawer content.
- * @param {React.ReactNode} props.children - The content to be rendered inside the drawer.
- * @param {object} props.overlay - The properties passed to the `DrawerOverlay` component.
- * @param {React.Ref} ref - The reference to the drawer content element.
- *
- * @returns {React.JSX.Element} The rendered drawer content component.
- */
-const DrawerContent = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
-    overlay?: React.ComponentPropsWithoutRef<typeof DrawerOverlay>
-  }
->(({ className, children, overlay, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay {...overlay} />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
-        className,
-      )}
-      {...props} 
-    >
-      <div className='mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted' />
-      {children}
-    </DrawerPrimitive.Content>
-  </DrawerPortal>
-))
-DrawerContent.displayName = 'DrawerContent'
-
-/**
- * A component that renders the header of a drawer.
- *
- * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the component.
- * @param {string} [props.className] - Additional class names to apply to the header.
- *
- * @returns {JSX.Element} The rendered header component.
- */ 
-function DrawerHeader({
+export function DrawerContent({
+  children,
   className,
+  renderOnce,
+  ...props
+}: React.HTMLProps<HTMLDialogElement> & {
+  renderOnce?: boolean
+}): React.JSX.Element {
+  const { open, ref, onOpenChange } = useDrawerContext()
+  const [isClosing, setIsClosing] = React.useState<boolean>(false)
+  const [shouldRender, setShouldRender] = React.useState<boolean>(false)
+  const _shouldRender = renderOnce ? shouldRender : ref.current?.open
+
+  React.useEffect(() => {
+    if (open) return setShouldRender(true)
+  }, [open])
+
+  const handleCloseWithAnimation = () => {
+    if (!ref.current) return
+    setIsClosing(true)
+
+    setTimeout(() => {
+      setIsClosing(false)
+      onOpenChange(false)
+    }, 200)
+  }
+
+  return (
+    <dialog
+      ref={ref}
+      className='bg-transparent w-0 h-0 backdrop:z-[51]'
+      {...props}
+      onClick={(e) => {
+        if (e.currentTarget === e.target) handleCloseWithAnimation()
+      }}
+    >
+      <div
+        data-state='open'
+        data-vaul-overlay=''
+        data-vaul-snap-points='false'
+        data-vaul-snap-points-overlay='true'
+        data-vaul-animate='true'
+        className='fixed inset-0 z-50 bg-black/80 pointer-events-none'
+        data-aria-hidden='true'
+        aria-hidden='true'
+      ></div>
+      <div
+        data-state={open ? 'open' : 'closed'}
+        data-vaul-drawer-direction='bottom'
+        data-vaul-drawer=''
+        data-vaul-delayed-snap-points='false'
+        data-vaul-snap-points='false'
+        data-vaul-custom-container='false'
+        data-vaul-animate='true'
+        style={{
+          pointerEvents: 'auto',
+          transition: 'transform 0.5s cubic-bezier(0.32, 0.72, 0, 1)',
+          transform: 'translate3d(0px, 0px, 0px)',
+        }}
+        className={cn(
+          'fixed bottom-0 z-50 h-[40vh] flex flex-col rounded-t-[10px] border bg-background w-full max-w-full',
+          // isClosing && 'scale-90 opacity-0 backdrop:bg-transparent',
+          className,
+        )}
+      >
+        <div className='mx-auto my-4 h-2 w-[100px] rounded-full bg-muted' />
+        {children}
+      </div>
+    </dialog>
+  )
+}
+
+/**
+ * DrawerHeader component renders a header section for a Drawer.
+ * It supports additional class names and props to customize the
+ * appearance and behavior of the header. The component uses a
+ * flexbox layout to arrange its children in a vertical column
+ * and applies responsive text alignment.
+ *
+ * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @param {React.RefObject<HTMLDivElement>} props.ref - The ref to be forwarded to the component.
+ * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional properties for the component.
+ *
+ * @returns {JSX.Element} The rendered DrawerHeader component.
+ */
+export const DrawerHeader = DialogHeader
+
+/**
+ * DrawerFooter component renders a footer section for a Drawer.
+ * It supports additional class names and props to customize the
+ * appearance and behavior of the footer. The component uses a
+ * flexbox layout to arrange its children in a column on small
+ * screens and in a row with space between items on larger screens.
+ *
+ * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
+ * @param {string} props.className - Additional class names for styling.
+ * @param {React.RefObject<HTMLDivElement>} props.ref - The ref to be forwarded to the component.
+ * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional properties for the component.
+ *
+ * @returns {React.JSX.Element} The rendered DrawerFooter component.
+ */
+export const DrawerFooter = DialogFooter
+
+/**
+ * `DrawerTitle` is a React component that forwards its ref to the `DrawerTitle` component.
+ * It accepts all props that `DrawerTitle` accepts, along with an optional `className` prop
+ * to customize its styling.
+ *
+ * @param {React.HTMLProps<HTMLHeadingElement>} props - The properties passed to the component.
+ * @param {string} [props.className] - Optional additional class names to apply to the component.
+ * @param {React.RefObject<HTMLHeadingElement>} [props.ref] - A ref that will be forwarded to the `DrawerTitle` component.
+ * @param {React.HTMLProps<HTMLHeadingElement>} [...props] - Additional props to be passed to the `DrawerTitle` component.
+ *
+ * @returns {React.JSX.Element} The rendered `DrawerTitle` component with forwarded ref and applied props.
+ */
+export const DrawerTitle = DialogTitle
+
+/**
+ * `DrawerDescription` is a React component that forwards its ref to the `DrawerDescription` component.
+ * It applies additional class names to style the description text.
+ *
+ * @praam {React.HTMLProps<HTMLParagraphElement>} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names to apply to the description text.
+ * @param {React.RefObject<HTMLParagraphElement>} [props.ref] - The ref to be forwarded to the `DrawerDescription` component.
+ * @param {React.HTMLProps<HTMLParagraphElement>} [..props] - Additional props to be passed to the `DrawerDescription` component.
+ *
+ * @returns {React.JSX.Element} The rendered `DrawerDescription` component with forwarded ref and applied class names.
+ */
+export const DrawerDescription = DialogDescription
+
+/**
+ * DrawerClose component renders a close button for a Drawer.
+ * It supports additional class names and props to customize the
+ * appearance and behavior of the close button. The component uses
+ * the `useDrawerContext` hook to access the `onOpenChange` function
+ * to close the Drawer.
+ *
+ * @param {React.ComponentPropsWithRef<typeof Button>} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @param {React.RefObject<HTMLButtonElement>} props.ref - The ref to be forwarded to the component.
+ * @param {React.ComponentPropsWithRef<typeof Button>} [...props] - Additional properties for the component.
+ *
+ * @returns {React.JSX.Element} The rendered DrawerClose component.
+ */
+export function DrawerClose({
+  onClick,
   ref,
   ...props
-}: React.HTMLProps<HTMLDivElement>): JSX.Element {
-
+}: React.ComponentPropsWithRef<typeof Button>): React.JSX.Element {
+  const { onOpenChange } = useDrawerContext()
   return (
-    <div
-      className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)}
+    <Button
+      onClick={(e) => {
+        onOpenChange(false)
+        onClick?.(e)
+      }}
       ref={ref}
       {...props}
     />
   )
 }
-DrawerHeader.displayName = 'DrawerHeader'
- 
-/**
- * A component that renders the footer of a drawer.
- *
- * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the component.
- * @param {string} [props.className] - Additional class names to apply to the footer.
- *
- * @returns {React.JSX.Element} The rendered footer component.
- */
-function DrawerFooter({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      className={cn('mt-auto flex flex-col gap-2 p-4', className)} 
-      {...props}
-    />
-  )
-}
-DrawerFooter.displayName = 'DrawerFooter'
 
-/**
- * `DrawerTitle` is a React component that forwards its ref to the `DrawerPrimitive.Title` component.
- * It applies additional class names for styling and accepts all props that `DrawerPrimitive.Title` accepts.
- *
- * @param {string} className - Additional class names to apply to the component.
- * @param {React.Ref} ref - A ref that will be forwarded to the `DrawerPrimitive.Title` component.
- * @param {object} props - Additional props to be passed to the `DrawerPrimitive.Title` component.
- *
- * @returns {JSX.Element} The rendered `DrawerPrimitive.Title` component with forwarded ref and applied class names.
- */ 
-const DrawerTitle = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
->(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Title
-    ref={ref}
-    className={cn(
-      'text-lg font-semibold leading-none tracking-tight',
-      className,
-    )}
-    {...props}
-  />
-))
-DrawerTitle.displayName = DrawerPrimitive.Title.displayName
-
-/**
- * `DrawerDescription` is a React component that forwards its ref to the `DrawerPrimitive.Description` component.
- * It accepts all props that `DrawerPrimitive.Description` accepts, along with an optional `className` prop.
- *
- * @param {Object} props - The props for the component.
- * @param {string} [props.className] - An optional class name to apply to the component.
- * @param {React.Ref} ref - The ref to be forwarded to the `DrawerPrimitive.Description` component.
- *
- * @returns {JSX.Element} The rendered `DrawerPrimitive.Description` component with forwarded ref and applied class names.
- */
-const DrawerDescription = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Description
-    ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
-    {...props}
-  />
-))
-DrawerDescription.displayName = DrawerPrimitive.Description.displayName
-
-/**
- * `DrawerWrapper` is a React component that wraps a `Drawer` component and renders children elements
- * conditionally based on the screen size. If the screen width is 768px or greater, a `Drawer` is rendered; otherwise,
- * a `Sheet` is rendered.
- * @param {DrawerWrapperProps} props - The properties passed to the component.
- * @returns {JSX.Element} The rendered `Drawer` or `Sheet` component.
- */
-function DrawerWrapper({
-  trigger,
-  content,
-  duckHook,
-  ...props
-}: DrawerWrapperProps): React.JSX.Element {
-  const {
-    className: contentClassName,
-    children: contentChildren,
-    _header,
-    _footer,
-    ...contentProps
-  } = content
-  const {
-    className: headerClassName,
-    _description,
-    _title,
-    ...headerProps
-  } = _header ?? {}
-  const {
-    className: footerClassName,
-    _submit: _subSubmit,
-    _cancel: _subCancel,
-    ...footerProps
-  } = _footer ?? {}
-
-  return (
-    <Drawer
-      open={duckHook?.state.shape}
-      onOpenChange={duckHook?.handleOpenChange}
-      {...props}
-    >
-      <DrawerTrigger {...trigger} />
-      <DrawerContent
-        className={cn('flex flex-col w-full h-full', contentClassName)}
-        {...contentProps}
-      >
-        <div data-role-wrapper className='flex flex-col gap-4 w-full h-full'>
-          {_header && (
-            <DrawerHeader {...headerProps}>
-              {headerProps.children ? (
-                headerProps.children
-              ) : (
-                <>
-                  <DrawerTitle {..._title} />
-                  <DrawerDescription {..._description} />
-                </>
-              )}
-            </DrawerHeader>
-          )}
-          {contentChildren}
-          <DrawerFooter
-            className={cn('flex items-ceter gap-2', footerClassName)}
-            {...footerProps}
-          >
-            <DrawerClose asChild {..._subCancel} />
-            <div
-              {..._subSubmit}
-              className={cn('w-full', _subSubmit?.className)}
-              onClick={(e) => {
-                duckHook?.setState({ shape: false, alert: false })
-                _subSubmit?.onClick?.(e)
-              }}
-            />
-          </DrawerFooter>
-        </div>
-      </DrawerContent>
-    </Drawer>
-  )
-}
-DrawerWrapper.displayName = 'DrawerWrapper'
-
-export {
-  Drawer,
-  DrawerPortal,
-  DrawerOverlay,
-  DrawerTrigger,
-  DrawerClose,
-  DrawerContent,
-  DrawerHeader,
-  DrawerFooter,
-  DrawerTitle,
-  DrawerDescription,
-  DrawerWrapper,
+export const Drawer = {
+  Root: DrawerRoot,
+  Trigger: DrawerTrigger,
+  Content: DrawerContent,
+  Close: DrawerClose,
+  Header: DrawerHeader,
+  Footer: DrawerFooter,
+  Title: DrawerTitle,
+  Description: DrawerDescription,
 }

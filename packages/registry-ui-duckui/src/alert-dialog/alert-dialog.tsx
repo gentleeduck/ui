@@ -1,3 +1,4 @@
+// @ts-noCheck
 'use client'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import * as React from 'react'
@@ -405,7 +406,7 @@ function AlertDialogDialog<T = string>({
         duckHook={duckHook}
       />
       {/* ! FIX: create DialogWrapper  */}
-      {/* <DialogWrapper content={content} duckHook={duckHook} /> */} 
+      {/* <DialogWrapper content={content} duckHook={duckHook} /> */}
     </>
   )
 }

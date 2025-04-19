@@ -13,7 +13,6 @@
     "@ahmedayob/duck-shortcut": "^0.0.2",
     "@gentelduck/hooks": "workspace:*",
     "@gentelduck/libs": "workspace:*",
-    "@gentelduck/tailwind-config": "workspace:*",
     "@gentelduck/lazy": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
     "@radix-ui/react-accessible-icon": "^1.1.0",

@@ -135,7 +135,9 @@
   width: 200%;
 }
 
-[data-duck-overlay][data-duck-snap-points="true"]:not([data-duck-snap-points-overlay="true"]):not([data-state="closed"]) {
+[data-duck-overlay][data-duck-snap-points="true"]:not(
+    [data-duck-snap-points-overlay="true"]
+  ):not([data-state="closed"]) {
   opacity: 0;
 }
 

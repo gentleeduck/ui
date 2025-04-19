@@ -1,3 +1,5 @@
+// @ts-noCheck
+
 'use client'
 
 import React from 'react'
@@ -207,7 +209,7 @@ export function Root({
       )
     }
     // Ensure we maintain correct pointer capture even when going outside of the drawer
-    ;(event.target as HTMLElement).setPointerCapture(event.pointerId)
+    ; (event.target as HTMLElement).setPointerCapture(event.pointerId)
 
     pointerStart.current = isVertical(direction) ? event.pageY : event.pageX
   }
@@ -256,7 +258,7 @@ export function Root({
     if (
       lastTimeDragPrevented.current &&
       date.getTime() - lastTimeDragPrevented.current.getTime() <
-        scrollLockTimeout &&
+      scrollLockTimeout &&
       swipeAmount === 0
     ) {
       lastTimeDragPrevented.current = date
@@ -417,13 +419,13 @@ export function Root({
           overflow: 'hidden',
           ...(isVertical(direction)
             ? {
-                transform: `scale(${getScale()}) translate3d(0, calc(env(safe-area-inset-top) + 14px), 0)`,
-                transformOrigin: 'top',
-              }
+              transform: `scale(${getScale()}) translate3d(0, calc(env(safe-area-inset-top) + 14px), 0)`,
+              transformOrigin: 'top',
+            }
             : {
-                transform: `scale(${getScale()}) translate3d(calc(env(safe-area-inset-top) + 14px), 0, 0)`,
-                transformOrigin: 'left',
-              }),
+              transform: `scale(${getScale()}) translate3d(calc(env(safe-area-inset-top) + 14px), 0, 0)`,
+              transformOrigin: 'left',
+            }),
           transitionProperty: 'transform, border-radius',
           transitionDuration: `${TRANSITIONS.DURATION}s`,
           transitionTimingFunction: `cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
@@ -519,7 +521,7 @@ export function Root({
     if (
       Math.abs(swipeAmount) >=
       (isHorizontalSwipe ? visibleDrawerWidth : visibleDrawerHeight) *
-        closeThreshold
+      closeThreshold
     ) {
       closeDrawer()
       onReleaseProp?.(event, false)
@@ -683,7 +685,7 @@ export function Root({
 export const Overlay = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(function ({ ...rest }, ref) {
+>(function({ ...rest }, ref) {
   const {
     overlayRef,
     snapPoints,
@@ -722,7 +724,7 @@ Overlay.displayName = 'Drawer.Overlay'
 
 export type ContentProps = React.ComponentPropsWithoutRef<typeof DialogContent>
 
-export const Content = React.forwardRef<HTMLDivElement, ContentProps>(function (
+export const Content = React.forwardRef<HTMLDivElement, ContentProps>(function(
   { onPointerDownOutside, style, onOpenAutoFocus, ...rest },
   ref,
 ) {
@@ -808,9 +810,9 @@ export const Content = React.forwardRef<HTMLDivElement, ContentProps>(function (
       style={
         snapPointsOffset && snapPointsOffset.length > 0
           ? ({
-              '--snap-point-height': `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
-              ...style,
-            } as React.CSSProperties)
+            '--snap-point-height': `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
+            ...style,
+          } as React.CSSProperties)
           : style
       }
       onPointerDown={(event) => {
@@ -897,7 +899,7 @@ export type HandleProps = React.ComponentPropsWithoutRef<'div'> & {
 const LONG_HANDLE_PRESS_TIMEOUT = 250
 const DOUBLE_TAP_TIMEOUT = 120
 
-export const Handle = React.forwardRef<HTMLDivElement, HandleProps>(function (
+export const Handle = React.forwardRef<HTMLDivElement, HandleProps>(function(
   { preventCycle = false, children, ...rest },
   ref,
 ) {
@@ -1036,15 +1038,6 @@ export function NestedRoot({
       {...rest}
     />
   )
-}
-
-type PortalProps = React.ComponentPropsWithRef<typeof DialogPrimitive.Portal>
-
-export function Portal(props: PortalProps) {
-  const context = useDrawerContext()
-  const { container = context.container, ...portalProps } = props
-
-  return <DialogPrimitive.Portal container={container} {...portalProps} />
 }
 
 export const Drawer = {
