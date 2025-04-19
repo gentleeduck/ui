@@ -1,4 +1,5 @@
 import * as SheetPrimitive from '@radix-ui/react-dialog'
+import { VariantProps } from 'class-variance-authority'
 import { UseDuckAlertReturnType } from '../alert-dialog'
 import {
   SheetClose,
