@@ -1,55 +1,48 @@
-'use client'
-
 import * as React from 'react'
 
-import { useColors } from '~/hooks/use-colors'
-import { type Color, getColorFormat } from '~/lib/colors'
-import { cn } from '@gentelduck/libs/cn'
+import { type ColorPalette } from '~/lib/colors'
+import { Color } from '~/components/color'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from '@gentelduck/registry-ui-duckui/select'
-import { Skeleton } from '@gentelduck/registry-ui-duckui/skeleton'
+  ColorFormatSelector,
+  ColorFormatSelectorSkeleton,
+} from '~/components/color-format-selector'
 
-export function ColorFormatSelector({
-  color,
-  className,
-  ...props
-}: Omit<React.ComponentProps<typeof SelectTrigger>, 'color'> & {
-  color: Color
-}) {
-  const { format, setFormat, isLoading } = useColors()
-  const formats = React.useMemo(() => getColorFormat(color), [color])
-
-  if (isLoading) {
-    return <ColorFormatSelectorSkeleton />
-  }
-
+export function ColorPalette({ colorPalette }: { colorPalette: ColorPalette }) {
   return (
-    <Select
-      value={format}
-      onValueChange={setFormat}
+    <div
+      id={colorPalette.name}
+      className='rounded-lg shadow-sm ring-1 ring-border'
     >
-      <SelectTrigger
-        className={cn('h-7 w-auto gap-1.5 rounded-lg pr-2 text-xs', className)}
-        {...props}
-      >
-        <span className='font-medium'>Format: </span>
-        <span className='font-mono text-xs text-muted-foreground'>
-          {format}
-        </span>
-      </SelectTrigger>
-      <SelectContent
-        align='end'
-        className='rounded-xl'
-      >
-        {Object.entries(formats).map(([format, value]) => (
-          <SelectItem
-            key={format}
-            value={format}
-            className='gap-2 rounded-lg [&>span]:flex [&>span]:items-center [&>span]:gap-2'
+      <div className='flex items-center p-2 pb-0'>
+        <div className='flex-1 pl-1 text-sm font-medium'>
+          <h2 className='capitalize'>{colorPalette.name}</h2>
+        </div>
+        <React.Suspense fallback={<ColorFormatSelectorSkeleton />}>
+          <ColorFormatSelector
+            color={
+              colorPalette.colors[0] ?? {
+                className: '',
+                id: '',
+                name: '',
+                scale: 0,
+                hex: '',
+                rgb: '',
+                hsl: '',
+                foreground: '',
+              }
+            }
+            className='ml-auto'
+          />
+        </React.Suspense>
+      </div>
+      <div className='flex flex-col gap-1 p-2 sm:flex-row sm:gap-2'>
+        {colorPalette.colors.map((color) => (
+          <Color key={color.hex} color={color} />
+        ))}
+      </div>
+    </div>
+  )
+}
           >
             <span className='font-medium'>{format}</span>
             <span className='font-mono text-xs text-muted-foreground'>

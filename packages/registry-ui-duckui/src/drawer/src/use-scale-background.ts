@@ -1,5 +1,3 @@
-// @ts-noCheck
-
 import React, { useMemo } from 'react'
 import { useDrawerContext } from './context'
 import { assignStyle, chain, isVertical, reset } from './helpers'

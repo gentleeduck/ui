@@ -1,17 +1,16 @@
 import React from 'react'
-import { Button } from '../button'
-import { DrawerContextType, DrawerProps } from './drawer.types'
+import { Button } from '../../button'
+import { DrawerContextType, DrawerProps } from '../drawer.types'
 import { cn } from '@gentelduck/libs/cn'
 import { X } from 'lucide-react'
-import './src/style.css'
+import './style.css'
 import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from '../dialog'
-import { useScaleBackground } from './drawer.hooks'
-import { usePreventScroll } from './src/use-prevent-scroll'
+} from '../../dialog'
+import { useScaleBackground } from './use-scale-background'
 
 /**
  * Context for managing the open state of the Drawer.
@@ -49,11 +48,6 @@ export function DrawerRoot({
   children,
   open: openProp,
   onOpenChange,
-  direction = 'bottom',
-  noBodyStyles = false,
-  shouldScaleBackground = true,
-  setBackgroundColorOnScale = true,
-  disablePreventScroll,
 }: DrawerProps): React.JSX.Element {
   const DrawerRef = React.useRef<HTMLDialogElement | null>(null)
   const [open, setOpen] = React.useState<boolean>(openProp ?? false)
@@ -70,13 +64,14 @@ export function DrawerRoot({
         setTimeout(() => {
           Drawer?.close()
         }, 300)
-        // document.body.style.overflow = 'auto'
+        document.body.style.overflow = 'auto'
         return onOpenChange?.(false)
+      } else {
+        Drawer?.showModal()
+        document.body.style.overflow = 'hidden'
+        setOpen(true)
+        onOpenChange?.(true)
       }
-      Drawer?.showModal()
-      // document.body.style.overflow = 'hidden'
-      setOpen(true)
-      onOpenChange?.(true)
     } catch (e) {
       console.warn('Drawer failed to toggle', e)
     }
@@ -94,24 +89,12 @@ export function DrawerRoot({
       Drawer?.removeEventListener('close', () => _onOpenChange(false))
   }, [])
 
-  useScaleBackground({
-    open,
-    noBodyStyles,
-    setBackgroundColorOnScale,
-    shouldScaleBackground,
-    direction,
-  })
-
   return (
     <DrawerContext.Provider
       value={{
         open: open ?? false,
         onOpenChange: _onOpenChange,
         ref: DrawerRef,
-        direction,
-        shouldScaleBackground,
-        setBackgroundColorOnScale,
-        noBodyStyles,
       }}
     >
       {children}
@@ -189,6 +172,7 @@ export function DrawerContent({
       onOpenChange(false)
     }, 200)
   }
+  useScaleBackground()
 
   return (
     <dialog
