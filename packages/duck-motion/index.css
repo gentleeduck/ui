@@ -12,7 +12,7 @@
   0% {
     opacity: 0;
     scale: 80%;
-    filter: blur(3px);
+    filter: blur(5px);
   }
 
   100% {
