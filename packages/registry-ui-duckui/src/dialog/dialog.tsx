@@ -3,7 +3,7 @@ import { Button } from '../button'
 import { DialogContextType, DialogProps } from './dialog.types'
 import { cn } from '@gentelduck/libs/cn'
 import { X } from 'lucide-react'
-
+import motion from '@gentelduck/motion'
 /**
  * Context for managing the open state of the dialog.
  *
@@ -50,16 +50,22 @@ export function Dialog({
 
             if (!state) {
                 const dialog = dialogRef.current
-
+								setTimeout(() => {
+									motion(dialog)
+								}, 200)
                 dialog?.close()
                 setOpen(false)
                 document.body.style.overflow = 'auto'
                 return onOpenChange?.(false)
+								
             } else {
+								motion(dialog)
                 dialog?.showModal()
-                document.body.style.overflow = 'hidden'
                 setOpen(true)
                 onOpenChange?.(true)
+								setTimeout(() => {
+									document.body.style.overflow = 'hidden'
+								}, 200)
             }
         } catch (e) {
             console.warn('Dialog failed to toggle', e)
@@ -144,7 +150,6 @@ export function DialogContent({
     renderOnce?: boolean
 }): React.JSX.Element {
     const { open, ref, onOpenChange } = useDialogContext()
-    const [isClosing, setIsClosing] = React.useState<boolean>(false)
     const [shouldRender, setShouldRender] = React.useState<boolean>(false)
     const _shouldRender = renderOnce ? shouldRender : ref.current?.open
 
@@ -152,14 +157,9 @@ export function DialogContent({
         if (open) return setShouldRender(true)
     }, [open])
 
-    const handleCloseWithAnimation = () => {
+    const handleClose = () => {
         if (!ref.current) return
-        setIsClosing(true)
-
-        setTimeout(() => {
-            setIsClosing(false)
-            onOpenChange(false)
-        }, 200)
+				onOpenChange(false)
     }
 
     return (
@@ -167,19 +167,18 @@ export function DialogContent({
             ref={ref}
             {...props}
             className={cn(
-                'open:grid ease-fade ease-scale inset-1/2 -translate-1/2 w-full sm:max-w-[425px] max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg',
-                'transition-all ease-(easing-spring) backdrop:bg-black/50 opacity-100  will-change-[opacity,scale]',
-                isClosing && 'scale-90 opacity-20 backdrop:opacity-20',
+                'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-[425px] max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg',
+                'transition-all backdrop:bg-black/50 opacity-100',
                 className,
             )}
             onClick={(e) => {
-                if (e.currentTarget === e.target) handleCloseWithAnimation()
+                if (e.currentTarget === e.target) handleClose()
             }}
         >
             <button
                 aria-label='close'
                 className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded-md hover:opacity-100 transition-all'
-                onClick={handleCloseWithAnimation}
+                onClick={handleClose}
             >
                 <X aria-hidden />
             </button>

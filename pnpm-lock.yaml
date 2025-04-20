@@ -791,37 +791,6 @@ importers:
         specifier: ^5
         version: 5.7.3
 
-  packages/@duck-state:
-    dependencies:
-      '@types/node':
-        specifier: ^22.13.10
-        version: 22.13.10
-      '@types/react-dom':
-        specifier: ^19.0.4
-        version: 19.0.4(@types/react@19.0.12)
-      react:
-        specifier: ^19.0.0
-        version: 19.0.0
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.0.0(react@19.0.0)
-      typescript:
-        specifier: ^5.8.2
-        version: 5.8.2
-    devDependencies:
-      '@changesets/cli':
-        specifier: ^2.27.7
-        version: 2.28.1
-      '@types/react':
-        specifier: ^19.0.10
-        version: 19.0.12
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      tsup:
-        specifier: ^8.4.0
-        version: 8.4.0(@swc/core@1.11.8(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
-
   packages/_oldstuff_refactor:
     dependencies:
       '@radix-ui/react-menubar':
@@ -1516,6 +1485,37 @@ importers:
         specifier: ^3.23.8
         version: 3.24.2
 
+  packages/duck-state:
+    dependencies:
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.13.10
+      '@types/react-dom':
+        specifier: ^19.0.4
+        version: 19.0.4(@types/react@19.0.12)
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.0.0(react@19.0.0)
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.2
+    devDependencies:
+      '@changesets/cli':
+        specifier: ^2.27.7
+        version: 2.28.1
+      '@types/react':
+        specifier: ^19.0.10
+        version: 19.0.12
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
+      tsup:
+        specifier: ^8.4.0
+        version: 8.4.0(@swc/core@1.11.8(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
+
   packages/duck-ui:
     dependencies:
       '@antfu/ni':
@@ -1834,6 +1834,9 @@ importers:
       '@gentelduck/libs':
         specifier: workspace:*
         version: link:../libs
+      '@gentelduck/motion':
+        specifier: workspace:*
+        version: link:../duck-motion
       '@gentelduck/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript
@@ -2122,7 +2125,7 @@ importers:
         version: 9.22.0
       '@gentelduck/state':
         specifier: workspace:*
-        version: link:../@duck-state
+        version: link:../duck-state
       '@gentelduck/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript
