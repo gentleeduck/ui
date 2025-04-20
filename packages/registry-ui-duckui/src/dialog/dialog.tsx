@@ -18,11 +18,11 @@ export const DialogContext = React.createContext<DialogContextType | null>(null)
  * @throws {Error} If the hook is used outside of a Dialog.
  */
 export function useDialogContext(name: string = 'Dialog'): DialogContextType {
-    const context = React.useContext(DialogContext)
-    if (!context) {
-        throw new Error(`useDialogContext must be used within a ${name}`)
-    }
-    return context
+	const context = React.useContext(DialogContext)
+	if (!context) {
+		throw new Error(`useDialogContext must be used within a ${name}`)
+	}
+	return context
 }
 
 /**
@@ -37,64 +37,64 @@ export function useDialogContext(name: string = 'Dialog'): DialogContextType {
  * @returns {React.JSX.Element} A context provider that manages the dialog state and renders its children.
  */
 export function Dialog({
-    children,
-    open: openProp,
-    onOpenChange,
+	children,
+	open: openProp,
+	onOpenChange,
 }: DialogProps): React.JSX.Element {
-    const dialogRef = React.useRef<HTMLDialogElement | null>(null)
-    const [open, setOpen] = React.useState<boolean>(openProp ?? false)
+	const dialogRef = React.useRef<HTMLDialogElement | null>(null)
+	const [open, setOpen] = React.useState<boolean>(openProp ?? false)
 
-    const _onOpenChange = (state: boolean) => {
-        try {
-            const dialog = dialogRef.current
+	const _onOpenChange = (state: boolean) => {
+		try {
+			const dialog = dialogRef.current
 
-            if (!state) {
-                const dialog = dialogRef.current
-								setTimeout(() => {
-									motion(dialog)
-								}, 200)
-                dialog?.close()
-                setOpen(false)
-                document.body.style.overflow = 'auto'
-                return onOpenChange?.(false)
-								
-            } else {
-								motion(dialog)
-                dialog?.showModal()
-                setOpen(true)
-                onOpenChange?.(true)
-								setTimeout(() => {
-									document.body.style.overflow = 'hidden'
-								}, 200)
-            }
-        } catch (e) {
-            console.warn('Dialog failed to toggle', e)
-        }
-    }
+			if (!state) {
+				const dialog = dialogRef.current
+				setTimeout(() => {
+					motion(dialog)
+				}, 200)
+				dialog?.close()
+				setOpen(false)
+				document.body.style.overflow = 'auto'
+				return onOpenChange?.(false)
 
-    React.useEffect(() => {
-        open && dialogRef.current?.showModal()
-    }, [])
+			} else {
+				motion(dialog)
+				dialog?.showModal()
+				setOpen(true)
+				onOpenChange?.(true)
+				setTimeout(() => {
+					document.body.style.overflow = 'hidden'
+				}, 200)
+			}
+		} catch (e) {
+			console.warn('Dialog failed to toggle', e)
+		}
+	}
 
-    React.useEffect(() => {
-        const dialog = dialogRef.current
+	React.useEffect(() => {
+		open && dialogRef.current?.showModal()
+	}, [])
 
-        dialog?.addEventListener('close', () => _onOpenChange(false))
-        return () =>
-            dialog?.removeEventListener('close', () => _onOpenChange(false))
-    }, [])
+	React.useEffect(() => {
+		const dialog = dialogRef.current
 
-    return (
-        <DialogContext.Provider
-            value={{
-                open: open ?? false,
-                onOpenChange: _onOpenChange,
-                ref: dialogRef,
-            }}
-        >
-            {children}
-        </DialogContext.Provider>
-    )
+		dialog?.addEventListener('close', () => _onOpenChange(false))
+		return () =>
+			dialog?.removeEventListener('close', () => _onOpenChange(false))
+	}, [])
+
+	return (
+		<DialogContext.Provider
+			value={{
+				open: open ?? false,
+				onOpenChange: _onOpenChange,
+				ref: dialogRef,
+			}}
+		>
+			{children}
+		</DialogContext.Provider>
+	)
 }
 
 /**
@@ -111,20 +111,20 @@ export function Dialog({
  * @returns {React.JSX.Element} A button that toggles the dialog on click.
  */
 export function DialogTrigger({
-    onClick,
-    ...props
+	onClick,
+	...props
 }: React.ComponentPropsWithoutRef<typeof Button>): React.JSX.Element {
-    const { onOpenChange } = useDialogContext()
+	const { onOpenChange } = useDialogContext()
 
-    return (
-        <Button
-            onClick={(e) => {
-                onOpenChange(true)
-                onClick?.(e)
-            }}
-            {...props}
-        />
-    )
+	return (
+		<Button
+			onClick={(e) => {
+				onOpenChange(true)
+				onClick?.(e)
+			}}
+			{...props}
+		/>
+	)
 }
 
 /**
@@ -142,49 +142,49 @@ export function DialogTrigger({
  * @returns {React.JSX.Element} The dialog content component with applied props and classes.
  */
 export function DialogContent({
-    children,
-    className,
-    renderOnce,
-    ...props
+	children,
+	className,
+	renderOnce,
+	...props
 }: React.HTMLProps<HTMLDialogElement> & {
-    renderOnce?: boolean
+	renderOnce?: boolean
 }): React.JSX.Element {
-    const { open, ref, onOpenChange } = useDialogContext()
-    const [shouldRender, setShouldRender] = React.useState<boolean>(false)
-    const _shouldRender = renderOnce ? shouldRender : ref.current?.open
+	const { open, ref, onOpenChange } = useDialogContext()
+	const [shouldRender, setShouldRender] = React.useState<boolean>(false)
+	const _shouldRender = renderOnce ? shouldRender : ref.current?.open
 
-    React.useEffect(() => {
-        if (open) return setShouldRender(true)
-    }, [open])
+	React.useEffect(() => {
+		if (open) return setShouldRender(true)
+	}, [open])
 
-    const handleClose = () => {
-        if (!ref.current) return
-				onOpenChange(false)
-    }
+	const handleClose = () => {
+		if (!ref.current) return
+		onOpenChange(false)
+	}
 
-    return (
-        <dialog
-            ref={ref}
-            {...props}
-            className={cn(
-                'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-[425px] max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg',
-                'transition-all backdrop:bg-black/50 opacity-100',
-                className,
-            )}
-            onClick={(e) => {
-                if (e.currentTarget === e.target) handleClose()
-            }}
-        >
-            <button
-                aria-label='close'
-                className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded-md hover:opacity-100 transition-all'
-                onClick={handleClose}
-            >
-                <X aria-hidden />
-            </button>
-            {_shouldRender && children}
-        </dialog>
-    )
+	return (
+		<dialog
+			ref={ref}
+			{...props}
+			className={cn(
+				'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-[425px] max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg',
+				'transition-all backdrop:bg-black/50 opacity-100',
+				className,
+			)}
+			onClick={(e) => {
+				if (e.currentTarget === e.target) handleClose()
+			}}
+		>
+			<button
+				aria-label='close'
+				className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded-md hover:opacity-100 transition-all'
+				onClick={handleClose}
+			>
+				<X aria-hidden />
+			</button>
+			{_shouldRender && children}
+		</dialog>
+	)
 }
 
 /**
@@ -202,20 +202,20 @@ export function DialogContent({
  * @returns {JSX.Element} The rendered DialogHeader component.
  */
 export function DialogHeader({
-    className,
-    ref,
-    ...props
+	className,
+	ref,
+	...props
 }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-    console.log('asdfasd')
-    return (
-        <div
-            className={cn(
-                'flex flex-col space-y-1.5 text-center sm:text-left',
-                className,
-            )}
-            {...props}
-        />
-    )
+	console.log('asdfasd')
+	return (
+		<div
+			className={cn(
+				'flex flex-col space-y-1.5 text-center sm:text-left',
+				className,
+			)}
+			{...props}
+		/>
+	)
 }
 
 /**
@@ -233,19 +233,19 @@ export function DialogHeader({
  * @returns {React.JSX.Element} The rendered DialogFooter component.
  */
 export function DialogFooter({
-    className,
-    ref,
-    ...props
+	className,
+	ref,
+	...props
 }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-    return (
-        <div
-            className={cn(
-                'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-                className,
-            )}
-            {...props}
-        />
-    )
+	return (
+		<div
+			className={cn(
+				'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+				className,
+			)}
+			{...props}
+		/>
+	)
 }
 
 /**
@@ -261,20 +261,20 @@ export function DialogFooter({
  * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
 export function DialogTitle({
-    className,
-    ref,
-    ...props
+	className,
+	ref,
+	...props
 }: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element {
-    return (
-        <h2
-            ref={ref}
-            className={cn(
-                'text-lg font-semibold leading-none tracking-tight',
-                className,
-            )}
-            {...props}
-        />
-    )
+	return (
+		<h2
+			ref={ref}
+			className={cn(
+				'text-lg font-semibold leading-none tracking-tight',
+				className,
+			)}
+			{...props}
+		/>
+	)
 }
 
 /**
@@ -289,15 +289,15 @@ export function DialogTitle({
  * @returns {React.JSX.Element} The rendered `DialogDescription` component with forwarded ref and applied class names.
  */
 export const DialogDescription = ({
-    className,
-    ref,
-    ...props
+	className,
+	ref,
+	...props
 }: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-    <p
-        ref={ref}
-        className={cn('text-sm text-muted-foreground', className)}
-        {...props}
-    />
+	<p
+		ref={ref}
+		className={cn('text-sm text-muted-foreground', className)}
+		{...props}
+	/>
 )
 
 /**
@@ -315,19 +315,19 @@ export const DialogDescription = ({
  * @returns {React.JSX.Element} The rendered DialogClose component.
  */
 export function DialogClose({
-    onClick,
-    ref,
-    ...props
+	onClick,
+	ref,
+	...props
 }: React.ComponentPropsWithRef<typeof Button>): React.JSX.Element {
-    const { onOpenChange } = useDialogContext()
-    return (
-        <Button
-            onClick={(e) => {
-                onOpenChange(false)
-                onClick?.(e)
-            }}
-            ref={ref}
-            {...props}
-        />
-    )
+	const { onOpenChange } = useDialogContext()
+	return (
+		<Button
+			onClick={(e) => {
+				onOpenChange(false)
+				onClick?.(e)
+			}}
+			ref={ref}
+			{...props}
+		/>
+	)
 }
