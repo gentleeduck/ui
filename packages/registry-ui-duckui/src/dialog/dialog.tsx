@@ -3,7 +3,7 @@ import { Button } from '../button'
 import { DialogContextType, DialogProps } from './dialog.types'
 import { cn } from '@gentelduck/libs/cn'
 import { X } from 'lucide-react'
-import motion from '@gentelduck/motion'
+// import motion from '@gentelduck/motion'
 /**
  * Context for managing the open state of the dialog.
  *
@@ -47,22 +47,22 @@ export function Dialog({
 	const _onOpenChange = (state: boolean) => {
 		try {
 			const dialog = dialogRef.current
-			
+
 			if (!state) {
 				const dialog = dialogRef.current
-				setTimeout(() => {
-					motion(dialog)
-				}, 200)
+				// setTimeout(() => {
+				// 	motion(dialog)
+				// }, 200)
 				dialog?.close()
 				setOpen(false)
 				document.body.style.overflow = 'auto'
 				return onOpenChange?.(false)
 
 			} else {
-				motion(dialog)
+				// motion(dialog)
 				// motion(overlay)
 				dialog?.showModal()
-				setOpen(true) 
+				setOpen(true)
 				onOpenChange?.(true)
 				document.body.style.overflow = 'hidden'
 			}
@@ -157,7 +157,6 @@ export function DialogContent({
 	}, [open])
 
 	const handleClose = () => {
-		if (!ref.current) return
 		onOpenChange(false)
 	}
 
@@ -166,15 +165,13 @@ export function DialogContent({
 			ref={ref}
 			{...props}
 			className={cn(
-				'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-[425px] max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg',
-				'transition-all backdrop:bg-black/50 opacity-100',
+				'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-md max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg transition-all',
 				className,
 			)}
 			onClick={(e) => {
 				if (e.currentTarget === e.target) handleClose()
 			}}
 		>
-			
 			<button
 				aria-label='close'
 				className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded-md hover:opacity-100 transition-all'
@@ -182,7 +179,8 @@ export function DialogContent({
 			>
 				<X aria-hidden />
 			</button>
-			{_shouldRender && children}
+			{children}
+			{/* {_shouldRender && children} */}
 		</dialog>
 	)
 }
