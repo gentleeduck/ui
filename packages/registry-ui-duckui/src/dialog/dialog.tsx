@@ -47,7 +47,7 @@ export function Dialog({
 	const _onOpenChange = (state: boolean) => {
 		try {
 			const dialog = dialogRef.current
-
+			
 			if (!state) {
 				const dialog = dialogRef.current
 				setTimeout(() => {
@@ -60,12 +60,11 @@ export function Dialog({
 
 			} else {
 				motion(dialog)
+				// motion(overlay)
 				dialog?.showModal()
-				setOpen(true)
+				setOpen(true) 
 				onOpenChange?.(true)
-				setTimeout(() => {
-					document.body.style.overflow = 'hidden'
-				}, 200)
+				document.body.style.overflow = 'hidden'
 			}
 		} catch (e) {
 			console.warn('Dialog failed to toggle', e)
@@ -175,6 +174,7 @@ export function DialogContent({
 				if (e.currentTarget === e.target) handleClose()
 			}}
 		>
+			
 			<button
 				aria-label='close'
 				className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded-md hover:opacity-100 transition-all'
