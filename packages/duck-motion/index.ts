@@ -1,6 +1,6 @@
 import * as easing from './easing';
 
-function motion(ref: HTMLElement | null) {
+function motion(ref: HTMLElement | Element | null) {
   if (ref) {
     ref.animate(
       [
@@ -8,7 +8,7 @@ function motion(ref: HTMLElement | null) {
         { opacity: 1, transform: 'scale(1)', filter: 'blur(0px)' }
       ],
       {
-        duration: 350,
+        duration: 250,
         easing: easing.spring,
       }
     );

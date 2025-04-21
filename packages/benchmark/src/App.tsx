@@ -89,7 +89,7 @@ import DuckDialog from './duck/dialog/duck'
 
 function App() {
   return (
-    <div className='flex flex-col mx-10 h-screen justify-center  items-center gap-4'>
+    <div className='flex flex-col mx-10 h-250 justify-center  items-center gap-4'>
       <DuckDialog />
       {/* <ShadcnDialog  /> */}
     </div>
