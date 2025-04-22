@@ -165,10 +165,10 @@ export function DialogContent({
 			ref={ref}
 			{...props}
 			className={cn(
-				'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-md max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg',
+				'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-md max-w-lg gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
 				'transition-all transition-discrete ease-(--duck-motion-ease) duration-(--duck-motion-dur)',
 				'backdrop:transition-[inherit] backdrop:bg-black/0 starting:open:backdrop:bg-black/0 open:backdrop:bg-black/25',
-				'scale-75 opacity-0 blur-0.5 starting:open:scale-75 starting:open:opacity-0 starting:open:blur-0.5 open:scale-100 open:opacity-100 open:blur-0',
+				'scale-90 opacity-0 blur-0.5 starting:open:scale-90 starting:open:opacity-0 starting:open:blur-0.5 open:scale-100 open:opacity-100 open:blur-0',
 				className,
 			)}
 			onClick={(e) => {
