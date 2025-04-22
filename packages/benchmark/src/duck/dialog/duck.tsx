@@ -12,7 +12,7 @@ export default function DialogDemo() {
   return (
     <Dialog>
       <DialogTrigger>Open</DialogTrigger>
-      <DialogContent>
+      <DialogContent renderOnce>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>

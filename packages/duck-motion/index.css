@@ -35,24 +35,12 @@
   animation: scale-fade 350ms var(--duck-motion-ease);
 }
 
+/*
 dialog:open {
   opacity: 1;
   scale: 1;
   filter: blur(0px);
 }
-
-dialog {
-  opacity: 0;
-  scale: 0.7;
-  filter: blur(0.5px);
-  /* transition:
-    opacity var(--duck-motion-dur) var(--duck-motion-ease),
-    scale var(--duck-motion-dur) var(--duck-motion-ease),
-    overlay var(--duck-motion-dur) var(--duck-motion-ease) allow-discrete,
-    display var(--duck-motion-dur) var(--duck-motion-ease) allow-discrete; */
-  transition: all var(--duck-motion-dur) var(--duck-motion-ease) allow-discrete;
-}
-
 
 @starting-style {
   dialog:open {
@@ -62,12 +50,21 @@ dialog {
   }
 }
 
+dialog {
+  opacity: 0;
+  scale: 0.7;
+  filter: blur(0.5px);
+
+  transition: all var(--duck-motion-dur) var(--duck-motion-ease) allow-discrete;
+}
+
+transition- transition-discrete ease-(--duck-motion-ease) duration-(--duck-motion-dur)
+
+
+
 dialog::backdrop {
   background-color: rgb(0 0 0 / 0%);
-  /* transition:
-    display var(--duck-motion-dur) allow-discrete,
-    overlay var(--duck-motion-dur) allow-discrete,
-    background-color var(--duck-motion-dur); */
+
   transition: all var(--duck-motion-dur) var(--duck-motion-ease) allow-discrete;
 }
 
@@ -79,4 +76,25 @@ dialog:open::backdrop {
   dialog:open::backdrop {
     background-color: rgb(0 0 0 / 0%);
   }
+} */
+
+
+/* transition:
+    opacity var(--duck-motion-dur) var(--duck-motion-ease),
+    scale var(--duck-motion-dur) var(--duck-motion-ease),
+    overlay var(--duck-motion-dur) var(--duck-motion-ease) allow-discrete,
+    display var(--duck-motion-dur) var(--duck-motion-ease) allow-discrete; */
+
+
+/* transition:
+    display var(--duck-motion-dur) allow-discrete,
+    overlay var(--duck-motion-dur) allow-discrete,
+    background-color var(--duck-motion-dur); */
+
+
+
+
+.easing-da {
+  /* transition: all var(--duck-motion-dur) var(--duck-motion-ease) allow-discrete; */
+  @apply transition-all transition-discrete ease-(--duck-motion-ease) duration-(--duck-motion-dur);
 }
