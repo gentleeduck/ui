@@ -3,7 +3,7 @@ import { Button } from '../button'
 import { DialogContextType, DialogProps } from './dialog.types'
 import { cn } from '@gentelduck/libs/cn'
 import { X } from 'lucide-react'
-// import motion from '@gentelduck/motion'
+import { backdrop, motionBlur, popupOpen, transition } from '@gentelduck/motion/anim'
 /**
  * Context for managing the open state of the dialog.
  *
@@ -165,10 +165,11 @@ export function DialogContent({
 			ref={ref}
 			{...props}
 			className={cn(
-				'open:grid inset-1/2 -translate-1/2 w-full sm:max-w-md max-w-lg gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
-				'transition-all transition-discrete ease-(--duck-motion-ease) duration-(--duck-motion-dur)',
-				'backdrop:transition-[inherit] backdrop:bg-black/0 starting:open:backdrop:bg-black/0 open:backdrop:bg-black/25',
-				'scale-90 opacity-0 blur-0.5 starting:open:scale-90 starting:open:opacity-0 starting:open:blur-0.5 open:scale-100 open:opacity-100 open:blur-0',
+				'open:grid inset-1/2 -translate-1/2 w-full max-w-lg sm:max-w-md gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
+				transition,
+				backdrop,
+				popupOpen,
+				motionBlur,
 				className,
 			)}
 			onClick={(e) => {

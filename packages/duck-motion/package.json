@@ -10,6 +10,12 @@
     },
     "./css": {
       "import": "./index.css"
+    },
+    "./anim": {
+      "import": "./anim.ts"
+    },
+    "./easing": {
+      "import": "./easing.ts"
     }
   },
   "scripts": {
