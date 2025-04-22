@@ -9,7 +9,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --easing-spring: cubic-bezier(1,0.23995,0,1.65);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
