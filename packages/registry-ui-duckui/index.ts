@@ -91,7 +91,9 @@ const components: Record<
   avatar: {},
   scrollArea: {},
 
-  form: {},
+  form: {
+    component: true,
+  },
   alert: {},
   breadcrumb: {},
   chart: {},

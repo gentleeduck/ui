@@ -76,14 +76,14 @@ export function VaulDrawer() {
       toast.error('Please correct the errors in the form')
     },
     validators: {
-      onChange: FormSchema,
+      onSubmit: FormSchema,
     },
     defaultValues: {
       firstName: '',
       lastName: '',
       email: '',
       phone: '',
-      dateOfBirth: undefined,
+      dateOfBirth: new Date(),
       gender: '',
       address: '',
     },
@@ -96,7 +96,7 @@ export function VaulDrawer() {
         e.preventDefault()
         form.handleSubmit()
       }}
-      className='w-[400px] space-y-6'
+      className='w-[490px] flex flex-col gap-4 p-8 border rounded-xl shadow'
     >
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
         <FormField name='firstName'>
@@ -157,7 +157,7 @@ export function VaulDrawer() {
         )}
       </FormField>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-6 justify-center'>
         <FormField name='dateOfBirth'>
           {(field) => (
             <FormItem className='flex flex-col'>
@@ -167,11 +167,11 @@ export function VaulDrawer() {
                   <Button
                     variant={'outline'}
                     className={cn(
-                      'w-full justify-start text-left font-normal',
+                      'w-full justify-start text-left font-normal h-10',
                       !field.state.value && 'text-muted-foreground',
                     )}
+                    icon={<CalendarIcon className='mr-2' />}
                   >
-                    <CalendarIcon className='mr-2 h-4 w-4' />
                     {field.state.value ? (
                       format(field.state.value as Date, 'PPP')
                     ) : (
@@ -179,7 +179,7 @@ export function VaulDrawer() {
                     )}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className='w-auto p-0' align='start'>
+                <PopoverContent className='w-auto p-0'>
                   <Calendar
                     mode='single'
                     selected={field.state.value as Date}
