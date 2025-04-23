@@ -3,7 +3,7 @@ import { Button } from '../button'
 import { DialogContextType, DialogProps } from './dialog.types'
 import { cn } from '@gentelduck/libs/cn'
 import { X } from 'lucide-react'
-import { motionBackdrop, motionAlive, motionBlur, popupOpen } from '@gentelduck/motion/anim'
+import { motionBackdrop, motionAlive, motionBlur, popupOpen, popupOpen2 } from '@gentelduck/motion/anim'
 /**
  * Context for managing the open state of the dialog.
  *
