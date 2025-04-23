@@ -49,18 +49,11 @@ export function Dialog({
 			const dialog = dialogRef.current
 
 			if (!state) {
-				const dialog = dialogRef.current
-				// setTimeout(() => {
-				// 	motion(dialog)
-				// }, 200)
 				dialog?.close()
 				setOpen(false)
 				document.body.style.overflow = 'auto'
 				return onOpenChange?.(false)
-
 			} else {
-				// motion(dialog)
-				// motion(overlay)
 				dialog?.showModal()
 				setOpen(true)
 				onOpenChange?.(true)
@@ -156,10 +149,6 @@ export function DialogContent({
 		if (open) return setShouldRender(true)
 	}, [open])
 
-	const handleClose = () => {
-		onOpenChange(false)
-	}
-
 	return (
 		<dialog
 			ref={ref}
@@ -170,15 +159,15 @@ export function DialogContent({
 				className,
 			)}
 			onClick={(e) => {
-				if (e.currentTarget === e.target) handleClose()
+				if (e.currentTarget === e.target) onOpenChange(false)
 			}}
 		>
 			<button
 				aria-label='close'
-				className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded-md hover:opacity-100 transition-all'
-				onClick={handleClose}
+				className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
+				onClick={() => onOpenChange(false)}
 			>
-				<X aria-hidden />
+				<X aria-hidden size={20} />
 			</button>
 			{_shouldRender && children}
 		</dialog>
