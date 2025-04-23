@@ -15,14 +15,19 @@ export const AnimVariants = cva('',
       },
       variant: {
         default: 'scale-90 opacity-0 starting:open:scale-90 starting:open:opacity-0 open:scale-100 open:opacity-100',
-        fadeScaleIn: 'scale-75 opacity-0 starting:open:scale-75 starting:open:opacity-0 open:scale-100 open:opacity-100'
+        fadeScaleIn: 'scale-75 opacity-0 starting:open:scale-75 starting:open:opacity-0 open:scale-100 open:opacity-100',
       },
+      accelerated: {
+        default: 'will-change-auto',
+        transformGpu: 'transform-gpu',
+      }
     },
     defaultVariants: {
       motionAlive: 'default',
       motionBlur: 'default',
       motionBackdrop: 'default',
       variant: 'default',
+      accelerated: 'default',
     },
   },
 )
