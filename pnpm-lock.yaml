@@ -1418,6 +1418,9 @@ importers:
       '@gentelduck/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript
+      class-variance-authority:
+        specifier: ^0.7.0
+        version: 0.7.1
       react:
         specifier: ^19.0.0
         version: 19.0.0
