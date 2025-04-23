@@ -29,6 +29,17 @@ import {
   PopoverTrigger,
 } from '@gentelduck/registry-ui-duckui/popover'
 import { cn } from '@gentelduck/libs/cn'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@gentelduck/registry-ui-duckui/sheet'
+import { Label } from '@gentelduck/registry-ui-duckui/label'
 
 const FormSchema = z.object({
   firstName: z.string().min(2, {
@@ -62,185 +73,36 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>
 
 export function VaulDrawer() {
-  const form = useForm({
-    onSubmit: ({ value }) => {
-      const result = FormSchema.safeParse(value)
-      if (result.success) {
-        console.log(result.data)
-        toast.success(`User information submitted successfully!`)
-      } else {
-        toast.error('Invalid form data')
-      }
-    },
-    onSubmitInvalid: ({ value, formApi }) => {
-      toast.error('Please correct the errors in the form')
-    },
-    validators: {
-      onChange: FormSchema,
-    },
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      dateOfBirth: undefined,
-      gender: '',
-      address: '',
-    },
-  })
-
   return (
-    <Form
-      form={form}
-      onSubmit={(e) => {
-        e.preventDefault()
-        form.handleSubmit()
-      }}
-      className='w-[400px] space-y-6'
-    >
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-        <FormField name='firstName'>
-          {(field) => (
-            <FormItem>
-              <FormLabel>First Name</FormLabel>
-              <Input
-                placeholder='John'
-                value={field.state.value as string}
-                onChange={(e) => field.handleChange(e.currentTarget.value)}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        </FormField>
-
-        <FormField name='lastName'>
-          {(field) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
-              <Input
-                placeholder='Doe'
-                value={field.state.value as string}
-                onChange={(e) => field.handleChange(e.currentTarget.value)}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        </FormField>
-      </div>
-
-      <FormField name='email'>
-        {(field) => (
-          <FormItem>
-            <FormLabel>Email</FormLabel>
-            <Input
-              type='email'
-              placeholder='john.doe@example.com'
-              value={field.state.value as string}
-              onChange={(e) => field.handleChange(e.currentTarget.value)}
-            />
-            <FormMessage />
-          </FormItem>
-        )}
-      </FormField>
-
-      <FormField name='phone'>
-        {(field) => (
-          <FormItem>
-            <FormLabel>Phone Number</FormLabel>
-            <Input
-              placeholder='1234567890'
-              value={field.state.value as string}
-              onChange={(e) => field.handleChange(e.currentTarget.value)}
-            />
-            <FormMessage />
-          </FormItem>
-        )}
-      </FormField>
-
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-        <FormField name='dateOfBirth'>
-          {(field) => (
-            <FormItem className='flex flex-col'>
-              <FormLabel>Date of Birth</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={'outline'}
-                    className={cn(
-                      'w-full justify-start text-left font-normal',
-                      !field.state.value && 'text-muted-foreground',
-                    )}
-                  >
-                    <CalendarIcon className='mr-2 h-4 w-4' />
-                    {field.state.value ? (
-                      format(field.state.value as Date, 'PPP')
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className='w-auto p-0' align='start'>
-                  <Calendar
-                    mode='single'
-                    selected={field.state.value as Date}
-                    onSelect={(date) => field.handleChange(date)}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        </FormField>
-
-        <FormField name='gender'>
-          {(field) => (
-            <FormItem>
-              <FormLabel>Gender</FormLabel>
-              <Select
-                value={field.state.value as string}
-                onValueChange={field.handleChange}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder='Select gender' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='male'>Male</SelectItem>
-                  <SelectItem value='female'>Female</SelectItem>
-                  <SelectItem value='non-binary'>Non-binary</SelectItem>
-                  <SelectItem value='other'>Other</SelectItem>
-                  <SelectItem value='prefer-not-to-say'>
-                    Prefer not to say
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        </FormField>
-      </div>
-
-      <FormField name='address'>
-        {(field) => (
-          <FormItem>
-            <FormLabel>Address</FormLabel>
-            <Textarea
-              placeholder='123 Main St, City, Country'
-              value={field.state.value as string}
-              onChange={(e) => field.handleChange(e.currentTarget.value)}
-              rows={3}
-            />
-            <FormMessage />
-          </FormItem>
-        )}
-      </FormField>
-
-      <Button type='submit' className='w-full'>
-        Submit Information
-      </Button>
-    </Form>
+    <Sheet>
+      <SheetTrigger variant='outline'>Open</SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Edit profile</SheetTitle>
+          <SheetDescription>
+            Make changes to your profile here. Click save when you're done.
+          </SheetDescription>
+        </SheetHeader>
+        <div className='grid gap-4 py-4'>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='name' className='text-right'>
+              Name
+            </Label>
+            <Input id='name' value='Pedro Duarte' className='col-span-3' />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='username' className='text-right'>
+              Username
+            </Label>
+            <Input id='username' value='@peduarte' className='col-span-3' />
+          </div>
+        </div>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button type='submit'>Save changes</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   )
 }

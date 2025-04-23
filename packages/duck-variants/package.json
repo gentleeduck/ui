@@ -1,0 +1,17 @@
+{
+    "name": "@gentelduck/variants",
+    "private": true,
+    "version": "0.1.0",
+    "type": "module",
+    "exports": {
+        "./*": "./*/index.ts",
+        ".": "./index.ts"
+    },
+    "scripts": {},
+    "devDependencies": {
+        "@gentelduck/typescript-config": "workspace:*"
+    },
+    "dependencies": {
+        "clsx": "^1.2.1"
+    }
+}
