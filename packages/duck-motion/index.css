@@ -98,3 +98,4 @@ dialog:open::backdrop {
   /* transition: all var(--duck-motion-dur) var(--duck-motion-ease) allow-discrete; */
   @apply transition-all transition-discrete ease-(--duck-motion-ease) duration-(--duck-motion-dur);
 }
+
