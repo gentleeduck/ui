@@ -3,6 +3,7 @@ import { Button, ButtonProps } from '../button'
 import React from 'react'
 import { X } from 'lucide-react'
 import { AnimVariants } from '@gentelduck/motion/anim'
+import { DialogContextType, DialogProps } from './dialog.types'
 /**
  * Context for managing the open state of the dialog.
  *
@@ -155,21 +156,6 @@ export function DialogContent({
       </button>
       {_shouldRender && children}
     </dialog>
-  )
-}
-
-export interface DialogCloseProps
-  extends React.ComponentPropsWithoutRef<typeof Button> { }
-export function DialogClose({ onClick, ...props }: DialogCloseProps) {
-  const { setOpen } = useDialogContext()
-  return (
-    <Button
-      onClick={(e) => {
-        setOpen(false)
-        onClick?.(e)
-      }}
-      {...(props as ButtonProps)}
-    />
   )
 }
 
@@ -334,15 +320,3 @@ export function DialogClose({
     />
   )
 }
-
-export function DialogPortal({
-  children,
-  forceMount,
-  ...props
-}: DialogPortalProps) {
-  return React.Children.map(children, (child) => (
-    <Portal {...props}>{child}</Portal>
-  ))
-}
-// const context = useDialogContext()
-// <Presence present={forceMount || context.open}></Presence>
