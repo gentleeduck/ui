@@ -305,7 +305,7 @@ export function MainExample() {
 
       <Dialog>
         <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
-        <DialogContent>
+        <DialogContent renderOnce>
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>
