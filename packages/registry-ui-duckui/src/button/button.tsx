@@ -44,6 +44,7 @@ function Button({
 }: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }): React.JSX.Element {
   const Component = (asChild ? Slot : 'button') as React.ElementType
 
+  //TODO: make the icons as plugin
   const Button = (
     <Component
       {...props}

@@ -55,3 +55,78 @@ export * from './src/aspect-ratio'
 export * from './src/alert-dialog'
 export * from './src/alert'
 export * from './src/accordion'
+
+
+const components: Record<
+  string,
+  Partial<{
+    component: boolean
+    docs: boolean
+    benchmark: boolean
+    test: boolean
+    examples: boolean
+  }>
+> = {
+  button: {
+    docs: false,
+  },
+  badge: {
+    docs: false,
+  },
+  toggle: {},
+  toggleGroup: {},
+  switch: {},
+  checkbox: {},
+  textarea: {},
+  input: {},
+  label: {},
+  command: {
+    component: false,
+  },
+  separator: {},
+  portal: {},
+  radioGroup: {},
+  dialog: {},
+  tabs: {},
+  skeleton: {},
+  card: {},
+  aspectRatio: {},
+  avatar: {},
+  scrollArea: {},
+
+  form: {
+    component: true,
+  },
+  alert: {},
+  breadcrumb: {},
+  chart: {},
+  carousel: {},
+  calendar: {},
+  upload: {},
+  table: {},
+  sonner: {},
+  inputOTP: {},
+  pagination: {},
+  resizable: {},
+
+  popover: {},
+  dropdownMenu: {},
+  combobox: {},
+  select: {},
+  hoverCard: {},
+  tooltip: {},
+  navigationMenu: {},
+  menuBar: {},
+  contextMenu: {},
+
+  drawer: {},
+  sheet: {},
+  alertDialog: {},
+
+  collapsible: {},
+  accordion: {},
+
+  progress: {},
+  slider: {},
+}
+

@@ -2,6 +2,7 @@
 
 @source "../node_modules/@gentelduck/registry-ui-duckui";
 @source "../node_modules/@gentelduck/lazy";
+@source "../node_modules/@gentelduck/motion";
 /* @source "../../../packages/_oldstuff_refactor/ui"; */
 
 @plugin "tailwindcss-animate";
