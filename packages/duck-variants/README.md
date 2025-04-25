@@ -7,8 +7,18 @@ A lightweight utility for generating class names based on variant configurations
 - 🧠 **Declarative variant-based styling**
 - 🎯 **Type-safe API with intelligent autocompletion**
 - 🧱 **Composable and extendable utility**
-- 🎨 **Supports default variants and custom class merging**
+- 🎨 **Supports default variants and compound variants**
 - 🪶 **Lightweight and zero dependencies**
+
+---
+
+## Why `@gentelduck/variants`?
+
+- ✅ **Zero dependencies**
+- 🔐 **Type-safe and autocompletion ready**
+- 🎨 **Composable styling**
+- ⚡ **Minimal and fast**
+- 🧠 **Powerful variant + compound variant system**
 
 ---
 
@@ -54,9 +64,13 @@ const className = button({ size: 'lg', className: 'extra-class' })
 // => 'btn btn-lg btn-primary extra-class'
 ```
 
-### Edge Case Example with Array Variants
+---
 
-If a variant accepts multiple values or classes, you can pass an array. `@gentelduck/variants` will merge them automatically.
+## Advanced Usage
+
+### Arrays & Multiple Classes
+
+You can use arrays to define multiple classes for a single variant value.
 
 ```ts
 const badge = cva('badge', {
@@ -80,9 +94,9 @@ const className = badge({ size: 'lg', color: 'secondary' })
 // => 'badge badge-lg text-lg bg-gray-200 text-gray-800'
 ```
 
-### Combining with Compound Variants
+### Compound Variants
 
-You can also define compound variants that apply custom classes based on multiple conditions.
+Compound variants let you apply classes based on a combination of variant values.
 
 ```ts
 const card = cva('card', {
@@ -97,8 +111,14 @@ const card = cva('card', {
     },
   },
   compoundVariants: [
-    { size: 'large', color: 'primary', class: 'card-large-primary' },
-    { size: 'small', color: 'secondary', className: 'card-small-secondary' },
+    {
+      variants: { size: 'large', color: 'primary' },
+      class: 'card-large-primary',
+    },
+    {
+      variants: { size: 'small', color: 'secondary' },
+      className: 'card-small-secondary',
+    },
   ],
   defaultVariants: {
     size: 'small',
@@ -112,66 +132,44 @@ const className = card({ size: 'large', color: 'primary' })
 
 ---
 
-## Variants
+## TypeScript Support
 
-Variants allow you to define configurable styles for your components. Each variant is tied to a set of class names, and you can choose different values for them.
+`@gentelduck/variants` is built with full TypeScript support and provides:
 
-### Declaring Variants
+- Autocompletion for variant keys and values
+- Strict checking of variant options
+- Extensible and reusable types
 
-Define a set of variants with possible values and their associated class names:
+### Type Inference
 
 ```ts
-const button = cva('btn', {
+const alert = cva('alert', {
   variants: {
-    size: {
-      sm: 'btn-sm',
-      lg: 'btn-lg',
-    },
-    color: {
-      primary: 'btn-primary',
-      secondary: 'btn-secondary',
+    severity: {
+      info: 'alert-info',
+      error: 'alert-error',
     },
   },
   defaultVariants: {
-    size: 'sm',
-    color: 'primary',
+    severity: 'info',
   },
 })
-```
 
-### Default Variants
-
-You can specify default values for each variant, which will be applied when no explicit value is passed in:
-
-```ts
-const card = cva('card', {
-  variants: {
-    size: {
-      small: 'card-sm',
-      large: 'card-lg',
-    },
-    color: {
-      primary: 'card-primary',
-      secondary: 'card-secondary',
-    },
-  },
-  defaultVariants: {
-    size: 'small',
-    color: 'primary',
-  },
-})
+// Hovering over `alert` will give you autocompletion for `severity` values
+alert({ severity: 'error' }) // ✅
+alert({ severity: 'warning' }) // ❌ Type Error
 ```
 
 ---
 
-## TypeScript
+## Composing and Extending
 
-### Type Safety
+You can easily compose multiple components or extend variants.
 
-`@gentelduck/variants` comes with full TypeScript support. It ensures that you only pass valid values for each variant, and provides autocompletion for variant keys and values.
+### Extend with Different Defaults
 
 ```ts
-const button = cva('btn', {
+const baseButton = cva('btn', {
   variants: {
     size: {
       sm: 'btn-sm',
@@ -188,93 +186,17 @@ const button = cva('btn', {
   },
 })
 
-const className = button({ size: 'lg', color: 'secondary' })
-// Autocompletion ensures valid variant values
+const secondaryButton = baseButton({ color: 'secondary' })
 ```
 
-### Type Definitions
-
-Here are the types used by `@gentelduck/variants`:
+### Compose Multiple CVAs
 
 ```ts
-import { buttonVariants } from './yourvariants'
-import  { VariantsOptions } from '@gentelduck/variants'
+const button = cva('btn', { variants: { size: { sm: 'btn-sm' } } })
+const icon = cva('icon', { variants: { type: { arrow: 'icon-arrow' } } })
 
-interface VariantsOptions<TVariants> {
-  variants: VariantsOptions<typeof buttonVariants>
-}
-```
-
----
-
-## Extending Components
-
-You can extend components and variants for reusability and flexibility.
-
-```ts
-const button = cva('btn', {
-  variants: {
-    size: {
-      sm: 'btn-sm',
-      lg: 'btn-lg',
-    },
-    color: {
-      primary: 'btn-primary',
-      secondary: 'btn-secondary',
-    },
-  },
-  defaultVariants: {
-    size: 'sm',
-    color: 'primary',
-  },
-})
-
-const secondaryButton = button({ color: 'secondary' })
-```
-
----
-
-## Composing Components
-
-You can compose multiple variant-driven components together.
-
-```ts
-const button = cva('btn', {
-  variants: {
-    size: {
-      sm: 'btn-sm',
-      lg: 'btn-lg',
-    },
-    color: {
-      primary: 'btn-primary',
-      secondary: 'btn-secondary',
-    },
-  },
-  defaultVariants: {
-    size: 'sm',
-    color: 'primary',
-  },
-})
-
-const card = cva('card', {
-  variants: {
-    size: {
-      small: 'card-sm',
-      large: 'card-lg',
-    },
-    color: {
-      primary: 'card-primary',
-      secondary: 'card-secondary',
-    },
-  },
-  defaultVariants: {
-    size: 'small',
-    color: 'primary',
-  },
-})
-
-const combinedClassName = `${button({ size: 'lg' })} ${card({ size: 'large', color: 'secondary' })}`
-// => 'btn btn-lg btn-primary card card-lg card-secondary'
+const className = `${button({ size: 'sm' })} ${icon({ type: 'arrow' })}`
+// => 'btn btn-sm icon icon-arrow'
 ```
 
 ---
@@ -283,47 +205,47 @@ const combinedClassName = `${button({ size: 'lg' })} ${card({ size: 'large', col
 
 ### `cva(base, options)`
 
-Creates a class name composer function based on variant configurations.
+Creates a variant configuration function.
 
-#### Parameters:
+#### Parameters
 
-- `base: string`  
-  The base class string (always included).
+- `base: string` – Base class name (always included)
+- `options: CVAConfig` – Configuration object
+  - `variants`: A dictionary of variant keys and value-to-class mappings
+  - `defaultVariants` *(optional)*: Default values for variants
+  - `compoundVariants` *(optional)*: Conditional variants based on multiple values
 
-- `options: VariantsOptions<TVariants>`  
-  Object containing:
-  - `variants`: Map of variant names and value-to-class mappings.
-  - `defaultVariants` *(optional)*: Default values for each variant.
+#### Return Type
 
-#### Returns:
-
-A function that takes props and returns a class string:
 ```ts
-type CvaProps<TVariants> = {
-  [K in keyof TVariants]?: keyof TVariants[K]
-} & {
-  className?: string
-  class?: string
-}
+type CvaFn<TVariants> = (
+  props?: VariantProps<TVariants> & {
+    class?: string
+    className?: string
+  }
+) => string
 ```
 
----
+#### Example
 
-## Why Use `@gentelduck/variants`?
+```ts
+const button = cva('btn', {
+  variants: {
+    intent: {
+      primary: 'btn-primary',
+      danger: 'btn-danger',
+    },
+  },
+  defaultVariants: {
+    intent: 'primary',
+  },
+})
 
-- 🛠 **Eliminate complex conditional logic for class names**: Build your components using a simple and declarative variant system.
-- 🧼 **Keep your components clean and focused**: Keep your components modular and easy to maintain by separating style concerns.
-- 🔒 **Gain TypeScript safety and autocompletion**: Ensure correctness in the class names used through a fully typed interface.
-- ⚡ **Simplify class management with built-in defaults**: Set defaults for your variants to reduce repetitive code.
-
----
-
-## Contributing
-
-PRs and feedback are welcome! Please fork the repo and use a feature branch. Submit issues for bugs, feature requests, or improvements.
-
+button({ intent: 'danger', className: 'rounded' })
+// => 'btn btn-danger rounded'
+```
 ---
 
 ## License
 
-[MIT © GentleDuck](./LICENSE)
+MIT © [GentleDuck](./LICENSE)
