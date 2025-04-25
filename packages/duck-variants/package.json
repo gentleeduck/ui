@@ -45,6 +45,7 @@
   },
   "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-variants#readme",
   "dependencies": {
+    "clsx": "^1.2.1",
     "tsdown": "^0.9.6"
   },
   "devDependencies": {

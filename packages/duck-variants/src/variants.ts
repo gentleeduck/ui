@@ -1,4 +1,4 @@
-import { VariantParams, VariantsOptions } from './variants.types'
+import { VariantParams, VariantProps, VariantsOptions } from './variants.types'
 
 /**
  * Utility function to generate class names based on variant options.
