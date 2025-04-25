@@ -1,9 +1,10 @@
 import { cn } from '@gentelduck/libs/cn'
-import { Button, ButtonProps } from '../button'
+import { Button } from '../button'
 import React from 'react'
 import { X } from 'lucide-react'
 import { AnimVariants } from '@gentelduck/motion/anim'
 import { DialogContextType, DialogProps } from './dialog.types'
+
 /**
  * Context for managing the open state of the dialog.
  *
@@ -115,9 +116,18 @@ export function DialogTrigger({
   )
 }
 
-export interface DialogContentProps
-  extends React.HTMLProps<HTMLDialogElement> { }
-
+/**
+ * A component that renders the content of the dialog when it is open.
+ *
+ * @param {React.HTMLProps<HTMLDialogElement>} props - The properties for the dialog content.
+ * @param {React.ReactNode} [props.children] - The content to be rendered inside the dialog.
+ * @param {boolean} [props.renderOnce] - If true, the content will only be rendered once.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional props for the dialog content.
+ *
+ * @returns {React.JSX.Element} A dialog content component.
+ *
+ */
 export function DialogContent({
   children,
   className,
@@ -160,40 +170,17 @@ export function DialogContent({
 }
 
 /**
- * `DialogOverlay` is a React forwardRef component that renders an overlay for a dialog.
- * It uses `DialogPrimitive.Overlay` as the base component and applies additional styles
- * and animations based on the dialog's state.
- *
- * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
- * @param {string} [props.className] - Additional class names to apply to the overlay.
- * @param {React.RefObject<HTMLDivElement>} [props.ref] - A ref to be forwarded to the `DialogPrimitive.Overlay` component.
- * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional props to be passed to the `DialogPrimitive.Overlay` component.
- *
- * @returns {JSX.Element} The rendered overlay component.
- */
-export interface DialogOverlayProps extends React.HTMLProps<HTMLDivElement> { }
-const DialogOverlay = ({ className, ref, ...props }: DialogOverlayProps) => (
-  <div
-    ref={ref}
-    className={cn(
-      'fixed inset-0 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-      'data-[state=open]:opacity-100 data-[state=closed]:opacity-0 data-[state=closed]:pointer-events-none',
-      className,
-    )}
-    {...props}
-  />
-)
-///
-
-/**
  * DialogHeader component renders a header section for a dialog.
  * It supports additional class names and props to customize the
  * appearance and behavior of the header. The component uses a
  * flexbox layout to arrange its children in a vertical column
  * and applies responsive text alignment.
  *
- * @param {object} props - The properties passed to the component.
- * @param {string} props.className - Additional class names for styling.
+ * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @param {React.RefObject<HTMLDivElement>} props.ref - The ref to be forwarded to the component.
+ * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional properties for the component.
+ *
  * @returns {JSX.Element} The rendered DialogHeader component.
  */
 export function DialogHeader({
@@ -220,9 +207,12 @@ export function DialogHeader({
  * flexbox layout to arrange its children in a column on small
  * screens and in a row with space between items on larger screens.
  *
- * @param {object} props - The properties passed to the component.
+ * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
  * @param {string} props.className - Additional class names for styling.
- * @returns {JSX.Element} The rendered DialogFooter component.
+ * @param {React.RefObject<HTMLDivElement>} props.ref - The ref to be forwarded to the component.
+ * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional properties for the component.
+ *
+ * @returns {React.JSX.Element} The rendered DialogFooter component.
  */
 export function DialogFooter({
   className,
@@ -241,19 +231,23 @@ export function DialogFooter({
 }
 
 /**
- * `DialogTitle` is a React component that forwards its ref to the `DialogPrimitive.Title` component.
- * It accepts all props that `DialogPrimitive.Title` accepts, along with an optional `className` prop
+ * `DialogTitle` is a React component that forwards its ref to the `DialogTitle` component.
+ * It accepts all props that `DialogTitle` accepts, along with an optional `className` prop
  * to customize its styling.
  *
- * @param {string} className - Optional additional class names to apply to the component.
- * @param {React.Ref} ref - A ref that will be forwarded to the `DialogPrimitive.Title` component.
- * @returns {JSX.Element} The rendered `DialogPrimitive.Title` component with forwarded ref and applied props.
+ * @param {React.HTMLProps<HTMLHeadingElement>} props - The properties passed to the component.
+ * @param {string} [props.className] - Optional additional class names to apply to the component.
+ * @param {React.RefObject<HTMLHeadingElement>} [props.ref] - A ref that will be forwarded to the `DialogTitle` component.
+ * @param {React.HTMLProps<HTMLHeadingElement>} [...props] - Additional props to be passed to the `DialogTitle` component.
+ *
+ * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
 export function DialogTitle({
   className,
   ref,
   ...props
-}: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element {
+}: DialogTitleProps): React.JSX.Element {
   return (
     <h2
       ref={ref}
@@ -265,18 +259,18 @@ export function DialogTitle({
     />
   )
 }
+
 /**
- * `DialogDescription` is a React component that forwards its ref to the `DialogPrimitive.Description` component.
+ * `DialogDescription` is a React component that forwards its ref to the `DialogDescription` component.
  * It applies additional class names to style the description text.
  *
- * @param {string} className - Additional class names to apply to the description text.
- * @param {React.Ref} ref - The ref to be forwarded to the `DialogPrimitive.Description` component.
- * @param {object} props - Additional props to be passed to the `DialogPrimitive.Description` component.
+ * @param {React.HTMLProps<HTMLParagraphElement>} props - The properties passed to the component.
+ * @param {string} [props.className] - Additional class names to apply to the description text.
+ * @param {React.RefObject<HTMLParagraphElement>} [props.ref] - The ref to be forwarded to the `DialogDescription` component.
+ * @param {React.HTMLProps<HTMLParagraphElement>} [..props] - Additional props to be passed to the `DialogDescription` component.
  *
- * @returns {JSX.Element} The rendered `DialogPrimitive.Description` component with forwarded ref and applied class names.
+ * @returns {React.JSX.Element} The rendered `DialogDescription` component with forwarded ref and applied class names.
  */
-export interface DialogDescriptionProps
-  extends React.HTMLProps<HTMLParagraphElement> { }
 export const DialogDescription = ({
   className,
   ref,
@@ -288,35 +282,3 @@ export const DialogDescription = ({
     {...props}
   />
 )
-
-/**
- * DialogClose component renders a close button for a dialog.
- * It supports additional class names and props to customize the
- * appearance and behavior of the close button. The component uses
- * the `useDialogContext` hook to access the `onOpenChange` function
- * to close the dialog.
- *
- * @param {React.ComponentPropsWithRef<typeof Button>} props - The properties passed to the component.
- * @param {string} [props.className] - Additional class names for styling.
- * @param {React.RefObject<HTMLButtonElement>} props.ref - The ref to be forwarded to the component.
- * @param {React.ComponentPropsWithRef<typeof Button>} [...props] - Additional properties for the component.
- *
- * @returns {React.JSX.Element} The rendered DialogClose component.
- */
-export function DialogClose({
-  onClick,
-  ref,
-  ...props
-}: React.ComponentPropsWithRef<typeof Button>): React.JSX.Element {
-  const { onOpenChange } = useDialogContext()
-  return (
-    <Button
-      onClick={(e) => {
-        onOpenChange(false)
-        onClick?.(e)
-      }}
-      ref={ref}
-      {...props}
-    />
-  )
-}
