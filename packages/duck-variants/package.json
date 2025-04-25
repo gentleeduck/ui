@@ -1,17 +1,61 @@
 {
-    "name": "@gentelduck/variants",
-    "private": true,
-    "version": "0.1.0",
-    "type": "module",
-    "exports": {
-        "./*": "./*/index.ts",
-        ".": "./index.ts"
-    },
-    "scripts": {},
-    "devDependencies": {
-        "@gentelduck/typescript-config": "workspace:*"
-    },
-    "dependencies": {
-        "clsx": "^1.2.1"
-    }
+  "name": "@gentelduck/variants",
+  "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "private": false,
+  "version": "0.1.5",
+  "type": "module",
+  "exports": {
+    "./*": "./*/index.ts",
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "tsc",
+    "ci": "pnpm run lint && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
+  },
+  "keywords": [
+    "class-variants",
+    "class-names",
+    "tailwind",
+    "tailwindcss",
+    "utility-classes",
+    "variants",
+    "css-variants",
+    "component-variants",
+    "classnames",
+    "cva",
+    "gentelduck",
+    "styling",
+    "typescript",
+    "react",
+    "ui-utility",
+    "ui-components"
+  ],
+  "author": "wilddcuk",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentelduck/ui/tree/master/packages/duck-variants"
+  },
+  "bugs": {
+    "url": "https://github.com/gentelduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-variants#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@gentelduck/typescript-config": "workspace:*",
+    "@changesets/cli": "^2.27.7",
+    "husky": "^9.1.7",
+    "tsup": "^8.4.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
 }
