@@ -4,15 +4,14 @@
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "private": false,
-  "version": "0.1.5",
+  "version": "0.1.6",
   "type": "module",
   "exports": {
-    "./*": "./*/index.ts",
-    ".": "./index.ts"
+    ".": "./dist/index.js"
   },
   "scripts": {
     "build": "tsdown",
-    "lint": "tsc",
+    "lint": "biome lint ./",
     "ci": "pnpm run lint && pnpm run build",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
