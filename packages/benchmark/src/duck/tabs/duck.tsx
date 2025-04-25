@@ -1,5 +1,3 @@
-// @ts-noCheck
-
 import {
   Tabs,
   TabsContent,

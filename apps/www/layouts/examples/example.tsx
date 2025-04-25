@@ -25,6 +25,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogPortal,
+  Plugins,
 } from '@gentelduck/registry-ui-duckui/dialog'
 import { Command as CCommand, Calendar } from 'lucide-react'
 
@@ -75,10 +77,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@gentelduck/registry-ui-duckui/sheet'
-import { VaulDrawer } from './hi'
+import {
+  useEscape,
+  useScopedContext,
+  useScrollRemove,
+} from '../../../../packages/registry-ui-duckui/src/dialog/dialog.hook'
+// import { DialogPortal } from '../../../../packages/registry-ui-duckui/src/dialog/_new/dialog'
 
 export function MainExample() {
+
   // return <VaulDrawer />
+
   const items = [
     // {
     //   title: 'Navigation',
@@ -305,6 +314,7 @@ export function MainExample() {
 
       <Dialog>
         <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+
         <DialogContent renderOnce>
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
@@ -324,13 +334,53 @@ export function MainExample() {
                 Username
               </Label>
               <Input id='username' value='@wildduck2' className='col-span-3' />
-            </div>
-          </div>
 
-          <DialogFooter>
-            <Button>Save changes</Button>
-          </DialogFooter>
-        </DialogContent>
+            </div>
+
+            <Dialog>
+              <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+              <DialogPortal>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogDescription>
+                      Make changes to your profile here. Click save when you're
+                      done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className='grid gap-4 py-4'>
+                    <div className='grid grid-cols-4 items-center gap-4'>
+                      <Label htmlFor='name' className='text-right'>
+                        Name
+                      </Label>
+                      <Input
+                        id='name'
+                        value='wild duck'
+                        className='col-span-3'
+                      />
+                    </div>
+                    <div className='grid grid-cols-4 items-center gap-4'>
+                      <Label htmlFor='username' className='text-right'>
+                        Username
+                      </Label>
+                      <Input
+                        id='username'
+                        value='@wildduck2'
+                        className='col-span-3'
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button>Save changes</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </DialogPortal>
+            </Dialog>
+            <DialogFooter>
+              <Button>Save changes</Button>
+            </DialogFooter>
+          </DialogContent>
+        </DialogPortal>
       </Dialog>
 
       <AspectRatio ratio={16 / 9} className='bg-muted'>

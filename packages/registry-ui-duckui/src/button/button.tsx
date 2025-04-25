@@ -44,15 +44,6 @@ function Button({
 }: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }): React.JSX.Element {
   const Component = (asChild ? Slot : 'button') as React.ElementType
 
-  console.log(
-    buttonVariants({
-      variant,
-      size: isCollapsed ? 'icon' : size,
-      border,
-      className,
-    }),
-  )
-
   //TODO: make the icons as plugin
   const Button = (
     <Component
