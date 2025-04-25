@@ -1,6 +1,7 @@
 import { bench, describe } from 'vitest'
 
-import { cva as DuckCva } from '../src/variants'
+// import { cva as DuckCva } from '../src/variants'
+import { cva as CvaWithCache } from './cva-cache'
 import originalCVA from './cva'
 
 const buttonWithoutBaseWithDefaultsWithClassNameString = {
@@ -78,22 +79,35 @@ const buttonWithoutBaseWithDefaultsWithClassNameString = {
   },
 } as any
 
-const buttonVariants = DuckCva(
-  '',
-  buttonWithoutBaseWithDefaultsWithClassNameString,
-)
+// const buttonVariants = DuckCva(
+//   '',
+//   buttonWithoutBaseWithDefaultsWithClassNameString,
+// )
 
 const _buttonVariants = originalCVA(
   buttonWithoutBaseWithDefaultsWithClassNameString,
 )
+
+const __buttonVariants = CvaWithCache(
+  buttonWithoutBaseWithDefaultsWithClassNameString,
+)
+
 describe('benchmarking cva', () => {
-  bench(
-    'duck cva',
-    () => {
-      console.log()
-    },
-    { iterations: 1000 },
-  )
+  // bench(
+  //   'duck cva',
+  //   () => {
+  //     buttonVariants({})
+  //     buttonVariants({ intent: 'primary', disabled: true } as any)
+  //     buttonVariants({ intent: 'primary', size: 'medium' } as any)
+  //     buttonVariants({
+  //       intent: 'warning',
+  //       size: 'medium',
+  //       disabled: true,
+  //     } as any)
+  //     buttonVariants({ size: 'small' } as any)
+  //     buttonVariants({ size: 'large', intent: 'unset' } as any)
+  //   },
+  // )
   bench(
     'cva',
     () => {
@@ -108,6 +122,23 @@ describe('benchmarking cva', () => {
       _buttonVariants({ size: 'small' } as any)
       _buttonVariants({ size: 'large', intent: 'unset' } as any)
     },
-    { iterations: 10 },
+    
+  )
+  bench(
+    'cva with cache',
+    () => {
+      __buttonVariants({})
+      __buttonVariants({ intent: 'primary', disabled: true } as any)
+      __buttonVariants({ intent: 'primary', size: 'medium' } as any)
+      __buttonVariants({
+        intent: 'warning',
+        size: 'medium',
+        disabled: true,
+      } as any)
+      __buttonVariants({ size: 'small' } as any)
+      __buttonVariants({ size: 'large', intent: 'unset' } as any)
+    },
+    
   )
 })
+
