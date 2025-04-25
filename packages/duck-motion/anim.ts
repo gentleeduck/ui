@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority'
+import { cva } from '@gentelduck/variants'
 
 export const AnimVariants = cva('', {
   variants: {

@@ -11,7 +11,7 @@
     ".": "./index.ts"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsdown",
     "lint": "tsc",
     "ci": "pnpm run lint && pnpm run build",
     "release": "changeset version",
@@ -45,12 +45,14 @@
     "url": "https://github.com/gentelduck/ui/issues"
   },
   "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-variants#readme",
-  "dependencies": {},
+  "dependencies": {
+    "tsdown": "^0.9.6"
+  },
   "devDependencies": {
-    "@gentelduck/typescript-config": "workspace:*",
     "@changesets/cli": "^2.27.7",
-    "husky": "^9.1.7",
-    "tsup": "^8.4.0"
+    "@gentelduck/tsdown": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
+    "husky": "^9.1.7"
   },
   "peerDependencies": {
     "typescript": "^5.8.2"
