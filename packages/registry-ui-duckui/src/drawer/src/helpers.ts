@@ -1,5 +1,7 @@
 import { AnyFunction, DrawerDirection } from './types'
 
+// @ts-nocheck
+
 interface Style {
   [key: string]: string
 }
@@ -55,6 +57,7 @@ export function reset(el: Element | HTMLElement | null, prop?: string) {
   if (prop) {
     ;(el.style as any)[prop] = originalStyles[prop]
   } else {
+    // biome-ignore lint/complexity/noForEach: <explanation>
     Object.entries(originalStyles).forEach(([key, value]) => {
       ;(el.style as any)[key] = value
     })
@@ -88,12 +91,14 @@ export function getTranslate(
   let mat = transform.match(/^matrix3d\((.+)\)$/)
   if (mat) {
     // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d
-    return parseFloat(mat[1].split(', ')[isVertical(direction) ? 13 : 12])
+    return Number.parseFloat(
+      mat[1].split(', ')[isVertical(direction) ? 13 : 12],
+    )
   }
   // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
   mat = transform.match(/^matrix\((.+)\)$/)
   return mat
-    ? parseFloat(mat[1].split(', ')[isVertical(direction) ? 5 : 4])
+    ? Number.parseFloat(mat[1].split(', ')[isVertical(direction) ? 5 : 4])
     : null
 }
 

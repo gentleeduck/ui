@@ -35,15 +35,15 @@ import { cn } from '@gentelduck/libs/cn'
 import { Search } from 'lucide-react'
 import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 import {
-    CommandBadgeProps,
-    CommandContextType,
-    CommandEmptyProps,
-    CommandGroupProps,
-    CommandInputProps,
-    CommandItemProps,
-    CommandListProps,
-    CommandProps,
-    CommandSeparatorProps,
+  CommandBadgeProps,
+  CommandContextType,
+  CommandEmptyProps,
+  CommandGroupProps,
+  CommandInputProps,
+  CommandItemProps,
+  CommandListProps,
+  CommandProps,
+  CommandSeparatorProps,
 } from './command.types'
 import { useDebounceCallback } from '@gentelduck/hooks/use-debounce'
 import { useCommandContext } from './command.hooks'
@@ -53,7 +53,7 @@ import { useCommandContext } from './command.hooks'
  * @description The context for the Command components. It holds the current search query and a function to update it.
  */
 export const CommandContext: React.Context<CommandContextType | null> =
-    React.createContext<CommandContextType | null>(null)
+  React.createContext<CommandContextType | null>(null)
 
 /**
  * Command Component
@@ -66,25 +66,25 @@ export const CommandContext: React.Context<CommandContextType | null> =
  * @returns {JSX.Element} The rendered Command component.
  */
 function Command({ className, ref, ...props }: CommandProps): JSX.Element {
-    const [search, setSearch] = React.useState<string>('')
+  const [search, setSearch] = React.useState<string>('')
 
-    return (
-        <CommandContext.Provider
-            value={{
-                search,
-                setSearch,
-            }}
-        >
-            <div
-                ref={ref}
-                className={cn(
-                    'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
-                    className,
-                )}
-                {...props}
-            />
-        </CommandContext.Provider>
-    )
+  return (
+    <CommandContext.Provider
+      value={{
+        search,
+        setSearch,
+      }}
+    >
+      <div
+        ref={ref}
+        className={cn(
+          'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
+          className,
+        )}
+        {...props}
+      />
+    </CommandContext.Provider>
+  )
 }
 
 /**
@@ -98,30 +98,30 @@ function Command({ className, ref, ...props }: CommandProps): JSX.Element {
  * @returns {JSX.Element} The rendered CommandInput component.
  */
 function CommandInput({
-    className,
-    ref,
-    ...props
+  className,
+  ref,
+  ...props
 }: CommandInputProps): JSX.Element {
-    const { setSearch } = useCommandContext()
-    const debouncedSetSearch = useDebounceCallback(setSearch, 400)
+  const { setSearch } = useCommandContext()
+  const debouncedSetSearch = useDebounceCallback(setSearch, 400)
 
-    return (
-        <div
-            className='flex items-center border-b px-3 gap-1'
-            cmdk-input-wrapper=''
-        >
-            <Search className='h-4 w-4 shrink-0 opacity-50' />
-            <input
-                ref={ref}
-                onChange={(e) => debouncedSetSearch(e.target.value)}
-                className={cn(
-                    'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
-                    className,
-                )}
-                {...props}
-            />
-        </div>
-    )
+  return (
+    <div
+      className='flex items-center border-b px-3 gap-1'
+      cmdk-input-wrapper=''
+    >
+      <Search className='h-4 w-4 shrink-0 opacity-50' />
+      <input
+        ref={ref}
+        onChange={(e) => debouncedSetSearch(e.target.value)}
+        className={cn(
+          'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
+          className,
+        )}
+        {...props}
+      />
+    </div>
+  )
 }
 
 /**
@@ -135,11 +135,11 @@ function CommandInput({
  * @returns {JSX.Element} The rendered CommandEmpty component.
  */
 function CommandEmpty({
-    className,
-    ref,
-    ...props
+  className,
+  ref,
+  ...props
 }: CommandEmptyProps): JSX.Element {
-    return <h6 ref={ref} className='py-6 text-center text-sm' {...props} />
+  return <h6 ref={ref} className='py-6 text-center text-sm' {...props} />
 }
 
 /**
@@ -154,23 +154,23 @@ function CommandEmpty({
  * @returns {JSX.Element} The rendered CommandList component.
  */
 function CommandList({
-    className,
-    children,
-    ref,
-    ...props
+  className,
+  children,
+  ref,
+  ...props
 }: CommandListProps): JSX.Element {
-    const { search } = useCommandContext()
-    return (
-        <ul
-            ref={ref}
-            className={cn(
-                'max-h-[300px] overflow-y-auto overflow-x-hidden [scrollbar-width:thin] [scrollbar-gutter:stable]',
-                className,
-            )}
-            children={children(search)}
-            {...props}
-        />
-    )
+  const { search } = useCommandContext()
+  return (
+    <ul
+      ref={ref}
+      className={cn(
+        'max-h-[300px] overflow-y-auto overflow-x-hidden [scrollbar-width:thin] [scrollbar-gutter:stable]',
+        className,
+      )}
+      children={children(search)}
+      {...props}
+    />
+  )
 }
 /**
  * CommandGroup Component
@@ -185,25 +185,25 @@ function CommandList({
  * @returns {JSX.Element} The rendered CommandGroup component.
  */
 function CommandGroup({
-    className,
-    children,
-    heading,
-    ref,
-    ...props
+  className,
+  children,
+  heading,
+  ref,
+  ...props
 }: CommandGroupProps): JSX.Element {
-    return (
-        <div
-            ref={ref}
-            className={cn(
-                'overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground',
-                className,
-            )}
-            {...props}
-        >
-            <h3 className='text-sm text-muted-foreground pb-1 pl-1'>{heading}</h3>
-            {children}
-        </div>
-    )
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground',
+        className,
+      )}
+      {...props}
+    >
+      <h3 className='text-sm text-muted-foreground pb-1 pl-1'>{heading}</h3>
+      {children}
+    </div>
+  )
 }
 
 /**
@@ -217,20 +217,20 @@ function CommandGroup({
  * @returns {JSX.Element} The rendered CommandItem component.
  */
 function CommandItem({
-    className,
-    ref,
-    ...props
+  className,
+  ref,
+  ...props
 }: CommandItemProps): JSX.Element {
-    return (
-        <li
-            ref={ref}
-            className={cn(
-                "relative flex cursor-default select-none items-center rounded-xs px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:size-4 flex gap-2 hover:bg-muted cursor-pointer transition-color duration-300 will-change-300 hover:text-accent-foreground",
-                className,
-            )}
-            {...props}
-        />
-    )
+  return (
+    <li
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-xs px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:size-4 flex gap-2 hover:bg-muted cursor-pointer transition-color duration-300 will-change-300 hover:text-accent-foreground",
+        className,
+      )}
+      {...props}
+    />
+  )
 }
 
 /**
@@ -246,30 +246,30 @@ function CommandItem({
  * @returns {JSX.Element} The rendered CommandShortcut component.
  */
 function CommandShortcut({
-    className,
-    keys,
-    onKeysPressed,
-    ref,
-    ...props
+  className,
+  keys,
+  onKeysPressed,
+  ref,
+  ...props
 }: CommandBadgeProps): JSX.Element {
-    useDuckShortcut({
-        keys,
-        onKeysPressed: () => {
-            window.event?.preventDefault()
-            onKeysPressed()
-        },
-    })
+  useDuckShortcut({
+    keys,
+    onKeysPressed: () => {
+      window.event?.preventDefault()
+      onKeysPressed()
+    },
+  })
 
-    return (
-        <kbd
-            className={cn(
-                'inline-flex items-center gap-[2px] transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 text-[.7rem] py-[.12rem] px-2 rounded-[4px] text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none ml-auto text-xs tracking-widest text-muted-foreground',
-                className,
-            )}
-            ref={ref}
-            {...props}
-        />
-    )
+  return (
+    <kbd
+      className={cn(
+        'inline-flex items-center gap-[2px] transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 text-[.7rem] py-[.12rem] px-2 rounded-[4px] text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none ml-auto text-xs tracking-widest text-muted-foreground',
+        className,
+      )}
+      ref={ref}
+      {...props}
+    />
+  )
 }
 /**
  * CommandSeparator Component
@@ -282,29 +282,29 @@ function CommandShortcut({
  * @returns {JSX.Element} The rendered CommandSeparator component.
  */
 function CommandSeparator({
-    className,
-    ref,
-    ...props
+  className,
+  ref,
+  ...props
 }: CommandSeparatorProps): JSX.Element {
-    return (
-        <div
-            ref={ref}
-            className={cn('-mx-1 h-px bg-border mx-2', className)}
-            {...props}
-        />
-    )
+  return (
+    <div
+      ref={ref}
+      className={cn('-mx-1 h-px bg-border mx-2', className)}
+      {...props}
+    />
+  )
 }
 
 export {
-    Command,
-    CommandInput,
-    CommandList,
-    CommandGroup,
-    CommandItem,
-    CommandEmpty,
-    CommandShortcut,
-    CommandSeparator,
-    // CommandDialog,
+  Command,
+  CommandInput,
+  CommandList,
+  CommandGroup,
+  CommandItem,
+  CommandEmpty,
+  CommandShortcut,
+  CommandSeparator,
+  // CommandDialog,
 }
 
 // interface CommandDialogProps extends DialogP rop s {}

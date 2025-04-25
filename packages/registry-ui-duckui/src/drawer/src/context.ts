@@ -1,20 +1,21 @@
+// @ts-nocheck
 import React from 'react'
 import { DrawerDirection } from './types'
 
 interface DrawerContextValue {
-  drawerRef: React.RefObject<HTMLDivElement | null>
-  overlayRef: React.RefObject<HTMLDivElement | null>
+  drawerRef: React.RefObject<HTMLDivElement>
+  overlayRef: React.RefObject<HTMLDivElement>
   onPress: (event: React.PointerEvent<HTMLDivElement>) => void
   onRelease: (event: React.PointerEvent<HTMLDivElement> | null) => void
   onDrag: (event: React.PointerEvent<HTMLDivElement>) => void
   onNestedDrag: (
     event: React.PointerEvent<HTMLDivElement>,
-    percentageDragged: number
+    percentageDragged: number,
   ) => void
   onNestedOpenChange: (o: boolean) => void
   onNestedRelease: (
     event: React.PointerEvent<HTMLDivElement>,
-    open: boolean
+    open: boolean,
   ) => void
   dismissible: boolean
   isOpen: boolean
@@ -38,9 +39,6 @@ interface DrawerContextValue {
   container?: HTMLElement | null
   autoFocus?: boolean
   shouldAnimate?: React.RefObject<boolean>
-
-  open: boolean
-  ref: React.RefObject<HTMLDialogElement | null>
 }
 
 export const DrawerContext = React.createContext<DrawerContextValue>({
@@ -73,9 +71,6 @@ export const DrawerContext = React.createContext<DrawerContextValue>({
   noBodyStyles: false,
   container: null,
   autoFocus: false,
-
-  open: false,
-  ref: { current: null },
 })
 
 export const useDrawerContext = () => {

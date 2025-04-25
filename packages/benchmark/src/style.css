@@ -88,10 +88,6 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
-@theme {
-  --ease-duck-spring: var(--easing-spring);
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

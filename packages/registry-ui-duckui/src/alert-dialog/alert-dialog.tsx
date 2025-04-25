@@ -1,4 +1,3 @@
-// @ts-noCheck
 'use client'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import * as React from 'react'
@@ -6,7 +5,7 @@ import * as React from 'react'
 import { cn } from '@gentelduck/libs/cn'
 import { buttonVariants } from '../button'
 // import { DialogWrapper } from '../dialog'
-import { DrawerWrapper } from '../drawer'
+// import { DrawerWrapper } from '../drawer'
 import { SheetWrapper } from '../sheet'
 import { useDuckAlert } from './alert-dialog.hook'
 import {
@@ -357,7 +356,7 @@ AlertDialogSheet.displayName = 'AlertDialogSheet'
 function AlertDialogDrawer<T = string>({
   alertTrigger,
   alertContent,
-  content,
+  // content,
   state,
 }: AlertDialogDrawerProps<T>) {
   const duckHook = useDuckAlert<T>({ state })
@@ -369,8 +368,8 @@ function AlertDialogDrawer<T = string>({
         alertContent={alertContent}
         duckHook={duckHook}
       />
-      <DrawerWrapper content={content} duckHook={duckHook} />
     </>
+    // <DrawerWrapper content={content} duckHook={duckHook} />
   )
 }
 

@@ -90,8 +90,10 @@ const components: Record<
   aspectRatio: {},
   avatar: {},
   scrollArea: {},
+  form: {
+    component: true,
+  },
 
-  form: {},
   alert: {},
   breadcrumb: {},
   chart: {},

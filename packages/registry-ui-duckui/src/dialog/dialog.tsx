@@ -1,9 +1,10 @@
-import React from 'react'
-import { Button } from '../button'
-import { DialogContextType, DialogProps } from './dialog.types'
 import { cn } from '@gentelduck/libs/cn'
+import { Button } from '../button'
+import React from 'react'
 import { X } from 'lucide-react'
 import { AnimVariants } from '@gentelduck/motion/anim'
+import { DialogContextType, DialogProps } from './dialog.types'
+
 /**
  * Context for managing the open state of the dialog.
  *
@@ -116,18 +117,16 @@ export function DialogTrigger({
 }
 
 /**
- * DialogContent component to be used inside a Dialog.
- *
- * It takes all the props of the HTMLDialogElement and an additional
- * `className` property to apply additional CSS classes.
+ * A component that renders the content of the dialog when it is open.
  *
  * @param {React.HTMLProps<HTMLDialogElement>} props - The properties for the dialog content.
  * @param {React.ReactNode} [props.children] - The content to be rendered inside the dialog.
- * @param {string} [props.className] - Additional CSS classes to apply to the dialog content.
- * @param {boolean} [props.renderOnce] - Whether to render the content only once.
- * @param {React.HTMLProps<HTMLDialogElement>} [...props] - The properties for the dialog content.
+ * @param {boolean} [props.renderOnce] - If true, the content will only be rendered once.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional props for the dialog content.
  *
- * @returns {React.JSX.Element} The dialog content component with applied props and classes.
+ * @returns {React.JSX.Element} A dialog content component.
+ *
  */
 export function DialogContent({
   children,
@@ -243,11 +242,12 @@ export function DialogFooter({
  *
  * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
 export function DialogTitle({
   className,
   ref,
   ...props
-}: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element {
+}: DialogTitleProps): React.JSX.Element {
   return (
     <h2
       ref={ref}
@@ -264,7 +264,7 @@ export function DialogTitle({
  * `DialogDescription` is a React component that forwards its ref to the `DialogDescription` component.
  * It applies additional class names to style the description text.
  *
- * @praam {React.HTMLProps<HTMLParagraphElement>} props - The properties passed to the component.
+ * @param {React.HTMLProps<HTMLParagraphElement>} props - The properties passed to the component.
  * @param {string} [props.className] - Additional class names to apply to the description text.
  * @param {React.RefObject<HTMLParagraphElement>} [props.ref] - The ref to be forwarded to the `DialogDescription` component.
  * @param {React.HTMLProps<HTMLParagraphElement>} [..props] - Additional props to be passed to the `DialogDescription` component.
@@ -282,35 +282,3 @@ export const DialogDescription = ({
     {...props}
   />
 )
-
-/**
- * DialogClose component renders a close button for a dialog.
- * It supports additional class names and props to customize the
- * appearance and behavior of the close button. The component uses
- * the `useDialogContext` hook to access the `onOpenChange` function
- * to close the dialog.
- *
- * @param {React.ComponentPropsWithRef<typeof Button>} props - The properties passed to the component.
- * @param {string} [props.className] - Additional class names for styling.
- * @param {React.RefObject<HTMLButtonElement>} props.ref - The ref to be forwarded to the component.
- * @param {React.ComponentPropsWithRef<typeof Button>} [...props] - Additional properties for the component.
- *
- * @returns {React.JSX.Element} The rendered DialogClose component.
- */
-export function DialogClose({
-  onClick,
-  ref,
-  ...props
-}: React.ComponentPropsWithRef<typeof Button>): React.JSX.Element {
-  const { onOpenChange } = useDialogContext()
-  return (
-    <Button
-      onClick={(e) => {
-        onOpenChange(false)
-        onClick?.(e)
-      }}
-      ref={ref}
-      {...props}
-    />
-  )
-}

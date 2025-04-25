@@ -21,7 +21,7 @@ export async function ChartDisplay({
     <div
       className={cn(
         'themes-wrapper group relative flex flex-col overflow-hidden rounded-xl border shadow transition-all duration-200 ease-in-out hover:z-30',
-        className,
+        className
       )}
     >
       <ChartToolbar

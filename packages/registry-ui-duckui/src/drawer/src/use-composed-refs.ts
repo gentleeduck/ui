@@ -1,3 +1,5 @@
+// p
+// @ts-nocheck
 // This code comes from https://github.com/radix-ui/primitives/tree/main/packages/react/compose-refs
 
 import * as React from 'react'
@@ -21,9 +23,7 @@ function setRef<T>(ref: PossibleRef<T>, value: T) {
  * Accepts callback refs and RefObject(s)
  */
 function composeRefs<T>(...refs: PossibleRef<T>[]) {
-  return (node: T) => {
-    return refs.forEach((ref) => setRef(ref, node))
-  }
+  return (node: T) => refs.forEach((ref) => setRef(ref, node))
 }
 
 /**

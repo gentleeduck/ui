@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import '@gentelduck/motion/css'
 import { Toaster } from '@gentelduck/registry-ui-duckui/sonner'
 // import { Toaster } from './page'
 
@@ -32,17 +33,9 @@ export default function RootLayout({
         <script src='https://cdn.jsdelivr.net/npm/react-scan/dist/auto.global.js'></script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-svh bg-background font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/*NOTE: The `vaul-drawer-wrapper` class is used to style the drawer wrapper. It is not a class from Vaul.*/}
-        <div
-          vaul-drawer-wrapper=''
-          className='transition-all duration-300 will-change-transform'
-        >
-          <div className='relative flex min-h-svh flex-col bg-background'>
-            {children}
-          </div>
-        </div>
+        {children}
         <Toaster theme='light' />
       </body>
     </html>

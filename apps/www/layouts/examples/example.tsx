@@ -75,10 +75,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@gentelduck/registry-ui-duckui/sheet'
-import { VaulDrawer } from './hi'
+// import { DialogPortal } from '../../../../packages/registry-ui-duckui/src/dialog/_new/dialog'
 
 export function MainExample() {
-  return <VaulDrawer />
+  // return <VaulDrawer />
+
   const items = [
     // {
     //   title: 'Navigation',
@@ -115,6 +116,45 @@ export function MainExample() {
       ],
     },
   ]
+
+  return (
+    <Dialog>
+      <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+
+      <DialogContent renderOnce>
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription>
+        </DialogHeader>
+        <div className='grid gap-4 py-4'>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='name' className='text-right'>
+              Name
+            </Label>
+            <Input id='name' value='wild duck' className='col-span-3' />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='username' className='text-right'>
+              Username
+            </Label>
+            <Input id='username' value='@wildduck2' className='col-span-3' />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='username' className='text-right'>
+              Username
+            </Label>
+            <Input id='username' value='@wildduck2' className='col-span-3' />
+          </div>
+        </div>
+
+        <DialogFooter>
+          <Button>Save changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
 
   return (
     <div className='flex flex-col gap-3 items-center'>
@@ -305,7 +345,8 @@ export function MainExample() {
 
       <Dialog>
         <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
-        <DialogContent>
+
+        <DialogContent renderOnce>
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>
@@ -318,6 +359,12 @@ export function MainExample() {
                 Name
               </Label>
               <Input id='name' value='wild duck' className='col-span-3' />
+            </div>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='username' className='text-right'>
+                Username
+              </Label>
+              <Input id='username' value='@wildduck2' className='col-span-3' />
             </div>
             <div className='grid grid-cols-4 items-center gap-4'>
               <Label htmlFor='username' className='text-right'>

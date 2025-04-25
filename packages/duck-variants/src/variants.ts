@@ -51,8 +51,9 @@ export function cva<TVariants extends Record<string, Record<string, string>>>(
     const classSet = new Set<string>()
 
     // Add base classes
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    base.split(/\s+/).forEach((cls) => classSet.add(cls))
+    for (const cls of base.split(/\s+/)) {
+      classSet.add(cls)
+    }
 
     // Apply variants with fallbacks to defaultVariants
     for (const key in variants) {
@@ -64,20 +65,23 @@ export function cva<TVariants extends Record<string, Record<string, string>>>(
 
       const variantClass = value && variants[key]?.[value as string]
       if (variantClass) {
-        // biome-ignore lint/complexity/noForEach: <explanation>
-        variantClass.split(/\s+/).forEach((cls) => classSet.add(cls))
+        for (const cls of variantClass.split(/\s+/)) {
+          classSet.add(cls)
+        }
       }
     }
 
     // Add `className` or `class` from props
     if ('className' in props && props.className) {
-      // biome-ignore lint/complexity/noForEach: <explanation>
-      props.className.split(/\s+/).forEach((cls) => classSet.add(cls))
+      for (const cls of props.className.split(/\s+/)) {
+        classSet.add(cls)
+      }
     }
 
     if ('class' in props && props.class) {
-      // biome-ignore lint/complexity/noForEach: <explanation>
-      props.class.split(/\s+/).forEach((cls) => classSet.add(cls))
+      for (const cls of props.class.split(/\s+/)) {
+        classSet.add(cls)
+      }
     }
 
     return Array.from(classSet).join(' ')

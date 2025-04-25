@@ -1,73 +1,73 @@
 {
-    "name": "@gentelduck/shortcut",
-    "version": "0.0.2",
-    "main": "index.js",
-    "module": "dist/index.mjs",
-    "types": "dist/index.d.ts",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/TheDuckUI/shortcut"
-    },
-    "github": "https://github.com/TheDuckUI/shortcut",
-    "homepage": "https://github.com/TheDuckUI/shortcut",
-    "files": [
-        "/dist"
-    ],
-    "private": false,
-    "scripts": {
-        "dev": "vite",
-        "test": "vitest run",
-        "build": "tsup",
-        "lint": "tsc",
-        "ci": "pnpm run lint && pnpm run build",
-        "release": "pnpm run ci && changeset publish"
-    },
-    "keywords": [
-        "react",
-        "react-component",
-        "keyboard-shortcuts",
-        "hotkeys",
-        "react-hotkeys",
-        "mousetrap",
-        "keyboard-event",
-        "key-binding",
-        "keyboard-navigation",
-        "accessibility",
-        "react-keyboard-shortcuts",
-        "keyboard-commands",
-        "keyboard-handler",
-        "shortcuts",
-        "ctrl-key",
-        "meta-key",
-        "alt-key",
-        "key-events",
-        "web-accessibility"
-    ],
-    "author": "ahmed ayob",
-    "license": "MIT",
-    "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
-    "peerDependencies": {
-        "@changesets/cli": "^2.27.7",
-        "@types/mousetrap": "^1.6.15",
-        "@types/node": "^22.0.0",
-        "@types/react": "^18.3.4",
-        "@types/react-dom": "^18.3.0",
-        "date-fns": "^3.6.0",
-        "jsdom": "^25.0.0",
-        "mousetrap": "^1.6.5",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
-        "tsup": "^8.2.3",
-        "typescript": "^5.5.4",
-        "vitest": "^2.0.4",
-        "zod": "^3.23.8"
-    },
-    "engines": {
-        "node": ">=12.0.0",
-        "npm": ">=6.0.0"
-    },
-    "dependencies": {
-        "esbuild": "^0.25.0",
-        "vite": "^5.4.2"
-    }
+  "name": "@gentelduck/shortcut",
+  "version": "0.0.2",
+  "main": "index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheDuckUI/shortcut"
+  },
+  "github": "https://github.com/TheDuckUI/shortcut",
+  "homepage": "https://github.com/TheDuckUI/shortcut",
+  "files": [
+    "/dist"
+  ],
+  "private": false,
+  "scripts": {
+    "dev": "vite",
+    "test": "vitest run",
+    "build": "tsup",
+    "lint": "tsc",
+    "ci": "pnpm run lint && pnpm run build",
+    "release": "pnpm run ci && changeset publish"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "keyboard-shortcuts",
+    "hotkeys",
+    "react-hotkeys",
+    "mousetrap",
+    "keyboard-event",
+    "key-binding",
+    "keyboard-navigation",
+    "accessibility",
+    "react-keyboard-shortcuts",
+    "keyboard-commands",
+    "keyboard-handler",
+    "shortcuts",
+    "ctrl-key",
+    "meta-key",
+    "alt-key",
+    "key-events",
+    "web-accessibility"
+  ],
+  "author": "ahmed ayob",
+  "license": "MIT",
+  "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
+  "peerDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@types/mousetrap": "^1.6.15",
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "date-fns": "^3.6.0",
+    "jsdom": "^25.0.0",
+    "mousetrap": "^1.6.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsup": "^8.2.3",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.4",
+    "zod": "^3.23.8"
+  },
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.0",
+    "vite": "^5.4.2"
+  }
 }

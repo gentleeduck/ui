@@ -24,6 +24,7 @@
   "devDependencies": {
     "@gentelduck/hooks": "workspace:*",
     "@gentelduck/libs": "workspace:*",
+    "@gentelduck/variants": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
     "class-variance-authority": "^0.7.0",
     "react": "^19.0.0",
