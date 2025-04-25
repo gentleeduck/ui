@@ -78,6 +78,8 @@ import {
 // import { DialogPortal } from '../../../../packages/registry-ui-duckui/src/dialog/_new/dialog'
 
 export function MainExample() {
+  // return <VaulDrawer />
+
   const items = [
     // {
     //   title: 'Navigation',
@@ -304,7 +306,8 @@ export function MainExample() {
 
       <Dialog>
         <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
-        <DialogContent>
+
+        <DialogContent renderOnce>
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>
@@ -317,6 +320,12 @@ export function MainExample() {
                 Name
               </Label>
               <Input id='name' value='wild duck' className='col-span-3' />
+            </div>
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='username' className='text-right'>
+                Username
+              </Label>
+              <Input id='username' value='@wildduck2' className='col-span-3' />
             </div>
             <div className='grid grid-cols-4 items-center gap-4'>
               <Label htmlFor='username' className='text-right'>
