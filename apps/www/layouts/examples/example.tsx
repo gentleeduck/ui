@@ -118,6 +118,45 @@ export function MainExample() {
   ]
 
   return (
+    <Dialog>
+      <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
+
+      <DialogContent renderOnce>
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription>
+        </DialogHeader>
+        <div className='grid gap-4 py-4'>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='name' className='text-right'>
+              Name
+            </Label>
+            <Input id='name' value='wild duck' className='col-span-3' />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='username' className='text-right'>
+              Username
+            </Label>
+            <Input id='username' value='@wildduck2' className='col-span-3' />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='username' className='text-right'>
+              Username
+            </Label>
+            <Input id='username' value='@wildduck2' className='col-span-3' />
+          </div>
+        </div>
+
+        <DialogFooter>
+          <Button>Save changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+
+  return (
     <div className='flex flex-col gap-3 items-center'>
       <div className='relative'>
         <Pointer className='size-3 absolute top-3 right-0 z-10 fill-white' />
@@ -335,39 +374,6 @@ export function MainExample() {
             </div>
           </div>
 
-          <Dialog>
-            <DialogTrigger variant={'outline'}>Edit Profile</DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Edit profile</DialogTitle>
-                <DialogDescription>
-                  Make changes to your profile here. Click save when you're
-                  done.
-                </DialogDescription>
-              </DialogHeader>
-              <div className='grid gap-4 py-4'>
-                <div className='grid grid-cols-4 items-center gap-4'>
-                  <Label htmlFor='name' className='text-right'>
-                    Name
-                  </Label>
-                  <Input id='name' value='wild duck' className='col-span-3' />
-                </div>
-                <div className='grid grid-cols-4 items-center gap-4'>
-                  <Label htmlFor='username' className='text-right'>
-                    Username
-                  </Label>
-                  <Input
-                    id='username'
-                    value='@wildduck2'
-                    className='col-span-3'
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button>Save changes</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
           <DialogFooter>
             <Button>Save changes</Button>
           </DialogFooter>
