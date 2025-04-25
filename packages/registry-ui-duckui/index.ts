@@ -53,6 +53,7 @@ export * from './src/aspect-ratio'
 export * from './src/alert-dialog'
 export * from './src/alert'
 export * from './src/accordion'
+
 const components: Record<
   string,
   Partial<{
@@ -89,7 +90,9 @@ const components: Record<
   aspectRatio: {},
   avatar: {},
   scrollArea: {},
-  form: {},
+  form: {
+    component: true,
+  },
 
   alert: {},
   breadcrumb: {},

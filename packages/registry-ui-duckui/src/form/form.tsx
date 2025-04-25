@@ -48,7 +48,9 @@ const FormItem = ({
   ref,
   ...props
 }: React.HTMLProps<HTMLDivElement>) => {
-  return <div ref={ref} className={cn('space-y-2', className)} {...props} />
+
+  return <div ref={ref} className={cn('flex flex-col gap-2', className)} {...props} />
+
 }
 
 const FormLabel = ({
@@ -92,7 +94,8 @@ const FormMessage = ({
   ...props
 }: React.HTMLProps<HTMLParagraphElement>) => {
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message) : children
+  const body = error ? String(error.message) : children
+  console.log(error)
 
   if (!body) {
     return null
