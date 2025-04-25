@@ -7,20 +7,48 @@ import {
   DialogTrigger,
   DialogFooter
 } from "@gentelduck/registry-ui-duckui/dialog"
+import { Button } from "@gentelduck/registry-ui-duckui/button"
+import { Input } from "@gentelduck/registry-ui-duckui/input"
+import { Label } from "@gentelduck/registry-ui-duckui/label"
 
 export default function DialogDemo() {
   return (
     <Dialog>
-      <DialogTrigger>Open</DialogTrigger>
-      <DialogContent>
+      <DialogTrigger asChild>
+        <Button variant="outline">Edit Profile</Button>
+      </DialogTrigger>
+      <DialogContent renderOnce className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
+            Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>our servers.</DialogFooter>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              Name
+            </Label>
+            <Input
+              id="name"
+              defaultValue="Pedro Duarte"
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="username" className="text-right">
+              Username
+            </Label>
+            <Input
+              id="username"
+              defaultValue="@peduarte"
+              className="col-span-3"
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button type="submit">Save changes</Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
 

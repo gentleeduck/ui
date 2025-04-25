@@ -252,4 +252,4 @@ Feel free to open issues or submit pull requests for bug fixes or improvements. 
 
 ## License
 
-This package is licensed under the MIT License.
+[MIT © GentleDuck](./LICENSE)

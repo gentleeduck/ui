@@ -28,56 +28,56 @@ import { Loader } from 'lucide-react'
  * @returns {React.JSX.Element} A button element with the specified configurations.
  */
 function Button({
-    children,
-    variant,
-    size,
-    border,
-    asChild,
-    className,
-    loading,
-    isCollapsed,
-    icon,
-    secondIcon,
-    animationIcon,
-    ref,
-    ...props
+  children,
+  variant,
+  size,
+  border,
+  asChild,
+  className,
+  loading,
+  isCollapsed,
+  icon,
+  secondIcon,
+  animationIcon,
+  ref,
+  ...props
 }: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }): React.JSX.Element {
-    const Component = (asChild ? Slot : 'button') as React.ElementType
+  const Component = (asChild ? Slot : 'button') as React.ElementType
 
-    //TODO: make the icons as plugin
-    const Button = (
-        <Component
-            {...props}
-            ref={ref}
-            className={cn(
-                buttonVariants({
-                    variant,
-                    size: isCollapsed ? 'icon' : size,
-                    border,
-                    className,
-                }),
-            )}
-            disabled={loading}
-        >
-            <div className='flex items-center gap-2'>
-                {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
-                    <div className='w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100'>
-                        {animationIcon?.icon}
-                    </div>
-                )}
-                {!loading ? icon : <Loader className='animate-spin' />}
-                {!isCollapsed && size !== 'icon' && children}
-                {!isCollapsed && secondIcon && secondIcon}
-                {animationIcon?.icon && animationIcon.iconPlacement === 'right' && (
-                    <div className='w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100'>
-                        {animationIcon?.icon}
-                    </div>
-                )}
-            </div>
-        </Component>
-    )
+  //TODO: make the icons as plugin
+  const Button = (
+    <Component
+      {...props}
+      ref={ref}
+      className={cn(
+        buttonVariants({
+          variant,
+          size: isCollapsed ? 'icon' : size,
+          border,
+          className,
+        }),
+      )}
+      disabled={loading}
+    >
+      <div className='flex items-center gap-2'>
+        {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
+          <div className='w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100'>
+            {animationIcon?.icon}
+          </div>
+        )}
+        {!loading ? icon : <Loader className='animate-spin' />}
+        {!isCollapsed && size !== 'icon' && children}
+        {!isCollapsed && secondIcon && secondIcon}
+        {animationIcon?.icon && animationIcon.iconPlacement === 'right' && (
+          <div className='w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100'>
+            {animationIcon?.icon}
+          </div>
+        )}
+      </div>
+    </Component>
+  )
 
-    return Button
+  return Button
 }
 
 /**
@@ -92,17 +92,17 @@ function Button({
  * @returns {React.JSX.Element} The rendered element with the passed props.
  */
 function Slot({
-    children,
-    ...props
+  children,
+  ...props
 }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-    if (!React.isValidElement(children)) {
-        return <div {...props}>{children}</div>
-    }
+  if (!React.isValidElement(children)) {
+    return <div {...props}>{children}</div>
+  }
 
-    return React.cloneElement(children, {
-        ...props,
-        ...(children as React.JSX.Element).props,
-    })
+  return React.cloneElement(children, {
+    ...props,
+    ...(children as React.JSX.Element).props,
+  })
 }
 
 export { Button, Slot }

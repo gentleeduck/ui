@@ -5,10 +5,12 @@ export * from './src/accordion'
 export * from './src/toggle'
 export * from './src/toggle-group'
 export * from './src/sonner'
+export * from './src/toast'
 export * from './src/upload'
 export * from './src/tooltip'
 export * from './src/toggle-group'
 export * from './src/toggle'
+export * from './src/toast'
 export * from './src/textarea'
 export * from './src/tabs'
 export * from './src/table'
@@ -53,6 +55,7 @@ export * from './src/aspect-ratio'
 export * from './src/alert-dialog'
 export * from './src/alert'
 export * from './src/accordion'
+
 
 const components: Record<
   string,
@@ -126,3 +129,4 @@ const components: Record<
   progress: {},
   slider: {},
 }
+

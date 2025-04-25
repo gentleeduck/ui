@@ -11,6 +11,8 @@
   },
   "devDependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
+    "@gentelduck/motion": "workspace:*",
+    "@gentelduck/variants": "workspace:*",
     "@gentelduck/hooks": "workspace:*",
     "@gentelduck/lazy": "workspace:*",
     "@gentelduck/libs": "workspace:*",

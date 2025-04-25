@@ -5,8 +5,17 @@
   "type": "module",
   "types": "./index.ts",
   "exports": {
+    ".": {
+      "import": "./index.ts"
+    },
     "./css": {
       "import": "./index.css"
+    },
+    "./anim": {
+      "import": "./anim.ts"
+    },
+    "./easing": {
+      "import": "./easing.ts"
     }
   },
   "scripts": {
@@ -15,7 +24,9 @@
   "devDependencies": {
     "@gentelduck/hooks": "workspace:*",
     "@gentelduck/libs": "workspace:*",
+    "@gentelduck/variants": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
+    "class-variance-authority": "^0.7.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsup": "^8.2.4",
