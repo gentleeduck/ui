@@ -171,11 +171,6 @@ const card = cva('card', {
 `@gentelduck/variants` comes with full TypeScript support. It ensures that you only pass valid values for each variant, and provides autocompletion for variant keys and values.
 
 ```ts
-type ButtonVariants = {
-  size: { sm: string; lg: string };
-  color: { primary: string; secondary: string };
-};
-
 const button = cva('btn', {
   variants: {
     size: {
@@ -202,14 +197,11 @@ const className = button({ size: 'lg', color: 'secondary' })
 Here are the types used by `@gentelduck/variants`:
 
 ```ts
-type VariantProps<TVariants> = {
-  [K in keyof TVariants]?: keyof TVariants[K]
-}
+import { buttonVariants } from './yourvariants'
+import  { VariantsOptions } from '@gentelduck/variants'
 
 interface VariantsOptions<TVariants> {
-  variants: TVariants
-  defaultVariants?: VariantProps<TVariants>
-  compoundVariants: Array<VariantProps<TVariants> & { class?: string | Array<string>; className?: string | Array<string> }>
+  variants: VariantsOptions<typeof buttonVariants>
 }
 ```
 

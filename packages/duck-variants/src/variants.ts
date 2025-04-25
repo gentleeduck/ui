@@ -1,4 +1,4 @@
-import { VariantProps, VariantsOptions } from './variants.types'
+import { VariantParams, VariantsOptions } from './variants.types'
 
 /**
  * Utility function to generate class names based on variant options.
@@ -53,7 +53,7 @@ export function cva<
   base: string,
   options: VariantsOptions<TVariants>,
 ): (
-  props?: VariantProps<TVariants> & {
+  props?: VariantParams<TVariants> & {
     className?: string | Array<string>
     class?: string | Array<string>
   },

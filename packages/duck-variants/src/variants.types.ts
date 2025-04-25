@@ -1,69 +1,157 @@
 /**
- * Represents the props for variants in the `cva` utility.
+ * `VariantParams` is a utility type that extracts the shape of accepted variant props
+ * from a variant configuration object. Each key maps to a union of allowed string literals
+ * representing the variant values.
  *
- * This type allows you to define which variant values are available for each variant key in `TVariants`.
- * Each variant key can have an associated value from `TVariants[K]`, where `K` is the variant name.
+ * @template TVariants - A record of variant keys mapping to records of string values.
  *
- * @template TVariants - The variants structure where each variant key has possible values and associated class names.
+ * @example
+ * ```ts
+ * const variants = {
+ *   size: {
+ *     sm: 'text-sm',
+ *     lg: 'text-lg',
+ *   },
+ *   color: {
+ *     primary: 'text-blue-500',
+ *     secondary: 'text-gray-500',
+ *   },
+ * }
+ *
+ * type ButtonVariants = VariantParams<typeof variants>
+ * // Result:
+ * // {
+ * //   size?: 'sm' | 'lg'
+ * //   color?: 'primary' | 'secondary'
+ * // }
+ * ```
  */
-export type VariantProps<
+export type VariantParams<
   TVariants extends Record<string, Record<string, string | Array<string>>>,
 > = {
-  // Each key is a variant name, and its value can be any of the values associated with that variant in `TVariants`
   [K in keyof TVariants]?: keyof TVariants[K]
 }
 
 /**
- * Configuration options for the `cva` function.
+ * `VariantsOptions` defines the configuration object passed to the `cva` function.
+ * It provides the structure for handling variant-based class composition.
  *
- * This interface defines how variants should be structured, what default variants are available,
- * and how to handle compound variants (variant combinations).
+ * @template TVariants - A record of variant keys and their corresponding value maps.
  *
- * @template TVariants - The variants structure where each variant has possible values with corresponding class names.
+ * @property {TVariants} variants - The core variant mapping. Each variant key should point to a record of allowed values and their class names.
+ * @property {VariantParams<TVariants>} [defaultVariants] - Optional default variant values that apply when not explicitly set.
+ * @property {Array<CompoundVariant<TVariants>>} [compoundVariants] - Optional array of compound variant configurations that apply extra classes when a group of variant values match.
+ *
+ * @example
+ * ```ts
+ * const options: VariantsOptions<{
+ *   size: { sm: string; lg: string }
+ *   color: { primary: string; secondary: string }
+ * }> = {
+ *   variants: {
+ *     size: { sm: 'text-sm', lg: 'text-lg' },
+ *     color: { primary: 'text-blue-500', secondary: 'text-gray-500' },
+ *   },
+ *   defaultVariants: {
+ *     size: 'sm',
+ *     color: 'primary',
+ *   },
+ *   compoundVariants: [
+ *     {
+ *       size: 'sm',
+ *       color: 'secondary',
+ *       class: 'bg-light',
+ *     },
+ *   ],
+ * }
+ * ```
  */
 export interface VariantsOptions<
   TVariants extends Record<string, Record<string, string | Array<string>>>,
 > {
-  /**
-   * A mapping of variant names (e.g., `size`, `color`) to their possible values
-   * (e.g., `small`, `medium`, `large`) and associated class names for each value.
-   */
   variants: TVariants
 
-  /**
-   * Optional default values to apply when no explicit value is provided for a variant.
-   * If no default is provided, the variant will remain unresolved.
-   */
-  defaultVariants?: VariantProps<TVariants>
+  defaultVariants?: VariantParams<TVariants>
 
-  /**
-   * An array of compound variants, which specify additional classes to apply based on specific combinations of variants.
-   * Each compound variant can be specified as a set of conditions (key-value pairs) and an associated `class` or `className`.
-   */
-  compoundVariants: Array<
-    VariantProps<TVariants> & {
-      /** Optional class or array of classes to be applied if conditions in `VariantProps<TVariants>` match. */
+  compoundVariants?: Array<
+    VariantParams<TVariants> & {
+      /**
+       * Extra class or class list to apply when this compound variant matches.
+       */
       class?: string | Array<string>
-      /** Optional className or array of class names to be applied if conditions in `VariantProps<TVariants>` match. */
+
+      /**
+       * Alternative to `class`, supports Tailwind conventions and merges properly.
+       */
       className?: string | Array<string>
     }
   >
 }
 
 /**
- * Represents the props passed to the `cva` function.
+ * `CvaProps` defines the shape of the function parameters accepted by the `cva` result.
+ * It includes dynamic variant values, optional `className`, and `class` attributes.
  *
- * This type extends `VariantProps` to allow variant values to be passed as props.
- * It also allows users to pass additional `className` or `class` to apply custom styles.
+ * This enables seamless integration with frameworks like React or Vue,
+ * where merging external `className`s is required.
  *
- * @template TVariants - The variants structure, where each key corresponds to a variant name and values to variant options.
+ * @template TVariants - A record of variant keys and their value-to-class mappings.
+ *
+ * @example
+ * ```ts
+ * const button = cva('base', {
+ *   variants: {
+ *     size: { sm: 'text-sm', lg: 'text-lg' },
+ *   },
+ *   defaultVariants: { size: 'sm' },
+ * })
+ *
+ * const className = button({ size: 'lg', className: 'mt-4' })
+ * // => 'base text-lg mt-4'
+ * ```
  */
 export type CvaProps<
   TVariants extends Record<string, Record<string, string | Array<string>>>,
-> = VariantProps<TVariants> & {
-  /** Additional class name(s) to apply. Supports a string or an array of strings. */
+> = VariantParams<TVariants> & {
+  /**
+   * Optional external class string or array to append to generated output.
+   */
   className?: string | Array<string>
 
-  /** Alternative way to pass a custom class. Supports a string or an array of strings. */
+  /**
+   * Optional alternative to `className`. Useful when working with native `class` attributes.
+   */
   class?: string | Array<string>
 }
+
+/**
+ * `VariantProps` is a utility type that extracts only the variant-related props
+ * from a `cva`-generated function type, omitting `className` and `class`.
+ *
+ * This is useful when you want to create a fully type-safe variant signature for a UI component
+ * without including styling props like `className`.
+ *
+ * @template T - A function returned by `cva()`.
+ *
+ * @example
+ * ```ts
+ * const badge = cva('badge', {
+ *   variants: {
+ *     type: { success: 'text-green', error: 'text-red' },
+ *   },
+ * })
+ *
+ * type BadgeVariants = VariantProps<typeof badge>
+ * // Result:
+ * // {
+ * //   type: 'success' | 'error'
+ * // }
+ * ```
+ */
+export type VariantProps<T> = T extends (props?: infer Props) => any
+  ? {
+      [K in keyof Props as K extends 'class' | 'className'
+        ? never
+        : K]-?: Exclude<Props[K], undefined>
+    }
+  : never
