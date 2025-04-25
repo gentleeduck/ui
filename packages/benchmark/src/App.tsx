@@ -41,14 +41,16 @@
 // import DuckSeparator from './duck/separator/duck'
 // import DuckSeparatorExp from './duck/separator/experimental'
 // import ShadcnSeparator from './duck/separator/separator'
+
 // import Sandbox from './sandbox'
 import DuckDialog from './duck/dialog/duck'
 import ShadcnDialog from './duck/dialog/dialog'
 import DuckSeparator from './duck/separator/duck'
 import DuckSeparatorExp from './duck/separator/experimental'
 import ShadcnSeparator from './duck/separator/separator'
+
 // import DuckSkeleton from './duck/skeleton/duck'
-// import ShadcnSkeleton from './duck/skeleton/skeleton'
+import ShadcnSkeleton from './duck/skeleton/skeleton'
 // import DuckSheet from './duck/sheet/duck'
 // import ShadcnSheet from './duck/sheet/sheet'
 // import DuckDrawer from './duck/drawer/duck'
@@ -96,11 +98,13 @@ function App() {
       <ShadcnDialog />
       {/* <Ui /> */}
       {/* <DuckSonner /> */}
+
       {
         // <DuckSeparatorExp /> /* Experimental */
         // <DuckSeparator  />  /* radix ui based */
         // <ShadcnSeparator  /> /* other */
       }
+
     </div>
   )
 }
