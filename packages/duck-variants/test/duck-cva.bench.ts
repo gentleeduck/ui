@@ -93,6 +93,18 @@ const __buttonVariants = CvaWithCache(
 )
 
 describe('benchmarking cva', () => {
+  bench('duck cva', () => {
+    buttonVariants({})
+    buttonVariants({ intent: 'primary', disabled: true } as any)
+    buttonVariants({ intent: 'primary', size: 'medium' } as any)
+    buttonVariants({
+      intent: 'warning',
+      size: 'medium',
+      disabled: true,
+    } as any)
+    buttonVariants({ size: 'small' } as any)
+    buttonVariants({ size: 'large', intent: 'unset' } as any)
+  })
   bench('cva with cache', () => {
     __buttonVariants({})
     __buttonVariants({ intent: 'primary', disabled: true } as any)
@@ -117,21 +129,4 @@ describe('benchmarking cva', () => {
     _buttonVariants({ size: 'small' } as any)
     _buttonVariants({ size: 'large', intent: 'unset' } as any)
   })
-  bench(
-    'duck cva',
-    () => {
-      buttonVariants({})
-      buttonVariants({ intent: 'primary', disabled: true } as any)
-      buttonVariants({ intent: 'primary', size: 'medium' } as any)
-      buttonVariants({
-        intent: 'warning',
-        size: 'medium',
-        disabled: true,
-      } as any)
-      buttonVariants({ size: 'small' } as any)
-      buttonVariants({ size: 'large', intent: 'unset' } as any)
-    },
-  )
-
-
 })

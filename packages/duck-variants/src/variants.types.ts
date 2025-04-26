@@ -1,157 +1,158 @@
 /**
- * `VariantParams` is a utility type that extracts the shape of accepted variant props
- * from a variant configuration object. Each key maps to a union of allowed string literals
- * representing the variant values.
+ * Maps each variant key to a selected value or array of values.
  *
- * @template TVariants - A record of variant keys mapping to records of string values.
- *
+ * @template TVariants - A mapping of variant names to their possible class mappings.
  * @example
  * ```ts
- * const variants = {
- *   size: {
- *     sm: 'text-sm',
- *     lg: 'text-lg',
- *   },
- *   color: {
- *     primary: 'text-blue-500',
- *     secondary: 'text-gray-500',
- *   },
+ * type ButtonVariants = {
+ *   size: { sm: string; lg: string },
+ *   intent: { primary: string; danger: string }
  * }
  *
- * type ButtonVariants = VariantParams<typeof variants>
- * // Result:
- * // {
- * //   size?: 'sm' | 'lg'
- * //   color?: 'primary' | 'secondary'
- * // }
+ * // Accepts either a single key or an array of keys for each variant
+ * const params: VariantParams<ButtonVariants> = {
+ *   size: ['sm', 'lg'],
+ *   intent: 'primary'
+ * }
  * ```
  */
 export type VariantParams<
-  TVariants extends Record<string, Record<string, string | Array<string>>>,
+  TVariants extends Record<string, Record<string, string | string[]>>,
 > = {
-  [K in keyof TVariants]?: keyof TVariants[K]
+  [K in keyof TVariants]?: keyof TVariants[K] | Array<keyof TVariants[K]>
 }
 
 /**
- * `VariantsOptions` defines the configuration object passed to the `cva` function.
- * It provides the structure for handling variant-based class composition.
+ * Configuration for creating a CVA (Class Variance Authority) function.
  *
- * @template TVariants - A record of variant keys and their corresponding value maps.
+ * @template TVariants - A mapping of variant names to their class mappings.
  *
- * @property {TVariants} variants - The core variant mapping. Each variant key should point to a record of allowed values and their class names.
- * @property {VariantParams<TVariants>} [defaultVariants] - Optional default variant values that apply when not explicitly set.
- * @property {Array<CompoundVariant<TVariants>>} [compoundVariants] - Optional array of compound variant configurations that apply extra classes when a group of variant values match.
+ * @property {TVariants} variants
+ *   The core variant definitions. Each variant key maps to an object whose keys
+ *   are variant names and values are class strings or arrays of class strings.
+ *
+ * @property {VariantParams<TVariants>} [defaultVariants]
+ *   Default selections applied when the user does not supply a value for a variant.
+ *
+ * @property {Array<VariantParams<TVariants> & { class?: ClassValue; className?: ClassValue }>} [compoundVariants]
+ *   Array of objects that specify additional `class` or `className` entries when
+ *   multiple variant keys match simultaneously. Each object’s own keys correspond
+ *   to variant names (or arrays of variant names) indicating the match conditions.
  *
  * @example
  * ```ts
  * const options: VariantsOptions<{
- *   size: { sm: string; lg: string }
- *   color: { primary: string; secondary: string }
+ *   size: { sm: string; lg: string },
+ *   tone: { muted: string; loud: string }
  * }> = {
  *   variants: {
  *     size: { sm: 'text-sm', lg: 'text-lg' },
- *     color: { primary: 'text-blue-500', secondary: 'text-gray-500' },
+ *     tone: { muted: 'opacity-50', loud: 'opacity-100' }
  *   },
- *   defaultVariants: {
- *     size: 'sm',
- *     color: 'primary',
- *   },
+ *   defaultVariants: { size: 'sm', tone: 'muted' },
  *   compoundVariants: [
  *     {
- *       size: 'sm',
- *       color: 'secondary',
- *       class: 'bg-light',
- *     },
- *   ],
+ *       size: 'lg',
+ *       tone: ['loud', 'muted'],
+ *       className: 'font-bold'
+ *     }
+ *   ]
  * }
  * ```
  */
 export interface VariantsOptions<
-  TVariants extends Record<string, Record<string, string | Array<string>>>,
+  TVariants extends Record<string, Record<string, string | string[]>>,
 > {
   variants: TVariants
-
   defaultVariants?: VariantParams<TVariants>
-
   compoundVariants?: Array<
     VariantParams<TVariants> & {
-      /**
-       * Extra class or class list to apply when this compound variant matches.
-       */
-      class?: string | Array<string>
-
-      /**
-       * Alternative to `class`, supports Tailwind conventions and merges properly.
-       */
-      className?: string | Array<string>
+      class?: ClassValue
+      className?: ClassValue
     }
   >
 }
 
 /**
- * `CvaProps` defines the shape of the function parameters accepted by the `cva` result.
- * It includes dynamic variant values, optional `className`, and `class` attributes.
+ * Props accepted by a CVA-generated function: variant selections
+ * plus optional `class` or `className` to append custom classes.
  *
- * This enables seamless integration with frameworks like React or Vue,
- * where merging external `className`s is required.
- *
- * @template TVariants - A record of variant keys and their value-to-class mappings.
+ * @template TVariants - A mapping of variant names to their class mappings.
  *
  * @example
  * ```ts
- * const button = cva('base', {
- *   variants: {
- *     size: { sm: 'text-sm', lg: 'text-lg' },
- *   },
- *   defaultVariants: { size: 'sm' },
- * })
- *
- * const className = button({ size: 'lg', className: 'mt-4' })
- * // => 'base text-lg mt-4'
+ * const props: CvaProps<{
+ *   color: { red: string; blue: string },
+ *   size: { sm: string; lg: string }
+ * }> = {
+ *   color: 'blue',
+ *   size: 'lg',
+ *   className: ['my-custom-class', { 'is-active': true }]
+ * }
  * ```
  */
 export type CvaProps<
-  TVariants extends Record<string, Record<string, string | Array<string>>>,
+  TVariants extends Record<string, Record<string, string | string[]>>,
 > = VariantParams<TVariants> & {
-  /**
-   * Optional external class string or array to append to generated output.
-   */
-  className?: string | Array<string>
-
-  /**
-   * Optional alternative to `className`. Useful when working with native `class` attributes.
-   */
-  class?: string | Array<string>
+  className?: ClassValue
+  class?: ClassValue
 }
 
 /**
- * `VariantProps` is a utility type that extracts only the variant-related props
- * from a `cva`-generated function type, omitting `className` and `class`.
+ * Extracts only the variant-related props from a CVA function’s signature,
+ * omitting `class` and `className`.
  *
- * This is useful when you want to create a fully type-safe variant signature for a UI component
- * without including styling props like `className`.
- *
- * @template T - A function returned by `cva()`.
+ * @template T - A function type returned by `cva(...)`.
  *
  * @example
  * ```ts
- * const badge = cva('badge', {
- *   variants: {
- *     type: { success: 'text-green', error: 'text-red' },
- *   },
- * })
+ * declare const button: (props?: {
+ *   size?: 'sm' | 'lg',
+ *   intent?: 'primary' | 'danger',
+ *   className?: string
+ * }) => string;
  *
- * type BadgeVariants = VariantProps<typeof badge>
- * // Result:
- * // {
- * //   type: 'success' | 'error'
- * // }
+ * type ButtonVariantOnly = VariantProps<typeof button>
+ * // => { size: 'sm' | 'lg'; intent: 'primary' | 'danger' }
  * ```
  */
-export type VariantProps<T> = T extends (props?: infer Props) => any
+export type VariantProps<T> = T extends (props?: infer P) => any
   ? {
-      [K in keyof Props as K extends 'class' | 'className'
-        ? never
-        : K]-?: Exclude<Props[K], undefined>
+      [K in keyof P as K extends 'class' | 'className' ? never : K]-?: Exclude<
+        P[K],
+        undefined
+      >
     }
   : never
+
+/**
+ * A dictionary mapping CSS class names to boolean flags.
+ * Useful for conditional inclusion: `{ 'text-bold': isActive }`.
+ */
+export type ClassDictionary = Record<string, boolean | undefined>
+
+/** An array of class values (nested arrays, strings, dictionaries). */
+export type ClassArray = ClassValue[]
+
+/**
+ * Permitted inputs for class names:
+ * - `string` or `number` (split on whitespace)
+ * - `boolean` (included if `true`)
+ * - `ClassDictionary` for conditional keys
+ * - `ClassArray` for nested lists
+ *
+ * @example
+ * ```ts
+ * const input: ClassValue = [
+ *   'px-4',
+ *   { 'bg-red-500': isError },
+ *   ['hover:bg-red-600', ['active:scale-95']]
+ * ]
+ * ```
+ */
+export type ClassValue =
+  | string
+  | number
+  | boolean
+  | ClassDictionary
+  | ClassArray
