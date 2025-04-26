@@ -1,7 +1,7 @@
 # `@gentelduck/variants`
 
 <p align="center">
-  <img src="./public/variants.png" alt="@gentelduck/variants" width="200"/>
+  <img src="./public/variants.png" alt="@gentelduck/variants" width="700"/>
 </p>
 
 A lightweight utility for generating class names based on variant configurations. Inspired by Tailwind and `class-variance-authority`, `@gentelduck/variants` helps you manage and compose class names in a flexible, type-safe, and declarative way.  
