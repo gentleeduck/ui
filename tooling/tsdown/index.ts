@@ -9,7 +9,6 @@ export const config: TsdownConfig = {
   entry: ['./index.ts'],
   outDir: './dist',
   format: 'esm',
-  publint: true,
   platform: 'neutral',
   external: ['react', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
   clean: true,

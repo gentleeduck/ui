@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@vitejs/plugin-react-swc": "^3.8.0",
-    "tsdown": "^0.9.8"
+    "tsdown": "catalog:"
   },
   "devDependencies": {
     "@gentelduck/biome-config": "workspace:*",

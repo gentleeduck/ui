@@ -50,8 +50,7 @@
     "@gentelduck/typescript-config": "workspace:*",
     "clsx": "^1.2.1",
     "husky": "^9.1.7",
-    "publint": "^0.3.12",
-    "tsdown": "^0.9.6"
+    "tsdown": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5.8.2"
