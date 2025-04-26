@@ -26,7 +26,6 @@
     "@gentelduck/libs": "workspace:*",
     "@gentelduck/variants": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
-    "class-variance-authority": "^0.7.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsup": "^8.2.4",

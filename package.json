@@ -37,6 +37,9 @@
       "esbuild",
       "protobufjs",
       "sharp"
+    ],
+    "ignoredBuiltDependencies": [
+      "rolldown"
     ]
   },
   "dependencies": {
