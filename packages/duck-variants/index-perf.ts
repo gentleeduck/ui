@@ -1,8 +1,6 @@
-import { bench, describe } from 'vitest'
-
-import { cva as DuckCva } from '../src/variants'
-import { cva as CvaWithCache } from './cva-cache'
-import originalCVA from './cva'
+import { cva as DuckCva } from './src/variants'
+import originalCVA from './test/cva'
+import { cva as CvaWithCache } from './test/cva-cache'
 
 const buttonWithoutBaseWithDefaultsWithClassNameString = {
   base: 'button font-semibold border rounded',
@@ -15,15 +13,6 @@ const buttonWithoutBaseWithDefaultsWithClassNameString = {
         'button--secondary bg-white text-gray-800 border-gray-400 hover:bg-gray-100',
       warning:
         'button--warning bg-yellow-500 border-transparent hover:bg-yellow-600',
-      danger: [
-        'button--danger',
-        [
-          1 && 'bg-red-500',
-          { baz: false, bat: null },
-          ['text-white', ['border-transparent']],
-        ],
-        'hover:bg-red-600',
-      ],
     },
     disabled: {
       unset: null,
@@ -56,10 +45,6 @@ const buttonWithoutBaseWithDefaultsWithClassNameString = {
     {
       intent: 'warning',
       disabled: true,
-      className: [
-        'button--warning-disabled',
-        [1 && 'text-black', { baz: false, bat: null }],
-      ],
     },
     {
       intent: ['warning', 'danger'],
@@ -79,6 +64,8 @@ const buttonWithoutBaseWithDefaultsWithClassNameString = {
   },
 } as any
 
+const TIMES = 100000
+
 const buttonVariants = DuckCva(
   '',
   buttonWithoutBaseWithDefaultsWithClassNameString,
@@ -92,46 +79,59 @@ const __buttonVariants = CvaWithCache(
   buttonWithoutBaseWithDefaultsWithClassNameString,
 )
 
-describe('benchmarking cva', () => {
-  bench('cva with cache', () => {
-    __buttonVariants({})
-    __buttonVariants({ intent: 'primary', disabled: true } as any)
-    __buttonVariants({ intent: 'primary', size: 'medium' } as any)
-    __buttonVariants({
-      intent: 'warning',
-      size: 'medium',
-      disabled: true,
-    } as any)
-    __buttonVariants({ size: 'small' } as any)
-    __buttonVariants({ size: 'large', intent: 'unset' } as any)
-  })
-  bench('cva', () => {
-    _buttonVariants({})
-    _buttonVariants({ intent: 'primary', disabled: true } as any)
-    _buttonVariants({ intent: 'primary', size: 'medium' } as any)
-    _buttonVariants({
-      intent: 'warning',
-      size: 'medium',
-      disabled: true,
-    } as any)
-    _buttonVariants({ size: 'small' } as any)
-    _buttonVariants({ size: 'large', intent: 'unset' } as any)
-  })
-  bench(
-    'duck cva',
-    () => {
-      buttonVariants({})
-      buttonVariants({ intent: 'primary', disabled: true } as any)
-      buttonVariants({ intent: 'primary', size: 'medium' } as any)
-      buttonVariants({
-        intent: 'warning',
-        size: 'medium',
-        disabled: true,
-      } as any)
-      buttonVariants({ size: 'small' } as any)
-      buttonVariants({ size: 'large', intent: 'unset' } as any)
-    },
-  )
+
+const CvaWithCacheStart = performance.now()
+for (let i = 0; i < TIMES; i++) {
+
+__buttonVariants({})
+__buttonVariants({ intent: 'primary', disabled: true } as any)
+__buttonVariants({ intent: 'primary', size: 'medium' } as any)
+__buttonVariants({
+  intent: 'warning',
+  size: 'medium',
+  disabled: true,
+} as any)
+__buttonVariants({ size: 'small' } as any)
+__buttonVariants({ size: 'large', intent: 'unset' } as any)
+}
+const CvaWithCacheEnd = performance.now()
 
 
-})
+
+const CvaStart = performance.now()
+for (let i = 0; i < TIMES; i++) {
+
+_buttonVariants({})
+_buttonVariants({ intent: 'primary', disabled: true } as any)
+_buttonVariants({ intent: 'primary', size: 'medium' } as any)
+_buttonVariants({
+  intent: 'warning',
+  size: 'medium',
+  disabled: true,
+} as any)
+_buttonVariants({ size: 'small' } as any)
+_buttonVariants({ size: 'large', intent: 'unset' } as any)
+}
+const CvaEnd = performance.now()
+
+
+const DuckCvaStart = performance.now()
+for (let i = 0; i < TIMES; i++) {
+  buttonVariants({})
+  buttonVariants({ intent: 'primary', disabled: true } as any)
+  buttonVariants({ intent: 'primary', size: 'medium' } as any)
+  buttonVariants({
+    intent: 'warning',
+    size: 'medium',
+    disabled: true,
+  } as any)
+  buttonVariants({ size: 'small' } as any)
+  buttonVariants({ size: 'large', intent: 'unset' } as any)
+}
+const DuckCvaEnd = performance.now()
+
+console.table([
+  { Variant: 'DuckCva', Time: `${DuckCvaEnd - DuckCvaStart} ms` },
+  { Variant: 'Cva', Time: `${CvaEnd - CvaStart} ms` },
+  { Variant: 'CvaWithCache', Time: `${CvaWithCacheEnd - CvaWithCacheStart} ms` },
+]);
