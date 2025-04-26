@@ -79,41 +79,35 @@ const __buttonVariants = CvaWithCache(
   buttonWithoutBaseWithDefaultsWithClassNameString,
 )
 
-
 const CvaWithCacheStart = performance.now()
 for (let i = 0; i < TIMES; i++) {
-
-__buttonVariants({})
-__buttonVariants({ intent: 'primary', disabled: true } as any)
-__buttonVariants({ intent: 'primary', size: 'medium' } as any)
-__buttonVariants({
-  intent: 'warning',
-  size: 'medium',
-  disabled: true,
-} as any)
-__buttonVariants({ size: 'small' } as any)
-__buttonVariants({ size: 'large', intent: 'unset' } as any)
+  __buttonVariants({})
+  __buttonVariants({ intent: 'primary', disabled: true } as any)
+  __buttonVariants({ intent: 'primary', size: 'medium' } as any)
+  __buttonVariants({
+    intent: 'warning',
+    size: 'medium',
+    disabled: true,
+  } as any)
+  __buttonVariants({ size: 'small' } as any)
+  __buttonVariants({ size: 'large', intent: 'unset' } as any)
 }
 const CvaWithCacheEnd = performance.now()
 
-
-
 const CvaStart = performance.now()
 for (let i = 0; i < TIMES; i++) {
-
-_buttonVariants({})
-_buttonVariants({ intent: 'primary', disabled: true } as any)
-_buttonVariants({ intent: 'primary', size: 'medium' } as any)
-_buttonVariants({
-  intent: 'warning',
-  size: 'medium',
-  disabled: true,
-} as any)
-_buttonVariants({ size: 'small' } as any)
-_buttonVariants({ size: 'large', intent: 'unset' } as any)
+  _buttonVariants({})
+  _buttonVariants({ intent: 'primary', disabled: true } as any)
+  _buttonVariants({ intent: 'primary', size: 'medium' } as any)
+  _buttonVariants({
+    intent: 'warning',
+    size: 'medium',
+    disabled: true,
+  } as any)
+  _buttonVariants({ size: 'small' } as any)
+  _buttonVariants({ size: 'large', intent: 'unset' } as any)
 }
 const CvaEnd = performance.now()
-
 
 const DuckCvaStart = performance.now()
 for (let i = 0; i < TIMES; i++) {
@@ -133,5 +127,9 @@ const DuckCvaEnd = performance.now()
 console.table([
   { Variant: 'DuckCva', Time: `${DuckCvaEnd - DuckCvaStart} ms` },
   { Variant: 'Cva', Time: `${CvaEnd - CvaStart} ms` },
-  { Variant: 'CvaWithCache', Time: `${CvaWithCacheEnd - CvaWithCacheStart} ms` },
-]);
+  {
+    Variant: 'CvaWithCache',
+    Time: `${CvaWithCacheEnd - CvaWithCacheStart} ms`,
+  },
+])
+

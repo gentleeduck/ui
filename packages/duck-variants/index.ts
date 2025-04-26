@@ -1,10 +1,9 @@
-export * from './src'
-
 import { cva as yours } from './src'
-import { VariantParams } from './src/variants.types'
 import originalCVA from './test/cva'
 
-const yourFn = yours('px-4 py-2', {
+// Define your CVA instance
+const yourFn = yours({
+  base: 'button font-semibold border rounded',
   variants: {
     intent: {
       unset: null,
@@ -14,15 +13,7 @@ const yourFn = yours('px-4 py-2', {
         'button--secondary bg-white text-gray-800 border-gray-400 hover:bg-gray-100',
       warning:
         'button--warning bg-yellow-500 border-transparent hover:bg-yellow-600',
-      danger: [
-        'button--danger',
-        [
-          1 && 'bg-red-500',
-          { baz: false, bat: null },
-          ['text-white', ['border-transparent']],
-        ].join(' '),
-        'hover:bg-red-600',
-      ],
+      danger: ['button--danger', 'hover:bg-red-600'],
     },
     disabled: {
       unset: null,
@@ -57,6 +48,15 @@ const yourFn = yours('px-4 py-2', {
       disabled: 'true',
       className: ['button--warning-disabled'],
     },
+    {
+      intent: ['warning', 'danger'],
+      className: 'button--warning-danger !border-red-500',
+    },
+    {
+      intent: ['warning', 'danger'],
+      size: 'medium',
+      className: 'button--warning-danger-medium',
+    },
   ],
   defaultVariants: {
     m: 0,
@@ -65,6 +65,8 @@ const yourFn = yours('px-4 py-2', {
     size: 'medium',
   },
 })
+
+// Their CVA instance
 const theirFn = originalCVA({
   base: 'button font-semibold border rounded',
   variants: {
@@ -82,7 +84,7 @@ const theirFn = originalCVA({
           1 && 'bg-red-500',
           { baz: false, bat: null },
           ['text-white', ['border-transparent']],
-        ].join(' '),
+        ],
         'hover:bg-red-600',
       ],
     },
@@ -117,7 +119,19 @@ const theirFn = originalCVA({
     {
       intent: 'warning',
       disabled: true,
-      className: ['button--warning-disabled'],
+      className: [
+        'button--warning-disabled',
+        [1 && 'text-black', { baz: false, bat: null }],
+      ],
+    },
+    {
+      intent: ['warning', 'danger'],
+      className: 'button--warning-danger !border-red-500',
+    },
+    {
+      intent: ['warning', 'danger'],
+      size: 'medium',
+      className: 'button--warning-danger-medium',
     },
   ],
   defaultVariants: {
@@ -128,11 +142,75 @@ const theirFn = originalCVA({
   },
 })
 
+// Config
 const N = 100_000
-console.time('yours')
-for (let i = 0; i < N; i++) yourFn({ size: 'small', intent: 'primary' })
-console.timeEnd('yours')
 
-console.time('theirs')
-for (let i = 0; i < N; i++) theirFn({ intent: 'primary' })
-console.timeEnd('theirs')
+// Scenarios
+const scenarios = {
+  'Base only': (fn: Function) => fn(),
+  'One variant set': (fn: Function) => fn({ intent: 'primary' }),
+  'Multiple variants set': (fn: Function) =>
+    fn({ intent: 'secondary', size: 'small' }),
+  'Compound variant match': (fn: Function) =>
+    fn({ intent: 'primary', size: 'medium' }),
+  'Compound variant no match': (fn: Function) =>
+    fn({ intent: 'danger', size: 'large' }),
+  'With className': (fn: Function) =>
+    fn({ intent: 'primary', className: 'custom-class' }),
+  'With class': (fn: Function) =>
+    fn({ intent: 'primary', class: 'another-class' }),
+  'Default variants only': (fn: Function) => fn({}),
+  'All variants set': (fn: Function) =>
+    fn({ intent: 'warning', size: 'large', disabled: 'true', m: 1 }),
+  'Cache hit (repeated call)': (fn: Function) => {
+    const props = { intent: 'primary', size: 'small' }
+    fn(props) // warmup
+    for (let i = 0; i < N; i++) {
+      fn(props)
+    }
+  },
+}
+
+async function runBenchmark() {
+  const results: Record<
+    string,
+    { yours: number; theirs: number; faster: string; delta: string }
+  > = {}
+
+  for (const [label, testFn] of Object.entries(scenarios)) {
+    // Benchmark yours
+    const startYours = performance.now()
+    for (let i = 0; i < (label === 'Cache hit (repeated call)' ? 1 : N); i++) {
+      testFn(yourFn)
+    }
+    const endYours = performance.now()
+
+    // Benchmark theirs
+    const startTheirs = performance.now()
+    for (let i = 0; i < (label === 'Cache hit (repeated call)' ? 1 : N); i++) {
+      testFn(theirFn)
+    }
+    const endTheirs = performance.now()
+
+    const yoursTime = +(endYours - startYours).toFixed(2)
+    const theirsTime = +(endTheirs - startTheirs).toFixed(2)
+    const faster = yoursTime < theirsTime ? 'yours' : 'theirs'
+    const delta =
+      (
+        (Math.max(yoursTime, theirsTime) / Math.min(yoursTime, theirsTime) -
+          1) *
+        100
+      ).toFixed(2) + '%'
+
+    results[label] = {
+      yours: yoursTime,
+      theirs: theirsTime,
+      faster,
+      delta,
+    }
+  }
+
+  console.table(results)
+}
+
+runBenchmark()
