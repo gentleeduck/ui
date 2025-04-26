@@ -45,12 +45,13 @@
   },
   "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-variants#readme",
   "devDependencies": {
-    "clsx": "^1.2.1",
-    "tsdown": "^0.9.6",
     "@changesets/cli": "^2.27.7",
     "@gentelduck/tsdown": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
-    "husky": "^9.1.7"
+    "clsx": "^1.2.1",
+    "husky": "^9.1.7",
+    "publint": "^0.3.12",
+    "tsdown": "^0.9.6"
   },
   "peerDependencies": {
     "typescript": "^5.8.2"
