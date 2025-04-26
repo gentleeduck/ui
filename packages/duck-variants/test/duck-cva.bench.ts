@@ -1,6 +1,6 @@
 import { bench, describe } from 'vitest'
 
-// import { cva as DuckCva } from '../src/variants'
+import { cva as DuckCva } from '../src/variants'
 import { cva as CvaWithCache } from './cva-cache'
 import originalCVA from './cva'
 
@@ -84,7 +84,8 @@ const buttonWithoutBaseWithDefaultsWithClassNameString = {
 //   buttonWithoutBaseWithDefaultsWithClassNameString,
 // )
 
-const _buttonVariants = originalCVA(
+const _buttonVariants = DuckCva(
+  '',
   buttonWithoutBaseWithDefaultsWithClassNameString,
 )
 
@@ -108,37 +109,28 @@ describe('benchmarking cva', () => {
   //     buttonVariants({ size: 'large', intent: 'unset' } as any)
   //   },
   // )
-  bench(
-    'cva',
-    () => {
-      _buttonVariants({})
-      _buttonVariants({ intent: 'primary', disabled: true } as any)
-      _buttonVariants({ intent: 'primary', size: 'medium' } as any)
-      _buttonVariants({
-        intent: 'warning',
-        size: 'medium',
-        disabled: true,
-      } as any)
-      _buttonVariants({ size: 'small' } as any)
-      _buttonVariants({ size: 'large', intent: 'unset' } as any)
-    },
-    
-  )
-  bench(
-    'cva with cache',
-    () => {
-      __buttonVariants({})
-      __buttonVariants({ intent: 'primary', disabled: true } as any)
-      __buttonVariants({ intent: 'primary', size: 'medium' } as any)
-      __buttonVariants({
-        intent: 'warning',
-        size: 'medium',
-        disabled: true,
-      } as any)
-      __buttonVariants({ size: 'small' } as any)
-      __buttonVariants({ size: 'large', intent: 'unset' } as any)
-    },
-    
-  )
+  bench('cva', () => {
+    _buttonVariants({})
+    _buttonVariants({ intent: 'primary', disabled: true } as any)
+    _buttonVariants({ intent: 'primary', size: 'medium' } as any)
+    _buttonVariants({
+      intent: 'warning',
+      size: 'medium',
+      disabled: true,
+    } as any)
+    _buttonVariants({ size: 'small' } as any)
+    _buttonVariants({ size: 'large', intent: 'unset' } as any)
+  })
+  bench('cva with cache', () => {
+    __buttonVariants({})
+    __buttonVariants({ intent: 'primary', disabled: true } as any)
+    __buttonVariants({ intent: 'primary', size: 'medium' } as any)
+    __buttonVariants({
+      intent: 'warning',
+      size: 'medium',
+      disabled: true,
+    } as any)
+    __buttonVariants({ size: 'small' } as any)
+    __buttonVariants({ size: 'large', intent: 'unset' } as any)
+  })
 })
-
