@@ -1,8 +1,9 @@
-# `@gentelduck/variants`
 
 <p align="center">
   <img src="./public/variants.png" alt="@gentelduck/variants" width="700"/>
 </p>
+
+# `@gentelduck/variants`
 
 A lightweight utility for generating class names based on variant configurations. Inspired by Tailwind and `class-variance-authority`, `@gentelduck/variants` helps you manage and compose class names in a flexible, type-safe, and declarative way.  
 
@@ -43,7 +44,7 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 ## Benchmark
 
 ### **Vitest Benchmark**
-- **@gentelduck/variants**: ~7x faster than `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`
+**@gentelduck/variants**: ~7x faster than `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`
 <img src="./public/vite_benchmark.png" alt="Benchmark" />
 
 ### **Duck Benchmark**
