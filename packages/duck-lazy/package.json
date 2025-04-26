@@ -57,6 +57,11 @@
     "next": "15.2.0",
     "typescript": "^5.8.2"
   },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": ">=20.0.0"
   }
