@@ -18,19 +18,10 @@
       "import": "./easing.ts"
     }
   },
-  "scripts": {
-    "build": "tsup"
-  },
   "devDependencies": {
-    "@gentelduck/hooks": "workspace:*",
     "@gentelduck/libs": "workspace:*",
     "@gentelduck/variants": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tsup": "^8.2.4",
-    "typescript": "catalog:",
-    "zod": "catalog:"
-  },
-  "dependencies": {}
+    "typescript": "catalog:"
+  }
 }
