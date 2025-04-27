@@ -1,7 +1,6 @@
 import { cva as gentelduckFn } from '../src'
-import cvaAuthorityFn from '../test/cva'
+import { cva } from 'cva'
 
-// Define @gentelduck/variants instance
 const yourFn = gentelduckFn({
   base: 'button font-semibold border rounded',
   variants: {
@@ -66,8 +65,7 @@ const yourFn = gentelduckFn({
   },
 })
 
-// Define class-variance-authority instance
-const theirFn = cvaAuthorityFn({
+const theirFn = cva({
   base: 'button font-semibold border rounded',
   variants: {
     intent: {

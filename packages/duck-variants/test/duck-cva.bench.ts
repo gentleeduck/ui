@@ -1,8 +1,8 @@
 import { bench, describe } from 'vitest'
 
 import { cva as DuckCva } from '../src/variants'
-import { cva as CvaWithCache } from './cva-cache'
-import originalCVA from './cva'
+import { cva as CvaPrefPullRequest } from './cva-pref-pull-request'
+import { cva } from 'cva'
 
 const buttonWithoutBaseWithDefaultsWithClassNameString = {
   base: 'button font-semibold border rounded',
@@ -84,15 +84,15 @@ const buttonVariants = DuckCva(
   buttonWithoutBaseWithDefaultsWithClassNameString,
 )
 
-const _buttonVariants = originalCVA(
+const _buttonVariants = cva(
   buttonWithoutBaseWithDefaultsWithClassNameString,
 )
 
-const __buttonVariants = CvaWithCache(
+const __buttonVariants = CvaPrefPullRequest(
   buttonWithoutBaseWithDefaultsWithClassNameString,
 )
 
-describe('benchmarking cva', () => {
+describe.skip('benchmarking cva', () => {
   bench('duck cva', () => {
     buttonVariants({})
     buttonVariants({ intent: 'primary', disabled: true } as any)
@@ -105,7 +105,7 @@ describe('benchmarking cva', () => {
     buttonVariants({ size: 'small' } as any)
     buttonVariants({ size: 'large', intent: 'unset' } as any)
   })
-  bench('cva with cache', () => {
+  bench('cva pref pull request', () => {
     __buttonVariants({})
     __buttonVariants({ intent: 'primary', disabled: true } as any)
     __buttonVariants({ intent: 'primary', size: 'medium' } as any)

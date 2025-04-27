@@ -1,3 +1,7 @@
+// NOTE: this file is not part of the library and is only for testing purposes.
+// It is not intended to be used in production and should not be included in the final build.
+// acknowledgement: for https://github.com/fveracoechea/cva https://github.com/joe-bell/cva/pull/281
+
 /**
  * Copyright 2022 Joe Bell. All rights reserved.
  *
@@ -18,6 +22,13 @@ import { clsx } from "clsx";
 /* Types
   ============================================ */
 
+/* clsx
+  ---------------------------------- */
+
+// When compiling with `declaration: true`, many projects experience the dreaded
+// TS2742 error. To combat this, we copy clsx's types manually.
+// Should this project move to JSDoc, this workaround would no longer be needed.
+
 export type ClassValue =
   | ClassArray
   | ClassDictionary
@@ -29,6 +40,9 @@ export type ClassValue =
   | undefined;
 export type ClassDictionary = Record<string, any>;
 export type ClassArray = ClassValue[];
+
+/* Utils
+  ---------------------------------- */
 
 type OmitUndefined<T> = T extends undefined ? never : T;
 type StringToBoolean<T> = T extends "true" | "false" ? boolean : T;
@@ -42,6 +56,9 @@ export type VariantProps<Component extends (...args: any) => any> = Omit<
   OmitUndefined<Parameters<Component>[0]>,
   "class" | "className"
 >;
+
+/* compose
+  ---------------------------------- */
 
 export interface Compose {
   <T extends ReturnType<CVA>[]>(
@@ -59,12 +76,18 @@ export interface Compose {
   ) => string;
 }
 
+/* cx
+  ---------------------------------- */
+
 export interface CX {
   (...inputs: ClassValue[]): string;
 }
 
 export type CXOptions = Parameters<CX>;
 export type CXReturn = ReturnType<CX>;
+
+/* cva
+  ============================================ */
 
 type CVAConfigBase = { base?: ClassValue };
 type CVAVariantShape = Record<string, Record<string, ClassValue>>;
@@ -117,6 +140,9 @@ export interface CVA {
   ) => string;
 }
 
+/* defineConfig
+  ---------------------------------- */
+
 export interface DefineConfigOptions {
   hooks?: {
     /**
@@ -137,10 +163,13 @@ export interface DefineConfig {
     cva: CVA;
   };
 }
-
-/* Internal Helpers
+/* Internal helper functions 
   ============================================ */
 
+/**
+ * Type guard.
+ * Determines whether an object has a property with the specified name.
+ * */
 function isKeyOf<R extends Record<PropertyKey, unknown>, V = keyof R>(
   record: R,
   key: unknown,
@@ -153,6 +182,9 @@ function isKeyOf<R extends Record<PropertyKey, unknown>, V = keyof R>(
   );
 }
 
+/**
+ * Merges two given objects, Props take precedence over Defaults
+ * */
 function mergeDefaultsAndProps<
   V extends CVAVariantShape,
   P extends Record<PropertyKey, unknown>,
@@ -169,6 +201,9 @@ function mergeDefaultsAndProps<
   return result as Record<keyof V, NonNullable<ClassValue>>;
 }
 
+/**
+ * Returns a list of class variants based on the given Props and Defaults
+ * */
 function getVariantClassNames<
   V extends CVAVariantShape,
   P extends Record<PropertyKey, unknown> & CVAClassProp,
@@ -191,6 +226,9 @@ function getVariantClassNames<
   return variantClassNames;
 }
 
+/**
+ * Returns selected compound className variants based on Props and Defaults
+ * */
 function getCompoundVariantClassNames<V extends CVAVariantShape>(
   compoundVariants: CVACompoundVariants<V>,
   defaultsAndProps: ClassDictionary,
@@ -231,7 +269,7 @@ function getCompoundVariantClassNames<V extends CVAVariantShape>(
 const falsyToString = <T extends unknown>(value: T) =>
   typeof value === "boolean" ? `${value}` : value === 0 ? "0" : value;
 
-/* Main Factory
+/* Exports
   ============================================ */
 
 export const defineConfig: DefineConfig = (options) => {
@@ -255,17 +293,7 @@ export const defineConfig: DefineConfig = (options) => {
     if (variants == null)
       return (props) => cx(base, props?.class, props?.className);
 
-    const cache = new Map<string, string>();
-
     return (props) => {
-      const { class: cls, className, ...variantProps } = props ?? {};
-
-      const key = JSON.stringify(variantProps);
-
-      if (cache.has(key)) {
-        return cx(cache.get(key), cls, className);
-      }
-
       const variantClassNames = getVariantClassNames(
         variants,
         props,
@@ -277,10 +305,13 @@ export const defineConfig: DefineConfig = (options) => {
         mergeDefaultsAndProps(props, defaultVariants),
       );
 
-      const result = cx(base, variantClassNames, compoundVariantClassNames);
-      cache.set(key, result);
-
-      return cx(result, cls, className);
+      return cx(
+        base,
+        variantClassNames,
+        compoundVariantClassNames,
+        props?.class,
+        props?.className,
+      );
     };
   };
 
