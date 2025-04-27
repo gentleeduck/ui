@@ -16,27 +16,23 @@
     "url": "https://github.com/gentelduck/ui/issues"
   },
   "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-benchmark#readme",
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "components",
-    "ui",
-    "tailwind",
-    "radix-ui",
-    "duck-ui"
-  ],
+  "files": ["dist"],
+  "keywords": ["components", "ui", "tailwind", "radix-ui", "duck-ui"],
   "type": "module",
-  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
   "bin": {
     "duck-ui": "dist/index.js"
   },
   "scripts": {
-    "dev": "tsup --watch",
-    "clean": "rimraf dist",
+    "dev": "tsdown --watch",
     "start": "node dist/index.js",
     "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
-    "build": "tsup",
+    "build": "tsdown",
     "lint": "biome lint ",
     "ci": "pnpm run lint && pnpm run build",
     "release": "changeset version",
@@ -74,13 +70,9 @@
     "@types/fs-extra": "^11.0.1",
     "@types/lodash.template": "^4.5.3",
     "@types/prompts": "^2.4.2",
-    "rimraf": "^4.4.1",
-    "tsup": "^8.2.4",
+    "tsdown": "catalog:",
+    "@gentelduck/tsdown": "workspace:*",
     "type-fest": "^3.8.0",
     "typescript": "^5"
-  },
-  "main": "index.js",
-  "directories": {
-    "test": "test"
   }
 }
