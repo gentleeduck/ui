@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { cva } from '../src/variants'; // Adjust if path different
+import { cva } from '../src/variants';
 
 describe('@gentelduck/variants - cva core tests', () => {
   let baseCva: ReturnType<typeof cva>;
