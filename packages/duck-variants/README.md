@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="./public/variants.png" alt="@gentelduck/variants" width="700"/>
+  <img src="./public/variants.png" alt="@gentelduck/variants" width="900"/>
 </p>
 
 # `@gentelduck/variants`

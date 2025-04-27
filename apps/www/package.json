@@ -19,6 +19,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@tanstack/react-form": "^1.6.3",
     "class-variance-authority": "^0.7.1",
+    "@gentelduck/variants": "workspace:*",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
     "lucide-react": "0.359.0",

@@ -9,6 +9,12 @@ export const config: TsdownConfig = {
   entry: ['./index.ts'],
   outDir: './dist',
   format: 'esm',
+  platform: 'neutral',
+  external: ['react', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
+  clean: true,
+  target: 'esnext',
+  sourcemap: true,
+  treeshake: true,
   onSuccess: () => {
     console.info('Build successful')
   },
@@ -16,3 +22,5 @@ export const config: TsdownConfig = {
   dts: true,
   minify: true,
 }
+
+

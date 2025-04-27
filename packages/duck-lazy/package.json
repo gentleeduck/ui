@@ -5,13 +5,15 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
-  "private": false,
   "exports": {
-    "./*": "./src/*/index.ts"
+    ".": "./dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsup",
-    "lint": "tsc",
+    "build": "tsdown",
+    "lint": "biome lint",
     "ci": "pnpm run lint && pnpm run build",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
@@ -38,11 +40,13 @@
     "url": "https://github.com/gentelduck/ui/issues"
   },
   "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-lazy#readme",
-  "dependencies": {},
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
     "@types/react": "^19.0.10",
     "husky": "^9.1.7",
+    "tsdown": "catalog:",
+    "@gentelduck/tsdown": "workspace:*",
+
     "tsup": "^8.4.0"
   },
   "peerDependencies": {
@@ -53,6 +57,11 @@
     "react-dom": "^19.0.0",
     "next": "15.2.0",
     "typescript": "^5.8.2"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=20.0.0"
