@@ -1,190 +1,217 @@
-import { describe, expect, it, beforeAll,  afterAll } from 'vitest';
-import { cva } from '../src/variants';
+import { describe, it, expect, beforeAll } from 'vitest';
+import { cva } from '../src/variants'; // Adjust if path different
 
-describe('@gentelduck/variants - cva', () => {
-  let button: ReturnType<typeof cva>;
-  let badge: ReturnType<typeof cva>;
-  let card: ReturnType<typeof cva>;
-  let alert: ReturnType<typeof cva>;
+describe('@gentelduck/variants - cva core tests', () => {
+  let baseCva: ReturnType<typeof cva>;
+  let compoundCva: ReturnType<typeof cva>;
 
   beforeAll(() => {
-    button = cva('btn', {
+    baseCva = cva('flex items-center', {
       variants: {
-        size: {
-          sm: 'btn-sm',
-          lg: 'btn-lg',
+        justify: {
+          start: 'justify-start',
+          center: 'justify-center',
+          end: 'justify-end',
         },
-        color: {
-          primary: 'btn-primary',
-          secondary: 'btn-secondary',
+        align: {
+          top: 'items-start',
+          center: 'items-center',
+          bottom: 'items-end',
         },
       },
       defaultVariants: {
-        size: 'sm',
-        color: 'primary',
+        justify: 'start',
+        align: 'center',
       },
     });
 
-    badge = cva('badge', {
+    compoundCva = cva('bg-white', {
       variants: {
-        size: {
-          sm: ['badge-sm', 'text-xs'],
-          lg: ['badge-lg', 'text-lg'],
+        state: {
+          active: 'bg-blue-500 text-white',
+          inactive: 'bg-gray-300 text-black',
         },
-        color: {
-          primary: ['bg-blue-500', 'text-white'],
-          secondary: ['bg-gray-200', 'text-gray-800'],
+        size: {
+          sm: 'p-2 text-sm',
+          lg: 'p-4 text-lg',
         },
       },
       defaultVariants: {
+        state: 'inactive',
         size: 'sm',
-        color: 'primary',
+      },
+      compoundVariants: [
+        {
+          state: 'active',
+          size: 'lg',
+          class: 'ring-4 ring-blue-300',
+        },
+        {
+          state: 'inactive',
+          size: 'sm',
+          className: 'opacity-70',
+        },
+      ],
+    });
+  });
+
+  describe('basic variant behavior', () => {
+    it('should apply base classes and default variants', () => {
+      const result = baseCva();
+      expect(result).toEqual('flex items-center justify-start');
+    });
+
+    it('should override default variants with props', () => {
+      const result = baseCva({ justify: 'center', align: 'top' });
+      expect(result).toEqual('flex items-center justify-center items-start');
+    });
+
+    it('should correctly handle additional className prop', () => {
+      const result = baseCva({ justify: 'end', className: 'gap-4' });
+      expect(result).toEqual('flex items-center justify-end gap-4');
+    });
+
+    it('should correctly handle additional class prop', () => {
+      const result = baseCva({ align: 'bottom', class: 'mt-2' });
+      expect(result).toEqual('flex items-center justify-start items-end mt-2');
+    });
+
+    it('should merge class and className together', () => {
+      const result = baseCva({ justify: 'center', class: 'mx-2', className: 'gap-2' });
+      expect(result).toEqual('flex items-center justify-center gap-2 mx-2');
+    });
+  });
+
+  describe('compound variants behavior', () => {
+    it('should apply base and default classes without compound', () => {
+      const result = compoundCva();
+      expect(result).toEqual('bg-white bg-gray-300 text-black p-2 text-sm opacity-70');
+    });
+
+    it('should apply compound class when matching active + lg', () => {
+      const result = compoundCva({ state: 'active', size: 'lg' });
+      expect(result).toEqual('bg-white bg-blue-500 text-white p-4 text-lg ring-4 ring-blue-300');
+    });
+
+    it('should NOT apply compound class if not matching', () => {
+      const result = compoundCva({ state: 'active', size: 'sm' });
+      expect(result).toEqual('bg-white bg-blue-500 text-white p-2 text-sm');
+    });
+
+    it('should apply multiple compound conditions independently', () => {
+      const result = compoundCva({ state: 'inactive', size: 'sm' });
+      expect(result).toEqual('bg-white bg-gray-300 text-black p-2 text-sm opacity-70');
+    });
+  });
+
+  describe('array classes handling', () => {
+    const arrayCva = cva('relative', {
+      variants: {
+        color: {
+          blue: ['bg-blue-500', 'hover:bg-blue-700'],
+          red: ['bg-red-500', 'hover:bg-red-700'],
+        },
+      },
+      defaultVariants: {
+        color: 'blue',
       },
     });
 
-    card = cva('card', {
-      variants: {
-        size: {
-          small: 'card-sm',
-          large: 'card-lg',
+    it('should flatten and merge multiple classes from array', () => {
+      const result = arrayCva({ color: 'red' });
+      expect(result).toEqual('relative bg-red-500 hover:bg-red-700');
+    });
+
+    it('should include default array classes when no props provided', () => {
+      const result = arrayCva();
+      expect(result).toEqual('relative bg-blue-500 hover:bg-blue-700');
+    });
+  });
+
+  describe('edge cases', () => {
+    it('should gracefully handle empty props', () => {
+      const result = baseCva({});
+      expect(result).toEqual('flex items-center justify-start');
+    });
+
+    it('should ignore unknown props safely', () => {
+      const result = baseCva({ unknown: 'something' } as any);
+      expect(result).toEqual('flex items-center justify-start');
+    });
+
+    it('should handle empty class and className', () => {
+      const result = baseCva({ class: '', className: '' });
+      expect(result).toEqual('flex items-center justify-start');
+    });
+
+    it('should avoid duplicating classes when already present', () => {
+      const result = cva('text-center', {
+        variants: {
+          align: {
+            center: 'text-center',
+          },
         },
-        color: {
-          primary: 'card-primary',
-          secondary: 'card-secondary',
+        defaultVariants: {
+          align: 'center',
+        },
+      })();
+      expect(result).toEqual('text-center');
+    });
+  });
+
+  describe('caching behavior', () => {
+    it('should cache results for identical props', () => {
+      const first = baseCva({ justify: 'center', align: 'bottom' });
+      const second = baseCva({ justify: 'center', align: 'bottom' });
+      expect(first).toStrictEqual(second);
+    });
+
+    it('should produce different outputs for different props', () => {
+      const first = baseCva({ justify: 'center' });
+      const second = baseCva({ justify: 'start' });
+      expect(first).not.toEqual(second);
+    });
+  });
+
+  describe('multiple compound variants matching', () => {
+    const multiCompound = cva('border', {
+      variants: {
+        variant: {
+          outlined: 'border-2 border-gray-300',
+          filled: 'bg-gray-200',
+        },
+        size: {
+          sm: 'p-2',
+          md: 'p-4',
         },
       },
       compoundVariants: [
         {
-          size: 'large',
-          color: 'primary',
-          class: 'card-large-primary',
+          variant: 'outlined',
+          size: 'md',
+          class: 'shadow-md',
         },
         {
-          size: 'small',
-          color: 'secondary',
-          className: 'card-small-secondary',
+          variant: 'filled',
+          size: 'sm',
+          className: 'rounded-md',
         },
       ],
-      defaultVariants: {
-        size: 'small',
-        color: 'primary',
-      },
     });
 
-    alert = cva('alert', {
-      variants: {
-        severity: {
-          info: 'alert-info',
-          error: 'alert-error',
-        },
-      },
-      defaultVariants: {
-        severity: 'info',
-      },
-    });
-  });
-
-  afterAll(() => {
-    // No global teardown needed yet
-  });
-
-  describe('#cva - Basic Variant Behavior', () => {
-    it('should generate default classes correctly when no props passed', () => {
-      const result = button();
-      expect(result).toEqual('btn btn-sm btn-primary');
+    it('should apply multiple compound classes correctly', () => {
+      const result = multiCompound({ variant: 'outlined', size: 'md' });
+      expect(result).toEqual('border border-2 border-gray-300 p-4 shadow-md');
     });
 
-    it('should override default variants with provided props', () => {
-      const result = button({ size: 'lg', color: 'secondary' });
-      expect(result).toEqual('btn btn-lg btn-secondary');
+    it('should apply a different compound class for different combination', () => {
+      const result = multiCompound({ variant: 'filled', size: 'sm' });
+      expect(result).toEqual('border bg-gray-200 p-2 rounded-md');
     });
 
-    it('should accept and merge additional classes via className', () => {
-      const result = button({ size: 'lg', className: 'extra-class' });
-      expect(result).toEqual('btn btn-lg btn-primary extra-class');
-    });
-
-    it('should accept and merge additional classes via class', () => {
-      const result = button({ size: 'lg', class: 'another-extra' });
-      expect(result).toEqual('btn btn-lg btn-primary another-extra');
-    });
-
-    it('should correctly merge both class and className props', () => {
-      const result = button({ className: 'foo', class: 'bar' });
-      expect(result).toEqual('btn btn-sm btn-primary foo bar');
-    });
-  });
-
-  describe('#cva - Multiple classes from array values', () => {
-    it('should correctly add multiple classes from an array for a variant', () => {
-      const result = badge({ size: 'lg', color: 'secondary' });
-      expect(result).toEqual('badge badge-lg text-lg bg-gray-200 text-gray-800');
-    });
-  });
-
-  describe('#cva - Compound Variants', () => {
-    it('should apply compound variant classes when conditions match (class)', () => {
-      const result = card({ size: 'large', color: 'primary' });
-      expect(result).toEqual('card card-lg card-primary card-large-primary');
-    });
-
-    it('should apply compound variant classes when conditions match (className)', () => {
-      const result = card({ size: 'small', color: 'secondary' });
-      expect(result).toEqual('card card-sm card-secondary card-small-secondary');
-    });
-
-    it('should NOT apply compound variant classes if conditions do not match', () => {
-      const result = card({ size: 'large', color: 'secondary' });
-      expect(result).toEqual('card card-lg card-secondary');
-    });
-  });
-
-  describe('#cva - Type Safety', () => {
-    it('should only accept valid variant values (compile-time enforced)', () => {
-      const result = alert({ severity: 'error' });
-      expect(result).toEqual('alert alert-error');
-    });
-
-    it('should use default variant if no severity provided', () => {
-      const result = alert();
-      expect(result).toEqual('alert alert-info');
-    });
-  });
-
-  describe('#cva - Caching Behavior', () => {
-    it('should cache results for the same props object', () => {
-      const firstCall = button({ size: 'lg', color: 'secondary' });
-      const secondCall = button({ size: 'lg', color: 'secondary' });
-
-      expect(firstCall).toStrictEqual(secondCall);
-    });
-
-    it('should not reuse cache across different props', () => {
-      const firstCall = button({ size: 'sm' });
-      const secondCall = button({ size: 'lg' });
-
-      expect(firstCall).not.toEqual(secondCall);
-    });
-  });
-
-  describe('#cva - Edge Cases', () => {
-    it('should handle empty className and class props gracefully', () => {
-      const result = button({ className: '', class: '' });
-      expect(result).toEqual('btn btn-sm btn-primary');
-    });
-
-    it('should handle multiple additional classes provided as arrays', () => {
-      const customBadge = badge({
-        size: 'lg',
-        color: 'primary',
-        className: ['hover:bg-blue-600', 'focus:ring-2'],
-      });
-      expect(customBadge).toEqual('badge badge-lg text-lg bg-blue-500 text-white hover:bg-blue-600 focus:ring-2');
-    });
-
-    it('should ignore unknown props not defined in variants', () => {
-      const result = button({ size: 'lg', color: 'primary', unknownProp: 'value' } as any);
-      expect(result).toEqual('btn btn-lg btn-primary');
+    it('should fallback to only variant/size if no compound match', () => {
+      const result = multiCompound({ variant: 'filled', size: 'md' });
+      expect(result).toEqual('border bg-gray-200 p-4');
     });
   });
 });
