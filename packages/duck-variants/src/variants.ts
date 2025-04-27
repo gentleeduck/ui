@@ -1,90 +1,240 @@
-import { VariantProps, VariantsOptions } from './variants.types'
+import { ClassValue, CvaProps, VariantsOptions } from './variants.types'
 
 /**
- * Utility function to generate class names based on variant options.
+ * Build a stable cache key by serializing props entries in sorted order.
  *
- * @template TVariants - A record mapping variant names to variant values and their corresponding class names.
+ * @template TVariants
+ *   The mapping of variant names to their allowed string/string[] classes.
  *
- * @param base - A base string of class names that will always be applied.
- * @param options - An object that includes:
- *  - `variants`: a mapping of variant names to their possible values and the class name associated with each value.
- *  - `defaultVariants`: optional default values to apply for variants if none are provided.
+ * @param {CvaProps<TVariants>} props
+ *   The props object passed into the CVA function (variant selections + class/className).
  *
- * @returns A function that accepts an optional props object:
- *  - Includes variant values (from TVariants),
- *  - And optional `className` or `class` fields for additional class names.
- *
- * The function returns a string of unique class names.
+ * @returns {string}
+ *   A deterministic string key used for memoization.
  *
  * @example
  * ```ts
- * const button = cva('btn', {
- *   variants: {
- *     size: {
- *       sm: 'btn-sm',
- *       lg: 'btn-lg',
- *     },
- *     color: {
- *       primary: 'btn-primary',
- *       secondary: 'btn-secondary',
- *     },
- *   },
- *   defaultVariants: {
- *     size: 'sm',
- *     color: 'primary',
- *   },
- * })
- *
- * const className = button({ size: 'lg', className: 'extra-class' })
- * // className => 'btn btn-lg btn-primary extra-class'
+ * getCacheKey({ intent: 'primary', size: ['sm', 'md'], className: 'mt-4' })
+ * // => "className:mt-4|intent:primary|size:[sm,md]"
  * ```
  */
-export function cva<TVariants extends Record<string, Record<string, string>>>(
-  base: string,
-  options: VariantsOptions<TVariants>,
-): (
-  props?: VariantProps<TVariants> & { className?: string; class?: string },
-) => string {
-  const { variants, defaultVariants } = options
+function getCacheKey<
+  TVariants extends Record<string, Record<string, string | string[]>>,
+>(props: CvaProps<TVariants>): string {
+  const entries = Object.entries(props) as [string, ClassValue][]
 
-  return (props = {}) => {
-    const classSet = new Set<string>()
-
-    // Add base classes
-    for (const cls of base.split(/\s+/)) {
-      classSet.add(cls)
+  let key = ''
+  for (let i = 0; i < entries.length; i++) {
+    const [k, v] = entries[i]
+    if (Array.isArray(v)) {
+      key += `${k}:[${v.map(String).join(',')}]`
+    } else {
+      key += `${k}:${String(v)}`
     }
+    if (i < entries.length - 1) key += '|'
+  }
+  return key
+}
 
-    // Apply variants with fallbacks to defaultVariants
-    for (const key in variants) {
-      const propValue = props[key as keyof TVariants]
-      const value =
-        propValue !== undefined
-          ? propValue
-          : defaultVariants?.[key as keyof typeof defaultVariants]
+/**
+ * Recursively flattens any supported `ClassValue` into individual CSS tokens.
+ *
+ * Supports:
+ * - primitive strings/numbers/booleans (whitespace-split)
+ * - nested arrays of `ClassValue`
+ * - dictionaries `{ className: boolean }` for conditional classes
+ *
+ * @param {ClassValue | undefined} input
+ *   The value to flatten into tokens.
+ * @param {string[]} tokens
+ *   The accumulator array receiving each CSS token.
+ *
+ * @example
+ * ```ts
+ * const out: string[] = []
+ * flattenClasses(
+ *   [
+ *     'px-4 py-2',
+ *     { 'text-bold': true, invisible: false },
+ *     ['hover:bg-red-500', ['active:scale-95']],
+ *   ],
+ *   out
+ * )
+ * // out => ['px-4','py-2','text-bold','hover:bg-red-500','active:scale-95']
+ * ```
+ */
+function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
+  if (input === undefined || input === null) return
 
-      const variantClass = value && variants[key]?.[value as string]
-      if (variantClass) {
-        for (const cls of variantClass.split(/\s+/)) {
-          classSet.add(cls)
-        }
-      }
+  // primitive values
+  if (
+    typeof input === 'string' ||
+    typeof input === 'number' ||
+    typeof input === 'boolean'
+  ) {
+    const parts = String(input).split(/\s+/)
+    // biome-ignore lint/style/useForOf: <explanation>
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i]
+      if (part) tokens.push(part)
     }
+    return
+  }
 
-    // Add `className` or `class` from props
-    if ('className' in props && props.className) {
-      for (const cls of props.className.split(/\s+/)) {
-        classSet.add(cls)
-      }
+  // arrays of ClassValue
+  if (Array.isArray(input)) {
+    // biome-ignore lint/style/useForOf: <explanation>
+    for (let i = 0; i < input.length; i++) {
+      flattenClasses(input[i], tokens)
     }
+    return
+  }
 
-    if ('class' in props && props.class) {
-      for (const cls of props.class.split(/\s+/)) {
-        classSet.add(cls)
-      }
+  // object dictionary `{ className: true }`
+  for (const key in input) {
+    if (Object.prototype.hasOwnProperty.call(input, key) && input[key]) {
+      tokens.push(key)
     }
-
-    return Array.from(classSet).join(' ')
   }
 }
-//
+
+/**
+ * Creates a Class Variance Authority (CVA) function for composing class names
+ * based on a base string, variants, defaultVariants, and compoundVariants.
+ *
+ * Supports two call signatures:
+ * - `cva(base: string, options: VariantsOptions<TVariants>)`
+ * - `cva(options: VariantsOptions<TVariants> & { base: string })`
+ *
+ * @template TVariants
+ *   A record mapping variant keys to a record of allowed values and their classes.
+ *
+ * @param {string | (VariantsOptions<TVariants> & { base?: string })} baseOrOptions
+ *   Either the base class string, or an options object including `base`.
+ * @param {VariantsOptions<TVariants>} [maybeOptions]
+ *   The options object when using the two-arg signature.
+ *
+ * @returns {(props?: CvaProps<TVariants>) => string}
+ *   A function that, given variant props and optional `class`/`className`, returns
+ *   the deduplicated, memoized className string.
+ *
+ * @example
+ * ```ts
+ * const button = cva('btn px-4 py-2', {
+ *   variants: {
+ *     intent: { primary: 'bg-blue-500 text-white', danger: 'bg-red-500' },
+ *     size: { sm: 'text-sm', lg: 'text-lg' },
+ *   },
+ *   defaultVariants: { intent: 'primary', size: 'sm' },
+ *   compoundVariants: [
+ *     {
+ *       intent: ['primary','danger'],
+ *       size: 'lg',
+ *       className: 'uppercase',
+ *     },
+ *   ],
+ * })
+ *
+ * // uses defaults + compound match
+ * button()
+ * // => 'btn px-4 py-2 bg-blue-500 text-white text-sm uppercase'
+ *
+ * // overrides size + adds custom classes
+ * button({ size: 'lg', class: ['mt-4','shadow'] })
+ * // => 'btn px-4 py-2 bg-blue-500 text-white text-lg uppercase mt-4 shadow'
+ * ```
+ */
+export function cva<
+  TVariants extends Record<string, Record<string, string | string[]>>,
+>(
+  baseOrOptions: string | (VariantsOptions<TVariants> & { base?: string }),
+  maybeOptions?: VariantsOptions<TVariants>,
+): (props?: CvaProps<TVariants>) => string {
+  // Normalize the two possible call signatures
+  const config =
+    typeof baseOrOptions === 'string'
+      ? { base: baseOrOptions, ...maybeOptions! }
+      : baseOrOptions
+
+  const {
+    base = '',
+    variants,
+    defaultVariants = {},
+    compoundVariants = [],
+  } = config
+
+  // Memoization cache keyed by serialized props
+  const cache = new Map<string, string>()
+
+  return function (
+    props: CvaProps<TVariants> = {} as CvaProps<TVariants>,
+  ): string {
+    // 1) Memo lookup
+    const cacheKey = getCacheKey(props)
+    const memo = cache.get(cacheKey)
+    if (memo) return memo
+
+    const tokens: string[] = []
+    const seen = new Set<string>()
+
+    // 2) Base classes
+    flattenClasses(base, tokens)
+
+    // 3) Merge defaults + incoming props
+    const merged = { ...defaultVariants, ...props } as Record<
+      keyof TVariants,
+      ClassValue
+    >
+
+    // 4) Apply variant-specific classes
+    for (const variantName in variants) {
+      const v = merged[variantName]
+      if (v == null || v === 'unset') continue
+      const cls = variants[variantName][String(v)]
+      flattenClasses(cls, tokens)
+    }
+
+    // 5) Apply compoundVariants when all conditions match
+    // biome-ignore lint/style/useForOf: <explanation>
+    for (let i = 0; i < compoundVariants.length; i++) {
+      const cv = compoundVariants[i]!
+      let match = true
+
+      for (const key in cv) {
+        if (key === 'class' || key === 'className') continue
+
+        const cond = cv[key as keyof typeof cv]!
+        const actual = merged[key as keyof typeof merged]
+
+        // array- or single-value condition
+        if (Array.isArray(cond)) {
+          if (!cond.includes(actual!.toString())) {
+            match = false
+            break
+          }
+        } else if (actual !== cond) {
+          match = false
+          break
+        }
+      }
+      if (!match) continue
+
+      flattenClasses(cv.class, tokens)
+      flattenClasses(cv.className, tokens)
+    }
+
+    // 6) Finally append any `className` or `class` from props
+    flattenClasses(props.className, tokens)
+    flattenClasses(props.class, tokens)
+
+    // 7) Deduplicate & join
+    // biome-ignore lint/style/useForOf: <explanation>
+    for (let i = 0; i < tokens.length; i++) {
+      seen.add(tokens[i]!)
+    }
+    const result = Array.from(seen).join(' ')
+
+    cache.set(cacheKey, result)
+    return result
+  }
+}

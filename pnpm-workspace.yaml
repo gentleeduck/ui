@@ -12,6 +12,7 @@ catalog:
   tailwindcss: ^4
   typescript: ^5.6.3
   zod: ^3.23.8
+  tsdown: "^0.9.8"
 
 catalogs:
   react18:

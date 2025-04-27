@@ -1,0 +1,20 @@
+{
+  "name": "@gentelduck/tsdown",
+  "version": "1.0.0",
+  "description": "this is a package for build",
+  "private": true,
+  "type": "module",
+  "types": "index.ts",
+  "main": "index.ts",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@vitejs/plugin-react-swc": "^3.8.0",
+    "tsdown": "catalog:"
+  },
+  "devDependencies": {
+    "@gentelduck/biome-config": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*"
+  }
+}

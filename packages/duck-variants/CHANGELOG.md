@@ -1,5 +1,12 @@
 # @gentelduck/variants
 
+## 0.1.6
+
+### Patch Changes
+
+- done with this
+- repalced a whole lib with jsut coupe lines.
+
 ## 0.1.5
 
 ### Patch Changes

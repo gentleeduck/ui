@@ -4,15 +4,17 @@
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "private": false,
-  "version": "0.1.5",
+  "version": "0.1.6",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "exports": {
-    "./*": "./*/index.ts",
-    ".": "./index.ts"
+    ".": "./dist/index.js"
   },
   "scripts": {
-    "build": "tsup",
-    "lint": "tsc",
+    "build": "tsdown",
+    "lint": "biome lint ",
     "ci": "pnpm run lint && pnpm run build",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
@@ -45,12 +47,13 @@
     "url": "https://github.com/gentelduck/ui/issues"
   },
   "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-variants#readme",
-  "dependencies": {},
   "devDependencies": {
-    "@gentelduck/typescript-config": "workspace:*",
     "@changesets/cli": "^2.27.7",
+    "@gentelduck/tsdown": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
+    "clsx": "^1.2.1",
     "husky": "^9.1.7",
-    "tsup": "^8.4.0"
+    "tsdown": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5.8.2"

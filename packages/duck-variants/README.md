@@ -1,14 +1,56 @@
+
+<p align="center">
+  <img src="./public/variants.png" alt="@gentelduck/variants" width="900"/>
+</p>
+
 # `@gentelduck/variants`
 
-A lightweight utility for generating class names based on variant configurations. Inspired by Tailwind and class-variance-authority, `@gentelduck/variants` helps you manage and compose class names in a flexible, type-safe, and declarative way.
+A lightweight utility for generating class names based on variant configurations. Inspired by Tailwind and `class-variance-authority`, `@gentelduck/variants` helps you manage and compose class names in a flexible, type-safe, and declarative way.  
+
+## Philosophy
+
+At **GentleDuck**, we believe that developer tools should be **fast**, **reliable**, and **actively maintained** — not abandoned. While `class-variance-authority` initially inspired the idea of variant-based class management, its situation has become unacceptable:  
+despite having **over 6 million weekly downloads**, the project has been left **poorly maintained for more than 6 months**, with important pull requests and bug fixes sitting untouched.
+
+Leaving a critical utility like this in a broken or half-maintained state is **unacceptable** to us at **GentleDuck**.  
+So, we took action: we rewrote the library from scratch with our own vision and philosophy — making it **more modern**, **more reliable**, and **up to 7× faster**.  
+
+Our goal with **@gentelduck/variants** is simple:  
+to offer the community a **serious**, **well-maintained**, and **future-proof** alternative — one that developers can trust today and for the years to come.
+
+---
 
 ## Features
 
-- 🧠 **Declarative variant-based styling**
-- 🎯 **Type-safe API with intelligent autocompletion**
-- 🧱 **Composable and extendable utility**
-- 🎨 **Supports default variants and custom class merging**
-- 🪶 **Lightweight and zero dependencies**
+- 🧠 **Declarative variant-based styling**  
+- 🎯 **Type-safe API with intelligent autocompletion**  
+- 🧱 **Composable and extendable utility**  
+- 🎨 **Supports default variants and compound variants**  
+- 🪶 **Lightweight, zero dependencies, blazing fast**  
+
+---
+
+## Why `@gentelduck/variants`?
+
+- ✅ **Zero dependencies**, tiny bundle footprint. 
+- 🔐 **Fully type-safe**, IDE-friendly autocompletion. 
+- 🎨 **Flexible styling** via variants, nested arrays & conditionals.
+- 🚀 **Minimal runtime & memoized** with zero runtime dependencies (just a few dozen lines of code).
+- ⚡ **Blazing fast**: ~7× faster than the reference `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`.
+- 🧠 **Powerful system** for defaults, compounds, and custom classes.
+
+---
+
+## Benchmark
+
+### **Vitest Benchmark**
+**@gentelduck/variants**: ~7x faster than `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`
+<img src="./public/vite_benchmark.png" alt="Benchmark" />
+
+### **Duck Benchmark**
+<img src="./public/duck_benchmark.png" alt="Benchmark" />
+
+
 
 ---
 
@@ -24,7 +66,9 @@ pnpm add @gentelduck/variants
 
 ---
 
-## Usage
+## Getting Started
+
+`@gentelduck/variants` lets you declare your style variants once and get back a function that produces perfectly composed class names, complete with defaults, compounds, nested arrays, and conditional objects.
 
 ### Basic Example
 
@@ -34,127 +78,175 @@ import { cva } from '@gentelduck/variants'
 const button = cva('btn', {
   variants: {
     size: {
-      sm: 'btn-sm',
-      lg: 'btn-lg',
+      sm: 'px-2 py-1 text-sm',
+      md: 'px-4 py-2 text-base',
+      lg: 'px-6 py-3 text-lg',
     },
     color: {
-      primary: 'btn-primary',
-      secondary: 'btn-secondary',
+      primary: 'bg-blue-500 text-white',
+      secondary: 'bg-gray-100 text-gray-800',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+    color: 'primary',
+  },
+  compoundVariants: [
+    { size: 'lg', color: 'primary', className: 'uppercase font-bold' },
+  ],
+})
+
+button() 
+// => 'btn px-4 py-2 text-base bg-blue-500 text-white uppercase font-bold'
+
+button({ size: 'sm', class: ['rounded', 'shadow'] })
+// => 'btn px-2 py-1 text-sm bg-blue-500 text-white rounded shadow'
+```
+
+---
+
+## Advanced Usage
+
+### Arrays & Multiple Classes
+
+You can supply **arrays** of classes or nested arrays for fine-grained control:
+
+```ts
+const badge = cva('badge', {
+  variants: {
+    size: {
+      sm: ['badge-sm', 'text-xs'],
+      lg: ['badge-lg', 'text-lg'],
+    },
+    tone: {
+      muted: ['opacity-50', ['italic']],
+      loud: ['opacity-100', { 'font-bold': true }],
     },
   },
   defaultVariants: {
     size: 'sm',
-    color: 'primary',
+    tone: 'muted',
   },
 })
 
-const className = button({ size: 'lg', className: 'extra-class' })
-// => 'btn btn-lg btn-primary extra-class'
+badge({ size: 'lg', tone: 'loud' })
+// => 'badge badge-lg text-lg opacity-100 font-bold'
 ```
 
----
+### Compound Variants
 
-## API
-
-### `cva(base, options)`
-
-Creates a class name composer function based on variant configurations.
-
-#### Parameters:
-
-- `base: string`  
-  The base class string (always included).
-
-- `options: VariantsOptions<TVariants>`  
-  Object containing:
-  - `variants`: Map of variant names and value-to-class mappings.
-  - `defaultVariants` *(optional)*: Default values for each variant.
-
-#### Returns:
-
-A function that takes props and returns a class string:
-```ts
-type CvaProps<TVariants> = {
-  [K in keyof TVariants]?: keyof TVariants[K]
-} & {
-  className?: string
-  class?: string
-}
-```
-
----
-
-## Type Definitions
-
-### `VariantProps<TVariants>`
-
-Helper type for defining the accepted variant keys and values.
+Apply extra classes when **multiple** variant values match:
 
 ```ts
-type VariantProps<TVariants> = {
-  [K in keyof TVariants]?: keyof TVariants[K]
-}
-```
-
-### `VariantsOptions<TVariants>`
-
-The shape of the options object passed to `cva`.
-
-```ts
-interface VariantsOptions<TVariants> {
-  variants: TVariants
-  defaultVariants?: VariantProps<TVariants>
-}
-```
-
----
-
-## Example with Tailwind CSS
-
-```ts
-const badge = cva('rounded px-2 py-1 text-sm', {
+const card = cva('card', {
   variants: {
-    color: {
-      info: 'bg-blue-100 text-blue-800',
-      warning: 'bg-yellow-100 text-yellow-800',
-      error: 'bg-red-100 text-red-800',
-    },
-    outlined: {
-      true: 'border',
-      false: '',
+    size: { small: 'card-sm', large: 'card-lg' },
+    color: { primary: 'card-primary', secondary: 'card-secondary' },
+  },
+  defaultVariants: { size: 'small', color: 'primary' },
+  compoundVariants: [
+    { size: 'large', color: 'primary', class: 'shadow-xl' },
+    { size: 'small', color: ['secondary', 'primary'], className: 'border-dashed' },
+  ],
+})
+
+card({ size: 'large', color: 'primary' })
+// => 'card card-lg card-primary shadow-xl'
+```
+
+---
+
+## TypeScript Support
+
+Built from the ground up with TypeScript:
+
+- **Autocompletion** for variant keys & values  
+- **Strict checks**: invalid variant names/values will error at compile time  
+- **Utility types** like `VariantProps<>` to extract only variant-related props  
+
+```ts
+const alert = cva('alert', {
+  variants: {
+    severity: {
+      info: 'alert-info',
+      error: 'alert-error',
     },
   },
   defaultVariants: {
-    color: 'info',
-    outlined: false,
+    severity: 'info',
   },
 })
+
+// ✅
+alert({ severity: 'error' })
+
+// ❌ TS Error: 'warning' is not a valid severity
+alert({ severity: 'warning' })
 ```
 
-Usage:
+---
+
+## Composing and Extending
+
+Compose one CVA function with another, or extend defaults:
 
 ```ts
-badge({ color: 'error', outlined: true })
-// => 'rounded px-2 py-1 text-sm bg-red-100 text-red-800 border'
+const baseButton = cva('btn', {
+  variants: { size: { sm: 'btn-sm', lg: 'btn-lg' } },
+  defaultVariants: { size: 'sm' },
+})
+
+const largePrimary = cva(baseButton, {
+  defaultVariants: { size: 'lg' },
+})
+
+largePrimary({ className: 'mx-2' })
+// => 'btn btn-lg mx-2'
+```
+
+You can also simply concatenate:
+
+```ts
+const icon = cva('icon', { variants: { type: { arrow: 'icon-arrow' } } })
+
+`${button()} ${icon({ type: 'arrow' })}`
+// => 'btn px-4 py-2 text-base bg-blue-500 text-white uppercase font-bold icon icon-arrow'
 ```
 
 ---
 
-## Why Use `@gentelduck/variants`?
+## API Reference
 
-- Eliminate complex conditional logic for class names
-- Keep your components clean and focused
-- Simplify class management with built-in defaults
-- Gain TypeScript safety and autocompletion
+### `cva(base, options)` / `cva(optionsWithBase)`
 
----
+Creates your **CVA** function:
 
-## Contributing
+```ts
+type CvaFn<T> = (
+  props?: VariantProps<T> & {
+    class?: ClassValue
+    className?: ClassValue
+  }
+) => string
+```
 
-PRs and feedback are welcome! Please fork the repo and use a feature branch. Submit issues for bugs, feature requests, or improvements.
+- **`base: string`** — always-included classes  
+- **`variants`** — map of variant names → (value → class/string[])  
+- **`defaultVariants?`** — fallback values  
+- **`compoundVariants?`** — apply extra classes when multiple values match  
+
+**Overloads**:
+
+```ts
+// Two-arg form
+const fn = cva('base', { variants, defaultVariants, compoundVariants })
+
+// Single-arg form
+const fn = cva({ base: 'base', variants, defaultVariants, compoundVariants })
+```
 
 ---
 
 ## License
 
-[MIT © GentleDuck](./LICENSE)
+MIT © [GentleDuck](./LICENSE)
