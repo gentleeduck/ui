@@ -837,12 +837,18 @@ importers:
       '@changesets/cli':
         specifier: ^2.27.7
         version: 2.28.1
+      '@gentelduck/tsdown':
+        specifier: workspace:*
+        version: link:../../tooling/tsdown
       '@types/react':
         specifier: ^19.0.10
         version: 19.0.12
       husky:
         specifier: ^9.1.7
         version: 9.1.7
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.9.8(publint@0.3.12)(typescript@5.8.2)
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(@swc/core@1.11.8(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
