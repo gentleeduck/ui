@@ -849,9 +849,6 @@ importers:
       tsdown:
         specifier: 'catalog:'
         version: 0.9.8(publint@0.3.12)(typescript@5.8.2)
-      tsup:
-        specifier: ^8.4.0
-        version: 8.4.0(@swc/core@1.11.8(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
 
   packages/_oldstuff_refactor:
     dependencies:
@@ -1474,9 +1471,6 @@ importers:
 
   packages/duck-motion:
     devDependencies:
-      '@gentelduck/hooks':
-        specifier: workspace:*
-        version: link:../hooks
       '@gentelduck/libs':
         specifier: workspace:*
         version: link:../libs
@@ -1486,21 +1480,9 @@ importers:
       '@gentelduck/variants':
         specifier: workspace:*
         version: link:../duck-variants
-      react:
-        specifier: ^19.0.0
-        version: 19.0.0
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.0.0(react@19.0.0)
-      tsup:
-        specifier: ^8.2.4
-        version: 8.4.0(@swc/core@1.11.8(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.7.3)(yaml@2.7.0)
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
-      zod:
-        specifier: 'catalog:'
-        version: 3.24.2
 
   packages/duck-shortcut:
     dependencies:
@@ -1671,6 +1653,9 @@ importers:
 
   packages/hooks:
     devDependencies:
+      '@gentelduck/tsdown':
+        specifier: workspace:*
+        version: link:../../tooling/tsdown
       '@gentelduck/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript
@@ -1695,6 +1680,9 @@ importers:
       tailwind-merge:
         specifier: ^1.14.0
         version: 1.14.0
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.9.8(publint@0.3.12)(typescript@5.7.3)
       typescript:
         specifier: 'catalog:'
         version: 5.7.3
@@ -17283,6 +17271,10 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
+  '@valibot/to-json-schema@1.0.0(valibot@1.0.0(typescript@5.7.3))':
+    dependencies:
+      valibot: 1.0.0(typescript@5.7.3)
+
   '@valibot/to-json-schema@1.0.0(valibot@1.0.0(typescript@5.8.2))':
     dependencies:
       valibot: 1.0.0(typescript@5.8.2)
@@ -22846,6 +22838,20 @@ snapshots:
     dependencies:
       glob: 9.3.5
 
+  rolldown-plugin-dts@0.8.6(rolldown@1.0.0-beta.8-commit.151352b(typescript@5.7.3))(typescript@5.7.3):
+    dependencies:
+      debug: 4.4.0(supports-color@5.5.0)
+      dts-resolver: 1.0.1
+      get-tsconfig: 4.10.0
+      magic-string-ast: 0.9.1
+      oxc-parser: 0.66.0
+      oxc-transform: 0.66.0
+      rolldown: 1.0.0-beta.8-commit.151352b(typescript@5.7.3)
+    optionalDependencies:
+      typescript: 5.7.3
+    transitivePeerDependencies:
+      - supports-color
+
   rolldown-plugin-dts@0.8.6(rolldown@1.0.0-beta.8-commit.151352b(typescript@5.8.2))(typescript@5.8.2):
     dependencies:
       debug: 4.4.0(supports-color@5.5.0)
@@ -22859,6 +22865,28 @@ snapshots:
       typescript: 5.8.2
     transitivePeerDependencies:
       - supports-color
+
+  rolldown@1.0.0-beta.8-commit.151352b(typescript@5.7.3):
+    dependencies:
+      '@oxc-project/types': 0.66.0
+      '@valibot/to-json-schema': 1.0.0(valibot@1.0.0(typescript@5.7.3))
+      ansis: 3.17.0
+      valibot: 1.0.0(typescript@5.7.3)
+    optionalDependencies:
+      '@rolldown/binding-darwin-arm64': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-darwin-x64': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-freebsd-x64': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-linux-arm-gnueabihf': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-linux-arm64-gnu': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-linux-arm64-musl': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-linux-x64-gnu': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-linux-x64-musl': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-wasm32-wasi': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-win32-arm64-msvc': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-win32-ia32-msvc': 1.0.0-beta.8-commit.151352b
+      '@rolldown/binding-win32-x64-msvc': 1.0.0-beta.8-commit.151352b
+    transitivePeerDependencies:
+      - typescript
 
   rolldown@1.0.0-beta.8-commit.151352b(typescript@5.8.2):
     dependencies:
@@ -23779,6 +23807,28 @@ snapshots:
       minimist: 1.2.8
       strip-bom: 3.0.0
 
+  tsdown@0.9.8(publint@0.3.12)(typescript@5.7.3):
+    dependencies:
+      ansis: 3.17.0
+      cac: 6.7.14
+      chokidar: 4.0.3
+      consola: 3.4.2
+      debug: 4.4.0(supports-color@5.5.0)
+      diff: 7.0.0
+      empathic: 1.0.0
+      hookable: 5.5.3
+      rolldown: 1.0.0-beta.8-commit.151352b(typescript@5.7.3)
+      rolldown-plugin-dts: 0.8.6(rolldown@1.0.0-beta.8-commit.151352b(typescript@5.7.3))(typescript@5.7.3)
+      tinyexec: 1.0.1
+      tinyglobby: 0.2.13
+      unconfig: 7.3.2
+    optionalDependencies:
+      publint: 0.3.12
+    transitivePeerDependencies:
+      - '@oxc-project/runtime'
+      - supports-color
+      - typescript
+
   tsdown@0.9.8(publint@0.3.12)(typescript@5.8.2):
     dependencies:
       ansis: 3.17.0
@@ -24212,6 +24262,10 @@ snapshots:
       sade: 1.8.1
 
   v8-compile-cache-lib@3.0.1: {}
+
+  valibot@1.0.0(typescript@5.7.3):
+    optionalDependencies:
+      typescript: 5.7.3
 
   valibot@1.0.0(typescript@5.8.2):
     optionalDependencies:
