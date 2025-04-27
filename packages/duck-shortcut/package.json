@@ -18,7 +18,7 @@
     "dev": "vite",
     "test": "vitest run",
     "build": "tsup",
-    "lint": "tsc",
+    "lint": "biome lint",
     "ci": "pnpm run lint && pnpm run build",
     "release": "pnpm run ci && changeset publish"
   },

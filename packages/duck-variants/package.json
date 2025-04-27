@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "lint": "biome lint ./",
+    "lint": "biome lint ",
     "ci": "pnpm run lint && pnpm run build",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
