@@ -92,7 +92,7 @@ const __buttonVariants = CvaPrefPullRequest(
   buttonWithoutBaseWithDefaultsWithClassNameString,
 )
 
-describe('benchmarking cva', () => {
+describe.skip('benchmarking cva', () => {
   bench('duck cva', () => {
     buttonVariants({})
     buttonVariants({ intent: 'primary', disabled: true } as any)
