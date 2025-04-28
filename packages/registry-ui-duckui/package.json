@@ -97,10 +97,9 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^1.2.1",
     "lucide-react": "0.359.0",
-    "next-themes": "^0.2.1",
     "react": "^19.0.0",
-    "react-day-picker": "^8.10.1",
     "react-dom": "^19.0.0",
+    "react-day-picker": "^8.10.1",
     "sonner": "^2.0.1",
     "tsup": "^8.2.4",
     "tsx": "^4.17.0",
@@ -109,13 +108,13 @@
     "zod": "catalog:"
   },
   "dependencies": {
+    "next-themes": "^0.2.1",
     "@radix-ui/react-hover-card": "^1.1.6",
     "@radix-ui/react-radio-group": "^1.2.0",
     "@tanstack/react-form": "^1.6.3",
     "cmdk": "^1.0.0",
     "embla-carousel-react": "8.0.0-rc15",
-    "input-otp": "^1.2.4",
-    "next-theme": "^0.1.5",
+    "input-otp": "^1.2.4",    
     "react-hook-form": "^7.52.2",
     "react-resizable-panels": "^2.0.23",
     "recharts": "2.12.7"

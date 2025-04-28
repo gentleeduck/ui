@@ -1,3 +1,1 @@
-import { Button } from './src/dialog/core'
-
-export { Button }
+export * from './src/dialog/core'
