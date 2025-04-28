@@ -4,7 +4,7 @@ import React from 'react'
 import { X } from 'lucide-react'
 import { AnimVariants } from '@gentelduck/motion/anim'
 import { DialogContextType, DialogProps } from './dialog.types'
-
+import { useDialog } from '@gentelduck/aria-feather'
 /**
  * Context for managing the open state of the dialog.
  *
@@ -42,43 +42,14 @@ export function Dialog({
   open: openProp,
   onOpenChange,
 }: DialogProps): React.JSX.Element {
-  const dialogRef = React.useRef<HTMLDialogElement | null>(null)
-  const [open, setOpen] = React.useState<boolean>(openProp ?? false)
-
-  const _onOpenChange = (state: boolean) => {
-    try {
-      const dialog = dialogRef.current
-
-      if (!state) {
-        dialog?.close()
-        setOpen(false)
-        document.body.style.overflow = 'auto'
-        return onOpenChange?.(false)
-      } else {
-        dialog?.showModal()
-        setOpen(true)
-        onOpenChange?.(true)
-        document.body.style.overflow = 'hidden'
-      }
-    } catch (e) {
-      console.warn('Dialog failed to toggle', e)
-    }
-  }
-
-  React.useEffect(() => {
-    const dialog = dialogRef.current
-
-    dialog?.addEventListener('close', () => _onOpenChange(false))
-    return () =>
-      dialog?.removeEventListener('close', () => _onOpenChange(false))
-  }, [])
+  const { open, onOpenChange: _onOpenChange, ref } = useDialog(openProp, onOpenChange)
 
   return (
     <DialogContext.Provider
       value={{
         open: open ?? false,
         onOpenChange: _onOpenChange,
-        ref: dialogRef,
+        ref
       }}
     >
       {children}

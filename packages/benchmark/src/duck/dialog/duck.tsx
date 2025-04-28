@@ -15,7 +15,8 @@ export default function DialogDemo() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        Edit Profile
+        
+        <Button>Edit Profile</Button>
       </DialogTrigger>
       <DialogContent renderOnce className="sm:max-w-[425px]">
         <DialogHeader>
