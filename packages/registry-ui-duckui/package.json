@@ -17,6 +17,7 @@
     "@gentelduck/lazy": "workspace:*",
     "@gentelduck/libs": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
+    "@gentelduck/aria-feather": "workspace:*",
     "@radix-ui/react-accessible-icon": "^1.1.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
