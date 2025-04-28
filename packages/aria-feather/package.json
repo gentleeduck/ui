@@ -17,7 +17,9 @@
     "react-aria",
     "react"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown",
     "lint": "biome lint ",
@@ -43,5 +45,8 @@
     "husky": "^9.1.7",
     "tsdown": "catalog:"
   },
-  "packageManager": "pnpm@10.9.0"
+  "packageManager": "pnpm@10.9.0",
+  "dependencies": {
+    "@types/react": "^19.1.2"
+  }
 }
