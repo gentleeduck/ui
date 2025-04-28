@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/hooks",
+  "name": "@gentleduck/hooks",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -9,7 +9,7 @@
   "types": "./dist/index.d.ts",
   "module": "./dist/index.js",
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "build": "tsdown",
@@ -19,11 +19,11 @@
     "publish": "pnpm run ci && changeset publish"
   },
   "devDependencies": {
-    "@gentelduck/typescript-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "typescript": "catalog:",
     "@types/node": "catalog:",
     "tsdown": "catalog:",
-    "@gentelduck/tsdown": "workspace:*",
+    "@gentleduck/tsdown": "workspace:*",
     "zod": "catalog:",
     "clsx": "^1.2.1",
     "tailwind-merge": "^1.14.0",

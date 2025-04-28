@@ -1,6 +1,6 @@
-# `@gentelduck/lazy`
+# `@gentleduck/lazy`
 
-`@gentelduck/lazy` is a lightweight and accessible React library for lazy-loading images and components. It uses the `IntersectionObserver` API to trigger the loading of content when it enters the viewport, providing smooth, efficient, and accessible lazy loading.
+`@gentleduck/lazy` is a lightweight and accessible React library for lazy-loading images and components. It uses the `IntersectionObserver` API to trigger the loading of content when it enters the viewport, providing smooth, efficient, and accessible lazy loading.
 
 ## Features
 
@@ -15,11 +15,11 @@
 To install the package, run:
 
 ```bash
-npm install @gentelduck/lazy
+npm install @gentleduck/lazy
 # or
-yarn add @gentelduck/lazy
+yarn add @gentleduck/lazy
 # or
-pnpm add @gentelduck/lazy
+pnpm add @gentleduck/lazy
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ pnpm add @gentelduck/lazy
 The `DuckLazyComponent` is used for lazy loading any component or content. It will only render its children when they are about to enter the viewport.
 
 ```tsx
-import { DuckLazyComponent } from '@gentelduck/lazy'
+import { DuckLazyComponent } from '@gentleduck/lazy'
 
 function MyComponent() {
   return (
@@ -50,7 +50,7 @@ function MyComponent() {
 The `DuckLazyImage` component allows for lazy-loading of images with a placeholder. It also provides accessibility features such as `aria-live`, `aria-hidden`, and a custom `alt` text.
 
 ```tsx
-import { DuckLazyImage } from '@gentelduck/lazy'
+import { DuckLazyImage } from '@gentleduck/lazy'
 
 function MyImageComponent() {
   return (
@@ -81,7 +81,7 @@ function MyImageComponent() {
 If you'd like to build your own lazy loading functionality, you can use the `useLazyLoad` hook. It gives you the visibility status and a reference to the element that you can attach to any component.
 
 ```tsx
-import { useLazyLoad } from '@gentelduck/lazy'
+import { useLazyLoad } from '@gentleduck/lazy'
 
 function MyComponent() {
   const { isVisible, elementRef } = useLazyLoad({
@@ -111,7 +111,7 @@ function MyComponent() {
 For lazy-loading images specifically, the `useLazyImage` hook provides visibility and loading status. It will trigger an image load when the image enters the viewport.
 
 ```tsx
-import { useLazyImage } from '@gentelduck/lazy'
+import { useLazyImage } from '@gentleduck/lazy'
 
 function LazyImage({ src, placeholder }) {
   const { isLoaded, imageRef } = useLazyImage(src, {
@@ -147,7 +147,7 @@ The `DuckLazyImage` component lazily loads an image when it comes into view. It 
 ### Usage Example
 
 ```tsx
-import { DuckLazyImage } from '@gentelduck/lazy'
+import { DuckLazyImage } from '@gentleduck/lazy'
 
 function MyImageComponent() {
   return (
@@ -184,7 +184,7 @@ In Next.js applications, you can easily integrate `DuckLazyImage` with the `next
 When using Next.js, set the `nextImage` prop to `true` to ensure compatibility with Next.js's image optimization:
 
 ```tsx
-import { DuckLazyImage } from '@gentelduck/lazy'
+import { DuckLazyImage } from '@gentleduck/lazy'
 
 function MyNextImageComponent() {
   return (
@@ -214,7 +214,7 @@ In standard React applications (without Next.js), `DuckLazyImage` works as a reg
 ### Usage in React
 
 ```tsx
-import { DuckLazyImage } from '@gentelduck/lazy'
+import { DuckLazyImage } from '@gentleduck/lazy'
 
 function MyReactImageComponent() {
   return (
@@ -234,7 +234,7 @@ function MyReactImageComponent() {
 
 ## Accessibility Features
 
-`@gentelduck/lazy` provides robust accessibility features to ensure that your lazy-loaded images and components are compatible with assistive technologies:
+`@gentleduck/lazy` provides robust accessibility features to ensure that your lazy-loaded images and components are compatible with assistive technologies:
 
 - **`aria-live="polite"`** for announcing loading and visibility changes.
 - **`role="img"`** for images to indicate their purpose to screen readers.

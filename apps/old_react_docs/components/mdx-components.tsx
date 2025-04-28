@@ -6,19 +6,19 @@ import Link from 'next/link'
 import * as React from 'react'
 import { NpmCommands } from 'types/unist'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@gentelduck/registry-ui-duckui/accordion'
+} from '@gentleduck/registry-ui-duckui/accordion'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@gentelduck/registry-ui-duckui/tabs'
+} from '@gentleduck/registry-ui-duckui/tabs'
 import { Callout } from '~/components/callout'
 import { CodeBlockWrapper } from '~/components/code-block-wrapper'
 import { CopyButton, CopyNpmCommandButton } from '~/components/copy-button'

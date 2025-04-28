@@ -34,9 +34,9 @@ const data: ButtonProps[] = [
 ]
 
 const emails = [
-  { email: 'wildduck@gentelduck.org', icon: Mail, label: 'mail' },
+  { email: 'wildduck@gentleduck.org', icon: Mail, label: 'mail' },
   { email: 'mona@gmail.com', icon: Cloudy, label: 'cloud' },
-  { email: 'hannan@gentelduck.du', icon: ServerCog, label: 'server' },
+  { email: 'hannan@gentleduck.du', icon: ServerCog, label: 'server' },
 ]
 
 export default function HeaderMainDemo() {
@@ -79,7 +79,7 @@ export default function HeaderMainDemo() {
                 className={cn(
                   'my-1 mx-2 justify-between',
                   !O && 'w-[250px]',
-                  O && 'justify-center'
+                  O && 'justify-center',
                 )}
                 title={'Collapse'}
                 variant={'secondary'}

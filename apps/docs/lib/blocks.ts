@@ -13,7 +13,7 @@ import {
   block_schema,
   registry_entry_schema,
   Style,
-} from '@gentelduck/registers'
+} from '@gentleduck/registers'
 
 const DEFAULT_BLOCKS_STYLE = 'default' satisfies Style['name']
 
@@ -22,7 +22,7 @@ const project = new Project({
 })
 
 export async function getAllBlockIds(
-  style: Style['name'] = DEFAULT_BLOCKS_STYLE
+  style: Style['name'] = DEFAULT_BLOCKS_STYLE,
 ) {
   const blocks = await _getAllBlocks(style)
   return blocks.map((block) => block.name)
@@ -30,7 +30,7 @@ export async function getAllBlockIds(
 
 export async function getBlock(
   name: string,
-  style: Style['name'] = DEFAULT_BLOCKS_STYLE
+  style: Style['name'] = DEFAULT_BLOCKS_STYLE,
 ) {
   // @ts-ignore
   const entry = Index[style][name]
@@ -64,7 +64,7 @@ export async function getBlock(
           .getText()
           .replaceAll(`@/registry/${style}/`, '@/components/'),
       }
-    })
+    }),
   )
 
   return block_schema.parse({
@@ -84,13 +84,13 @@ async function _getAllBlocks(style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
   return Object.values(index).filter(
     // ! FIX: fix the type error
     // @ts-expect-error This comparison appears to be unintentional because the types '"registry:style" | "registry:lib" | "registry:example" | "registry:block" | "registry:component" | "registry:ui" | "registry:hook" | "registry:theme" | "registry:page"' and '"components:block"' have no overlap.ts(2367)
-    (block) => block.type === 'components:block' //   (block) => block.type === 'registry:block',
+    (block) => block.type === 'components:block', //   (block) => block.type === 'registry:block',
   )
 }
 
 async function _getBlockCode(
   name: string,
-  style: Style['name'] = DEFAULT_BLOCKS_STYLE
+  style: Style['name'] = DEFAULT_BLOCKS_STYLE,
 ) {
   // @ts-ignore
   const entry = Index[style][name]

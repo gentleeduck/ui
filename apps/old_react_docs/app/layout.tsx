@@ -7,12 +7,12 @@ import { Analytics } from '~/components/ui'
 import { ThemeProvider } from '~/components/providers'
 import { TailwindIndicator } from '~/components/tailwind-indicator'
 import { ThemeSwitcher } from '~/components/theme-switcher'
-import { DefaultToaster } from '@gentelduck/registry-ui-duckui/toast'
-import { DefaultSonner } from '@gentelduck/registry-ui-duckui/sonner'
+import { DefaultToaster } from '@gentleduck/registry-ui-duckui/toast'
+import { DefaultSonner } from '@gentleduck/registry-ui-duckui/sonner'
 
 import localFont from 'next/font/local'
 import { TRPCReactProvider } from '~/trpc/react'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 // Font files can be colocated inside of `pages`
 const EmojiFont = localFont({ src: '../assets/fonts/font.ttf' })
@@ -83,16 +83,13 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      <html
-        lang='en'
-        suppressHydrationWarning
-      >
+      <html lang='en' suppressHydrationWarning>
         <head />
         <body
           className={cn(
             'min-h-svh bg-background font-sans antialiased',
             fontSans.variable,
-            fontMono.variable
+            fontMono.variable,
           )}
         >
           <TRPCReactProvider>

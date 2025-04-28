@@ -1,4 +1,4 @@
-# `@gentelduck/state`
+# `@gentleduck/state`
 
 ## 🦆 **Duck-Style State Management?**
 Since you want to create a **state management library compatible with all frameworks**, you might want to:

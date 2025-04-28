@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
 import { Button } from '../button'
 import { hoverCardVariants } from './hover-card.constants'

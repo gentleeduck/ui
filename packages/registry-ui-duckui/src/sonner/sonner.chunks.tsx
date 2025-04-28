@@ -5,21 +5,28 @@ import { UploadSonnerProps } from './sonner.types'
 import { formatTime } from './sonner.libs'
 import React from 'react'
 import { toast } from 'sonner'
+import { cn } from '@gentleduck/libs/cn'
 
 const SonnerUpload = ({
   progress,
   attachments,
   remainingTime,
   onCancel,
-}: UploadSonnerProps): JSX.Element => {
-  const ID = React.useId()
+}: UploadSonnerProps): React.JSX.Element => {
   return (
     <div className='flex gap-3 w-full'>
-      {progress >= 100 ? (
-        <CircleCheck className='fill-primary [&_path]:stroke-primary-foreground mt-2 !size-[18px]' />
-      ) : (
-        <Loader className='animate-spin text-foreground-muted mt-2 opacity-70 !size-[18px]' />
-      )}
+      <CircleCheck
+        className={cn(
+          'fill-primary [&_path]:stroke-primary-foreground mt-2 !size-[18px] hidden',
+          progress >= 100 && 'flex',
+        )}
+      />
+      <Loader
+        className={cn(
+          'animate-spin text-foreground-muted mt-2 opacity-70 !size-[18px] hidden',
+          progress < 100 && 'flex',
+        )}
+      />
       <div className='flex flex-col gap-2 w-full'>
         <div className='flex w-full justify-between'>
           <p className='text-foreground text-sm'>
@@ -30,7 +37,7 @@ const SonnerUpload = ({
                 : `Uploading...`}
           </p>
           <div className='flex items-center gap-2'>
-            {remainingTime && (
+            {progress <= 100 && (
               <p className='text-foreground-light text-sm font-mono'>{`${remainingTime && !isNaN(remainingTime) && isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining – ` : ''}`}</p>
             )}
             <p className='text-foreground-light text-sm font-mono'>{`${progress}%`}</p>

@@ -2,14 +2,14 @@
 
 import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { CopyButton, CopyWithClassNames } from '~/components/copy-button'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@gentelduck/registry-ui-duckui/tabs'
+} from '@gentleduck/registry-ui-duckui/tabs'
 
 interface ComponentExampleProps extends React.HTMLAttributes<HTMLDivElement> {
   extractClassname?: boolean
@@ -28,7 +28,7 @@ export function ComponentExample({
   ...props
 }: ComponentExampleProps) {
   const [Example, Code, ...Children] = React.Children.toArray(
-    children
+    children,
   ) as React.ReactElement[]
 
   const codeString = React.useMemo(() => {
@@ -36,7 +36,7 @@ export function ComponentExample({
       typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined'
     ) {
       const [, Button] = React.Children.toArray(
-        Code.props.children
+        Code.props.children,
       ) as React.ReactElement[]
       return Button?.props?.value || Button?.props?.__rawString__ || null
     }
@@ -47,10 +47,7 @@ export function ComponentExample({
       className={cn('group relative my-4 flex flex-col space-y-2', className)}
       {...props}
     >
-      <Tabs
-        defaultValue='preview'
-        className='relative mr-auto w-full'
-      >
+      <Tabs defaultValue='preview' className='relative mr-auto w-full'>
         <div className='flex items-center justify-between pb-3'>
           <TabsList className='w-full justify-start rounded-none border-b bg-transparent p-0'>
             <TabsTrigger
@@ -81,10 +78,7 @@ export function ComponentExample({
             )
           )}
         </div>
-        <TabsContent
-          value='preview'
-          className='rounded-md border'
-        >
+        <TabsContent value='preview' className='rounded-md border'>
           <div
             className={cn('flex min-h-[350px] justify-center p-10', {
               'items-center': align === 'center',

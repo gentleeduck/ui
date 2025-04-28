@@ -4,13 +4,13 @@ import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
-} from '@gentelduck/registry-ui-duckui/sheet'
+} from '@gentleduck/registry-ui-duckui/sheet'
 import { Icons } from '~/components/icons'
 import { docsConfig } from '~/config/docs'
 import { siteConfig } from '~/config/site'
@@ -19,10 +19,7 @@ export function MobileNav() {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <Sheet
-      open={open}
-      onOpenChange={setOpen}
-    >
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
           variant='ghost'
@@ -60,10 +57,7 @@ export function MobileNav() {
           <span className='sr-only'>Toggle Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent
-        side='left'
-        className='pr-0'
-      >
+      <SheetContent side='left' className='pr-0'>
         <MobileLink
           href='/'
           className='flex items-center'
@@ -84,15 +78,12 @@ export function MobileNav() {
                   >
                     {item.title}
                   </MobileLink>
-                )
+                ),
             )}
           </div>
           <div className='flex flex-col space-y-2'>
             {docsConfig.sidebarNav.map((item, index) => (
-              <div
-                key={index}
-                className='flex flex-col space-y-3 pt-6'
-              >
+              <div key={index} className='flex flex-col space-y-3 pt-6'>
                 <h4 className='font-medium'>{item.title}</h4>
                 {item?.items?.length &&
                   item.items.map((item) => (

@@ -1,7 +1,7 @@
-import { cva as gentelduckFn } from '../src'
+import { cva as gentleduckFn } from '../src'
 import { cva } from 'cva'
 
-const yourFn = gentelduckFn({
+const yourFn = gentleduckFn({
   base: 'button font-semibold border rounded',
   variants: {
     intent: {
@@ -173,19 +173,19 @@ const scenarios = {
 async function runBenchmark() {
   const results: Array<{
     Scenario: string
-    'Gentelduck (ms)': number
+    'gentleduck (ms)': number
     'Authority (ms)': number
     'Faster Version': string
     Speedup: string
   }> = []
 
   for (const [label, testFn] of Object.entries(scenarios)) {
-    // Benchmark Gentelduck
-    const startGentelduck = performance.now()
+    // Benchmark gentleduck
+    const startgentleduck = performance.now()
     for (let i = 0; i < (label === 'Cache hit (repeated call)' ? 1 : N); i++) {
       testFn(yourFn)
     }
-    const endGentelduck = performance.now()
+    const endgentleduck = performance.now()
 
     // Benchmark Authority
     const startAuthority = performance.now()
@@ -194,22 +194,22 @@ async function runBenchmark() {
     }
     const endAuthority = performance.now()
 
-    const gentelduckTime = +(endGentelduck - startGentelduck).toFixed(2)
+    const gentleduckTime = +(endgentleduck - startgentleduck).toFixed(2)
     const authorityTime = +(endAuthority - startAuthority).toFixed(2)
 
-    const gentelduckFaster = gentelduckTime < authorityTime
-    const fasterVersion = gentelduckFaster
-      ? '@gentelduck/variants'
+    const gentleduckFaster = gentleduckTime < authorityTime
+    const fasterVersion = gentleduckFaster
+      ? '@gentleduck/variants'
       : 'class-variance-authority'
 
-    const speedupRatio = gentelduckFaster
-      ? authorityTime / gentelduckTime
-      : gentelduckTime / authorityTime
+    const speedupRatio = gentleduckFaster
+      ? authorityTime / gentleduckTime
+      : gentleduckTime / authorityTime
     const speedup = `x${speedupRatio.toFixed(2)} faster`
 
     results.push({
       Scenario: label,
-      'Gentelduck (ms)': gentelduckTime,
+      'gentleduck (ms)': gentleduckTime,
       'Authority (ms)': authorityTime,
       'Faster Version': fasterVersion,
       Speedup: speedup,

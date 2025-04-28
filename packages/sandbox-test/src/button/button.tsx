@@ -1,7 +1,7 @@
 import React from 'react'
 
-// import { atom, useAtom } from '@gentelduck/state/atom'
-// import { selector } from '@gentelduck/state/selectors'
+// import { atom, useAtom } from '@gentleduck/state/atom'
+// import { selector } from '@gentleduck/state/selectors'
 //
 
 const counter = atom(0)

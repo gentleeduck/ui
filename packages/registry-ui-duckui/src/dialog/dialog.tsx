@@ -1,8 +1,8 @@
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Button } from '../button'
 import React from 'react'
 import { X } from 'lucide-react'
-import { AnimVariants } from '@gentelduck/motion/anim'
+import { AnimVariants } from '@gentleduck/motion/anim'
 import { DialogContextType, DialogProps } from './dialog.types'
 
 /**

@@ -31,7 +31,7 @@
  * @author wildduck
  */
 import React from 'react'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Search } from 'lucide-react'
 import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 import {
@@ -45,7 +45,7 @@ import {
   CommandProps,
   CommandSeparatorProps,
 } from './command.types'
-import { useDebounceCallback } from '@gentelduck/hooks/use-debounce'
+import { useDebounceCallback } from '@gentleduck/hooks'
 import { useCommandContext } from './command.hooks'
 
 /**
@@ -279,13 +279,13 @@ function CommandShortcut({
  * @param {string} [props.className] - Additional CSS classes.
  * @param {React.Ref<HTMLDivElement>} [props.ref] - Reference to the separator div.
  * @param {React.HTMLProps<HTMLDivElement>} [...props] - The component props.
- * @returns {JSX.Element} The rendered CommandSeparator component.
+ * @returns {React.JSX.Element} The rendered CommandSeparator component.
  */
 function CommandSeparator({
   className,
   ref,
   ...props
-}: CommandSeparatorProps): JSX.Element {
+}: CommandSeparatorProps): React.JSX.Element {
   return (
     <div
       ref={ref}

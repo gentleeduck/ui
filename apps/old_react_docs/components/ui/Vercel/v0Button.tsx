@@ -6,14 +6,14 @@ import { Loader2 } from 'lucide-react'
 import { useFormStatus } from 'react-dom'
 import { toast } from 'sonner'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Block, Style } from '@gentelduck/registers'
+import { cn } from '@gentleduck/libs/cn'
+import { Block, Style } from '@gentleduck/registers'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@gentelduck/registry-ui-duckui/tooltip'
-import { ButtonProps } from '@gentelduck/registry-ui-duckui/button'
+} from '@gentleduck/registry-ui-duckui/tooltip'
+import { ButtonProps } from '@gentleduck/registry-ui-duckui/button'
 
 type Size = 'default' | 'icon'
 
@@ -117,12 +117,7 @@ export function V0Button({
         }
       }}
     >
-      <Form
-        size={size}
-        className={className}
-        disabled={disabled}
-        {...props}
-      />
+      <Form size={size} className={className} disabled={disabled} {...props} />
     </form>
   )
 }
@@ -142,7 +137,7 @@ function Form({
         className={cn(
           'z-50 h-[calc(theme(spacing.7)_-_1px)] gap-1 rounded-[6px] bg-black px-3 text-xs text-white hover:bg-black hover:text-white dark:bg-white dark:text-black',
           size === 'icon' && 'h-7 w-7 p-0',
-          className
+          className,
         )}
         disabled={disabled || pending}
         {...props}

@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { ScrollArea } from '@gentelduck/registry-ui-duckui/scroll-area'
-import { Separator } from '@gentelduck/registry-ui-duckui/separator'
+import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
+import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
 const tags = Array.from({ length: 50 }).map(
   (_, i, a) => `v1.2.0-beta.${a.length - i}`,

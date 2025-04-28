@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { X } from 'lucide-react'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { sheetVariants } from './sheet.constants'
 import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { Button } from '../button'
@@ -200,7 +200,6 @@ function SheetFooter({
   ref,
   ...props
 }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-
   return (
     <div
       ref={ref}

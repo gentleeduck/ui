@@ -1,4 +1,4 @@
-import { registry, registry_schema } from '@gentelduck/registers'
+import { registry, registry_schema } from '@gentleduck/registers'
 import { build_registry_index } from '../build-registry-index'
 import { build_registry_components } from '../build-registry-components'
 import { build_registry_tsx, write_index_tsx } from '../build-registry-tsx'

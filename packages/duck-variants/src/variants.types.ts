@@ -118,7 +118,7 @@ export type CvaProps<
  */
 export type VariantProps<T> = T extends (props?: infer P) => any
   ? {
-      [K in keyof P as K extends 'class' | 'className' ? never : K]-?: P[K]
+      [K in keyof P as K extends 'class' | 'className' ? never : K]: P[K]
     }
   : never
 

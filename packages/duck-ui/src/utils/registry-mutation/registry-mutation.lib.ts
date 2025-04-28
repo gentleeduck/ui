@@ -47,10 +47,10 @@ export async function get_installation_config(
     if (!yes) {
       spinner.fail('🥺 Why you cannot install components?, goodbye!')
       spinner.info(
-        `🦆 Having issues you can report them here: ${highlighter.info('https://github.com/gentelduck/ui/issues')}`,
+        `🦆 Having issues you can report them here: ${highlighter.info('https://github.com/gentleduck/ui/issues')}`,
       )
       spinner.info(
-        `🦆 If you do not know how to write a professional issue,\n     you can find more info here: https://ui.gentelduck.com/docs/cli`,
+        `🦆 If you do not know how to write a professional issue,\n     you can find more info here: https://ui.gentleduck.com/docs/cli`,
       )
       process.exit(0)
     }

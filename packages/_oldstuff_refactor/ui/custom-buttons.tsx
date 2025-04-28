@@ -3,8 +3,8 @@ import React from 'react'
 // import { IoMdHeartEmpty } from 'react-icons/io'
 // import { LucideIcon } from 'lucide-react'
 import { LikedType, TaggedUserType } from './swapy'
-import { Button, ButtonProps } from '@gentelduck/registry-ui-duckui/button'
-import { cn } from '@gentelduck/libs/cn'
+import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
 
 export interface LikeButtonProps extends Omit<ButtonProps, 'onClick'> {
   user: TaggedUserType
@@ -66,7 +66,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
       variant='nothing'
       className={cn(
         'rounded-full h-auto w-auto',
-        likeState.hasLiked && 'btn-love'
+        likeState.hasLiked && 'btn-love',
       )}
       onClick={(e) => {
         onClick && onClick({ e, state: likeState })
@@ -82,12 +82,12 @@ const LikeButton: React.FC<LikeButtonProps> = ({
         <div
           className={cn(
             'relative grid place-content-center h-4 overflow-hidden leading-4 transition',
-            likeState.scrollTo
+            likeState.scrollTo,
           )}
           style={{
             width: `${Math.min(
               48,
-              Math.max(24, String(likeState.current).length * 12)
+              Math.max(24, String(likeState.current).length * 12),
             )}px`,
           }}
         >

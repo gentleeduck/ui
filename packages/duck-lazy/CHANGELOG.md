@@ -1,4 +1,4 @@
-# @gentelduck/lazy
+# @gentleduck/lazy
 
 ## 1.2.0
 

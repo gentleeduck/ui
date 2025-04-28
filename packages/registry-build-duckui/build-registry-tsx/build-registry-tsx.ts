@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { registry_schema } from '@gentelduck/registers'
+import { registry_schema } from '@gentleduck/registers'
 import { GetComponentFilesArgs } from './build-registry-tsx.types'
 
 // ----------------------------------------------------------------------------
@@ -19,8 +19,8 @@ export async function build_registry_tsx({
   try {
     const component_path = `${
       item.type.includes('ui')
-        ? `@gentelduck/registry-ui-duckui`
-        : `@gentelduck/registry-examples-duckui/${item.root_folder}`
+        ? `@gentleduck/registry-ui-duckui`
+        : `@gentleduck/registry-examples-duckui/${item.root_folder}`
     }/${item?.name}`
     // TODO: Implement chunk handling in the schema
     // TODO: Handle `source_file_name` for blocks
@@ -50,7 +50,7 @@ export async function build_registry_tsx({
         container: {
           className: "${chunk.container?.className ?? ''}"
         }
-      }`
+      }`,
           )
           .join(',\n')}
       ]
@@ -63,7 +63,7 @@ export async function build_registry_tsx({
     spinner.fail(
       `Failed to build TSX registry entry: ${
         error instanceof Error ? error.message : String(error)
-      }`
+      }`,
     )
     process.exit(0)
   }

@@ -1,7 +1,7 @@
 {
   "name": "benchmark",
   "private": true,
-  "version": "0.1.2",
+  "version": "0.1.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,10 +14,10 @@
     "rs:preview": "rsbuild preview"
   },
   "dependencies": {
-    "@gentelduck/registry-examples-duckui": "workspace:*",
-    "@gentelduck/registry-ui-duckui": "workspace:*",
-    "@gentelduck/tailwind-config": "workspace:*",
-    "@gentelduck/typescript-config": "workspace:*",
+    "@gentleduck/registry-examples-duckui": "workspace:*",
+    "@gentleduck/registry-ui-duckui": "workspace:*",
+    "@gentleduck/tailwind-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.6",
@@ -39,7 +39,7 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "class-variance-authority": "^0.7.1",
-    "@gentelduck/variants": "workspace:*",
+    "@gentleduck/variants": "workspace:*",
     "clsx": "^1.2.1",
     "lucide-react": "0.359.0",
     "next-themes": "^0.2.1",

@@ -1,5 +1,5 @@
 'use client'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Calendar } from 'lucide-react'
 import React from 'react'
 
@@ -9,11 +9,7 @@ export default function index() {
   return (
     <div className='w-fit container'>
       <div className='flex items-center gap-2'>
-        <Button
-          variant='outline'
-          className='rounded-lg'
-          icon={<Calendar />}
-        >
+        <Button variant='outline' className='rounded-lg' icon={<Calendar />}>
           Meetings
         </Button>
       </div>

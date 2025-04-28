@@ -1,29 +1,29 @@
 'use client'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { Calendar } from '@gentelduck/registry-ui-duckui/calendar'
+import { cn } from '@gentleduck/libs/cn'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Calendar } from '@gentleduck/registry-ui-duckui/calendar'
 import {
   Form,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@gentelduck/registry-ui-duckui/form'
-import { Input } from '@gentelduck/registry-ui-duckui/input'
+} from '@gentleduck/registry-ui-duckui/form'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@gentelduck/registry-ui-duckui/popover'
+} from '@gentleduck/registry-ui-duckui/popover'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@gentelduck/registry-ui-duckui/select'
-import { Textarea } from '@gentelduck/registry-ui-duckui/textarea'
+} from '@gentleduck/registry-ui-duckui/select'
+import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
 import { useForm } from '@tanstack/react-form'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'

@@ -3,7 +3,7 @@
 import { forwardRef } from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 const DrawerTrigger = DrawerPrimitive.Trigger
 
@@ -17,7 +17,7 @@ const DrawerContent = forwardRef<
       ref={ref}
       className={cn(
         'fixed inset-x-0 bottom-0 z-50 mt-24 h-[96%] rounded-t-[10px] bg-background',
-        className
+        className,
       )}
       {...props}
     >

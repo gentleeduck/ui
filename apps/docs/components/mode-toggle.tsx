@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { META_THEME_COLORS } from '~/config/site'
 import { useMetaColor } from '~/hooks/use-meta-colors'
 
@@ -16,7 +16,7 @@ export function ModeSwitcher() {
     setMetaColor(
       resolvedTheme === 'dark'
         ? META_THEME_COLORS.light
-        : META_THEME_COLORS.dark
+        : META_THEME_COLORS.dark,
     )
   }, [resolvedTheme, setTheme, setMetaColor])
 

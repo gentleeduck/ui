@@ -28,7 +28,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/button')
+      () => import('@gentleduck/registry-ui-duckui/button'),
     ),
     source: '',
     category: '',

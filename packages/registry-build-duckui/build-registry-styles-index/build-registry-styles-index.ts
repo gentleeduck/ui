@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { REGISTRY_PATH } from '../main'
-import { RegistryEntry } from '@gentelduck/registers'
+import { RegistryEntry } from '@gentleduck/registers'
 import { styleText } from 'node:util'
 import { BuildRegistryStylesIndexParams } from './build-registry-styles-index.types'
 
@@ -29,7 +29,7 @@ export async function build_registry_styles_index({
   try {
     spinner.text = `🧭 Building registry styles index... (${styleText(
       'green',
-      item.name
+      item.name,
     )})`
 
     const dependencies = [
@@ -61,7 +61,7 @@ export async function build_registry_styles_index({
     spinner.fail(
       `Failed to build registry styles index: ${
         error instanceof Error ? error.message : String(error)
-      }`
+      }`,
     )
     process.exit(1)
   }

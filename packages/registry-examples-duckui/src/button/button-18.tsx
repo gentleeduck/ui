@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { ArrowRight } from 'lucide-react'
 
 export default function Button18Demo() {

@@ -1,7 +1,7 @@
 import { BellRing, Check } from 'lucide-react'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Card,
   CardContent,
@@ -9,8 +9,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@gentelduck/registry-ui-duckui/card'
-import { Switch } from '@gentelduck/registry-ui-duckui/switch'
+} from '@gentleduck/registry-ui-duckui/card'
+import { Switch } from '@gentleduck/registry-ui-duckui/switch'
 
 const notifications = [
   {

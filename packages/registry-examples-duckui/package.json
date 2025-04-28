@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/registry-examples-duckui",
+  "name": "@gentleduck/registry-examples-duckui",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -10,11 +10,11 @@
     "build": "tsup"
   },
   "devDependencies": {
-    "@gentelduck/hooks": "workspace:*",
-    "@gentelduck/libs": "workspace:*",
-    "@gentelduck/registry-ui": "workspace:*",
-    "@gentelduck/registry-ui-duckui": "workspace:*",
-    "@gentelduck/typescript-config": "workspace:*",
+    "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/registry-ui": "workspace:*",
+    "@gentleduck/registry-ui-duckui": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "tsup": "^8.2.4",
     "tsx": "^4.17.0"
   },

@@ -4,7 +4,7 @@ import * as MenubarPrimitive from '@radix-ui/react-menubar'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 const MenubarMenu: React.FC<any> = MenubarPrimitive.Menu
 

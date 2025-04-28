@@ -1,4 +1,4 @@
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { ArrowBigUpDash, ShieldAlert } from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'

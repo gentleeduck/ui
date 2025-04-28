@@ -1,5 +1,5 @@
-import { Input } from '@gentelduck/registry-ui-duckui/input'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 export default function InputWithButton() {
   return (

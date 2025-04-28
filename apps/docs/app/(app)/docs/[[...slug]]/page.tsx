@@ -1,5 +1,5 @@
-import { cn } from '@gentelduck/libs/cn'
-import { badgeVariants } from '@gentelduck/registry-ui-duckui/badge'
+import { cn } from '@gentleduck/libs/cn'
+import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
 import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'

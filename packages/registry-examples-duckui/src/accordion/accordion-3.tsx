@@ -4,7 +4,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@gentelduck/registry-ui-duckui/accordion'
+} from '@gentleduck/registry-ui-duckui/accordion'
 import { Banknote } from 'lucide-react'
 import { TbBrandMastercard, TbBrandPaypal } from 'react-icons/tb'
 import { RiVisaLine } from 'react-icons/ri'
@@ -14,7 +14,7 @@ import { FaApplePay, FaGooglePay } from 'react-icons/fa'
 import {
   ToggleGroup,
   ToggleGroupItem,
-} from '@gentelduck/registry-ui-duckui/toggle-group'
+} from '@gentleduck/registry-ui-duckui/toggle-group'
 import { FaSortDown } from 'react-icons/fa'
 
 export default function Accordion1Demo() {
@@ -71,9 +71,8 @@ export default function Accordion1Demo() {
                   key={value}
                   value={value}
                   aria-selected={selectedValue.payingMethod === value}
-                  className={`border rounded-lg p-4 flex items-center gap-3 hover:bg-muted transition-all duration-300 cursor-pointer h-auto ${
-                    selectedValue.payingMethod === value ? 'bg-muted' : ''
-                  }`}
+                  className={`border rounded-lg p-4 flex items-center gap-3 hover:bg-muted transition-all duration-300 cursor-pointer h-auto ${selectedValue.payingMethod === value ? 'bg-muted' : ''
+                    }`}
                   onClick={() => handleSelection('payingMethod', value)}
                   onKeyPress={(e) =>
                     e.key === 'Enter' && handleSelection('payingMethod', value)
@@ -139,9 +138,8 @@ export default function Accordion1Demo() {
                   key={value}
                   value={value}
                   aria-selected={selectedValue.wallet === value}
-                  className={`border rounded-lg p-4 flex items-center gap-3 hover:bg-muted transition-all duration-300 cursor-pointer h-auto ${
-                    selectedValue.wallet === value ? 'bg-muted' : ''
-                  }`}
+                  className={`border rounded-lg p-4 flex items-center gap-3 hover:bg-muted transition-all duration-300 cursor-pointer h-auto ${selectedValue.wallet === value ? 'bg-muted' : ''
+                    }`}
                   onClick={() => handleSelection('wallet', value)}
                   onKeyPress={(e) =>
                     e.key === 'Enter' && handleSelection('wallet', value)

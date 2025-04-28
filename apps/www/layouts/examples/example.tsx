@@ -1,11 +1,11 @@
 'use client'
 
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@gentelduck/registry-ui-duckui/tooltip'
+} from '@gentleduck/registry-ui-duckui/tooltip'
 import {
   CalendarIcon,
   Grab,
@@ -25,10 +25,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@gentelduck/registry-ui-duckui/dialog'
+} from '@gentleduck/registry-ui-duckui/dialog'
 import { Command as CCommand, Calendar } from 'lucide-react'
 
-import { Avatar, AvatarGroup } from '@gentelduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarGroup } from '@gentleduck/registry-ui-duckui/avatar'
 import {
   Command,
   CommandEmpty,
@@ -38,25 +38,25 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@gentelduck/registry-ui-duckui/command'
+} from '@gentleduck/registry-ui-duckui/command'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '@gentelduck/registry-ui-duckui/hover-card'
-import { Input } from '@gentelduck/registry-ui-duckui/input'
-import { Label } from '@gentelduck/registry-ui-duckui/label'
+} from '@gentleduck/registry-ui-duckui/hover-card'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
 import React from 'react'
 import Image from 'next/image'
-import { AspectRatio } from '@gentelduck/registry-ui-duckui/aspect-ratio'
-import { Checkbox } from '@gentelduck/registry-ui-duckui/checkbox'
-import { Badge } from '@gentelduck/registry-ui-duckui/badge'
+import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'
+import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
+import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@gentelduck/registry-ui-duckui/tabs'
+} from '@gentleduck/registry-ui-duckui/tabs'
 import {
   Card,
   CardContent,
@@ -64,7 +64,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@gentelduck/registry-ui-duckui/card'
+} from '@gentleduck/registry-ui-duckui/card'
 import {
   Sheet,
   SheetClose,
@@ -74,7 +74,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@gentelduck/registry-ui-duckui/sheet'
+} from '@gentleduck/registry-ui-duckui/sheet'
 import { VaulDrawer } from './hi'
 import { SONNER_V2 } from './js'
 
@@ -413,7 +413,7 @@ export function MainExample() {
               <h4 className='text-sm font-semibold'>@wildduck</h4>
               <p className='text-sm'>
                 The CEO of
-                <em className='font-semibold underline'> @gentelduck </em> , the
+                <em className='font-semibold underline'> @gentleduck </em> , the
                 most powerful duck in the world
               </p>
               <div className='flex items-center pt-2'>

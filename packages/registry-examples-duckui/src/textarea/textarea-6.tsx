@@ -1,5 +1,5 @@
-import { Label } from '@gentelduck/registry-ui-duckui/label'
-import { Textarea } from '@gentelduck/registry-ui-duckui/textarea'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
+import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
 
 export default function Textarea4Demo() {
   return (

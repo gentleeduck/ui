@@ -1,7 +1,7 @@
 import React from 'react'
-import { VariantProps } from '@gentelduck/variants'
+import { VariantProps } from '@gentleduck/variants'
 import { alertVariants } from './alert.constants'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 const Alert = ({
   className,

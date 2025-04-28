@@ -4,14 +4,14 @@ import * as React from 'react'
 
 import { useColors } from '~/hooks/use-colors'
 import { type Color, getColorFormat } from '~/lib/colors'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from '@gentelduck/registry-ui-duckui/select'
-import { Skeleton } from '@gentelduck/registry-ui-duckui/skeleton'
+} from '@gentleduck/registry-ui-duckui/select'
+import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 
 export function ColorFormatSelector({
   color,
@@ -28,10 +28,7 @@ export function ColorFormatSelector({
   }
 
   return (
-    <Select
-      value={format}
-      onValueChange={setFormat}
-    >
+    <Select value={format} onValueChange={setFormat}>
       <SelectTrigger
         className={cn('h-7 w-auto gap-1.5 rounded-lg pr-2 text-xs', className)}
         {...props}
@@ -41,10 +38,7 @@ export function ColorFormatSelector({
           {format}
         </span>
       </SelectTrigger>
-      <SelectContent
-        align='end'
-        className='rounded-xl'
-      >
+      <SelectContent align='end' className='rounded-xl'>
         {Object.entries(formats).map(([format, value]) => (
           <SelectItem
             key={format}

@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/benchmark",
+  "name": "@gentleduck/benchmark",
   "version": "0.0.2",
   "description": "this is the benchmark tool for the duck-ui components, it's a black magic tool to let you know weather your code suck or good.",
   "private": false,
@@ -10,14 +10,22 @@
   "author": "wildduck (https://github.com/wildduck2)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentelduck/ui/tree/master/packages/duck-benchmark"
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-benchmark"
   },
   "bugs": {
-    "url": "https://github.com/gentelduck/ui/issues"
+    "url": "https://github.com/gentleduck/ui/issues"
   },
-  "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-benchmark#readme",
-  "files": ["dist"],
-  "keywords": ["components", "ui", "tailwind", "radix-ui", "duck-ui"],
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-benchmark#readme",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "components",
+    "ui",
+    "tailwind",
+    "radix-ui",
+    "duck-ui"
+  ],
   "type": "module",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -71,7 +79,7 @@
     "@types/lodash.template": "^4.5.3",
     "@types/prompts": "^2.4.2",
     "tsdown": "catalog:",
-    "@gentelduck/tsdown": "workspace:*",
+    "@gentleduck/tsdown": "workspace:*",
     "type-fest": "^3.8.0",
     "typescript": "^5"
   }

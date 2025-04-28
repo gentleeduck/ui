@@ -8,7 +8,7 @@ import {
 } from '../command'
 import { Label } from '../label'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { ChevronsUpDown } from 'lucide-react'
 import { Button, CommandType } from '../button'
 import { Badge } from '../badge'
@@ -21,7 +21,7 @@ interface OnSelectType<T> {
 
 type ComboboxProps<
   T extends keyof Record<string, unknown>,
-  Y extends keyof Record<string, unknown>
+  Y extends keyof Record<string, unknown>,
 > = {
   type: 'combobox' | 'listbox'
   onSelect?: OnSelectType<Y>
@@ -39,7 +39,7 @@ type ComboboxProps<
 
 const Combobox = <
   T extends keyof Record<string, unknown> = string,
-  Y extends keyof Record<string, unknown> = string
+  Y extends keyof Record<string, unknown> = string,
 >({
   wrapper,
   title,
@@ -91,10 +91,7 @@ const Combobox = <
             {titleChildren}
           </Label>
         )}
-        <Popover
-          open={open}
-          onOpenChange={setOpen}
-        >
+        <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
               variant='outline'
@@ -104,7 +101,7 @@ const Combobox = <
                 <ChevronsUpDown
                   className={cn(
                     'ml-2 opacity-50 overflow-hidden',
-                    type === 'listbox' && 'hidden'
+                    type === 'listbox' && 'hidden',
                   )}
                 />
               }
@@ -112,7 +109,7 @@ const Combobox = <
               className={cn(
                 `justify-between`,
                 type === 'combobox' && 'w-[200px] [&_div]:w-[81%]',
-                triggerClassName
+                triggerClassName,
               )}
               command={
                 {
@@ -128,14 +125,11 @@ const Combobox = <
             >
               <span className='text-ellipsis overflow-hidden whitespace-nowrap'>
                 {type === 'combobox'
-                  ? onSelect?.value[0] ?? triggerChildren
+                  ? (onSelect?.value[0] ?? triggerChildren)
                   : triggerChildren}
               </span>
               {type === 'listbox' && filteredData?.length ? (
-                <Separator
-                  orientation='vertical'
-                  className='h-4'
-                />
+                <Separator orientation='vertical' className='h-4' />
               ) : null}
               {type === 'listbox' && (
                 <div className='flex items-center gap-1'>
@@ -191,16 +185,16 @@ const Combobox = <
                         type === 'combobox'
                           ? [value as Y]
                           : onSelect?.value.includes(value as Y)
-                          ? onSelect?.value.filter((i) => i !== value)
-                          : [...onSelect?.value, value as Y]
+                            ? onSelect?.value.filter((i) => i !== value)
+                            : [...onSelect?.value, value as Y],
                       )
                     },
                     clear: () => {
                       onSelect?.setValue(
                         onSelect?.value.filter(
                           (item) =>
-                            !data?.map((item) => item.label).includes(item)
-                        )
+                            !data?.map((item) => item.label).includes(item),
+                        ),
                       )
                     },
                   }}

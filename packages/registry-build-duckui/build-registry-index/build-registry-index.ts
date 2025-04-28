@@ -2,7 +2,7 @@ import { z } from 'zod'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import rimraf from 'rimraf'
-import { registry_schema } from '@gentelduck/registers'
+import { registry_schema } from '@gentleduck/registers'
 import { REGISTRY_PATH } from '../main'
 import { get_component_files } from './build-registry-index.lib'
 import { styleText } from 'node:util'
@@ -35,11 +35,11 @@ export async function build_registry_index({
   try {
     spinner.text = `🧭 Building registry index... (${styleText(
       'green',
-      registry.length.toString()
+      registry.length.toString(),
     )} components)`
     spinner.text = `🧭 Retrieving ${styleText(
       'green',
-      'ui'
+      'ui',
     )} component files...`
 
     const uiItems = await Promise.all(
@@ -52,13 +52,13 @@ export async function build_registry_index({
             spinner,
             idx,
             registry_count: registry.length,
-          })
-        )
+          }),
+        ),
     )
 
     spinner.text = `🧭 Retrieving ${styleText(
       'green',
-      'example'
+      'example',
     )} component files...`
 
     const exampleItems = await Promise.all(
@@ -71,8 +71,8 @@ export async function build_registry_index({
             spinner,
             idx: 0,
             registry_count: registry.length,
-          })
-        )
+          }),
+        ),
     )
 
     spinner.text = `🧭 Transforming registry index...`
@@ -84,7 +84,7 @@ export async function build_registry_index({
 
       spinner.text = `🧭 Transforming registry index... (${styleText(
         'green',
-        idx.toString()
+        idx.toString(),
       )} of ${styleText('green', exampleItems.length.toString())})`
 
       return item.files.map((file) => ({
@@ -96,20 +96,20 @@ export async function build_registry_index({
 
     spinner.text = `🧭 Writing registry index to file... (${styleText(
       'green',
-      (uiItems.length + exampleItemsMapped.length).toString()
+      (uiItems.length + exampleItemsMapped.length).toString(),
     )} items)`
 
     const registryJson = JSON.stringify(
       [...uiItems, ...exampleItemsMapped],
       null,
-      2
+      2,
     )
 
     rimraf.sync(path.join(REGISTRY_PATH, 'index.json')) // Remove old index
     await fs.writeFile(
       path.join(REGISTRY_PATH, 'index.json'),
       registryJson,
-      'utf8'
+      'utf8',
     )
 
     return [...uiItems, ...exampleItemsMapped] as z.infer<
@@ -119,7 +119,7 @@ export async function build_registry_index({
     spinner.fail(
       `🧭 Failed to build registry index: ${
         error instanceof Error ? error.message : String(error)
-      }`
+      }`,
     )
     process.exit(1)
   }

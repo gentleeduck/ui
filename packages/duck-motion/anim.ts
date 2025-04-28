@@ -1,4 +1,4 @@
-import { cva } from '@gentelduck/variants'
+import { cva } from '@gentleduck/variants'
 
 export const AnimVariants = cva('', {
   variants: {

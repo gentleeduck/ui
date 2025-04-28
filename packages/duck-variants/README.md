@@ -1,11 +1,11 @@
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/gentleeduck/ui/98ac7d1f4ec2fdead848d865445312f05bbbf24a/public/variants.png" alt="@gentelduck/variants" width="900"/>
+  <img src="https://raw.githubusercontent.com/gentleeduck/ui/98ac7d1f4ec2fdead848d865445312f05bbbf24a/public/variants.png" alt="@gentleduck/variants" width="900"/>
 </p>
 
-# `@gentelduck/variants`
+# `@gentleduck/variants`
 
-A lightweight utility for generating class names based on variant configurations. Inspired by Tailwind and `class-variance-authority`, `@gentelduck/variants` helps you manage and compose class names in a flexible, type-safe, and declarative way.  
+A lightweight utility for generating class names based on variant configurations. Inspired by Tailwind and `class-variance-authority`, `@gentleduck/variants` helps you manage and compose class names in a flexible, type-safe, and declarative way.  
 
 ## Philosophy
 
@@ -15,7 +15,7 @@ despite having **over 6 million weekly downloads**, the project has been left **
 Leaving a critical utility like this in a broken or half-maintained state is **unacceptable** to us at **GentleDuck**.  
 So, we took action: we rewrote the library from scratch with our own vision and philosophy — making it **more modern**, **more reliable**, and **up to 7× faster**.  
 
-Our goal with **@gentelduck/variants** is simple:  
+Our goal with **@gentleduck/variants** is simple:  
 to offer the community a **serious**, **well-maintained**, and **future-proof** alternative — one that developers can trust today and for the years to come.
 
 ---
@@ -30,7 +30,7 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 
 ---
 
-## Why `@gentelduck/variants`?
+## Why `@gentleduck/variants`?
 
 - ✅ **Zero dependencies**, tiny bundle footprint. 
 - 🔐 **Fully type-safe**, IDE-friendly autocompletion. 
@@ -44,7 +44,7 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 ## Benchmark
 
 ### **Vitest Benchmark**
-**@gentelduck/variants**: ~7x faster than `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`
+**@gentleduck/variants**: ~7x faster than `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`
 <img src="https://github.com/gentleeduck/ui/blob/master/public/vite_benchmark.png" alt="Benchmark" />
 <img src="https://raw.githubusercontent.com/gentleeduck/ui/3ae21ea9d8311c330fa85cde3e562fd213d83239/public/vite-bench-cases.png" alt="Benchmark" />
 
@@ -58,23 +58,23 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 ## Installation
 
 ```bash
-npm install @gentelduck/variants
+npm install @gentleduck/variants
 # or
-yarn add @gentelduck/variants
+yarn add @gentleduck/variants
 # or
-pnpm add @gentelduck/variants
+pnpm add @gentleduck/variants
 ```
 
 ---
 
 ## Getting Started
 
-`@gentelduck/variants` lets you declare your style variants once and get back a function that produces perfectly composed class names, complete with defaults, compounds, nested arrays, and conditional objects.
+`@gentleduck/variants` lets you declare your style variants once and get back a function that produces perfectly composed class names, complete with defaults, compounds, nested arrays, and conditional objects.
 
 ### Basic Example
 
 ```ts
-import { cva } from '@gentelduck/variants'
+import { cva } from '@gentleduck/variants'
 
 const button = cva('btn', {
   variants: {

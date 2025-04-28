@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck",
+  "name": "@gentleduck",
   "private": false,
   "engines": {
     "node": ">=20.18.1",
@@ -24,9 +24,9 @@
     "test": "vitest",
     "bench": "vitest bench",
     "coverage": "vitest run --coverage",
-    "build:lazy": "pnpm --filter=@gentelduck/lazy run ci",
+    "build:lazy": "pnpm --filter=@gentleduck/lazy run ci",
     "publish:lazy": "pnpm changeset publish",
-    "publish:duckui": "pnpm --filter=@gentelduck/lazy run publish"
+    "publish:duckui": "pnpm --filter=@gentleduck/lazy run publish"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

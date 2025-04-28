@@ -1,6 +1,6 @@
 'use client'
 
-import { Style } from '@gentelduck/registers'
+import { Style } from '@gentleduck/registers'
 import * as React from 'react'
 
 import { useConfig } from '~/hooks/use-config'

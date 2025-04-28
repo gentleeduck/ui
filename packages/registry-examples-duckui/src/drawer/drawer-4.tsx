@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
-import { useMediaQuery } from '@gentelduck/hooks/use-media-query'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
+import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@gentelduck/registry-ui-duckui/dialog'
+} from '@gentleduck/registry-ui-duckui/dialog'
 import {
   Drawer,
   DrawerClose,
@@ -20,9 +20,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@gentelduck/registry-ui-duckui/drawer'
-import { Input } from '@gentelduck/registry-ui-duckui/input'
-import { Label } from '@gentelduck/registry-ui-duckui/label'
+} from '@gentleduck/registry-ui-duckui/drawer'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
 
 export default function DrawerDialogDemo() {
   const [open, setOpen] = React.useState(false)

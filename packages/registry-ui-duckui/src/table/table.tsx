@@ -1,5 +1,5 @@
 import React from 'react'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 const Table = ({
   className,

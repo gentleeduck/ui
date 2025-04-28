@@ -3,7 +3,7 @@ import * as React from 'react'
 import { buttonVariants } from './button.constants'
 import { ButtonProps } from './button.types'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Loader } from 'lucide-react'
 
 /**

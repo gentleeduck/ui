@@ -1,4 +1,13 @@
-# @gentelduck/variants
+# @gentleduck/variants
+
+## 0.1.10
+
+### Patch Changes
+
+- done with this
+- fix npm unpack bundle.
+- 7x faster version of the lib
+- repalced a whole lib with jsut coupe lines.
 
 ## 0.1.9
 

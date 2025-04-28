@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/tsdown",
+  "name": "@gentleduck/tsdown",
   "version": "1.0.0",
   "description": "this is a package for build",
   "private": true,
@@ -14,7 +14,7 @@
     "tsdown": "catalog:"
   },
   "devDependencies": {
-    "@gentelduck/biome-config": "workspace:*",
-    "@gentelduck/typescript-config": "workspace:*"
+    "@gentleduck/biome-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*"
   }
 }

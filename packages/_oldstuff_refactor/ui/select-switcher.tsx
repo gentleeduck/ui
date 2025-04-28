@@ -11,9 +11,9 @@ import {
   TooltipTrigger,
   TooltipContent,
   TooltipTrigger,
-} from '@gentelduck/registry-ui-duckui/tooltip'
+} from '@gentleduck/registry-ui-duckui/tooltip'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Inbox, Mail } from 'lucide-react'
 
 export interface DuckSwitcherProps {
@@ -50,7 +50,7 @@ export function DuckSwitcher({
             className={cn(
               'account__switcher flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 w-[250px] h-10 px-4',
               isCollapsed &&
-                'flex h-10 w-10 items-center justify-center p-2 [&>span]:w-auto [&>svg]:hidden',
+              'flex h-10 w-10 items-center justify-center p-2 [&>span]:w-auto [&>svg]:hidden',
               className
             )}
             aria-label='Select account'

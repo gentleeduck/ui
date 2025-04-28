@@ -4,7 +4,7 @@ import * as React from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { useLiftMode } from '~/hooks/use-lift-mode'
-import { Block } from '@gentelduck/registers'
+import { Block } from '@gentleduck/registers'
 
 export function BlockWrapper({
   block,
@@ -16,10 +16,10 @@ export function BlockWrapper({
     const components = document.querySelectorAll('[x-chunk]')
     block.chunks?.map((chunk, index) => {
       const $chunk = document.querySelector<HTMLElement>(
-        `[x-chunk="${chunk.name}"]`
+        `[x-chunk="${chunk.name}"]`,
       )
       const $wrapper = document.querySelector<HTMLElement>(
-        `[x-chunk-container="${chunk.name}"]`
+        `[x-chunk-container="${chunk.name}"]`,
       )
 
       const $component = components[index]

@@ -1,5 +1,5 @@
-import { cn } from '@gentelduck/libs/cn'
-import { groupArrays } from '@gentelduck/libs/group-array'
+import { cn } from '@gentleduck/libs/cn'
+import { groupArrays } from '@gentleduck/libs/group-array'
 import * as React from 'react'
 import {
   DropdownMenu,
@@ -22,15 +22,15 @@ import { Button, ButtonProps, buttonVariants, CommandType } from '../button'
 export interface DropdownMenuOptionsDataType
   extends Partial<
     React.ComponentPropsWithoutRef<typeof DropdownMenuCheckboxItem> &
-      React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
-      React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
+    React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
+    React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
   > {
   actionType: 'drawer' | 'dialog' | 'sheet' | 'item'
   command?: React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut> &
-    CommandType
+  CommandType
   icon?: React.ReactNode
   nestedData?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent> &
-    DropdownMenuOptionsType
+  DropdownMenuOptionsType
 }
 
 export interface DropdownMenuOptionsType {
@@ -42,7 +42,7 @@ export interface DropdownMenuOptionsType {
 export interface DropdownMenuViewProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenu> {
   trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> &
-    ButtonProps
+  ButtonProps
   content: {
     label?: React.ComponentPropsWithoutRef<typeof DropdownMenuLabel>
     options: DropdownMenuOptionsType
@@ -183,11 +183,11 @@ export function DropdownWrapperTrigger({
   trigger,
 }: {
   trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> &
-    ButtonProps
+  ButtonProps
 }) {
   return (
     <DropdownMenuTrigger asChild>
-      <Button variant="ghost" size="sm" {...trigger} />
+      <Button variant='ghost' size='sm' {...trigger} />
     </DropdownMenuTrigger>
   )
 }
@@ -270,7 +270,7 @@ export function DropdownWrapperContentItem({
             children={item.command.children}
           />
           <Button
-            className="sr-only hidden"
+            className='sr-only hidden'
             command={{
               ...item.command,
               action: () => {
@@ -357,7 +357,7 @@ export function DropdownWrapperSubContent({
               {...commandProps}
               key={`nested-item-shortcut-${idx}`}
             />
-            <Button command={item.command} className="sr-only hidden" />
+            <Button command={item.command} className='sr-only hidden' />
           </>
         )}
       </Component>
@@ -365,7 +365,7 @@ export function DropdownWrapperSubContent({
   })
 
   return itemType === 'radio' ? (
-    <DropdownMenuRadioGroup value="date">{Children}</DropdownMenuRadioGroup>
+    <DropdownMenuRadioGroup value='date'>{Children}</DropdownMenuRadioGroup>
   ) : (
     Children
   )

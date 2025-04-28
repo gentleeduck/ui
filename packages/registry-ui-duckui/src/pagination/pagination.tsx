@@ -9,7 +9,7 @@ import {
   MoreHorizontal,
 } from 'lucide-react'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Button, ButtonProps, buttonVariants } from '../button'
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
@@ -38,11 +38,7 @@ const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<'li'>
 >(({ className, ...props }, ref) => (
-  <li
-    ref={ref}
-    className={cn('', className)}
-    {...props}
-  />
+  <li ref={ref} className={cn('', className)} {...props} />
 ))
 PaginationItem.displayName = 'PaginationItem'
 
@@ -64,7 +60,7 @@ const PaginationLink = ({
         variant: isActive ? 'outline' : 'ghost',
         size,
       }),
-      className
+      className,
     )}
     {...props}
   />
@@ -150,10 +146,7 @@ export const DuckPagination = React.forwardRef<
         className={cn('gap-2', contentClassName)}
         {...contentProps}
       >
-        <PaginationItem
-          className={cn(itemClassName)}
-          {...itemProps}
-        >
+        <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             variant='outline'
             size='sm'
@@ -163,10 +156,7 @@ export const DuckPagination = React.forwardRef<
             <ChevronsLeftIcon />
           </Button>
         </PaginationItem>
-        <PaginationItem
-          className={cn(itemClassName)}
-          {...itemProps}
-        >
+        <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             variant='outline'
             size='sm'
@@ -176,10 +166,7 @@ export const DuckPagination = React.forwardRef<
             <ChevronLeftIcon />
           </Button>
         </PaginationItem>
-        <PaginationItem
-          className={cn(itemClassName)}
-          {...itemProps}
-        >
+        <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             variant='outline'
             size='sm'
@@ -189,10 +176,7 @@ export const DuckPagination = React.forwardRef<
             <ChevronRightIcon />
           </Button>
         </PaginationItem>
-        <PaginationItem
-          className={cn(itemClassName)}
-          {...itemProps}
-        >
+        <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             variant='outline'
             size='sm'

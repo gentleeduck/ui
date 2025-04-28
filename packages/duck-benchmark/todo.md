@@ -1,4 +1,4 @@
-# @gentelduck/benchmark
+# @gentleduck/benchmark
 
 
 

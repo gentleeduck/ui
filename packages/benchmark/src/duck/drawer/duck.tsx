@@ -7,7 +7,7 @@
 //   DrawerHeader,
 //   DrawerTitle,
 //   DrawerTrigger,
-// } from "@gentelduck/registry-ui-duckui/drawer"
+// } from "@gentleduck/registry-ui-duckui/drawer"
 //
 // export default function DrawerDemo() {
 //   return (

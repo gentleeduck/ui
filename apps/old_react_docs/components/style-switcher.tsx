@@ -2,9 +2,9 @@
 
 import * as React from 'react'
 
-import { Style, styles } from '@gentelduck/registers'
+import { Style, styles } from '@gentleduck/registers'
 import { useConfig } from '~/hooks/use-config'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import {
   Select,
   SelectContent,
@@ -30,7 +30,7 @@ export function StyleSwitcher({ className, ...props }: SelectTriggerProps) {
       <SelectTrigger
         className={cn(
           'h-7 w-[145px] text-xs [&_svg]:h-4 [&_svg]:w-4',
-          className
+          className,
         )}
         {...props}
       >
@@ -39,11 +39,7 @@ export function StyleSwitcher({ className, ...props }: SelectTriggerProps) {
       </SelectTrigger>
       <SelectContent>
         {styles.map((style) => (
-          <SelectItem
-            key={style.name}
-            value={style.name}
-            className='text-xs'
-          >
+          <SelectItem key={style.name} value={style.name} className='text-xs'>
             {style.label}
           </SelectItem>
         ))}

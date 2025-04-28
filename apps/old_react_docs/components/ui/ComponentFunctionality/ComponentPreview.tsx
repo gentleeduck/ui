@@ -3,13 +3,13 @@
 import * as React from 'react'
 import { Index } from '~/__ui_registry__'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@gentelduck/registry-ui-duckui/tabs'
+} from '@gentleduck/registry-ui-duckui/tabs'
 import { CopyButton } from '~/components/copy-button'
 import { Icons } from '~/components/icons'
 import { ThemeWrapper } from '~/components/theme-wrapper'

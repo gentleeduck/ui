@@ -28,7 +28,7 @@ Duck UI is licensed under the [MIT License](LICENSE).
 
 ## 📧 Contact
 
-For any questions or support, please contact us at [duckui@gentelduck.com](mailto:duckui@gentelduck.com).
+For any questions or support, please contact us at [duckui@gentleduck.com](mailto:duckui@gentleduck.com).
 
 ---
 

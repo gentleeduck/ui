@@ -1,6 +1,6 @@
 'use client'
 
-import TableDemo3 from '@gentelduck/registry-examples-duckui/table/table-3.tsx'
+import TableDemo3 from '@gentleduck/registry-examples-duckui/table/table-3.tsx'
 
 export default function Foo() {
   return (

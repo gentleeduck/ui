@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Card,
   CardContent,
@@ -8,16 +8,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@gentelduck/registry-ui-duckui/card'
-import { Input } from '@gentelduck/registry-ui-duckui/input'
-import { Label } from '@gentelduck/registry-ui-duckui/label'
+} from '@gentleduck/registry-ui-duckui/card'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@gentelduck/registry-ui-duckui/select'
+} from '@gentleduck/registry-ui-duckui/select'
 
 export function CardWithForm() {
   return (

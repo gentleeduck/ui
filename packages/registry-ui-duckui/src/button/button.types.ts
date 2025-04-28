@@ -1,4 +1,4 @@
-import { VariantProps } from '@gentelduck/variants'
+import { VariantProps } from '@gentleduck/variants'
 import { buttonVariants } from './button.constants'
 
 export interface ButtonProps

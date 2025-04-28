@@ -13,7 +13,7 @@ import {
   block_schema,
   registry_entry_schema,
   Style,
-} from '@gentelduck/registers'
+} from '@gentleduck/registers'
 
 const DEFAULT_BLOCKS_STYLE = 'default' satisfies Style['name']
 
@@ -22,7 +22,7 @@ const project = new Project({
 })
 
 export async function getAllBlockIds(
-  style: Style['name'] = DEFAULT_BLOCKS_STYLE
+  style: Style['name'] = DEFAULT_BLOCKS_STYLE,
 ) {
   const blocks = await _getAllBlocks(style)
   return blocks.map((block) => block.name)
@@ -30,7 +30,7 @@ export async function getAllBlockIds(
 
 export async function getBlock(
   name: string,
-  style: Style['name'] = DEFAULT_BLOCKS_STYLE
+  style: Style['name'] = DEFAULT_BLOCKS_STYLE,
 ) {
   const entry = Index[style][name]
 
@@ -63,7 +63,7 @@ export async function getBlock(
           .getText()
           .replaceAll(`@/registry/${style}/`, '@/components/'),
       }
-    })
+    }),
   )
 
   return block_schema.parse({
@@ -81,13 +81,13 @@ async function _getAllBlocks(style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
   const index = z.record(registry_entry_schema).parse(Index[style])
 
   return Object.values(index).filter(
-    (block) => block.type === 'components:block'
+    (block) => block.type === 'components:block',
   )
 }
 
 async function _getBlockCode(
   name: string,
-  style: Style['name'] = DEFAULT_BLOCKS_STYLE
+  style: Style['name'] = DEFAULT_BLOCKS_STYLE,
 ) {
   const entry = Index[style][name]
   if (!entry) {
