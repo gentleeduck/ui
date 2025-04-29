@@ -26,10 +26,9 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
 
   React.useEffect(() => {
     const dialog = dialogRef.current
-    const handleClose = () => handleOpenChange(false)
 
-    dialog?.addEventListener('close', handleClose)
-    return () => dialog?.removeEventListener('close', handleClose)
+    dialog?.addEventListener('close',() => handleOpenChange(false))
+    return () => dialog?.removeEventListener('close',() => handleOpenChange(false))
   }, [handleOpenChange])
 
   return {
