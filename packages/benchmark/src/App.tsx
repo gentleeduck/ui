@@ -45,6 +45,8 @@
 // import Sandbox from './sandbox'
 import DuckDialog from './duck/dialog/duck'
 import ShadcnDialog from './duck/dialog/dialog'
+// import DuckAlertDialog from './duck/alert-dialog/duck'
+// import ShadcnAlertDialog from './duck/alert-dialog/alert-dialog'
 // import DuckSeparator from './duck/separator/duck'
 // import DuckSeparatorExp from './duck/separator/experimental'
 // import ShadcnSeparator from './duck/separator/separator'
@@ -97,9 +99,10 @@ function App() {
   return (
     <div className='flex flex-col mx-10 h-screen justify-center  items-center gap-4'>
       {/* <Ui /> */}
+      {/* <DuckAlertDialog />
+      <ShadcnAlertDialog /> */}
       <DuckDialog />
       <ShadcnDialog />
-
       {
         // <DuckSeparatorExp /> /* Experimental */
         // <DuckSeparator  />  /* radix ui based */

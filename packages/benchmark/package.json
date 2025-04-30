@@ -10,12 +10,14 @@
     "serve": "tsc -b && vite build && vite preview"
   },
   "dependencies": {
+    "@gentelduck/motion": "workspace:*",
     "@gentelduck/registry-examples-duckui": "workspace:*",
     "@gentelduck/registry-ui-duckui": "workspace:*",
     "@gentelduck/tailwind-config": "workspace:*",
     "@gentelduck/typescript-config": "workspace:*",
-    "@gentelduck/motion": "workspace:*",
+    "@gentelduck/variants": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-alert-dialog": "^1.1.6",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-hover-card": "^1.1.1",
@@ -36,7 +38,6 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "class-variance-authority": "^0.7.1",
-    "@gentelduck/variants": "workspace:*",
     "clsx": "^1.2.1",
     "lucide-react": "0.359.0",
     "next-themes": "^0.2.1",

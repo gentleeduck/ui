@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter
-} from "@gentelduck/registry-ui-duckui/dialog"
+} from "@gentelduck/registry-ui-duckui/experimental/dialog"
 import { Button } from "@gentelduck/registry-ui-duckui/button"
 import { Input } from "@gentelduck/registry-ui-duckui/input"
 import { Label } from "@gentelduck/registry-ui-duckui/label"
