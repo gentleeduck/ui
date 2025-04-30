@@ -3,28 +3,9 @@ import { Button } from '../../button'
 import React from 'react'
 import { X } from 'lucide-react'
 import { AnimVariants } from '@gentelduck/motion/anim'
-import { DialogContextType, DialogProps } from './dialog.types'
-import { useDialog, useShouldRender } from '@gentelduck/aria-feather'
-/**
- * Context for managing the open state of the dialog.
- *
- */
-export const DialogContext = React.createContext<DialogContextType | null>(null)
+import type { DialogProps } from '@gentelduck/aria-feather'
+import { useDialog, useShouldRender, DialogContext, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather'
 
-/**
- * Hook to access the DialogContext. It holds the open state of the dialog
- * and a function to update it.
- *
- * @returns {DialogContextType} The dialog context object.
- * @throws {Error} If the hook is used outside of a Dialog.
- */
-export function useDialogContext(name: string = 'Dialog'): DialogContextType {
-  const context = React.useContext(DialogContext)
-  if (!context) {
-    throw new Error(`useDialogContext must be used within a ${name}`)
-  }
-  return context
-}
 
 /**
  * Dialog component that provides a context for managing its open state and
@@ -108,7 +89,8 @@ export function DialogContent({
   renderOnce?: boolean
 }): React.JSX.Element {
   const { open, ref, onOpenChange } = useDialogContext()
-  const [ shouldRender ] = useShouldRender(open, renderOnce ?? false)
+  const [shouldRender] = useShouldRender(open, renderOnce ?? false)
+  const [closeOverlay] = useOverlayClose()
 
   return (
     <dialog
@@ -119,18 +101,20 @@ export function DialogContent({
         AnimVariants(),
         className,
       )}
-      onClick={(e) => {
-        if (e.currentTarget === e.target) onOpenChange(false)
-      }}
+      onClick={closeOverlay}
     >
-      <button
-        aria-label='close'
-        className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
-        onClick={() => onOpenChange(false)}
-      >
-        <X aria-hidden size={20} />
-      </button>
-      {shouldRender && children}
+      {shouldRender && (
+        <>
+          <button
+            aria-label='close'
+            className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
+            onClick={() => onOpenChange(false)}
+          >
+            <X aria-hidden size={20} />
+          </button>
+          {children}
+        </>
+      )}
     </dialog>
   )
 }

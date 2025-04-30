@@ -1,4 +1,26 @@
 import React from 'react'
+import { DialogContextType } from './dialog.types'
+
+/**
+ * Context for managing the open state of the dialog.
+ *
+ */
+export const DialogContext = React.createContext<DialogContextType | null>(null)
+
+/**
+ * Hook to access the DialogContext. It holds the open state of the dialog
+ * and a function to update it.
+ *
+ * @returns {DialogContextType} The dialog context object.
+ * @throws {Error} If the hook is used outside of a Dialog.
+ */
+export function useDialogContext(name: string = 'Dialog'): DialogContextType {
+  const context = React.useContext(DialogContext)
+  if (!context) {
+    throw new Error(`useDialogContext must be used within a ${name}`)
+  }
+  return context
+}
 
 export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) => void) {
   const dialogRef = React.useRef<HTMLDialogElement | null>(null)
@@ -39,3 +61,11 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
 }
 
 
+
+export function useOverlayClose() {
+  const { onOpenChange } = useDialogContext()
+  function closeOverlay(e: React.MouseEvent<HTMLDialogElement>) {
+  if (e.currentTarget === e.target) onOpenChange(false)
+  }
+  return [closeOverlay]
+}
