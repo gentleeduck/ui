@@ -4,7 +4,7 @@
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "private": false,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "type": "module",
   "files": [
     "dist"
@@ -53,7 +53,8 @@
     "@gentelduck/typescript-config": "workspace:*",
     "clsx": "^1.2.1",
     "husky": "^9.1.7",
-    "tsdown": "catalog:"
+    "tsdown": "catalog:",
+    "cva": "1.0.0-beta.3"
   },
   "peerDependencies": {
     "typescript": "^5.8.2"
@@ -61,7 +62,5 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "cva": "1.0.0-beta.3"
-  }
+  "dependencies": {}
 }
