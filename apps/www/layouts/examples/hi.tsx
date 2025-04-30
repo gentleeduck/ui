@@ -1,6 +1,8 @@
 'use client'
 
+import { cn } from '@gentelduck/libs/cn'
 import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Calendar } from '@gentelduck/registry-ui-duckui/calendar'
 import {
   Form,
   FormField,
@@ -10,6 +12,11 @@ import {
 } from '@gentelduck/registry-ui-duckui/form'
 import { Input } from '@gentelduck/registry-ui-duckui/input'
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@gentelduck/registry-ui-duckui/popover'
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -17,19 +24,11 @@ import {
   SelectValue,
 } from '@gentelduck/registry-ui-duckui/select'
 import { Textarea } from '@gentelduck/registry-ui-duckui/textarea'
+import { useForm } from '@tanstack/react-form'
+import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { useForm } from '@tanstack/react-form'
-import { CalendarIcon } from 'lucide-react'
-import { format } from 'date-fns'
-import { Calendar } from '@gentelduck/registry-ui-duckui/calendar'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@gentelduck/registry-ui-duckui/popover'
-import { cn } from '@gentelduck/libs/cn'
-
 
 const FormSchema = z.object({
   firstName: z.string().min(2, {
@@ -63,7 +62,6 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>
 
 export function VaulDrawer() {
-
   const form = useForm({
     onSubmit: ({ value }) => {
       const result = FormSchema.safeParse(value)
@@ -101,7 +99,7 @@ export function VaulDrawer() {
       className='w-[490px] flex flex-col gap-4 p-8 border rounded-xl shadow'
     >
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-        <FormField name='firstName'>
+        <FormField form={form} name='firstName'>
           {(field) => (
             <FormItem>
               <FormLabel>First Name</FormLabel>
@@ -115,7 +113,7 @@ export function VaulDrawer() {
           )}
         </FormField>
 
-        <FormField name='lastName'>
+        <FormField form={form} name='lastName'>
           {(field) => (
             <FormItem>
               <FormLabel>Last Name</FormLabel>
@@ -130,7 +128,7 @@ export function VaulDrawer() {
         </FormField>
       </div>
 
-      <FormField name='email'>
+      <FormField form={form} name='email'>
         {(field) => (
           <FormItem>
             <FormLabel>Email</FormLabel>
@@ -145,7 +143,7 @@ export function VaulDrawer() {
         )}
       </FormField>
 
-      <FormField name='phone'>
+      <FormField form={form} name='phone'>
         {(field) => (
           <FormItem>
             <FormLabel>Phone Number</FormLabel>
@@ -160,7 +158,7 @@ export function VaulDrawer() {
       </FormField>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6 justify-center'>
-        <FormField name='dateOfBirth'>
+        <FormField form={form} name='dateOfBirth'>
           {(field) => (
             <FormItem className='flex flex-col'>
               <FormLabel>Date of Birth</FormLabel>
@@ -198,7 +196,7 @@ export function VaulDrawer() {
           )}
         </FormField>
 
-        <FormField name='gender'>
+        <FormField form={form} name='gender'>
           {(field) => (
             <FormItem>
               <FormLabel>Gender</FormLabel>
@@ -225,7 +223,7 @@ export function VaulDrawer() {
         </FormField>
       </div>
 
-      <FormField name='address'>
+      <FormField form={form} name='address'>
         {(field) => (
           <FormItem>
             <FormLabel>Address</FormLabel>
@@ -244,7 +242,5 @@ export function VaulDrawer() {
         Submit Information
       </Button>
     </Form>
-
-
   )
 }

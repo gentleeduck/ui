@@ -4,7 +4,6 @@ export * from './src/tooltip'
 export * from './src/accordion'
 export * from './src/toggle'
 export * from './src/toggle-group'
-export * from './src/sonner'
 export * from './src/upload'
 export * from './src/tooltip'
 export * from './src/toggle-group'
@@ -90,17 +89,15 @@ const components: Record<
   aspectRatio: {},
   avatar: {},
   scrollArea: {},
-  form: {
-    component: true,
-  },
-
+  form: {},
+  table: {},
   alert: {},
+
   breadcrumb: {},
   chart: {},
   carousel: {},
   calendar: {},
   upload: {},
-  table: {},
   sonner: {},
   inputOTP: {},
   pagination: {},

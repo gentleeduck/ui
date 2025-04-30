@@ -1,4 +1,4 @@
-import { VariantProps } from 'class-variance-authority'
+import { VariantProps } from '@gentelduck/variants'
 import { buttonVariants } from './button.constants'
 
 export interface ButtonProps
