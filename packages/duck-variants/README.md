@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="./public/variants.png" alt="@gentelduck/variants" width="900"/>
+  <img src="https://raw.githubusercontent.com/gentleeduck/ui/98ac7d1f4ec2fdead848d865445312f05bbbf24a/public/variants.png" alt="@gentelduck/variants" width="900"/>
 </p>
 
 # `@gentelduck/variants`
@@ -45,10 +45,10 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 
 ### **Vitest Benchmark**
 **@gentelduck/variants**: ~7x faster than `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`
-<img src="./public/vite_benchmark.png" alt="Benchmark" />
+<img src="https://github.com/gentleeduck/ui/blob/master/public/vite_benchmark.png" alt="Benchmark" />
 
 ### **Duck Benchmark**
-<img src="./public/duck_benchmark.png" alt="Benchmark" />
+<img src="https://github.com/gentleeduck/ui/blob/master/public/duck_benchmark.png" alt="Benchmark" />
 
 
 
