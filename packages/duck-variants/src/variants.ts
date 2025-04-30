@@ -1,4 +1,9 @@
-import { ClassValue, CvaProps, VariantsOptions } from './variants.types'
+import {
+  ClassValue,
+  CvaProps,
+  VariantProps,
+  VariantsOptions,
+} from './variants.types'
 
 /**
  * Build a stable cache key by serializing props entries in sorted order.
@@ -238,3 +243,19 @@ export function cva<
     return result
   }
 }
+
+const _button = cva('btn px-4 py-2', {
+  variants: {
+    intent: { primary: 'bg-blue-500 text-white', danger: 'bg-red-500' },
+    size: { sm: 'text-sm', lg: 'text-lg' },
+  },
+  defaultVariants: { intent: 'primary', size: 'sm' },
+})
+
+declare const button: (props?: {
+  size?: 'sm' | 'lg'
+  intent?: 'primary' | 'danger'
+  className?: string
+}) => string
+
+type ButtonVariantOnly = VariantProps<typeof _button>
