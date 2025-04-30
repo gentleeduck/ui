@@ -46,6 +46,7 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 ### **Vitest Benchmark**
 **@gentelduck/variants**: ~7x faster than `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`
 <img src="https://github.com/gentleeduck/ui/blob/master/public/vite_benchmark.png" alt="Benchmark" />
+<img src="https://raw.githubusercontent.com/gentleeduck/ui/3ae21ea9d8311c330fa85cde3e562fd213d83239/public/vite-bench-cases.png" alt="Benchmark" />
 
 ### **Duck Benchmark**
 <img src="https://github.com/gentleeduck/ui/blob/master/public/duck_benchmark.png" alt="Benchmark" />
