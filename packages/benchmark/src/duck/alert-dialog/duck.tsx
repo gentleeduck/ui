@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@gentelduck/registry-ui-duckui/experimental/alert-dialog"
+} from "@gentelduck/registry-ui-duckui/alert-dialog"
 import { Button } from "@gentelduck/registry-ui-duckui/button"
 
 export default function AlertDialogDemo() {

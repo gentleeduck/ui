@@ -1,5 +1,5 @@
 import React from 'react'
-import { DialogContextType } from './dialog.types'
+import { DialogContextType, DialogProps } from './dialog.types'
 
 /**
  * Context for managing the open state of the dialog.
@@ -20,6 +20,37 @@ export function useDialogContext(name: string = 'Dialog'): DialogContextType {
     throw new Error(`useDialogContext must be used within a ${name}`)
   }
   return context
+}
+
+/**
+ * Dialog component that provides a context for managing its open state and
+ * behavior. It uses a ref to handle the underlying HTMLDialogElement.
+ *
+ * @param {DialogProps} props - The properties for the Dialog component.
+ * @param {React.ReactNode} props.children - The content to be rendered inside the dialog.
+ * @param {boolean} [props.open] - Initial open state of the dialog.
+ * @param {(state:boolean)=>void} [props.onOpenChange] - Callback function to handle state changes of the dialog.
+ *
+ * @returns {React.JSX.Element} A context provider that manages the dialog state and renders its children.
+ */
+export function Root({
+  children,
+  open: openProp,
+  onOpenChange,
+}: DialogProps): React.JSX.Element {
+  const { open, onOpenChange: _onOpenChange, ref } = useDialog(openProp, onOpenChange)
+
+  return (
+    <DialogContext.Provider
+      value={{
+        open: open ?? false,
+        onOpenChange: _onOpenChange,
+        ref
+      }}
+    >
+      {children}
+    </DialogContext.Provider>
+  )
 }
 
 export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) => void) {
@@ -69,3 +100,4 @@ export function useOverlayClose() {
   }
   return [closeOverlay]
 }
+
