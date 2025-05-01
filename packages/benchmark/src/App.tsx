@@ -53,8 +53,8 @@ import ShadcnAlertDialog from './duck/alert-dialog/alert-dialog'
 
 // import DuckSkeleton from './duck/skeleton/duck'
 // import ShadcnSkeleton from './duck/skeleton/skeleton'
-// import DuckSheet from './duck/sheet/duck'
-// import ShadcnSheet from './duck/sheet/sheet'
+import DuckSheet from './duck/sheet/duck'
+import ShadcnSheet from './duck/sheet/sheet'
 // import DuckDrawer from './duck/drawer/duck'
 // import ShadcnDrawer from './duck/drawer/drawer'
 // import DuckSonner from './duck/sonner/duck'
@@ -99,8 +99,10 @@ function App() {
   return (
     <div className='flex flex-col mx-10 h-screen justify-center  items-center gap-4'>
       {/* <Ui /> */}
-      <DuckAlertDialog />
-      <ShadcnAlertDialog />
+      {/* <DuckAlertDialog />
+      <ShadcnAlertDialog /> */}
+      <DuckSheet />
+      <ShadcnSheet />
       {/* <DuckDialog />
       <ShadcnDialog /> */}
       {

@@ -2,7 +2,7 @@ import { cn } from '@gentelduck/libs/cn'
 import { Button } from '../../button'
 import React from 'react'
 import { X } from 'lucide-react'
-import { AnimVariants } from '@gentelduck/motion/anim'
+import { AnimDialogVariants, AnimVariants } from '@gentelduck/motion/anim'
 import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
 
@@ -73,13 +73,14 @@ export function DialogContent({
   return (
     <dialog
       ref={ref}
-      {...props}
       className={cn(
         'open:grid inset-1/2 -translate-1/2 w-full max-w-lg sm:max-w-md gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
-        AnimVariants({ className }),
+        AnimVariants(),
+        AnimDialogVariants(),
         className,
       )}
       onClick={closeOverlay}
+      {...props}
     >
       {shouldRender && (
         <>

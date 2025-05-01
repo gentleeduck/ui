@@ -2,7 +2,7 @@ import { cn } from '@gentelduck/libs/cn'
 import { Button } from '../button'
 import React from 'react'
 import { X } from 'lucide-react'
-import { AnimVariants } from '@gentelduck/motion/anim'
+import { AnimDialogVariants } from '@gentelduck/motion/anim'
 import { DialogContextType, DialogProps } from './dialog.types'
 import { useDialog } from '@gentelduck/aria-feather'
 /**

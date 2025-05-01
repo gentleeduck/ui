@@ -5,21 +5,21 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@gentelduck/registry-ui-duckui/sheet"
+} from "@gentelduck/registry-ui-duckui/experimental/sheet"
 
 export default function SheetDemo() {
   return (
-<Sheet>
-  <SheetTrigger>Open</SheetTrigger>
-  <SheetContent>
-    <SheetHeader>
-      <SheetTitle>Are you absolutely sure?</SheetTitle>
-      <SheetDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </SheetDescription>
-    </SheetHeader>
-  </SheetContent>
-</Sheet>
+    <Sheet>
+      <SheetTrigger>Open</SheetTrigger>
+      <SheetContent renderOnce>
+        <SheetHeader>
+          <SheetTitle>Are you absolutely sure?</SheetTitle>
+          <SheetDescription>
+            This action cannot be undone. This will permanently delete your account
+            and remove your data from our servers.
+          </SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
   )
 }
