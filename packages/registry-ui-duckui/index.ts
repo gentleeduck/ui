@@ -13,7 +13,6 @@ export * from './src/tabs'
 export * from './src/table'
 export * from './src/switch'
 export * from './src/sonner'
-export * from './src/sonner-progress'
 export * from './src/slider'
 export * from './src/skeleton'
 export * from './src/sheet'
@@ -94,14 +93,14 @@ const components: Record<
   sonner: {},
   alert: {},
   calendar: {},
-
-  breadcrumb: {},
+  pagination: {},
   chart: {},
   carousel: {},
+  resizable: {},
+
+  breadcrumb: {},
   upload: {},
   inputOTP: {},
-  pagination: {},
-  resizable: {},
 
   popover: {},
   dropdownMenu: {},

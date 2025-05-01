@@ -11,12 +11,12 @@
   },
   "devDependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
-    "@gentleduck/motion": "workspace:*",
-    "@gentleduck/variants": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
     "@gentleduck/libs": "workspace:*",
+    "@gentleduck/motion": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
+    "@gentleduck/variants": "workspace:*",
     "@radix-ui/react-accessible-icon": "^1.1.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -113,10 +113,12 @@
     "@tanstack/react-form": "^1.6.3",
     "cmdk": "^1.0.0",
     "embla-carousel-react": "8.0.0-rc15",
+    "filesize": "^10.1.6",
     "input-otp": "^1.2.4",
     "next-theme": "^0.1.5",
     "react-hook-form": "^7.52.2",
     "react-resizable-panels": "^2.0.23",
-    "recharts": "2.12.7"
+    "recharts": "2.12.7",
+    "uuidv7": "^1.0.2"
   }
 }
