@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@gentelduck/registry-ui-duckui/alert-dialog"
+} from "@gentelduck/registry-ui-duckui/experimental/alert-dialog"
 import { Button } from "@gentelduck/registry-ui-duckui/button"
 
 export default function AlertDialogDemo() {
@@ -17,7 +17,7 @@ export default function AlertDialogDemo() {
       <AlertDialogTrigger asChild>
         <Button variant="outline">Show Dialog</Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent renderOnce>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>

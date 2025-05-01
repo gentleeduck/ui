@@ -3,7 +3,7 @@ import { Button } from '../../button'
 import React from 'react'
 import { X } from 'lucide-react'
 import { AnimVariants } from '@gentelduck/motion/anim'
-import * as DialogPrimitive from '@gentelduck/aria-feather'
+import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
 
 
@@ -28,14 +28,17 @@ export function Dialog({
  */
 export function DialogTrigger({
   onClick,
+  open,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Button>): React.JSX.Element {
+}: React.ComponentPropsWithoutRef<typeof Button> & {
+  open?: boolean
+}): React.JSX.Element {
   const { onOpenChange } = useDialogContext()
 
   return (
     <Button
       onClick={(e) => {
-        onOpenChange(true)
+        onOpenChange(open ?? !open)
         onClick?.(e)
       }}
       {...props}
