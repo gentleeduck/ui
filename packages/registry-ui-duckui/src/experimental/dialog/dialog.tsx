@@ -4,7 +4,7 @@ import React from 'react'
 import { X } from 'lucide-react'
 import { AnimVariants } from '@gentelduck/motion/anim'
 import * as DialogPrimitive from '@gentelduck/aria-feather'
-import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather'
+import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
 
 
 export function Dialog({

@@ -4,7 +4,8 @@
   "description": "aria-feather is a behavioral component abstraction that makes the aero dynamics of the web",
   "module": "./index.ts",
   "exports": {
-    ".": "./index.ts"
+    ".": "./index.ts",
+    "./dialog": "./src/dialog/index.ts"
   },
   "keywords": [
     "aria",
