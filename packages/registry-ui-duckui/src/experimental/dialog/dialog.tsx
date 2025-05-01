@@ -9,7 +9,7 @@ import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/
 
 export function Dialog({
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Root>) {
+}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
 }
 

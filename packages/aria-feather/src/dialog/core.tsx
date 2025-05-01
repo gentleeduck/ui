@@ -91,8 +91,6 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
   } as const
 }
 
-
-
 export function useOverlayClose() {
   const { onOpenChange } = useDialogContext()
   function closeOverlay(e: React.MouseEvent<HTMLDialogElement>) {
@@ -100,4 +98,5 @@ export function useOverlayClose() {
   }
   return [closeOverlay]
 }
+
 
