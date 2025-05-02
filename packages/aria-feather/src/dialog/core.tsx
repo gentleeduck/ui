@@ -65,11 +65,22 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
         dialog?.close()
         setOpen(false)
         document.body.style.overflow = 'auto'
+
+        document.body.style.scale = ''
+        document.documentElement.style.background = ''
         onOpenChange?.(false)
       } else {
+        document.body.classList.add('transition-all', 'ease-(--duck-motion-ease)')
+        document.documentElement.classList.add('transition-all', 'ease-(--duck-motion-ease)')
         dialog?.showModal()
         setOpen(true)
         onOpenChange?.(true)
+        
+        document.body.style.scale = '0.98'
+        document.body.style.borderRadius = '20px'
+        document.documentElement.style.background = 'black'
+        document.body.style.background = 'white'
+        
         document.body.style.overflow = 'hidden'
       }
     } catch (e) {
@@ -94,7 +105,7 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
 export function useOverlayClose() {
   const { onOpenChange } = useDialogContext()
   function closeOverlay(e: React.MouseEvent<HTMLDialogElement>) {
-  if (e.currentTarget === e.target) onOpenChange(false)
+    if (e.currentTarget === e.target) onOpenChange(false)
   }
   return [closeOverlay]
 }
