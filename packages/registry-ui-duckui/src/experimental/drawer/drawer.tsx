@@ -67,7 +67,8 @@ const DrawerContent = ({
     <>
       <dialog
         ref={ref}
-        className={cn(AnimVariants(), AnimDrawerVariants({ side: side, }), className)}
+        className={cn('border border-border w-full max-w-full m-safe-10 rounded-lg bg-background p-6 inset-unset shadow-sm',
+        AnimVariants(), AnimDrawerVariants({ side: side, }), className)}
         onClick={closeOverlay}
         {...props}
       >

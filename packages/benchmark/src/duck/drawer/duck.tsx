@@ -13,7 +13,7 @@ export default function DrawerDemo() {
   return (
     <Drawer>
       <DrawerTrigger>Open</DrawerTrigger>
-      <DrawerContent renderOnce side="top">
+      <DrawerContent className="h-100" renderOnce side="top">
         <DrawerHeader>
           <DrawerTitle>Are you absolutely sure?</DrawerTitle>
           <DrawerDescription>This action cannot be undone.</DrawerDescription>

@@ -76,7 +76,7 @@ export const AnimSheetVariants = cva(
 )
 
 export const AnimDrawerVariants = cva(
-  'border border-border w-full max-w-full m-safe-10 rounded-lg bg-background p-6 inset-unset shadow-sm duration-650 ease-(--duck-motion-spring)',
+  'duration-650 ease-(--duck-motion-spring)',
   {
     variants: {
       side: {
