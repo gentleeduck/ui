@@ -1,8 +1,8 @@
 'use client'
 
 import { X } from 'lucide-react'
-import { sheetVariants } from './sheet.constants'
-import { SheetContentProps, SheetWrapperProps } from './sheet.types'
+// import { sheetVariants } from './sheet.constants'
+// import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentelduck/libs/cn'
 import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentelduck/motion/anim'

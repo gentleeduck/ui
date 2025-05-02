@@ -2,7 +2,7 @@ import { cn } from '@gentelduck/libs/cn'
 import { Button } from '../button'
 import React from 'react'
 import { X } from 'lucide-react'
-import { AnimDialogVariants } from '@gentelduck/motion/anim'
+import { AnimDialogVariants, AnimVariants } from '@gentelduck/motion/anim'
 import { DialogContextType, DialogProps } from './dialog.types'
 import { useDialog } from '@gentelduck/aria-feather'
 /**
@@ -122,6 +122,7 @@ export function DialogContent({
       className={cn(
         'open:grid inset-1/2 -translate-1/2 w-full max-w-lg sm:max-w-md gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
         AnimVariants(),
+        AnimDialogVariants(),
         className,
       )}
       onClick={(e) => {
