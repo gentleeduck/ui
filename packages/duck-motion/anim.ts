@@ -41,31 +41,31 @@ export const AnimDialogVariants = cva('', {
 })
 
 export const AnimSheetVariants = cva(
-  'fixed h-screen border border-border bg-background p-6 shadow-sm duration-400',
+  'max-h-screen h-screen border border-border m-0 bg-background p-6 inset-unset shadow-sm duration-400',
   {
     variants: {
       side: {
         top: `
           w-3/4 sm:max-w-sm
-          border-b
-          translate-y-0 starting:open:translate-y-0 open:translate-y-[0vw]  
-          top-0
+          border-t
+          -translate-y-full starting:open:-translate-y-full open:translate-y-0
+          inset-y-auto
           `,
         bottom: `
           w-3/4 sm:max-w-sm
-          border-t
-          translate-y-0 starting:open:translate-y-0 open:translate-y-[0vw]
-          bottom-0
+          border-b
+          translate-y-full starting:open:translate-y-full open:translate-y-0  
+          inset-y-auto
         `,
         left: `
           border-l 
-          translate-x-0 starting:open:translate-x-0 open:translate-x-[0vw]
-          left-0
+          -translate-x-full starting:open:-translate-x-full open:translate-x-0
+          end-auto
         `,
         right: `
           border-r 
-          
-          right-[100%] 
+          translate-x-full starting:open:translate-x-full open:translate-x-0
+          start-auto
         `,
       },
     },

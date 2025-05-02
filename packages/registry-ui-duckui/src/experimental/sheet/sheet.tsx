@@ -67,7 +67,7 @@ const SheetContent = ({
     <>
       <dialog
         ref={ref}
-        className={cn(AnimVariants(), AnimSheetVariants({ side: "right", }), className)}
+        className={cn(AnimVariants(), AnimSheetVariants({ side: side, }), className)}
         onClick={closeOverlay}
         {...props}
       >
