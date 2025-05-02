@@ -28,6 +28,15 @@ function SheetTrigger({
   )
 }
 
+function SheetClose({
+  ...props
+}: SheetTriggerProps) {
+
+  return (
+    <DialogTrigger {...props} open={false} />
+  )
+}
+
 /**
  * `SheetContent` is a React component that renders the content of a sheet.
  *
@@ -268,6 +277,7 @@ const SheetDescription = ({
 export {
   Sheet,
   SheetTrigger,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetFooter,
