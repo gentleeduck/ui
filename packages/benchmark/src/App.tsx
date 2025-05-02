@@ -53,10 +53,10 @@
 
 // import DuckSkeleton from './duck/skeleton/duck'
 // import ShadcnSkeleton from './duck/skeleton/skeleton'
-import DuckSheet from './duck/sheet/duck'
-import ShadcnSheet from './duck/sheet/sheet'
-// import DuckDrawer from './duck/drawer/duck'
-// import ShadcnDrawer from './duck/drawer/drawer'
+// import DuckSheet from './duck/sheet/duck'
+// import ShadcnSheet from './duck/sheet/sheet'
+import DuckDrawer from './duck/drawer/duck'
+import ShadcnDrawer from './duck/drawer/drawer'
 // import DuckSonner from './duck/sonner/duck'
 // import ShadcnSonner from './duck/sonner/sonner'
 // function Ui() {
@@ -101,8 +101,8 @@ function App() {
       {/* <Ui /> */}
       {/* <DuckAlertDialog />
       <ShadcnAlertDialog /> */}
-      <DuckSheet />
-      <ShadcnSheet />
+      <DuckDrawer />
+      <ShadcnDrawer />
       {/* <DuckDialog />
       <ShadcnDialog /> */}
       {

@@ -74,3 +74,36 @@ export const AnimSheetVariants = cva(
     },
   }
 )
+
+export const AnimDrawerVariants = cva(
+  'border border-border w-full max-w-full m-safe-10 rounded-lg bg-background p-6 inset-unset shadow-sm duration-650 ease-(--duck-motion-spring)',
+  {
+    variants: {
+      side: {
+        bottom: `
+          border-b
+          -translate-y-full starting:open:-translate-y-full open:translate-y-0  
+          bottom-auto
+        `,
+        top: `
+          border-t
+          translate-y-full starting:open:translate-y-full open:translate-y-0
+          top-auto
+          `,
+        left: `
+          border-l 
+          -translate-x-full starting:open:-translate-x-full open:translate-x-0
+          end-auto
+        `,
+        right: `
+          border-r 
+          translate-x-full starting:open:translate-x-full open:translate-x-0
+          start-auto
+        `,
+      },
+    },
+    defaultVariants: {
+      side: 'bottom',
+    },
+  }
+)

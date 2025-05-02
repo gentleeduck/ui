@@ -5,12 +5,12 @@ import { X } from 'lucide-react'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentelduck/libs/cn'
 import React from 'react'
-import { AnimSheetVariants, AnimVariants } from '@gentelduck/motion/anim'
+import { AnimDrawerVariants, AnimVariants } from '@gentelduck/motion/anim'
 import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
 import { DialogTrigger } from '../dialog'
 
-function Sheet({
+function Drawer({
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
@@ -19,7 +19,7 @@ function Sheet({
 export interface SheetTriggerProps
   extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
 
-function SheetTrigger({
+function DrawerTrigger({
   ...props
 }: SheetTriggerProps) {
 
@@ -28,7 +28,7 @@ function SheetTrigger({
   )
 }
 
-function SheetClose({
+function DrawerClose({
   ...props
 }: SheetTriggerProps) {
 
@@ -49,7 +49,7 @@ function SheetClose({
  * @returns {React.JSX.Element} The rendered sheet content.
  */
 
-const SheetContent = ({
+const DrawerContent = ({
   children,
   className,
   renderOnce,
@@ -67,7 +67,7 @@ const SheetContent = ({
     <>
       <dialog
         ref={ref}
-        className={cn(AnimVariants(), AnimSheetVariants({ side: side, }), className)}
+        className={cn(AnimVariants(), AnimDrawerVariants({ side: side, }), className)}
         onClick={closeOverlay}
         {...props}
       >
@@ -101,7 +101,7 @@ const SheetContent = ({
  *
  * @returns {React.JSX.Element} The rendered SheetHeader component.
  */
-function SheetHeader({
+function DrawerHeader({
   className,
   ref,
   ...props
@@ -131,7 +131,7 @@ function SheetHeader({
  *
  * @returns {React.JSX.Element} The rendered SheetFooter component.
  */
-function SheetFooter({
+function DrawerFooter({
   className,
   ref,
   ...props
@@ -160,7 +160,7 @@ function SheetFooter({
  *
  * @returns {React.JSX.Element} The rendered `SheetTitle` component with forwarded ref and applied class names.
  */
-const SheetTitle = ({
+const DrawerTitle = ({
   className,
   ref,
   ...props
@@ -183,7 +183,7 @@ const SheetTitle = ({
  *
  * @returns {React.JSX.Element} A `SheetDescription` component with forwarded ref and additional props.
  */
-const SheetDescription = ({
+const DrawerDescription = ({
   className,
   ref,
   ...props
@@ -275,13 +275,13 @@ const SheetDescription = ({
 // SheetWrapper.displayName = 'SheetWrapper'
 
 export {
-  Sheet,
-  SheetTrigger,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
+  Drawer,
+  DrawerTrigger,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
   // SheetWrapper,
 }
