@@ -64,9 +64,9 @@ const DrawerContent = ({
 
   React.useEffect(() => {
     if (!open) {
-      document.body.style.transform = 'scale(1) translateY(0)'
-      document.documentElement.style.background = ''
-      document.body.style.borderRadius = '0px'
+      document.body.style.transform = ''
+      document.body.style.borderRadius = ''
+      // document.documentElement.style.background = ''
     } else {
       document.body.classList.add('transition-all','duration-650','ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
       document.body.style.transform = 'scale(0.98) translateY(1%)'
