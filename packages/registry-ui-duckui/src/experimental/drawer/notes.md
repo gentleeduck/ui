@@ -1,0 +1,1 @@
+- body and rootElement have a bug if the user didn't add bg color

@@ -60,14 +60,15 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
   const handleOpenChange = React.useCallback((state: boolean) => {
     try {
       const dialog = dialogRef.current
-
+      
       if (!state) {
         dialog?.close()
         setOpen(false)
         document.body.style.overflow = 'auto'
-
+        
         document.body.style.scale = ''
         document.documentElement.style.background = ''
+        document.body.style.borderRadius = '0'
         onOpenChange?.(false)
       } else {
         document.body.classList.add('transition-all', 'ease-(--duck-motion-ease)', 'duration-650')
@@ -79,7 +80,6 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
         document.body.style.scale = '0.98'
         document.body.style.borderRadius = '20px'
         document.documentElement.style.background = 'black'
-        document.body.style.background = 'white'
         
         document.body.style.overflow = 'hidden'
       }
