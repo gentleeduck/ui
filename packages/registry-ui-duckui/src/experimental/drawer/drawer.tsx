@@ -66,23 +66,25 @@ const DrawerContent = ({
     <>
       <dialog
         ref={ref}
-        className={cn('border border-border w-full max-w-full m-safe-10 rounded-lg bg-background p-6 inset-unset shadow-sm',
+        className={cn('border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm',
           AnimVariants(), AnimDrawerVariants({ side: side, }), className)}
         onClick={closeOverlay}
         {...props}
       >
-        {shouldRender && (
-          <>
-            <button
-              aria-label='close'
-              className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
-              onClick={() => onOpenChange(false)}
-            >
-              <X aria-hidden size={20} />
-            </button>
-            {children}
-          </>
-        )}
+        <div className='p-6 w-full h-full'>
+          {shouldRender && (
+            <>
+              <button
+                aria-label='close'
+                className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
+                onClick={() => onOpenChange(false)}
+              >
+                <X aria-hidden size={20} />
+              </button>
+              {children}
+            </>
+          )}
+        </div>
       </dialog>
     </>
   )

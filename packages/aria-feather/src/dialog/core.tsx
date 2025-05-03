@@ -70,7 +70,7 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
         document.documentElement.style.background = ''
         onOpenChange?.(false)
       } else {
-        document.body.classList.add('transition-all', 'ease-(--duck-motion-ease)')
+        document.body.classList.add('transition-all', 'ease-(--duck-motion-ease)', 'duration-650')
         document.documentElement.classList.add('transition-all', 'ease-(--duck-motion-ease)')
         dialog?.showModal()
         setOpen(true)
