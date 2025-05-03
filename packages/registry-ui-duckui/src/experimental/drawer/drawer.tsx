@@ -68,7 +68,7 @@ const DrawerContent = ({
       document.body.style.borderRadius = ''
       // document.documentElement.style.background = ''
     } else {
-      document.body.classList.add('transition-all','duration-650','ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
+      document.body.classList.add('transition-all','duration-150','ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
       document.body.style.transform = 'scale(0.98) translateY(1%)'
       document.body.style.borderRadius = '20px'
       document.documentElement.style.background = 'black'
