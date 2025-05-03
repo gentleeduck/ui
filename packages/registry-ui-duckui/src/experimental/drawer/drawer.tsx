@@ -62,6 +62,19 @@ const DrawerContent = ({
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
 
+  React.useEffect(() => {
+    if (!open) {
+      document.body.style.transform = 'scale(1) translateY(0)'
+      document.documentElement.style.background = ''
+      document.body.style.borderRadius = '0px'
+    } else {
+      document.body.classList.add('transition-all','duration-650','ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
+      document.body.style.transform = 'scale(0.98) translateY(1%)'
+      document.body.style.borderRadius = '20px'
+      document.documentElement.style.background = 'black'
+    }
+  }, [open])
+
   return (
     <>
       <dialog

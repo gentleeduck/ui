@@ -43,8 +43,8 @@
 // import ShadcnSeparator from './duck/separator/separator'
 
 // import Sandbox from './sandbox'
-// import DuckDialog from './duck/dialog/duck'
-// import ShadcnDialog from './duck/dialog/dialog'
+import DuckDialog from './duck/dialog/duck'
+import ShadcnDialog from './duck/dialog/dialog'
 // import DuckAlertDialog from './duck/alert-dialog/duck'
 // import ShadcnAlertDialog from './duck/alert-dialog/alert-dialog'
 // import DuckSeparator from './duck/separator/duck'
@@ -103,8 +103,8 @@ function App() {
       <ShadcnAlertDialog /> */}
       <DuckDrawer />
       <ShadcnDrawer />
-      {/* <DuckDialog />
-      <ShadcnDialog /> */}
+      <DuckDialog />
+      <ShadcnDialog />
       {
         // <DuckSeparatorExp /> /* Experimental */
         // <DuckSeparator  />  /* radix ui based */
