@@ -59,16 +59,67 @@ const DrawerContent = ({
   side?: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
   const { open, ref, onOpenChange } = useDialogContext()
+  const snapPoint = React.useRef<HTMLSpanElement>(null)
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
-  const snapPoint = React.useRef<HTMLSpanElement>(null)
+  const [position, setPosition] = React.useState(0)
+  const [isDragging, setIsDragging] = React.useState(false)
+  const startY = React.useRef(0)
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLSpanElement>) => {
+    setIsDragging(true)
+    startY.current = e.touches[0]?.clientY ?? 0
+  }
+
+  const handleMouseStart = (e: React.MouseEvent<HTMLSpanElement>) => {
+    setIsDragging(true)
+    startY.current = e.clientY
+  }
+
+  const handleMove = (clientY: number) => {
+    if (!isDragging || !ref) return
+
+    const deltaY = clientY - startY.current
+    const newPosition = Math.max(0, Math.min(100, (deltaY / window.innerHeight) * 100))
+    setPosition(newPosition)
+
+    if (typeof ref === 'function') {
+      ref({ style: { transform: `translateY(${newPosition}%)` } } as HTMLDialogElement)
+    } else if (ref.current) {
+      ref.current.style.transform = `translateY(${newPosition}%)`
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLSpanElement>) => {
+    if (!e.touches[0]) return
+    handleMove(e.touches[0].clientY)
+  }
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLSpanElement>) => {
+    handleMove(e.clientY)
+  }
+
+  const handleEnd = () => {
+    setIsDragging(false)
+    const shouldClose = position > 30 // Close if dragged more than 30%
+
+    if (shouldClose && onOpenChange) {
+      onOpenChange(false)
+    } else {
+      setPosition(0)
+      if (typeof ref === 'function') {
+        ref({ style: { transform: 'translateY(0%)' } } as HTMLDialogElement)
+      } else if (ref.current) {
+        ref.current.style.transform = 'translateY(0%)'
+      }
+    }
+  }
 
   React.useEffect(() => {
     if (!open) {
       document.body.style.transform = ''
       document.body.style.borderRadius = ''
-      // document.documentElement.style.background = ''
+      setPosition(0)
     } else {
       document.body.classList.add('transition-all', 'duration-150', 'ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
       document.body.style.transform = 'scale(0.98) translateY(1%)'
@@ -83,17 +134,28 @@ const DrawerContent = ({
       className={cn('border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm',
         AnimVariants(), AnimDrawerVariants({ side: side, }), className)}
       onClick={closeOverlay}
+      style={{ transform: `translateY(${position}%)` }}
       {...props}
     >
       {shouldRender && (
         <div className='p-6 w-full h-full select-none'>
           <span className='flex w-full justify-center'>
-            <span ref={snapPoint} className='bg-border w-1/6 h-3 rounded-full cursor-grab active:cursor-grabbing'></span>
+            <span
+              ref={snapPoint}
+              className='bg-border w-1/6 h-3 rounded-full cursor-grab active:cursor-grabbing'
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleEnd}
+              onMouseDown={handleMouseStart}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleEnd}
+              onMouseLeave={handleEnd}
+            />
           </span>
           <button
             aria-label='close'
             className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
-            onClick={() => onOpenChange(false)}
+            onClick={() => onOpenChange?.(false)}
           >
             <X aria-hidden size={20} />
           </button>
