@@ -62,32 +62,24 @@ const DrawerContent = ({
   const snapPoint = React.useRef<HTMLSpanElement>(null)
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
-  const [position, setPosition] = React.useState(0)
-  const [isDragging, setIsDragging] = React.useState(false)
-  const startY = React.useRef(0)
+  let isDragging = false
+  let startY = 0
+  let currentY = 0
 
   const handleTouchStart = (e: React.TouchEvent<HTMLSpanElement>) => {
-    setIsDragging(true)
-    startY.current = e.touches[0]?.clientY ?? 0
-  }
-
-  const handleMouseStart = (e: React.MouseEvent<HTMLSpanElement>) => {
-    setIsDragging(true)
-    startY.current = e.clientY
+    isDragging = true
+    startY = e.touches[0]?.clientY ?? 0
+    currentY = startY
   }
 
   const handleMove = (clientY: number) => {
-    if (!isDragging || !ref) return
+    if (!isDragging || !ref?.current) return
 
-    const deltaY = clientY - startY.current
+    const deltaY = clientY - startY
     const newPosition = Math.max(0, Math.min(100, (deltaY / window.innerHeight) * 100))
-    setPosition(newPosition)
+    currentY = clientY
 
-    if (typeof ref === 'function') {
-      ref({ style: { transform: `translateY(${newPosition}%)` } } as HTMLDialogElement)
-    } else if (ref.current) {
-      ref.current.style.transform = `translateY(${newPosition}%)`
-    }
+    ref.current.style.transform = `translateY(${newPosition}%)`
   }
 
   const handleTouchMove = (e: React.TouchEvent<HTMLSpanElement>) => {
@@ -95,23 +87,17 @@ const DrawerContent = ({
     handleMove(e.touches[0].clientY)
   }
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLSpanElement>) => {
-    handleMove(e.clientY)
-  }
-
   const handleEnd = () => {
-    setIsDragging(false)
-    const shouldClose = position > 30 // Close if dragged more than 30%
+    if (!ref?.current) return
+
+    isDragging = false
+    const deltaY = currentY - startY
+    const shouldClose = (deltaY / window.innerHeight) * 100 > 30 // Close if dragged more than 30%
 
     if (shouldClose && onOpenChange) {
       onOpenChange(false)
     } else {
-      setPosition(0)
-      if (typeof ref === 'function') {
-        ref({ style: { transform: 'translateY(0%)' } } as HTMLDialogElement)
-      } else if (ref.current) {
-        ref.current.style.transform = 'translateY(0%)'
-      }
+      ref.current.style.transform = 'translateY(0%)'
     }
   }
 
@@ -119,14 +105,16 @@ const DrawerContent = ({
     if (!open) {
       document.body.style.transform = ''
       document.body.style.borderRadius = ''
-      setPosition(0)
+      if (ref?.current) {
+        ref.current.style.transform = 'translateY(0%)'
+      }
     } else {
       document.body.classList.add('transition-all', 'duration-150', 'ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
-      document.body.style.transform = 'scale(0.98) translateY(1%)'
+      document.body.style.transform = 'scale(0.95) translateY(1%)'
       document.body.style.borderRadius = '20px'
       document.documentElement.style.background = 'black'
     }
-  }, [open])
+  }, [open, ref])
 
   return (
     <dialog
@@ -134,7 +122,6 @@ const DrawerContent = ({
       className={cn('border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm',
         AnimVariants(), AnimDrawerVariants({ side: side, }), className)}
       onClick={closeOverlay}
-      style={{ transform: `translateY(${position}%)` }}
       {...props}
     >
       {shouldRender && (
@@ -146,10 +133,6 @@ const DrawerContent = ({
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleEnd}
-              onMouseDown={handleMouseStart}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleEnd}
-              onMouseLeave={handleEnd}
             />
           </span>
           <button
