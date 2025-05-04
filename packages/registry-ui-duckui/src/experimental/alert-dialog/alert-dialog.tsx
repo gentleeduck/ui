@@ -64,7 +64,7 @@ function AlertDialogContent({
       )}
     >
       {shouldRender && (
-        <>
+        <div className='p-6 w-full h-full'>
           <button
             aria-label='close'
             className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
@@ -73,7 +73,7 @@ function AlertDialogContent({
             <X aria-hidden size={20} />
           </button>
           {children}
-        </>
+        </div>
       )}
     </dialog>
   )

@@ -68,7 +68,7 @@ const DrawerContent = ({
       document.body.style.borderRadius = ''
       // document.documentElement.style.background = ''
     } else {
-      document.body.classList.add('transition-all','duration-150','ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
+      document.body.classList.add('transition-all', 'duration-150', 'ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
       document.body.style.transform = 'scale(0.98) translateY(1%)'
       document.body.style.borderRadius = '20px'
       document.documentElement.style.background = 'black'
@@ -84,20 +84,18 @@ const DrawerContent = ({
         onClick={closeOverlay}
         {...props}
       >
-        <div className='p-6 w-full h-full'>
-          {shouldRender && (
-            <>
-              <button
-                aria-label='close'
-                className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
-                onClick={() => onOpenChange(false)}
-              >
-                <X aria-hidden size={20} />
-              </button>
-              {children}
-            </>
-          )}
-        </div>
+        {shouldRender && (
+          <div className='p-6 w-full h-full'>
+            <button
+              aria-label='close'
+              className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
+              onClick={() => onOpenChange(false)}
+            >
+              <X aria-hidden size={20} />
+            </button>
+            {children}
+          </div>
+        )}
       </dialog>
     </>
   )
