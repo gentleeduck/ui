@@ -22,7 +22,6 @@ export interface SheetTriggerProps
 function SheetTrigger({
   ...props
 }: SheetTriggerProps) {
-
   return (
     <DialogTrigger {...props} open={true} />
   )
@@ -67,7 +66,7 @@ const SheetContent = ({
     <>
       <dialog
         ref={ref}
-        className={cn(AnimVariants(), AnimSheetVariants({ side: side, }), className)}
+        className={cn('border border-border m-0 bg-background p-6 inset-unset shadow-sm duration-400',AnimVariants(), AnimSheetVariants({ side: side, }), className)}
         onClick={closeOverlay}
         {...props}
       >

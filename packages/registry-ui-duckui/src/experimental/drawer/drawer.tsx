@@ -86,6 +86,9 @@ const DrawerContent = ({
       >
         {shouldRender && (
           <div className='p-6 w-full h-full'>
+            <span className='flex w-full justify-center'>
+              <span className='bg-border w-1/6 h-3 rounded-full'></span>
+            </span>
             <button
               aria-label='close'
               className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
