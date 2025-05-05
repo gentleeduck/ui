@@ -9,6 +9,20 @@ import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
 import { DialogTrigger } from '../dialog'
 
+export function useDebounce<T extends (...args: any[]) => void>(
+  func: T,
+  timeout = 300,
+) {
+  let timer: ReturnType<typeof setTimeout>
+  return function (this: any, ...args: Parameters<T>) {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, timeout)
+  }
+}
+
+
 function Drawer({
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
@@ -68,6 +82,12 @@ const DrawerContent = ({
   let startY = 0
   let currentY = 0
 
+  const updateTransform = useDebounce((deltaY: number) => {
+    if (!ref?.current) return
+    const limitedDeltaY = Math.max(-holdUpThreshold, Math.min(deltaY, window.innerHeight))
+    ref.current.style.transform = `translateY(${limitedDeltaY}px)`
+  }, 4) // roughly 60fps
+
   const DrawerDrag = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.button !== 0) return // Only handle left mouse button
     isDragging = true
@@ -75,18 +95,16 @@ const DrawerContent = ({
     currentY = startY
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging || !ref?.current) return
-      const deltaY = e.clientY - startY
-      // Limit upward movement based on holdUpThreshold
-      const limitedDeltaY = Math.max(-(holdUpThreshold ?? 0), deltaY)
-      ref.current.style.transform = `translateY(${limitedDeltaY}px)`
+      if (!isDragging) return
+      const deltaY = Math.round(e.clientY - startY)
+      updateTransform(deltaY)
       currentY = e.clientY
     }
 
     const handleMouseUp = () => {
       if (!ref?.current) return
       isDragging = false
-      const deltaY = currentY - startY
+      const deltaY = Math.round(currentY - startY)
       const shouldClose = deltaY > 150 // Close if dragged more than 150px
 
       if (shouldClose && onOpenChange) {
@@ -109,18 +127,16 @@ const DrawerContent = ({
   }
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!isDragging || !ref?.current || !e.touches[0]) return
-    const deltaY = e.touches[0].clientY - startY
-    // Limit upward movement based on holdUpThreshold
-    const limitedDeltaY = Math.max(-(holdUpThreshold ?? 0), deltaY)
-    ref.current.style.transform = `translateY(${limitedDeltaY}px)`
+    if (!isDragging || !e.touches[0]) return
+    const deltaY = Math.round(e.touches[0].clientY - startY)
+    updateTransform(deltaY)
     currentY = e.touches[0].clientY
   }
 
   const handleEnd = () => {
     if (!ref?.current) return
     isDragging = false
-    const deltaY = currentY - startY
+    const deltaY = Math.round(currentY - startY)
     const shouldClose = deltaY > 150 // Close if dragged more than 150px
 
     if (shouldClose && onOpenChange) {
@@ -164,7 +180,7 @@ const DrawerContent = ({
         >
           <span className='flex w-full justify-center'>
             <span
-              className='bg-border w-1/6 h-3 rounded-full '
+              className='bg-accent w-1/6 h-3 rounded-full '
             />
           </span>
           <button
