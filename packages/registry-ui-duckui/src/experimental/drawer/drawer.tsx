@@ -6,7 +6,7 @@ import { cn } from '@gentelduck/libs/cn'
 import React from 'react'
 import { AnimDrawerVariants, AnimVariants } from '@gentelduck/motion/anim'
 import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
-import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
+import { useShouldRender, useDialogContext, useOverlayClose, useDrawerDrag } from '@gentelduck/aria-feather/dialog'
 import { DialogTrigger } from '../dialog'
 
 function Drawer({
@@ -63,14 +63,13 @@ const DrawerContent = ({
   const { open, ref, onOpenChange } = useDialogContext()
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
-  const dialogSnapWrapper = React.useRef<HTMLDivElement>(null)
 
   const {
     handleMouseDown,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd
-  } = DialogPrimitive.useDrawerDrag({ ref, onOpenChange, holdUpThreshold })
+  } = useDrawerDrag({ ref, onOpenChange, holdUpThreshold })
 
   React.useEffect(() => {
     if (!open) {
@@ -90,7 +89,7 @@ const DrawerContent = ({
   return (
     <dialog
       ref={ref}
-      className={cn('border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm duration-350 ease-(--duck-motion-spring)',
+      className={cn('border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm duration-150 ease-(--duck-motion-ease)',
         AnimVariants(), AnimDrawerVariants({ side: side, }), className)}
       onClick={closeOverlay}
       {...props}
@@ -98,7 +97,6 @@ const DrawerContent = ({
       {shouldRender && (
         <div
           className='p-6 w-full h-full select-none cursor-grab active:cursor-grabbing'
-          ref={dialogSnapWrapper}
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}

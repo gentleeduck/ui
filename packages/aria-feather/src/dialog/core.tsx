@@ -117,8 +117,8 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
   let startY = 0
   let currentY = 0
   let lastUpdateTime = 0
-  const FRAME_TIME = 8
-  const SMOOTH_FACTOR = 0.2
+  const FRAME_TIME = 4
+  const SMOOTH_FACTOR = 0.5
 
   const updateTransform = useDebounce((deltaY: number) => {
     if (!ref?.current) return
