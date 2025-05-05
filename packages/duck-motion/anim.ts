@@ -78,7 +78,7 @@ export const AnimSheetVariants = cva(
 )
 
 export const AnimDrawerVariants = cva(
-  'duration-650 ease-(--duck-motion-spring)',
+  '',
   {
     variants: {
       side: {

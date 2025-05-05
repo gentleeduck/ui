@@ -9,20 +9,6 @@ import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
 import { DialogTrigger } from '../dialog'
 
-export function useDebounce<T extends (...args: any[]) => void>(
-  func: T,
-  timeout = 300,
-) {
-  let timer: ReturnType<typeof setTimeout>
-  return function (this: any, ...args: Parameters<T>) {
-    clearTimeout(timer)
-    timer = setTimeout(() => {
-      func.apply(this, args)
-    }, timeout)
-  }
-}
-
-
 function Drawer({
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
@@ -75,83 +61,23 @@ const DrawerContent = ({
   holdUpThreshold?: number
 }): React.JSX.Element => {
   const { open, ref, onOpenChange } = useDialogContext()
-  const dialogSnapWrapper = React.useRef<HTMLDivElement>(null)
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
-  let isDragging = false
-  let startY = 0
-  let currentY = 0
+  const dialogSnapWrapper = React.useRef<HTMLDivElement>(null)
 
-  const updateTransform = useDebounce((deltaY: number) => {
-    if (!ref?.current) return
-    const limitedDeltaY = Math.max(-holdUpThreshold, Math.min(deltaY, window.innerHeight))
-    ref.current.style.transform = `translateY(${limitedDeltaY}px)`
-  }, 4) // roughly 60fps
-
-  const DrawerDrag = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.button !== 0) return // Only handle left mouse button
-    isDragging = true
-    startY = e.clientY
-    currentY = startY
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging) return
-      const deltaY = Math.round(e.clientY - startY)
-      updateTransform(deltaY)
-      currentY = e.clientY
-    }
-
-    const handleMouseUp = () => {
-      if (!ref?.current) return
-      isDragging = false
-      const deltaY = Math.round(currentY - startY)
-      const shouldClose = deltaY > 150 // Close if dragged more than 150px
-
-      if (shouldClose && onOpenChange) {
-        onOpenChange(false)
-      } else {
-        ref.current.style.transform = 'translateY(0px)'
-      }
-      document.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
-
-    document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseup', handleMouseUp)
-  }
-
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    isDragging = true
-    startY = e.touches[0]?.clientY ?? 0
-    currentY = startY
-  }
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!isDragging || !e.touches[0]) return
-    const deltaY = Math.round(e.touches[0].clientY - startY)
-    updateTransform(deltaY)
-    currentY = e.touches[0].clientY
-  }
-
-  const handleEnd = () => {
-    if (!ref?.current) return
-    isDragging = false
-    const deltaY = Math.round(currentY - startY)
-    const shouldClose = deltaY > 150 // Close if dragged more than 150px
-
-    if (shouldClose && onOpenChange) {
-      onOpenChange(false)
-    } else {
-      ref.current.style.transform = 'translateY(0px)'
-    }
-  }
+  const {
+    handleMouseDown,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd
+  } = DialogPrimitive.useDrawerDrag({ ref, onOpenChange, holdUpThreshold })
 
   React.useEffect(() => {
     if (!open) {
       document.body.style.transform = ''
       document.body.style.borderRadius = ''
       if (ref?.current) {
-        ref.current.style.transform = 'translateY(0%)'
+        ref.current.style.transform = 'translateY(0px)'
       }
     } else {
       document.body.classList.add('transition-all', 'duration-150', 'ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
@@ -164,7 +90,7 @@ const DrawerContent = ({
   return (
     <dialog
       ref={ref}
-      className={cn('border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm',
+      className={cn('border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm duration-350 ease-(--duck-motion-spring)',
         AnimVariants(), AnimDrawerVariants({ side: side, }), className)}
       onClick={closeOverlay}
       {...props}
@@ -173,14 +99,14 @@ const DrawerContent = ({
         <div
           className='p-6 w-full h-full select-none cursor-grab active:cursor-grabbing'
           ref={dialogSnapWrapper}
-          onMouseDown={DrawerDrag}
+          onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
-          onTouchEnd={handleEnd}
+          onTouchEnd={handleTouchEnd}
         >
           <span className='flex w-full justify-center'>
             <span
-              className='bg-accent w-1/6 h-3 rounded-full '
+              className='bg-border w-1/6 h-3 rounded-full cursor-grab active:cursor-grabbing'
             />
           </span>
           <button
@@ -190,9 +116,7 @@ const DrawerContent = ({
           >
             <X aria-hidden size={20} />
           </button>
-          <div className='cursor-auto'>
-            {children}
-          </div>
+          {children}
         </div>
       )}
     </dialog>
