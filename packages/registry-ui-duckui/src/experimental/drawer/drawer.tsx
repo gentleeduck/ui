@@ -53,51 +53,80 @@ const DrawerContent = ({
   className,
   renderOnce,
   side,
+  holdUpThreshold = 10,
   ...props
 }: React.HTMLProps<HTMLDialogElement> & {
   renderOnce?: boolean
   side?: 'left' | 'right' | 'top' | 'bottom'
+  holdUpThreshold?: number
 }): React.JSX.Element => {
   const { open, ref, onOpenChange } = useDialogContext()
-  const snapPoint = React.useRef<HTMLSpanElement>(null)
+  const dialogSnapWrapper = React.useRef<HTMLDivElement>(null)
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
   let isDragging = false
   let startY = 0
   let currentY = 0
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLSpanElement>) => {
+  const DrawerDrag = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return // Only handle left mouse button
+    isDragging = true
+    startY = e.clientY
+    currentY = startY
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging || !ref?.current) return
+      const deltaY = e.clientY - startY
+      // Limit upward movement based on holdUpThreshold
+      const limitedDeltaY = Math.max(-(holdUpThreshold ?? 0), deltaY)
+      ref.current.style.transform = `translateY(${limitedDeltaY}px)`
+      currentY = e.clientY
+    }
+
+    const handleMouseUp = () => {
+      if (!ref?.current) return
+      isDragging = false
+      const deltaY = currentY - startY
+      const shouldClose = deltaY > 150 // Close if dragged more than 150px
+
+      if (shouldClose && onOpenChange) {
+        onOpenChange(false)
+      } else {
+        ref.current.style.transform = 'translateY(0px)'
+      }
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+  }
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     isDragging = true
     startY = e.touches[0]?.clientY ?? 0
     currentY = startY
   }
 
-  const handleMove = (clientY: number) => {
-    if (!isDragging || !ref?.current) return
-
-    const deltaY = clientY - startY
-    const newPosition = Math.max(0, Math.min(100, (deltaY / window.innerHeight) * 100))
-    currentY = clientY
-
-    ref.current.style.transform = `translateY(${newPosition}%)`
-  }
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLSpanElement>) => {
-    if (!e.touches[0]) return
-    handleMove(e.touches[0].clientY)
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isDragging || !ref?.current || !e.touches[0]) return
+    const deltaY = e.touches[0].clientY - startY
+    // Limit upward movement based on holdUpThreshold
+    const limitedDeltaY = Math.max(-(holdUpThreshold ?? 0), deltaY)
+    ref.current.style.transform = `translateY(${limitedDeltaY}px)`
+    currentY = e.touches[0].clientY
   }
 
   const handleEnd = () => {
     if (!ref?.current) return
-
     isDragging = false
     const deltaY = currentY - startY
-    const shouldClose = (deltaY / window.innerHeight) * 100 > 30 // Close if dragged more than 30%
+    const shouldClose = deltaY > 150 // Close if dragged more than 150px
 
     if (shouldClose && onOpenChange) {
       onOpenChange(false)
     } else {
-      ref.current.style.transform = 'translateY(0%)'
+      ref.current.style.transform = 'translateY(0px)'
     }
   }
 
@@ -110,7 +139,7 @@ const DrawerContent = ({
       }
     } else {
       document.body.classList.add('transition-all', 'duration-150', 'ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
-      document.body.style.transform = 'scale(0.95) translateY(1%)'
+      document.body.style.transform = 'scale(0.97) translateY(1%)'
       document.body.style.borderRadius = '20px'
       document.documentElement.style.background = 'black'
     }
@@ -125,14 +154,17 @@ const DrawerContent = ({
       {...props}
     >
       {shouldRender && (
-        <div className='p-6 w-full h-full select-none'>
+        <div
+          className='p-6 w-full h-full select-none cursor-grab active:cursor-grabbing'
+          ref={dialogSnapWrapper}
+          onMouseDown={DrawerDrag}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleEnd}
+        >
           <span className='flex w-full justify-center'>
             <span
-              ref={snapPoint}
-              className='bg-border w-1/6 h-3 rounded-full cursor-grab active:cursor-grabbing'
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleEnd}
+              className='bg-border w-1/6 h-3 rounded-full '
             />
           </span>
           <button
@@ -142,7 +174,9 @@ const DrawerContent = ({
           >
             <X aria-hidden size={20} />
           </button>
-          {children}
+          <div className='cursor-auto'>
+            {children}
+          </div>
         </div>
       )}
     </dialog>
