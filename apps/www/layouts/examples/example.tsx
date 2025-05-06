@@ -77,9 +77,11 @@ import {
 } from '@gentleduck/registry-ui-duckui/sheet'
 import { VaulDrawer } from './hi'
 import { SONNER_V2 } from './js'
+import { Upload2Demo } from './tt'
 
 export function MainExample() {
-  return <SONNER_V2 />
+  return <Upload2Demo />
+  // return <SONNER_V2 />
   return <VaulDrawer />
 
   const items = [
