@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   ChevronLeft,
   ChevronLeftIcon,
@@ -8,11 +7,16 @@ import {
   ChevronsRightIcon,
   MoreHorizontal,
 } from 'lucide-react'
+import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Button, ButtonProps, buttonVariants } from '../button'
+import { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
 
-const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
+const Pagination = ({
+  className,
+  ...props
+}: React.HTMLProps<HTMLHeadElement>) => (
   <nav
     role='navigation'
     aria-label='pagination'
@@ -20,41 +24,32 @@ const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
     {...props}
   />
 )
-Pagination.displayName = 'Pagination'
 
-const PaginationContent = React.forwardRef<
-  HTMLUListElement,
-  React.ComponentProps<'ul'>
->(({ className, ...props }, ref) => (
+const PaginationContent = ({
+  className,
+  ref,
+  ...props
+}: React.HTMLProps<HTMLUListElement>) => (
   <ul
     ref={ref}
     className={cn('flex flex-row items-center gap-1', className)}
     {...props}
   />
-))
-PaginationContent.displayName = 'PaginationContent'
+)
 
-const PaginationItem = React.forwardRef<
-  HTMLLIElement,
-  React.ComponentProps<'li'>
->(({ className, ...props }, ref) => (
-  <li
-    ref={ref}
-    className={cn('', className)}
-    {...props}
-  />
-))
-PaginationItem.displayName = 'PaginationItem'
-
-type PaginationLinkProps = {
-  isActive?: boolean
-} & Pick<ButtonProps, 'size'> &
-  React.ComponentProps<'a'>
+const PaginationItem = ({
+  className,
+  ref,
+  ...props
+}: React.HTMLProps<HTMLLIElement>) => (
+  <li ref={ref} className={cn('', className)} {...props} />
+)
 
 const PaginationLink = ({
   className,
   isActive,
   size = 'icon',
+  ref,
   ...props
 }: PaginationLinkProps) => (
   <a
@@ -64,85 +59,74 @@ const PaginationLink = ({
         variant: isActive ? 'outline' : 'ghost',
         size,
       }),
-      className
+      className,
     )}
     {...props}
   />
 )
-PaginationLink.displayName = 'PaginationLink'
 
 const PaginationPrevious = ({
   className,
+  ref,
   ...props
-}: React.ComponentProps<typeof PaginationLink>) => (
+}: React.ComponentPropsWithRef<typeof PaginationLink>) => (
   <PaginationLink
     aria-label='Go to previous page'
     size='default'
     className={cn('gap-1 pl-2.5', className)}
+    ref={ref}
     {...props}
   >
     <ChevronLeft className='h-4 w-4' />
     <span>Previous</span>
   </PaginationLink>
 )
-PaginationPrevious.displayName = 'PaginationPrevious'
 
 const PaginationNext = ({
   className,
+  ref,
   ...props
-}: React.ComponentProps<typeof PaginationLink>) => (
+}: React.ComponentPropsWithRef<typeof PaginationLink>) => (
   <PaginationLink
     aria-label='Go to next page'
     size='default'
     className={cn('gap-1 pr-2.5', className)}
+    ref={ref}
     {...props}
   >
     <span>Next</span>
     <ChevronRight className='h-4 w-4' />
   </PaginationLink>
 )
-PaginationNext.displayName = 'PaginationNext'
 
 const PaginationEllipsis = ({
   className,
+  ref,
   ...props
-}: React.ComponentProps<'span'>) => (
+}: React.HTMLProps<HTMLSpanElement>) => (
   <span
     aria-hidden
     className={cn('flex h-9 w-9 items-center justify-center', className)}
+    ref={ref}
     {...props}
   >
     <MoreHorizontal className='h-4 w-4' />
     <span className='sr-only'>More pages</span>
   </span>
 )
-PaginationEllipsis.displayName = 'PaginationEllipsis'
 
-export interface DuckPaginationProps {
-  wrapper?: React.ComponentPropsWithoutRef<typeof Pagination>
-  content?: React.ComponentPropsWithoutRef<typeof PaginationContent>
-  item?: React.ComponentPropsWithoutRef<typeof PaginationItem>
-  right?: React.ComponentPropsWithoutRef<typeof Button>
-  maxRight?: React.ComponentPropsWithoutRef<typeof Button>
-  left?: React.ComponentPropsWithoutRef<typeof Button>
-  maxLeft?: React.ComponentPropsWithoutRef<typeof Button>
-}
-
-export const DuckPagination = React.forwardRef<
-  HTMLUListElement,
-  DuckPaginationProps
->(({ wrapper, content, item, right, maxRight, left, maxLeft }, ref) => {
-  const { className: wrapperClassName, ...wrapperProps } = wrapper ?? {}
-  const { className: contentClassName, ...contentProps } = content ?? {}
-  const { className: itemClassName, ...itemProps } = item ?? {}
-  const { className: rightClassName, ...rightProps } = right ?? {}
-  const { className: maxRightClassName, ...maxRightProps } = maxRight ?? {}
-  const { className: leftClassName, ...leftProps } = left ?? {}
-  const { className: maxLeftClassName, ...maxLeftProps } = maxLeft ?? {}
+const PaginationWrapper = (props: DuckPaginationProps) => {
+  const { className: wrapperClassName, ...wrapperProps } = props.wrapper ?? {}
+  const { className: contentClassName, ...contentProps } = props.content ?? {}
+  const { className: itemClassName, ...itemProps } = props.item ?? {}
+  const { className: rightClassName, ...rightProps } = props.right ?? {}
+  const { className: maxRightClassName, ...maxRightProps } =
+    props.maxRight ?? {}
+  const { className: leftClassName, ...leftProps } = props.left ?? {}
+  const { className: maxLeftClassName, ...maxLeftProps } = props.maxLeft ?? {}
 
   return (
     <Pagination
-      ref={ref}
       className={cn('justify-end', wrapperClassName)}
       {...wrapperProps}
     >
@@ -150,10 +134,7 @@ export const DuckPagination = React.forwardRef<
         className={cn('gap-2', contentClassName)}
         {...contentProps}
       >
-        <PaginationItem
-          className={cn(itemClassName)}
-          {...itemProps}
-        >
+        <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             variant='outline'
             size='sm'
@@ -163,10 +144,7 @@ export const DuckPagination = React.forwardRef<
             <ChevronsLeftIcon />
           </Button>
         </PaginationItem>
-        <PaginationItem
-          className={cn(itemClassName)}
-          {...itemProps}
-        >
+        <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             variant='outline'
             size='sm'
@@ -176,10 +154,7 @@ export const DuckPagination = React.forwardRef<
             <ChevronLeftIcon />
           </Button>
         </PaginationItem>
-        <PaginationItem
-          className={cn(itemClassName)}
-          {...itemProps}
-        >
+        <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             variant='outline'
             size='sm'
@@ -189,10 +164,7 @@ export const DuckPagination = React.forwardRef<
             <ChevronRightIcon />
           </Button>
         </PaginationItem>
-        <PaginationItem
-          className={cn(itemClassName)}
-          {...itemProps}
-        >
+        <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             variant='outline'
             size='sm'
@@ -205,7 +177,7 @@ export const DuckPagination = React.forwardRef<
       </PaginationContent>
     </Pagination>
   )
-})
+}
 
 export {
   Pagination,
@@ -215,5 +187,5 @@ export {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-  DuckPagination as PaginationCustomView,
+  PaginationWrapper,
 }

@@ -14,8 +14,8 @@ import { Announcement } from '~/components/announcement'
 import { ThemeWrapper } from '~/components/theme-wrapper'
 import { ThemeCustomizer } from '~/components/theme-customizer'
 import { ThemesTabs } from './themes/tabs'
-import { buttonVariants } from '@gentelduck/registry-ui-duckui/button'
-import { cn } from '@gentelduck/libs/cn'
+import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
 
 export default function IndexPage() {
   return (
@@ -35,17 +35,14 @@ export default function IndexPage() {
               buttonVariants({
                 variant: 'default',
                 size: '2xl',
-              })
+              }),
             )}
           >
             Get Stared
           </Link>
         </PageHeader>
         <div className='flex flex-col justify-center items-center'>
-          <img
-            src={'/home.png'}
-            width='100%'
-          />
+          <img src={'/home.png'} width='100%' />
         </div>
       </div>
       <div>

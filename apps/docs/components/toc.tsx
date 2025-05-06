@@ -4,7 +4,7 @@
 import * as React from 'react'
 
 import { TableOfContents } from '~/lib/toc'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { useMounted } from '~/hooks/use-mounted'
 import { Docs } from '~/.velite'
 
@@ -17,12 +17,12 @@ export function DashboardTableOfContents({ toc }: TocProps) {
     () =>
       toc
         ? toc
-            .flatMap((item) => [item.url, item?.items?.map((item) => item.url)])
-            .flat()
-            .filter(Boolean)
-            .map((id) => id?.split('#')[1])
+          .flatMap((item) => [item.url, item?.items?.map((item) => item.url)])
+          .flat()
+          .filter(Boolean)
+          .map((id) => id?.split('#')[1])
         : [],
-    [toc]
+    [toc],
   )
   const activeHeading = useActiveItem(itemIds)
   const mounted = useMounted()
@@ -30,10 +30,7 @@ export function DashboardTableOfContents({ toc }: TocProps) {
   return mounted ? (
     <div className='space-y-2'>
       <p className='font-medium'>On This Page</p>
-      <Tree
-        tree={toc}
-        activeItem={activeHeading}
-      />
+      <Tree tree={toc} activeItem={activeHeading} />
     </div>
   ) : null
 }
@@ -50,7 +47,7 @@ function useActiveItem(itemIds: (string | undefined)[]) {
           }
         })
       },
-      { rootMargin: `0% 0% -80% 0%` }
+      { rootMargin: `0% 0% -80% 0%` },
     )
 
     itemIds?.forEach((id) => {
@@ -92,17 +89,14 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
     <ul className={cn('m-0 list-none', { 'pl-4': level !== 1 })}>
       {tree.map((item, index) => {
         return (
-          <li
-            key={index}
-            className={cn('mt-0 pt-2')}
-          >
+          <li key={index} className={cn('mt-0 pt-2')}>
             <a
               href={item.url}
               className={cn(
                 'inline-block no-underline',
                 item.url === `#${activeItem}`
                   ? 'text-primary font-medium'
-                  : 'text-muted-foreground text-sm'
+                  : 'text-muted-foreground text-sm',
               )}
             >
               {item.title}

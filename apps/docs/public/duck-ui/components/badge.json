@@ -15,7 +15,7 @@
     },
     {
       "path": "badge/badge.tsx",
-      "content": "import * as React from 'react'\n\nimport { BadgeProps } from './badge.types'\nimport { badgeVariants } from './badge.constants'\n\nimport { cn } from '@gentelduck/libs/cn'\n\nconst Badge = React.forwardRef<HTMLDivElement, BadgeProps>(\n  ({ className, variant, size, label, ...props }, ref) => {\n    return (\n      <div\n        className={cn(badgeVariants({ variant, size }), className)}\n        ref={ref}\n        {...props}\n      />\n    )\n  },\n)\n\nBadge.displayName = 'Badge'\n\nexport { Badge }\n",
+      "content": "import * as React from 'react'\n\nimport { BadgeProps } from './badge.types'\nimport { badgeVariants } from './badge.constants'\n\nimport { cn } from '@gentleduck/libs/cn'\n\nconst Badge = React.forwardRef<HTMLDivElement, BadgeProps>(\n  ({ className, variant, size, label, ...props }, ref) => {\n    return (\n      <div\n        className={cn(badgeVariants({ variant, size }), className)}\n        ref={ref}\n        {...props}\n      />\n    )\n  },\n)\n\nBadge.displayName = 'Badge'\n\nexport { Badge }\n",
       "type": "registry:ui",
       "target": "components/ui/badge.tsx"
     },

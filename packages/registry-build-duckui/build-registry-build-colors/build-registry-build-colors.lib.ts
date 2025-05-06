@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { registry_colors, registry_themes } from '@gentelduck/registers'
+import { registry_colors, registry_themes } from '@gentleduck/registers'
 import template from 'lodash.template'
 import { BASE_STYLES_WITH_VARIABLES } from './build-registry-build-colors.constants'
 import { REGISTRY_PATH } from '../main'

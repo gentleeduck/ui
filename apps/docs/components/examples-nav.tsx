@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 const examples = [
   {
@@ -49,7 +49,7 @@ const examples = [
   },
 ]
 
-interface ExamplesNavProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ExamplesNavProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
   const pathname = usePathname()
@@ -57,10 +57,7 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
   return (
     <div className='relative'>
       <div className='max-w-[600px] lg:max-w-none hide-scroll'>
-        <div
-          className={cn('mb-4 flex items-center', className)}
-          {...props}
-        >
+        <div className={cn('mb-4 flex items-center', className)} {...props}>
           {examples.map((example, index) => (
             <Link
               href={example.href}
@@ -70,7 +67,7 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
                 pathname?.startsWith(example.href) ||
                   (index === 0 && pathname === '/')
                   ? 'bg-muted font-medium text-primary'
-                  : 'text-muted-foreground'
+                  : 'text-muted-foreground',
               )}
             >
               {example.name}

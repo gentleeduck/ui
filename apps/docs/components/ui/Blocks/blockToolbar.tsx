@@ -4,27 +4,27 @@ import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
 import * as React from 'react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Block } from '@gentelduck/registers'
-import { Badge } from '@gentelduck/registry-ui-duckui/badge'
-import { Label } from '@gentelduck/registry-ui-duckui/label'
+import { cn } from '@gentleduck/libs/cn'
+import { Block } from '@gentleduck/registers'
+import { Badge } from '@gentleduck/registry-ui-duckui/badge'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@gentelduck/registry-ui-duckui/popover'
-import { Separator } from '@gentelduck/registry-ui-duckui/separator'
-import { TabsList, TabsTrigger } from '@gentelduck/registry-ui-duckui/tabs'
+} from '@gentleduck/registry-ui-duckui/popover'
+import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import {
   ToggleGroup,
   ToggleGroupItem,
-} from '@gentelduck/registry-ui-duckui/toggle-group'
+} from '@gentleduck/registry-ui-duckui/toggle-group'
 import { StyleSwitcher } from '~/components/style-switcher'
 import { BlockCopyButton } from '~/components/ui'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { trackEvent } from '~/lib/events'
 
-import { Switch } from '@gentelduck/registry-ui-duckui/switch'
+import { Switch } from '@gentleduck/registry-ui-duckui/switch'
 import { V0Button } from '~/components/V0'
 
 export function BlockToolbar({

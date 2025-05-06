@@ -1,20 +1,20 @@
 import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Block } from '@gentelduck/registers'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
-import {} from '@gentelduck/registry-ui-duckui/drawer'
+import { cn } from '@gentleduck/libs/cn'
+import { Block } from '@gentleduck/registers'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { } from '@gentleduck/registry-ui-duckui/drawer'
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
-} from '@gentelduck/registry-ui-duckui/sheet'
+} from '@gentleduck/registry-ui-duckui/sheet'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@gentelduck/registry-ui-duckui/tabs'
+} from '@gentleduck/registry-ui-duckui/tabs'
 import { BlockCopyButton, V0Button } from '~/components/ui'
 import { useMediaQuery } from '~/hooks/use-media-query'
 import { useThemesConfig } from '~/hooks/use-themes-config'
@@ -33,14 +33,14 @@ export function ChartCodeViewer({
 @layer base {
   :root {
 ${Object.entries(themesConfig?.activeTheme.cssVars.light || {})
-  .map(([key, value]) => `    ${key}: ${value};`)
-  .join('\n')}
+        .map(([key, value]) => `    ${key}: ${value};`)
+        .join('\n')}
   }
 
   .dark {
 ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
-  .map(([key, value]) => `    ${key}: ${value};`)
-  .join('\n')}
+        .map(([key, value]) => `    ${key}: ${value};`)
+        .join('\n')}
     }
 }
 `

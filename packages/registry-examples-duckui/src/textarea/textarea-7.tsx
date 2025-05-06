@@ -8,9 +8,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@gentelduck/registry-ui-duckui/form'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { Textarea } from '@gentelduck/registry-ui-duckui/textarea'
+} from '@gentleduck/registry-ui-duckui/form'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'

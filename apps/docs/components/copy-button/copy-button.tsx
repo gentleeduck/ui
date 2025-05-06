@@ -3,15 +3,15 @@
 import { CheckIcon, ClipboardIcon } from 'lucide-react'
 import * as React from 'react'
 
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@gentelduck/registry-ui-duckui/dropdown-menu'
+} from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import { Event, trackEvent } from '~/lib/events'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import {
   CopyButtonProps,
   CopyNpmCommandButtonProps,
@@ -22,8 +22,8 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@gentelduck/registry-ui-duckui/tabs'
-import { Separator } from '@gentelduck/registry-ui-duckui/separator'
+} from '@gentleduck/registry-ui-duckui/tabs'
+import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
 export async function copyToClipboardWithMeta(value: string, event?: Event) {
   navigator.clipboard.writeText(value)
@@ -52,18 +52,21 @@ export function CopyButton({
       size='icon'
       variant={variant}
       aria-label='Copy'
-      className={cn('w-6.5 h-6.5 [&_svg]:h-3.5 [&_svg]:w-3.5 shadow-none rounded-sm', className)}
+      className={cn(
+        'w-6.5 h-6.5 [&_svg]:h-3.5 [&_svg]:w-3.5 shadow-none rounded-sm',
+        className,
+      )}
       icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
       onClick={() => {
         copyToClipboardWithMeta(
           value,
           event
             ? {
-                name: event,
-                properties: {
-                  code: value,
-                },
-              }
+              name: event,
+              properties: {
+                code: value,
+              },
+            }
             : undefined,
         )
         setHasCopied(true)
@@ -101,8 +104,7 @@ export function CopyWithClassNames({
           className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           {...props}
-        >
-        </Button>
+        ></Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <DropdownMenuItem onClick={() => copyToClipboard(value)}>
@@ -152,8 +154,7 @@ export function CopyNpmCommandButton({
           className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           {...props}
-        >
-        </Button>
+        ></Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <DropdownMenuItem

@@ -1,4 +1,4 @@
-import { Skeleton } from '@gentelduck/registry-ui-duckui/skeleton'
+import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 
 export default function SkeletonCard() {
   return (

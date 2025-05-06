@@ -1,18 +1,18 @@
 'use client'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@gentelduck/registry-ui-duckui/accordion'
+} from '@gentleduck/registry-ui-duckui/accordion'
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from '@gentelduck/registry-ui-duckui/alert'
-import { AspectRatio } from '@gentelduck/registry-ui-duckui/aspect-ratio'
+} from '@gentleduck/registry-ui-duckui/alert'
+import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'
 import Image from 'next/image'
 import Link from 'next/link'
 import * as React from 'react'
@@ -50,7 +50,7 @@ import {
   TableHeader,
   TableRow,
 } from './mdx-components'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -123,7 +123,7 @@ const components = {
   ),
   Steps: ({ ...props }) => (
     <div
-      className="[&>h3]:step steps mb-12 ml-4 border-l pl-8 [counter-reset:step]"
+      className='[&>h3]:step steps mb-12 ml-4 border-l pl-8 [counter-reset:step]'
       {...props}
     />
   ),
@@ -142,7 +142,7 @@ export function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code)
 
   return (
-    <div className="mdx">
+    <div className='mdx'>
       <Component components={components} />
     </div>
   )

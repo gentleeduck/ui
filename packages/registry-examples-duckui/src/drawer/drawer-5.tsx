@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 import { Minus, Plus } from 'lucide-react'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { toast } from 'sonner'
-import { DialogWrapper } from '@gentelduck/registry-ui-duckui/dialog'
+import { DialogWrapper } from '@gentleduck/registry-ui-duckui/dialog'
 
 function generateRandomGoals(
   count: number,

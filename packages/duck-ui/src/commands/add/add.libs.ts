@@ -4,7 +4,7 @@ import { spinner as Spinner } from '~/utils/spinner'
 import { addOptions, add_options_schema } from './add.dto'
 import { registry_component_install } from '~/utils/registry-mutation'
 import { get_duckui_config } from '~/utils/get-project-info'
-import { Registry } from '@gentelduck/registers'
+import { Registry } from '@gentleduck/registers'
 import { highlighter } from '~/utils'
 
 export async function add_command_action(opt: addOptions) {

@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/registry-ui-duckui",
+  "name": "@gentleduck/registry-ui-duckui",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -117,6 +117,7 @@
     "input-otp": "^1.2.4",    
     "react-hook-form": "^7.52.2",
     "react-resizable-panels": "^2.0.23",
-    "recharts": "2.12.7"
+    "recharts": "2.12.7",
+    "uuidv7": "^1.0.2"
   }
 }

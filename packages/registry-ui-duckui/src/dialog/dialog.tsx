@@ -1,4 +1,4 @@
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Button } from '../button'
 import React from 'react'
 import { X } from 'lucide-react'

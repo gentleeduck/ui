@@ -4,8 +4,8 @@ import { Doc } from 'contentlayer/generated'
 import { NavItem, NavItemWithChildren } from 'types/nav'
 
 import { docsConfig } from '~/config/docs'
-import { cn } from '@gentelduck/libs/cn'
-import { buttonVariants } from '@gentelduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
+import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 
 interface DocsPagerProps {
   doc: Doc
@@ -48,7 +48,7 @@ export function getPagerForDoc(doc: Doc) {
     : docsConfig.sidebarNav
   const flattenedLinks = [null, ...flatten(nav), null]
   const activeIndex = flattenedLinks.findIndex(
-    (link) => doc.slug === link?.href
+    (link) => doc.slug === link?.href,
   )
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
   const next =

@@ -1,7 +1,7 @@
 'use client'
 
-import { cn } from '@gentelduck/libs/cn'
-import { groupArrays } from '@gentelduck/libs/group-array'
+import { cn } from '@gentleduck/libs/cn'
+import { groupArrays } from '@gentleduck/libs/group-array'
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
@@ -184,13 +184,13 @@ ContextMenuShortcut.displayName = 'ContextMenuShortcut'
 
 type DropdownMenuOptionsDataType<T, Y extends boolean = true> = {
   command?: React.ComponentPropsWithoutRef<typeof ContextMenuShortcut> &
-    CommandType
+  CommandType
   nestedData?: Y extends true
-    ? Partial<
-        React.ComponentPropsWithoutRef<typeof ContextMenuSubContent> &
-          ContextMenuOptionsType<T>
-      >
-    : never
+  ? Partial<
+    React.ComponentPropsWithoutRef<typeof ContextMenuSubContent> &
+    ContextMenuOptionsType<T>
+  >
+  : never
 } & Partial<Omit<ButtonProps, 'command'>> &
   Partial<React.ComponentPropsWithoutRef<typeof ContextMenuCheckboxItem>> &
   Partial<React.ComponentPropsWithoutRef<typeof ContextMenuItem>> &
@@ -212,7 +212,7 @@ export interface DuckContextMenuProps<T> {
   wrapper?: Partial<React.ComponentPropsWithoutRef<typeof ContextMenu>>
   content?: ContextContent<T>
   trigger?: React.ComponentPropsWithoutRef<typeof ContextMenuTrigger> &
-    ButtonProps
+  ButtonProps
 }
 
 export const DuckContextMenu = <T,>({
@@ -235,7 +235,7 @@ export const DuckContextMenu = <T,>({
     options?.group ?? [options?.optionsData?.length || 1],
     options?.optionsData ?? [],
   )
-  const {} = wrapper ?? {}
+  const { } = wrapper ?? {}
 
   return (
     <ContextMenu>
@@ -391,10 +391,10 @@ export const DuckContextMenu = <T,>({
                                     })}
                                     {idx !==
                                       groupedNestedOption?.length - 1 && (
-                                      <ContextMenuSeparator
-                                        key={`separator-${idx}`}
-                                      />
-                                    )}
+                                        <ContextMenuSeparator
+                                          key={`separator-${idx}`}
+                                        />
+                                      )}
                                   </React.Fragment>
                                 )
                               })}

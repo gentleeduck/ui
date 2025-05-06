@@ -4,15 +4,15 @@ import { CheckIcon, ClipboardIcon } from 'lucide-react'
 import * as React from 'react'
 import { NpmCommands } from 'types/unist'
 
-import { Button, ButtonProps } from '@gentelduck/registry-ui-duckui/button'
+import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@gentelduck/registry-ui-duckui/dropdown-menu'
+} from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import { Event, trackEvent } from '~/lib/events'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 interface CopyButtonProps extends ButtonProps {
   value: string
@@ -49,7 +49,7 @@ export function CopyButton({
       variant={variant}
       className={cn(
         'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
-        className
+        className,
       )}
       icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
       onClick={() => {
@@ -57,12 +57,12 @@ export function CopyButton({
           value,
           event
             ? {
-                name: event,
-                properties: {
-                  code: value,
-                },
-              }
-            : undefined
+              name: event,
+              properties: {
+                code: value,
+              },
+            }
+            : undefined,
         )
         setHasCopied(true)
       }}
@@ -106,7 +106,7 @@ export function CopyWithClassNames({
           variant='outline'
           className={cn(
             'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
-            className
+            className,
           )}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
         >
@@ -153,7 +153,7 @@ export function CopyNpmCommandButton({
       })
       setHasCopied(true)
     },
-    []
+    [],
   )
 
   return (
@@ -164,7 +164,7 @@ export function CopyNpmCommandButton({
           variant='outline'
           className={cn(
             'relative z-10 h-6 w-6  [&_svg]:h-3 [&_svg]:w-3',
-            className
+            className,
           )}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
         >

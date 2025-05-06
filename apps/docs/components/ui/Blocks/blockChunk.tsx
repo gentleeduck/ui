@@ -3,10 +3,10 @@
 import * as React from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { BlockCopyButton } from '~/components/ui'
-import { Block, type BlockChunk } from '@gentelduck/registers'
+import { Block, type BlockChunk } from '@gentleduck/registers'
 import { V0Button } from '~/components/V0'
 
 export function BlockChunk({
@@ -33,7 +33,7 @@ export function BlockChunk({
           transition={{ ease: 'easeIn', duration: 0.2 }}
           className={cn(
             'group rounded-xl bg-background shadow-xl transition',
-            chunk.container?.className
+            chunk.container?.className,
           )}
           {...props}
         >

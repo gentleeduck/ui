@@ -1,4 +1,4 @@
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Icons } from '~/components/icons'
 
 export function TailwindIndicator() {

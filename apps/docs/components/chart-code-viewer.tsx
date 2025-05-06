@@ -1,27 +1,27 @@
 import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { useMediaQuery } from '~/hooks/use-media-query'
 import { useThemesConfig } from '~/hooks/use-themes-config'
 import { BlockCopyButton } from '~/components/ui'
-import { Block } from '@gentelduck/registers'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Block } from '@gentleduck/registers'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@gentelduck/registry-ui-duckui/tabs'
+} from '@gentleduck/registry-ui-duckui/tabs'
 import {
   Drawer,
   DrawerContent,
   DrawerTrigger,
-} from '@gentelduck/registry-ui-duckui/drawer'
+} from '@gentleduck/registry-ui-duckui/drawer'
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
-} from '@gentelduck/registry-ui-duckui/sheet'
+} from '@gentleduck/registry-ui-duckui/sheet'
 import { V0Button } from './V0'
 
 export function ChartCodeViewer({
@@ -38,14 +38,14 @@ export function ChartCodeViewer({
 @layer base {
   :root {
 ${Object.entries(themesConfig?.activeTheme.cssVars.light || {})
-  .map(([key, value]) => `    ${key}: ${value};`)
-  .join('\n')}
+        .map(([key, value]) => `    ${key}: ${value};`)
+        .join('\n')}
   }
 
   .dark {
 ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
-  .map(([key, value]) => `    ${key}: ${value};`)
-  .join('\n')}
+        .map(([key, value]) => `    ${key}: ${value};`)
+        .join('\n')}
     }
 }
 `
@@ -53,9 +53,9 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
 
   const button = (
     <Button
-      size="sm"
-      variant="outline"
-      className="h-6 rounded-[6px] border bg-transparent px-2 text-xs text-foreground shadow-none hover:bg-muted dark:text-foreground"
+      size='sm'
+      variant='outline'
+      className='h-6 rounded-[6px] border bg-transparent px-2 text-xs text-foreground shadow-none hover:bg-muted dark:text-foreground'
     >
       View Code
     </Button>
@@ -63,34 +63,34 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
 
   const content = (
     <>
-      <div className="chart-wrapper hidden sm:block [&>div]:rounded-none [&>div]:border-0 [&>div]:border-b [&>div]:shadow-none [&_[data-chart]]:mx-auto [&_[data-chart]]:max-h-[35vh]">
+      <div className='chart-wrapper hidden sm:block [&>div]:rounded-none [&>div]:border-0 [&>div]:border-b [&>div]:shadow-none [&_[data-chart]]:mx-auto [&_[data-chart]]:max-h-[35vh]'>
         {children}
       </div>
       <Tabs
-        defaultValue="code"
-        className="relative flex h-full flex-1 flex-col overflow-hidden p-4"
+        defaultValue='code'
+        className='relative flex h-full flex-1 flex-col overflow-hidden p-4'
         value={tab}
         onValueChange={setTab}
       >
-        <div className="flex w-full items-center">
-          <TabsList className="h-7 w-auto rounded-md p-0 px-[calc(theme(spacing.1)_-_2px)] py-[theme(spacing.1)]">
+        <div className='flex w-full items-center'>
+          <TabsList className='h-7 w-auto rounded-md p-0 px-[calc(theme(spacing.1)_-_2px)] py-[theme(spacing.1)]'>
             <TabsTrigger
-              value="code"
-              className="h-[1.45rem] rounded-sm px-2 text-xs"
+              value='code'
+              className='h-[1.45rem] rounded-sm px-2 text-xs'
             >
               Code
             </TabsTrigger>
             <TabsTrigger
-              value="theme"
-              className="h-[1.45rem] rounded-sm px-2 text-xs"
+              value='theme'
+              className='h-[1.45rem] rounded-sm px-2 text-xs'
             >
               Theme
             </TabsTrigger>
           </TabsList>
           {tab === 'code' && (
-            <div className="ml-auto flex items-center justify-center gap-2">
+            <div className='ml-auto flex items-center justify-center gap-2'>
               <BlockCopyButton
-                event="copy_chart_code"
+                event='copy_chart_code'
                 name={chart.name}
                 code={chart.code}
               />
@@ -102,46 +102,46 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
                   code: chart.code,
                   style: 'default',
                 }}
-                className="h-7"
+                className='h-7'
               />
             </div>
           )}
           {tab === 'theme' && (
             <BlockCopyButton
-              event="copy_chart_theme"
+              event='copy_chart_theme'
               name={chart.name}
               code={themeCode}
-              className="ml-auto"
+              className='ml-auto'
             />
           )}
         </div>
         <TabsContent
-          value="code"
-          className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex"
+          value='code'
+          className='h-full flex-1 flex-col overflow-hidden data-[state=active]:flex'
         >
-          <div className="relative overflow-auto rounded-lg bg-black">
+          <div className='relative overflow-auto rounded-lg bg-black'>
             <div
               data-rehype-pretty-code-fragment
               dangerouslySetInnerHTML={{
                 __html: chart.highlightedCode,
               }}
-              className="w-full overflow-hidden [&_pre]:overflow-auto [&_pre]:!bg-black [&_pre]:py-6 [&_pre]:font-mono [&_pre]:text-sm [&_pre]:leading-relaxed"
+              className='w-full overflow-hidden [&_pre]:overflow-auto [&_pre]:!bg-black [&_pre]:py-6 [&_pre]:font-mono [&_pre]:text-sm [&_pre]:leading-relaxed'
             />
           </div>
         </TabsContent>
         <TabsContent
-          value="theme"
-          className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex"
+          value='theme'
+          className='h-full flex-1 flex-col overflow-hidden data-[state=active]:flex'
         >
           <div
             data-rehype-pretty-code-fragment
-            className="relative overflow-auto rounded-lg bg-black py-6"
+            className='relative overflow-auto rounded-lg bg-black py-6'
           >
-            <pre className="bg-black font-mono text-sm leading-relaxed">
-              <code data-line-numbers="">
-                <span className="line text-zinc-700">{`/* ${themesConfig?.activeTheme.name} */`}</span>
+            <pre className='bg-black font-mono text-sm leading-relaxed'>
+              <code data-line-numbers=''>
+                <span className='line text-zinc-700'>{`/* ${themesConfig?.activeTheme.name} */`}</span>
                 {themeCode.split('\n').map((line, index) => (
-                  <span key={index} className="line">
+                  <span key={index} className='line'>
                     {line}
                   </span>
                 ))}
@@ -163,7 +163,7 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
             className,
           )}
         >
-          <div className="flex h-full flex-col overflow-auto">{content}</div>
+          <div className='flex h-full flex-col overflow-auto'>{content}</div>
         </DrawerContent>
       </Drawer>
     )
@@ -173,7 +173,7 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
     <Sheet>
       <SheetTrigger asChild>{button}</SheetTrigger>
       <SheetContent
-        side="right"
+        side='right'
         className={cn(
           'flex flex-col gap-0 border-l-0 p-0 dark:border-l sm:max-w-sm md:w-[700px] md:max-w-[700px]',
           className,

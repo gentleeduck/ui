@@ -24,7 +24,7 @@ app.use(
     router: appRouter,
     // @ts-ignore: trpcServer is not typed
     createContext: createTRPCContext,
-  })
+  }),
 )
 
 import { renderTrpcPanel } from 'trpc-ui'
@@ -68,7 +68,7 @@ const user = await db
   .insert(users)
   .values({
     name: 'wildduck',
-    email: 'duckui@gentelduck.com',
+    email: 'duckui@gentleduck.com',
     password: 'wildduck',
   })
   .returning({ id: users.id })

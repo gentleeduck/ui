@@ -1,4 +1,4 @@
-import { cva } from '@gentelduck/variants'
+import { cva } from '@gentleduck/variants'
 
 export const sheetVariants = cva(
   'fixed z-[51] gap-4 bg-background p-6 shadow-lg transition-transform duration-300 ease-in-out data-[state=open]:pointer-events-auto data-[state=closed]:pointer-events-none',

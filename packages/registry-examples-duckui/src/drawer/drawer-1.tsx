@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Minus, Plus } from 'lucide-react'
 import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Drawer,
   DrawerClose,
@@ -12,7 +12,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@gentelduck/registry-ui-duckui/drawer'
+} from '@gentleduck/registry-ui-duckui/drawer'
 
 function generateRandomGoals(
   count: number,

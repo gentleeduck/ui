@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import {
   ScrollArea,
   ScrollBar,
@@ -48,10 +48,7 @@ export function ChartsNav({
 
   return (
     <ScrollArea className='max-w-[600px] lg:max-w-none'>
-      <div
-        className={cn('flex items-center', className)}
-        {...props}
-      >
+      <div className={cn('flex items-center', className)} {...props}>
         {links.map((example, index) => (
           <Link
             href={example.href}
@@ -61,17 +58,14 @@ export function ChartsNav({
               pathname?.startsWith(example.href) ||
                 (index === 0 && pathname === '/')
                 ? 'bg-muted font-medium text-primary'
-                : 'text-muted-foreground'
+                : 'text-muted-foreground',
             )}
           >
             {example.name}
           </Link>
         ))}
       </div>
-      <ScrollBar
-        orientation='horizontal'
-        className='invisible'
-      />
+      <ScrollBar orientation='horizontal' className='invisible' />
     </ScrollArea>
   )
 }

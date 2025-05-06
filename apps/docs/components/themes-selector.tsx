@@ -3,17 +3,17 @@
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Skeleton } from '@gentelduck/registry-ui-duckui/skeleton'
+import { cn } from '@gentleduck/libs/cn'
+import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 import {
   ToggleGroup,
   ToggleGroupItem,
-} from '@gentelduck/registry-ui-duckui/toggle-group'
+} from '@gentleduck/registry-ui-duckui/toggle-group'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@gentelduck/registry-ui-duckui/tooltip'
+} from '@gentleduck/registry-ui-duckui/tooltip'
 import { useMediaQuery } from '~/hooks/use-media-query'
 import { useThemesConfig } from '~/hooks/use-themes-config'
 import { THEMES, Theme } from '~/lib/themes'

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { ThemeProvider } from '~/components/providers'
-import { Toaster } from '@gentelduck/registry-ui-duckui/sonner'
+import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { ThemeSwitcher } from '~/components/theme-switcher'
 import { TailwindIndicator } from '~/components/layouts/tailwind-indicator'
 

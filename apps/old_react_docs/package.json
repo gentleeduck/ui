@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/docs-111",
+  "name": "@gentleduck/docs-111",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -110,13 +110,13 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@gentelduck/registers": "workspace:*",
-    "@gentelduck/libs": "workspace:*",
-    "@gentelduck/registry-build-duckui": "workspace:*",
-    "@gentelduck/registry-examples-duckui": "workspace:*",
-    "@gentelduck/registry-ui-duckui": "workspace:*",
-    "@gentelduck/tailwind-config": "workspace:*",
-    "@gentelduck/typescript-config": "workspace:*",
+    "@gentleduck/registers": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/registry-build-duckui": "workspace:*",
+    "@gentleduck/registry-examples-duckui": "workspace:*",
+    "@gentleduck/registry-ui-duckui": "workspace:*",
+    "@gentleduck/tailwind-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "@shikijs/compat": "^1.12.1",
     "@types/emoji-mart": "^3.0.14",
     "@types/figlet": "^1.7.0",

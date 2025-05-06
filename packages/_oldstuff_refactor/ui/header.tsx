@@ -4,8 +4,8 @@ import React from 'react'
 
 import { NavCollabsedType, NavGroup, NavGroupProps, NavType } from './nav-group'
 import { Separator } from './ShadcnUI/separator'
-import { cn } from '@gentelduck/libs/cn'
-import { filteredObject } from '@gentelduck/libs/filtered-object'
+import { cn } from '@gentleduck/libs/cn'
+import { filteredObject } from '@gentleduck/libs/filtered-object'
 
 type HeaderProps<T extends boolean> = {
   header: HeaderType
@@ -41,9 +41,9 @@ const Header = <T extends boolean>({
         position === 'side'
           ? 'flex-col h-full'
           : position === 'top'
-          ? 'items-center'
-          : '',
-        className
+            ? 'items-center'
+            : '',
+        className,
       )}
       {...props}
     >

@@ -1,6 +1,6 @@
 'use client'
 
-import { type DialogProps } from '@gentelduck/registry-ui-duckui/dialog'
+import { type DialogProps } from '@gentleduck/registry-ui-duckui/dialog'
 import {
   CircleIcon,
   FileIcon,
@@ -12,8 +12,8 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Command } from 'lucide-react'
 import { docsConfig } from '~/config/docs'
 import {

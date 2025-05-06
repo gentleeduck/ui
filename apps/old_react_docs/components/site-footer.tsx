@@ -1,7 +1,7 @@
 import { siteConfig } from '~/config/site'
 import { HeartIcon } from 'lucide-react'
 import Link from 'next/link'
-import { buttonVariants } from '@gentelduck/registry-ui-duckui/button'
+import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 
 export function SiteFooter() {
   return (

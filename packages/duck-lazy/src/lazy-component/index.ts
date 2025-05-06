@@ -1,5 +1,5 @@
 /**
- * @module @gentelduck/lazy/lazy-component
+ * @module @gentleduck/lazy/lazy-component
  * @description Entry point for lazy component functionalities.
  * Exports the lazy component, its hooks, and types.
  */

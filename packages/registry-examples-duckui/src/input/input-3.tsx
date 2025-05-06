@@ -1,5 +1,5 @@
-import { Input } from '@gentelduck/registry-ui-duckui/input'
-import { Label } from '@gentelduck/registry-ui-duckui/label'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
 
 export default function InputFile() {
   return (

@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/registers",
+  "name": "@gentleduck/registers",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -8,7 +8,7 @@
   },
   "scripts": {},
   "devDependencies": {
-    "@gentelduck/typescript-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "zod": "catalog:"
   }

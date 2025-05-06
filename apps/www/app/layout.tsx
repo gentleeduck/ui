@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import '@gentelduck/motion/css'
-import { Toaster } from '@gentelduck/registry-ui-duckui/sonner'
+import '@gentleduck/motion/css'
+import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 // import { Toaster } from './page'
 
 // import ''

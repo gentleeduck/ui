@@ -3,8 +3,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { NavItem, NavItemWithChildren } from 'types/nav'
 
 import { docsConfig } from '~/config/docs'
-import { cn } from '@gentelduck/libs/cn'
-import { buttonVariants } from '@gentelduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
+import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { Docs } from '../.velite'
 
 interface DocsPagerProps {
@@ -28,7 +28,7 @@ export function DocsPager({ doc }: DocsPagerProps) {
             buttonVariants({
               variant: 'outline',
               className: 'items-center flex ',
-            })
+            }),
           )}
         >
           <ChevronLeftIcon className='mr-2 size-4' />
@@ -42,7 +42,7 @@ export function DocsPager({ doc }: DocsPagerProps) {
             buttonVariants({
               variant: 'outline',
               className: 'items-center flex ',
-            })
+            }),
           )}
         >
           <span>{pager.next.title}</span>
@@ -59,7 +59,7 @@ export function getPagerForDoc(doc: Docs) {
     : docsConfig.sidebarNav
   const flattenedLinks = [null, ...flatten(nav), null]
   const activeIndex = flattenedLinks.findIndex((link) =>
-    link?.href?.includes(doc.slug ?? doc.title)
+    link?.href?.includes(doc.slug ?? doc.title),
   )
   // console.log(activeIndex, 'nav var')
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null

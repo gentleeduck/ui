@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/motion",
+  "name": "@gentleduck/motion",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -19,9 +19,9 @@
     }
   },
   "devDependencies": {
-    "@gentelduck/libs": "workspace:*",
-    "@gentelduck/variants": "workspace:*",
-    "@gentelduck/typescript-config": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/variants": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "typescript": "catalog:"
   }
 }

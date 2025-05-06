@@ -1,13 +1,13 @@
 {
-    "name": "@gentelduck/biome-config",
-    "private": true,
-    "version": "0.1.0",
-    "type": "module",
-    "exports": {
-        ".": "./config.json"
-    },
-    "scripts": {},
-    "devDependencies": {
-        "@biomejs/biome": "1.9.4"
-    }
+  "name": "@gentleduck/biome-config",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./config.json"
+  },
+  "scripts": {},
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4"
+  }
 }

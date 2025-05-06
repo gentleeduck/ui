@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { DayPicker } from 'react-day-picker'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '../button'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
@@ -28,14 +28,12 @@ function Calendar({
           buttonVariants({ variant: 'outline' }),
 
           'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
-
         ),
         nav_button_previous: 'absolute left-1',
         nav_button_next: 'absolute right-1',
         table: 'w-full border-collapse space-y-1',
         head_row: 'flex',
         head_cell:
-
           'text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]',
         row: 'flex w-full mt-2',
         cell: cn(
@@ -64,14 +62,12 @@ function Calendar({
         ...classNames,
       }}
       components={{
-
         IconLeft: ({ className, ...props }) => (
           <ChevronLeft className={cn('h-4 w-4', className)} {...props} />
         ),
         IconRight: ({ className, ...props }) => (
           <ChevronRight className={cn('h-4 w-4', className)} {...props} />
         ),
-
       }}
       {...props}
     />

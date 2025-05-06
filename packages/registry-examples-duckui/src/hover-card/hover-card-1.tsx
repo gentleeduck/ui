@@ -4,13 +4,13 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@gentelduck/registry-ui-duckui/avatar'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+} from '@gentleduck/registry-ui-duckui/avatar'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '@gentelduck/registry-ui-duckui/hover-card'
+} from '@gentleduck/registry-ui-duckui/hover-card'
 
 export default function HoverCardDemo() {
   return (

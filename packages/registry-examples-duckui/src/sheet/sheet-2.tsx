@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { Input } from '@gentelduck/registry-ui-duckui/input'
-import { Label } from '@gentelduck/registry-ui-duckui/label'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
 import {
   Sheet,
   SheetClose,
@@ -12,7 +12,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@gentelduck/registry-ui-duckui/sheet'
+} from '@gentleduck/registry-ui-duckui/sheet'
 
 const SHEET_SIDES = ['top', 'right', 'bottom', 'left'] as const
 

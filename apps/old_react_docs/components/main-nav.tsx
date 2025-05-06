@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { siteConfig } from '~/config/site'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Icons } from '~/components/icons'
 
 export function MainNav() {
@@ -12,10 +12,7 @@ export function MainNav() {
 
   return (
     <div className='mr-4 hidden md:flex'>
-      <Link
-        href='/'
-        className='mr-4 flex items-center space-x-2 lg:mr-10'
-      >
+      <Link href='/' className='mr-4 flex items-center space-x-2 lg:mr-10'>
         <Icons.logo className='h-6 w-6' />
         <span className='hidden font-bold lg:inline-block'>
           {siteConfig.name}
@@ -26,7 +23,7 @@ export function MainNav() {
           href='/docs'
           className={cn(
             'transition-colors hover:text-foreground/80 font-[500]',
-            pathname === '/docs' ? 'text-foreground' : 'text-foreground/60'
+            pathname === '/docs' ? 'text-foreground' : 'text-foreground/60',
           )}
         >
           Docs

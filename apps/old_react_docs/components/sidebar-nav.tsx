@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { SidebarNavItem } from 'types/nav'
 
 import { type DocsConfig } from '~/config/docs'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 export interface DocsSidebarNavProps {
   config: DocsConfig
@@ -21,18 +21,12 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
   return items.length ? (
     <div className='w-full'>
       {items.map((item, index) => (
-        <div
-          key={index}
-          className={cn('pb-4')}
-        >
+        <div key={index} className={cn('pb-4')}>
           <h4 className='mb-1 rounded-md px-2 py-1 text-sm font-semibold'>
             {item.title}
           </h4>
           {item?.items?.length && (
-            <DocsSidebarNavItems
-              items={item.items}
-              pathname={pathname}
-            />
+            <DocsSidebarNavItems items={item.items} pathname={pathname} />
           )}
         </div>
       ))}
@@ -61,7 +55,7 @@ export function DocsSidebarNavItems({
               item.disabled && 'cursor-not-allowed opacity-60',
               pathname === item.href
                 ? 'font-medium text-foreground'
-                : 'text-muted-foreground'
+                : 'text-muted-foreground',
             )}
             target={item.external ? '_blank' : ''}
             rel={item.external ? 'noreferrer' : ''}
@@ -78,7 +72,7 @@ export function DocsSidebarNavItems({
             key={index}
             className={cn(
               'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
-              item.disabled && 'cursor-not-allowed opacity-60'
+              item.disabled && 'cursor-not-allowed opacity-60',
             )}
           >
             {item.title}
@@ -88,7 +82,7 @@ export function DocsSidebarNavItems({
               </span>
             )}
           </span>
-        )
+        ),
       )}
     </div>
   ) : null

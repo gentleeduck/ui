@@ -13,9 +13,9 @@ import { Mdx } from '~/components/mdx-components'
 import { DocsPager } from '~/components/pager'
 import { DashboardTableOfContents } from '~/components/toc'
 import { ScrollArea } from '../../../../../../packages/_oldstuff_refactor/ui/scroll-area'
-import { badgeVariants } from '@gentelduck/registry-ui-duckui/badge'
+import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
 import { absoluteUrl } from '~/lib/utils'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 interface DocPageProps {
   params: Promise<{

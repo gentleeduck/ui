@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { Label } from '../label'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 export interface CheckboxProps extends React.HTMLProps<HTMLInputElement> { }
 const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (

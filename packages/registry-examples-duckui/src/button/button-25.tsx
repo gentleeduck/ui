@@ -1,7 +1,7 @@
 import React from 'react'
 import { Inbox } from 'lucide-react'
 import { toast } from 'sonner'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 export default function Button24Demo() {
   const [open, setOpen] = React.useState<boolean>(false)

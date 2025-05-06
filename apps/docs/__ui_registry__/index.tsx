@@ -28,7 +28,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/button'),
+      () => import('@gentleduck/registry-ui-duckui/button'),
     ),
     source: '/registry-ui-duckui/src/button',
     category: '',
@@ -58,7 +58,7 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
     ],
-    component: React.lazy(() => import('@gentelduck/registry-ui-duckui/badge')),
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/badge')),
     source: '/registry-ui-duckui/src/badge',
     category: '',
     subcategory: '',
@@ -88,7 +88,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/tooltip'),
+      () => import('@gentleduck/registry-ui-duckui/tooltip'),
     ),
     source: '/registry-ui-duckui/src/tooltip',
     category: '',
@@ -119,7 +119,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/command'),
+      () => import('@gentleduck/registry-ui-duckui/command'),
     ),
     source: '/registry-ui-duckui/src/command',
     category: '',
@@ -146,7 +146,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/toggle'),
+      () => import('@gentleduck/registry-ui-duckui/toggle'),
     ),
     source: '/registry-ui-duckui/src/toggle',
     category: '',
@@ -169,7 +169,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/accordion'),
+      () => import('@gentleduck/registry-ui-duckui/accordion'),
     ),
     source: '/registry-ui-duckui/src/accordion',
     category: '',
@@ -191,7 +191,7 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
     ],
-    component: React.lazy(() => import('@gentelduck/registry-ui-duckui/tabs')),
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/tabs')),
     source: '/registry-ui-duckui/src/tabs',
     category: '',
     subcategory: '',
@@ -252,7 +252,7 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
     ],
-    component: React.lazy(() => import('@gentelduck/registry-ui-duckui/table')),
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/table')),
     source: '/registry-ui-duckui/src/table',
     category: '',
     subcategory: '',
@@ -312,7 +312,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/upload'),
+      () => import('@gentleduck/registry-ui-duckui/upload'),
     ),
     source: '/registry-ui-duckui/src/upload',
     category: '',
@@ -343,7 +343,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/alert-dialog'),
+      () => import('@gentleduck/registry-ui-duckui/alert-dialog'),
     ),
     source: '/registry-ui-duckui/src/alert-dialog',
     category: '',
@@ -370,7 +370,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-ui-duckui/drawer'),
+      () => import('@gentleduck/registry-ui-duckui/drawer'),
     ),
     source: '/registry-ui-duckui/src/drawer',
     category: '',
@@ -390,7 +390,7 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(
       () =>
-        import('@gentelduck/registry-examples-duckui/accordion/accordion-1'),
+        import('@gentleduck/registry-examples-duckui/accordion/accordion-1'),
     ),
     source: '/registry-examples-duckui/src/accordion',
     category: '',
@@ -410,7 +410,7 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(
       () =>
-        import('@gentelduck/registry-examples-duckui/accordion/accordion-2'),
+        import('@gentleduck/registry-examples-duckui/accordion/accordion-2'),
     ),
     source: '/registry-examples-duckui/src/accordion',
     category: '',
@@ -430,7 +430,7 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(
       () =>
-        import('@gentelduck/registry-examples-duckui/accordion/accordion-3'),
+        import('@gentleduck/registry-examples-duckui/accordion/accordion-3'),
     ),
     source: '/registry-examples-duckui/src/accordion',
     category: '',
@@ -450,7 +450,7 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(
       () =>
-        import('@gentelduck/registry-examples-duckui/accordion/accordion-4'),
+        import('@gentleduck/registry-examples-duckui/accordion/accordion-4'),
     ),
     source: '/registry-examples-duckui/src/accordion',
     category: '',
@@ -469,7 +469,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/badge/badge-1'),
+      () => import('@gentleduck/registry-examples-duckui/badge/badge-1'),
     ),
     source: '/registry-examples-duckui/src/badge',
     category: '',
@@ -488,7 +488,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/badge/badge-2'),
+      () => import('@gentleduck/registry-examples-duckui/badge/badge-2'),
     ),
     source: '/registry-examples-duckui/src/badge',
     category: '',
@@ -507,7 +507,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/badge/badge-3'),
+      () => import('@gentleduck/registry-examples-duckui/badge/badge-3'),
     ),
     source: '/registry-examples-duckui/src/badge',
     category: '',
@@ -526,7 +526,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/badge/badge-4'),
+      () => import('@gentleduck/registry-examples-duckui/badge/badge-4'),
     ),
     source: '/registry-examples-duckui/src/badge',
     category: '',
@@ -545,7 +545,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/badge/badge-5'),
+      () => import('@gentleduck/registry-examples-duckui/badge/badge-5'),
     ),
     source: '/registry-examples-duckui/src/badge',
     category: '',
@@ -564,7 +564,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/badge/badge-6'),
+      () => import('@gentleduck/registry-examples-duckui/badge/badge-6'),
     ),
     source: '/registry-examples-duckui/src/badge',
     category: '',
@@ -583,7 +583,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/badge/badge-7'),
+      () => import('@gentleduck/registry-examples-duckui/badge/badge-7'),
     ),
     source: '/registry-examples-duckui/src/badge',
     category: '',
@@ -602,7 +602,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/badge/badge-8'),
+      () => import('@gentleduck/registry-examples-duckui/badge/badge-8'),
     ),
     source: '/registry-examples-duckui/src/badge',
     category: '',
@@ -621,7 +621,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-1'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-1'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -640,7 +640,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-10'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-10'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -659,7 +659,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-11'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-11'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -678,7 +678,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-12'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-12'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -697,7 +697,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-13'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-13'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -716,7 +716,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-14'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-14'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -735,7 +735,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-15'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-15'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -754,7 +754,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-16'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-16'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -773,7 +773,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-17'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-17'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -792,7 +792,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-18'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-18'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -811,7 +811,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-19'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-19'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -830,7 +830,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-2'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-2'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -849,7 +849,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-20'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-20'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -868,7 +868,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-21'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-21'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -887,7 +887,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-22'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-22'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -906,7 +906,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-23'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-23'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -925,7 +925,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-24'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-24'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -944,7 +944,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-25'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-25'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -963,7 +963,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-26'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-26'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -982,7 +982,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-27'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-27'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1001,7 +1001,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-28'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-28'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1020,7 +1020,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-29'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-29'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1039,7 +1039,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-3'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-3'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1058,7 +1058,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-30'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-30'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1077,7 +1077,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-31'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-31'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1096,7 +1096,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-32'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-32'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1115,7 +1115,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-4'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-4'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1134,7 +1134,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-5'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-5'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1153,7 +1153,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-6'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-6'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1172,7 +1172,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-7'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-7'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1191,7 +1191,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-8'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-8'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1210,7 +1210,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/button/button-9'),
+      () => import('@gentleduck/registry-examples-duckui/button/button-9'),
     ),
     source: '/registry-examples-duckui/src/button',
     category: '',
@@ -1229,7 +1229,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/card/card-1'),
+      () => import('@gentleduck/registry-examples-duckui/card/card-1'),
     ),
     source: '/registry-examples-duckui/src/card',
     category: '',
@@ -1248,7 +1248,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/card/card-2'),
+      () => import('@gentleduck/registry-examples-duckui/card/card-2'),
     ),
     source: '/registry-examples-duckui/src/card',
     category: '',
@@ -1267,7 +1267,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-1'),
+      () => import('@gentleduck/registry-examples-duckui/drawer/drawer-1'),
     ),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
@@ -1286,7 +1286,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-2'),
+      () => import('@gentleduck/registry-examples-duckui/drawer/drawer-2'),
     ),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
@@ -1305,7 +1305,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-3'),
+      () => import('@gentleduck/registry-examples-duckui/drawer/drawer-3'),
     ),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
@@ -1324,7 +1324,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-4'),
+      () => import('@gentleduck/registry-examples-duckui/drawer/drawer-4'),
     ),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
@@ -1343,7 +1343,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-5'),
+      () => import('@gentleduck/registry-examples-duckui/drawer/drawer-5'),
     ),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
@@ -1362,7 +1362,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-6'),
+      () => import('@gentleduck/registry-examples-duckui/drawer/drawer-6'),
     ),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
@@ -1381,7 +1381,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-7'),
+      () => import('@gentleduck/registry-examples-duckui/drawer/drawer-7'),
     ),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
@@ -1400,7 +1400,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/drawer/drawer-8'),
+      () => import('@gentleduck/registry-examples-duckui/drawer/drawer-8'),
     ),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
@@ -1420,7 +1420,7 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(
       () =>
-        import('@gentelduck/registry-examples-duckui/hover-card/hover-card-1'),
+        import('@gentleduck/registry-examples-duckui/hover-card/hover-card-1'),
     ),
     source: '/registry-examples-duckui/src/hover-card',
     category: '',
@@ -1439,7 +1439,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/input/input-1'),
+      () => import('@gentleduck/registry-examples-duckui/input/input-1'),
     ),
     source: '/registry-examples-duckui/src/input',
     category: '',
@@ -1458,7 +1458,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/input/input-2'),
+      () => import('@gentleduck/registry-examples-duckui/input/input-2'),
     ),
     source: '/registry-examples-duckui/src/input',
     category: '',
@@ -1477,7 +1477,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/input/input-3'),
+      () => import('@gentleduck/registry-examples-duckui/input/input-3'),
     ),
     source: '/registry-examples-duckui/src/input',
     category: '',
@@ -1496,7 +1496,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/input/input-4'),
+      () => import('@gentleduck/registry-examples-duckui/input/input-4'),
     ),
     source: '/registry-examples-duckui/src/input',
     category: '',
@@ -1515,7 +1515,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/input/input-5'),
+      () => import('@gentleduck/registry-examples-duckui/input/input-5'),
     ),
     source: '/registry-examples-duckui/src/input',
     category: '',
@@ -1534,7 +1534,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/input/input-6'),
+      () => import('@gentleduck/registry-examples-duckui/input/input-6'),
     ),
     source: '/registry-examples-duckui/src/input',
     category: '',
@@ -1553,7 +1553,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/input/input-7'),
+      () => import('@gentleduck/registry-examples-duckui/input/input-7'),
     ),
     source: '/registry-examples-duckui/src/input',
     category: '',
@@ -1572,7 +1572,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/label/label-1'),
+      () => import('@gentleduck/registry-examples-duckui/label/label-1'),
     ),
     source: '/registry-examples-duckui/src/label',
     category: '',
@@ -1591,7 +1591,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/label/label-2'),
+      () => import('@gentleduck/registry-examples-duckui/label/label-2'),
     ),
     source: '/registry-examples-duckui/src/label',
     category: '',
@@ -1610,7 +1610,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/progress/progress-1'),
+      () => import('@gentleduck/registry-examples-duckui/progress/progress-1'),
     ),
     source: '/registry-examples-duckui/src/progress',
     category: '',
@@ -1629,7 +1629,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/progress/progress-2'),
+      () => import('@gentleduck/registry-examples-duckui/progress/progress-2'),
     ),
     source: '/registry-examples-duckui/src/progress',
     category: '',
@@ -1650,7 +1650,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/radio-group/radio-group-1'
+          '@gentleduck/registry-examples-duckui/radio-group/radio-group-1'
         ),
     ),
     source: '/registry-examples-duckui/src/radio-group',
@@ -1672,7 +1672,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/radio-group/radio-group-2'
+          '@gentleduck/registry-examples-duckui/radio-group/radio-group-2'
         ),
     ),
     source: '/registry-examples-duckui/src/radio-group',
@@ -1694,7 +1694,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/scroll-area/scroll-area-1'
+          '@gentleduck/registry-examples-duckui/scroll-area/scroll-area-1'
         ),
     ),
     source: '/registry-examples-duckui/src/scroll-area',
@@ -1716,7 +1716,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/scroll-area/scroll-area-2'
+          '@gentleduck/registry-examples-duckui/scroll-area/scroll-area-2'
         ),
     ),
     source: '/registry-examples-duckui/src/scroll-area',
@@ -1736,7 +1736,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/select/select-1'),
+      () => import('@gentleduck/registry-examples-duckui/select/select-1'),
     ),
     source: '/registry-examples-duckui/src/select',
     category: '',
@@ -1755,7 +1755,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/select/select-2'),
+      () => import('@gentleduck/registry-examples-duckui/select/select-2'),
     ),
     source: '/registry-examples-duckui/src/select',
     category: '',
@@ -1774,7 +1774,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/select/select-3'),
+      () => import('@gentleduck/registry-examples-duckui/select/select-3'),
     ),
     source: '/registry-examples-duckui/src/select',
     category: '',
@@ -1794,7 +1794,7 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(
       () =>
-        import('@gentelduck/registry-examples-duckui/separator/separator-1'),
+        import('@gentleduck/registry-examples-duckui/separator/separator-1'),
     ),
     source: '/registry-examples-duckui/src/separator',
     category: '',
@@ -1813,7 +1813,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/sheet/sheet-1'),
+      () => import('@gentleduck/registry-examples-duckui/sheet/sheet-1'),
     ),
     source: '/registry-examples-duckui/src/sheet',
     category: '',
@@ -1832,7 +1832,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/sheet/sheet-2'),
+      () => import('@gentleduck/registry-examples-duckui/sheet/sheet-2'),
     ),
     source: '/registry-examples-duckui/src/sheet',
     category: '',
@@ -1851,7 +1851,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/skeleton/skeleton-1'),
+      () => import('@gentleduck/registry-examples-duckui/skeleton/skeleton-1'),
     ),
     source: '/registry-examples-duckui/src/skeleton',
     category: '',
@@ -1870,7 +1870,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/skeleton/skeleton-2'),
+      () => import('@gentleduck/registry-examples-duckui/skeleton/skeleton-2'),
     ),
     source: '/registry-examples-duckui/src/skeleton',
     category: '',
@@ -1889,7 +1889,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/slider/slider-1'),
+      () => import('@gentleduck/registry-examples-duckui/slider/slider-1'),
     ),
     source: '/registry-examples-duckui/src/slider',
     category: '',
@@ -1908,7 +1908,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/slider/slider-2'),
+      () => import('@gentleduck/registry-examples-duckui/slider/slider-2'),
     ),
     source: '/registry-examples-duckui/src/slider',
     category: '',
@@ -1927,7 +1927,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/switch/switch-1'),
+      () => import('@gentleduck/registry-examples-duckui/switch/switch-1'),
     ),
     source: '/registry-examples-duckui/src/switch',
     category: '',
@@ -1946,7 +1946,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/switch/switch-2'),
+      () => import('@gentleduck/registry-examples-duckui/switch/switch-2'),
     ),
     source: '/registry-examples-duckui/src/switch',
     category: '',
@@ -1965,7 +1965,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/sonner/sonner-1'),
+      () => import('@gentleduck/registry-examples-duckui/sonner/sonner-1'),
     ),
     source: '/registry-examples-duckui/src/sonner',
     category: '',
@@ -1984,7 +1984,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/sonner/sonner-2'),
+      () => import('@gentleduck/registry-examples-duckui/sonner/sonner-2'),
     ),
     source: '/registry-examples-duckui/src/sonner',
     category: '',
@@ -2003,7 +2003,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/tabs/tabs-1'),
+      () => import('@gentleduck/registry-examples-duckui/tabs/tabs-1'),
     ),
     source: '/registry-examples-duckui/src/tabs',
     category: '',
@@ -2022,7 +2022,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-1'),
+      () => import('@gentleduck/registry-examples-duckui/textarea/textarea-1'),
     ),
     source: '/registry-examples-duckui/src/textarea',
     category: '',
@@ -2041,7 +2041,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-2'),
+      () => import('@gentleduck/registry-examples-duckui/textarea/textarea-2'),
     ),
     source: '/registry-examples-duckui/src/textarea',
     category: '',
@@ -2060,7 +2060,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-3'),
+      () => import('@gentleduck/registry-examples-duckui/textarea/textarea-3'),
     ),
     source: '/registry-examples-duckui/src/textarea',
     category: '',
@@ -2079,7 +2079,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-4'),
+      () => import('@gentleduck/registry-examples-duckui/textarea/textarea-4'),
     ),
     source: '/registry-examples-duckui/src/textarea',
     category: '',
@@ -2098,7 +2098,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-5'),
+      () => import('@gentleduck/registry-examples-duckui/textarea/textarea-5'),
     ),
     source: '/registry-examples-duckui/src/textarea',
     category: '',
@@ -2117,7 +2117,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-6'),
+      () => import('@gentleduck/registry-examples-duckui/textarea/textarea-6'),
     ),
     source: '/registry-examples-duckui/src/textarea',
     category: '',
@@ -2136,7 +2136,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/textarea/textarea-7'),
+      () => import('@gentleduck/registry-examples-duckui/textarea/textarea-7'),
     ),
     source: '/registry-examples-duckui/src/textarea',
     category: '',
@@ -2155,7 +2155,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/toggle/toggle-1'),
+      () => import('@gentleduck/registry-examples-duckui/toggle/toggle-1'),
     ),
     source: '/registry-examples-duckui/src/toggle',
     category: '',
@@ -2174,7 +2174,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/toggle/toggle-2'),
+      () => import('@gentleduck/registry-examples-duckui/toggle/toggle-2'),
     ),
     source: '/registry-examples-duckui/src/toggle',
     category: '',
@@ -2193,7 +2193,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/toggle/toggle-3'),
+      () => import('@gentleduck/registry-examples-duckui/toggle/toggle-3'),
     ),
     source: '/registry-examples-duckui/src/toggle',
     category: '',
@@ -2212,7 +2212,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/toggle/toggle-4'),
+      () => import('@gentleduck/registry-examples-duckui/toggle/toggle-4'),
     ),
     source: '/registry-examples-duckui/src/toggle',
     category: '',
@@ -2231,7 +2231,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/toggle/toggle-5'),
+      () => import('@gentleduck/registry-examples-duckui/toggle/toggle-5'),
     ),
     source: '/registry-examples-duckui/src/toggle',
     category: '',
@@ -2250,7 +2250,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/toggle/toggle-6'),
+      () => import('@gentleduck/registry-examples-duckui/toggle/toggle-6'),
     ),
     source: '/registry-examples-duckui/src/toggle',
     category: '',
@@ -2269,7 +2269,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/toggle/toggle-7'),
+      () => import('@gentleduck/registry-examples-duckui/toggle/toggle-7'),
     ),
     source: '/registry-examples-duckui/src/toggle',
     category: '',
@@ -2290,7 +2290,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-1'
+          '@gentleduck/registry-examples-duckui/toggle-group/toggle-group-1'
         ),
     ),
     source: '/registry-examples-duckui/src/toggle-group',
@@ -2312,7 +2312,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-2'
+          '@gentleduck/registry-examples-duckui/toggle-group/toggle-group-2'
         ),
     ),
     source: '/registry-examples-duckui/src/toggle-group',
@@ -2334,7 +2334,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-3'
+          '@gentleduck/registry-examples-duckui/toggle-group/toggle-group-3'
         ),
     ),
     source: '/registry-examples-duckui/src/toggle-group',
@@ -2356,7 +2356,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-4'
+          '@gentleduck/registry-examples-duckui/toggle-group/toggle-group-4'
         ),
     ),
     source: '/registry-examples-duckui/src/toggle-group',
@@ -2378,7 +2378,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-5'
+          '@gentleduck/registry-examples-duckui/toggle-group/toggle-group-5'
         ),
     ),
     source: '/registry-examples-duckui/src/toggle-group',
@@ -2400,7 +2400,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-6'
+          '@gentleduck/registry-examples-duckui/toggle-group/toggle-group-6'
         ),
     ),
     source: '/registry-examples-duckui/src/toggle-group',
@@ -2422,7 +2422,7 @@ export const Index: Record<string, any> = {
     component: React.lazy(
       () =>
         import(
-          '@gentelduck/registry-examples-duckui/toggle-group/toggle-group-7'
+          '@gentleduck/registry-examples-duckui/toggle-group/toggle-group-7'
         ),
     ),
     source: '/registry-examples-duckui/src/toggle-group',
@@ -2442,7 +2442,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/tooltip/tooltip-1'),
+      () => import('@gentleduck/registry-examples-duckui/tooltip/tooltip-1'),
     ),
     source: '/registry-examples-duckui/src/tooltip',
     category: '',
@@ -2461,7 +2461,7 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(
-      () => import('@gentelduck/registry-examples-duckui/tooltip/tooltip-2'),
+      () => import('@gentleduck/registry-examples-duckui/tooltip/tooltip-2'),
     ),
     source: '/registry-examples-duckui/src/tooltip',
     category: '',

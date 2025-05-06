@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { BlockCopyButton } from '~/components/ui'
 import { ChartCodeViewer } from '~/components/chart-code-viewer'
 
@@ -14,8 +14,8 @@ import {
   PieChart,
   Radar,
 } from 'lucide-react'
-import { Block } from '@gentelduck/registers'
-import { Separator } from '@gentelduck/registry-ui-duckui/separator'
+import { Block } from '@gentleduck/registers'
+import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
 export function ChartToolbar({
   chart,
@@ -34,10 +34,7 @@ export function ChartToolbar({
           code={chart.code}
           className='[&_svg]-h-3 h-6 w-6 rounded-[6px] bg-transparent text-foreground shadow-none hover:bg-muted dark:text-foreground [&_svg]:w-3'
         />
-        <Separator
-          orientation='vertical'
-          className='mx-0 hidden h-4 md:flex'
-        />
+        <Separator orientation='vertical' className='mx-0 hidden h-4 md:flex' />
         <ChartCodeViewer chart={chart}>{children}</ChartCodeViewer>
       </div>
     </div>

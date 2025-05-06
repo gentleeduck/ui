@@ -1,6 +1,6 @@
 {
   "name": "docs-2",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -10,16 +10,16 @@
   },
   "dependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
-    "@gentelduck/hooks": "workspace:*",
-    "@gentelduck/libs": "workspace:*",
-    "@gentelduck/motion": "workspace:*",
-    "@gentelduck/registry-ui-duckui": "workspace:*",
+    "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/motion": "workspace:*",
+    "@gentleduck/registry-ui-duckui": "workspace:*",
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@tanstack/react-form": "^1.6.3",
     "class-variance-authority": "^0.7.1",
-    "@gentelduck/variants": "workspace:*",
+    "@gentleduck/variants": "workspace:*",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
     "lucide-react": "0.359.0",
@@ -34,7 +34,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@gentelduck/typescript-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.17.24",
     "@types/react": "^19",

@@ -1,4 +1,4 @@
-import { RegistryItemFile } from '@gentelduck/registers'
+import { RegistryItemFile } from '@gentleduck/registers'
 import fs from 'node:fs'
 import path from 'node:path'
 import { UnistNode, UnistTree } from 'types/unist'
@@ -51,7 +51,7 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
       `../../packages/registry-${
         files[i]?.type === 'registry:ui' ? 'ui' : 'examples'
       }-duckui/src/`,
-      files[i]!.path
+      files[i]!.path,
     )
     let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n\n`
 
@@ -62,7 +62,7 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
       // For now a simple regex should do.
       source = source.replaceAll(
         `@/registry/registry-ui-components`,
-        `@/components/${files[i]?.path.split('/')[0]?.split('-')[1]}`
+        `@/components/${files[i]?.path.split('/')[0]?.split('-')[1]}`,
       )
       source = source.replaceAll('export default', 'export')
       item.push({
@@ -117,7 +117,7 @@ export function componentSource({
             }),
           ],
         })
-      })
+      }),
     )
     // console.dir(node.children, { deptH: 4 })
   } catch (error) {
@@ -139,7 +139,7 @@ export function componentPreview({ node }: { node: UnistNode }) {
     // Read the source file.
     const filePath = path.join(
       process.cwd(),
-      `../../packages/registry-examples-duckui/src/${src}`
+      `../../packages/registry-examples-duckui/src/${src}`,
     )
     let source = fs.readFileSync(filePath, 'utf8')
     console.log(src?.split('/')[0])
@@ -147,7 +147,7 @@ export function componentPreview({ node }: { node: UnistNode }) {
     // Replace imports.
     // TODO: Use @swc/core and a visitor to replace this.
     // For now a simple regex should do.
-    source = source.replaceAll(`@gentelduck/registry-ui-duckui`, `~/components`)
+    source = source.replaceAll(`@gentleduck/registry-ui-duckui`, `~/components`)
     source = source.replaceAll('export default', 'export')
 
     // Add code as children so that rehype can take over at build time.
@@ -171,7 +171,7 @@ export function componentPreview({ node }: { node: UnistNode }) {
             ],
           }),
         ],
-      })
+      }),
     )
   } catch (error) {
     console.error(error)

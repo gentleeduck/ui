@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/validators",
+  "name": "@gentleduck/validators",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -20,6 +20,6 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@gentelduck/typescript-config": "workspace:*"
+    "@gentleduck/typescript-config": "workspace:*"
   }
 }

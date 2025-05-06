@@ -96,9 +96,9 @@ const data = [
 ]
 
 const emails = [
-  { email: 'wildduck@gentelduck.org', icon: Mail, label: 'mail' },
+  { email: 'wildduck@gentleduck.org', icon: Mail, label: 'mail' },
   { email: 'mona@gmail.com', icon: Cloudy, label: 'cloud' },
-  { email: 'hannan@gentelduck.du', icon: ServerCog, label: 'server' },
+  { email: 'hannan@gentleduck.du', icon: ServerCog, label: 'server' },
 ]
 
 export default function HeaderMainDemo() {

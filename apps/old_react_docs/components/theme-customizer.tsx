@@ -11,14 +11,14 @@ import template from 'lodash.template'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { copyToClipboardWithMeta } from '~/components/copy-button'
 import { ThemeWrapper } from '~/components/theme-wrapper'
 import { useConfig } from '~/hooks/use-config'
 
 import '~/styles/mdx.css'
-import { Theme, registry_themes } from '@gentelduck/registers'
+import { Theme, registry_themes } from '@gentleduck/registers'
 import {
   Dialog,
   DialogContent,
@@ -26,22 +26,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@gentelduck/registry-ui-duckui/dialog'
+} from '@gentleduck/registry-ui-duckui/dialog'
 import {
   Drawer,
   DrawerContent,
   DrawerTrigger,
-} from '@gentelduck/registry-ui-duckui/drawer'
+} from '@gentleduck/registry-ui-duckui/drawer'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@gentelduck/registry-ui-duckui/popover'
+} from '@gentleduck/registry-ui-duckui/popover'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@gentelduck/registry-ui-duckui/tooltip'
+} from '@gentleduck/registry-ui-duckui/tooltip'
 import { Label } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/label'
 import { Skeleton } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI/skeleton'
 
@@ -109,11 +109,10 @@ export function ThemeCustomizer() {
                         )}
                         style={
                           {
-                            '--theme-primary': `hsl(${
-                              theme?.activeColor[
-                                mode === 'dark' ? 'dark' : 'light'
+                            '--theme-primary': `hsl(${theme?.activeColor[
+                              mode === 'dark' ? 'dark' : 'light'
                               ]
-                            })`,
+                              })`,
                           } as React.CSSProperties
                         }
                       >
@@ -278,9 +277,8 @@ function Customizer() {
                   )}
                   style={
                     {
-                      '--theme-primary': `hsl(${
-                        theme?.activeColor[mode === 'dark' ? 'dark' : 'light']
-                      })`,
+                      '--theme-primary': `hsl(${theme?.activeColor[mode === 'dark' ? 'dark' : 'light']
+                        })`,
                     } as React.CSSProperties
                   }
                 >
@@ -316,7 +314,7 @@ function Customizer() {
                   }}
                   className={cn(
                     config.radius === Number.parseFloat(value) &&
-                      'border-2 border-primary',
+                    'border-2 border-primary',
                   )}
                 >
                   {value}
@@ -486,7 +484,7 @@ function CustomizerCode() {
                   &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
                   {
                     activeTheme?.cssVars.light[
-                      prefix as keyof typeof activeTheme.cssVars.light
+                    prefix as keyof typeof activeTheme.cssVars.light
                     ]
                   }
                   ;
@@ -495,7 +493,7 @@ function CustomizerCode() {
                   &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{' '}
                   {
                     activeTheme?.cssVars.light[
-                      `${prefix}-foreground` as keyof typeof activeTheme.cssVars.light
+                    `${prefix}-foreground` as keyof typeof activeTheme.cssVars.light
                     ]
                   }
                   ;
@@ -524,7 +522,7 @@ function CustomizerCode() {
                     &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
                     {
                       activeTheme?.cssVars.light[
-                        prefix as keyof typeof activeTheme.cssVars.light
+                      prefix as keyof typeof activeTheme.cssVars.light
                       ]
                     }
                     ;
@@ -557,7 +555,7 @@ function CustomizerCode() {
                   &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
                   {
                     activeTheme?.cssVars.dark[
-                      prefix as keyof typeof activeTheme.cssVars.dark
+                    prefix as keyof typeof activeTheme.cssVars.dark
                     ]
                   }
                   ;
@@ -566,7 +564,7 @@ function CustomizerCode() {
                   &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{' '}
                   {
                     activeTheme?.cssVars.dark[
-                      `${prefix}-foreground` as keyof typeof activeTheme.cssVars.dark
+                    `${prefix}-foreground` as keyof typeof activeTheme.cssVars.dark
                     ]
                   }
                   ;
@@ -592,7 +590,7 @@ function CustomizerCode() {
                     &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
                     {
                       activeTheme?.cssVars.dark[
-                        prefix as keyof typeof activeTheme.cssVars.dark
+                      prefix as keyof typeof activeTheme.cssVars.dark
                       ]
                     }
                     ;

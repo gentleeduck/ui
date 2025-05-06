@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { useConfig } from '~/hooks/use-config'
 
 interface ThemeWrapperProps extends React.ComponentProps<'div'> {
@@ -19,7 +19,7 @@ export function ThemeWrapper({
       className={cn(
         `theme-${defaultTheme || config.theme}`,
         'w-full',
-        className
+        className,
       )}
       style={
         {

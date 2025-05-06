@@ -4,7 +4,6 @@ export * from './src/tooltip'
 export * from './src/accordion'
 export * from './src/toggle'
 export * from './src/toggle-group'
-export * from './src/sonner'
 export * from './src/upload'
 export * from './src/tooltip'
 export * from './src/toggle-group'
@@ -14,7 +13,6 @@ export * from './src/tabs'
 export * from './src/table'
 export * from './src/switch'
 export * from './src/sonner'
-export * from './src/sonner-progress'
 export * from './src/slider'
 export * from './src/skeleton'
 export * from './src/sheet'
@@ -90,21 +88,19 @@ const components: Record<
   aspectRatio: {},
   avatar: {},
   scrollArea: {},
-  form: {
-    component: true,
-  },
-
-  alert: {},
-  breadcrumb: {},
-  chart: {},
-  carousel: {},
-  calendar: {},
-  upload: {},
+  form: {},
   table: {},
   sonner: {},
-  inputOTP: {},
+  alert: {},
+  calendar: {},
   pagination: {},
+  chart: {},
+  carousel: {},
   resizable: {},
+
+  breadcrumb: {},
+  upload: {},
+  inputOTP: {},
 
   popover: {},
   dropdownMenu: {},

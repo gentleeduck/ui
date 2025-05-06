@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Form,
   FormControl,
@@ -13,8 +13,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@gentelduck/registry-ui-duckui/form'
-import { Input } from '@gentelduck/registry-ui-duckui/input'
+} from '@gentleduck/registry-ui-duckui/form'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { toast } from 'sonner'
 
 const FormSchema = z.object({

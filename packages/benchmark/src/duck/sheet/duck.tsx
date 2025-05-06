@@ -10,6 +10,7 @@ import { Button } from "@gentelduck/registry-ui-duckui/button"
 import { Label } from "@gentelduck/registry-ui-duckui/label"
 import { Input } from "@gentelduck/registry-ui-duckui/input"
 
+
 export default function SheetDemo() {
   return (
     <Sheet>
@@ -42,6 +43,15 @@ export default function SheetDemo() {
             <Button type="submit">Save changes</Button>
           </SheetClose>
         </SheetFooter>
+      <SheetTrigger>Open</SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Are you absolutely sure?</SheetTitle>
+          <SheetDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </SheetDescription>
+        </SheetHeader>
       </SheetContent>
     </Sheet>
   )

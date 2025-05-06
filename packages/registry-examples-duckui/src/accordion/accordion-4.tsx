@@ -3,7 +3,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@gentelduck/registry-ui-duckui/accordion'
+} from '@gentleduck/registry-ui-duckui/accordion'
 import { Plus } from 'lucide-react'
 
 export default function Accordion1Demo() {
@@ -11,7 +11,6 @@ export default function Accordion1Demo() {
     <Accordion type='multiple' className='w-full'>
       <AccordionItem value='item-1'>
         <AccordionTrigger className='hover:no-underline' icon={<Plus />}>
-
           Is it accessible?
         </AccordionTrigger>
         <AccordionContent>

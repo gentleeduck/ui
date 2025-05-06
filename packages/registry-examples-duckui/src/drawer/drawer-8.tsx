@@ -9,14 +9,14 @@ import {
   DrawerFooter,
   DrawerTitle,
   DrawerTrigger,
-} from '@gentelduck/registry-ui-duckui/drawer'
-import { Button } from '@gentelduck/registry-ui-duckui/button'
-import { Badge } from '@gentelduck/registry-ui-duckui/badge'
-import { cn } from '@gentelduck/libs/cn'
+} from '@gentleduck/registry-ui-duckui/drawer'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Badge } from '@gentleduck/registry-ui-duckui/badge'
+import { cn } from '@gentleduck/libs/cn'
 import { motion } from 'motion/react'
 import { AnimateNumber } from 'motion-number'
 import { toast } from 'sonner'
-import { Separator } from '@gentelduck/registry-ui-duckui/separator'
+import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
 export default function DrawerDemo8() {
   const [open, setOpen] = React.useState(false)
@@ -86,7 +86,7 @@ export default function DrawerDemo8() {
 }
 
 export interface DuckTransitionProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+  extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function DuckTransition1({
   className,
@@ -149,7 +149,7 @@ export function HI(props: {
           <AnimateNumber
             format={{ style: 'decimal', notation: 'standard' }}
             prefix='%'
-            // animate={{ backgroundClip: 'text' }}
+          // animate={{ backgroundClip: 'text' }}
           >
             {progress}
           </AnimateNumber>
@@ -168,9 +168,8 @@ export function HI(props: {
               scale: index < filledBars ? [1, 1.1, 1] : 1,
             }}
             transition={{ duration: 0.5, delay: index * 0.008 }}
-            className={`w-[5px] h-[1rem] rounded-full transition-colors duration-300 ${
-              index < filledBars ? getBarColor(index) : 'bg-gray-200'
-            }`}
+            className={`w-[5px] h-[1rem] rounded-full transition-colors duration-300 ${index < filledBars ? getBarColor(index) : 'bg-gray-200'
+              }`}
           />
         ))}
       </div>
@@ -191,7 +190,7 @@ export function HI(props: {
             disabled={progress < 100}
             className={cn(
               progress === 100 &&
-                'bg-green-500 text-white hover:bg-green-500/90',
+              'bg-green-500 text-white hover:bg-green-500/90',
             )}
             loading={progress < 100}
             onClick={() => {

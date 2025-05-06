@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { registry_entry_schema } from '@gentelduck/registers'
+import { registry_entry_schema } from '@gentleduck/registers'
 import {
   gen_temp_source_files,
   get_file_content,
@@ -49,14 +49,14 @@ export async function build_registry_components({
     }/${registry_count})`
 
     const files = await Promise.all(
-      item.files.map((file) => get_file({ item, file, spinner }))
+      item.files.map((file) => get_file({ item, file, spinner })),
     )
 
     const payload = registry_entry_schema.safeParse({ ...item, files })
 
     if (!payload.success) {
       spinner.warn(
-        `Skipping registry item: ${item.name} (Schema validation failed)`
+        `Skipping registry item: ${item.name} (Schema validation failed)`,
       )
       process.exit(0)
     }
@@ -82,7 +82,7 @@ export async function build_registry_components({
     spinner.fail(
       `Failed to build registry components: ${
         error instanceof Error ? error.message : String(error)
-      }`
+      }`,
     )
     process.exit(1)
   }

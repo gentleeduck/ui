@@ -2,12 +2,12 @@
 
 import * as React from 'react'
 
-import { Field, useField } from '@tanstack/react-form'
+import { Field, useForm } from '@tanstack/react-form'
+import type { ReactFormExtendedApi } from '@tanstack/react-form'
 
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Label } from '../label'
-import { Slot } from '../button'
-import { useFormContext, useFormField } from './form.hooks'
+import { useFormField } from './form.hooks'
 import { Circle } from 'lucide-react'
 
 export const FormItemContext = React.createContext<{
@@ -15,13 +15,24 @@ export const FormItemContext = React.createContext<{
   name: string
 } | null>(null)
 
-export const FormContext = React.createContext<{ form: any } | null>(null)
+export const FormContext = React.createContext<{
+  form: ReturnType<typeof useForm>
+} | null>(null)
 
-function Form({
-  ref,
-  form,
-  ...props
-}: React.ComponentProps<'form'> & { form: any }) {
+function Form<
+  TForm extends ReactFormExtendedApi<
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any
+  >,
+>({ ref, form, ...props }: React.ComponentProps<'form'> & { form: TForm }) {
   return (
     <FormContext.Provider value={{ form }}>
       <form {...props} ref={ref} />
@@ -29,12 +40,29 @@ function Form({
   )
 }
 
-const FormField = ({
+const FormField = <
+  TForm extends ReactFormExtendedApi<
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any
+  >,
+  TName extends React.ComponentProps<TForm['Field']>['name'],
+>({
   name,
+  form,
   ...props
-}: Omit<Parameters<typeof Field>[0], 'form'>) => {
+}: Omit<React.ComponentProps<typeof Field>, 'form' | 'name'> & {
+  form: TForm
+  name: TName
+}) => {
   const id = React.useId()
-  const { form } = useFormContext()
 
   return (
     <FormItemContext.Provider value={{ id, name }}>
@@ -48,9 +76,13 @@ const FormItem = ({
   ref,
   ...props
 }: React.HTMLProps<HTMLDivElement>) => {
-
-  return <div ref={ref} className={cn('flex flex-col gap-2', className)} {...props} />
-
+  return (
+    <div
+      ref={ref}
+      className={cn('flex flex-col gap-2', className)}
+      {...props}
+    />
+  )
 }
 
 const FormLabel = ({

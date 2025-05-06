@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@source "../node_modules/@gentelduck/registry-ui-duckui/";
-@source "../node_modules/@gentelduck/motion";
+@source "../node_modules/@gentleduck/registry-ui-duckui/";
+@source "../node_modules/@gentleduck/motion";
 
 @plugin "tailwindcss-animate";
 

@@ -1,10 +1,10 @@
-import { Button } from '@gentelduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   TooltipProvider,
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@gentelduck/registry-ui-duckui/tooltip'
+} from '@gentleduck/registry-ui-duckui/tooltip'
 
 export default function Tooltip2Demo() {
   return (

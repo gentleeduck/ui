@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/state",
+  "name": "@gentleduck/state",
   "version": "1.2.0",
   "description": "A package for state management",
   "type": "module",
@@ -27,19 +27,19 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentelduck/ui/tree/master/packages/duck-state"
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-state"
   },
   "bugs": {
-    "url": "https://github.com/gentelduck/ui/issues"
+    "url": "https://github.com/gentleduck/ui/issues"
   },
-  "homepage": "https://github.com/gentelduck/ui/tree/master/packages/duck-state#readme",
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-state#readme",
   "dependencies": {},
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
     "@types/react": "^19.0.10",
     "husky": "^9.1.7",
     "tsdown": "catalog:",
-    "@gentelduck/tsdown": "workspace:*"
+    "@gentleduck/tsdown": "workspace:*"
   },
   "peerDependencies": {
     "@types/node": "^22.13.10",

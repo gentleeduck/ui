@@ -3,7 +3,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@gentelduck/registry-ui-duckui/accordion'
+} from '@gentleduck/registry-ui-duckui/accordion'
 
 export default function Accordion1Demo() {
   return (

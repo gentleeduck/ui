@@ -2,7 +2,7 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from '@gentelduck/registry-ui-duckui/alert'
+} from '@gentleduck/registry-ui-duckui/alert'
 
 interface CalloutProps {
   icon?: string

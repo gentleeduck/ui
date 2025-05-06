@@ -1,4 +1,4 @@
-import { Badge } from '@gentelduck/registry-ui-duckui/badge'
+import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 import { Info } from 'lucide-react'
 
 export default function Badge8Demo() {

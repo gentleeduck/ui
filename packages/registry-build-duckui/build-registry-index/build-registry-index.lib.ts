@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import fg from 'fast-glob'
 import path from 'node:path'
-import { registry_schema } from '@gentelduck/registers'
+import { registry_schema } from '@gentleduck/registers'
 import { ENV } from '../main'
 import { styleText } from 'node:util'
 import { GetComponentFilesArgs } from './build-registry-index.types'
@@ -51,10 +51,10 @@ export async function get_component_files({
     } else {
       spinner.text = `🧭 Retrieving ${styleText(
         'green',
-        type
+        type,
       )} component files... (${styleText('yellow', idx.toString())}/${styleText(
         'yellow',
-        registry_count.toString()
+        registry_count.toString(),
       )})`
     }
 
@@ -73,7 +73,7 @@ export async function get_component_files({
     spinner.fail(
       `Failed to retrieve component files: ${
         error instanceof Error ? error.message : String(error)
-      }`
+      }`,
     )
     process.exit(1)
   }

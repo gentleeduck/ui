@@ -4,7 +4,7 @@ import Image from 'next/image'
 import {
   ScrollArea,
   ScrollBar,
-} from '@gentelduck/registry-ui-duckui/scroll-area'
+} from '@gentleduck/registry-ui-duckui/scroll-area'
 
 export interface Artwork {
   artist: string

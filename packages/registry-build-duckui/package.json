@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/registry-build-duckui",
+  "name": "@gentleduck/registry-build-duckui",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -10,9 +10,9 @@
     "start": "tsx ./index.ts"
   },
   "devDependencies": {
-    "@gentelduck/registers": "workspace:*",
-    "@gentelduck/types": "workspace:*",
-    "@gentelduck/typescript-config": "workspace:*",
+    "@gentleduck/registers": "workspace:*",
+    "@gentleduck/types": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "@types/lodash.template": "^4.5.3",
     "@types/node": "catalog:",
     "cli-width": "^4.1.0",

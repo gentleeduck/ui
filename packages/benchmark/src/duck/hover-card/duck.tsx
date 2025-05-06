@@ -2,7 +2,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@gentelduck/registry-ui-duckui/hover-card"
+} from '@gentleduck/registry-ui-duckui/hover-card'
 
 export default function HoverCardDemo() {
   return (
@@ -12,6 +12,5 @@ export default function HoverCardDemo() {
         The React Framework – created and maintained by @vercel.
       </HoverCardContent>
     </HoverCard>
-
   )
 }

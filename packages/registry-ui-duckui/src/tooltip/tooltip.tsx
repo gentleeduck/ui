@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { tooltipVariants, tooltipArrowVariants } from './tooltip.constants'
 import type {
   TooltipContentProps,

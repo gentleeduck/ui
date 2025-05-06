@@ -9,8 +9,8 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from '~/components/page-header'
-import { Button, buttonVariants } from '@gentelduck/registry-ui-duckui/button'
-import { cn } from '@gentelduck/libs/cn'
+import { Button, buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
 import { toast } from 'sonner'
 
 export default function IndexPage() {

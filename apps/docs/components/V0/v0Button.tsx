@@ -3,9 +3,9 @@
 import * as React from 'react'
 import { useFormStatus } from 'react-dom'
 
-import { cn } from '@gentelduck/libs/cn'
-import { Block } from '@gentelduck/registers'
-import { Button, ButtonProps } from '@gentelduck/registry-ui-duckui/button'
+import { cn } from '@gentleduck/libs/cn'
+import { Block } from '@gentleduck/registers'
+import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
 import { toast } from 'sonner'
 import { editInV0 } from './v0Button.server'
 
@@ -49,12 +49,7 @@ export function V0Button({
         }
       }}
     >
-      <Form
-        size={size}
-        className={className}
-        disabled={disabled}
-        {...props}
-      />
+      <Form size={size} className={className} disabled={disabled} {...props} />
     </form>
   )
 }
@@ -71,7 +66,7 @@ function Form({
       aria-label='Edit in v0'
       className={cn(
         'z-50 h-[calc(theme(spacing.7)_-_1px)] gap-1 rounded-[6px] bg-black px-3 text-xs text-white hover:bg-black hover:text-white dark:bg-white dark:text-black',
-        className
+        className,
       )}
       loading={pending}
       secondIcon={<V0Logo />}

@@ -1,4 +1,4 @@
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { NpmCommands } from '~/types/unist'
 import { Event } from '~/lib/events'
 import { CopyButton, CopyNpmCommandButton } from '~/components/copy-button'
@@ -29,7 +29,7 @@ export function Pre({
       <pre
         className={cn(
           'mb-4 mt-6 max-h-[650px] show-scroll-hover rounded-lg border bg-white py-4 dark:bg-[#cdd6f403]',
-          className
+          className,
         )}
         {...props}
       />

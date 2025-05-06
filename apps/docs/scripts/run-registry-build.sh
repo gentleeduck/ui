@@ -37,7 +37,7 @@ echo "🏁 Script execution finished."
 #
 # NOTE: THIS SHOULD BE THE OUTPUT
 #
-# > @gentelduck/docs@0.0.1 build:reg /mnt/1T_wild/wildduck/@gentelduck-ui/apps/docs
+# > @gentleduck/docs@0.0.1 build:reg /mnt/1T_wild/wildduck/@gentleduck-ui/apps/docs
 # > ./scripts/run-registry-build.sh
 #
 # 🚀 Starting registry build script...
@@ -45,7 +45,7 @@ echo "🏁 Script execution finished."
 # ✅ Successfully changed directory.
 # 🔧 Running 'pnpm run start'...
 #
-# > @gentelduck/registry-build-duckui@0.1.0 start /mnt/1T_wild/wildduck/@gentelduck-ui/packages/registry-build-duckui
+# > @gentleduck/registry-build-duckui@0.1.0 start /mnt/1T_wild/wildduck/@gentleduck-ui/packages/registry-build-duckui
 # > tsx ./index.ts
 #
 #     ██████╗ ██╗   ██╗ ██████╗██╗  ██╗    ██╗   ██╗██╗
