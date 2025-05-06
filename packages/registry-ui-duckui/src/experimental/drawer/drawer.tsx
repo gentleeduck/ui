@@ -79,7 +79,7 @@ const DrawerContent = ({
         ref.current.style.transform = 'translateY(0px)'
       }
     } else {
-      document.body.classList.add('transition-all', 'duration-650', 'ease-(--duck-motion-spring)', 'will-change-[transform,border-radius]', 'transition-discrete')
+      document.body.classList.add('transition-all', 'duration-250', 'ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
       document.body.style.transform = 'scale(0.97) translateY(1%)'
       document.body.style.borderRadius = '20px'
       document.documentElement.style.background = 'black'
@@ -89,15 +89,16 @@ const DrawerContent = ({
   return (
     <dialog
       ref={ref}
-      className={cn('border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm ease-(--duck-motion-ease)',
-        'active:duration-0 open:duration-350 duration-150 has-active:backdrop:pointer-events-none',
-        AnimVariants(), AnimDrawerVariants({ side: side, }), className)}
+      className={cn(AnimVariants(), AnimDrawerVariants({ side: side, }),
+        `border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm ease-(--duck-motion-spring) 
+        active:duration-0 duration-450 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
+        className)}
       onClick={closeOverlay}
       {...props}
     >
       {shouldRender && (
         <div
-          className='p-6 w-full h-full select-none cursor-grab active:cursor-grabbing'
+          className='p-6 w-full h-full select-none active:cursor-grabbing'
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -116,6 +117,7 @@ const DrawerContent = ({
             <X aria-hidden size={20} />
           </button>
           {children}
+          <div style={{ height: holdUpThreshold }}></div>
         </div>
       )}
     </dialog>

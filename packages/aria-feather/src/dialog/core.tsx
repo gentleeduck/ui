@@ -116,16 +116,11 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
   let isDragging = false
   let startY = 0
   let currentY = 0
-  let lastUpdateTime = 0
-  const FRAME_TIME = 0
-  const SMOOTH_FACTOR = 0.3
+  const FRAME_TIME = 4
+  const SMOOTH_FACTOR = 1
 
   const updateTransform = useDebounce((deltaY: number) => {
     if (!ref?.current) return
-    const now = performance.now()
-    if (now - lastUpdateTime < FRAME_TIME) return
-    lastUpdateTime = now
-
     const limitedDeltaY = Math.max(-holdUpThreshold, Math.min(deltaY, window.innerHeight))
     const currentTransform = parseFloat(ref.current.style.transform.replace('translateY(', '').replace('px)', '')) || 0
     const smoothedDeltaY = currentTransform + (limitedDeltaY - currentTransform) * SMOOTH_FACTOR
@@ -138,7 +133,6 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
     isDragging = true
     startY = e.clientY
     currentY = startY
-    lastUpdateTime = performance.now()
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return
@@ -170,7 +164,6 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
     isDragging = true
     startY = e.touches[0]?.clientY ?? 0
     currentY = startY
-    lastUpdateTime = performance.now()
   }
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {

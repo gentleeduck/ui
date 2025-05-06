@@ -43,8 +43,8 @@
 // import ShadcnSeparator from './duck/separator/separator'
 
 // import Sandbox from './sandbox'
-import DuckDialog from './duck/dialog/duck'
-import ShadcnDialog from './duck/dialog/dialog'
+// import DuckDialog from './duck/dialog/duck'
+// import ShadcnDialog from './duck/dialog/dialog'
 // import DuckAlertDialog from './duck/alert-dialog/duck'
 // import ShadcnAlertDialog from './duck/alert-dialog/alert-dialog'
 // import DuckSeparator from './duck/separator/duck'
@@ -56,7 +56,7 @@ import ShadcnDialog from './duck/dialog/dialog'
 // import DuckSheet from './duck/sheet/duck'
 // import ShadcnSheet from './duck/sheet/sheet'
 import DuckDrawer from './duck/drawer/duck'
-import ShadcnDrawer from './duck/drawer/drawer'
+// import ShadcnDrawer from './duck/drawer/drawer'
 // import DuckSonner from './duck/sonner/duck'
 // import ShadcnSonner from './duck/sonner/sonner'
 // function Ui() {
@@ -102,9 +102,9 @@ function App() {
       {/* <DuckAlertDialog />
       <ShadcnAlertDialog /> */}
       <DuckDrawer />
-      <ShadcnDrawer />
-      <DuckDialog />
-      <ShadcnDialog />
+      {/* <ShadcnDrawer /> */}
+      {/* <DuckDialog />
+      <ShadcnDialog /> */}
       {
         // <DuckSeparatorExp /> /* Experimental */
         // <DuckSeparator  />  /* radix ui based */
