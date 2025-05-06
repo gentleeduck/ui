@@ -4,4 +4,5 @@ export interface SnapPoint {
   height: number
 }
 
+// biome ignore lint/suspicious/noExplicitAny
 export type AnyFunction = (...args: any) => any

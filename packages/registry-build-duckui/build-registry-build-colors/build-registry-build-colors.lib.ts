@@ -38,6 +38,7 @@ export async function build_registry_themes(spinner: Ora): Promise<void> {
  * //TODO: add the new theme to the registry
  */
 export async function registry_build_colors_index(
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   colors_data: Record<string, any>,
   colors_target_path: string,
   spinner: Ora,

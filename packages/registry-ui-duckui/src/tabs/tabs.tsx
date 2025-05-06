@@ -26,7 +26,7 @@ export interface TabsProps extends React.HTMLProps<HTMLDivElement> {
 
 function Tabs({ listValues, ...props }: TabsProps) {
   if (!listValues) throw Error('listValues is required')
-  const [activeItem, setActiveItem] = React.useState<string>(listValues![0] ?? '')
+  const [activeItem, setActiveItem] = React.useState<string>(listValues[0] ?? '')
   return (
     <TabsContext.Provider value={{ activeItem, setActiveItem }}>
       <div {...props} />

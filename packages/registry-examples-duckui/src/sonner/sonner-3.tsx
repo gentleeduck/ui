@@ -30,7 +30,7 @@ export function SONNER_V2() {
       updateToast(progressRef.current)
 
       if (progressRef.current >= 100) {
-        clearInterval(intervalRef.current!)
+        clearInterval(intervalRef.current)
         intervalRef.current = null
       }
     }, 400)

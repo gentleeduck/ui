@@ -6,8 +6,8 @@ import { visit } from 'unist-util-visit'
 export function rehypePreBlockSource() {
   return (tree: UnistTree) => {
     visit(tree, (node: UnistNode) => {
-      if (node?.type === 'element' && node?.tagName === 'div') {
-        if (!('data-rehype-pretty-code-fragment' in node.properties!)) {
+      if (node?.type === 'element' && node?.tagName === 'div' && node?.properties) {
+        if (!('data-rehype-pretty-code-fragment' in node.properties)) {
           return
         }
 

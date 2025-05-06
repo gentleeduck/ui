@@ -19,6 +19,7 @@ export const FormContext = React.createContext<{
   form: ReturnType<typeof useForm>
 } | null>(null)
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function Form<TForm extends ReactFormExtendedApi<any, any, any, any, any, any, any, any, any, any>>({
   ref,
   form,
@@ -32,6 +33,7 @@ function Form<TForm extends ReactFormExtendedApi<any, any, any, any, any, any, a
 }
 
 const FormField = <
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   TForm extends ReactFormExtendedApi<any, any, any, any, any, any, any, any, any, any>,
   TName extends React.ComponentProps<TForm['Field']>['name'],
 >({

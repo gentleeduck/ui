@@ -145,7 +145,7 @@ export function cva<TVariants extends Record<string, Record<string, string | str
   maybeOptions?: VariantsOptions<TVariants>,
 ): (props?: CvaProps<TVariants>) => string {
   // Normalize the two possible call signatures
-  const config = typeof baseOrOptions === 'string' ? { base: baseOrOptions, ...maybeOptions! } : baseOrOptions
+  const config = typeof baseOrOptions === 'string' ? { base: baseOrOptions, ...maybeOptions } : baseOrOptions
 
   const { base = '', variants, defaultVariants = {}, compoundVariants = [] } = config
 
@@ -176,20 +176,19 @@ export function cva<TVariants extends Record<string, Record<string, string | str
     }
 
     // 5) Apply compoundVariants when all conditions match
-    // biome-ignore lint/style/useForOf: <explanation>
     for (let i = 0; i < compoundVariants.length; i++) {
-      const cv = compoundVariants[i]!
+      const cv = compoundVariants[i as number]
       let match = true
 
       for (const key in cv) {
         if (key === 'class' || key === 'className') continue
 
-        const cond = cv[key as keyof typeof cv]!
+        const cond = cv[key as keyof typeof cv]
         const actual = merged[key as keyof typeof merged]
 
         // array- or single-value condition
-        if (Array.isArray(cond)) {
-          if (!cond.includes(actual!.toString())) {
+        if (Array.isArray(cond) && actual) {
+          if (!cond.includes(actual.toString())) {
             match = false
             break
           }
@@ -209,9 +208,8 @@ export function cva<TVariants extends Record<string, Record<string, string | str
     flattenClasses(props.class, tokens)
 
     // 7) Deduplicate & join
-    // biome-ignore lint/style/useForOf: <explanation>
     for (let i = 0; i < tokens.length; i++) {
-      seen.add(tokens[i]!)
+      seen.add(tokens[i as number])
     }
     const result = Array.from(seen).join(' ')
 

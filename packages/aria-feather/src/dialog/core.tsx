@@ -1,5 +1,6 @@
 import React from 'react'
 import { DialogContextType, DialogProps, UseDrawerDragProps, UseDrawerDragReturn } from './dialog.types'
+import { useDebounce } from '@gentleduck/hooks/use-debounce'
 
 /**
  * Context for managing the open state of the dialog.
@@ -93,16 +94,6 @@ export function useOverlayClose() {
     if (e.currentTarget === e.target) onOpenChange(false)
   }
   return [closeOverlay]
-}
-
-export function useDebounce<T extends (...args: any[]) => void>(func: T, timeout = 300) {
-  let timer: ReturnType<typeof setTimeout>
-  return function (this: any, ...args: Parameters<T>) {
-    clearTimeout(timer)
-    timer = setTimeout(() => {
-      func.apply(this, args)
-    }, timeout)
-  }
 }
 
 export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDrawerDragProps): UseDrawerDragReturn {

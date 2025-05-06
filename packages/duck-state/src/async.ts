@@ -2,6 +2,7 @@
 import { atom, useAtom } from './atom'
 
 export function asyncAtom<T>(fetcher: () => Promise<T>) {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const state = atom<{ loading: boolean; data: T | null; error: any }>({
     loading: true,
     data: null,

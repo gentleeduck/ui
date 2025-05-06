@@ -45,7 +45,7 @@ import {
   CommandProps,
   CommandSeparatorProps,
 } from './command.types'
-import { useDebounceCallback } from '@gentleduck/hooks'
+import { useDebounce } from '@gentleduck/hooks'
 import { useCommandContext } from './command.hooks'
 
 /**
@@ -99,7 +99,7 @@ function Command({ className, ref, ...props }: CommandProps): JSX.Element {
  */
 function CommandInput({ className, ref, ...props }: CommandInputProps): JSX.Element {
   const { setSearch } = useCommandContext()
-  const debouncedSetSearch = useDebounceCallback(setSearch, 400)
+  const debouncedSetSearch = useDebounce(setSearch, 400)
 
   return (
     <div className="flex items-center border-b px-3 gap-1" cmdk-input-wrapper="">

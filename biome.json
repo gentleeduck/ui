@@ -1,7 +1,29 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "linter": {
-    "ignore": ["**/node_modules/**", "**/dist/**", "**/build/**"],
+    "ignore": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/test/**",
+      "**/public/**",
+      "**/.next/**",
+      "**/.velite/**",
+      "./apps/old_react_docs/",
+      "./apps/docs/",
+      "./apps/upload-api/",
+      "./apps/www/",
+      "./packages/___/",
+      "./packages/_oldstuff_refactor/",
+      "./packages/duck-state/",
+      "./packages/duck-benchmark/",
+      "./packages/duck-ui/",
+      "./packages/benchmark/",
+      "**/upload/**",
+      "**/table/**",
+      "**/combobox.tsx",
+      "./**/_*/**"
+    ],
     "enabled": true,
     "rules": {
       "recommended": false,
@@ -17,7 +39,6 @@
         "useNodejsImportProtocol": "error",
         "useNumberNamespace": "error",
         "noVar": "error",
-        "noDefaultExport": "error",
         "useConst": "error",
         "useWhile": "error",
         "noNonNullAssertion": "warn",
@@ -34,7 +55,19 @@
     }
   },
   "formatter": {
-    "ignore": ["**/node_modules/**", "**/dist/**", "**/build/**", "**/public/**", "**/.next/**", "**/.velite/**"],
+    "ignore": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/public/**",
+      "**/.next/**",
+      "**/.velite/**",
+      "./apps/old_react_docs/",
+      "./packages/___/",
+      "./packages/_oldstuff_refactor/",
+      "./packages/benchmark/",
+      "./**/_*/**"
+    ],
     "enabled": true,
     "formatWithErrors": false,
     "indentStyle": "space",

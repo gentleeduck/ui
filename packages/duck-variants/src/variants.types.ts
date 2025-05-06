@@ -110,7 +110,7 @@ export type CvaProps<TVariants extends Record<string, Record<string, string | st
  * // => { size: 'sm' | 'lg'; intent: 'primary' | 'danger' }
  * ```
  */
-export type VariantProps<T> = T extends (props?: infer P) => any
+export type VariantProps<T> = T extends (props?: infer P) => string
   ? {
       [K in keyof P as K extends 'class' | 'className' ? never : K]: P[K]
     }

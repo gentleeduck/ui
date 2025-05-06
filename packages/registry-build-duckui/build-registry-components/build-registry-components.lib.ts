@@ -42,6 +42,8 @@ export async function get_file_target({ item, file, spinner }: GetFileTargetPara
         case 'registry:lib':
           target = `lib/${fileName}`
           break
+        default:
+          break
       }
     }
 
