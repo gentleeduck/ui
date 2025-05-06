@@ -1,60 +1,16 @@
-import { cn } from '@gentleduck/libs/cn'
-import { Button } from '../button'
+import { cn } from '@gentelduck/libs/cn'
+import { Button } from '../../button'
 import React from 'react'
 import { X } from 'lucide-react'
 import { AnimDialogVariants, AnimVariants } from '@gentelduck/motion/anim'
-import { DialogContextType, DialogProps } from './dialog.types'
-import { useDialog } from '@gentelduck/aria-feather'
-/**
- * Context for managing the open state of the dialog.
- *
- */
-export const DialogContext = React.createContext<DialogContextType | null>(null)
+import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
+import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
 
-/**
- * Hook to access the DialogContext. It holds the open state of the dialog
- * and a function to update it.
- *
- * @returns {DialogContextType} The dialog context object.
- * @throws {Error} If the hook is used outside of a Dialog.
- */
-export function useDialogContext(name: string = 'Dialog'): DialogContextType {
-  const context = React.useContext(DialogContext)
-  if (!context) {
-    throw new Error(`useDialogContext must be used within a ${name}`)
-  }
-  return context
-}
 
-/**
- * Dialog component that provides a context for managing its open state and
- * behavior. It uses a ref to handle the underlying HTMLDialogElement.
- *
- * @param {DialogProps} props - The properties for the Dialog component.
- * @param {React.ReactNode} props.children - The content to be rendered inside the dialog.
- * @param {boolean} [props.open] - Initial open state of the dialog.
- * @param {(state:boolean)=>void} [props.onOpenChange] - Callback function to handle state changes of the dialog.
- *
- * @returns {React.JSX.Element} A context provider that manages the dialog state and renders its children.
- */
 export function Dialog({
-  children,
-  open: openProp,
-  onOpenChange,
-}: DialogProps): React.JSX.Element {
-  const { open, onOpenChange: _onOpenChange, ref } = useDialog(openProp, onOpenChange)
-
-  return (
-    <DialogContext.Provider
-      value={{
-        open: open ?? false,
-        onOpenChange: _onOpenChange,
-        ref
-      }}
-    >
-      {children}
-    </DialogContext.Provider>
-  )
+  ...props
+}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
+  return <DialogPrimitive.Root {...props} />
 }
 
 /**
@@ -72,14 +28,17 @@ export function Dialog({
  */
 export function DialogTrigger({
   onClick,
+  open,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Button>): React.JSX.Element {
+}: React.ComponentPropsWithoutRef<typeof Button> & {
+  open?: boolean
+}): React.JSX.Element {
   const { onOpenChange } = useDialogContext()
 
   return (
     <Button
       onClick={(e) => {
-        onOpenChange(true)
+        onOpenChange(open ?? !open)
         onClick?.(e)
       }}
       {...props}
@@ -108,35 +67,33 @@ export function DialogContent({
   renderOnce?: boolean
 }): React.JSX.Element {
   const { open, ref, onOpenChange } = useDialogContext()
-  const [shouldRender, setShouldRender] = React.useState<boolean>(false)
-  const _shouldRender = renderOnce ? shouldRender : ref.current?.open
-
-  React.useEffect(() => {
-    if (open) return setShouldRender(true)
-  }, [open])
+  const [shouldRender] = useShouldRender(open, renderOnce ?? false)
+  const [closeOverlay] = useOverlayClose()
 
   return (
     <dialog
       ref={ref}
-      {...props}
       className={cn(
         'open:grid inset-1/2 -translate-1/2 w-full max-w-lg sm:max-w-md gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
         AnimVariants(),
         AnimDialogVariants(),
         className,
       )}
-      onClick={(e) => {
-        if (e.currentTarget === e.target) onOpenChange(false)
-      }}
+      onClick={closeOverlay}
+      {...props}
     >
-      <button
-        aria-label='close'
-        className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
-        onClick={() => onOpenChange(false)}
-      >
-        <X aria-hidden size={20} />
-      </button>
-      {_shouldRender && children}
+      {shouldRender && (
+        <div className='p-6 w-full h-full'>
+          <button
+            aria-label='close'
+            className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
+            onClick={() => onOpenChange(false)}
+          >
+            <X aria-hidden size={20} />
+          </button>
+          {children}
+        </div>
+      )}
     </dialog>
   )
 }
@@ -160,7 +117,6 @@ export function DialogHeader({
   ref,
   ...props
 }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  console.log('asdfasd')
   return (
     <div
       className={cn(

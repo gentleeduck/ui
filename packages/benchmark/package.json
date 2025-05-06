@@ -7,18 +7,17 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "dev:rsdoctor": "RSDOCTOR=true rsbuild dev",
-    "build:rsdoctor": "RSDOCTOR=true rsbuild build",
-    "rs:dev": "rsbuild dev",
-    "rs:build": "rsbuild build",
-    "rs:preview": "rsbuild preview"
+    "serve": "tsc -b && vite build && vite preview"
   },
   "dependencies": {
-    "@gentleduck/registry-examples-duckui": "workspace:*",
-    "@gentleduck/registry-ui-duckui": "workspace:*",
-    "@gentleduck/tailwind-config": "workspace:*",
-    "@gentleduck/typescript-config": "workspace:*",
+    "@gentelduck/motion": "workspace:*",
+    "@gentelduck/registry-examples-duckui": "workspace:*",
+    "@gentelduck/registry-ui-duckui": "workspace:*",
+    "@gentelduck/tailwind-config": "workspace:*",
+    "@gentelduck/typescript-config": "workspace:*",
+    "@gentelduck/variants": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-alert-dialog": "^1.1.6",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-hover-card": "^1.1.1",
@@ -36,10 +35,9 @@
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@tailwindcss/vite": "^4.0.14",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "class-variance-authority": "^0.7.1",
-    "@gentleduck/variants": "workspace:*",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "class-variance-authority": "^0.7.1"
     "clsx": "^1.2.1",
     "lucide-react": "0.359.0",
     "next-themes": "^0.2.1",
@@ -55,9 +53,9 @@
     "vite-plugin-inspect": "^11.0.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react-swc": "^3.8.0",
+    "@vitejs/plugin-react-swc": "^3.9.0",
     "typescript": "~5.7.3",
-    "vite": "^6.2.2",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite": "^6.3.3",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

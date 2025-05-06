@@ -5,17 +5,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
-} from '@gentleduck/registry-ui-duckui/dialog'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
+  DialogFooter
+} from "@gentelduck/registry-ui-duckui/experimental/dialog"
+import { Button } from "@gentelduck/registry-ui-duckui/button"
+import { Input } from "@gentelduck/registry-ui-duckui/input"
+import { Label } from "@gentelduck/registry-ui-duckui/label"
 
 export default function DialogDemo() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant='outline'>Edit Profile</Button>
+      <DialogTrigger asChild>  
+        <Button>Edit Profile</Button>
       </DialogTrigger>
       <DialogContent renderOnce className='sm:max-w-[425px]'>
         <DialogHeader>
