@@ -32,17 +32,16 @@
     "dev": "tsdown --watch",
     "start": "node dist/index.js",
     "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
+    "test": "vitest run",
     "build": "tsdown",
-    "lint": "biome lint ",
-    "ci": "pnpm run lint && pnpm run build",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish",
-    "test": "vitest run"
+    "publish": "pnpm run ci && changeset publish"
   },
   "dependencies": {
     "@antfu/ni": "^0.21.12",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
     "chalk": "5.2.0",
@@ -58,21 +57,26 @@
     "ora": "^6.3.1",
     "postcss": "^8.4.49",
     "prompts": "^2.4.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "catalog:react19",
     "tsconfig-paths": "^4.2.0",
-    "zod": "^3.24.1"
+    "zod": "catalog:"
   },
   "devDependencies": {
+    "@types/react": "catalog:react19",
     "@types/babel__core": "^7.20.1",
     "@types/diff": "^5.0.3",
     "@types/figlet": "^1.7.0",
     "@types/fs-extra": "^11.0.1",
     "@types/lodash.template": "^4.5.3",
     "@types/prompts": "^2.4.2",
+    "@types/node": "catalog:",
     "tsdown": "catalog:",
-    "@gentleduck/tsdown": "workspace:*",
+    "@gentleduck/tsdown-config": "workspace:*",
     "type-fest": "^3.8.0",
     "typescript": "^5"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

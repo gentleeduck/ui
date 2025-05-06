@@ -1,20 +1,33 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/types",
-  "version": "1.0.0",
-  "description": "this is a package for types",
+  "version": "0.0.1",
+  "description": "this is a package for types and utils for typescript",
   "private": true,
   "type": "module",
   "types": "index.ts",
   "main": "index.ts",
-  "scripts": {
-    "start:env": "tsx ./index.ts"
+  "exports": {
+    ".": "./index.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "start:env": "tsx ./index.ts",
+    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./"
+  },
+  "keywords": ["type", "typescript", "typescript-utilities"],
+  "author": "gentleduck",
+  "license": "MIT",
   "dependencies": {},
+  "peelDependencies": {},
   "devDependencies": {
     "@gentleduck/biome-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "serve": "tsc -b && vite build && vite preview"
+    "serve": "tsc -b && vite build && vite preview",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
   },
   "dependencies": {
     "@gentleduck/motion": "workspace:*",
@@ -35,27 +40,31 @@
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@tailwindcss/vite": "^4.0.14",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^1.2.1",
     "lucide-react": "0.359.0",
     "next-themes": "^0.2.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
     "sonda": "^0.7.1",
     "sonner": "^2.0.2",
     "tailwind-merge": "^1.14.0",
-    "tailwindcss": "4.0.14",
+    "tailwindcss": "catalog:",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "0.9.0",
-    "vite-bundle-analyzer": "^0.18.0",
-    "vite-plugin-inspect": "^11.0.0"
+    "vite-bundle-analyzer": "catalog:",
+    "vite-plugin-inspect": "catalog:"
   },
   "devDependencies": {
-    "@vitejs/plugin-react-swc": "^3.9.0",
-    "typescript": "~5.7.3",
-    "vite": "^6.3.3",
-    "vite-tsconfig-paths": "^5.1.4"
+    "@vitejs/plugin-react-swc": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-tsconfig-paths": "catalog:"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

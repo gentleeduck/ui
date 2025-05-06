@@ -11,9 +11,11 @@
     ".": "./dist/index.js"
   },
   "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
     "build": "tsdown",
-    "lint": "biome lint ./**.ts",
-    "ci": "pnpm run lint && pnpm run build",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
   },
@@ -47,7 +49,7 @@
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-variants#readme",
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
-    "@gentleduck/tsdown": "workspace:*",
+    "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "clsx": "^1.2.1",
     "husky": "^9.1.7",
@@ -55,9 +57,10 @@
     "cva": "1.0.0-beta.3"
   },
   "peerDependencies": {
-    "typescript": "^5.8.2"
+    "typescript": "catalog:"
   },
+  "packageManager": "pnpm@10.10.0",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   }
 }

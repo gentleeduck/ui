@@ -4,24 +4,21 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./web": "./web.ts",
-    "./base": "./base.ts"
+    "./web": "./web.css",
+    "./base": "./base.css",
+    "./docs": "./docs.css"
   },
   "license": "MIT",
   "scripts": {
-    "clean": "git clean -xdf .cache .turbo node_modules",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./"
   },
-  "dependencies": {
-    "autoprefixer": "^10.4.20",
-    "mini-svg-data-uri": "^1.4.4",
-    "postcss": "^8.5.2",
-    "tailwindcss": "^4.0.6",
-    "tailwindcss-animate": "^1.0.7"
-  },
-  "devDependencies": {
-    "@gentleduck/typescript-config": "workspace:*"
+  "dependencies": {},
+  "devDependencies": {},
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

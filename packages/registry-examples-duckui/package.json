@@ -7,7 +7,13 @@
     "./*": "./src/*"
   },
   "scripts": {
-    "build": "tsup"
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "build": "tsdown",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
   },
   "devDependencies": {
     "@gentleduck/hooks": "workspace:*",
@@ -15,24 +21,27 @@
     "@gentleduck/registry-ui": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "tsup": "^8.2.4",
-    "tsx": "^4.17.0"
+    "tsdown": "catalog:",
+    "tsx": "catalog:"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-hover-card": "^1.1.1",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
     "lucide-react": "0.359.0",
     "motion": "^12.4.3",
     "motion-number": "^1.0.0",
-    "next": "^15.2.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.5.0",
     "recharts": "2.12.7",
     "sonner": "^2.0.1",
     "zod": "catalog:"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

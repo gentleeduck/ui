@@ -7,7 +7,13 @@
     "./*": "./src/*/index.ts"
   },
   "scripts": {
-    "build": "tsup"
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "build": "tsdown",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
   },
   "devDependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
@@ -92,19 +98,19 @@
     "@tiptap/react": "^2.5.7",
     "@tiptap/starter-kit": "^2.5.7",
     "@tiptap/suggestion": "^2.5.7",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "class-variance-authority": "^0.7.0",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "@gentleduck/tsdown-config": "workspace:*",
     "clsx": "^1.2.1",
     "lucide-react": "0.359.0",
-    "react": "^19.0.0",
     "react-day-picker": "^8.10.1",
-    "react-dom": "^19.0.0",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
     "sonner": "^2.0.1",
-    "tsup": "^8.2.4",
-    "tsx": "^4.17.0",
-    "typescript": "catalog:",
     "vaul": "0.9.0",
+    "tsdown": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
     "zod": "catalog:"
   },
   "dependencies": {
@@ -120,5 +126,9 @@
     "react-resizable-panels": "^2.0.23",
     "recharts": "2.12.7",
     "uuidv7": "^1.0.2"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

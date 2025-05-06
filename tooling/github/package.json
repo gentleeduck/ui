@@ -1,5 +1,9 @@
 {
   "name": "@gentel/github",
   "version": "0.1.0",
-  "private": true
+  "private": true,
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
+  }
 }

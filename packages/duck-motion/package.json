@@ -18,10 +18,22 @@
       "import": "./easing.ts"
     }
   },
+  "scripts": {
+    "build": "tsdown",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
+  },
   "devDependencies": {
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/variants": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

@@ -15,10 +15,12 @@
   "scripts": {
     "dev": "vite",
     "test": "vitest run",
-    "build": "tsup",
-    "lint": "biome lint",
-    "ci": "pnpm run lint && pnpm run build",
-    "release": "pnpm run ci && changeset publish"
+    "build": "tsdown",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
   },
   "keywords": [
     "react",
@@ -46,26 +48,27 @@
   "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
   "peerDependencies": {
     "@changesets/cli": "^2.27.7",
-    "@types/mousetrap": "^1.6.15",
-    "@types/node": "^22.0.0",
-    "@types/react": "^18.3.4",
-    "@types/react-dom": "^18.3.0",
     "date-fns": "^3.6.0",
     "jsdom": "^25.0.0",
     "mousetrap": "^1.6.5",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tsup": "^8.2.3",
-    "typescript": "^5.5.4",
-    "vitest": "^2.0.4",
-    "zod": "^3.23.8"
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "zod": "catalog:"
   },
-  "engines": {
-    "node": ">=12.0.0",
-    "npm": ">=6.0.0"
+  "devDependencies": {
+    "@types/mousetrap": "^1.6.15",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19"
   },
   "dependencies": {
     "esbuild": "^0.25.0",
     "vite": "^5.4.2"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

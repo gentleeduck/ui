@@ -15,17 +15,30 @@
   "bin": {
     "duck-ui": "dist/index.js"
   },
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-ui"
+  },
+  "bugs": {
+    "url": "https://github.com/gentleduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-ui#readme",
   "scripts": {
     "dev": "tsup --watch",
-    "clean": "rimraf dist",
     "start": "node dist/index.js",
     "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
-    "build": "tsup",
-    "lint": "biome lint",
-    "ci": "pnpm run lint && pnpm run build",
+    "test": "vitest run",
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "build": "tsdown",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish",
-    "test": "vitest run"
+    "publish": "pnpm run ci && changeset publish"
   },
   "dependencies": {
     "@antfu/ni": "^0.21.12",
@@ -46,7 +59,7 @@
     "postcss": "^8.4.49",
     "prompts": "^2.4.2",
     "tsconfig-paths": "^4.2.0",
-    "zod": "^3.24.1"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/babel__core": "^7.20.1",
@@ -56,20 +69,12 @@
     "@types/lodash.template": "^4.5.3",
     "@types/prompts": "^2.4.2",
     "rimraf": "^4.4.1",
-    "tsup": "^8.2.4",
+    "tsdown": "catalog:",
     "type-fest": "^3.8.0",
-    "typescript": "^5"
+    "typescript": "catalog:"
   },
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-ui"
-  },
-  "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
-  },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-ui#readme"
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
+  }
 }

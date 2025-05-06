@@ -11,8 +11,9 @@
   "files": ["dist"],
   "scripts": {
     "build": "tsdown",
-    "lint": "biome lint",
-    "ci": "pnpm run lint && pnpm run build",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
   },
@@ -29,21 +30,21 @@
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-state#readme",
   "dependencies": {},
   "devDependencies": {
-    "@changesets/cli": "^2.27.7",
-    "@types/react": "^19.0.10",
-    "husky": "^9.1.7",
+    "@changesets/cli": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "husky": "catalog:",
     "tsdown": "catalog:",
-    "@gentleduck/tsdown": "workspace:*"
+    "@gentleduck/tsdown-config": "workspace:*"
   },
   "peerDependencies": {
-    "@types/node": "^22.13.10",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "typescript": "^5.8.2"
+    "@types/node": "catalog:",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "typescript": "catalog:"
   },
+  "packageManager": "pnpm@10.10.0",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   }
 }

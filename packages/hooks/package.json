@@ -11,9 +11,11 @@
     "./*": "./src/*/index.ts"
   },
   "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
     "build": "tsdown",
-    "lint": "biome lint",
-    "ci": "pnpm run lint && pnpm run build",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
   },
@@ -22,13 +24,17 @@
     "typescript": "catalog:",
     "@types/node": "catalog:",
     "tsdown": "catalog:",
-    "@gentleduck/tsdown": "workspace:*",
+    "@gentleduck/tsdown-config": "workspace:*",
     "zod": "catalog:",
     "clsx": "^1.2.1",
     "tailwind-merge": "^1.14.0",
-    "react": "catalog:react18",
-    "react-dom": "catalog:react18",
-    "@types/react-dom": "catalog:react18",
-    "@types/react": "catalog:react18"
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "@types/react": "catalog:react19"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
   }
 }
