@@ -16,9 +16,7 @@
  * }
  * ```
  */
-export type VariantParams<
-  TVariants extends Record<string, Record<string, string | string[]>>,
-> = {
+export type VariantParams<TVariants extends Record<string, Record<string, string | string[]>>> = {
   [K in keyof TVariants]?: keyof TVariants[K] | Array<keyof TVariants[K]>
 }
 
@@ -60,9 +58,7 @@ export type VariantParams<
  * }
  * ```
  */
-export interface VariantsOptions<
-  TVariants extends Record<string, Record<string, string | string[]>>,
-> {
+export interface VariantsOptions<TVariants extends Record<string, Record<string, string | string[]>>> {
   variants: TVariants
   defaultVariants?: VariantParams<TVariants>
   compoundVariants?: Array<
@@ -91,9 +87,7 @@ export interface VariantsOptions<
  * }
  * ```
  */
-export type CvaProps<
-  TVariants extends Record<string, Record<string, string | string[]>>,
-> = VariantParams<TVariants> & {
+export type CvaProps<TVariants extends Record<string, Record<string, string | string[]>>> = VariantParams<TVariants> & {
   className?: ClassValue
   class?: ClassValue
 }
@@ -147,9 +141,4 @@ export type ClassArray = ClassValue[]
  * ]
  * ```
  */
-export type ClassValue =
-  | string
-  | number
-  | boolean
-  | ClassDictionary
-  | ClassArray
+export type ClassValue = string | number | boolean | ClassDictionary | ClassArray

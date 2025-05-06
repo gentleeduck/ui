@@ -23,10 +23,7 @@ export function CardsReportIssue() {
           <div className="grid gap-2">
             <Label htmlFor={`area-${id}`}>Area</Label>
             <Select defaultValue="billing">
-              <SelectTrigger
-                id={`area-${id}`}
-                aria-label="Area"
-              >
+              <SelectTrigger id={`area-${id}`} aria-label="Area">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
@@ -44,8 +41,7 @@ export function CardsReportIssue() {
               <SelectTrigger
                 id={`security-level-${id}`}
                 className="line-clamp-1 w-full truncate"
-                aria-label="Security Level"
-              >
+                aria-label="Security Level">
                 <SelectValue placeholder="Select level" />
               </SelectTrigger>
               <SelectContent>
@@ -59,17 +55,11 @@ export function CardsReportIssue() {
         </div>
         <div className="grid gap-2">
           <Label htmlFor={`subject-${id}`}>Subject</Label>
-          <Input
-            id={`subject-${id}`}
-            placeholder="I need help with..."
-          />
+          <Input id={`subject-${id}`} placeholder="I need help with..." />
         </div>
         <div className="grid gap-2">
           <Label htmlFor={`description-${id}`}>Description</Label>
-          <Textarea
-            id={`description-${id}`}
-            placeholder="Please include all information relevant to your issue."
-          />
+          <Textarea id={`description-${id}`} placeholder="Please include all information relevant to your issue." />
         </div>
       </CardContent>
       <CardFooter className="justify-between space-x-2">

@@ -1,9 +1,7 @@
 {
   "name": "label-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "label"
-  ],
+  "registryDependencies": ["label"],
   "root_folder": "label",
   "files": [
     {

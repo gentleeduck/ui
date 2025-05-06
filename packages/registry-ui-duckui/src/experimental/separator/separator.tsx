@@ -9,11 +9,7 @@ interface SeparatorProps extends React.HTMLAttributes<HTMLHRElement> {
   orientation?: 'horizontal' | 'vertical'
 }
 
-const Separator = ({
-  className,
-  orientation = 'horizontal',
-  ...props
-}: SeparatorProps) => (
+const Separator = ({ className, orientation = 'horizontal', ...props }: SeparatorProps) => (
   <hr
     className={cn(
       'border-border border',

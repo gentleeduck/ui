@@ -3,9 +3,7 @@ import { useLayoutEffect } from './layout'
 import { useStateMachine } from './machine'
 
 interface PresenceProps {
-  children:
-  | React.ReactElement
-  | ((props: { present: boolean }) => React.ReactElement)
+  children: React.ReactElement | ((props: { present: boolean }) => React.ReactElement)
   present: boolean
 }
 
@@ -14,9 +12,7 @@ const Presence: React.FC<PresenceProps> = (props) => {
   const presence = usePresence(present)
 
   const child = (
-    typeof children === 'function'
-      ? children({ present: presence.isPresent })
-      : React.Children.only(children)
+    typeof children === 'function' ? children({ present: presence.isPresent }) : React.Children.only(children)
   ) as React.ReactElement<{ ref?: React.Ref<HTMLElement> }>
 
   const forceMount = typeof children === 'function'
@@ -53,8 +49,7 @@ function usePresence(present: boolean) {
 
   React.useEffect(() => {
     const currentAnimationName = getAnimationName(stylesRef.current)
-    prevAnimationNameRef.current =
-      state === 'mounted' ? currentAnimationName : 'none'
+    prevAnimationNameRef.current = state === 'mounted' ? currentAnimationName : 'none'
   }, [state])
 
   useLayoutEffect(() => {
@@ -68,10 +63,7 @@ function usePresence(present: boolean) {
 
       if (present) {
         send('MOUNT')
-      } else if (
-        currentAnimationName === 'none' ||
-        styles?.display === 'none'
-      ) {
+      } else if (currentAnimationName === 'none' || styles?.display === 'none') {
         // If there is no exit animation or the element is hidden, animations won't run
         // so we unmount instantly
         send('UNMOUNT')
@@ -106,9 +98,7 @@ function usePresence(present: boolean) {
        */
       const handleAnimationEnd = (event: AnimationEvent) => {
         const currentAnimationName = getAnimationName(stylesRef.current)
-        const isCurrentAnimation = currentAnimationName.includes(
-          event.animationName,
-        )
+        const isCurrentAnimation = currentAnimationName.includes(event.animationName)
         if (event.target === node && isCurrentAnimation) {
           // With React 18 concurrency this update is applied a frame after the
           // animation ends, creating a flash of visible content. By setting the
@@ -178,9 +168,7 @@ function getAnimationName(styles?: CSSStyleDeclaration) {
 // https://github.com/facebook/react/pull/28348
 //
 // Access the ref using the method that doesn't yield a warning.
-function getElementRef(
-  element: React.ReactElement<{ ref?: React.Ref<unknown> }>,
-) {
+function getElementRef(element: React.ReactElement<{ ref?: React.Ref<unknown> }>) {
   // React <=18 in DEV
   let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get
   let mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning

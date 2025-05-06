@@ -1,15 +1,12 @@
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Button } from '../../button'
 import React from 'react'
 import { X } from 'lucide-react'
-import { AnimDialogVariants, AnimVariants } from '@gentelduck/motion/anim'
-import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
-import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
+import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import * as DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import { useShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
 
-
-export function Dialog({
-  ...props
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
+export function Dialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
 }
 
@@ -80,15 +77,13 @@ export function DialogContent({
         className,
       )}
       onClick={closeOverlay}
-      {...props}
-    >
+      {...props}>
       {shouldRender && (
-        <div className='p-6 w-full h-full'>
+        <div className="p-6 w-full h-full">
           <button
-            aria-label='close'
-            className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
-            onClick={() => onOpenChange(false)}
-          >
+            aria-label="close"
+            className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
+            onClick={() => onOpenChange(false)}>
             <X aria-hidden size={20} />
           </button>
           {children}
@@ -112,20 +107,8 @@ export function DialogContent({
  *
  * @returns {JSX.Element} The rendered DialogHeader component.
  */
-export function DialogHeader({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      className={cn(
-        'flex flex-col space-y-1.5 text-center sm:text-left',
-        className,
-      )}
-      {...props}
-    />
-  )
+export function DialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+  return <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
 }
 
 /**
@@ -142,20 +125,8 @@ export function DialogHeader({
  *
  * @returns {React.JSX.Element} The rendered DialogFooter component.
  */
-export function DialogFooter({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      className={cn(
-        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-        className,
-      )}
-      {...props}
-    />
-  )
+export function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
 }
 
 /**
@@ -170,22 +141,9 @@ export function DialogFooter({
  *
  * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
-export function DialogTitle({
-  className,
-  ref,
-  ...props
-}: DialogTitleProps): React.JSX.Element {
-  return (
-    <h2
-      ref={ref}
-      className={cn(
-        'text-lg font-semibold leading-none tracking-tight',
-        className,
-      )}
-      {...props}
-    />
-  )
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
+export function DialogTitle({ className, ref, ...props }: DialogTitleProps): React.JSX.Element {
+  return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }
 
 /**
@@ -204,9 +162,5 @@ export const DialogDescription = ({
   ref,
   ...props
 }: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-  <p
-    ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
-    {...props}
-  />
+  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 )

@@ -25,7 +25,7 @@ export function Pre({
   // console.log(__rawString__, props)
 
   return (
-    <div className=''>
+    <div className="">
       <pre
         className={cn(
           'mb-4 mt-6 max-h-[650px] show-scroll-hover rounded-lg border bg-white py-4 dark:bg-[#cdd6f403]',
@@ -41,20 +41,17 @@ export function Pre({
           className={cn('absolute right-4 top-4', __withMeta__ && 'top-16')}
         />
       )}
-      {__npmCommand__ &&
-        __yarnCommand__ &&
-        __pnpmCommand__ &&
-        __bunCommand__ && (
-          <CopyNpmCommandButton
-            commands={{
-              __npmCommand__,
-              __yarnCommand__,
-              __pnpmCommand__,
-              __bunCommand__,
-            }}
-            className={cn('absolute right-4 top-4', __withMeta__ && 'top-16')}
-          />
-        )}
+      {__npmCommand__ && __yarnCommand__ && __pnpmCommand__ && __bunCommand__ && (
+        <CopyNpmCommandButton
+          commands={{
+            __npmCommand__,
+            __yarnCommand__,
+            __pnpmCommand__,
+            __bunCommand__,
+          }}
+          className={cn('absolute right-4 top-4', __withMeta__ && 'top-16')}
+        />
+      )}
     </div>
   )
 }

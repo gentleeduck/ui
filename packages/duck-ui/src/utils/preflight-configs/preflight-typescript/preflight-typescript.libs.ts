@@ -2,10 +2,7 @@ import { Ora } from 'ora'
 import { highlighter } from '../../text-styling'
 import { get_package_manager } from '../../get-package-manager'
 import { execa } from 'execa'
-import {
-  ts_config,
-  typescript_dependencies,
-} from './preflight-typescript.constants'
+import { ts_config, typescript_dependencies } from './preflight-typescript.constants'
 import fs from 'fs-extra'
 import path from 'node:path'
 
@@ -19,11 +16,7 @@ export async function install_typescript(cwd: string, spinner: Ora) {
     spinner.text = `Installing ${highlighter.info('TypeScript')}...`
     const { failed: installation_step_1 } = await execa(
       packageManager,
-      [
-        packageManager !== 'npm' ? 'install' : 'add',
-        ...typescript_dependencies,
-        '-D',
-      ],
+      [packageManager !== 'npm' ? 'install' : 'add', ...typescript_dependencies, '-D'],
       {
         cwd: cwd,
         shell: true,

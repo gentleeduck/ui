@@ -22,13 +22,9 @@ export function isInView(el: HTMLElement): boolean {
   )
 }
 
-export function set(
-  el: Element | HTMLElement | null | undefined,
-  styles: Style,
-  ignoreCache = false,
-) {
+export function set(el: Element | HTMLElement | null | undefined, styles: Style, ignoreCache = false) {
   if (!el || !(el instanceof HTMLElement)) return
-  let originalStyles: Style = {}
+  const originalStyles: Style = {}
 
   // biome-ignore lint/complexity/noForEach: <explanation>
   Object.entries(styles).forEach(([key, value]: [string, string]) => {
@@ -48,7 +44,7 @@ export function set(
 
 export function reset(el: Element | HTMLElement | null, prop?: string) {
   if (!el || !(el instanceof HTMLElement)) return
-  let originalStyles = cache.get(el)
+  const originalStyles = cache.get(el)
 
   if (!originalStyles) {
     return
@@ -77,10 +73,7 @@ export const isVertical = (direction: DrawerDirection) => {
   }
 }
 
-export function getTranslate(
-  element: HTMLElement,
-  direction: DrawerDirection,
-): number | null {
+export function getTranslate(element: HTMLElement, direction: DrawerDirection): number | null {
   if (!element) {
     return null
   }
@@ -91,25 +84,18 @@ export function getTranslate(
   let mat = transform.match(/^matrix3d\((.+)\)$/)
   if (mat) {
     // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d
-    return Number.parseFloat(
-      mat[1].split(', ')[isVertical(direction) ? 13 : 12],
-    )
+    return Number.parseFloat(mat[1].split(', ')[isVertical(direction) ? 13 : 12])
   }
   // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
   mat = transform.match(/^matrix\((.+)\)$/)
-  return mat
-    ? Number.parseFloat(mat[1].split(', ')[isVertical(direction) ? 5 : 4])
-    : null
+  return mat ? Number.parseFloat(mat[1].split(', ')[isVertical(direction) ? 5 : 4]) : null
 }
 
 export function dampenValue(v: number) {
   return 8 * (Math.log(v + 1) - 2)
 }
 
-export function assignStyle(
-  element: HTMLElement | null | undefined,
-  style: Partial<CSSStyleDeclaration>,
-) {
+export function assignStyle(element: HTMLElement | null | undefined, style: Partial<CSSStyleDeclaration>) {
   if (!element) return () => {}
 
   const prevStyle = element.style.cssText

@@ -3,10 +3,7 @@ import React, { useCallback } from 'react'
 
 import { TippyProps, TooltipProps } from './types'
 
-const isMac =
-  typeof window !== 'undefined'
-    ? navigator.platform.toUpperCase().indexOf('MAC') >= 0
-    : false
+const isMac = typeof window !== 'undefined' ? navigator.platform.toUpperCase().indexOf('MAC') >= 0 : false
 
 const ShortcutKey = ({ children }: { children: string }): JSX.Element => {
   const className =
@@ -37,17 +34,14 @@ export const Tooltip = ({
   const renderTooltip = useCallback(
     (attrs: TippyProps) => (
       <span
-        className='flex items-center gap-2 px-2.5 py-1 bg-white border border-neutral-100 rounded-lg shadow-xs z-[999]'
+        className="flex items-center gap-2 px-2.5 py-1 bg-white border border-neutral-100 rounded-lg shadow-xs z-[999]"
         tabIndex={-1}
         data-placement={attrs['data-placement']}
         data-reference-hidden={attrs['data-reference-hidden']}
-        data-escaped={attrs['data-escaped']}
-      >
-        {title && (
-          <span className='text-xs font-medium text-neutral-500'>{title}</span>
-        )}
+        data-escaped={attrs['data-escaped']}>
+        {title && <span className="text-xs font-medium text-neutral-500">{title}</span>}
         {shortcut && (
-          <span className='flex items-center gap-0.5'>
+          <span className="flex items-center gap-0.5">
             {shortcut.map((shortcutKey) => (
               <ShortcutKey key={shortcutKey}>{shortcutKey}</ShortcutKey>
             ))}
@@ -68,8 +62,7 @@ export const Tooltip = ({
         appendTo={document.body}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...tippyOptions}
-        render={renderTooltip}
-      >
+        render={renderTooltip}>
         <span>{children}</span>
       </Tippy>
     )

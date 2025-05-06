@@ -12,10 +12,7 @@ import { GetComponentFilesArgs } from './build-registry-tsx.types'
  * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
  * @returns {Promise<string>} - The formatted TSXentry for the registry.
  */
-export async function build_registry_tsx({
-  item,
-  spinner,
-}: GetComponentFilesArgs): Promise<string> {
+export async function build_registry_tsx({ item, spinner }: GetComponentFilesArgs): Promise<string> {
   try {
     const component_path = `${
       item.type.includes('ui')
@@ -60,11 +57,7 @@ export async function build_registry_tsx({
 
     return registryEntry
   } catch (error) {
-    spinner.fail(
-      `Failed to build TSX registry entry: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    )
+    spinner.fail(`Failed to build TSX registry entry: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(0)
   }
 }

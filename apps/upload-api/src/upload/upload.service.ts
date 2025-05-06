@@ -48,7 +48,7 @@ export class UploadService {
         where(fields, operators) {
           return operators.and(
             operators.eq(fields.bucket_id, bucket_id), // bucket_id should match
-            operators.isNull(fields.folder_id) // folder_id should be null
+            operators.isNull(fields.folder_id), // folder_id should be null
           )
         },
       })
@@ -58,7 +58,7 @@ export class UploadService {
         where(fields, operators) {
           return operators.and(
             operators.eq(fields.bucket_id, bucket_id), // bucket_id should match
-            operators.isNull(fields.folder_id) // folder_id should be null
+            operators.isNull(fields.folder_id), // folder_id should be null
           )
         },
       })

@@ -9,7 +9,7 @@ export const isRectSelected = (rect: any) => (selection: CellSelection) => {
   const start = selection.$anchorCell.start(-1)
   const cells = map.cellsInRect(rect)
   const selectedCells = map.cellsInRect(
-    map.rectBetween(selection.$anchorCell.pos - start, selection.$headCell.pos - start)
+    map.rectBetween(selection.$anchorCell.pos - start, selection.$headCell.pos - start),
   )
 
   for (let i = 0, count = cells.length; i < count; i += 1) {
@@ -22,7 +22,7 @@ export const isRectSelected = (rect: any) => (selection: CellSelection) => {
 }
 
 export const findTable = (selection: Selection) =>
-  findParentNode(node => node.type.spec.tableRole && node.type.spec.tableRole === 'table')(selection)
+  findParentNode((node) => node.type.spec.tableRole && node.type.spec.tableRole === 'table')(selection)
 
 export const isCellSelection = (selection: any) => selection instanceof CellSelection
 
@@ -88,18 +88,18 @@ export const getCellsInColumn = (columnIndex: number | number[]) => (selection: 
           })
 
           return acc.concat(
-            cells.map(nodePos => {
+            cells.map((nodePos) => {
               const node = table.node.nodeAt(nodePos)
               const pos = nodePos + table.start
 
               return { pos, start: pos + 1, node }
-            })
+            }),
           )
         }
 
         return acc
       },
-      [] as { pos: number; start: number; node: Node | null | undefined }[]
+      [] as { pos: number; start: number; node: Node | null | undefined }[],
     )
   }
   return null
@@ -123,17 +123,17 @@ export const getCellsInRow = (rowIndex: number | number[]) => (selection: Select
           })
 
           return acc.concat(
-            cells.map(nodePos => {
+            cells.map((nodePos) => {
               const node = table.node.nodeAt(nodePos)
               const pos = nodePos + table.start
               return { pos, start: pos + 1, node }
-            })
+            }),
           )
         }
 
         return acc
       },
-      [] as { pos: number; start: number; node: Node | null | undefined }[]
+      [] as { pos: number; start: number; node: Node | null | undefined }[],
     )
   }
 
@@ -152,7 +152,7 @@ export const getCellsInTable = (selection: Selection) => {
       bottom: map.height,
     })
 
-    return cells.map(nodePos => {
+    return cells.map((nodePos) => {
       const node = table.node.nodeAt(nodePos)
       const pos = nodePos + table.start
 

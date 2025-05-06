@@ -13,9 +13,7 @@ export async function init_command_action(opt: InitOptions) {
   await preflight_configs({ ...options, cwd }, spinner)
 
   const registry = await get_registry_index()
-  const filtered_registry = registry?.filter(
-    (item) => item.type === 'registry:ui',
-  )
+  const filtered_registry = registry?.filter((item) => item.type === 'registry:ui')
   spinner.stop()
   const install = await prompts({
     type: 'confirm',

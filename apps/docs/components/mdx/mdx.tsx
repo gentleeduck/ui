@@ -1,17 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@gentleduck/registry-ui-duckui/accordion'
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from '@gentleduck/registry-ui-duckui/alert'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
+import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui-duckui/alert'
 import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -86,16 +77,9 @@ const components = {
     <li className={cn('mt-2', className)} {...props} />
   ),
   blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <blockquote
-      className={cn('mt-6 border-l-2 pl-6 italic', className)}
-      {...props}
-    />
+    <blockquote className={cn('mt-6 border-l-2 pl-6 italic', className)} {...props} />
   ),
-  img: ({
-    className,
-    alt,
-    ...props
-  }: React.ImgHTMLAttributes<HTMLImageElement>) => (
+  img: ({ className, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
     <img className={cn('rounded-md', className)} alt={alt} {...props} />
   ),
   hr: Hr,
@@ -113,19 +97,10 @@ const components = {
   AspectRatio,
   CodeBlockWrapper,
   Step: ({ className, ...props }: React.ComponentProps<'h3'>) => (
-    <h3
-      className={cn(
-        'font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight',
-        className,
-      )}
-      {...props}
-    />
+    <h3 className={cn('font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight', className)} {...props} />
   ),
   Steps: ({ ...props }) => (
-    <div
-      className='[&>h3]:step steps mb-12 ml-4 border-l pl-8 [counter-reset:step]'
-      {...props}
-    />
+    <div className="[&>h3]:step steps mb-12 ml-4 border-l pl-8 [counter-reset:step]" {...props} />
   ),
   Tabs: Tab,
   TabsList: TabList,
@@ -142,7 +117,7 @@ export function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code)
 
   return (
-    <div className='mdx'>
+    <div className="mdx">
       <Component components={components} />
     </div>
   )

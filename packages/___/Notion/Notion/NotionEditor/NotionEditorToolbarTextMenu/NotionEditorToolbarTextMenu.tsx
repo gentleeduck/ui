@@ -15,11 +15,7 @@ export const NotionEditorToolbarTextMenu = ({ editor }: NotionEditorToolBarTextM
   const blockOptions = useTextmenuContentTypes(editor)
 
   return (
-    <BubbleMenu
-      editor={editor}
-      tippyOptions={{ duration: 100 }}
-      className="bubble__menu"
-    >
+    <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className="bubble__menu">
       {
         // <MemoContentTypePicker options={blockOptions} />
         // <MemoFontFamilyPicker
@@ -33,21 +29,10 @@ export const NotionEditorToolbarTextMenu = ({ editor }: NotionEditorToolBarTextM
       }
       <div className="bubble__menu__wrapper">
         <div className="bubble__menu__wrapper__picker">
-          <TrunIntoPickerMemo
-            commands={commands}
-            states={states}
-            value={'Text'}
-            onChange={() => {}}
-          />
+          <TrunIntoPickerMemo commands={commands} states={states} value={'Text'} onChange={() => {}} />
         </div>
-        <Separator
-          orientation="vertical"
-          className="h-[26px]"
-        />
-        <ToolBarToggleButtonsMemo
-          commands={commands}
-          states={states}
-        />
+        <Separator orientation="vertical" className="h-[26px]" />
+        <ToolBarToggleButtonsMemo commands={commands} states={states} />
       </div>
     </BubbleMenu>
   )

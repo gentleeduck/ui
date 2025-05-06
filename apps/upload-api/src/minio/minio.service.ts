@@ -40,7 +40,7 @@ export class MINIO {
         'GET',
         ENV.MINIO_BUCKET,
         `duck-upload-${id}-${name}`, // Use the same object key here
-        60 * 60 // Expiry time in seconds (1 hour)
+        60 * 60, // Expiry time in seconds (1 hour)
       )
 
       // Return the URL of the uploaded file

@@ -34,7 +34,9 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
   } = props
   const [toasts, setToasts] = React.useState<ToastT[]>([])
   const possiblePositions = React.useMemo(() => {
-    return Array.from(new Set([position].concat(toasts.filter(toast => toast.position).map(toast => toast.position))))
+    return Array.from(
+      new Set([position].concat(toasts.filter((toast) => toast.position).map((toast) => toast.position))),
+    )
   }, [toasts, position])
   const [heights, setHeights] = React.useState<HeightT[]>([])
   const [expanded, setExpanded] = React.useState(false)
@@ -46,7 +48,7 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
         ? window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
           ? 'dark'
           : 'light'
-        : 'light'
+        : 'light',
   )
 
   const listRef = React.useRef<HTMLOListElement>(null)
@@ -55,8 +57,8 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
   const isFocusWithinRef = React.useRef(false)
 
   const removeToast = React.useCallback((toastToRemove: ToastT) => {
-    setToasts(toasts => {
-      if (!toasts.find(toast => toast.id === toastToRemove.id)?.delete) {
+    setToasts((toasts) => {
+      if (!toasts.find((toast) => toast.id === toastToRemove.id)?.delete) {
         ToastState.dismiss(toastToRemove.id)
       }
 
@@ -65,17 +67,17 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
   }, [])
 
   React.useEffect(() => {
-    return ToastState.subscribe(toast => {
+    return ToastState.subscribe((toast) => {
       if ((toast as ToastToDismiss).dismiss) {
-        setToasts(toasts => toasts.map(t => (t.id === toast.id ? { ...t, delete: true } : t)))
+        setToasts((toasts) => toasts.map((t) => (t.id === toast.id ? { ...t, delete: true } : t)))
         return
       }
 
       // Prevent batching, temp solution.
       setTimeout(() => {
         ReactDOM.flushSync(() => {
-          setToasts(toasts => {
-            const indexOfExistingToast = toasts.findIndex(t => t.id === toast.id)
+          setToasts((toasts) => {
+            const indexOfExistingToast = toasts.findIndex((t) => t.id === toast.id)
 
             // Update the toast if it already exists
             if (indexOfExistingToast !== -1) {
@@ -147,7 +149,7 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      const isHotkeyPressed = hotkey.every(key => (event as any)[key] || event.code === key)
+      const isHotkeyPressed = hotkey.every((key) => (event as any)[key] || event.code === key)
 
       if (isHotkeyPressed) {
         setExpanded(true)
@@ -185,8 +187,7 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
       tabIndex={-1}
       aria-live="polite"
       aria-relevant="additions text"
-      aria-atomic="false"
-    >
+      aria-atomic="false">
       {possiblePositions.map((position, index) => {
         const [y, x] = position.split('-')
 
@@ -213,7 +214,7 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
                 ...style,
               } as React.CSSProperties
             }
-            onBlur={event => {
+            onBlur={(event) => {
               if (isFocusWithinRef.current && !event.currentTarget.contains(event.relatedTarget)) {
                 isFocusWithinRef.current = false
                 if (lastFocusedElementRef.current) {
@@ -222,7 +223,7 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
                 }
               }
             }}
-            onFocus={event => {
+            onFocus={(event) => {
               const isNotDismissible =
                 event.target instanceof HTMLElement && event.target.dataset.dismissible === 'false'
 
@@ -241,17 +242,16 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
                 setExpanded(false)
               }
             }}
-            onPointerDown={event => {
+            onPointerDown={(event) => {
               const isNotDismissible =
                 event.target instanceof HTMLElement && event.target.dataset.dismissible === 'false'
 
               if (isNotDismissible) return
               setInteracting(true)
             }}
-            onPointerUp={() => setInteracting(false)}
-          >
+            onPointerUp={() => setInteracting(false)}>
             {toasts
-              .filter(toast => (!toast.position && index === 0) || toast.position === position)
+              .filter((toast) => (!toast.position && index === 0) || toast.position === position)
               .map((toast, index) => (
                 <Toast
                   key={toast.id}
@@ -273,8 +273,8 @@ export const Toaster = React.forwardRef<HTMLElement, ToasterProps>(function Toas
                   cancelButtonStyle={toastOptions?.cancelButtonStyle}
                   actionButtonStyle={toastOptions?.actionButtonStyle}
                   removeToast={removeToast}
-                  toasts={toasts.filter(t => t.position == toast.position)}
-                  heights={heights.filter(h => h.position == toast.position)}
+                  toasts={toasts.filter((t) => t.position == toast.position)}
+                  heights={heights.filter((h) => h.position == toast.position)}
                   setHeights={setHeights}
                   expandByDefault={expand ?? false}
                   gap={gap}

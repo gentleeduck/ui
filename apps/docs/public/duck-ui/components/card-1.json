@@ -1,9 +1,7 @@
 {
   "name": "card-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "card"
-  ],
+  "registryDependencies": ["card"],
   "root_folder": "card",
   "files": [
     {

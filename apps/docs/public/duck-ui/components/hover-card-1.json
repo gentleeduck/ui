@@ -1,9 +1,7 @@
 {
   "name": "hover-card-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "hover-card"
-  ],
+  "registryDependencies": ["hover-card"],
   "root_folder": "hover-card",
   "files": [
     {

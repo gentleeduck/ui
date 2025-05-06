@@ -1,4 +1,4 @@
 export type DuckShortcutProps = {
-    keys: string | string[]
-    onKeysPressed: () => void
+  keys: string | string[]
+  onKeysPressed: () => void
 }

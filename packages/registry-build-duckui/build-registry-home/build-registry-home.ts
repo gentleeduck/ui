@@ -13,9 +13,7 @@ export async function build_registry_home(spinner: Ora): Promise<void> {
     const asciiText = await generateAsciiArt('DUCK UI')
     console.log(asciiText)
   } catch (error) {
-    spinner.fail(
-      `Failed to generate ASCII UI: ${error instanceof Error ? error.message : String(error)}`,
-    )
+    spinner.fail(`Failed to generate ASCII UI: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(0)
   }
 }
@@ -30,13 +28,8 @@ export async function build_registry_home(spinner: Ora): Promise<void> {
  */
 async function generateAsciiArt(text: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    figlet.text(
-      text,
-      { width: cliWidth(), whitespaceBreak: true, font: 'ANSI Shadow' },
-      (err, data) =>
-        err
-          ? reject(new Error(`Error generating ASCII art: ${err.message}`))
-          : resolve(data || ''),
+    figlet.text(text, { width: cliWidth(), whitespaceBreak: true, font: 'ANSI Shadow' }, (err, data) =>
+      err ? reject(new Error(`Error generating ASCII art: ${err.message}`)) : resolve(data || ''),
     )
   })
 }

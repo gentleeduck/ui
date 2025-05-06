@@ -44,12 +44,7 @@ export default function AlertDialogDemo3() {
       content={{
         className:
           '[&>div]:flex [&>div]:flex-col [&>div]:place-content-center [&>div]:w-fit [&>div]:place-self-center sm:max-w-[450px]',
-        children: (
-          <ContentComponent
-            goal={goal}
-            onClick={onClick}
-          />
-        ),
+        children: <ContentComponent goal={goal} onClick={onClick} />,
         _header: {
           _title: { children: <>Goal</> },
           _description: { children: <>Set your daily calorie goal</> },
@@ -57,10 +52,7 @@ export default function AlertDialogDemo3() {
         _footer: {
           className: 'flex w-full justify-between items-end',
           _submit: (
-            <Button
-              variant="default"
-              onClick={() => toast.success('Goal updated!')}
-            >
+            <Button variant="default" onClick={() => toast.success('Goal updated!')}>
               Submit
             </Button>
           ),
@@ -81,8 +73,7 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
             size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
             onClick={() => onClick(-10)}
-            disabled={goal <= 200}
-          >
+            disabled={goal <= 200}>
             <Minus className="h-4 w-4" />
             <span className="sr-only">Decrease</span>
           </Button>
@@ -95,18 +86,13 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
             size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
             onClick={() => onClick(10)}
-            disabled={goal >= 400}
-          >
+            disabled={goal >= 400}>
             <Plus className="h-4 w-4" />
             <span className="sr-only">Increase</span>
           </Button>
         </div>
         <div className="mt-3 h-[120px] w-full">
-          <ResponsiveContainer
-            width="100%"
-            height="100%"
-            className={'!w-[368px]'}
-          >
+          <ResponsiveContainer width="100%" height="100%" className={'!w-[368px]'}>
             <BarChart data={goals}>
               <Bar
                 dataKey="goal"

@@ -3,11 +3,7 @@
 import * as React from 'react'
 import { cn } from '@gentleduck/libs/cn'
 import { tooltipVariants, tooltipArrowVariants } from './tooltip.constants'
-import type {
-  TooltipContentProps,
-  TooltipProps,
-  TooltipTriggerProps,
-} from './tooltip.types'
+import type { TooltipContentProps, TooltipProps, TooltipTriggerProps } from './tooltip.types'
 import { Button } from '../button'
 
 function Tooltip({
@@ -61,18 +57,12 @@ function TooltipContent({
 }: TooltipContentProps): JSX.Element {
   return (
     <div
-      role='tooltip'
+      role="tooltip"
       className={cn(tooltipVariants({ variant, position }), className)}
       data-side={position}
-      {...props}
-    >
+      {...props}>
       {children}
-      {showArrow && (
-        <span
-          className={cn(tooltipArrowVariants({ position }))}
-          aria-hidden='true'
-        />
-      )}
+      {showArrow && <span className={cn(tooltipArrowVariants({ position }))} aria-hidden="true" />}
     </div>
   )
 }

@@ -4,15 +4,9 @@ export interface DrawerContextType {
   onPress: (event: React.PointerEvent<HTMLDivElement>) => void
   onRelease: (event: React.PointerEvent<HTMLDivElement> | null) => void
   onDrag: (event: React.PointerEvent<HTMLDivElement>) => void
-  onNestedDrag: (
-    event: React.PointerEvent<HTMLDivElement>,
-    percentageDragged: number,
-  ) => void
+  onNestedDrag: (event: React.PointerEvent<HTMLDivElement>, percentageDragged: number) => void
   onNestedOpenChange: (o: boolean) => void
-  onNestedRelease: (
-    event: React.PointerEvent<HTMLDivElement>,
-    open: boolean,
-  ) => void
+  onNestedRelease: (event: React.PointerEvent<HTMLDivElement>, open: boolean) => void
   dismissible: boolean
   isOpen: boolean
   isDragging: boolean
@@ -110,10 +104,7 @@ export type DialogProps = {
    * @default true
    */
   dismissible?: boolean
-  onDrag?: (
-    event: React.PointerEvent<HTMLDivElement>,
-    percentageDragged: number,
-  ) => void
+  onDrag?: (event: React.PointerEvent<HTMLDivElement>, percentageDragged: number) => void
   onRelease?: (event: React.PointerEvent<HTMLDivElement>, open: boolean) => void
   /**
    * When `false` it allows to interact with elements outside of the drawer without closing it.

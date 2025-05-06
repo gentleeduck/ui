@@ -30,8 +30,7 @@ const MDXProvider = ({ children }: React.PropsWithChildren) => {
         setEditContent,
         mdxContent,
         setMdxContent,
-      }}
-    >
+      }}>
       {children}
     </MDXContext.Provider>
   )

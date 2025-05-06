@@ -24,9 +24,7 @@ export function get_package_json(): PackageJson | null {
 
   const package_json_path = path.join(process.cwd(), 'package.json')
 
-  const package_json: PackageJson = JSON.parse(
-    fs.readFileSync(package_json_path, 'utf8'),
-  )
+  const package_json: PackageJson = JSON.parse(fs.readFileSync(package_json_path, 'utf8'))
 
   return package_json
 }
@@ -46,10 +44,7 @@ export async function get_duckui_config(cwd: string, spinner: Ora) {
       process.exit(1)
     }
 
-    const duckui_config_raw = await fs.readFile(
-      path.join(cwd, 'duck-ui.config.json'),
-      'utf8',
-    )
+    const duckui_config_raw = await fs.readFile(path.join(cwd, 'duck-ui.config.json'), 'utf8')
 
     const duckui_config = JSON.parse(duckui_config_raw) // Ensure JSON parsing
     const duckui_parsed_config = duck_ui_schema.parse(duckui_config)
@@ -57,13 +52,9 @@ export async function get_duckui_config(cwd: string, spinner: Ora) {
     return duckui_parsed_config
   } catch (error) {
     if (error instanceof ZodError) {
-      spinner.fail(
-        `🦆 Failed to get ${highlighter.info('duckui')} configs: ${error.message}`,
-      )
+      spinner.fail(`🦆 Failed to get ${highlighter.info('duckui')} configs: ${error.message}`)
     } else {
-      spinner.fail(
-        `🦆 Failed to get ${highlighter.info('duckui')} configs: ${error}`,
-      )
+      spinner.fail(`🦆 Failed to get ${highlighter.info('duckui')} configs: ${error}`)
     }
 
     process.exit(1)
@@ -85,10 +76,7 @@ export async function get_ts_config(cwd: string, spinner: Ora) {
       process.exit(1)
     }
 
-    const ts_config_raw = await fs.readFile(
-      path.join(cwd, 'tsconfig.json'),
-      'utf8',
-    )
+    const ts_config_raw = await fs.readFile(path.join(cwd, 'tsconfig.json'), 'utf8')
 
     // Then unwrap the optional/nullable layers to access the inner object
     const ts_config = ts_config_schema.parse(JSON.parse(ts_config_raw))

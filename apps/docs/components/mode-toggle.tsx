@@ -13,26 +13,21 @@ export function ModeSwitcher() {
 
   const toggleTheme = React.useCallback(() => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
-    setMetaColor(
-      resolvedTheme === 'dark'
-        ? META_THEME_COLORS.light
-        : META_THEME_COLORS.dark,
-    )
+    setMetaColor(resolvedTheme === 'dark' ? META_THEME_COLORS.light : META_THEME_COLORS.dark)
   }, [resolvedTheme, setTheme, setMetaColor])
 
   return (
     <Button
-      variant='ghost'
-      className='group/toggle'
+      variant="ghost"
+      className="group/toggle"
       onClick={toggleTheme}
-      aria-label='toggle theme'
+      aria-label="toggle theme"
       icon={
         <>
-          <SunIcon className='hidden [html.dark_&]:block' />
-          <MoonIcon className='hidden [html.light_&]:block' />
+          <SunIcon className="hidden [html.dark_&]:block" />
+          <MoonIcon className="hidden [html.light_&]:block" />
         </>
       }
-      size={'icon'}
-    ></Button>
+      size={'icon'}></Button>
   )
 }

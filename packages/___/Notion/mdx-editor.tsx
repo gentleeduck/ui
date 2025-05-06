@@ -392,7 +392,7 @@ export const useTextmenuCommands = (editor: Editor) => {
         .extendMarkRange('link')
         .setLink({ href: url, target: inNewTab ? '_blank' : '' })
         .run(),
-    [editor]
+    [editor],
   )
   const unSetLink = React.useCallback(() => {
     chainOnFocus().unsetLink()
@@ -405,7 +405,7 @@ export const useTextmenuCommands = (editor: Editor) => {
       }
       return chainOnFocus().setFontFamily(font).run()
     },
-    [editor]
+    [editor],
   )
 
   const onSetFontSize = React.useCallback(
@@ -415,7 +415,7 @@ export const useTextmenuCommands = (editor: Editor) => {
       }
       return chainOnFocus().setFontSize(fontSize).run()
     },
-    [editor]
+    [editor],
   )
 
   const onHeading1 = React.useCallback(() => chainOnFocus().setHeading({ level: 1 }).run(), [editor])
@@ -624,7 +624,7 @@ export const useTextmenuStates = (editor: Editor) => {
 
       return isTextSelected({ editor })
     },
-    [editor]
+    [editor],
   )
 
   return {
@@ -712,5 +712,5 @@ export const isCustomNodeSelected = (editor: Editor, node: HTMLElement) => {
     // TableOfContentsNode.name,
   ]
 
-  return customNodes.some(type => editor.isActive(type)) || isTableGripSelected(node)
+  return customNodes.some((type) => editor.isActive(type)) || isTableGripSelected(node)
 }

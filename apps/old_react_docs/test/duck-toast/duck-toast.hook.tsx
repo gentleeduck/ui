@@ -20,13 +20,13 @@ export function useSonner() {
   const [activeToasts, setActiveToasts] = React.useState<ToastT[]>([])
 
   React.useEffect(() => {
-    return ToastState.subscribe(toast => {
-      setActiveToasts(currentToasts => {
+    return ToastState.subscribe((toast) => {
+      setActiveToasts((currentToasts) => {
         if ('dismiss' in toast && toast.dismiss) {
-          return currentToasts.filter(t => t.id !== toast.id)
+          return currentToasts.filter((t) => t.id !== toast.id)
         }
 
-        const existingToastIndex = currentToasts.findIndex(t => t.id === toast.id)
+        const existingToastIndex = currentToasts.findIndex((t) => t.id === toast.id)
         if (existingToastIndex !== -1) {
           const updatedToasts = [...currentToasts]
           updatedToasts[existingToastIndex] = { ...updatedToasts[existingToastIndex], ...toast }

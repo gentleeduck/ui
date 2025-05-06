@@ -11,8 +11,8 @@ export const Column = Node.create({
     return {
       position: {
         default: '',
-        parseHTML: element => element.getAttribute('data-position'),
-        renderHTML: attributes => ({ 'data-position': attributes.position }),
+        parseHTML: (element) => element.getAttribute('data-position'),
+        renderHTML: (attributes) => ({ 'data-position': attributes.position }),
       },
     }
   },

@@ -1,9 +1,7 @@
 {
   "name": "sheet-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "sheet"
-  ],
+  "registryDependencies": ["sheet"],
   "root_folder": "sheet",
   "files": [
     {

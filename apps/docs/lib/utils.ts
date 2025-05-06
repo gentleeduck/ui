@@ -11,19 +11,11 @@ export function absoluteUrl(path: string) {
   return `${process.env.NEXT_PUBLIC_APP_URL}${path}`
 }
 
-export const filteredObject = <T extends Record<string, any>>(
-  keys: string[],
-  obj: T,
-): Partial<T> => {
-  return Object.fromEntries(
-    Object.entries(obj).filter(([key]) => !keys.includes(key)),
-  ) as Partial<T>
+export const filteredObject = <T extends Record<string, any>>(keys: string[], obj: T): Partial<T> => {
+  return Object.fromEntries(Object.entries(obj).filter(([key]) => !keys.includes(key))) as Partial<T>
 }
 
-export function groupDataByNumbers<T>(
-  strings: T[],
-  groupSizes: number[],
-): T[][] {
+export function groupDataByNumbers<T>(strings: T[], groupSizes: number[]): T[][] {
   const result: T[][] = []
   let index = 0
 

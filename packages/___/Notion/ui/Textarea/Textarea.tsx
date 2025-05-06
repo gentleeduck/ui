@@ -10,17 +10,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttrib
       'dark:hover:bg-white/20',
       'focus:bg-transparent active:bg-transparent focus:outline focus:outline-black active:outline active:outline-black',
       'dark:focus:outline-white dark:active:outline-white',
-      className
+      className,
     )
 
-    return (
-      <textarea
-        className={textAreaClassName}
-        ref={ref}
-        {...rest}
-      />
-    )
-  }
+    return <textarea className={textAreaClassName} ref={ref} {...rest} />
+  },
 )
 
 Textarea.displayName = 'Textarea'

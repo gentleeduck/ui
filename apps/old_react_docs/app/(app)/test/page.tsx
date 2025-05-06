@@ -7,9 +7,9 @@ import React from 'react'
 export default function index() {
   // <Upload1Demo />
   return (
-    <div className='w-fit container'>
-      <div className='flex items-center gap-2'>
-        <Button variant='outline' className='rounded-lg' icon={<Calendar />}>
+    <div className="w-fit container">
+      <div className="flex items-center gap-2">
+        <Button variant="outline" className="rounded-lg" icon={<Calendar />}>
           Meetings
         </Button>
       </div>

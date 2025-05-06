@@ -17,59 +17,63 @@ const EmojiList = forwardRef((props: EmojiListProps, ref) => {
         props.command({ name: item.name })
       }
     },
-    [props]
+    [props],
   )
 
-  useImperativeHandle(ref, () => {
-    const scrollIntoView = (index: number) => {
-      const item = props.items[index]
+  useImperativeHandle(
+    ref,
+    () => {
+      const scrollIntoView = (index: number) => {
+        const item = props.items[index]
 
-      if (item) {
-        const node = document.querySelector(`[data-emoji-name="${item.name}"]`)
+        if (item) {
+          const node = document.querySelector(`[data-emoji-name="${item.name}"]`)
 
-        if (node) {
-          node.scrollIntoView({ block: 'nearest' })
+          if (node) {
+            node.scrollIntoView({ block: 'nearest' })
+          }
         }
       }
-    }
 
-    const upHandler = () => {
-      const newIndex = (selectedIndex + props.items.length - 1) % props.items.length
-      setSelectedIndex(newIndex)
-      scrollIntoView(newIndex)
-    }
+      const upHandler = () => {
+        const newIndex = (selectedIndex + props.items.length - 1) % props.items.length
+        setSelectedIndex(newIndex)
+        scrollIntoView(newIndex)
+      }
 
-    const downHandler = () => {
-      const newIndex = (selectedIndex + 1) % props.items.length
-      setSelectedIndex(newIndex)
-      scrollIntoView(newIndex)
-    }
+      const downHandler = () => {
+        const newIndex = (selectedIndex + 1) % props.items.length
+        setSelectedIndex(newIndex)
+        scrollIntoView(newIndex)
+      }
 
-    const enterHandler = () => {
-      selectItem(selectedIndex)
-    }
+      const enterHandler = () => {
+        selectItem(selectedIndex)
+      }
 
-    return {
-      onKeyDown: ({ event }: { event: React.KeyboardEvent }) => {
-        if (event.key === 'ArrowUp') {
-          upHandler()
-          return true
-        }
+      return {
+        onKeyDown: ({ event }: { event: React.KeyboardEvent }) => {
+          if (event.key === 'ArrowUp') {
+            upHandler()
+            return true
+          }
 
-        if (event.key === 'ArrowDown') {
-          downHandler()
-          return true
-        }
+          if (event.key === 'ArrowDown') {
+            downHandler()
+            return true
+          }
 
-        if (event.key === 'Enter') {
-          enterHandler()
-          return true
-        }
+          if (event.key === 'Enter') {
+            enterHandler()
+            return true
+          }
 
-        return false
-      },
-    }
-  }, [props, selectedIndex, selectItem])
+          return false
+        },
+      }
+    },
+    [props, selectedIndex, selectItem],
+  )
 
   const createClickHandler = useCallback((index: number) => () => selectItem(index), [selectItem])
 
@@ -87,17 +91,8 @@ const EmojiList = forwardRef((props: EmojiListProps, ref) => {
           buttonSize="small"
           key={item.name}
           onClick={createClickHandler(index)}
-          data-emoji-name={item.name}
-        >
-          {item.fallbackImage ? (
-            <img
-              src={item.fallbackImage}
-              className="w-5 h-5"
-              alt="emoji"
-            />
-          ) : (
-            item.emoji
-          )}{' '}
+          data-emoji-name={item.name}>
+          {item.fallbackImage ? <img src={item.fallbackImage} className="w-5 h-5" alt="emoji" /> : item.emoji}{' '}
           <span className="truncate text-ellipsis">:{item.name}:</span>
         </Button>
       ))}

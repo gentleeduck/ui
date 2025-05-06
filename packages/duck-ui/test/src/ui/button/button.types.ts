@@ -21,9 +21,7 @@ export interface ButtonProps
 }
 
 export interface LabelType
-  extends Partial<
-      React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
-    >,
+  extends Partial<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>>,
     Partial<React.ComponentPropsWithoutRef<typeof Badge>>,
     Partial<React.ComponentPropsWithoutRef<typeof Tooltip>> {
   showCommand?: boolean

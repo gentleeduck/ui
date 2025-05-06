@@ -1,11 +1,4 @@
-import {
-  ArrowRightFromLine,
-  Calendar,
-  Cloudy,
-  Home,
-  Mail,
-  ServerCog,
-} from 'lucide-react'
+import { ArrowRightFromLine, Calendar, Cloudy, Home, Mail, ServerCog } from 'lucide-react'
 import { DuckSwitcher, Header, TooltipProvider } from '@/registry/default/ui'
 import { useAtom } from 'jotai'
 import { buttonVarieties } from '@/hooks/use-varieties'
@@ -56,13 +49,7 @@ export default function HeaderMainDemo() {
             position: 'side',
             className: 'border-r-border border-r-solid border-r justify-center',
           }}
-          logo={
-            <DuckSwitcher
-              isCollapsed={O}
-              accounts={emails}
-              className={cn('mx-2 mb-2', 0 && 'mx-auto')}
-            />
-          }
+          logo={<DuckSwitcher isCollapsed={O} accounts={emails} className={cn('mx-2 mb-2', 0 && 'mx-auto')} />}
           nav={{
             navigationKeys: data,
             nav: {
@@ -76,11 +63,7 @@ export default function HeaderMainDemo() {
               <Button
                 is_collapsed={O}
                 icon={{ children: ArrowRightFromLine }}
-                className={cn(
-                  'my-1 mx-2 justify-between',
-                  !O && 'w-[250px]',
-                  O && 'justify-center',
-                )}
+                className={cn('my-1 mx-2 justify-between', !O && 'w-[250px]', O && 'justify-center')}
                 title={'Collapse'}
                 variant={'secondary'}
                 size={O ? 'icon' : 'default'}

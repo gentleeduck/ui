@@ -8,9 +8,7 @@
   "exports": {
     ".": "./dist/index.js"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "tsdown",
     "lint": "biome lint",
@@ -18,11 +16,7 @@
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
   },
-  "keywords": [
-    "react",
-    "components",
-    "performance"
-  ],
+  "keywords": ["react", "components", "performance"],
   "author": "wilddcuk",
   "license": "MIT",
   "repository": {

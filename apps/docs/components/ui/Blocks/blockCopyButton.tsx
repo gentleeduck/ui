@@ -5,11 +5,7 @@ import { CheckIcon, ClipboardIcon } from 'lucide-react'
 
 import { Event, trackEvent } from '~/lib/events'
 import { cn } from '@gentleduck/libs/cn'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@gentleduck/registry-ui-duckui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
 
 export function BlockCopyButton({
@@ -35,12 +31,9 @@ export function BlockCopyButton({
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          size='icon'
-          variant='outline'
-          className={cn(
-            '[&_svg]-h-3.5 h-7 w-7 rounded-[6px] [&_svg]:w-3.5 flex place-content-center',
-            className,
-          )}
+          size="icon"
+          variant="outline"
+          className={cn('[&_svg]-h-3.5 h-7 w-7 rounded-[6px] [&_svg]:w-3.5 flex place-content-center', className)}
           onClick={() => {
             navigator.clipboard.writeText(code)
             trackEvent({
@@ -51,13 +44,12 @@ export function BlockCopyButton({
             })
             setHasCopied(true)
           }}
-          {...props}
-        >
-          <span className='sr-only'>Copy</span>
+          {...props}>
+          <span className="sr-only">Copy</span>
           {hasCopied ? <CheckIcon /> : <ClipboardIcon />}
         </Button>
       </TooltipTrigger>
-      <TooltipContent className='bg-black text-white'>Copy code</TooltipContent>
+      <TooltipContent className="bg-black text-white">Copy code</TooltipContent>
     </Tooltip>
   )
 }

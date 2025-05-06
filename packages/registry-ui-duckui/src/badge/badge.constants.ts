@@ -6,10 +6,8 @@ export const badgeVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/80',
-        secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        destructive:
-          'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        destructive: 'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground',
         warning: 'bg-warning/90 hover:bg-warning/70 text-warning-foreground',
         dashed:
           'border border-dashed border-input text-accent-foreground bg-background hover:bg-accent/50 hover:text-accent-foreground',
@@ -26,12 +24,9 @@ export const badgeVariants = cva(
       border: {
         default: '',
         primary: 'border border-border/40 hover:border-border/80',
-        secondary:
-          'border border-secondary/40 hover:border-secondary bg-secondary/40 hover:bg-secondary/65',
-        destructive:
-          'border border-destructive/40 hover:border-destructive bg-destructive/40 hover:bg-destructive/65',
-        warning:
-          'border border-warning/40 hover:border-warning bg-warning/40 hover:bg-warning/65',
+        secondary: 'border border-secondary/40 hover:border-secondary bg-secondary/40 hover:bg-secondary/65',
+        destructive: 'border border-destructive/40 hover:border-destructive bg-destructive/40 hover:bg-destructive/65',
+        warning: 'border border-warning/40 hover:border-warning bg-warning/40 hover:bg-warning/65',
       },
     },
     defaultVariants: {

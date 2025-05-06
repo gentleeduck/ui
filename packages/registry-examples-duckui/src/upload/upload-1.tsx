@@ -88,8 +88,7 @@ export default function Upload4Demo() {
       <UploadAdvancedProvider
         // attachments={attachments} // Pass generated attachments here
         actions={serverActions}
-        currentBucket="wildduck_attachments"
-      >
+        currentBucket="wildduck_attachments">
         <UploadAdvancedHeader />
         <UploadAdnvacedContent />
       </UploadAdvancedProvider>
@@ -98,7 +97,7 @@ export default function Upload4Demo() {
 }
 
 export const serverActions: UploadServerActions = {
-  getInitial: (async ctx => {
+  getInitial: (async (ctx) => {
     const { data } = await trpc.upload.getBucket.query({ bucket_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e' })
 
     if (!data) return {}
@@ -108,11 +107,11 @@ export const serverActions: UploadServerActions = {
     })
   }) as UploadServerActions['getInitial'],
 
-  upload: (async newAttachments => {
+  upload: (async (newAttachments) => {
     return await trpc.upload.insertFile.mutate(newAttachments[0]!)
   }) as UploadServerActions['upload'],
 
-  getFolder: (async _folder => {
+  getFolder: (async (_folder) => {
     const folder = await trpc.upload.getFolder.query({
       folder_id: _folder?.id ?? '',
       bucket_id: '0194e212-4f7a-7252-9636-a04fb2f5ea3e',
@@ -120,7 +119,7 @@ export const serverActions: UploadServerActions = {
     return folder
   }) as UploadServerActions['getFolder'],
 
-  insertFolder: (async _folder => {
+  insertFolder: (async (_folder) => {
     const folder = await trpc.upload.insertFolder.mutate(_folder)
     return folder
   }) as UploadServerActions['insertFolder'],

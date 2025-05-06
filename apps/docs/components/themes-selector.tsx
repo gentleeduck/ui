@@ -5,23 +5,13 @@ import * as React from 'react'
 
 import { cn } from '@gentleduck/libs/cn'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from '@gentleduck/registry-ui-duckui/toggle-group'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@gentleduck/registry-ui-duckui/tooltip'
+import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { useMediaQuery } from '~/hooks/use-media-query'
 import { useThemesConfig } from '~/hooks/use-themes-config'
 import { THEMES, Theme } from '~/lib/themes'
 
-export function ThemesSwitcher({
-  themes = THEMES,
-  className,
-}: React.ComponentProps<'div'> & { themes?: Theme[] }) {
+export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentProps<'div'> & { themes?: Theme[] }) {
   const { theme: mode } = useTheme()
   const [mounted, setMounted] = React.useState(false)
   const { themesConfig, setThemesConfig } = useThemesConfig()
@@ -38,14 +28,12 @@ export function ThemesSwitcher({
         className={cn(
           'flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1',
           className,
-        )}
-      >
+        )}>
         {themes.map((theme) => (
           <div
             key={theme.id}
-            className='flex h-10 w-10 items-center justify-center rounded-lg border-2 border-transparent'
-          >
-            <Skeleton className='h-6 w-6 rounded-xs' />
+            className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-transparent">
+            <Skeleton className="h-6 w-6 rounded-xs" />
           </div>
         ))}
       </div>
@@ -54,7 +42,7 @@ export function ThemesSwitcher({
 
   return (
     <ToggleGroup
-      type='single'
+      type="single"
       value={activeTheme.name}
       onValueChange={(value) => {
         const theme = themes.find((theme) => theme.name === value)
@@ -64,16 +52,11 @@ export function ThemesSwitcher({
 
         setThemesConfig({ ...themesConfig, activeTheme: theme })
       }}
-      className={cn(
-        'flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1',
-        className,
-      )}
-    >
+      className={cn('flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1', className)}>
       {themes.map((theme) => {
         const isActive = theme.name === activeTheme.name
         const isDarkTheme = ['Midnight'].includes(theme.name)
-        const cssVars =
-          mounted && mode === 'dark' ? theme.cssVars.dark : theme.cssVars.light
+        const cssVars = mounted && mode === 'dark' ? theme.cssVars.dark : theme.cssVars.light
 
         return (
           <Tooltip key={theme.name}>
@@ -92,28 +75,23 @@ export function ThemesSwitcher({
                     '--color-3': 'hsl(var(--chart-3))',
                     '--color-4': 'hsl(var(--chart-4))',
                   } as React.CSSProperties
-                }
-              >
-                <div className='h-6 w-6 overflow-hidden rounded-xs'>
+                }>
+                <div className="h-6 w-6 overflow-hidden rounded-xs">
                   <div
                     className={cn(
                       'grid h-12 w-12 -translate-x-1/4 -translate-y-1/4 grid-cols-2 overflow-hidden rounded-md transition-all ease-in-out group-hover:rotate-45',
                       isActive ? 'rotate-45 group-hover:rotate-0' : 'rotate-0',
-                    )}
-                  >
-                    <span className='flex h-6 w-6 bg-[--color-1]' />
-                    <span className='flex h-6 w-6 bg-[--color-2]' />
-                    <span className='flex h-6 w-6 bg-[--color-3]' />
-                    <span className='flex h-6 w-6 bg-[--color-4]' />
-                    <span className='sr-only'>{theme.name}</span>
+                    )}>
+                    <span className="flex h-6 w-6 bg-[--color-1]" />
+                    <span className="flex h-6 w-6 bg-[--color-2]" />
+                    <span className="flex h-6 w-6 bg-[--color-3]" />
+                    <span className="flex h-6 w-6 bg-[--color-4]" />
+                    <span className="sr-only">{theme.name}</span>
                   </div>
                 </div>
               </ToggleGroupItem>
             </TooltipTrigger>
-            <TooltipContent
-              side={isDesktop ? 'left' : 'top'}
-              className='bg-black text-white'
-            >
+            <TooltipContent side={isDesktop ? 'left' : 'top'} className="bg-black text-white">
               {theme.name}
             </TooltipContent>
           </Tooltip>

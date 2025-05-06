@@ -34,8 +34,8 @@ const FontSize = Mark.create({
     return {
       fontSize: {
         default: null,
-        parseHTML: element => element.style.fontSize.replace('px', ''),
-        renderHTML: attributes => {
+        parseHTML: (element) => element.style.fontSize.replace('px', ''),
+        renderHTML: (attributes) => {
           if (!attributes.fontSize) {
             return {}
           }
@@ -48,7 +48,7 @@ const FontSize = Mark.create({
   addCommands() {
     return {
       setFontSize:
-        fontSize =>
+        (fontSize) =>
         ({ commands }) => {
           return commands.setMark(this.name, { fontSize })
         },

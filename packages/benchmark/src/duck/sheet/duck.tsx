@@ -4,11 +4,11 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,SheetClose, SheetFooter 
-} from "@gentelduck/registry-ui-duckui/experimental/sheet"
-import { Button } from "@gentelduck/registry-ui-duckui/button"
-import { Label } from "@gentelduck/registry-ui-duckui/label"
-import { Input } from "@gentelduck/registry-ui-duckui/input"
+  SheetTrigger, SheetClose, SheetFooter
+} from "@gentleduck/registry-ui-duckui/experimental/sheet"
+import { Button } from "@gentleduck/registry-ui-duckui/button"
+import { Label } from "@gentleduck/registry-ui-duckui/label"
+import { Input } from "@gentleduck/registry-ui-duckui/input"
 
 
 export default function SheetDemo() {
@@ -43,16 +43,16 @@ export default function SheetDemo() {
             <Button type="submit">Save changes</Button>
           </SheetClose>
         </SheetFooter>
-      <SheetTrigger>Open</SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
-        </SheetHeader>
-      </SheetContent>
+        <SheetTrigger>Open</SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Are you absolutely sure?</SheetTitle>
+            <SheetDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
     </Sheet>
   )
 }

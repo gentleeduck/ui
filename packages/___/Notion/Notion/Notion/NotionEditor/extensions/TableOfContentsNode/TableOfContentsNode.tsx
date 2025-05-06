@@ -7,10 +7,7 @@ const TableOfNodeContent = (props: NodeViewRendererProps) => {
 
   return (
     <NodeViewWrapper>
-      <div
-        className="p-2 -m-2 rounded-lg"
-        contentEditable={false}
-      >
+      <div className="p-2 -m-2 rounded-lg" contentEditable={false}>
         {/* <TableOfContents editor={editor} /> */}
       </div>
     </NodeViewWrapper>

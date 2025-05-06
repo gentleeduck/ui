@@ -1,9 +1,7 @@
 {
   "name": "toggle-7",
   "type": "registry:example",
-  "registryDependencies": [
-    "toggle"
-  ],
+  "registryDependencies": ["toggle"],
   "root_folder": "toggle",
   "files": [
     {

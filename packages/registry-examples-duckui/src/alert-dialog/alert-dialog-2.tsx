@@ -5,11 +5,7 @@ import { Button } from '@/registry/registry-ui-components'
 import { AlertDialogDrawer } from '@/registry/registry-ui-components/alert-dialog'
 import { toast } from 'sonner'
 
-function generateRandomGoals(
-  count: number,
-  minGoal: number = 100,
-  maxGoal: number = 500,
-): { goal: number }[] {
+function generateRandomGoals(count: number, minGoal: number = 100, maxGoal: number = 500): { goal: number }[] {
   const goals: { goal: number }[] = []
   for (let i = 0; i < count; i++) {
     goals.push({
@@ -36,12 +32,7 @@ export default function AlertDialogDemo2() {
         _header: {
           _title: { children: <>warning your progress will be lost</> },
           _description: {
-            children: (
-              <>
-                by clicking continue, you will lose your progress, make sure you
-                want to continue.
-              </>
-            ),
+            children: <>by clicking continue, you will lose your progress, make sure you want to continue.</>,
           },
         },
         _footer: {
@@ -68,19 +59,12 @@ export default function AlertDialogDemo2() {
               role="button"
               type="submit"
               aria-description="asdfasdfasdf"
-              onClick={() => toast.success('Goal updated!')}
-            >
+              onClick={() => toast.success('Goal updated!')}>
               Submit
             </Button>
           ),
           _cancel: (
-            <Button
-              variant="outline"
-              arial-label="Submit"
-              role="button"
-              type="submit"
-              aria-description="asdfasdfasdf"
-            >
+            <Button variant="outline" arial-label="Submit" role="button" type="submit" aria-description="asdfasdfasdf">
               Cancel
             </Button>
           ),
@@ -90,10 +74,7 @@ export default function AlertDialogDemo2() {
   )
 }
 
-export const ContentComponent = ({
-  goal,
-  onClick,
-}: { goal: number; onClick: (adjustment: number) => void }) => {
+export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (adjustment: number) => void }) => {
   return (
     <div className="w-full h-[84vh] flex items-start justify-center pt-4 pb-2">
       <div className="p-4 pb-0">
@@ -103,34 +84,26 @@ export const ContentComponent = ({
             size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
             onClick={() => onClick(-10)}
-            disabled={goal <= 200}
-          >
+            disabled={goal <= 200}>
             <Minus className="h-4 w-4" />
             <span className="sr-only">Decrease</span>
           </Button>
           <div className="flex-1 text-center">
             <div className="text-7xl font-bold tracking-tighter">{goal}</div>
-            <div className="text-[0.70rem] uppercase text-muted-foreground">
-              Calories/day
-            </div>
+            <div className="text-[0.70rem] uppercase text-muted-foreground">Calories/day</div>
           </div>
           <Button
             variant="outline"
             size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
             onClick={() => onClick(10)}
-            disabled={goal >= 400}
-          >
+            disabled={goal >= 400}>
             <Plus className="h-4 w-4" />
             <span className="sr-only">Increase</span>
           </Button>
         </div>
         <div className="mt-3 h-[120px] w-full">
-          <ResponsiveContainer
-            width="100%"
-            height="100%"
-            className={'!w-[368px]'}
-          >
+          <ResponsiveContainer width="100%" height="100%" className={'!w-[368px]'}>
             <BarChart data={goals}>
               <Bar
                 dataKey="goal"

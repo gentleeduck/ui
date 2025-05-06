@@ -1,9 +1,7 @@
 {
   "name": "separator-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "separator"
-  ],
+  "registryDependencies": ["separator"],
   "root_folder": "separator",
   "files": [
     {

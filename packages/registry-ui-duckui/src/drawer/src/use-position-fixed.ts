@@ -28,9 +28,7 @@ export function usePositionFixed({
   preventScrollRestoration: boolean
   noBodyStyles: boolean
 }) {
-  const [activeUrl, setActiveUrl] = React.useState(() =>
-    typeof window !== 'undefined' ? window.location.href : '',
-  )
+  const [activeUrl, setActiveUrl] = React.useState(() => (typeof window !== 'undefined' ? window.location.href : ''))
   const scrollPos = React.useRef(0)
 
   const setPositionFixed = React.useCallback(() => {
@@ -79,8 +77,8 @@ export function usePositionFixed({
 
     if (previousBodyPosition !== null && !noBodyStyles) {
       // Convert the position from "px" to Int
-      const y = -parseInt(document.body.style.top, 10)
-      const x = -parseInt(document.body.style.left, 10)
+      const y = -Number.parseInt(document.body.style.top, 10)
+      const x = -Number.parseInt(document.body.style.left, 10)
 
       // Restore styles
       Object.assign(document.body.style, previousBodyPosition)
@@ -131,9 +129,7 @@ export function usePositionFixed({
     // This is needed to force Safari toolbar to show **before** the drawer starts animating to prevent a gnarly shift from happening
     if (isOpen) {
       // avoid for standalone mode (PWA)
-      const isStandalone = window.matchMedia(
-        '(display-mode: standalone)',
-      ).matches
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches
       !isStandalone && setPositionFixed()
 
       if (!modal) {
@@ -144,15 +140,7 @@ export function usePositionFixed({
     } else {
       restorePositionSetting()
     }
-  }, [
-    isOpen,
-    hasBeenOpened,
-    activeUrl,
-    modal,
-    nested,
-    setPositionFixed,
-    restorePositionSetting,
-  ])
+  }, [isOpen, hasBeenOpened, activeUrl, modal, nested, setPositionFixed, restorePositionSetting])
 
   return { restorePositionSetting }
 }

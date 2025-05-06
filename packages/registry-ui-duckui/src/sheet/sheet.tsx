@@ -26,15 +26,10 @@ export function useSheetContext() {
 
 function Sheet({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false)
-  return (
-    <SheetContext.Provider value={{ open, setOpen }}>
-      {children}
-    </SheetContext.Provider>
-  )
+  return <SheetContext.Provider value={{ open, setOpen }}>{children}</SheetContext.Provider>
 }
 
-export interface SheetTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof Button> { }
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof Button> {}
 
 function SheetTrigger({ onClick, ...props }: SheetTriggerProps) {
   const { setOpen } = useSheetContext()
@@ -53,8 +48,7 @@ function SheetTrigger({ onClick, ...props }: SheetTriggerProps) {
  * A component that provides a close button for the Sheet component.
  * This is a wrapper around the `SheetPrimitive.Close` component.
  */
-export interface SheetCloseProps
-  extends React.ComponentPropsWithoutRef<typeof Button> { }
+export interface SheetCloseProps extends React.ComponentPropsWithoutRef<typeof Button> {}
 function SheetClose({ onClick, ...props }: SheetCloseProps) {
   const { setOpen } = useSheetContext()
   return (
@@ -84,7 +78,7 @@ function SheetClose({ onClick, ...props }: SheetCloseProps) {
  *
  * @returns {React.JSX.Element} The rendered overlay component.
  */
-export interface SheetOverlayProps extends React.HTMLProps<HTMLDivElement> { }
+export interface SheetOverlayProps extends React.HTMLProps<HTMLDivElement> {}
 const SheetOverlay = ({ className, ref, ...props }: SheetOverlayProps) => (
   <div
     ref={ref}
@@ -109,13 +103,7 @@ const SheetOverlay = ({ className, ref, ...props }: SheetOverlayProps) => (
  * @returns {React.JSX.Element} The rendered sheet content.
  */
 
-const SheetContent = ({
-  className,
-  children,
-  side = 'right',
-  ref,
-  ...props
-}: SheetContentProps): React.JSX.Element => {
+const SheetContent = ({ className, children, side = 'right', ref, ...props }: SheetContentProps): React.JSX.Element => {
   const { open, setOpen } = useSheetContext()
   const [shouldrender, setShouldRender] = React.useState<boolean>(false)
 
@@ -130,22 +118,17 @@ const SheetContent = ({
 
   return (
     <>
-      <SheetOverlay
-        onClick={() => setOpen(false)}
-        data-state={open ? 'open' : 'closed'}
-      />
+      <SheetOverlay onClick={() => setOpen(false)} data-state={open ? 'open' : 'closed'} />
       <div
         ref={ref}
         data-state={open ? 'open' : 'closed'}
         className={cn(sheetVariants({ side: 'right' }), className)}
-        {...props}
-      >
+        {...props}>
         {shouldrender && children}
         <button
-          aria-label='close'
-          className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition'
-        >
-          <X aria-hidden onClick={() => setOpen(false)} className='size-4' />
+          aria-label="close"
+          className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 hover:opacity-100 transition">
+          <X aria-hidden onClick={() => setOpen(false)} className="size-4" />
         </button>
       </div>
     </>
@@ -165,21 +148,8 @@ const SheetContent = ({
  *
  * @returns {React.JSX.Element} The rendered SheetHeader component.
  */
-function SheetHeader({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        'flex flex-col space-y-2 text-center sm:text-left',
-        className,
-      )}
-      {...props}
-    />
-  )
+function SheetHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+  return <div ref={ref} className={cn('flex flex-col space-y-2 text-center sm:text-left', className)} {...props} />
 }
 
 /**
@@ -195,18 +165,11 @@ function SheetHeader({
  *
  * @returns {React.JSX.Element} The rendered SheetFooter component.
  */
-function SheetFooter({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+function SheetFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       ref={ref}
-      className={cn(
-        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-        className,
-      )}
+      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
       {...props}
     />
   )
@@ -223,16 +186,8 @@ function SheetFooter({
  *
  * @returns {React.JSX.Element} The rendered `SheetTitle` component with forwarded ref and applied class names.
  */
-const SheetTitle = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element => (
-  <h2
-    ref={ref}
-    className={cn('text-lg font-semibold text-foreground', className)}
-    {...props}
-  />
+const SheetTitle = ({ className, ref, ...props }: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element => (
+  <h2 ref={ref} className={cn('text-lg font-semibold text-foreground', className)} {...props} />
 )
 
 /**
@@ -246,16 +201,8 @@ const SheetTitle = ({
  *
  * @returns {React.JSX.Element} A `SheetDescription` component with forwarded ref and additional props.
  */
-const SheetDescription = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-  <p
-    ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
-    {...props}
-  />
+const SheetDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
+  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 )
 
 /**
@@ -265,44 +212,21 @@ const SheetDescription = ({
  * @param {SheetWrapperProps} props - The properties passed to the component.
  * @returns {React.JSX.Element} The rendered `Drawer` or `Sheet` component.
  */
-function SheetWrapper({
-  trigger,
-  content,
-  duckHook,
-  ...props
-}: SheetWrapperProps): React.JSX.Element {
-  const {
-    className: subContentClassName,
-    children: subcontentChildren,
-    _header,
-    _footer,
-    ...subContentProps
-  } = content
+function SheetWrapper({ trigger, content, duckHook, ...props }: SheetWrapperProps): React.JSX.Element {
+  const { className: subContentClassName, children: subcontentChildren, _header, _footer, ...subContentProps } = content
   const {
     className: subHeaderClassName,
     _description: subDescription,
     _title: subTitle,
     ...subHeaderProps
   } = _header ?? {}
-  const {
-    className: subFooterClassName,
-    _submit: _subSubmit,
-    _cancel: _subCancel,
-    ...subFooterProps
-  } = _footer ?? {}
+  const { className: subFooterClassName, _submit: _subSubmit, _cancel: _subCancel, ...subFooterProps } = _footer ?? {}
 
   return (
-    <Sheet
-      open={duckHook?.state.shape}
-      onOpenChange={duckHook?.handleOpenChange}
-      {...props}
-    >
+    <Sheet open={duckHook?.state.shape} onOpenChange={duckHook?.handleOpenChange} {...props}>
       <SheetTrigger {...trigger} />
-      <SheetContent
-        className={cn('flex flex-col w-full h-full', subContentClassName)}
-        {...subContentProps}
-      >
-        <div data-role-wrapper className='flex flex-col gap-4 w-full h-full'>
+      <SheetContent className={cn('flex flex-col w-full h-full', subContentClassName)} {...subContentProps}>
+        <div data-role-wrapper className="flex flex-col gap-4 w-full h-full">
           {_header && (
             <SheetHeader {...subHeaderProps}>
               {subHeaderProps.children ? (
@@ -316,10 +240,7 @@ function SheetWrapper({
             </SheetHeader>
           )}
           {subcontentChildren}
-          <SheetFooter
-            className={cn('gap-2', subFooterClassName)}
-            {...subFooterProps}
-          >
+          <SheetFooter className={cn('gap-2', subFooterClassName)} {...subFooterProps}>
             <SheetClose asChild {..._subCancel} />
             <div
               {..._subSubmit}

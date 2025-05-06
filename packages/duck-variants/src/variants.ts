@@ -18,9 +18,9 @@ import { ClassValue, CvaProps, VariantsOptions } from './variants.types'
  * // => "className:mt-4|intent:primary|size:[sm,md]"
  * ```
  */
-function getCacheKey<
-  TVariants extends Record<string, Record<string, string | string[]>>,
->(props: CvaProps<TVariants>): string {
+function getCacheKey<TVariants extends Record<string, Record<string, string | string[]>>>(
+  props: CvaProps<TVariants>,
+): string {
   const entries = Object.entries(props) as [string, ClassValue][]
 
   let key = ''
@@ -67,11 +67,7 @@ function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
   if (input === undefined || input === null) return
 
   // primitive values
-  if (
-    typeof input === 'string' ||
-    typeof input === 'number' ||
-    typeof input === 'boolean'
-  ) {
+  if (typeof input === 'string' || typeof input === 'number' || typeof input === 'boolean') {
     const parts = String(input).split(/\s+/)
     // biome-ignore lint/style/useForOf: <explanation>
     for (let i = 0; i < parts.length; i++) {
@@ -144,31 +140,19 @@ function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
  * // => 'btn px-4 py-2 bg-blue-500 text-white text-lg uppercase mt-4 shadow'
  * ```
  */
-export function cva<
-  TVariants extends Record<string, Record<string, string | string[]>>,
->(
+export function cva<TVariants extends Record<string, Record<string, string | string[]>>>(
   baseOrOptions: string | (VariantsOptions<TVariants> & { base?: string }),
   maybeOptions?: VariantsOptions<TVariants>,
 ): (props?: CvaProps<TVariants>) => string {
   // Normalize the two possible call signatures
-  const config =
-    typeof baseOrOptions === 'string'
-      ? { base: baseOrOptions, ...maybeOptions! }
-      : baseOrOptions
+  const config = typeof baseOrOptions === 'string' ? { base: baseOrOptions, ...maybeOptions! } : baseOrOptions
 
-  const {
-    base = '',
-    variants,
-    defaultVariants = {},
-    compoundVariants = [],
-  } = config
+  const { base = '', variants, defaultVariants = {}, compoundVariants = [] } = config
 
   // Memoization cache keyed by serialized props
   const cache = new Map<string, string>()
 
-  return function (
-    props: CvaProps<TVariants> = {} as CvaProps<TVariants>,
-  ): string {
+  return function (props: CvaProps<TVariants> = {} as CvaProps<TVariants>): string {
     // 1) Memo lookup
     const cacheKey = getCacheKey(props)
     const memo = cache.get(cacheKey)
@@ -181,10 +165,7 @@ export function cva<
     flattenClasses(base, tokens)
 
     // 3) Merge defaults + incoming props
-    const merged = { ...defaultVariants, ...props } as Record<
-      keyof TVariants,
-      ClassValue
-    >
+    const merged = { ...defaultVariants, ...props } as Record<keyof TVariants, ClassValue>
 
     // 4) Apply variant-specific classes
     for (const variantName in variants) {

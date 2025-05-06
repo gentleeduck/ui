@@ -6,18 +6,9 @@ import { BORDER_RADIUS, TRANSITIONS, WINDOW_TOP_OFFSET } from './constants'
 const noop = () => () => {}
 
 export function useScaleBackground() {
-  const {
-    direction,
-    isOpen,
-    shouldScaleBackground,
-    setBackgroundColorOnScale,
-    noBodyStyles,
-  } = useDrawerContext()
+  const { direction, isOpen, shouldScaleBackground, setBackgroundColorOnScale, noBodyStyles } = useDrawerContext()
   const timeoutIdRef = React.useRef<number | null>(null)
-  const initialBackgroundColor = useMemo(
-    () => document.body.style.backgroundColor,
-    [],
-  )
+  const initialBackgroundColor = useMemo(() => document.body.style.backgroundColor, [])
 
   function getScale() {
     return (window.innerWidth - WINDOW_TOP_OFFSET) / window.innerWidth
@@ -33,9 +24,7 @@ export function useScaleBackground() {
       if (!wrapper) return
 
       chain(
-        setBackgroundColorOnScale && !noBodyStyles
-          ? assignStyle(document.body, { background: 'black' })
-          : noop,
+        setBackgroundColorOnScale && !noBodyStyles ? assignStyle(document.body, { background: 'black' }) : noop,
         assignStyle(wrapper, {
           transformOrigin: isVertical(direction) ? 'top' : 'left',
           transitionProperty: 'transform, border-radius',

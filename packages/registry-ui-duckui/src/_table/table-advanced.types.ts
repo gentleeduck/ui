@@ -10,22 +10,17 @@ import { TableBody } from './table'
 // NOTE:  These types are used for the `table-advanced` context.
 // ------------------------------------------------------------------------------------------------
 
-export interface DuckTableProviderProps<TColumnName extends string[]>
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface DuckTableProviderProps<TColumnName extends string[]> extends React.HTMLAttributes<HTMLDivElement> {
   table_columns: readonly TableColumnType[]
   table_rows: TableContentDataType<TColumnName>[]
 }
 
 export type DuckTableContextType<TColumnName extends string[]> = {
   tableColumns: Map<string, TableColumnType>
-  setTableColumns: React.Dispatch<
-    React.SetStateAction<Map<string, TableColumnType>>
-  >
+  setTableColumns: React.Dispatch<React.SetStateAction<Map<string, TableColumnType>>>
   tableRows: TableContentDataType<TColumnName>[]
   selectedRows: Set<TableContentDataType<TColumnName>>
-  setSelectedRows: React.Dispatch<
-    React.SetStateAction<Set<TableContentDataType<TColumnName>>>
-  >
+  setSelectedRows: React.Dispatch<React.SetStateAction<Set<TableContentDataType<TColumnName>>>>
   search: TableSearchStateType
   setSearch: React.Dispatch<React.SetStateAction<TableSearchStateType>>
 }
@@ -47,8 +42,7 @@ export interface TableSearchStateType {
 /**
  * Interface for the `DuckTable` component
  */
-export interface DuckTableProps
-  extends React.ComponentPropsWithoutRef<typeof Table> {
+export interface DuckTableProps extends React.ComponentPropsWithoutRef<typeof Table> {
   wrapper?: React.ComponentPropsWithoutRef<typeof ScrollArea>
 }
 
@@ -60,23 +54,20 @@ export interface DuckTableHeaderProps {}
 /**
  * Interface for the `DuckTableHeadCheckbox` component
  */
-export interface DuckTableHeadCheckboxProps
-  extends React.HTMLProps<HTMLDivElement> {}
+export interface DuckTableHeadCheckboxProps extends React.HTMLProps<HTMLDivElement> {}
 
 /**
  * Interface for the `DuckTableRowCheckbox` component
  */
-export interface DuckTableRowCheckboxProps<
-  TColumnName extends readonly TableColumnType[],
-> extends React.HTMLProps<HTMLDivElement> {
+export interface DuckTableRowCheckboxProps<TColumnName extends readonly TableColumnType[]>
+  extends React.HTMLProps<HTMLDivElement> {
   tableRow: TableContentDataType<GetColumnLabel<TColumnName>>
 }
 
 /**
  * Interface for the `DuckTableHeadSelectable` component
  */
-export interface DuckTableHeadSelectableProps<TSort extends boolean = true>
-  extends React.HTMLProps<HTMLDivElement> {
+export interface DuckTableHeadSelectableProps<TSort extends boolean = true> extends React.HTMLProps<HTMLDivElement> {
   column: TableColumnType<TSort>
   label: string
   showLabel?: boolean | undefined
@@ -85,8 +76,7 @@ export interface DuckTableHeadSelectableProps<TSort extends boolean = true>
 /**
  * Interface for the `DuckTableBody` component
  */
-export interface DuckTableBodyProps
-  extends React.ComponentPropsWithoutRef<typeof TableBody> {}
+export interface DuckTableBodyProps extends React.ComponentPropsWithoutRef<typeof TableBody> {}
 
 // ------------------------------------------------------------------------------------------------
 // NOTE:  These types are used for the `table-advanced, hence i use them to get the types.
@@ -230,14 +220,13 @@ export type Mapped<T> = {
 // NOTE:  These types are used for the `table-advanced, constants.
 // ------------------------------------------------------------------------------------------------
 
-export type TableColumnSortableType = React.ComponentPropsWithoutRef<
-  typeof Button
-> & { children: React.HTMLProps<HTMLDivElement>['aria-sort'] }
+export type TableColumnSortableType = React.ComponentPropsWithoutRef<typeof Button> & {
+  children: React.HTMLProps<HTMLDivElement>['aria-sort']
+}
 
 // ------------------------------------------------------------------------------------------------
 
-export interface TableColumnType<TSort extends boolean = true>
-  extends Partial<React.HTMLProps<HTMLTableCellElement>> {
+export interface TableColumnType<TSort extends boolean = true> extends Partial<React.HTMLProps<HTMLTableCellElement>> {
   label: string
   sortable?: boolean
   showLabel?: boolean
@@ -275,8 +264,7 @@ export interface TableSelectionStateType {
   rowSelected: Record<string, unknown>[]
 }
 
-export type ColumnsViewedStateType<T extends Record<string, unknown>> =
-  TableColumnType<T> | null
+export type ColumnsViewedStateType<T extends Record<string, unknown>> = TableColumnType<T> | null
 
 export type OrderStateType = {
   orderBy: string

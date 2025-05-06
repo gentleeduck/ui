@@ -35,27 +35,27 @@ export const TableCell = Node.create<TableCellOptions>({
     return {
       colspan: {
         default: 1,
-        parseHTML: element => {
+        parseHTML: (element) => {
           const colspan = element.getAttribute('colspan')
-          const value = colspan ? parseInt(colspan, 10) : 1
+          const value = colspan ? Number.parseInt(colspan, 10) : 1
 
           return value
         },
       },
       rowspan: {
         default: 1,
-        parseHTML: element => {
+        parseHTML: (element) => {
           const rowspan = element.getAttribute('rowspan')
-          const value = rowspan ? parseInt(rowspan, 10) : 1
+          const value = rowspan ? Number.parseInt(rowspan, 10) : 1
 
           return value
         },
       },
       colwidth: {
         default: null,
-        parseHTML: element => {
+        parseHTML: (element) => {
           const colwidth = element.getAttribute('colwidth')
-          const value = colwidth ? [parseInt(colwidth, 10)] : null
+          const value = colwidth ? [Number.parseInt(colwidth, 10)] : null
 
           return value
         },
@@ -72,7 +72,7 @@ export const TableCell = Node.create<TableCellOptions>({
     return [
       new Plugin({
         props: {
-          decorations: state => {
+          decorations: (state) => {
             if (!isEditable) {
               return DecorationSet.empty
             }
@@ -103,7 +103,7 @@ export const TableCell = Node.create<TableCellOptions>({
                     const grip = document.createElement('a')
 
                     grip.className = className
-                    grip.addEventListener('mousedown', event => {
+                    grip.addEventListener('mousedown', (event) => {
                       event.preventDefault()
                       event.stopImmediatePropagation()
 
@@ -111,7 +111,7 @@ export const TableCell = Node.create<TableCellOptions>({
                     })
 
                     return grip
-                  })
+                  }),
                 )
               })
             }

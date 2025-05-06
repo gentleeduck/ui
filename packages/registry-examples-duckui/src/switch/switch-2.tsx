@@ -5,14 +5,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@gentleduck/registry-ui-duckui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@gentleduck/registry-ui-duckui/form'
 import { Switch } from '@gentleduck/registry-ui-duckui/switch'
 import { toast } from 'sonner'
 
@@ -32,11 +25,9 @@ export default function SwitchForm() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.info(
       <div>
-        <h4 className='text-lg font-medium'>
-          You submitted the following values:
-        </h4>
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
+        <h4 className="text-lg font-medium">You submitted the following values:</h4>
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       </div>,
     )
@@ -44,55 +35,43 @@ export default function SwitchForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full space-y-6'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
         <div>
-          <h3 className='mb-4 text-lg font-medium'>Email Notifications</h3>
-          <div className='space-y-4'>
+          <h3 className="mb-4 text-lg font-medium">Email Notifications</h3>
+          <div className="space-y-4">
             <FormField
               control={form.control}
-              name='marketing_emails'
+              name="marketing_emails"
               render={({ field }) => (
-                <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
-                  <div className='space-y-0.5'>
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                  <div className="space-y-0.5">
                     <FormLabel>Marketing emails</FormLabel>
-                    <FormDescription>
-                      Receive emails about new products, features, and more.
-                    </FormDescription>
+                    <FormDescription>Receive emails about new products, features, and more.</FormDescription>
                   </div>
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name='security_emails'
+              name="security_emails"
               render={({ field }) => (
-                <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
-                  <div className='space-y-0.5'>
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                  <div className="space-y-0.5">
                     <FormLabel>Security emails</FormLabel>
-                    <FormDescription>
-                      Receive emails about your account security.
-                    </FormDescription>
+                    <FormDescription>Receive emails about your account security.</FormDescription>
                   </div>
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      disabled
-                      aria-readonly
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} disabled aria-readonly />
                   </FormControl>
                 </FormItem>
               )}
             />
           </div>
         </div>
-        <Button type='submit'>Submit</Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   )

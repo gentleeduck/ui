@@ -8,8 +8,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@gentelduck/registry-ui-duckui/experimental/alert-dialog"
-import { Button } from "@gentelduck/registry-ui-duckui/button"
+} from '@gentleduck/registry-ui-duckui/experimental/alert-dialog'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 export default function AlertDialogDemo() {
   return (
@@ -21,8 +21,8 @@ export default function AlertDialogDemo() {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This action cannot be undone. This will permanently delete your account and remove your data from our
+            servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

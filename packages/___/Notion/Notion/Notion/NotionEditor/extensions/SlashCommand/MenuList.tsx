@@ -23,7 +23,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
       const command = props.items[groupIndex].commands[commandIndex]
       props.command(command)
     },
-    [props]
+    [props],
   )
 
   React.useImperativeHandle(ref, () => ({
@@ -106,7 +106,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
         selectItem(groupIndex, commandIndex)
       }
     },
-    [selectItem]
+    [selectItem],
   )
 
   if (!props.items.length) {
@@ -116,27 +116,21 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
   return (
     <ScrollArea
       ref={scrollContainer}
-      className="h-[min(80vh,24rem)] border-solid border-border border p-2 rounded-lg bg-background"
-    >
+      className="h-[min(80vh,24rem)] border-solid border-border border p-2 rounded-lg bg-background">
       <div className="grid grid-cols-1 gap-0.5">
         {props.items.map((group, groupIndex: number) => (
           <React.Fragment key={`${group.title}-wrapper`}>
             <div
               className="text-neutral-500 text-[0.65rem] col-[1/-1] mx-2 mt-4 font-semibold tracking-wider select-none uppercase first:mt-0.5"
-              key={`${group.title}`}
-            >
+              key={`${group.title}`}>
               {group.title}
             </div>
             {group.commands.map((command: Command, commandIndex: number) => (
               <DropdownButton
                 key={`${command.label}`}
                 isActive={selectedGroupIndex === groupIndex && selectedCommandIndex === commandIndex}
-                onClick={createCommandClickHandler(groupIndex, commandIndex)}
-              >
-                <Icon
-                  name={command.iconName}
-                  className="mr-1"
-                />
+                onClick={createCommandClickHandler(groupIndex, commandIndex)}>
+                <Icon name={command.iconName} className="mr-1" />
                 {command.label}
               </DropdownButton>
             ))}

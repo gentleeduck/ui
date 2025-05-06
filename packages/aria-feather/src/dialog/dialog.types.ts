@@ -10,7 +10,6 @@ export type DialogProps = {
   onOpenChange?: (open: boolean) => void
 }
 
-
 export interface UseDrawerDragProps {
   ref: React.RefObject<HTMLDialogElement>
   onOpenChange?: (open: boolean) => void

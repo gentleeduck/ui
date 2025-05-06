@@ -8,11 +8,10 @@ export default function Button10Demo() {
       <Button
         loading={true}
         icon={<Inbox />}
-        aria-label='Loading inbox button'
-        aria-busy='true'
-        type='button'
-        role='button'
-      >
+        aria-label="Loading inbox button"
+        aria-busy="true"
+        type="button"
+        role="button">
         <span>Button</span>
       </Button>
     </>

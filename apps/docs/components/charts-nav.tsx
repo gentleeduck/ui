@@ -36,32 +36,21 @@ const links = [
   },
 ]
 
-export function ChartsNav({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
+export function ChartsNav({ className, ...props }: React.ComponentProps<'div'>) {
   const pathname = usePathname()
 
   return (
-    <div
-      className={cn(
-        'flex items-center max-w-[600px] lg:max-w-none hide-scroll',
-        className,
-      )}
-      {...props}
-    >
+    <div className={cn('flex items-center max-w-[600px] lg:max-w-none hide-scroll', className)} {...props}>
       {links.map((example, index) => (
         <Link
           href={example.href}
           key={example.href}
           className={cn(
             'flex h-7 shrink-0 items-center justify-center rounded-full px-4 text-center text-sm transition-colors hover:text-primary',
-            pathname?.startsWith(example.href) ||
-              (index === 0 && pathname === '/')
+            pathname?.startsWith(example.href) || (index === 0 && pathname === '/')
               ? 'bg-muted font-medium text-primary'
               : 'text-muted-foreground',
-          )}
-        >
+          )}>
           {example.name}
         </Link>
       ))}

@@ -57,19 +57,18 @@ function Button({
           className,
         }),
       )}
-      disabled={loading}
-    >
-      <div className='flex items-center gap-2'>
+      disabled={loading}>
+      <div className="flex items-center gap-2">
         {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
-          <div className='w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100'>
+          <div className="w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100">
             {animationIcon?.icon}
           </div>
         )}
-        {!loading ? icon : <Loader className='animate-spin' />}
+        {loading ? <Loader className="animate-spin" /> : icon}
         {!isCollapsed && size !== 'icon' && children}
         {!isCollapsed && secondIcon && secondIcon}
         {animationIcon?.icon && animationIcon.iconPlacement === 'right' && (
-          <div className='w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100'>
+          <div className="w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
             {animationIcon?.icon}
           </div>
         )}
@@ -91,10 +90,7 @@ function Button({
  *
  * @returns {React.JSX.Element} The rendered element with the passed props.
  */
-function Slot({
-  children,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+function Slot({ children, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   if (!React.isValidElement(children)) {
     return <div {...props}>{children}</div>
   }

@@ -44,9 +44,7 @@ export type AlertDialogWrapperType = {
      */
     _header?: React.ComponentPropsWithoutRef<typeof AlertDialogHeader> & {
       _title?: React.ComponentPropsWithoutRef<typeof AlertDialogTitle>
-      _description?: React.ComponentPropsWithoutRef<
-        typeof AlertDialogDescription
-      >
+      _description?: React.ComponentPropsWithoutRef<typeof AlertDialogDescription>
     }
     _footer?: React.ComponentPropsWithoutRef<typeof AlertDialogFooter> & {
       _cancel?: React.ComponentPropsWithoutRef<typeof AlertDialogCancel>

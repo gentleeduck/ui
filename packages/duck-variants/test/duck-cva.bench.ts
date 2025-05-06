@@ -9,19 +9,12 @@ const buttonWithoutBaseWithDefaultsWithClassNameString = {
   variants: {
     intent: {
       unset: null,
-      primary:
-        'button--primary bg-blue-500 text-white border-transparent hover:bg-blue-600',
-      secondary:
-        'button--secondary bg-white text-gray-800 border-gray-400 hover:bg-gray-100',
-      warning:
-        'button--warning bg-yellow-500 border-transparent hover:bg-yellow-600',
+      primary: 'button--primary bg-blue-500 text-white border-transparent hover:bg-blue-600',
+      secondary: 'button--secondary bg-white text-gray-800 border-gray-400 hover:bg-gray-100',
+      warning: 'button--warning bg-yellow-500 border-transparent hover:bg-yellow-600',
       danger: [
         'button--danger',
-        [
-          1 && 'bg-red-500',
-          { baz: false, bat: null },
-          ['text-white', ['border-transparent']],
-        ],
+        [1 && 'bg-red-500', { baz: false, bat: null }, ['text-white', ['border-transparent']]],
         'hover:bg-red-600',
       ],
     },
@@ -56,10 +49,7 @@ const buttonWithoutBaseWithDefaultsWithClassNameString = {
     {
       intent: 'warning',
       disabled: true,
-      className: [
-        'button--warning-disabled',
-        [1 && 'text-black', { baz: false, bat: null }],
-      ],
+      className: ['button--warning-disabled', [1 && 'text-black', { baz: false, bat: null }]],
     },
     {
       intent: ['warning', 'danger'],
@@ -79,18 +69,11 @@ const buttonWithoutBaseWithDefaultsWithClassNameString = {
   },
 } as any
 
-const buttonVariants = DuckCva(
-  '',
-  buttonWithoutBaseWithDefaultsWithClassNameString,
-)
+const buttonVariants = DuckCva('', buttonWithoutBaseWithDefaultsWithClassNameString)
 
-const _buttonVariants = cva(
-  buttonWithoutBaseWithDefaultsWithClassNameString,
-)
+const _buttonVariants = cva(buttonWithoutBaseWithDefaultsWithClassNameString)
 
-const __buttonVariants = CvaPrefPullRequest(
-  buttonWithoutBaseWithDefaultsWithClassNameString,
-)
+const __buttonVariants = CvaPrefPullRequest(buttonWithoutBaseWithDefaultsWithClassNameString)
 
 describe.skip('benchmarking cva', () => {
   bench('duck cva', () => {

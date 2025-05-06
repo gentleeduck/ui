@@ -4,11 +4,7 @@ import { Minus, Plus } from 'lucide-react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { DrawerWrapper } from '@gentleduck/registry-ui-duckui/drawer'
 
-function generateRandomGoals(
-  count: number,
-  minGoal: number = 100,
-  maxGoal: number = 500,
-): { goal: number }[] {
+function generateRandomGoals(count: number, minGoal: number = 100, maxGoal: number = 500): { goal: number }[] {
   const goals: { goal: number }[] = []
   for (let i = 0; i < count; i++) {
     goals.push({
@@ -34,7 +30,7 @@ export default function DrawerDemo7() {
       open={open}
       trigger={{
         children: (
-          <Button onClick={() => setOpen(true)} variant='outline'>
+          <Button onClick={() => setOpen(true)} variant="outline">
             Open New Drawer
           </Button>
         ),
@@ -50,11 +46,7 @@ export default function DrawerDemo7() {
           className: 'flex-row',
           _submit: {
             children: (
-              <Button
-                variant='default'
-                className='w-full'
-                onClick={() => setOpen(false)}
-              >
+              <Button variant="default" className="w-full" onClick={() => setOpen(false)}>
                 Close Drawer
               </Button>
             ),
@@ -65,50 +57,39 @@ export default function DrawerDemo7() {
   )
 }
 
-export const ContentComponent = ({
-  goal,
-  onClick,
-}: { goal: number; onClick: (adjustment: number) => void }) => {
+export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (adjustment: number) => void }) => {
   return (
-    <div className='w-full flex items-start justify-center pt-4 pb-2'>
-      <div className='p-4 pb-0'>
-        <div className='flex items-center justify-center space-x-2'>
+    <div className="w-full flex items-start justify-center pt-4 pb-2">
+      <div className="p-4 pb-0">
+        <div className="flex items-center justify-center space-x-2">
           <Button
-            variant='outline'
-            size='icon'
-            className='h-8 w-8 shrink-0 rounded-full'
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 shrink-0 rounded-full"
             onClick={() => onClick(-10)}
-            disabled={goal <= 200}
-          >
-            <Minus className='h-4 w-4' />
-            <span className='sr-only'>Decrease</span>
+            disabled={goal <= 200}>
+            <Minus className="h-4 w-4" />
+            <span className="sr-only">Decrease</span>
           </Button>
-          <div className='flex-1 text-center'>
-            <div className='text-7xl font-bold tracking-tighter'>{goal}</div>
-            <div className='text-[0.70rem] uppercase text-muted-foreground'>
-              Calories/day
-            </div>
+          <div className="flex-1 text-center">
+            <div className="text-7xl font-bold tracking-tighter">{goal}</div>
+            <div className="text-[0.70rem] uppercase text-muted-foreground">Calories/day</div>
           </div>
           <Button
-            variant='outline'
-            size='icon'
-            className='h-8 w-8 shrink-0 rounded-full'
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 shrink-0 rounded-full"
             onClick={() => onClick(10)}
-            disabled={goal >= 400}
-          >
-            <Plus className='h-4 w-4' />
-            <span className='sr-only'>Increase</span>
+            disabled={goal >= 400}>
+            <Plus className="h-4 w-4" />
+            <span className="sr-only">Increase</span>
           </Button>
         </div>
-        <div className='mt-3 h-[120px] w-full'>
-          <ResponsiveContainer
-            width='100%'
-            height='100%'
-            className={'!w-[368px]'}
-          >
+        <div className="mt-3 h-[120px] w-full">
+          <ResponsiveContainer width="100%" height="100%" className={'!w-[368px]'}>
             <BarChart data={goals}>
               <Bar
-                dataKey='goal'
+                dataKey="goal"
                 style={
                   {
                     width: '50px',

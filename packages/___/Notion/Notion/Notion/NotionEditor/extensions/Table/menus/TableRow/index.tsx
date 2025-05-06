@@ -16,7 +16,7 @@ export const TableRowMenu = React.memo(({ editor, appendTo }: MenuProps): JSX.El
 
       return isRowGripSelected({ editor, view, state, from })
     },
-    [editor]
+    [editor],
   )
 
   const onAddRowBefore = useCallback(() => {
@@ -46,8 +46,7 @@ export const TableRowMenu = React.memo(({ editor, appendTo }: MenuProps): JSX.El
           modifiers: [{ name: 'flip', enabled: false }],
         },
       }}
-      shouldShow={shouldShow}
-    >
+      shouldShow={shouldShow}>
       <Toolbar.Wrapper isVertical>
         <PopoverMenu.Item
           iconComponent={<Icon name="ArrowUpToLine" />}
@@ -61,12 +60,7 @@ export const TableRowMenu = React.memo(({ editor, appendTo }: MenuProps): JSX.El
           label="Add row after"
           onClick={onAddRowAfter}
         />
-        <PopoverMenu.Item
-          icon="Trash"
-          close={false}
-          label="Delete row"
-          onClick={onDeleteRow}
-        />
+        <PopoverMenu.Item icon="Trash" close={false} label="Delete row" onClick={onDeleteRow} />
       </Toolbar.Wrapper>
     </BaseBubbleMenu>
   )

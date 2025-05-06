@@ -1,9 +1,7 @@
 {
   "name": "toggle-group-6",
   "type": "registry:example",
-  "registryDependencies": [
-    "toggle-group"
-  ],
+  "registryDependencies": ["toggle-group"],
   "root_folder": "toggle-group",
   "files": [
     {

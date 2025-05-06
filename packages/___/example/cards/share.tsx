@@ -17,21 +17,11 @@ export function CardsShare() {
       </CardHeader>
       <CardContent>
         <div className="flex space-x-2">
-          <Label
-            htmlFor="link"
-            className="sr-only"
-          >
+          <Label htmlFor="link" className="sr-only">
             Link
           </Label>
-          <Input
-            id="link"
-            value="http://example.com/link/to/document"
-            readOnly
-          />
-          <Button
-            variant="secondary"
-            className="shrink-0"
-          >
+          <Input id="link" value="http://example.com/link/to/document" readOnly />
+          <Button variant="secondary" className="shrink-0">
             Copy Link
           </Button>
         </div>
@@ -42,10 +32,7 @@ export function CardsShare() {
             <div className="flex items-center justify-between space-x-4">
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage
-                    src="/avatars/03.png"
-                    alt="Image"
-                  />
+                  <AvatarImage src="/avatars/03.png" alt="Image" />
                   <AvatarFallback>OM</AvatarFallback>
                 </Avatar>
                 <div>
@@ -54,10 +41,7 @@ export function CardsShare() {
                 </div>
               </div>
               <Select defaultValue="edit">
-                <SelectTrigger
-                  className="ml-auto w-[110px]"
-                  aria-label="Edit"
-                >
+                <SelectTrigger className="ml-auto w-[110px]" aria-label="Edit">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -69,10 +53,7 @@ export function CardsShare() {
             <div className="flex items-center justify-between space-x-4">
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage
-                    src="/avatars/05.png"
-                    alt="Image"
-                  />
+                  <AvatarImage src="/avatars/05.png" alt="Image" />
                   <AvatarFallback>IN</AvatarFallback>
                 </Avatar>
                 <div>
@@ -81,10 +62,7 @@ export function CardsShare() {
                 </div>
               </div>
               <Select defaultValue="view">
-                <SelectTrigger
-                  className="ml-auto w-[110px]"
-                  aria-label="Edit"
-                >
+                <SelectTrigger className="ml-auto w-[110px]" aria-label="Edit">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -96,10 +74,7 @@ export function CardsShare() {
             <div className="flex items-center justify-between space-x-4">
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage
-                    src="/avatars/01.png"
-                    alt="Image"
-                  />
+                  <AvatarImage src="/avatars/01.png" alt="Image" />
                   <AvatarFallback>SD</AvatarFallback>
                 </Avatar>
                 <div>
@@ -108,10 +83,7 @@ export function CardsShare() {
                 </div>
               </div>
               <Select defaultValue="view">
-                <SelectTrigger
-                  className="ml-auto w-[110px]"
-                  aria-label="Edit"
-                >
+                <SelectTrigger className="ml-auto w-[110px]" aria-label="Edit">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>

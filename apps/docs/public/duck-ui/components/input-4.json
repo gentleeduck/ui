@@ -1,9 +1,7 @@
 {
   "name": "input-4",
   "type": "registry:example",
-  "registryDependencies": [
-    "input"
-  ],
+  "registryDependencies": ["input"],
   "root_folder": "input",
   "files": [
     {

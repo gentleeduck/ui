@@ -49,22 +49,13 @@ export default function ComboBoxResponsive() {
   if (isDesktop) {
     return (
       <TooltipProvider>
-        <Popover
-          open={open}
-          onOpenChange={setOpen}
-        >
+        <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className="w-[150px] justify-start"
-            >
+            <Button variant="outline" className="w-[150px] justify-start">
               {selectedStatus ? <>{selectedStatus}</> : <>+ Set status</>}
             </Button>
           </PopoverTrigger>
-          <PopoverContent
-            className="w-[200px] p-0"
-            align="start"
-          >
+          <PopoverContent className="w-[200px] p-0" align="start">
             <StatusList setSelectedStatus={setSelectedStatus} />
           </PopoverContent>
         </Popover>
@@ -74,15 +65,9 @@ export default function ComboBoxResponsive() {
 
   return (
     <TooltipProvider>
-      <Drawer
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
-          <Button
-            variant="outline"
-            className="w-[150px] justify-start"
-          >
+          <Button variant="outline" className="w-[150px] justify-start">
             {selectedStatus ? <>{selectedStatus}</> : <>+ Set Distro</>}
           </Button>
         </DrawerTrigger>
@@ -109,7 +94,7 @@ function StatusList({ setSelectedStatus }: { setSelectedStatus: (status: string 
           groupheading={['Suggestions', 'Settings']}
           selected={['']}
           onSelect={{
-            key: value => setSelectedStatus(value as string),
+            key: (value) => setSelectedStatus(value as string),
           }}
         />
       </CommandList>

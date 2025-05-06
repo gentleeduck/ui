@@ -52,7 +52,7 @@ class Observer {
   }
 
   publish = (data: ToastT) => {
-    this.subscribers.forEach(subscriber => subscriber(data))
+    this.subscribers.forEach((subscriber) => subscriber(data))
   }
 
   addToast = (data: ToastT) => {
@@ -66,17 +66,17 @@ class Observer {
       type?: ToastTypes
       promise?: PromiseT
       jsx?: React.ReactElement
-    }
+    },
   ) => {
     const { message, ...rest } = data
     const id = typeof data?.id === 'number' || data.id?.length > 0 ? data.id : toastsCounter++
-    const alreadyExists = this.toasts.find(toast => {
+    const alreadyExists = this.toasts.find((toast) => {
       return toast.id === id
     })
     const dismissible = data.dismissible === undefined ? true : data.dismissible
 
     if (alreadyExists) {
-      this.toasts = this.toasts.map(toast => {
+      this.toasts = this.toasts.map((toast) => {
         if (toast.id === id) {
           this.publish({ ...toast, ...data, id, title: message })
           return {
@@ -99,12 +99,12 @@ class Observer {
 
   dismiss = (id?: number | string) => {
     if (!id) {
-      this.toasts.forEach(toast => {
-        this.subscribers.forEach(subscriber => subscriber({ id: toast.id, dismiss: true }))
+      this.toasts.forEach((toast) => {
+        this.subscribers.forEach((subscriber) => subscriber({ id: toast.id, dismiss: true }))
       })
     }
 
-    this.subscribers.forEach(subscriber => subscriber({ id, dismiss: true }))
+    this.subscribers.forEach((subscriber) => subscriber({ id, dismiss: true }))
     return id
   }
 
@@ -153,7 +153,7 @@ class Observer {
     let result: ['resolve', ToastData] | ['reject', unknown]
 
     const originalPromise = p
-      .then(async response => {
+      .then(async (response) => {
         result = ['resolve', response]
         const isReactElementResponse = React.isValidElement(response)
         if (isReactElementResponse) {
@@ -176,7 +176,7 @@ class Observer {
           this.create({ id, type: 'success', message, description })
         }
       })
-      .catch(async error => {
+      .catch(async (error) => {
         result = ['reject', error]
         if (data.error !== undefined) {
           shouldDismiss = false
@@ -197,7 +197,7 @@ class Observer {
 
     const unwrap = () =>
       new Promise<ToastData>((resolve, reject) =>
-        originalPromise.then(() => (result[0] === 'reject' ? reject(result[1]) : resolve(result[1]))).catch(reject)
+        originalPromise.then(() => (result[0] === 'reject' ? reject(result[1]) : resolve(result[1]))).catch(reject),
       )
 
     if (typeof id !== 'string' && typeof id !== 'number') {
@@ -258,5 +258,5 @@ export const toast = Object.assign(
     dismiss: ToastState.dismiss,
     loading: ToastState.loading,
   },
-  { getHistory }
+  { getHistory },
 )

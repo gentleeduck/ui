@@ -16,9 +16,7 @@ export async function get_registry_index() {
 
 export async function get_registry_item(name: Lowercase<string>) {
   try {
-    const [result] = await fetch_registry_url([
-      is_url(name) ? name : `/components/${name}.json`,
-    ])
+    const [result] = await fetch_registry_url([is_url(name) ? name : `/components/${name}.json`])
 
     return registry_entry_schema.parse(result)
   } catch (error) {

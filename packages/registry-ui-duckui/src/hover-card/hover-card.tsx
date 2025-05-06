@@ -4,11 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
 import { Button } from '../button'
 import { hoverCardVariants } from './hover-card.constants'
-import {
-  HoverCardContentProps,
-  HoverCardProps,
-  HoverCardTriggerProps,
-} from './hover-card.types'
+import { HoverCardContentProps, HoverCardProps, HoverCardTriggerProps } from './hover-card.types'
 
 function HoverCard({
   delayDuration = 500,
@@ -49,7 +45,7 @@ const HoverCardContent = ({
 }: HoverCardContentProps) => (
   <div
     ref={ref}
-    role='hover-card'
+    role="hover-card"
     className={cn(hoverCardVariants({ variant, position }), className)}
     data-side={position}
     {...props}

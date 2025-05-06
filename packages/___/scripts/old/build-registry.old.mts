@@ -59,7 +59,7 @@ export const Index: Record<string, any> = {
     // Build style index.
     for (const item of registry) {
       const resolveFiles = item.files?.map(
-        file => `registry/${style.name}/${typeof file === 'string' ? file : file.path}`
+        (file) => `registry/${style.name}/${typeof file === 'string' ? file : file.path}`,
       )
       if (!resolveFiles) {
         continue
@@ -100,9 +100,9 @@ export const Index: Record<string, any> = {
             isDefault?: boolean
           }
         >()
-        sourceFile.getImportDeclarations().forEach(node => {
+        sourceFile.getImportDeclarations().forEach((node) => {
           const module = node.getModuleSpecifier().getLiteralValue()
-          node.getNamedImports().forEach(item => {
+          node.getNamedImports().forEach((item) => {
             imports.set(item.getText(), {
               module,
               text: node.getText(),
@@ -120,7 +120,7 @@ export const Index: Record<string, any> = {
         })
 
         // Find all opening tags with x-chunk attribute.
-        const components = sourceFile.getDescendantsOfKind(SyntaxKind.JsxOpeningElement).filter(node => {
+        const components = sourceFile.getDescendantsOfKind(SyntaxKind.JsxOpeningElement).filter((node) => {
           return node.getAttribute('x-chunk') !== undefined
         })
 
@@ -157,17 +157,17 @@ export const Index: Record<string, any> = {
             // Find all opening tags on component.
             const children = parentJsxElement
               .getDescendantsOfKind(SyntaxKind.JsxOpeningElement)
-              .map(node => {
+              .map((node) => {
                 return node.getTagNameNode().getText()
               })
               .concat(
-                parentJsxElement.getDescendantsOfKind(SyntaxKind.JsxSelfClosingElement).map(node => {
+                parentJsxElement.getDescendantsOfKind(SyntaxKind.JsxSelfClosingElement).map((node) => {
                   return node.getTagNameNode().getText()
-                })
+                }),
               )
 
             const componentImports = new Map<string, string | string[] | Set<string>>()
-            children.forEach(child => {
+            children.forEach((child) => {
               const importLine = imports.get(child)
               if (importLine) {
                 const imports = componentImports.get(importLine.module) || []
@@ -178,7 +178,7 @@ export const Index: Record<string, any> = {
               }
             })
 
-            const componnetImportLines = Array.from(componentImports.keys()).map(key => {
+            const componnetImportLines = Array.from(componentImports.keys()).map((key) => {
               const values = componentImports.get(key)
               const specifier = Array.isArray(values) ? `{${values.join(',')}}` : values
 
@@ -210,15 +210,15 @@ export const Index: Record<string, any> = {
                 className: containerClassName,
               },
             }
-          })
+          }),
         )
 
         // // Write the source file for blocks only.
         sourceFilename = `__registry__/${style.name}/${type}/${item.name}.tsx`
 
         if (item.files) {
-          const files = item.files.map(file =>
-            typeof file === 'string' ? { type: 'registry:page', path: file } : file
+          const files = item.files.map((file) =>
+            typeof file === 'string' ? { type: 'registry:page', path: file } : file,
           )
           if (files?.length) {
             sourceFilename = `__registry__/${style.name}/${files[0].path}`
@@ -237,7 +237,9 @@ export const Index: Record<string, any> = {
       let componentPath = `@/registry/${style.name}/${type}/${item.name}`
 
       if (item.files) {
-        const files = item.files.map(file => (typeof file === 'string' ? { type: 'registry:page', path: file } : file))
+        const files = item.files.map((file) =>
+          typeof file === 'string' ? { type: 'registry:page', path: file } : file,
+        )
         if (files?.length) {
           componentPath = `@/registry/${style.name}/${files[0].path}`
         }
@@ -249,13 +251,13 @@ export const Index: Record<string, any> = {
       description: "${item.description ?? ''}",
       type: "${item.type}",
       registryDependencies: ${JSON.stringify(item.registryDependencies)},
-      files: [${resolveFiles.map(file => `"${file}"`)}],
+      files: [${resolveFiles.map((file) => `"${file}"`)}],
       component: React.lazy(() => import("${componentPath}")),
       source: "${sourceFilename}",
       category: "${item.category ?? ''}",
       subcategory: "${item.subcategory ?? ''}",
       chunks: [${chunks.map(
-        chunk => `{
+        (chunk) => `{
         name: "${chunk.name}",
         description: "${chunk.description ?? 'No description'}",
         component: ${chunk.component}
@@ -263,7 +265,7 @@ export const Index: Record<string, any> = {
         container: {
           className: "${chunk.container.className}"
         }
-      }`
+      }`,
       )}]
     },`
     }
@@ -280,11 +282,11 @@ export const Index: Record<string, any> = {
   // Build registry/index.json.
   // ----------------------------------------------------------------------------
   const items = registry
-    .filter(item => ['registry:ui'].includes(item.type))
-    .map(item => {
+    .filter((item) => ['registry:ui'].includes(item.type))
+    .map((item) => {
       return {
         ...item,
-        files: item.files?.map(_file => {
+        files: item.files?.map((_file) => {
           const file =
             typeof _file === 'string'
               ? {
@@ -326,7 +328,7 @@ async function buildStyles(registry: Registry) {
       let files
       if (item.files) {
         files = await Promise.all(
-          item.files.map(async _file => {
+          item.files.map(async (_file) => {
             const file =
               typeof _file === 'string'
                 ? {
@@ -389,7 +391,7 @@ async function buildStyles(registry: Registry) {
               content: sourceFile.getText(),
               target,
             }
-          })
+          }),
         )
       }
 
@@ -468,7 +470,7 @@ async function buildThemes() {
     }
 
     if (Array.isArray(value)) {
-      colorsData[color] = value.map(item => ({
+      colorsData[color] = value.map((item) => ({
         ...item,
         rgbChannel: item.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
         hslChannel: item.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
@@ -587,7 +589,7 @@ async function buildThemes() {
 
           const [resolvedBase, scale] = resolvedColor.split('-')
           const color = scale
-            ? colorsData[resolvedBase].find((item: any) => item.scale === parseInt(scale))
+            ? colorsData[resolvedBase].find((item: any) => item.scale === Number.parseInt(scale))
             : colorsData[resolvedBase]
           if (color) {
             base['cssVars'][mode][key] = color.hslChannel
@@ -679,7 +681,7 @@ async function buildThemes() {
         template(THEME_STYLES_WITH_VARIABLES)({
           colors: theme.cssVars,
           theme: theme.name,
-        })
+        }),
       )
     }
 
@@ -704,7 +706,7 @@ async function buildThemes() {
 
             const [resolvedBase, scale] = resolvedColor.split('-')
             const color = scale
-              ? colorsData[resolvedBase].find((item: any) => item.scale === parseInt(scale))
+              ? colorsData[resolvedBase].find((item: any) => item.scale === Number.parseInt(scale))
               : colorsData[resolvedBase]
             if (color) {
               payload['cssVars'][mode][key] = color.hslChannel

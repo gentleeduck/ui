@@ -34,23 +34,18 @@ const EmojiTooltip = ({ node }: any) => {
     <NodeViewWrapper className={cn('inline-flex', EmojiFont.className)}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className='text-lg h-fit leading-none'>
+          <span className="text-lg h-fit leading-none">
             {/* @ts-ignore */}
-            <span className={cn('inline-flex', EmojiFont.className)}>
-              {' '}
-              {node.attrs.emoji}{' '}
-            </span>
+            <span className={cn('inline-flex', EmojiFont.className)}> {node.attrs.emoji} </span>
           </span>
         </TooltipTrigger>
         <TooltipContent>
-          <div className='flex items-center gap-1'>
-            <span className='!text-lg leading-none'>
+          <div className="flex items-center gap-1">
+            <span className="!text-lg leading-none">
               {/* @ts-ignore */}
               <span> {node.attrs.emoji} </span>
             </span>
-            <p className='text-muted-foreground font-semibold font-mono'>
-              {shortcode}
-            </p>
+            <p className="text-muted-foreground font-semibold font-mono">{shortcode}</p>
           </div>
         </TooltipContent>
       </Tooltip>
@@ -129,9 +124,7 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
     })
 
     const lookupSpace = this.options.shouldUseExtraLookupSpace ? ' ' : ''
-    const replacementSpace = this.options.shouldUseExtraReplacementSpace
-      ? ' '
-      : ''
+    const replacementSpace = this.options.shouldUseExtraReplacementSpace ? ' ' : ''
 
     const createRule = (inputRule: InputRuleOptions) => {
       if (typeof inputRule.find !== 'string') {
@@ -173,9 +166,7 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
       }
     }
 
-    const rules = [...this.options.ruleConfigs, ...emojis_native]
-      .map(createRule)
-      .filter((rule) => rule !== null) // Only keep valid rules
+    const rules = [...this.options.ruleConfigs, ...emojis_native].map(createRule).filter((rule) => rule !== null) // Only keep valid rules
 
     return rules
   },
@@ -209,16 +200,11 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
               const emojiShortcode = searchResults[0].skins[0].shortcodes // Get the shortcode
 
               // Calculate the actual positions in the document
-              const shortcodeStart =
-                cursorPos - (nodeText.length - match.index! ?? ''.length)
+              const shortcodeStart = cursorPos - (nodeText.length - match.index! ?? ''.length)
               const shortcodeEnd = cursorPos
 
               // Ensure positions are within valid ranges
-              if (
-                shortcodeStart < 0 ||
-                shortcodeEnd <= shortcodeStart ||
-                shortcodeEnd > state.doc.content.size
-              ) {
+              if (shortcodeStart < 0 || shortcodeEnd <= shortcodeStart || shortcodeEnd > state.doc.content.size) {
                 return false // Invalid range, do nothing
               }
 
@@ -234,10 +220,7 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
 
               // Optionally handle extra replacement space
               const replacementSpace = ' ' // Adjust as needed
-              if (
-                replacementSpace &&
-                this.options.shouldUseExtraReplacementSpace
-              ) {
+              if (replacementSpace && this.options.shouldUseExtraReplacementSpace) {
                 const newPos = tr.selection.from
                 const spaceTextNode = state.schema.text(replacementSpace)
                 if (this.options.shouldUseExtraReplacementSpace) {
@@ -252,11 +235,7 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
 
               // Move the cursor to the end of the emoji node
               const newPos = tr.mapping.map(cursorPos)
-              view.dispatch(
-                view.state.tr.setSelection(
-                  TextSelection.create(view.state.doc, newPos),
-                ),
-              )
+              view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, newPos)))
 
               // Scroll to the new position
               view.someProp('handleScrollToSelection', (f) => f(view))
@@ -275,11 +254,7 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
 
         // Move the cursor to the end of the newly created paragraph
         const newPos = $from.pos + paragraph.nodeSize
-        view.dispatch(
-          view.state.tr.setSelection(
-            TextSelection.create(view.state.doc, newPos),
-          ),
-        )
+        view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, newPos)))
 
         // Scroll to the new position
         view.someProp('handleScrollToSelection', (f) => f(view))
@@ -329,13 +304,13 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
     return {
       insertEmoji:
         (emoji: string, shortcode: string) =>
-          // @ts-ignore
-          ({ commands }) => {
-            return commands.insertContent({
-              type: this.name,
-              attrs: { emoji, shortcode },
-            })
-          },
+        // @ts-ignore
+        ({ commands }) => {
+          return commands.insertContent({
+            type: this.name,
+            attrs: { emoji, shortcode },
+          })
+        },
     }
   },
 
@@ -380,15 +355,8 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
     view.dispatch(tr)
 
     // Optionally move the cursor to the end of the inserted emoji
-    const newPos = tr.mapping.map(
-      to +
-      (this.options.shouldUseExtraReplacementSpace
-        ? replacementSpace.length
-        : 0),
-    )
-    view.dispatch(
-      view.state.tr.setSelection(TextSelection.create(view.state.doc, newPos)),
-    )
+    const newPos = tr.mapping.map(to + (this.options.shouldUseExtraReplacementSpace ? replacementSpace.length : 0))
+    view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, newPos)))
 
     // Scroll to the new position
     view.someProp('handleScrollToSelection', (f) => f(view))

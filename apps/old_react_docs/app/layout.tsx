@@ -24,13 +24,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(siteConfig.url),
   description: siteConfig.description,
-  keywords: [
-    'Next.js',
-    'React',
-    'Tailwind CSS',
-    'Server Components',
-    'Radix UI',
-  ],
+  keywords: ['Next.js', 'React', 'Tailwind CSS', 'Server Components', 'Radix UI'],
   authors: [
     {
       name: 'shadcn',
@@ -83,27 +77,18 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      <html lang='en' suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning>
         <head />
-        <body
-          className={cn(
-            'min-h-svh bg-background font-sans antialiased',
-            fontSans.variable,
-            fontMono.variable,
-          )}
-        >
+        <body className={cn('min-h-svh bg-background font-sans antialiased', fontSans.variable, fontMono.variable)}>
           <TRPCReactProvider>
             <ThemeProvider
-              attribute='class'
-              defaultTheme='system'
+              attribute="class"
+              defaultTheme="system"
               enableSystem
               disableTransitionOnChange
-              enableColorScheme
-            >
-              <div vaul-drawer-wrapper=''>
-                <div className='relative flex min-h-svh flex-col bg-background'>
-                  {children}
-                </div>
+              enableColorScheme>
+              <div vaul-drawer-wrapper="">
+                <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
               </div>
               <ThemeSwitcher />
               <Analytics />

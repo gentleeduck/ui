@@ -86,12 +86,7 @@ export default function CommandGroupDemo() {
     <TooltipProvider>
       <Command className="rounded-lg border shadow-md w-96">
         <CommandInput placeholder="Type a command or search..." />
-        <CommandListGroup
-          data={data}
-          group={[2, 4]}
-          groupheading={['Suggestions', 'Settings']}
-          selected={['']}
-        />
+        <CommandListGroup data={data} group={[2, 4]} groupheading={['Suggestions', 'Settings']} selected={['']} />
       </Command>
     </TooltipProvider>
   )

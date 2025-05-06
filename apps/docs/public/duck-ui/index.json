@@ -3,9 +3,7 @@
     "name": "button",
     "type": "registry:ui",
     "dependencies": [],
-    "registryDependencies": [
-      "slot"
-    ],
+    "registryDependencies": ["slot"],
     "root_folder": "button",
     "files": [
       {
@@ -31,9 +29,7 @@
     "name": "badge",
     "type": "registry:ui",
     "dependencies": [],
-    "registryDependencies": [
-      "slot"
-    ],
+    "registryDependencies": ["slot"],
     "root_folder": "badge",
     "files": [
       {
@@ -58,12 +54,8 @@
   {
     "name": "tooltip",
     "type": "registry:ui",
-    "dependencies": [
-      ""
-    ],
-    "registryDependencies": [
-      "slot"
-    ],
+    "dependencies": [""],
+    "registryDependencies": ["slot"],
     "root_folder": "tooltip",
     "files": [
       {
@@ -114,9 +106,7 @@
   {
     "name": "toggle",
     "type": "registry:ui",
-    "dependencies": [
-      "@radix-ui/react-toggle"
-    ],
+    "dependencies": ["@radix-ui/react-toggle"],
     "registryDependencies": [],
     "root_folder": "toggle",
     "files": [
@@ -138,9 +128,7 @@
   {
     "name": "accordion",
     "type": "registry:ui",
-    "dependencies": [
-      "@radix-ui/react-accordion"
-    ],
+    "dependencies": ["@radix-ui/react-accordion"],
     "registryDependencies": [],
     "root_folder": "accordion",
     "files": [
@@ -158,9 +146,7 @@
   {
     "name": "tabs",
     "type": "registry:ui",
-    "dependencies": [
-      "@radix-ui/react-tabs"
-    ],
+    "dependencies": ["@radix-ui/react-tabs"],
     "registryDependencies": [],
     "root_folder": "tabs",
     "files": [
@@ -237,13 +223,7 @@
     "name": "upload",
     "type": "registry:ui",
     "dependencies": [],
-    "registryDependencies": [
-      "alert-dialog",
-      "input",
-      "context-menu",
-      "scroll-area",
-      "button"
-    ],
+    "registryDependencies": ["alert-dialog", "input", "context-menu", "scroll-area", "button"],
     "root_folder": "upload",
     "files": [
       {
@@ -340,9 +320,7 @@
   {
     "name": "accordion-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "accordion"
-    ],
+    "registryDependencies": ["accordion"],
     "root_folder": "accordion",
     "files": [
       {
@@ -355,9 +333,7 @@
   {
     "name": "accordion-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "accordion"
-    ],
+    "registryDependencies": ["accordion"],
     "root_folder": "accordion",
     "files": [
       {
@@ -370,9 +346,7 @@
   {
     "name": "accordion-3",
     "type": "registry:example",
-    "registryDependencies": [
-      "accordion"
-    ],
+    "registryDependencies": ["accordion"],
     "root_folder": "accordion",
     "files": [
       {
@@ -385,9 +359,7 @@
   {
     "name": "accordion-4",
     "type": "registry:example",
-    "registryDependencies": [
-      "accordion"
-    ],
+    "registryDependencies": ["accordion"],
     "root_folder": "accordion",
     "files": [
       {
@@ -400,9 +372,7 @@
   {
     "name": "badge-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "badge"
-    ],
+    "registryDependencies": ["badge"],
     "root_folder": "badge",
     "files": [
       {
@@ -415,9 +385,7 @@
   {
     "name": "badge-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "badge"
-    ],
+    "registryDependencies": ["badge"],
     "root_folder": "badge",
     "files": [
       {
@@ -430,9 +398,7 @@
   {
     "name": "badge-3",
     "type": "registry:example",
-    "registryDependencies": [
-      "badge"
-    ],
+    "registryDependencies": ["badge"],
     "root_folder": "badge",
     "files": [
       {
@@ -445,9 +411,7 @@
   {
     "name": "badge-4",
     "type": "registry:example",
-    "registryDependencies": [
-      "badge"
-    ],
+    "registryDependencies": ["badge"],
     "root_folder": "badge",
     "files": [
       {
@@ -460,9 +424,7 @@
   {
     "name": "badge-5",
     "type": "registry:example",
-    "registryDependencies": [
-      "badge"
-    ],
+    "registryDependencies": ["badge"],
     "root_folder": "badge",
     "files": [
       {
@@ -475,9 +437,7 @@
   {
     "name": "badge-6",
     "type": "registry:example",
-    "registryDependencies": [
-      "badge"
-    ],
+    "registryDependencies": ["badge"],
     "root_folder": "badge",
     "files": [
       {
@@ -490,9 +450,7 @@
   {
     "name": "badge-7",
     "type": "registry:example",
-    "registryDependencies": [
-      "badge"
-    ],
+    "registryDependencies": ["badge"],
     "root_folder": "badge",
     "files": [
       {
@@ -505,9 +463,7 @@
   {
     "name": "badge-8",
     "type": "registry:example",
-    "registryDependencies": [
-      "badge"
-    ],
+    "registryDependencies": ["badge"],
     "root_folder": "badge",
     "files": [
       {
@@ -520,9 +476,7 @@
   {
     "name": "button-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -535,9 +489,7 @@
   {
     "name": "button-10",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -550,9 +502,7 @@
   {
     "name": "button-11",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -565,9 +515,7 @@
   {
     "name": "button-12",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -580,9 +528,7 @@
   {
     "name": "button-13",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -595,9 +541,7 @@
   {
     "name": "button-14",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -610,9 +554,7 @@
   {
     "name": "button-15",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -625,9 +567,7 @@
   {
     "name": "button-16",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -640,9 +580,7 @@
   {
     "name": "button-17",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -655,9 +593,7 @@
   {
     "name": "button-18",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -670,9 +606,7 @@
   {
     "name": "button-19",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -685,9 +619,7 @@
   {
     "name": "button-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -700,9 +632,7 @@
   {
     "name": "button-20",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -715,9 +645,7 @@
   {
     "name": "button-21",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -730,9 +658,7 @@
   {
     "name": "button-22",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -745,9 +671,7 @@
   {
     "name": "button-23",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -760,9 +684,7 @@
   {
     "name": "button-24",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -775,9 +697,7 @@
   {
     "name": "button-25",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -790,9 +710,7 @@
   {
     "name": "button-26",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -805,9 +723,7 @@
   {
     "name": "button-27",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -820,9 +736,7 @@
   {
     "name": "button-28",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -835,9 +749,7 @@
   {
     "name": "button-29",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -850,9 +762,7 @@
   {
     "name": "button-3",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -865,9 +775,7 @@
   {
     "name": "button-30",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -880,9 +788,7 @@
   {
     "name": "button-31",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -895,9 +801,7 @@
   {
     "name": "button-32",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -910,9 +814,7 @@
   {
     "name": "button-4",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -925,9 +827,7 @@
   {
     "name": "button-5",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -940,9 +840,7 @@
   {
     "name": "button-6",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -955,9 +853,7 @@
   {
     "name": "button-7",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -970,9 +866,7 @@
   {
     "name": "button-8",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -985,9 +879,7 @@
   {
     "name": "button-9",
     "type": "registry:example",
-    "registryDependencies": [
-      "button"
-    ],
+    "registryDependencies": ["button"],
     "root_folder": "button",
     "files": [
       {
@@ -1000,9 +892,7 @@
   {
     "name": "card-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "card"
-    ],
+    "registryDependencies": ["card"],
     "root_folder": "card",
     "files": [
       {
@@ -1015,9 +905,7 @@
   {
     "name": "card-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "card"
-    ],
+    "registryDependencies": ["card"],
     "root_folder": "card",
     "files": [
       {
@@ -1030,9 +918,7 @@
   {
     "name": "drawer-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "drawer"
-    ],
+    "registryDependencies": ["drawer"],
     "root_folder": "drawer",
     "files": [
       {
@@ -1045,9 +931,7 @@
   {
     "name": "drawer-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "drawer"
-    ],
+    "registryDependencies": ["drawer"],
     "root_folder": "drawer",
     "files": [
       {
@@ -1060,9 +944,7 @@
   {
     "name": "drawer-3",
     "type": "registry:example",
-    "registryDependencies": [
-      "drawer"
-    ],
+    "registryDependencies": ["drawer"],
     "root_folder": "drawer",
     "files": [
       {
@@ -1075,9 +957,7 @@
   {
     "name": "drawer-4",
     "type": "registry:example",
-    "registryDependencies": [
-      "drawer"
-    ],
+    "registryDependencies": ["drawer"],
     "root_folder": "drawer",
     "files": [
       {
@@ -1090,9 +970,7 @@
   {
     "name": "drawer-5",
     "type": "registry:example",
-    "registryDependencies": [
-      "drawer"
-    ],
+    "registryDependencies": ["drawer"],
     "root_folder": "drawer",
     "files": [
       {
@@ -1105,9 +983,7 @@
   {
     "name": "drawer-6",
     "type": "registry:example",
-    "registryDependencies": [
-      "drawer"
-    ],
+    "registryDependencies": ["drawer"],
     "root_folder": "drawer",
     "files": [
       {
@@ -1120,9 +996,7 @@
   {
     "name": "drawer-7",
     "type": "registry:example",
-    "registryDependencies": [
-      "drawer"
-    ],
+    "registryDependencies": ["drawer"],
     "root_folder": "drawer",
     "files": [
       {
@@ -1135,9 +1009,7 @@
   {
     "name": "drawer-8",
     "type": "registry:example",
-    "registryDependencies": [
-      "drawer"
-    ],
+    "registryDependencies": ["drawer"],
     "root_folder": "drawer",
     "files": [
       {
@@ -1150,9 +1022,7 @@
   {
     "name": "hover-card-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "hover-card"
-    ],
+    "registryDependencies": ["hover-card"],
     "root_folder": "hover-card",
     "files": [
       {
@@ -1165,9 +1035,7 @@
   {
     "name": "input-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "input"
-    ],
+    "registryDependencies": ["input"],
     "root_folder": "input",
     "files": [
       {
@@ -1180,9 +1048,7 @@
   {
     "name": "input-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "input"
-    ],
+    "registryDependencies": ["input"],
     "root_folder": "input",
     "files": [
       {
@@ -1195,9 +1061,7 @@
   {
     "name": "input-3",
     "type": "registry:example",
-    "registryDependencies": [
-      "input"
-    ],
+    "registryDependencies": ["input"],
     "root_folder": "input",
     "files": [
       {
@@ -1210,9 +1074,7 @@
   {
     "name": "input-4",
     "type": "registry:example",
-    "registryDependencies": [
-      "input"
-    ],
+    "registryDependencies": ["input"],
     "root_folder": "input",
     "files": [
       {
@@ -1225,9 +1087,7 @@
   {
     "name": "input-5",
     "type": "registry:example",
-    "registryDependencies": [
-      "input"
-    ],
+    "registryDependencies": ["input"],
     "root_folder": "input",
     "files": [
       {
@@ -1240,9 +1100,7 @@
   {
     "name": "input-6",
     "type": "registry:example",
-    "registryDependencies": [
-      "input"
-    ],
+    "registryDependencies": ["input"],
     "root_folder": "input",
     "files": [
       {
@@ -1255,9 +1113,7 @@
   {
     "name": "input-7",
     "type": "registry:example",
-    "registryDependencies": [
-      "input"
-    ],
+    "registryDependencies": ["input"],
     "root_folder": "input",
     "files": [
       {
@@ -1270,9 +1126,7 @@
   {
     "name": "label-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "label"
-    ],
+    "registryDependencies": ["label"],
     "root_folder": "label",
     "files": [
       {
@@ -1285,9 +1139,7 @@
   {
     "name": "label-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "label"
-    ],
+    "registryDependencies": ["label"],
     "root_folder": "label",
     "files": [
       {
@@ -1300,9 +1152,7 @@
   {
     "name": "progress-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "progress"
-    ],
+    "registryDependencies": ["progress"],
     "root_folder": "progress",
     "files": [
       {
@@ -1315,9 +1165,7 @@
   {
     "name": "progress-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "progress"
-    ],
+    "registryDependencies": ["progress"],
     "root_folder": "progress",
     "files": [
       {
@@ -1330,9 +1178,7 @@
   {
     "name": "radio-group-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "radio-group"
-    ],
+    "registryDependencies": ["radio-group"],
     "root_folder": "radio-group",
     "files": [
       {
@@ -1345,9 +1191,7 @@
   {
     "name": "radio-group-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "radio-group"
-    ],
+    "registryDependencies": ["radio-group"],
     "root_folder": "radio-group",
     "files": [
       {
@@ -1360,9 +1204,7 @@
   {
     "name": "scroll-area-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "scroll-area"
-    ],
+    "registryDependencies": ["scroll-area"],
     "root_folder": "scroll-area",
     "files": [
       {
@@ -1375,9 +1217,7 @@
   {
     "name": "scroll-area-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "scroll-area"
-    ],
+    "registryDependencies": ["scroll-area"],
     "root_folder": "scroll-area",
     "files": [
       {
@@ -1390,9 +1230,7 @@
   {
     "name": "select-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "select"
-    ],
+    "registryDependencies": ["select"],
     "root_folder": "select",
     "files": [
       {
@@ -1405,9 +1243,7 @@
   {
     "name": "select-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "select"
-    ],
+    "registryDependencies": ["select"],
     "root_folder": "select",
     "files": [
       {
@@ -1420,9 +1256,7 @@
   {
     "name": "select-3",
     "type": "registry:example",
-    "registryDependencies": [
-      "select"
-    ],
+    "registryDependencies": ["select"],
     "root_folder": "select",
     "files": [
       {
@@ -1435,9 +1269,7 @@
   {
     "name": "separator-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "separator"
-    ],
+    "registryDependencies": ["separator"],
     "root_folder": "separator",
     "files": [
       {
@@ -1450,9 +1282,7 @@
   {
     "name": "sheet-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "sheet"
-    ],
+    "registryDependencies": ["sheet"],
     "root_folder": "sheet",
     "files": [
       {
@@ -1465,9 +1295,7 @@
   {
     "name": "sheet-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "sheet"
-    ],
+    "registryDependencies": ["sheet"],
     "root_folder": "sheet",
     "files": [
       {
@@ -1480,9 +1308,7 @@
   {
     "name": "skeleton-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "skeleton"
-    ],
+    "registryDependencies": ["skeleton"],
     "root_folder": "skeleton",
     "files": [
       {
@@ -1495,9 +1321,7 @@
   {
     "name": "skeleton-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "skeleton"
-    ],
+    "registryDependencies": ["skeleton"],
     "root_folder": "skeleton",
     "files": [
       {
@@ -1510,9 +1334,7 @@
   {
     "name": "slider-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "slider"
-    ],
+    "registryDependencies": ["slider"],
     "root_folder": "slider",
     "files": [
       {
@@ -1525,9 +1347,7 @@
   {
     "name": "slider-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "slider"
-    ],
+    "registryDependencies": ["slider"],
     "root_folder": "slider",
     "files": [
       {
@@ -1540,9 +1360,7 @@
   {
     "name": "switch-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "switch"
-    ],
+    "registryDependencies": ["switch"],
     "root_folder": "switch",
     "files": [
       {
@@ -1555,9 +1373,7 @@
   {
     "name": "switch-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "switch"
-    ],
+    "registryDependencies": ["switch"],
     "root_folder": "switch",
     "files": [
       {
@@ -1570,9 +1386,7 @@
   {
     "name": "sonner-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "sonner"
-    ],
+    "registryDependencies": ["sonner"],
     "root_folder": "sonner",
     "files": [
       {
@@ -1585,9 +1399,7 @@
   {
     "name": "sonner-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "sonner"
-    ],
+    "registryDependencies": ["sonner"],
     "root_folder": "sonner",
     "files": [
       {
@@ -1600,9 +1412,7 @@
   {
     "name": "tabs-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "tabs"
-    ],
+    "registryDependencies": ["tabs"],
     "root_folder": "tabs",
     "files": [
       {
@@ -1615,9 +1425,7 @@
   {
     "name": "textarea-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "textarea"
-    ],
+    "registryDependencies": ["textarea"],
     "root_folder": "textarea",
     "files": [
       {
@@ -1630,9 +1438,7 @@
   {
     "name": "textarea-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "textarea"
-    ],
+    "registryDependencies": ["textarea"],
     "root_folder": "textarea",
     "files": [
       {
@@ -1645,9 +1451,7 @@
   {
     "name": "textarea-3",
     "type": "registry:example",
-    "registryDependencies": [
-      "textarea"
-    ],
+    "registryDependencies": ["textarea"],
     "root_folder": "textarea",
     "files": [
       {
@@ -1660,9 +1464,7 @@
   {
     "name": "textarea-4",
     "type": "registry:example",
-    "registryDependencies": [
-      "textarea"
-    ],
+    "registryDependencies": ["textarea"],
     "root_folder": "textarea",
     "files": [
       {
@@ -1675,9 +1477,7 @@
   {
     "name": "textarea-5",
     "type": "registry:example",
-    "registryDependencies": [
-      "textarea"
-    ],
+    "registryDependencies": ["textarea"],
     "root_folder": "textarea",
     "files": [
       {
@@ -1690,9 +1490,7 @@
   {
     "name": "textarea-6",
     "type": "registry:example",
-    "registryDependencies": [
-      "textarea"
-    ],
+    "registryDependencies": ["textarea"],
     "root_folder": "textarea",
     "files": [
       {
@@ -1705,9 +1503,7 @@
   {
     "name": "textarea-7",
     "type": "registry:example",
-    "registryDependencies": [
-      "textarea"
-    ],
+    "registryDependencies": ["textarea"],
     "root_folder": "textarea",
     "files": [
       {
@@ -1720,9 +1516,7 @@
   {
     "name": "toggle-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle"
-    ],
+    "registryDependencies": ["toggle"],
     "root_folder": "toggle",
     "files": [
       {
@@ -1735,9 +1529,7 @@
   {
     "name": "toggle-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle"
-    ],
+    "registryDependencies": ["toggle"],
     "root_folder": "toggle",
     "files": [
       {
@@ -1750,9 +1542,7 @@
   {
     "name": "toggle-3",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle"
-    ],
+    "registryDependencies": ["toggle"],
     "root_folder": "toggle",
     "files": [
       {
@@ -1765,9 +1555,7 @@
   {
     "name": "toggle-4",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle"
-    ],
+    "registryDependencies": ["toggle"],
     "root_folder": "toggle",
     "files": [
       {
@@ -1780,9 +1568,7 @@
   {
     "name": "toggle-5",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle"
-    ],
+    "registryDependencies": ["toggle"],
     "root_folder": "toggle",
     "files": [
       {
@@ -1795,9 +1581,7 @@
   {
     "name": "toggle-6",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle"
-    ],
+    "registryDependencies": ["toggle"],
     "root_folder": "toggle",
     "files": [
       {
@@ -1810,9 +1594,7 @@
   {
     "name": "toggle-7",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle"
-    ],
+    "registryDependencies": ["toggle"],
     "root_folder": "toggle",
     "files": [
       {
@@ -1825,9 +1607,7 @@
   {
     "name": "toggle-group-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle-group"
-    ],
+    "registryDependencies": ["toggle-group"],
     "root_folder": "toggle-group",
     "files": [
       {
@@ -1840,9 +1620,7 @@
   {
     "name": "toggle-group-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle-group"
-    ],
+    "registryDependencies": ["toggle-group"],
     "root_folder": "toggle-group",
     "files": [
       {
@@ -1855,9 +1633,7 @@
   {
     "name": "toggle-group-3",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle-group"
-    ],
+    "registryDependencies": ["toggle-group"],
     "root_folder": "toggle-group",
     "files": [
       {
@@ -1870,9 +1646,7 @@
   {
     "name": "toggle-group-4",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle-group"
-    ],
+    "registryDependencies": ["toggle-group"],
     "root_folder": "toggle-group",
     "files": [
       {
@@ -1885,9 +1659,7 @@
   {
     "name": "toggle-group-5",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle-group"
-    ],
+    "registryDependencies": ["toggle-group"],
     "root_folder": "toggle-group",
     "files": [
       {
@@ -1900,9 +1672,7 @@
   {
     "name": "toggle-group-6",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle-group"
-    ],
+    "registryDependencies": ["toggle-group"],
     "root_folder": "toggle-group",
     "files": [
       {
@@ -1915,9 +1685,7 @@
   {
     "name": "toggle-group-7",
     "type": "registry:example",
-    "registryDependencies": [
-      "toggle-group"
-    ],
+    "registryDependencies": ["toggle-group"],
     "root_folder": "toggle-group",
     "files": [
       {
@@ -1930,9 +1698,7 @@
   {
     "name": "tooltip-1",
     "type": "registry:example",
-    "registryDependencies": [
-      "tooltip"
-    ],
+    "registryDependencies": ["tooltip"],
     "root_folder": "tooltip",
     "files": [
       {
@@ -1945,9 +1711,7 @@
   {
     "name": "tooltip-2",
     "type": "registry:example",
-    "registryDependencies": [
-      "tooltip"
-    ],
+    "registryDependencies": ["tooltip"],
     "root_folder": "tooltip",
     "files": [
       {

@@ -10,15 +10,12 @@ export const ImageUpload = ({ getPos, editor }: { getPos: () => number; editor: 
         editor.chain().setImageBlock({ src: url }).deleteRange({ from: getPos(), to: getPos() }).focus().run()
       }
     },
-    [getPos, editor]
+    [getPos, editor],
   )
 
   return (
     <NodeViewWrapper>
-      <div
-        className="p-0 m-0"
-        data-drag-handle
-      >
+      <div className="p-0 m-0" data-drag-handle>
         <ImageUploader onUpload={onUpload} />
       </div>
     </NodeViewWrapper>

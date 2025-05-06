@@ -138,10 +138,7 @@ export default function CommandDialogDemo() {
             state: { open },
           }}
         />
-        <CommandDialog
-          open={open}
-          onOpenChange={setOpen}
-        >
+        <CommandDialog open={open} onOpenChange={setOpen}>
           <CommandInput placeholder="Type a command or search..." />
           <CommandListGroup
             data={data}

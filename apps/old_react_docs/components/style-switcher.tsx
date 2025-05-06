@@ -25,21 +25,14 @@ export function StyleSwitcher({ className, ...props }: SelectTriggerProps) {
           ...config,
           style: value,
         })
-      }
-    >
-      <SelectTrigger
-        className={cn(
-          'h-7 w-[145px] text-xs [&_svg]:h-4 [&_svg]:w-4',
-          className,
-        )}
-        {...props}
-      >
-        <span className='text-muted-foreground'>Style: </span>
-        <SelectValue placeholder='Select style' />
+      }>
+      <SelectTrigger className={cn('h-7 w-[145px] text-xs [&_svg]:h-4 [&_svg]:w-4', className)} {...props}>
+        <span className="text-muted-foreground">Style: </span>
+        <SelectValue placeholder="Select style" />
       </SelectTrigger>
       <SelectContent>
         {styles.map((style) => (
-          <SelectItem key={style.name} value={style.name} className='text-xs'>
+          <SelectItem key={style.name} value={style.name} className="text-xs">
             {style.label}
           </SelectItem>
         ))}

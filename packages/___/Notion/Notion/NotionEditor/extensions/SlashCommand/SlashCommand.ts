@@ -76,25 +76,25 @@ export const SlashCommand = Extension.create({
           view.focus()
         },
         items: ({ query }: { query: string }) => {
-          const withFilteredCommands = GROUPS.map(group => ({
+          const withFilteredCommands = GROUPS.map((group) => ({
             ...group,
             commands: group.commands
-              .filter(item => {
+              .filter((item) => {
                 const labelNormalized = item.label.toLowerCase().trim()
                 const queryNormalized = query.toLowerCase().trim()
 
                 if (item.aliases) {
-                  const aliases = item.aliases.map(alias => alias.toLowerCase().trim())
+                  const aliases = item.aliases.map((alias) => alias.toLowerCase().trim())
 
                   return labelNormalized.includes(queryNormalized) || aliases.includes(queryNormalized)
                 }
 
                 return labelNormalized.includes(queryNormalized)
               })
-              .filter(command => (command.shouldBeHidden ? !command.shouldBeHidden(this.editor) : true)),
+              .filter((command) => (command.shouldBeHidden ? !command.shouldBeHidden(this.editor) : true)),
           }))
 
-          const withoutEmptyGroups = withFilteredCommands.filter(group => {
+          const withoutEmptyGroups = withFilteredCommands.filter((group) => {
             if (group.commands.length > 0) {
               return true
             }
@@ -102,9 +102,9 @@ export const SlashCommand = Extension.create({
             return false
           })
 
-          const withEnabledSettings = withoutEmptyGroups.map(group => ({
+          const withEnabledSettings = withoutEmptyGroups.map((group) => ({
             ...group,
-            commands: group.commands.map(command => ({
+            commands: group.commands.map((command) => ({
               ...command,
               isEnabled: true,
             })),

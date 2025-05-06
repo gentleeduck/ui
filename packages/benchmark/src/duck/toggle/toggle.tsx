@@ -1,6 +1,6 @@
-import { Bold } from "lucide-react"
+import { Bold } from 'lucide-react'
 
-import { Toggle } from "@/components/ui/toggle"
+import { Toggle } from '@/components/ui/toggle'
 
 export default function ToggleDemo() {
   return (

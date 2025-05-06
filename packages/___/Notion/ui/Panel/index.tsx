@@ -16,19 +16,13 @@ export const Panel = forwardRef<HTMLDivElement, PanelProps>(
     const Comp = asChild ? Slot : 'div'
 
     return (
-      <Comp
-        ref={ref}
-        {...rest}
-      >
-        <Surface
-          className={panelClass}
-          withShadow={!noShadow}
-        >
+      <Comp ref={ref} {...rest}>
+        <Surface className={panelClass} withShadow={!noShadow}>
           {children}
         </Surface>
       </Comp>
     )
-  }
+  },
 )
 
 Panel.displayName = 'Panel'
@@ -40,15 +34,11 @@ export const PanelDivider = forwardRef<HTMLDivElement, { asChild?: boolean } & R
     const Comp = asChild ? Slot : 'div'
 
     return (
-      <Comp
-        className={dividerClass}
-        {...rest}
-        ref={ref}
-      >
+      <Comp className={dividerClass} {...rest} ref={ref}>
         {children}
       </Comp>
     )
-  }
+  },
 )
 
 PanelDivider.displayName = 'PanelDivider'
@@ -60,15 +50,11 @@ export const PanelHeader = forwardRef<HTMLDivElement, { asChild?: boolean } & Re
     const Comp = asChild ? Slot : 'div'
 
     return (
-      <Comp
-        className={headerClass}
-        {...rest}
-        ref={ref}
-      >
+      <Comp className={headerClass} {...rest} ref={ref}>
         {children}
       </Comp>
     )
-  }
+  },
 )
 
 PanelHeader.displayName = 'PanelHeader'
@@ -80,15 +66,11 @@ export const PanelSection = forwardRef<HTMLDivElement, { asChild?: boolean } & R
     const Comp = asChild ? Slot : 'div'
 
     return (
-      <Comp
-        className={sectionClass}
-        {...rest}
-        ref={ref}
-      >
+      <Comp className={sectionClass} {...rest} ref={ref}>
         {children}
       </Comp>
     )
-  }
+  },
 )
 
 PanelSection.displayName = 'PanelSection'
@@ -100,15 +82,11 @@ export const PanelHeadline = forwardRef<HTMLDivElement, { asChild?: boolean } & 
     const Comp = asChild ? Slot : 'div'
 
     return (
-      <Comp
-        className={headlineClass}
-        {...rest}
-        ref={ref}
-      >
+      <Comp className={headlineClass} {...rest} ref={ref}>
         {children}
       </Comp>
     )
-  }
+  },
 )
 
 PanelHeadline.displayName = 'PanelHeadline'
@@ -120,15 +98,11 @@ export const PanelFooter = forwardRef<HTMLDivElement, { asChild?: boolean } & Re
     const Comp = asChild ? Slot : 'div'
 
     return (
-      <Comp
-        className={footerClass}
-        {...rest}
-        ref={ref}
-      >
+      <Comp className={footerClass} {...rest} ref={ref}>
         {children}
       </Comp>
     )
-  }
+  },
 )
 
 PanelFooter.displayName = 'PanelFooter'

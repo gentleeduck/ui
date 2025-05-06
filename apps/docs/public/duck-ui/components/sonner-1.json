@@ -1,9 +1,7 @@
 {
   "name": "sonner-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "sonner"
-  ],
+  "registryDependencies": ["sonner"],
   "root_folder": "sonner",
   "files": [
     {

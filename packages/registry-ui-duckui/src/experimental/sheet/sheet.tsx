@@ -3,37 +3,25 @@
 import { X } from 'lucide-react'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
-import { AnimSheetVariants, AnimVariants } from '@gentelduck/motion/anim'
-import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
-import { useShouldRender, useDialogContext, useOverlayClose } from '@gentelduck/aria-feather/dialog'
+import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
+import * as DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import { useShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
 import { DialogTrigger } from '../dialog'
 
-function Sheet({
-  ...props
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
+function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
 
-function SheetTrigger({
-  ...props
-}: SheetTriggerProps) {
-  return (
-    <DialogTrigger {...props} open={true} />
-  )
+function SheetTrigger({ ...props }: SheetTriggerProps) {
+  return <DialogTrigger {...props} open={true} />
 }
 
-function SheetClose({
-  ...props
-}: SheetTriggerProps) {
-
-  return (
-    <DialogTrigger {...props} open={false} />
-  )
+function SheetClose({ ...props }: SheetTriggerProps) {
+  return <DialogTrigger {...props} open={false} />
 }
 
 /**
@@ -66,17 +54,20 @@ const SheetContent = ({
     <>
       <dialog
         ref={ref}
-        className={cn('border border-border m-0 bg-background p-6 inset-unset shadow-sm duration-400',AnimVariants(), AnimSheetVariants({ side: side, }), className)}
+        className={cn(
+          'border border-border m-0 bg-background p-6 inset-unset shadow-sm duration-400',
+          AnimVariants(),
+          AnimSheetVariants({ side: side }),
+          className,
+        )}
         onClick={closeOverlay}
-        {...props}
-      >
+        {...props}>
         {shouldRender && (
-          <div className='p-6 w-full h-full'>
+          <div className="p-6 w-full h-full">
             <button
-              aria-label='close'
-              className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
-              onClick={() => onOpenChange(false)}
-            >
+              aria-label="close"
+              className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
+              onClick={() => onOpenChange(false)}>
               <X aria-hidden size={20} />
             </button>
             {children}
@@ -100,21 +91,8 @@ const SheetContent = ({
  *
  * @returns {React.JSX.Element} The rendered SheetHeader component.
  */
-function SheetHeader({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        'flex flex-col space-y-2 text-center sm:text-left',
-        className,
-      )}
-      {...props}
-    />
-  )
+function SheetHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+  return <div ref={ref} className={cn('flex flex-col space-y-2 text-center sm:text-left', className)} {...props} />
 }
 
 /**
@@ -130,19 +108,11 @@ function SheetHeader({
  *
  * @returns {React.JSX.Element} The rendered SheetFooter component.
  */
-function SheetFooter({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-
+function SheetFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       ref={ref}
-      className={cn(
-        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-        className,
-      )}
+      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
       {...props}
     />
   )
@@ -159,16 +129,8 @@ function SheetFooter({
  *
  * @returns {React.JSX.Element} The rendered `SheetTitle` component with forwarded ref and applied class names.
  */
-const SheetTitle = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element => (
-  <h2
-    ref={ref}
-    className={cn('text-lg font-semibold text-foreground', className)}
-    {...props}
-  />
+const SheetTitle = ({ className, ref, ...props }: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element => (
+  <h2 ref={ref} className={cn('text-lg font-semibold text-foreground', className)} {...props} />
 )
 
 /**
@@ -182,16 +144,8 @@ const SheetTitle = ({
  *
  * @returns {React.JSX.Element} A `SheetDescription` component with forwarded ref and additional props.
  */
-const SheetDescription = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-  <p
-    ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
-    {...props}
-  />
+const SheetDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
+  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 )
 
 // /**

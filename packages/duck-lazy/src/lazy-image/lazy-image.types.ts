@@ -24,10 +24,7 @@ export type UseLazyImageReturn = {
  * @property {boolean} [nextImage] - A boolean indicating whether the image is being used in a Next.js application.
  */
 export interface LazyImageProps
-  extends React.DetailedHTMLProps<
-    React.ImgHTMLAttributes<HTMLImageElement>,
-    HTMLImageElement
-  > {
+  extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
   options?: IntersectionObserverInit
   placeholder?: string | undefined
   nextImage?: boolean

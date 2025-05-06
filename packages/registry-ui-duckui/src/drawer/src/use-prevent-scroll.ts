@@ -6,8 +6,7 @@ import { isIOS } from './browser'
 
 const KEYBOARD_BUFFER = 24
 
-export const useIsomorphicLayoutEffect =
-  typeof window !== 'undefined' ? useLayoutEffect : useEffect
+export const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 interface PreventScrollOptions {
   /** Whether the scroll lock is disabled. */
@@ -17,7 +16,7 @@ interface PreventScrollOptions {
 
 function chain(...callbacks: any[]): (...args: any[]) => void {
   return (...args: any[]) => {
-    for (let callback of callbacks) {
+    for (const callback of callbacks) {
       if (typeof callback === 'function') {
         callback(...args)
       }
@@ -29,10 +28,8 @@ function chain(...callbacks: any[]): (...args: any[]) => void {
 const visualViewport = typeof document !== 'undefined' && window.visualViewport
 
 export function isScrollable(node: Element): boolean {
-  let style = window.getComputedStyle(node)
-  return /(auto|scroll)/.test(
-    style.overflow + style.overflowX + style.overflowY,
-  )
+  const style = window.getComputedStyle(node)
+  return /(auto|scroll)/.test(style.overflow + style.overflowX + style.overflowY)
 }
 
 export function getScrollParent(node: Element): Element {
@@ -48,17 +45,7 @@ export function getScrollParent(node: Element): Element {
 }
 
 // HTML input types that do not cause the software keyboard to appear.
-const nonTextInputTypes = new Set([
-  'checkbox',
-  'radio',
-  'range',
-  'color',
-  'file',
-  'image',
-  'button',
-  'submit',
-  'reset',
-])
+const nonTextInputTypes = new Set(['checkbox', 'radio', 'range', 'color', 'file', 'image', 'button', 'submit', 'reset'])
 
 // The number of active usePreventScroll calls. Used to determine whether to revert back to the original page style/scroll position
 let preventScrollCount = 0
@@ -70,7 +57,7 @@ let restore: () => void
  * shift due to the scrollbars disappearing.
  */
 export function usePreventScroll(options: PreventScrollOptions = {}) {
-  let { isDisabled } = options
+  const { isDisabled } = options
 
   useIsomorphicLayoutEffect(() => {
     if (isDisabled) {
@@ -122,26 +109,19 @@ export function usePreventScroll(options: PreventScrollOptions = {}) {
 function preventScrollMobileSafari() {
   let scrollable: Element
   let lastY = 0
-  let onTouchStart = (e: TouchEvent) => {
+  const onTouchStart = (e: TouchEvent) => {
     // Store the nearest scrollable parent element from the element that the user touched.
     scrollable = getScrollParent(e.target as Element)
-    if (
-      scrollable === document.documentElement &&
-      scrollable === document.body
-    ) {
+    if (scrollable === document.documentElement && scrollable === document.body) {
       return
     }
 
     lastY = e.changedTouches[0].pageY
   }
 
-  let onTouchMove = (e: TouchEvent) => {
+  const onTouchMove = (e: TouchEvent) => {
     // Prevent scrolling the window.
-    if (
-      !scrollable ||
-      scrollable === document.documentElement ||
-      scrollable === document.body
-    ) {
+    if (!scrollable || scrollable === document.documentElement || scrollable === document.body) {
       e.preventDefault()
       return
     }
@@ -150,9 +130,9 @@ function preventScrollMobileSafari() {
     // of a nested scrollable area, otherwise mobile Safari will start scrolling
     // the window instead. Unfortunately, this disables bounce scrolling when at
     // the top but it's the best we can do.
-    let y = e.changedTouches[0].pageY
-    let scrollTop = scrollable.scrollTop
-    let bottom = scrollable.scrollHeight - scrollable.clientHeight
+    const y = e.changedTouches[0].pageY
+    const scrollTop = scrollable.scrollTop
+    const bottom = scrollable.scrollHeight - scrollable.clientHeight
 
     if (bottom === 0) {
       return
@@ -165,8 +145,8 @@ function preventScrollMobileSafari() {
     lastY = y
   }
 
-  let onTouchEnd = (e: TouchEvent) => {
-    let target = e.target as HTMLElement
+  const onTouchEnd = (e: TouchEvent) => {
+    const target = e.target as HTMLElement
 
     // Apply this change if we're not already focused on the target element
     if (isInput(target) && target !== document.activeElement) {
@@ -183,8 +163,8 @@ function preventScrollMobileSafari() {
     }
   }
 
-  let onFocus = (e: FocusEvent) => {
-    let target = e.target as HTMLElement
+  const onFocus = (e: FocusEvent) => {
+    const target = e.target as HTMLElement
     if (isInput(target)) {
       // Transform also needs to be applied in the focus event in cases where focus moves
       // other than tapping on an input directly, e.g. the next/previous buttons in the
@@ -206,18 +186,14 @@ function preventScrollMobileSafari() {
           } else {
             // Otherwise, wait for the visual viewport to resize before scrolling so we can
             // measure the correct position to scroll to.
-            visualViewport.addEventListener(
-              'resize',
-              () => scrollIntoView(target),
-              { once: true },
-            )
+            visualViewport.addEventListener('resize', () => scrollIntoView(target), { once: true })
           }
         }
       })
     }
   }
 
-  let onWindowScroll = () => {
+  const onWindowScroll = () => {
     // Last resort. If the window scrolled, scroll it back to the top.
     // It should always be at the top because the body will have a negative margin (see below).
     window.scrollTo(0, 0)
@@ -226,15 +202,11 @@ function preventScrollMobileSafari() {
   // Record the original scroll position so we can restore it.
   // Then apply a negative margin to the body to offset it by the scroll position. This will
   // enable us to scroll the window to the top, which is required for the rest of this to work.
-  let scrollX = window.pageXOffset
-  let scrollY = window.pageYOffset
+  const scrollX = window.pageXOffset
+  const scrollY = window.pageYOffset
 
-  let restoreStyles = chain(
-    setStyle(
-      document.documentElement,
-      'paddingRight',
-      `${window.innerWidth - document.documentElement.clientWidth}px`,
-    ),
+  const restoreStyles = chain(
+    setStyle(document.documentElement, 'paddingRight', `${window.innerWidth - document.documentElement.clientWidth}px`),
     // setStyle(document.documentElement, 'overflow', 'hidden'),
     // setStyle(document.body, 'marginTop', `-${scrollY}px`),
   )
@@ -242,7 +214,7 @@ function preventScrollMobileSafari() {
   // Scroll to the top. The negative margin on the body will make this appear the same.
   window.scrollTo(0, 0)
 
-  let removeEvents = chain(
+  const removeEvents = chain(
     addEvent(document, 'touchstart', onTouchStart, {
       passive: false,
       capture: true,
@@ -268,14 +240,10 @@ function preventScrollMobileSafari() {
 }
 
 // Sets a CSS property on an element, and returns a function to revert it to the previous value.
-function setStyle(
-  element: HTMLElement,
-  style: keyof React.CSSProperties,
-  value: string,
-) {
+function setStyle(element: HTMLElement, style: keyof React.CSSProperties, value: string) {
   // https://github.com/microsoft/TypeScript/issues/17827#issuecomment-391663310
   // @ts-ignore
-  let cur = element.style[style]
+  const cur = element.style[style]
   // @ts-ignore
   element.style[style] = value
 
@@ -302,21 +270,16 @@ function addEvent<K extends keyof GlobalEventHandlersEventMap>(
 }
 
 function scrollIntoView(target: Element) {
-  let root = document.scrollingElement || document.documentElement
+  const root = document.scrollingElement || document.documentElement
   while (target && target !== root) {
     // Find the parent scrollable element and adjust the scroll position if the target is not already in view.
-    let scrollable = getScrollParent(target)
-    if (
-      scrollable !== document.documentElement &&
-      scrollable !== document.body &&
-      scrollable !== target
-    ) {
-      let scrollableTop = scrollable.getBoundingClientRect().top
-      let targetTop = target.getBoundingClientRect().top
-      let targetBottom = target.getBoundingClientRect().bottom
+    const scrollable = getScrollParent(target)
+    if (scrollable !== document.documentElement && scrollable !== document.body && scrollable !== target) {
+      const scrollableTop = scrollable.getBoundingClientRect().top
+      const targetTop = target.getBoundingClientRect().top
+      const targetBottom = target.getBoundingClientRect().bottom
       // Buffer is needed for some edge cases
-      const keyboardHeight =
-        scrollable.getBoundingClientRect().bottom + KEYBOARD_BUFFER
+      const keyboardHeight = scrollable.getBoundingClientRect().bottom + KEYBOARD_BUFFER
 
       if (targetBottom > keyboardHeight) {
         scrollable.scrollTop += targetTop - scrollableTop
@@ -330,8 +293,7 @@ function scrollIntoView(target: Element) {
 
 export function isInput(target: Element) {
   return (
-    (target instanceof HTMLInputElement &&
-      !nonTextInputTypes.has(target.type)) ||
+    (target instanceof HTMLInputElement && !nonTextInputTypes.has(target.type)) ||
     target instanceof HTMLTextAreaElement ||
     (target instanceof HTMLElement && target.isContentEditable)
   )

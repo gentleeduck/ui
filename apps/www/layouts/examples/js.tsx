@@ -52,17 +52,12 @@ export function SONNER_V2() {
   }
 
   return (
-    <Button size='sm' border='default' variant='outline' onClick={handleClick}>
+    <Button size="sm" border="default" variant="outline" onClick={handleClick}>
       Show Upload Toast
     </Button>
   )
 }
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from '@gentleduck/registry-ui-duckui/input-otp'
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'
 
 export function InputOTPDemo() {
   return (

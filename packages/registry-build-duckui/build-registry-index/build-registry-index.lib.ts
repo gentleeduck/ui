@@ -33,14 +33,10 @@ export async function get_component_files({
   spinner,
   idx,
   registry_count,
-}: GetComponentFilesArgs): Promise<
-  z.infer<typeof registry_schema>[0] | undefined
-> {
+}: GetComponentFilesArgs): Promise<z.infer<typeof registry_schema>[0] | undefined> {
   try {
     // Determine the base path depending on the type of registry item
-    const basePath = `..${
-      type.includes('ui') ? ENV.REGISTRY_UI_PATH : ENV.REGISTRY_EXAMPLES_PATH
-    }${item.root_folder}`
+    const basePath = `..${type.includes('ui') ? ENV.REGISTRY_UI_PATH : ENV.REGISTRY_EXAMPLES_PATH}${item.root_folder}`
     const cwdPath = path.join(process.cwd(), basePath)
 
     // Scan for TypeScript and TSX files within the component's root directory
@@ -52,10 +48,7 @@ export async function get_component_files({
       spinner.text = `🧭 Retrieving ${styleText(
         'green',
         type,
-      )} component files... (${styleText('yellow', idx.toString())}/${styleText(
-        'yellow',
-        registry_count.toString(),
-      )})`
+      )} component files... (${styleText('yellow', idx.toString())}/${styleText('yellow', registry_count.toString())})`
     }
 
     // Return the item with an updated list of its files
@@ -65,16 +58,10 @@ export async function get_component_files({
         path: `${item.root_folder}/${file}`,
         type: item.type,
       })),
-      source: `${
-        type.includes('ui') ? ENV.REGISTRY_UI_PATH : ENV.REGISTRY_EXAMPLES_PATH
-      }${item.root_folder}`,
+      source: `${type.includes('ui') ? ENV.REGISTRY_UI_PATH : ENV.REGISTRY_EXAMPLES_PATH}${item.root_folder}`,
     }
   } catch (error) {
-    spinner.fail(
-      `Failed to retrieve component files: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    )
+    spinner.fail(`Failed to retrieve component files: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(1)
   }
 }

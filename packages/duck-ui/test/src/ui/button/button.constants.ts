@@ -5,23 +5,17 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm',
-        destructive:
-          'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground shadow-xs',
-        warning:
-          'bg-warning/90 hover:bg-warning/70 text-warning-foreground shadow-xs',
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm',
+        destructive: 'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground shadow-xs',
+        warning: 'bg-warning/90 hover:bg-warning/70 text-warning-foreground shadow-xs',
         outline:
           'border border-input text-accent-foreground bg-background hover:bg-accent hover:text-accent-foreground shadow-xs',
         dashed:
           'border border-dashed border-input text-accent-foreground bg-background hover:bg-accent/50 hover:text-accent-foreground shadow-xs',
-        secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-xs',
-        ghost:
-          'hover:bg-accent text-accent-foreground hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-xs',
+        ghost: 'hover:bg-accent text-accent-foreground hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        expand_icon:
-          'group relative text-primary-foreground bg-primary hover:bg-primary/90',
+        expand_icon: 'group relative text-primary-foreground bg-primary hover:bg-primary/90',
         ring_hover:
           'bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 hover:ring-2 hover:ring-primary/90 hover:ring-offset-2',
         shine:
@@ -49,12 +43,9 @@ export const buttonVariants = cva(
       border: {
         default: '',
         primary: 'border border-border/40 hover:border-border/80',
-        secondary:
-          'border border-secondary/40 hover:border-secondary bg-secondary/40 hover:bg-secondary/65',
-        destructive:
-          'border border-destructive/40 hover:border-destructive bg-destructive/40 hover:bg-destructive/65',
-        warning:
-          'border border-warning/40 hover:border-warning bg-warning/40 hover:bg-warning/65',
+        secondary: 'border border-secondary/40 hover:border-secondary bg-secondary/40 hover:bg-secondary/65',
+        destructive: 'border border-destructive/40 hover:border-destructive bg-destructive/40 hover:bg-destructive/65',
+        warning: 'border border-warning/40 hover:border-warning bg-warning/40 hover:bg-warning/65',
       },
     },
     defaultVariants: {

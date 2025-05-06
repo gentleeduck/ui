@@ -1,9 +1,7 @@
 {
   "name": "upload-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "upload"
-  ],
+  "registryDependencies": ["upload"],
   "root_folder": "upload",
   "files": [
     {

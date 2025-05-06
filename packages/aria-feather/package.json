@@ -1,5 +1,5 @@
 {
-  "name": "@gentelduck/aria-feather",
+  "name": "@gentleduck/aria-feather",
   "version": "0.1.0",
   "description": "aria-feather is a behavioral component abstraction that makes the aero dynamics of the web",
   "module": "./index.ts",
@@ -7,19 +7,8 @@
     ".": "./index.ts",
     "./dialog": "./src/dialog/index.ts"
   },
-  "keywords": [
-    "aria",
-    "gentelduck",
-    "behavioral",
-    "component",
-    "accessibility",
-    "a11y",
-    "react-aria",
-    "react"
-  ],
-  "files": [
-    "dist"
-  ],
+  "keywords": ["aria", "gentleduck", "behavioral", "component", "accessibility", "a11y", "react-aria", "react"],
+  "files": ["dist"],
   "scripts": {
     "build": "tsdown",
     "lint": "biome lint ",
@@ -27,20 +16,20 @@
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
   },
-  "author": "gentelduck",
+  "author": "gentleduck",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentelduck/ui/tree/master/packages/aria-feather"
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/aria-feather"
   },
   "bugs": {
-    "url": "https://github.com/gentelduck/ui/issues"
+    "url": "https://github.com/gentleduck/ui/issues"
   },
-  "homepage": "https://github.com/gentelduck/ui/tree/master/packages/aria-feather#readme",
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/aria-feather#readme",
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
-    "@gentelduck/tsdown": "workspace:*",
-    "@gentelduck/typescript-config": "workspace:*",
+    "@gentleduck/tsdown": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "clsx": "^1.2.1",
     "husky": "^9.1.7",
     "tsdown": "catalog:",

@@ -15,23 +15,10 @@ export const duckui_prompts_schema = z.object({
     message: 'Invalid value for projectType.',
     description: 'Please select a valid project type.',
   }),
-  base_color: z.enum(
-    [
-      'zinc',
-      'slate',
-      'gray',
-      'neutral',
-      'red',
-      'rose',
-      'orange',
-      'green',
-      'blue',
-    ],
-    {
-      description: 'The primary color theme for your project.',
-      errorMap: () => ({ message: 'Please select a valid base color.' }),
-    },
-  ),
+  base_color: z.enum(['zinc', 'slate', 'gray', 'neutral', 'red', 'rose', 'orange', 'green', 'blue'], {
+    description: 'The primary color theme for your project.',
+    errorMap: () => ({ message: 'Please select a valid base color.' }),
+  }),
   alias: z
     .string({
       description: 'Defines the alias used for importing modules.',
@@ -59,11 +46,7 @@ export const duckui_prompts_schema = z.object({
     errorMap: () => ({ message: 'Invalid value for cssVariables.' }),
   }),
 
-  prefix: z
-    .string()
-    .optional()
-    .default('')
-    .describe('A custom prefix for component class names or variables.'),
+  prefix: z.string().optional().default('').describe('A custom prefix for component class names or variables.'),
 })
 
 export type DuckuiPrompts = z.infer<typeof duckui_prompts_schema>

@@ -4,10 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { cn } from '@gentleduck/libs/cn'
-import {
-  ScrollArea,
-  ScrollBar,
-} from '../../../packages/_oldstuff_refactor/default/ui/scroll-area'
+import { ScrollArea, ScrollBar } from '../../../packages/_oldstuff_refactor/default/ui/scroll-area'
 
 const links = [
   {
@@ -40,14 +37,11 @@ const links = [
   },
 ]
 
-export function ChartsNav({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
+export function ChartsNav({ className, ...props }: React.ComponentProps<'div'>) {
   const pathname = usePathname()
 
   return (
-    <ScrollArea className='max-w-[600px] lg:max-w-none'>
+    <ScrollArea className="max-w-[600px] lg:max-w-none">
       <div className={cn('flex items-center', className)} {...props}>
         {links.map((example, index) => (
           <Link
@@ -55,17 +49,15 @@ export function ChartsNav({
             key={example.href}
             className={cn(
               'flex h-7 shrink-0 items-center justify-center rounded-full px-4 text-center text-sm transition-colors hover:text-primary',
-              pathname?.startsWith(example.href) ||
-                (index === 0 && pathname === '/')
+              pathname?.startsWith(example.href) || (index === 0 && pathname === '/')
                 ? 'bg-muted font-medium text-primary'
                 : 'text-muted-foreground',
-            )}
-          >
+            )}>
             {example.name}
           </Link>
         ))}
       </div>
-      <ScrollBar orientation='horizontal' className='invisible' />
+      <ScrollBar orientation="horizontal" className="invisible" />
     </ScrollArea>
   )
 }

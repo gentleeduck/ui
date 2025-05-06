@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { cn } from '@gentleduck/libs/cn'
 
-export interface LabelProps extends React.HTMLProps<HTMLLabelElement> { }
+export interface LabelProps extends React.HTMLProps<HTMLLabelElement> {}
 
 function Label({ className, ref, ...props }: LabelProps) {
   return (

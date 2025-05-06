@@ -17,7 +17,9 @@ export function ThemesTabs() {
 
   return (
     <div className="space-y-8">
-      {!mounted ? (
+      {mounted ? (
+        <ThemeWrapper>{config.style === 'default' && <CardsDefault />}</ThemeWrapper>
+      ) : (
         <div className="md:grids-col-2 grid md:gap-4 lg:grid-cols-10 xl:gap-6">
           <div className="space-y-4 lg:col-span-4 xl:col-span-6 xl:space-y-6">
             <Skeleton className="h-[218px] w-full" />
@@ -61,10 +63,6 @@ export function ThemesTabs() {
             <Skeleton className="h-[218px] w-full" />
           </div>
         </div>
-      ) : (
-        <ThemeWrapper>
-          {config.style === 'default' && <CardsDefault />}
-        </ThemeWrapper>
       )}
     </div>
     // {config.style === 'new-york' && <CardsNewYork />}

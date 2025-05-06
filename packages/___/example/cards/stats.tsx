@@ -44,7 +44,7 @@ export function CardsStats() {
   const { theme: mode } = useTheme()
   const [config] = useConfig()
 
-  const theme = themes.find(theme => theme.name === config.theme)
+  const theme = themes.find((theme) => theme.name === config.theme)
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
@@ -56,10 +56,7 @@ export function CardsStats() {
           <div className="text-2xl font-bold">$15,231.89</div>
           <p className="text-xs text-muted-foreground">+20.1% from last month</p>
           <div className="h-[80px]">
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
-            >
+            <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={data}
                 margin={{
@@ -67,8 +64,7 @@ export function CardsStats() {
                   right: 10,
                   left: 10,
                   bottom: 0,
-                }}
-              >
+                }}>
                 <Line
                   type="monotone"
                   strokeWidth={2}
@@ -97,10 +93,7 @@ export function CardsStats() {
           <div className="text-2xl font-bold">+2350</div>
           <p className="text-xs text-muted-foreground">+180.1% from last month</p>
           <div className="mt-4 h-[80px]">
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
-            >
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data}>
                 <Bar
                   dataKey="subscription"

@@ -21,10 +21,7 @@ import {
 } from '@/registry/registry-ui-components/dropdown-menu/dropdown-menu-wrapper'
 import { toast } from 'sonner'
 import { SheetWrapper } from '@/registry/registry-ui-components/sheet'
-import {
-  Button,
-  buttonVariants,
-} from '@/registry/registry-ui-components/button'
+import { Button, buttonVariants } from '@/registry/registry-ui-components/button'
 import { cn } from '@/lib/cn'
 import {
   AlertDialog,
@@ -64,9 +61,7 @@ export function Rows() {
           const Component = () => (
             <div className="flex items-center gap-2 [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:text-muted-foreground">
               {item.icon}
-              <span className="text-ellipsis overflow-hidden duck-truncate">
-                {item?.children}
-              </span>
+              <span className="text-ellipsis overflow-hidden duck-truncate">{item?.children}</span>
             </div>
           )
 
@@ -152,10 +147,7 @@ export const RowOptions = ({ idx }: { idx: number }) => {
             className: 'flex w-full justify-between items-end',
             _submit: {
               children: (
-                <Button
-                  variant="default"
-                  onClick={() => toast.success('Goal updated!')}
-                >
+                <Button variant="default" onClick={() => toast.success('Goal updated!')}>
                   Submit
                 </Button>
               ),
@@ -173,14 +165,13 @@ export const RowOptions = ({ idx }: { idx: number }) => {
             ..._!,
             value,
           }))
-        }}
-      >
+        }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              This action cannot be undone. This will permanently delete your account and remove your data from our
+              servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -193,8 +184,7 @@ export const RowOptions = ({ idx }: { idx: number }) => {
                     border: 'secondary',
                     className: 'px-8',
                   }),
-                )}
-              >
+                )}>
                 Cancel
               </Button>
             </AlertDialogCancel>
@@ -207,8 +197,7 @@ export const RowOptions = ({ idx }: { idx: number }) => {
                     border: 'destructive',
                     className: 'px-8',
                   }),
-                )}
-              >
+                )}>
                 Delete
               </Button>
             </AlertDialogAction>
@@ -238,8 +227,7 @@ function menuItems() {
         label: '⌘+o+d',
         key: 'Alt+n',
       },
-      className:
-        'bg-destructive/40 dark:text-white/70 text-destructive hover:!bg-destructive hover:!text-white',
+      className: 'bg-destructive/40 dark:text-white/70 text-destructive hover:!bg-destructive hover:!text-white',
     },
   ] as DropdownMenuOptionsDataType[]
 }

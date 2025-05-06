@@ -7,9 +7,7 @@ import type { Shortcut, Shortcuts } from '../Getkeys'
  */
 export const normalizeShortcuts = (keys: string | string[]): Shortcuts =>
   Array.isArray(keys)
-    ? keys
-        .map(normalizeShortcuts)
-        .reduce<Shortcut[]>((acc, v) => acc.concat(v), [])
+    ? keys.map(normalizeShortcuts).reduce<Shortcut[]>((acc, v) => acc.concat(v), [])
     : keys
         .split(',')
         .map((str) => str.trim().toLowerCase() as Shortcut)

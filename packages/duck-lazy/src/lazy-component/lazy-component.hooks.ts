@@ -78,9 +78,7 @@ import { UseLazyLoadReturn } from './lazy-component.types'
  * @see [IntersectionObserver API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
  * @see [React useRef](https://reactjs.org/docs/hooks-reference.html#useref)
  */
-export const useLazyLoad = (
-  options?: IntersectionObserverInit,
-): UseLazyLoadReturn => {
+export const useLazyLoad = (options?: IntersectionObserverInit): UseLazyLoadReturn => {
   const [isVisible, setIsVisible] = React.useState(false)
   const elementRef = React.useRef<HTMLDivElement>(null)
 

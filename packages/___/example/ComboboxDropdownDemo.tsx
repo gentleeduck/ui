@@ -38,22 +38,13 @@ export default function ComboboxDropdownMenu() {
           <span className="mr-2 rounded-lg bg-primary px-2 py-1 text-xs text-primary-foreground">{label}</span>
           <span className="text-muted-foreground">Create a command feature</span>
         </p>
-        <DropdownMenu
-          open={open}
-          onOpenChange={setOpen}
-        >
+        <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-            >
+            <Button variant="ghost" size="sm">
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="w-[200px]"
-          >
+          <DropdownMenuContent align="end" className="w-[200px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuGroup>
               <DropdownMenuItem>
@@ -72,22 +63,18 @@ export default function ComboboxDropdownMenu() {
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent className="p-0">
                   <Command>
-                    <CommandInput
-                      placeholder="Filter label..."
-                      autoFocus={true}
-                    />
+                    <CommandInput placeholder="Filter label..." autoFocus={true} />
                     <CommandList>
                       <CommandEmpty>No label found.</CommandEmpty>
                       <CommandGroup>
-                        {labels.map(label => (
+                        {labels.map((label) => (
                           <CommandItem
                             key={label}
                             value={label}
-                            onSelect={value => {
+                            onSelect={(value) => {
                               setLabel(value)
                               setOpen(false)
-                            }}
-                          >
+                            }}>
                             {label}
                           </CommandItem>
                         ))}

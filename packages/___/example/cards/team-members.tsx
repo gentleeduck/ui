@@ -19,10 +19,7 @@ export function CardsTeamMembers() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-4">
             <Avatar className="h-8 w-8">
-              <AvatarImage
-                src="/avatars/01.png"
-                alt="Image"
-              />
+              <AvatarImage src="/avatars/01.png" alt="Image" />
               <AvatarFallback>OM</AvatarFallback>
             </Avatar>
             <div>
@@ -32,18 +29,11 @@ export function CardsTeamMembers() {
           </div>
           <Popover>
             <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                className="ml-auto"
-              >
+              <Button variant="outline" size="sm" className="ml-auto">
                 Owner <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent
-              className="p-0"
-              align="end"
-            >
+            <PopoverContent className="p-0" align="end">
               <Command>
                 <CommandInput placeholder="Select new role..." />
                 <CommandList>
@@ -74,10 +64,7 @@ export function CardsTeamMembers() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-4">
             <Avatar className="h-8 w-8">
-              <AvatarImage
-                src="/avatars/02.png"
-                alt="Image"
-              />
+              <AvatarImage src="/avatars/02.png" alt="Image" />
               <AvatarFallback>JL</AvatarFallback>
             </Avatar>
             <div>
@@ -87,18 +74,11 @@ export function CardsTeamMembers() {
           </div>
           <Popover>
             <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                className="ml-auto"
-              >
+              <Button variant="outline" size="sm" className="ml-auto">
                 Member <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent
-              className="p-0"
-              align="end"
-            >
+            <PopoverContent className="p-0" align="end">
               <Command>
                 <CommandInput placeholder="Select new role..." />
                 <CommandList>
@@ -129,10 +109,7 @@ export function CardsTeamMembers() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-4">
             <Avatar className="h-8 w-8">
-              <AvatarImage
-                src="/avatars/03.png"
-                alt="Image"
-              />
+              <AvatarImage src="/avatars/03.png" alt="Image" />
               <AvatarFallback>IN</AvatarFallback>
             </Avatar>
             <div>
@@ -142,18 +119,11 @@ export function CardsTeamMembers() {
           </div>
           <Popover>
             <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                className="ml-auto"
-              >
+              <Button variant="outline" size="sm" className="ml-auto">
                 Member <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent
-              className="p-0"
-              align="end"
-            >
+            <PopoverContent className="p-0" align="end">
               <Command>
                 <CommandInput placeholder="Select new role..." />
                 <CommandList>

@@ -33,11 +33,7 @@ export function DuckLazyImage(props: LazyImageProps): React.JSX.Element {
   })
 
   return (
-    <div
-      ref={imageRef}
-      className="relative overflow-hidden"
-      style={{ transform: 'translate3d(0,0,0)' }}
-    >
+    <div ref={imageRef} className="relative overflow-hidden" style={{ transform: 'translate3d(0,0,0)' }}>
       <PlaceHolder
         src={isLoaded ? props.src : (props.placeholder ?? '')}
         className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'} ${props.nextImage && 'opacity-100'}`}
@@ -48,8 +44,9 @@ export function DuckLazyImage(props: LazyImageProps): React.JSX.Element {
 
       {!props.nextImage && (
         <div
-          className={`animate-pulse transition-all inset-0 absolute ${!isLoaded ? 'opacity-100 bg-muted' : 'opacity-0 bg-transparent'
-            }`}
+          className={`animate-pulse transition-all inset-0 absolute ${
+            isLoaded ? 'opacity-0 bg-transparent' : 'opacity-100 bg-muted'
+          }`}
           role="status" // Let screen readers know this is a loading status
           aria-live="polite" // Announce the loading state
           aria-hidden={isLoaded ? 'true' : 'false'} // Hide the loading spinner after image loads

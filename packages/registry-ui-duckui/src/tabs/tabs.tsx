@@ -26,9 +26,7 @@ export interface TabsProps extends React.HTMLProps<HTMLDivElement> {
 
 function Tabs({ listValues, ...props }: TabsProps) {
   if (!listValues) throw Error('listValues is required')
-  const [activeItem, setActiveItem] = React.useState<string>(
-    listValues![0] ?? '',
-  )
+  const [activeItem, setActiveItem] = React.useState<string>(listValues![0] ?? '')
   return (
     <TabsContext.Provider value={{ activeItem, setActiveItem }}>
       <div {...props} />
@@ -36,7 +34,7 @@ function Tabs({ listValues, ...props }: TabsProps) {
   )
 }
 
-export interface TabsListProps extends React.HTMLProps<HTMLUListElement> { }
+export interface TabsListProps extends React.HTMLProps<HTMLUListElement> {}
 const TabsList = ({ className, ref, ...props }: TabsListProps) => {
   return (
     <ul
@@ -54,15 +52,7 @@ export interface TabsTriggerProps extends React.HTMLProps<HTMLLIElement> {
   value: string
   defaultChecked?: boolean
 }
-const TabsTrigger = ({
-  className,
-  children,
-  defaultChecked,
-  onClick,
-  value,
-  ref,
-  ...props
-}: TabsTriggerProps) => {
+const TabsTrigger = ({ className, children, defaultChecked, onClick, value, ref, ...props }: TabsTriggerProps) => {
   const { setActiveItem } = useTabs()
   return (
     <li
@@ -72,14 +62,13 @@ const TabsTrigger = ({
         'relative inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 has-checked:bg-background has-checked:text-foreground has-checked:shadow',
         className,
       )}
-      {...props}
-    >
+      {...props}>
       <input
         id={value}
-        type='radio'
-        name='tab'
+        type="radio"
+        name="tab"
         value={value}
-        className='appearance-none absolute inset-0'
+        className="appearance-none absolute inset-0"
         onChange={() => setActiveItem(value)}
         defaultChecked={defaultChecked}
       />

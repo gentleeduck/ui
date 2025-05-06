@@ -180,9 +180,7 @@ describe.skip('@gentleduck/variants - cva', () => {
         color: 'primary',
         className: ['hover:bg-blue-600', 'focus:ring-2'],
       })
-      expect(customBadge).toEqual(
-        'badge badge-lg text-lg bg-blue-500 text-white hover:bg-blue-600 focus:ring-2',
-      )
+      expect(customBadge).toEqual('badge badge-lg text-lg bg-blue-500 text-white hover:bg-blue-600 focus:ring-2')
     })
 
     it('should ignore unknown props not defined in variants', () => {

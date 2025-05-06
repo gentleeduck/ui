@@ -54,17 +54,12 @@ export default function DrawerDemo8() {
   return (
     <Drawer fixed={true} shouldScaleBackground={false}>
       <DrawerTrigger asChild>
-        <Button variant='outline' className='mt-20'>
+        <Button variant="outline" className="mt-20">
           Hard Checklist
         </Button>
       </DrawerTrigger>
-      <DrawerContent className='max-w-xs mx-auto after:hidden mb-8 rounded-xl overflow-hidden'>
-        <div
-          className={cn(
-            'p-4 mx-auto w-full max-w-sm pt-2 overflow-hidden parent',
-            open && 'parent2',
-          )}
-        >
+      <DrawerContent className="max-w-xs mx-auto after:hidden mb-8 rounded-xl overflow-hidden">
+        <div className={cn('p-4 mx-auto w-full max-w-sm pt-2 overflow-hidden parent', open && 'parent2')}>
           <DuckTransition1 className={cn(open && 'one2')}>
             <HI
               barCount={barCount}
@@ -85,14 +80,9 @@ export default function DrawerDemo8() {
   )
 }
 
-export interface DuckTransitionProps
-  extends React.HTMLAttributes<HTMLDivElement> { }
+export interface DuckTransitionProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function DuckTransition1({
-  className,
-  children,
-  ...props
-}: DuckTransitionProps) {
+export function DuckTransition1({ className, children, ...props }: DuckTransitionProps) {
   return (
     <div
       className={cn(
@@ -100,18 +90,13 @@ export function DuckTransition1({
         'one',
         className,
       )}
-      {...props}
-    >
+      {...props}>
       {children}
     </div>
   )
 }
 
-export function DuckTransition2({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function DuckTransition2({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div className={cn('two', className)} {...props}>
       {children}
@@ -128,37 +113,26 @@ export function HI(props: {
   setProgress: React.Dispatch<React.SetStateAction<number>>
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-  const {
-    progress,
-    getBadgeColor,
-    barCount,
-    filledBars,
-    getBarColor,
-    setOpen,
-    setProgress,
-  } = props
+  const { progress, getBadgeColor, barCount, filledBars, getBarColor, setOpen, setProgress } = props
 
   return (
     <>
-      <div className='flex items-center justify-between'>
-        <DrawerTitle className='text-md'>Almost there.</DrawerTitle>
+      <div className="flex items-center justify-between">
+        <DrawerTitle className="text-md">Almost there.</DrawerTitle>
         <Badge
-          variant='destructive'
-          className={`rounded-lg will-change-auto w-[50px] transition-colors duration-300 ${getBadgeColor(progress)}`}
-        >
+          variant="destructive"
+          className={`rounded-lg will-change-auto w-[50px] transition-colors duration-300 ${getBadgeColor(progress)}`}>
           <AnimateNumber
             format={{ style: 'decimal', notation: 'standard' }}
-            prefix='%'
-          // animate={{ backgroundClip: 'text' }}
+            prefix="%"
+            // animate={{ backgroundClip: 'text' }}
           >
             {progress}
           </AnimateNumber>
         </Badge>
       </div>
-      <DrawerDescription>
-        Complete the remaining steps in the checklist before going live.
-      </DrawerDescription>
-      <div className='flex justify-between w-full'>
+      <DrawerDescription>Complete the remaining steps in the checklist before going live.</DrawerDescription>
+      <div className="flex justify-between w-full">
         {[...Array(barCount)].map((_, index) => (
           <motion.div
             key={index}
@@ -168,39 +142,33 @@ export function HI(props: {
               scale: index < filledBars ? [1, 1.1, 1] : 1,
             }}
             transition={{ duration: 0.5, delay: index * 0.008 }}
-            className={`w-[5px] h-[1rem] rounded-full transition-colors duration-300 ${index < filledBars ? getBarColor(index) : 'bg-gray-200'
-              }`}
+            className={`w-[5px] h-[1rem] rounded-full transition-colors duration-300 ${
+              index < filledBars ? getBarColor(index) : 'bg-gray-200'
+            }`}
           />
         ))}
       </div>
 
-      <DrawerFooter className='px-0 pb-0'>
+      <DrawerFooter className="px-0 pb-0">
         <Button
-          variant='secondary'
+          variant="secondary"
           onClick={() => {
             console.info('hi, i was clicked!!')
             setOpen((prev) => !prev)
-          }}
-        >
+          }}>
           See checklist
         </Button>
         <DrawerClose asChild>
           <Button
-            variant='secondary'
+            variant="secondary"
             disabled={progress < 100}
-            className={cn(
-              progress === 100 &&
-              'bg-green-500 text-white hover:bg-green-500/90',
-            )}
+            className={cn(progress === 100 && 'bg-green-500 text-white hover:bg-green-500/90')}
             loading={progress < 100}
             onClick={() => {
               setProgress(0)
               toast.success('Wow duck you are done!')
-            }}
-          >
-            {progress === 100
-              ? 'Complete the checklist'
-              : 'Loading to checklist'}
+            }}>
+            {progress === 100 ? 'Complete the checklist' : 'Loading to checklist'}
           </Button>
         </DrawerClose>
       </DrawerFooter>
@@ -214,9 +182,9 @@ export function HI2(props: {
   const { setOpen } = props
   return (
     <>
-      <DrawerTitle className='text-md'>Checklist</DrawerTitle>
+      <DrawerTitle className="text-md">Checklist</DrawerTitle>
       <Separator />
-      <ul className='flex flex-col gap-3'>
+      <ul className="flex flex-col gap-3">
         {[
           {
             title: 'Plan the project',
@@ -232,41 +200,29 @@ export function HI2(props: {
           },
           {
             title: 'Testing phase',
-            description:
-              'Perform debugging, QA, and performance optimizations.',
+            description: 'Perform debugging, QA, and performance optimizations.',
           },
           {
             title: 'Launch & review',
-            description:
-              'Deploy the project and gather feedback for improvements.',
+            description: 'Deploy the project and gather feedback for improvements.',
           },
         ].map((task, index) => (
-          <li key={index} className='flex items-start gap-3'>
-            <input
-              type='checkbox'
-              className='w-4 h-4 mt-1 accent-green-500'
-              id={`todo-${index}`}
-            />
+          <li key={index} className="flex items-start gap-3">
+            <input type="checkbox" className="w-4 h-4 mt-1 accent-green-500" id={`todo-${index}`} />
             <div>
-              <label
-                htmlFor={`todo-${index}`}
-                className='text-md font-semibold block'
-              >
+              <label htmlFor={`todo-${index}`} className="text-md font-semibold block">
                 {task.title}
               </label>
-              <p className='text-sm text-muted-foreground'>
-                {task.description}
-              </p>
+              <p className="text-sm text-muted-foreground">{task.description}</p>
             </div>
           </li>
         ))}
       </ul>
       <Button
-        variant='secondary'
+        variant="secondary"
         onClick={() => {
           setOpen(!open)
-        }}
-      >
+        }}>
         See checklist
       </Button>
     </>

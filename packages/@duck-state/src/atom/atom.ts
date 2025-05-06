@@ -28,9 +28,6 @@ export function atom<T>(initialValue: T): Atom<T> {
 
 // Fine-Grained React Hook
 export function useAtom<T>(atom: Atom<T>): [T, (value: T) => void] {
-  const state = useSyncExternalStore(
-    (notify) => atom.subscribe(notify),
-    atom.get,
-  )
+  const state = useSyncExternalStore((notify) => atom.subscribe(notify), atom.get)
   return [state, atom.set]
 }

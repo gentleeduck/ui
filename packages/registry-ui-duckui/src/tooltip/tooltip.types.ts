@@ -13,12 +13,9 @@ export interface TooltipProps extends React.HTMLProps<HTMLDivElement> {
   open?: boolean
 }
 
-export interface TooltipTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof Button> {}
+export interface TooltipTriggerProps extends React.ComponentPropsWithoutRef<typeof Button> {}
 
-export interface TooltipContentProps
-  extends React.HTMLProps<HTMLDivElement>,
-    VariantProps<typeof tooltipVariants> {
+export interface TooltipContentProps extends React.HTMLProps<HTMLDivElement>, VariantProps<typeof tooltipVariants> {
   /** Determines whether an arrow should be rendered on the tooltip to point at the trigger element.*/
   showArrow?: boolean
 }

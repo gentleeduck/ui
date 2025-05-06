@@ -47,9 +47,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   // Toggle like status
   const handleLikeToggle = React.useCallback(() => {
     setLikeState((prevState) => {
-      const newLikes = prevState.hasLiked
-        ? prevState.current - 1
-        : prevState.current + 1
+      const newLikes = prevState.hasLiked ? prevState.current - 1 : prevState.current + 1
       return {
         ...prevState,
         prev: prevState.current,
@@ -62,12 +60,9 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   return (
     <Button
-      size='icon'
-      variant='nothing'
-      className={cn(
-        'rounded-full h-auto w-auto',
-        likeState.hasLiked && 'btn-love',
-      )}
+      size="icon"
+      variant="nothing"
+      className={cn('rounded-full h-auto w-auto', likeState.hasLiked && 'btn-love')}
       onClick={(e) => {
         onClick && onClick({ e, state: likeState })
         handleLikeToggle()
@@ -85,14 +80,10 @@ const LikeButton: React.FC<LikeButtonProps> = ({
             likeState.scrollTo,
           )}
           style={{
-            width: `${Math.min(
-              48,
-              Math.max(24, String(likeState.current).length * 12),
-            )}px`,
-          }}
-        >
-          <span className='absolute top-0 left-0'>{likeState.current}</span>
-          <span className='absolute top-0 left-0'>{likeState.prev}</span>
+            width: `${Math.min(48, Math.max(24, String(likeState.current).length * 12))}px`,
+          }}>
+          <span className="absolute top-0 left-0">{likeState.current}</span>
+          <span className="absolute top-0 left-0">{likeState.prev}</span>
         </div>
       )}
     </Button>

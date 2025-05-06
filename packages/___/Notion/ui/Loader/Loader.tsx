@@ -13,8 +13,7 @@ const LoadingWrapper = ({ label }: LoadingWrapperProps) => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="w-8 h-8 animate-spin"
-      >
+        className="w-8 h-8 animate-spin">
         <path d="M21 12a9 9 0 1 1-6.219-8.56" />
       </svg>
       {label && <p className="text-sm font-semibold leading-tight text-white dark:text-black">{label}</p>}
@@ -28,7 +27,7 @@ export const Loader = ({ hasOverlay = true, label }: LoaderProps) => {
       <div className="items-center justify-center bg-black/60 flex h-full w-full fixed top-0 left-0 select-none z-[9999]">
         <LoadingWrapper label={label} />
       </div>,
-      document.body
+      document.body,
     )
   ) : (
     <LoadingWrapper label={label} />

@@ -1,10 +1,7 @@
 // src/selector.ts
 import { Atom } from '../atom'
 
-export function selector<T>(
-  getter: () => T,
-  dependencies: Atom<any>[],
-): Atom<T> {
+export function selector<T>(getter: () => T, dependencies: Atom<any>[]): Atom<T> {
   let value = getter()
   const listeners = new Set<() => void>()
 

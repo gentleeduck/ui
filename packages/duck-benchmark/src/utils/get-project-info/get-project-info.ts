@@ -20,9 +20,7 @@ export function get_package_json(): PackageJson | null {
 
   const package_json_path = path.join(process.cwd(), 'package.json')
 
-  const package_json: PackageJson = JSON.parse(
-    fs.readFileSync(package_json_path, 'utf8'),
-  )
+  const package_json: PackageJson = JSON.parse(fs.readFileSync(package_json_path, 'utf8'))
 
   return package_json
 }

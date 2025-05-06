@@ -17,35 +17,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link
-          href='/fonts/Geist-VF.woff2'
-          rel='preload'
-          as='font'
-          type='font/woff2'
-          crossOrigin='anonymous'
-        />
-        <link
-          href='/fonts/JetBrainsMono-MD.woff2'
-          rel='preload'
-          as='font'
-          type='font/woff2'
-          crossOrigin='anonymous'
-        />
+        <link href="/fonts/Geist-VF.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link href="/fonts/JetBrainsMono-MD.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body className={cn('min-h-svh bg-background font-sans antialiased')}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-          enableColorScheme
-        >
-          <div vaul-drawer-wrapper=''>
-            <div className='relative flex min-h-svh flex-col bg-background'>
-              {children}
-            </div>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange enableColorScheme>
+          <div vaul-drawer-wrapper="">
+            <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
           </div>
           <ThemeSwitcher />
           <Toaster />

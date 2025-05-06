@@ -23,8 +23,7 @@ export default function Upload2Demo() {
                     type="button"
                     icon={{
                       children: UploadIcon,
-                    }}
-                  >
+                    }}>
                     Upload
                   </Button>
                 </UploadTrigger>

@@ -4,22 +4,14 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import prompts from 'prompts'
 import { typescript_prompts } from './preflight-typescript.constants'
-import {
-  adding_typescript_config,
-  install_typescript,
-} from './preflight-typescript.libs'
+import { adding_typescript_config, install_typescript } from './preflight-typescript.libs'
 import { preflight_typescript_options_schema } from './preflight-typescript.dto'
 import { InitOptions } from '~/commands/init'
 
-export async function preflight_typescript(
-  _options: InitOptions,
-  spinner: Ora,
-) {
+export async function preflight_typescript(_options: InitOptions, spinner: Ora) {
   try {
     spinner.text = `Checking for ${highlighter.info('TypeScript')}...`
-    const is_ts_installed = await fs.pathExists(
-      path.resolve(_options.cwd, 'tsconfig.json'),
-    )
+    const is_ts_installed = await fs.pathExists(path.resolve(_options.cwd, 'tsconfig.json'))
     if (is_ts_installed) {
       spinner.text = `${highlighter.info('TypeScript')} is already installed...`
       return

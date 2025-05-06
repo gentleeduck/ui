@@ -8,7 +8,7 @@ import {
   Play,
   Trash2,
   Volume,
-  Volume1, 
+  Volume1,
   Volume2,
   VolumeX,
 } from 'lucide-react'
@@ -16,14 +16,7 @@ import * as React from 'react'
 import { Button } from '@/registry/registry-ui-components'
 import { cn } from '@/lib'
 import { Input } from './input'
-import {
-  AudioVisualizer,
-  dataPoint,
-  new_audio,
-  process_blob,
-  ProcessBlobParams,
-  ThemeColor,
-} from './audio-visualizer'
+import { AudioVisualizer, dataPoint, new_audio, process_blob, ProcessBlobParams, ThemeColor } from './audio-visualizer'
 import { uuidv7 } from 'uuidv7'
 import { AttachmentType } from './swapy'
 import { PopoverWrapper } from './popover'
@@ -57,19 +50,14 @@ export interface DeleteRecordingHandlerParams
     StopRecordingHandlerParam {}
 
 export interface StopRecordingHandlerParams
-  extends Omit<
-      StopRecordingHandlerParam,
-      'setRecording' | 'mediaRecorderRef' | 'durationRef'
-    >,
+  extends Omit<StopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef' | 'durationRef'>,
     Omit<RecordingParams, 'setRecordedDuration'> {}
 
 export interface StartTimerParams
   extends Omit<StopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef'>,
     Pick<RecordingParams, 'setRecordedDuration'> {}
 
-export interface StartRecordingHandlerParams
-  extends StopRecordingHandlerParam,
-    RecordingParams {}
+export interface StartRecordingHandlerParams extends StopRecordingHandlerParam, RecordingParams {}
 
 export const format_time_handler = (milliseconds: number): string => {
   const minutes = Math.floor(milliseconds / 60000)
@@ -84,11 +72,7 @@ export interface VisualizerClickHandlerParams {
 }
 
 // Handle audio visualizer click
-const visualizer_click_handler = ({
-  audioRef,
-  event,
-  setCurrentTime,
-}: VisualizerClickHandlerParams) => {
+const visualizer_click_handler = ({ audioRef, event, setCurrentTime }: VisualizerClickHandlerParams) => {
   if (audioRef.current == null) return
   const rect = event.currentTarget.getBoundingClientRect()
   const clickX = event.clientX - rect.left
@@ -136,11 +120,7 @@ export const start_recording_handler = async ({
 }
 
 // Stop recording and process audio blob
-export const Stop_recording_handler = ({
-  setRecordings,
-  intervalRef,
-  audioChunksRef,
-}: StopRecordingHandlerParams) => {
+export const Stop_recording_handler = ({ setRecordings, intervalRef, audioChunksRef }: StopRecordingHandlerParams) => {
   const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
 
   setRecordings((prev) => [
@@ -158,11 +138,7 @@ export const Stop_recording_handler = ({
 }
 
 // Stop recording audio
-export const stop_recording_handle = ({
-  setRecording,
-  intervalRef,
-  mediaRecorderRef,
-}: StopRecordingHandlerParam) => {
+export const stop_recording_handle = ({ setRecording, intervalRef, mediaRecorderRef }: StopRecordingHandlerParam) => {
   mediaRecorderRef.current?.stop()
   setRecording(false)
   clearInterval(intervalRef.current!)
@@ -187,11 +163,7 @@ export const deleteRecordingHandler = ({
 }
 
 // Start timer to track recording duration
-export const start_timer_handler = ({
-  durationRef,
-  intervalRef,
-  setRecordedDuration,
-}: StartTimerParams) => {
+export const start_timer_handler = ({ durationRef, intervalRef, setRecordedDuration }: StartTimerParams) => {
   clearInterval(intervalRef.current!)
   intervalRef.current = setInterval(() => {
     durationRef.current += 1000
@@ -209,9 +181,7 @@ interface AudioContextType {
 }
 
 // Default values for the context
-const AudioContext = React.createContext<AudioContextType | undefined>(
-  undefined,
-)
+const AudioContext = React.createContext<AudioContextType | undefined>(undefined)
 
 // Use the custom hook to access the audio context
 export const useAudioProvider = (): AudioContextType => {
@@ -281,8 +251,7 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         startRecording,
         stopRecording,
         deleteRecording,
-      }}
-    >
+      }}>
       {children}
     </AudioContext.Provider>
   )
@@ -292,71 +261,57 @@ export interface AudioTimerProps extends React.HTMLAttributes<HTMLDivElement> {
   showInput?: boolean
 }
 
-export const AudioTimer = React.forwardRef<HTMLDivElement, AudioTimerProps>(
-  ({ showInput, className }, ref) => {
-    const { recording, recordedDuration } = useAudioProvider()
-    return (
-      <div className={cn('relative', className)} ref={ref}>
-        <div
-          className={cn(
-            'absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 transition duration-100',
-            recording ? 'opacity-1' : 'opacity-0 pointer-events-none right-4',
-          )}
-        >
-          <span className="font-mono">
-            {format_time_handler(recordedDuration)}
-          </span>
-          <span className="font-mono w-2 h-2 rounded-full bg-primary animate-pulse" />
-        </div>
-        <div>
-          {showInput && (
-            <Input
-              disabled={recording}
-              className={cn(
-                'transition fade_animation',
-                !recording ? 'w-[235px]' : 'w-[179px] !opacity-100',
-              )}
-            />
-          )}
-        </div>
+export const AudioTimer = React.forwardRef<HTMLDivElement, AudioTimerProps>(({ showInput, className }, ref) => {
+  const { recording, recordedDuration } = useAudioProvider()
+  return (
+    <div className={cn('relative', className)} ref={ref}>
+      <div
+        className={cn(
+          'absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 transition duration-100',
+          recording ? 'opacity-1' : 'opacity-0 pointer-events-none right-4',
+        )}>
+        <span className="font-mono">{format_time_handler(recordedDuration)}</span>
+        <span className="font-mono w-2 h-2 rounded-full bg-primary animate-pulse" />
       </div>
+      <div>
+        {showInput && (
+          <Input
+            disabled={recording}
+            className={cn('transition fade_animation', recording ? 'w-[179px] !opacity-100' : 'w-[235px]')}
+          />
+        )}
+      </div>
+    </div>
+  )
+})
+
+export interface AudioDeleteProps extends React.ComponentPropsWithoutRef<typeof Button> {}
+
+export const AudioDelete = React.forwardRef<HTMLButtonElement, AudioDeleteProps>(
+  ({ size, type, onClick, className, ...props }, ref) => {
+    const { deleteRecording, recording } = useAudioProvider()
+    return (
+      <Button
+        size={size ?? 'icon'}
+        type={type ?? 'button'}
+        onClick={(e) => {
+          deleteRecording()
+          onClick && onClick(e)
+        }}
+        className={cn(
+          'rounded-full relative transition fade_animation',
+          recording ? 'scale-1 opacity-1 w-8 h-8' : 'scale-0 opacity-0 pointer-events-none w-0 h-0',
+          className,
+        )}
+        ref={ref}
+        {...props}>
+        <Trash2 className="size-[1rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation" />
+      </Button>
     )
   },
 )
 
-export interface AudioDeleteProps
-  extends React.ComponentPropsWithoutRef<typeof Button> {}
-
-export const AudioDelete = React.forwardRef<
-  HTMLButtonElement,
-  AudioDeleteProps
->(({ size, type, onClick, className, ...props }, ref) => {
-  const { deleteRecording, recording } = useAudioProvider()
-  return (
-    <Button
-      size={size ?? 'icon'}
-      type={type ?? 'button'}
-      onClick={(e) => {
-        deleteRecording()
-        onClick && onClick(e)
-      }}
-      className={cn(
-        'rounded-full relative transition fade_animation',
-        recording
-          ? 'scale-1 opacity-1 w-8 h-8'
-          : 'scale-0 opacity-0 pointer-events-none w-0 h-0',
-        className,
-      )}
-      ref={ref}
-      {...props}
-    >
-      <Trash2 className="size-[1rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation" />
-    </Button>
-  )
-})
-
-export interface AudioStartProps
-  extends React.ComponentPropsWithoutRef<typeof Button> {}
+export interface AudioStartProps extends React.ComponentPropsWithoutRef<typeof Button> {}
 
 export const AudioStart = React.forwardRef<HTMLButtonElement, AudioStartProps>(
   ({ size, type, onClick, className, ...props }, ref) => {
@@ -369,28 +324,19 @@ export const AudioStart = React.forwardRef<HTMLButtonElement, AudioStartProps>(
           recording ? stopRecording() : startRecording()
           onClick && onClick(e)
         }}
-        className={cn(
-          'rounded-full transition relative w-8 h-8',
-          recording ? 'ml-2' : 'ml-0',
-          className,
-        )}
+        className={cn('rounded-full transition relative w-8 h-8', recording ? 'ml-2' : 'ml-0', className)}
         ref={ref}
-        {...props}
-      >
+        {...props}>
         <Mic
           className={cn(
             'size-[1rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation',
-            recording
-              ? 'scale-0 opacity-0 pointer-events-none'
-              : 'scale-1 opacity-1',
+            recording ? 'scale-0 opacity-0 pointer-events-none' : 'scale-1 opacity-1',
           )}
         />
         <ArrowBigUp
           className={cn(
             'size-[1.18rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation stroke-[1.5]',
-            recording
-              ? 'scale-[1.1] opacity-1'
-              : 'scale-0 opacity-0 pointer-events-none',
+            recording ? 'scale-[1.1] opacity-1' : 'scale-0 opacity-0 pointer-events-none',
           )}
         />
       </Button>
@@ -424,8 +370,7 @@ const AudioItemWrapper = ({
       <div
         className={cn(
           'flex items-center gap-4 transition bg-secondary hover:bg-secondary/70 py-2 px-4 rounded-lg w-fit relative overflow-hidden',
-        )}
-      >
+        )}>
         <div
           className={cn(
             'w-[150%] h-[200%] flex justify-center items-center bg-primary/5 rounded-full absolute top-50% -left-[150%] z-1 transition-all duration-500 ease-out',
@@ -437,28 +382,19 @@ const AudioItemWrapper = ({
           size="icon"
           className={cn(
             'rounded-full relative z-10',
-            size === 'sm'
-              ? 'w-8 h-8 [&_svg]:size-4'
-              : size === 'md'
-                ? 'w-10 h-10'
-                : 'w-12 h-12',
+            size === 'sm' ? 'w-8 h-8 [&_svg]:size-4' : size === 'md' ? 'w-10 h-10' : 'w-12 h-12',
           )}
-          loading={loading}
-        >
+          loading={loading}>
           <Play
             className={cn(
               'absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation',
-              !isPlaying && !loading
-                ? 'scale-1 opacity-1'
-                : 'scale-0 opacity-0 pointer-events-none',
+              !isPlaying && !loading ? 'scale-1 opacity-1' : 'scale-0 opacity-0 pointer-events-none',
             )}
           />
           <Pause
             className={cn(
               'absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation',
-              isPlaying && !loading
-                ? 'scale-1 opacity-1'
-                : 'scale-0 opacity-0 pointer-events-none',
+              isPlaying && !loading ? 'scale-1 opacity-1' : 'scale-0 opacity-0 pointer-events-none',
             )}
           />
         </Button>
@@ -468,12 +404,7 @@ const AudioItemWrapper = ({
             <div className="cursor-pointer w-fit p-0">{children}</div>
 
             <div className="flex items-center gap-2 mt-1">
-              <span
-                className={cn(
-                  'flex items-center text-primary',
-                  size === 'sm' ? 'text-xs' : 'text-sm',
-                )}
-              >
+              <span className={cn('flex items-center text-primary', size === 'sm' ? 'text-xs' : 'text-sm')}>
                 {isPlaying || timeLeft < duration
                   ? format_time_handler(timeLeft > 0 ? timeLeft : 0)
                   : format_time_handler(duration)}
@@ -493,9 +424,7 @@ const AudioItemWrapper = ({
     </>
   )
 }
-export const AudioMoreOptions = ({
-  attachment,
-}: { attachment: AttachmentType }) => {
+export const AudioMoreOptions = ({ attachment }: { attachment: AttachmentType }) => {
   return (
     <PopoverWrapper
       trigger={{
@@ -521,8 +450,7 @@ export const AudioMoreOptions = ({
               variant={'ghost'}
               size={'sm'}
               icon={{ children: Download, className: 'h-4 w-4' }}
-              onClick={() => downloadAttachment({ attachment })}
-            >
+              onClick={() => downloadAttachment({ attachment })}>
               Download
             </Button>
           </div>
@@ -598,8 +526,7 @@ export const AudioSpeed = () => {
         className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
         variant={'default'}
         size={'sm'}
-        onClick={() => setSpeed(speed > 1.5 ? 0.5 : speed + 0.5)}
-      >
+        onClick={() => setSpeed(speed > 1.5 ? 0.5 : speed + 0.5)}>
         x{speed}
       </Button>
     </>
@@ -716,11 +643,7 @@ const AudioRecordItem = ({
         handlePlayPause={handlePlayPause}
         timeLeft={timeLeft}
         children={
-          <div
-            onClick={(event) =>
-              visualizer_click_handler({ audioRef, event, setCurrentTime })
-            }
-          >
+          <div onClick={(event) => visualizer_click_handler({ audioRef, event, setCurrentTime })}>
             <AudioVisualizerMemo
               setCurrentTime={setCurrentTime}
               blob={audio}
@@ -748,10 +671,7 @@ export interface FetchAudioBlobParams {
   setAudioBlob: React.Dispatch<React.SetStateAction<Blob | null>>
 }
 
-export const fetchAudioBlob = async ({
-  url,
-  setAudioBlob,
-}: FetchAudioBlobParams) => {
+export const fetchAudioBlob = async ({ url, setAudioBlob }: FetchAudioBlobParams) => {
   try {
     const response = await fetch(url)
     if (!response.ok) {
@@ -772,9 +692,7 @@ export interface AudioItemProps {
 }
 
 const AudioItem: React.FC<AudioItemProps> = ({ attachment }) => {
-  const [audioBlob, setAudioBlob] = React.useState<Blob | null>(
-    attachment.file ? attachment.file : null,
-  )
+  const [audioBlob, setAudioBlob] = React.useState<Blob | null>(attachment.file ? attachment.file : null)
 
   React.useEffect(() => {
     // if (contentSchema.safeParse(attachment).error) return
@@ -784,23 +702,14 @@ const AudioItem: React.FC<AudioItemProps> = ({ attachment }) => {
 
   return (
     <AudioDataProvider>
-      <AudioRecordItem
-        loading={audioBlob === null ? true : false}
-        audio={audioBlob}
-        attachment={attachment}
-      />
+      <AudioRecordItem loading={audioBlob === null ? true : false} audio={audioBlob} attachment={attachment} />
     </AudioDataProvider>
   )
 }
 
 // Audio Provider
 export interface AudioDataContextType {
-  process_audio: (
-    args: Omit<
-      ProcessBlobParams,
-      'setAnimationProgress' | 'setDuration' | 'setData'
-    >,
-  ) => Promise<void>
+  process_audio: (args: Omit<ProcessBlobParams, 'setAnimationProgress' | 'setDuration' | 'setData'>) => Promise<void>
   data: dataPoint[]
   speed: number
   setSpeed: React.Dispatch<React.SetStateAction<number>>
@@ -816,16 +725,12 @@ export interface AudioDataContextType {
   setVolume: React.Dispatch<React.SetStateAction<number>>
 }
 
-export const AudioDataContext = React.createContext<
-  AudioDataContextType | undefined
->(undefined)
+export const AudioDataContext = React.createContext<AudioDataContextType | undefined>(undefined)
 
 const useAudioDataProvider = (): AudioDataContextType => {
   const context = React.useContext(AudioDataContext)
   if (!context) {
-    throw new Error(
-      'useAudioProvider must be used within an AudioServiceProvider',
-    )
+    throw new Error('useAudioProvider must be used within an AudioServiceProvider')
   }
   return context
 }
@@ -856,10 +761,7 @@ const AudioDataProvider: React.FC<AudioProviderProps> = ({ children }) => {
       setLoading,
       width,
       height,
-    }: Omit<
-      ProcessBlobParams,
-      'setAnimationProgress' | 'setDuration' | 'setData'
-    >) => {
+    }: Omit<ProcessBlobParams, 'setAnimationProgress' | 'setDuration' | 'setData'>) => {
       await process_blob({
         canvasRef,
         blob,
@@ -897,18 +799,10 @@ const AudioDataProvider: React.FC<AudioProviderProps> = ({ children }) => {
         setRecording,
         volume,
         setVolume,
-      }}
-    >
+      }}>
       {children}
     </AudioDataContext.Provider>
   )
 }
 
-export {
-  Audio,
-  AudioItem,
-  AudioRecordItem,
-  AudioItemWrapper,
-  AudioDataProvider,
-  useAudioDataProvider,
-}
+export { Audio, AudioItem, AudioRecordItem, AudioItemWrapper, AudioDataProvider, useAudioDataProvider }

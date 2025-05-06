@@ -21,17 +21,11 @@ import { WriteIndexTsxParams } from './build-registry-tsx.types'
  *
  * @returns {Promise<void>} Resolves when the file is successfully written.
  */
-export async function write_index_tsx({
-  tsx_content,
-  spinner,
-}: WriteIndexTsxParams): Promise<void> {
+export async function write_index_tsx({ tsx_content, spinner }: WriteIndexTsxParams): Promise<void> {
   try {
     tsx_content += `\n}`
 
-    const targetPath = path.join(
-      process.cwd(),
-      `../..${ENV.REGISTRY_OUTPUT_PATH}__ui_registry__/index.tsx`,
-    )
+    const targetPath = path.join(process.cwd(), `../..${ENV.REGISTRY_OUTPUT_PATH}__ui_registry__/index.tsx`)
     spinner.text = `🧭 Writing UI registry index file: ${targetPath}`
 
     // Remove existing index.tsx file if present
@@ -42,9 +36,7 @@ export async function write_index_tsx({
 
     spinner.text = `UI registry index file written successfully: ${targetPath}`
   } catch (error) {
-    spinner.fail(
-      `Failed to write UI registry index file: ${error instanceof Error ? error.message : String(error)}`,
-    )
+    spinner.fail(`Failed to write UI registry index file: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(1)
   }
 }

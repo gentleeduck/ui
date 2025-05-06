@@ -40,7 +40,7 @@ export const ImageBlockMenu = ({ editor, appendTo }: MenuProps): JSX.Element => 
     (value: number) => {
       editor.chain().focus(undefined, { scrollIntoView: false }).setImageBlockWidth(value).run()
     },
-    [editor]
+    [editor],
   )
 
   return (
@@ -63,38 +63,28 @@ export const ImageBlockMenu = ({ editor, appendTo }: MenuProps): JSX.Element => 
         },
         plugins: [sticky],
         sticky: 'popper',
-      }}
-    >
-      <Toolbar.Wrapper
-        shouldShowContent={shouldShow()}
-        ref={menuRef}
-      >
+      }}>
+      <Toolbar.Wrapper shouldShowContent={shouldShow()} ref={menuRef}>
         <Toolbar.Button
           tooltip="Align image left"
           active={editor.isActive('imageBlock', { align: 'left' })}
-          onClick={onAlignImageLeft}
-        >
+          onClick={onAlignImageLeft}>
           <Icon name="AlignHorizontalDistributeStart" />
         </Toolbar.Button>
         <Toolbar.Button
           tooltip="Align image center"
           active={editor.isActive('imageBlock', { align: 'center' })}
-          onClick={onAlignImageCenter}
-        >
+          onClick={onAlignImageCenter}>
           <Icon name="AlignHorizontalDistributeCenter" />
         </Toolbar.Button>
         <Toolbar.Button
           tooltip="Align image right"
           active={editor.isActive('imageBlock', { align: 'right' })}
-          onClick={onAlignImageRight}
-        >
+          onClick={onAlignImageRight}>
           <Icon name="AlignHorizontalDistributeEnd" />
         </Toolbar.Button>
         <Toolbar.Divider />
-        <ImageBlockWidth
-          onChange={onWidthChange}
-          value={parseInt(editor.getAttributes('imageBlock').width)}
-        />
+        <ImageBlockWidth onChange={onWidthChange} value={Number.parseInt(editor.getAttributes('imageBlock').width)} />
       </Toolbar.Wrapper>
     </BaseBubbleMenu>
   )

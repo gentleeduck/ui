@@ -5,10 +5,7 @@ import { preflight_duckui } from './preflight-duckui'
 import { preflight_tailwindcss } from './preflight-tailwindcss'
 import { preflight_typescript } from './preflight-typescript'
 
-export async function preflight_configs(
-  _options: InitOptions,
-  spinner: Ora,
-): Promise<void> {
+export async function preflight_configs(_options: InitOptions, spinner: Ora): Promise<void> {
   try {
     spinner.text = `${highlighter.info('Preflighting required configs...')}`
     await preflight_typescript(_options, spinner)
@@ -17,11 +14,7 @@ export async function preflight_configs(
 
     spinner.text = `${highlighter.info('Configs preflighted...')}`
   } catch (error) {
-    spinner.fail(
-      `Failed to preflight required configs...\n ${highlighter.error(
-        error as string,
-      )}`,
-    )
+    spinner.fail(`Failed to preflight required configs...\n ${highlighter.error(error as string)}`)
     process.exit(0)
   }
 }

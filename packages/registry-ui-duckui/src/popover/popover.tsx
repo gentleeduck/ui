@@ -35,37 +35,16 @@ export interface PopoverWrapperProps {
   content?: React.ComponentPropsWithoutRef<typeof PopoverContent>
 }
 
-const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
-  content,
-  trigger,
-  wrapper,
-}) => {
-  const {
-    className: triggerClassName,
-    key: triggerKey,
-    children: triggerChildren,
-    ...triggerProps
-  } = trigger ?? {}
-  const {
-    className: contentClassName,
-    key: contentKey,
-    children: contentChildren,
-    ...contentProps
-  } = content ?? {}
+const PopoverWrapper: React.FC<PopoverWrapperProps> = ({ content, trigger, wrapper }) => {
+  const { className: triggerClassName, key: triggerKey, children: triggerChildren, ...triggerProps } = trigger ?? {}
+  const { className: contentClassName, key: contentKey, children: contentChildren, ...contentProps } = content ?? {}
 
   return (
     <Popover {...wrapper}>
-      <PopoverTrigger
-        asChild
-        className={cn('', triggerClassName)}
-        {...triggerProps}
-      >
+      <PopoverTrigger asChild className={cn('', triggerClassName)} {...triggerProps}>
         {triggerChildren}
       </PopoverTrigger>
-      <PopoverContent
-        className={cn('w-80', contentClassName)}
-        {...contentProps}
-      >
+      <PopoverContent className={cn('w-80', contentClassName)} {...contentProps}>
         {contentChildren}
       </PopoverContent>
     </Popover>

@@ -40,7 +40,7 @@ function getNodeAttributeByName(node: UnistNode, name: string) {
 type ItemType = { name: string; type: string; src: string }
 
 export function get_component_source(files: RegistryItemFile[]): ItemType[] {
-  let item: ItemType[] = []
+  const item: ItemType[] = []
 
   // biome-ignore lint/style/useForOf: <explanation>
   for (let i = 0; i < files.length; i++) {
@@ -48,9 +48,7 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
       console.log(`ERROR: no path found for file ${files[i]?.path}`)
     }
     const filePath = path.join(
-      `../../packages/registry-${
-        files[i]?.type === 'registry:ui' ? 'ui' : 'examples'
-      }-duckui/src/`,
+      `../../packages/registry-${files[i]?.type === 'registry:ui' ? 'ui' : 'examples'}-duckui/src/`,
       files[i]!.path,
     )
     let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n\n`
@@ -92,7 +90,7 @@ export function componentSource({
 
   try {
     const component = Index[`${name}`]
-    let items = get_component_source(component?.files ?? [])
+    const items = get_component_source(component?.files ?? [])
 
     node.children?.push(
       ...items.map((item) => {
@@ -137,10 +135,7 @@ export function componentPreview({ node }: { node: UnistNode }) {
     const src = component?.files?.[0]?.path
 
     // Read the source file.
-    const filePath = path.join(
-      process.cwd(),
-      `../../packages/registry-examples-duckui/src/${src}`,
-    )
+    const filePath = path.join(process.cwd(), `../../packages/registry-examples-duckui/src/${src}`)
     let source = fs.readFileSync(filePath, 'utf8')
     console.log(src?.split('/')[0])
 

@@ -29,33 +29,17 @@ export type TableDataType = {
   priority: PriorityType
 }
 
-export const tableHeaderDropDown: DropdownMenuOptionsDataType<
-  TableHeaderOptionsType<TableDataType>,
-  true
->[] = [
+export const tableHeaderDropDown: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataType>, true>[] = [
   {
-    action: (
-      e,
-      { sortArray, setHeaders, setTableData, data, headers, idx },
-    ) => {
-      const { sortedData, updatedColumns } = sortArray(
-        headers,
-        data,
-        headers[idx].label as keyof TableDataType,
-        'asc',
-      )
+    action: (e, { sortArray, setHeaders, setTableData, data, headers, idx }) => {
+      const { sortedData, updatedColumns } = sortArray(headers, data, headers[idx].label as keyof TableDataType, 'asc')
       // console.log(sortedData)
       setHeaders(() => updatedColumns)
-      setTableData(() =>
-        updatedColumns[idx].currentSort === 'asc' ? sortedData : data,
-      )
+      setTableData(() => (updatedColumns[idx].currentSort === 'asc' ? sortedData : data))
     },
   },
   {
-    action: (
-      e,
-      { sortArray, setHeaders, setTableData, data, headers, idx },
-    ) => {
+    action: (e, { sortArray, setHeaders, setTableData, data, headers, idx }) => {
       const { sortedData, updatedColumns } = sortArray(
         headers,
         data,
@@ -63,9 +47,7 @@ export const tableHeaderDropDown: DropdownMenuOptionsDataType<
         'desc',
       )
       setHeaders(() => updatedColumns)
-      setTableData(() =>
-        updatedColumns[idx].currentSort === 'desc' ? sortedData : data,
-      )
+      setTableData(() => (updatedColumns[idx].currentSort === 'desc' ? sortedData : data))
     },
     icon: {
       children: ArrowUpIcon,
@@ -87,12 +69,7 @@ export const tableHeaderDropDown: DropdownMenuOptionsDataType<
   },
 ]
 
-export type StatusType =
-  | 'Backlog'
-  | 'Todo'
-  | 'In Progress'
-  | 'Done'
-  | 'Canceled'
+export type StatusType = 'Backlog' | 'Todo' | 'In Progress' | 'Done' | 'Canceled'
 export type PriorityType = 'High' | 'Medium' | 'Low'
 const iconStyle = 'size-4 stroke-[1.5] text-muted-foreground'
 export const filtersData = [
@@ -146,10 +123,7 @@ export const filtersData = [
   } as ComboboxType<keyof TableDataType, PriorityType>,
 ]
 
-export const optionsData: DropdownMenuOptionsDataType<
-  TableHeaderOptionsType<TableDataType>,
-  true
->[] = [
+export const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataType>, true>[] = [
   {
     children: 'Edit',
     onClick: () => console.log('edit'),
@@ -217,12 +191,7 @@ export default function DataTableMainDemo() {
         }}
         header={columns}
         selection={true}
-        filters={
-          filtersData as ComboboxType<
-            keyof TableDataType,
-            StatusType | PriorityType
-          >[]
-        }
+        filters={filtersData as ComboboxType<keyof TableDataType, StatusType | PriorityType>[]}
         tableContentData={[...tableData]}
         viewButton={true}
         tableSearch={true}

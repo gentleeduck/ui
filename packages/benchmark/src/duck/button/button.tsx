@@ -1,12 +1,11 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 
 function ShadcnButton() {
-
   return (
     <>
-        <Button asChild>
-          <a href="">count is</a>
-        </Button>
+      <Button asChild>
+        <a href="">count is</a>
+      </Button>
     </>
   )
 }

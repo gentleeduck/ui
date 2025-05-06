@@ -28,15 +28,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <script src='https://cdn.jsdelivr.net/npm/react-scan/dist/auto.global.js'></script>
+        <script src="https://cdn.jsdelivr.net/npm/react-scan/dist/auto.global.js"></script>
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
-        <Toaster theme='light' />
+        <Toaster theme="light" />
       </body>
     </html>
   )

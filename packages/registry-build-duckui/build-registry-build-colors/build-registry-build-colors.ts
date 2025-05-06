@@ -3,10 +3,7 @@ import path from 'node:path'
 import rimraf from 'rimraf'
 import { existsSync } from 'node:fs'
 import { REGISTRY_PATH } from '../main/main.constants'
-import {
-  build_registry_themes,
-  registry_build_colors_index,
-} from './build-registry-build-colors.lib'
+import { build_registry_themes, registry_build_colors_index } from './build-registry-build-colors.lib'
 import { BuildRegistryColorsParams } from './build-registry-build-colors.types'
 
 // ----------------------------------------------------------------------------
@@ -20,9 +17,7 @@ import { BuildRegistryColorsParams } from './build-registry-build-colors.types'
  * @returns {Promise<void>} Resolves when all colors are built successfully.
  * @throws {Error} If any step fails.
  */
-export async function registry_build_colors({
-  spinner,
-}: BuildRegistryColorsParams): Promise<void> {
+export async function registry_build_colors({ spinner }: BuildRegistryColorsParams): Promise<void> {
   try {
     const colors_target_path = path.join(REGISTRY_PATH, 'colors')
 
@@ -42,9 +37,7 @@ export async function registry_build_colors({
 
     spinner.text = `🧭 Writing colors index.json: ${colors_target_path}`
   } catch (error) {
-    spinner.fail(
-      `Failed to build registry colors: ${error instanceof Error ? error.message : String(error)}`,
-    )
+    spinner.fail(`Failed to build registry colors: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(0)
   }
 }

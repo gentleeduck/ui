@@ -2,9 +2,9 @@ import { cn } from '@gentleduck/libs/cn'
 import { Button } from '../button'
 import React from 'react'
 import { X } from 'lucide-react'
-import { AnimDialogVariants, AnimVariants } from '@gentelduck/motion/anim'
+import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import { DialogContextType, DialogProps } from './dialog.types'
-import { useDialog } from '@gentelduck/aria-feather'
+import { useDialog } from '@gentleduck/aria-feather'
 /**
  * Context for managing the open state of the dialog.
  *
@@ -37,11 +37,7 @@ export function useDialogContext(name: string = 'Dialog'): DialogContextType {
  *
  * @returns {React.JSX.Element} A context provider that manages the dialog state and renders its children.
  */
-export function Dialog({
-  children,
-  open: openProp,
-  onOpenChange,
-}: DialogProps): React.JSX.Element {
+export function Dialog({ children, open: openProp, onOpenChange }: DialogProps): React.JSX.Element {
   const { open, onOpenChange: _onOpenChange, ref } = useDialog(openProp, onOpenChange)
 
   return (
@@ -49,9 +45,8 @@ export function Dialog({
       value={{
         open: open ?? false,
         onOpenChange: _onOpenChange,
-        ref
-      }}
-    >
+        ref,
+      }}>
       {children}
     </DialogContext.Provider>
   )
@@ -70,10 +65,7 @@ export function Dialog({
  *
  * @returns {React.JSX.Element} A button that toggles the dialog on click.
  */
-export function DialogTrigger({
-  onClick,
-  ...props
-}: React.ComponentPropsWithoutRef<typeof Button>): React.JSX.Element {
+export function DialogTrigger({ onClick, ...props }: React.ComponentPropsWithoutRef<typeof Button>): React.JSX.Element {
   const { onOpenChange } = useDialogContext()
 
   return (
@@ -127,13 +119,11 @@ export function DialogContent({
       )}
       onClick={(e) => {
         if (e.currentTarget === e.target) onOpenChange(false)
-      }}
-    >
+      }}>
       <button
-        aria-label='close'
-        className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
-        onClick={() => onOpenChange(false)}
-      >
+        aria-label="close"
+        className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
+        onClick={() => onOpenChange(false)}>
         <X aria-hidden size={20} />
       </button>
       {_shouldRender && children}
@@ -155,21 +145,9 @@ export function DialogContent({
  *
  * @returns {JSX.Element} The rendered DialogHeader component.
  */
-export function DialogHeader({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+export function DialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   console.log('asdfasd')
-  return (
-    <div
-      className={cn(
-        'flex flex-col space-y-1.5 text-center sm:text-left',
-        className,
-      )}
-      {...props}
-    />
-  )
+  return <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
 }
 
 /**
@@ -186,20 +164,8 @@ export function DialogHeader({
  *
  * @returns {React.JSX.Element} The rendered DialogFooter component.
  */
-export function DialogFooter({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      className={cn(
-        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-        className,
-      )}
-      {...props}
-    />
-  )
+export function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
 }
 
 /**
@@ -214,22 +180,9 @@ export function DialogFooter({
  *
  * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
-export function DialogTitle({
-  className,
-  ref,
-  ...props
-}: DialogTitleProps): React.JSX.Element {
-  return (
-    <h2
-      ref={ref}
-      className={cn(
-        'text-lg font-semibold leading-none tracking-tight',
-        className,
-      )}
-      {...props}
-    />
-  )
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
+export function DialogTitle({ className, ref, ...props }: DialogTitleProps): React.JSX.Element {
+  return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }
 
 /**
@@ -248,9 +201,5 @@ export const DialogDescription = ({
   ref,
   ...props
 }: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-  <p
-    ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
-    {...props}
-  />
+  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 )

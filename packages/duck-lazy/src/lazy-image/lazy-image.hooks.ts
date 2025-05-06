@@ -29,10 +29,7 @@ import { UseLazyImageReturn } from './lazy-image.types'
  * );
  * ```
  */
-export const useLazyImage = (
-  src: string,
-  options?: IntersectionObserverInit,
-): UseLazyImageReturn => {
+export const useLazyImage = (src: string, options?: IntersectionObserverInit): UseLazyImageReturn => {
   const [isLoaded, setIsLoaded] = React.useState(false)
   const [isInView, setIsInView] = React.useState(false)
   const imageRef = React.useRef<HTMLImageElement>(null)

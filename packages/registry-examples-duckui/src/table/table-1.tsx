@@ -139,38 +139,29 @@ export const DuckTableRowWrapper = ({
 
                       {/*NOTE: Rendering the row column childrend */}
                       <div className="grid [&_*]:text-ellipsis [&_*]:overflow-hidden [&_*]:whitespace-nowrap">
-                        <span
-                          className={cn(
-                            Icon &&
-                            'flex items-center gap-2 [&_svg]:flex-shrink-0',
-                          )}
-                        >
+                        <span className={cn(Icon && 'flex items-center gap-2 [&_svg]:flex-shrink-0')}>
                           {Icon && <Icon {...iconProps} />}
                           {Icon ? <span> {children}</span> : children}
                         </span>
                       </div>
                       {/*NOTE: Dropdown Menu */}
-                      {idx === Object.values(row).length - 1 &&
-                        optionsData?.length && (
-                          <DropdownMenuView
-                            trigger={{
-                              className:
-                                'flex py-0 px-1 data-[state=open]:bg-muted h-fit',
-                              children: (
-                                <span className="sr-only">Open menu</span>
-                              ),
-                              variant: 'ghost',
-                              size: 'sm',
-                              icon: {
-                                children: Ellipsis,
-                              },
-                            }}
-                            content={{
-                              align: 'end',
-                              options,
-                            }}
-                          />
-                        )}
+                      {idx === Object.values(row).length - 1 && optionsData?.length && (
+                        <DropdownMenuView
+                          trigger={{
+                            className: 'flex py-0 px-1 data-[state=open]:bg-muted h-fit',
+                            children: <span className="sr-only">Open menu</span>,
+                            variant: 'ghost',
+                            size: 'sm',
+                            icon: {
+                              children: Ellipsis,
+                            },
+                          }}
+                          content={{
+                            align: 'end',
+                            options,
+                          }}
+                        />
+                      )}
                     </div>
                   </TableCell>
                 </React.Fragment>
@@ -178,8 +169,7 @@ export const DuckTableRowWrapper = ({
             })}
           </>
         ),
-      }}
-    ></DuckTableBodyRow>
+      }}></DuckTableBodyRow>
   )
 }
 
@@ -197,132 +187,126 @@ const footerColumns: FooterColumnType[] = [
 
 const iconStyle = 'size-4 stroke-[1.5] text-muted-foreground'
 // Assuming you have separate filter arrays for StatusType and PriorityType
-const filtersDataForStatusType: ComboboxType<
-  keyof TableDataType,
-  StatusType
->[] = [
-    {
-      type: 'listbox',
-      trigger: {
-        children: 'status',
-        size: 'sm',
-        label: {
-          children: 'Filter Status',
-          showLabel: true,
-          showCommand: true,
-          side: 'top',
-        },
-        command: {
-          label: '⌃+⇧+S',
-          key: 'ctrl+shift+s',
-        },
+const filtersDataForStatusType: ComboboxType<keyof TableDataType, StatusType>[] = [
+  {
+    type: 'listbox',
+    trigger: {
+      children: 'status',
+      size: 'sm',
+      label: {
+        children: 'Filter Status',
+        showLabel: true,
+        showCommand: true,
+        side: 'top',
       },
-      content: {
-        showSearchInput: true,
-        data: [
-          {
-            label: 'Backlog',
-            element: {
-              icon: {
-                children: CircleHelp,
-                className: iconStyle,
-              },
-            },
-          },
-          {
-            label: 'Todo',
-            element: {
-              icon: {
-                children: Circle,
-                className: iconStyle,
-              },
-            },
-          },
-          {
-            label: 'In Progress',
-            element: {
-              icon: {
-                children: Clock12,
-                className: iconStyle,
-              },
-            },
-          },
-          {
-            label: 'Done',
-            element: {
-              icon: {
-                children: CircleCheck,
-                className: iconStyle,
-              },
-            },
-          },
-          {
-            label: 'Canceled',
-            element: {
-              icon: {
-                children: CircleX,
-                className: iconStyle,
-              },
-            },
-          },
-        ],
+      command: {
+        label: '⌃+⇧+S',
+        key: 'ctrl+shift+s',
       },
     },
-  ]
+    content: {
+      showSearchInput: true,
+      data: [
+        {
+          label: 'Backlog',
+          element: {
+            icon: {
+              children: CircleHelp,
+              className: iconStyle,
+            },
+          },
+        },
+        {
+          label: 'Todo',
+          element: {
+            icon: {
+              children: Circle,
+              className: iconStyle,
+            },
+          },
+        },
+        {
+          label: 'In Progress',
+          element: {
+            icon: {
+              children: Clock12,
+              className: iconStyle,
+            },
+          },
+        },
+        {
+          label: 'Done',
+          element: {
+            icon: {
+              children: CircleCheck,
+              className: iconStyle,
+            },
+          },
+        },
+        {
+          label: 'Canceled',
+          element: {
+            icon: {
+              children: CircleX,
+              className: iconStyle,
+            },
+          },
+        },
+      ],
+    },
+  },
+]
 
-const filtersDataForPriorityType: ComboboxType<
-  keyof TableDataType,
-  PriorityType
->[] = [
-    {
-      type: 'listbox',
-      trigger: {
-        children: 'priority',
-        label: {
-          children: 'Filter Method',
-          showLabel: true,
-          showCommand: true,
-          side: 'top',
-        },
-        command: {
-          label: '⌃+⇧+M',
-          key: 'ctrl+shift+m',
-        },
+const filtersDataForPriorityType: ComboboxType<keyof TableDataType, PriorityType>[] = [
+  {
+    type: 'listbox',
+    trigger: {
+      children: 'priority',
+      label: {
+        children: 'Filter Method',
+        showLabel: true,
+        showCommand: true,
+        side: 'top',
       },
-      content: {
-        showSearchInput: true,
-        data: [
-          {
-            label: 'Low',
-            element: {
-              icon: {
-                children: ArrowDownIcon,
-                className: 'size-4 stroke-[1.5]',
-              },
-            },
-          },
-          {
-            label: 'Medium',
-            element: {
-              icon: {
-                children: ArrowRightIcon,
-                className: 'size-4 stroke-[1.5]',
-              },
-            },
-          },
-          {
-            label: 'High',
-            element: {
-              icon: {
-                children: ArrowUpIcon,
-                className: 'size-4 stroke-[1.5]',
-              },
-            },
-          },
-        ],
+      command: {
+        label: '⌃+⇧+M',
+        key: 'ctrl+shift+m',
       },
     },
-  ]
+    content: {
+      showSearchInput: true,
+      data: [
+        {
+          label: 'Low',
+          element: {
+            icon: {
+              children: ArrowDownIcon,
+              className: 'size-4 stroke-[1.5]',
+            },
+          },
+        },
+        {
+          label: 'Medium',
+          element: {
+            icon: {
+              children: ArrowRightIcon,
+              className: 'size-4 stroke-[1.5]',
+            },
+          },
+        },
+        {
+          label: 'High',
+          element: {
+            icon: {
+              children: ArrowUpIcon,
+              className: 'size-4 stroke-[1.5]',
+            },
+          },
+        },
+      ],
+    },
+  },
+]
 
 const combinedFiltersData = [
   ...filtersDataForStatusType.map(

@@ -6,10 +6,8 @@ export function nestObjectsByTreeLevelAndFolderId(data: (BucketFilesType | Bucke
   const roots: (BucketFilesType | BucketFoldersType)[] = []
 
   // Map all items by their ID and initialize `content` array for folders
-  data.forEach(item => {
-    if (!item.folder_id) {
-      roots.push(item) // No folder_id means it's a root
-    } else {
+  data.forEach((item) => {
+    if (item.folder_id) {
       // Store items in the map for potential parents
       if (!idToItemMap.has(item.folder_id)) {
         idToItemMap.set(item.folder_id, {
@@ -20,6 +18,8 @@ export function nestObjectsByTreeLevelAndFolderId(data: (BucketFilesType | Bucke
         })
       }
       idToItemMap.get(item.folder_id)!.content!.push(item)
+    } else {
+      roots.push(item) // No folder_id means it's a root
     }
   })
 

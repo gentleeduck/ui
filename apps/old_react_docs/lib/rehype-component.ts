@@ -28,7 +28,7 @@ export function rehypeComponent() {
         try {
           const component = Index[`${name}`]
           const files = component.files[0]
-          let items: ItemType[] = get_component_source(files)
+          const items: ItemType[] = get_component_source(files)
 
           node.children?.push(
             ...items.map((item) =>
@@ -197,7 +197,7 @@ function getNodeAttributeByName(node: UnistNode, name: string) {
 
 type ItemType = { name: string; type: string; src: string }
 function get_component_source(files: { type: string; path: string }[]) {
-  let item: ItemType[] = []
+  const item: ItemType[] = []
   // biome-ignore lint/style/useForOf: <explanation>
   for (let i = 0; i < files.length; i++) {
     const filePath = path.join(process.cwd(), 'registry', files[i]?.path)

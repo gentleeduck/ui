@@ -135,7 +135,9 @@
   width: 200%;
 }
 
-[data-vaul-overlay][data-vaul-snap-points="true"]:not([data-vaul-snap-points-overlay="true"]):not([data-state="closed"]) {
+[data-vaul-overlay][data-vaul-snap-points="true"]:not([data-vaul-snap-points-overlay="true"]):not(
+    [data-state="closed"]
+  ) {
   opacity: 0;
 }
 

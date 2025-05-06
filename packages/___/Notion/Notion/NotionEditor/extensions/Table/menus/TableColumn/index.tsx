@@ -16,7 +16,7 @@ export const TableColumnMenu = React.memo(({ editor, appendTo }: MenuProps): JSX
 
       return isColumnGripSelected({ editor, view, state, from: from || 0 })
     },
-    [editor]
+    [editor],
   )
 
   const onAddColumnBefore = useCallback(() => {
@@ -45,8 +45,7 @@ export const TableColumnMenu = React.memo(({ editor, appendTo }: MenuProps): JSX
           modifiers: [{ name: 'flip', enabled: false }],
         },
       }}
-      shouldShow={shouldShow}
-    >
+      shouldShow={shouldShow}>
       <Toolbar.Wrapper isVertical>
         <PopoverMenu.Item
           iconComponent={<Icon name="ArrowLeftToLine" />}
@@ -60,12 +59,7 @@ export const TableColumnMenu = React.memo(({ editor, appendTo }: MenuProps): JSX
           label="Add column after"
           onClick={onAddColumnAfter}
         />
-        <PopoverMenu.Item
-          icon="Trash"
-          close={false}
-          label="Delete column"
-          onClick={onDeleteColumn}
-        />
+        <PopoverMenu.Item icon="Trash" close={false} label="Delete column" onClick={onDeleteColumn} />
       </Toolbar.Wrapper>
     </BaseBubbleMenu>
   )

@@ -14,18 +14,10 @@ export async function build_registry_themes(spinner: Ora): Promise<void> {
     for (const theme of registry_themes) {
       const theme_json = template(BASE_STYLES_WITH_VARIABLES)(theme)
 
-      await fs.writeFile(
-        path.join(REGISTRY_PATH, 'themes', `${theme.name}.css`),
-        theme_json,
-        'utf8',
-      )
+      await fs.writeFile(path.join(REGISTRY_PATH, 'themes', `${theme.name}.css`), theme_json, 'utf8')
     }
   } catch (error) {
-    spinner.fail(
-      `Failed to build registry themes: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    )
+    spinner.fail(`Failed to build registry themes: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(0)
   }
 }
@@ -71,14 +63,8 @@ export async function registry_build_colors_index(
             }
             return {
               ...item,
-              rgbChannel: item.rgb.replace(
-                /^rgb\((\d+),(\d+),(\d+)\)$/,
-                '$1 $2 $3',
-              ),
-              hslChannel: item.hsl.replace(
-                /^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/,
-                '$1 $2 $3',
-              ),
+              rgbChannel: item.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
+              hslChannel: item.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
             }
           })
           continue
@@ -91,14 +77,8 @@ export async function registry_build_colors_index(
           }
           colors_data[color] = {
             ...value,
-            rgbChannel: value.rgb.replace(
-              /^rgb\((\d+),(\d+),(\d+)\)$/,
-              '$1 $2 $3',
-            ),
-            hslChannel: value.hsl.replace(
-              /^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/,
-              '$1 $2 $3',
-            ),
+            rgbChannel: value.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
+            hslChannel: value.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
           }
           continue
         }
@@ -106,11 +86,7 @@ export async function registry_build_colors_index(
         spinner.text = `🧭 Invalid color value: ${JSON.stringify(value)}`
         process.exit(0)
       } catch (error) {
-        spinner.fail(
-          `🧭 Error processing color "${color}": ${
-            error instanceof Error ? error.message : String(error)
-          }`,
-        )
+        spinner.fail(`🧭 Error processing color "${color}": ${error instanceof Error ? error.message : String(error)}`)
         process.exit(0)
       }
     }
@@ -120,11 +96,7 @@ export async function registry_build_colors_index(
     await fs.writeFile(filePath, JSON.stringify(colors_data, null, 2), 'utf8')
     spinner.text = `🧭 Created colors index: ${filePath}`
   } catch (error) {
-    spinner.fail(
-      `Failed to build registry colors index: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    )
+    spinner.fail(`Failed to build registry colors index: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(0)
   }
 }

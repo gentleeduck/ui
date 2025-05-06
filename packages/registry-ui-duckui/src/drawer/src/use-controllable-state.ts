@@ -12,9 +12,7 @@ type UseControllableStateParams<T> = {
 
 type SetStateFn<T> = (prevState?: T) => T
 
-function useCallbackRef<T extends (...args: any[]) => any>(
-  callback: T | undefined,
-): T {
+function useCallbackRef<T extends (...args: any[]) => any>(callback: T | undefined): T {
   const callbackRef = React.useRef(callback)
 
   React.useEffect(() => {
@@ -22,16 +20,10 @@ function useCallbackRef<T extends (...args: any[]) => any>(
   })
 
   // https://github.com/facebook/react/issues/19240
-  return React.useMemo(
-    () => ((...args) => callbackRef.current?.(...args)) as T,
-    [],
-  )
+  return React.useMemo(() => ((...args) => callbackRef.current?.(...args)) as T, [])
 }
 
-function useUncontrolledState<T>({
-  defaultProp,
-  onChange,
-}: Omit<UseControllableStateParams<T>, 'prop'>) {
+function useUncontrolledState<T>({ defaultProp, onChange }: Omit<UseControllableStateParams<T>, 'prop'>) {
   const uncontrolledState = React.useState<T | undefined>(defaultProp)
   const [value] = uncontrolledState
   const prevValueRef = React.useRef(value)
@@ -46,11 +38,7 @@ function useUncontrolledState<T>({
 
   return uncontrolledState
 }
-export function useControllableState<T>({
-  prop,
-  defaultProp,
-  onChange = () => {},
-}: UseControllableStateParams<T>) {
+export function useControllableState<T>({ prop, defaultProp, onChange = () => {} }: UseControllableStateParams<T>) {
   const [uncontrolledProp, setUncontrolledProp] = useUncontrolledState({
     defaultProp,
     onChange,
@@ -59,20 +47,18 @@ export function useControllableState<T>({
   const value = isControlled ? prop : uncontrolledProp
   const handleChange = useCallbackRef(onChange)
 
-  const setValue: React.Dispatch<React.SetStateAction<T | undefined>> =
-    React.useCallback(
-      (nextValue) => {
-        if (isControlled) {
-          const setter = nextValue as SetStateFn<T>
-          const value =
-            typeof nextValue === 'function' ? setter(prop) : nextValue
-          if (value !== prop) handleChange(value as T)
-        } else {
-          setUncontrolledProp(nextValue)
-        }
-      },
-      [isControlled, prop, setUncontrolledProp, handleChange],
-    )
+  const setValue: React.Dispatch<React.SetStateAction<T | undefined>> = React.useCallback(
+    (nextValue) => {
+      if (isControlled) {
+        const setter = nextValue as SetStateFn<T>
+        const value = typeof nextValue === 'function' ? setter(prop) : nextValue
+        if (value !== prop) handleChange(value as T)
+      } else {
+        setUncontrolledProp(nextValue)
+      }
+    },
+    [isControlled, prop, setUncontrolledProp, handleChange],
+  )
 
   return [value, setValue] as const
 }

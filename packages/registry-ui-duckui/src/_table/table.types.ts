@@ -5,10 +5,7 @@ import { sortArray } from './table.lib'
 import { TableCell, TableFooter, TablePaginationStateType } from './table'
 import { ComboboxType } from '@/registry/default/ui/combobox'
 import { ContextMenuOptionsType } from '@/registry/default/ui/context-menu'
-import {
-  DropdownMenuOptionsDataType,
-  DropdownMenuOptionsType,
-} from '@/registry/default/ui/dropdown-menu'
+import { DropdownMenuOptionsDataType, DropdownMenuOptionsType } from '@/registry/default/ui/dropdown-menu'
 import { IconType, LabelType } from '../button'
 
 //
@@ -28,10 +25,7 @@ import { IconType, LabelType } from '../button'
 //
 export type Order = 'asc' | 'desc' | 'not sorted'
 
-export interface TableDropdownMenuOptionsType<
-  T extends Record<string, any>,
-  C extends boolean,
-> {
+export interface TableDropdownMenuOptionsType<T extends Record<string, any>, C extends boolean> {
   sortArray: typeof sortArray
   setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType<T, C>[]>>
   headers: TableHeaderType<T, C>[]
@@ -42,8 +36,7 @@ export interface TableDropdownMenuOptionsType<
   column: TableHeaderType<T, C>
 }
 
-export interface TableHeaderType<C extends boolean = true>
-  extends Partial<React.HTMLProps<HTMLTableCellElement>> {
+export interface TableHeaderType<C extends boolean = true> extends Partial<React.HTMLProps<HTMLTableCellElement>> {
   label: string
   sortable?: boolean
   showLabel?: boolean
@@ -53,20 +46,14 @@ export interface TableHeaderType<C extends boolean = true>
   //   : never
 }
 
-export interface TableHeaderActionsProps<
-  T extends Record<string, unknown>,
-  K extends boolean,
-> {
+export interface TableHeaderActionsProps<T extends Record<string, unknown>, K extends boolean> {
   header: TableHeaderType<T, K>[]
   headers: TableHeaderType<T, K>[]
   setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType<T, K>[]>>
 }
 
 // TableHeaderOptions
-export interface TableHeaderOptionsType<
-  T extends Record<string, any>,
-  C extends boolean,
-> {
+export interface TableHeaderOptionsType<T extends Record<string, any>, C extends boolean> {
   sortArray: typeof sortArray
   setHeaders: React.Dispatch<React.SetStateAction<TableHeaderType<T, C>[]>>
   headers: TableHeaderType<T, C>[]
@@ -102,8 +89,7 @@ export interface TableDataKey extends React.HTMLProps<HTMLTableCellElement> {
   withLabel?: Omit<LabelType, 'showCommand' | 'showLabel'>
   withIcon?: React.ReactNode
 }
-export interface TableCaptionType
-  extends React.HTMLProps<HTMLTableCaptionElement> {}
+export interface TableCaptionType extends React.HTMLProps<HTMLTableCaptionElement> {}
 export interface TablePaginationsType extends React.HTMLProps<HTMLDivElement> {
   groupSize: number
   activePage?: number
@@ -118,9 +104,7 @@ export interface PaginationState {
   groupSize: number
 }
 
-export interface TablePaginationType<
-  C extends Record<string, any> = Record<string, string>,
-> {
+export interface TablePaginationType<C extends Record<string, any> = Record<string, string>> {
   selected: TableContentDataType<C>[]
   setValue: React.Dispatch<React.SetStateAction<string[]>>
   value: string[]

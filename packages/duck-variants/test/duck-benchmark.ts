@@ -6,12 +6,9 @@ const yourFn = gentleduckFn({
   variants: {
     intent: {
       unset: null,
-      primary:
-        'button--primary bg-blue-500 text-white border-transparent hover:bg-blue-600',
-      secondary:
-        'button--secondary bg-white text-gray-800 border-gray-400 hover:bg-gray-100',
-      warning:
-        'button--warning bg-yellow-500 border-transparent hover:bg-yellow-600',
+      primary: 'button--primary bg-blue-500 text-white border-transparent hover:bg-blue-600',
+      secondary: 'button--secondary bg-white text-gray-800 border-gray-400 hover:bg-gray-100',
+      warning: 'button--warning bg-yellow-500 border-transparent hover:bg-yellow-600',
       danger: ['button--danger', 'hover:bg-red-600'],
     },
     disabled: {
@@ -70,19 +67,12 @@ const theirFn = cva({
   variants: {
     intent: {
       unset: null,
-      primary:
-        'button--primary bg-blue-500 text-white border-transparent hover:bg-blue-600',
-      secondary:
-        'button--secondary bg-white text-gray-800 border-gray-400 hover:bg-gray-100',
-      warning:
-        'button--warning bg-yellow-500 border-transparent hover:bg-yellow-600',
+      primary: 'button--primary bg-blue-500 text-white border-transparent hover:bg-blue-600',
+      secondary: 'button--secondary bg-white text-gray-800 border-gray-400 hover:bg-gray-100',
+      warning: 'button--warning bg-yellow-500 border-transparent hover:bg-yellow-600',
       danger: [
         'button--danger',
-        [
-          1 && 'bg-red-500',
-          { baz: false, bat: null },
-          ['text-white', ['border-transparent']],
-        ],
+        [1 && 'bg-red-500', { baz: false, bat: null }, ['text-white', ['border-transparent']]],
         'hover:bg-red-600',
       ],
     },
@@ -117,10 +107,7 @@ const theirFn = cva({
     {
       intent: 'warning',
       disabled: true,
-      className: [
-        'button--warning-disabled',
-        [1 && 'text-black', { baz: false, bat: null }],
-      ],
+      className: ['button--warning-disabled', [1 && 'text-black', { baz: false, bat: null }]],
     },
     {
       intent: ['warning', 'danger'],
@@ -147,19 +134,13 @@ const N = 100_000
 const scenarios = {
   'Base only': (fn: Function) => fn(),
   'One variant set': (fn: Function) => fn({ intent: 'primary' }),
-  'Multiple variants set': (fn: Function) =>
-    fn({ intent: 'secondary', size: 'small' }),
-  'Compound variant match': (fn: Function) =>
-    fn({ intent: 'primary', size: 'medium' }),
-  'Compound variant no match': (fn: Function) =>
-    fn({ intent: 'danger', size: 'large' }),
-  'With className': (fn: Function) =>
-    fn({ intent: 'primary', className: 'custom-class' }),
-  'With class': (fn: Function) =>
-    fn({ intent: 'primary', class: 'another-class' }),
+  'Multiple variants set': (fn: Function) => fn({ intent: 'secondary', size: 'small' }),
+  'Compound variant match': (fn: Function) => fn({ intent: 'primary', size: 'medium' }),
+  'Compound variant no match': (fn: Function) => fn({ intent: 'danger', size: 'large' }),
+  'With className': (fn: Function) => fn({ intent: 'primary', className: 'custom-class' }),
+  'With class': (fn: Function) => fn({ intent: 'primary', class: 'another-class' }),
   'Default variants only': (fn: Function) => fn({}),
-  'All variants set': (fn: Function) =>
-    fn({ intent: 'warning', size: 'large', disabled: 'true', m: 1 }),
+  'All variants set': (fn: Function) => fn({ intent: 'warning', size: 'large', disabled: 'true', m: 1 }),
   'Cache hit (repeated call)': (fn: Function) => {
     const props = { intent: 'primary', size: 'small' }
     fn(props) // Warm up
@@ -198,13 +179,9 @@ async function runBenchmark() {
     const authorityTime = +(endAuthority - startAuthority).toFixed(2)
 
     const gentleduckFaster = gentleduckTime < authorityTime
-    const fasterVersion = gentleduckFaster
-      ? '@gentleduck/variants'
-      : 'class-variance-authority'
+    const fasterVersion = gentleduckFaster ? '@gentleduck/variants' : 'class-variance-authority'
 
-    const speedupRatio = gentleduckFaster
-      ? authorityTime / gentleduckTime
-      : gentleduckTime / authorityTime
+    const speedupRatio = gentleduckFaster ? authorityTime / gentleduckTime : gentleduckTime / authorityTime
     const speedup = `x${speedupRatio.toFixed(2)} faster`
 
     results.push({

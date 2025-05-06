@@ -56,7 +56,7 @@ export function CardsActivityGoal() {
   const { theme: mode } = useTheme()
   const [config] = useConfig()
 
-  const theme = themes.find(theme => theme.name === config.theme)
+  const theme = themes.find((theme) => theme.name === config.theme)
   const [goal, setGoal] = React.useState(350)
 
   function onClick(adjustment: number) {
@@ -76,8 +76,7 @@ export function CardsActivityGoal() {
             size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
             onClick={() => onClick(-10)}
-            disabled={goal <= 200}
-          >
+            disabled={goal <= 200}>
             <Minus className="h-4 w-4" />
             <span className="sr-only">Decrease</span>
           </Button>
@@ -90,17 +89,13 @@ export function CardsActivityGoal() {
             size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
             onClick={() => onClick(10)}
-            disabled={goal >= 400}
-          >
+            disabled={goal >= 400}>
             <Plus className="h-4 w-4" />
             <span className="sr-only">Increase</span>
           </Button>
         </div>
         <div className="my-3 h-[60px]">
-          <ResponsiveContainer
-            width="100%"
-            height="100%"
-          >
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data}>
               <Bar
                 dataKey="goal"

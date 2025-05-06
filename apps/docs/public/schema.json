@@ -4,28 +4,13 @@
   "properties": {
     "project_type": {
       "type": "string",
-      "enum": [
-        "NEXT_JS",
-        "VITE",
-        "CREATE_REACT_APP",
-        "UNKNOWN"
-      ],
+      "enum": ["NEXT_JS", "VITE", "CREATE_REACT_APP", "UNKNOWN"],
       "description": "Please select a valid project type.",
       "errorMessage": "Invalid value for projectType."
     },
     "base_color": {
       "type": "string",
-      "enum": [
-        "zinc",
-        "slate",
-        "gray",
-        "neutral",
-        "red",
-        "rose",
-        "orange",
-        "green",
-        "blue"
-      ],
+      "enum": ["zinc", "slate", "gray", "neutral", "red", "rose", "orange", "green", "blue"],
       "description": "The primary color theme for your project.",
       "errorMessage": "Please select a valid base color."
     },
@@ -58,12 +43,5 @@
       "default": ""
     }
   },
-  "required": [
-    "project_type",
-    "base_color",
-    "alias",
-    "monorepo",
-    "css",
-    "css_variables"
-  ]
+  "required": ["project_type", "base_color", "alias", "monorepo", "css", "css_variables"]
 }

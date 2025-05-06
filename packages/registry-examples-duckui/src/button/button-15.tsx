@@ -6,9 +6,9 @@ export default function Button15Demo() {
   return (
     <>
       <Button
-        aria-label='Inbox button with keyboard shortcut'
-        type='button'
-        role='button'
+        aria-label="Inbox button with keyboard shortcut"
+        type="button"
+        role="button"
         command={{
           key: 'alt+k',
           children: 'alt+k',
@@ -16,8 +16,7 @@ export default function Button15Demo() {
             toast('Your inbox has been updated', {
               description: `you have clicked the 'command' button`,
             }),
-        }}
-      >
+        }}>
         Button
       </Button>
     </>

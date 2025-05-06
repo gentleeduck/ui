@@ -97,7 +97,7 @@ import DuckDrawer from './duck/drawer/duck'
 function App() {
   // <ShadcnDialog />
   return (
-    <div className='flex flex-col mx-10 h-screen justify-center  items-center gap-4'>
+    <div className="flex flex-col mx-10 h-screen justify-center  items-center gap-4">
       {/* <Ui /> */}
       {/* <DuckAlertDialog />
       <ShadcnAlertDialog /> */}

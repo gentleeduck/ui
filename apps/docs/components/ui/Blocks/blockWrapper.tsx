@@ -6,21 +6,14 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { Block } from '@gentleduck/registers'
 
-export function BlockWrapper({
-  block,
-  children,
-}: React.PropsWithChildren<{ block: Block }>) {
+export function BlockWrapper({ block, children }: React.PropsWithChildren<{ block: Block }>) {
   const { isLiftMode } = useLiftMode(block.name)
 
   React.useEffect(() => {
     const components = document.querySelectorAll('[x-chunk]')
     block.chunks?.map((chunk, index) => {
-      const $chunk = document.querySelector<HTMLElement>(
-        `[x-chunk="${chunk.name}"]`,
-      )
-      const $wrapper = document.querySelector<HTMLElement>(
-        `[x-chunk-container="${chunk.name}"]`,
-      )
+      const $chunk = document.querySelector<HTMLElement>(`[x-chunk="${chunk.name}"]`)
+      const $wrapper = document.querySelector<HTMLElement>(`[x-chunk-container="${chunk.name}"]`)
 
       const $component = components[index]
 
@@ -53,7 +46,7 @@ export function BlockWrapper({
       <AnimatePresence>
         {isLiftMode && (
           <motion.div
-            className='absolute inset-0 z-30 bg-background/90 fill-mode-backwards'
+            className="absolute inset-0 z-30 bg-background/90 fill-mode-backwards"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{

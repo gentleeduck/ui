@@ -2,38 +2,25 @@
 import { X } from 'lucide-react'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
-import { cn } from '@gentelduck/libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
-import { AnimDrawerVariants, AnimVariants } from '@gentelduck/motion/anim'
-import * as DialogPrimitive from '@gentelduck/aria-feather/dialog'
-import { useShouldRender, useDialogContext, useOverlayClose, useDrawerDrag } from '@gentelduck/aria-feather/dialog'
+import { AnimDrawerVariants, AnimVariants } from '@gentleduck/motion/anim'
+import * as DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import { useShouldRender, useDialogContext, useOverlayClose, useDrawerDrag } from '@gentleduck/aria-feather/dialog'
 import { DialogTrigger } from '../dialog'
 
-function Drawer({
-  ...props
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
+function Drawer({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
 
-function DrawerTrigger({
-  ...props
-}: SheetTriggerProps) {
-
-  return (
-    <DialogTrigger {...props} open={true} />
-  )
+function DrawerTrigger({ ...props }: SheetTriggerProps) {
+  return <DialogTrigger {...props} open={true} />
 }
 
-function DrawerClose({
-  ...props
-}: SheetTriggerProps) {
-
-  return (
-    <DialogTrigger {...props} open={false} />
-  )
+function DrawerClose({ ...props }: SheetTriggerProps) {
+  return <DialogTrigger {...props} open={false} />
 }
 
 /**
@@ -64,56 +51,59 @@ const DrawerContent = ({
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
 
-  const {
-    handleMouseDown,
-    handleTouchStart,
-    handleTouchMove,
-    handleTouchEnd
-  } = useDrawerDrag({ ref: ref as React.RefObject<HTMLDialogElement>, onOpenChange, holdUpThreshold })
+  const { handleMouseDown, handleTouchStart, handleTouchMove, handleTouchEnd } = useDrawerDrag({
+    ref: ref as React.RefObject<HTMLDialogElement>,
+    onOpenChange,
+    holdUpThreshold,
+  })
 
   React.useEffect(() => {
-    if (!open) {
+    if (open) {
+      document.body.classList.add(
+        'transition-all',
+        'duration-250',
+        'ease-(--duck-motion-ease)',
+        'will-change-[transform,border-radius]',
+        'transition-discrete',
+      )
+      document.body.style.transform = 'scale(0.97) translateY(1%)'
+      document.body.style.borderRadius = '20px'
+      document.documentElement.style.background = 'black'
+    } else {
       document.body.style.transform = ''
       document.body.style.borderRadius = ''
       if (ref?.current) {
         ref.current.style.transform = 'translateY(0px)'
       }
-    } else {
-      document.body.classList.add('transition-all', 'duration-250', 'ease-(--duck-motion-ease)', 'will-change-[transform,border-radius]', 'transition-discrete')
-      document.body.style.transform = 'scale(0.97) translateY(1%)'
-      document.body.style.borderRadius = '20px'
-      document.documentElement.style.background = 'black'
     }
   }, [open, ref])
 
   return (
     <dialog
       ref={ref}
-      className={cn(AnimVariants(), AnimDrawerVariants({ side: side, }),
+      className={cn(
+        AnimVariants(),
+        AnimDrawerVariants({ side: side }),
         `border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm ease-(--duck-motion-spring) 
         active:duration-0 duration-450 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
-        className)}
+        className,
+      )}
       onClick={closeOverlay}
-      {...props}
-    >
+      {...props}>
       {shouldRender && (
         <div
-          className='p-6 w-full h-full select-none active:cursor-grabbing'
+          className="p-6 w-full h-full select-none active:cursor-grabbing"
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          <span className='flex w-full justify-center'>
-            <span
-              className='bg-border w-1/6 h-3 rounded-full cursor-grab active:cursor-grabbing'
-            />
+          onTouchEnd={handleTouchEnd}>
+          <span className="flex w-full justify-center">
+            <span className="bg-border w-1/6 h-3 rounded-full cursor-grab active:cursor-grabbing" />
           </span>
           <button
-            aria-label='close'
-            className='absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all'
-            onClick={() => onOpenChange?.(false)}
-          >
+            aria-label="close"
+            className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
+            onClick={() => onOpenChange?.(false)}>
             <X aria-hidden size={20} />
           </button>
           {children}
@@ -137,21 +127,8 @@ const DrawerContent = ({
  *
  * @returns {React.JSX.Element} The rendered SheetHeader component.
  */
-function DrawerHeader({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        'flex flex-col space-y-2 text-center sm:text-left',
-        className,
-      )}
-      {...props}
-    />
-  )
+function DrawerHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+  return <div ref={ref} className={cn('flex flex-col space-y-2 text-center sm:text-left', className)} {...props} />
 }
 
 /**
@@ -167,19 +144,11 @@ function DrawerHeader({
  *
  * @returns {React.JSX.Element} The rendered SheetFooter component.
  */
-function DrawerFooter({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-
+function DrawerFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
     <div
       ref={ref}
-      className={cn(
-        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-        className,
-      )}
+      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
       {...props}
     />
   )
@@ -196,16 +165,8 @@ function DrawerFooter({
  *
  * @returns {React.JSX.Element} The rendered `SheetTitle` component with forwarded ref and applied class names.
  */
-const DrawerTitle = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element => (
-  <h2
-    ref={ref}
-    className={cn('text-lg font-semibold text-foreground', className)}
-    {...props}
-  />
+const DrawerTitle = ({ className, ref, ...props }: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element => (
+  <h2 ref={ref} className={cn('text-lg font-semibold text-foreground', className)} {...props} />
 )
 
 /**
@@ -219,16 +180,8 @@ const DrawerTitle = ({
  *
  * @returns {React.JSX.Element} A `SheetDescription` component with forwarded ref and additional props.
  */
-const DrawerDescription = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-  <p
-    ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
-    {...props}
-  />
+const DrawerDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
+  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 )
 
 // /**

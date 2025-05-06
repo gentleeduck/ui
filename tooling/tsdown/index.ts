@@ -22,5 +22,3 @@ export const config: TsdownConfig = {
   dts: true,
   minify: true,
 }
-
-

@@ -69,12 +69,7 @@ const CommentTest = () => {
       <CommentContent length={comments.length}>
         <div className="comments flex flex-col justify-end">
           {comments.map((comment, idx) => {
-            return (
-              <CommentItemDemo
-                key={comment.id}
-                comment={comment}
-              />
-            )
+            return <CommentItemDemo key={comment.id} comment={comment} />
           })}
           <CommentPlaceholder>
             {({ comment }: { comment: CommentType }) => <CommentItemDemo comment={comment} />}
@@ -116,19 +111,13 @@ const CommentItemDemo = ({ comment }: { comment: CommentType }) => {
     <>
       <CommentItem className={cn(mine && '')}>
         <CommentItemSide>
-          <CommentProfileDemo
-            comment={comment}
-            type="avatar"
-          />
+          <CommentProfileDemo comment={comment} type="avatar" />
         </CommentItemSide>
         <CommentItemBody>
           <CommentItemTop>
             <div className="flex items-center justify-start w-full gap-2">
               <CommentItemTopUser user={comment.user}>
-                <CommentProfileDemo
-                  comment={comment}
-                  type="name"
-                />
+                <CommentProfileDemo comment={comment} type="name" />
 
                 <Button
                   variant="ghost"
@@ -139,12 +128,11 @@ const CommentItemDemo = ({ comment }: { comment: CommentType }) => {
                     showLabel: true,
                     className: 'text-sm',
                     side: 'top',
-                  }}
-                >
+                  }}>
                   <BadgeCheck className={cn('size-5', 'text-background fill-blue-400')} />
                 </Button>
                 {comment.user.badge &&
-                  comment.user.badge.map(item => (
+                  comment.user.badge.map((item) => (
                     <Button
                       key={item.id}
                       variant="outline"
@@ -155,28 +143,17 @@ const CommentItemDemo = ({ comment }: { comment: CommentType }) => {
                         showLabel: true,
                         className: 'text-sm',
                         side: 'top',
-                      }}
-                    >
-                      <img
-                        src={item.imgUrl}
-                        className={cn('size-4')}
-                      />
+                      }}>
+                      <img src={item.imgUrl} className={cn('size-4')} />
                     </Button>
                   ))}
               </CommentItemTopUser>
               <CommentItemDate date={comment.createdAt} />
             </div>
-            <LikeButton
-              onClick={({ e, state }) => {}}
-              likes={comment.likes}
-              user={comment.user}
-            />
+            <LikeButton onClick={({ e, state }) => {}} likes={comment.likes} user={comment.user} />
           </CommentItemTop>
           {/*FIX: MAKE THIS CONTENT DYNAMIC */}{' '}
-          <CommentItemContent
-            content={comment.content}
-            attachments={comment.attachments}
-          />
+          <CommentItemContent content={comment.content} attachments={comment.attachments} />
           <CommentItemBottom comment={comment} />
         </CommentItemBody>
       </CommentItem>
@@ -201,10 +178,7 @@ const CommentProfileDemo = ({ comment, type = 'avatar' }: { comment: CommentType
               }}
             />
           ) : (
-            <Button
-              variant={'link'}
-              className="text-sm font-medium h-fit p-0"
-            >
+            <Button variant={'link'} className="text-sm font-medium h-fit p-0">
               {comment.user.name}
             </Button>
           )

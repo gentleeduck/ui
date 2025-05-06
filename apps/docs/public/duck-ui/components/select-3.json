@@ -1,9 +1,7 @@
 {
   "name": "select-3",
   "type": "registry:example",
-  "registryDependencies": [
-    "select"
-  ],
+  "registryDependencies": ["select"],
   "root_folder": "select",
   "files": [
     {

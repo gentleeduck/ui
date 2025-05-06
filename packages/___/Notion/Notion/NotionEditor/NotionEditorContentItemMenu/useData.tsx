@@ -14,7 +14,7 @@ export const useData = () => {
 
       setCurrentNodePos(data.pos)
     },
-    [setCurrentNodePos, setCurrentNode]
+    [setCurrentNodePos, setCurrentNode],
   )
 
   return {

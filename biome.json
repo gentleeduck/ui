@@ -1,75 +1,85 @@
 {
-    "linter": {
-        "enabled": true,
-        "rules": {
-            "recommended": false,
-            "complexity": {
-                "noForEach": "error",
-                "noStaticOnlyClass": "error",
-                "noUselessSwitchCase": "error",
-                "useFlatMap": "error"
-            },
-            "style": {
-                "noNegationElse": "off",
-                "useForOf": "error",
-                "useNodejsImportProtocol": "error",
-                "useNumberNamespace": "error"
-            },
-            "suspicious": {
-                "noDoubleEquals": "error",
-                "noThenProperty": "error",
-                "useIsArray": "error"
-            }
-        }
-    },
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "linter": {
+    "ignore": ["**/node_modules/**", "**/dist/**", "**/build/**"],
+    "enabled": true,
+    "rules": {
+      "recommended": false,
+      "complexity": {
+        "noForEach": "error",
+        "noStaticOnlyClass": "error",
+        "noUselessSwitchCase": "error",
+        "useFlatMap": "error"
+      },
+      "style": {
+        "noNegationElse": "error",
+        "useForOf": "error",
+        "useNodejsImportProtocol": "error",
+        "useNumberNamespace": "error",
+        "noVar": "error",
+        "noDefaultExport": "error",
+        "useConst": "error",
+        "useWhile": "error",
+        "noNonNullAssertion": "warn",
+        "useDefaultSwitchClause": "error"
+      },
+      "suspicious": {
+        "noDoubleEquals": "error",
+        "noThenProperty": "error",
+        "useIsArray": "error",
+        "noImplicitAnyLet": "error",
+        "noExplicitAny": "warn",
+        "useGetterReturn": "error"
+      }
+    }
+  },
+  "formatter": {
+    "ignore": ["**/node_modules/**", "**/dist/**", "**/build/**", "**/public/**", "**/.next/**", "**/.velite/**"],
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120,
+    "attributePosition": "multiline",
+    "bracketSpacing": true
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "assists": {
+    "enabled": true
+  },
+  "javascript": {
+    "globals": ["Global1"],
     "formatter": {
-        "enabled": true,
-        "formatWithErrors": false,
-        "indentStyle": "space",
-        "indentWidth": 2,
-        "lineEnding": "lf",
-        "lineWidth": 80,
-        "attributePosition": "auto"
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": true,
+      "quoteStyle": "single",
+      "attributePosition": "auto"
+    }
+  },
+  "overrides": [
+    {
+      "include": ["*.json"],
+      "formatter": {
+        "indentWidth": 2
+      }
     },
-    "organizeImports": {
-        "enabled": true
-    },
-    "javascript": {
-        "globals": [
-            "Global1"
-        ],
-        "formatter": {
-            "jsxQuoteStyle": "single",
-            "quoteProperties": "asNeeded",
-            "trailingCommas": "all",
-            "semicolons": "asNeeded",
-            "arrowParentheses": "always",
-            "bracketSpacing": true,
-            "bracketSameLine": false,
-            "quoteStyle": "single",
-            "attributePosition": "auto"
+    {
+      "include": ["tests/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noDoubleEquals": "off"
+          }
         }
-    },
-    "overrides": [
-        {
-            "include": [
-                "*.json"
-            ],
-            "formatter": {
-                "indentWidth": 2
-            }
-        },
-        {
-            "include": [
-                "tests/**"
-            ],
-            "linter": {
-                "rules": {
-                    "suspicious": {
-                        "noDoubleEquals": "off"
-                    }
-                }
-            }
-        }
-    ]
+      }
+    }
+  ]
 }

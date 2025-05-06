@@ -19,20 +19,11 @@ export const FormContext = React.createContext<{
   form: ReturnType<typeof useForm>
 } | null>(null)
 
-function Form<
-  TForm extends ReactFormExtendedApi<
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any
-  >,
->({ ref, form, ...props }: React.ComponentProps<'form'> & { form: TForm }) {
+function Form<TForm extends ReactFormExtendedApi<any, any, any, any, any, any, any, any, any, any>>({
+  ref,
+  form,
+  ...props
+}: React.ComponentProps<'form'> & { form: TForm }) {
   return (
     <FormContext.Provider value={{ form }}>
       <form {...props} ref={ref} />
@@ -41,18 +32,7 @@ function Form<
 }
 
 const FormField = <
-  TForm extends ReactFormExtendedApi<
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any
-  >,
+  TForm extends ReactFormExtendedApi<any, any, any, any, any, any, any, any, any, any>,
   TName extends React.ComponentProps<TForm['Field']>['name'],
 >({
   name,
@@ -71,26 +51,11 @@ const FormField = <
   )
 }
 
-const FormItem = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement>) => {
-  return (
-    <div
-      ref={ref}
-      className={cn('flex flex-col gap-2', className)}
-      {...props}
-    />
-  )
+const FormItem = ({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>) => {
+  return <div ref={ref} className={cn('flex flex-col gap-2', className)} {...props} />
 }
 
-const FormLabel = ({
-  className,
-  htmlFor,
-  ref,
-  ...props
-}: React.ComponentPropsWithRef<typeof Label>) => {
+const FormLabel = ({ className, htmlFor, ref, ...props }: React.ComponentPropsWithRef<typeof Label>) => {
   const { formItemId, error } = useFormField()
   return (
     <Label
@@ -102,29 +67,13 @@ const FormLabel = ({
   )
 }
 
-const FormDescription = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLParagraphElement>) => {
+const FormDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParagraphElement>) => {
   const { formDescriptionId } = useFormField()
 
-  return (
-    <p
-      ref={ref}
-      id={formDescriptionId}
-      className={cn('text-sm text-muted-foreground', className)}
-      {...props}
-    />
-  )
+  return <p ref={ref} id={formDescriptionId} className={cn('text-sm text-muted-foreground', className)} {...props} />
 }
 
-const FormMessage = ({
-  className,
-  children,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLParagraphElement>) => {
+const FormMessage = ({ className, children, ref, ...props }: React.HTMLProps<HTMLParagraphElement>) => {
   const { error, formMessageId } = useFormField()
   const body = error ? String(error.message) : children
   console.log(error)
@@ -134,12 +83,7 @@ const FormMessage = ({
   }
 
   return (
-    <p
-      ref={ref}
-      id={formMessageId}
-      className={cn('text-sm font-medium text-destructive', className)}
-      {...props}
-    >
+    <p ref={ref} id={formMessageId} className={cn('text-sm font-medium text-destructive', className)} {...props}>
       {body}
     </p>
   )
@@ -161,16 +105,13 @@ function FormMultiMessage({
       id={formMessageId}
       className={cn(
         'transition-all duration-300 ease-in-out overflow-hidden',
-        errors.length
-          ? 'max-h-[960px] opacity-100 my-1'
-          : 'max-h-0 opacity-0 my-0',
+        errors.length ? 'max-h-[960px] opacity-100 my-1' : 'max-h-0 opacity-0 my-0',
         className,
       )}
-      {...props}
-    >
-      <ul className='flex flex-col items-start gap-1'>
+      {...props}>
+      <ul className="flex flex-col items-start gap-1">
         {errors_keys.map((rule) => (
-          <li key={rule} className='flex items-center gap-2 text-nowrap'>
+          <li key={rule} className="flex items-center gap-2 text-nowrap">
             <Circle
               className={cn(
                 'size-3 transition-all duration-300 ease-in-out',
@@ -182,11 +123,8 @@ function FormMultiMessage({
             <span
               className={cn(
                 'text-sm text-nowrap transition-all duration-300 ease-in-out',
-                errors.length > 0 && errors.some((err) => err.message === rule)
-                  ? 'text-red-500'
-                  : 'text-green-500',
-              )}
-            >
+                errors.length > 0 && errors.some((err) => err.message === rule) ? 'text-red-500' : 'text-green-500',
+              )}>
               {rule}
             </span>
           </li>
@@ -196,12 +134,4 @@ function FormMultiMessage({
   )
 }
 
-export {
-  Form,
-  FormItem,
-  FormLabel,
-  FormDescription,
-  FormMessage,
-  FormMultiMessage,
-  FormField,
-}
+export { Form, FormItem, FormLabel, FormDescription, FormMessage, FormMultiMessage, FormField }

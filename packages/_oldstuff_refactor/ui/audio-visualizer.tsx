@@ -8,7 +8,7 @@ export const new_audio = (url: string) => new Audio(url)
 // Calculate bar data
 export interface dataPoint {
   max: number
-  min: number 
+  min: number
 }
 
 export interface CalculateBarDataParams {
@@ -22,13 +22,7 @@ export interface CalculateBarDataParams {
 export const calculate_bar_data_handler = (() => {
   const cache = new Map()
 
-  return ({
-    buffer,
-    width,
-    height,
-    barWidth,
-    gap,
-  }: CalculateBarDataParams): dataPoint[] => {
+  return ({ buffer, width, height, barWidth, gap }: CalculateBarDataParams): dataPoint[] => {
     // Create a unique key based on the input parameters
     const key = `${buffer.length}-${width}-${height}-${barWidth}-${gap}`
 
@@ -69,11 +63,7 @@ export const calculate_bar_data_handler = (() => {
       const maxAvg = maxCount ? maxSum / maxCount : 0
 
       const dataPoint = { max: maxAvg, min: minAvg }
-      maxDataPoint = Math.max(
-        maxDataPoint,
-        Math.abs(dataPoint.max),
-        Math.abs(dataPoint.min),
-      )
+      maxDataPoint = Math.max(maxDataPoint, Math.abs(dataPoint.max), Math.abs(dataPoint.min))
       data[i] = dataPoint
     }
 
@@ -139,10 +129,7 @@ export const draw_handler = ({
   const totalBars = data.length
   for (let i = 0; i < totalBars; i++) {
     const height = Math.max(data[i].max * 2 * animationProgress, minBarHeight)
-    ctx.fillStyle =
-      playedPercent > i / totalBars && barPlayedColor
-        ? barPlayedColor
-        : barColor
+    ctx.fillStyle = playedPercent > i / totalBars && barPlayedColor ? barPlayedColor : barColor
     ctx.fillRect(i * (barWidth + gap), amp - height / 2, barWidth, height)
   }
 }
@@ -183,13 +170,10 @@ export const process_blob = async ({
 }: ProcessBlobParams): Promise<void> => {
   if (!canvasRef.current || !blob) return
 
-  const defaultBars = Array.from(
-    { length: Math.floor(width / (barWidth + gap)) },
-    () => ({
-      max: minBarHeight,
-      min: minBarHeight,
-    }),
-  )
+  const defaultBars = Array.from({ length: Math.floor(width / (barWidth + gap)) }, () => ({
+    max: minBarHeight,
+    min: minBarHeight,
+  }))
 
   draw_handler({
     data: defaultBars,
@@ -308,8 +292,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
   setLoading,
 }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
-  const { process_audio, data, duration, animationProgress } =
-    useAudioDataProvider()
+  const { process_audio, data, duration, animationProgress } = useAudioDataProvider()
 
   const { theme } = useTheme()
 

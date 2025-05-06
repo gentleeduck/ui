@@ -59,16 +59,16 @@ export const Toast = (props: ToastProps) => {
   const toastDescriptionClassname = toast.descriptionClassName || ''
   // Height index is used to calculate the offset as it gets updated before the toast array, which means we can calculate the new layout faster.
   const heightIndex = React.useMemo(
-    () => heights.findIndex(height => height.toastId === toast.id) || 0,
-    [heights, toast.id]
+    () => heights.findIndex((height) => height.toastId === toast.id) || 0,
+    [heights, toast.id],
   )
   const closeButton = React.useMemo(
     () => toast.closeButton ?? closeButtonFromToaster,
-    [toast.closeButton, closeButtonFromToaster]
+    [toast.closeButton, closeButtonFromToaster],
   )
   const duration = React.useMemo(
     () => toast.duration || durationFromToaster || TOAST_LIFETIME,
-    [toast.duration, durationFromToaster]
+    [toast.duration, durationFromToaster],
   )
   const closeTimerStartTimeRef = React.useRef(0)
   const offset = React.useRef(0)
@@ -102,8 +102,8 @@ export const Toast = (props: ToastProps) => {
       const height = toastNode.getBoundingClientRect().height
       // Add toast height to heights array after the toast is mounted
       setInitialHeight(height)
-      setHeights(h => [{ toastId: toast.id, height, position: toast.position }, ...h])
-      return () => setHeights(h => h.filter(height => height.toastId !== toast.id))
+      setHeights((h) => [{ toastId: toast.id, height, position: toast.position }, ...h])
+      return () => setHeights((h) => h.filter((height) => height.toastId !== toast.id))
     }
   }, [setHeights, toast.id])
 
@@ -117,12 +117,12 @@ export const Toast = (props: ToastProps) => {
 
     setInitialHeight(newHeight)
 
-    setHeights(heights => {
-      const alreadyExists = heights.find(height => height.toastId === toast.id)
-      if (!alreadyExists) {
-        return [{ toastId: toast.id, height: newHeight, position: toast.position }, ...heights]
+    setHeights((heights) => {
+      const alreadyExists = heights.find((height) => height.toastId === toast.id)
+      if (alreadyExists) {
+        return heights.map((height) => (height.toastId === toast.id ? { ...height, height: newHeight } : height))
       } else {
-        return heights.map(height => (height.toastId === toast.id ? { ...height, height: newHeight } : height))
+        return [{ toastId: toast.id, height: newHeight, position: toast.position }, ...heights]
       }
     })
   }, [mounted, toast.title, toast.description, setHeights, toast.id])
@@ -131,7 +131,7 @@ export const Toast = (props: ToastProps) => {
     // Save the offset for the exit swipe animation
     setRemoved(true)
     setOffsetBeforeRemove(offset.current)
-    setHeights(h => h.filter(height => height.toastId !== toast.id))
+    setHeights((h) => h.filter((height) => height.toastId !== toast.id))
 
     setTimeout(() => {
       removeToast(toast)
@@ -139,8 +139,13 @@ export const Toast = (props: ToastProps) => {
   }, [toast, removeToast, setHeights, offset])
 
   React.useEffect(() => {
-    if ((toast.promise && toastType === 'loading') || toast.duration === Infinity || toast.type === 'loading') return
-    let timeoutId: NodeJS.Timeout | undefined = undefined
+    if (
+      (toast.promise && toastType === 'loading') ||
+      toast.duration === Number.POSITIVE_INFINITY ||
+      toast.type === 'loading'
+    )
+      return
+    const timeoutId: NodeJS.Timeout | undefined = undefined
 
     if (expanded || interacting || (pauseWhenPageIsHidden && isDocumentHidden)) {
       pauseTimer({
@@ -166,8 +171,7 @@ export const Toast = (props: ToastProps) => {
       return (
         <div
           className={cn(classNames?.loader, toast?.classNames?.loader, 'sonner-loader')}
-          data-visible={toastType === 'loading'}
-        >
+          data-visible={toastType === 'loading'}>
           {icons.loading}
         </div>
       )
@@ -177,18 +181,12 @@ export const Toast = (props: ToastProps) => {
       return (
         <div
           className={cn(classNames?.loader, toast?.classNames?.loader, 'sonner-loader')}
-          data-visible={toastType === 'loading'}
-        >
+          data-visible={toastType === 'loading'}>
           {loadingIconProp}
         </div>
       )
     }
-    return (
-      <Loader
-        className={cn(classNames?.loader, toast?.classNames?.loader)}
-        visible={toastType === 'loading'}
-      />
-    )
+    return <Loader className={cn(classNames?.loader, toast?.classNames?.loader)} visible={toastType === 'loading'} />
   }
 
   // const [percentile, setPercentile] = React.useState<number>(0)
@@ -212,7 +210,7 @@ export const Toast = (props: ToastProps) => {
         toast?.classNames?.toast,
         classNames?.default,
         classNames?.[toastType],
-        toast?.classNames?.[toastType]
+        toast?.classNames?.[toastType],
       )}
       data-sonner-toast=""
       data-rich-colors={toast.richColors ?? defaultRichColors}
@@ -243,7 +241,7 @@ export const Toast = (props: ToastProps) => {
           ...toast.style,
         } as React.CSSProperties
       }
-      onPointerDown={event => {
+      onPointerDown={(event) => {
         if (disabled || !dismissible) return
         dragStartTime.current = new Date()
         setOffsetBeforeRemove(offset.current)
@@ -274,7 +272,7 @@ export const Toast = (props: ToastProps) => {
         toastRef.current?.style.setProperty('--swipe-amount', '0px')
         setSwiping(false)
       }}
-      onPointerMove={event => {
+      onPointerMove={(event) => {
         if (!pointerStartRef.current || !dismissible) return
 
         const yPosition = event.clientY - pointerStartRef.current.y
@@ -288,8 +286,7 @@ export const Toast = (props: ToastProps) => {
         if (isHighlighted) return
 
         toastRef.current?.style.setProperty('--swipe-amount', `${swipeAmount}px`)
-      }}
-    >
+      }}>
       {closeButton && !toast.jsx ? (
         <button
           aria-label={closeButtonAriaLabel}
@@ -303,8 +300,7 @@ export const Toast = (props: ToastProps) => {
                   toast.onDismiss?.(toast)
                 }
           }
-          className={cn(classNames?.closeButton, toast?.classNames?.closeButton)}
-        >
+          className={cn(classNames?.closeButton, toast?.classNames?.closeButton)}>
           {icons?.close ?? CloseIcon}
         </button>
       ) : null}
@@ -320,23 +316,14 @@ export const Toast = (props: ToastProps) => {
       ) : (
         <>
           {toastType || toast.icon || toast.promise ? (
-            <div
-              data-icon=""
-              className={cn(classNames?.icon, toast?.classNames?.icon)}
-            >
+            <div data-icon="" className={cn(classNames?.icon, toast?.classNames?.icon)}>
               {toast.promise || (toast.type === 'loading' && !toast.icon) ? toast.icon || getLoadingIcon() : null}
               {toast.type !== 'loading' ? toast.icon || icons?.[toastType] || getAsset(toastType) : null}
             </div>
           ) : null}
 
-          <div
-            data-content=""
-            className={cn(classNames?.content, toast?.classNames?.content)}
-          >
-            <div
-              data-title=""
-              className={cn(classNames?.title, toast?.classNames?.title)}
-            >
+          <div data-content="" className={cn(classNames?.content, toast?.classNames?.content)}>
+            <div data-title="" className={cn(classNames?.title, toast?.classNames?.title)}>
               {typeof toast.title === 'function' ? toast.title() : toast.title}
             </div>
             {toast.description ? (
@@ -346,9 +333,8 @@ export const Toast = (props: ToastProps) => {
                   descriptionClassName,
                   toastDescriptionClassname,
                   classNames?.description,
-                  toast?.classNames?.description
-                )}
-              >
+                  toast?.classNames?.description,
+                )}>
                 {typeof toast.description === 'function' ? toast.description() : toast.description}
               </div>
             ) : null}
@@ -360,15 +346,14 @@ export const Toast = (props: ToastProps) => {
               data-button
               data-cancel
               style={toast.cancelButtonStyle || cancelButtonStyle}
-              onClick={event => {
+              onClick={(event) => {
                 // We need to check twice because typescript
                 if (!isAction(toast.cancel)) return
                 if (!dismissible) return
                 toast.cancel.onClick?.(event)
                 deleteToast()
               }}
-              className={cn(classNames?.cancelButton, toast?.classNames?.cancelButton)}
-            >
+              className={cn(classNames?.cancelButton, toast?.classNames?.cancelButton)}>
               {toast.cancel.label}
             </button>
           ) : null}
@@ -379,15 +364,14 @@ export const Toast = (props: ToastProps) => {
               data-button
               data-action
               style={toast.actionButtonStyle || actionButtonStyle}
-              onClick={event => {
+              onClick={(event) => {
                 // We need to check twice because typescript
                 if (!isAction(toast.action)) return
                 toast.action.onClick?.(event)
                 if (event.defaultPrevented) return
                 deleteToast()
               }}
-              className={cn(classNames?.actionButton, toast?.classNames?.actionButton)}
-            >
+              className={cn(classNames?.actionButton, toast?.classNames?.actionButton)}>
               {toast.action.label}
             </button>
           ) : null}

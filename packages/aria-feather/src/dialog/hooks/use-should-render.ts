@@ -8,7 +8,5 @@ export function useShouldRender(open: boolean, renderOnce: boolean): [boolean] {
     if (open) return setShouldRender(true)
   }, [open])
 
-  return [
-    shouldRender
-  ]
+  return [shouldRender]
 }

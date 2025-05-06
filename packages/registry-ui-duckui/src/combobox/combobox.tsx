@@ -1,11 +1,6 @@
 'use client'
 import React from 'react'
-import {
-  Command,
-  CommandInput,
-  CommandListGroup,
-  CommandListGroupDataType,
-} from '../command'
+import { Command, CommandInput, CommandListGroup, CommandListGroupDataType } from '../command'
 import { Label } from '../label'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { cn } from '@gentleduck/libs/cn'
@@ -19,17 +14,12 @@ interface OnSelectType<T> {
   setValue: React.Dispatch<React.SetStateAction<T[]>>
 }
 
-type ComboboxProps<
-  T extends keyof Record<string, unknown>,
-  Y extends keyof Record<string, unknown>,
-> = {
+type ComboboxProps<T extends keyof Record<string, unknown>, Y extends keyof Record<string, unknown>> = {
   type: 'combobox' | 'listbox'
   onSelect?: OnSelectType<Y>
   wrapper?: React.HTMLProps<HTMLDivElement> & {}
   title?: Partial<React.ComponentPropsWithoutRef<typeof Label>> & {}
-  trigger?: Partial<
-    React.ComponentPropsWithoutRef<typeof Button> & { children?: T }
-  >
+  trigger?: Partial<React.ComponentPropsWithoutRef<typeof Button> & { children?: T }>
   content?: Partial<React.ComponentPropsWithoutRef<typeof PopoverContent>> & {
     data: CommandListGroupDataType<Y>[]
     showSearchInput?: boolean
@@ -37,10 +27,7 @@ type ComboboxProps<
   }
 }
 
-const Combobox = <
-  T extends keyof Record<string, unknown> = string,
-  Y extends keyof Record<string, unknown> = string,
->({
+const Combobox = <T extends keyof Record<string, unknown> = string, Y extends keyof Record<string, unknown> = string>({
   wrapper,
   title,
   trigger,
@@ -52,17 +39,8 @@ const Combobox = <
   const [open, setOpen] = React.useState(false)
 
   const { className: wrapperClassName, ...wrapperProps } = wrapper ?? {}
-  const {
-    className: titleClassName,
-    children: titleChildren,
-    ...titleProps
-  } = title ?? {}
-  const {
-    className: triggerClassName,
-    children: triggerChildren,
-    command,
-    ...triggerProps
-  } = trigger ?? {}
+  const { className: titleClassName, children: titleChildren, ...titleProps } = title ?? {}
+  const { className: triggerClassName, children: triggerChildren, command, ...triggerProps } = trigger ?? {}
   const {
     className: contentClassName,
     data,
@@ -78,39 +56,23 @@ const Combobox = <
 
   return (
     <>
-      <div
-        className={cn('grid gap-2 items-start', wrapperClassName)}
-        {...wrapperProps}
-      >
+      <div className={cn('grid gap-2 items-start', wrapperClassName)} {...wrapperProps}>
         {title && (
-          <Label
-            htmlFor={titleClassName}
-            className={cn('', titleClassName)}
-            {...titleProps}
-          >
+          <Label htmlFor={titleClassName} className={cn('', titleClassName)} {...titleProps}>
             {titleChildren}
           </Label>
         )}
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
-              variant='outline'
+              variant="outline"
               disabled={false}
-              role='combobox'
+              role="combobox"
               secondIcon={
-                <ChevronsUpDown
-                  className={cn(
-                    'ml-2 opacity-50 overflow-hidden',
-                    type === 'listbox' && 'hidden',
-                  )}
-                />
+                <ChevronsUpDown className={cn('ml-2 opacity-50 overflow-hidden', type === 'listbox' && 'hidden')} />
               }
               aria-expanded={open}
-              className={cn(
-                `justify-between`,
-                type === 'combobox' && 'w-[200px] [&_div]:w-[81%]',
-                triggerClassName,
-              )}
+              className={cn(`justify-between`, type === 'combobox' && 'w-[200px] [&_div]:w-[81%]', triggerClassName)}
               command={
                 {
                   ...command,
@@ -121,33 +83,21 @@ const Combobox = <
                   state: open,
                 } as CommandType
               }
-              {...triggerProps}
-            >
-              <span className='text-ellipsis overflow-hidden whitespace-nowrap'>
-                {type === 'combobox'
-                  ? (onSelect?.value[0] ?? triggerChildren)
-                  : triggerChildren}
+              {...triggerProps}>
+              <span className="text-ellipsis overflow-hidden whitespace-nowrap">
+                {type === 'combobox' ? (onSelect?.value[0] ?? triggerChildren) : triggerChildren}
               </span>
-              {type === 'listbox' && filteredData?.length ? (
-                <Separator orientation='vertical' className='h-4' />
-              ) : null}
+              {type === 'listbox' && filteredData?.length ? <Separator orientation="vertical" className="h-4" /> : null}
               {type === 'listbox' && (
-                <div className='flex items-center gap-1'>
+                <div className="flex items-center gap-1">
                   {filteredData?.length! < 3 ? (
                     filteredData?.map((item, idx) => (
-                      <Badge
-                        key={idx}
-                        variant={'secondary'}
-                        className='rounded-md text-xs px-1 font-normal'
-                      >
+                      <Badge key={idx} variant={'secondary'} className="rounded-md text-xs px-1 font-normal">
                         {item}
                       </Badge>
                     ))
                   ) : (
-                    <Badge
-                      variant={'secondary'}
-                      className='rounded-md text-xs px-1 font-normal'
-                    >
+                    <Badge variant={'secondary'} className="rounded-md text-xs px-1 font-normal">
                       {filteredData?.length} Selected
                     </Badge>
                   )}
@@ -155,11 +105,7 @@ const Combobox = <
               )}
             </Button>
           </PopoverTrigger>
-          <PopoverContent
-            className={cn('w-[180px] p-0', contentClassName)}
-            id={titleClassName}
-            {...contentProps}
-          >
+          <PopoverContent className={cn('w-[180px] p-0', contentClassName)} id={titleClassName} {...contentProps}>
             {contentChildren ? (
               contentChildren
             ) : (
@@ -167,9 +113,7 @@ const Combobox = <
                 {showSearchInput && (
                   <CommandInput
                     className={cn(type === 'listbox' && 'p-2 h-fit')}
-                    placeholder={
-                      type === 'combobox' ? 'Search...' : 'Filter...'
-                    }
+                    placeholder={type === 'combobox' ? 'Search...' : 'Filter...'}
                     required
                   />
                 )}
@@ -191,10 +135,7 @@ const Combobox = <
                     },
                     clear: () => {
                       onSelect?.setValue(
-                        onSelect?.value.filter(
-                          (item) =>
-                            !data?.map((item) => item.label).includes(item),
-                        ),
+                        onSelect?.value.filter((item) => !data?.map((item) => item.label).includes(item)),
                       )
                     },
                   }}

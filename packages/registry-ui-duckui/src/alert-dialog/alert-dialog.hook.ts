@@ -22,11 +22,11 @@ export function useDuckAlert<T>({ state: changeState }: UserDuckAlertProps<T>): 
   }, [])
 
   const handleAlertCancel = React.useCallback(() => {
-    setState(prevState => ({ ...prevState, alert: false, shape: true }))
+    setState((prevState) => ({ ...prevState, alert: false, shape: true }))
   }, [])
 
   const handleAlertContinue = React.useCallback(() => {
-    setState(prevState => ({ ...prevState, alert: false, shape: false }))
+    setState((prevState) => ({ ...prevState, alert: false, shape: false }))
   }, [])
 
   const handleOpenChange = React.useCallback(
@@ -38,7 +38,7 @@ export function useDuckAlert<T>({ state: changeState }: UserDuckAlertProps<T>): 
         shape: changeState || true ? drawerState : false,
       }))
     },
-    [changeState]
+    [changeState],
   )
 
   return {

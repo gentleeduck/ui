@@ -1,9 +1,6 @@
 import { highlighter } from '../text-styling'
 import { compile_file, render_file } from './compile-benchmark.libs'
-import {
-  CompileBenchmarkParams,
-  RenderBenchmarkParams,
-} from './compile-benchmark.types'
+import { CompileBenchmarkParams, RenderBenchmarkParams } from './compile-benchmark.types'
 
 export async function compile_benchmark({
   folders,
@@ -41,12 +38,7 @@ export async function compile_benchmark({
   }
 }
 
-export async function render_benchmark({
-  folders,
-  visited = new Set<string>(),
-  spinner,
-  cwd,
-}: RenderBenchmarkParams) {
+export async function render_benchmark({ folders, visited = new Set<string>(), spinner, cwd }: RenderBenchmarkParams) {
   try {
     // spinner.text = `Rendering ${folders.length} folders`
 

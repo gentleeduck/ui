@@ -1,9 +1,7 @@
 {
   "name": "table-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "table"
-  ],
+  "registryDependencies": ["table"],
   "root_folder": "table",
   "files": [
     {

@@ -67,7 +67,7 @@ export default function TableDemo() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {invoices.map(invoice => (
+        {invoices.map((invoice) => (
           <TableRow key={invoice.invoice}>
             <TableCell className="font-medium">{invoice.invoice}</TableCell>
             <TableCell>{invoice.paymentStatus}</TableCell>

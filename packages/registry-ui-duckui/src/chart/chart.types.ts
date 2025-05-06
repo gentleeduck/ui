@@ -4,10 +4,7 @@ export type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode
     icon?: React.ComponentType
-  } & (
-    | { color?: string; theme?: never }
-    | { color?: never; theme: Record<keyof typeof THEMES, string> }
-  )
+  } & ({ color?: string; theme?: never } | { color?: never; theme: Record<keyof typeof THEMES, string> })
 }
 
 export type ChartContextProps = {
@@ -16,15 +13,11 @@ export type ChartContextProps = {
 
 export type ChartContainerProps = React.HTMLProps<HTMLDivElement> & {
   config: ChartConfig
-  children: React.ComponentProps<
-    typeof RechartsPrimitive.ResponsiveContainer
-  >['children']
+  children: React.ComponentProps<typeof RechartsPrimitive.ResponsiveContainer>['children']
 }
 export type ChartStyleProps = { id: string; config: ChartConfig }
 
-export type ChartTooltipContentProps = React.ComponentProps<
-  typeof RechartsPrimitive.Tooltip
-> &
+export type ChartTooltipContentProps = React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
   React.HTMLProps<HTMLDivElement> & {
     hideLabel?: boolean
     hideIndicator?: boolean

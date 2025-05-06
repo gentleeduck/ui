@@ -14,13 +14,11 @@ export interface DocsSidebarNavProps {
 export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
   const pathname = usePathname()
 
-  const items = pathname?.startsWith('/charts')
-    ? config.chartsNav
-    : config.sidebarNav
+  const items = pathname?.startsWith('/charts') ? config.chartsNav : config.sidebarNav
 
   return (
     items.length && (
-      <div className='w-full flex flex-col'>
+      <div className="w-full flex flex-col">
         {items.map((item, index) => (
           <CategoryItem key={index} item={item} pathname={pathname} />
         ))}
@@ -38,19 +36,17 @@ const CategoryItem = ({
   pathname: string | null
 }) => {
   return (
-    <div className='flex flex-col gap-1 mb-2'>
-      <div className='flex items-center justify-between w-full text-start text-sm font-semibold [&>div]:justify-between [&>div]:w-full h-[36px]'>
+    <div className="flex flex-col gap-1 mb-2">
+      <div className="flex items-center justify-between w-full text-start text-sm font-semibold [&>div]:justify-between [&>div]:w-full h-[36px]">
         {item.title}
         {item.label && (
-          <span className='ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline'>
+          <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
             {item.label}
           </span>
         )}
       </div>
-      <div className='border-l'>
-        {item?.items?.length && (
-          <DocsSidebarNavItems items={item.items} pathname={pathname} />
-        )}
+      <div className="border-l">
+        {item?.items?.length && <DocsSidebarNavItems items={item.items} pathname={pathname} />}
       </div>
     </div>
   )
@@ -62,11 +58,7 @@ interface DocsSidebarNavItemsProps {
   className?: string
 }
 
-export function DocsSidebarNavItems({
-  items,
-  pathname,
-  className,
-}: DocsSidebarNavItemsProps) {
+export function DocsSidebarNavItems({ items, pathname, className }: DocsSidebarNavItemsProps) {
   return (
     items?.length && (
       <ul>
@@ -92,16 +84,13 @@ export function DocsSidebarNavItem({
           href={item.href}
           className={cn(
             'group flex w-full items-center px-4 py-1 focus-visible:border-l border-primary focus-visible:outline-none text-sm',
-            pathname === item.href
-              ? 'font-medium text-foreground'
-              : 'text-muted-foreground',
+            pathname === item.href ? 'font-medium text-foreground' : 'text-muted-foreground',
           )}
           target={item.external ? '_blank' : ''}
-          rel={item.external ? 'noreferrer' : ''}
-        >
+          rel={item.external ? 'noreferrer' : ''}>
           {item.title}
           {item.label && (
-            <span className='ml-2 rounded-md bg-[#89b4fa] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline'>
+            <span className="ml-2 rounded-md bg-[#89b4fa] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
               {item.label}
             </span>
           )}
@@ -114,11 +103,10 @@ export function DocsSidebarNavItem({
     <span
       className={cn(
         'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
-      )}
-    >
+      )}>
       {item.title}
       {item.label && (
-        <span className='ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline'>
+        <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline">
           {item.label}
         </span>
       )}

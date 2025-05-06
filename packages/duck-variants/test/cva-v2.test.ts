@@ -89,16 +89,12 @@ describe('@gentleduck/variants - cva core tests', () => {
   describe('compound variants behavior', () => {
     it('should apply base and default classes without compound', () => {
       const result = compoundCva()
-      expect(result).toEqual(
-        'bg-white bg-gray-300 text-black p-2 text-sm opacity-70',
-      )
+      expect(result).toEqual('bg-white bg-gray-300 text-black p-2 text-sm opacity-70')
     })
 
     it('should apply compound class when matching active + lg', () => {
       const result = compoundCva({ state: 'active', size: 'lg' })
-      expect(result).toEqual(
-        'bg-white bg-blue-500 text-white p-4 text-lg ring-4 ring-blue-300',
-      )
+      expect(result).toEqual('bg-white bg-blue-500 text-white p-4 text-lg ring-4 ring-blue-300')
     })
 
     it('should NOT apply compound class if not matching', () => {
@@ -108,9 +104,7 @@ describe('@gentleduck/variants - cva core tests', () => {
 
     it('should apply multiple compound conditions independently', () => {
       const result = compoundCva({ state: 'inactive', size: 'sm' })
-      expect(result).toEqual(
-        'bg-white bg-gray-300 text-black p-2 text-sm opacity-70',
-      )
+      expect(result).toEqual('bg-white bg-gray-300 text-black p-2 text-sm opacity-70')
     })
   })
 

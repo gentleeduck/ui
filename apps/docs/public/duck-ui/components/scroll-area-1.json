@@ -1,9 +1,7 @@
 {
   "name": "scroll-area-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "scroll-area"
-  ],
+  "registryDependencies": ["scroll-area"],
   "root_folder": "scroll-area",
   "files": [
     {

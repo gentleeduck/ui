@@ -15,16 +15,16 @@ export default function Button24Demo() {
 
   return (
     <Button
-      role='button'
-      aria-label='Inbox button'
+      role="button"
+      aria-label="Inbox button"
       aria-expanded={open}
       aria-pressed={open}
       isCollapsed={open}
       icon={<Inbox />}
-      variant='default'
+      variant="default"
       tabIndex={0}
       loading={false}
-      type='button'
+      type="button"
       className="[data-open='false']:bg-red-500"
       onClick={handleClick}
       label={{
@@ -37,8 +37,7 @@ export default function Button24Demo() {
         label: '⇧+k',
         key: 'shift+k',
         action: handleClick,
-      }}
-    >
+      }}>
       Button
     </Button>
   )

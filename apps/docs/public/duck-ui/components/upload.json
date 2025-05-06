@@ -2,13 +2,7 @@
   "name": "upload",
   "type": "registry:ui",
   "dependencies": [],
-  "registryDependencies": [
-    "alert-dialog",
-    "input",
-    "context-menu",
-    "scroll-area",
-    "button"
-  ],
+  "registryDependencies": ["alert-dialog", "input", "context-menu", "scroll-area", "button"],
   "root_folder": "upload",
   "files": [
     {

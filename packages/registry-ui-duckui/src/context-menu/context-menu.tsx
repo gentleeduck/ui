@@ -32,10 +32,9 @@ const ContextMenuSubTrigger = React.forwardRef<
       inset && 'pl-8',
       className,
     )}
-    {...props}
-  >
+    {...props}>
     {children}
-    <ChevronRight className='ml-auto h-4 w-4' />
+    <ChevronRight className="ml-auto h-4 w-4" />
   </ContextMenuPrimitive.SubTrigger>
 ))
 ContextMenuSubTrigger.displayName = ContextMenuPrimitive.SubTrigger.displayName
@@ -101,18 +100,16 @@ const ContextMenuCheckboxItem = React.forwardRef<
       className,
     )}
     checked={checked}
-    {...props}
-  >
-    <span className='absolute left-2 flex h-3.5 w-3.5 items-center justify-center'>
+    {...props}>
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <ContextMenuPrimitive.ItemIndicator>
-        <Check className='h-4 w-4' />
+        <Check className="h-4 w-4" />
       </ContextMenuPrimitive.ItemIndicator>
     </span>
     {children}
   </ContextMenuPrimitive.CheckboxItem>
 ))
-ContextMenuCheckboxItem.displayName =
-  ContextMenuPrimitive.CheckboxItem.displayName
+ContextMenuCheckboxItem.displayName = ContextMenuPrimitive.CheckboxItem.displayName
 
 const ContextMenuRadioItem = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.RadioItem>,
@@ -124,11 +121,10 @@ const ContextMenuRadioItem = React.forwardRef<
       'relative flex cursor-default select-none items-center rounded-xs py-1.5 pl-8 pr-2 text-sm outline-hidden focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
-    {...props}
-  >
-    <span className='absolute left-2 flex h-3.5 w-3.5 items-center justify-center'>
+    {...props}>
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <ContextMenuPrimitive.ItemIndicator>
-        <Circle className='h-2 w-2 fill-current' />
+        <Circle className="h-2 w-2 fill-current" />
       </ContextMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -144,11 +140,7 @@ const ContextMenuLabel = React.forwardRef<
 >(({ className, inset, ...props }, ref) => (
   <ContextMenuPrimitive.Label
     ref={ref}
-    className={cn(
-      'px-2 py-1.5 text-sm font-semibold text-foreground',
-      inset && 'pl-8',
-      className,
-    )}
+    className={cn('px-2 py-1.5 text-sm font-semibold text-foreground', inset && 'pl-8', className)}
     {...props}
   />
 ))
@@ -158,39 +150,20 @@ const ContextMenuSeparator = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-  <ContextMenuPrimitive.Separator
-    ref={ref}
-    className={cn('-mx-1 my-1 h-px bg-border', className)}
-    {...props}
-  />
+  <ContextMenuPrimitive.Separator ref={ref} className={cn('-mx-1 my-1 h-px bg-border', className)} {...props} />
 ))
 ContextMenuSeparator.displayName = ContextMenuPrimitive.Separator.displayName
 
-const ContextMenuShortcut = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) => {
-  return (
-    <span
-      className={cn(
-        'ml-auto text-xs tracking-widest text-muted-foreground',
-        className,
-      )}
-      {...props}
-    />
-  )
+const ContextMenuShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
+  return <span className={cn('ml-auto text-xs tracking-widest text-muted-foreground', className)} {...props} />
 }
 ContextMenuShortcut.displayName = 'ContextMenuShortcut'
 
 type DropdownMenuOptionsDataType<T, Y extends boolean = true> = {
-  command?: React.ComponentPropsWithoutRef<typeof ContextMenuShortcut> &
-  CommandType
+  command?: React.ComponentPropsWithoutRef<typeof ContextMenuShortcut> & CommandType
   nestedData?: Y extends true
-  ? Partial<
-    React.ComponentPropsWithoutRef<typeof ContextMenuSubContent> &
-    ContextMenuOptionsType<T>
-  >
-  : never
+    ? Partial<React.ComponentPropsWithoutRef<typeof ContextMenuSubContent> & ContextMenuOptionsType<T>>
+    : never
 } & Partial<Omit<ButtonProps, 'command'>> &
   Partial<React.ComponentPropsWithoutRef<typeof ContextMenuCheckboxItem>> &
   Partial<React.ComponentPropsWithoutRef<typeof ContextMenuItem>> &
@@ -211,31 +184,18 @@ export type ContextContent<T> = Partial<{
 export interface DuckContextMenuProps<T> {
   wrapper?: Partial<React.ComponentPropsWithoutRef<typeof ContextMenu>>
   content?: ContextContent<T>
-  trigger?: React.ComponentPropsWithoutRef<typeof ContextMenuTrigger> &
-  ButtonProps
+  trigger?: React.ComponentPropsWithoutRef<typeof ContextMenuTrigger> & ButtonProps
 }
 
-export const DuckContextMenu = <T,>({
-  content,
-  trigger,
-  wrapper,
-}: DuckContextMenuProps<T>) => {
-  const {
-    className: triggerClassName,
-    icon: Icon,
-    children: triggerChildren,
-    ...triggerProps
-  } = trigger ?? {}
+export const DuckContextMenu = <T,>({ content, trigger, wrapper }: DuckContextMenuProps<T>) => {
+  const { className: triggerClassName, icon: Icon, children: triggerChildren, ...triggerProps } = trigger ?? {}
   const {
     // /className: optionsClassName,
     options,
     ...contentProps
   } = content ?? {}
-  const groupedOption = groupArrays(
-    options?.group ?? [options?.optionsData?.length || 1],
-    options?.optionsData ?? [],
-  )
-  const { } = wrapper ?? {}
+  const groupedOption = groupArrays(options?.group ?? [options?.optionsData?.length || 1], options?.optionsData ?? [])
+  const {} = wrapper ?? {}
 
   return (
     <ContextMenu>
@@ -243,13 +203,7 @@ export const DuckContextMenu = <T,>({
         {triggerChildren ? (
           triggerChildren
         ) : (
-          <Button
-            variant='outline'
-            size='sm'
-            className={cn(triggerClassName)}
-            icon={Icon}
-            {...triggerProps}
-          />
+          <Button variant="outline" size="sm" className={cn(triggerClassName)} icon={Icon} {...triggerProps} />
         )}
       </ContextMenuTrigger>
       {options?.optionsData?.length ? (
@@ -258,14 +212,12 @@ export const DuckContextMenu = <T,>({
             'w-[200px]',
             // optionsClassName
           )}
-          {...contentProps}
-        >
+          {...contentProps}>
           {groupedOption.map((group, idx) => {
             return (
               <React.Fragment key={`group-${idx}`}>
                 {group.map((item, idx) => {
-                  const { children, className, value, nestedData, ...props } =
-                    item
+                  const { children, className, value, nestedData, ...props } = item
                   const {
                     className: commandClassName,
                     label: commandLabel,
@@ -274,9 +226,7 @@ export const DuckContextMenu = <T,>({
                   } = item.command ?? {}
                   const groupedNestedOption =
                     groupArrays(
-                      nestedData?.group ?? [
-                        nestedData?.optionsData?.length || 1,
-                      ],
+                      nestedData?.group ?? [nestedData?.optionsData?.length || 1],
                       nestedData?.optionsData ?? [],
                     ) ?? []
                   const {
@@ -295,40 +245,13 @@ export const DuckContextMenu = <T,>({
 
                   return (
                     <React.Fragment key={`item-${idx}`}>
-                      {!nestedData?.optionsData?.length ? (
-                        <Component
-                          value={value as string}
-                          className={cn('flex gap-2 items-center', className)}
-                          {...props}
-                        >
-                          {item.icon && item.icon}
-                          {children}
-                          {item.command && (
-                            <>
-                              <ContextMenuShortcut
-                                children={commandLabel}
-                                {...commandProps}
-                                key={`command-${idx}`}
-                              />
-                              <Button
-                                command={item.command}
-                                className='sr-only hidden'
-                              />
-                            </>
-                          )}
-                        </Component>
-                      ) : (
+                      {nestedData?.optionsData?.length ? (
                         <ContextMenuSub key={`sub-item-${idx}`}>
-                          <ContextMenuSubTrigger
-                            className={cn('flex item-center gap-2')}
-                          >
+                          <ContextMenuSubTrigger className={cn('flex item-center gap-2')}>
                             {children}
                           </ContextMenuSubTrigger>
                           <ContextMenuPortal>
-                            <ContextMenuSubContent
-                              className={cn('w-[200px]', nestedClassName)}
-                              {...nestedProps}
-                            >
+                            <ContextMenuSubContent className={cn('w-[200px]', nestedClassName)} {...nestedProps}>
                               {groupedNestedOption?.map((nestedItem, idx) => {
                                 return (
                                   <React.Fragment key={`nested-${idx}`}>
@@ -362,14 +285,9 @@ export const DuckContextMenu = <T,>({
                                         <NestedComponent
                                           value={value as string}
                                           key={`nested-item-${idx}`}
-                                          className={cn(
-                                            'flex gap-2 items-center',
-                                            nestedClassName,
-                                          )}
-                                          {...nestedProps}
-                                        >
-                                          {nestedItemInner.icon &&
-                                            nestedItemInner.icon}
+                                          className={cn('flex gap-2 items-center', nestedClassName)}
+                                          {...nestedProps}>
+                                          {nestedItemInner.icon && nestedItemInner.icon}
                                           {nestedChildren}
                                           {nestedItemInner.command && (
                                             <>
@@ -378,29 +296,35 @@ export const DuckContextMenu = <T,>({
                                                 {...nestedCommandProps}
                                                 key={`nested-item-shortcut-${idx}`}
                                               />
-                                              <Button
-                                                command={
-                                                  nestedItemInner.command
-                                                }
-                                                className='sr-only hidden'
-                                              />
+                                              <Button command={nestedItemInner.command} className="sr-only hidden" />
                                             </>
                                           )}
                                         </NestedComponent>
                                       )
                                     })}
-                                    {idx !==
-                                      groupedNestedOption?.length - 1 && (
-                                        <ContextMenuSeparator
-                                          key={`separator-${idx}`}
-                                        />
-                                      )}
+                                    {idx !== groupedNestedOption?.length - 1 && (
+                                      <ContextMenuSeparator key={`separator-${idx}`} />
+                                    )}
                                   </React.Fragment>
                                 )
                               })}
                             </ContextMenuSubContent>
                           </ContextMenuPortal>
                         </ContextMenuSub>
+                      ) : (
+                        <Component
+                          value={value as string}
+                          className={cn('flex gap-2 items-center', className)}
+                          {...props}>
+                          {item.icon && item.icon}
+                          {children}
+                          {item.command && (
+                            <>
+                              <ContextMenuShortcut children={commandLabel} {...commandProps} key={`command-${idx}`} />
+                              <Button command={item.command} className="sr-only hidden" />
+                            </>
+                          )}
+                        </Component>
                       )}
                     </React.Fragment>
                   )

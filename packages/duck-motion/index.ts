@@ -1,3 +1,3 @@
-export * from './motion';
-export * from './easing';
-export * from './anim';
+export * from './motion'
+export * from './easing'
+export * from './anim'

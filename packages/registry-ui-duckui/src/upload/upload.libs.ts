@@ -55,11 +55,9 @@ export const getAttachmentsToState = ({
   e.currentTarget.value = ''
 }
 
-export const downloadAttachment = async ({
-  attachment,
-}: { attachment: FileType }) => {
+export const downloadAttachment = async ({ attachment }: { attachment: FileType }) => {
   if (attachment.file) {
-    let file: Blob = attachment.file as Blob
+    const file: Blob = attachment.file as Blob
     return download(file, attachment.name ?? 'image.jpg')
   }
 
@@ -83,16 +81,12 @@ function download(blob: Blob, name: string) {
   URL.revokeObjectURL(url)
 }
 
-export const fetchBlob = async ({
-  url,
-}: { url: string }): Promise<Blob | null> => {
+export const fetchBlob = async ({ url }: { url: string }): Promise<Blob | null> => {
   try {
     const response = await fetch(url)
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch audio: ${response.statusText} (status: ${response.status})`,
-      )
+      throw new Error(`Failed to fetch audio: ${response.statusText} (status: ${response.status})`)
     }
 
     const blob = await response.blob()

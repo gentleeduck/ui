@@ -42,10 +42,7 @@ export function getColors() {
         return {
           name,
           colors: color.map((color) => {
-            const rgb = color.rgb.replace(
-              /^rgb\((\d+),(\d+),(\d+)\)$/,
-              '$1 $2 $3',
-            )
+            const rgb = color.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3')
 
             return {
               ...color,
@@ -53,10 +50,7 @@ export function getColors() {
               id: `${name}-${color.scale}`,
               className: `${name}-${color.scale}`,
               rgb,
-              hsl: color.hsl.replace(
-                /^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/,
-                '$1 $2 $3',
-              ),
+              hsl: color.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
               foreground: getForegroundFromBackground(rgb),
             }
           }),
@@ -75,13 +69,10 @@ function getForegroundFromBackground(rgb: string) {
 
   function toLinear(number: number): number {
     const base = number / 255
-    return base <= 0.04045
-      ? base / 12.92
-      : Math.pow((base + 0.055) / 1.055, 2.4)
+    return base <= 0.04045 ? base / 12.92 : Math.pow((base + 0.055) / 1.055, 2.4)
   }
 
-  const luminance =
-    0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b)
+  const luminance = 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b)
 
   return luminance > 0.179 ? '#000' : '#fff'
 }

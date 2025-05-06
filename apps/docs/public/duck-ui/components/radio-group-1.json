@@ -1,9 +1,7 @@
 {
   "name": "radio-group-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "radio-group"
-  ],
+  "registryDependencies": ["radio-group"],
   "root_folder": "radio-group",
   "files": [
     {

@@ -9,11 +9,7 @@ export const NotionEditorDraggableItemComponent: React.FC<NodeViewProps> = ({ ed
   const handleMouseLeave = () => setHovered(false)
 
   return (
-    <NodeViewWrapper
-      className="custom-node-view"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <NodeViewWrapper className="custom-node-view" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {hovered && <ContentItemMenu editor={editor} />}
       <NodeViewContent className="content-node" />
     </NodeViewWrapper>

@@ -1,1 +1,1 @@
-# `@gentelduck/aria-feather`
+# `@gentleduck/aria-feather`

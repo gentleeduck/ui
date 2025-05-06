@@ -13,10 +13,10 @@ export const Toggle = ({ onChange, active = false, size = 'large' }: ToggleProps
 
   const buttonClass = cn(
     'inline-flex cursor-pointer items-center rounded-full border-transparent transition-colors',
-    !active ? 'bg-neutral-200 hover:bg-neutral-300' : 'bg-black',
-    !active ? 'dark:bg-neutral-800 dark:hover:bg-neutral-700' : 'dark:bg-white',
+    active ? 'bg-black' : 'bg-neutral-200 hover:bg-neutral-300',
+    active ? 'dark:bg-white' : 'dark:bg-neutral-800 dark:hover:bg-neutral-700',
     size === 'small' && 'h-3 w-6 px-0.5',
-    size === 'large' && 'h-5 w-9 px-0.5'
+    size === 'large' && 'h-5 w-9 px-0.5',
   )
 
   const pinClass = cn(
@@ -24,7 +24,7 @@ export const Toggle = ({ onChange, active = false, size = 'large' }: ToggleProps
     'bg-white dark:bg-black',
     size === 'small' && 'h-2 w-2',
     size === 'large' && 'h-4 w-4',
-    active ? cn(size === 'small' ? 'translate-x-3' : '', size === 'large' ? 'translate-x-4' : '') : 'translate-x-0'
+    active ? cn(size === 'small' ? 'translate-x-3' : '', size === 'large' ? 'translate-x-4' : '') : 'translate-x-0',
   )
 
   const handleChange = useCallback(() => {
@@ -39,12 +39,8 @@ export const Toggle = ({ onChange, active = false, size = 'large' }: ToggleProps
       aria-checked={active}
       data-state={state}
       value={value}
-      onClick={handleChange}
-    >
-      <span
-        className={pinClass}
-        data-state={state}
-      />
+      onClick={handleChange}>
+      <span className={pinClass} data-state={state} />
     </button>
   )
 }

@@ -35,9 +35,7 @@ export function isIOS(): boolean | undefined {
 }
 
 export function testPlatform(re: RegExp): boolean | undefined {
-  return typeof window !== 'undefined' && window.navigator != null
-    ? re.test(window.navigator.platform)
-    : undefined
+  return typeof window !== 'undefined' && window.navigator != null ? re.test(window.navigator.platform) : undefined
 }
 
 interface Style {
@@ -60,13 +58,9 @@ export function isInView(el: HTMLElement): boolean {
   )
 }
 
-export function set(
-  el: Element | HTMLElement | null | undefined,
-  styles: Style,
-  ignoreCache = false,
-) {
+export function set(el: Element | HTMLElement | null | undefined, styles: Style, ignoreCache = false) {
   if (!el || !(el instanceof HTMLElement)) return
-  let originalStyles: Style = {}
+  const originalStyles: Style = {}
 
   // biome-ignore lint/complexity/noForEach: <explanation>
   Object.entries(styles).forEach(([key, value]: [string, string]) => {
@@ -86,7 +80,7 @@ export function set(
 
 export function reset(el: Element | HTMLElement | null, prop?: string) {
   if (!el || !(el instanceof HTMLElement)) return
-  let originalStyles = cache.get(el)
+  const originalStyles = cache.get(el)
 
   if (!originalStyles) {
     return
@@ -115,10 +109,7 @@ export const isVertical = (direction: DrawerDirection) => {
   }
 }
 
-export function getTranslate(
-  element: HTMLElement,
-  direction: DrawerDirection,
-): number | null {
+export function getTranslate(element: HTMLElement, direction: DrawerDirection): number | null {
   if (!element) {
     return null
   }
@@ -129,25 +120,18 @@ export function getTranslate(
   let mat = transform.match(/^matrix3d\((.+)\)$/)
   if (mat) {
     // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d
-    return Number.parseFloat(
-      mat[1].split(', ')[isVertical(direction) ? 13 : 12],
-    )
+    return Number.parseFloat(mat[1].split(', ')[isVertical(direction) ? 13 : 12])
   }
   // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
   mat = transform.match(/^matrix\((.+)\)$/)
-  return mat
-    ? Number.parseFloat(mat[1].split(', ')[isVertical(direction) ? 5 : 4])
-    : null
+  return mat ? Number.parseFloat(mat[1].split(', ')[isVertical(direction) ? 5 : 4]) : null
 }
 
 export function dampenValue(v: number) {
   return 8 * (Math.log(v + 1) - 2)
 }
 
-export function assignStyle(
-  element: HTMLElement | null | undefined,
-  style: Partial<CSSStyleDeclaration>,
-) {
+export function assignStyle(element: HTMLElement | null | undefined, style: Partial<CSSStyleDeclaration>) {
   if (!element) return () => {}
 
   const prevStyle = element.style.cssText
@@ -194,17 +178,13 @@ export function onDrag(
 
   // We need to know how much of the drawer has been dragged in percentages so that we can transform background accordingly
   if (isDragging) {
-    const directionMultiplier =
-      direction === 'bottom' || direction === 'right' ? 1 : -1
+    const directionMultiplier = direction === 'bottom' || direction === 'right' ? 1 : -1
     const draggedDistance =
-      (pointerStart.current -
-        (isVertical(direction) ? event.pageY : event.pageX)) *
-      directionMultiplier
+      (pointerStart.current - (isVertical(direction) ? event.pageY : event.pageX)) * directionMultiplier
     const isDraggingInDirection = draggedDistance > 0
 
     // Pre condition for disallowing dragging in the close direction.
-    const noCloseSnapPointsPreCondition =
-      snapPoints && !dismissible && !isDraggingInDirection
+    const noCloseSnapPointsPreCondition = snapPoints && !dismissible && !isDraggingInDirection
 
     // Disallow dragging down to close when first snap point is the active one and dismissible prop is set to false.
     if (noCloseSnapPointsPreCondition && activeSnapPointIndex === 0) return
@@ -213,16 +193,11 @@ export function onDrag(
     const absDraggedDistance = Math.abs(draggedDistance)
     const wrapper = document.querySelector('[data-vaul-drawer-wrapper]')
     const drawerDimension =
-      direction === 'bottom' || direction === 'top'
-        ? drawerHeightRef.current
-        : drawerWidthRef.current
+      direction === 'bottom' || direction === 'top' ? drawerHeightRef.current : drawerWidthRef.current
 
     // Calculate the percentage dragged, where 1 is the closed position
     let percentageDragged = absDraggedDistance / drawerDimension
-    const snapPointPercentageDragged = getSnapPointsPercentageDragged(
-      absDraggedDistance,
-      isDraggingInDirection,
-    )
+    const snapPointPercentageDragged = getSnapPointsPercentageDragged(absDraggedDistance, isDraggingInDirection)
 
     if (snapPointPercentageDragged !== null) {
       percentageDragged = snapPointPercentageDragged
@@ -233,11 +208,7 @@ export function onDrag(
       return
     }
 
-    if (
-      !isAllowedToDrag.current &&
-      !shouldDrag(event.target, isDraggingInDirection)
-    )
-      return
+    if (!isAllowedToDrag.current && !shouldDrag(event.target, isDraggingInDirection)) return
     drawerRef.current.classList.add(DRAG_CLASS)
     // If shouldDrag gave true once after pressing down on the drawer, we set isAllowedToDrag to true and it will remain true until we let go, there's no reason to disable dragging mid way, ever, and that's the solution to it
     isAllowedToDrag.current = true
@@ -257,8 +228,7 @@ export function onDrag(
     if (isDraggingInDirection && !snapPoints) {
       const dampenedDraggedDistance = dampenValue(draggedDistance)
 
-      const translateValue =
-        Math.min(dampenedDraggedDistance * -1, 0) * directionMultiplier
+      const translateValue = Math.min(dampenedDraggedDistance * -1, 0) * directionMultiplier
       set(drawerRef.current, {
         transform: isVertical(direction)
           ? `translate3d(0, ${translateValue}px, 0)`
@@ -269,10 +239,7 @@ export function onDrag(
 
     const opacityValue = 1 - percentageDragged
 
-    if (
-      shouldFade ||
-      (fadeFromIndex && activeSnapPointIndex === fadeFromIndex - 1)
-    ) {
+    if (shouldFade || (fadeFromIndex && activeSnapPointIndex === fadeFromIndex - 1)) {
       onDragProp?.(event, percentageDragged)
 
       set(
@@ -287,10 +254,7 @@ export function onDrag(
 
     if (wrapper && overlayRef.current && shouldScaleBackground) {
       // Calculate percentageDragged as a fraction (0 to 1)
-      const scaleValue = Math.min(
-        getScale() + percentageDragged * (1 - getScale()),
-        1,
-      )
+      const scaleValue = Math.min(getScale() + percentageDragged * (1 - getScale()), 1)
       const borderRadiusValue = 8 - percentageDragged * 8
 
       const translateValue = Math.max(0, 14 - percentageDragged * 14)

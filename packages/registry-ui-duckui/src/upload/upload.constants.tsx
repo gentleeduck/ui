@@ -10,10 +10,10 @@ export enum FileTypeEnum {
 }
 
 export const FILE_TYPE_ICONS: Record<FileTypeEnum, JSX.Element> = {
-  [FileTypeEnum.Audio]: <FileAudio className='w-8 h-8' />,
-  [FileTypeEnum.Text]: <FileText className='w-8 h-8' />,
-  [FileTypeEnum.Image]: <FileImage className='w-8 h-8' />,
-  [FileTypeEnum.Video]: <FileVideo className='w-8 h-8' />,
-  [FileTypeEnum.Pdf]: <FileText className='w-8 h-8' />,
-  [FileTypeEnum.Unknown]: <File className='w-8 h-8' />,
+  [FileTypeEnum.Audio]: <FileAudio className="w-8 h-8" />,
+  [FileTypeEnum.Text]: <FileText className="w-8 h-8" />,
+  [FileTypeEnum.Image]: <FileImage className="w-8 h-8" />,
+  [FileTypeEnum.Video]: <FileVideo className="w-8 h-8" />,
+  [FileTypeEnum.Pdf]: <FileText className="w-8 h-8" />,
+  [FileTypeEnum.Unknown]: <File className="w-8 h-8" />,
 }

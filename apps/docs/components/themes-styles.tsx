@@ -15,15 +15,15 @@ export function ThemesStyle() {
 .themes-wrapper,
 [data-chart] {
   ${Object.entries(themesConfig.activeTheme.cssVars.light)
-          .map(([key, value]) => `${key}: ${value};`)
-          .join('\n')}
+    .map(([key, value]) => `${key}: ${value};`)
+    .join('\n')}
 }
 
 .dark .themes-wrapper,
 .dark [data-chart] {
   ${Object.entries(themesConfig.activeTheme.cssVars.dark)
-          .map(([key, value]) => `${key}: ${value};`)
-          .join('\n')}
+    .map(([key, value]) => `${key}: ${value};`)
+    .join('\n')}
 }
   `}
     </style>

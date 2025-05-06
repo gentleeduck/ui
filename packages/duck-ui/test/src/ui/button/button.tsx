@@ -32,25 +32,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }: ButtonProps,
     ref: React.ForwardedRef<HTMLButtonElement> | undefined,
   ) => {
-    const {
-      side,
-      delayDuration,
-      open,
-      onOpenChange,
-      showLabel,
-      showCommand,
-      ...labelProps
-    } = label || {}
+    const { side, delayDuration, open, onOpenChange, showLabel, showCommand, ...labelProps } = label || {}
 
     const Component = asChild ? Slot : 'button'
 
-    const {
-      className: commandClassName,
-      show: commandShow,
-      key,
-      action,
-      ...commandProps
-    } = command ?? {}
+    const { className: commandClassName, show: commandShow, key, action, ...commandProps } = command ?? {}
 
     if (key && action) {
       useDuckShortcut({ keys: [key], onKeysPressed: action })
@@ -83,19 +69,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-open={!isCollapsed}
         data-loading={loading}
         aria-expanded={!isCollapsed}
-        {...props}
-      >
+        {...props}>
         {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
-          <div className='w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100'>
+          <div className="w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100">
             {animationIcon?.icon}
           </div>
         )}
-        <div className='flex items-center gap-2'>
-          {!loading ? icon : <Loader className='animate-spin' />}
+        <div className="flex items-center gap-2">
+          {loading ? <Loader className="animate-spin" /> : icon}
           {!isCollapsed && size !== 'icon' && children}
-          {!isCollapsed && command?.children && !showCommand && (
-            <CommandComponent />
-          )}
+          {!isCollapsed && command?.children && !showCommand && <CommandComponent />}
 
           {!isCollapsed && label && !showLabel && (
             <Badge
@@ -112,7 +95,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {!isCollapsed && secondIcon && secondIcon}
         </div>
         {animationIcon?.icon && animationIcon.iconPlacement === 'right' && (
-          <div className='w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100'>
+          <div className="w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
             {animationIcon?.icon}
           </div>
         )}
@@ -125,36 +108,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <TooltipProvider>
-        <Tooltip
-          delayDuration={delayDuration}
-          open={open}
-          onOpenChange={onOpenChange}
-        >
-          <TooltipTrigger
-            asChild
-            aria-haspopup='true'
-            aria-label='button with tooltip'
-          >
+        <Tooltip delayDuration={delayDuration} open={open} onOpenChange={onOpenChange}>
+          <TooltipTrigger asChild aria-haspopup="true" aria-label="button with tooltip">
             {ButtonBody}
           </TooltipTrigger>
           {(isCollapsed || showLabel) && label && (
             <TooltipContent
               {...labelProps}
-              className={cn(
-                'flex items-center gap-2 z-50 justify-start px-2',
-                label.className,
-              )}
-              side={side || 'right'}
-            >
+              className={cn('flex items-center gap-2 z-50 justify-start px-2', label.className)}
+              side={side || 'right'}>
               {command?.children && showCommand && <CommandComponent />}
               {showLabel && label.children && (
-                <span
-                  className={cn(
-                    'ml-auto text-[.9rem]',
-                    !showLabel && 'text-muted-foreground',
-                  )}
-                  {...labelProps}
-                />
+                <span className={cn('ml-auto text-[.9rem]', !showLabel && 'text-muted-foreground')} {...labelProps} />
               )}
             </TooltipContent>
           )}

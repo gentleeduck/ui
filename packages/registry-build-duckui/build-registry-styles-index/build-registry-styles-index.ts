@@ -22,21 +22,11 @@ import { BuildRegistryStylesIndexParams } from './build-registry-styles-index.ty
  *
  * @returns {Promise<void>} Resolves when the file is successfully written.
  */
-export async function build_registry_styles_index({
-  item,
-  spinner,
-}: BuildRegistryStylesIndexParams): Promise<void> {
+export async function build_registry_styles_index({ item, spinner }: BuildRegistryStylesIndexParams): Promise<void> {
   try {
-    spinner.text = `🧭 Building registry styles index... (${styleText(
-      'green',
-      item.name,
-    )})`
+    spinner.text = `🧭 Building registry styles index... (${styleText('green', item.name)})`
 
-    const dependencies = [
-      'tailwindcss-animate',
-      'class-variance-authority',
-      'lucide-react',
-    ]
+    const dependencies = ['tailwindcss-animate', 'class-variance-authority', 'lucide-react']
 
     const payload: RegistryEntry = {
       name: item.name,
@@ -58,11 +48,7 @@ export async function build_registry_styles_index({
 
     spinner.text = `🧭 Registry styles index built successfully: ${targetPath}`
   } catch (error) {
-    spinner.fail(
-      `Failed to build registry styles index: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    )
+    spinner.fail(`Failed to build registry styles index: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(1)
   }
 }

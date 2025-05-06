@@ -1,9 +1,7 @@
 {
   "name": "tooltip-2",
   "type": "registry:example",
-  "registryDependencies": [
-    "tooltip"
-  ],
+  "registryDependencies": ["tooltip"],
   "root_folder": "tooltip",
   "files": [
     {

@@ -72,13 +72,13 @@ export const useDropZone = ({ uploader }: { uploader: (file: File) => void }) =>
         }
       }
 
-      if (files.some(file => file.type.indexOf('image') === -1)) {
+      if (files.some((file) => file.type.indexOf('image') === -1)) {
         return
       }
 
       e.preventDefault()
 
-      const filteredFiles = files.filter(f => f.type.indexOf('image') !== -1)
+      const filteredFiles = files.filter((f) => f.type.indexOf('image') !== -1)
 
       const file = filteredFiles.length > 0 ? filteredFiles[0] : undefined
 
@@ -86,7 +86,7 @@ export const useDropZone = ({ uploader }: { uploader: (file: File) => void }) =>
         uploader(file)
       }
     },
-    [uploader]
+    [uploader],
   )
 
   const onDragEnter = () => {

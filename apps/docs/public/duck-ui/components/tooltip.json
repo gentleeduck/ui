@@ -1,12 +1,8 @@
 {
   "name": "tooltip",
   "type": "registry:ui",
-  "dependencies": [
-    ""
-  ],
-  "registryDependencies": [
-    "slot"
-  ],
+  "dependencies": [""],
+  "registryDependencies": ["slot"],
   "root_folder": "tooltip",
   "files": [
     {

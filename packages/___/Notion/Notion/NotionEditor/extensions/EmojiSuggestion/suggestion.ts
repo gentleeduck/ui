@@ -10,8 +10,8 @@ export const emojiSuggestion = {
     editor.storage.emoji.emojis
       .filter(
         ({ shortcodes, tags }: { shortcodes: string[]; tags: string[] }) =>
-          shortcodes.find(shortcode => shortcode.startsWith(query.toLowerCase())) ||
-          tags.find(tag => tag.startsWith(query.toLowerCase()))
+          shortcodes.find((shortcode) => shortcode.startsWith(query.toLowerCase())) ||
+          tags.find((tag) => tag.startsWith(query.toLowerCase())),
       )
       .slice(0, 250),
 

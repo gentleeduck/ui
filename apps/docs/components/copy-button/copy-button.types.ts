@@ -11,8 +11,7 @@ export interface CopyWithClassNamesProps extends DropdownMenuTriggerProps {
   className?: string
 }
 
-export interface CopyNpmCommandButtonProps
-  extends React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> {
+export interface CopyNpmCommandButtonProps extends React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> {
   commands: Required<NpmCommands>
 }
 export interface CopyButtonProps extends ButtonProps {

@@ -15,21 +15,17 @@ const ToolbarWrapper = forwardRef<HTMLDivElement, ToolbarWrapperProps>(
     const toolbarClassName = cn(
       'text-black inline-flex h-full leading-none gap-0.5',
       isVertical ? 'flex-col p-2' : 'flex-row p-1 items-center',
-      className
+      className,
     )
 
     return (
       shouldShowContent && (
-        <Surface
-          className={toolbarClassName}
-          {...rest}
-          ref={ref}
-        >
+        <Surface className={toolbarClassName} {...rest} ref={ref}>
           {children}
         </Surface>
       )
     )
-  }
+  },
 )
 
 ToolbarWrapper.displayName = 'Toolbar'
@@ -44,16 +40,10 @@ const ToolbarDivider = forwardRef<HTMLDivElement, ToolbarDividerProps>(({ horizo
     horizontal
       ? 'w-full min-w-[1.5rem] h-[1px] my-1 first:mt-0 last:mt-0'
       : 'h-full min-h-[1.5rem] w-[1px] mx-1 first:ml-0 last:mr-0',
-    className
+    className,
   )
 
-  return (
-    <div
-      className={dividerClassName}
-      ref={ref}
-      {...rest}
-    />
-  )
+  return <div className={dividerClassName} ref={ref} {...rest} />
 })
 
 ToolbarDivider.displayName = 'Toolbar.Divider'
@@ -70,7 +60,7 @@ export type ToolbarButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
   (
     { children, buttonSize = 'icon', variant = 'ghost', className, tooltip, tooltipShortcut, activeClassname, ...rest },
-    ref
+    ref,
   ) => {
     const buttonClass = cn('gap-1 min-w-[2rem] px-2 w-auto', className)
 
@@ -81,25 +71,21 @@ const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
         variant={variant}
         buttonSize={buttonSize}
         ref={ref}
-        {...rest}
-      >
+        {...rest}>
         {children}
       </Button>
     )
 
     if (tooltip) {
       return (
-        <Tooltip
-          title={tooltip}
-          shortcut={tooltipShortcut}
-        >
+        <Tooltip title={tooltip} shortcut={tooltipShortcut}>
           {content}
         </Tooltip>
       )
     }
 
     return content
-  }
+  },
 )
 
 ToolbarButton.displayName = 'ToolbarButton'

@@ -11,7 +11,7 @@ export default function Button1Demo() {
         isCollapsed={open}
         icon={<ArrowBigUpDash />}
         aria-label={'advanced button'}
-        size='default'
+        size="default"
         aria-expanded={open}
         loading={false}
         onClick={() => setOpen((prev) => !prev)}
@@ -35,8 +35,7 @@ export default function Button1Demo() {
                 onClick: () => console.log('Undo'),
               },
             }),
-        }}
-      >
+        }}>
         Button
       </Button>
     </>

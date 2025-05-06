@@ -15,8 +15,7 @@ export default function DrawerDemo() {
               onClick: () => console.log('Undo'),
             },
           })
-        }
-      >
+        }>
         Show Toast
       </button>
     </>

@@ -1,9 +1,7 @@
 {
   "name": "badge-2",
   "type": "registry:example",
-  "registryDependencies": [
-    "badge"
-  ],
+  "registryDependencies": ["badge"],
   "root_folder": "badge",
   "files": [
     {

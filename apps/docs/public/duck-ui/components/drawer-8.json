@@ -1,9 +1,7 @@
 {
   "name": "drawer-8",
   "type": "registry:example",
-  "registryDependencies": [
-    "drawer"
-  ],
+  "registryDependencies": ["drawer"],
   "root_folder": "drawer",
   "files": [
     {

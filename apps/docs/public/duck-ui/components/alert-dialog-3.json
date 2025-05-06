@@ -1,9 +1,7 @@
 {
   "name": "alert-dialog-3",
   "type": "registry:example",
-  "registryDependencies": [
-    "alert-dialog"
-  ],
+  "registryDependencies": ["alert-dialog"],
   "root_folder": "alert-dialog",
   "files": [
     {

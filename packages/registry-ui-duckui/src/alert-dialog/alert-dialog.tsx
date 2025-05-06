@@ -18,8 +18,7 @@ import {
 /**
  * A component that renders an alert dialog using the AlertDialogPrimitive.Root component.
  */
-const AlertDialog =
-  AlertDialogPrimitive.Root as typeof AlertDialogPrimitive.Root
+const AlertDialog = AlertDialogPrimitive.Root as typeof AlertDialogPrimitive.Root
 
 /**
  * A component that serves as the trigger for an alert dialog.
@@ -95,19 +94,8 @@ AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
  *
  * @returns {JSX.Element} The rendered header component.
  */
-function AlertDialogHeader({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      className={cn(
-        'flex flex-col space-y-2 text-center sm:text-left',
-        className,
-      )}
-      {...props}
-    />
-  )
+function AlertDialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
+  return <div className={cn('flex flex-col space-y-2 text-center sm:text-left', className)} {...props} />
 }
 AlertDialogHeader.displayName = 'AlertDialogHeader'
 
@@ -122,19 +110,8 @@ AlertDialogHeader.displayName = 'AlertDialogHeader'
  *
  * @returns {JSX.Element} The rendered footer component.
  */
-function AlertDialogFooter({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      className={cn(
-        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-        className,
-      )}
-      {...props}
-    />
-  )
+function AlertDialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
+  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
 }
 AlertDialogFooter.displayName = 'AlertDialogFooter'
 
@@ -152,11 +129,7 @@ const AlertDialogTitle = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Title
-    ref={ref}
-    className={cn('text-lg font-semibold', className)}
-    {...props}
-  />
+  <AlertDialogPrimitive.Title ref={ref} className={cn('text-lg font-semibold', className)} {...props} />
 ))
 AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
 
@@ -173,14 +146,9 @@ const AlertDialogDescription = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Description
-    ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
-    {...props}
-  />
+  <AlertDialogPrimitive.Description ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 ))
-AlertDialogDescription.displayName =
-  AlertDialogPrimitive.Description.displayName
+AlertDialogDescription.displayName = AlertDialogPrimitive.Description.displayName
 
 /**
  * `AlertDialogAction` is a React component that forwards its ref to the `AlertDialogPrimitive.Action` component.
@@ -195,11 +163,7 @@ const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Action
-    ref={ref}
-    className={cn(buttonVariants(), className)}
-    {...props}
-  />
+  <AlertDialogPrimitive.Action ref={ref} className={cn(buttonVariants(), className)} {...props} />
 ))
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
 
@@ -220,11 +184,7 @@ const AlertDialogCancel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Cancel
     ref={ref}
-    className={cn(
-      buttonVariants({ variant: 'outline' }),
-      'mt-2 sm:mt-0',
-      className,
-    )}
+    className={cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', className)}
     {...props}
   />
 ))
@@ -243,11 +203,7 @@ AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
  * and customizable headers and footers. The component handles user interactions
  * with cancel and continue actions, updating the state and invoking provided callbacks.
  */
-export function AlertDialogWrapper({
-  alertTrigger,
-  alertContent,
-  duckHook,
-}: AlertDialogWrapperType) {
+export function AlertDialogWrapper({ alertTrigger, alertContent, duckHook }: AlertDialogWrapperType) {
   const { _header, _footer, ...contentProps } = alertContent ?? {}
   const { _title, _description, ...headerProps } = _header ?? {}
   const { _submit, _cancel, ...footerProps } = _footer ?? {}
@@ -280,8 +236,7 @@ export function AlertDialogWrapper({
               duckHook?.handleAlertCancel()
               _cancel?.onClick?.(e)
             }}
-            asChild
-          >
+            asChild>
             {_cancel?.children ?? 'Cancel'}
           </AlertDialogCancel>
           <AlertDialogAction
@@ -290,8 +245,7 @@ export function AlertDialogWrapper({
               duckHook?.handleAlertContinue()
               _submit?.onClick?.(e)
             }}
-            asChild
-          >
+            asChild>
             {_submit?.children ?? 'Continue'}
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -315,21 +269,12 @@ export function AlertDialogWrapper({
  * and customizable headers and footers. The component handles user interactions
  * with cancel and continue actions, updating the state and invoking provided callbacks.
  */
-function AlertDialogSheet<T = string>({
-  alertTrigger,
-  alertContent,
-  content,
-  state,
-}: AlertDialogSheetProps<T>) {
+function AlertDialogSheet<T = string>({ alertTrigger, alertContent, content, state }: AlertDialogSheetProps<T>) {
   const duckHook = useDuckAlert({ state })
 
   return (
     <>
-      <AlertDialogWrapper
-        alertTrigger={alertTrigger}
-        alertContent={alertContent}
-        duckHook={duckHook}
-      />
+      <AlertDialogWrapper alertTrigger={alertTrigger} alertContent={alertContent} duckHook={duckHook} />
       <SheetWrapper content={content} duckHook={duckHook} />
     </>
   )
@@ -363,11 +308,7 @@ function AlertDialogDrawer<T = string>({
 
   return (
     <>
-      <AlertDialogWrapper
-        alertTrigger={alertTrigger}
-        alertContent={alertContent}
-        duckHook={duckHook}
-      />
+      <AlertDialogWrapper alertTrigger={alertTrigger} alertContent={alertContent} duckHook={duckHook} />
     </>
     // <DrawerWrapper content={content} duckHook={duckHook} />
   )
@@ -399,11 +340,7 @@ function AlertDialogDialog<T = string>({
 
   return (
     <>
-      <AlertDialogWrapper
-        alertTrigger={alertTrigger}
-        alertContent={alertContent}
-        duckHook={duckHook}
-      />
+      <AlertDialogWrapper alertTrigger={alertTrigger} alertContent={alertContent} duckHook={duckHook} />
       {/* ! FIX: create DialogWrapper  */}
       {/* <DialogWrapper content={content} duckHook={duckHook} /> */}
     </>

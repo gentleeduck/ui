@@ -10,7 +10,7 @@ export const startTimer = ({
   // setTimeout(, Infinity) behaves as if the delay is 0.
   // As a result, the toast would be closed immediately, giving the appearance that it was never rendered.
   // See: https://github.com/denysdovhan/wtfjs?tab=readme-ov-file#an-infinite-timeout
-  if (remainingTime.current === Infinity) return
+  if (remainingTime.current === Number.POSITIVE_INFINITY) return
 
   closeTimerStartTimeRef.current = new Date().getTime()
 

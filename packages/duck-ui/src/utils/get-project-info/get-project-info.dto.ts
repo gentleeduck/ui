@@ -26,9 +26,7 @@ const CompilerOptions = z
     tsBuildInfoFile: StringOrNull,
     inlineSourceMap: BooleanOrNull,
     inlineSources: BooleanOrNull,
-    jsx: z
-      .enum(['preserve', 'react', 'react-jsx', 'react-jsxdev', 'react-native'])
-      .optional(),
+    jsx: z.enum(['preserve', 'react', 'react-jsx', 'react-jsxdev', 'react-native']).optional(),
     jsxFactory: StringOrNull,
     jsxFragmentFactory: StringOrNull,
     jsxImportSource: StringOrNull,
@@ -52,9 +50,7 @@ const CompilerOptions = z
         'Preserve',
       ])
       .optional(),
-    moduleResolution: z
-      .enum(['classic', 'node', 'node10', 'node16', 'nodenext', 'bundler'])
-      .optional(),
+    moduleResolution: z.enum(['classic', 'node', 'node10', 'node16', 'nodenext', 'bundler']).optional(),
     newLine: z.enum(['crlf', 'lf']).optional(),
     noEmit: BooleanOrNull,
     noEmitHelpers: BooleanOrNull,
@@ -171,12 +167,7 @@ const WatchOptions = z
       ])
       .optional(),
     watchDirectory: z
-      .enum([
-        'useFsEvents',
-        'fixedPollingInterval',
-        'dynamicPriorityPolling',
-        'fixedChunkSizePolling',
-      ])
+      .enum(['useFsEvents', 'fixedPollingInterval', 'dynamicPriorityPolling', 'fixedChunkSizePolling'])
       .optional(),
     fallbackPolling: z
       .enum([
@@ -251,9 +242,7 @@ const TsNodeOptions = z
     skipIgnore: z.boolean().optional(),
     swc: z.boolean().optional(),
     transpileOnly: z.boolean().optional(),
-    transpiler: z
-      .union([z.string(), z.tuple([z.string(), z.record(z.any())])])
-      .optional(),
+    transpiler: z.union([z.string(), z.tuple([z.string(), z.record(z.any())])]).optional(),
     typeCheck: z.boolean().optional(),
   })
   .partial()

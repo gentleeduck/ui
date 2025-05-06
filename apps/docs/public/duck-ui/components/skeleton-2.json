@@ -1,9 +1,7 @@
 {
   "name": "skeleton-2",
   "type": "registry:example",
-  "registryDependencies": [
-    "skeleton"
-  ],
+  "registryDependencies": ["skeleton"],
   "root_folder": "skeleton",
   "files": [
     {

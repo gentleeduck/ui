@@ -27,19 +27,16 @@ export interface UploadItemProps extends React.HTMLProps<HTMLDivElement> {
   attachment: FileType
 }
 
-export interface UploadProps
-  extends Omit<React.HTMLProps<HTMLDivElement>, 'content'> {
+export interface UploadProps extends Omit<React.HTMLProps<HTMLDivElement>, 'content'> {
   trigger: React.ReactNode
   content: React.ReactNode
 }
 
 export interface UploadTriggerProps extends React.HTMLProps<HTMLDivElement> {}
 
-export interface UploadtItemRemoveProps
-  extends React.HTMLProps<HTMLDivElement> {}
+export interface UploadtItemRemoveProps extends React.HTMLProps<HTMLDivElement> {}
 
-export interface UploadContentProps
-  extends React.ComponentPropsWithRef<typeof ScrollArea> {}
+export interface UploadContentProps extends React.ComponentPropsWithRef<typeof ScrollArea> {}
 
 export interface StateWithExtraFeatures<T extends Record<string, any>> {
   data: T | null

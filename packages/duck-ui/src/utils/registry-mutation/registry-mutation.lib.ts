@@ -24,16 +24,9 @@ export async function get_installation_config(
       process.exit(1)
     }
 
-    const write_path_key = Object.keys(ts_config.compilerOptions.paths).find(
-      (path) => path.includes(alias),
-    )
+    const write_path_key = Object.keys(ts_config.compilerOptions.paths).find((path) => path.includes(alias))
 
-    const write_path = ts_config.compilerOptions.paths[
-      write_path_key as string
-    ][0]
-      .split('/')
-      .slice(0, -1)
-      .join('/')
+    const write_path = ts_config.compilerOptions.paths[write_path_key as string][0].split('/').slice(0, -1).join('/')
 
     spinner.stop()
     const { yes } = await prompts({
@@ -62,11 +55,7 @@ export async function get_installation_config(
   }
 }
 
-export async function process_components(
-  components: Registry,
-  write_path: string,
-  spinner: Ora,
-) {
+export async function process_components(components: Registry, write_path: string, spinner: Ora) {
   try {
     const dependencies = {
       dependencies: [],
@@ -79,28 +68,17 @@ export async function process_components(
         spinner.text = `🦆 Installing component: ${highlighter.info(`${component.name}`)}`
 
         const component_ype = component.type.split(':').pop()!
-        const component_path = path.resolve(
-          `${write_path}/${component_ype}/${component.root_folder}`,
-        )
+        const component_path = path.resolve(`${write_path}/${component_ype}/${component.root_folder}`)
 
         if (!fs.existsSync(component_path)) {
           spinner.text = `Creating directory: ${component_ype}/${component.root_folder}`
           await fs.mkdir(component_path, { recursive: true })
-          spinner.succeed(
-            `⚡ Created directory: ${component_ype}/${component.root_folder}`,
-          )
+          spinner.succeed(`⚡ Created directory: ${component_ype}/${component.root_folder}`)
         }
-        await process_component_files(
-          component,
-          write_path,
-          component_ype,
-          spinner,
-        )
+        await process_component_files(component, write_path, component_ype, spinner)
         dependencies.dependencies.push(...(component.dependencies ?? []))
         dependencies.dev_dependencies.push(...(component.devDependencies ?? []))
-        dependencies.registry_dependencies.push(
-          ...(component.registryDependencies ?? []),
-        )
+        dependencies.registry_dependencies.push(...(component.registryDependencies ?? []))
 
         spinner.succeed(
           `🦋 Installed component${components.length > 1 ? 's' : ''}: ${highlighter.info(
@@ -112,22 +90,15 @@ export async function process_components(
     await install_registry_dependencies(dependencies, spinner)
     await process_component_dependencies(dependencies, spinner)
   } catch (error) {
-    spinner.fail(
-      `🦆 Failed to install components, ${highlighter.error(error as string)}`,
-    )
+    spinner.fail(`🦆 Failed to install components, ${highlighter.error(error as string)}`)
     throw error
   }
 }
 
-export async function install_registry_dependencies(
-  { registry_dependencies }: DependenciesType,
-  spinner: Ora,
-) {
+export async function install_registry_dependencies({ registry_dependencies }: DependenciesType, spinner: Ora) {
   const components = await Promise.all(
     registry_dependencies.map(async (item, idx) => {
-      spinner.text = `🦆 Fetching components... ${highlighter.info(
-        `[${idx}/${registry_dependencies.length}]`,
-      )}`
+      spinner.text = `🦆 Fetching components... ${highlighter.info(`[${idx}/${registry_dependencies.length}]`)}`
       return await get_registry_item(item as Lowercase<string>)
     }),
   )
@@ -139,9 +110,7 @@ export async function install_registry_dependencies(
   console.log(components)
 
   spinner.succeed(
-    `🦋 Fetched necessary component${components.length > 1 ? 's' : ''} ${highlighter.info(
-      `[${components.length}]`,
-    )}`,
+    `🦋 Fetched necessary component${components.length > 1 ? 's' : ''} ${highlighter.info(`[${components.length}]`)}`,
   )
 }
 
@@ -208,11 +177,7 @@ export async function process_component_dependencies(
     const packageManager = await get_package_manager(process.cwd())
     const { failed: installation_step_1 } = await execa(
       packageManager,
-      [
-        packageManager !== 'npm' ? 'add' : 'install',
-        'lucide-react',
-        ...allDependencies,
-      ],
+      [packageManager !== 'npm' ? 'add' : 'install', 'lucide-react', ...allDependencies],
       {
         cwd: process.cwd(),
         shell: true,

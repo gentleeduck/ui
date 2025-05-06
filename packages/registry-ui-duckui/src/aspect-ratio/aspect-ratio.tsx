@@ -5,13 +5,7 @@ import { cn } from '@gentleduck/libs/cn'
 export interface AspectRatioProps extends React.HTMLProps<HTMLDivElement> {
   ratio: number
 }
-function AspectRatio({
-  className,
-  children,
-  style,
-  ratio,
-  ...props
-}: AspectRatioProps) {
+function AspectRatio({ className, children, style, ratio, ...props }: AspectRatioProps) {
   return (
     <div
       className={cn('relative overflow-hidden w-full', className)}
@@ -23,8 +17,7 @@ function AspectRatio({
         paddingBottom: `${100 / ratio}%`,
         ...style,
       }}
-      {...props}
-    >
+      {...props}>
       {children}
     </div>
   )

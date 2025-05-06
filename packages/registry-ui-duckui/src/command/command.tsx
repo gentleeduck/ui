@@ -52,8 +52,9 @@ import { useCommandContext } from './command.hooks'
  * @type {React.Context<CommandContextType|null>}
  * @description The context for the Command components. It holds the current search query and a function to update it.
  */
-export const CommandContext: React.Context<CommandContextType | null> =
-  React.createContext<CommandContextType | null>(null)
+export const CommandContext: React.Context<CommandContextType | null> = React.createContext<CommandContextType | null>(
+  null,
+)
 
 /**
  * Command Component
@@ -73,8 +74,7 @@ function Command({ className, ref, ...props }: CommandProps): JSX.Element {
       value={{
         search,
         setSearch,
-      }}
-    >
+      }}>
       <div
         ref={ref}
         className={cn(
@@ -97,20 +97,13 @@ function Command({ className, ref, ...props }: CommandProps): JSX.Element {
  * @param {React.HTMLProps<HTMLInputElement>} [...props] - The component props.
  * @returns {JSX.Element} The rendered CommandInput component.
  */
-function CommandInput({
-  className,
-  ref,
-  ...props
-}: CommandInputProps): JSX.Element {
+function CommandInput({ className, ref, ...props }: CommandInputProps): JSX.Element {
   const { setSearch } = useCommandContext()
   const debouncedSetSearch = useDebounceCallback(setSearch, 400)
 
   return (
-    <div
-      className='flex items-center border-b px-3 gap-1'
-      cmdk-input-wrapper=''
-    >
-      <Search className='h-4 w-4 shrink-0 opacity-50' />
+    <div className="flex items-center border-b px-3 gap-1" cmdk-input-wrapper="">
+      <Search className="h-4 w-4 shrink-0 opacity-50" />
       <input
         ref={ref}
         onChange={(e) => debouncedSetSearch(e.target.value)}
@@ -134,12 +127,8 @@ function CommandInput({
  * @param {React.HTMLProps<HTMLLIElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandEmpty component.
  */
-function CommandEmpty({
-  className,
-  ref,
-  ...props
-}: CommandEmptyProps): JSX.Element {
-  return <h6 ref={ref} className='py-6 text-center text-sm' {...props} />
+function CommandEmpty({ className, ref, ...props }: CommandEmptyProps): JSX.Element {
+  return <h6 ref={ref} className="py-6 text-center text-sm" {...props} />
 }
 
 /**
@@ -153,12 +142,7 @@ function CommandEmpty({
  * @param {React.HTMLProps<HTMLLIElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandList component.
  */
-function CommandList({
-  className,
-  children,
-  ref,
-  ...props
-}: CommandListProps): JSX.Element {
+function CommandList({ className, children, ref, ...props }: CommandListProps): JSX.Element {
   const { search } = useCommandContext()
   return (
     <ul
@@ -184,13 +168,7 @@ function CommandList({
  * @param {React.HTMLProps<HTMLLIElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandGroup component.
  */
-function CommandGroup({
-  className,
-  children,
-  heading,
-  ref,
-  ...props
-}: CommandGroupProps): JSX.Element {
+function CommandGroup({ className, children, heading, ref, ...props }: CommandGroupProps): JSX.Element {
   return (
     <div
       ref={ref}
@@ -198,9 +176,8 @@ function CommandGroup({
         'overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground',
         className,
       )}
-      {...props}
-    >
-      <h3 className='text-sm text-muted-foreground pb-1 pl-1'>{heading}</h3>
+      {...props}>
+      <h3 className="text-sm text-muted-foreground pb-1 pl-1">{heading}</h3>
       {children}
     </div>
   )
@@ -216,11 +193,7 @@ function CommandGroup({
  * @param {React.HTMLProps<HTMLLIElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandItem component.
  */
-function CommandItem({
-  className,
-  ref,
-  ...props
-}: CommandItemProps): JSX.Element {
+function CommandItem({ className, ref, ...props }: CommandItemProps): JSX.Element {
   return (
     <li
       ref={ref}
@@ -245,13 +218,7 @@ function CommandItem({
  * @param {React.HTMLProps<HTMLElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandShortcut component.
  */
-function CommandShortcut({
-  className,
-  keys,
-  onKeysPressed,
-  ref,
-  ...props
-}: CommandBadgeProps): JSX.Element {
+function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: CommandBadgeProps): JSX.Element {
   useDuckShortcut({
     keys,
     onKeysPressed: () => {
@@ -281,18 +248,8 @@ function CommandShortcut({
  * @param {React.HTMLProps<HTMLDivElement>} [...props] - The component props.
  * @returns {React.JSX.Element} The rendered CommandSeparator component.
  */
-function CommandSeparator({
-  className,
-  ref,
-  ...props
-}: CommandSeparatorProps): React.JSX.Element {
-  return (
-    <div
-      ref={ref}
-      className={cn('-mx-1 h-px bg-border mx-2', className)}
-      {...props}
-    />
-  )
+function CommandSeparator({ className, ref, ...props }: CommandSeparatorProps): React.JSX.Element {
+  return <div ref={ref} className={cn('-mx-1 h-px bg-border mx-2', className)} {...props} />
 }
 
 export {

@@ -52,7 +52,7 @@ export function SONNER_V2() {
   }
 
   return (
-    <Button size='sm' border='default' variant='outline' onClick={handleClick}>
+    <Button size="sm" border="default" variant="outline" onClick={handleClick}>
       Show Upload Toast
     </Button>
   )

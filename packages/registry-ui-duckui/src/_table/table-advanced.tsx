@@ -32,16 +32,11 @@ import { ScrollArea, ScrollBar } from '../scroll-area/'
 import { Checkbox } from '../checkbox'
 import { Input } from '../input'
 
-export const DuckTableContext =
-  React.createContext<DuckTableContextType<any> | null>(null)
+export const DuckTableContext = React.createContext<DuckTableContextType<any> | null>(null)
 
 export function useDuckTable<TColumnName extends readonly TableColumnType[]>() {
-  const context = React.useContext<
-    DuckTableContextType<GetColumnLabel<TColumnName>>
-  >(
-    DuckTableContext as unknown as React.Context<
-      DuckTableContextType<GetColumnLabel<TColumnName>>
-    >,
+  const context = React.useContext<DuckTableContextType<GetColumnLabel<TColumnName>>>(
+    DuckTableContext as unknown as React.Context<DuckTableContextType<GetColumnLabel<TColumnName>>>,
   )
   if (!context) {
     throw new Error('useTableProvider must be used within an TableProvider')
@@ -61,13 +56,11 @@ export function DuckTableProvider<TColumnName extends string[]>({
     queryBy: [],
   })
 
-  const [tableColumns, setTableColumns] = React.useState<
-    Map<string, TableColumnType>
-  >(new Map(table_columns.map((column) => [column.label, column])))
+  const [tableColumns, setTableColumns] = React.useState<Map<string, TableColumnType>>(
+    new Map(table_columns.map((column) => [column.label, column])),
+  )
 
-  const [selectedRows, setSelectedRows] = React.useState<
-    Set<TableContentDataType<TColumnName>>
-  >(new Set())
+  const [selectedRows, setSelectedRows] = React.useState<Set<TableContentDataType<TColumnName>>>(new Set())
 
   const DuckTable = DuckTableContext //<TColumnName>()
 
@@ -81,15 +74,8 @@ export function DuckTableProvider<TColumnName extends string[]>({
         setSelectedRows,
         search,
         setSearch,
-      }}
-    >
-      <div
-        className={cn(
-          `w-full- flex flex-col gap-4 w-[800px] h-[500px]`,
-          className,
-        )}
-        {...props}
-      >
+      }}>
+      <div className={cn(`w-full- flex flex-col gap-4 w-[800px] h-[500px]`, className)} {...props}>
         {children}
       </div>
     </DuckTable.Provider>
@@ -97,24 +83,15 @@ export function DuckTableProvider<TColumnName extends string[]>({
 }
 DuckTableProvider.displayName = 'DuckTableProvider'
 
-export function DuckTable({
-  wrapper,
-  className,
-  children,
-  ...props
-}: DuckTableProps) {
+export function DuckTable({ wrapper, className, children, ...props }: DuckTableProps) {
   const { className: wrapperClassName, ...wrapperProps } = wrapper! ?? {}
 
   return (
     <ScrollArea
-      className={cn(
-        'border border-border rounded-lg !overflow-visible relative',
-        wrapperClassName,
-      )}
-      {...wrapperProps}
-    >
+      className={cn('border border-border rounded-lg !overflow-visible relative', wrapperClassName)}
+      {...wrapperProps}>
       <Table {...props}>{children}</Table>
-      <ScrollBar orientation='horizontal' />
+      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   )
 }
@@ -122,53 +99,31 @@ DuckTable.displayName = 'DuckTable'
 
 // ------------------------------------------------------------------------------------------------
 
-export function DuckTableHeader({ }: DuckTableHeaderProps) {
+export function DuckTableHeader({}: DuckTableHeaderProps) {
   const { tableColumns } = useDuckTable()
   return (
     <>
       <TableHeader>
         <TableRow>
           {Array.from(tableColumns.values())?.map((column, idx) => {
-            const {
-              children,
-              className,
-              sortable,
-              label,
-              showLabel,
-              ...props
-            } = column
+            const { children, className, sortable, label, showLabel, ...props } = column
 
             const Component = () =>
-              !sortable ? (
-                <span className='capitalize'>
-                  {(label as string) ?? children}
-                </span>
+              sortable ? (
+                <DuckTableHeadSelectable column={column} label={(label as string) ?? children} showLabel={showLabel} />
               ) : (
-                <DuckTableHeadSelectable
-                  column={column}
-                  label={(label as string) ?? children}
-                  showLabel={showLabel}
-                />
+                <span className="capitalize">{(label as string) ?? children}</span>
               )
 
             return (
               !column['aria-hidden'] && (
                 <React.Fragment key={idx}>
                   <TableHead
-                    className={cn(
-                      'py-2',
-                      idx === 0 && 'justify-start ',
-                      sortable && 'px-2',
-                      className,
-                    )}
-                    {...props}
-                  >
+                    className={cn('py-2', idx === 0 && 'justify-start ', sortable && 'px-2', className)}
+                    {...props}>
                     {idx === 0 ? (
-                      <div className='flex items-center gap-4'>
-                        <DuckTableHeadCheckbox
-                          type='header'
-                          className={cn(sortable && 'justify-end')}
-                        />
+                      <div className="flex items-center gap-4">
+                        <DuckTableHeadCheckbox type="header" className={cn(sortable && 'justify-end')} />
                         {/*NOTE: Rendering Sorting else rendering label*/}
                         <Component />
                       </div>
@@ -187,22 +142,13 @@ export function DuckTableHeader({ }: DuckTableHeaderProps) {
 }
 DuckTableHeader.displayName = 'TableCustomViewHeader'
 
-export function DuckTableHeadCheckbox({
-  className,
-  ...props
-}: DuckTableHeadCheckboxProps) {
+export function DuckTableHeadCheckbox({ className, ...props }: DuckTableHeadCheckboxProps) {
   const { selectedRows, setSelectedRows, tableRows } = useDuckTable()
 
   return (
-    <div
-      className={cn(
-        'flex items-center w-fit data-[state=open]:bg-accent text-xs capitalize',
-        className,
-      )}
-      {...props}
-    >
+    <div className={cn('flex items-center w-fit data-[state=open]:bg-accent text-xs capitalize', className)} {...props}>
       <Checkbox
-        className='border-border'
+        className="border-border"
         onClick={() => {
           setSelectedRows(() => {
             if (selectedRows.size === tableRows.length) {
@@ -237,46 +183,43 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              size='sm'
-              aria-label='table-column-options'
-              aria-controls='dropdown-menu'
-              name='dropdown-menu-trigger'
-              variant='ghost'
+              size="sm"
+              aria-label="table-column-options"
+              aria-controls="dropdown-menu"
+              name="dropdown-menu-trigger"
+              variant="ghost"
               aria-sort={column['aria-sort']}
-              className='data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize'
+              className="data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize"
               secondIcon={
                 column['aria-sort'] === 'ascending' ? (
-                  <ArrowDownIcon className='text-muted-foreground' />
+                  <ArrowDownIcon className="text-muted-foreground" />
                 ) : column['aria-sort'] === 'descending' ? (
-                  <ArrowUpIcon className='text-muted-foreground' />
+                  <ArrowUpIcon className="text-muted-foreground" />
                 ) : (
-                  <ArrowUpDown className='text-muted-foreground' />
+                  <ArrowUpDown className="text-muted-foreground" />
                 )
               }
               label={
                 showLabel
                   ? {
-                    children: label.toString() + ' options',
-                    className: 'capitalize',
-                    showLabel: true,
-                    side: 'top',
-                  }
+                      children: label.toString() + ' options',
+                      className: 'capitalize',
+                      showLabel: true,
+                      side: 'top',
+                    }
                   : undefined
-              }
-            >
+              }>
               {(label as string) ?? children}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='w-48'>
+          <DropdownMenuContent className="w-48">
             <DropdownMenuGroup>
               {dropdownMenuOptions.map((item, idx) => {
                 return (
                   <>
-                    {idx === dropdownMenuOptions.length - 1 && (
-                      <DropdownMenuSeparator />
-                    )}
+                    {idx === dropdownMenuOptions.length - 1 && <DropdownMenuSeparator />}
                     <DropdownMenuItem
-                      className='p-0'
+                      className="p-0"
                       key={idx}
                       onClick={() => {
                         setTableColumns((prev) => {
@@ -304,15 +247,8 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
 
                           return newSet
                         })
-                      }}
-                    >
-                      <Button
-                        {...item}
-                        className={cn(
-                          'w-full justify-start capitalize',
-                          item.className,
-                        )}
-                      >
+                      }}>
+                      <Button {...item} className={cn('w-full justify-start capitalize', item.className)}>
                         {item.children}
                       </Button>
                     </DropdownMenuItem>
@@ -331,29 +267,21 @@ export function DuckTableBody({ children }: DuckTableBodyProps) {
   return <TableBody>{children}</TableBody>
 }
 
-export function DuckTableRowCheckbox<
-  TColumnName extends readonly TableColumnType[],
->({ className, tableRow, ...props }: DuckTableRowCheckboxProps<TColumnName>) {
+export function DuckTableRowCheckbox<TColumnName extends readonly TableColumnType[]>({
+  className,
+  tableRow,
+  ...props
+}: DuckTableRowCheckboxProps<TColumnName>) {
   const { selectedRows, setSelectedRows } = useDuckTable()
 
   return (
-    <div
-      className={cn(
-        'flex items-center w-fit data-[state=open]:bg-accent text-xs capitalize',
-        className,
-      )}
-      {...props}
-    >
+    <div className={cn('flex items-center w-fit data-[state=open]:bg-accent text-xs capitalize', className)} {...props}>
       <Checkbox
-        className='border-border'
+        className="border-border"
         onClick={() => {
           setSelectedRows(() => {
             if (selectedRows.has(tableRow)) {
-              return new Set(
-                Array.from(selectedRows.values()).filter(
-                  (item) => item !== tableRow,
-                ),
-              )
+              return new Set(Array.from(selectedRows.values()).filter((item) => item !== tableRow))
             }
             return new Set([...selectedRows, tableRow])
           })
@@ -364,13 +292,9 @@ export function DuckTableRowCheckbox<
   )
 }
 
-export interface DuckTableTopBarProps extends React.HTMLProps<HTMLDivElement> { }
+export interface DuckTableTopBarProps extends React.HTMLProps<HTMLDivElement> {}
 
-export function DuckTableTopBar({
-  className,
-  children,
-  ...props
-}: DuckTableTopBarProps) {
+export function DuckTableTopBar({ className, children, ...props }: DuckTableTopBarProps) {
   return (
     <div className={cn('', className)} {...props}>
       {children}
@@ -378,16 +302,12 @@ export function DuckTableTopBar({
   )
 }
 
-export interface DuckTableSearchInputProps
-  extends React.HTMLProps<HTMLDivElement> { }
+export interface DuckTableSearchInputProps extends React.HTMLProps<HTMLDivElement> {}
 
-export function DuckTableSearchInput({
-  className,
-  ...props
-}: DuckTableSearchInputProps) {
+export function DuckTableSearchInput({ className, ...props }: DuckTableSearchInputProps) {
   return (
     <div className={cn('flex-1', className)} {...props}>
-      <Input placeholder='Search...' />
+      <Input placeholder="Search..." />
     </div>
   )
 }

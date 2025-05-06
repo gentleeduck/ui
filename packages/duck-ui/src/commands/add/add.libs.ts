@@ -12,9 +12,7 @@ export async function add_command_action(opt: addOptions) {
   const options = add_options_schema.parse(opt)
 
   const registry = await get_registry_index()
-  const filtered_registry = registry?.filter(
-    (item) => item.type === 'registry:ui',
-  )
+  const filtered_registry = registry?.filter((item) => item.type === 'registry:ui')
 
   spinner.stop()
   const prompt: { component: string[] } = await prompts([
@@ -32,9 +30,7 @@ export async function add_command_action(opt: addOptions) {
 
   const components = await Promise.all(
     prompt.component?.map(async (item, idx) => {
-      spinner.text = `🦆 Fetching components... ${highlighter.info(
-        `[${idx}/${prompt.component.length}]`,
-      )}`
+      spinner.text = `🦆 Fetching components... ${highlighter.info(`[${idx}/${prompt.component.length}]`)}`
       return await get_registry_item(item as Lowercase<string>)
     }),
   )
@@ -50,12 +46,7 @@ export async function add_command_action(opt: addOptions) {
 
   const duckui_config = await get_duckui_config(process.cwd(), spinner)
 
-  await registry_component_install(
-    components as Registry,
-    duckui_config,
-    options,
-    spinner,
-  )
+  await registry_component_install(components as Registry, duckui_config, options, spinner)
 
   spinner.succeed('🧑 Done.!, enjoy mr duck!🦆')
   process.exit(0)

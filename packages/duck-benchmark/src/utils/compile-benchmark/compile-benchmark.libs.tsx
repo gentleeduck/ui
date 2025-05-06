@@ -17,22 +17,16 @@ export async function compile_file({ file, spinner, cwd }: CompileFileParams) {
     spinner.text = `Compiling ${file.name}`
     fs.writeFileSync(temp_config_path, VITE_CONFIG_CONTENT({ fileInfo: file }))
 
-    await execa(
-      'vite',
-      ['build', '--config', path.resolve(cwd, 'vite.temp.config.ts')],
-      {
-        stdio: 'ignore',
-        cwd: cwd,
-      },
-    )
+    await execa('vite', ['build', '--config', path.resolve(cwd, 'vite.temp.config.ts')], {
+      stdio: 'ignore',
+      cwd: cwd,
+    })
 
     // Remove the temporary config after build
     fs.unlinkSync(temp_config_path)
 
     const compile_time_ms = performance.now() - start
-    const bundle_size = fs.existsSync(`${cwd}/${out_dir}`)
-      ? fs.statSync(`${cwd}/${out_dir}`).size
-      : 12
+    const bundle_size = fs.existsSync(`${cwd}/${out_dir}`) ? fs.statSync(`${cwd}/${out_dir}`).size : 12
 
     spinner.text = `Compiled ${file.name} in ${compile_time_ms.toFixed(2)}ms (${(bundle_size / 1024).toFixed(2)}kb)`
     return {

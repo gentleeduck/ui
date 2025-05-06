@@ -7,12 +7,7 @@ import * as React from 'react'
 import { Index } from '~/__ui_registry__'
 
 import { cn } from '@gentleduck/libs/cn'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@gentleduck/registry-ui-duckui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { V0Button } from '~/components/V0'
 import { CopyButton } from '~/components/copy-button'
 import { Icons } from '~/components/icons'
@@ -49,11 +44,8 @@ export function ComponentPreview({
 
     if (!Component) {
       return (
-        <p className='text-sm text-muted-foreground'>
-          Component{' '}
-          <code className='relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm'>
-            {name}
-          </code>{' '}
+        <p className="text-sm text-muted-foreground">
+          Component <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">{name}</code>{' '}
           not found in registry.
         </p>
       )
@@ -81,66 +73,51 @@ export function ComponentPreview({
 
   return (
     <DuckLazyComponent
-      className={cn(
-        'group relative my-4 flex flex-col  [&_div[data-slot="placeholder"]]:h-[512px]',
-        className,
-      )}
-      {...props}
-    >
-      <Tabs defaultValue='preview' className='relative mr-auto w-full'>
-        <div className='flex items-center justify-between pb-3'>
+      className={cn('group relative my-4 flex flex-col  [&_div[data-slot="placeholder"]]:h-[512px]', className)}
+      {...props}>
+      <Tabs defaultValue="preview" className="relative mr-auto w-full">
+        <div className="flex items-center justify-between pb-3">
           {!hideCode && (
-            <TabsList className='w-full justify-start border-b bg-transparent p-1 rounded-none overflow-x-auto [&_button]:shadow-none'>
+            <TabsList className="w-full justify-start border-b bg-transparent p-1 rounded-none overflow-x-auto [&_button]:shadow-none">
               {TABS.map((tab) => (
                 <TabsTrigger
                   value={tab.value}
-                  className='data-[state=active]:text-primary border-b-transparent rounded-none data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer data-[state=active]:shadow-none'
-                >
+                  className="data-[state=active]:text-primary border-b-transparent rounded-none data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer data-[state=active]:shadow-none">
                   {tab.name}
                 </TabsTrigger>
               ))}
             </TabsList>
           )}
         </div>
-        <TabsContent
-          value='preview'
-          className='relative rounded-md border mx-2 max-w-full min-w-2/5'
-        >
-          <div className='flex items-center justify-between p-4 absolute w-full'>
-            <span className='text-sm text-muted-foreground'>{}</span>
-            <div className='flex items-center gap-2'>
-              <CopyButton value={codeString} variant='outline' />
+        <TabsContent value="preview" className="relative rounded-md border mx-2 max-w-full min-w-2/5">
+          <div className="flex items-center justify-between p-4 absolute w-full">
+            <span className="text-sm text-muted-foreground">{}</span>
+            <div className="flex items-center gap-2">
+              <CopyButton value={codeString} variant="outline" />
             </div>
           </div>
-          <ThemeWrapper defaultTheme='zinc'>
+          <ThemeWrapper defaultTheme="zinc">
             <div
-              className={cn(
-                'preview  flex min-h-[450px]   w-full justify-center p-10',
-                {
-                  'items-center': align === 'center',
-                  'items-start': align === 'start',
-                  'items-end': align === 'end',
-                },
-              )}
-            >
+              className={cn('preview  flex min-h-[450px]   w-full justify-center p-10', {
+                'items-center': align === 'center',
+                'items-start': align === 'start',
+                'items-end': align === 'end',
+              })}>
               <React.Suspense
                 fallback={
-                  <div className='flex w-full items-center justify-center text-sm text-muted-foreground'>
-                    <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
+                  <div className="flex w-full items-center justify-center text-sm text-muted-foreground">
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                     Loading...
                   </div>
-                }
-              >
+                }>
                 {Preview}
               </React.Suspense>
             </div>
           </ThemeWrapper>
         </TabsContent>
-        <TabsContent value='code'>
-          <div className='flex flex-col space-y-4'>
-            <div className='w-full rounded-md [&_pre]:my-0 [&_pre]:overflow-auto'>
-              {Code}
-            </div>
+        <TabsContent value="code">
+          <div className="flex flex-col space-y-4">
+            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:overflow-auto">{Code}</div>
           </div>
         </TabsContent>
         <BuildTab />
@@ -151,26 +128,25 @@ export function ComponentPreview({
 
 export const BuildTab = () => {
   return (
-    <TabsContent value='build' className='relative overflow-hidden'>
-      <div className='h-[450px] overflow-hidden rounded-lg'>
-        <img src='/builder.png' alt='build' className='object-cover' />
+    <TabsContent value="build" className="relative overflow-hidden">
+      <div className="h-[450px] overflow-hidden rounded-lg">
+        <img src="/builder.png" alt="build" className="object-cover" />
       </div>
 
-      <div className='flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[450px] top-0 left-0 inset-0'>
-        <div className='flex items-center gap-4'>
+      <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[450px] top-0 left-0 inset-0">
+        <div className="flex items-center gap-4">
           <Button
-            className='font-bold rounded-sm'
+            className="font-bold rounded-sm"
             size={'xs'}
             label={{
               children: (
-                <div className='text-center'>
+                <div className="text-center">
                   Know more about me click me! <br /> BTW i am coming soon...
                 </div>
               ),
               showLabel: true,
               side: 'top',
-            }}
-          >
+            }}>
             <Crown />
             <span>Upgrade</span>
           </Button>

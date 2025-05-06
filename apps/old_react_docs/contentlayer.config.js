@@ -15,11 +15,11 @@ import { rehypeNpmCommand } from './lib/rehype-npm-command'
 const computedFields = {
   slug: {
     type: 'string',
-    resolve: doc => `/${doc._raw.flattenedPath}`,
+    resolve: (doc) => `/${doc._raw.flattenedPath}`,
   },
   slugAsParams: {
     type: 'string',
-    resolve: doc => doc._raw.flattenedPath.split('/').slice(1).join('/'),
+    resolve: (doc) => doc._raw.flattenedPath.split('/').slice(1).join('/'),
   },
 }
 
@@ -84,8 +84,8 @@ export default makeSource({
       rehypeSlug,
       rehypeComponent,
       rehypeExtractTitle,
-      () => tree => {
-        visit(tree, node => {
+      () => (tree) => {
+        visit(tree, (node) => {
           if (node?.type === 'element' && node?.tagName === 'pre') {
             const [codeEl] = node.children
 
@@ -138,8 +138,8 @@ export default makeSource({
           },
         },
       ],
-      () => tree => {
-        visit(tree, node => {
+      () => (tree) => {
+        visit(tree, (node) => {
           if (node?.type === 'element' && node?.tagName === 'div') {
             if (!('data-rehype-pretty-code-fragment' in node.properties)) {
               return
@@ -188,8 +188,8 @@ export default makeSource({
 
 // rehypeExtractTitle.js
 export function rehypeExtractTitle() {
-  return tree => {
-    tree.children.forEach(node => {
+  return (tree) => {
+    tree.children.forEach((node) => {
       if (node.tagName === 'pre') {
         const titleAttribute = node.properties?.__title__
         if (titleAttribute) {

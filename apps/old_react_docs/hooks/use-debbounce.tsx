@@ -1,9 +1,6 @@
 import React from 'react'
 
-export const useDebounceCallback = <T extends (...args: any[]) => void>(
-  callback: T,
-  delay?: number,
-) => {
+export const useDebounceCallback = <T extends (...args: any[]) => void>(callback: T, delay?: number) => {
   let timeoutRef: NodeJS.Timeout | null = null
 
   return (...args: Parameters<T>) => {
@@ -17,10 +14,7 @@ export const useDebounceCallback = <T extends (...args: any[]) => void>(
   }
 }
 
-export const debounceCallback = <T extends (...args: any[]) => void>(
-  callback: T,
-  delay?: number,
-) => {
+export const debounceCallback = <T extends (...args: any[]) => void>(callback: T, delay?: number) => {
   let timeoutRef: NodeJS.Timeout | null = null
 
   return (...args: Parameters<T>) => {

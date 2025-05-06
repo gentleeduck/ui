@@ -1,15 +1,8 @@
 {
   "name": "button",
   "type": "registry:ui",
-  "dependencies": [
-    "@radix-ui/react-slot",
-    "@ahmedayob/duck-shortcut"
-  ],
-  "registryDependencies": [
-    "tooltip",
-    "command",
-    "badge"
-  ],
+  "dependencies": ["@radix-ui/react-slot", "@ahmedayob/duck-shortcut"],
+  "registryDependencies": ["tooltip", "command", "badge"],
   "root_folder": "button",
   "files": [
     {

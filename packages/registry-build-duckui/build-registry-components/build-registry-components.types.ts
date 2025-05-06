@@ -1,9 +1,5 @@
 import { z } from 'zod'
-import {
-  registry_entry_schema,
-  registry_item_file_schema,
-  registry_schema,
-} from '@gentleduck/registers'
+import { registry_entry_schema, registry_item_file_schema, registry_schema } from '@gentleduck/registers'
 import { Ora } from 'ora'
 
 export type GetComponentFilesParams = {

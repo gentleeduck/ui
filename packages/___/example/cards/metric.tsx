@@ -2,13 +2,7 @@ import { useTheme } from 'next-themes'
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { useConfig } from '@/hooks/use-config'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/registry/default/ui/'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/registry/default/ui/'
 import { themes } from '@/registry/themes'
 
 const data = [
@@ -52,13 +46,11 @@ export function CardsMetric() {
     <Card>
       <CardHeader>
         <CardTitle>Exercise Minutes</CardTitle>
-        <CardDescription>
-          Your exercise minutes are ahead of where you normally are.
-        </CardDescription>
+        <CardDescription>Your exercise minutes are ahead of where you normally are.</CardDescription>
       </CardHeader>
-      <CardContent className='pb-4'>
-        <div className='h-[200px]'>
-          <ResponsiveContainer width='100%' height='100%'>
+      <CardContent className="pb-4">
+        <div className="h-[200px]">
+          <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={data}
               margin={{
@@ -66,29 +58,20 @@ export function CardsMetric() {
                 right: 10,
                 left: 10,
                 bottom: 0,
-              }}
-            >
+              }}>
               <Tooltip
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
                     return (
-                      <div className='rounded-lg border bg-background p-2 shadow-xs'>
-                        <div className='grid grid-cols-2 gap-2'>
-                          <div className='flex flex-col'>
-                            <span className='text-[0.70rem] uppercase text-muted-foreground'>
-                              Average
-                            </span>
-                            <span className='font-bold text-muted-foreground'>
-                              {payload[0].value}
-                            </span>
+                      <div className="rounded-lg border bg-background p-2 shadow-xs">
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="flex flex-col">
+                            <span className="text-[0.70rem] uppercase text-muted-foreground">Average</span>
+                            <span className="font-bold text-muted-foreground">{payload[0].value}</span>
                           </div>
-                          <div className='flex flex-col'>
-                            <span className='text-[0.70rem] uppercase text-muted-foreground'>
-                              Today
-                            </span>
-                            <span className='font-bold'>
-                              {payload[1].value}
-                            </span>
+                          <div className="flex flex-col">
+                            <span className="text-[0.70rem] uppercase text-muted-foreground">Today</span>
+                            <span className="font-bold">{payload[1].value}</span>
                           </div>
                         </div>
                       </div>
@@ -99,9 +82,9 @@ export function CardsMetric() {
                 }}
               />
               <Line
-                type='monotone'
+                type="monotone"
                 strokeWidth={2}
-                dataKey='average'
+                dataKey="average"
                 activeDot={{
                   r: 6,
                   style: { fill: 'var(--theme-primary)', opacity: 0.25 },
@@ -115,8 +98,8 @@ export function CardsMetric() {
                 }
               />
               <Line
-                type='monotone'
-                dataKey='today'
+                type="monotone"
+                dataKey="today"
                 strokeWidth={2}
                 activeDot={{
                   r: 8,

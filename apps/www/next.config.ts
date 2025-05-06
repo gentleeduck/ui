@@ -22,10 +22,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  transpilePackages: [
-    '@gentleduck/registry-ui-duckui',
-    '@gentleduck/registry-examples-duckui',
-  ],
+  transpilePackages: ['@gentleduck/registry-ui-duckui', '@gentleduck/registry-examples-duckui'],
 }
 
 export default nextConfig

@@ -13,10 +13,7 @@ import { uuidv7 } from 'uuidv7'
 export default function Upload4Demo() {
   return (
     <>
-      <UploadAdvancedProvider
-        attachments={attachments}
-        currentBucket="wildduck_attachments"
-      >
+      <UploadAdvancedProvider attachments={attachments} currentBucket="wildduck_attachments">
         <UploadAdvancedHeader />
         <UploadAdnvacedContent />
       </UploadAdvancedProvider>

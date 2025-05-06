@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 export default function SonnerDemo() {
   return (
     <Button
-      variant='outline'
+      variant="outline"
       onClick={() =>
         toast('Event has been created', {
           description: 'Sunday, December 03, 2023 at 9:00 AM',
@@ -15,8 +15,7 @@ export default function SonnerDemo() {
             onClick: () => console.log('Undo'),
           },
         })
-      }
-    >
+      }>
       Show Toast
     </Button>
   )

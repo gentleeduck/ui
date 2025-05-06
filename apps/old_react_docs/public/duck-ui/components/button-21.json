@@ -1,9 +1,7 @@
 {
   "name": "button-21",
   "type": "registry:example",
-  "registryDependencies": [
-    "button"
-  ],
+  "registryDependencies": ["button"],
   "root_folder": "button",
   "files": [
     {

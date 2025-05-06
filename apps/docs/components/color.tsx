@@ -34,13 +34,8 @@ export function Color({ color }: { color: Color }) {
           },
         })
         toast.success(`Copied ${color[format]} to clipboard.`)
-      }}
-    >
-      {isCopied ? (
-        <Check className="group-hover:opacity-100" />
-      ) : (
-        <Clipboard className="group-hover:opacity-100" />
-      )}
+      }}>
+      {isCopied ? <Check className="group-hover:opacity-100" /> : <Clipboard className="group-hover:opacity-100" />}
       <div className="w-full flex-1 rounded-md bg-[--bg] md:rounded-lg" />
       <div className="flex w-full flex-col items-center justify-center gap-1">
         <span className="hidden font-mono text-xs tabular-nums text-muted-foreground transition-colors group-hover:text-foreground lg:flex">

@@ -5,18 +5,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@gentleduck/registry-ui-duckui/form'
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from '@gentleduck/registry-ui-duckui/radio-group'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@gentleduck/registry-ui-duckui/form'
+import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
 import { toast } from 'sonner'
 
 const FormSchema = z.object({
@@ -33,11 +23,9 @@ export default function RadioGroupForm() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.info(
       <div>
-        <h4 className='text-lg font-medium'>
-          You submitted the following values:
-        </h4>
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
+        <h4 className="text-lg font-medium">You submitted the following values:</h4>
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       </div>,
     )
@@ -45,40 +33,35 @@ export default function RadioGroupForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-2/3 space-y-6'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
           control={form.control}
-          name='type'
+          name="type"
           render={({ field }) => (
-            <FormItem className='space-y-3'>
+            <FormItem className="space-y-3">
               <FormLabel>Notify me about...</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className='flex flex-col space-y-1'
-                >
-                  <FormItem className='flex items-center space-x-3 space-y-0'>
+                  className="flex flex-col space-y-1">
+                  <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value='all' />
+                      <RadioGroupItem value="all" />
                     </FormControl>
-                    <FormLabel className='font-normal'>
-                      All new messages
-                    </FormLabel>
+                    <FormLabel className="font-normal">All new messages</FormLabel>
                   </FormItem>
-                  <FormItem className='flex items-center space-x-3 space-y-0'>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value='mentions' />
+                      <RadioGroupItem value="mentions" />
                     </FormControl>
-                    <FormLabel className='font-normal'>
-                      Direct messages and mentions
-                    </FormLabel>
+                    <FormLabel className="font-normal">Direct messages and mentions</FormLabel>
                   </FormItem>
-                  <FormItem className='flex items-center space-x-3 space-y-0'>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value='none' />
+                      <RadioGroupItem value="none" />
                     </FormControl>
-                    <FormLabel className='font-normal'>Nothing</FormLabel>
+                    <FormLabel className="font-normal">Nothing</FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
@@ -86,7 +69,7 @@ export default function RadioGroupForm() {
             </FormItem>
           )}
         />
-        <Button type='submit'>Submit</Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   )

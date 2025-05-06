@@ -10,10 +10,7 @@ export async function list_files({
   filter = [],
   spinner,
 }: ListFilesOptions): Promise<FolderInfo[]> {
-  async function processDirectory(
-    cwd: string,
-    depth: number,
-  ): Promise<FolderInfo> {
+  async function processDirectory(cwd: string, depth: number): Promise<FolderInfo> {
     if (depth === 0) return {} as FolderInfo
     spinner.text = `Processing directory: ${cwd}`
 
@@ -31,9 +28,7 @@ export async function list_files({
 
     for (const entry of entries) {
       if (filter.includes(entry.name)) {
-        spinner.text = highlighter.warn(
-          `Skipping filtered file/folder: ${entry.name}`,
-        )
+        spinner.text = highlighter.warn(`Skipping filtered file/folder: ${entry.name}`)
         continue
       }
 

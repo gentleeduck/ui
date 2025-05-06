@@ -7,9 +7,9 @@ export default function Button16Demo() {
   return (
     <>
       <Button
-        aria-label='Open inbox and trigger command'
-        type='button'
-        role='button'
+        aria-label="Open inbox and trigger command"
+        type="button"
+        role="button"
         icon={<Inbox />}
         label={{
           showCommand: true,
@@ -22,8 +22,7 @@ export default function Button16Demo() {
             toast('Your inbox has been updated', {
               description: `you have clicked the 'command label' button`,
             }),
-        }}
-      >
+        }}>
         Button
       </Button>
     </>

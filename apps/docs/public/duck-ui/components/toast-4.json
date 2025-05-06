@@ -1,9 +1,7 @@
 {
   "name": "toast-4",
   "type": "registry:example",
-  "registryDependencies": [
-    "toast"
-  ],
+  "registryDependencies": ["toast"],
   "root_folder": "toast",
   "files": [
     {

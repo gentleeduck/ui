@@ -1,9 +1,7 @@
 {
   "name": "accordion-4",
   "type": "registry:example",
-  "registryDependencies": [
-    "accordion"
-  ],
+  "registryDependencies": ["accordion"],
   "root_folder": "accordion",
   "files": [
     {

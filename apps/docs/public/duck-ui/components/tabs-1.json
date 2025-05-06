@@ -1,9 +1,7 @@
 {
   "name": "tabs-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "tabs"
-  ],
+  "registryDependencies": ["tabs"],
   "root_folder": "tabs",
   "files": [
     {

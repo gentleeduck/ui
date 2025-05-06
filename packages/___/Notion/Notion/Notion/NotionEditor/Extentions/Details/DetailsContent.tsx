@@ -11,7 +11,7 @@ const DetailsContent = Node.create({
     return [
       {
         tag: 'div',
-        getAttrs: node => node.hasAttribute('data-details-content') && null,
+        getAttrs: (node) => node.hasAttribute('data-details-content') && null,
       },
     ]
   },

@@ -33,11 +33,7 @@ export function useDialogContext(name: string = 'Dialog'): DialogContextType {
  *
  * @returns {React.JSX.Element} A context provider that manages the dialog state and renders its children.
  */
-export function Root({
-  children,
-  open: openProp,
-  onOpenChange,
-}: DialogProps): React.JSX.Element {
+export function Root({ children, open: openProp, onOpenChange }: DialogProps): React.JSX.Element {
   const { open, onOpenChange: _onOpenChange, ref } = useDialog(openProp, onOpenChange)
 
   return (
@@ -45,9 +41,8 @@ export function Root({
       value={{
         open: open ?? false,
         onOpenChange: _onOpenChange,
-        ref
-      }}
-    >
+        ref,
+      }}>
       {children}
     </DialogContext.Provider>
   )
@@ -57,22 +52,25 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
   const dialogRef = React.useRef<HTMLDialogElement | null>(null)
   const [open, setOpen] = React.useState<boolean>(openProp ?? false)
 
-  const handleOpenChange = React.useCallback((state: boolean) => {
-    try {
-      const dialog = dialogRef.current
-      if (!state) {
-        dialog?.close()
-        setOpen(false)
-        onOpenChange?.(false)
-      } else {
-        dialog?.showModal()
-        setOpen(true)
-        onOpenChange?.(true)
+  const handleOpenChange = React.useCallback(
+    (state: boolean) => {
+      try {
+        const dialog = dialogRef.current
+        if (state) {
+          dialog?.showModal()
+          setOpen(true)
+          onOpenChange?.(true)
+        } else {
+          dialog?.close()
+          setOpen(false)
+          onOpenChange?.(false)
+        }
+      } catch (e) {
+        console.warn('Dialog failed to toggle', e)
       }
-    } catch (e) {
-      console.warn('Dialog failed to toggle', e)
-    }
-  }, [onOpenChange])
+    },
+    [onOpenChange],
+  )
 
   React.useEffect(() => {
     const dialog = dialogRef.current
@@ -97,10 +95,7 @@ export function useOverlayClose() {
   return [closeOverlay]
 }
 
-export function useDebounce<T extends (...args: any[]) => void>(
-  func: T,
-  timeout = 300,
-) {
+export function useDebounce<T extends (...args: any[]) => void>(func: T, timeout = 300) {
   let timer: ReturnType<typeof setTimeout>
   return function (this: any, ...args: Parameters<T>) {
     clearTimeout(timer)
@@ -109,8 +104,6 @@ export function useDebounce<T extends (...args: any[]) => void>(
     }, timeout)
   }
 }
-
-
 
 export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDrawerDragProps): UseDrawerDragReturn {
   let isDragging = false
@@ -122,7 +115,8 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
   const updateTransform = useDebounce((deltaY: number) => {
     if (!ref?.current) return
     const limitedDeltaY = Math.max(-holdUpThreshold, Math.min(deltaY, window.innerHeight))
-    const currentTransform = parseFloat(ref.current.style.transform.replace('translateY(', '').replace('px)', '')) || 0
+    const currentTransform =
+      Number.parseFloat(ref.current.style.transform.replace('translateY(', '').replace('px)', '')) || 0
     const smoothedDeltaY = currentTransform + (limitedDeltaY - currentTransform) * SMOOTH_FACTOR
 
     ref.current.style.transform = `translateY(${Math.round(smoothedDeltaY)}px)`
@@ -191,6 +185,6 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
     handleMouseDown,
     handleTouchStart,
     handleTouchMove,
-    handleTouchEnd
+    handleTouchEnd,
   }
 }

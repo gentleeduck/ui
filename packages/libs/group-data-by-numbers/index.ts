@@ -1,7 +1,4 @@
-export function groupDataByNumbers<T>(
-  strings: T[],
-  groupSizes: number[],
-): T[][] {
+export function groupDataByNumbers<T>(strings: T[], groupSizes: number[]): T[][] {
   const result: T[][] = []
   let index = 0
 

@@ -21,9 +21,9 @@ export const CommandButton = forwardRef<HTMLButtonElement, CommandButtonProps>(
 
     return (
       <button ref={ref} onClick={onClick} className={wrapperClass}>
-        <Icon name={icon} className='w-3 h-3' />
-        <div className='flex flex-col items-start justify-start'>
-          <div className='text-sm font-medium'>{title}</div>
+        <Icon name={icon} className="w-3 h-3" />
+        <div className="flex flex-col items-start justify-start">
+          <div className="text-sm font-medium">{title}</div>
         </div>
       </button>
     )

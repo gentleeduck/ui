@@ -4,8 +4,5 @@ export type UploadSonnerProps = {
   progress: number
   attachments: number
   remainingTime?: number
-  onCancel?: (
-    _e: React.MouseEvent<HTMLButtonElement>,
-    onCancel: (_id: string) => void,
-  ) => void
+  onCancel?: (_e: React.MouseEvent<HTMLButtonElement>, onCancel: (_id: string) => void) => void
 }

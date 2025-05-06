@@ -2,9 +2,7 @@
   "name": "button",
   "type": "registry:ui",
   "dependencies": [],
-  "registryDependencies": [
-    "slot"
-  ],
+  "registryDependencies": ["slot"],
   "root_folder": "button",
   "files": [
     {

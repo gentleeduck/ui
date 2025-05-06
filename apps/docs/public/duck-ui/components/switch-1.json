@@ -1,9 +1,7 @@
 {
   "name": "switch-1",
   "type": "registry:example",
-  "registryDependencies": [
-    "switch"
-  ],
+  "registryDependencies": ["switch"],
   "root_folder": "switch",
   "files": [
     {

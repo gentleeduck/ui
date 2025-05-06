@@ -22,15 +22,13 @@ import { Button, ButtonProps, buttonVariants, CommandType } from '../button'
 export interface DropdownMenuOptionsDataType
   extends Partial<
     React.ComponentPropsWithoutRef<typeof DropdownMenuCheckboxItem> &
-    React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
-    React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
+      React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
+      React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
   > {
   actionType: 'drawer' | 'dialog' | 'sheet' | 'item'
-  command?: React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut> &
-  CommandType
+  command?: React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut> & CommandType
   icon?: React.ReactNode
-  nestedData?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent> &
-  DropdownMenuOptionsType
+  nestedData?: React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent> & DropdownMenuOptionsType
 }
 
 export interface DropdownMenuOptionsType {
@@ -39,10 +37,8 @@ export interface DropdownMenuOptionsType {
   group?: number[]
 }
 
-export interface DropdownMenuViewProps
-  extends React.ComponentPropsWithoutRef<typeof DropdownMenu> {
-  trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> &
-  ButtonProps
+export interface DropdownMenuViewProps extends React.ComponentPropsWithoutRef<typeof DropdownMenu> {
+  trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> & ButtonProps
   content: {
     label?: React.ComponentPropsWithoutRef<typeof DropdownMenuLabel>
     options: DropdownMenuOptionsType
@@ -58,15 +54,12 @@ export interface DropdownMenuContextType {
   setOpen: React.Dispatch<React.SetStateAction<ItemActionOpenState | null>>
 }
 
-export const DropdownMenuContext =
-  React.createContext<DropdownMenuContextType | null>(null)
+export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
 export const useDropdownMenuContext = () => {
   const context = React.useContext(DropdownMenuContext)
   if (!context) {
-    throw new Error(
-      'useDropdownMenuContext must be used within a DropdownMenuContextProvider',
-    )
+    throw new Error('useDropdownMenuContext must be used within a DropdownMenuContextProvider')
   }
   return context
 }
@@ -77,40 +70,19 @@ export const DropdownMenuProvider = ({
   children: React.ReactNode
 }) => {
   const [open, setOpen] = React.useState<ItemActionOpenState | null>(null)
-  return (
-    <DropdownMenuContext.Provider value={{ open, setOpen }}>
-      {children}
-    </DropdownMenuContext.Provider>
-  )
+  return <DropdownMenuContext.Provider value={{ open, setOpen }}>{children}</DropdownMenuContext.Provider>
 }
 
-export function DropdownMenuView({
-  content,
-  trigger,
-  ...props
-}: DropdownMenuViewProps) {
-  const {
-    className: optionsClassName,
-    options,
-    label,
-    align = 'end',
-    ...contentProps
-  } = content ?? {}
+export function DropdownMenuView({ content, trigger, ...props }: DropdownMenuViewProps) {
+  const { className: optionsClassName, options, label, align = 'end', ...contentProps } = content ?? {}
 
-  const groupedOption = groupArrays(
-    options?.group ?? [options?.optionsData?.length || 1],
-    options?.optionsData ?? [],
-  )
+  const groupedOption = groupArrays(options?.group ?? [options?.optionsData?.length || 1], options?.optionsData ?? [])
 
   return (
     <DropdownMenu {...props}>
       <DropdownWrapperTrigger trigger={trigger} />
 
-      <DropdownMenuContent
-        align={align}
-        className={cn('w-[200px]', optionsClassName)}
-        {...contentProps}
-      >
+      <DropdownMenuContent align={align} className={cn('w-[200px]', optionsClassName)} {...contentProps}>
         <DropdownWrapperLabel label={label} />
 
         {groupedOption.map((group, idx) => {
@@ -134,31 +106,17 @@ export function DropdownMenuView({
 
                 return (
                   <React.Fragment key={`item-${idx}`}>
-                    {!nestedData?.optionsData?.length ? (
-                      <DropdownWrapperContentItem
-                        idx={idx}
-                        item={item}
-                        itemType={options.itemType}
-                      />
-                    ) : (
+                    {nestedData?.optionsData?.length ? (
                       <DropdownMenuSub key={`sub-item-${idx}`}>
                         <DropdownWrapperSubTrigger trigger={item} />
                         <DropdownMenuPortal>
-                          <DropdownMenuSubContent
-                            className={cn('w-[200px]', nestedClassName)}
-                            {...nestedProps}
-                          >
+                          <DropdownMenuSubContent className={cn('w-[200px]', nestedClassName)} {...nestedProps}>
                             {groupedNestedOption?.map((nestedItem, idx) => {
                               return (
                                 <React.Fragment key={`nested-${idx}`}>
-                                  <DropdownWrapperSubContent
-                                    itemType={nestedData?.itemType}
-                                    nestedData={nestedItem}
-                                  />
+                                  <DropdownWrapperSubContent itemType={nestedData?.itemType} nestedData={nestedItem} />
                                   {idx !== groupedNestedOption?.length - 1 && (
-                                    <DropdownMenuSeparator
-                                      key={`separator-${idx}`}
-                                    />
+                                    <DropdownMenuSeparator key={`separator-${idx}`} />
                                   )}
                                 </React.Fragment>
                               )
@@ -166,6 +124,8 @@ export function DropdownMenuView({
                           </DropdownMenuSubContent>
                         </DropdownMenuPortal>
                       </DropdownMenuSub>
+                    ) : (
+                      <DropdownWrapperContentItem idx={idx} item={item} itemType={options.itemType} />
                     )}
                   </React.Fragment>
                 )
@@ -182,12 +142,11 @@ export function DropdownMenuView({
 export function DropdownWrapperTrigger({
   trigger,
 }: {
-  trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> &
-  ButtonProps
+  trigger: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger> & ButtonProps
 }) {
   return (
     <DropdownMenuTrigger asChild>
-      <Button variant='ghost' size='sm' {...trigger} />
+      <Button variant="ghost" size="sm" {...trigger} />
     </DropdownMenuTrigger>
   )
 }
@@ -233,11 +192,7 @@ export function DropdownWrapperContentItem({
   const { setOpen } = useDropdownMenuContext()
 
   const Component =
-    itemType === 'checkbox'
-      ? DropdownMenuCheckboxItem
-      : itemType === 'radio'
-        ? DropdownMenuRadioItem
-        : DropdownMenuItem
+    itemType === 'checkbox' ? DropdownMenuCheckboxItem : itemType === 'radio' ? DropdownMenuRadioItem : DropdownMenuItem
 
   return (
     <Component
@@ -259,18 +214,14 @@ export function DropdownWrapperContentItem({
           value: true,
         })
       }}
-      {...props}
-    >
+      {...props}>
       {item.icon && item.icon}
       {children}
       {item.command?.label && (
         <>
-          <DropdownMenuShortcut
-            {...item.command}
-            children={item.command.children}
-          />
+          <DropdownMenuShortcut {...item.command} children={item.command.children} />
           <Button
-            className='sr-only hidden'
+            className="sr-only hidden"
             command={{
               ...item.command,
               action: () => {
@@ -304,8 +255,7 @@ export function DropdownWrapperSubTrigger({
           className: 'w-full gap-2 px-2',
         }),
       )}
-      {...props}
-    >
+      {...props}>
       {icon}
       <span>{children}</span>
     </DropdownMenuSubTrigger>
@@ -346,27 +296,18 @@ export function DropdownWrapperSubContent({
           itemType === 'radio' && '[&_span_svg]:w-[.5rem]',
           className,
         )}
-        {...props}
-      >
+        {...props}>
         {Icon && Icon}
         {children}
         {item.command && (
           <>
-            <DropdownMenuShortcut
-              children={commandChildren}
-              {...commandProps}
-              key={`nested-item-shortcut-${idx}`}
-            />
-            <Button command={item.command} className='sr-only hidden' />
+            <DropdownMenuShortcut children={commandChildren} {...commandProps} key={`nested-item-shortcut-${idx}`} />
+            <Button command={item.command} className="sr-only hidden" />
           </>
         )}
       </Component>
     )
   })
 
-  return itemType === 'radio' ? (
-    <DropdownMenuRadioGroup value='date'>{Children}</DropdownMenuRadioGroup>
-  ) : (
-    Children
-  )
+  return itemType === 'radio' ? <DropdownMenuRadioGroup value="date">{Children}</DropdownMenuRadioGroup> : Children
 }

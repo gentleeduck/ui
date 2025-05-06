@@ -4,10 +4,7 @@ import { get_project_config } from '~/src/utils'
 import { list_files } from '~/src/utils/list-files'
 import { spinner as Spinner } from '~/src/utils/spinner'
 
-import {
-  compile_benchmark,
-  render_benchmark,
-} from '~/src/utils/compile-benchmark'
+import { compile_benchmark, render_benchmark } from '~/src/utils/compile-benchmark'
 
 export async function init_command_action(opt: InitOptions) {
   const spinner = Spinner('Initializing...')

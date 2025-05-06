@@ -1,14 +1,6 @@
 import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { UseDuckAlertReturnType } from '../alert-dialog'
-import {
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from './sheet'
+import { SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from './sheet'
 
 export interface SheetContentProps extends React.HTMLProps<HTMLDivElement> {
   side?: 'left' | 'right'

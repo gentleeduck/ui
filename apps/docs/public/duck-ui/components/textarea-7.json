@@ -1,9 +1,7 @@
 {
   "name": "textarea-7",
   "type": "registry:example",
-  "registryDependencies": [
-    "textarea"
-  ],
+  "registryDependencies": ["textarea"],
   "root_folder": "textarea",
   "files": [
     {

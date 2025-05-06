@@ -7,7 +7,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@gentelduck/registry-ui-duckui/experimental/drawer"
+} from '@gentleduck/registry-ui-duckui/experimental/drawer'
 
 export default function DrawerDemo() {
   return (
