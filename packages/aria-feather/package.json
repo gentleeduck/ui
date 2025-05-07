@@ -6,19 +6,8 @@
   "exports": {
     "./*": "./src/*/index.ts"
   },
-  "keywords": [
-    "aria",
-    "gentleduck",
-    "behavioral",
-    "component",
-    "accessibility",
-    "a11y",
-    "react-aria",
-    "react"
-  ],
-  "files": [
-    "dist"
-  ],
+  "keywords": ["aria", "gentleduck", "behavioral", "component", "accessibility", "a11y", "react-aria", "react"],
+  "files": ["dist"],
   "scripts": {
     "build": "tsdown",
     "lint": "biome lint --write ./",

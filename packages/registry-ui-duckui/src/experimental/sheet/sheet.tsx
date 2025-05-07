@@ -14,7 +14,7 @@ function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimiti
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
 
 function SheetTrigger({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />

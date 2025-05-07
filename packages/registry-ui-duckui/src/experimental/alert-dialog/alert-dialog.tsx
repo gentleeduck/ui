@@ -79,7 +79,7 @@ function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * to customize its styling.
  *
  */
-export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> { }
+export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> {}
 function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): React.JSX.Element {
   return <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 }
