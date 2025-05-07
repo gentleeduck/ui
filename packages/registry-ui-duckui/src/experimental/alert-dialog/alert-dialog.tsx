@@ -1,11 +1,11 @@
 'use client'
 
-// import {
-//   AlertDialogDialogProps,
-//   AlertDialogDrawerProps,
-//   AlertDialogSheetProps,
-//   AlertDialogWrapperType,
-// } from './alert-dialog.types'
+import {
+  AlertDialogDialogProps,
+  AlertDialogDrawerProps,
+  AlertDialogSheetProps,
+  AlertDialogWrapperType,
+} from './alert-dialog.types'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { X } from 'lucide-react'
@@ -18,22 +18,10 @@ function AlertDialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogP
   return <DialogPrimitive.Root {...props} />
 }
 
-export function AlertDialogTrigger({ ...props }: React.ComponentPropsWithoutRef<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} open={true} />
+export function AlertDialogTrigger({ ...props }: React.ComponentPropsWithRef<typeof DialogTrigger>) {
+  return <DialogTrigger {...props} />
 }
 
-/**
- * A component that renders the content of the dialog when it is open.
- *
- * @param {React.HTMLProps<HTMLDialogElement>} props - The properties for the dialog content.
- * @param {React.ReactNode} [props.children] - The content to be rendered inside the dialog.
- * @param {boolean} [props.renderOnce] - If true, the content will only be rendered once.
- * @param {string} [props.className] - Additional class names for styling.
- * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional props for the dialog content.
- *
- * @returns {React.JSX.Element} A dialog content component.
- *
- */
 function AlertDialogContent({
   children,
   className,
@@ -69,16 +57,7 @@ function AlertDialogContent({
     </dialog>
   )
 }
-/**
- * A component that renders the header of an alert dialog.
- * It uses a flexbox layout to arrange its children in a vertical column
- * and applies responsive text alignment.
- *
- * @param {string} className - Additional class names to apply to the content.
- * @param {React.HTMLAttributes<HTMLDivElement>} ...props - The properties passed to the component.
- *
- * @returns {JSX.Element} The rendered header component.
- */
+
 function AlertDialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
 }
@@ -89,10 +68,6 @@ function AlertDialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * It uses a flexbox layout to arrange its children in a vertical column
  * on small screens and in a row with space between items on larger screens.
  *
- * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the component.
- * @param {string} [props.className] - Additional class names for styling.
- *
- * @returns {JSX.Element} The rendered footer component.
  */
 function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
@@ -103,14 +78,8 @@ function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * It accepts all props that `AlertDialogTitle` accepts, along with an optional `className` prop
  * to customize its styling.
  *
- * @param {React.HTMLProps<HTMLHeadingElement>} props - The properties passed to the component.
- * @param {string} [props.className] - Optional additional class names to apply to the component.
- * @param {React.RefObject<HTMLHeadingElement>} [props.ref] - A ref that will be forwarded to the `AlertDialogTitle` component.
- * @param {React.HTMLProps<HTMLHeadingElement>} [...props] - Additional props to be passed to the `AlertDialogTitle` component.
- *
- * @returns {React.JSX.Element} The rendered `AlertDialogTitle` component with forwarded ref and applied props.
  */
-export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> {}
+export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> { }
 function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): React.JSX.Element {
   return <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 }
@@ -118,10 +87,6 @@ function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): 
  * `AlertDialogDescription` is a React component that forwards its ref to the `AlertDialogPrimitive.Description` component.
  * It accepts all props that `AlertDialogPrimitive.Description` accepts, along with an optional `className` prop for additional styling.
  *
- * @param {React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>} props - The props for the component.
- * @param {React.ElementRef} ref - The ref to be forwarded to the `AlertDialogPrimitive.Description` component.
- *
- * @returns {JSX.Element} The rendered `AlertDialogPrimitive.Description` component with forwarded ref and applied class names.
  */
 const AlertDialogDescription = ({
   className,
@@ -135,10 +100,6 @@ const AlertDialogDescription = ({
  * `AlertDialogAction` is a React component that forwards its ref to the `AlertDialogPrimitive.Action` component.
  * It accepts all the props of `AlertDialogPrimitive.Action` and an additional `className` prop for custom styling.
  *
- * @param {React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>} props - All other props are passed through to the `AlertDialogPrimitive.Action` component.
- * @param {React.ElementRef} ref - A ref that will be forwarded to the `AlertDialogPrimitive.Action` component.
- *
- * @returns {JSX.Element} The rendered `AlertDialogPrimitive.Action` component with forwarded ref and applied class names.
  */
 function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigger>) {
   return <DialogTrigger {...props} open={false} />
@@ -150,10 +111,6 @@ function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigg
  * `AlertDialogPrimitive.Cancel` component would accept, along with an optional `className`
  * for additional styling.
  *
- * @param {React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>} props - The properties passed to the component.
- * @param {React.ElementRef} ref - The reference to be forwarded to the `AlertDialogPrimitive.Cancel` component.
- *
- * @returns {JSX.Element} The rendered cancel button for the alert dialog.
  */
 function AlertDialogCancel({ ...props }: React.ComponentProps<typeof DialogTrigger>) {
   return <DialogTrigger {...props} open={false} />

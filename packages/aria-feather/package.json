@@ -4,11 +4,21 @@
   "description": "aria-feather is a behavioral component abstraction that makes the aero dynamics of the web",
   "module": "./index.ts",
   "exports": {
-    ".": "./index.ts",
-    "./dialog": "./src/dialog/index.ts"
+    "./*": "./src/*/index.ts"
   },
-  "keywords": ["aria", "gentleduck", "behavioral", "component", "accessibility", "a11y", "react-aria", "react"],
-  "files": ["dist"],
+  "keywords": [
+    "aria",
+    "gentleduck",
+    "behavioral",
+    "component",
+    "accessibility",
+    "a11y",
+    "react-aria",
+    "react"
+  ],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown",
     "lint": "biome lint --write ./",

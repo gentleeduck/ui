@@ -1,7 +1,7 @@
 export interface DialogContextType {
   open: boolean
-  onOpenChange: (open: boolean) => void
   ref: React.RefObject<HTMLDialogElement | null>
+  onOpenChange: (open: boolean) => void
 }
 
 export type DialogProps = {
@@ -12,8 +12,8 @@ export type DialogProps = {
 
 export interface UseDrawerDragProps {
   ref: React.RefObject<HTMLDialogElement>
-  onOpenChange?: (open: boolean) => void
   holdUpThreshold?: number
+  onOpenChange?: (open: boolean) => void
 }
 
 export interface UseDrawerDragReturn {
@@ -21,5 +21,5 @@ export interface UseDrawerDragReturn {
   handleMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void
   handleTouchStart: (e: React.TouchEvent<HTMLDivElement>) => void
   handleTouchMove: (e: React.TouchEvent<HTMLDivElement>) => void
-  handleTouchEnd: () => void
+  handleTouchEnd: (e: React.TouchEvent<HTMLDivElement>) => void
 }

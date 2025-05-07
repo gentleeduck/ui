@@ -12,6 +12,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@gentleduck/motion": "workspace:*",
     "@ahmedayob/duck-shortcut": "^0.0.2",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/lazy": "workspace:*",

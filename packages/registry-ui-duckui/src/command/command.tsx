@@ -1,35 +1,3 @@
-/**
- * @module CommandComponents
- * @description A complete library of command components that enable building a rich, interactive command palette.
- *
- * @example
- * ```tsx
- * import { Command, CommandInput, CommandList, CommandGroup, CommandItem, CommandEmpty, CommandShortcut, CommandSeparator } from './CommandComponents'
- *
- * function App() {
- *   return (
- *     <Command className="custom-command">
- *       <CommandInput placeholder="Search..." />
- *       <CommandList>
- *         {(search) => {
- *           // ... your filtering logic here
- *           return (
- *             <>
- *               <CommandGroup heading="Navigation">
- *                 <CommandItem>Dashboard</CommandItem>
- *                 <CommandItem>Projects</CommandItem>
- *               </CommandGroup>
- *               <CommandEmpty>No results found.</CommandEmpty>
- *             </>
- *           )
- *         }}
- *       </CommandList>
- *     </Command>
- *   )
- * }
- * ```
- * @author wildduck
- */
 import React from 'react'
 import { cn } from '@gentleduck/libs/cn'
 import { Search } from 'lucide-react'
@@ -45,8 +13,9 @@ import {
   CommandProps,
   CommandSeparatorProps,
 } from './command.types'
-import { useDebounce } from '@gentleduck/hooks'
+import { debounce, useDebounce } from '@gentleduck/hooks'
 import { useCommandContext } from './command.hooks'
+import { Dialog, DialogContent, DialogProps } from '../dialog'
 
 /**
  * @type {React.Context<CommandContextType|null>}
@@ -66,7 +35,7 @@ export const CommandContext: React.Context<CommandContextType | null> = React.cr
  * @param {React.HTMLProps<HTMLDivElement>} [...props] - The component props.
  * @returns {JSX.Element} The rendered Command component.
  */
-function Command({ className, ref, ...props }: CommandProps): JSX.Element {
+function Command({ className, ref, ...props }: CommandProps): React.JSX.Element {
   const [search, setSearch] = React.useState<string>('')
 
   return (
@@ -97,16 +66,15 @@ function Command({ className, ref, ...props }: CommandProps): JSX.Element {
  * @param {React.HTMLProps<HTMLInputElement>} [...props] - The component props.
  * @returns {JSX.Element} The rendered CommandInput component.
  */
-function CommandInput({ className, ref, ...props }: CommandInputProps): JSX.Element {
+function CommandInput({ className, ref, ...props }: CommandInputProps): React.JSX.Element {
   const { setSearch } = useCommandContext()
-  const debouncedSetSearch = useDebounce(setSearch, 400)
 
   return (
     <div className="flex items-center border-b px-3 gap-1" cmdk-input-wrapper="">
       <Search className="h-4 w-4 shrink-0 opacity-50" />
       <input
         ref={ref}
-        onChange={(e) => debouncedSetSearch(e.target.value)}
+        onChange={(e) => debounce(() => setSearch(e.target.value), 300)}
         className={cn(
           'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
           className,
@@ -127,7 +95,7 @@ function CommandInput({ className, ref, ...props }: CommandInputProps): JSX.Elem
  * @param {React.HTMLProps<HTMLLIElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandEmpty component.
  */
-function CommandEmpty({ className, ref, ...props }: CommandEmptyProps): JSX.Element {
+function CommandEmpty({ className, ref, ...props }: CommandEmptyProps): React.JSX.Element {
   return <h6 ref={ref} className="py-6 text-center text-sm" {...props} />
 }
 
@@ -142,7 +110,7 @@ function CommandEmpty({ className, ref, ...props }: CommandEmptyProps): JSX.Elem
  * @param {React.HTMLProps<HTMLLIElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandList component.
  */
-function CommandList({ className, children, ref, ...props }: CommandListProps): JSX.Element {
+function CommandList({ className, children, ref, ...props }: CommandListProps): React.JSX.Element {
   const { search } = useCommandContext()
   return (
     <ul
@@ -168,7 +136,7 @@ function CommandList({ className, children, ref, ...props }: CommandListProps): 
  * @param {React.HTMLProps<HTMLLIElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandGroup component.
  */
-function CommandGroup({ className, children, heading, ref, ...props }: CommandGroupProps): JSX.Element {
+function CommandGroup({ className, children, heading, ref, ...props }: CommandGroupProps): React.JSX.Element {
   return (
     <div
       ref={ref}
@@ -193,7 +161,7 @@ function CommandGroup({ className, children, heading, ref, ...props }: CommandGr
  * @param {React.HTMLProps<HTMLLIElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandItem component.
  */
-function CommandItem({ className, ref, ...props }: CommandItemProps): JSX.Element {
+function CommandItem({ className, ref, ...props }: CommandItemProps): React.JSX.Element {
   return (
     <li
       ref={ref}
@@ -218,7 +186,7 @@ function CommandItem({ className, ref, ...props }: CommandItemProps): JSX.Elemen
  * @param {React.HTMLProps<HTMLElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandShortcut component.
  */
-function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: CommandBadgeProps): JSX.Element {
+function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: CommandBadgeProps): React.JSX.Element {
   useDuckShortcut({
     keys,
     onKeysPressed: () => {
@@ -252,6 +220,18 @@ function CommandSeparator({ className, ref, ...props }: CommandSeparatorProps): 
   return <div ref={ref} className={cn('-mx-1 h-px bg-border mx-2', className)} {...props} />
 }
 
+const CommandDialog = ({ children, ...props }: DialogProps) => {
+  return (
+    <Dialog {...props}>
+      <DialogContent className="p-0 shadow-lg [&>div]:p-2">
+        <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+          {children}
+        </Command>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 export {
   Command,
   CommandInput,
@@ -261,19 +241,5 @@ export {
   CommandEmpty,
   CommandShortcut,
   CommandSeparator,
-  // CommandDialog,
+  CommandDialog,
 }
-
-// interface CommandDialogProps extends DialogP rop s {}
-//
-// const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
-//   return (
-//     <Dialog {...props}>
-//       <DialogContent className='overflow-hidden p-0 shadow-lg'>
-//         <Command className='[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5'>
-//           {children}
-//         </Command>
-//       </DialogContent>
-//     </Dialog>
-//   )
-// }

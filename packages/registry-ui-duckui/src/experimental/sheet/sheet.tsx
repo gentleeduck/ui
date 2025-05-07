@@ -14,27 +14,15 @@ function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimiti
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
 
 function SheetTrigger({ ...props }: SheetTriggerProps) {
-  return <DialogTrigger {...props} open={true} />
+  return <DialogTrigger {...props} />
 }
 
 function SheetClose({ ...props }: SheetTriggerProps) {
-  return <DialogTrigger {...props} open={false} />
+  return <DialogTrigger {...props} />
 }
-
-/**
- * `SheetContent` is a React component that renders the content of a sheet.
- *
- * @param {Object} props - The properties passed to the component.
- * @param {string} [props.side='right'] - The side of the sheet where the content will appear. Defaults to 'right'.
- * @param {string} [props.className] - Additional class names to apply to the content.
- * @param {React.Ref} [props.ref] - The ref to be forwarded to the `SheetContent` component.
- * @param {React.ReactNode} props.children - The content to be rendered inside the sheet.
- *
- * @returns {React.JSX.Element} The rendered sheet content.
- */
 
 const SheetContent = ({
   children,

@@ -84,9 +84,7 @@
     "enabled": true
   },
   "javascript": {
-    "globals": [
-      "Global1"
-    ],
+    "globals": ["Global1"],
     "formatter": {
       "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",
@@ -101,17 +99,13 @@
   },
   "overrides": [
     {
-      "include": [
-        "*.json"
-      ],
+      "include": ["*.json"],
       "formatter": {
         "indentWidth": 2
       }
     },
     {
-      "include": [
-        "tests/**"
-      ],
+      "include": ["tests/**"],
       "linter": {
         "rules": {
           "suspicious": {

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import '@gentleduck/motion/css'
 import { cn } from '@gentleduck/libs/cn'
 import { ThemeProvider } from '~/components/providers'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'

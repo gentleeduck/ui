@@ -19,17 +19,35 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
+  CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
 
 export function CommandMenu({ ...props }: DialogProps) {
   const router = useRouter()
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(true)
   const { setTheme } = useTheme()
 
   const runCommand = React.useCallback((command: () => unknown) => {
     setOpen(false)
     command()
   }, [])
+
+  // command={{
+  //       children: (
+  //         <>
+  //           <Command className="!size-3" />
+  //           <span className="text-md">K</span>
+  //         </>
+  //       ),
+  //       key: 'ctrl+k, ctrl+/, cmd+k, cmd+/',
+  //       action: () => {
+  //         //NOTE: i have to add this line to the `@ahmedayoub/shortcut`
+  //         window.event?.preventDefault()
+  //         setOpen(!open)
+  //       },
+  //     }}
+
+  console.log(open)
 
   return (
     <>
@@ -39,76 +57,106 @@ export function CommandMenu({ ...props }: DialogProps) {
         className={cn(
           'relative h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between pr-2 md:w-40 lg:w-64',
         )}
-        onClick={() => setOpen(true)}
-        command={{
-          children: (
-            <>
-              <Command className="!size-3" />
-              <span className="text-md">K</span>
-            </>
-          ),
-          key: 'ctrl+k, ctrl+/, cmd+k, cmd+/',
-          action: () => {
-            //NOTE: i have to add this line to the `@ahmedayoub/shortcut`
-            window.event?.preventDefault()
-            setOpen(!open)
-          },
+        onClick={() => {
+          setOpen(true)
+          console.log('hi iam open')
         }}
         {...props}>
         <span className="hidden lg:inline-flex">Search documentation...</span>
         <span className="inline-flex lg:hidden">Search...</span>
+        <CommandShortcut
+          keys={'ctrl+k'}
+          onKeysPressed={() => {
+            // console.log('hi')
+            // setOpen(!open)
+            // window.event?.preventDefault()
+          }}
+          className="bg-secondary">
+          <Command className="!size-3" />
+          <span className="text-md">K</span>
+        </CommandShortcut>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Links">
-            {docsConfig.mainNav
-              .filter((navitem) => !navitem.external)
-              .map((navItem) => (
-                <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
-                  onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string))
-                  }}>
-                  <FileIcon className="mr-2 h-4 w-4" />
-                  {navItem.title}
-                </CommandItem>
-              ))}
-          </CommandGroup>
-          {docsConfig.sidebarNav.map((group) => (
-            <CommandGroup key={group.title} heading={group.title}>
-              {group.items.map((navItem) => (
-                <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
-                  onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string))
-                  }}>
-                  <div className="mr-2 flex h-4 w-4 items-center justify-center">
-                    <CircleIcon className="h-3 w-3" />
-                  </div>
-                  {navItem.title}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          ))}
-          <CommandSeparator />
-          <CommandGroup heading="Theme">
-            <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
-              <SunIcon className="mr-2 h-4 w-4" />
-              Light
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme('dark'))}>
-              <MoonIcon className="mr-2 h-4 w-4" />
-              Dark
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
-              <LaptopIcon className="mr-2 h-4 w-4" />
-              System
-            </CommandItem>
-          </CommandGroup>
+        <CommandInput placeholder="Search..." />
+        <CommandList className="max-h-[299px]">
+          {(search) => {
+            const items = [
+              {
+                title: 'Links',
+                items: docsConfig.mainNav
+                  .filter((navItem) => !navItem.external)
+                  .map((navItem) => ({
+                    key: navItem.href,
+                    name: navItem.title,
+                    icon: <FileIcon className="mr-2 h-4 w-4" />,
+                    action: () => router.push(navItem.href as string),
+                    shortcut: '⌘L', // Customize as needed
+                  })),
+              },
+              ...docsConfig.sidebarNav.map((group) => ({
+                title: group.title,
+                items: group.items.map((navItem) => ({
+                  key: navItem.href,
+                  name: navItem.title,
+                  icon: <CircleIcon className="h-3 w-3 mr-2" />,
+                  action: () => router.push(navItem.href as string),
+                  shortcut: '⌘S', // Customize as needed
+                })),
+              })),
+              {
+                title: 'Theme',
+                items: [
+                  {
+                    key: 'theme-light',
+                    name: 'Light',
+                    icon: <SunIcon className="mr-2 h-4 w-4" />,
+                    action: () => setTheme('light'),
+                    shortcut: '⌘1',
+                  },
+                  {
+                    key: 'theme-dark',
+                    name: 'Dark',
+                    icon: <MoonIcon className="mr-2 h-4 w-4" />,
+                    action: () => setTheme('dark'),
+                    shortcut: '⌘2',
+                  },
+                  {
+                    key: 'theme-system',
+                    name: 'System',
+                    icon: <LaptopIcon className="mr-2 h-4 w-4" />,
+                    action: () => setTheme('system'),
+                    shortcut: '⌘3',
+                  },
+                ],
+              },
+            ]
+
+            const filteredGroups = items
+              .map((group) => ({
+                ...group,
+                items: group.items.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())),
+              }))
+              .filter((group) => group.items.length > 0)
+
+            return filteredGroups.length > 0 ? (
+              filteredGroups.map((group, idx) => (
+                <React.Fragment key={group.title}>
+                  <CommandGroup heading={group.title}>
+                    {group.items.map((item) => (
+                      <CommandItem key={item.key} onSelect={() => runCommand(item.action)}>
+                        {item.icon}
+                        <span>{item.name}</span>
+                        <span className="ml-auto text-muted-foreground text-xs">{item.shortcut}</span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                  {idx !== filteredGroups.length - 1 && <CommandSeparator />}
+                </React.Fragment>
+              ))
+            ) : (
+              <CommandEmpty>No results found.</CommandEmpty>
+            )
+          }}
         </CommandList>
       </CommandDialog>
     </>
