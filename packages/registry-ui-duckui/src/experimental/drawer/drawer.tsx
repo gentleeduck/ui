@@ -16,11 +16,11 @@ function Drawer({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimit
 export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
 
 function DrawerTrigger({ ...props }: SheetTriggerProps) {
-  return <DialogTrigger {...props} open={true} />
+  return <DialogTrigger {...props} />
 }
 
 function DrawerClose({ ...props }: SheetTriggerProps) {
-  return <DialogTrigger {...props} open={false} />
+  return <DialogTrigger {...props} />
 }
 
 /**

@@ -7,7 +7,6 @@ import {
   DialogTrigger,
   DialogFooter,
 } from '@gentleduck/registry-ui-duckui/experimental/dialog'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 
@@ -37,7 +36,9 @@ export default function DialogDemo() {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <DialogTrigger>
+            Save changes
+          </DialogTrigger>
         </DialogFooter>
       </DialogContent>
     </Dialog>
