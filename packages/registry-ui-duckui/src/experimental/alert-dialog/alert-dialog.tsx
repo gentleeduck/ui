@@ -12,7 +12,7 @@ import { X } from 'lucide-react'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext } from '@gentleduck/aria-feather/dialog'
-import { DialogTrigger } from '../dialog'
+import { DialogClose, DialogTrigger } from '../dialog'
 
 function AlertDialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
@@ -30,7 +30,7 @@ function AlertDialogContent({
 }: React.HTMLProps<HTMLDialogElement> & {
   renderOnce?: boolean
 }): React.JSX.Element {
-  const { open, ref, onOpenChange } = useDialogContext()
+  const { open, ref } = useDialogContext()
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
 
   return (
@@ -45,12 +45,7 @@ function AlertDialogContent({
       )}>
       {shouldRender && (
         <div className="p-6 w-full h-full">
-          <button
-            aria-label="close"
-            className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
-            onClick={() => onOpenChange(false)}>
-            <X aria-hidden size={20} />
-          </button>
+          <DialogClose />
           {children}
         </div>
       )}
@@ -79,7 +74,7 @@ function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * to customize its styling.
  *
  */
-export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> {}
+export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> { }
 function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): React.JSX.Element {
   return <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
 }

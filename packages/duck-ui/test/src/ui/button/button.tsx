@@ -75,6 +75,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {animationIcon?.icon}
           </div>
         )}
+        {/* ! NOTE: this returns a div even children is just a text */}
         <div className="flex items-center gap-2">
           {loading ? <Loader className="animate-spin" /> : icon}
           {!isCollapsed && size !== 'icon' && children}

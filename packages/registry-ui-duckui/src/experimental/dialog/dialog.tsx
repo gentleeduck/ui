@@ -21,6 +21,29 @@ export function DialogTrigger({
   )
 }
 
+export function DialogClose({
+  ref,
+  size = 20,
+  children,
+  ...props
+}: React.HTMLProps<HTMLButtonElement> & {
+  size?: number
+}): React.JSX.Element {
+  const { onOpenChange } = useDialogContext()
+
+  return (
+    <button
+      {...props}
+      ref={ref}
+      type='button'
+      aria-label="close"
+      className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
+      onClick={() => onOpenChange(false)}>
+      {children ?? <X aria-hidden size={size} />}
+    </button>
+  )
+}
+
 export function DialogContent({
   children,
   className,
@@ -29,7 +52,7 @@ export function DialogContent({
 }: React.HTMLProps<HTMLDialogElement> & {
   renderOnce?: boolean
 }): React.JSX.Element {
-  const { open, ref, onOpenChange } = useDialogContext()
+  const { open, ref } = useDialogContext()
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
 
@@ -46,12 +69,7 @@ export function DialogContent({
       {...props}>
       {shouldRender && (
         <div className="p-6 w-full h-full">
-          <button
-            aria-label="close"
-            className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
-            onClick={() => onOpenChange(false)}>
-            <X aria-hidden size={20} />
-          </button>
+          <DialogClose />
           {children}
         </div>
       )}

@@ -8,7 +8,7 @@ import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
 import DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
-import { DialogTrigger } from '../dialog'
+import { DialogClose, DialogTrigger } from '../dialog'
 
 function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
@@ -34,7 +34,7 @@ const SheetContent = ({
   renderOnce?: boolean
   side?: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
-  const { open, ref, onOpenChange } = useDialogContext()
+  const { open, ref } = useDialogContext()
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
 
@@ -52,12 +52,7 @@ const SheetContent = ({
         {...props}>
         {shouldRender && (
           <div className="p-6 w-full h-full">
-            <button
-              aria-label="close"
-              className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
-              onClick={() => onOpenChange(false)}>
-              <X aria-hidden size={20} />
-            </button>
+            <DialogClose />
             {children}
           </div>
         )}

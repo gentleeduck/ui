@@ -7,7 +7,7 @@ import React from 'react'
 import { AnimDrawerVariants, AnimVariants } from '@gentleduck/motion/anim'
 import  DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose, useDrawerDrag } from '@gentleduck/aria-feather/dialog'
-import { DialogTrigger } from '../dialog'
+import { DialogClose, DialogTrigger } from '../dialog'
 
 function Drawer({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
@@ -100,12 +100,7 @@ const DrawerContent = ({
           <span className="flex w-full justify-center">
             <span className="bg-border w-1/6 h-3 rounded-full cursor-grab active:cursor-grabbing" />
           </span>
-          <button
-            aria-label="close"
-            className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
-            onClick={() => onOpenChange?.(false)}>
-            <X aria-hidden size={20} />
-          </button>
+          <DialogClose />
           {children}
           <div style={{ height: holdUpThreshold }}></div>
         </div>
