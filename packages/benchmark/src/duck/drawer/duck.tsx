@@ -19,9 +19,11 @@ export default function DrawerDemo({ side = 'top' }: { side?: 'left' | 'right' |
           <DrawerDescription>This action cannot be undone.</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <span>Submit</span>
           <DrawerClose>
-            Cance
+            Submit
+          </DrawerClose>
+          <DrawerClose variant='outline'>
+            Cancel
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

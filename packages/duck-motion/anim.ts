@@ -25,7 +25,9 @@ export const AnimVariants = cva('', {
   },
 })
 
-export const AnimDialogVariants = cva('', {
+const ContentWrapper = '[&>.content-wrapper]:p-6 [&>.content-wrapper]:size-full [&>.content-wrapper]:grid [&>.content-wrapper]:gap-[inherit]'
+
+export const AnimDialogVariants = cva(`open:grid inset-1/2 -translate-1/2 border border-border bg-background rounded-lg p-0 m-0 gap-4 w-full max-w-md shadow-sm ${ContentWrapper}`, {
   variants: {
     animation: {
       default: 'scale-90 opacity-0 starting:open:scale-90 starting:open:opacity-0 open:scale-100 open:opacity-100',
@@ -37,7 +39,7 @@ export const AnimDialogVariants = cva('', {
   },
 })
 
-export const AnimSheetVariants = cva('', {
+export const AnimSheetVariants = cva(`open:grid gap-4 [&>.content-wrapper]:h-fit duration-400  ${ContentWrapper}`, {
   variants: {
     side: {
       top: `

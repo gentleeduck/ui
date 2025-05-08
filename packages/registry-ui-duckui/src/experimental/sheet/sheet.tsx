@@ -1,6 +1,5 @@
 'use client'
 
-import { X } from 'lucide-react'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentleduck/libs/cn'
@@ -14,7 +13,7 @@ function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimiti
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
 
 function SheetTrigger({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />
@@ -43,7 +42,6 @@ const SheetContent = ({
       <dialog
         ref={ref}
         className={cn(
-          'border border-border m-0 bg-background p-6 inset-unset shadow-sm duration-400',
           AnimVariants(),
           AnimSheetVariants({ side: side }),
           className,
@@ -51,7 +49,7 @@ const SheetContent = ({
         onClick={closeOverlay}
         {...props}>
         {shouldRender && (
-          <div className="p-6 w-full h-full">
+          <div className='content-wrapper'>
             <DialogClose />
             {children}
           </div>

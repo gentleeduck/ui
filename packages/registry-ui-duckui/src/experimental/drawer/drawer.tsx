@@ -1,5 +1,4 @@
 'use client'
-import { X } from 'lucide-react'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentleduck/libs/cn'
@@ -90,17 +89,16 @@ const DrawerContent = ({
     <dialog
       ref={ref}
       className={cn(
+        `rounded-lg ease-(--duck-motion-spring) 
+        active:duration-0 duration-450 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
         AnimVariants(),
         AnimSheetVariants({ side: side }),
-        `border border-border rounded-lg bg-background p-0 m-0 inset-unset shadow-sm ease-(--duck-motion-spring) 
-        active:duration-0 duration-450 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
         className,
       )}
       onClick={closeOverlay}
       {...props}>
       {shouldRender && (
-        <div
-          className="p-6 w-full h-full select-none"
+        <div className='content-wrapper select-none' 
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}

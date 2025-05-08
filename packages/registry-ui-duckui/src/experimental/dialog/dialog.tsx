@@ -61,7 +61,6 @@ export function DialogContent({
     <dialog
       ref={ref}
       className={cn(
-        'open:grid inset-1/2 -translate-1/2 w-full max-w-lg sm:max-w-md gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
         AnimVariants(),
         AnimDialogVariants(),
         className,
@@ -69,7 +68,7 @@ export function DialogContent({
       onClick={closeOverlay}
       {...props}>
       {shouldRender && (
-        <div className="p-6 w-full h-full">
+        <div className='content-wrapper'>
           <DialogClose />
           {children}
         </div>
@@ -93,7 +92,7 @@ export function DialogContent({
  * @returns {JSX.Element} The rendered DialogHeader component.
  */
 export function DialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
+  return <div ref={ref} className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
 }
 
 /**
@@ -111,7 +110,7 @@ export function DialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLD
  * @returns {React.JSX.Element} The rendered DialogFooter component.
  */
 export function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
+  return <div ref={ref} className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
 }
 
 /**

@@ -8,7 +8,6 @@ import {
 } from './alert-dialog.types'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
-import { X } from 'lucide-react'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext } from '@gentleduck/aria-feather/dialog'
@@ -38,13 +37,12 @@ function AlertDialogContent({
       ref={ref}
       {...props}
       className={cn(
-        'open:grid inset-1/2 -translate-1/2 w-full max-w-lg sm:max-w-md gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
         AnimVariants(),
         AnimDialogVariants(),
         className,
       )}>
       {shouldRender && (
-        <div className="p-6 w-full h-full">
+        <div className='content-wrapper'>
           <DialogClose />
           {children}
         </div>
