@@ -10,7 +10,7 @@ import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { X } from 'lucide-react'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
-import * as DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext } from '@gentleduck/aria-feather/dialog'
 import { DialogTrigger } from '../dialog'
 

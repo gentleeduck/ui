@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimDrawerVariants, AnimVariants } from '@gentleduck/motion/anim'
-import * as DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import  DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose, useDrawerDrag } from '@gentleduck/aria-feather/dialog'
 import { DialogTrigger } from '../dialog'
 

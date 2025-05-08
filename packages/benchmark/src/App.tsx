@@ -43,20 +43,16 @@
 // import ShadcnSeparator from './duck/separator/separator'
 
 // import Sandbox from './sandbox'
-// import DuckDialog from './duck/dialog/duck'
-// import ShadcnDialog from './duck/dialog/dialog'
-// import DuckAlertDialog from './duck/alert-dialog/duck'
-// import ShadcnAlertDialog from './duck/alert-dialog/alert-dialog'
+
 // import DuckSeparator from './duck/separator/duck'
 // import DuckSeparatorExp from './duck/separator/experimental'
 // import ShadcnSeparator from './duck/separator/separator'
 
+import Dialog from './example/dialog'
+
 // import DuckSkeleton from './duck/skeleton/duck'
 // import ShadcnSkeleton from './duck/skeleton/skeleton'
-// import DuckSheet from './duck/sheet/duck'
-// import ShadcnSheet from './duck/sheet/sheet'
-import DuckDrawer from './duck/drawer/duck'
-// import ShadcnDrawer from './duck/drawer/drawer'
+
 // import DuckSonner from './duck/sonner/duck'
 // import ShadcnSonner from './duck/sonner/sonner'
 // function Ui() {
@@ -98,18 +94,7 @@ function App() {
   // <ShadcnDialog />
   return (
     <div className="flex flex-col mx-10 h-screen justify-center  items-center gap-4">
-      {/* <Ui /> */}
-      {/* <DuckAlertDialog />
-      <ShadcnAlertDialog /> */}
-      <DuckDrawer />
-      {/* <ShadcnDrawer /> */}
-      {/* <DuckDialog />
-      <ShadcnDialog /> */}
-      {
-        // <DuckSeparatorExp /> /* Experimental */
-        // <DuckSeparator  />  /* radix ui based */
-        // <ShadcnSeparator  /> /* other */
-      }
+      <Dialog />
     </div>
   )
 }

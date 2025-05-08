@@ -16,7 +16,6 @@ export const DialogContext = React.createContext<DialogContextType | null>(null)
 export function Root({ children, open: openProp, onOpenChange }: DialogProps): React.JSX.Element {
   const { open, onOpenChange: _onOpenChange, ref } = useDialog(openProp, onOpenChange)
 
-  console.log(open, 'haasdfasfdasdfasdfasdfasdf')
   return (
     <DialogContext.Provider
       value={{

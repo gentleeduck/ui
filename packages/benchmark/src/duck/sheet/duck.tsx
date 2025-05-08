@@ -6,7 +6,6 @@ import {
   SheetTitle,
   SheetTrigger, SheetClose, SheetFooter
 } from "@gentleduck/registry-ui-duckui/experimental/sheet"
-import { Button } from "@gentleduck/registry-ui-duckui/button"
 import { Label } from "@gentleduck/registry-ui-duckui/label"
 import { Input } from "@gentleduck/registry-ui-duckui/input"
 
@@ -14,15 +13,13 @@ import { Input } from "@gentleduck/registry-ui-duckui/input"
 export default function SheetDemo() {
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
+      <SheetTrigger>
+        Open
       </SheetTrigger>
-      <SheetContent renderOnce>
+      <SheetContent>
         <SheetHeader>
           <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
-          </SheetDescription>
+          <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -39,20 +36,11 @@ export default function SheetDemo() {
           </div>
         </div>
         <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
+          <SheetClose>
+            Save changes
           </SheetClose>
         </SheetFooter>
-        <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Are you absolutely sure?</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </SheetDescription>
-          </SheetHeader>
-        </SheetContent>
+      </SheetContent>
     </Sheet>
   )
 }
