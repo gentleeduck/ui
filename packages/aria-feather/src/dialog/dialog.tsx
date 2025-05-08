@@ -1,6 +1,6 @@
 import React from 'react'
 import { DialogContextType, DialogProps } from './dialog.types'
-import { Slot } from '~/slot'
+import { Slot } from '../slot'
 import { useDialog, useDialogContext } from './dialog.hooks'
 
 /**
