@@ -116,68 +116,68 @@ function AlertDialogCancel({ ...props }: React.ComponentPropsWithRef<typeof Dial
   return <DialogTrigger {...props} open={false} />
 }
 
-/**
- * Renders an alert dialog and a sheet component, managing their open states
- * and handling user interactions through provided callbacks.
- *
- * @param {AlertDialogWrapperType} props - The properties for configuring the AlertDialogWrapper.
- *
- * The component utilizes the `useDuckAlert` hook for managing its internal state
- * and provides a structured layout for displaying an alert dialog with a trigger,
- * content, header, footer, and actions, as well as a sheet with nested content
- * and customizable headers and footers. The component handles user interactions
- * with cancel and continue actions, updating the state and invoking provided callbacks.
- */
-export function AlertDialogWrapper({ alertTrigger, alertContent, duckHook }: AlertDialogWrapperType) {
-  const { _header, _footer, ...contentProps } = alertContent ?? {}
-  const { _title, _description, ...headerProps } = _header ?? {}
-  const { _submit, _cancel, ...footerProps } = _footer ?? {}
+// /**
+//  * Renders an alert dialog and a sheet component, managing their open states
+//  * and handling user interactions through provided callbacks.
+//  *
+//  * @param {AlertDialogWrapperType} props - The properties for configuring the AlertDialogWrapper.
+//  *
+//  * The component utilizes the `useDuckAlert` hook for managing its internal state
+//  * and provides a structured layout for displaying an alert dialog with a trigger,
+//  * content, header, footer, and actions, as well as a sheet with nested content
+//  * and customizable headers and footers. The component handles user interactions
+//  * with cancel and continue actions, updating the state and invoking provided callbacks.
+//  */
+// export function AlertDialogWrapper({ alertTrigger, alertContent, duckHook }: AlertDialogWrapperType) {
+//   const { _header, _footer, ...contentProps } = alertContent ?? {}
+//   const { _title, _description, ...headerProps } = _header ?? {}
+//   const { _submit, _cancel, ...footerProps } = _footer ?? {}
 
-  return (
-    <AlertDialog open={duckHook?.state.alert}>
-      <AlertDialogTrigger
-        {...alertTrigger}
-        onClick={(e) => {
-          duckHook?.setState({ shape: true, alert: false })
-          alertTrigger?.onClick?.(e)
-        }}
-      />
-      <AlertDialogContent {...contentProps}>
-        <AlertDialogHeader {...headerProps}>
-          {headerProps.children ? (
-            headerProps.children
-          ) : (
-            <>
-              <AlertDialogTitle {..._title} />
-              <AlertDialogDescription {..._description} />
-            </>
-          )}
-        </AlertDialogHeader>
+//   return (
+//     <AlertDialog open={duckHook?.state.alert}>
+//       <AlertDialogTrigger
+//         {...alertTrigger}
+//         onClick={(e) => {
+//           duckHook?.setState({ shape: true, alert: false })
+//           alertTrigger?.onClick?.(e)
+//         }}
+//       />
+//       <AlertDialogContent {...contentProps}>
+//         <AlertDialogHeader {...headerProps}>
+//           {headerProps.children ? (
+//             headerProps.children
+//           ) : (
+//             <>
+//               <AlertDialogTitle {..._title} />
+//               <AlertDialogDescription {..._description} />
+//             </>
+//           )}
+//         </AlertDialogHeader>
 
-        <AlertDialogFooter {...footerProps}>
-          <AlertDialogCancel
-            {..._cancel}
-            onClick={(e) => {
-              duckHook?.handleAlertCancel()
-              _cancel?.onClick?.(e)
-            }}
-            asChild>
-            {_cancel?.children ?? 'Cancel'}
-          </AlertDialogCancel>
-          <AlertDialogAction
-            {..._submit}
-            onClick={(e) => {
-              duckHook?.handleAlertContinue()
-              _submit?.onClick?.(e)
-            }}
-            asChild>
-            {_submit?.children ?? 'Continue'}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  )
-}
+//         <AlertDialogFooter {...footerProps}>
+//           <AlertDialogCancel
+//             {..._cancel}
+//             onClick={(e) => {
+//               duckHook?.handleAlertCancel()
+//               _cancel?.onClick?.(e)
+//             }}
+//             asChild>
+//             {_cancel?.children ?? 'Cancel'}
+//           </AlertDialogCancel>
+//           <AlertDialogAction
+//             {..._submit}
+//             onClick={(e) => {
+//               duckHook?.handleAlertContinue()
+//               _submit?.onClick?.(e)
+//             }}
+//             asChild>
+//             {_submit?.children ?? 'Continue'}
+//           </AlertDialogAction>
+//         </AlertDialogFooter>
+//       </AlertDialogContent>
+//     </AlertDialog>
+//   )
+// }
 
 // /**
 //  * AlertDialogSheet is a component that provides a structured layout for displaying
