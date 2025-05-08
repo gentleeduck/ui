@@ -35,12 +35,12 @@ export function Trigger({
 }: React.ComponentPropsWithRef<typeof Slot> & {
   open?: boolean
 }): React.JSX.Element {
-  const { onOpenChange } = useDialogContext()
+  const { onOpenChange, open: _open } = useDialogContext()
 
   return (
     <Slot
       onClick={(e) => {
-        onOpenChange(open ?? !open)
+        onOpenChange(open ?? !_open)
         onClick?.(e)
       }}
       {...props}
