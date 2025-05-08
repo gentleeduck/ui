@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
-import  DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose, useDrawerDrag } from '@gentleduck/aria-feather/dialog'
 import { DialogClose, DialogTrigger } from '../dialog'
 
@@ -13,7 +13,7 @@ function Drawer({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimit
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
 
 function DrawerTrigger({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />
@@ -21,6 +21,14 @@ function DrawerTrigger({ ...props }: SheetTriggerProps) {
 
 function DrawerClose({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />
+}
+
+function DrawerDrag({ className }: React.ComponentPropsWithoutRef<'span'>) {
+  return (
+    <span className="flex w-full justify-center">
+      <span className={cn("bg-border w-30  h-3 rounded-full cursor-grab active:cursor-grabbing", className)} />
+    </span>
+  )
 }
 
 /**
@@ -84,7 +92,7 @@ const DrawerContent = ({
       className={cn(
         AnimVariants(),
         AnimSheetVariants({ side: side }),
-        `border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm ease-(--duck-motion-spring) 
+        `border border-border rounded-lg bg-background p-0 m-0 inset-unset shadow-sm ease-(--duck-motion-spring) 
         active:duration-0 duration-450 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
         className,
       )}
@@ -92,14 +100,12 @@ const DrawerContent = ({
       {...props}>
       {shouldRender && (
         <div
-          className="p-6 w-full h-full select-none active:cursor-grabbing"
+          className="p-6 w-full h-full select-none"
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}>
-          <span className="flex w-full justify-center">
-            <span className="bg-border w-1/6 h-3 rounded-full cursor-grab active:cursor-grabbing" />
-          </span>
+          <DrawerDrag />
           <DialogClose />
           {children}
           <div style={{ height: holdUpThreshold }}></div>
@@ -267,5 +273,6 @@ export {
   DrawerFooter,
   DrawerTitle,
   DrawerDescription,
+  DrawerDrag,
   // SheetWrapper,
 }

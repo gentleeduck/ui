@@ -25,6 +25,7 @@ export function DialogClose({
   ref,
   size = 20,
   children,
+  className,
   ...props
 }: React.HTMLProps<HTMLButtonElement> & {
   size?: number
@@ -37,7 +38,7 @@ export function DialogClose({
       ref={ref}
       type='button'
       aria-label="close"
-      className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
+      className={cn("absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all", className)}
       onClick={() => onOpenChange(false)}>
       {children ?? <X aria-hidden size={size} />}
     </button>
