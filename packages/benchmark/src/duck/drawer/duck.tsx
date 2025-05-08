@@ -21,7 +21,7 @@ export default function DrawerDemo() {
         <DrawerFooter>
           <span>Submit</span>
           <DrawerClose>
-            <span>Cancel</span>
+            Cance
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

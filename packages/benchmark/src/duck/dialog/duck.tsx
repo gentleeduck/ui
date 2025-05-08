@@ -14,8 +14,8 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 export default function DialogDemo() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>Edit Profile</Button>
+      <DialogTrigger variant="outline">
+        Edit Profile
       </DialogTrigger>
       <DialogContent renderOnce className="sm:max-w-[425px]">
         <DialogHeader>

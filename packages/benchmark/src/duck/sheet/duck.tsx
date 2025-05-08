@@ -13,10 +13,10 @@ import { Input } from "@gentleduck/registry-ui-duckui/input"
 export default function SheetDemo() {
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger variant="outline">
         Open
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent renderOnce>
         <SheetHeader>
           <SheetTitle>Edit profile</SheetTitle>
           <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>

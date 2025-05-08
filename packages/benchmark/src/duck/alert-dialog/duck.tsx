@@ -9,13 +9,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@gentleduck/registry-ui-duckui/experimental/alert-dialog'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 export default function AlertDialogDemo() {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Show Dialog</Button>
+      <AlertDialogTrigger variant="outline">
+        Show Alert Dialog
       </AlertDialogTrigger>
       <AlertDialogContent renderOnce>
         <AlertDialogHeader>
@@ -26,7 +25,7 @@ export default function AlertDialogDemo() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
           <AlertDialogAction>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -28,7 +28,7 @@ const SheetContent = ({
   children,
   className,
   renderOnce,
-  side,
+  side = 'right',
   ...props
 }: React.HTMLProps<HTMLDialogElement> & {
   renderOnce?: boolean

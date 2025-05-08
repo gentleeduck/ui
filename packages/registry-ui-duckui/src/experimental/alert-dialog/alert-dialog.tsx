@@ -102,7 +102,7 @@ const AlertDialogDescription = ({
  *
  */
 function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} open={false} />
+  return <DialogTrigger {...props} />
 }
 
 /**
@@ -113,7 +113,7 @@ function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigg
  *
  */
 function AlertDialogCancel({ ...props }: React.ComponentProps<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} open={false} />
+  return <DialogTrigger {...props} />
 }
 
 // /**
