@@ -10,13 +10,13 @@ import { Label } from "@gentleduck/registry-ui-duckui/label"
 import { Input } from "@gentleduck/registry-ui-duckui/input"
 
 
-export default function SheetDemo() {
+export default function SheetDemo({ side = 'right' }: { side?: 'left' | 'right' | 'top' | 'bottom' }) {
   return (
     <Sheet>
       <SheetTrigger variant="outline">
         Open
       </SheetTrigger>
-      <SheetContent renderOnce>
+      <SheetContent renderOnce side={side}>
         <SheetHeader>
           <SheetTitle>Edit profile</SheetTitle>
           <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>

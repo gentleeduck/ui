@@ -42,15 +42,15 @@ export const AnimSheetVariants = cva('', {
     side: {
       top: `
           max-w-full w-full
-          border-t
-          -translate-y-full starting:open:-translate-y-full open:translate-y-0
-          inset-y-auto
+          border-b
+          -translate-y-full starting:open:-translate-y-full open:translate-y-0  
+          bottom-auto
           `,
       bottom: `
           max-w-full w-full
-          border-b
-          translate-y-full starting:open:translate-y-full open:translate-y-0  
-          inset-y-auto
+          border-t
+          translate-y-full starting:open:translate-y-full open:translate-y-0
+          top-auto
         `,
       left: `
           max-h-screen h-screen
@@ -68,35 +68,5 @@ export const AnimSheetVariants = cva('', {
   },
   defaultVariants: {
     side: 'left',
-  },
-})
-
-export const AnimDrawerVariants = cva('', {
-  variants: {
-    side: {
-      bottom: `
-          border-b
-          -translate-y-full starting:open:-translate-y-full open:translate-y-0  
-          bottom-auto
-        `,
-      top: `
-          border-t
-          translate-y-full starting:open:translate-y-full open:translate-y-0
-          top-auto
-          `,
-      left: `
-          border-l 
-          -translate-x-full starting:open:-translate-x-full open:translate-x-0
-          end-auto
-        `,
-      right: `
-          border-r 
-          translate-x-full starting:open:translate-x-full open:translate-x-0
-          start-auto
-        `,
-    },
-  },
-  defaultVariants: {
-    side: 'bottom',
   },
 })

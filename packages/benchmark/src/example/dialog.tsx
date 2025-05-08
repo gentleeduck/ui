@@ -15,9 +15,15 @@ function Dialog() {
       <ShadcnDialog />
       <DuckAlertDialog />
       <ShadcnAlertDialog />
-      <DuckSheet />
+      <DuckSheet side='bottom' />
+      <DuckSheet side='left' />
+      <DuckSheet side='right' />
+      <DuckSheet side='top' />
+      <DuckDrawer side='bottom' />
+      <DuckDrawer side='left' />
+      <DuckDrawer side='right' />
+      <DuckDrawer side='top' />
       <ShadcnSheet />
-      <DuckDrawer />
       <ShadcnDrawer />
     </>
   )

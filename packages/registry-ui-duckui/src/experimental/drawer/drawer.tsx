@@ -4,7 +4,7 @@ import { X } from 'lucide-react'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
-import { AnimDrawerVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
 import  DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose, useDrawerDrag } from '@gentleduck/aria-feather/dialog'
 import { DialogClose, DialogTrigger } from '../dialog'
@@ -83,7 +83,7 @@ const DrawerContent = ({
       ref={ref}
       className={cn(
         AnimVariants(),
-        AnimDrawerVariants({ side: side }),
+        AnimSheetVariants({ side: side }),
         `border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm ease-(--duck-motion-spring) 
         active:duration-0 duration-450 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
         className,
