@@ -74,7 +74,7 @@ function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  */
 export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> { }
 function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): React.JSX.Element {
-  return <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
+  return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }
 /**
  * `AlertDialogDescription` is a React component that forwards its ref to the `AlertDialogPrimitive.Description` component.
