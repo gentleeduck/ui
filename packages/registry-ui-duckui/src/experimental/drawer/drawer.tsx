@@ -5,7 +5,6 @@ import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
 import DialogPrimitive from '@gentleduck/aria-feather/dialog'
-import { useShouldRender } from '@gentleduck/aria-feather/dialog'
 import { DrawerRoot, useDrawerContext, useOverlayClose, Trigger,useDrawerDrag } from '@gentleduck/aria-feather/drawer'
 
 import './drawer.css'
@@ -92,15 +91,14 @@ const DrawerContent = ({
   side?: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
   const { open, ref, onOpenChange } = useDrawerContext()
-  const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
   const holdUpThreshold = 10 
-  const { handleMouseDown, handleTouchStart, handleTouchMove, handleTouchEnd } = useDrawerDrag({
+  // const { handleMouseDown, handleTouchStart, handleTouchMove, handleTouchEnd } = useDrawerDrag({
   
-    ref: ref as React.RefObject<HTMLDialogElement>,
-    onOpenChange,
-    holdUpThreshold
-  })
+  //   ref: ref as React.RefObject<HTMLDialogElement>,
+  //   onOpenChange,
+  //   holdUpThreshold
+  // })
 
   return (
     <dialog
@@ -108,11 +106,7 @@ const DrawerContent = ({
       ref={ref}
       onClick={closeOverlay}
       {...props}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
+      >
       {/* {shouldRender && ( */}
       <div
           className={cn("content-wrapper select-none" ,
@@ -124,7 +118,11 @@ const DrawerContent = ({
           // AnimSheetVariants({ side: side }),
           className,
         )}
-
+        
+        // onMouseDown={handleMouseDown}
+        // onTouchStart={handleTouchStart}
+        // onTouchMove={handleTouchMove}
+        // onTouchEnd={handleTouchEnd}
         data-state={open ? 'open' : 'closed'}
         data-vaul-drawer-direction='bottom'
         data-vaul-drawer=''
