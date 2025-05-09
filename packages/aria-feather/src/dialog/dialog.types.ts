@@ -5,7 +5,7 @@ export interface DialogContextType {
 }
 
 export type DialogProps = {
-  children: React.ReactNode
+  children?: React.ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }
