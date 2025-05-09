@@ -112,7 +112,7 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
       if (shouldClose && onOpenChange) {
         onOpenChange(false)
       } else {
-        ref.current.style.transform = 'translateY(0px)'
+        ref.current.style.transform = ''
       }
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
@@ -144,7 +144,7 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
     if (shouldClose && onOpenChange) {
       onOpenChange(false)
     } else {
-      ref.current.style.transform = 'translateY(0px)'
+      ref.current.style.transform = ''
     }
   }
 
