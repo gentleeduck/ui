@@ -1,20 +1,19 @@
 'use client'
 
-import { X } from 'lucide-react'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
-import * as DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
-import { DialogTrigger } from '../dialog'
+import { DialogClose, DialogTrigger } from '../dialog'
 
 function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
 
 function SheetTrigger({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />
@@ -28,13 +27,13 @@ const SheetContent = ({
   children,
   className,
   renderOnce,
-  side,
+  side = 'right',
   ...props
 }: React.HTMLProps<HTMLDialogElement> & {
   renderOnce?: boolean
   side?: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
-  const { open, ref, onOpenChange } = useDialogContext()
+  const { open, ref } = useDialogContext()
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
 
@@ -43,7 +42,6 @@ const SheetContent = ({
       <dialog
         ref={ref}
         className={cn(
-          'border border-border m-0 bg-background p-6 inset-unset shadow-sm duration-400',
           AnimVariants(),
           AnimSheetVariants({ side: side }),
           className,
@@ -51,13 +49,8 @@ const SheetContent = ({
         onClick={closeOverlay}
         {...props}>
         {shouldRender && (
-          <div className="p-6 w-full h-full">
-            <button
-              aria-label="close"
-              className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
-              onClick={() => onOpenChange(false)}>
-              <X aria-hidden size={20} />
-            </button>
+          <div className='content-wrapper'>
+            <DialogClose />
             {children}
           </div>
         )}

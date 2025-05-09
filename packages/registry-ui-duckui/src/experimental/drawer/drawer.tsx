@@ -1,26 +1,33 @@
 'use client'
-import { X } from 'lucide-react'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
-import { AnimDrawerVariants, AnimVariants } from '@gentleduck/motion/anim'
-import * as DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
+import DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext, useOverlayClose, useDrawerDrag } from '@gentleduck/aria-feather/dialog'
-import { DialogTrigger } from '../dialog'
+import { DialogClose, DialogTrigger } from '../dialog'
 
 function Drawer({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
 
 function DrawerTrigger({ ...props }: SheetTriggerProps) {
-  return <DialogTrigger {...props} open={true} />
+  return <DialogTrigger {...props} />
 }
 
 function DrawerClose({ ...props }: SheetTriggerProps) {
-  return <DialogTrigger {...props} open={false} />
+  return <DialogTrigger {...props} />
+}
+
+function DrawerDrag({ className }: React.ComponentPropsWithoutRef<'span'>) {
+  return (
+    <span className="flex w-full justify-center">
+      <span className={cn("bg-border w-30  h-3 rounded-full cursor-grab active:cursor-grabbing", className)} />
+    </span>
+  )
 }
 
 /**
@@ -82,30 +89,22 @@ const DrawerContent = ({
     <dialog
       ref={ref}
       className={cn(
-        AnimVariants(),
-        AnimDrawerVariants({ side: side }),
-        `border border-border w-full max-w-full rounded-lg bg-background p-0 m-0 inset-unset shadow-sm ease-(--duck-motion-spring) 
+        `rounded-lg ease-(--duck-motion-spring) 
         active:duration-0 duration-450 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
+        AnimVariants(),
+        AnimSheetVariants({ side: side }),
         className,
       )}
       onClick={closeOverlay}
       {...props}>
       {shouldRender && (
-        <div
-          className="p-6 w-full h-full select-none active:cursor-grabbing"
+        <div className='content-wrapper select-none' 
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}>
-          <span className="flex w-full justify-center">
-            <span className="bg-border w-1/6 h-3 rounded-full cursor-grab active:cursor-grabbing" />
-          </span>
-          <button
-            aria-label="close"
-            className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
-            onClick={() => onOpenChange?.(false)}>
-            <X aria-hidden size={20} />
-          </button>
+          <DrawerDrag />
+          <DialogClose />
           {children}
           <div style={{ height: holdUpThreshold }}></div>
         </div>
@@ -272,5 +271,6 @@ export {
   DrawerFooter,
   DrawerTitle,
   DrawerDescription,
+  DrawerDrag,
   // SheetWrapper,
 }

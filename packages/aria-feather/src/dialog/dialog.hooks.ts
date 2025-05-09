@@ -35,11 +35,6 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
   )
 
   React.useEffect(() => {
-    // if (open) handleOpenChange(true)
-    console.log('aaaaa', open)
-  }, [open, onOpenChange])
-
-  React.useEffect(() => {
     const dialog = dialogRef.current
     document.body.style.overflow = open ? 'hidden' : 'auto'
 

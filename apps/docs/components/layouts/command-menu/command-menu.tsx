@@ -68,7 +68,7 @@ export function CommandMenu({ ...props }: DialogProps) {
           keys={'ctrl+k'}
           onKeysPressed={() => {
             // console.log('hi')
-            // setOpen(!open)
+            setOpen(!open)
             // window.event?.preventDefault()
           }}
           className="bg-secondary">

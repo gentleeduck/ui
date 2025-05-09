@@ -19,7 +19,9 @@ export default function DrawerDemo() {
           <DrawerDescription>This action cannot be undone.</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <span>Submit</span>
+          <DrawerClose>
+            <span>Submit</span>
+          </DrawerClose>
           <DrawerClose>
             <span>Cancel</span>
           </DrawerClose>

@@ -30,9 +30,9 @@ import { Loader } from 'lucide-react'
  */
 function Button({
   children,
-  variant,
-  size,
-  border,
+  variant = 'default',
+  size = 'default',
+  border = 'default',
   asChild,
   className,
   loading,

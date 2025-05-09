@@ -8,11 +8,10 @@ import {
 } from './alert-dialog.types'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
-import { X } from 'lucide-react'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
-import * as DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive from '@gentleduck/aria-feather/dialog'
 import { useShouldRender, useDialogContext } from '@gentleduck/aria-feather/dialog'
-import { DialogTrigger } from '../dialog'
+import { DialogClose, DialogTrigger } from '../dialog'
 
 function AlertDialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
@@ -30,7 +29,7 @@ function AlertDialogContent({
 }: React.HTMLProps<HTMLDialogElement> & {
   renderOnce?: boolean
 }): React.JSX.Element {
-  const { open, ref, onOpenChange } = useDialogContext()
+  const { open, ref } = useDialogContext()
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
 
   return (
@@ -38,19 +37,13 @@ function AlertDialogContent({
       ref={ref}
       {...props}
       className={cn(
-        'open:grid inset-1/2 -translate-1/2 w-full max-w-lg sm:max-w-md gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
         AnimVariants(),
         AnimDialogVariants(),
         className,
       )}>
       {shouldRender && (
-        <div className="p-6 w-full h-full">
-          <button
-            aria-label="close"
-            className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
-            onClick={() => onOpenChange(false)}>
-            <X aria-hidden size={20} />
-          </button>
+        <div className='content-wrapper'>
+          <DialogClose />
           {children}
         </div>
       )}
@@ -79,9 +72,9 @@ function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * to customize its styling.
  *
  */
-export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> {}
+export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> { }
 function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): React.JSX.Element {
-  return <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
+  return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }
 /**
  * `AlertDialogDescription` is a React component that forwards its ref to the `AlertDialogPrimitive.Description` component.
@@ -102,7 +95,7 @@ const AlertDialogDescription = ({
  *
  */
 function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} open={false} />
+  return <DialogTrigger {...props} />
 }
 
 /**
@@ -113,7 +106,7 @@ function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigg
  *
  */
 function AlertDialogCancel({ ...props }: React.ComponentProps<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} open={false} />
+  return <DialogTrigger {...props} />
 }
 
 // /**
