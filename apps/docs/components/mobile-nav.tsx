@@ -6,7 +6,7 @@ import * as React from 'react'
 
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@gentleduck/registry-ui-duckui/sheet'
+import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-duckui/experimental/drawer'
 import { Icons } from '~/components/icons'
 import { docsConfig } from '~/config/docs'
 import { siteConfig } from '~/config/site'
@@ -15,8 +15,8 @@ export function MobileNav() {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
         <Button
           variant="ghost"
           className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden">
@@ -42,8 +42,8 @@ export function MobileNav() {
           </svg>
           <span className="sr-only">Toggle Menu</span>
         </Button>
-      </SheetTrigger>
-      <SheetContent side="left" className="pr-0">
+      </DrawerTrigger>
+      <DrawerContent side="bottom" className="pr-0">
         <MobileLink href="/" className="flex items-center" onOpenChange={setOpen}>
           <Icons.logo className="mr-2 h-4 w-4" />
           <span className="font-bold">{siteConfig.name}</span>
@@ -85,8 +85,8 @@ export function MobileNav() {
             ))}
           </div>
         </div>
-      </SheetContent>
-    </Sheet>
+      </DrawerContent>
+    </Drawer>
   )
 }
 

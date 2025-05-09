@@ -20,7 +20,7 @@ import {
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
 
-export function CommandMenu({ ...props }: DialogProps) {
+export function CommandMenu() {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
   const { setTheme } = useTheme()
@@ -35,8 +35,7 @@ export function CommandMenu({ ...props }: DialogProps) {
         className={cn(
           'relative h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between pr-2 md:w-40 lg:w-64',
         )}
-        onClick={() => setOpen(true)}
-        {...props}>
+        onClick={() => setOpen(true)}>
         <span className="hidden lg:inline-flex">Search documentation...</span>
         <span className="inline-flex lg:hidden">Search...</span>
         <CommandShortcut

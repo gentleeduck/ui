@@ -12,7 +12,7 @@ function Drawer({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimit
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
 
 function DrawerTrigger({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />
@@ -46,7 +46,7 @@ const DrawerContent = ({
   children,
   className,
   renderOnce,
-  side,
+  side = 'bottom',
   holdUpThreshold = 10,
   ...props
 }: React.HTMLProps<HTMLDialogElement> & {
@@ -73,7 +73,7 @@ const DrawerContent = ({
         'will-change-[transform,border-radius]',
         'transition-discrete',
       )
-      document.body.style.transform = 'scale(0.97) translateY(1%)'
+      document.body.style.transform = 'scale(0.97) translateY(1rem)'
       document.body.style.borderRadius = '20px'
       document.documentElement.style.background = 'black'
     } else {
