@@ -71,11 +71,11 @@ function CommandInput({ className, ref, ...props }: CommandInputProps): React.JS
   const { setSearch } = useCommandContext()
 
   return (
-    <div className="flex items-center border-b px-3 gap-1" cmdk-input-wrapper="">
-      <Search className="h-4 w-4 shrink-0 opacity-50" />
+    <div className="flex items-center border-b px-3 gap-2" cmdk-input-wrapper="">
+      <Search className="size-[20px] shrink-0 opacity-50" />
       <input
         ref={ref}
-        onChange={(e) => debounce(() => setSearch(e.target.value), 300)}
+        onChange={(e) => setSearch(e.target.value)}
         className={cn(
           'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
           className,
@@ -112,21 +112,11 @@ function CommandEmpty({ className, ref, ...props }: CommandEmptyProps): React.JS
  * @returns {JSX.Element} The rendered CommandList component.
  */
 
-
-
 function CommandList({ className, children, ref, ...props }: CommandListProps): React.JSX.Element {
   const { search } = useCommandContext()
   return (
     <ScrollArea>
-      <ul
-        ref={ref}
-        className={cn(
-          'max-h-[300px]',
-          className,
-        )}
-        children={children(search)}
-        {...props}
-      />
+      <ul ref={ref} className={cn('max-h-[300px]', className)} children={children(search)} {...props} />
     </ScrollArea>
   )
 }
@@ -151,7 +141,7 @@ function CommandGroup({ className, children, heading, ref, ...props }: CommandGr
         className,
       )}
       {...props}>
-      <h3 className="text-sm text-muted-foreground pb-1 pl-1">{heading}</h3>
+      <h3 className="text-xs text-muted-foreground pb-1 pl-1">{heading}</h3>
       {children}
     </div>
   )
@@ -229,10 +219,8 @@ function CommandSeparator({ className, ref, ...props }: CommandSeparatorProps): 
 const CommandDialog = ({ children, ...props }: DialogProps) => {
   return (
     <Dialog {...props}>
-      <DialogContent renderOnce className="[&>.content-wrapper]:p-0">
-        <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
-          {children}
-        </Command>
+      <DialogContent renderOnce={false} className="[&>.content-wrapper]:p-0">
+        <Command>{children}</Command>
       </DialogContent>
     </Dialog>
   )

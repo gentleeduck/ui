@@ -39,7 +39,7 @@ export function DialogClose({
       type="button"
       aria-label="close"
       className={cn(
-        'absolute right-3 top-3 text-muted-foreground size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all',
+        'absolute right-3 top-3 text-accent-foreground size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all',
         className,
       )}
       onClick={() => onOpenChange(false)}>
@@ -62,12 +62,10 @@ export function DialogContent({
 
   return (
     <dialog ref={ref} className={cn(AnimVariants(), AnimDialogVariants(), className)} onClick={closeOverlay} {...props}>
-      {shouldRender && (
-        <div className="content-wrapper">
-          <DialogClose />
-          {children}
-        </div>
-      )}
+      <div className="content-wrapper">
+        <DialogClose />
+        {children}
+      </div>
     </dialog>
   )
 }
@@ -126,7 +124,7 @@ export function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLD
  *
  * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps): React.JSX.Element {
   return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }

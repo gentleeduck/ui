@@ -40,6 +40,8 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
 
     if (openProp) {
       handleOpenChange(true)
+    } else if (openProp === false) {
+      handleOpenChange(false)
     }
 
     dialog?.addEventListener('close', () => handleOpenChange(false))
