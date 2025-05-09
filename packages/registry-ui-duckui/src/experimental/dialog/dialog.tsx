@@ -124,7 +124,7 @@ export function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLD
  *
  * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps): React.JSX.Element {
   return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }

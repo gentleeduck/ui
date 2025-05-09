@@ -28,7 +28,6 @@ export const AnimVariants = cva('', {
 const ContentWrapper =
   '[&>.content-wrapper]:p-6 [&>.content-wrapper]:size-full [&>.content-wrapper]:grid [&>.content-wrapper]:gap-[inherit]'
 
-
 export const AnimDialogVariants = cva(
   `open:grid inset-1/2 -translate-1/2 border border-border bg-background rounded-lg p-0 m-0 gap-4 w-full max-w-md shadow-sm ${ContentWrapper}`,
   {
