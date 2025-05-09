@@ -23,7 +23,7 @@ export function DialogTrigger({
 
 export function DialogClose({
   ref,
-  size = 20,
+  size = 16,
   children,
   className,
   ...props
@@ -39,7 +39,7 @@ export function DialogClose({
       type="button"
       aria-label="close"
       className={cn(
-        'absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all',
+        'absolute right-3 top-3 text-muted-foreground size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all',
         className,
       )}
       onClick={() => onOpenChange(false)}>

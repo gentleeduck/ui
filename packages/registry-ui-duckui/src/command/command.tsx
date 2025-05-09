@@ -15,7 +15,8 @@ import {
 } from './command.types'
 import { debounce, useDebounce } from '@gentleduck/hooks'
 import { useCommandContext } from './command.hooks'
-import { Dialog, DialogContent, DialogProps } from '../dialog'
+import { Dialog, DialogContent, DialogProps } from '../experimental/dialog'
+import { ScrollArea } from '../experimental/scroll-area'
 
 /**
  * @type {React.Context<CommandContextType|null>}
@@ -110,18 +111,23 @@ function CommandEmpty({ className, ref, ...props }: CommandEmptyProps): React.JS
  * @param {React.HTMLProps<HTMLLIElement>} [...props] - Additional props.
  * @returns {JSX.Element} The rendered CommandList component.
  */
+
+
+
 function CommandList({ className, children, ref, ...props }: CommandListProps): React.JSX.Element {
   const { search } = useCommandContext()
   return (
-    <ul
-      ref={ref}
-      className={cn(
-        'max-h-[300px] overflow-y-auto overflow-x-hidden [scrollbar-width:thin] [scrollbar-gutter:stable]',
-        className,
-      )}
-      children={children(search)}
-      {...props}
-    />
+    <ScrollArea>
+      <ul
+        ref={ref}
+        className={cn(
+          'max-h-[300px]',
+          className,
+        )}
+        children={children(search)}
+        {...props}
+      />
+    </ScrollArea>
   )
 }
 /**
@@ -223,7 +229,7 @@ function CommandSeparator({ className, ref, ...props }: CommandSeparatorProps): 
 const CommandDialog = ({ children, ...props }: DialogProps) => {
   return (
     <Dialog {...props}>
-      <DialogContent>
+      <DialogContent renderOnce className="[&>.content-wrapper]:p-0">
         <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
           {children}
         </Command>
