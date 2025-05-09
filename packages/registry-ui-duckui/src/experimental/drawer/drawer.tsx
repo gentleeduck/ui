@@ -12,7 +12,7 @@ function Drawer({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimit
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
 
 function DrawerTrigger({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />
@@ -25,7 +25,7 @@ function DrawerClose({ ...props }: SheetTriggerProps) {
 function DrawerDrag({ className }: React.ComponentPropsWithoutRef<'span'>) {
   return (
     <span className="flex w-full justify-center">
-      <span className={cn("bg-border w-30  h-3 rounded-full cursor-grab active:cursor-grabbing", className)} />
+      <span className={cn('bg-border w-30  h-3 rounded-full cursor-grab active:cursor-grabbing', className)} />
     </span>
   )
 }
@@ -98,7 +98,8 @@ const DrawerContent = ({
       onClick={closeOverlay}
       {...props}>
       {shouldRender && (
-        <div className='content-wrapper select-none' 
+        <div
+          className="content-wrapper select-none"
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}

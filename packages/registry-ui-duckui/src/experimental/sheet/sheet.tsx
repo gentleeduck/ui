@@ -13,7 +13,7 @@ function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimiti
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
 
 function SheetTrigger({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />
@@ -41,15 +41,11 @@ const SheetContent = ({
     <>
       <dialog
         ref={ref}
-        className={cn(
-          AnimVariants(),
-          AnimSheetVariants({ side: side }),
-          className,
-        )}
+        className={cn(AnimVariants(), AnimSheetVariants({ side: side }), className)}
         onClick={closeOverlay}
         {...props}>
         {shouldRender && (
-          <div className='content-wrapper'>
+          <div className="content-wrapper">
             <DialogClose />
             {children}
           </div>

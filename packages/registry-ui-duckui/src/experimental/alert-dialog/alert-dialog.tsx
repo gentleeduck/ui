@@ -33,16 +33,9 @@ function AlertDialogContent({
   const [shouldRender] = useShouldRender(open, renderOnce ?? false)
 
   return (
-    <dialog
-      ref={ref}
-      {...props}
-      className={cn(
-        AnimVariants(),
-        AnimDialogVariants(),
-        className,
-      )}>
+    <dialog ref={ref} {...props} className={cn(AnimVariants(), AnimDialogVariants(), className)}>
       {shouldRender && (
-        <div className='content-wrapper'>
+        <div className="content-wrapper">
           <DialogClose />
           {children}
         </div>
@@ -72,7 +65,7 @@ function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * to customize its styling.
  *
  */
-export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> { }
+export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> {}
 function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): React.JSX.Element {
   return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }

@@ -36,9 +36,12 @@ export function DialogClose({
     <button
       {...props}
       ref={ref}
-      type='button'
+      type="button"
       aria-label="close"
-      className={cn("absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all", className)}
+      className={cn(
+        'absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all',
+        className,
+      )}
       onClick={() => onOpenChange(false)}>
       {children ?? <X aria-hidden size={size} />}
     </button>
@@ -58,17 +61,9 @@ export function DialogContent({
   const [closeOverlay] = useOverlayClose()
 
   return (
-    <dialog
-      ref={ref}
-      className={cn(
-        AnimVariants(),
-        AnimDialogVariants(),
-        className,
-      )}
-      onClick={closeOverlay}
-      {...props}>
+    <dialog ref={ref} className={cn(AnimVariants(), AnimDialogVariants(), className)} onClick={closeOverlay} {...props}>
       {shouldRender && (
-        <div className='content-wrapper'>
+        <div className="content-wrapper">
           <DialogClose />
           {children}
         </div>
@@ -110,7 +105,13 @@ export function DialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLD
  * @returns {React.JSX.Element} The rendered DialogFooter component.
  */
 export function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div ref={ref} className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
+  return (
+    <div
+      ref={ref}
+      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
+      {...props}
+    />
+  )
 }
 
 /**
@@ -125,7 +126,7 @@ export function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLD
  *
  * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps): React.JSX.Element {
   return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }
