@@ -24,7 +24,7 @@ import {
 
 export function CommandMenu({ ...props }: DialogProps) {
   const router = useRouter()
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(false)
   const { setTheme } = useTheme()
 
   const runCommand = React.useCallback((command: () => unknown) => {

@@ -289,8 +289,6 @@ function AlertDialogCancel({ ...props }: React.ComponentPropsWithRef<typeof Dial
 //   )
 // }
 
-// AlertDialogSheet.displayName = 'AlertDialogDialog'
-
 export {
   AlertDialog,
   AlertDialogContent,

@@ -38,9 +38,13 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
     const dialog = dialogRef.current
     document.body.style.overflow = open ? 'hidden' : 'auto'
 
+    if (openProp) {
+      handleOpenChange(true)
+    }
+
     dialog?.addEventListener('close', () => handleOpenChange(false))
     return () => dialog?.removeEventListener('close', () => handleOpenChange(false))
-  }, [handleOpenChange, open])
+  }, [handleOpenChange, open, openProp])
 
   return {
     ref: dialogRef,

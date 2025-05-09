@@ -15,7 +15,7 @@ import {
 } from './command.types'
 import { debounce, useDebounce } from '@gentleduck/hooks'
 import { useCommandContext } from './command.hooks'
-import { Dialog, DialogContent, DialogProps } from '../experimental/dialog'
+import { Dialog, DialogContent, DialogProps } from '../dialog'
 
 /**
  * @type {React.Context<CommandContextType|null>}

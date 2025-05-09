@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority'
+import { cva } from '@gentleduck/variants'
 
 export const badgeVariants = cva(
   'inline-flex items-center rounded-full text-xs font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2',

@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority'
+import { cva } from '@gentleduck/variants'
 
 export const hoverCardVariants = cva(
   [

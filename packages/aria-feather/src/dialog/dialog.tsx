@@ -16,10 +16,16 @@ export const DialogContext = React.createContext<DialogContextType | null>(null)
 export function Root({ children, open: openProp, onOpenChange }: DialogProps): React.JSX.Element {
   const { open, onOpenChange: _onOpenChange, ref } = useDialog(openProp, onOpenChange)
 
+  React.useEffect(() => {
+    if (open) {
+      console.log('fuck yahh ')
+    }
+  }, [open])
+
   return (
     <DialogContext.Provider
       value={{
-        open: open, //?? false,
+        open: open ?? false,
         onOpenChange: _onOpenChange,
         ref,
       }}>
@@ -34,6 +40,7 @@ export function Trigger({
   ...props
 }: React.ComponentPropsWithRef<typeof Slot> & {
   open?: boolean
+  asChild?: boolean
 }): React.JSX.Element {
   const { onOpenChange, open: _open } = useDialogContext()
 

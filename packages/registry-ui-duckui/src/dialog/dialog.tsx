@@ -6,12 +6,8 @@ import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import DialogPrimitive, { useShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
 import { Slot } from '@gentleduck/aria-feather/slot'
 
-function Dialog({ open, onOpenChange, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
-  React.useEffect(() => {
-    // if (open) handleOpenChange(true)
-    console.log('asdfasdfasdf', open)
-  }, [open, onOpenChange])
-  return <DialogPrimitive.Root {...props} open={open} onOpenChange={onOpenChange} />
+function Dialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
+  return <DialogPrimitive.Root {...props} />
 }
 
 function DialogTrigger({
