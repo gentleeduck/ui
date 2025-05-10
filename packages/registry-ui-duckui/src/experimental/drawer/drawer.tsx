@@ -4,63 +4,20 @@
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
-import DialogPrimitive from '@gentleduck/aria-feather/dialog'
-import { DrawerRoot, useDrawerContext, useOverlayClose, Trigger,useDrawerDrag } from '@gentleduck/aria-feather/drawer'
-
-import './drawer.css'
+import DialogPrimitive, { useOverlayClose , useDialogContext, useDrawerDrag, useScaleBackground }  from '@gentleduck/aria-feather/dialog'
 import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogTrigger,
+  DialogClose,
 } from '../dialog'
-import { Button } from '../../button'
-import { X } from 'lucide-react'
 
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
+const Drawer = DialogPrimitive.Root
 
-export function DialogTrigger({
-  children,
-  ...props
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>) {
-  return (
-    <Trigger>
-      <Button {...props}>{children}</Button>
-    </Trigger>
-  )
-}
-
-function DrawerTrigger({ ...props }: SheetTriggerProps) {
-  return <DialogTrigger {...props} />
-}
-
-export function DrawerClose({
-  ref,
-  size = 16,
-  children,
-  className,
-  ...props
-}: React.HTMLProps<HTMLButtonElement> & {
-  size?: number
-}): React.JSX.Element {
-  const { onOpenChange } = useDrawerContext()
-
-  return (
-    <button
-      {...props}
-      ref={ref}
-      type="button"
-      aria-label="close"
-      className={cn(
-        'absolute right-3 top-3 text-accent-foreground size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all',
-        className,
-      )}
-      onClick={() => onOpenChange(false)}>
-      {children ?? <X aria-hidden size={size} />}
-    </button>
-  )
-}
+const DrawerTrigger = DialogTrigger
 
 function DrawerDrag({ className }: React.ComponentPropsWithoutRef<'span'>) {
   return (
@@ -84,13 +41,13 @@ const DrawerContent = ({
   children,
   className,
   renderOnce,
-  side,
+  side = 'bottom',
   ...props
 }: React.HTMLProps<HTMLDialogElement> & {
   renderOnce?: boolean
-  side?: 'left' | 'right' | 'top' | 'bottom'
+  side: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
-  const { open, ref, onOpenChange } = useDrawerContext()
+  const { open, ref, onOpenChange } = useDialogContext()
   const [closeOverlay] = useOverlayClose()
   const holdUpThreshold = 10 
   // const { handleMouseDown, handleTouchStart, handleTouchMove, handleTouchEnd } = useDrawerDrag({
@@ -100,42 +57,38 @@ const DrawerContent = ({
   //   holdUpThreshold
   // })
 
+  useScaleBackground({
+    open,
+    ref,
+    direction: side,
+    shouldScaleBackground: true,
+    setBackgroundColorOnScale: true,
+    noBodyStyles: true,
+  })
+
   return (
     <dialog
-
       ref={ref}
       onClick={closeOverlay}
       {...props}
+      className={cn(
+        `transform-gpu ease-cubic-bezier(0.32,_0.72,_0,_1) -(--duck-motion-spring) pointer-events-auto
+        active:duration-0 duration-500 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
+        AnimVariants(),
+        AnimSheetVariants({ side: side }),
+        className,)}
       >
-      {/* {shouldRender && ( */}
       <div
-          className={cn("content-wrapper select-none" ,
-          'fixed bottom-0 z-50 h-[40vh] flex flex-col rounded-t-[10px] border bg-background w-full max-w-full',
-  
-          `transform-gpu ease-cubic-bezier(0.32,_0.72,_0,_1) -(--duck-motion-spring) pointer-events-auto`,
-          // active:duration-0 duration-450 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none,
-          // AnimVariants(),
-          // AnimSheetVariants({ side: side }),
-          className,
-        )}
-        
+        className="content-wrapper select-none"
         // onMouseDown={handleMouseDown}
         // onTouchStart={handleTouchStart}
         // onTouchMove={handleTouchMove}
         // onTouchEnd={handleTouchEnd}
-        data-state={open ? 'open' : 'closed'}
-        data-vaul-drawer-direction='bottom'
-        data-vaul-drawer=''
-        data-vaul-delayed-snap-points='false'
-        data-vaul-snap-points='false'
-        data-vaul-custom-container='false'
-        data-vaul-animate='true'
         >
         <DrawerDrag />
-        <DrawerClose />
+        <DialogClose />
         {children}
       </div>
-      {/* )} */}
     </dialog>
   )
 }
@@ -282,13 +235,9 @@ export const DrawerTitle = DialogTitle
 export const DrawerDescription = DialogDescription
 
 
-export const Drawer = {
-  Root: DrawerRoot,
-  Trigger: DrawerTrigger,
-  Content: DrawerContent,
-  Close: DrawerClose,
-  Header: DrawerHeader,
-  Footer: DrawerFooter,
-  Title: DrawerTitle,
-  Description: DrawerDescription,
+export  {
+  Drawer,
+  DrawerTrigger as DrawerClose,
+  DrawerContent,
+  DrawerTrigger,
 }

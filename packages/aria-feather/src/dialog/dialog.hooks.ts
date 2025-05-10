@@ -1,6 +1,7 @@
 import React from 'react'
 import { DialogContext } from './dialog'
 import { DialogContextType } from './dialog.types'
+import { useComputedTimeoutTransition } from '@gentleduck/hooks'
 
 export function useDialogContext(name: string = 'Dialog'): DialogContextType {
   const context = React.useContext(DialogContext)
@@ -36,7 +37,9 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
 
   React.useEffect(() => {
     const dialog = dialogRef.current
-    document.body.style.overflow = open ? 'hidden' : 'auto'
+    // useComputedTimeoutTransition(dialog, () => {
+      document.body.style.overflow = open ? 'hidden' : 'auto'
+    // })
 
     if (openProp) {
       handleOpenChange(true)

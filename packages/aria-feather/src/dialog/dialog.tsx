@@ -2,6 +2,7 @@ import React from 'react'
 import { Slot } from '../slot'
 import { useDialog, useDialogContext } from './dialog.hooks'
 import { DialogContextType, DialogProps } from './dialog.types'
+import { useComputedTimeoutTransition } from '@gentleduck/hooks'
 
 /**
  * Context for managing the open state of the dialog.
@@ -68,14 +69,9 @@ export function ShouldRender({
     } else {
       const element = ref?.current
       if (element) {
-        const duration =
-          element?.style.transitionDuration !== undefined
-            ? Number.parseFloat(getComputedStyle(element).transitionDuration || '0') * 1000
-            : 300
-        const timer = setTimeout(() => {
+        useComputedTimeoutTransition(element, () => {
           setIsVisible(false)
-        }, duration)
-        return () => clearTimeout(timer)
+        })
       }
     }
   }, [shouldRender, ref, open, once])
