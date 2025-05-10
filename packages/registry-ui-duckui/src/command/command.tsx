@@ -219,7 +219,7 @@ function CommandSeparator({ className, ref, ...props }: CommandSeparatorProps): 
 const CommandDialog = ({ children, ...props }: DialogProps) => {
   return (
     <Dialog {...props}>
-      <DialogContent renderOnce={false} className="[&>.content-wrapper]:p-0">
+      <DialogContent className="[&>.content-wrapper]:p-0 open:backdrop:bg-black/80">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>

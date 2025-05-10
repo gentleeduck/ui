@@ -7,7 +7,7 @@ export const AnimVariants = cva('', {
     },
     motionBackdrop: {
       default:
-        'backdrop:transition-[inherit] backdrop:duration-[inherit] backdrop:ease-[inherit] backdrop:bg-black/0 starting:open:backdrop:bg-black/0 open:backdrop:bg-black/80',
+        'backdrop:transition-[inherit] backdrop:duration-[inherit] backdrop:ease-[inherit] backdrop:bg-black/0 starting:open:backdrop:bg-black/0 open:backdrop:bg-black/50',
     },
     motionAlive: {
       default: 'transition-all transition-discrete ease-(--duck-motion-ease) duration-(--duck-motion-dur)',
