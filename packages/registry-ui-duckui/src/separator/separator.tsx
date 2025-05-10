@@ -9,6 +9,12 @@ interface SeparatorProps extends React.HTMLAttributes<HTMLHRElement> {
   orientation?: 'horizontal' | 'vertical'
 }
 
+interface HrProps extends React.HTMLAttributes<HTMLHRElement> {
+  className?: string
+  y?: boolean
+  x?: boolean
+}
+
 const Separator = ({ className, orientation = 'horizontal', ...props }: SeparatorProps) => (
   <hr
     className={cn(
@@ -19,4 +25,16 @@ const Separator = ({ className, orientation = 'horizontal', ...props }: Separato
     {...props}
   />
 )
-export { Separator }
+
+const Hr = ({ className, y = false, x = false, ...props }: HrProps) => (
+  <hr
+    className={cn(
+      'border-border border',
+      y ? 'w-full border-y' : 'h-full border-x',
+      className,
+    )}
+    {...props}
+  />
+)
+
+export { Separator, Hr }
