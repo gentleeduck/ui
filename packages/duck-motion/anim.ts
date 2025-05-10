@@ -3,18 +3,17 @@ import { cva } from '@gentleduck/variants'
 export const AnimVariants = cva('', {
   variants: {
     motionBlur: {
-      default: 'blur-1 open:blur-0 starting:open:blur-1',
+      default: 'blur-xs starting:open:blur-xs open:blur-none',
     },
     motionBackdrop: {
       default:
-        'backdrop:transition-[inherit] backdrop:duration-[inherit] backdrop:ease-[inherit] backdrop:bg-black/0 starting:open:backdrop:bg-black/0 open:backdrop:bg-black/50',
+        'backdrop:transition-[inherit] backdrop:duration-[inherit] backdrop:ease-[inherit] backdrop:bg-black/50  backdrop:opacity-0 starting:open:backdrop:opacity-0 open:backdrop:opacity-100',
     },
     motionAlive: {
-      default: 'transition-all transition-discrete ease-(--duck-motion-ease) duration-(--duck-motion-dur)',
+      default: 'transition-all transition-discrete ease-(--duck-motion-ease) duration-[200ms,150ms]',
     },
     accelerated: {
-      default: 'will-change-auto',
-      transformGpu: 'transform-gpu',
+      default: 'will-change-[opacity,transform,blur] backdrop:will-change-[opacity,blur] transform-gpu',
     },
   },
   defaultVariants: {
@@ -33,9 +32,9 @@ export const AnimDialogVariants = cva(
   {
     variants: {
       animation: {
-        default: 'scale-90 opacity-0 starting:open:scale-90 starting:open:opacity-0 open:scale-100 open:opacity-100',
+        default: 'opacity-0 scale-90 starting:open:opacity-0 starting:open:scale-90 open:opacity-100 open:scale-100',
         fadeScaleIn:
-          'scale-75 opacity-0 starting:open:scale-75 starting:open:opacity-0 open:scale-100 open:opacity-100',
+          'opacity-0 scale-75 starting:open:opacity-0 starting:open:scale-75 open:opacity-100 open:scale-100 ',
       },
     },
     defaultVariants: {
@@ -44,7 +43,7 @@ export const AnimDialogVariants = cva(
   },
 )
 
-export const AnimSheetVariants = cva(`open:grid gap-4 [&>.content-wrapper]:h-fit duration-400  ${ContentWrapper}`, {
+export const AnimSheetVariants = cva(`open:grid gap-4 duration-400  ${ContentWrapper}`, {
   variants: {
     side: {
       top: `
