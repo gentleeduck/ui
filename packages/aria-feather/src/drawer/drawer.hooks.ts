@@ -12,7 +12,7 @@ export function useScaleBackground({
   // setBackgroundColorOnScale,
   // noBodyStyles,
 }: {
-  ref: React.RefObject<HTMLDialogElement> | null
+  ref: React.RefObject<HTMLDialogElement>
   open: boolean
   direction: 'top' | 'bottom' | 'left' | 'right'
   shouldScaleBackground: boolean

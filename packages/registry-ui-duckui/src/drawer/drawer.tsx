@@ -1,28 +1,23 @@
 'use client'
+import DialogPrimitive, {
+  useOverlayClose,
+  useDialogContext,
+  useScaleBackground,
+  useDrawerDrag,
+} from '@gentleduck/aria-feather/dialog'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentleduck/libs/cn'
-import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
-import DialogPrimitive, { useOverlayClose , useDialogContext, useScaleBackground, useDrawerDrag }  from '@gentleduck/aria-feather/dialog'
-import {
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger,
-  DialogClose,
-} from '../dialog'
-
+import React from 'react'
+import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../dialog'
 
 const Drawer = DialogPrimitive.Root
 
 const DrawerTrigger = DialogTrigger
 
 function DrawerDrag({ className }: React.ComponentPropsWithoutRef<'span'>) {
-  return (
-    <div className={cn('mx-auto my-4 h-2 w-[100px] rounded-full bg-muted', className)} />
-  )
+  return <div className={cn('mx-auto my-4 h-2 w-[100px] rounded-full bg-muted', className)} />
 }
 
 /**
@@ -47,19 +42,18 @@ const DrawerContent = ({
   renderOnce?: boolean
   side: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
-  const { open, ref ,onOpenChange } = useDialogContext()
+  const { open, ref, onOpenChange } = useDialogContext()
   const [closeOverlay] = useOverlayClose()
-  const holdUpThreshold = 10 
+  const holdUpThreshold = 10
   const { handleMouseDown, handleTouchStart, handleTouchMove, handleTouchEnd } = useDrawerDrag({
-
     ref: ref as React.RefObject<HTMLDialogElement>,
     onOpenChange,
-    holdUpThreshold
+    holdUpThreshold,
   })
 
   useScaleBackground({
     open,
-    ref ,
+    ref: ref as React.RefObject<HTMLDialogElement>,
     direction: side,
     shouldScaleBackground: true,
     setBackgroundColorOnScale: true,
@@ -76,15 +70,14 @@ const DrawerContent = ({
         active:duration-0 duration-500 rounded-lg [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
         AnimVariants(),
         AnimSheetVariants({ side: side }),
-        className,)}
-      >
+        className,
+      )}>
       <div
         className="content-wrapper select-none"
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        >
+        onTouchEnd={handleTouchEnd}>
         <DrawerDrag />
         <DialogClose />
         {children}
@@ -172,9 +165,6 @@ const DrawerContent = ({
 // }
 // SheetWrapper.displayName = 'SheetWrapper'
 
-
-
-
 /**
  * DrawerHeader component renders a header section for a Drawer.
  * It supports additional class names and props to customize the
@@ -234,10 +224,4 @@ export const DrawerTitle = DialogTitle
  */
 export const DrawerDescription = DialogDescription
 
-
-export  {
-  Drawer,
-  DrawerTrigger as DrawerClose,
-  DrawerContent,
-  DrawerTrigger,
-}
+export { Drawer, DrawerTrigger as DrawerClose, DrawerContent, DrawerTrigger }
