@@ -1,7 +1,7 @@
 import React from 'react'
 import { DialogContext } from './dialog'
 import { DialogContextType } from './dialog.types'
-import { useComputedTimeoutTransition } from '@gentleduck/hooks'
+// import { useComputedTimeoutTransition } from '@gentleduck/hooks'
 
 export function useDialogContext(name: string = 'Dialog'): DialogContextType {
   const context = React.useContext(DialogContext)

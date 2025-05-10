@@ -4,7 +4,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
-import DialogPrimitive, { useOverlayClose , useDialogContext, useDrawerDrag, useScaleBackground }  from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive, { useOverlayClose , useDialogContext, useScaleBackground }  from '@gentleduck/aria-feather/dialog'
 import {
   DialogFooter,
   DialogHeader,
@@ -47,9 +47,9 @@ const DrawerContent = ({
   renderOnce?: boolean
   side: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
-  const { open, ref, onOpenChange } = useDialogContext()
+  const { open, ref } = useDialogContext()
   const [closeOverlay] = useOverlayClose()
-  const holdUpThreshold = 10 
+  // const holdUpThreshold = 10 
   // const { handleMouseDown, handleTouchStart, handleTouchMove, handleTouchEnd } = useDrawerDrag({
   
   //   ref: ref as React.RefObject<HTMLDialogElement>,
@@ -59,7 +59,7 @@ const DrawerContent = ({
 
   useScaleBackground({
     open,
-    ref,
+    ref ,
     direction: side,
     shouldScaleBackground: true,
     setBackgroundColorOnScale: true,

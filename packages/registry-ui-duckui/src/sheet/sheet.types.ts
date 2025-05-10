@@ -8,7 +8,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '../../sheet'
+} from '../sheet'
 
 export interface SheetContentProps extends React.HTMLProps<HTMLDialogElement> {
   side?: 'left' | 'right'

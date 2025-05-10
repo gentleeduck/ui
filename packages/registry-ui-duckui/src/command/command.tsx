@@ -13,10 +13,9 @@ import {
   CommandProps,
   CommandSeparatorProps,
 } from './command.types'
-import { debounce, useDebounce } from '@gentleduck/hooks'
 import { useCommandContext } from './command.hooks'
-import { Dialog, DialogContent, DialogProps } from '../experimental/dialog'
-import { ScrollArea } from '../experimental/scroll-area'
+import { Dialog, DialogContent, DialogProps } from '../dialog'
+import { ScrollArea } from '../scroll-area'
 
 /**
  * @type {React.Context<CommandContextType|null>}

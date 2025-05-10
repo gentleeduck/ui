@@ -1,4 +1,6 @@
-import { useDebounce, useComputedTimeoutTransition } from '@gentleduck/hooks'
+import { useDebounce, 
+  // useComputedTimeoutTransition
+ } from '@gentleduck/hooks'
 import { UseDrawerDragProps, UseDrawerDragReturn } from '../dialog'
 import React from 'react'
 
@@ -10,7 +12,7 @@ export function useScaleBackground({
   // setBackgroundColorOnScale,
   // noBodyStyles,
 }: {
-  ref: React.RefObject<HTMLDialogElement>
+  ref: React.RefObject<HTMLDialogElement> | null
   open: boolean
   direction: 'top' | 'bottom' | 'left' | 'right'
   shouldScaleBackground: boolean

@@ -1,11 +1,11 @@
 'use client'
 
-import {
-  AlertDialogDialogProps,
-  AlertDialogDrawerProps,
-  AlertDialogSheetProps,
-  AlertDialogWrapperType,
-} from './alert-dialog.types'
+// import {
+//   AlertDialogDialogProps,
+//   AlertDialogDrawerProps,
+//   AlertDialogSheetProps,
+//   AlertDialogWrapperType,
+// } from './alert-dialog.types'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
