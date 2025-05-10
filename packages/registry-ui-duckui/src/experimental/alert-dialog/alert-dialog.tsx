@@ -30,16 +30,16 @@ function AlertDialogContent({
   renderOnce?: boolean
 }): React.JSX.Element {
   const { open, ref } = useDialogContext()
-  const [shouldRender] = useShouldRender(open, renderOnce ?? false)
+  // const [shouldRender] = useShouldRender(open, renderOnce ?? false)
 
   return (
     <dialog ref={ref} {...props} className={cn(AnimVariants(), AnimDialogVariants(), className)}>
-      {shouldRender && (
+      {/* {shouldRender && ( */}
         <div className="content-wrapper">
           <DialogClose />
           {children}
         </div>
-      )}
+      {/* )} */}
     </dialog>
   )
 }
@@ -56,7 +56,7 @@ function AlertDialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  *
  */
 function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
+  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-4', className)} {...props} />
 }
 
 /**

@@ -3,7 +3,9 @@ import { cva } from '@gentleduck/variants'
 export const AnimVariants = cva('', {
   variants: {
     motionBlur: {
-      default: 'blur-xs starting:open:blur-xs open:blur-none',
+      default: 
+      // 'blur-xs starting:open:blur-xs open:blur-none',
+      '',
     },
     motionBackdrop: {
       default:
@@ -25,10 +27,10 @@ export const AnimVariants = cva('', {
 })
 
 const ContentWrapper =
-  '[&>.content-wrapper]:p-6 [&>.content-wrapper]:size-full [&>.content-wrapper]:grid [&>.content-wrapper]:gap-[inherit]'
+  '[&>.content-wrapper]:p-6 [&>.content-wrapper]:size-full [&>.content-wrapper]:gap-[inherit]'
 
 export const AnimDialogVariants = cva(
-  `open:grid inset-1/2 -translate-1/2 border border-border bg-background rounded-lg p-0 m-0 gap-4 w-full max-w-md shadow-sm ${ContentWrapper}`,
+  `open:grid inset-1/2 -translate-1/2 border border-border bg-background rounded-lg p-0 m-0 gap-4 w-full sm:max-w-lg shadow-sm ${ContentWrapper}`,
   {
     variants: {
       animation: {
