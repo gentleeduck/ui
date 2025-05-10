@@ -4,8 +4,8 @@ import DuckAlertDialog from '../duck/alert-dialog/duck'
 import ShadcnAlertDialog from '../duck/alert-dialog/alert-dialog'
 import DuckSheet from '../duck/sheet/duck'
 import ShadcnSheet from '../duck/sheet/sheet'
-import DuckDrawer from '../duck/drawer/duck'
-import ShadcnDrawer from '../duck/drawer/drawer'
+// import DuckDrawer from '../duck/drawer/duck'
+// import ShadcnDrawer from '../duck/drawer/drawer'
 
 
 function Dialog() {
@@ -19,12 +19,12 @@ function Dialog() {
       <DuckSheet side='left' />
       <DuckSheet side='right' />
       <DuckSheet side='top' />
-      <DuckDrawer side='bottom' />
+      {/* <DuckDrawer side='bottom' />
       <DuckDrawer side='left' />
       <DuckDrawer side='right' />
-      <DuckDrawer side='top' />
+      <DuckDrawer side='top' /> */}
       <ShadcnSheet />
-      <ShadcnDrawer />
+      {/* <ShadcnDrawer /> */}
     </>
   )
 }

@@ -34,7 +34,7 @@ const SheetContent = ({
   side?: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
   const { open, ref } = useDialogContext()
-  const [shouldRender] = useShouldRender(open, renderOnce ?? false)
+  // const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
 
   return (
@@ -44,12 +44,12 @@ const SheetContent = ({
         className={cn(AnimVariants(), AnimSheetVariants({ side: side }), className)}
         onClick={closeOverlay}
         {...props}>
-        {shouldRender && (
+        {/* {shouldRender && ( */}
           <div className="content-wrapper">
             <DialogClose />
             {children}
           </div>
-        )}
+        {/* )} */}
       </dialog>
     </>
   )
