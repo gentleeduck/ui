@@ -63,29 +63,22 @@ export function ShouldRender({
     if (open && once) {
       setShouldRender(true)
     }
-  }, [open, once])
-
-  React.useEffect(() => {
     if (shouldRender) {
       setIsVisible(true)
     } else {
       const element = ref?.current
       if (element) {
-        const computedStyle = window.getComputedStyle(element)
-        const transitionDuration = computedStyle.transitionDuration
-        const duration = Number.parseFloat(transitionDuration) * 1000
+        const duration =
+          element?.style.transitionDuration !== undefined
+            ? Number.parseFloat(getComputedStyle(element).transitionDuration || '0') * 1000
+            : 300
         const timer = setTimeout(() => {
           setIsVisible(false)
         }, duration)
         return () => clearTimeout(timer)
-      } else {
-        const timer = setTimeout(() => {
-          setIsVisible(false)
-        }, 300)
-        return () => clearTimeout(timer)
       }
     }
-  }, [shouldRender, ref])
+  }, [shouldRender, ref, open, once])
 
   if (!shouldRender && !isVisible) return null
 
