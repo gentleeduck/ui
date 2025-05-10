@@ -6,21 +6,13 @@ import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
 import DialogPrimitive, { ShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
-import { DialogClose, DialogTrigger } from '../dialog'
+import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../dialog'
 
-function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root {...props} />
-}
+const Sheet = DialogPrimitive.Root
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
+const SheetTrigger = DialogTrigger
 
-function SheetTrigger({ ...props }: SheetTriggerProps) {
-  return <DialogTrigger {...props} />
-}
-
-function SheetClose({ ...props }: SheetTriggerProps) {
-  return <DialogTrigger {...props} />
-}
+const SheetClose = SheetTrigger
 
 const SheetContent = ({
   children,
@@ -66,10 +58,7 @@ const SheetContent = ({
  *
  * @returns {React.JSX.Element} The rendered SheetHeader component.
  */
-function SheetHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div ref={ref} className={cn('flex flex-col space-y-2 text-center sm:text-left', className)} {...props} />
-}
-
+const SheetHeader = DialogHeader
 /**
  * SheetFooter component renders a footer section for a sheet.
  * It supports additional class names and props to customize the
@@ -83,15 +72,7 @@ function SheetHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElemen
  *
  * @returns {React.JSX.Element} The rendered SheetFooter component.
  */
-function SheetFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return (
-    <div
-      ref={ref}
-      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
-      {...props}
-    />
-  )
-}
+const SheetFooter = DialogFooter
 
 /**
  * `SheetTitle` is a React component that forwards its ref to the `SheetTitle` component.
@@ -104,9 +85,7 @@ function SheetFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElemen
  *
  * @returns {React.JSX.Element} The rendered `SheetTitle` component with forwarded ref and applied class names.
  */
-const SheetTitle = ({ className, ref, ...props }: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element => (
-  <h2 ref={ref} className={cn('text-lg font-semibold text-foreground', className)} {...props} />
-)
+const SheetTitle = DialogTitle
 
 /**
  * `SheetDescription` is a React forwardRef component that wraps around `SheetDescription`.
@@ -119,9 +98,7 @@ const SheetTitle = ({ className, ref, ...props }: React.HTMLProps<HTMLHeadingEle
  *
  * @returns {React.JSX.Element} A `SheetDescription` component with forwarded ref and additional props.
  */
-const SheetDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
-)
+const SheetDescription = DialogDescription
 
 // /**
 //  * `SheetWrapper` is a React component that wraps a `Sheet` component and renders children elements

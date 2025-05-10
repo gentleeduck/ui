@@ -10,15 +10,11 @@ import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import DialogPrimitive, { ShouldRender, useDialogContext } from '@gentleduck/aria-feather/dialog'
-import { DialogClose, DialogTrigger } from '../dialog'
+import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../dialog'
 
-function AlertDialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root {...props} />
-}
+const AlertDialog = DialogPrimitive.Root
 
-export function AlertDialogTrigger({ ...props }: React.ComponentPropsWithRef<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} />
-}
+const AlertDialogTrigger = DialogTrigger
 
 function AlertDialogContent({
   children,
@@ -42,9 +38,7 @@ function AlertDialogContent({
   )
 }
 
-function AlertDialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
-}
+const AlertDialogHeader = DialogHeader
 
 /**
  * A component that renders the footer of an alert dialog.
@@ -53,9 +47,7 @@ function AlertDialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * on small screens and in a row with space between items on larger screens.
  *
  */
-function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-4', className)} {...props} />
-}
+const AlertDialogFooter = DialogFooter
 
 /**
  * `AlertDialogTitle` is a React component that forwards its ref to the `AlertDialogTitle` component.
@@ -63,31 +55,21 @@ function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * to customize its styling.
  *
  */
-export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> { }
-function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): React.JSX.Element {
-  return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
-}
+const AlertDialogTitle = DialogTitle
+
 /**
  * `AlertDialogDescription` is a React component that forwards its ref to the `AlertDialogPrimitive.Description` component.
  * It accepts all props that `AlertDialogPrimitive.Description` accepts, along with an optional `className` prop for additional styling.
  *
  */
-const AlertDialogDescription = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
-)
+const AlertDialogDescription = DialogDescription
 
 /**
  * `AlertDialogAction` is a React component that forwards its ref to the `AlertDialogPrimitive.Action` component.
  * It accepts all the props of `AlertDialogPrimitive.Action` and an additional `className` prop for custom styling.
  *
  */
-function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} />
-}
+const AlertDialogAction = AlertDialogTrigger
 
 /**
  * `AlertDialogCancel` is a React forward reference component that renders a cancel button
@@ -96,9 +78,7 @@ function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigg
  * for additional styling.
  *
  */
-function AlertDialogCancel({ ...props }: React.ComponentProps<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} />
-}
+const AlertDialogCancel = AlertDialogTrigger
 
 // /**
 //  * Renders an alert dialog and a sheet component, managing their open states
@@ -289,7 +269,7 @@ export {
   AlertDialogTitle,
   AlertDialogAction,
   AlertDialogCancel,
-  // AlertDialogTrigger,
+  AlertDialogTrigger,
   AlertDialogDescription,
   // AlertDialogSheet,
   // AlertDialogDrawer,
