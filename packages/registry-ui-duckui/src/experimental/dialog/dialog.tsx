@@ -3,8 +3,7 @@ import { Button } from '../../button'
 import React from 'react'
 import { X } from 'lucide-react'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
-import DialogPrimitive from '@gentleduck/aria-feather/dialog'
-import { useShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive, { ShouldRender , useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
 
 export function Dialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
@@ -57,15 +56,16 @@ export function DialogContent({
   renderOnce?: boolean
 }): React.JSX.Element {
   const { open, ref } = useDialogContext()
-  const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
 
   return (
     <dialog ref={ref} className={cn(AnimVariants(), AnimDialogVariants(), className)} onClick={closeOverlay} {...props}>
-      <div className="content-wrapper">
-        <DialogClose />
-        {children}
-      </div>
+      <ShouldRender ref={ref} once={renderOnce} open={open}>
+        <div className="content-wrapper">
+          <DialogClose />
+          {children}
+        </div>
+      </ShouldRender>
     </dialog>
   )
 }
@@ -124,7 +124,7 @@ export function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLD
  *
  * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
-export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> {}
+export interface DialogTitleProps extends React.HTMLProps<HTMLHeadingElement> { }
 export function DialogTitle({ className, ref, ...props }: DialogTitleProps): React.JSX.Element {
   return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }

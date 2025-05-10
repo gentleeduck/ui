@@ -9,8 +9,7 @@ import {
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
-import DialogPrimitive from '@gentleduck/aria-feather/dialog'
-import { useShouldRender, useDialogContext } from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive, { ShouldRender, useDialogContext } from '@gentleduck/aria-feather/dialog'
 import { DialogClose, DialogTrigger } from '../dialog'
 
 function AlertDialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
@@ -30,16 +29,15 @@ function AlertDialogContent({
   renderOnce?: boolean
 }): React.JSX.Element {
   const { open, ref } = useDialogContext()
-  // const [shouldRender] = useShouldRender(open, renderOnce ?? false)
 
   return (
     <dialog ref={ref} {...props} className={cn(AnimVariants(), AnimDialogVariants(), className)}>
-      {/* {shouldRender && ( */}
+      <ShouldRender ref={ref} once={renderOnce} open={open}>
         <div className="content-wrapper">
           <DialogClose />
           {children}
         </div>
-      {/* )} */}
+      </ShouldRender>
     </dialog>
   )
 }
@@ -65,7 +63,7 @@ function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * to customize its styling.
  *
  */
-export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> {}
+export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> { }
 function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): React.JSX.Element {
   return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
 }

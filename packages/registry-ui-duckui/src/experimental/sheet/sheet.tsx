@@ -13,7 +13,7 @@ function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimiti
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
 
 function SheetTrigger({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />
@@ -34,7 +34,6 @@ const SheetContent = ({
   side?: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
   const { open, ref } = useDialogContext()
-  // const [shouldRender] = useShouldRender(open, renderOnce ?? false)
   const [closeOverlay] = useOverlayClose()
 
   return (
@@ -44,12 +43,12 @@ const SheetContent = ({
         className={cn(AnimVariants(), AnimSheetVariants({ side: side }), className)}
         onClick={closeOverlay}
         {...props}>
-        {/* {shouldRender && ( */}
+        <ShouldRender ref={ref} once={renderOnce} open={open}>
           <div className="content-wrapper">
             <DialogClose />
             {children}
           </div>
-        {/* )} */}
+        </ShouldRender>
       </dialog>
     </>
   )
