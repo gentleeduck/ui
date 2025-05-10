@@ -4,7 +4,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
-import DialogPrimitive, { useOverlayClose , useDialogContext, useScaleBackground }  from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive, { useOverlayClose , useDialogContext, useScaleBackground, useDrawerDrag }  from '@gentleduck/aria-feather/dialog'
 import {
   DialogFooter,
   DialogHeader,
@@ -47,15 +47,15 @@ const DrawerContent = ({
   renderOnce?: boolean
   side: 'left' | 'right' | 'top' | 'bottom'
 }): React.JSX.Element => {
-  const { open, ref } = useDialogContext()
+  const { open, ref ,onOpenChange } = useDialogContext()
   const [closeOverlay] = useOverlayClose()
-  // const holdUpThreshold = 10 
-  // const { handleMouseDown, handleTouchStart, handleTouchMove, handleTouchEnd } = useDrawerDrag({
-  
-  //   ref: ref as React.RefObject<HTMLDialogElement>,
-  //   onOpenChange,
-  //   holdUpThreshold
-  // })
+  const holdUpThreshold = 10 
+  const { handleMouseDown, handleTouchStart, handleTouchMove, handleTouchEnd } = useDrawerDrag({
+
+    ref: ref as React.RefObject<HTMLDialogElement>,
+    onOpenChange,
+    holdUpThreshold
+  })
 
   useScaleBackground({
     open,
@@ -72,18 +72,18 @@ const DrawerContent = ({
       onClick={closeOverlay}
       {...props}
       className={cn(
-        `transform-gpu ease-cubic-bezier(0.32,_0.72,_0,_1) -(--duck-motion-spring) pointer-events-auto
-        active:duration-0 duration-500 [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
+        `ease-cubic-bezier(0.32,_0.72,_0,_1)
+        active:duration-0 duration-500 rounded-lg [@media(hover:none)]:open:duration-0 has-active:backdrop:pointer-events-none`,
         AnimVariants(),
         AnimSheetVariants({ side: side }),
         className,)}
       >
       <div
         className="content-wrapper select-none"
-        // onMouseDown={handleMouseDown}
-        // onTouchStart={handleTouchStart}
-        // onTouchMove={handleTouchMove}
-        // onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         >
         <DrawerDrag />
         <DialogClose />

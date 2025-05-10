@@ -3,9 +3,9 @@ import { cva } from '@gentleduck/variants'
 export const AnimVariants = cva('', {
   variants: {
     motionBlur: {
-      default: 
-      // 'blur-xs starting:open:blur-xs open:blur-none',
-      '',
+      default:
+        // 'blur-xs starting:open:blur-xs open:blur-none',
+        '',
     },
     motionBackdrop: {
       default:
@@ -15,7 +15,7 @@ export const AnimVariants = cva('', {
       default: 'transition-all transition-discrete ease-(--duck-motion-ease) duration-[200ms,150ms]',
     },
     accelerated: {
-      default: 'will-change-[opacity,transform,blur] backdrop:will-change-[opacity,blur] transform-gpu',
+      default: 'will-change-[opacity,transform,translate,blur] backdrop:will-change-[opacity,blur] transform-gpu',
     },
   },
   defaultVariants: {
@@ -26,11 +26,10 @@ export const AnimVariants = cva('', {
   },
 })
 
-const ContentWrapper =
-  '[&>.content-wrapper]:p-6 [&>.content-wrapper]:size-full [&>.content-wrapper]:gap-[inherit]'
+const ContentWrapper = '[&>.content-wrapper]:p-6 [&>.content-wrapper]:size-full [&>.content-wrapper]:gap-[inherit]'
 
 export const AnimDialogVariants = cva(
-  `open:grid inset-1/2 -translate-1/2 border border-border bg-background rounded-lg p-0 m-0 gap-4 w-full sm:max-w-lg shadow-sm ${ContentWrapper}`,
+  `inset-1/2 -translate-1/2 border border-border bg-background rounded-lg p-0 m-0 w-full sm:max-w-lg shadow-sm outline-none ${ContentWrapper}`,
   {
     variants: {
       animation: {
@@ -45,36 +44,39 @@ export const AnimDialogVariants = cva(
   },
 )
 
-export const AnimSheetVariants = cva(`open:grid gap-4 duration-400  ${ContentWrapper}`, {
-  variants: {
-    side: {
-      top: `
+export const AnimSheetVariants = cva(
+  `duration-400 pointer-events-auto border-border bg-background outline-none ${ContentWrapper}`,
+  {
+    variants: {
+      side: {
+        top: `
           max-w-full w-full
           border-b
           -translate-y-full starting:open:-translate-y-full open:translate-y-0  
           bottom-auto
           `,
-      bottom: `
+        bottom: `
           max-w-full w-full
           border-t
           translate-y-full starting:open:translate-y-full open:translate-y-0
           top-auto
         `,
-      left: `
+        left: `
           max-h-screen h-screen
           border-l 
           -translate-x-full starting:open:-translate-x-full open:translate-x-0
           end-auto
         `,
-      right: `
+        right: `
           max-h-screen h-screen
           border-r 
           translate-x-full starting:open:translate-x-full open:translate-x-0
           start-auto
         `,
+      },
+    },
+    defaultVariants: {
+      side: 'left',
     },
   },
-  defaultVariants: {
-    side: 'left',
-  },
-})
+)
