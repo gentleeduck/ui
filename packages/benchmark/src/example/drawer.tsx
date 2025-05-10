@@ -10,7 +10,7 @@ export default function DrawerExample() {
         <DrawerTrigger variant={'outline'} className='rounded-full'>
           Open Drawer
         </DrawerTrigger>
-        <DrawerContent className='flex flex-col mt-24 h-fit'>
+        <DrawerContent>
           <div className='p-4 bg-white rounded-t-[10px] flex-1'>
             <div className='max-w-md mx-auto'>
               <DrawerTitle className='font-medium mb-4 text-gray-900'>
@@ -39,7 +39,7 @@ export default function DrawerExample() {
               <DrawerTrigger variant={'outline'} className='rounded-full'>
                 Open Drawer
               </DrawerTrigger>
-              <DrawerContent className='flex flex-col mt-24 h-fit'>
+              <DrawerContent>
                 <div className='p-4 bg-white rounded-t-[10px] flex-1'>
                   <div className='max-w-md mx-auto'>
                     <DrawerTitle className='font-medium mb-4 text-gray-900'>
