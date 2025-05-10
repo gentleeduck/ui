@@ -6,7 +6,7 @@ import DuckSheet from '../duck/sheet/duck'
 import ShadcnSheet from '../duck/sheet/sheet'
 import DuckDrawer from '../duck/drawer/duck'
 // import ShadcnDrawer from '../duck/drawer/drawer'
-
+import DrawerExample from './drawer'
 
 function Dialog() {
   return (
@@ -23,6 +23,7 @@ function Dialog() {
       <DuckDrawer side='left' />
       <DuckDrawer side='right' />
       <DuckDrawer side='top' />
+      <DrawerExample />
       <ShadcnSheet />
       {/* <ShadcnDrawer /> */}
     </>
