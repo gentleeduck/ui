@@ -54,7 +54,7 @@ export function ShouldRender({
   open = false,
   children,
   ref,
-}: { once?: boolean; open?: boolean; children?: React.ReactNode; ref?: React.RefObject<HTMLDialogElement> }) {
+}: { once?: boolean; open?: boolean; children?: React.ReactNode; ref?: React.RefObject<HTMLDialogElement | null> }) {
   const [_shouldRender, setShouldRender] = React.useState<boolean>(false)
   const [isVisible, setIsVisible] = React.useState<boolean>(false)
   const shouldRender = once ? _shouldRender : open

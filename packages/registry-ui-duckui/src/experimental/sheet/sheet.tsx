@@ -5,8 +5,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
-import DialogPrimitive from '@gentleduck/aria-feather/dialog'
-import { useShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive, { ShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
 import { DialogClose, DialogTrigger } from '../dialog'
 
 function Sheet({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
