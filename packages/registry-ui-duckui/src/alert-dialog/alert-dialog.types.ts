@@ -8,8 +8,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from './alert-dialog'
-import { SheetWrapperProps } from '../sheet'
-import { DrawerWrapperProps } from '../drawer'
+import { SheetWrapperProps } from '../../sheet'
+import { DrawerWrapperProps } from '../../drawer'
 import { DialogWrapperProps } from '../dialog'
 
 /**

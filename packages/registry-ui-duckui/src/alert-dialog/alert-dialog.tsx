@@ -8,19 +8,13 @@ import {
 } from './alert-dialog.types'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
-import { X } from 'lucide-react'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
-import * as DialogPrimitive from '@gentleduck/aria-feather/dialog'
-import { useShouldRender, useDialogContext } from '@gentleduck/aria-feather/dialog'
-import { DialogTrigger } from '../dialog'
+import DialogPrimitive, { ShouldRender, useDialogContext } from '@gentleduck/aria-feather/dialog'
+import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../dialog'
 
-function AlertDialog({ ...props }: React.ComponentPropsWithRef<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root {...props} />
-}
+const AlertDialog = DialogPrimitive.Root
 
-function AlertDialogTrigger({ ...props }: React.ComponentPropsWithRef<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} />
-}
+const AlertDialogTrigger = DialogTrigger
 
 function AlertDialogContent({
   children,
@@ -30,37 +24,21 @@ function AlertDialogContent({
 }: React.HTMLProps<HTMLDialogElement> & {
   renderOnce?: boolean
 }): React.JSX.Element {
-  const { open, ref, onOpenChange } = useDialogContext()
-  const [shouldRender] = useShouldRender(open, renderOnce ?? false)
+  const { open, ref } = useDialogContext()
 
   return (
-    <dialog
-      ref={ref}
-      {...props}
-      className={cn(
-        'open:grid inset-1/2 -translate-1/2 w-full max-w-lg sm:max-w-md gap-4 border border-border bg-background p-6 shadow-sm sm:rounded-lg',
-        AnimVariants(),
-        AnimDialogVariants(),
-        className,
-      )}>
-      {shouldRender && (
-        <div className="p-6 w-full h-full">
-          <button
-            aria-label="close"
-            className="absolute right-4 top-4 size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all"
-            onClick={() => onOpenChange(false)}>
-            <X aria-hidden size={20} />
-          </button>
+    <dialog ref={ref} {...props} className={cn(AnimVariants(), AnimDialogVariants(), className)}>
+      <ShouldRender ref={ref} once={renderOnce} open={open}>
+        <div className="content-wrapper">
+          <DialogClose />
           {children}
         </div>
-      )}
+      </ShouldRender>
     </dialog>
   )
 }
 
-function AlertDialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
-}
+const AlertDialogHeader = DialogHeader
 
 /**
  * A component that renders the footer of an alert dialog.
@@ -69,9 +47,7 @@ function AlertDialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * on small screens and in a row with space between items on larger screens.
  *
  */
-function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
-}
+const AlertDialogFooter = DialogFooter
 
 /**
  * `AlertDialogTitle` is a React component that forwards its ref to the `AlertDialogTitle` component.
@@ -79,31 +55,21 @@ function AlertDialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDiv
  * to customize its styling.
  *
  */
-export interface AlertDialogTitleProps extends React.HTMLProps<HTMLParagraphElement> {}
-function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps): React.JSX.Element {
-  return <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
-}
+const AlertDialogTitle = DialogTitle
+
 /**
  * `AlertDialogDescription` is a React component that forwards its ref to the `AlertDialogPrimitive.Description` component.
  * It accepts all props that `AlertDialogPrimitive.Description` accepts, along with an optional `className` prop for additional styling.
  *
  */
-const AlertDialogDescription = ({
-  className,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
-)
+const AlertDialogDescription = DialogDescription
 
 /**
  * `AlertDialogAction` is a React component that forwards its ref to the `AlertDialogPrimitive.Action` component.
  * It accepts all the props of `AlertDialogPrimitive.Action` and an additional `className` prop for custom styling.
  *
  */
-function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} open={false} />
-}
+const AlertDialogAction = AlertDialogTrigger
 
 /**
  * `AlertDialogCancel` is a React forward reference component that renders a cancel button
@@ -112,9 +78,7 @@ function AlertDialogAction({ ...props }: React.ComponentProps<typeof DialogTrigg
  * for additional styling.
  *
  */
-function AlertDialogCancel({ ...props }: React.ComponentPropsWithRef<typeof DialogTrigger>) {
-  return <DialogTrigger {...props} open={false} />
-}
+const AlertDialogCancel = AlertDialogTrigger
 
 // /**
 //  * Renders an alert dialog and a sheet component, managing their open states
@@ -128,7 +92,11 @@ function AlertDialogCancel({ ...props }: React.ComponentPropsWithRef<typeof Dial
 //  * and customizable headers and footers. The component handles user interactions
 //  * with cancel and continue actions, updating the state and invoking provided callbacks.
 //  */
-// export function AlertDialogWrapper({ alertTrigger, alertContent, duckHook }: AlertDialogWrapperType) {
+// export function AlertDialogWrapper({
+//   alertTrigger,
+//   alertContent,
+//   duckHook,
+// }: AlertDialogWrapperType) {
 //   const { _header, _footer, ...contentProps } = alertContent ?? {}
 //   const { _title, _description, ...headerProps } = _header ?? {}
 //   const { _submit, _cancel, ...footerProps } = _footer ?? {}
@@ -161,7 +129,8 @@ function AlertDialogCancel({ ...props }: React.ComponentPropsWithRef<typeof Dial
 //               duckHook?.handleAlertCancel()
 //               _cancel?.onClick?.(e)
 //             }}
-//             asChild>
+//             asChild
+//           >
 //             {_cancel?.children ?? 'Cancel'}
 //           </AlertDialogCancel>
 //           <AlertDialogAction
@@ -170,7 +139,8 @@ function AlertDialogCancel({ ...props }: React.ComponentPropsWithRef<typeof Dial
 //               duckHook?.handleAlertContinue()
 //               _submit?.onClick?.(e)
 //             }}
-//             asChild>
+//             asChild
+//           >
 //             {_submit?.children ?? 'Continue'}
 //           </AlertDialogAction>
 //         </AlertDialogFooter>
@@ -288,6 +258,8 @@ function AlertDialogCancel({ ...props }: React.ComponentPropsWithRef<typeof Dial
 //     </>
 //   )
 // }
+
+// AlertDialogSheet.displayName = 'AlertDialogDialog'
 
 export {
   AlertDialog,

@@ -1,6 +1,6 @@
 'use client'
 
-import { Drawer } from '@gentleduck/registry-ui-duckui/experimental/drawer'
+import { Drawer } from '@gentleduck/registry-ui-duckui/drawer'
 // @ts-nocheck
 
 export default function DrawerExample() {
