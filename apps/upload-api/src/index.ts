@@ -1,10 +1,10 @@
 import z from 'zod'
 
-export type Mutable<T> = {
+type Mutable<T> = {
   -readonly [K in keyof T]: T[K]
 } & {}
 
-export type MappedTo<
+type MappedTo<
   T extends Record<string, number> | ReadonlyArray<string | number>,
   U extends unknown,
 > = T extends ReadonlyArray<infer Item>
@@ -13,24 +13,26 @@ export type MappedTo<
     ? { [K in keyof Mutable<T>]: U }
     : never
 
-export const bucketSchema = z.object({
+const bucketSchema = z.object({
   id: z.string(),
   name: z.string(),
-  created_at: z.date().optional(),
-  updated_at: z.date().optional(),
+  description: z.string(),
+  more_information: z.string(),
+  created_at: z.date(),
+  updated_at: z.date(),
   user_id: z.string(),
 })
-export type InsertBucketType = z.infer<typeof bucketSchema>
 
-type CommonSchemaNeededType = { name: true; user_id: true }
+type InsertBucketType = z.infer<typeof bucketSchema>
+
 type GetStepNeededKeys<
   TObject extends Record<string, unknown>,
   TStep extends number = 1,
 > = TObject extends InsertBucketType
   ? TStep extends 1
-    ? CommonSchemaNeededType
+    ? { name: true; description: true }
     : TStep extends 2
-      ? { created_at: true; updated_at: true } & Pick<CommonSchemaNeededType, 'user_id'>
+      ? { more_information: true }
       : never
   : never
 
@@ -56,25 +58,22 @@ function MultiStepDataValidation<
       step === 1
         ? {
             name: true,
-            user_id: true,
+            description: true,
           }
         : step === 2 && {
-            name: true,
-            user_id: true,
-            created_at: true,
-            updated_at: true,
+            more_information: true,
           }
     ) as GetMappedType<Partial<MappedTo<Array<keyof InsertBucketType>, true>>>
 
     return bucketSchema.pick({ ...keysNeeded }).parse(data)
   } catch (_) {
-    console.log(_)
     throw Error('failed', _)
   }
 }
-const currentStepType = MultiStepDataValidation(2, {
-  user_id: 'test',
-  name: 1,
+
+const currentStepType = MultiStepDataValidation(1, {
+  name: 'ahmed',
+  description: 'The description of this user is wilddcuk!!',
 })
 
 console.log(currentStepType)

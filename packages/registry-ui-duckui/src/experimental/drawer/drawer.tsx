@@ -12,7 +12,7 @@ function Drawer({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimit
   return <DialogPrimitive.Root {...props} />
 }
 
-export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> { }
+export interface SheetTriggerProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {}
 
 function DrawerTrigger({ ...props }: SheetTriggerProps) {
   return <DialogTrigger {...props} />
