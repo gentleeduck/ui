@@ -1,6 +1,7 @@
 import React from 'react'
 import { DialogContext } from './dialog'
 import { DialogContextType } from './dialog.types'
+import { useComputedTimeoutTransition } from '@gentleduck/hooks'
 // import { useComputedTimeoutTransition } from '@gentleduck/hooks'
 
 export function useDialogContext(name: string = 'Dialog'): DialogContextType {
@@ -27,9 +28,9 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
             onOpenChange?.(true)
           }, 100)
         } else {
-          setTimeout(() => {
+          useComputedTimeoutTransition( dialog,() => {
             document.body.classList.remove('scroll-locked')
-          }, 100)
+          })
           dialog?.close()
           setOpen(false)
           onOpenChange?.(false)
