@@ -1,0 +1,24 @@
+:root {
+  --scrollbar-width: calc(100vw - 100%);
+  --scrollbar-height: calc(100vh - 100%);
+}
+
+
+body.scroll-locked {
+  overflow: hidden;
+  will-change: width;
+  scrollbar-gutter: stable;
+  scrollbar-color: transparent;
+}
+
+html:has(.scroll-locked)::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 15px;
+  height: 100vh;
+  pointer-events: none;
+  background-color: transparent;
+  z-index: 9999;
+}

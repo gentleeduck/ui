@@ -20,10 +20,16 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
       try {
         const dialog = dialogRef.current
         if (state) {
-          dialog?.showModal()
-          setOpen(true)
-          onOpenChange?.(true)
+          document.body.classList.add('scroll-locked')
+          setTimeout(() => {
+            dialog?.showModal()
+            setOpen(true)
+            onOpenChange?.(true)
+          }, 100)
         } else {
+          setTimeout(() => {
+            document.body.classList.remove('scroll-locked')
+          }, 100)
           dialog?.close()
           setOpen(false)
           onOpenChange?.(false)
@@ -38,7 +44,7 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
   React.useEffect(() => {
     const dialog = dialogRef.current
     // useComputedTimeoutTransition(dialog, () => {
-      document.body.style.overflow = open ? 'hidden' : 'auto'
+    // document.body.classList.toggle('scroll-locked', open)
     // })
 
     if (openProp) {

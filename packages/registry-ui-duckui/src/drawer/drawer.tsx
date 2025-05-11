@@ -1,4 +1,5 @@
 'use client'
+
 import DialogPrimitive, {
   useOverlayClose,
   useDialogContext,
@@ -11,6 +12,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
 import React from 'react'
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../dialog'
+import './style.css'
 
 const Drawer = DialogPrimitive.Root
 
