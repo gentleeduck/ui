@@ -17,9 +17,7 @@ export function SiteHeader() {
           <MainNav />
           <MobileNav />
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-            <div className="w-full flex-1 md:w-auto md:flex-none">
-              <CommandMenu />
-            </div>
+            <div className="w-full flex-1 md:w-auto md:flex-none"></div>
             <nav className="flex items-center">
               <Link href={siteConfig.links.github} target="_blank" rel="noreferrer" aria-label="GitHub">
                 <div

@@ -35,13 +35,12 @@
       },
       "style": {
         "noNegationElse": "error",
-        "useForOf": "error",
         "useNodejsImportProtocol": "error",
         "useNumberNamespace": "error",
         "noVar": "error",
         "useConst": "error",
         "useWhile": "error",
-        "noNonNullAssertion": "warn",
+        "noNonNullAssertion": "off",
         "useDefaultSwitchClause": "error"
       },
       "suspicious": {

@@ -26,6 +26,36 @@ export function CommandMenu() {
   const { setTheme } = useTheme()
 
   const groupRef = React.useRef<HTMLUListElement>(null)
+  const items = [
+    ...docsConfig.sidebarNav.map((group) => ({
+      title: group.title,
+      items: group.items.map((navItem) => ({
+        name: navItem.title,
+        icon: <Circle className="h-3 w-3 mr-2" />,
+        action: () => router.push(navItem.href as string),
+      })),
+    })),
+    {
+      title: 'Theme',
+      items: [
+        {
+          name: 'Light',
+          icon: <Sun className="mr-2 h-4 w-4" />,
+          action: () => setTheme('light'),
+        },
+        {
+          name: 'Dark',
+          icon: <Moon className="mr-2 h-4 w-4" />,
+          action: () => setTheme('dark'),
+        },
+        {
+          name: 'System',
+          icon: <FileIcon className="mr-2 h-4 w-4" />,
+          action: () => setTheme('system'),
+        },
+      ],
+    },
+  ]
 
   return (
     <>
@@ -51,76 +81,34 @@ export function CommandMenu() {
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Search..." autoFocus />
+        <CommandEmpty>No results found.</CommandEmpty>
         <CommandList className="max-h-[299px]" ref={groupRef}>
-          {(search) => {
-            const items = [
-              ...docsConfig.sidebarNav.map((group) => ({
-                title: group.title,
-                items: group.items.map((navItem) => ({
-                  name: navItem.title,
-                  icon: <Circle className="h-3 w-3 mr-2" />,
-                  action: () => router.push(navItem.href as string),
-                })),
-              })),
-              {
-                title: 'Theme',
-                items: [
-                  {
-                    name: 'Light',
-                    icon: <Sun className="mr-2 h-4 w-4" />,
-                    action: () => setTheme('light'),
-                  },
-                  {
-                    name: 'Dark',
-                    icon: <Moon className="mr-2 h-4 w-4" />,
-                    action: () => setTheme('dark'),
-                  },
-                  {
-                    name: 'System',
-                    icon: <FileIcon className="mr-2 h-4 w-4" />,
-                    action: () => setTheme('system'),
-                  },
-                ],
-              },
-            ]
-
-            const filteredGroups = items
-              .map((group) => ({
-                ...group,
-                items: group.items.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())),
-              }))
-              .filter((group) => group.items.length > 0)
-
-            return filteredGroups.length > 0 ? (
-              filteredGroups.map((group, idx) => (
-                <React.Fragment key={group.title}>
-                  <CommandGroup heading={group.title}>
-                    {group.items.map((item) => (
-                      <CommandItem
-                        key={item.name}
-                        onClick={() => {
-                          item.action()
-                          setOpen(false)
-                          console.log(groupRef.current)
-                          // groupRef.current?.scrollTo(0, 0)
-                          groupRef.current?.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start',
-                            inline: 'start',
-                          })
-                        }}>
-                        {item.icon}
-                        <span>{item.name}</span>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                  {idx !== filteredGroups.length - 1 && <CommandSeparator />}
-                </React.Fragment>
-              ))
-            ) : (
-              <CommandEmpty>No results found.</CommandEmpty>
-            )
-          }}
+          {items.map((group, idx) => (
+            <React.Fragment key={group.title}>
+              <CommandGroup heading={group.title}>
+                {group.items.map((item, idx) => (
+                  <CommandItem
+                    id={item.name}
+                    key={item.name}
+                    onClick={() => {
+                      item.action()
+                      setOpen(false)
+                      console.log(groupRef.current)
+                      // groupRef.current?.scrollTo(0, 0)
+                      groupRef.current?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'start',
+                      })
+                    }}>
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+              {idx !== items.length - 1 && <CommandSeparator />}
+            </React.Fragment>
+          ))}
         </CommandList>
       </CommandDialog>
     </>

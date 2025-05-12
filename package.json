@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck",
+  "name": "gentleduck",
   "private": false,
   "version": "1.0.0",
   "scripts": {

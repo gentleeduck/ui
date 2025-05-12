@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Image from 'next/image'
 
-import { ScrollArea, ScrollBar } from '@gentleduck/registry-ui-duckui/scroll-area'
+import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 
 export interface Artwork {
   artist: string
@@ -44,7 +44,6 @@ export default function ScrollAreaHorizontalDemo() {
           </figure>
         ))}
       </div>
-      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   )
 }

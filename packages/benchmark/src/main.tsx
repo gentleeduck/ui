@@ -8,7 +8,7 @@ import { lazy } from 'react'
 // import App from './App'
 const App = lazy(() => import('./App'))
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
     <App />
   </StrictMode>,

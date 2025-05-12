@@ -7,7 +7,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@gentleduck/registry-ui-duckui/experimental/drawer'
+} from '@gentleduck/registry-ui-duckui/drawer'
 
 export default function DrawerDemo({ side = 'top' }: { side?: 'left' | 'right' | 'top' | 'bottom' }) {
   return (

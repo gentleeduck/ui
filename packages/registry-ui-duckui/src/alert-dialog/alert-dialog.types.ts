@@ -1,3 +1,4 @@
+import { DrawerWrapperProps } from './../drawer/drawer.types'
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -9,7 +10,6 @@ import {
   AlertDialogTrigger,
 } from './alert-dialog'
 import { SheetWrapperProps } from '../sheet'
-import { DrawerWrapperProps } from '../drawer'
 import { DialogWrapperProps } from '../dialog'
 
 /**

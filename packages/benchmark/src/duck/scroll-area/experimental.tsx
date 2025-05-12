@@ -1,4 +1,4 @@
-import { ScrollArea } from '@gentleduck/registry-ui-duckui/experimental/scroll-area'
+import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 
 export default function ScrollAreaDemo() {
   return (

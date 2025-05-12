@@ -46,6 +46,7 @@ const SonnerUpload = ({ progress, attachments, remainingTime, onCancel }: Upload
             <Button
               variant="default"
               size="xs"
+              border="default"
               onClick={(_) => onCancel && onCancel(_, (id: string) => toast.dismiss(id))}>
               Cancel
             </Button>
