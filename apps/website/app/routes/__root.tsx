@@ -16,14 +16,9 @@
 
 // app/routes/__root.tsx
 import type { ReactNode } from 'react'
-import {
-  Outlet,
-  createRootRoute,
-  HeadContent,
-  Scripts,
-} from '@tanstack/react-router'
+import { Outlet, createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 
-import styles from "~/styles/app.css?url"
+import styles from '~/styles/app.css?url'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -36,12 +31,24 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        name: 'discerption',
+        content: 'width=device-width, initial-scale=1',
+      },
+      {
+        title: 'gentleduck | home page',
       },
     ],
     links: [
       {
-        rel: "stylesheet",
+        rel: 'preload',
+        href: '/satoshi-VF.woff2',
+        as: 'font',
+        fetchPriority: "high",
+        type: 'font/woff2',
+        crossOrigin:""
+      },
+      {
+        rel: 'stylesheet',
         href: styles,
       },
     ],

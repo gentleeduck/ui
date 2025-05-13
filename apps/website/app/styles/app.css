@@ -130,3 +130,14 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
+@font-face {
+  font-family: satoshi;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/satoshi-VF.woff2") format("woff2")
+}
+
+html,body {
+  font-family: satoshi;
+}
