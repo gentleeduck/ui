@@ -10,7 +10,7 @@ export default defineConfig({
       }),
     ],
   },
-    server: {
+  server: {
     preset: 'cloudflare-pages',
     unenv: cloudflare,
   },

@@ -12,15 +12,15 @@
     "check": "biome check"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.0.6",
-    "@tanstack/react-router": "^1.114.3",
-    "@tanstack/react-router-devtools": "^1.114.3",
+    "@tailwindcss/vite": "^4.1.6",
+    "@tanstack/react-router": "^1.120.3",
+    "@tanstack/react-router-devtools": "^1.120.3",
     "@tanstack/react-start": "^1.120.3",
-    "@tanstack/router-plugin": "^1.114.3",
+    "@tanstack/router-plugin": "^1.120.3",
     "@vitejs/plugin-react-oxc": "^0.1.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tailwindcss": "^4.0.6",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "tailwindcss": "^4.1.6",
     "unenv": "^1.10.0",
     "vinxi": "^0.5.6",
     "vite": "npm:rolldown-vite@latest",
@@ -31,14 +31,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.2.0",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "@vitejs/plugin-react": "^4.3.4",
-    "jsdom": "^26.0.0",
-    "typescript": "^5.7.2",
-    "vitest": "^3.0.5",
-    "web-vitals": "^4.2.4"
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "@vitejs/plugin-react": "^4.4.1",
+    "typescript": "^5.8.3"
   }
 }
