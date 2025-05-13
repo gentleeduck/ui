@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-
+import {Button} from "@gentleduck/registry-ui-duckui/button"
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -9,14 +9,13 @@ function Home() {
 
   return (
 <>
-<button
-      type="button"
-    >
+    <Button>
       Add 1 to ?
-    </button>
+    </Button>
     <h1 class="text-3xl font-bold underline">
     Hello world!
   </h1>
+
 </>
   )
 }
