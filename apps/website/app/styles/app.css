@@ -141,3 +141,195 @@
 html,body {
   font-family: satoshi;
 }
+
+@keyframes hero-gradient-animation {
+  0% {
+      --x-0: 85%;
+      --y-0: 80%;
+      --s-start-0: 9%;
+      --s-end-0: 55%;
+      --c-0: hsla(266.99999999999983, 1%, 12%, 1);
+      --y-1: 24%;
+      --x-1: 60%;
+      --s-start-1: 5%;
+      --s-end-1: 72%;
+      --c-1: hsla(335.9999999999997, 2%, 22%, 1);
+      --c-2: hsla(53.999999999999886, 0%, 0%, 0.49);
+      --y-2: 82%;
+      --x-2: 13%;
+      --s-start-2: 5%;
+      --s-end-2: 52%;
+      --y-3: 7%;
+      --c-3: hsla(299, 4%, 36%, 1);
+      --x-3: 24%;
+      --s-start-3: 13%;
+      --s-end-3: 68%;
+  }
+
+  100% {
+      --x-0: 31%;
+      --y-0: 94%;
+      --s-start-0: 9%;
+      --s-end-0: 55%;
+      --c-0: hsla(266.99999999999943, 0%, 12%, 1);
+      --y-1: 25%;
+      --x-1: 2%;
+      --s-start-1: 5%;
+      --s-end-1: 72%;
+      --c-1: hsla(0, 4%, 19%, 1);
+      --c-2: hsla(54.000000000000036, 0%, 0%, 0.49);
+      --y-2: 20%;
+      --x-2: 98%;
+      --s-start-2: 5%;
+      --s-end-2: 52%;
+      --y-3: 92%;
+      --c-3: hsla(298.99999999999994, 3%, 41%, 1);
+      --x-3: 95%;
+      --s-start-3: 13%;
+      --s-end-3: 68%;
+  }
+}
+
+@property --x-0 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 85%
+}
+
+@property --y-0 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 80%
+}
+
+@property --s-start-0 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 9%
+}
+
+@property --s-end-0 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 55%
+}
+
+@property --c-0 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: hsla(266.99999999999983, 1%, 12%, 1)
+}
+
+@property --y-1 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 24%
+}
+
+@property --x-1 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 60%
+}
+
+@property --s-start-1 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 5%
+}
+
+@property --s-end-1 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 72%
+}
+
+@property --c-1 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: hsla(335.9999999999997, 2%, 22%, 1)
+}
+
+@property --c-2 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: hsla(53.999999999999886, 0%, 0%, 0.49)
+}
+
+@property --y-2 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 82%
+}
+
+@property --x-2 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 13%
+}
+
+@property --s-start-2 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 5%
+}
+
+@property --s-end-2 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 52%
+}
+
+@property --y-3 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 7%
+}
+
+@property --c-3 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: hsla(299, 4%, 36%, 1)
+}
+
+@property --x-3 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 24%
+}
+
+@property --s-start-3 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 13%
+}
+
+@property --s-end-3 {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 68%
+}
+
+.gradient {
+  --x-0: 85%;
+  --y-0: 80%;
+  --c-0: hsla(266.99999999999983, 1%, 12%, 1);
+  --y-1: 24%;
+  --x-1: 60%;
+  --c-1: rgb(100, 99, 99);
+  --c-2: hsla(53.999999999999886, 0%, 0%, 0.49);
+  --y-2: 82%;
+  --x-2: 13%;
+  --y-3: 7%;
+  --c-3: rgb(176, 167, 176);
+  --x-3: 24%;
+  background-color: hsla(0, 0%, 0%, 1);
+  background-image: radial-gradient(circle at var(--x-0) var(--y-0), var(--c-0) var(--s-start-0), transparent var(--s-end-0)), radial-gradient(circle at var(--x-1) var(--y-1), var(--c-1) var(--s-start-1), transparent var(--s-end-1)), radial-gradient(circle at var(--x-2) var(--y-2), var(--c-2) var(--s-start-2), transparent var(--s-end-2)), radial-gradient(circle at var(--x-3) var(--y-3), var(--c-3) var(--s-start-3), transparent var(--s-end-3));
+  animation: hero-gradient-animation 10s linear infinite alternate;
+  background-blend-mode: normal, normal, normal, normal;
+}
+
+.text-gradient {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
