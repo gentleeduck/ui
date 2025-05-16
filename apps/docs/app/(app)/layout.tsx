@@ -1,5 +1,6 @@
 import { SiteHeader } from '~/components/layouts/site-header'
 import { SiteFooter } from '~/components/layouts/site-footer'
+import { CommandMenu } from '~/components/layouts'
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -7,10 +8,8 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children }: AppLayoutProps) {
   return (
-    <div data-wrapper="" className="border-grid flex flex-1 flex-col">
-      <SiteHeader />
-      <main className="flex flex-1 flex-col">{children}</main>
-      <SiteFooter />
+    <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col">
+      <CommandMenu />
     </div>
   )
 }

@@ -5,8 +5,8 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Circle, Command, FileIcon, Moon, Sun } from 'lucide-react'
+import { Button, buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-react'
 import { docsConfig } from '~/config/docs'
 import { cn } from '@gentleduck/libs/cn'
 import {
@@ -19,6 +19,8 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
+import { useCommandRefsContext } from '../../../../../packages/registry-ui-duckui/src/command/command.hooks'
+import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
 export function CommandMenu() {
   const router = useRouter()
@@ -82,7 +84,7 @@ export function CommandMenu() {
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Search..." autoFocus />
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandList className="max-h-[299px]" ref={groupRef}>
+        <CommandList className="max-h-[299px]">
           {items.map((group, idx) => (
             <React.Fragment key={group.title}>
               <CommandGroup heading={group.title}>
@@ -110,7 +112,47 @@ export function CommandMenu() {
             </React.Fragment>
           ))}
         </CommandList>
+        <CommandFooter />
       </CommandDialog>
     </>
+  )
+}
+
+function CommandFooter() {
+  const { selectedItem } = useCommandRefsContext()
+  return (
+    <div className="flex items-center gap-4 px-2 pt-2 border-t justify-between w-full">
+      <div className="flex items-cneter gap-4 w-full">
+        {selectedItem?.innerText && (
+          <Button className={cn('px-2')} variant={'outline'} size={'xs'}>
+            <CornerDownLeft />
+            <Separator orientation="vertical" className="m-0 p-0 h-4" />
+            {selectedItem?.innerText}
+          </Button>
+        )}
+        {selectedItem?.innerText &&
+        docsConfig.sidebarNav[1]!.items.find((item) => item.title === selectedItem?.innerText)?.title.toLowerCase() ? (
+          <Button className={cn('px-2')} variant={'outline'} size={'xs'}>
+            <div className="flex items-center gap-1">
+              <Command className="!size-3" />
+              <p className="text-md">C</p>
+            </div>
+            <Separator orientation="vertical" className="m-0 p-0 h-4" />
+            <div className="flex items-center gap-1">
+              <span>pnpm dlx @duck-ui add</span>
+              <span className="text-blue-400">
+                {docsConfig.sidebarNav[1]!.items.find(
+                  (item) => item.title === selectedItem?.innerText,
+                )?.title.toLowerCase()}
+              </span>
+            </div>
+          </Button>
+        ) : (
+          <p className="text-xs text-muted-foreground my-auto h-fit text-right w-full">
+            <span className="font-medium text-xs">Command palette</span> for the documentation content.
+          </p>
+        )}
+      </div>
+    </div>
   )
 }

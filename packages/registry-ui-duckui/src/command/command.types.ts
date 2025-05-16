@@ -34,8 +34,6 @@ export type CommandContextType = {
   search: string
   /** A function to update the search query. */
   setSearch: React.Dispatch<React.SetStateAction<string>>
-  /** A reference to the currently selected command item. */
-  selectedItem: HTMLLIElement | null
 }
 
 /**
@@ -51,6 +49,16 @@ export type CommandRefsContextType = {
   emptyRef: React.RefObject<HTMLHeadingElement | null>
   /** A Reference to the input field for searching through the command items */
   inputRef: React.RefObject<HTMLInputElement | null>
+  /** A reference to the currently selected command item. */
+  selectedItem: HTMLLIElement | null
+  /** A function to update the currently selected command item. */
+  setSelectedItem: React.Dispatch<React.SetStateAction<HTMLLIElement | null>>
+  /** A function to update the currently selected command item. */
+  items: React.RefObject<HTMLLIElement[]>
+  /** A function to update the currently selected command item. */
+  groups: React.RefObject<HTMLDivElement[]>
+  /** A function to update the currently selected command item. */
+  filteredItems: React.RefObject<HTMLLIElement[]>
 }
 
 /**

@@ -1,7 +1,11 @@
-import React from 'react'
+import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 import { cn } from '@gentleduck/libs/cn'
 import { Search } from 'lucide-react'
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+import React from 'react'
+import { Dialog, DialogContent, DialogProps } from '../dialog'
+import { ScrollArea } from '../scroll-area'
+import { useCommandContext, useCommandElements, useCommandRefsContext, useCommandSearch } from './command.hooks'
+import { styleItem } from './command.libs'
 import {
   CommandBadgeProps,
   CommandContextType,
@@ -11,10 +15,6 @@ import {
   CommandRefsContextType,
   CommandSeparatorProps,
 } from './command.types'
-import { useCommandContext, useCommandRefsContext } from './command.hooks'
-import { Dialog, DialogContent, DialogProps } from '../dialog'
-import { ScrollArea } from '../scroll-area'
-import { styleItem } from './command.libs'
 
 export const CommandContext: React.Context<CommandContextType | null> = React.createContext<CommandContextType | null>(
   null,
@@ -23,128 +23,118 @@ export const CommandRefsContext: React.Context<CommandRefsContextType | null> =
   React.createContext<CommandRefsContextType | null>(null)
 
 // TODO: remove the redundancy of the class mutaion.
+// TODO: filter the items and set the first item to be selected and styled.
 
-function Command({ className, ref, ...props }: CommandProps): React.JSX.Element {
-  // States
-  const [search, setSearch] = React.useState<string>('')
-  const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
-  const items = React.useRef<HTMLLIElement[]>([])
-  const groups = React.useRef<HTMLDivElement[]>([])
-
+function CommandRefs({ children }: { children: React.ReactNode }) {
   // References
   const commandRef = React.useRef<HTMLDivElement | null>(null)
   const listRef = React.useRef<HTMLUListElement | null>(null)
   const emptyRef = React.useRef<HTMLHeadingElement | null>(null)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
-
-  // React.useEffect(() => {
-  //   console.log(selectedItem, 'heek')
-  // }, [selectedItem])
+  const filteredItems = React.useRef<HTMLLIElement[]>([])
 
   // Getting the items
-  React.useEffect(() => {
-    if (!commandRef.current) return
-    const _items = commandRef.current.querySelectorAll('li[duck-command-item]')
-    const _groups = commandRef.current.querySelectorAll('div[duck-command-group]')
-    items.current = Array.from(_items) as HTMLLIElement[]
-    groups.current = Array.from(_groups) as HTMLDivElement[]
-  }, [])
+  const { items, groups } = useCommandElements(commandRef)
 
-  React.useEffect(() => {
-    if (!commandRef.current || items.current.length === 0) return
-    setSelectedItem(items.current[0] as HTMLLIElement)
-    const itemsHidden = new Map<string, HTMLLIElement>()
+  const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
 
-    // Hiding the items that don't match the search query
-    for (let i = 0; i < items.current.length; i++) {
-      const item = items.current[i] as HTMLLIElement
+  return (
+    <CommandRefsContext.Provider
+      value={{ commandRef, listRef, emptyRef, inputRef, items, filteredItems, groups, selectedItem, setSelectedItem }}>
+      {children}
+    </CommandRefsContext.Provider>
+  )
+}
 
-      if (item.textContent?.toLowerCase().includes(search.toLowerCase())) {
-        item.classList.remove('hidden')
-      } else {
-        item.classList.add('hidden')
-        item.removeAttribute('duck-item-selected')
-        itemsHidden.set(i.toString(), item)
-      }
-    }
+function CommandWrapper({ className, ref, ...props }: CommandProps): React.JSX.Element {
+  // States
+  const [search, setSearch] = React.useState<string>('')
 
-    // Toggling the empty message if all items are hidden
-    if (itemsHidden.size === items.current.length) {
-      emptyRef.current?.classList.remove('hidden')
-      setSelectedItem(null)
-    } else {
-      emptyRef.current?.classList.add('hidden')
-      setSelectedItem(items.current[0] as HTMLLIElement)
-    }
+  const { filteredItems, items, setSelectedItem, selectedItem, commandRef, groups, listRef, emptyRef, inputRef } =
+    useCommandRefsContext()
 
-    // Toggling the groups if they have no items
-    for (const group of groups.current) {
-      const groupItems = group.querySelectorAll('li[duck-command-item]:not(.hidden)') as NodeListOf<HTMLLIElement>
-      if (groupItems.length === 0) {
-        group.classList.add('hidden')
-      } else {
-        group.classList.remove('hidden')
-      }
-    }
-    // Resetting the position when the search query is empty
-    styleItem(items.current[0] as HTMLLIElement)
-  }, [search])
+  // Command handle search functionality
+  useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
 
   React.useEffect(() => {
     if (!commandRef.current || items.current.length === 0) return
     let currentItem = 0
 
     // This will add the class to the first item.
-    styleItem(items.current[currentItem] as HTMLLIElement)
-    setSelectedItem(items.current[currentItem] as HTMLLIElement)
+    styleItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
+    setSelectedItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
 
-    // Here i am tracking keyboard keys strokes to navigate through the items.
-    commandRef.current.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown') {
-        currentItem = currentItem === items.current.length - 1 ? 0 : currentItem + 1
-      } else if (e.key === 'ArrowUp') {
-        currentItem = currentItem === 0 ? items.current.length - 1 : currentItem - 1
-      } else if (e.key === 'Enter') {
-        ;(items.current[currentItem] as HTMLLIElement)?.click()
-      }
+    function handleItemsSelection() {
+      // Resetting the position when the search query is empty
 
-      // This will remove the class from all items and add it to the right one.
-      for (let i = 0; i < items.current.length; i++) {
-        const item = items.current[i] as HTMLLIElement
+      // This will remove the class from all filteredItems.and add it to the right one.
+      for (let i = 0; i < filteredItems.current.length; i++) {
+        const item = filteredItems.current[i] as HTMLLIElement
         item.classList.remove('bg-secondary')
+        item.blur()
         item.removeAttribute('duck-item-selected')
+
         if (i === currentItem) {
           styleItem(item)
           setSelectedItem(item)
           item.scrollIntoView({ block: 'center', behavior: 'smooth' })
         }
       }
-    })
+    }
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'ArrowDown') {
+        currentItem = currentItem === filteredItems.current.length - 1 ? 0 : currentItem + 1
+      } else if (e.key === 'ArrowUp') {
+        currentItem = currentItem === 0 ? filteredItems.current.length - 1 : currentItem - 1
+      } else if (e.key === 'Enter') {
+        ;(filteredItems.current[currentItem] as HTMLLIElement)?.click()
+      }
+      handleItemsSelection()
+    }
+
+    // Here i am tracking keyboard keys strokes to navigate through the filteredItems.
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
   }, [items, search])
 
+  React.useEffect(() => {
+    // const select = document.querySelector('li[duck-item-selected]')
+    console.log(filteredItems, 'select')
+  }, [search])
+
   return (
-    <CommandRefsContext.Provider value={{ commandRef, listRef, emptyRef, inputRef }}>
-      <CommandContext.Provider
-        value={{
-          search,
-          setSearch,
-          selectedItem,
-        }}>
-        <div
-          ref={commandRef}
-          data-command-wrapper=""
-          className={cn(
-            'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground p-2',
-            className,
-          )}
-          {...props}
-        />
-      </CommandContext.Provider>
-    </CommandRefsContext.Provider>
+    <CommandContext.Provider
+      value={{
+        search,
+        setSearch,
+      }}>
+      <div
+        ref={commandRef}
+        data-command-wrapper=""
+        className={cn(
+          'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground p-2',
+          className,
+        )}
+        {...props}
+      />
+    </CommandContext.Provider>
   )
 }
 
-function CommandInput({ className, ...props }: React.HtmlHTMLAttributes<HTMLInputElement>): React.JSX.Element {
+function Command({ children, ...props }: CommandProps): React.JSX.Element {
+  return (
+    <CommandRefs>
+      <CommandWrapper>{children}</CommandWrapper>
+    </CommandRefs>
+  )
+}
+
+function CommandInput({
+  className,
+  onChange,
+  ...props
+}: React.HtmlHTMLAttributes<HTMLInputElement>): React.JSX.Element {
   const { setSearch } = useCommandContext()
   const context = useCommandRefsContext()
 
@@ -153,11 +143,15 @@ function CommandInput({ className, ...props }: React.HtmlHTMLAttributes<HTMLInpu
       <Search className="size-[20px] shrink-0 opacity-50" />
       <input
         ref={context.inputRef}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          setSearch(() => e.target.value)
+          onChange?.(e)
+        }}
         className={cn(
           'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
           className,
         )}
+        tabIndex={0}
         {...props}
       />
     </div>
@@ -228,7 +222,7 @@ function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: Comm
   )
 }
 function CommandSeparator({ className, ref, ...props }: CommandSeparatorProps): React.JSX.Element {
-  return <div ref={ref} className={cn('-mx-1 h-px bg-border mx-2', className)} {...props} duck-data-separator="" />
+  return <div ref={ref} className={cn('-mx-1 h-px bg-border mx-2', className)} {...props} duck-command-separator="" />
 }
 
 const CommandDialog = ({ children, ...props }: DialogProps) => {
