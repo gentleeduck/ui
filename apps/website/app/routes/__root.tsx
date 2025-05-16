@@ -1,20 +1,3 @@
-// import { Outlet, createRootRoute } from '@tanstack/react-router'
-// import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
-// import Header from '../components/Header'
-
-// export const Route = createRootRoute({
-//   component: () => (
-//     <>
-//       <Header />
-
-//       <Outlet />
-//       <TanStackRouterDevtools />
-//     </>
-//   ),
-// })
-
-// app/routes/__root.tsx
 import type { ReactNode } from 'react'
 import { Outlet, createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 
@@ -33,6 +16,11 @@ export const Route = createRootRoute({
       {
         name: 'discerption',
         content: 'width=device-width, initial-scale=1',
+      },
+      {
+        type: "image/x-icon",
+        href: "../assets/logomark.svg",
+        rel: "icon"
       },
       {
         title: 'gentleduck | home page',
