@@ -26,10 +26,10 @@ apps/expo/android
 
 # production
 build
-
 # misc
 .DS_Store
 *.pem
+.vinxi
 apps/docs/.velite
 # debug
 npm-debug.log*

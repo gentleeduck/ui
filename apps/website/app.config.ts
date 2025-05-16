@@ -2,15 +2,20 @@ import { defineConfig } from '@tanstack/react-start/config'
 import tsConfigPaths from 'vite-tsconfig-paths'
 import { cloudflare } from 'unenv'
 import tailwindcss from '@tailwindcss/vite'
-import svgr from "vite-plugin-svgr";
+import svgr from 'vite-plugin-svgr'
+import { compression } from 'vite-plugin-compression2'
+import imagemin from 'unplugin-imagemin/vite';
 
 export default defineConfig({
   vite: {
-    plugins: [svgr(),
+    plugins: [
+      svgr(),
       tailwindcss(),
       tsConfigPaths({
         projects: ['./tsconfig.json'],
       }),
+      imagemin(),
+      compression()
     ],
   },
   server: {

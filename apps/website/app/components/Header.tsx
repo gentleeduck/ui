@@ -1,5 +1,3 @@
-import { Link } from '@tanstack/react-router'
-import Logo from '~/assets/logomark.svg?react'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,18 +6,22 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@gentleduck/registry-ui-duckui/navigation-menu'
+import { Link } from '@tanstack/react-router'
 import DuckUILogo from '~/assets/duck-ui-logo.png'
+import Logo from '~/assets/logomark.svg?react'
+
 export default function Header() {
   return (
-    <header className="mx-auo  p-10 h-10 flex gap-2 justify-between">
+    <header className="mx-auo  p-10 h-10 flex gap-2 justify-between text-primary">
       <nav className="flex items-center gap-2">
         <div className="px-2 font-bold">
-          <Link to="/">
+          <Link to="/" className='flex items-center gap-2'>
             <Logo
               className="transition-transform duration-500 ease-(--duck-motion-spring) hover:rotate-360 "
               width={40}
               height={40}
             />
+            <span className='font-semibold text-2xl mb-1'>Gentleduck</span>
           </Link>
         </div>
         <NavigationMenu>
@@ -31,29 +33,30 @@ export default function Header() {
                   <li className="col-span-6">
                     <NavigationMenuLink asChild>
                       <Link
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md  bg-gradient-to-b from-black from-50% to-purple-500 text-white p-6 no-underline outline-none focus:shadow-md"
+                        className="flex h-full w-full text-white select-none flex-col justify-end rounded-md  bg-gradient-to-b from-black from-50% to-purple-500 p-6 no-underline outline-none transition-all"
                         to="/">
                         <Logo className="mx-auto" width={150} height={150} />
-                        <p className="mb-2 mt-4 text-lg font-medium">duck/ui 🦆</p>
+                        <p className="mb-2 mt-4 text-xl font-semibold">duck/ui 🦆</p>
                         <p className="text-sm leading-tight">the progressive UI framework</p>
                       </Link>
                     </NavigationMenuLink>
                   </li>
-                  <ul className="col-span-6 ">
-                    <li className="">
+
+                  <ul className="col-span-6">
+                    <li className="border-b border-border">
                       <NavigationMenuLink asChild>
                         <Link
-                          className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none focus:shadow-md"
+                          className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none hover:-translate-y-0.5 focus:-translate-y-0.5 transition-all"
                           to="/">
-                          <p className="text-lg font-medium whitespace-nowrap">duck/ui 🦆</p>
+                          <p className="text-lg font-medium whitespace-nowrap">@gentelduck/ui 🦆</p>
                           <p className="text-sm leading-tight text-pretty">the progressive UI framework</p>
                         </Link>
                       </NavigationMenuLink>
                     </li>
-                    <li className="">
+                    <li className="border-b border-border">
                       <NavigationMenuLink asChild>
                         <Link
-                          className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none focus:shadow-md"
+                          className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none hover:-translate-y-0.5 focus:-translate-y-0.5 transition-all"
                           to="/">
                           <p className="text-lg font-medium whitespace-nowrap">@gentelduck/variants 🎨</p>
                           <p className="text-sm leading-tight text-pretty">
@@ -62,10 +65,10 @@ export default function Header() {
                         </Link>
                       </NavigationMenuLink>
                     </li>
-                    <li className="">
+                    <li>
                       <NavigationMenuLink asChild>
                         <Link
-                          className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none focus:shadow-md"
+                          className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none hover:-translate-y-0.5 focus:-translate-y-0.5 transition-all"
                           to="/">
                           <p className="text-lg font-medium whitespace-nowrap">@gentelduck/aria-feather 🦅</p>
                           <p className="text-sm leading-tight text-pretty">
@@ -75,6 +78,37 @@ export default function Header() {
                       </NavigationMenuLink>
                     </li>
                   </ul>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Company</NavigationMenuTrigger>
+              <NavigationMenuContent className="border-border">
+                <ul className=" w-xs p-2 ">
+                  <li className="border-b border-border">
+                    <NavigationMenuLink asChild>
+                      <Link
+                        className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none hover:-translate-y-0.5 focus:-translate-y-0.5 transition-all"
+                        to="/">
+                        <p className="text-lg font-medium whitespace-nowrap">About us</p>
+                        <p className="text-sm leading-tight text-pretty">about gentleduck how are we</p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        disabled
+                        className="flex pointer-events-none text-muted-foreground select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none hover:-translate-y-0.5 focus:-translate-y-0.5 transition-all"
+                        to="/">
+                        <p className="text-lg font-medium whitespace-nowrap">careers</p>
+                        <p className="text-sm leading-tight text-pretty">work at gentleduck</p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
