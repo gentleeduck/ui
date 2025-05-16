@@ -14,7 +14,7 @@ function Home() {
 
         <div className="container mx-auto px-10">
           <div className="flex flex-col max-sm:text-center justify-center gap-4 h-[calc(100vh-40px)] text-pretty text-primary">
-            <h1 className="text-5xl  md:text-7xl lg:text-8xl xl:text-9xl font-bold text-shadow-sm">
+            <h1 className="text-4xl  sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-shadow-sm">
               The Future of
               <br />
               Web Infrastructure

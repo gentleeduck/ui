@@ -14,13 +14,13 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        name: 'discerption',
-        content: 'width=device-width, initial-scale=1',
+        name: 'description',
+        content: 'gentleduck',
       },
       {
-        type: "image/x-icon",
-        href: "../assets/logomark.svg",
-        rel: "icon"
+        type: 'image/x-icon',
+        href: '../assets/logomark.svg',
+        rel: 'icon',
       },
       {
         title: 'gentleduck | home page',
@@ -31,9 +31,9 @@ export const Route = createRootRoute({
         rel: 'preload',
         href: '/satoshi-VF.woff2',
         as: 'font',
-        fetchPriority: "high",
+        fetchPriority: 'high',
         type: 'font/woff2',
-        crossOrigin:""
+        crossOrigin: '',
       },
       {
         rel: 'stylesheet',
@@ -54,7 +54,8 @@ function RootComponent() {
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html>
+    // @ts-expect-error xml:lang not declared TODO: declare it
+    <html lang="en" xml:lang="en">
       <head>
         <HeadContent />
       </head>
