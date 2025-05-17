@@ -15,13 +15,13 @@ export default function Header() {
     <header className="mx-auo  p-10 h-10 flex gap-2 justify-between text-primary">
       <nav className="flex items-center gap-2">
         <div className="px-2 font-bold">
-          <Link to="/" className='flex items-center gap-2'>
+          <Link to="/" className="flex items-center gap-2">
             <Logo
               className="transition-transform duration-500 ease-(--duck-motion-spring) hover:rotate-360 "
               width={40}
               height={40}
             />
-            <span className='font-semibold text-2xl mb-1'>Gentleduck</span>
+            <span className="font-semibold text-2xl mb-1">Gentleduck</span>
           </Link>
         </div>
         <NavigationMenu>
@@ -81,9 +81,6 @@ export default function Header() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-          </NavigationMenuList>
-
-          <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Company</NavigationMenuTrigger>
               <NavigationMenuContent className="border-border">

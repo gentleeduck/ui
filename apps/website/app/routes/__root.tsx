@@ -19,7 +19,7 @@ export const Route = createRootRoute({
       },
       {
         type: 'image/x-icon',
-        href: '../assets/logomark.svg',
+        href: '/logomark.svg',
         rel: 'icon',
       },
       {

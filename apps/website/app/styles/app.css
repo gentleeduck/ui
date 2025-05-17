@@ -5,7 +5,7 @@
 @source "../../node_modules/@gentleduck/motion";
 /* @source "../../../packages/_oldstuff_refactor/ui"; */
 
-@plugin "tailwindcss-animate";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 

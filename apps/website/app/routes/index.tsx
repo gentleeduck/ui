@@ -9,7 +9,7 @@ export const Route = createFileRoute('/')({
 function Home() {
   return (
     <>
-      <div className="">
+      <div>
         <Header />
 
         <div className="container mx-auto px-10">
