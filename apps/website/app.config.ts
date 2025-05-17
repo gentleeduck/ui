@@ -15,7 +15,9 @@ export default defineConfig({
         projects: ['./tsconfig.json'],
       }),
       imagemin(),
-      compression()
+      compression({
+        algorithm: "brotliCompress"
+      })
     ],
   },
   server: {

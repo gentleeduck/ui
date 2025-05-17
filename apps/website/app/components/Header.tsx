@@ -7,8 +7,8 @@ import {
   NavigationMenuTrigger,
 } from '@gentleduck/registry-ui-duckui/navigation-menu'
 import { Link } from '@tanstack/react-router'
-import DuckUILogo from '~/assets/duck-ui-logo.png'
 import Logo from '~/assets/logomark.svg?react'
+import DuckUILogo from '~/assets/duck-ui.svg?react'
 
 export default function Header() {
   return (
@@ -33,9 +33,9 @@ export default function Header() {
                   <li className="col-span-6">
                     <NavigationMenuLink asChild>
                       <Link
-                        className="flex h-full w-full text-white select-none flex-col justify-end rounded-md  bg-gradient-to-b from-black from-50% to-purple-500 p-6 no-underline outline-none transition-all"
+                        className="flex h-full w-full text-white select-none flex-col justify-end rounded-md  bg-gradient-to-b from-black from-40% to-purple-500 p-6 no-underline outline-none transition-all"
                         to="/">
-                        <Logo className="mx-auto" width={150} height={150} />
+                        <DuckUILogo className="mx-auto" width={140} height={140} />
                         <p className="mb-2 mt-4 text-xl font-semibold">duck/ui 🦆</p>
                         <p className="text-sm leading-tight">the progressive UI framework</p>
                       </Link>
