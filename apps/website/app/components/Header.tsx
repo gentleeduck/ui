@@ -109,9 +109,13 @@ export default function Header() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
+            <NavigationMenuItem>
+            <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </nav>
     </header>
   )
 }
+  
