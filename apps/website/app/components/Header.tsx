@@ -110,7 +110,7 @@ export default function Header() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-            <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
@@ -118,4 +118,3 @@ export default function Header() {
     </header>
   )
 }
-  

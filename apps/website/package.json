@@ -8,7 +8,7 @@
     "start": "vinxi start",
     "deploy:flare": " pnpm dlx wrangler --cwd dist/ pages deploy",
     "test": "vitest run",
-    "format": "biome format",
+    "format": "biome format -w",
     "lint": "biome lint",
     "check": "biome check"
   },
