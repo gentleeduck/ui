@@ -1,16 +1,4 @@
 /**
- * Props for the Command component.
- * This component acts as a container for the command palette and provides the command context.
- */
-export interface CommandProps extends React.HTMLProps<HTMLDivElement> {}
-
-// /**
-//  * Props for the CommandInput component.
-//  * This component renders an input field for searching through the command items.
-//  */
-// export interface CommandInputProps extends React.HTMLProps<HTMLInputElement> {}
-
-/**
  * Props for the CommandGroup component.
  * This component is used to group command items under a common heading.
  */
@@ -18,12 +6,6 @@ export interface CommandGroupProps extends React.HTMLProps<HTMLDivElement> {
   /** The title for the command group. */
   heading: string
 }
-
-/**
- * Props for the CommandItem component.
- * Represents an individual command item in the command palette.
- */
-export interface CommandItemProps extends React.HTMLProps<HTMLLIElement> {}
 
 /**
  * Type for the context used within the Command components.
@@ -60,12 +42,6 @@ export type CommandRefsContextType = {
   /** A function to update the currently selected command item. */
   filteredItems: React.RefObject<HTMLLIElement[]>
 }
-
-/**
- * Props for the CommandSeparator component.
- * This component renders a visual separator between command groups or items.
- */
-export interface CommandSeparatorProps extends React.HTMLProps<HTMLDivElement> {}
 
 /**
  * Props for the CommandBadge component (also used as CommandShortcut).

@@ -33,7 +33,16 @@ export function useCommandRefsContext(): CommandRefsContextType {
   return context
 }
 
-export function useCommandElements(commandRef: React.RefObject<HTMLDivElement | null>) {
+/**
+ * Custom hook to access the Command elements.
+ * @function useCommandElements
+ * @returns {{ items: React.RefObject<HTMLLIElement[]>, groups: React.RefObject<HTMLDivElement[]> }} An object containing the items and groups.
+ * @throws Will throw an error if the hook is used outside of a CommandProvider.
+ */
+export function useCommandElements(commandRef: React.RefObject<HTMLDivElement | null>): {
+  items: React.RefObject<HTMLLIElement[]>
+  groups: React.RefObject<HTMLDivElement[]>
+} {
   const items = React.useRef<HTMLLIElement[]>([])
   const groups = React.useRef<HTMLDivElement[]>([])
 
@@ -48,6 +57,12 @@ export function useCommandElements(commandRef: React.RefObject<HTMLDivElement | 
   return { items, groups }
 }
 
+/**
+ * Custom hook to handle searching through the command items.
+ * @function useCommandSearch
+ * @returns {void}
+ * @throws Will throw an error if the hook is used outside of a CommandProvider.
+ */
 export function useCommandSearch(
   items: React.RefObject<HTMLLIElement[]>,
   search: string,
@@ -56,7 +71,7 @@ export function useCommandSearch(
   commandRef: React.RefObject<HTMLDivElement | null>,
   groups: React.RefObject<HTMLDivElement[]>,
   filteredItems: React.RefObject<HTMLLIElement[]>,
-) {
+): void {
   React.useEffect(() => {
     if (!commandRef.current || items.current.length === 0) return
     // setSelectedItem(items.current[0] as HTMLLIElement)
@@ -86,13 +101,14 @@ export function useCommandSearch(
     }
 
     // Setting filteredItems to the items that are not hidden
-    filteredItems.current = Array.from(document.querySelectorAll('li[duck-command-item]:not(.hidden)'))
+    filteredItems.current = Array.from(commandRef.current.querySelectorAll('li[duck-command-item]:not(.hidden)'))
 
     // Clearing all the classes from the items
     filteredItems.current.map((item) => dstyleItem(item))
 
     // Toggling the groups if they have no items
-    for (const group of groups.current) {
+    for (let i = 0; i < groups.current.length; i++) {
+      const group = groups.current[i] as HTMLDivElement
       const groupItems = group.querySelectorAll('li[duck-command-item]:not(.hidden)') as NodeListOf<HTMLLIElement>
       const nextSeparator = group.nextElementSibling
       const hasSeparator = nextSeparator?.hasAttribute('duck-command-separator')

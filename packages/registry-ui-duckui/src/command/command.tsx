@@ -16,16 +16,28 @@ import {
   CommandSeparatorProps,
 } from './command.types'
 
+/**
+ * @description Context for the Command
+ * @type {React.Context<CommandContextType | null>}
+ */
 export const CommandContext: React.Context<CommandContextType | null> = React.createContext<CommandContextType | null>(
   null,
 )
+
+/**
+ * @description Context for the CommandRefs
+ * @type {React.Context<CommandRefsContextType | null>}
+ */
 export const CommandRefsContext: React.Context<CommandRefsContextType | null> =
   React.createContext<CommandRefsContextType | null>(null)
 
-// TODO: remove the redundancy of the class mutaion.
-// TODO: filter the items and set the first item to be selected and styled.
-
-function CommandRefs({ children }: { children: React.ReactNode }) {
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandRefs
+ * @param {React.ReactNode} children - The children of the CommandRefs component.
+ * @returns {React.JSX.Element} The rendered CommandRefs component.
+ */
+function CommandRefs({ children }: { children: React.ReactNode }): React.JSX.Element {
   // References
   const commandRef = React.useRef<HTMLDivElement | null>(null)
   const listRef = React.useRef<HTMLUListElement | null>(null)
@@ -46,14 +58,18 @@ function CommandRefs({ children }: { children: React.ReactNode }) {
   )
 }
 
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandWrapper
+ * @param {string} [props.className] - The props of the CommandWrapper component.
+ * @param {React.Ref<HTMLDivElement>} [prop.ref] - The ref of the CommandWrapper component.
+ * @param {CommandProps} [...props] - The props of the CommandWrapper component.
+ * @returns {React.JSX.Element} The rendered CommandWrapper component.
+ */
 function CommandWrapper({ className, ref, ...props }: CommandProps): React.JSX.Element {
   // States
   const [search, setSearch] = React.useState<string>('')
-
-  const { filteredItems, items, setSelectedItem, selectedItem, commandRef, groups, listRef, emptyRef, inputRef } =
-    useCommandRefsContext()
-
-  // Command handle search functionality
+  const { filteredItems, items, setSelectedItem, commandRef, groups, emptyRef } = useCommandRefsContext()
   useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
 
   React.useEffect(() => {
@@ -98,11 +114,6 @@ function CommandWrapper({ className, ref, ...props }: CommandProps): React.JSX.E
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [items, search])
 
-  React.useEffect(() => {
-    // const select = document.querySelector('li[duck-item-selected]')
-    console.log(filteredItems, 'select')
-  }, [search])
-
   return (
     <CommandContext.Provider
       value={{
@@ -122,7 +133,14 @@ function CommandWrapper({ className, ref, ...props }: CommandProps): React.JSX.E
   )
 }
 
-function Command({ children, ...props }: CommandProps): React.JSX.Element {
+/**
+ * The Command component is a wrapper for the CommandInput and CommandList components.
+ * It provides the context for the CommandInput and CommandList components.
+ *
+ * @param {React.ReactNode} children - The children of the Command component.
+ * @returns {React.JSX.Element} The rendered Command component.
+ */
+function Command({ children }: { children: React.ReactNode }): React.JSX.Element {
   return (
     <CommandRefs>
       <CommandWrapper>{children}</CommandWrapper>
@@ -130,6 +148,14 @@ function Command({ children, ...props }: CommandProps): React.JSX.Element {
   )
 }
 
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandInput
+ * @param {string} [props.className] - The props of the CommandInput component.
+ * @param {React.Ref<HTMLInputElement>} [prop.ref] - The ref of the CommandInput component.
+ * @param {React.HTMLAttributes<HTMLInputElement>} [...props] - The props of the CommandInput component.
+ * @returns {React.JSX.Element} The rendered CommandInput component.
+ */
 function CommandInput({
   className,
   onChange,
@@ -158,11 +184,26 @@ function CommandInput({
   )
 }
 
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandEmpty
+ * @param {string} [props.className] - The props of the CommandEmpty component.
+ * @param {React.HTMLAttributes<HTMLHeadingElement>} [...props] - The props of the CommandEmpty component.
+ * @returns {React.JSX.Element} The rendered CommandEmpty component.
+ *
+ */
 function CommandEmpty({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>): React.JSX.Element {
   const context = useCommandRefsContext()
   return <h6 ref={context.emptyRef} className="py-6 text-center text-sm hidden" {...props} data-command-empty="" />
 }
 
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandList
+ * @param {string} [props.className] - The props of the CommandList component.
+ * @param {React.HTMLAttributes<HTMLUListElement>} [...props] - The props of the CommandList component.
+ * @returns {React.JSX.Element} The rendered CommandList component.
+ */
 function CommandList({ className, ...props }: React.HTMLAttributes<HTMLUListElement>): React.JSX.Element {
   const context = useCommandRefsContext()
   return (
@@ -172,6 +213,16 @@ function CommandList({ className, ...props }: React.HTMLAttributes<HTMLUListElem
   )
 }
 
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandGroup
+ * @param {string} [props.className] - The props of the CommandGroup component.
+ * @param {string} [props.heading] - The heading of the CommandGroup component.
+ * @param {React.ReactNode} [props.children] - The children of the CommandGroup component.
+ * @param {React.Ref<HTMLDivElement>} [props.ref] - The ref of the CommandGroup component.
+ * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandGroup component.
+ * @returns {React.JSX.Element} The rendered CommandGroup component.
+ */
 function CommandGroup({ className, children, heading, ref, ...props }: CommandGroupProps): React.JSX.Element {
   return (
     <div
@@ -188,7 +239,16 @@ function CommandGroup({ className, children, heading, ref, ...props }: CommandGr
   )
 }
 
-function CommandItem({ className, ref, ...props }: CommandItemProps): React.JSX.Element {
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandItem
+ * @param {string} [props.className] - The props of the CommandItem component.
+ * @param {React.ReactNode} [props.children] - The children of the CommandItem component.
+ * @param {React.Ref<HTMLDivElement>} [props.ref] - The ref of the CommandItem component.
+ * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandItem component.
+ * @returns {React.JSX.Element} The rendered CommandItem component.
+ */
+function CommandItem({ className, ref, ...props }: React.HTMLProps<HTMLLIElement>): React.JSX.Element {
   return (
     <li
       ref={ref}
@@ -201,6 +261,16 @@ function CommandItem({ className, ref, ...props }: CommandItemProps): React.JSX.
     />
   )
 }
+
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandShortcut
+ * @param {string} [props.className] - The props of the CommandShortcut component.
+ * @param {string} [props.keys] - The keys of the CommandShortcut component.
+ * @param {React.Ref<HTMLDivElement>} [props.ref] - The ref of the CommandShortcut component.
+ * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandShortcut component.
+ * @returns {React.JSX.Element} The rendered CommandShortcut component.
+ */
 function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: CommandBadgeProps): React.JSX.Element {
   useDuckShortcut({
     keys,
@@ -221,11 +291,28 @@ function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: Comm
     />
   )
 }
-function CommandSeparator({ className, ref, ...props }: CommandSeparatorProps): React.JSX.Element {
+
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandSeparator
+ * @param {string} [props.className] - The props of the CommandSeparator component.
+ * @param {React.Ref<HTMLDivElement>} [props.ref] - The ref of the CommandSeparator component.
+ * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandSeparator component.
+ * @returns {React.JSX.Element} The rendered CommandSeparator component.
+ */
+function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return <div ref={ref} className={cn('-mx-1 h-px bg-border mx-2', className)} {...props} duck-command-separator="" />
 }
 
-const CommandDialog = ({ children, ...props }: DialogProps) => {
+/**
+ * @description Component to handle the refs of the command
+ * @function CommandDialog
+ * @param {string} [props.className] - The props of the CommandDialog component.
+ * @param {React.Ref<HTMLDivElement>} [props.ref] - The ref of the CommandDialog component.
+ * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandDialog component.
+ * @returns {React.JSX.Element} The rendered CommandDialog component.
+ */
+function CommandDialog({ children, ...props }: DialogProps): React.JSX.Element {
   return (
     <Dialog {...props}>
       <DialogContent className="[&>.content-wrapper]:p-0 open:backdrop:bg-black/80">
