@@ -13,16 +13,16 @@ function Home() {
         <Header />
 
         <div className="container mx-auto px-10">
-          <div className="flex flex-col max-sm:text-center justify-center gap-4 h-[calc(100vh-40px)] text-pretty text-primary">
-            <h1 className="text-4xl  sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-shadow-sm">
+          <div className="flex flex-col max-sm:text-center justify-center gap-4 h-[calc(100vh-80px)] max-sm:items-center text-pretty text-primary">
+            <h1 className="text-3xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold text-shadow-sm text-balance">
               The Future of
               <br />
               Web Infrastructure
               <br />
               Starts Here
             </h1>
-            <h2 className="text-xl  md:text-2xl lg:text-3xl xl:text-4xl  font-medium   ">
-              Setting Today’s Standards, Shaping Tomorrow’s Market
+            <h2 className="text-primary/80 text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium text-balance">
+              Crafting the next generation of tools not just solutions, but the optimal foundation for tomorrow’s web.
             </h2>
             <div className="flex gap-4 max-sm:mx-auto">
               <Button>See Our Products</Button>

@@ -18,7 +18,7 @@ export const Route = createRootRoute({
         content: 'gentleduck',
       },
       {
-        type: 'image/x-icon',
+        type: 'image/svg',
         href: '/logomark.svg',
         rel: 'icon',
       },

@@ -13,7 +13,7 @@ import DuckUILogo from '~/assets/duck-ui.svg?react'
 export default function Header() {
   return (
     <header className="mx-auo  p-10 h-10 flex gap-2 justify-between text-primary">
-      <nav className="flex items-center gap-2">
+      <nav className="flex items-center gap-2 max-sm:flex-col max-sm:mx-auto max-sm:items-center">
         <div className="px-2 font-bold">
           <Link to="/" className="flex items-center gap-2">
             <Logo
@@ -109,8 +109,8 @@ export default function Header() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
+            <NavigationMenuItem className='ms-3 text-base font-medium'>
+              <Link to="/blog">Blog</Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

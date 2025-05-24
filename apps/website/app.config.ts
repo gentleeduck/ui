@@ -5,10 +5,12 @@ import tailwindcss from '@tailwindcss/vite'
 import svgr from 'vite-plugin-svgr'
 import { compression } from 'vite-plugin-compression2'
 import imagemin from 'unplugin-imagemin/vite';
+import contentCollections from "@content-collections/vinxi";
 
 export default defineConfig({
   vite: {
     plugins: [
+      contentCollections(),
       svgr(),
       tailwindcss(),
       tsConfigPaths({
