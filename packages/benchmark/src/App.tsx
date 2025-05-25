@@ -94,7 +94,7 @@ import Dialog from './example/dialog'
 function App() {
   // <ShadcnDialog />
   return (
-    <div className="flex flex-col mx-10 h-screen justify-center  items-center gap-4">
+    <div className="flex flex-col mx-10 h-400 justify-center  items-center gap-4">
       <Dialog />
     </div>
   )
