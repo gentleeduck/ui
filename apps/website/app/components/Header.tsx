@@ -48,7 +48,7 @@ export default function Header() {
                         <Link
                           className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none hover:-translate-y-0.5 focus:-translate-y-0.5 transition-all"
                           to="/">
-                          <p className="text-lg font-medium whitespace-nowrap">@gentelduck/ui 🦆</p>
+                          <p className="text-lg font-medium whitespace-nowrap">@gentleduck/ui 🦆</p>
                           <p className="text-sm leading-tight text-pretty">the progressive UI framework</p>
                         </Link>
                       </NavigationMenuLink>
@@ -58,7 +58,7 @@ export default function Header() {
                         <Link
                           className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none hover:-translate-y-0.5 focus:-translate-y-0.5 transition-all"
                           to="/">
-                          <p className="text-lg font-medium whitespace-nowrap">@gentelduck/variants 🎨</p>
+                          <p className="text-lg font-medium whitespace-nowrap">@gentleduck/variants 🎨</p>
                           <p className="text-sm leading-tight text-pretty">
                             A lightweight utility for generating class names based on variant configurations
                           </p>
@@ -70,7 +70,7 @@ export default function Header() {
                         <Link
                           className="flex select-none flex-col justify-end px-4 py-3 rounded-md no-underline outline-none hover:-translate-y-0.5 focus:-translate-y-0.5 transition-all"
                           to="/">
-                          <p className="text-lg font-medium whitespace-nowrap">@gentelduck/aria-feather 🦅</p>
+                          <p className="text-lg font-medium whitespace-nowrap">@gentleduck/aria-feather 🦅</p>
                           <p className="text-sm leading-tight text-pretty">
                             an behavioral headless library for making interactive components
                           </p>
