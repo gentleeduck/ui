@@ -69,17 +69,17 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
 
     // This will add the class to the first item.
     styleItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
+    console.log(filteredItems.current?.[currentItem])
+    filteredItems.current?.[currentItem]?.focus()
     setSelectedItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
 
     function handleItemsSelection() {
-      // Resetting the position when the search query is empty
-
       // This will remove the class from all filteredItems.and add it to the right one.
       for (let i = 0; i < filteredItems.current.length; i++) {
         const item = filteredItems.current[i] as HTMLLIElement
-        item.classList.remove('bg-secondary')
+        // item.classList.remove('bg-secondary')
         item.blur()
-        item.removeAttribute('duck-item-selected')
+        item.removeAttribute('aria-selected')
 
         if (i === currentItem) {
           styleItem(item)
@@ -147,11 +147,7 @@ function Command({ children }: { children: React.ReactNode }): React.JSX.Element
  * @param {React.HTMLAttributes<HTMLInputElement>} [...props] - The props of the CommandInput component.
  * @returns {React.JSX.Element} The rendered CommandInput component.
  */
-function CommandInput({
-  className,
-  onChange,
-  ...props
-}: React.HtmlHTMLAttributes<HTMLInputElement>): React.JSX.Element {
+function CommandInput({ className, onChange, ...props }: React.HTMLProps<HTMLInputElement>): React.JSX.Element {
   const { setSearch } = useCommandContext()
   const context = useCommandRefsContext()
 
@@ -245,7 +241,7 @@ function CommandItem({ className, ref, ...props }: React.HTMLProps<HTMLLIElement
       ref={ref}
       duck-command-item=""
       className={cn(
-        "relative flex cursor-default select-none items-center rounded-xs px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:size-4 flex gap-2 hover:bg-muted cursor-pointer transition-color duration-300 will-change-300 hover:text-accent-foreground",
+        "relative flex cursor-default select-none items-center rounded-xs px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:size-4 flex gap-2 hover:bg-muted cursor-pointer transition-color duration-300 will-change-300 hover:text-accent-foreground [&[aria-selected]]:bg-secondary ",
         className,
       )}
       {...props}
