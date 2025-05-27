@@ -170,6 +170,8 @@ export class KeyHandler {
    * @param {KeyboardEvent} e
    */
   private handleKey = (e: KeyboardEvent): void => {
+    // window.event?.preventDefault()
+    // window.event?.stopPropagation()
     const desc = this.buildKeyDescriptor(e)
     if (!desc) return
 

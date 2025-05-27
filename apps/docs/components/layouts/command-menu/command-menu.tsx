@@ -21,6 +21,7 @@ import {
 } from '@gentleduck/registry-ui-duckui/command'
 import { useCommandRefsContext } from '../../../../../packages/registry-ui-duckui/src/command/command.hooks'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { useKeyCommands } from '@gentleduck/vim'
 
 export function CommandMenu() {
   const router = useRouter()
