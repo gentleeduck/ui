@@ -6,15 +6,7 @@ import { Dialog, DialogContent, DialogProps } from '../dialog'
 import { ScrollArea } from '../scroll-area'
 import { useCommandContext, useCommandElements, useCommandRefsContext, useCommandSearch } from './command.hooks'
 import { styleItem } from './command.libs'
-import {
-  CommandBadgeProps,
-  CommandContextType,
-  CommandGroupProps,
-  CommandItemProps,
-  CommandProps,
-  CommandRefsContextType,
-  CommandSeparatorProps,
-} from './command.types'
+import { CommandBadgeProps, CommandContextType, CommandGroupProps, CommandRefsContextType } from './command.types'
 
 /**
  * @description Context for the Command
@@ -110,8 +102,8 @@ function CommandWrapper({ className, ref, ...props }: CommandProps): React.JSX.E
     }
 
     // Here i am tracking keyboard keys strokes to navigate through the filteredItems.
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    // document.addEventListener('keydown', handleKeyDown)
+    // return () => document.removeEventListener('keydown', handleKeyDown)
   }, [items, search])
 
   return (
@@ -271,14 +263,25 @@ function CommandItem({ className, ref, ...props }: React.HTMLProps<HTMLLIElement
  * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandShortcut component.
  * @returns {React.JSX.Element} The rendered CommandShortcut component.
  */
+import { KeyHandler, Registry } from '@gentleduck/vim'
+import { App } from './test'
+const reg = new Registry(false)
+const handler = new KeyHandler(reg, 500)
 function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: CommandBadgeProps): React.JSX.Element {
-  useDuckShortcut({
-    keys,
-    onKeysPressed: () => {
-      window.event?.preventDefault()
-      onKeysPressed()
-    },
-  })
+  // useDuckShortcut({
+  //   keys,
+  //   onKeysPressed: () => {
+  //     window.event?.preventDefault()
+  //     onKeysPressed()
+  //   },
+  // })
+
+  React.useEffect(() => {
+    reg.register(keys, { name: 'go', execute: () => onKeysPressed() })
+    handler.attach()
+
+    return () => handler.detach()
+  }, [])
 
   return (
     <kbd
@@ -313,6 +316,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
  * @returns {React.JSX.Element} The rendered CommandDialog component.
  */
 function CommandDialog({ children, ...props }: DialogProps): React.JSX.Element {
+  return <App />
   return (
     <Dialog {...props}>
       <DialogContent className="[&>.content-wrapper]:p-0 open:backdrop:bg-black/80">

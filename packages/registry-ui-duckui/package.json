@@ -19,6 +19,7 @@
     "@ahmedayob/duck-shortcut": "^0.0.2",
     "@gentleduck/aria-feather": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/vim": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/motion": "workspace:*",
