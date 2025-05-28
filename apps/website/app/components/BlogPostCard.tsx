@@ -60,7 +60,7 @@ export function BlogPostCard({
             <div className="flex items-center gap-1.5">
               <Calendar className="h-4 w-4" />
               <time dateTime={publishedAt}>
-                {new Date(publishedAt).toLocaleDateString(navigator.language,{
+                {new Date(publishedAt).toLocaleDateString(navigator.language, {
                   month: 'short',
                   day: 'numeric',
                   year: 'numeric',

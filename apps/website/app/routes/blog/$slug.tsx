@@ -7,13 +7,10 @@ export const Route = createFileRoute('/blog/$slug')({
 })
 
 function BlogPost() {
-
   return (
     <>
       <Header />
-      <article className="container mx-auto px-4 py-8">
-
-      </article>
+      <article className="container mx-auto px-4 py-8"></article>
     </>
   )
 }

@@ -6,7 +6,6 @@ import { ScrollArea } from '../scroll-area'
 import { useCommandContext, useCommandElements, useCommandRefsContext, useCommandSearch } from './command.hooks'
 import { styleItem } from './command.libs'
 import { CommandBadgeProps, CommandContextType, CommandGroupProps, CommandRefsContextType } from './command.types'
-import { useKeyCommands } from '@gentleduck/vim/react'
 
 /**
  * @description Context for the Command
@@ -263,11 +262,12 @@ function CommandItem({ className, ref, ...props }: React.HTMLProps<HTMLLIElement
  * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandShortcut component.
  * @returns {React.JSX.Element} The rendered CommandShortcut component.
  */
-
+import { useKeyCommands } from '@gentleduck/vim/react'
 function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: CommandBadgeProps): React.JSX.Element {
   useKeyCommands({
     [keys]: {
       name: keys,
+      description: keys,
       execute: () => onKeysPressed(),
     },
   })
