@@ -22,6 +22,7 @@ import {
 import { useCommandRefsContext } from '../../../../../packages/registry-ui-duckui/src/command/command.hooks'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
+// asdf
 export function CommandMenu() {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
