@@ -1,4 +1,3 @@
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
 import { cn } from '@gentleduck/libs/cn'
 import { Search } from 'lucide-react'
 import React from 'react'
@@ -6,15 +5,7 @@ import { Dialog, DialogContent, DialogProps } from '../dialog'
 import { ScrollArea } from '../scroll-area'
 import { useCommandContext, useCommandElements, useCommandRefsContext, useCommandSearch } from './command.hooks'
 import { styleItem } from './command.libs'
-import {
-  CommandBadgeProps,
-  CommandContextType,
-  CommandGroupProps,
-  CommandItemProps,
-  CommandProps,
-  CommandRefsContextType,
-  CommandSeparatorProps,
-} from './command.types'
+import { CommandBadgeProps, CommandContextType, CommandGroupProps, CommandRefsContextType } from './command.types'
 
 /**
  * @description Context for the Command
@@ -66,7 +57,7 @@ function CommandRefs({ children }: { children: React.ReactNode }): React.JSX.Ele
  * @param {CommandProps} [...props] - The props of the CommandWrapper component.
  * @returns {React.JSX.Element} The rendered CommandWrapper component.
  */
-function CommandWrapper({ className, ref, ...props }: CommandProps): React.JSX.Element {
+function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   // States
   const [search, setSearch] = React.useState<string>('')
   const { filteredItems, items, setSelectedItem, commandRef, groups, emptyRef } = useCommandRefsContext()
