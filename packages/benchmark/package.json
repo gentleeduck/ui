@@ -45,6 +45,7 @@
     "clsx": "^1.2.1",
     "lucide-react": "0.359.0",
     "next-themes": "^0.2.1",
+    "playwright": "^1.52.0",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
     "sonda": "^0.7.1",
@@ -54,7 +55,8 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "0.9.0",
     "vite-bundle-analyzer": "catalog:",
-    "vite-plugin-inspect": "catalog:"
+    "vite-plugin-inspect": "catalog:",
+    "vitest-browser-react": "^0.2.0"
   },
   "devDependencies": {
     "@types/react": "catalog:react19",
