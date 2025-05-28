@@ -18,7 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@gentleduck/registry-ui-duckui/experimental/dialog'
+} from '@gentleduck/registry-ui-duckui/dialog'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import React from 'react'
