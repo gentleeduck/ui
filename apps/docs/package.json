@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@gentleduck/motion": "workspace:*",
+    "@gentleduck/vim": "workspace:*",
     "@ahmedayob/duck-shortcut": "^0.0.2",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
