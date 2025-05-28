@@ -263,11 +263,12 @@ function CommandItem({ className, ref, ...props }: React.HTMLProps<HTMLLIElement
  * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandShortcut component.
  * @returns {React.JSX.Element} The rendered CommandShortcut component.
  */
-
+import { useKeyCommands } from '@gentleduck/vim/react'
 function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: CommandBadgeProps): React.JSX.Element {
   useKeyCommands({
     [keys]: {
       name: keys,
+      description: keys,
       execute: () => onKeysPressed(),
     },
   })

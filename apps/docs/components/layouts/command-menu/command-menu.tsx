@@ -23,6 +23,7 @@ import { useCommandRefsContext } from '../../../../../packages/registry-ui-ducku
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { useKeyCommands } from '@gentleduck/vim'
 
+// asdf
 export function CommandMenu() {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)

@@ -6,7 +6,7 @@ import { ThemeProvider } from '~/components/providers'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { ThemeSwitcher } from '~/components/theme-switcher'
 import { TailwindIndicator } from '~/components/layouts/tailwind-indicator'
-import { KeyProvider } from '@gentleduck/vim'
+import { KeyProvider } from '@gentleduck/vim/react'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
