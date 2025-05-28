@@ -4,6 +4,7 @@ import { X } from 'lucide-react'
 import React from 'react'
 import DialogPrimitive, { ShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
 import { Button } from '../button'
+import "./style.css"
 
 export function Dialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root {...props} />
