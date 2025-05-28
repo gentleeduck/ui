@@ -1,7 +1,8 @@
 import React from 'react'
-import { DialogContextType, DialogProps } from './dialog.types'
 import { Slot } from '../slot'
 import { useDialog, useDialogContext } from './dialog.hooks'
+import { DialogContextType, DialogProps } from './dialog.types'
+import { useComputedTimeoutTransition } from '@gentleduck/hooks'
 
 /**
  * Context for managing the open state of the dialog.
@@ -47,6 +48,37 @@ export function Trigger({
       {...props}
     />
   )
+}
+
+export function ShouldRender({
+  once = false,
+  open = false,
+  children,
+  ref,
+}: { once?: boolean; open?: boolean; children?: React.ReactNode; ref?: React.RefObject<HTMLDialogElement | null> }) {
+  const [_shouldRender, setShouldRender] = React.useState<boolean>(false)
+  const [isVisible, setIsVisible] = React.useState<boolean>(false)
+  const shouldRender = once ? _shouldRender : open
+
+  React.useEffect(() => {
+    if (open && once) {
+      setShouldRender(true)
+    }
+    if (shouldRender) {
+      setIsVisible(true)
+    } else {
+      const element = ref?.current
+      if (element) {
+        useComputedTimeoutTransition(element, () => {
+          setIsVisible(false)
+        })
+      }
+    }
+  }, [shouldRender, ref, open, once])
+
+  if (!shouldRender && !isVisible) return null
+
+  return children
 }
 
 export default {

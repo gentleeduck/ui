@@ -20,11 +20,11 @@ export function Slot({
   /** The JSX element or node to be rendered. */
   asChild?: boolean
 }): React.JSX.Element {
-  if (!React.isValidElement(children) || !asChild) {
+  if (React.Children.count(children) > 1) {
     return <div {...props}>{children}</div>
   }
 
-  return React.cloneElement(children, {
+  return React.cloneElement(children as React.JSX.Element, {
     ...props,
     ...(children as React.JSX.Element).props,
   })

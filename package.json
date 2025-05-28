@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck",
+  "name": "gentleduck",
   "private": false,
   "version": "1.0.0",
   "scripts": {
@@ -9,6 +9,7 @@
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",
     "clean:git": "git clean -xdf .cache .turbo node_modules dist",
     "format": "biome format --write ./",
+    "lint:ws": "pnpm dlx sherif@latest",
     "lint": "biome lint --write ./",
     "test": "vitest",
     "bench": "vitest bench",

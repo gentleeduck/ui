@@ -1,0 +1,118 @@
+import { describe, it, vi, expect, beforeEach } from 'vitest'
+import { render, act } from '@testing-library/react'
+import React from 'react'
+import { KeyProvider, useKeyCommands } from '../command'
+
+// Utility to simulate key events
+function fireKey(key: string, options: Partial<KeyboardEvent> = {}) {
+  const event = new KeyboardEvent('keydown', { key, bubbles: true, ...options })
+  window.dispatchEvent(event)
+}
+
+describe('KeyProvider and useKeyCommands', () => {
+  let output: string[] = []
+
+  beforeEach(() => {
+    output = []
+  })
+
+  function TestComponent() {
+    useKeyCommands({
+      'space+s': {
+        name: 'save',
+        execute: () => { output.push('save') },
+      },
+      'ctrl+k': {
+        name: 'palette',
+        execute: () => { output.push('palette') },
+      },
+      'g+d': {
+        name: 'dashboard',
+        execute: () => { output.push('dashboard') },
+      },
+    })
+
+    return <div>Test</div>
+  }
+
+  it('registers and executes a space+s command', async () => {
+    render(
+      <KeyProvider debug timeoutMs={300}>
+        <TestComponent />
+      </KeyProvider>
+    )
+
+    await act(async () => {
+      fireKey(' ')
+      fireKey('s')
+      await new Promise((r) => setTimeout(r, 350)) // allow timeout to clear
+    })
+
+    expect(output).toContain('save')
+  })
+
+  it('executes ctrl+k command', async () => {
+    render(
+      <KeyProvider debug timeoutMs={300}>
+        <TestComponent />
+      </KeyProvider>
+    )
+
+    await act(async () => {
+      fireKey('k', { ctrlKey: true })
+      await new Promise((r) => setTimeout(r, 100))
+    })
+
+    expect(output).toContain('palette')
+  })
+
+  it('handles g+d sequence', async () => {
+    render(
+      <KeyProvider debug timeoutMs={300}>
+        <TestComponent />
+      </KeyProvider>
+    )
+
+    await act(async () => {
+      fireKey('g')
+      fireKey('d')
+      await new Promise((r) => setTimeout(r, 350))
+    })
+
+    expect(output).toContain('dashboard')
+  })
+
+  it('ignores unknown sequences', async () => {
+    render(
+      <KeyProvider debug timeoutMs={300}>
+        <TestComponent />
+      </KeyProvider>
+    )
+
+    await act(async () => {
+      fireKey('a')
+      fireKey('b')
+      await new Promise((r) => setTimeout(r, 350))
+    })
+
+    expect(output).toEqual([])
+  })
+
+  it('warns if useKeyCommands is used outside a provider', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => { })
+
+    function BrokenComponent() {
+      useKeyCommands({
+        'x+y': {
+          name: 'test',
+          execute: () => { },
+        },
+      })
+      return <div />
+    }
+
+    render(<BrokenComponent />)
+    expect(warn).toHaveBeenCalledWith('useKeyCommands must be used within a KeyProvider')
+  })
+})
+

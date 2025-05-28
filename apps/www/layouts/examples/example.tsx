@@ -57,8 +57,10 @@ import {
 import { VaulDrawer } from './hi'
 import { SONNER_V2 } from './js'
 import { Upload2Demo } from './tt'
+import { DrawerExample } from './ss'
 
 export function MainExample() {
+  return <DrawerExample />
   return <Upload2Demo />
   // return <SONNER_V2 />
   return <VaulDrawer />

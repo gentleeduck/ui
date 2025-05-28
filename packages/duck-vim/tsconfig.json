@@ -1,0 +1,10 @@
+{
+  "extends": "@gentleduck/typescript-config/internal-package.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "base": "./",
+    "paths": {}
+  },
+  "include": [".", "../"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -14,6 +14,7 @@
   "dependencies": {
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/vim": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/registers": "workspace:*",

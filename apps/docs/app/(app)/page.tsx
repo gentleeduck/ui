@@ -7,6 +7,7 @@ import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } fro
 import { Button, buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { cn } from '@gentleduck/libs/cn'
 import { toast } from 'sonner'
+import { CommandMenu } from '~/components/layouts'
 
 export default function IndexPage() {
   return (
@@ -29,7 +30,6 @@ export default function IndexPage() {
             )}>
             Get Stared
           </Link>
-          <Button onClick={() => toast.success('Success!')}>Toast</Button>
         </PageHeader>
         <div className="flex flex-col justify-center items-center">
           <img

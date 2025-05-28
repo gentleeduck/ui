@@ -1,5 +1,58 @@
-import { useDebounce } from '@gentleduck/hooks/use-debounce'
-import { UseDrawerDragProps, UseDrawerDragReturn } from '~/dialog'
+import React from 'react'
+import {
+  useDebounce,
+  // useComputedTimeoutTransition
+} from '@gentleduck/hooks'
+export interface UseDrawerDragProps {
+  ref: React.RefObject<HTMLDialogElement>
+  holdUpThreshold?: number
+  onOpenChange?: (open: boolean) => void
+}
+
+export interface UseDrawerDragReturn {
+  isDragging: boolean
+  handleMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void
+  handleTouchStart: (e: React.TouchEvent<HTMLDivElement>) => void
+  handleTouchMove: (e: React.TouchEvent<HTMLDivElement>) => void
+  handleTouchEnd: (e: React.TouchEvent<HTMLDivElement>) => void
+}
+
+export function useScaleBackground({
+  ref,
+  open,
+  // direction,
+  // shouldScaleBackground,
+  // setBackgroundColorOnScale,
+  // noBodyStyles,
+}: {
+  ref: React.RefObject<HTMLDialogElement>
+  open: boolean
+  direction: 'top' | 'bottom' | 'left' | 'right'
+  shouldScaleBackground: boolean
+  setBackgroundColorOnScale: boolean
+  noBodyStyles: boolean
+}) {
+  return React.useEffect(() => {
+    if (open) {
+      document.body.classList.add(
+        'transition-all',
+        'duration-250',
+        'ease-(--duck-motion-ease)',
+        'will-change-[transform,border-radius]',
+        'transition-discrete',
+      )
+      document.body.style.transform = 'scale(0.97) translateY(1rem)'
+      document.body.style.borderRadius = '20px'
+      document.documentElement.style.background = 'black'
+    } else {
+      document.body.style.transform = ''
+      document.body.style.borderRadius = ''
+      if (ref?.current) {
+        ref.current.style.transform = 'translateY(0px)'
+      }
+    }
+  }, [open, ref])
+}
 
 export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDrawerDragProps): UseDrawerDragReturn {
   let isDragging = false
@@ -40,7 +93,7 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
       if (shouldClose && onOpenChange) {
         onOpenChange(false)
       } else {
-        ref.current.style.transform = 'translateY(0px)'
+        ref.current.style.transform = ''
       }
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
@@ -72,7 +125,7 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
     if (shouldClose && onOpenChange) {
       onOpenChange(false)
     } else {
-      ref.current.style.transform = 'translateY(0px)'
+      ref.current.style.transform = ''
     }
   }
 

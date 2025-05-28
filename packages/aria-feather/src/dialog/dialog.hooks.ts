@@ -1,6 +1,8 @@
 import React from 'react'
 import { DialogContext } from './dialog'
 import { DialogContextType } from './dialog.types'
+import { useComputedTimeoutTransition } from '@gentleduck/hooks'
+// import { useComputedTimeoutTransition } from '@gentleduck/hooks'
 
 export function useDialogContext(name: string = 'Dialog'): DialogContextType {
   const context = React.useContext(DialogContext)
@@ -19,10 +21,16 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
       try {
         const dialog = dialogRef.current
         if (state) {
-          dialog?.showModal()
-          setOpen(true)
-          onOpenChange?.(true)
+          document.body.classList.add('scroll-locked')
+          setTimeout(() => {
+            dialog?.showModal()
+            setOpen(true)
+            onOpenChange?.(true)
+          }, 100)
         } else {
+          useComputedTimeoutTransition(dialog, () => {
+            document.body.classList.remove('scroll-locked')
+          })
           dialog?.close()
           setOpen(false)
           onOpenChange?.(false)
@@ -36,7 +44,9 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
 
   React.useEffect(() => {
     const dialog = dialogRef.current
-    document.body.style.overflow = open ? 'hidden' : 'auto'
+    // useComputedTimeoutTransition(dialog, () => {
+    // document.body.classList.toggle('scroll-locked', open)
+    // })
 
     if (openProp) {
       handleOpenChange(true)
@@ -57,19 +67,5 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
 
 export function useOverlayClose() {
   const { onOpenChange } = useDialogContext()
-  function closeOverlay(e: React.MouseEvent<HTMLDialogElement>) {
-    if (e.currentTarget === e.target) onOpenChange(false)
-  }
-  return [closeOverlay]
-}
-
-export function useShouldRender(open: boolean, renderOnce: boolean): [boolean] {
-  const [_shouldRender, setShouldRender] = React.useState<boolean>(false)
-  const shouldRender = renderOnce ? _shouldRender : open
-
-  React.useEffect(() => {
-    if (open) return setShouldRender(true)
-  }, [open])
-
-  return [shouldRender]
+  return (e: React.MouseEvent<HTMLDialogElement>) => e.currentTarget === e.target && onOpenChange(false)
 }

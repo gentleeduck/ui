@@ -1,4 +1,4 @@
-import { VariantProps } from 'class-variance-authority'
+import { VariantProps } from '@gentleduck/variants'
 import { Button } from '../button'
 import { hoverCardVariants } from './hover-card.constants'
 
