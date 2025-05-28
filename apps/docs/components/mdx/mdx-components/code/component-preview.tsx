@@ -75,14 +75,14 @@ export function ComponentPreview({
     <DuckLazyComponent
       className={cn('group relative my-4 flex flex-col  [&_div[data-slot="placeholder"]]:h-[512px]', className)}
       {...props}>
-      <Tabs defaultValue="preview" className="relative mr-auto w-full">
+      <Tabs defaultValue="preview" className="relative mr-auto w-full" listValues={['preview', 'code', 'build']}>
         <div className="flex items-center justify-between pb-3">
           {!hideCode && (
-            <TabsList className="w-full justify-start border-b bg-transparent p-1 rounded-none overflow-x-auto [&_button]:shadow-none">
+            <TabsList className="w-full justify-start border-b bg-transparent p-0 rounded-none overflow-x-auto [&_button]:shadow-none">
               {TABS.map((tab) => (
                 <TabsTrigger
                   value={tab.value}
-                  className="data-[state=active]:text-primary border-b-transparent rounded-none data-[state=active]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer data-[state=active]:shadow-none">
+                  className="[&[aria-selected='true']]:text-primary border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none">
                   {tab.name}
                 </TabsTrigger>
               ))}
