@@ -32,7 +32,7 @@ export default function RootLayout({
       <head>
         <script src="https://cdn.jsdelivr.net/npm/react-scan/dist/auto.global.js"></script>
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}>
         {children}
         <Toaster theme="light" />
       </body>

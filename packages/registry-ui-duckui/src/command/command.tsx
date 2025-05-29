@@ -68,8 +68,8 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
     let currentItem = 0
 
     // This will add the class to the first item.
-    styleItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
     console.log(filteredItems.current?.[currentItem])
+    styleItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
     filteredItems.current?.[currentItem]?.focus()
     setSelectedItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
 
@@ -115,7 +115,7 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
         ref={commandRef}
         data-command-wrapper=""
         className={cn(
-          'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground p-2',
+          'flex h-full w-full w-84 border shadow-sm flex-col overflow-hidden rounded-md bg-popover text-popover-foreground p-2',
           className,
         )}
         {...props}
