@@ -29,6 +29,7 @@ export function CodePreview({
   return (
     <Tabs
       id={block.name}
+      listValues={['preview', 'code', 'build']}
       defaultValue="preview"
       className="relative grid w-full scroll-m-20 gap-4"
       style={

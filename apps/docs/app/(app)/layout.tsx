@@ -8,9 +8,13 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children }: AppLayoutProps) {
   return (
+
     <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
       <CommandMenu />
       <Tabs1Demo />
+      <SiteHeader />
+      <main className="flex flex-1 flex-col">{children}</main>
+      <SiteFooter />
     </div>
   )
 }

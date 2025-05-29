@@ -85,8 +85,7 @@ export function useCommandSearch(
         item.classList.remove('hidden')
       } else {
         item.classList.add('hidden')
-        item.removeAttribute('duck-item-selected')
-        item.classList.remove('bg-secondary')
+        item.removeAttribute('aria-selected')
         itemsHidden.set(i.toString(), item)
       }
     }
