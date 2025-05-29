@@ -6,7 +6,7 @@ import {Button as HButton} from "@heroui/react";
 
 describe('rendering performance', () => {
   bench('duck button', () => {
-    render(<Button />);
+    render(<Button variant="default" border="default" size="default" />);
   });
   bench('shadcn button', () => {
     render(<SButton />);
