@@ -16,7 +16,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from './dropdown-menu'
+} from './_dropdown-menu/dropdown-menu'
 import { Button, ButtonProps, buttonVariants, CommandType } from '../button'
 
 export interface DropdownMenuOptionsDataType

@@ -1,2 +1,2 @@
-export * from './dropdown-menu'
-export * from './dropdown-menu-wrapper'
+// export * from './_dropdown-menu/index'
+export * as DropdownMenu from './dropdown-menu'
