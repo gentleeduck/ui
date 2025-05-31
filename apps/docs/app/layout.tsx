@@ -25,7 +25,7 @@ export default function RootLayout({
         <link href="/fonts/JetBrainsMono-MD.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body className={cn('min-h-svh bg-background font-sans antialiased')}>
-        <KeyProvider timeoutMs={100} debug>
+        <KeyProvider timeoutMs={100}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
