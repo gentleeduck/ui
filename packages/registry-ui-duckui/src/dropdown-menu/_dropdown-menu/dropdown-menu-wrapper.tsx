@@ -16,14 +16,14 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from './_dropdown-menu/dropdown-menu'
-import { Button, ButtonProps, buttonVariants, CommandType } from '../button'
+} from './dropdown-menu'
+import { Button, ButtonProps, buttonVariants, CommandType } from '../../button'
 
 export interface DropdownMenuOptionsDataType
   extends Partial<
     React.ComponentPropsWithoutRef<typeof DropdownMenuCheckboxItem> &
-      React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
-      React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
+    React.ComponentPropsWithoutRef<typeof DropdownMenuItem> &
+    React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>
   > {
   actionType: 'drawer' | 'dialog' | 'sheet' | 'item'
   command?: React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut> & CommandType

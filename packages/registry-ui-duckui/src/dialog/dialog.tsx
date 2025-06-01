@@ -14,7 +14,6 @@ export function DialogTrigger({
   asChild,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>) {
-  console.log(asChild)
   return (
     <DialogPrimitive.Trigger>
       <Button {...props} asChild={asChild}>

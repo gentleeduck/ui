@@ -23,33 +23,21 @@ export function dstyleItem(item: HTMLLIElement | null): void {
   item.blur()
 }
 
-/**
- * Function to handle the keydown event
- * @function handleKeyDown
- * @param {KeyboardEvent} e
- * @param {number} currentItem
- * @param {React.RefObject<HTMLLIElement[]>} filteredItems
- * @param {string} search
- * @param {React.RefObject<HTMLLIElement[]>} items
- * @returns {void}
- */
-export function handleKeyDown(
-  e: KeyboardEvent,
+export function handleItemsSelection(
   currentItem: number,
-  filteredItems: React.RefObject<HTMLLIElement[]>,
-  search: string,
-  items: React.RefObject<HTMLLIElement[]>,
-): void {
-  if (e.key === 'ArrowDown') {
-    currentItem = currentItem === filteredItems.current.length - 1 ? 0 : currentItem + 1
-  } else if (e.key === 'ArrowUp') {
-    currentItem = currentItem === 0 ? filteredItems.current.length - 1 : currentItem - 1
-  } else if (e.key === 'Enter') {
-    ;(filteredItems.current[currentItem] as HTMLLIElement)?.click()
-  }
+  itemsRef: React.RefObject<HTMLLIElement[]>,
+  setSelectedItem: (item: HTMLLIElement) => void,
+) {
+  // This will remove the class from all filteredItems.and add it to the right one.
+  for (let i = 0; i < itemsRef.current.length; i++) {
+    const item = itemsRef.current[i] as HTMLLIElement
+    item.blur()
+    item.removeAttribute('aria-selected')
 
-  // Resetting the position when the search query is empty
-  if (search.toLowerCase().trim() === '') {
-    filteredItems.current = items.current
+    if (i === currentItem) {
+      styleItem(item)
+      setSelectedItem(item)
+      item.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    }
   }
 }
