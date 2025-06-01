@@ -64,9 +64,13 @@ function RadioGroupItem({
     <li
       id={value}
       duck-radio-item=""
-      className={cn('flex items-center gap-2 [&[aria-checked=true]>#radio-indicator]:opacity-100', className)}
+      className={cn(
+        'relative flex items-center gap-2 [&>#radio-indicator]:opacity-0 [&[aria-checked=true]>#radio-indicator]:opacity-100',
+        className,
+      )}
       {...props}>
-      {customIndicator ? customIndicator : <Radio id={value} />}
+      <span id="radio-indicator">{customIndicator && customIndicator}</span>
+      <Radio id={value} className={cn(customIndicator?.toString() && 'hidden')} />
       <Label duck-radio-label="" className="font-normal" htmlFor={value}>
         {children}
       </Label>

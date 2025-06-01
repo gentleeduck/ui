@@ -9,11 +9,7 @@ export default function Home() {
     <>
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
         <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-          <RadioGroup defaultValue="comfortable">
-            <RadioGroupItem value="default">default</RadioGroupItem>
-            <RadioGroupItem value="comfortable">comfortable</RadioGroupItem>
-            <RadioGroupItem value="compact">compact</RadioGroupItem>
-          </RadioGroup>
+          <DropdownMenuCheckboxes />
         </main>
       </div>
     </>
@@ -30,6 +26,7 @@ export function DropdownMenuCheckboxes() {
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
   const [showPanel, setShowPanel] = React.useState<Checked>(false)
+  const [position, setPosition] = React.useState<string>('top')
 
   return (
     <DropdownMenu.DropdownMenu
@@ -50,7 +47,7 @@ export function DropdownMenuCheckboxes() {
         <DropdownMenu.DropdownMenuCheckboxItem checked={showPanel}>Panel</DropdownMenu.DropdownMenuCheckboxItem>
 
         <DropdownMenu.DropdownMenuSeparator />
-        <DropdownMenu.DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+        <DropdownMenu.DropdownMenuRadioGroup value={position} onValueChange={setPosition} defaultValue={position}>
           <DropdownMenu.DropdownMenuRadioItem value="top">Top</DropdownMenu.DropdownMenuRadioItem>
           <DropdownMenu.DropdownMenuRadioItem value="bottom">Bottom</DropdownMenu.DropdownMenuRadioItem>
           <DropdownMenu.DropdownMenuRadioItem value="right">Right</DropdownMenu.DropdownMenuRadioItem>

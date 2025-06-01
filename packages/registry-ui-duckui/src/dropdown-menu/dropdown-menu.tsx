@@ -6,7 +6,7 @@ import { useKeyCommands } from '@gentleduck/vim/react'
 import { DropdownMenuContextType, DropdownMenuShortcutProps } from './dropdown-menu.types'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '../button'
-import { Check, ChevronRight, Circle } from 'lucide-react'
+import { Check, ChevronRight, Circle, Dot } from 'lucide-react'
 import { ShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import { dropdownMenuVariants } from './dropdown-menu.constants'
@@ -17,6 +17,7 @@ import { useHandleKeyDown } from './dropdown-menu.libs'
 import { useDropdownMenuActions, useDropdownMenuContext } from './dropdown-menu.hooks'
 import { Portal } from '../portal/portal'
 import { Checkbox } from '../checkbox'
+import { RadioGroup, RadioGroupItem } from '../radio-group'
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
@@ -88,7 +89,7 @@ function DropdownMenuContent({
       data-open={false}
       className={cn(
         'z-50 min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[open="false"]:animate-in data-[open="true"]:animate-out data-[open="true"]:fade-out-0 data-[open="false"]:fade-in-0 data-[open="true"]:zoom-out-95 data-[open="false"]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-        'data-[open="true"]:bg-red-500',
+        // 'data-[open="true"]:bg-red-500',
         className,
       )}
       style={{
@@ -308,7 +309,29 @@ function DropdownMenuCheckboxItem({
   )
 }
 
-function DropdownMenuRadioGroup() {}
+function DropdownMenuRadioGroup({ ...props }: React.ComponentPropsWithRef<typeof RadioGroup>) {
+  return <RadioGroup {...props} />
+}
+function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof RadioGroupItem>) {
+  const groupItemRef = React.useRef<HTMLLIElement>(null)
+
+  return (
+    <DropdownMenuItem
+      duck-dropdown-menu-radio-item=""
+      onClick={() => {
+        groupItemRef.current?.querySelector('label')?.click()
+      }}>
+      <RadioGroupItem
+        ref={groupItemRef}
+        {...props}
+        className="ltr:pl-[1.25rem] rtl:pr-[1.25rem]"
+        customIndicator={
+          <span className="absolute left-1 top-1/2 -translate-y-1/2 size-2 flex bg-foreground rounded-full transition-all duration-150 ease-in-out" />
+        }
+      />
+    </DropdownMenuItem>
+  )
+}
 
 export {
   DropdownMenu,
@@ -316,7 +339,7 @@ export {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuCheckboxItem,
-  // DropdownMenuRadioItem,
+  DropdownMenuRadioItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,

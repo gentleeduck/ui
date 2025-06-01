@@ -17,8 +17,8 @@ export function useHandleRadioClick(defaultValue?: string, value?: string, onVal
   React.useEffect(() => {
     itemsRef.current = Array.from(wrapperRef.current?.querySelectorAll('[duck-radio-item]') ?? []) as HTMLLIElement[]
 
-    // handle click on each item
-    function handleClick(itemInput: HTMLInputElement, item: HTMLLIElement) {
+    // Handle click on each item
+    function handleItemClick(itemInput: HTMLInputElement, item: HTMLLIElement) {
       for (let i = 0; i < itemsRef.current.length; i++) {
         const item = itemsRef.current[i] as HTMLLIElement
         const itemInput = item.querySelector('input') as HTMLInputElement
@@ -30,14 +30,19 @@ export function useHandleRadioClick(defaultValue?: string, value?: string, onVal
         }
       }
 
-      item.setAttribute('aria-checked', 'true')
+      handleItem(itemInput, item)
+    }
+
+    // Handle item styles
+    function handleItem(itemInput: HTMLInputElement, item: HTMLLIElement) {
       if (itemInput) {
+        item.setAttribute('aria-checked', 'true')
         itemInput?.setAttribute('aria-checked', 'true')
         itemInput.checked = true
       }
     }
 
-    // handle all the items
+    // Handle all the items
     for (let i = 0; i < itemsRef.current.length; i++) {
       const item = itemsRef.current[i] as HTMLLIElement
       const itemInput = item.querySelector('input') as HTMLInputElement
@@ -45,13 +50,11 @@ export function useHandleRadioClick(defaultValue?: string, value?: string, onVal
 
       // Handle default value
       if (defaultValue === item.id) {
-        item.setAttribute('aria-checked', 'true')
-        itemInput?.setAttribute('aria-checked', 'true')
-        itemInput.checked = true
+        handleItem(itemInput, item)
       }
 
-      itemInput?.addEventListener('click', () => handleClick(itemInput, item))
-      itemLabel.addEventListener('click', () => handleClick(itemInput, item))
+      itemInput?.addEventListener('click', () => handleItemClick(itemInput, item))
+      itemLabel.addEventListener('click', () => handleItemClick(itemInput, item))
     }
   }, [wrapperRef])
 
