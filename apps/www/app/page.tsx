@@ -9,7 +9,11 @@ export default function Home() {
     <>
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
         <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-          <DropdownMenuCheckboxes />
+          <RadioGroup defaultValue="comfortable">
+            <RadioGroupItem value="default">default</RadioGroupItem>
+            <RadioGroupItem value="comfortable">comfortable</RadioGroupItem>
+            <RadioGroupItem value="compact">compact</RadioGroupItem>
+          </RadioGroup>
         </main>
       </div>
     </>
@@ -67,6 +71,8 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
+import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
 
 export function CommandDemo() {
   return (
