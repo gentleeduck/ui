@@ -1,3 +1,5 @@
+// @ts-nocheck
+// FIX:
 import { Command } from 'cmdk'
 import React from 'react'
 

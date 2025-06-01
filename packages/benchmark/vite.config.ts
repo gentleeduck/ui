@@ -12,7 +12,8 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
-  plugins: [react(), tailwindcss(),Sonda()],
+  // @ts-ignore
+  plugins: [react(), tailwindcss(), Sonda()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

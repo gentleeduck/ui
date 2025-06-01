@@ -1,3 +1,5 @@
+// @ts-nocheck
+// FIX:
 'use client'
 
 import { Drawer, DrawerClose, DrawerContent, DrawerTitle, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'

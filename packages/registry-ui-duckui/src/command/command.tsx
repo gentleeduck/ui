@@ -65,40 +65,13 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
 
   React.useEffect(() => {
     if (!commandRef.current || items.current.length === 0) return
-    let currentItem = 0
+    const currentItem = 0
 
     // This will add the class to the first item.
     styleItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
     console.log(filteredItems.current?.[currentItem])
     filteredItems.current?.[currentItem]?.focus()
     setSelectedItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
-
-    function handleItemsSelection() {
-      // This will remove the class from all filteredItems.and add it to the right one.
-      for (let i = 0; i < filteredItems.current.length; i++) {
-        const item = filteredItems.current[i] as HTMLLIElement
-        // item.classList.remove('bg-secondary')
-        item.blur()
-        item.removeAttribute('aria-selected')
-
-        if (i === currentItem) {
-          styleItem(item)
-          setSelectedItem(item)
-          item.scrollIntoView({ block: 'center', behavior: 'smooth' })
-        }
-      }
-    }
-
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'ArrowDown') {
-        currentItem = currentItem === filteredItems.current.length - 1 ? 0 : currentItem + 1
-      } else if (e.key === 'ArrowUp') {
-        currentItem = currentItem === 0 ? filteredItems.current.length - 1 : currentItem - 1
-      } else if (e.key === 'Enter') {
-        ;(filteredItems.current[currentItem] as HTMLLIElement)?.click()
-      }
-      handleItemsSelection()
-    }
 
     // Here i am tracking keyboard keys strokes to navigate through the filteredItems.
     // document.addEventListener('keydown', handleKeyDown)
@@ -131,7 +104,8 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
  * @param {React.ReactNode} children - The children of the Command component.
  * @returns {React.JSX.Element} The rendered Command component.
  */
-function Command({ children }: { children: React.ReactNode }): React.JSX.Element {
+function Command({ children, className }: { children: React.ReactNode; className?: string }): React.JSX.Element {
+  console.log(className)
   return (
     <CommandRefs>
       <CommandWrapper>{children}</CommandWrapper>

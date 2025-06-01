@@ -51,10 +51,9 @@
 // import Dialog from './example/dialog'
 // import Command from './example/command'
 
-
 // import Command from "./example/command/duck"
-import CmdK from "./example/command/cmdk"
-import CommandShadcn from "./example/command/shadcn"
+import CmdK from './example/command/cmdk'
+// import CommandShadcn from "./example/command/shadcn"
 // import DrawerExample from './example/drawer'
 // import DuckSkeleton from './duck/skeleton/duck'
 // import ShadcnSkeleton from './duck/skeleton/skeleton'
