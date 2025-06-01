@@ -1,14 +1,14 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from '@gentleduck/registry-ui-duckui/command'
+// import {
+//   CommandDialog,
+//   CommandEmpty,
+//   CommandGroup,
+//   CommandInput,
+//   CommandItem,
+//   CommandList,
+//   CommandSeparator,
+//   CommandShortcut,
+// } from '@gentleduck/registry-ui-duckui/command'
 
 import {
   Dialog,
@@ -18,7 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@gentleduck/registry-ui-duckui/experimental/dialog'
+} from '@gentleduck/registry-ui-duckui/dialog'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import React from 'react'

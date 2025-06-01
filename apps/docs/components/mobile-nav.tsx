@@ -23,8 +23,7 @@ export function MobileNav() {
           variant="ghost"
           size={'icon'}
           icon={<PanelsTopLeft />}
-          // className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
-        ></Button>
+          className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"></Button>
       </DrawerTrigger>
       <DrawerContent className="pr-0 pb-4">
         <ScrollArea>

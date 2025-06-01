@@ -6,6 +6,7 @@ import { defineConfig } from 'vite'
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
   build: {
+    minify: false,
     sourcemap: true,
     outDir: './dist/App.tsx',
     lib: {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Drawer,
   DrawerClose,
@@ -13,18 +14,14 @@ export default function DrawerDemo({ side = 'top' }: { side?: 'left' | 'right' |
   return (
     <Drawer>
       <DrawerTrigger>Open</DrawerTrigger>
-      <DrawerContent renderOnce side={side}>
+      <DrawerContent side={side}>
         <DrawerHeader>
           <DrawerTitle>Are you absolutely sure?</DrawerTitle>
           <DrawerDescription>This action cannot be undone.</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <DrawerClose>
-            Submit
-          </DrawerClose>
-          <DrawerClose variant='outline'>
-            Cancel
-          </DrawerClose>
+          <DrawerClose>Submit</DrawerClose>
+          <DrawerClose variant="outline">Cancel</DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

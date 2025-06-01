@@ -109,7 +109,8 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
  * @param {React.ReactNode} children - The children of the Command component.
  * @returns {React.JSX.Element} The rendered Command component.
  */
-function Command({ children }: { children: React.ReactNode }): React.JSX.Element {
+function Command({ children, className }: { children: React.ReactNode; className?: string }): React.JSX.Element {
+  console.log(className)
   return (
     <CommandRefs>
       <CommandWrapper>{children}</CommandWrapper>
@@ -279,6 +280,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
  * @returns {React.JSX.Element} The rendered CommandDialog component.
  */
 function CommandDialog({ children, ...props }: DialogProps): React.JSX.Element {
+  // return <App />
   return (
     <Dialog {...props}>
       <DialogContent className="[&>.content-wrapper]:p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full">

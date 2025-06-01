@@ -23,7 +23,8 @@ const config = defineConfig({
   collections: {
     docs: {
       name: 'Docs',
-      pattern: 'docs/**/*.mdx',
+      // pattern: 'docs/**/*.mdx',
+      pattern: 'docs/hi.mdx',
       schema: s
         .object({
           title: s.string().max(99),
@@ -56,6 +57,7 @@ const config = defineConfig({
     remarkPlugins: [remarkGfm, codeImport],
 
     rehypePlugins: [
+      () => {},
       rehypeSlug,
       rehypeComponent,
       rehypeExtractTitle,
