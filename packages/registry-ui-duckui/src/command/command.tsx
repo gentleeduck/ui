@@ -38,10 +38,9 @@ function CommandRefs({ children }: { children: React.ReactNode }): React.JSX.Ele
   const listRef = React.useRef<HTMLUListElement | null>(null)
   const emptyRef = React.useRef<HTMLHeadingElement | null>(null)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
-  const filteredItems = React.useRef<HTMLLIElement[]>([])
 
   const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
-  const { items, groups } = useCommandElements(commandRef, setSelectedItem)
+  const { items, groups, filteredItems } = useCommandElements(commandRef, setSelectedItem)
 
   return (
     <CommandRefsContext.Provider
@@ -72,6 +71,7 @@ function CommandRefs({ children }: { children: React.ReactNode }): React.JSX.Ele
 function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   const [search, setSearch] = React.useState<string>('')
   const { filteredItems, items, setSelectedItem, commandRef, groups, emptyRef } = useCommandRefsContext()
+
   useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
   useHandleKeyDown(
     filteredItems,
@@ -109,11 +109,10 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
  * @param {React.ReactNode} children - The children of the Command component.
  * @returns {React.JSX.Element} The rendered Command component.
  */
-function Command({ children, className }: { children: React.ReactNode; className?: string }): React.JSX.Element {
-  console.log(className)
+function Command({ children, ...props }: React.ComponentPropsWithRef<typeof CommandWrapper>): React.JSX.Element {
   return (
     <CommandRefs>
-      <CommandWrapper>{children}</CommandWrapper>
+      <CommandWrapper {...props}>{children}</CommandWrapper>
     </CommandRefs>
   )
 }
@@ -280,7 +279,6 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
  * @returns {React.JSX.Element} The rendered CommandDialog component.
  */
 function CommandDialog({ children, ...props }: DialogProps): React.JSX.Element {
-  // return <App />
   return (
     <Dialog {...props}>
       <DialogContent className="[&>.content-wrapper]:p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full">

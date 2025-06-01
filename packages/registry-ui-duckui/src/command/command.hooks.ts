@@ -36,11 +36,9 @@ export function useCommandRefsContext(): CommandRefsContextType {
 export function useCommandElements(
   commandRef: React.RefObject<HTMLDivElement | null>,
   setSelectedItem: React.Dispatch<React.SetStateAction<HTMLLIElement | null>>,
-): {
-  items: React.RefObject<HTMLLIElement[]>
-  groups: React.RefObject<HTMLDivElement[]>
-} {
+) {
   const items = React.useRef<HTMLLIElement[]>([])
+  const filteredItems = React.useRef<HTMLLIElement[]>([])
   const groups = React.useRef<HTMLDivElement[]>([])
 
   React.useEffect(() => {
@@ -49,6 +47,7 @@ export function useCommandElements(
     const _groups = commandRef.current.querySelectorAll('div[duck-command-group]')
     items.current = Array.from(_items) as HTMLLIElement[]
     groups.current = Array.from(_groups) as HTMLDivElement[]
+    filteredItems.current = items.current
 
     const item = items.current?.[0] as HTMLLIElement
 
@@ -57,7 +56,7 @@ export function useCommandElements(
     setSelectedItem(item ?? null)
   }, [])
 
-  return { items, groups }
+  return { items, groups, filteredItems }
 }
 
 export function useCommandSearch(
