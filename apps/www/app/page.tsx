@@ -26,7 +26,7 @@ export function DropdownMenuCheckboxes() {
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
   const [showPanel, setShowPanel] = React.useState<Checked>(false)
-  const [position, setPosition] = React.useState<string>('top')
+  const [position, setPosition] = React.useState('top')
 
   return (
     <DropdownMenu.DropdownMenu
@@ -38,13 +38,17 @@ export function DropdownMenuCheckboxes() {
       <DropdownMenu.DropdownMenuContent className="w-56">
         <DropdownMenu.DropdownMenuLabel>Appearance</DropdownMenu.DropdownMenuLabel>
         <DropdownMenu.DropdownMenuSeparator />
-        <DropdownMenu.DropdownMenuCheckboxItem checked={showStatusBar} onClick={() => setShowStatusBar(!showStatusBar)}>
-          Status Bar
-        </DropdownMenu.DropdownMenuCheckboxItem>
-        <DropdownMenu.DropdownMenuCheckboxItem checked={showActivityBar} disabled>
-          Activity Bar
-        </DropdownMenu.DropdownMenuCheckboxItem>
-        <DropdownMenu.DropdownMenuCheckboxItem checked={showPanel}>Panel</DropdownMenu.DropdownMenuCheckboxItem>
+        <DropdownMenu.DropdownMenuGroup>
+          <DropdownMenu.DropdownMenuCheckboxItem
+            checked={showStatusBar}
+            onClick={() => setShowStatusBar(!showStatusBar)}>
+            Status Bar
+          </DropdownMenu.DropdownMenuCheckboxItem>
+          <DropdownMenu.DropdownMenuCheckboxItem checked={showActivityBar} disabled>
+            Activity Bar
+          </DropdownMenu.DropdownMenuCheckboxItem>
+          <DropdownMenu.DropdownMenuCheckboxItem checked={showPanel}>Panel</DropdownMenu.DropdownMenuCheckboxItem>
+        </DropdownMenu.DropdownMenuGroup>
 
         <DropdownMenu.DropdownMenuSeparator />
         <DropdownMenu.DropdownMenuRadioGroup value={position} onValueChange={setPosition} defaultValue={position}>
@@ -52,6 +56,36 @@ export function DropdownMenuCheckboxes() {
           <DropdownMenu.DropdownMenuRadioItem value="bottom">Bottom</DropdownMenu.DropdownMenuRadioItem>
           <DropdownMenu.DropdownMenuRadioItem value="right">Right</DropdownMenu.DropdownMenuRadioItem>
         </DropdownMenu.DropdownMenuRadioGroup>
+        <DropdownMenu.DropdownMenuGroup>
+          <DropdownMenu.DropdownMenuItem disabled={true}>Status Bar</DropdownMenu.DropdownMenuItem>
+          <DropdownMenu.DropdownMenuItem>Activity Bar</DropdownMenu.DropdownMenuItem>
+          <DropdownMenu.DropdownMenuItem>Panel</DropdownMenu.DropdownMenuItem>
+        </DropdownMenu.DropdownMenuGroup>
+        <DropdownMenu.DropdownMenuSeparator />
+        <DropdownMenu.DropdownMenuGroup>
+          <DropdownMenu.DropdownMenuSub>
+            <DropdownMenu.DropdownMenuSubTrigger>Submenu</DropdownMenu.DropdownMenuSubTrigger>
+            <DropdownMenu.DropdownMenuSubContent>
+              <DropdownMenu.DropdownMenuItem disabled={true}>Item 1</DropdownMenu.DropdownMenuItem>
+              <DropdownMenu.DropdownMenuItem>Item 2</DropdownMenu.DropdownMenuItem>
+            </DropdownMenu.DropdownMenuSubContent>
+          </DropdownMenu.DropdownMenuSub>
+        </DropdownMenu.DropdownMenuGroup>
+        <DropdownMenu.DropdownMenuSeparator />
+        <DropdownMenu.DropdownMenuGroup>
+          <DropdownMenu.DropdownMenuItem disabled={true}>
+            Preferences
+            <DropdownMenu.DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+              <Command />P
+            </DropdownMenu.DropdownMenuShortcut>
+          </DropdownMenu.DropdownMenuItem>
+          <DropdownMenu.DropdownMenuItem>
+            Settings
+            <DropdownMenu.DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+              <Command />P
+            </DropdownMenu.DropdownMenuShortcut>
+          </DropdownMenu.DropdownMenuItem>
+        </DropdownMenu.DropdownMenuGroup>
       </DropdownMenu.DropdownMenuContent>
     </DropdownMenu.DropdownMenu>
   )
@@ -68,8 +102,6 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
-import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
 
 export function CommandDemo() {
   return (

@@ -6,18 +6,11 @@ import { useKeyCommands } from '@gentleduck/vim/react'
 import { DropdownMenuContextType, DropdownMenuShortcutProps } from './dropdown-menu.types'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '../button'
-import { Check, ChevronRight, Circle, Dot } from 'lucide-react'
-import { ShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
-import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
-import { dropdownMenuVariants } from './dropdown-menu.constants'
-import { useComputedTimeoutTransition } from '@gentleduck/hooks'
-import { handleKeyDown, styleItem } from '../command/command.libs'
-import { useState } from 'react'
-import { useHandleKeyDown } from './dropdown-menu.libs'
+import { Check, ChevronRight } from 'lucide-react'
 import { useDropdownMenuActions, useDropdownMenuContext } from './dropdown-menu.hooks'
-import { Portal } from '../portal/portal'
-import { Checkbox } from '../checkbox'
 import { RadioGroup, RadioGroupItem } from '../radio-group'
+import { useHandleKeyDown } from './dropdown-menu.libs'
+// import { useHandleKeyDown } from '../command'
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
@@ -310,13 +303,15 @@ function DropdownMenuCheckboxItem({
 }
 
 function DropdownMenuRadioGroup({ ...props }: React.ComponentPropsWithRef<typeof RadioGroup>) {
-  return <RadioGroup {...props} />
+  return <RadioGroup duck-dropdown-menu-radio-group="" duck-dropdown-menu-group="" {...props} />
 }
+
 function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof RadioGroupItem>) {
   const groupItemRef = React.useRef<HTMLLIElement>(null)
 
   return (
     <DropdownMenuItem
+      duck-dropdown-menu-item=""
       duck-dropdown-menu-radio-item=""
       onClick={() => {
         groupItemRef.current?.querySelector('label')?.click()
@@ -344,7 +339,6 @@ export {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuGroup,
-  // DropdownMenuPortal,
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,

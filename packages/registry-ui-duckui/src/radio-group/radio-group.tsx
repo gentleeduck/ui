@@ -46,7 +46,7 @@ function RadioGroup({
         itemsRef,
         selectedItemRef,
       }}>
-      <ul duck-radio-group="" className={cn('flex flex-col gap-2', className)} {...props} ref={wrapperRef}>
+      <ul duck-radio-group="" className={cn('flex flex-col', className)} {...props} ref={wrapperRef}>
         {children}
       </ul>
     </RadioGroupContext.Provider>
@@ -69,7 +69,7 @@ function RadioGroupItem({
         className,
       )}
       {...props}>
-      <span id="radio-indicator">{customIndicator && customIndicator}</span>
+      {customIndicator && <span id="radio-indicator">{customIndicator}</span>}
       <Radio id={value} className={cn(customIndicator?.toString() && 'hidden')} />
       <Label duck-radio-label="" className="font-normal" htmlFor={value}>
         {children}

@@ -32,8 +32,9 @@ export function useDropdownMenuActions(open: boolean, onOpenChange?: (open: bool
       if (!groupsRef.current.length || !itemsRef.current.length) {
         const groups = wrapperRef.current?.querySelectorAll('[duck-dropdown-menu-group]')
         const items = wrapperRef.current?.querySelectorAll(
-          '[duck-dropdown-menu-group]>[duck-dropdown-menu-item], [duck-dropdown-menu-group]>*>[duck-dropdown-menu-item], *>[duck-dropdown-menu-item]',
+          '[duck-dropdown-menu-group]>[duck-dropdown-menu-item], [duck-dropdown-menu-group]>*>[duck-dropdown-menu-item]',
         ) as never as HTMLLIElement[]
+        console.log(items, 'i am items')
         groupsRef.current = Array.from(groups ?? []) as HTMLDivElement[]
         itemsRef.current = Array.from(items ?? []) as HTMLLIElement[]
         originalItemsRef.current = Array.from(items ?? []) as HTMLLIElement[]

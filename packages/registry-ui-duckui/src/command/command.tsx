@@ -3,8 +3,13 @@ import { Search } from 'lucide-react'
 import React from 'react'
 import { Dialog, DialogContent, DialogProps } from '../dialog'
 import { ScrollArea } from '../scroll-area'
-import { useCommandContext, useCommandElements, useCommandRefsContext, useCommandSearch } from './command.hooks'
-import { styleItem } from './command.libs'
+import {
+  useCommandContext,
+  useCommandElements,
+  useCommandRefsContext,
+  useCommandSearch,
+  useHandleKeyDown,
+} from './command.hooks'
 import { CommandBadgeProps, CommandContextType, CommandGroupProps, CommandRefsContextType } from './command.types'
 
 /**
@@ -29,21 +34,28 @@ export const CommandRefsContext: React.Context<CommandRefsContextType | null> =
  * @returns {React.JSX.Element} The rendered CommandRefs component.
  */
 function CommandRefs({ children }: { children: React.ReactNode }): React.JSX.Element {
-  // References
   const commandRef = React.useRef<HTMLDivElement | null>(null)
   const listRef = React.useRef<HTMLUListElement | null>(null)
   const emptyRef = React.useRef<HTMLHeadingElement | null>(null)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
   const filteredItems = React.useRef<HTMLLIElement[]>([])
 
-  // Getting the items
-  const { items, groups } = useCommandElements(commandRef)
-
   const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
+  const { items, groups } = useCommandElements(commandRef, setSelectedItem)
 
   return (
     <CommandRefsContext.Provider
-      value={{ commandRef, listRef, emptyRef, inputRef, items, filteredItems, groups, selectedItem, setSelectedItem }}>
+      value={{
+        commandRef,
+        listRef,
+        emptyRef,
+        inputRef,
+        items,
+        filteredItems,
+        groups,
+        selectedItem,
+        setSelectedItem,
+      }}>
       {children}
     </CommandRefsContext.Provider>
   )
@@ -58,52 +70,18 @@ function CommandRefs({ children }: { children: React.ReactNode }): React.JSX.Ele
  * @returns {React.JSX.Element} The rendered CommandWrapper component.
  */
 function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  // States
   const [search, setSearch] = React.useState<string>('')
   const { filteredItems, items, setSelectedItem, commandRef, groups, emptyRef } = useCommandRefsContext()
   useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
-
-  React.useEffect(() => {
-    if (!commandRef.current || items.current.length === 0) return
-    let currentItem = 0
-
-    // This will add the class to the first item.
-    console.log(filteredItems.current?.[currentItem])
-    styleItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
-    filteredItems.current?.[currentItem]?.focus()
-    setSelectedItem((filteredItems.current?.[currentItem] as HTMLLIElement) ?? null)
-
-    function handleItemsSelection() {
-      // This will remove the class from all filteredItems.and add it to the right one.
-      for (let i = 0; i < filteredItems.current.length; i++) {
-        const item = filteredItems.current[i] as HTMLLIElement
-        // item.classList.remove('bg-secondary')
-        item.blur()
-        item.removeAttribute('aria-selected')
-
-        if (i === currentItem) {
-          styleItem(item)
-          setSelectedItem(item)
-          item.scrollIntoView({ block: 'center', behavior: 'smooth' })
-        }
-      }
-    }
-
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'ArrowDown') {
-        currentItem = currentItem === filteredItems.current.length - 1 ? 0 : currentItem + 1
-      } else if (e.key === 'ArrowUp') {
-        currentItem = currentItem === 0 ? filteredItems.current.length - 1 : currentItem - 1
-      } else if (e.key === 'Enter') {
-        ;(filteredItems.current[currentItem] as HTMLLIElement)?.click()
-      }
-      handleItemsSelection()
-    }
-
-    // Here i am tracking keyboard keys strokes to navigate through the filteredItems.
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [items, search])
+  useHandleKeyDown(
+    filteredItems,
+    (item) => {
+      setSelectedItem(item)
+    },
+    items,
+    commandRef as React.RefObject<HTMLButtonElement | null>,
+    commandRef,
+  )
 
   return (
     <CommandContext.Provider
@@ -115,7 +93,7 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
         ref={commandRef}
         data-command-wrapper=""
         className={cn(
-          'flex h-full w-full w-84 border shadow-sm flex-col overflow-hidden rounded-md bg-popover text-popover-foreground p-2',
+          'flex h-full w-full max-w-96 border shadow-sm flex-col overflow-hidden rounded-md bg-popover text-popover-foreground p-2',
           className,
         )}
         {...props}
@@ -303,7 +281,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
 function CommandDialog({ children, ...props }: DialogProps): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="[&>.content-wrapper]:p-0 open:backdrop:bg-black/80">
+      <DialogContent className="[&>.content-wrapper]:p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>
