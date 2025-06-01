@@ -28,46 +28,29 @@ export function DropdownMenuCheckboxes() {
   const [showPanel, setShowPanel] = React.useState<Checked>(false)
 
   return (
-    <DropdownMenu.DropdownMenu>
+    <DropdownMenu.DropdownMenu
+      open={true}
+      onOpenChange={(value) => {
+        console.log(value)
+      }}>
       <DropdownMenu.DropdownMenuTrigger>Open</DropdownMenu.DropdownMenuTrigger>
       <DropdownMenu.DropdownMenuContent className="w-56">
         <DropdownMenu.DropdownMenuLabel>Appearance</DropdownMenu.DropdownMenuLabel>
         <DropdownMenu.DropdownMenuSeparator />
-        <DropdownMenu.DropdownMenuGroup>
-          <DropdownMenu.DropdownMenuItem>Status Bar</DropdownMenu.DropdownMenuItem>
-          <DropdownMenu.DropdownMenuItem>Activity Bar</DropdownMenu.DropdownMenuItem>
-          <DropdownMenu.DropdownMenuItem>Panel</DropdownMenu.DropdownMenuItem>
-        </DropdownMenu.DropdownMenuGroup>
+        <DropdownMenu.DropdownMenuCheckboxItem checked={showStatusBar} onClick={() => setShowStatusBar(!showStatusBar)}>
+          Status Bar
+        </DropdownMenu.DropdownMenuCheckboxItem>
+        <DropdownMenu.DropdownMenuCheckboxItem checked={showActivityBar} disabled>
+          Activity Bar
+        </DropdownMenu.DropdownMenuCheckboxItem>
+        <DropdownMenu.DropdownMenuCheckboxItem checked={showPanel}>Panel</DropdownMenu.DropdownMenuCheckboxItem>
+
         <DropdownMenu.DropdownMenuSeparator />
-        <DropdownMenu.DropdownMenuGroup>
-          <DropdownMenu.DropdownMenuItem>
-            Reset
-            <DropdownMenu.DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
-              <Command />P
-            </DropdownMenu.DropdownMenuShortcut>
-          </DropdownMenu.DropdownMenuItem>
-          <DropdownMenu.DropdownMenuItem>
-            Reset All
-            <DropdownMenu.DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
-              <Command />P
-            </DropdownMenu.DropdownMenuShortcut>
-          </DropdownMenu.DropdownMenuItem>
-        </DropdownMenu.DropdownMenuGroup>
-        <DropdownMenu.DropdownMenuSeparator />
-        <DropdownMenu.DropdownMenuGroup>
-          <DropdownMenu.DropdownMenuItem>
-            Preferences
-            <DropdownMenu.DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
-              <Command />P
-            </DropdownMenu.DropdownMenuShortcut>
-          </DropdownMenu.DropdownMenuItem>
-          <DropdownMenu.DropdownMenuItem>
-            Settings
-            <DropdownMenu.DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
-              <Command />P
-            </DropdownMenu.DropdownMenuShortcut>
-          </DropdownMenu.DropdownMenuItem>
-        </DropdownMenu.DropdownMenuGroup>
+        <DropdownMenu.DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+          <DropdownMenu.DropdownMenuRadioItem value="top">Top</DropdownMenu.DropdownMenuRadioItem>
+          <DropdownMenu.DropdownMenuRadioItem value="bottom">Bottom</DropdownMenu.DropdownMenuRadioItem>
+          <DropdownMenu.DropdownMenuRadioItem value="right">Right</DropdownMenu.DropdownMenuRadioItem>
+        </DropdownMenu.DropdownMenuRadioGroup>
       </DropdownMenu.DropdownMenuContent>
     </DropdownMenu.DropdownMenu>
   )

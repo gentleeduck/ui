@@ -15,17 +15,23 @@ import { handleKeyDown, styleItem } from '../command/command.libs'
 import { useState } from 'react'
 import { useHandleKeyDown } from './dropdown-menu.libs'
 import { useDropdownMenuActions, useDropdownMenuContext } from './dropdown-menu.hooks'
+import { Portal } from '../portal/portal'
+import { Checkbox } from '../checkbox'
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
 function DropdownMenu({
+  open = false,
+  onOpenChange,
   children,
 }: {
   children: React.ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }) {
-  const { wrapperRef, triggerRef, contentRef, overlayRef, groupsRef, itemsRef, selectedItemRef } =
-    useDropdownMenuActions()
-  useHandleKeyDown(itemsRef, selectedItemRef)
+  const { wrapperRef, triggerRef, contentRef, overlayRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
+    useDropdownMenuActions(open, onOpenChange)
+  useHandleKeyDown(itemsRef, selectedItemRef, originalItemsRef, triggerRef, contentRef, onOpenChange)
 
   return (
     <DropdownMenuContext.Provider
@@ -37,6 +43,7 @@ function DropdownMenu({
         groupsRef,
         itemsRef,
         selectedItemRef,
+        originalItemsRef,
       }}>
       <div className="relative" duck-dropdown-menu="" ref={wrapperRef}>
         {children}
@@ -54,7 +61,7 @@ function DropdownMenuTrigger({
 }: React.ComponentPropsWithoutRef<typeof Button>) {
   const { triggerRef } = useDropdownMenuContext()
   return (
-    <Button data-trigger ref={triggerRef} className={cn('', className)} asChild={asChild} {...props}>
+    <Button duck-dropdown-menu-trigger="" ref={triggerRef} className={cn('', className)} asChild={asChild} {...props}>
       {children}
     </Button>
   )
@@ -80,7 +87,8 @@ function DropdownMenuContent({
       duck-dropdown-menu-content=""
       data-open={false}
       className={cn(
-        'z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[open="false"]:animate-in data-[open="true"]:animate-out data-[open="true"]:fade-out-0 data-[open="false"]:fade-in-0 data-[open="true"]:zoom-out-95 data-[open="false"]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+        'z-50 min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[open="false"]:animate-in data-[open="true"]:animate-out data-[open="true"]:fade-out-0 data-[open="false"]:fade-in-0 data-[open="true"]:zoom-out-95 data-[open="false"]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+        'data-[open="true"]:bg-red-500',
         className,
       )}
       style={{
@@ -138,6 +146,8 @@ function DropdownMenuItem({
         inset && 'pl-8',
         className,
       )}
+      aria-disabled
+      // disabled={true}
       {...props}
     />
   )
@@ -183,16 +193,129 @@ function DropdownMenuGroup({ className, ...props }: React.HTMLProps<HTMLDivEleme
   return <div className={cn(className)} {...props} duck-dropdown-menu-group="" />
 }
 
-function DropdownMenuSub({ className, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div className={cn(className)} {...props} duck-dropdown-menu-sub="" />
+/* //////////////////////////////////////////////////////////////////////////////////////////// */
+
+export interface DropdownMenuSubContextType {
+  wrapperRef: React.RefObject<HTMLDivElement | null>
+  triggerRef: React.RefObject<HTMLButtonElement | null>
+  contentRef: React.RefObject<HTMLDivElement | null>
+  selectedItemRef: React.RefObject<HTMLLIElement | null>
 }
+export const DropdownMenuSubContext = React.createContext<DropdownMenuSubContextType | null>(null)
+export function useDropdownMenuSubContext() {
+  const context = React.useContext(DropdownMenuSubContext)
+  if (!context) {
+    throw new Error('useDropdownMenuSubContext must be used within a DropdownMenuSub')
+  }
+  return context
+}
+
+function DropdownMenuSub({ className, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+  return (
+    <div
+      className={cn(
+        'relative',
+
+        '[&[aria-selected]>button]:bg-secondary',
+        className,
+      )}
+      {...props}
+      duck-dropdown-menu-sub=""
+    />
+  )
+}
+
+function DropdownMenuSubTrigger({
+  className,
+  children,
+  asChild = false,
+  onClick,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof Button>) {
+  return (
+    <Button
+      data-trigger
+      size={'sm'}
+      variant={'ghost'}
+      duck-dropdown-menu-item=""
+      className={cn(
+        '[&>div]:justify-between [&>div]:w-full w-full',
+        '[&:hover+div]:opacity-100',
+        '[&[aria-selected]]:bg-secondary',
+        '[&[data-open="true"]+div]:opacity-100',
+
+        className,
+      )}
+      asChild={asChild}
+      secondIcon={<ChevronRight className="rtl:rotate-180 ltr:rotate-0 rtl:-ml-2 ltr:-mr-2" />}
+      {...props}>
+      {children}
+    </Button>
+  )
+}
+
+function DropdownMenuSubContent({
+  className,
+  children,
+  sideOffset = 8,
+  align = 'start',
+  ...props
+}: React.HTMLProps<HTMLDivElement> & {
+  sideOffset?: number
+  align?: 'start' | 'end'
+}) {
+  return (
+    <DropdownMenuContent
+      className={cn(
+        'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+        'ml-1',
+        '-mt-1',
+        'opacity-0',
+        className,
+      )}
+      style={
+        {
+          left: '100%',
+          top: 0,
+        } as React.CSSProperties
+      }
+      {...props}
+      duck-dropdown-menu-sub-content="">
+      {children}
+    </DropdownMenuContent>
+  )
+}
+
+function DropdownMenuCheckboxItem({
+  className,
+  children,
+  checked,
+  ref,
+  ...props
+}: React.ComponentPropsWithRef<typeof Button> & { checked?: boolean }) {
+  return (
+    <DropdownMenuItem
+      duck-dropdown-menu-checkbox-item=""
+      data-checked={checked}
+      ref={ref}
+      className={cn('flex items-center space-x-2', className)}
+      {...props}>
+      <span className="absolute left-2.5 flex h-3.5 w-3.5 items-center justify-center">
+        <Check className={cn('h-4 w-4 opacity-0', checked && 'opacity-100')} />
+      </span>
+      <span className="ltr:pl-7 rtl:pr-7">{children}</span>
+    </DropdownMenuItem>
+  )
+}
+
+function DropdownMenuRadioGroup() {}
 
 export {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  // DropdownMenuCheckboxItem,
+  DropdownMenuCheckboxItem,
   // DropdownMenuRadioItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -200,7 +323,7 @@ export {
   DropdownMenuGroup,
   // DropdownMenuPortal,
   DropdownMenuSub,
-  // DropdownMenuSubContent,
-  // DropdownMenuSubTrigger,
-  // DropdownMenuRadioGroup,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuRadioGroup,
 }

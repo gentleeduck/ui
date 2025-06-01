@@ -38,6 +38,7 @@ function Button({
   isCollapsed,
   icon,
   secondIcon,
+  disabled,
   ref,
   ...props
 }: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }): React.JSX.Element {
@@ -55,7 +56,7 @@ function Button({
           className,
         }),
       )}
-      disabled={loading}>
+      disabled={loading ?? disabled}>
       <div className="flex items-center gap-2">
         {loading ? <Loader className="animate-spin" /> : icon}
         {!isCollapsed && size !== 'icon' && children}

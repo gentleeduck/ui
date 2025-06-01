@@ -190,6 +190,17 @@ function DropdownMenuDemo() {
       <DropdownMenuItem>Billing</DropdownMenuItem>
       <DropdownMenuItem>Team</DropdownMenuItem>
       <DropdownMenuItem>Subscription</DropdownMenuItem>
+      <DropdownMenuSub >
+        <DropdownMenuSubTrigger>Team</DropdownMenuSubTrigger>
+        <DropdownMenuPortal>
+          <DropdownMenuSubContent>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>Subscription</DropdownMenuItem>
+          </DropdownMenuSubContent>
+        </DropdownMenuPortal>
+      </DropdownMenuSub>
     </DropdownMenuContent>
   </DropdownMenu>)
 }
