@@ -33,7 +33,7 @@ export function SelectDemo() {
     <>
       <Select open={true}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select a fruit" />
+          <SelectValue placeholder="Select a verified email to display" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

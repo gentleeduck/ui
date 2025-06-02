@@ -132,27 +132,32 @@ export function useHandleKeyDown(
   triggerRef: React.RefObject<HTMLButtonElement | null>,
   contentRef: React.RefObject<HTMLDivElement | null>,
   onOpenChange?: (open: boolean) => void,
+  index: number = 0,
 ) {
   React.useEffect(() => {
     const html = document.documentElement
-    let originalCurrentItem = 0
-    let currentItem = 0
+    let originalCurrentItem = index
+    let currentItem = index
     let inSubMenu = false
 
     function handleKeyDown(e: KeyboardEvent) {
+      let isClicked = false
       if (e.key === 'ArrowDown') {
         const itemIndex = currentItem === itemsRef.current.length - 1 ? 0 : currentItem + 1
         currentItem = itemIndex
+        isClicked = true
         if (!inSubMenu) originalCurrentItem = itemIndex
       } else if (e.key === 'ArrowUp') {
         const itemIndex = currentItem === 0 ? itemsRef.current.length - 1 : currentItem - 1
         currentItem = itemIndex
+        isClicked = true
         if (!inSubMenu) originalCurrentItem = itemIndex
       } else if (e.key === 'Enter') {
         ;(itemsRef.current[currentItem] as HTMLLIElement)?.click()
         if (onOpenChange) onOpenChange(false)
         contentRef.current?.setAttribute('data-open', 'false')
         triggerRef.current?.setAttribute('aria-open', 'false')
+        isClicked = true
       }
 
       if (
@@ -173,6 +178,7 @@ export function useHandleKeyDown(
         itemsRef.current = subItems
         inSubMenu = true
         currentItem = 0
+        isClicked = true
       }
 
       if (
@@ -188,8 +194,10 @@ export function useHandleKeyDown(
 
         inSubMenu = false
         currentItem = originalCurrentItem
+        isClicked = true
       }
 
+      if (!isClicked) return
       handleItemsSelection(currentItem, itemsRef, setSelectedItem)
     }
 
