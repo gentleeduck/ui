@@ -9,8 +9,7 @@ import { Button } from '../button'
 import { Check, ChevronRight } from 'lucide-react'
 import { useDropdownMenuActions, useDropdownMenuContext } from './dropdown-menu.hooks'
 import { RadioGroup, RadioGroupItem } from '../radio-group'
-import { useHandleKeyDown } from './dropdown-menu.libs'
-// import { useHandleKeyDown } from '../command'
+import { useHandleKeyDown } from '../command'
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
@@ -25,7 +24,16 @@ function DropdownMenu({
 }) {
   const { wrapperRef, triggerRef, contentRef, overlayRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
     useDropdownMenuActions(open, onOpenChange)
-  useHandleKeyDown(itemsRef, selectedItemRef, originalItemsRef, triggerRef, contentRef, onOpenChange)
+  useHandleKeyDown(
+    itemsRef,
+    (item) => {
+      selectedItemRef.current = item
+    },
+    originalItemsRef,
+    triggerRef,
+    contentRef,
+    onOpenChange,
+  )
 
   return (
     <DropdownMenuContext.Provider

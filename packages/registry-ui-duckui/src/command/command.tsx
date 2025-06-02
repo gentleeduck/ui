@@ -12,27 +12,13 @@ import {
 } from './command.hooks'
 import { CommandBadgeProps, CommandContextType, CommandGroupProps, CommandRefsContextType } from './command.types'
 
-/**
- * @description Context for the Command
- * @type {React.Context<CommandContextType | null>}
- */
 export const CommandContext: React.Context<CommandContextType | null> = React.createContext<CommandContextType | null>(
   null,
 )
 
-/**
- * @description Context for the CommandRefs
- * @type {React.Context<CommandRefsContextType | null>}
- */
 export const CommandRefsContext: React.Context<CommandRefsContextType | null> =
   React.createContext<CommandRefsContextType | null>(null)
 
-/**
- * @description Component to handle the refs of the command
- * @function CommandRefs
- * @param {React.ReactNode} children - The children of the CommandRefs component.
- * @returns {React.JSX.Element} The rendered CommandRefs component.
- */
 function CommandRefs({ children }: { children: React.ReactNode }): React.JSX.Element {
   const commandRef = React.useRef<HTMLDivElement | null>(null)
   const listRef = React.useRef<HTMLUListElement | null>(null)
@@ -60,14 +46,6 @@ function CommandRefs({ children }: { children: React.ReactNode }): React.JSX.Ele
   )
 }
 
-/**
- * @description Component to handle the refs of the command
- * @function CommandWrapper
- * @param {string} [props.className] - The props of the CommandWrapper component.
- * @param {React.Ref<HTMLDivElement>} [prop.ref] - The ref of the CommandWrapper component.
- * @param {CommandProps} [...props] - The props of the CommandWrapper component.
- * @returns {React.JSX.Element} The rendered CommandWrapper component.
- */
 function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   const [search, setSearch] = React.useState<string>('')
   const { filteredItems, items, setSelectedItem, commandRef, groups, emptyRef } = useCommandRefsContext()
@@ -91,7 +69,7 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
       }}>
       <div
         ref={commandRef}
-        data-command-wrapper=""
+        duck-command-wrapper=""
         className={cn(
           'flex h-full w-full max-w-96 border shadow-sm flex-col overflow-hidden rounded-md bg-popover text-popover-foreground p-2',
           className,
@@ -159,7 +137,7 @@ function CommandInput({ className, onChange, ...props }: React.HTMLProps<HTMLInp
  */
 function CommandEmpty({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>): React.JSX.Element {
   const context = useCommandRefsContext()
-  return <h6 ref={context.emptyRef} className="py-6 text-center text-sm hidden" {...props} data-command-empty="" />
+  return <h6 ref={context.emptyRef} className="py-6 text-center text-sm hidden" {...props} duck-command-empty="" />
 }
 
 /**
