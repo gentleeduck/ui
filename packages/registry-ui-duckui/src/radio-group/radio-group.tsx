@@ -65,15 +65,15 @@ function RadioGroupItem({
       id={value}
       duck-radio-item=""
       className={cn(
-        'relative flex items-center gap-2 [&>#radio-indicator]:opacity-0 [&[aria-checked=true]>#radio-indicator]:opacity-100',
+        'flex items-center justify-between w-full [&>#radio-indicator]:scale-0 [&[aria-checked=true]>#radio-indicator]:scale-100 ',
         className,
       )}
       {...props}>
-      {customIndicator && <span id="radio-indicator">{customIndicator}</span>}
-      <Radio id={value} className={cn(customIndicator?.toString() && 'hidden')} />
       <Label duck-radio-label="" className="font-normal" htmlFor={value}>
         {children}
       </Label>
+      {customIndicator && <span id="radio-indicator" className="transition-all duration-300 ease-(--duck-motion-ease)">{customIndicator}</span>}
+      <Radio id={value} className={cn(customIndicator?.toString() && 'hidden')} />
     </li>
   )
 }

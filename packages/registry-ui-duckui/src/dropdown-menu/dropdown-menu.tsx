@@ -137,6 +137,7 @@ function DropdownMenuItem({
       duck-dropdown-menu-item=""
       className={cn(
         'w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary',
+        "[&>div]:justify-between [&>div]:w-full",
         inset && 'pl-8',
         className,
       )}
@@ -166,8 +167,8 @@ function DropdownMenuShortcut({
   return (
     <kbd
       className={cn(
-        'inline-flex items-center gap-[2px] transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 text-[.7rem] py-[.12rem] px-2 rounded-[4px] text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none ml-auto text-xs tracking-widest text-muted-foreground',
-        colored ? 'bg-muted' : 'ltr:-mr-2 rtl:-ml-2',
+        'inline-flex items-center gap-1 transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 py-[.12rem] rounded-xs text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none text-xs tracking-widest text-muted-foreground',
+        colored && 'bg-muted px-2',
         className,
       )}
       duck-data-dropdown-menu-shortcut=""
@@ -233,15 +234,16 @@ function DropdownMenuSubTrigger({
       variant={'ghost'}
       duck-dropdown-menu-item=""
       className={cn(
-        '[&>div]:justify-between [&>div]:w-full w-full',
-        '[&:hover+div]:opacity-100',
+        '[&>div]:justify-between [&>div]:w-full  w-full',
+        '[&:focus-within+div,&:hover+div]:opacity-100',
         '[&[aria-selected]]:bg-secondary',
         '[&[data-open="true"]+div]:opacity-100',
-
         className,
       )}
       asChild={asChild}
-      secondIcon={<ChevronRight className="rtl:rotate-180 ltr:rotate-0 rtl:-ml-2 ltr:-mr-2" />}
+      secondIcon={<ChevronRight
+        className="rtl:rotate-180"
+      />}
       {...props}>
       {children}
     </Button>
@@ -261,7 +263,7 @@ function DropdownMenuSubContent({
   return (
     <DropdownMenuContent
       className={cn(
-        'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+        'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md delay-250 transition-opacity',
         'ml-1',
         '-mt-1',
         'opacity-0',
@@ -294,10 +296,10 @@ function DropdownMenuCheckboxItem({
       ref={ref}
       className={cn('flex items-center space-x-2', className)}
       {...props}>
-      <span className="absolute left-2.5 flex h-3.5 w-3.5 items-center justify-center">
-        <Check className={cn('h-4 w-4 opacity-0', checked && 'opacity-100')} />
+      <span>{children}</span>
+      <span className="text-start flex size-4 items-center justify-center">
+        <Check className={cn('size-4 opacity-0 transition-all translate-y-0.75  ease-(--duck-motion-ease)', checked && 'opacity-100 translate-y-0')} />
       </span>
-      <span className="ltr:pl-7 rtl:pr-7">{children}</span>
     </DropdownMenuItem>
   )
 }
@@ -319,9 +321,8 @@ function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof 
       <RadioGroupItem
         ref={groupItemRef}
         {...props}
-        className="ltr:pl-[1.25rem] rtl:pr-[1.25rem]"
         customIndicator={
-          <span className="absolute left-1 top-1/2 -translate-y-1/2 size-2 flex bg-foreground rounded-full transition-all duration-150 ease-in-out" />
+          <span className="size-2 m-1.5 flex bg-foreground rounded-full" />
         }
       />
     </DropdownMenuItem>
