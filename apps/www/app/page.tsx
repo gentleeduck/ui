@@ -35,7 +35,7 @@ export function DropdownMenuCheckboxes() {
         console.log(value)
       }}>
       <DropdownMenu.DropdownMenuTrigger>Open</DropdownMenu.DropdownMenuTrigger>
-      <DropdownMenu.DropdownMenuContent className="w-56">
+      <DropdownMenu.DropdownMenuContent dir='rtl' className="w-56">
         <DropdownMenu.DropdownMenuLabel>Appearance</DropdownMenu.DropdownMenuLabel>
         <DropdownMenu.DropdownMenuSeparator />
         <DropdownMenu.DropdownMenuGroup>

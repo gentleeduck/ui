@@ -302,7 +302,7 @@ function DropdownMenuCheckboxItem({
       className={cn('flex items-center space-x-2', className)}
       {...props}>
       <span>{children}</span>
-      <span className="text-start flex size-4 items-center justify-center">
+      <span className="text-start flex size-4 mx-1.5 items-center justify-center">
         <Check className={cn('size-4 opacity-0 transition-all translate-y-0.75  ease-(--duck-motion-ease)', checked && 'opacity-100 translate-y-0')} />
       </span>
     </DropdownMenuItem>
