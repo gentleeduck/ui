@@ -140,6 +140,7 @@ export function useHandleKeyDown(
     let currentItem = index
     let inSubMenu = false
 
+    // html.setAttribute('dir', 'rtl')
     function handleKeyDown(e: KeyboardEvent) {
       let isClicked = false
       if (e.key === 'ArrowDown') {

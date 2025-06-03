@@ -21,7 +21,6 @@ export function useDropdownMenuActions(open: boolean, onOpenChange?: (open: bool
   const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
 
   React.useEffect(() => {
-    console.log(open)
     contentRef.current?.setAttribute('data-open', String(open))
   }, [open])
 

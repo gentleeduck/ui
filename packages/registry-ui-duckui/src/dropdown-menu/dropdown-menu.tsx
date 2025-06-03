@@ -144,7 +144,7 @@ function DropdownMenuItem({
       size={'sm'}
       duck-dropdown-menu-item=""
       className={cn(
-        'w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary',
+        'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary',
         inset && 'pl-8',
         className,
       )}

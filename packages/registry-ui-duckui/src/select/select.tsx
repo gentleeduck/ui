@@ -1,12 +1,12 @@
 'use client'
 
-import * as SelectPrimitive from '@radix-ui/react-select'
 import { Check, CheckIcon, ChevronDown, ChevronDownIcon, ChevronUp } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '@gentleduck/libs/cn'
-import { Button, buttonVariants } from '../button'
+import { buttonVariants } from '../button'
 import { dstyleItem, handleItemsSelection, styleItem, useHandleKeyDown } from '../command'
+import { initRefs } from './select.libs'
 
 export interface SelectContextType {
   open: boolean
@@ -29,7 +29,15 @@ export function useSelectContext() {
   return context
 }
 
-function Select({ children, ...props }: React.HTMLProps<HTMLDivElement>) {
+function Select({
+  children,
+  open,
+  onOpenChange,
+  ...props
+}: React.HTMLProps<HTMLDivElement> & {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}) {
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
   const triggerRef = React.useRef<HTMLDivElement | null>(null)
   const contentRef = React.useRef<HTMLDivElement | null>(null)
@@ -39,35 +47,23 @@ function Select({ children, ...props }: React.HTMLProps<HTMLDivElement>) {
   const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
 
   React.useEffect(() => {
-    const items = wrapperRef.current?.querySelectorAll('[duck-select-item]') as never as HTMLLIElement[]
-    const groups = wrapperRef.current?.querySelectorAll('[duck-select-group]') as never as HTMLUListElement[]
+    triggerRef.current?.setAttribute('data-open', String(open))
+    contentRef.current?.setAttribute('data-open', String(open))
+  }, [open])
 
-    itemsRef.current = Array.from(items)
-    groupsRef.current = Array.from(groups)
+  React.useEffect(() => {
+    initRefs(groupsRef, wrapperRef, triggerRef, contentRef, selectedItemRef, itemsRef, setSelectedItem)
+    triggerRef.current?.addEventListener('click', () => {
+      const open = contentRef.current?.getAttribute('data-open') === 'true'
 
-    const item = itemsRef.current?.[0] as HTMLLIElement
+      if (!groupsRef.current.length || !itemsRef.current.length) {
+        initRefs(groupsRef, wrapperRef, triggerRef, contentRef, selectedItemRef, itemsRef, setSelectedItem)
+      }
 
-    styleItem(item ?? null)
-    item?.focus()
-    selectedItemRef.current = item
-
-    for (let i = 0; i < itemsRef.current?.length; i++) {
-      const item = itemsRef.current[i] as HTMLLIElement
-
-      item.addEventListener('mouseover', () => {
-        if (item.hasAttribute('aria-checked')) return
-        dstyleItem(item)
-        item?.blur()
-      })
-
-      item.addEventListener('click', () => {
-        const currentItem = itemsRef.current?.findIndex((_item) => _item.id === item.id)
-        handleItemsSelection(currentItem, itemsRef, setSelectedItem)
-        item.setAttribute('aria-checked', 'true')
-        triggerRef.current?.setAttribute('data-open', 'false')
-        contentRef.current?.setAttribute('data-open', 'false')
-      })
-    }
+      if (onOpenChange) onOpenChange(!open)
+      contentRef.current?.setAttribute('data-open', String(!open))
+      triggerRef.current?.setAttribute('data-open', String(!open))
+    })
   }, [])
 
   useHandleKeyDown(
@@ -108,24 +104,42 @@ function SelectGroup({ children, ...props }: React.HTMLProps<HTMLUListElement>) 
   )
 }
 
-function SelectValue({ placeholder, ...props }: React.HTMLProps<HTMLDivElement>) {
-  const { selectedItem } = useSelectContext()
+function SelectValue({ className, children, placeholder, ...props }: React.HTMLProps<HTMLDivElement>) {
   return (
-    <div className="truncate" {...props} duck-select-value="">
-      {selectedItem?.textContent ?? placeholder}
+    <div
+      className={cn(
+        'truncate relative select-none flex items-center rounded-xs gap-2 text-sm outline-hidden',
+        className,
+      )}
+      {...props}
+      duck-select-value="">
+      {placeholder}
     </div>
   )
 }
 
-function SelectTrigger({ children, className, ref, ...props }: React.HTMLProps<HTMLDivElement>) {
+function SelectTrigger({
+  children,
+  className,
+  customIndicator,
+  ref,
+  ...props
+}: React.HTMLProps<HTMLDivElement> & { customIndicator?: React.ReactNode }) {
+  const { triggerRef } = useSelectContext()
   return (
     <div
-      ref={ref}
-      className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'font-normal gap-1 justify-between', className)}
+      ref={triggerRef}
+      className={cn(
+        buttonVariants({ variant: 'outline', size: 'sm' }),
+        'font-normal gap-1 justify-between ltr:pr-2 rtl:pl-2 h-auto data-[open=true]:bg-secondary data-[open=true]:text-accent-foreground',
+        className,
+      )}
       {...props}
       duck-dropdown-menu-trigger="">
       {children}
-      <ChevronDownIcon className="size-4 opacity-50 shrink-0" />
+      <span className="[&>svg]:size-4 [&>svg]:opacity-50 [&>svg]:shrink-0">
+        {customIndicator ? customIndicator : <ChevronDownIcon />}
+      </span>
     </div>
   )
 }
@@ -139,9 +153,10 @@ function SelectContent({
 }: React.HTMLProps<HTMLDivElement> & {
   position?: 'popper'
 }) {
+  const { contentRef } = useSelectContext()
   return (
     <div
-      ref={ref}
+      ref={contentRef}
       className={cn(
         'bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md p-1 mt-1',
         position === 'popper' &&
@@ -175,18 +190,15 @@ function SelectItem({ children, ref, className, ...props }: React.HTMLProps<HTML
     <li
       ref={ref}
       id={id}
-      className={cn(
-        "relative flex cursor-default select-none items-center rounded-xs px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:size-4 flex gap-2 hover:bg-muted cursor-pointer transition-color duration-300 will-change-300 hover:text-accent-foreground [&[aria-selected]]:bg-secondary ",
-        "focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
-
-        className,
-      )}
       {...props}
-      duck-select-item="">
-      {children}
+      duck-select-item=""
+      className="relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 flex gap-2 hover:bg-muted cursor-pointer transition-color duration-300 will-change-300 hover:text-accent-foreground [&[aria-selected]]:bg-secondary rounded-sm">
+      <div className={cn('relative flex items-center rounded-xs text-sm flex gap-2 hover:bg-muted', className)}>
+        {children}
+      </div>
       {selectedItem?.id === id && (
-        <span className="absolute right-2 flex size-3.5 items-center justify-center">
-          <CheckIcon className="size-4" />
+        <span className="absolute ltr:right-2 rtl:left-2 flex items-center justify-center">
+          <CheckIcon className="!size-3.5" />
         </span>
       )}
     </li>
