@@ -1,3 +1,5 @@
+import { DrawerDirection } from "./src/types"
+
 export interface DrawerContextType {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -28,7 +30,7 @@ export interface UseDrawerDragReturn {
 }
 
 export interface UseDrawerDragProps {
-  ref: React.RefObject<HTMLElement>
+  // ref: React.RefObject<HTMLElement>
   overlayRef?: React.RefObject<HTMLElement>
   direction?: DrawerDirection
   dismissible?: boolean

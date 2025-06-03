@@ -44,9 +44,9 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
 
   React.useEffect(() => {
     const dialog = dialogRef.current
-    // useComputedTimeoutTransition(dialog, () => {
-    // document.body.classList.toggle('scroll-locked', open)
-    // })
+    useComputedTimeoutTransition(dialog, () => {
+      document.body.classList.toggle('scroll-locked', open)
+    })
 
     if (openProp) {
       handleOpenChange(true)

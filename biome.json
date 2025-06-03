@@ -47,8 +47,8 @@
         "noDoubleEquals": "error",
         "noThenProperty": "error",
         "useIsArray": "error",
-        "noImplicitAnyLet": "error",
-        "noExplicitAny": "warn",
+        "noImplicitAnyLet": "info",
+        "noExplicitAny": "info",
         "useGetterReturn": "error"
       }
     }
@@ -83,7 +83,9 @@
     "enabled": true
   },
   "javascript": {
-    "globals": ["Global1"],
+    "globals": [
+      "Global1"
+    ],
     "formatter": {
       "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",
@@ -98,13 +100,17 @@
   },
   "overrides": [
     {
-      "include": ["*.json"],
+      "include": [
+        "*.json"
+      ],
       "formatter": {
         "indentWidth": 2
       }
     },
     {
-      "include": ["tests/**"],
+      "include": [
+        "tests/**"
+      ],
       "linter": {
         "rules": {
           "suspicious": {

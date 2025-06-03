@@ -6,7 +6,7 @@ import { ThemeProvider } from '~/components/providers'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { ThemeSwitcher } from '~/components/theme-switcher'
 import { TailwindIndicator } from '~/components/layouts/tailwind-indicator'
-import { KeyProvider } from '@gentleduck/vim'
+import { KeyProvider } from '@gentleduck/vim/react'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -23,9 +23,10 @@ export default function RootLayout({
       <head>
         <link href="/fonts/Geist-VF.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link href="/fonts/JetBrainsMono-MD.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <script src="https://unpkg.com/react-scan/dist/auto.global.js" />
       </head>
       <body className={cn('min-h-svh bg-background font-sans antialiased')}>
-        <KeyProvider debug timeoutMs={500}>
+        <KeyProvider timeoutMs={100}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

@@ -7,14 +7,14 @@ export function Tab({ className, ...props }: React.ComponentProps<typeof Tabs>) 
 
 export function TabList({ className, ...props }: React.ComponentProps<typeof TabsList>) {
   return (
-    <TabsList className={cn('w-full justify-start rounded-none border-b bg-transparent p-2', className)} {...props} />
+    <TabsList className={cn('w-full justify-start rounded-none border-b bg-transparent p-0', className)} {...props} />
   )
 }
 export function TabTrigger({ className, ...props }: React.ComponentProps<typeof TabsTrigger>) {
   return (
     <TabsTrigger
       className={cn(
-        'relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none',
+        "[&[aria-selected='true']]:text-primary border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none",
         className,
       )}
       {...props}

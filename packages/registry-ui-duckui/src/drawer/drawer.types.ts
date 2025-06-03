@@ -8,7 +8,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from './drawer'
-import { UseDuckAlertReturnType } from '~/src/alert-dialog'
+import { UseDuckAlertReturnType } from '../alert-dialog'
 
 /**
  * DrawerWrapperProps
