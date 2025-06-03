@@ -9,8 +9,7 @@ import { Button } from '../button'
 import { Check, ChevronRight } from 'lucide-react'
 import { useDropdownMenuActions, useDropdownMenuContext } from './dropdown-menu.hooks'
 import { RadioGroup, RadioGroupItem } from '../radio-group'
-import { useHandleKeyDown } from './dropdown-menu.libs'
-// import { useHandleKeyDown } from '../command'
+import { useHandleKeyDown } from '../command'
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
@@ -25,7 +24,16 @@ function DropdownMenu({
 }) {
   const { wrapperRef, triggerRef, contentRef, overlayRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
     useDropdownMenuActions(open, onOpenChange)
-  useHandleKeyDown(itemsRef, selectedItemRef, originalItemsRef, triggerRef, contentRef, onOpenChange)
+  useHandleKeyDown(
+    itemsRef,
+    (item) => {
+      selectedItemRef.current = item
+    },
+    originalItemsRef,
+    triggerRef,
+    contentRef,
+    onOpenChange,
+  )
 
   return (
     <DropdownMenuContext.Provider
@@ -136,8 +144,7 @@ function DropdownMenuItem({
       size={'sm'}
       duck-dropdown-menu-item=""
       className={cn(
-        'w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary',
-        "[&>div]:justify-between [&>div]:w-full",
+        'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary',
         inset && 'pl-8',
         className,
       )}
@@ -187,8 +194,6 @@ function DropdownMenuSeparator({ className, ref, ...props }: React.HTMLProps<HTM
 function DropdownMenuGroup({ className, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return <div className={cn(className)} {...props} duck-dropdown-menu-group="" />
 }
-
-/* //////////////////////////////////////////////////////////////////////////////////////////// */
 
 export interface DropdownMenuSubContextType {
   wrapperRef: React.RefObject<HTMLDivElement | null>
