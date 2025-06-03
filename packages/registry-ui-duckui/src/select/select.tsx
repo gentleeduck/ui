@@ -1,17 +1,16 @@
 'use client'
 
-import { Check, CheckIcon, ChevronDown, ChevronDownIcon, ChevronUp } from 'lucide-react'
+import { CheckIcon, ChevronDown, ChevronDownIcon, ChevronUp } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '@gentleduck/libs/cn'
-import { buttonVariants } from '../button'
-import { dstyleItem, handleItemsSelection, styleItem, useHandleKeyDown } from '../command'
-import { initRefs } from './select.libs'
+import { Button, buttonVariants } from '../button'
+import { useHandleKeyDown } from '../command'
+import { useSelectInit, useSelectScroll } from './select.hooks'
 
 export interface SelectContextType {
   open: boolean
   onOpenChange: (open: boolean) => void
-
   wrapperRef: React.RefObject<HTMLDivElement | null>
   triggerRef: React.RefObject<HTMLDivElement | null>
   contentRef: React.RefObject<HTMLDivElement | null>
@@ -38,33 +37,11 @@ function Select({
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
-  const wrapperRef = React.useRef<HTMLDivElement | null>(null)
-  const triggerRef = React.useRef<HTMLDivElement | null>(null)
-  const contentRef = React.useRef<HTMLDivElement | null>(null)
-  const groupsRef = React.useRef<HTMLUListElement[]>([])
-  const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
-  const itemsRef = React.useRef<HTMLLIElement[]>([])
-  const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
-
-  React.useEffect(() => {
-    triggerRef.current?.setAttribute('data-open', String(open))
-    contentRef.current?.setAttribute('data-open', String(open))
-  }, [open])
-
-  React.useEffect(() => {
-    initRefs(groupsRef, wrapperRef, triggerRef, contentRef, selectedItemRef, itemsRef, setSelectedItem)
-    triggerRef.current?.addEventListener('click', () => {
-      const open = contentRef.current?.getAttribute('data-open') === 'true'
-
-      if (!groupsRef.current.length || !itemsRef.current.length) {
-        initRefs(groupsRef, wrapperRef, triggerRef, contentRef, selectedItemRef, itemsRef, setSelectedItem)
-      }
-
-      if (onOpenChange) onOpenChange(!open)
-      contentRef.current?.setAttribute('data-open', String(!open))
-      triggerRef.current?.setAttribute('data-open', String(!open))
-    })
-  }, [])
+  const { itemsRef, selectedItemRef, contentRef, triggerRef, groupsRef, wrapperRef, selectedItem } = useSelectInit(
+    open ?? false,
+    onOpenChange,
+  )
+  useSelectScroll(itemsRef, selectedItemRef, contentRef)
 
   useHandleKeyDown(
     itemsRef,
@@ -158,15 +135,21 @@ function SelectContent({
     <div
       ref={contentRef}
       className={cn(
-        'bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md p-1 mt-1',
+        'relative bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md p-1 mt-1',
         position === 'popper' &&
           'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
+        // 'h-fit',
+
         className,
       )}
       {...props}
       data-position={position}
       duck-select-content="">
-      {children}
+      <SelectScrollUpButton />
+      <div className="max-h-[400px] overflow-scroll" duck-select-content-scrollable="">
+        {children}
+      </div>
+      <SelectScrollDownButton />
     </div>
   )
 }
@@ -192,13 +175,19 @@ function SelectItem({ children, ref, className, ...props }: React.HTMLProps<HTML
       id={id}
       {...props}
       duck-select-item=""
-      className="relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 flex gap-2 hover:bg-muted cursor-pointer transition-color duration-300 will-change-300 hover:text-accent-foreground [&[aria-selected]]:bg-secondary rounded-sm">
-      <div className={cn('relative flex items-center rounded-xs text-sm flex gap-2 hover:bg-muted', className)}>
+      className="relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 flex gap-2 hover:bg-muted cursor-pointer transition-color duration-300 will-change-300 hover:text-accent-foreground [&[aria-selected]]:bg-secondary rounded-sm [&[aria-selected]>#select-indicator]:bg-secondary">
+      <div
+        className={cn(
+          'truncate relative select-none flex items-center rounded-xs gap-2 text-sm outline-hidden',
+          className,
+        )}>
         {children}
       </div>
       {selectedItem?.id === id && (
-        <span className="absolute ltr:right-2 rtl:left-2 flex items-center justify-center">
-          <CheckIcon className="!size-3.5" />
+        <span
+          className="absolute ltr:right-2 rtl:left-2 ltr:pl-2 rtl:pr-2 flex items-center justify-center"
+          id="select-indicator">
+          <CheckIcon className="!size-3.5 shrink-0" />
         </span>
       )}
     </li>
@@ -207,6 +196,36 @@ function SelectItem({ children, ref, className, ...props }: React.HTMLProps<HTML
 
 function SelectSeparator({ children, className, ref, ...props }: React.HTMLProps<HTMLDivElement>) {
   return <div ref={ref} className={cn('-mx-1 my-1 h-px bg-muted', className)} {...props} duck-select-separator="" />
+}
+
+function SelectScrollButton({
+  children,
+  className,
+  scrollDown,
+  ...props
+}: React.ComponentPropsWithRef<typeof Button> & { scrollDown?: boolean }) {
+  return (
+    <Button
+      variant="nothing"
+      size="xs"
+      className={cn(
+        'sticky w-full p-0 cursor-default justify-center bg-background rounded-none z-50 cursor-pointer',
+        scrollDown ? 'bottom-0' : 'top-0',
+        className,
+      )}
+      {...props}
+      duck-select-scroll-up-button="">
+      {scrollDown ? <ChevronDown className="shrink-0" /> : <ChevronUp className="shrink-0" />}
+    </Button>
+  )
+}
+
+function SelectScrollUpButton(props: React.ComponentPropsWithRef<typeof Button>) {
+  return <SelectScrollButton {...props} duck-select-scroll-up-button="" scrollDown={false} />
+}
+
+function SelectScrollDownButton(props: React.ComponentPropsWithRef<typeof Button>) {
+  return <SelectScrollButton {...props} duck-select-scroll-down-button="" scrollDown={true} />
 }
 
 export {
@@ -218,7 +237,6 @@ export {
   SelectLabel,
   SelectItem,
   SelectSeparator,
-  // SelectScrollUpButton,
-  // SelectScrollDownButton,
-  // SelectItemLeftCheck,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
 }

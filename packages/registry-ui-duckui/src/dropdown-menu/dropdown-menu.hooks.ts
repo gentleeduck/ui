@@ -10,7 +10,7 @@ export const useDropdownMenuContext = () => {
   return context
 }
 
-export function useDropdownMenuActions(open: boolean, onOpenChange?: (open: boolean) => void) {
+export function useDropdownMenuInit(open: boolean, onOpenChange?: (open: boolean) => void) {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)

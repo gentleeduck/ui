@@ -25,7 +25,6 @@ export function initRefs(
   itemsRef.current = itemsRef.current.filter(
     (item) => !(item.hasAttribute('disabled') || item.getAttribute('disabled') === 'true'),
   )
-  console.log(itemsRef.current)
   selectedItemRef.current = selectedITem ?? null
 
   for (let i = 0; i < itemsRef.current?.length; i++) {

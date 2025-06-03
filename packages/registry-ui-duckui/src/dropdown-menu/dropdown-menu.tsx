@@ -7,7 +7,7 @@ import { DropdownMenuContextType, DropdownMenuShortcutProps } from './dropdown-m
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '../button'
 import { Check, ChevronRight } from 'lucide-react'
-import { useDropdownMenuActions, useDropdownMenuContext } from './dropdown-menu.hooks'
+import { useDropdownMenuInit, useDropdownMenuContext } from './dropdown-menu.hooks'
 import { RadioGroup, RadioGroupItem } from '../radio-group'
 import { useHandleKeyDown } from '../command'
 
@@ -23,7 +23,7 @@ function DropdownMenu({
   onOpenChange?: (open: boolean) => void
 }) {
   const { wrapperRef, triggerRef, contentRef, overlayRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
-    useDropdownMenuActions(open, onOpenChange)
+    useDropdownMenuInit(open, onOpenChange)
   useHandleKeyDown(
     itemsRef,
     (item) => {
