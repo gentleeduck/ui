@@ -195,8 +195,6 @@ function DropdownMenuGroup({ className, ...props }: React.HTMLProps<HTMLDivEleme
   return <div className={cn(className)} {...props} duck-dropdown-menu-group="" />
 }
 
-/* //////////////////////////////////////////////////////////////////////////////////////////// */
-
 export interface DropdownMenuSubContextType {
   wrapperRef: React.RefObject<HTMLDivElement | null>
   triggerRef: React.RefObject<HTMLButtonElement | null>

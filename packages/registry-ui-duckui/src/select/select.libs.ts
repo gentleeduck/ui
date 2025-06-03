@@ -31,7 +31,7 @@ export function initRefs(
 
     item.addEventListener('click', () => {
       const currentItem = itemsRef.current?.findIndex((_item) => _item.id === item.id)
-      handleItemsSelection(currentItem, itemsRef, setSelectedItem)
+      handleItemsSelection(currentItem, itemsRef, (value) => setSelectedItem(value))
       wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
       item.setAttribute('aria-checked', 'true')
       triggerRef.current?.setAttribute('data-open', 'false')

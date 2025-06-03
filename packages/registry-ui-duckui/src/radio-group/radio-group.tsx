@@ -71,7 +71,7 @@ function RadioGroupItem({
       {...props}>
       {customIndicator && <span id="radio-indicator">{customIndicator}</span>}
       <Radio id={value} className={cn(customIndicator?.toString() && 'hidden')} />
-      <Label duck-radio-label="" className="font-normal" htmlFor={value}>
+      <Label duck-radio-label="" className="font-normal text-sm" htmlFor={value}>
         {children}
       </Label>
     </li>

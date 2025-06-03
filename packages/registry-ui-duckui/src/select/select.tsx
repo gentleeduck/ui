@@ -74,7 +74,7 @@ function Select({
     itemsRef,
     triggerRef as React.RefObject<HTMLButtonElement | null>,
     contentRef,
-    () => {},
+    onOpenChange,
   )
 
   return (
