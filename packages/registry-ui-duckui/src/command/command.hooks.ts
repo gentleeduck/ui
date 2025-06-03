@@ -132,24 +132,17 @@ export function useHandleKeyDown(
   triggerRef: React.RefObject<HTMLButtonElement | null>,
   contentRef: React.RefObject<HTMLDivElement | null>,
   onOpenChange?: (open: boolean) => void,
-  index = 0,
   allowAxisArrowKeys = false,
-  preventTabKey = false,
 ) {
   React.useEffect(() => {
     const html = document.documentElement
-    let originalCurrentItem = index
-    let currentItem = index
+    let originalCurrentItem = 0
+    let currentItem = 0
     let inSubMenu = false
 
     // html.setAttribute('dir', 'rtl')
     function handleKeyDown(e: KeyboardEvent) {
       let isClicked = false
-      if (e.key === 'Tab') {
-        // FIX: this is not good at all, this will fuck up the whole website behaviour.
-        // window.event?.preventDefault()
-      }
-
       if (e.key === 'ArrowDown') {
         const itemIndex = currentItem === itemsRef.current.length - 1 ? 0 : currentItem + 1
         currentItem = itemIndex
@@ -199,7 +192,7 @@ export function useHandleKeyDown(
           itemsRef.current = originalItemsRef.current.filter((item) => !item.hasAttribute('disabled'))
 
           const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
-          item.setAttribute('data-open', 'false')
+          item?.setAttribute('data-open', 'false')
 
           inSubMenu = false
           currentItem = originalCurrentItem

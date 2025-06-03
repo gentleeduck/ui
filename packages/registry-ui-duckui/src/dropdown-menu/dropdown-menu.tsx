@@ -33,6 +33,8 @@ function DropdownMenu({
     triggerRef,
     contentRef,
     onOpenChange,
+    // 0,
+    true,
   )
 
   return (
@@ -143,9 +145,10 @@ function DropdownMenuItem({
       variant={'ghost'}
       size={'sm'}
       duck-dropdown-menu-item=""
-      tabIndex={-1}
       className={cn(
-        'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary focus:bg-secondary',
+        // 'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary focus:bg-secondary',
+        'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]:focus-visible]:ring-2 [&[aria-selected]:focus-visible]:ring-ring [&[aria-selected]:focus-visible]:ring-offset-2 [&[aria-selected]:focus-visible]:ring-offset-background focus:bg-secondary',
+
         inset && 'pl-8',
         className,
       )}
@@ -212,10 +215,8 @@ export function useDropdownMenuSubContext() {
 function DropdownMenuSub({ className, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
     <div
-      tabIndex={-1}
       className={cn(
-        'relative [&[aria-selected]>button]:bg-secondary focus:bg-secondary focus-within:[&>button]:ring-0',
-        className,
+        'relative focus:bg-secondary [&[aria-selected]>button]:bg-secondary [&[aria-selected]:focus-visible>button]:bg-secondary [&>button]:focus:bg-secondary',
       )}
       {...props}
       duck-dropdown-menu-sub=""
