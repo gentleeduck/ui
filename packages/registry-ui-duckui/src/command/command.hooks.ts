@@ -132,7 +132,9 @@ export function useHandleKeyDown(
   triggerRef: React.RefObject<HTMLButtonElement | null>,
   contentRef: React.RefObject<HTMLDivElement | null>,
   onOpenChange?: (open: boolean) => void,
-  index: number = 0,
+  index = 0,
+  allowAxisArrowKeys = false,
+  preventTabKey = false,
 ) {
   React.useEffect(() => {
     const html = document.documentElement
@@ -143,6 +145,11 @@ export function useHandleKeyDown(
     // html.setAttribute('dir', 'rtl')
     function handleKeyDown(e: KeyboardEvent) {
       let isClicked = false
+      if (e.key === 'Tab') {
+        // FIX: this is not good at all, this will fuck up the whole website behaviour.
+        // window.event?.preventDefault()
+      }
+
       if (e.key === 'ArrowDown') {
         const itemIndex = currentItem === itemsRef.current.length - 1 ? 0 : currentItem + 1
         currentItem = itemIndex
@@ -161,41 +168,43 @@ export function useHandleKeyDown(
         isClicked = true
       }
 
-      if (
-        (e.key === 'ArrowLeft' && html.getAttribute('dir') === 'rtl') ||
-        (e.key === 'ArrowRight' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
-      ) {
-        const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
-        const parent = item?.parentNode as HTMLDivElement
-        if (!parent?.hasAttribute('duck-dropdown-menu-sub')) return
+      if (allowAxisArrowKeys) {
+        if (
+          (e.key === 'ArrowLeft' && html.getAttribute('dir') === 'rtl') ||
+          (e.key === 'ArrowRight' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
+        ) {
+          const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
+          const parent = item?.parentNode as HTMLDivElement
+          if (!parent?.hasAttribute('duck-dropdown-menu-sub')) return
 
-        const subItems = Array.from(parent?.querySelectorAll('[duck-dropdown-menu-item]') as never as HTMLLIElement[])
-          .splice(1, 3)
-          .filter((item) => !(item.hasAttribute('disabled') || item.getAttribute('disabled') === 'true'))
+          const subItems = Array.from(parent?.querySelectorAll('[duck-dropdown-menu-item]') as never as HTMLLIElement[])
+            .splice(1, 3)
+            .filter((item) => !(item.hasAttribute('disabled') || item.getAttribute('disabled') === 'true'))
 
-        if (subItems.length <= 0) return
+          if (subItems.length <= 0) return
 
-        item.setAttribute('data-open', 'true')
-        itemsRef.current = subItems
-        inSubMenu = true
-        currentItem = 0
-        isClicked = true
-      }
+          item.setAttribute('data-open', 'true')
+          itemsRef.current = subItems
+          inSubMenu = true
+          currentItem = 0
+          isClicked = true
+        }
 
-      if (
-        (e.key === 'ArrowRight' && html.getAttribute('dir') === 'rtl') ||
-        (e.key === 'ArrowLeft' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
-      ) {
-        const subItem = itemsRef.current[currentItem] as HTMLLIElement
-        subItem.removeAttribute('aria-selected')
-        itemsRef.current = originalItemsRef.current.filter((item) => !item.hasAttribute('disabled'))
+        if (
+          (e.key === 'ArrowRight' && html.getAttribute('dir') === 'rtl') ||
+          (e.key === 'ArrowLeft' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
+        ) {
+          const subItem = itemsRef.current[currentItem] as HTMLLIElement
+          subItem.removeAttribute('aria-selected')
+          itemsRef.current = originalItemsRef.current.filter((item) => !item.hasAttribute('disabled'))
 
-        const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
-        item.setAttribute('data-open', 'false')
+          const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
+          item.setAttribute('data-open', 'false')
 
-        inSubMenu = false
-        currentItem = originalCurrentItem
-        isClicked = true
+          inSubMenu = false
+          currentItem = originalCurrentItem
+          isClicked = true
+        }
       }
 
       if (!isClicked) return

@@ -93,16 +93,16 @@ function DropdownMenuContent({
         // 'data-[open="true"]:bg-red-500',
         className,
       )}
-      // style={{
-      //   margin:
-      //     side === 'left'
-      //       ? `0 0 0 ${sideOffset}px`
-      //       : side === 'right'
-      //         ? `0 ${sideOffset}px 0 0`
-      //         : side === 'top'
-      //           ? `${sideOffset}px 0 0 0`
-      //           : `0 0 ${sideOffset}px 0`,
-      // }}
+      style={{
+        margin:
+          side === 'left'
+            ? `0 0 0 ${sideOffset}px`
+            : side === 'right'
+              ? `0 ${sideOffset}px 0 0`
+              : side === 'top'
+                ? `${sideOffset}px 0 0 0`
+                : `0 0 ${sideOffset}px 0`,
+      }}
       //
       {...props}
     >
@@ -143,13 +143,12 @@ function DropdownMenuItem({
       variant={'ghost'}
       size={'sm'}
       duck-dropdown-menu-item=""
+      tabIndex={-1}
       className={cn(
-        'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary',
+        'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary focus:bg-secondary',
         inset && 'pl-8',
         className,
       )}
-      aria-disabled
-      // disabled={true}
       {...props}
     />
   )
@@ -174,8 +173,8 @@ function DropdownMenuShortcut({
   return (
     <kbd
       className={cn(
-        'inline-flex items-center gap-1 transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 py-[.12rem] rounded-xs text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none text-xs tracking-widest text-muted-foreground',
-        colored && 'bg-muted px-2',
+        'inline-flex items-center gap-[2px] transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 text-[.7rem] py-[.12rem] px-2 rounded-[4px] text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none ml-auto text-xs tracking-widest text-muted-foreground',
+        colored ? 'bg-muted' : 'ltr:-mr-2 rtl:-ml-2',
         className,
       )}
       duck-data-dropdown-menu-shortcut=""
@@ -213,10 +212,9 @@ export function useDropdownMenuSubContext() {
 function DropdownMenuSub({ className, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
     <div
+      tabIndex={-1}
       className={cn(
-        'relative',
-
-        '[&[aria-selected]>button]:bg-secondary',
+        'relative [&[aria-selected]>button]:bg-secondary focus:bg-secondary focus-within:[&>button]:ring-0',
         className,
       )}
       {...props}
@@ -239,16 +237,15 @@ function DropdownMenuSubTrigger({
       variant={'ghost'}
       duck-dropdown-menu-item=""
       className={cn(
-        '[&>div]:justify-between [&>div]:w-full  w-full',
-        '[&:focus-within+div,&:hover+div]:opacity-100',
+        '[&>div]:justify-between [&>div]:w-full w-full',
+        '[&:hover+div]:opacity-100',
         '[&[aria-selected]]:bg-secondary',
         '[&[data-open="true"]+div]:opacity-100',
+
         className,
       )}
       asChild={asChild}
-      secondIcon={<ChevronRight
-        className="rtl:rotate-180"
-      />}
+      secondIcon={<ChevronRight className="rtl:rotate-180 ltr:rotate-0 rtl:-ml-2 ltr:-mr-2" />}
       {...props}>
       {children}
     </Button>
@@ -268,12 +265,18 @@ function DropdownMenuSubContent({
   return (
     <DropdownMenuContent
       className={cn(
-        'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md delay-250 transition-opacity',
+        'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+        'ml-1',
+        '-mt-1',
         'opacity-0',
-        'top-0 start-full mx-1.5 -my-1',
-
         className,
       )}
+      style={
+        {
+          left: '100%',
+          top: 0,
+        } as React.CSSProperties
+      }
       {...props}
       duck-dropdown-menu-sub-content="">
       {children}
@@ -293,12 +296,12 @@ function DropdownMenuCheckboxItem({
       duck-dropdown-menu-checkbox-item=""
       data-checked={checked}
       ref={ref}
-      className={cn('flex items-center space-x-2', className)}
+      className={cn(className)}
       {...props}>
-      <span>{children}</span>
-      <span className="text-start flex size-4 mx-1.5 items-center justify-center">
-        <Check className={cn('size-4 opacity-0 transition-all translate-y-0.75  ease-(--duck-motion-ease)', checked && 'opacity-100 translate-y-0')} />
+      <span className="absolute left-2.5 flex items-center">
+        <Check className={cn('!size-4 opacity-0', checked && 'opacity-100')} />
       </span>
+      <span className="ltr:pl-7 rtl:pr-7">{children}</span>
     </DropdownMenuItem>
   )
 }
@@ -320,8 +323,9 @@ function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof 
       <RadioGroupItem
         ref={groupItemRef}
         {...props}
+        className="ltr:pl-[1.25rem] rtl:pr-[1.25rem]"
         customIndicator={
-          <span className="size-2 m-1.5 flex bg-foreground rounded-full" />
+          <span className="absolute left-1 top-1/2 -translate-y-1/2 size-2 flex bg-foreground rounded-full transition-all duration-150 ease-in-out" />
         }
       />
     </DropdownMenuItem>
