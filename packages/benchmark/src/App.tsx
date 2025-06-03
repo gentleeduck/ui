@@ -98,9 +98,11 @@ import CmdK from './example/command/cmdk'
 function App() {
   // <ShadcnDialog />
   return (
+
     <div className="flex flex-col mx-10 h-screen justify-center  items-center gap-4">
       <CmdK />
       {/* <CommandShadcn  /> */}
+
     </div>
   )
 }
