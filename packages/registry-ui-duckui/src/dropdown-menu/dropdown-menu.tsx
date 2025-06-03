@@ -93,16 +93,16 @@ function DropdownMenuContent({
         // 'data-[open="true"]:bg-red-500',
         className,
       )}
-      style={{
-        margin:
-          side === 'left'
-            ? `0 0 0 ${sideOffset}px`
-            : side === 'right'
-              ? `0 ${sideOffset}px 0 0`
-              : side === 'top'
-                ? `${sideOffset}px 0 0 0`
-                : `0 0 ${sideOffset}px 0`,
-      }}
+      // style={{
+      //   margin:
+      //     side === 'left'
+      //       ? `0 0 0 ${sideOffset}px`
+      //       : side === 'right'
+      //         ? `0 ${sideOffset}px 0 0`
+      //         : side === 'top'
+      //           ? `${sideOffset}px 0 0 0`
+      //           : `0 0 ${sideOffset}px 0`,
+      // }}
       //
       {...props}
     >
@@ -269,17 +269,11 @@ function DropdownMenuSubContent({
     <DropdownMenuContent
       className={cn(
         'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md delay-250 transition-opacity',
-        'ml-1',
-        '-mt-1',
         'opacity-0',
+        'top-0 start-full mx-1.5 -my-1',
+
         className,
       )}
-      style={
-        {
-          left: '100%',
-          top: 0,
-        } as React.CSSProperties
-      }
       {...props}
       duck-dropdown-menu-sub-content="">
       {children}
