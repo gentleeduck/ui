@@ -8,6 +8,7 @@ function Textarea({ className, ref, ...props }: React.HTMLProps<HTMLTextAreaElem
         className,
       )}
       ref={ref}
+      duck-textarea=""
       {...props}
     />
   )

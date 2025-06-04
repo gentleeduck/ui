@@ -12,7 +12,7 @@ interface ToggleProps
     Omit<VariantProps<typeof toggleVariants>, 'size'> {}
 
 const Toggle = ({ className, variant, ref, children, ...props }: ToggleProps) => (
-  <label className="relative flex items-center justify-center">
+  <label className="relative flex items-center justify-center" duck-toggle="">
     <input type="checkbox" ref={ref} className={cn(toggleVariants({ variant, className }))} {...props} />
     <Slot className="z-1 isolate">{children}</Slot>
   </label>

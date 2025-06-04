@@ -14,6 +14,8 @@ function Radio({ className, ref, ...props }: React.HTMLProps<HTMLInputElement>) 
       type="radio"
       ref={ref}
       duck-radio=""
+      role="radio"
+      aria-checked={props.checked}
       className={cn(
         'appearance-none h-4 w-4 transition-all rounded-full border border-border ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 checked:border-foreground border-solid flex items-center justify-center after:absolute relative after:bg-foreground after:rounded-full after:scale-0 checked:after:scale-100  after:block after:w-2.5 after:h-2.5 after:opacity-0 checked:after:opacity-100 after:relative after:transition-all ',
         className,
@@ -46,7 +48,7 @@ function RadioGroup({
         itemsRef,
         selectedItemRef,
       }}>
-      <ul duck-radio-group="" className={cn('flex flex-col', className)} {...props} ref={wrapperRef}>
+      <ul duck-radio-group="" className={cn('flex flex-col', className)} ref={wrapperRef} role="radiogroup" {...props}>
         {children}
       </ul>
     </RadioGroupContext.Provider>
@@ -64,6 +66,7 @@ function RadioGroupItem({
     <li
       id={value}
       duck-radio-item=""
+      role="presentation"
       className={cn(
         'relative flex items-center gap-2 [&>#radio-indicator]:opacity-0 [&[aria-checked=true]>#radio-indicator]:opacity-100',
         className,
