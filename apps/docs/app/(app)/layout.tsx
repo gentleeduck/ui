@@ -12,11 +12,58 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
-      <MenubarDemo />
+      <BreadcrumbDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
     //   <SiteFooter />
+  )
+}
+import Link from 'next/link'
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@gentleduck/registry-ui-duckui/breadcrumb'
+export function BreadcrumbDemo() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link href="/">Home</Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1">
+              <BreadcrumbEllipsis className="size-4" />
+              <span className="sr-only">Toggle menu</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem>Documentation</DropdownMenuItem>
+              <DropdownMenuItem>Themes</DropdownMenuItem>
+              <DropdownMenuItem>GitHub</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link href="/docs/components">Components</Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
   )
 }
 
@@ -194,9 +241,23 @@ export function SelectDemo() {
   )
 }
 
-import { DropdownMenu } from '@gentleduck/registry-ui-duckui/dropdown-menu'
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui-duckui/dropdown-menu'
 
-import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Command } from 'lucide-react'
 
 type Checked = boolean
@@ -207,65 +268,63 @@ export function DropdownMenuCheckboxes() {
   const [position, setPosition] = React.useState('top')
 
   return (
-    <DropdownMenu.DropdownMenu
+    <DropdownMenu
       open={true}
       onOpenChange={(value) => {
         console.log(value)
       }}>
-      <DropdownMenu.DropdownMenuTrigger>Open</DropdownMenu.DropdownMenuTrigger>
-      <DropdownMenu.DropdownMenuContent className="w-56">
-        <DropdownMenu.DropdownMenuLabel>Appearance</DropdownMenu.DropdownMenuLabel>
-        <DropdownMenu.DropdownMenuSeparator />
-        <DropdownMenu.DropdownMenuGroup>
-          <DropdownMenu.DropdownMenuCheckboxItem
-            checked={showStatusBar}
-            onClick={() => setShowStatusBar(!showStatusBar)}>
+      <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuCheckboxItem checked={showStatusBar} onClick={() => setShowStatusBar(!showStatusBar)}>
             Status Bar
-          </DropdownMenu.DropdownMenuCheckboxItem>
-          <DropdownMenu.DropdownMenuCheckboxItem checked={showActivityBar} disabled>
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked={showActivityBar} disabled>
             Activity Bar
-          </DropdownMenu.DropdownMenuCheckboxItem>
-          <DropdownMenu.DropdownMenuCheckboxItem checked={showPanel}>Panel</DropdownMenu.DropdownMenuCheckboxItem>
-        </DropdownMenu.DropdownMenuGroup>
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked={showPanel}>Panel</DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
 
-        <DropdownMenu.DropdownMenuSeparator />
-        <DropdownMenu.DropdownMenuRadioGroup value={position} onValueChange={setPosition} defaultValue={position}>
-          <DropdownMenu.DropdownMenuRadioItem value="top">Top</DropdownMenu.DropdownMenuRadioItem>
-          <DropdownMenu.DropdownMenuRadioItem value="bottom">Bottom</DropdownMenu.DropdownMenuRadioItem>
-          <DropdownMenu.DropdownMenuRadioItem value="right">Right</DropdownMenu.DropdownMenuRadioItem>
-        </DropdownMenu.DropdownMenuRadioGroup>
-        <DropdownMenu.DropdownMenuGroup>
-          <DropdownMenu.DropdownMenuItem disabled={true}>Status Bar</DropdownMenu.DropdownMenuItem>
-          <DropdownMenu.DropdownMenuItem>Activity Bar</DropdownMenu.DropdownMenuItem>
-          <DropdownMenu.DropdownMenuItem>Panel</DropdownMenu.DropdownMenuItem>
-        </DropdownMenu.DropdownMenuGroup>
-        <DropdownMenu.DropdownMenuSeparator />
-        <DropdownMenu.DropdownMenuGroup>
-          <DropdownMenu.DropdownMenuSub>
-            <DropdownMenu.DropdownMenuSubTrigger>Submenu</DropdownMenu.DropdownMenuSubTrigger>
-            <DropdownMenu.DropdownMenuSubContent>
-              <DropdownMenu.DropdownMenuItem disabled={true}>Item 1</DropdownMenu.DropdownMenuItem>
-              <DropdownMenu.DropdownMenuItem>Item 2</DropdownMenu.DropdownMenuItem>
-            </DropdownMenu.DropdownMenuSubContent>
-          </DropdownMenu.DropdownMenuSub>
-        </DropdownMenu.DropdownMenuGroup>
-        <DropdownMenu.DropdownMenuSeparator />
-        <DropdownMenu.DropdownMenuGroup>
-          <DropdownMenu.DropdownMenuItem disabled={true}>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup value={position} onValueChange={setPosition} defaultValue={position}>
+          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownMenuGroup>
+          <DropdownMenuItem disabled={true}>Status Bar</DropdownMenuItem>
+          <DropdownMenuItem>Activity Bar</DropdownMenuItem>
+          <DropdownMenuItem>Panel</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Submenu</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem disabled={true}>Item 1</DropdownMenuItem>
+              <DropdownMenuItem>Item 2</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem disabled={true}>
             Preferences
-            <DropdownMenu.DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+            <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
               <Command />P
-            </DropdownMenu.DropdownMenuShortcut>
-          </DropdownMenu.DropdownMenuItem>
-          <DropdownMenu.DropdownMenuItem>
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
             Settings
-            <DropdownMenu.DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+            <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
               <Command />P
-            </DropdownMenu.DropdownMenuShortcut>
-          </DropdownMenu.DropdownMenuItem>
-        </DropdownMenu.DropdownMenuGroup>
-      </DropdownMenu.DropdownMenuContent>
-    </DropdownMenu.DropdownMenu>
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 import { Calculator, CreditCard, Settings, Smile, User } from 'lucide-react'

@@ -60,13 +60,20 @@ function DropdownMenu({
 function DropdownMenuTrigger({
   className,
   children,
+  variant = 'ghost',
   asChild = false,
   onClick,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Button>) {
   const { triggerRef } = useDropdownMenuContext()
   return (
-    <Button duck-dropdown-menu-trigger="" ref={triggerRef} className={cn('', className)} asChild={asChild} {...props}>
+    <Button
+      ref={triggerRef}
+      variant={variant}
+      className={cn('', className)}
+      asChild={asChild}
+      {...props}
+      duck-dropdown-menu-trigger="">
       {children}
     </Button>
   )

@@ -99,6 +99,8 @@ const components: Record<
   resizable: {},
 
   dropdownMenu: {},
+  menuBar: {},
+  select: {},
 
   breadcrumb: {},
   upload: {},
@@ -106,11 +108,9 @@ const components: Record<
 
   popover: {},
   combobox: {},
-  select: {},
   hoverCard: {},
   tooltip: {},
   navigationMenu: {},
-  menuBar: {},
   contextMenu: {},
 
   drawer: {},
