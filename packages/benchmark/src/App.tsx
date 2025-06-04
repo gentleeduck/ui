@@ -2,7 +2,7 @@
 // import NativeTextarea from './duck/textarea/native'
 // import DuckButton from './duck/button/duck'
 // import ShadcnButton from './duck/button/button'
-// import DuckTextarea from './duck/textarea/duck'
+import DuckTextarea from './duck/textarea/duck'
 // import ShadcnTextarea from './duck/textarea/textarea'
 // import DuckTabs from './duck/tabs/duck'
 // import ShadcnTabs from './duck/tabs/tabs'
@@ -52,7 +52,6 @@
 // import Command from './example/command'
 
 // import Command from "./example/command/duck"
-import CmdK from './example/command/cmdk'
 // import CommandShadcn from "./example/command/shadcn"
 // import DrawerExample from './example/drawer'
 // import DuckSkeleton from './duck/skeleton/duck'
@@ -98,11 +97,11 @@ import CmdK from './example/command/cmdk'
 function App() {
   // <ShadcnDialog />
   return (
-
     <div className="flex flex-col mx-10 h-screen justify-center  items-center gap-4">
-      <CmdK />
-      {/* <CommandShadcn  /> */}
-
+      {/* <Ui /> */}
+      {/* <DuckSonner /> */}
+      <DuckTextarea /> Experimental
+      {/* <ShadcnTextarea  /> other */}
     </div>
   )
 }
