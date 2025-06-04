@@ -1,8 +1,6 @@
-import * as React from 'react'
-
-import { Label } from '../label'
-
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
+import { Label } from '../label'
 
 export interface CheckboxProps extends React.HTMLProps<HTMLInputElement> {}
 const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (
@@ -10,7 +8,7 @@ const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (
     ref={ref}
     type="checkbox"
     className={cn(
-      'peer h-4 w-4 shrink-0 rounded-xs border border-primary ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground border-solid',
+      'appearance-none h-4 w-4 transition-all rounded border border-border ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 checked:bg-primary checked:border-primary checked:text-primary-foreground border-solid relative flex items-center justify-center after:absolute    after:block after:w-[5px] after:h-[9px]  after:border-2 after:border-white after:border-t-0 after:border-l-0 after:border-white after:opacity-0 after:rotate-45 after:relative after:transition-all checked:after:opacity-100',
       className,
     )}
     {...props}
