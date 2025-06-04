@@ -35,7 +35,7 @@ export function useDropdownMenuInit(open: boolean, onOpenChange?: (open: boolean
 
       if (onOpenChange) onOpenChange(!open)
       contentRef.current?.setAttribute('data-open', String(!open))
-      triggerRef.current?.setAttribute('aria-open', String(!open))
+      triggerRef.current?.setAttribute('data-open', String(!open))
     }
 
     triggerRef.current?.addEventListener('click', handleClick)

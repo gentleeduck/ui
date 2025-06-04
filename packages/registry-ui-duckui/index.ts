@@ -98,12 +98,13 @@ const components: Record<
   carousel: {},
   resizable: {},
 
+  dropdownMenu: {},
+
   breadcrumb: {},
   upload: {},
   inputOTP: {},
 
   popover: {},
-  dropdownMenu: {},
   combobox: {},
   select: {},
   hoverCard: {},

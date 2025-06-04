@@ -17,8 +17,9 @@ function DropdownMenu({
   open = false,
   onOpenChange,
   children,
-}: {
-  children: React.ReactNode
+  className,
+  ...props
+}: React.HTMLProps<HTMLDivElement> & {
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
@@ -49,7 +50,7 @@ function DropdownMenu({
         selectedItemRef,
         originalItemsRef,
       }}>
-      <div className="relative" duck-dropdown-menu="" ref={wrapperRef}>
+      <div className={cn('relative', className)} duck-dropdown-menu="" {...props} ref={wrapperRef}>
         {children}
       </div>
     </DropdownMenuContext.Provider>
@@ -91,8 +92,8 @@ function DropdownMenuContent({
       duck-dropdown-menu-content=""
       data-open={false}
       className={cn(
-        'z-50 min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[open="false"]:animate-in data-[open="true"]:animate-out data-[open="true"]:fade-out-0 data-[open="false"]:fade-in-0 data-[open="true"]:zoom-out-95 data-[open="false"]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-        // 'data-[open="true"]:bg-red-500',
+        'absolute z-50 min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[open="false"]:animate-in data-[open="true"]:animate-out data-[open="true"]:fade-out-0 data-[open="false"]:fade-in-0 data-[open="true"]:zoom-out-95 data-[open="false"]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+        'data-[open="false"]:opacity-0 data-[open="true"]:opacity-100 data-[open="false"]:pointer-events-none',
         className,
       )}
       style={{
