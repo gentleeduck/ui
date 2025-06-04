@@ -12,11 +12,41 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
-      <ProgressDemo />
+      <ToggleGroupDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
     //   <SiteFooter />
+  )
+}
+
+import { Bold, Italic, Underline } from 'lucide-react'
+
+import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
+
+export function ToggleGroupDemo() {
+  return (
+    <ToggleGroup variant="outline" type="single" onValueChange={(value) => console.log(value)}>
+      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+        <Bold className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+        <Italic className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="strikethrough" aria-label="Toggle strikethrough">
+        <Underline className="h-4 w-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+
+import { Toggle } from '@gentleduck/registry-ui-duckui/toggle'
+
+export function ToggleDemo() {
+  return (
+    <Toggle aria-label="Toggle italic">
+      <Bold className="h-4 w-4" />
+    </Toggle>
   )
 }
 

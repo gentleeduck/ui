@@ -68,8 +68,6 @@ const components: Record<
   badge: {
     docs: false,
   },
-  toggle: {},
-  toggleGroup: {},
   switch: {},
   checkbox: {},
   textarea: {},
@@ -103,7 +101,10 @@ const components: Record<
   select: {},
   breadcrumb: {},
   inputOTP: {},
+  progress: {},
 
+  toggle: {},
+  toggleGroup: {},
   upload: {},
 
   popover: {},
@@ -120,6 +121,5 @@ const components: Record<
   collapsible: {},
   accordion: {},
 
-  progress: {},
   slider: {},
 }
