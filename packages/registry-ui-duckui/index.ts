@@ -102,9 +102,10 @@ const components: Record<
   breadcrumb: {},
   inputOTP: {},
   progress: {},
-
   toggle: {},
   toggleGroup: {},
+  slider: {},
+
   upload: {},
 
   popover: {},
@@ -120,6 +121,4 @@ const components: Record<
 
   collapsible: {},
   accordion: {},
-
-  slider: {},
 }

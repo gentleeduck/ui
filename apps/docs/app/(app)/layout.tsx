@@ -12,12 +12,19 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
-      <ToggleGroupDemo />
+      <SliderDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
     //   <SiteFooter />
   )
+}
+import { Slider } from '@gentleduck/registry-ui-duckui/slider'
+
+type SliderProps = React.ComponentProps<typeof Slider>
+
+export function SliderDemo({ className, ...props }: SliderProps) {
+  return <Slider defaultValue={50} max={100} step={1} className={cn('w-[60%]', className)} {...props} />
 }
 
 import { Bold, Italic, Underline } from 'lucide-react'
@@ -404,6 +411,7 @@ import {
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
 import React from 'react'
+import { cn } from '@gentleduck/libs/cn'
 
 export function CommandDemo() {
   return (
