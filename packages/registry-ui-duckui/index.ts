@@ -102,9 +102,9 @@ const components: Record<
   menuBar: {},
   select: {},
   breadcrumb: {},
+  inputOTP: {},
 
   upload: {},
-  inputOTP: {},
 
   popover: {},
   combobox: {},
