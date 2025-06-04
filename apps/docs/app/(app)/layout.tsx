@@ -12,13 +12,40 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
-      <SliderDemo />
+      <CollapsibleDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
     //   <SiteFooter />
   )
 }
+
+import { ChevronsUpDown } from 'lucide-react'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
+
+export function CollapsibleDemo() {
+  const [isOpen, setIsOpen] = React.useState(true)
+
+  return (
+    <Collapsible open={true} onOpenChange={setIsOpen} className="flex w-[350px] flex-col gap-2">
+      <div className="flex items-center justify-between gap-4 w-full px-2">
+        <h4 className="text-sm font-semibold">@peduarte starred 3 repositories</h4>
+        <CollapsibleTrigger>
+          <div>
+            <ChevronsUpDown />
+            <span className="sr-only">Toggle</span>
+          </div>
+        </CollapsibleTrigger>
+      </div>
+      <div className="rounded-md border px-4 py-2 font-mono text-sm">@radix-ui/primitives</div>
+      <CollapsibleContent className="flex flex-col gap-2">
+        <div className="rounded-md border px-4 py-2 font-mono text-sm">@radix-ui/colors</div>
+        <div className="rounded-md border px-4 py-2 font-mono text-sm">@stitches/react</div>
+      </CollapsibleContent>
+    </Collapsible>
+  )
+}
+
 import { Slider } from '@gentleduck/registry-ui-duckui/slider'
 
 type SliderProps = React.ComponentProps<typeof Slider>
@@ -412,6 +439,7 @@ import {
 } from '@gentleduck/registry-ui-duckui/command'
 import React from 'react'
 import { cn } from '@gentleduck/libs/cn'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 export function CommandDemo() {
   return (

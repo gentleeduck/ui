@@ -59,7 +59,7 @@ function Button({
       disabled={loading ?? disabled}>
       <div className="flex items-center gap-2">
         {loading ? <Loader className="animate-spin" /> : icon}
-        {!isCollapsed && size !== 'icon' && children}
+        {!isCollapsed && children}
         {!isCollapsed && secondIcon && secondIcon}
       </div>
     </Component>
