@@ -2,7 +2,7 @@
 // import NativeTextarea from './duck/textarea/native'
 // import DuckButton from './duck/button/duck'
 // import ShadcnButton from './duck/button/button'
-import DuckTextarea from './duck/textarea/duck'
+// import DuckTextarea from './duck/textarea/duck'
 // import ShadcnTextarea from './duck/textarea/textarea'
 // import DuckTabs from './duck/tabs/duck'
 // import ShadcnTabs from './duck/tabs/tabs'
@@ -27,6 +27,7 @@ import DuckTextarea from './duck/textarea/duck'
 // import ShadcnInput from './duck/input/input'
 // import DuckScrollAreaExp from './duck/scroll-area/experimental'
 // import DuckScrollArea from './duck/scroll-area/duck'
+// import ShadcnScrollArea from './duck/scroll-area/scroll-area'
 // import DuckHoverCard from './duck/hover-card/duck'
 // import ShadcnHoverCard from './duck/hover-card/hover-card'
 // import DuckSlider from './duck/slider/duck'
@@ -51,6 +52,7 @@ import DuckTextarea from './duck/textarea/duck'
 // import Command from './example/command'
 
 // import Command from "./example/command/duck"
+import CmdK from './example/command/cmdk'
 // import CommandShadcn from "./example/command/shadcn"
 // import DrawerExample from './example/drawer'
 // import DuckSkeleton from './duck/skeleton/duck'
@@ -97,10 +99,8 @@ function App() {
   // <ShadcnDialog />
   return (
     <div className="flex flex-col mx-10 h-screen justify-center  items-center gap-4">
-      {/* <Ui /> */}
-      {/* <DuckSonner /> */}
-      <DuckTextarea /> Experimental
-      {/* <ShadcnTextarea  /> other */}
+      <CmdK />
+      {/* <CommandShadcn  /> */}
     </div>
   )
 }
