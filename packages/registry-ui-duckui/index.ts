@@ -101,8 +101,8 @@ const components: Record<
   dropdownMenu: {},
   menuBar: {},
   select: {},
-
   breadcrumb: {},
+
   upload: {},
   inputOTP: {},
 

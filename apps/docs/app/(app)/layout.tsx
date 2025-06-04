@@ -12,13 +12,34 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
-      <BreadcrumbDemo />
+      <InputOTPDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
     //   <SiteFooter />
   )
 }
+
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'
+
+export function InputOTPDemo() {
+  return (
+    <InputOTP value={'123456'} onValueChange={(value) => console.log(value)}>
+      <InputOTPGroup>
+        <InputOTPSlot />
+        <InputOTPSlot />
+        <InputOTPSlot />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot />
+        <InputOTPSlot />
+        <InputOTPSlot />
+      </InputOTPGroup>
+    </InputOTP>
+  )
+}
+
 import Link from 'next/link'
 import {
   Breadcrumb,
