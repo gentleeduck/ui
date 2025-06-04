@@ -227,7 +227,7 @@ function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: Comm
   return (
     <kbd
       className={cn(
-        'inline-flex items-center gap-[2px] transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 text-[.7rem] py-[.12rem] px-2 rounded-[4px] text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none ml-auto text-xs tracking-widest text-muted-foreground',
+        'inline-flex items-center gap-[2px] transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 text-[.7rem] py-[.12rem] px-2 rounded-[4px] text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none ltr:ml-auto rtl:mr-auto text-xs tracking-widest text-muted-foreground',
         className,
       )}
       ref={ref}

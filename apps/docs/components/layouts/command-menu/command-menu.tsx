@@ -66,7 +66,7 @@ export function CommandMenu() {
         variant="outline"
         size={'sm'}
         className={cn(
-          'relative h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between pr-2 md:w-40 lg:w-64',
+          'relative w-full h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between ltr:pr-2 rtl:pl-2 md:w-40 lg:w-64',
         )}
         onClick={() => setOpen(true)}>
         <span className="hidden lg:inline-flex">Search documentation...</span>

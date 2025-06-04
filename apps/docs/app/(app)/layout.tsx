@@ -8,11 +8,12 @@ interface AppLayoutProps {
 }
 
 export default function AppLayout({ children }: AppLayoutProps) {
+  const html = document.documentElement
+  // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
       <SelectScrollable />
     </div>
-    // <CommandMenu />
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
     //   <SiteFooter />

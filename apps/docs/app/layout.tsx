@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
         <link href="/fonts/Geist-VF.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link href="/fonts/JetBrainsMono-MD.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />

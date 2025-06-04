@@ -326,7 +326,7 @@ function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof 
         {...props}
         className="ltr:pl-[1.25rem] rtl:pr-[1.25rem]"
         customIndicator={
-          <span className="absolute left-1 top-1/2 -translate-y-1/2 size-2 flex bg-foreground rounded-full transition-all duration-150 ease-in-out" />
+          <span className="absolute ltr:left-1 rtl:right-1 top-1/2 -translate-y-1/2 size-2 flex bg-foreground rounded-full transition-all duration-150 ease-in-out" />
         }
       />
     </DropdownMenuItem>
