@@ -109,7 +109,7 @@ export default function Header() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem className='ms-3 text-base font-medium'>
+            <NavigationMenuItem className="ms-3 text-base font-medium">
               <Link to="/blog">Blog</Link>
             </NavigationMenuItem>
           </NavigationMenuList>

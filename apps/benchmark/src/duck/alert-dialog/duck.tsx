@@ -13,9 +13,7 @@ import {
 export default function AlertDialogDemo() {
   return (
     <AlertDialog>
-      <AlertDialogTrigger variant="outline">
-        Show Alert Dialog
-      </AlertDialogTrigger>
+      <AlertDialogTrigger variant="outline">Show Alert Dialog</AlertDialogTrigger>
       <AlertDialogContent renderOnce>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

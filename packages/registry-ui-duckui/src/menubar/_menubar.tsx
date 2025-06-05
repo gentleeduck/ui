@@ -6,7 +6,6 @@ import * as React from 'react'
 
 import { cn } from '@gentleduck/libs/cn'
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const MenubarMenu: React.FC<any> = MenubarPrimitive.Menu
 
 const MenubarGroup = MenubarPrimitive.Group

@@ -28,13 +28,9 @@ export default function DialogDemo() {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>
-        Edit Profile
-      </Button>
+      <Button onClick={() => setOpen(true)}>Edit Profile</Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger variant="outline">
-          Edit Profile
-        </DialogTrigger>
+        <DialogTrigger variant="outline">Edit Profile</DialogTrigger>
         <DialogContent renderOnce className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
@@ -55,9 +51,7 @@ export default function DialogDemo() {
             </div>
           </div>
           <DialogFooter>
-            <DialogTrigger>
-              Save changes
-            </DialogTrigger>
+            <DialogTrigger>Save changes</DialogTrigger>
           </DialogFooter>
         </DialogContent>
       </Dialog>

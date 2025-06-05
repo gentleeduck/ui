@@ -1,4 +1,4 @@
-import path from 'node:path';
+import path from 'node:path'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
@@ -15,9 +15,7 @@ export default defineConfig({
       provider: 'playwright',
       enabled: true,
       headless: true,
-      instances: [
-        { browser: 'chromium' },
-      ],
+      instances: [{ browser: 'chromium' }],
     },
   },
 })

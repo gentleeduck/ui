@@ -13,9 +13,7 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 export default function DialogDemo() {
   return (
     <Dialog>
-      <DialogTrigger variant="outline">
-        Edit Profile
-      </DialogTrigger>
+      <DialogTrigger variant="outline">Edit Profile</DialogTrigger>
       <DialogContent renderOnce className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
@@ -36,9 +34,7 @@ export default function DialogDemo() {
           </div>
         </div>
         <DialogFooter>
-          <DialogTrigger>
-            Save changes
-          </DialogTrigger>
+          <DialogTrigger>Save changes</DialogTrigger>
         </DialogFooter>
       </DialogContent>
     </Dialog>

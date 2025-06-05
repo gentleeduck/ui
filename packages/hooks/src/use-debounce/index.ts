@@ -25,10 +25,3 @@ export const debounce = <const T extends (...args: unknown[]) => void>(callback:
     }, delay)
   }
 }
-
-function p(x: any) {
-  if (typeof x === 'number') {
-    x.toFixed(2)
-  }
-}
-p('asdfasdf')
