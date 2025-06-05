@@ -8,7 +8,7 @@ interface AppLayoutProps {
 }
 
 export default function AppLayout({ children }: AppLayoutProps) {
-  const html = document.documentElement
+  // const html = document.documentElement
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
@@ -24,7 +24,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@g
 
 export function AccordionDemo() {
   return (
-    <Accordion type="single" collapsible={true} className="w-full" defaultValue="item-1">
+    <Accordion type="multiple" collapsible={true} className="w-full" defaultValue="item-1">
       <AccordionItem value="item-1">
         <AccordionTrigger>Product Information</AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">

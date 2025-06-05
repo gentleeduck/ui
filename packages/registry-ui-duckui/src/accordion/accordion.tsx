@@ -62,18 +62,21 @@ function Accordion({
             const _item = itemsRef.current[i] as HTMLDetailsElement
             const content = _item.querySelector('[duck-accordion-content]') as HTMLDivElement
             const trigger = _item.querySelector('[duck-accordion-trigger]') as HTMLDivElement
-            _item.open = false
-            setOpen(false, trigger, content)
+
+            if (!collapsible) {
+              _item.open = false
+              setOpen(false, trigger, content)
+            }
 
             if (_item.id === item.id) {
               _item.open = item.open
-              setOpen(item.open, trigger, content)
+              setOpen(!item.open, trigger, content)
             }
           }
         } else {
-          if (!collapsible) item.open = false
-          setOpen(!item.open, trigger, content)
         }
+        if (!collapsible) item.open = false
+        setOpen(!item.open, trigger, content)
         onValueChange?.(item.id)
       })
     }

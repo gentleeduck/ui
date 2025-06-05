@@ -106,6 +106,7 @@ const components: Record<
   toggleGroup: {},
   slider: {},
   collapsible: {},
+  accordion: {},
 
   upload: {},
 
@@ -119,6 +120,4 @@ const components: Record<
   drawer: {},
   sheet: {},
   alertDialog: {},
-
-  accordion: {},
 }
