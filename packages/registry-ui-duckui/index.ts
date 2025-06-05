@@ -105,6 +105,7 @@ const components: Record<
   toggle: {},
   toggleGroup: {},
   slider: {},
+  collapsible: {},
 
   upload: {},
 
@@ -119,6 +120,5 @@ const components: Record<
   sheet: {},
   alertDialog: {},
 
-  collapsible: {},
   accordion: {},
 }

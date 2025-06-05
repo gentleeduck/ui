@@ -37,6 +37,26 @@ function Collapsible({
 
   const contentId = React.useId()
 
+  React.useEffect(() => {
+    if (open) {
+      triggerRef.current?.setAttribute('data-open', String(open))
+      contentRef.current?.setAttribute('data-open', String(open))
+      contentRef.current?.setAttribute('aria-expanded', String(open))
+      onOpenChange?.(open)
+    }
+
+    function handleClick() {
+      const open = triggerRef.current?.getAttribute('data-open') === 'true'
+      triggerRef.current?.setAttribute('data-open', String(!open))
+      contentRef.current?.setAttribute('data-open', String(!open))
+      contentRef.current?.setAttribute('aria-expanded', String(!open))
+      onOpenChange?.(open)
+    }
+
+    triggerRef.current?.addEventListener('click', handleClick)
+    return () => triggerRef.current?.removeEventListener('click', handleClick)
+  }, [open])
+
   return (
     <CollapsibleContext.Provider value={{ open, onOpenChange, wrapperRef, triggerRef, contentRef, contentId }}>
       <div duck-collapsible="" className={cn('flex flex-col gap-2', className)} ref={wrapperRef} {...props}>
@@ -74,7 +94,7 @@ function CollapsibleContent({ children, className, ...props }: React.HTMLAttribu
       id={contentId}
       role="region"
       aria-hidden={!open}
-      className={cn('overflow-hidden transition-all duration-300 ease-in-out', open ? 'h-auto' : 'h-0', className)}
+      className={cn('overflow-hidden transition-all duration-300 ease-in-out h-0 data-[open=true]:h-auto ', className)}
       {...props}>
       {open && children}
     </div>
