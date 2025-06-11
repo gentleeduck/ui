@@ -68,8 +68,6 @@ const components: Record<
   badge: {
     docs: false,
   },
-  toggle: {},
-  toggleGroup: {},
   switch: {},
   checkbox: {},
   textarea: {},
@@ -98,27 +96,28 @@ const components: Record<
   carousel: {},
   resizable: {},
 
+  dropdownMenu: {},
+  menuBar: {},
+  select: {},
   breadcrumb: {},
-  upload: {},
   inputOTP: {},
+  progress: {},
+  toggle: {},
+  toggleGroup: {},
+  slider: {},
+  collapsible: {},
+  accordion: {},
+
+  upload: {},
 
   popover: {},
-  dropdownMenu: {},
   combobox: {},
-  select: {},
   hoverCard: {},
   tooltip: {},
   navigationMenu: {},
-  menuBar: {},
   contextMenu: {},
 
   drawer: {},
   sheet: {},
   alertDialog: {},
-
-  collapsible: {},
-  accordion: {},
-
-  progress: {},
-  slider: {},
 }

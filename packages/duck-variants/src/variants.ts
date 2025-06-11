@@ -69,7 +69,6 @@ function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
   // primitive values
   if (typeof input === 'string' || typeof input === 'number' || typeof input === 'boolean') {
     const parts = String(input).split(/\s+/)
-    // biome-ignore lint/style/useForOf: <explanation>
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i]
       if (part) tokens.push(part)
@@ -79,7 +78,6 @@ function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
 
   // arrays of ClassValue
   if (Array.isArray(input)) {
-    // biome-ignore lint/style/useForOf: <explanation>
     for (let i = 0; i < input.length; i++) {
       flattenClasses(input[i], tokens)
     }

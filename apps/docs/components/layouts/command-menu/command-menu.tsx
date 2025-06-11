@@ -1,11 +1,10 @@
 'use client'
 
-import { type DialogProps } from '@gentleduck/registry-ui-duckui/dialog'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
-import { Button, buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-react'
 import { docsConfig } from '~/config/docs'
 import { cn } from '@gentleduck/libs/cn'
@@ -21,7 +20,7 @@ import {
 } from '@gentleduck/registry-ui-duckui/command'
 import { useCommandRefsContext } from '../../../../../packages/registry-ui-duckui/src/command/command.hooks'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { useKeyCommands } from '@gentleduck/vim'
+import { useKeyCommands } from '@gentleduck/vim/react'
 
 // asdf
 export function CommandMenu() {
@@ -67,7 +66,7 @@ export function CommandMenu() {
         variant="outline"
         size={'sm'}
         className={cn(
-          'relative h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between pr-2 md:w-40 lg:w-64',
+          'relative w-full h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between ltr:pr-2 rtl:pl-2 md:w-40 lg:w-64',
         )}
         onClick={() => setOpen(true)}>
         <span className="hidden lg:inline-flex">Search documentation...</span>
@@ -90,13 +89,14 @@ export function CommandMenu() {
           {items.map((group, idx) => (
             <React.Fragment key={group.title}>
               <CommandGroup heading={group.title}>
-                {group.items.map((item, idx) => (
+                {group.items.map((item) => (
                   <CommandItem
                     id={item.name}
                     key={item.name}
                     onClick={() => {
-                      item.action()
+                      console.log('asdf')
                       setOpen(false)
+                      item.action()
                       console.log(groupRef.current)
                       // groupRef.current?.scrollTo(0, 0)
                       groupRef.current?.scrollIntoView({
@@ -122,6 +122,16 @@ export function CommandMenu() {
 
 function CommandFooter() {
   const { selectedItem } = useCommandRefsContext()
+  useKeyCommands({
+    'ctrl+c': {
+      name: 'ctrl+c',
+      description: 'Copy command',
+      execute: () =>
+        navigator.clipboard.writeText(
+          ('pnpm dlx @duck-ui add ' + selectedItem?.innerText.toLowerCase().replace(/ /g, '-')) as string,
+        ),
+    },
+  })
   return (
     <div className="flex items-center gap-4 px-2 pt-2 border-t justify-between w-full">
       <div className="flex items-cneter gap-4 w-full">

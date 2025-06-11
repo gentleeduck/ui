@@ -30,9 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script src="https://cdn.jsdelivr.net/npm/react-scan/dist/auto.global.js"></script>
+        {process.env.NODE_ENV === 'development' && (
+          <script src="https://cdn.jsdelivr.net/npm/react-scan/dist/auto.global.js" defer></script>
+        )}
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}>
         {children}
         <Toaster theme="light" />
       </body>

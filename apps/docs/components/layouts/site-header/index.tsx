@@ -11,9 +11,9 @@ import { ModeSwitcher } from '~/components/mode-toggle'
 
 export function SiteHeader() {
   return (
-    <header className="border-grid sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
       <div className="container-wrapper">
-        <div className="container flex h-14 items-center gap-2 md:gap-4">
+        <div className="container flex h-16 items-center gap-2 md:gap-4">
           <MainNav />
           <MobileNav />
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">

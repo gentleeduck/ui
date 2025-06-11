@@ -1,28 +1,24 @@
 'use client'
 
-import * as SwitchPrimitives from '@radix-ui/react-switch'
 import * as React from 'react'
-
 import { cn } from '@gentleduck/libs/cn'
 
-const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
->(({ className, ...props }, ref) => (
-  <SwitchPrimitives.Root
-    className={cn(
-      'peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input',
-      className,
-    )}
-    {...props}
-    ref={ref}>
-    <SwitchPrimitives.Thumb
+function Switch({ className, checked, ref, 'aria-label': ariaLabel, ...props }: React.HTMLProps<HTMLInputElement>) {
+  return (
+    <input
+      type="checkbox"
+      role="switch"
+      aria-checked={checked}
+      aria-label={ariaLabel ?? 'Toggle'}
+      ref={ref}
       className={cn(
-        'pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0',
+        'appearance-none h-6 w-10 transition-all rounded-full border bg-border border-border checked:bg-black checked:border-border ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 checked:border-primary border-solid flex items-center p-1 after:absolute relative after:bg-white after:rounded-full after:block checked:after:translate-x-3.5 checked:hover:active:after:translate-x-2.5 after:w-4 after:h-4 hover:active:after:w-5 after:duration-300 after:will-change-[width,transform] after:ease-[cubic-bezier(1,0.235,0,1.65)] after:transition-all after:shadow after:relative',
+        className,
       )}
+      {...props}
+      duck-switch=""
     />
-  </SwitchPrimitives.Root>
-))
-Switch.displayName = SwitchPrimitives.Root.displayName
+  )
+}
 
 export { Switch }

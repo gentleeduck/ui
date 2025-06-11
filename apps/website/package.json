@@ -10,7 +10,8 @@
     "test": "vitest run",
     "format": "biome format -w",
     "lint": "biome lint",
-    "check": "biome check"
+    "check": "biome check",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",

@@ -252,12 +252,12 @@
     @apply border-border/30 dark:border-border border-dashed;
   }
 
-  .container-wrapper {
-    @apply max-w-[1400px] min-[1800px]:max-w-screen-2xl min-[1400px]:border-x border-border/70 dark:border-border mx-auto w-full border-dashed;
-  }
+  /* .container-wrapper { */
+  /*   @apply mx-auto w-full; */
+  /* } */
 
   .container {
-    @apply px-4 xl:px-6 mx-auto max-w-screen-2xl;
+    @apply px-4 xl:px-6 mx-auto max-w-[1950px];
   }
 }
 

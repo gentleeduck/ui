@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { buttonVariants } from './button.constants'
-import { ButtonProps } from './button.types'
+import { AnimationIconProps, ButtonProps } from './button.types'
 import { Slot } from '@gentleduck/aria-feather/slot'
 
 import { cn } from '@gentleduck/libs/cn'
@@ -22,7 +22,6 @@ import { Loader } from 'lucide-react'
  * @param {boolean} [props.isCollapsed] - If true, the button is rendered in a collapsed state.
  * @param {React.ReactNode} [props.icon] - An icon to be displayed inside the button.
  * @param {React.ReactNode} [props.secondIcon] - An optional second icon inside the button.
- * @param {object} [props.animationIcon] - Configuration for an animated icon, including placement.
  * @param {React.Ref<HTMLButtonElement>} [props.ref] - A ref to the button element.
  * @param {object} [...props] - Additional props pdocsassed to the button component.
  *
@@ -39,13 +38,12 @@ function Button({
   isCollapsed,
   icon,
   secondIcon,
-  animationIcon,
+  disabled,
   ref,
   ...props
 }: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }): React.JSX.Element {
   const Component = (asChild ? Slot : 'button') as React.ElementType
 
-  //TODO: make the icons as plugin
   const Button = (
     <Component
       {...props}
@@ -58,21 +56,11 @@ function Button({
           className,
         }),
       )}
-      disabled={loading}>
+      disabled={loading ?? disabled}>
       <div className="flex items-center gap-2">
-        {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
-          <div className="w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100">
-            {animationIcon?.icon}
-          </div>
-        )}
         {loading ? <Loader className="animate-spin" /> : icon}
-        {!isCollapsed && size !== 'icon' && children}
+        {!isCollapsed && children}
         {!isCollapsed && secondIcon && secondIcon}
-        {animationIcon?.icon && animationIcon.iconPlacement === 'right' && (
-          <div className="w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
-            {animationIcon?.icon}
-          </div>
-        )}
       </div>
     </Component>
   )
@@ -80,4 +68,33 @@ function Button({
   return Button
 }
 
-export { Button }
+/**
+ * Renders an animation icon component.
+ *
+ * @param {AnimationIconProps} props - The props for the animation icon component.
+ * @param {React.ReactNode} props.children - The content to be displayed inside the animation icon.
+ * @param {{icon?: React.ReactNode, iconPlacement?: 'left' | 'right'}} props.animationIcon - Configuration for the animation icon, including the icon and placement.
+ * @param {React.ReactNode} props.animationIcon.icon - The icon to be displayed inside the animation icon.
+ * @param {'left' | 'right'} props.animationIcon.iconPlacement - The placement of the icon inside the animation icon.
+ *
+ * @returns {React.JSX.Element} An animation icon component with the specified configurations.
+ */
+function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.JSX.Element {
+  return (
+    <>
+      {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
+        <div className="w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100">
+          {animationIcon?.icon}
+        </div>
+      )}
+      {children}
+      {animationIcon?.icon && animationIcon.iconPlacement === 'right' && (
+        <div className="w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
+          {animationIcon?.icon}
+        </div>
+      )}
+    </>
+  )
+}
+
+export { Button, AnimationIcon }

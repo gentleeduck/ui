@@ -47,8 +47,6 @@
         "noDoubleEquals": "error",
         "noThenProperty": "error",
         "useIsArray": "error",
-        "noImplicitAnyLet": "error",
-        "noExplicitAny": "warn",
         "useGetterReturn": "error"
       }
     }
@@ -65,6 +63,7 @@
       "./packages/___/",
       "./packages/_oldstuff_refactor/",
       "./packages/benchmark/",
+      "./packages/duck-orm-skitch/**",
       "./**/_*/**"
     ],
     "enabled": true,

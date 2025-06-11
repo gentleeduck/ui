@@ -42,6 +42,7 @@
     ],
     "ignoredBuiltDependencies": ["rolldown"]
   },
+  "packageManager": "pnpm@10.11.1",
   "engines": {
     "node": ">=20.18.1",
     "pnpm": "^10.2.1"

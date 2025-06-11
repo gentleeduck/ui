@@ -1,25 +1,22 @@
 'use client'
 
-import { cn } from '@gentleduck/libs/cn'
+import { Slot } from '@gentleduck/aria-feather/slot'
 
 export interface AspectRatioProps extends React.HTMLProps<HTMLDivElement> {
-  ratio: number
+  ratio: number | string
 }
-function AspectRatio({ className, children, style, ratio, ...props }: AspectRatioProps) {
+
+function AspectRatio({ children, style, ratio, ...props }: AspectRatioProps) {
   return (
-    <div
-      className={cn('relative overflow-hidden w-full', className)}
+    <Slot
+      className={'relative overflow-hidden h-auto w-full'}
       style={{
-        // ensures inner element is contained
-        position: 'relative',
-        // ensures padding bottom trick maths works
-        width: '100%',
-        paddingBottom: `${100 / ratio}%`,
+        aspectRatio: `${ratio}`,
         ...style,
       }}
       {...props}>
       {children}
-    </div>
+    </Slot>
   )
 }
 

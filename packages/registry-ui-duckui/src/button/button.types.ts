@@ -9,6 +9,11 @@ export interface ButtonProps
   loading?: boolean
   icon?: React.ReactNode
   secondIcon?: React.ReactNode
+}
+
+export type AnimationIconProps = {
+  children: React.ReactNode
+  /** If you want to animate an icon, please modify the variant to any variant that animate the icon */
   animationIcon?: {
     icon?: React.ReactNode
     iconPlacement?: 'left' | 'right'
