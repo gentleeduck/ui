@@ -214,7 +214,7 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         stopRecording,
         deleteRecording,
       }}>
-      {children}
+      <div className="flex items-center gap-2">{children}</div>
     </AudioContext.Provider>
   )
 }
@@ -225,12 +225,13 @@ export interface AudioTimerProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const AudioTimer = React.forwardRef<HTMLDivElement, AudioTimerProps>(({ showInput, className }, ref) => {
   const { recording, recordedDuration } = useAudioProvider()
+  console.log(recording, recordedDuration)
   return (
     <div className={cn('relative', className)} ref={ref}>
       <div
         className={cn(
           'absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 transition duration-100',
-          recording ? 'opacity-1' : 'opacity-0 pointer-events-none right-4',
+          recording ? 'opacity-100' : 'opacity-0 pointer-events-none right-4',
         )}>
         <span className="font-mono">{format_time_handler(recordedDuration)}</span>
         <span className="font-mono w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -292,13 +293,13 @@ export const AudioStart = React.forwardRef<HTMLButtonElement, AudioStartProps>(
         <Mic
           className={cn(
             'size-[1rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation',
-            recording ? 'scale-0 opacity-0 pointer-events-none' : 'scale-1 opacity-1',
+            recording ? 'scale-0 opacity-0 pointer-events-none' : 'scale-[1] opacity-100',
           )}
         />
         <ArrowBigUp
           className={cn(
             'size-[1.18rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation stroke-[1.5]',
-            recording ? 'scale-[1.1] opacity-1' : 'scale-0 opacity-0 pointer-events-none',
+            recording ? 'scale-[1.1] opacity-100' : 'scale-0 opacity-0 pointer-events-none',
           )}
         />
       </Button>
@@ -366,14 +367,14 @@ const AudioItemWrapper = ({
             <div className="cursor-pointer w-fit p-0">{children}</div>
 
             <div className="flex items-center gap-2 mt-1">
-              <span className={cn('flex items-center text-primary', size === 'sm' ? 'text-xs' : 'text-sm')}>
+              <span className={cn('flex items-center text-accent', size === 'sm' ? 'text-xs' : 'text-sm')}>
                 {isPlaying || timeLeft < duration
                   ? format_time_handler(timeLeft > 0 ? timeLeft : 0)
                   : format_time_handler(duration)}
               </span>
               {
                 /* TODO: YOU SHOULD EDIT THE OBJ TO GIVE YOU VALUE OF RECIPIENT OPENED THE RECORD */
-                <span className="w-2 h-2 bg-primary rounded-full" />
+                <span className="w-2 h-2 bg-green-500 rounded-full" />
               }
 
               <AudioSpeed />

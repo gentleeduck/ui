@@ -52,6 +52,7 @@
 // import Command from './example/command'
 
 // import Command from "./example/command/duck"
+import React from 'react'
 import CmdK from './example/command/cmdk'
 // import CommandShadcn from "./example/command/shadcn"
 // import DrawerExample from './example/drawer'
@@ -96,6 +97,10 @@ import CmdK from './example/command/cmdk'
 // }
 
 function App() {
+  React.useEffect(() => {
+    console.log(window.location.hostname.split('.')[0])
+  }, [])
+
   // <ShadcnDialog />
   return (
     <div className="flex flex-col mx-10 h-screen justify-center  items-center gap-4">
