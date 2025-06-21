@@ -81,7 +81,6 @@
     "vite": "npm:rolldown-vite@latest"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
     "@content-collections/core": "^0.8.2",
     "@content-collections/vinxi": "^0.1.0",
     "@types/react": "catalog:react19",

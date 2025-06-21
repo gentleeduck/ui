@@ -46,17 +46,17 @@ export interface StopRecordingHandlerParam {
 
 export interface DeleteRecordingHandlerParams
   extends Pick<RecordingParams, 'audioChunksRef'>,
-  StopRecordingHandlerParam { }
+    StopRecordingHandlerParam {}
 
 export interface StopRecordingHandlerParams
   extends Omit<StopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef' | 'durationRef'>,
-  Omit<RecordingParams, 'setRecordedDuration'> { }
+    Omit<RecordingParams, 'setRecordedDuration'> {}
 
 export interface StartTimerParams
   extends Omit<StopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef'>,
-  Pick<RecordingParams, 'setRecordedDuration'> { }
+    Pick<RecordingParams, 'setRecordedDuration'> {}
 
-export interface StartRecordingHandlerParams extends StopRecordingHandlerParam, RecordingParams { }
+export interface StartRecordingHandlerParams extends StopRecordingHandlerParam, RecordingParams {}
 
 export const format_time_handler = (milliseconds: number): string => {
   const minutes = Math.floor(milliseconds / 60000)
@@ -284,7 +284,7 @@ export const AudioTimer = React.forwardRef<HTMLDivElement, AudioTimerProps>(({ s
   )
 })
 
-export interface AudioDeleteProps extends React.ComponentPropsWithoutRef<typeof Button> { }
+export interface AudioDeleteProps extends React.ComponentPropsWithoutRef<typeof Button> {}
 
 export const AudioDelete = React.forwardRef<HTMLButtonElement, AudioDeleteProps>(
   ({ size, type, onClick, className, ...props }, ref) => {
@@ -310,7 +310,7 @@ export const AudioDelete = React.forwardRef<HTMLButtonElement, AudioDeleteProps>
   },
 )
 
-export interface AudioStartProps extends React.ComponentPropsWithoutRef<typeof Button> { }
+export interface AudioStartProps extends React.ComponentPropsWithoutRef<typeof Button> {}
 
 export const AudioStart = React.forwardRef<HTMLButtonElement, AudioStartProps>(
   ({ size, type, onClick, className, ...props }, ref) => {
