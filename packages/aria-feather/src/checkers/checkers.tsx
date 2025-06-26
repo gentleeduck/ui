@@ -40,7 +40,7 @@ export function useSvgIndicator({
   } as React.CSSProperties
 
   // Combined hidden node rendering both SVGs
-  const SvgIndicator: React.FC<React.HTMLAttributes<HTMLDivElement>> = props => (
+  const SvgIndicator: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => (
     <>
       {indicator && (
         <div hidden aria-hidden {...props} ref={refOff}>

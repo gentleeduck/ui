@@ -6,7 +6,11 @@ export default function CheckboxDemo() {
     <div>
       <div className="flex items-center gap-3">
         <Checkbox indicator={<Check />} className="after:text-xs" id="terms" />
-        <Checkbox indicator={<Check />} className="text-blue-900 checked:bg-blue-300 checked:border-blue-300" id="terms" />
+        <Checkbox
+          indicator={<Check />}
+          className="text-blue-900 checked:bg-blue-300 checked:border-blue-300"
+          id="terms"
+        />
         <Checkbox className="text-blue-900 checked:bg-blue-300 checked:border-blue-300" id="terms" />
       </div>
     </div>
