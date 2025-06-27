@@ -10,11 +10,13 @@ import { useHandleKeyDown } from '../command'
 import { RadioGroup, RadioGroupItem } from '../radio-group'
 import { useDropdownMenuContext, useDropdownMenuInit } from './dropdown-menu.hooks'
 import { DropdownMenuContextType, DropdownMenuShortcutProps } from './dropdown-menu.types'
+import { usePopoverContext } from '@gentleduck/aria-feather/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
-function DropdownMenu({
-  open = false,
+function DropdownMenuImpritive({
+  // open = false,
   onOpenChange,
   children,
   className,
@@ -23,9 +25,12 @@ function DropdownMenu({
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
-  const { wrapperRef, triggerRef, contentRef, overlayRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
+  const { open = false } = usePopoverContext()
+  const { wrapperRef, triggerRef, contentRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
     useDropdownMenuInit(open, onOpenChange)
+
   useHandleKeyDown(
+    open,
     itemsRef,
     (item) => {
       selectedItemRef.current = item
@@ -44,7 +49,6 @@ function DropdownMenu({
         wrapperRef,
         triggerRef,
         contentRef,
-        overlayRef,
         groupsRef,
         itemsRef,
         selectedItemRef,
@@ -57,25 +61,33 @@ function DropdownMenu({
   )
 }
 
+function DropdownMenu({ children, ...props }: React.ComponentPropsWithRef<typeof Popover>) {
+  return (
+    <Popover {...props}>
+      <DropdownMenuImpritive {...props}>{children}</DropdownMenuImpritive>
+    </Popover>
+  )
+}
+
 function DropdownMenuTrigger({
   className,
   children,
-  variant = 'ghost',
+  variant = 'outline',
   asChild = false,
   onClick,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Button>) {
+}: React.ComponentPropsWithoutRef<typeof PopoverTrigger>) {
   const { triggerRef } = useDropdownMenuContext()
   return (
-    <Button
-      ref={triggerRef}
+    <PopoverTrigger
+      ref={triggerRef as never}
       variant={variant}
       className={cn('', className)}
       asChild={asChild}
       {...props}
-      duck-dropdown-menu-trigger="">
+      duck-select-trigger="">
       {children}
-    </Button>
+    </PopoverTrigger>
   )
 }
 
@@ -86,41 +98,19 @@ function DropdownMenuContent({
   side = 'top',
   sideOffset = 8,
   ...props
-}: React.HTMLProps<HTMLDivElement> & {
+}: React.ComponentPropsWithoutRef<typeof PopoverContent> & {
   renderOnce?: boolean
-  side?: 'top' | 'right' | 'bottom' | 'left'
-  sideOffset?: number
 }): React.JSX.Element {
   const { contentRef, overlayRef } = useDropdownMenuContext()
 
   return (
-    <div
-      ref={contentRef}
+    <PopoverContent
+      // ref={contentRef as never}
       duck-dropdown-menu-content=""
-      data-open={false}
-      className={cn(
-        'absolute z-50 min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[open="false"]:animate-in data-[open="true"]:animate-out data-[open="true"]:fade-out-0 data-[open="false"]:fade-in-0 data-[open="true"]:zoom-out-95 data-[open="false"]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-        'data-[open="false"]:opacity-0 data-[open="true"]:opacity-100 data-[open="false"]:pointer-events-none',
-        className,
-      )}
-      style={{
-        margin:
-          side === 'left'
-            ? `0 0 0 ${sideOffset}px`
-            : side === 'right'
-              ? `0 ${sideOffset}px 0 0`
-              : side === 'top'
-                ? `${sideOffset}px 0 0 0`
-                : `0 0 ${sideOffset}px 0`,
-      }}
-      //
+      className={cn('min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground', className)}
       {...props}>
-      {
-        // TODO: add overlay
-        // <div className="fixed inset-0 z-[49] " ref={overlayRef} />
-      }
       {children}
-    </div>
+    </PopoverContent>
   )
 }
 

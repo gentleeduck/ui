@@ -1,5 +1,7 @@
+'use client'
+
 import { useStableId } from '@gentleduck/hooks'
-import type React from 'react'
+import React from 'react'
 import { ShouldRender } from '../dialog'
 import { Slot } from '../slot'
 import { PopoverContext, usePopover, usePopoverContext } from './popover.hooks'
@@ -20,12 +22,15 @@ export function Root({
   skipDelayDuration = 300,
   delayDuration = 0,
 }: PopoverRootProps): React.JSX.Element {
+  const wrapperRef = React.useRef<HTMLDivElement>(null)
+
   const {
     open,
     onOpenChange: _onOpenChange,
-    ref,
+    contentRef,
     triggerRef,
   } = usePopover({
+    wrapperRef,
     open: openProp,
     onOpenChange,
     lockScroll,
@@ -39,32 +44,28 @@ export function Root({
   return (
     <PopoverContext.Provider
       value={{
+        wrapperRef,
+        triggerRef,
+        contentRef,
         delayDuration,
         skipDelayDuration,
         open,
         onOpenChange: _onOpenChange,
-        ref,
-        triggerRef,
         id,
         modal,
         closeButton,
         hoverable,
         lockScroll,
       }}>
-      {children}
+      <div duck-popover-trigger="" ref={wrapperRef}>
+        {children}
+      </div>
     </PopoverContext.Provider>
   )
 }
 
-export function Trigger({
-  onClick,
-  open,
-  ...props
-}: React.ComponentPropsWithRef<typeof Slot> & {
-  open?: boolean
-  asChild?: boolean
-}): React.JSX.Element {
-  const { onOpenChange, open: _open, id, triggerRef } = usePopoverContext()
+export function Trigger(props: React.ComponentPropsWithRef<typeof Slot>): React.JSX.Element {
+  const { id } = usePopoverContext()
 
   return (
     <Slot
@@ -75,13 +76,9 @@ export function Trigger({
           anchorName: 'var(--position-anchor)',
         } as React.CSSProperties
       }
-      ref={triggerRef as React.RefObject<HTMLDivElement>}
       aria-haspopup="dialog"
       aria-controls={id}
-      onClick={(e) => {
-        onOpenChange(open ?? !_open)
-        onClick?.(e)
-      }}
+      duck-popover-trigger=""
       {...props}
     />
   )
@@ -101,7 +98,7 @@ export function Content({
   align = 'center',
   ...props
 }: PopoverContentProps) {
-  const { ref, closeButton, open, id } = usePopoverContext()
+  const { contentRef, closeButton, open, id } = usePopoverContext()
   const DialogClose = dialogClose
 
   // Main axis margin based on `side`
@@ -137,8 +134,14 @@ export function Content({
   } as React.CSSProperties
 
   return (
-    <dialog popover="auto" style={style} className={className} {...{ ...props, closedby }} id={id} ref={ref}>
-      <ShouldRender ref={ref} once={renderOnce} open={open}>
+    <dialog
+      popover="auto"
+      style={style}
+      className={className}
+      {...{ ...props, closedby }}
+      id={id}
+      duck-popover-content="">
+      <ShouldRender ref={contentRef} once={renderOnce} open={open}>
         {children}
         {closeButton && <DialogClose />}
       </ShouldRender>

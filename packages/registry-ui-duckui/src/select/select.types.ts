@@ -7,4 +7,5 @@ export interface SelectContextType {
   groupsRef: React.RefObject<HTMLUListElement[] | null>
   itemsRef: React.RefObject<HTMLLIElement[] | null>
   selectedItem: HTMLLIElement | null
+  scrollable: boolean
 }

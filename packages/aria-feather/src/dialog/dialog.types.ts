@@ -7,6 +7,8 @@ export interface DialogCommonType {
   modal?: boolean
   closeButton?: boolean
   id?: string
+
+  // wrapperRef: React.RefObject<HTMLDivElement>
 }
 
 export interface DialogContentProps

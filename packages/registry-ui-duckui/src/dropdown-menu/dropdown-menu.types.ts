@@ -14,7 +14,6 @@ export interface DropdownMenuContextType {
   wrapperRef: React.RefObject<HTMLDivElement | null>
   triggerRef: React.RefObject<HTMLButtonElement | null>
   contentRef: React.RefObject<HTMLDivElement | null>
-  overlayRef: React.RefObject<HTMLDivElement | null>
   groupsRef: React.RefObject<HTMLDivElement[]>
   itemsRef: React.RefObject<HTMLLIElement[]>
   originalItemsRef: React.RefObject<HTMLLIElement[]>

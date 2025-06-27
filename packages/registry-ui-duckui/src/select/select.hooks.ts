@@ -1,8 +1,7 @@
 import React from 'react'
 import { initRefs } from './select.libs'
-import { dstyleItem, styleItem } from '../command'
 
-export function useSelectInit(open: boolean, onOpenChange?: (open: boolean) => void) {
+export function useSelectInit(open: boolean, onOpenChange: (open: boolean) => void) {
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
   const triggerRef = React.useRef<HTMLDivElement | null>(null)
   const contentRef = React.useRef<HTMLDivElement | null>(null)
@@ -14,28 +13,23 @@ export function useSelectInit(open: boolean, onOpenChange?: (open: boolean) => v
 
   React.useEffect(() => {
     setTimeout(() => {
-      initRefs(groupsRef, wrapperRef, triggerRef, contentRef, selectedItemRef, itemsRef, setSelectedItem)
-      console.log(selectedItemRef)
+      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, setSelectedItem, onOpenChange)
     }, 0)
-    triggerRef.current?.setAttribute('data-open', String(open))
-    contentRef.current?.setAttribute('data-open', String(open))
   }, [open])
 
   React.useEffect(() => {
     setTimeout(() => {
-      initRefs(groupsRef, wrapperRef, triggerRef, contentRef, selectedItemRef, itemsRef, setSelectedItem)
-
-      triggerRef.current?.addEventListener('click', () => {
-        const open = contentRef.current?.getAttribute('data-open') === 'true'
-
+      function handleClick() {
         if (!groupsRef.current.length || !itemsRef.current.length) {
-          initRefs(groupsRef, wrapperRef, triggerRef, contentRef, selectedItemRef, itemsRef, setSelectedItem)
+          initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, setSelectedItem, onOpenChange)
         }
+      }
 
-        if (onOpenChange) onOpenChange(!open)
-        contentRef.current?.setAttribute('data-open', String(!open))
-        triggerRef.current?.setAttribute('data-open', String(!open))
-      })
+      triggerRef.current?.addEventListener('click', handleClick)
+
+      return () => {
+        triggerRef.current?.removeEventListener('click', handleClick)
+      }
     }, 0)
   }, [])
 
@@ -58,63 +52,65 @@ export function useSelectScroll(
 ) {
   React.useEffect(() => {
     if (!open) return
-    const keyDown = contentRef.current?.querySelector<HTMLDivElement>('[duck-select-scroll-down-button]')
-    const keyUp = contentRef.current?.querySelector<HTMLDivElement>('[duck-select-scroll-up-button]')
-    if (!keyDown || !keyUp) return
+    setTimeout(() => {
+      const keyDown = contentRef.current?.querySelector<HTMLDivElement>('[duck-select-scroll-down-button]')
+      const keyUp = contentRef.current?.querySelector<HTMLDivElement>('[duck-select-scroll-up-button]')
+      if (!keyDown || !keyUp) return
 
-    let intervalId: NodeJS.Timeout | null = null
+      let intervalId: NodeJS.Timeout | null = null
 
-    const moveSelectionDown = () => {
-      if (!itemsRef.current || !selectedItemRef.current) return
+      const moveSelectionDown = () => {
+        if (!itemsRef.current || !selectedItemRef.current) return
 
-      const currentIndex = itemsRef.current.findIndex((item) => item.id === selectedItemRef.current?.id)
-      if (currentIndex === -1) return
+        const currentIndex = itemsRef.current.findIndex((item) => item.id === selectedItemRef.current?.id)
+        if (currentIndex === -1) return
 
-      const nextIndex = Math.min(currentIndex + 1, itemsRef.current.length - 1)
-      selectedItemRef.current = itemsRef.current[nextIndex]!
+        const nextIndex = Math.min(currentIndex + 1, itemsRef.current.length - 1)
+        selectedItemRef.current = itemsRef.current[nextIndex]!
 
-      selectedItemRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' })
-    }
-
-    const moveSelectionUp = () => {
-      if (!itemsRef.current || !selectedItemRef.current) return
-
-      const currentIndex = itemsRef.current.findIndex((item) => item.id === selectedItemRef.current?.id)
-      if (currentIndex === -1) return
-
-      const prevIndex = Math.max(currentIndex - 1, 0)
-      selectedItemRef.current = itemsRef.current[prevIndex]!
-
-      selectedItemRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' })
-    }
-
-    const startInterval = (fn: () => void) => {
-      stopInterval()
-      fn()
-      intervalId = setInterval(fn, 40)
-    }
-
-    const stopInterval = () => {
-      if (intervalId) {
-        clearInterval(intervalId)
-        intervalId = null
+        selectedItemRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' })
       }
-    }
 
-    keyDown.addEventListener('mouseenter', () => startInterval(moveSelectionDown))
-    keyDown.addEventListener('mouseleave', stopInterval)
+      const moveSelectionUp = () => {
+        if (!itemsRef.current || !selectedItemRef.current) return
 
-    keyUp.addEventListener('mouseenter', () => startInterval(moveSelectionUp))
-    keyUp.addEventListener('mouseleave', stopInterval)
+        const currentIndex = itemsRef.current.findIndex((item) => item.id === selectedItemRef.current?.id)
+        if (currentIndex === -1) return
 
-    return () => {
-      keyDown.removeEventListener('mouseenter', () => startInterval(moveSelectionDown))
-      keyDown.removeEventListener('mouseleave', stopInterval)
+        const prevIndex = Math.max(currentIndex - 1, 0)
+        selectedItemRef.current = itemsRef.current[prevIndex]!
 
-      keyUp.removeEventListener('mouseenter', () => startInterval(moveSelectionUp))
-      keyUp.removeEventListener('mouseleave', stopInterval)
+        selectedItemRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      }
 
-      stopInterval()
-    }
+      const startInterval = (fn: () => void) => {
+        stopInterval()
+        fn()
+        intervalId = setInterval(fn, 40)
+      }
+
+      const stopInterval = () => {
+        if (intervalId) {
+          clearInterval(intervalId)
+          intervalId = null
+        }
+      }
+
+      keyDown.addEventListener('mouseenter', () => startInterval(moveSelectionDown))
+      keyDown.addEventListener('mouseleave', stopInterval)
+
+      keyUp.addEventListener('mouseenter', () => startInterval(moveSelectionUp))
+      keyUp.addEventListener('mouseleave', stopInterval)
+
+      return () => {
+        keyDown.removeEventListener('mouseenter', () => startInterval(moveSelectionDown))
+        keyDown.removeEventListener('mouseleave', stopInterval)
+
+        keyUp.removeEventListener('mouseenter', () => startInterval(moveSelectionUp))
+        keyUp.removeEventListener('mouseleave', stopInterval)
+
+        stopInterval()
+      }
+    }, 0)
   }, [open])
 }

@@ -9,6 +9,7 @@ import { useHandleKeyDown } from '../command'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { useSelectInit, useSelectScroll } from './select.hooks'
 import { SelectContextType } from './select.types'
+import { initRefs } from './select.libs'
 
 export const SelectContext = React.createContext<SelectContextType | null>(null)
 export function useSelectContext() {
@@ -21,30 +22,31 @@ export function useSelectContext() {
 
 function SelectWrapper({
   children,
-  onOpenChange,
+  scrollable = false,
   ...props
 }: React.HTMLProps<HTMLDivElement> & {
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
+  scrollable?: boolean
 }) {
-  const { open = false } = usePopoverContext()
+  const { open = false, onOpenChange = () => {} } = usePopoverContext()
+
   const { itemsRef, selectedItemRef, contentRef, triggerRef, groupsRef, wrapperRef, selectedItem } = useSelectInit(
     open,
     onOpenChange,
   )
 
   useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
-  useHandleKeyDown(
+  useHandleKeyDown({
     open,
     itemsRef,
-    (item) => {
+    originalItemsRef: itemsRef,
+    selectedItem,
+    setSelectedItem: (item) => {
       selectedItemRef.current = item
     },
-    itemsRef,
-    triggerRef as React.RefObject<HTMLButtonElement | null>,
+    triggerRef: triggerRef as never,
     contentRef,
     onOpenChange,
-  )
+  })
 
   return (
     <SelectContext.Provider
@@ -58,6 +60,7 @@ function SelectWrapper({
         onOpenChange: () => {
           onOpenChange?.(open)
         },
+        scrollable,
         triggerRef,
       }}>
       <div ref={wrapperRef} {...props} duck-select="">
@@ -67,7 +70,12 @@ function SelectWrapper({
   )
 }
 
-function Select({ children, ...props }: React.ComponentPropsWithRef<typeof Popover>) {
+function Select({
+  children,
+  ...props
+}: React.ComponentPropsWithRef<typeof Popover> & {
+  scrollable?: boolean
+}) {
   return (
     <Popover {...props}>
       <SelectWrapper {...props}>{children}</SelectWrapper>
@@ -94,7 +102,7 @@ function SelectTrigger({
 }
 
 function SelectContent({ children, className, ref, ...props }: React.ComponentPropsWithRef<typeof PopoverContent>) {
-  const { contentRef } = useSelectContext()
+  const { contentRef, scrollable } = useSelectContext()
   return (
     <PopoverContent
       side={'bottom'}
@@ -104,13 +112,11 @@ function SelectContent({ children, className, ref, ...props }: React.ComponentPr
       duck-select-content=""
       {...props}
       ref={contentRef as never}>
-      {
-        // <SelectScrollUpButton />
-        // <SelectScrollDownButton />
-      }
-      <div className="max-h-[400px] overflow-" duck-select-content-scrollable="">
+      {scrollable && <SelectScrollUpButton />}
+      <div className={cn('max-h-[400px]', scrollable && 'overflow-y-scroll')} duck-select-content-scrollable="">
         {children}
       </div>
+      {scrollable && <SelectScrollDownButton />}
     </PopoverContent>
   )
 }
@@ -192,7 +198,7 @@ function SelectScrollButton({
       variant="nothing"
       size="xs"
       className={cn(
-        'sticky z-50 w-full cursor-default cursor-pointer justify-center rounded-none bg-background p-0',
+        'sticky z-50 w-full cursor-default cursor-pointer [&>div]:justify-center rounded-none bg-background p-0',
         scrollDown ? 'bottom-0' : 'top-0',
         className,
       )}

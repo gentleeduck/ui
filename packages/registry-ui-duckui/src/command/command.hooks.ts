@@ -125,31 +125,34 @@ export function useCommandSearch(
   }, [search])
 }
 
-export function useHandleKeyDown(
-  open: boolean,
-  itemsRef: React.RefObject<HTMLLIElement[]>,
-  setSelectedItem: (item: HTMLLIElement) => void,
-  originalItemsRef: React.RefObject<HTMLLIElement[]>,
-  triggerRef: React.RefObject<HTMLButtonElement | null>,
-  contentRef: React.RefObject<HTMLDivElement | null>,
-  onOpenChange?: (open: boolean) => void,
+export function useHandleKeyDown({
+  selectedItem,
+  setSelectedItem,
+  open,
+  itemsRef,
+  onOpenChange,
+  contentRef,
+  triggerRef,
+  originalItemsRef,
   allowAxisArrowKeys = false,
-) {
+}: {
+  open?: boolean
+  itemsRef: React.RefObject<HTMLLIElement[]>
+  selectedItem: HTMLLIElement | null
+  setSelectedItem: (item: HTMLLIElement) => void
+  originalItemsRef: React.RefObject<HTMLLIElement[]>
+  triggerRef: React.RefObject<HTMLButtonElement | null>
+  contentRef: React.RefObject<HTMLDivElement | null>
+  onOpenChange?: (open: boolean) => void
+  allowAxisArrowKeys?: boolean
+}) {
   React.useEffect(() => {
     if (!open) return
     const html = document.documentElement
     let originalCurrentItem = 0
-    let currentItem = 0
+    let currentItem = originalItemsRef.current?.findIndex((item) => item === selectedItem) ?? 0
     let inSubMenu = false
-    let firstOpen = true
-    console.log(open)
 
-    if (firstOpen) {
-      firstOpen = false
-      setTimeout(() => {
-        handleItemsSelection(currentItem, itemsRef, setSelectedItem)
-      }, 0)
-    }
     function handleKeyDown(e: KeyboardEvent) {
       let isClicked = false
       if (e.key === 'ArrowDown') {
