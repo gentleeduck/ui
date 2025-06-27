@@ -48,12 +48,18 @@
 // import DuckSeparatorExp from './duck/separator/experimental'
 // import ShadcnSeparator from './duck/separator/separator'
 
-// import Dialog from './example/dialog'
+import { KeyProvider } from '../../../packages/duck-vim/src/react/command'
+import Dialog from './example/dialog'
+import Dropdown from './example/dropdown'
+import HoverCard from './example/hover-card'
+import Popover from './example/popover'
+import Select from './example/select'
+import Tooltip from './example/tooltip'
+
 // import Command from './example/command'
 
 // import Command from "./example/command/duck"
-import React from 'react'
-import CmdK from './example/command/cmdk'
+// import CmdK from './example/command/cmdk'
 // import CommandShadcn from "./example/command/shadcn"
 // import DrawerExample from './example/drawer'
 // import DuckSkeleton from './duck/skeleton/duck'
@@ -84,6 +90,7 @@ import CmdK from './example/command/cmdk'
 //       <ShadcnButton />
 //       <ShadcnTextarea />
 //       <ShadcnTabs />
+
 //       <ShadcnToggleGroup />
 //       <ShadcnToggle />
 //       <ShadcnBadge />
@@ -97,16 +104,12 @@ import CmdK from './example/command/cmdk'
 // }
 
 function App() {
-  React.useEffect(() => {
-    console.log(window.location.hostname.split('.')[0])
-  }, [])
-
-  // <ShadcnDialog />
   return (
-    <div className="flex flex-col mx-10 h-screen justify-center  items-center gap-4">
-      <CmdK />
-      {/* <CommandShadcn  /> */}
-    </div>
+    <KeyProvider timeoutMs={100}>
+      <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
+        <Select />
+      </div>
+    </KeyProvider>
   )
 }
 

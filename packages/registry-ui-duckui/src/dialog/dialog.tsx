@@ -1,13 +1,13 @@
+import DialogPrimitive, { useDialogContext } from '@gentleduck/aria-feather/dialog'
 import { cn } from '@gentleduck/libs/cn'
-import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { AnimDialogModalVariants, AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import { X } from 'lucide-react'
-import React from 'react'
-import DialogPrimitive, { ShouldRender, useDialogContext, useOverlayClose } from '@gentleduck/aria-feather/dialog'
+import type React from 'react'
 import { Button } from '../button'
-import './style.css'
+import { DialogContentProps } from './dialog.types'
 
-function Dialog({ ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root {...props} />
+function Dialog({ closeButton = true, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
+  return <DialogPrimitive.Root closeButton={closeButton} {...props} />
 }
 
 function DialogTrigger({
@@ -42,35 +42,49 @@ function DialogClose({
       type="button"
       aria-label="close"
       className={cn(
-        'absolute ltr:right-3 rtl:left-3 top-3 text-accent-foreground size-4 cursor-pointer opacity-70 rounded hover:opacity-100 transition-all',
+        'absolute end-3 top-3 size-4 cursor-pointer rounded text-accent-foreground opacity-70 transition-all hover:opacity-100',
         className,
       )}
-      onClick={() => onOpenChange(false)}>
+      onClick={() => onOpenChange?.(false)}>
       {children ?? <X aria-hidden size={size} />}
     </button>
   )
 }
 
+/**
+ * DialogContent component renders the content of a dialog.
+ * It supports additional class names and props to customize the
+ * appearance and behavior of the content. The component uses
+ * a flexbox layout to arrange its children in a vertical column
+ * and applies responsive text alignment.
+ *
+ * @param {DialogContentProps} props - The properties passed to the component.
+ * @param {React.RefObject<HTMLDivElement>} [props.ref] - The ref to be forwarded to the component.
+ *
+ * @returns {React.JSX.Element} The rendered DialogContent component.
+ */
 function DialogContent({
   children,
   className,
-  renderOnce,
+  renderOnce = false,
+  overlay = 'default',
+  closedby = 'any',
+  animation = 'default',
   ...props
-}: React.HTMLProps<HTMLDialogElement> & {
-  renderOnce?: boolean
-}): React.JSX.Element {
-  const { open, ref } = useDialogContext()
-  const closeOverlay = useOverlayClose()
-
+}: DialogContentProps): React.JSX.Element {
   return (
-    <dialog ref={ref} className={cn(AnimVariants(), AnimDialogVariants(), className)} onClick={closeOverlay} {...props}>
-      <ShouldRender ref={ref} once={renderOnce} open={open}>
-        <div className="content-wrapper">
-          <DialogClose />
-          {children}
-        </div>
-      </ShouldRender>
-    </dialog>
+    <DialogPrimitive.Content
+      dialogClose={DialogClose}
+      className={cn(
+        AnimVariants({ overlay: overlay }),
+        AnimDialogVariants({ animation: animation }),
+        AnimDialogModalVariants(),
+        className,
+        'overflow-hidden',
+      )}
+      {...props}>
+      <div className="flex flex-col gap-4">{children}</div>
+    </DialogPrimitive.Content>
   )
 }
 
@@ -82,14 +96,12 @@ function DialogContent({
  * and applies responsive text alignment.
  *
  * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
- * @param {string} [props.className] - Additional class names for styling.
- * @param {React.RefObject<HTMLDivElement>} props.ref - The ref to be forwarded to the component.
- * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional properties for the component.
+ * @param {React.RefObject<HTMLDivElement>} [props.ref] - The ref to be forwarded to the component.
  *
- * @returns {JSX.Element} The rendered DialogHeader component.
+ * @returns {React.JSX.Element} The rendered DialogHeader component.
  */
 function DialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div ref={ref} className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
+  return <div ref={ref} className={cn('flex flex-col gap-1.5 text-left rtl:text-right', className)} {...props} />
 }
 
 /**
@@ -100,19 +112,13 @@ function DialogHeader({ className, ref, ...props }: React.HTMLProps<HTMLDivEleme
  * screens and in a row with space between items on larger screens.
  *
  * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
- * @param {string} props.className - Additional class names for styling.
- * @param {React.RefObject<HTMLDivElement>} props.ref - The ref to be forwarded to the component.
- * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional properties for the component.
+ * @param {React.RefObject<HTMLDivElement>} [props.ref] - The ref to be forwarded to the component.
  *
  * @returns {React.JSX.Element} The rendered DialogFooter component.
  */
 function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
-    <div
-      ref={ref}
-      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
-      {...props}
-    />
+    <div ref={ref} className={cn(`flex flex-col-reverse gap-2 sm:flex-row sm:justify-end`, className)} {...props} />
   )
 }
 
@@ -122,14 +128,12 @@ function DialogFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivEleme
  * to customize its styling.
  *
  * @param {React.HTMLProps<HTMLHeadingElement>} props - The properties passed to the component.
- * @param {string} [props.className] - Optional additional class names to apply to the component.
  * @param {React.RefObject<HTMLHeadingElement>} [props.ref] - A ref that will be forwarded to the `DialogTitle` component.
- * @param {React.HTMLProps<HTMLHeadingElement>} [...props] - Additional props to be passed to the `DialogTitle` component.
  *
  * @returns {React.JSX.Element} The rendered `DialogTitle` component with forwarded ref and applied props.
  */
 function DialogTitle({ className, ref, ...props }: React.HTMLProps<HTMLHeadingElement>): React.JSX.Element {
-  return <h2 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
+  return <h2 ref={ref} className={cn('font-semibold text-lg leading-none tracking-tight', className)} {...props} />
 }
 
 /**
@@ -137,14 +141,12 @@ function DialogTitle({ className, ref, ...props }: React.HTMLProps<HTMLHeadingEl
  * It applies additional class names to style the description text.
  *
  * @param {React.HTMLProps<HTMLParagraphElement>} props - The properties passed to the component.
- * @param {string} [props.className] - Additional class names to apply to the description text.
  * @param {React.RefObject<HTMLParagraphElement>} [props.ref] - The ref to be forwarded to the `DialogDescription` component.
- * @param {React.HTMLProps<HTMLParagraphElement>} [..props] - Additional props to be passed to the `DialogDescription` component.
  *
  * @returns {React.JSX.Element} The rendered `DialogDescription` component with forwarded ref and applied class names.
  */
 const DialogDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
-  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
+  <p ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
 )
 
 export { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose }

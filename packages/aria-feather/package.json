@@ -38,17 +38,21 @@
   },
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/aria-feather#readme",
   "dependencies": {
-    "@gentleduck/hooks": "workspace:*"
+    "@gentleduck/hooks": "workspace:*",
+    "dialog-closedby-polyfill": "^1.1.0",
+    "invokers-polyfill": "^0.5.5"
   },
   "devDependencies": {
+    "@gentleduck/motion": "workspace:*",
+    "@gentleduck/variants": "workspace:*",
     "@changesets/cli": "catalog:",
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
+    "@types/react": "catalog:react19",
     "clsx": "^1.2.1",
     "husky": "catalog:",
-    "tsdown": "catalog:",
-    "@types/react": "catalog:react19",
-    "react": "catalog:react19"
+    "react": "catalog:react19",
+    "tsdown": "catalog:"
   },
   "packageManager": "pnpm@10.10.0",
   "engines": {

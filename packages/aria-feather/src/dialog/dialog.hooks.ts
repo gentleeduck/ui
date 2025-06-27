@@ -1,8 +1,7 @@
 import React from 'react'
 import { DialogContext } from './dialog'
-import { DialogContextType } from './dialog.types'
-import { useComputedTimeoutTransition } from '@gentleduck/hooks'
-// import { useComputedTimeoutTransition } from '@gentleduck/hooks'
+import { cleanLockScrollbar, lockScrollbar } from './dialog.libs'
+import type { DialogContextType, DialogProps } from './dialog.types'
 
 export function useDialogContext(name: string = 'Dialog'): DialogContextType {
   const context = React.useContext(DialogContext)
@@ -12,41 +11,33 @@ export function useDialogContext(name: string = 'Dialog'): DialogContextType {
   return context
 }
 
-export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) => void) {
+export function useDialog({ open: openProp, onOpenChange, lockScroll, modal }: DialogProps) {
   const dialogRef = React.useRef<HTMLDialogElement | null>(null)
+  const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
   const [open, setOpen] = React.useState<boolean>(openProp ?? false)
 
-  const handleOpenChange = React.useCallback(
-    (state: boolean) => {
-      try {
-        const dialog = dialogRef.current
-        if (state) {
-          document.body.classList.add('scroll-locked')
-          setTimeout(() => {
-            dialog?.showModal()
-            setOpen(true)
-            onOpenChange?.(true)
-          }, 100)
-        } else {
-          useComputedTimeoutTransition(dialog, () => {
-            document.body.classList.remove('scroll-locked')
-          })
-          dialog?.close()
-          setOpen(false)
-          onOpenChange?.(false)
-        }
-      } catch (e) {
-        console.warn('Dialog failed to toggle', e)
+  function handleOpenChange(state: boolean) {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    try {
+      if (modal) {
+        state ? dialog.showModal() : dialog.close()
+      } else {
+        state ? dialog.show() : dialog.close()
       }
-    },
-    [onOpenChange],
-  )
+    } catch (e) {
+      console.warn('Dialog failed to toggle', e)
+    }
+
+    setOpen(state)
+    onOpenChange?.(state)
+  }
 
   React.useEffect(() => {
     const dialog = dialogRef.current
-    useComputedTimeoutTransition(dialog, () => {
-      document.body.classList.toggle('scroll-locked', open)
-    })
+
+    if (lockScroll) lockScrollbar(open)
 
     if (openProp) {
       handleOpenChange(true)
@@ -54,18 +45,22 @@ export function useDialog(openProp?: boolean, onOpenChange?: (state: boolean) =>
       handleOpenChange(false)
     }
 
-    dialog?.addEventListener('close', () => handleOpenChange(false))
-    return () => dialog?.removeEventListener('close', () => handleOpenChange(false))
-  }, [handleOpenChange, open, openProp])
+    function handleClose() {
+      handleOpenChange(false)
+    }
+
+    dialog?.addEventListener('close', handleClose)
+
+    return () => {
+      dialog?.removeEventListener('close', handleClose)
+      cleanLockScrollbar()
+    }
+  }, [open, openProp, onOpenChange])
 
   return {
+    triggerRef,
     ref: dialogRef,
     open,
     onOpenChange: handleOpenChange,
-  } as const
-}
-
-export function useOverlayClose() {
-  const { onOpenChange } = useDialogContext()
-  return (e: React.MouseEvent<HTMLDialogElement>) => e.currentTarget === e.target && onOpenChange(false)
+  }
 }

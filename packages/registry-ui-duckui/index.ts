@@ -79,7 +79,6 @@ const components: Record<
   separator: {},
   portal: {},
   radioGroup: {},
-  dialog: {},
   tabs: {},
   skeleton: {},
   card: {},
@@ -96,28 +95,32 @@ const components: Record<
   carousel: {},
   resizable: {},
 
-  dropdownMenu: {},
-  menuBar: {},
-  select: {},
+  dialog: {},
+  sheet: {},
+  alertDialog: {},
+  popover: {},
+  hoverCard: {},
+  tooltip: {},
+
   breadcrumb: {},
   inputOTP: {},
   progress: {},
   toggle: {},
   toggleGroup: {},
-  slider: {},
   collapsible: {},
+
+  select: {},
+  dropdownMenu: {},
+  menuBar: {},
+
+  slider: {},
   accordion: {},
 
-  upload: {},
-
-  popover: {},
-  combobox: {},
-  hoverCard: {},
-  tooltip: {},
   navigationMenu: {},
   contextMenu: {},
 
+  combobox: {},
+  upload: {},
+
   drawer: {},
-  sheet: {},
-  alertDialog: {},
 }

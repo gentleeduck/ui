@@ -73,3 +73,19 @@ const { alertTrigger, alertContent } = useDuckAlert({ state: true })
 - If you're currently using `AlertDialogCustom`, migrate to `useDuckAlert` for a more **scalable and flexible** API.
 - The new **hook-based approach** enables you to create **custom wrappers effortlessly** without worrying about managing state manually.
 - Better **autocompletion, type safety, and predictability** in state updates.
+
+
+Here’s a polished version of the changelog section for the **alert dialog** updates:
+
+---
+
+### 2025-06-27 – Fixes & Improvements (Alert Dialog)
+
+* Removed legacy dialog implementation.
+* Migrated to the new native-based dialog system.
+* Improved animation smoothness and reduced layout shifts.
+* Refactored types and structure for better maintainability.
+* Enhanced performance and accessibility.
+
+---
+
