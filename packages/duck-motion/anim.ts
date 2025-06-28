@@ -28,7 +28,7 @@ export const AnimVariants = cva('', {
 })
 
 export const AnimDialogVariants = cva(
-  `text-left border border-border bg-background rounded-lg shadow-sm outline-hidden p-6`,
+  `border border-border bg-background rounded-lg shadow-sm outline-hidden p-6`,
   {
     variants: {
       animation: {

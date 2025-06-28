@@ -4,6 +4,7 @@ import * as React from 'react'
 import { ChevronDown } from 'lucide-react'
 
 import { cn } from '@gentleduck/libs/cn'
+import { AnimVariants } from '@gentleduck/motion/anim'
 
 const AccordionContext = React.createContext<{
   value?: string
@@ -89,7 +90,7 @@ function Accordion({
         onValueChange,
         wrapperRef,
       }}>
-      <div className={cn('w-[400px]')} {...props} ref={wrapperRef}>
+      <div className={cn('w-[400px] [interpolate-size:allow-keywords]')} {...props} ref={wrapperRef}>
         {children}
       </div>
     </AccordionContext.Provider>
@@ -109,7 +110,12 @@ function AccordionItem({
       ref={ref}
       id={value}
       aria-labelledby={value}
-      className={cn('border-b', className)}
+      className={cn(
+        'border-b border-border group overflow-hidden',
+        '[&::details-content]:h-0 open:[&::details-content]:h-auto [&::details-content]:transition-all [&::details-content]:transition-discrete [&::details-content]:ease-(--duck-motion-ease) [&::details-content]:transform-gpu [&::details-content]:will-change-[height] [&::details-content]:duration-250',
+        AnimVariants({ overlay: 'nothing' }),
+        className,
+      )}
       {...props}
       duck-accordion-item=""
     />
@@ -141,26 +147,14 @@ function AccordionTrigger({
       duck-accordion-trigger="">
       {children}
       <span className={cn('[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200')}>
-        {icon ? icon : <ChevronDown />}
+        {icon ? icon : <ChevronDown className='group-open:rotate-180' />}
       </span>
     </summary>
   )
 }
 
 const AccordionContent = ({ className, children, ref, ...props }: React.HTMLProps<HTMLDivElement>) => (
-  <div
-    ref={ref}
-    className={cn(
-      'overflow-hidden text-sm transition-all',
-      'grid overflow-hidden text-sm transition-[grid-template-rows] duration-300 ease-in-out',
-      '[data-open=true]:grid-rows-[1fr]',
-      '[data-open=false]:grid-rows-[0fr]',
-      className,
-    )}
-    {...props}
-    duck-accordion-content="">
-    <div className={cn('pb-4 pt-0', className)}>{children}</div>
-  </div>
+    <div className={cn('pb-4 pt-0 overflow-hidden text-sm', className)} duck-accordion-content="" ref={ref} {...props}>{children}</div>
 )
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
