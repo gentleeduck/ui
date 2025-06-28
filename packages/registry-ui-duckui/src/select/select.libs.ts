@@ -14,6 +14,9 @@ export function initRefs(
   itemsRef.current = Array.from(items)
   groupsRef.current = Array.from(groups)
 
+  itemsRef.current = itemsRef.current.filter(
+    (item) => !(item.hasAttribute('aria-disabled') || item.getAttribute('aria-disabled') === 'true'),
+  )
   if (!selectedItemRef.current) {
     const item = itemsRef.current?.[0] as HTMLLIElement
     styleItem(item ?? null)
@@ -24,8 +27,8 @@ export function initRefs(
   for (let i = 0; i < itemsRef.current?.length; i++) {
     const item = itemsRef.current[i] as HTMLLIElement
 
-    item.addEventListener('mouseover', () => {
-      if (item.hasAttribute('aria-checked')) return
+    item.addEventListener('mouseenter', () => {
+      if (!item.hasAttribute('aria-selected')) return
       dstyleItem(item)
       item?.blur()
     })
@@ -34,7 +37,7 @@ export function initRefs(
       const currentItem = itemsRef.current?.findIndex((_item) => _item.id === item.id)
       handleItemsSelection(currentItem, itemsRef, (value) => setSelectedItem(value))
       wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
-      item.setAttribute('aria-checked', 'true')
+      item.setAttribute('aria-selected', 'true')
       onOpenChange(false)
     })
   }

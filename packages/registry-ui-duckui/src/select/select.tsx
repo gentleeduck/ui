@@ -9,7 +9,6 @@ import { useHandleKeyDown } from '../command'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { useSelectInit, useSelectScroll } from './select.hooks'
 import { SelectContextType } from './select.types'
-import { initRefs } from './select.libs'
 
 export const SelectContext = React.createContext<SelectContextType | null>(null)
 export function useSelectContext() {
@@ -43,8 +42,6 @@ function SelectWrapper({
     setSelectedItem: (item) => {
       selectedItemRef.current = item
     },
-    triggerRef: triggerRef as never,
-    contentRef,
     onOpenChange,
   })
 
@@ -107,8 +104,8 @@ function SelectContent({ children, className, ref, ...props }: React.ComponentPr
     <PopoverContent
       side={'bottom'}
       role="select"
-      // aria-activedescendant
-      className={cn('px-1.5 py-1', className)}
+      aria-activedescendant=""
+      className={cn('px-1.5', scrollable ? 'py-0' : 'py-1', className)}
       duck-select-content=""
       {...props}
       ref={contentRef as never}>
@@ -155,16 +152,21 @@ function SelectLabel({ children, className, ref, ...props }: React.HTMLProps<HTM
   )
 }
 
-function SelectItem({ children, ref, className, ...props }: React.HTMLProps<HTMLLIElement>) {
+function SelectItem({ children, ref, className, disabled, ...props }: React.HTMLProps<HTMLLIElement>) {
   const { selectedItem } = useSelectContext()
   const id = React.useId()
+
   return (
     <li
       ref={ref}
       id={id}
       {...props}
       duck-select-item=""
-      className="relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&[aria-selected]>#select-indicator]:bg-secondary [&[aria-selected]]:bg-secondary">
+      aria-disabled={disabled}
+      className={cn(
+        "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]>#select-indicator]:bg-secondary [&[aria-selected]]:bg-secondary",
+        disabled && 'opacity-50 pointer-events-none',
+      )}>
       <div
         className={cn(
           'relative flex select-none items-center gap-2 truncate rounded-xs text-sm outline-hidden',

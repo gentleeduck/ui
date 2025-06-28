@@ -10,7 +10,7 @@ export const useDropdownMenuContext = () => {
   return context
 }
 
-export function useDropdownMenuInit(open: boolean, onOpenChange?: (open: boolean) => void) {
+export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean) => void) {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
@@ -21,25 +21,17 @@ export function useDropdownMenuInit(open: boolean, onOpenChange?: (open: boolean
 
   React.useEffect(() => {
     setTimeout(() => {
-      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, triggerRef, contentRef)
-      console.log(selectedItemRef)
+      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange)
     }, 0)
-    contentRef.current?.setAttribute('data-open', String(open))
   }, [open])
 
   React.useEffect(() => {
     setTimeout(() => {
-      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, triggerRef, contentRef)
+      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange)
       function handleClick() {
-        const open = contentRef.current?.getAttribute('data-open') === 'true'
-
         if (!groupsRef.current.length || !itemsRef.current.length) {
-          initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, triggerRef, contentRef)
+          initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange)
         }
-
-        if (onOpenChange) onOpenChange(!open)
-        contentRef.current?.setAttribute('data-open', String(!open))
-        triggerRef.current?.setAttribute('data-open', String(!open))
       }
 
       triggerRef.current?.addEventListener('click', handleClick)

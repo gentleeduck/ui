@@ -12,7 +12,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center flex-col gap-8">
-      <SelectScrollable />
+      <MenubarDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
@@ -28,7 +28,7 @@ export function PopoverDemo() {
   return (
     <Popover>
       <PopoverTrigger>Open popover</PopoverTrigger>
-      <PopoverContent side="top" align={'center'} className="w-80">
+      <PopoverContent side="top" align={'center'} className="w-80 border-transparent">
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="font-medium leading-none">Dimensions</h4>
@@ -372,11 +372,7 @@ import { Calendar, Clock, MicOff, Users, Video, X } from 'lucide-react'
 export function SelectDemo() {
   return (
     <>
-      <Select
-        open={true}
-        onOpenChange={(state) => {
-          console.log(state)
-        }}>
+      <Select>
         <SelectTrigger className="w-[190px]">
           <SelectValue placeholder="Choose a meeting" />
         </SelectTrigger>
@@ -486,6 +482,17 @@ export function DropdownMenuCheckboxes() {
           <DropdownMenuItem>Activity Bar</DropdownMenuItem>
           <DropdownMenuItem>Panel</DropdownMenuItem>
         </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Submenu</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem disabled={true}>Item 1</DropdownMenuItem>
+              <DropdownMenuItem>Item 2</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem disabled={true}>
@@ -573,7 +580,7 @@ export function CommandDemo() {
 export function SelectScrollable() {
   return (
     <>
-      <Select scrollable>
+      <Select>
         <SelectTrigger className="w-[280px]">
           <SelectValue placeholder="Select a timezone" />
         </SelectTrigger>
