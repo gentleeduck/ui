@@ -1,7 +1,7 @@
 'use client'
 
 import type DialogPrimitive from '@gentleduck/aria-feather/dialog'
-import type { Root } from '@gentleduck/aria-feather/popover'
+import { usePopoverContext, type Root } from '@gentleduck/aria-feather/popover'
 import { useStableId } from '@gentleduck/hooks'
 import { cn } from '@gentleduck/libs/cn'
 import type { AnimPopoverVariants } from '@gentleduck/motion/anim'
@@ -17,8 +17,63 @@ import { RadioGroup, RadioGroupItem } from '../radio-group'
 import { Separator } from '../separator'
 // import { useKeyCommands } from '@gentleduck/vim/react'
 import type { DropdownMenuShortcutProps } from './dropdown-menu.types'
+import { useDropdownMenuInit } from './dropdown-menu.hooks'
+import { useHandleKeyDown } from '../command'
 
-const DropdownMenu = Popover
+export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
+
+function DropdownMenuImpritive({
+  onOpenChange,
+  children,
+  className,
+  ...props
+}: React.HTMLProps<HTMLDivElement> & {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}) {
+  const { open = false } = usePopoverContext()
+  const { wrapperRef, triggerRef, contentRef, overlayRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
+    useDropdownMenuInit(open, onOpenChange)
+  useHandleKeyDown(
+    open,
+    itemsRef,
+    (item) => {
+      selectedItemRef.current = item
+    },
+    originalItemsRef,
+    triggerRef,
+    contentRef,
+    onOpenChange,
+    // 0,
+    true,
+  )
+
+  return (
+    <DropdownMenuContext.Provider
+      value={{
+        wrapperRef,
+        triggerRef,
+        contentRef,
+        overlayRef,
+        groupsRef,
+        itemsRef,
+        selectedItemRef,
+        originalItemsRef,
+      }}>
+      <div className={cn('relative', className)} duck-dropdown-menu="" {...props} ref={wrapperRef}>
+        {children}
+      </div>
+    </DropdownMenuContext.Provider>
+  )
+}
+
+function DropdownMenu({ children, ...props }: React.ComponentPropsWithRef<typeof Popover>) {
+  return (
+    <Popover {...props}>
+      <DropdownMenuImpritive {...props}>{children}</DropdownMenuImpritive>
+    </Popover>
+  )
+}
 
 function DropdownMenuTrigger({
   children,

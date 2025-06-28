@@ -9,11 +9,7 @@ import { PopoverContentProps } from './popover.types'
 
 const Popover = PopoverPrimitive.Root
 
-function PopoverTrigger({
-  children,
-  asChild,
-  ...props
-}: React.ComponentPropsWithRef<typeof PopoverPrimitive.Trigger> & React.ComponentPropsWithRef<typeof Button>) {
+function PopoverTrigger({ children, asChild, ...props }: React.ComponentPropsWithRef<typeof Button>) {
   return (
     <PopoverPrimitive.Trigger>
       <Button {...props} asChild={asChild}>

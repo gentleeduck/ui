@@ -14,6 +14,7 @@ export function usePopoverContext(name: string = 'Popover'): PopoverContextType 
 }
 
 export function usePopover({
+  wrapperRef,
   open: openProp,
   onOpenChange,
   lockScroll,
@@ -21,21 +22,48 @@ export function usePopover({
   hoverable,
   skipDelayDuration,
   delayDuration,
-}: PopoverProps) {
-  const dialogRef = React.useRef<HTMLDialogElement | null>(null)
+}: PopoverProps & {
+  wrapperRef: React.RefObject<HTMLDivElement>
+}) {
   const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
-  const [open, setOpen] = React.useState<boolean>(openProp ?? false)
+  const contentRef = React.useRef<HTMLDialogElement | null>(null)
+  const [open, setOpen] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    triggerRef.current = wrapperRef.current.querySelector('[duck-popover-trigger]')
+    contentRef.current = wrapperRef.current.querySelector('[duck-popover-content]')
+
+    function handleClose(event: Event & { newState: 'open' | 'close' }) {
+      if (modal) {
+        handleOpenChange(false)
+      } else {
+        const newState = event.newState
+        handleOpenChange(newState === 'open')
+      }
+    }
+
+    contentRef.current?.addEventListener('close', handleClose)
+    if (!modal) {
+      contentRef.current?.addEventListener('beforetoggle', handleClose)
+    }
+
+    return () => {
+      contentRef.current?.removeEventListener('close', handleClose)
+      if (!modal) {
+        contentRef.current?.removeEventListener('beforetoggle', handleClose)
+      }
+    }
+  }, [])
 
   function handleOpenChange(state: boolean) {
-    const dialog = dialogRef.current
-    if (!dialog) return
+    if (!contentRef.current) return
 
     try {
       if (modal) {
-        state ? dialog.showModal() : dialog.close()
+        state ? contentRef.current.showModal() : contentRef.current.close()
       } else {
         requestAnimationFrame(() => {
-          state ? dialog.showPopover() : dialog.hidePopover()
+          state ? contentRef.current.showPopover() : contentRef.current.hidePopover()
         })
       }
     } catch (e) {
@@ -44,33 +72,16 @@ export function usePopover({
 
     setOpen(state)
     onOpenChange?.(state)
+    contentRef.current?.setAttribute('data-open', String(state))
   }
 
   React.useEffect(() => {
-    const dialog = dialogRef.current
-    const trigger = triggerRef.current
-
     if (lockScroll) lockScrollbar(open)
 
     if (openProp) {
       handleOpenChange(true)
     } else if (openProp === false) {
       handleOpenChange(false)
-    }
-
-    // FIX:
-    function handleClose(event) {
-      if (modal) {
-        handleOpenChange(false)
-      } else {
-        const newState = event.newState === 'open'
-        handleOpenChange(newState)
-      }
-    }
-
-    dialog?.addEventListener('close', handleClose)
-    if (!modal) {
-      dialog?.addEventListener('beforetoggle', handleClose)
     }
 
     let openTimer = null
@@ -87,30 +98,26 @@ export function usePopover({
     }
 
     if (hoverable) {
-      for (const elm of [trigger, dialog]) {
+      for (const elm of [triggerRef.current, contentRef.current]) {
         elm?.addEventListener('mouseover', openAfterDelay)
         elm?.addEventListener('mouseout', closeAfterDelay)
       }
     }
 
     return () => {
-      dialog?.removeEventListener('close', handleClose)
-      if (!modal) {
-        dialog?.removeEventListener('beforetoggle', handleClose)
-      }
       if (hoverable) {
-        for (const elm of [trigger, dialog]) {
+        for (const elm of [triggerRef.current, contentRef.current]) {
           elm?.removeEventListener('mouseover', openAfterDelay)
           elm?.removeEventListener('mouseout', closeAfterDelay)
         }
       }
       cleanLockScrollbar()
     }
-  }, [open, openProp, onOpenChange])
+  }, [])
 
   return {
     triggerRef,
-    ref: dialogRef,
+    contentRef,
     open,
     onOpenChange: handleOpenChange,
   }

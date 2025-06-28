@@ -23,7 +23,9 @@ export default function RootLayout({
       <head>
         <link href="/fonts/Geist-VF.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link href="/fonts/JetBrainsMono-MD.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <script src="https://unpkg.com/react-scan/dist/auto.global.js" />
+        {
+          // <script src="https://unpkg.com/react-scan/dist/auto.global.js" />
+        }
       </head>
       <body className={cn('min-h-svh bg-background font-sans antialiased duck')}>
         <KeyProvider timeoutMs={100}>

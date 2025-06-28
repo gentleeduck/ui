@@ -1,7 +1,7 @@
 import React from 'react'
-import { CommandContextType, CommandRefsContextType } from './command.types'
 import { CommandContext, CommandRefsContext } from './command'
 import { dstyleItem, handleItemsSelection, styleItem } from './command.libs'
+import { CommandContextType, CommandRefsContextType } from './command.types'
 
 /**
  * Custom hook to access the CommandContext.
@@ -125,31 +125,31 @@ export function useCommandSearch(
   }, [search])
 }
 
-export function useHandleKeyDown(
-  open: boolean,
-  itemsRef: React.RefObject<HTMLLIElement[]>,
-  setSelectedItem: (item: HTMLLIElement) => void,
-  originalItemsRef: React.RefObject<HTMLLIElement[]>,
-  triggerRef: React.RefObject<HTMLButtonElement | null>,
-  contentRef: React.RefObject<HTMLDivElement | null>,
-  onOpenChange?: (open: boolean) => void,
+export function useHandleKeyDown({
+  selectedItem,
+  setSelectedItem,
+  open,
+  itemsRef,
+  onOpenChange,
+  originalItemsRef,
   allowAxisArrowKeys = false,
-) {
+}: {
+  open?: boolean
+  itemsRef: React.RefObject<HTMLLIElement[]>
+  selectedItem: HTMLLIElement | null
+  setSelectedItem: (item: HTMLLIElement) => void
+  originalItemsRef: React.RefObject<HTMLLIElement[]>
+  onOpenChange?: (open: boolean) => void
+  allowAxisArrowKeys?: boolean
+}) {
   React.useEffect(() => {
     if (!open) return
+    const idx = originalItemsRef.current?.findIndex((item) => item === selectedItem)
     const html = document.documentElement
-    let originalCurrentItem = 0
-    let currentItem = 0
+    let originalCurrentItem = idx === -1 ? 0 : idx
+    let currentItem = idx === -1 ? 0 : idx
     let inSubMenu = false
-    let firstOpen = true
-    console.log(open)
 
-    if (firstOpen) {
-      firstOpen = false
-      setTimeout(() => {
-        handleItemsSelection(currentItem, itemsRef, setSelectedItem)
-      }, 0)
-    }
     function handleKeyDown(e: KeyboardEvent) {
       let isClicked = false
       if (e.key === 'ArrowDown') {
@@ -165,8 +165,6 @@ export function useHandleKeyDown(
       } else if (e.key === 'Enter') {
         ;(itemsRef.current[currentItem] as HTMLLIElement)?.click()
         if (onOpenChange) onOpenChange(false)
-        contentRef.current?.setAttribute('data-open', 'false')
-        triggerRef.current?.setAttribute('aria-open', 'false')
         isClicked = true
       }
 
@@ -185,7 +183,6 @@ export function useHandleKeyDown(
 
           if (subItems.length <= 0) return
 
-          item.setAttribute('data-open', 'true')
           itemsRef.current = subItems
           inSubMenu = true
           currentItem = 0
@@ -199,9 +196,6 @@ export function useHandleKeyDown(
           const subItem = itemsRef.current[currentItem] as HTMLLIElement
           subItem.removeAttribute('aria-selected')
           itemsRef.current = originalItemsRef.current.filter((item) => !item.hasAttribute('disabled'))
-
-          const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
-          item?.setAttribute('data-open', 'false')
 
           inSubMenu = false
           currentItem = originalCurrentItem

@@ -51,15 +51,15 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
   const { filteredItems, items, setSelectedItem, commandRef, groups, emptyRef } = useCommandRefsContext()
 
   useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
-  useHandleKeyDown(
-    filteredItems,
-    (item) => {
-      setSelectedItem(item)
-    },
-    items,
-    commandRef as React.RefObject<HTMLButtonElement | null>,
-    commandRef,
-  )
+  useHandleKeyDown({
+    //   filteredItems,
+    //   (item) => {
+    //   setSelectedItem(item)
+    // },
+    //   items,
+    //   commandRef as React.RefObject<HTMLButtonElement | null>,
+    //   commandRef,
+  })
 
   return (
     <CommandContext.Provider

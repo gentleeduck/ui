@@ -21,30 +21,29 @@ export function useSelectContext() {
 
 function SelectWrapper({
   children,
-  onOpenChange,
+  scrollable = false,
   ...props
 }: React.HTMLProps<HTMLDivElement> & {
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
+  scrollable?: boolean
 }) {
-  const { open = false } = usePopoverContext()
+  const { open = false, onOpenChange = () => {} } = usePopoverContext()
+
   const { itemsRef, selectedItemRef, contentRef, triggerRef, groupsRef, wrapperRef, selectedItem } = useSelectInit(
     open,
     onOpenChange,
   )
 
   useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
-  useHandleKeyDown(
+  useHandleKeyDown({
     open,
     itemsRef,
-    (item) => {
+    originalItemsRef: itemsRef,
+    selectedItem,
+    setSelectedItem: (item) => {
       selectedItemRef.current = item
     },
-    itemsRef,
-    triggerRef as React.RefObject<HTMLButtonElement | null>,
-    contentRef,
     onOpenChange,
-  )
+  })
 
   return (
     <SelectContext.Provider
@@ -58,6 +57,7 @@ function SelectWrapper({
         onOpenChange: () => {
           onOpenChange?.(open)
         },
+        scrollable,
         triggerRef,
       }}>
       <div ref={wrapperRef} {...props} duck-select="">
@@ -67,7 +67,12 @@ function SelectWrapper({
   )
 }
 
-function Select({ children, ...props }: React.ComponentPropsWithRef<typeof Popover>) {
+function Select({
+  children,
+  ...props
+}: React.ComponentPropsWithRef<typeof Popover> & {
+  scrollable?: boolean
+}) {
   return (
     <Popover {...props}>
       <SelectWrapper {...props}>{children}</SelectWrapper>
@@ -94,23 +99,21 @@ function SelectTrigger({
 }
 
 function SelectContent({ children, className, ref, ...props }: React.ComponentPropsWithRef<typeof PopoverContent>) {
-  const { contentRef } = useSelectContext()
+  const { contentRef, scrollable } = useSelectContext()
   return (
     <PopoverContent
       side={'bottom'}
       role="select"
-      // aria-activedescendant
-      className={cn('px-1.5 py-1', className)}
+      aria-activedescendant=""
+      className={cn('px-1.5', scrollable ? 'py-0' : 'py-1', className)}
       duck-select-content=""
       {...props}
       ref={contentRef as never}>
-      {
-        // <SelectScrollUpButton />
-        // <SelectScrollDownButton />
-      }
-      <div className="max-h-[400px] overflow-" duck-select-content-scrollable="">
+      {scrollable && <SelectScrollUpButton />}
+      <div className={cn('max-h-[400px]', scrollable && 'overflow-y-scroll')} duck-select-content-scrollable="">
         {children}
       </div>
+      {scrollable && <SelectScrollDownButton />}
     </PopoverContent>
   )
 }
@@ -149,16 +152,21 @@ function SelectLabel({ children, className, ref, ...props }: React.HTMLProps<HTM
   )
 }
 
-function SelectItem({ children, ref, className, ...props }: React.HTMLProps<HTMLLIElement>) {
+function SelectItem({ children, ref, className, disabled, ...props }: React.HTMLProps<HTMLLIElement>) {
   const { selectedItem } = useSelectContext()
   const id = React.useId()
+
   return (
     <li
       ref={ref}
       id={id}
       {...props}
       duck-select-item=""
-      className="relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&[aria-selected]>#select-indicator]:bg-secondary [&[aria-selected]]:bg-secondary">
+      aria-disabled={disabled}
+      className={cn(
+        "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]>#select-indicator]:bg-secondary [&[aria-selected]]:bg-secondary",
+        disabled && 'opacity-50 pointer-events-none',
+      )}>
       <div
         className={cn(
           'relative flex select-none items-center gap-2 truncate rounded-xs text-sm outline-hidden',
@@ -192,7 +200,7 @@ function SelectScrollButton({
       variant="nothing"
       size="xs"
       className={cn(
-        'sticky z-50 w-full cursor-default cursor-pointer justify-center rounded-none bg-background p-0',
+        'sticky z-50 w-full cursor-default cursor-pointer [&>div]:justify-center rounded-none bg-background p-0',
         scrollDown ? 'bottom-0' : 'top-0',
         className,
       )}

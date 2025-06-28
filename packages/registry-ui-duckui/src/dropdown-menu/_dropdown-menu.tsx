@@ -1,42 +1,35 @@
 'use client'
 
+import { usePopoverContext } from '@gentleduck/aria-feather/popover'
 import { cn } from '@gentleduck/libs/cn'
-
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { Check, ChevronRight } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'
 import { useHandleKeyDown } from '../command'
+import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { RadioGroup, RadioGroupItem } from '../radio-group'
 import { useDropdownMenuContext, useDropdownMenuInit } from './dropdown-menu.hooks'
 import { DropdownMenuContextType, DropdownMenuShortcutProps } from './dropdown-menu.types'
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
-function DropdownMenu({
-  open = false,
-  onOpenChange,
-  children,
-  className,
-  ...props
-}: React.HTMLProps<HTMLDivElement> & {
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-}) {
-  const { wrapperRef, triggerRef, contentRef, overlayRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
+function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProps<HTMLDivElement>) {
+  const { open = false, onOpenChange = () => {} } = usePopoverContext()
+  const { wrapperRef, triggerRef, contentRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
     useDropdownMenuInit(open, onOpenChange)
-  useHandleKeyDown(
+
+  useHandleKeyDown({
+    open,
     itemsRef,
-    (item) => {
+    selectedItem: selectedItemRef.current,
+    setSelectedItem: (item) => {
       selectedItemRef.current = item
     },
     originalItemsRef,
-    triggerRef,
-    contentRef,
     onOpenChange,
-    // 0,
-    true,
-  )
+    allowAxisArrowKeys: true,
+  })
 
   return (
     <DropdownMenuContext.Provider
@@ -44,7 +37,6 @@ function DropdownMenu({
         wrapperRef,
         triggerRef,
         contentRef,
-        overlayRef,
         groupsRef,
         itemsRef,
         selectedItemRef,
@@ -57,25 +49,33 @@ function DropdownMenu({
   )
 }
 
+function DropdownMenu({ children, ...props }: React.ComponentPropsWithRef<typeof Popover>) {
+  return (
+    <Popover {...props}>
+      <DropdownMenuImpritive {...props}>{children}</DropdownMenuImpritive>
+    </Popover>
+  )
+}
+
 function DropdownMenuTrigger({
   className,
   children,
-  variant = 'ghost',
+  variant = 'outline',
   asChild = false,
   onClick,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Button>) {
+}: React.ComponentPropsWithoutRef<typeof PopoverTrigger>) {
   const { triggerRef } = useDropdownMenuContext()
   return (
-    <Button
-      ref={triggerRef}
+    <PopoverTrigger
+      ref={triggerRef as never}
       variant={variant}
       className={cn('', className)}
       asChild={asChild}
       {...props}
-      duck-dropdown-menu-trigger="">
+      duck-select-trigger="">
       {children}
-    </Button>
+    </PopoverTrigger>
   )
 }
 
@@ -85,42 +85,19 @@ function DropdownMenuContent({
   renderOnce = true,
   side = 'top',
   sideOffset = 8,
+  ref,
   ...props
-}: React.HTMLProps<HTMLDivElement> & {
+}: React.ComponentPropsWithRef<typeof PopoverContent> & {
   renderOnce?: boolean
-  side?: 'top' | 'right' | 'bottom' | 'left'
-  sideOffset?: number
 }): React.JSX.Element {
-  const { contentRef, overlayRef } = useDropdownMenuContext()
-
   return (
-    <div
-      ref={contentRef}
+    <PopoverContent
+      ref={ref}
       duck-dropdown-menu-content=""
-      data-open={false}
-      className={cn(
-        'absolute z-50 min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[open="false"]:animate-in data-[open="true"]:animate-out data-[open="true"]:fade-out-0 data-[open="false"]:fade-in-0 data-[open="true"]:zoom-out-95 data-[open="false"]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-        'data-[open="false"]:opacity-0 data-[open="true"]:opacity-100 data-[open="false"]:pointer-events-none',
-        className,
-      )}
-      style={{
-        margin:
-          side === 'left'
-            ? `0 0 0 ${sideOffset}px`
-            : side === 'right'
-              ? `0 ${sideOffset}px 0 0`
-              : side === 'top'
-                ? `${sideOffset}px 0 0 0`
-                : `0 0 ${sideOffset}px 0`,
-      }}
-      //
+      className={cn('min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground', className)}
       {...props}>
-      {
-        // TODO: add overlay
-        // <div className="fixed inset-0 z-[49] " ref={overlayRef} />
-      }
       {children}
-    </div>
+    </PopoverContent>
   )
 }
 
@@ -143,6 +120,7 @@ function DropdownMenuLabel({
 function DropdownMenuItem({
   className,
   inset,
+  disabled,
   ref,
   ...props
 }: React.ComponentPropsWithRef<typeof Button> & { inset?: boolean }): React.JSX.Element {
@@ -152,10 +130,11 @@ function DropdownMenuItem({
       variant={'ghost'}
       size={'sm'}
       duck-dropdown-menu-item=""
+      aria-disabled={disabled}
+      disabled={disabled}
       className={cn(
         // 'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary focus:bg-secondary',
         'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]:focus-visible]:ring-2 [&[aria-selected]:focus-visible]:ring-ring [&[aria-selected]:focus-visible]:ring-offset-2 [&[aria-selected]:focus-visible]:ring-offset-background focus:bg-secondary',
-
         inset && 'pl-8',
         className,
       )}
@@ -210,6 +189,7 @@ export interface DropdownMenuSubContextType {
   contentRef: React.RefObject<HTMLDivElement | null>
   selectedItemRef: React.RefObject<HTMLLIElement | null>
 }
+
 export const DropdownMenuSubContext = React.createContext<DropdownMenuSubContextType | null>(null)
 export function useDropdownMenuSubContext() {
   const context = React.useContext(DropdownMenuSubContext)
@@ -221,13 +201,15 @@ export function useDropdownMenuSubContext() {
 
 function DropdownMenuSub({ className, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
-    <div
-      className={cn(
-        'relative focus:bg-secondary [&[aria-selected]>button]:bg-secondary [&[aria-selected]:focus-visible>button]:bg-secondary [&>button]:focus:bg-secondary',
-      )}
-      {...props}
-      duck-dropdown-menu-sub=""
-    />
+    <Popover hoverable>
+      <div
+        className={cn(
+          'relative focus:bg-secondary [&[aria-selected]>button]:bg-secondary [&[aria-selected]:focus-visible>button]:bg-secondary [&>button]:focus:bg-secondary',
+        )}
+        {...props}
+        duck-dropdown-menu-sub=""
+      />
+    </Popover>
   )
 }
 
@@ -239,8 +221,7 @@ function DropdownMenuSubTrigger({
   ...props
 }: React.ComponentPropsWithoutRef<typeof Button>) {
   return (
-    <Button
-      data-trigger
+    <PopoverTrigger
       size={'sm'}
       variant={'ghost'}
       duck-dropdown-menu-item=""
@@ -249,14 +230,13 @@ function DropdownMenuSubTrigger({
         '[&:hover+div]:opacity-100',
         '[&[aria-selected]]:bg-secondary',
         '[&[data-open="true"]+div]:opacity-100',
-
         className,
       )}
       asChild={asChild}
       secondIcon={<ChevronRight className="rtl:rotate-180 ltr:rotate-0 rtl:-ml-2 ltr:-mr-2" />}
       {...props}>
       {children}
-    </Button>
+    </PopoverTrigger>
   )
 }
 
@@ -265,13 +245,11 @@ function DropdownMenuSubContent({
   children,
   sideOffset = 8,
   align = 'start',
+  ref,
   ...props
-}: React.HTMLProps<HTMLDivElement> & {
-  sideOffset?: number
-  align?: 'start' | 'end'
-}) {
+}: React.ComponentPropsWithRef<typeof PopoverContent>) {
   return (
-    <DropdownMenuContent
+    <PopoverContent
       className={cn(
         'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
         'ml-1',
@@ -279,6 +257,7 @@ function DropdownMenuSubContent({
         'opacity-0',
         className,
       )}
+      ref={ref}
       style={
         {
           left: '100%',
@@ -288,7 +267,7 @@ function DropdownMenuSubContent({
       {...props}
       duck-dropdown-menu-sub-content="">
       {children}
-    </DropdownMenuContent>
+    </PopoverContent>
   )
 }
 

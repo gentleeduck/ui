@@ -10,50 +10,41 @@ export const useDropdownMenuContext = () => {
   return context
 }
 
-export function useDropdownMenuInit(open: boolean, onOpenChange?: (open: boolean) => void) {
+export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean) => void) {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
-  const overlayRef = React.useRef<HTMLDivElement>(null)
   const groupsRef = React.useRef<HTMLDivElement[]>([])
   const itemsRef = React.useRef<HTMLLIElement[]>([])
   const originalItemsRef = React.useRef<HTMLLIElement[]>([])
   const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
 
   React.useEffect(() => {
-    contentRef.current?.setAttribute('data-open', String(open))
+    setTimeout(() => {
+      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange)
+    }, 0)
   }, [open])
 
   React.useEffect(() => {
-    initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, triggerRef, contentRef)
-    function handleClick() {
-      const open = contentRef.current?.getAttribute('data-open') === 'true'
-
-      if (!groupsRef.current.length || !itemsRef.current.length) {
-        initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, triggerRef, contentRef)
+    setTimeout(() => {
+      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange)
+      function handleClick() {
+        if (!groupsRef.current.length || !itemsRef.current.length) {
+          initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange)
+        }
       }
 
-      if (onOpenChange) onOpenChange(!open)
-      contentRef.current?.setAttribute('data-open', String(!open))
-      triggerRef.current?.setAttribute('data-open', String(!open))
-    }
-
-    triggerRef.current?.addEventListener('click', handleClick)
-    return () => {
-      triggerRef.current?.removeEventListener('click', handleClick)
-    }
+      triggerRef.current?.addEventListener('click', handleClick)
+      return () => {
+        triggerRef.current?.removeEventListener('click', handleClick)
+      }
+    }, 0)
   }, [])
 
-  //TODO: clear the listeners
-  //TODO: handle the close
-  // overlayRef.current?.addEventListener('click', () => {
-  //   contentRef.current?.setAttribute('data-open', 'false')
-  // })
   return {
     wrapperRef,
     triggerRef,
     contentRef,
-    overlayRef,
     groupsRef,
     itemsRef,
     originalItemsRef,

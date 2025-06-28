@@ -108,8 +108,8 @@ const components: Record<
   toggle: {},
   toggleGroup: {},
   collapsible: {},
-
   select: {},
+
   dropdownMenu: {},
   menuBar: {},
 
