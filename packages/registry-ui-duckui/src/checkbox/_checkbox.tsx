@@ -11,8 +11,8 @@ const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (
     className={cn(
       checkersStylePattern(),
       AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
-      'justify-center rounded checked:text-primary-foreground ',
-      'after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent after:rounded-none after:w-[5px] after:h-[9px]  after:mb-0.5 checked:after:translate-y-0  after:translate-y-1/3  after:opacity-0 after:rotate-45 checked:after:opacity-100',
+      'justify-center rounded checked:text-primary-foreground p-2',
+      'after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent after:rounded-none after:w-[4px] after:h-[9px]  after:mb-0.5 checked:after:translate-y-0  after:translate-y-1/3  after:opacity-0 after:rotate-45 checked:after:opacity-100',
       className,
     )}
     {...props}
