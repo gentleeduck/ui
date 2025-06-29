@@ -19,17 +19,17 @@ function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProp
   const { wrapperRef, triggerRef, contentRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
     useDropdownMenuInit(open, onOpenChange)
 
-  useHandleKeyDown({
-    open,
-    itemsRef,
-    selectedItem: selectedItemRef.current,
-    setSelectedItem: (item) => {
-      selectedItemRef.current = item
-    },
-    originalItemsRef,
-    onOpenChange,
-    allowAxisArrowKeys: true,
-  })
+  // useHandleKeyDown({
+  //   open,
+  //   itemsRef,
+  //   selectedItem: selectedItemRef.current,
+  //   setSelectedItem: (item) => {
+  //     selectedItemRef.current = item
+  //   },
+  //   originalItemsRef,
+  //   onOpenChange,
+  //   allowAxisArrowKeys: true,
+  // })
 
   return (
     <DropdownMenuContext.Provider

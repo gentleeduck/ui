@@ -72,6 +72,7 @@ export function usePopover({
 
     setOpen(state)
     onOpenChange?.(state)
+    triggerRef.current?.setAttribute('data-open', String(state))
     contentRef.current?.setAttribute('data-open', String(state))
   }
 
