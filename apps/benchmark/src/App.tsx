@@ -15,14 +15,14 @@
 
 // import { lazy } from 'react'
 
+import ShadcnCheckbox from './duck/checkbox/checkbox'
 // import DuckLabel from './duck/label/duck'
 // import ShadcnLabel from './duck/label/label'
-// import DuckCheckbox from './duck/checkbox/duck'
-// import ShadcnCheckbox from './duck/checkbox/checkbox'
-// import DuckSwitch from './duck/switch/duck'
-// import ShadcnSwitch from './duck/switch/switch'
-// import DuckRadioGroup from './duck/radio-group/duck'
-// import ShadcnRadioGroup from './duck/radio-group/radio-group'
+import DuckCheckbox from './duck/checkbox/duck'
+import DuckRadioGroup from './duck/radio-group/duck'
+import ShadcnRadioGroup from './duck/radio-group/radio-group'
+import DuckSwitch from './duck/switch/duck'
+import ShadcnSwitch from './duck/switch/switch'
 // import DuckInput from './duck/input/duck'
 // import ShadcnInput from './duck/input/input'
 // import DuckScrollAreaExp from './duck/scroll-area/experimental'
@@ -107,9 +107,14 @@ import Accordion from './example/accordion'
 function App() {
   return (
     // <KeyProvider timeoutMs={100}>
-      <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
-        <Accordion />
-      </div>
+    <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
+      <DuckCheckbox />
+      <ShadcnCheckbox />
+      <DuckSwitch />
+      <ShadcnSwitch />
+      <DuckRadioGroup />
+      <ShadcnRadioGroup />
+    </div>
     // </KeyProvider>
   )
 }
