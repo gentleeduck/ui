@@ -1,6 +1,7 @@
 import React from 'react'
 import { DropdownMenuContext } from './_dropdown-menu'
 import { initRefs } from './dropdown-menu.libs'
+import { styleItem } from '../command'
 
 export const useDropdownMenuContext = () => {
   const context = React.useContext(DropdownMenuContext)
@@ -10,7 +11,7 @@ export const useDropdownMenuContext = () => {
   return context
 }
 
-export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean) => void) {
+export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean) => void, sub: boolean) {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
@@ -21,7 +22,7 @@ export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean)
 
   React.useEffect(() => {
     setTimeout(() => {
-      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange)
+      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange, sub)
     }, 0)
   }, [open])
 

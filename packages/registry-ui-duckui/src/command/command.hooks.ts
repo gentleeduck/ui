@@ -144,6 +144,7 @@ export function useHandleKeyDown({
 }) {
   React.useEffect(() => {
     if (!open) return
+
     const idx = originalItemsRef.current?.findIndex((item) => item === selectedItem)
     const html = document.documentElement
     let originalCurrentItem = idx === -1 ? 0 : idx
@@ -152,70 +153,37 @@ export function useHandleKeyDown({
 
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'ArrowDown') {
+        if (inSubMenu) return
         const itemIndex = currentItem === itemsRef.current.length - 1 ? 0 : currentItem + 1
         currentItem = itemIndex
-        if (!inSubMenu) originalCurrentItem = itemIndex
+        originalCurrentItem = itemIndex
       } else if (e.key === 'ArrowUp') {
+        if (inSubMenu) return
         const itemIndex = currentItem === 0 ? itemsRef.current.length - 1 : currentItem - 1
         currentItem = itemIndex
-        if (!inSubMenu) originalCurrentItem = itemIndex
-      } else if (e.key === 'Enter') {
+        originalCurrentItem = itemIndex
+      } else if (e.key === 'Enter' || e.key === 'Escape') {
         if (itemsRef.current[currentItem]?.hasAttribute('duck-dropdown-menu-sub-trigger')) {
-          // ;(itemsRef.current[currentItem] as HTMLLIElement)?.click()
-          // inSubMenu = true
-        } else {
-          ;(itemsRef.current[currentItem] as HTMLLIElement)?.click()
-          if (onOpenChange) onOpenChange(false)
+          inSubMenu = !inSubMenu
         }
       }
 
       if (allowAxisArrowKeys) {
+        const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
         if (
           (e.key === 'ArrowLeft' && html.getAttribute('dir') === 'rtl') ||
           (e.key === 'ArrowRight' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
         ) {
-          console.log('fuck right')
-
-          const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
-          const parent = item?.parentNode as HTMLDivElement
-          const content = parent?.querySelector('[duck-dropdown-menu-content]') as HTMLDialogElement
-
           item?.click()
-          // const subItems = Array.from(
-          //   content?.querySelectorAll('[duck-dropdown-menu-item]') as never as HTMLLIElement[],
-          // )
-          const hi = parent?.querySelector('button') as HTMLButtonElement
-          console.log(hi.nextElementSibling?.querySelector('button'))
-          // const subItemsFiltered = subItems.filter(
-          //   (item) => !(item.hasAttribute('disabled') || item.getAttribute('disabled') === 'true'),
-          // )
-          //
-          // console.log(subItemsFiltered)
-          // if (subItemsFiltered.length <= 0) return
-          // subItemsFiltered[0]?.focus()
-          // if (!parent?.hasAttribute('duck-dropdown-menu-sub')) return
-
-          //
-          // itemsRef.current = subItemsFiltered
-          // currentItem = 0
-          inSubMenu = true
+          return
         }
 
         if (
           (e.key === 'ArrowRight' && html.getAttribute('dir') === 'rtl') ||
           (e.key === 'ArrowLeft' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
         ) {
-          const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
-          // const subItem = itemsRef.current[currentItem] as HTMLLIElement
-          // subItem.removeAttribute('aria-selected')
-          // itemsRef.current = originalItemsRef.current.filter((item) => !item.hasAttribute('disabled'))
-
-          // if (inSubMenu) {
           item?.click()
-          // }
-
-          inSubMenu = false
-          // currentItem = originalCurrentItem
+          return
         }
       }
 
@@ -224,5 +192,11 @@ export function useHandleKeyDown({
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [open])
+
+  React.useEffect(() => {
+    if (!open && itemsRef.current?.[0]) {
+      setSelectedItem(itemsRef.current[0])
+    }
   }, [open])
 }
