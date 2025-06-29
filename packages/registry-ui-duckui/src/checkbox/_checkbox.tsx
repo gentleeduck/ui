@@ -40,7 +40,7 @@ function Checkbox({
           }),
           AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
           (indicatorReady && checkedIndicatorReady) || indicatorReady
-            ? 'after:size-full'
+            ? ''
             : 'after:border-[1.5px] after:border-t-0 after:border-l-0 after:rotate-45 after:mb-0.5 after:w-[4px] after:h-[9px] after:bg-transparent',
           className,
         )}

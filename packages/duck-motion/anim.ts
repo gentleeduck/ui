@@ -151,30 +151,29 @@ export const AnimSheetVariants = cva(`duration-400 pointer-events-auto border-0 
 })
 
 export const checkersStylePattern = cva(
-  `appearance-none relative p-2 size-4 flex items-center rounded-full m-0
+  `appearance-none relative p-2 size-[1em] flex items-center rounded-full m-0
   border bg-border border-border checked:bg-primary checked:border-primary text-primary-foreground
   ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
   disabled:cursor-not-allowed disabled:opacity-50 
-  after:absolute after:drop-shadow after:bg-current after:rounded-[inherit] after:block after:mask-type-alpha after:mask-contain 
+  after:absolute after:drop-shadow after:bg-current after:size-[1em] after:rounded-[inherit] after:block after:mask-type-alpha after:mask-contain 
   after:opacity-0 checked:after:opacity-100 `,
   {
     variants: {
       type: {
         checkbox: `
           justify-center rounded p-2
-          after:rounded-none
-          checked:after:translate-y-0 after:translate-y-1/3 size-full
+          after:rounded-none after:text-base
+          checked:after:translate-y-0 after:translate-y-1/3 text-xs
           
             `,
         radio: `
-          justify-center p-2 after:size-2
-          after:scale-0 checked:after:scale-100 after:size-2
+          justify-center p-2 after:text-[10px]
+          after:scale-0 checked:after:scale-100 
           `,
         switch: `
-          px-4 py-2 justify-end
-          px-4.5 py-2.5
-          checked:after:translate-x-full after:size-4 after:opacity-100
-          
+          px-4 py-2 justify-end after:text-md
+          px-4.5 py-2.5 
+          checked:after:translate-x-full after:opacity-100
             `,
       },
       indicatorState: {
