@@ -19,17 +19,17 @@ function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProp
   const { wrapperRef, triggerRef, contentRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
     useDropdownMenuInit(open, onOpenChange)
 
-  // useHandleKeyDown({
-  //   open,
-  //   itemsRef,
-  //   selectedItem: selectedItemRef.current,
-  //   setSelectedItem: (item) => {
-  //     selectedItemRef.current = item
-  //   },
-  //   originalItemsRef,
-  //   onOpenChange,
-  //   allowAxisArrowKeys: true,
-  // })
+  useHandleKeyDown({
+    open,
+    itemsRef,
+    selectedItem: selectedItemRef.current,
+    setSelectedItem: (item) => {
+      selectedItemRef.current = item
+    },
+    originalItemsRef,
+    onOpenChange,
+    allowAxisArrowKeys: true,
+  })
 
   return (
     <DropdownMenuContext.Provider
@@ -199,16 +199,51 @@ export function useDropdownMenuSubContext() {
   return context
 }
 
-function DropdownMenuSub({ className, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+function DropdownMenuSubImpritive({ children, className, ...props }: React.HTMLProps<HTMLDivElement>) {
+  const { open = false, onOpenChange = () => {} } = usePopoverContext()
+  const { wrapperRef, triggerRef, contentRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
+    useDropdownMenuInit(open, onOpenChange, true)
+
+  useHandleKeyDown({
+    open,
+    itemsRef,
+    selectedItem: selectedItemRef.current,
+    setSelectedItem: (item) => {
+      selectedItemRef.current = item
+    },
+    originalItemsRef,
+    onOpenChange,
+    allowAxisArrowKeys: true,
+  })
+
   return (
-    <Popover hoverable>
+    <DropdownMenuContext.Provider
+      value={{
+        wrapperRef,
+        triggerRef,
+        contentRef,
+        groupsRef,
+        itemsRef,
+        selectedItemRef,
+        originalItemsRef,
+      }}>
       <div
         className={cn(
           'relative focus:bg-secondary [&[aria-selected]>button]:bg-secondary [&[aria-selected]:focus-visible>button]:bg-secondary [&>button]:focus:bg-secondary',
         )}
         {...props}
         duck-dropdown-menu-sub=""
-      />
+        ref={wrapperRef}>
+        {children}
+      </div>
+    </DropdownMenuContext.Provider>
+  )
+}
+
+function DropdownMenuSub({ className, children, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+  return (
+    <Popover {...props}>
+      <DropdownMenuSubImpritive {...props}>{children}</DropdownMenuSubImpritive>
     </Popover>
   )
 }
@@ -216,7 +251,7 @@ function DropdownMenuSub({ className, ...props }: React.HTMLProps<HTMLDivElement
 function DropdownMenuSubTrigger({
   className,
   children,
-  asChild = false,
+  secondIcon,
   onClick,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Button>) {
@@ -225,6 +260,7 @@ function DropdownMenuSubTrigger({
       size={'sm'}
       variant={'ghost'}
       duck-dropdown-menu-item=""
+      duck-dropdown-menu-sub-trigger=""
       className={cn(
         '[&>div]:justify-between [&>div]:w-full w-full',
         '[&:hover+div]:opacity-100',
@@ -232,8 +268,7 @@ function DropdownMenuSubTrigger({
         '[&[data-open="true"]+div]:opacity-100',
         className,
       )}
-      asChild={asChild}
-      secondIcon={<ChevronRight className="rtl:rotate-180 ltr:rotate-0 rtl:-ml-2 ltr:-mr-2" />}
+      secondIcon={secondIcon || <ChevronRight className="rtl:rotate-180 ltr:rotate-0 rtl:-ml-2 ltr:-mr-2" />}
       {...props}>
       {children}
     </PopoverTrigger>
@@ -243,7 +278,8 @@ function DropdownMenuSubTrigger({
 function DropdownMenuSubContent({
   className,
   children,
-  sideOffset = 8,
+  sideOffset = 4,
+  side = 'right',
   align = 'start',
   ref,
   ...props
@@ -258,12 +294,8 @@ function DropdownMenuSubContent({
         className,
       )}
       ref={ref}
-      style={
-        {
-          left: '100%',
-          top: 0,
-        } as React.CSSProperties
-      }
+      side={side}
+      sideOffset={sideOffset}
       {...props}
       duck-dropdown-menu-sub-content="">
       {children}

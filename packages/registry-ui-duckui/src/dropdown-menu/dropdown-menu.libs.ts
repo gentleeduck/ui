@@ -11,21 +11,21 @@ export function initRefs(
 ) {
   const groups = wrapperRef.current?.querySelectorAll('[duck-dropdown-menu-group]')
   const items = wrapperRef.current?.querySelectorAll(
-    '[duck-dropdown-menu-group]>[duck-dropdown-menu-item], [duck-dropdown-menu-group]>*>[duck-dropdown-menu-item]',
-  ) as never as HTMLLIElement[]
+    '[duck-dropdown-menu-item]:not([duck-dropdown-menu-sub-trigger]):not([aria-disabled])',
+  ) as unknown as HTMLLIElement[]
+
+  console.log(items)
+
   groupsRef.current = Array.from(groups ?? []) as HTMLDivElement[]
   itemsRef.current = Array.from(items ?? []) as HTMLLIElement[]
   originalItemsRef.current = Array.from(items ?? []) as HTMLLIElement[]
 
-  const selectedITem = itemsRef.current.find((item) => !item.hasAttribute('disabled'))
+  const selectedItem = itemsRef.current.find((item) => !item.hasAttribute('disabled'))
 
-  itemsRef.current = itemsRef.current.filter(
-    (item) => !(item.hasAttribute('aria-disabled') || item.getAttribute('aria-disabled') === 'true'),
-  )
   if (!selectedItemRef.current) {
-    styleItem(selectedITem ?? null)
-    selectedITem?.focus()
-    selectedItemRef.current = selectedITem ?? null
+    styleItem(selectedItem ?? null)
+    selectedItem?.focus()
+    selectedItemRef.current = selectedItem ?? null
   }
 
   for (let i = 0; i < itemsRef.current?.length; i++) {
@@ -33,10 +33,6 @@ export function initRefs(
     item.addEventListener('mouseover', () => {
       dstyleItem(item)
       item?.blur()
-    })
-
-    item.addEventListener('click', () => {
-      onOpenChange(false)
     })
   }
 }

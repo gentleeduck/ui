@@ -12,7 +12,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center flex-col gap-8">
-      <MenubarDemo />
+      <DropdownMenuCheckboxes />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
@@ -462,40 +462,17 @@ export function DropdownMenuCheckboxes() {
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuCheckboxItem checked={showStatusBar} onClick={() => setShowStatusBar(!showStatusBar)}>
-            Status Bar
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem checked={showActivityBar} disabled>
-            Activity Bar
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem checked={showPanel}>Panel</DropdownMenuCheckboxItem>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition} defaultValue={position}>
-          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
-        <DropdownMenuGroup>
-          <DropdownMenuItem disabled={true}>Status Bar</DropdownMenuItem>
-          <DropdownMenuItem>Activity Bar</DropdownMenuItem>
-          <DropdownMenuItem>Panel</DropdownMenuItem>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>Submenu</DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-              <DropdownMenuItem disabled={true}>Item 1</DropdownMenuItem>
+              <DropdownMenuItem>Item 1</DropdownMenuItem>
               <DropdownMenuItem>Item 2</DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem disabled={true}>
+          <DropdownMenuItem>
             Preferences
             <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
               <Command />P

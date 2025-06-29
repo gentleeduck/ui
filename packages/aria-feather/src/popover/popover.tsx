@@ -57,7 +57,7 @@ export function Root({
         hoverable,
         lockScroll,
       }}>
-      <div duck-popover-trigger="" ref={wrapperRef}>
+      <div duck-popover="" ref={wrapperRef}>
         {children}
       </div>
     </PopoverContext.Provider>

@@ -39,94 +39,101 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
     triggersRef.current = triggers
     contentsRef.current = contents
 
-    // wrapperRef.current?.addEventListener('keydown', (e) => {
-    //   if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-    //     e.preventDefault()
-    //
-    //     if (e.key === 'ArrowRight') {
-    //       const currentIndex = triggers.indexOf(selectedItemRef.current as HTMLButtonElement)
-    //       const nextIndex = currentIndex + 1
-    //       selectedItemRef.current = nextIndex < triggers.length ? triggers[nextIndex]! : triggers[0]!
-    //       selectedItemRef.current.setAttribute('data-open', 'true')
-    //       clickedItemRef.current && selectedItemRef.current?.click()
-    //     } else if (e.key === 'ArrowLeft') {
-    //       const currentIndex = triggers.indexOf(selectedItemRef.current as HTMLButtonElement)
-    //       const nextIndex = currentIndex - 1
-    //       selectedItemRef.current = nextIndex >= 0 ? triggers[nextIndex]! : triggers[triggers.length - 1]!
-    //       clickedItemRef.current && selectedItemRef.current?.click()
-    //     }
-    //     for (let i = 0; i < triggers.length; i++) {
-    //       const trigger = triggers[i] as HTMLButtonElement
-    //       trigger.setAttribute('data-open', 'false')
-    //       trigger.blur()
-    //
-    //       if (trigger === selectedItemRef.current) {
-    //         trigger.setAttribute('data-open', 'true')
-    //         // trigger.focus()
-    //         setTimeout(() => trigger.focus(), 10)
-    //       }
-    //     }
-    //   }
-    //
-    //   if (e.key === 'Escape') {
-    //   }
-    // })
+    wrapperRef.current?.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault()
+        const currentIndex = triggers.indexOf(selectedItemRef.current as HTMLButtonElement)
+
+        if (e.key === 'ArrowRight') {
+          const nextIndex = currentIndex + 1
+          selectedItemRef.current = nextIndex < triggers.length ? triggers[nextIndex]! : triggers[0]!
+          clickedItemRef.current && selectedItemRef.current?.click()
+        } else if (e.key === 'ArrowLeft') {
+          const nextIndex = currentIndex - 1
+          selectedItemRef.current = nextIndex >= 0 ? triggers[nextIndex]! : triggers[triggers.length - 1]!
+          clickedItemRef.current && selectedItemRef.current?.click()
+        }
+
+        console.log(selectedItemRef.current)
+        for (let i = 0; i < triggers.length; i++) {
+          const trigger = triggers[i] as HTMLButtonElement
+          trigger.setAttribute('data-open', 'false')
+
+          if (trigger === selectedItemRef.current) {
+            trigger.setAttribute('data-open', 'true')
+            setTimeout(() => trigger.focus(), 10)
+          }
+        }
+      }
+
+      // if (e.key === 'Enter') {
+      //   selectedItemRef.current?.click()
+      // }
+    })
 
     for (let i = 0; i < triggers.length; i++) {
       const trigger = triggers[i] as HTMLButtonElement
       const content = contents[i] as HTMLDialogElement
 
-      // trigger.addEventListener('focus', () => {
-      //   selectedItemRef.current = trigger
-      //   selectedItemRef.current.setAttribute('data-open', 'true')
-      // })
-
-      // trigger.addEventListener('click', () => {
-      //   const state = trigger.getAttribute('data-open')
-      //   for (let i = 0; i < triggers.length; i++) {
-      //     const trigger = triggers[i] as HTMLButtonElement
-      //     trigger.setAttribute('data-open', 'false')
-      //   }
-      //   clickedItemRef.current = trigger
-      //   selectedItemRef.current = trigger
-      //   setTimeout(() => trigger.focus(), 10)
-      //   trigger.setAttribute('data-open', String(!state))
-      // })
-
-      trigger.addEventListener('blur', () => {
-        trigger.setAttribute('data-open', 'false')
-        const checkedItems = triggers.filter((trigger) => trigger.getAttribute('data-open') === 'true')
-        selectedItemRef.current = checkedItems[0] as HTMLButtonElement
-      })
-
-      trigger.addEventListener('mouseenter', () => {
-        if (trigger.getAttribute('data-open') === 'false' && trigger !== clickedItemRef.current) {
-          console.log('ahy')
-          for (let i = 0; i < triggers.length; i++) {
-            const trigger = triggers[i] as HTMLButtonElement
-            trigger.setAttribute('data-open', 'false')
-          }
+      trigger.addEventListener('focus', () => {
+        if (!clickedItemRef.current && !selectedItemRef.current) {
+          trigger.setAttribute('data-open', 'true')
           selectedItemRef.current = trigger
-          selectedItemRef.current?.click()
-          selectedItemRef.current.setAttribute('data-open', 'true')
         }
       })
 
-      // reset the open state when the mouse leaves
-      // trigger.addEventListener('mouseleave', () => {
-      //   selectedItemRef.current?.setAttribute('data-open', 'true')
-      // })
+      trigger.addEventListener('click', () => {
+        const state = trigger.getAttribute('data-open')
+        for (let i = 0; i < triggers.length; i++) {
+          const trigger = triggers[i] as HTMLButtonElement
+          trigger.setAttribute('data-open', 'false')
+        }
+        clickedItemRef.current = trigger
+        selectedItemRef.current = trigger
+        trigger.setAttribute('data-open', String(!state))
+      })
+
+      trigger.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          console.log('hi')
+          e.preventDefault()
+          content.focus()
+        }
+      })
+
       //
-      // // clean the items that are not open
-      // let toggle: boolean = false
-      // content.addEventListener('toggle', () => {
-      //   if (toggle) {
-      //     for (let i = 0; i < triggers.length; i++) {
-      //       triggers[i]?.setAttribute('data-open', 'false')
+      //   trigger.addEventListener('mouseenter', () => {
+      //     if (
+      //       clickedItemRef.current &&
+      //       trigger.getAttribute('data-open') === 'false' &&
+      //       trigger !== clickedItemRef.current
+      //     ) {
+      //       for (let i = 0; i < triggers.length; i++) {
+      //         const trigger = triggers[i] as HTMLButtonElement
+      //         trigger.setAttribute('data-open', 'false')
+      //       }
+      //       selectedItemRef.current = trigger
+      //       selectedItemRef.current?.click()
+      //       selectedItemRef.current.setAttribute('data-open', 'true')
       //     }
-      //   }
-      //   toggle = !toggle
-      // })
+      //   })
+      //
+      //   // reset the open state when the mouse leaves
+      //   wrapperRef.current?.addEventListener('mouseleave', () => {
+      //     selectedItemRef.current = null
+      //     clickedItemRef.current = null
+      //   })
+      //
+      //   // clean the items that are not open
+      //   let toggle: boolean = false
+      //   content.addEventListener('toggle', () => {
+      //     if (toggle) {
+      //       for (let i = 0; i < triggers.length; i++) {
+      //         triggers[i]?.setAttribute('data-open', 'false')
+      //       }
+      //     }
+      //     toggle = !toggle
+      //   })
     }
   }, [])
 
@@ -160,7 +167,11 @@ function MenubarTrigger({
   return (
     <DropdownMenuTrigger
       variant={variant}
-      className={cn('data-[open="true"]:bg-secondary', className)}
+      className={cn(
+        'data-[open="true"]:bg-secondary',
+        // 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
+        className,
+      )}
       {...props}
       duck-menubar-trigger="">
       {children}

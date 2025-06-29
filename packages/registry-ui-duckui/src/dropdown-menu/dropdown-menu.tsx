@@ -224,7 +224,7 @@ function DropdownMenuSubTrigger({
     <PopoverTrigger
       size={'sm'}
       variant={'ghost'}
-      duck-dropdown-menu-item=""
+      // duck-dropdown-menu-item=""
       className={cn(
         '[&>div]:justify-between [&>div]:w-full w-full',
         '[&:hover+div]:opacity-100',
