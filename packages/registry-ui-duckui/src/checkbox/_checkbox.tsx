@@ -31,14 +31,12 @@ function Checkbox({
         className={cn(
           checkersStylePattern(),
           AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
-          'justify-center rounded checked:text-primary-foreground p-2',
-          'after:bg-transparent after:rounded-none',
-          'checked:after:translate-y-0 after:translate-y-1/3 after:opacity-0 m-0 checked:after:opacity-100',
+          'justify-center rounded p-2',
+          'after:rounded-none',
+          'checked:after:translate-y-0 after:translate-y-1/3',
           svgReady
-            ? `after:size-full 
-          after:bg-background
-          after:mask-[var(--svg)] after:mask-type-alpha after:mask-contain`
-            : 'after:border-[1.5px] after:border-t-0 after:border-l-0 after:rotate-45 after:mb-0.5 after:w-[4px] after:h-[9px]  ',
+            ? 'after:size-full'
+            : 'after:border-[1.5px] after:border-t-0 after:border-l-0 after:rotate-45 after:mb-0.5 after:w-[4px] after:h-[9px] after:bg-transparent',
           className,
         )}
         {...props}

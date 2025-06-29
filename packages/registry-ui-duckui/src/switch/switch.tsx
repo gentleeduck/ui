@@ -17,7 +17,7 @@ function Switch({ className, checked, ref, 'aria-label': ariaLabel, ...props }: 
         AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
         'px-4 py-2 justify-end',
         // 'px-4.5 py-2.5',
-        'checked:after:translate-x-full after:size-4 ',
+        'checked:after:translate-x-full after:size-4 after:opacity-100',
         className,
       )}
       {...props}

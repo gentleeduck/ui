@@ -151,9 +151,10 @@ export const AnimSheetVariants = cva(`duration-400 pointer-events-auto border-0 
 })
 
 export const checkersStylePattern = cva(
-  `appearance-none relative p-2 size-full flex items-center rounded-full
-  border bg-border border-border checked:bg-primary checked:border-primary 
+  `appearance-none relative p-2 size-full flex items-center rounded-full m-0
+  border bg-border border-border checked:bg-primary checked:border-primary text-primary-foreground
   ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
   disabled:cursor-not-allowed disabled:opacity-50 
-  after:absolute after:drop-shadow after:bg-background after:rounded-[inherit] after:block`,
+  after:absolute after:drop-shadow after:bg-current after:rounded-[inherit] after:block after:mask-[var(--svg)] after:mask-type-alpha after:mask-contain 
+  after:opacity-0 checked:after:opacity-100 `,
 )

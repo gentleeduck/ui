@@ -21,7 +21,7 @@ function Radio({ className, ref, ...props }: React.HTMLProps<HTMLInputElement>) 
         checkersStylePattern(),
         AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
         'justify-center p-2',
-        'after:scale-0 checked:after:scale-100 after:size-2 after:opacity-0 checked:after:opacity-100',
+        'after:scale-0 checked:after:scale-100 after:size-2 ',
         className,
       )}
       {...props}
