@@ -1,8 +1,7 @@
 'use client'
 
-import * as React from 'react'
-
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -26,44 +25,115 @@ const menubarContext = React.createContext<MenubarContextType | null>(null)
 function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivElement>) {
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
   const triggersRef = React.useRef<HTMLButtonElement[]>([])
-  const contentsRef = React.useRef<HTMLDivElement[]>([])
+  const contentsRef = React.useRef<HTMLDialogElement[]>([])
   const selectedItemRef = React.useRef<HTMLButtonElement | null>(null)
+  const clickedItemRef = React.useRef<HTMLButtonElement | null>(null)
 
   React.useEffect(() => {
     const triggers = Array.from(
       wrapperRef.current?.querySelectorAll('[duck-menubar-trigger]') as never as HTMLButtonElement[],
     )
     const contents = Array.from(
-      wrapperRef.current?.querySelectorAll('[duck-menubar-content]') as never as HTMLDivElement[],
+      wrapperRef.current?.querySelectorAll('[duck-menubar-content]') as never as HTMLDialogElement[],
     )
     triggersRef.current = triggers
     contentsRef.current = contents
 
-    for (let i = 0; i < triggers.length; i++) {
-      const trigger = triggers[i] as HTMLButtonElement
-      trigger.onclick = () => {
+    wrapperRef.current?.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault()
+        const currentIndex = triggers.indexOf(selectedItemRef.current as HTMLButtonElement)
+
+        if (e.key === 'ArrowRight') {
+          const nextIndex = currentIndex + 1
+          selectedItemRef.current = nextIndex < triggers.length ? triggers[nextIndex]! : triggers[0]!
+          clickedItemRef.current && selectedItemRef.current?.click()
+        } else if (e.key === 'ArrowLeft') {
+          const nextIndex = currentIndex - 1
+          selectedItemRef.current = nextIndex >= 0 ? triggers[nextIndex]! : triggers[triggers.length - 1]!
+          clickedItemRef.current && selectedItemRef.current?.click()
+        }
+
+        console.log(selectedItemRef.current)
         for (let i = 0; i < triggers.length; i++) {
           const trigger = triggers[i] as HTMLButtonElement
           trigger.setAttribute('data-open', 'false')
-          contents[i]?.setAttribute('data-open', 'false')
+
+          if (trigger === selectedItemRef.current) {
+            trigger.setAttribute('data-open', 'true')
+            setTimeout(() => trigger.focus(), 10)
+          }
         }
-        selectedItemRef.current = trigger
-        trigger.setAttribute('data-open', 'true')
-        contents[i]?.setAttribute('data-open', 'true')
       }
 
-      trigger.addEventListener('mouseenter', () => {
-        if (trigger.getAttribute('data-open') === 'false') {
-          for (let i = 0; i < triggers.length; i++) {
-            const trigger = triggers[i] as HTMLButtonElement
-            trigger.setAttribute('data-open', 'false')
-            contents[i]?.setAttribute('data-open', 'false')
-          }
-          selectedItemRef.current = trigger
+      // if (e.key === 'Enter') {
+      //   selectedItemRef.current?.click()
+      // }
+    })
+
+    for (let i = 0; i < triggers.length; i++) {
+      const trigger = triggers[i] as HTMLButtonElement
+      const content = contents[i] as HTMLDialogElement
+
+      trigger.addEventListener('focus', () => {
+        if (!clickedItemRef.current && !selectedItemRef.current) {
           trigger.setAttribute('data-open', 'true')
-          contents[i]?.setAttribute('data-open', 'true')
+          selectedItemRef.current = trigger
         }
       })
+
+      trigger.addEventListener('click', () => {
+        const state = trigger.getAttribute('data-open')
+        for (let i = 0; i < triggers.length; i++) {
+          const trigger = triggers[i] as HTMLButtonElement
+          trigger.setAttribute('data-open', 'false')
+        }
+        clickedItemRef.current = trigger
+        selectedItemRef.current = trigger
+        trigger.setAttribute('data-open', String(!state))
+      })
+
+      trigger.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          console.log('hi')
+          e.preventDefault()
+          content.focus()
+        }
+      })
+
+      //
+      //   trigger.addEventListener('mouseenter', () => {
+      //     if (
+      //       clickedItemRef.current &&
+      //       trigger.getAttribute('data-open') === 'false' &&
+      //       trigger !== clickedItemRef.current
+      //     ) {
+      //       for (let i = 0; i < triggers.length; i++) {
+      //         const trigger = triggers[i] as HTMLButtonElement
+      //         trigger.setAttribute('data-open', 'false')
+      //       }
+      //       selectedItemRef.current = trigger
+      //       selectedItemRef.current?.click()
+      //       selectedItemRef.current.setAttribute('data-open', 'true')
+      //     }
+      //   })
+      //
+      //   // reset the open state when the mouse leaves
+      //   wrapperRef.current?.addEventListener('mouseleave', () => {
+      //     selectedItemRef.current = null
+      //     clickedItemRef.current = null
+      //   })
+      //
+      //   // clean the items that are not open
+      //   let toggle: boolean = false
+      //   content.addEventListener('toggle', () => {
+      //     if (toggle) {
+      //       for (let i = 0; i < triggers.length; i++) {
+      //         triggers[i]?.setAttribute('data-open', 'false')
+      //       }
+      //     }
+      //     toggle = !toggle
+      //   })
     }
   }, [])
 
@@ -90,18 +160,27 @@ function MenubarMenu({ children, ...props }: React.HTMLProps<HTMLDivElement>) {
 
 function MenubarTrigger({
   children,
+  className,
   variant = 'ghost',
   ...props
 }: React.ComponentPropsWithRef<typeof DropdownMenuTrigger>) {
   return (
-    <DropdownMenuTrigger variant={variant} {...props} duck-menubar-trigger="">
+    <DropdownMenuTrigger
+      variant={variant}
+      className={cn(
+        'data-[open="true"]:bg-secondary',
+        // 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
+        className,
+      )}
+      {...props}
+      duck-menubar-trigger="">
       {children}
     </DropdownMenuTrigger>
   )
 }
 
 function MenubarContent({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuContent>) {
-  return <DropdownMenuContent {...props} duck-menubar-content="" />
+  return <DropdownMenuContent {...props} className="max-w-[250px]" duck-menubar-content="" />
 }
 
 function MenubarItem({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuItem>) {

@@ -19,3 +19,5 @@ export interface DropdownMenuContextType {
   originalItemsRef: React.RefObject<HTMLLIElement[]>
   selectedItemRef: React.RefObject<HTMLLIElement | null>
 }
+
+export type DropdownMenuSubContextType = DropdownMenuContextType

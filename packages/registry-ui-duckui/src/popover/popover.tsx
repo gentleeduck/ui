@@ -39,6 +39,7 @@ function PopoverContent({
       )}
       side={side}
       align={align}
+      sideOffset={sideOffset}
       {...props}>
       {children}
     </PopoverPrimitive.Content>

@@ -31,8 +31,7 @@ export function handleItemsSelection(
   // This will remove the class from all filteredItems.and add it to the right one.
   for (let i = 0; i < itemsRef.current.length; i++) {
     const item = itemsRef.current[i] as HTMLLIElement
-    item.blur()
-    item.removeAttribute('aria-selected')
+    dstyleItem(item)
 
     if (i === currentItem) {
       styleItem(item)
