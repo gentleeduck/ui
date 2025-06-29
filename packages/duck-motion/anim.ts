@@ -15,6 +15,11 @@ export const AnimVariants = cva('', {
     alive: {
       default: 'transition-all transition-discrete ease-(--duck-motion-ease) duration-[200ms,150ms]',
     },
+    pseudo: {
+      animate:
+        ' [&:before,&:after]:duration-[inherit] [&:before,&:after]:will-change-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:transition-gpu',
+      default: '',
+    },
     accelerated: {
       default: 'will-change-[opacity,transform,translate,blur] backdrop:will-change-[opacity,blur] transform-gpu',
     },
@@ -27,20 +32,17 @@ export const AnimVariants = cva('', {
   },
 })
 
-export const AnimDialogVariants = cva(
-  `border border-border bg-background rounded-lg shadow-sm outline-hidden p-6`,
-  {
-    variants: {
-      animation: {
-        default: 'opacity-0 scale-90 starting:open:opacity-0 starting:open:scale-90 open:opacity-100 open:scale-100',
-        nothing: '',
-      },
-    },
-    defaultVariants: {
-      animation: 'default',
+export const AnimDialogVariants = cva(`border border-border bg-background rounded-lg shadow-sm outline-hidden p-6`, {
+  variants: {
+    animation: {
+      default: 'opacity-0 scale-90 starting:open:opacity-0 starting:open:scale-90 open:opacity-100 open:scale-100',
+      nothing: '',
     },
   },
-)
+  defaultVariants: {
+    animation: 'default',
+  },
+})
 
 export const AnimPopoverVariants = cva(
   `bg-popover text-popover-foreground inset-auto absolute max-h-none p-4 w-fit
@@ -147,3 +149,11 @@ export const AnimSheetVariants = cva(`duration-400 pointer-events-auto border-0 
     side: 'left',
   },
 })
+
+export const checkersStylePattern = cva(
+  `appearance-none relative p-2 size-full flex items-center rounded-full
+  border bg-border border-border checked:bg-primary checked:border-primary 
+  ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+  disabled:cursor-not-allowed disabled:opacity-50 
+  after:absolute after:shadow after:bg-background after:rounded-[inherit] after:block`,
+)

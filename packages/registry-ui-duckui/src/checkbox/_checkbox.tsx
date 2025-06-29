@@ -1,4 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
+import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import * as React from 'react'
 import { Label } from '../label'
 
@@ -8,8 +9,10 @@ const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (
     ref={ref}
     type="checkbox"
     className={cn(
-      'appearance-none h-4 w-4 transition-all rounded border  border-border ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 checked:bg-primary checked:border-primary checked:text-primary-foreground border-solid relative flex items-center justify-center ',
-      ' after:absolute    after:block after:w-[5px] after:h-[9px] after:border-1 after:mb-0.5 checked:after:translate-y-0 after:translate-y-1/3 after:border-white after:border-t-0 after:border-l-0 after:border-white after:opacity-0 after:rotate-45 after:relative after:transition-all checked:after:opacity-100',
+      checkersStylePattern(),
+      AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
+      'justify-center rounded checked:text-primary-foreground ',
+      'after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent after:rounded-none after:w-[5px] after:h-[9px]  after:mb-0.5 checked:after:translate-y-0  after:translate-y-1/3  after:opacity-0 after:rotate-45 checked:after:opacity-100',
       className,
     )}
     {...props}

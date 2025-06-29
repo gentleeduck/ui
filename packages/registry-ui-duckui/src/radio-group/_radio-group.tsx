@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import * as React from 'react'
 import { Label } from '../label'
 import { useHandleRadioClick } from './radio-group.hooks'
@@ -17,8 +18,10 @@ function Radio({ className, ref, ...props }: React.HTMLProps<HTMLInputElement>) 
       role="radio"
       aria-checked={props.checked}
       className={cn(
-        'appearance-none flex items-center justify-center relative h-4 w-4 ease-(--duck-motion-ease) transition-all rounded-full border border-border ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ',
-        'after:absolute after:ease-[inherit] after:bg-foreground after:rounded-full after:scale-0 checked:after:scale-100  after:block after:w-2 after:h-2 after:opacity-0 checked:after:opacity-100 after:relative after:transition-all ',
+        checkersStylePattern(),
+        AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
+        'justify-center p-2',
+        'after:scale-0 checked:after:scale-100 after:size-2 after:opacity-0 checked:after:opacity-100',
         className,
       )}
       {...props}
