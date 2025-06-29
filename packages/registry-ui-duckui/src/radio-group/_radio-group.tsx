@@ -1,5 +1,6 @@
 'use client'
 
+import { useSvgIndicator } from '@gentleduck/aria-feather/checkers'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import * as React from 'react'
@@ -9,23 +10,45 @@ import { RadioGroupContextType } from './radio-group.types'
 
 export const RadioGroupContext = React.createContext<RadioGroupContextType | null>(null)
 
-function Radio({ className, ref, ...props }: React.HTMLProps<HTMLInputElement>) {
+function Radio({
+  className,
+  indicator,
+  checkedIndicator,
+  ref,
+  style,
+  ...props
+}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement; checkedIndicator?: React.ReactElement }) {
+  const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
+    indicator,
+    checkedIndicator,
+  })
+
   return (
-    <input
-      type="radio"
-      ref={ref}
-      duck-radio=""
-      role="radio"
-      aria-checked={props.checked}
-      className={cn(
-        checkersStylePattern(),
-        AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
-        'justify-center p-2',
-        'after:scale-0 checked:after:scale-100 after:size-2 ',
-        className,
-      )}
-      {...props}
-    />
+    <>
+      <input
+        type="radio"
+        ref={ref}
+        duck-radio=""
+        style={{ ...style, ...inputStyle }}
+        className={cn(
+          checkersStylePattern({
+            type: 'radio',
+            indicatorState:
+              indicatorReady && checkedIndicatorReady
+                ? 'both'
+                : indicatorReady
+                  ? 'indicatorReady'
+                  : checkedIndicatorReady
+                    ? 'checkedIndicatorReady'
+                    : 'default',
+          }),
+          AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
+          className,
+        )}
+        {...props}
+      />
+      <SvgIndicator className="sr-only" />
+    </>
   )
 }
 

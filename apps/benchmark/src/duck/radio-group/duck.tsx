@@ -1,11 +1,12 @@
 import { Radio, RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
+import { Circle, CircleAlertIcon } from 'lucide-react'
 
 export default function RadioGroupDemo() {
   return (
     <RadioGroup defaultValue="comfortable">
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="default" id="r1" name="1" />
-        <Radio value="default" id="r1x" name="3" />
+        <Radio indicator={<Circle />} value="default" id="r1x" name="3" />
         <label htmlFor="r1">Default</label>
       </div>
       <div className="flex items-center space-x-2">

@@ -1,4 +1,6 @@
-import { svgToMiniDataURI } from '@gentleduck/aria-feather/checkers'
+'use client'
+
+import { useSvgIndicator } from '@gentleduck/aria-feather/checkers'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import * as React from 'react'
@@ -8,45 +10,43 @@ export interface CheckboxProps extends React.HTMLProps<HTMLInputElement> {}
 function Checkbox({
   className,
   indicator,
+  checkedIndicator,
+  ref,
+  style,
   ...props
-}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement }) {
-  const inputRef = React.useRef<HTMLInputElement>(null)
-  const svgRef = React.useRef<HTMLDivElement>(null)
-  const [svgReady, setSvgReady] = React.useState(false)
-
-  React.useEffect(() => {
-    if (indicator && svgRef.current) {
-      const svgHTML = svgRef.current.innerHTML.trim()
-      const uri = svgToMiniDataURI(svgHTML)
-      inputRef.current?.style.setProperty('--svg', `url("${uri}")`)
-      setSvgReady(true)
-    }
-  }, [indicator])
+}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement; checkedIndicator?: React.ReactElement }) {
+  const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
+    indicator,
+    checkedIndicator,
+  })
 
   return (
     <>
       <input
-        ref={inputRef}
+        ref={ref}
         type="checkbox"
+        style={{ ...style, ...inputStyle }}
         className={cn(
-          checkersStylePattern(),
+          checkersStylePattern({
+            type: 'checkbox',
+            indicatorState:
+              indicatorReady && checkedIndicatorReady
+                ? 'both'
+                : indicatorReady
+                  ? 'indicatorReady'
+                  : checkedIndicatorReady
+                    ? 'checkedIndicatorReady'
+                    : 'default',
+          }),
           AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
-          'justify-center rounded p-2',
-          'after:rounded-none',
-          'checked:after:translate-y-0 after:translate-y-1/3',
-          svgReady
+          (indicatorReady && checkedIndicatorReady) || indicatorReady
             ? 'after:size-full'
             : 'after:border-[1.5px] after:border-t-0 after:border-l-0 after:rotate-45 after:mb-0.5 after:w-[4px] after:h-[9px] after:bg-transparent',
           className,
         )}
         {...props}
       />
-      {/* 👇 hidden SVG renderer for data-uri */}
-      {indicator && (
-        <div className="sr-only hidden" hidden ref={svgRef}>
-          {indicator}
-        </div>
-      )}
+      <SvgIndicator className="sr-only" />
     </>
   )
 }
