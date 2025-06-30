@@ -1,20 +1,13 @@
-import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
+import { Switch } from '@gentleduck/registry-ui-duckui/switch'
+import { Moon, Sun } from 'lucide-react'
 
-export default function RadioGroupDemo() {
+export default function SwitchDemo() {
   return (
-    <RadioGroup defaultValue="comfortable">
-      <div className="flex items-center space-x-2">
-        <RadioGroupItem value="default" id="r1" />
-        <label htmlFor="r1">Default</label>
+    <div>
+      <div className="flex items-center gap-4">
+        <Switch id="terms" />
+        <Switch indicator={<Moon />} checkedIndicator={<Sun />} id="terms" />
       </div>
-      <div className="flex items-center space-x-2">
-        <RadioGroupItem value="comfortable" id="r2" />
-        <label htmlFor="r2">Comfortable</label>
-      </div>
-      <div className="flex items-center space-x-2">
-        <RadioGroupItem value="compact" id="r3" />
-        <label htmlFor="r3">Compact</label>
-      </div>
-    </RadioGroup>
+    </div>
   )
 }
