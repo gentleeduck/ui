@@ -1,24 +1,57 @@
+import { svgToMiniDataURI } from '@gentleduck/aria-feather/checkers'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import * as React from 'react'
 import { Label } from '../label'
 
 export interface CheckboxProps extends React.HTMLProps<HTMLInputElement> {}
-const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (
-  <input
-    ref={ref}
-    type="checkbox"
-    className={cn(
-      checkersStylePattern(),
-      AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
-      'justify-center rounded checked:text-primary-foreground p-2',
-      'after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent after:rounded-none after:w-[4px] after:h-[9px]  after:mb-0.5 checked:after:translate-y-0  after:translate-y-1/3  after:opacity-0 after:rotate-45 checked:after:opacity-100',
-      className,
-    )}
-    {...props}
-  />
-)
+function Checkbox({
+  className,
+  indicator,
+  ...props
+}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement }) {
+  const inputRef = React.useRef<HTMLInputElement>(null)
+  const svgRef = React.useRef<HTMLDivElement>(null)
+  const [svgReady, setSvgReady] = React.useState(false)
 
+  React.useEffect(() => {
+    if (indicator && svgRef.current) {
+      const svgHTML = svgRef.current.innerHTML.trim()
+      const uri = svgToMiniDataURI(svgHTML)
+      inputRef.current?.style.setProperty('--svg', `url("${uri}")`)
+      setSvgReady(true)
+    }
+  }, [indicator])
+
+  return (
+    <>
+      <input
+        ref={inputRef}
+        type="checkbox"
+        className={cn(
+          checkersStylePattern(),
+          AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
+          'justify-center rounded checked:text-primary-foreground p-2',
+          'after:bg-transparent after:rounded-none',
+          'checked:after:translate-y-0 after:translate-y-1/3 after:opacity-0 m-0 checked:after:opacity-100',
+          svgReady
+            ? `after:size-full 
+          after:bg-background
+          after:mask-[var(--svg)] after:mask-type-alpha after:mask-contain`
+            : 'after:border-[1.5px] after:border-t-0 after:border-l-0 after:rotate-45 after:mb-0.5 after:w-[4px] after:h-[9px]  ',
+          className,
+        )}
+        {...props}
+      />
+      {/* 👇 hidden SVG renderer for data-uri */}
+      {indicator && (
+        <div className="sr-only hidden" hidden ref={svgRef}>
+          {indicator}
+        </div>
+      )}
+    </>
+  )
+}
 export interface CheckboxWithLabelProps extends React.HTMLProps<HTMLDivElement> {
   _checkbox: React.ComponentPropsWithoutRef<typeof Checkbox>
   _label: React.ComponentPropsWithoutRef<typeof Label>

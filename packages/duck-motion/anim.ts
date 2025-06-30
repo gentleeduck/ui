@@ -155,5 +155,5 @@ export const checkersStylePattern = cva(
   border bg-border border-border checked:bg-primary checked:border-primary 
   ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
   disabled:cursor-not-allowed disabled:opacity-50 
-  after:absolute after:shadow after:bg-background after:rounded-[inherit] after:block`,
+  after:absolute after:drop-shadow after:bg-background after:rounded-[inherit] after:block`,
 )

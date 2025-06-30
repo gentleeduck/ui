@@ -55,7 +55,7 @@ import ShadcnSwitch from './duck/switch/switch'
 // import Popover from './example/popover'
 // import Select from './example/select'
 // import Tooltip from './example/tooltip'
-import Accordion from './example/accordion'
+// import Accordion from './example/accordion'
 
 // import Command from './example/command'
 

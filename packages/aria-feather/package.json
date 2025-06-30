@@ -40,14 +40,15 @@
   "dependencies": {
     "@gentleduck/hooks": "workspace:*",
     "dialog-closedby-polyfill": "^1.1.0",
-    "invokers-polyfill": "^0.5.5"
+    "invokers-polyfill": "^0.5.5",
+    "mini-svg-data-uri": "^1.4.4"
   },
   "devDependencies": {
-    "@gentleduck/motion": "workspace:*",
-    "@gentleduck/variants": "workspace:*",
     "@changesets/cli": "catalog:",
+    "@gentleduck/motion": "workspace:*",
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
+    "@gentleduck/variants": "workspace:*",
     "@types/react": "catalog:react19",
     "clsx": "^1.2.1",
     "husky": "catalog:",
