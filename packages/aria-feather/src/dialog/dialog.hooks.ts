@@ -11,20 +11,19 @@ export function useDialogContext(name: string = 'Dialog'): DialogContextType {
   return context
 }
 
-export function useDialog({ open: openProp, onOpenChange, lockScroll, modal }: DialogProps) {
-  const dialogRef = React.useRef<HTMLDialogElement | null>(null)
+export function useDialog({ open: openProp, onOpenChange, lockScroll, modal, wrapperRef }: DialogProps) {
   const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
+  const contentRef = React.useRef<HTMLDialogElement | null>(null)
   const [open, setOpen] = React.useState<boolean>(openProp ?? false)
 
   function handleOpenChange(state: boolean) {
-    const dialog = dialogRef.current
-    if (!dialog) return
+    if (!contentRef.current) return
 
     try {
       if (modal) {
-        state ? dialog.showModal() : dialog.close()
+        state ? contentRef.current.showModal() : contentRef.current.close()
       } else {
-        state ? dialog.show() : dialog.close()
+        state ? contentRef.current.show() : contentRef.current.close()
       }
     } catch (e) {
       console.warn('Dialog failed to toggle', e)
@@ -32,11 +31,12 @@ export function useDialog({ open: openProp, onOpenChange, lockScroll, modal }: D
 
     setOpen(state)
     onOpenChange?.(state)
+    wrapperRef.current?.setAttribute('data-open', String(state))
+    triggerRef.current?.setAttribute('data-open', String(state))
+    contentRef.current?.setAttribute('data-open', String(state))
   }
 
   React.useEffect(() => {
-    const dialog = dialogRef.current
-
     if (lockScroll) lockScrollbar(open)
 
     if (openProp) {
@@ -49,17 +49,17 @@ export function useDialog({ open: openProp, onOpenChange, lockScroll, modal }: D
       handleOpenChange(false)
     }
 
-    dialog?.addEventListener('close', handleClose)
+    contentRef.current?.addEventListener('close', handleClose)
 
     return () => {
-      dialog?.removeEventListener('close', handleClose)
+      contentRef.current?.removeEventListener('close', handleClose)
       cleanLockScrollbar()
     }
   }, [open, openProp, onOpenChange])
 
   return {
     triggerRef,
-    ref: dialogRef,
+    contentRef,
     open,
     onOpenChange: handleOpenChange,
   }

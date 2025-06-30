@@ -16,7 +16,7 @@ function DialogTrigger({
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>) {
   return (
-    <DialogPrimitive.Trigger>
+    <DialogPrimitive.Trigger asChild>
       <Button {...props} asChild={asChild}>
         {children}
       </Button>
@@ -24,7 +24,7 @@ function DialogTrigger({
   )
 }
 
-function DialogClose({
+function DialogCloseX({
   ref,
   size = 16,
   children,
@@ -74,7 +74,7 @@ function DialogContent({
 }: DialogContentProps): React.JSX.Element {
   return (
     <DialogPrimitive.Content
-      dialogClose={DialogClose}
+      dialogClose={DialogCloseX}
       className={cn(
         AnimVariants({ overlay: overlay }),
         AnimDialogVariants({ animation: animation }),
@@ -148,5 +148,7 @@ function DialogTitle({ className, ref, ...props }: React.HTMLProps<HTMLHeadingEl
 const DialogDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParagraphElement>): React.JSX.Element => (
   <p ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
 )
+
+const DialogClose = DialogTrigger
 
 export { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose }

@@ -40,6 +40,7 @@ function Button({
   isCollapsed,
   icon,
   secondIcon,
+  type = 'button',
   disabled,
   ref,
   ...props
@@ -58,6 +59,7 @@ function Button({
           className,
         }),
       )}
+      type={type}
       disabled={loading ?? disabled}>
       <div className="flex items-center justify-between w-full gap-2">
         {!isCollapsed && children}

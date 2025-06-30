@@ -11,24 +11,212 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const html = document.documentElement
   // html.setAttribute('dir', 'rtl')
   return (
-    <div data-wrapper="" className="flex items-center place-content-center flex-col gap-8">
-      <DropdownMenuCheckboxes />
+    <div data-wrapper="" className="flex items-center place-content-center flex-col gap-8 min-h-screen">
+      <ContextMenuDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
     //   <SiteFooter />
   )
 }
+
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from '@gentleduck/registry-ui-duckui/context-menu'
+
+export function ContextMenuDemo() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+        Right click here
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-52">
+        <ContextMenuItem inset>
+          Back
+          <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem inset disabled>
+          Forward
+          <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem inset>
+          Reload
+          <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+          <ContextMenuSubContent className="w-44">
+            <ContextMenuItem>Save Page...</ContextMenuItem>
+            <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+            <ContextMenuItem>Name Window...</ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem>Developer Tools</ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSeparator />
+        <ContextMenuCheckboxItem checked>Show Bookmarks</ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+        <ContextMenuSeparator />
+        <ContextMenuRadioGroup value="pedro">
+          <ContextMenuLabel inset>People</ContextMenuLabel>
+          <ContextMenuRadioItem value="pedro">Pedro Duarte</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+
+import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@gentleduck/registry-ui-duckui/hover-card'
+
+export function HoverCardDemo() {
+  return (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <Button variant="link">@wildduck</Button>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-80">
+        <div className="flex justify-start gap-4">
+          <Avatar src="https://avatars.githubusercontent.com/u/108896341?v=4" alt="@wildduck"></Avatar>
+          <div className="space-y-1">
+            <h4 className="text-sm font-semibold">@wildduck</h4>
+            <p className="text-sm">The world&apos;s most advanced duck</p>
+            <div className="text-muted-foreground text-xs">Joined December 2021</div>
+          </div>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  )
+}
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@gentleduck/registry-ui-duckui/dialog'
+
+export function DialogDemo() {
+  return (
+    <Dialog>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <DialogTrigger asChild>
+          <Button variant="outline">Open Dialog</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>Make changes to your profile here. Click save when you&apos;re done.</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4">
+            <div className="grid gap-3">
+              <Label htmlFor="name-1">Name</Label>
+              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="username-1">Username</Label>
+              <Input id="username-1" name="username" defaultValue="@peduarte" />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </form>
+    </Dialog>
+  )
+}
+
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@gentleduck/registry-ui-duckui/sheet'
+
+export function SheetDemo() {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Edit profile</SheetTitle>
+          <SheetDescription>Make changes to your profile here. Click save when you&apos;re done.</SheetDescription>
+        </SheetHeader>
+        <div className="grid flex-1 auto-rows-min gap-6 px-4">
+          <div className="grid gap-3">
+            <Label htmlFor="sheet-demo-name">Name</Label>
+            <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
+          </div>
+          <div className="grid gap-3">
+            <Label htmlFor="sheet-demo-username">Username</Label>
+            <Input id="sheet-demo-username" defaultValue="@peduarte" />
+          </div>
+        </div>
+        <SheetFooter>
+          <Button type="submit">Save changes</Button>
+          <SheetClose asChild>
+            <Button variant="outline">Close</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  )
+}
+
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 // import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 
+import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+
+export function TooltipDemo() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Hover</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Add to library</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
 export function PopoverDemo() {
   return (
     <Popover>
       <PopoverTrigger>Open popover</PopoverTrigger>
-      <PopoverContent side="top" align={'center'} className="w-80 border-transparent">
+      <PopoverContent side="bottom" align={'center'} className="w-80">
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="font-medium leading-none">Dimensions</h4>
@@ -373,7 +561,7 @@ export function SelectDemo() {
   return (
     <>
       <Select>
-        <SelectTrigger className="w-[190px]">
+        <SelectTrigger className="w-[240px] h-15 [&>div>div]:justify-start">
           <SelectValue placeholder="Choose a meeting" />
         </SelectTrigger>
         <SelectContent>
@@ -383,7 +571,7 @@ export function SelectDemo() {
             <SelectItem value="daily-standup">
               <div className="flex items-start gap-2">
                 <Video className="mt-1 size-4.5 text-blue-500" />
-                <div className="space-y-0.5">
+                <div className="space-y-0.5 flex flex-col items-start">
                   <div className="font-medium">Daily Standup</div>
                   <div className="text-xs text-muted-foreground flex items-center gap-1">
                     <Clock className="h-3 w-3" />
@@ -396,7 +584,7 @@ export function SelectDemo() {
             <SelectItem value="team-sync">
               <div className="flex items-start gap-2">
                 <Users className="mt-1 h-4 w-4 text-green-600" />
-                <div className="space-y-0.5">
+                <div className="space-y-0.5 flex flex-col items-start">
                   <div className="font-medium">Team Sync</div>
                   <div className="text-xs text-muted-foreground flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
@@ -409,7 +597,7 @@ export function SelectDemo() {
             <SelectItem value="1on1">
               <div className="flex items-start gap-2">
                 <MicOff className="mt-1 h-4 w-4 text-gray-500" />
-                <div className="space-y-0.5">
+                <div className="space-y-0.5 flex flex-col items-start">
                   <div className="font-medium">1-on-1 with Ahmed</div>
                   <div className="text-xs text-muted-foreground flex items-center gap-1">
                     <Clock className="h-3 w-3" />
@@ -462,17 +650,40 @@ export function DropdownMenuCheckboxes() {
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuCheckboxItem checked={showStatusBar} onClick={() => setShowStatusBar(!showStatusBar)}>
+            Status Bar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked={showActivityBar} disabled>
+            Activity Bar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked={showPanel}>Panel</DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup value={position} onValueChange={setPosition} defaultValue={position}>
+          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownMenuGroup>
+          <DropdownMenuItem disabled={true}>Status Bar</DropdownMenuItem>
+          <DropdownMenuItem>Activity Bar</DropdownMenuItem>
+          <DropdownMenuItem>Panel</DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>Submenu</DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-              <DropdownMenuItem>Item 1</DropdownMenuItem>
+              <DropdownMenuItem disabled={true}>Item 1</DropdownMenuItem>
               <DropdownMenuItem>Item 2</DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem disabled={true}>
             Preferences
             <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
               <Command />P

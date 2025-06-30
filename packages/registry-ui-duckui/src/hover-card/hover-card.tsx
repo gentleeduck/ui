@@ -4,13 +4,19 @@ import { cn } from '@gentleduck/libs/cn'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 
 function HoverCard({
-  hoverable = true,
+  mouseEnter = true,
   skipDelayDuration = 0,
   delayDuration = 500,
   ...props
 }: React.ComponentPropsWithRef<typeof Popover>) {
   return (
-    <Popover hoverable={hoverable} skipDelayDuration={skipDelayDuration} delayDuration={delayDuration} {...props} />
+    <Popover
+      mouseEnter={mouseEnter}
+      mouseExist={mouseEnter}
+      skipDelayDuration={skipDelayDuration}
+      delayDuration={delayDuration}
+      {...props}
+    />
   )
 }
 
@@ -19,7 +25,7 @@ const HoverCardTrigger = PopoverTrigger
 function HoverCardContent({
   className,
   children,
-  side = 'top',
+  side = 'bottom',
   ...props
 }: React.ComponentPropsWithRef<typeof PopoverContent>): React.JSX.Element {
   return (

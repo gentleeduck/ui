@@ -1,6 +1,6 @@
 'use client'
 
-import DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import SheetPrimitive from '@gentleduck/aria-feather/sheet'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
 import { VariantProps } from '@gentleduck/variants'
@@ -15,8 +15,8 @@ import {
   DialogTrigger,
 } from '../dialog'
 
-function Sheet({ closeButton = true, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root closeButton={closeButton} {...props} />
+function Sheet({ closeButton = true, ...props }: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Root>) {
+  return <SheetPrimitive.Root closeButton={closeButton} {...props} />
 }
 
 const SheetTrigger = DialogTrigger
@@ -33,7 +33,7 @@ function SheetContent({
   ...props
 }: DialogContentProps & VariantProps<typeof AnimSheetVariants>): React.JSX.Element {
   return (
-    <DialogPrimitive.Content
+    <SheetPrimitive.Content
       dialogClose={DialogClose}
       className={cn(
         AnimVariants({ overlay: overlay }),
@@ -44,7 +44,7 @@ function SheetContent({
       )}
       {...props}>
       <div className="flex flex-col gap-4">{children}</div>
-    </DialogPrimitive.Content>
+    </SheetPrimitive.Content>
   )
 }
 

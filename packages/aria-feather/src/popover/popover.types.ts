@@ -1,26 +1,29 @@
-import { DialogCommonType, DialogContentProps } from '../dialog/dialog.types'
+import { type AnimPopoverVariants } from '@gentleduck/motion/anim'
+import { VariantProps } from '@gentleduck/variants'
+import { DialogContentProps, DialogContextType } from '../dialog/dialog.types'
 
-export interface PopoverProps extends Omit<DialogCommonType, 'id' | 'closeButton'> {
-  hoverable: boolean
+export interface PopoverProps extends Omit<DialogContextType, 'id' | 'closeButton' | 'triggerRef' | 'contentRef'> {
+  /** Time in ms to delay closing the popover after trigger blur or mouse leave. */
   skipDelayDuration: number
+  /** Time in ms to delay opening the popover after trigger focus or mouse enter. */
   delayDuration: number
-  // TODO: remove it from here and fix it in the dialog
-  wrapperRef: React.RefObject<HTMLDivElement>
+  /** If true, the popover opens when the mouse enters the trigger or wrapper area. */
+  mouseEnter: boolean
+  /** If true, the popover closes when the mouse leaves the trigger or wrapper area. */
+  mouseExist: boolean
 }
 
-export interface PopoverContentProps extends Partial<DialogContentProps> {
-  side?: 'top' | 'bottom' | 'left' | 'right' | 'inset'
-  align?: 'start' | 'end' | 'center'
+export interface PopoverContentProps extends Partial<DialogContentProps>, VariantProps<typeof AnimPopoverVariants> {
+  /** Offset in pixels to adjust alignment relative to the trigger. */
   alignOffset?: number
+  /** Offset in pixels to adjust spacing between trigger and content side. */
   sideOffset?: number
 }
 
-export interface PopoverContextType extends PopoverProps, DialogCommonType {
-  wrapperRef: React.RefObject<HTMLDivElement | null>
-  triggerRef: React.RefObject<Element | null>
-  contentRef: React.RefObject<HTMLDialogElement | null>
-}
+export interface PopoverContextType extends PopoverProps, DialogContextType {}
 
-export interface PopoverRootProps extends Partial<Omit<PopoverProps, 'id'>>, DialogCommonType {
+export interface PopoverRootProps
+  extends Partial<Omit<PopoverContextType, 'wrapperRef' | 'triggerRef' | 'contentRef' | 'id'>> {
+  /** React children to be rendered inside the popover root. */
   children?: React.ReactNode
 }

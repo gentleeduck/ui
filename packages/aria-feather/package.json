@@ -43,7 +43,7 @@
     "invokers-polyfill": "^0.5.5",
     "mini-svg-data-uri": "^1.4.4"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "@changesets/cli": "catalog:",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/tsdown-config": "workspace:*",

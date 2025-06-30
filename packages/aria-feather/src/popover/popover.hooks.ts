@@ -19,41 +19,14 @@ export function usePopover({
   onOpenChange,
   lockScroll,
   modal,
-  hoverable,
+  mouseEnter,
+  mouseExist,
   skipDelayDuration,
   delayDuration,
-}: PopoverProps & {
-  wrapperRef: React.RefObject<HTMLDivElement>
-}) {
+}: PopoverProps) {
   const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
   const contentRef = React.useRef<HTMLDialogElement | null>(null)
   const [open, setOpen] = React.useState<boolean>(false)
-
-  React.useEffect(() => {
-    triggerRef.current = wrapperRef.current.querySelector('[duck-popover-trigger]')
-    contentRef.current = wrapperRef.current.querySelector('[duck-popover-content]')
-
-    function handleClose(event: Event & { newState: 'open' | 'close' }) {
-      if (modal) {
-        handleOpenChange(false)
-      } else {
-        const newState = event.newState
-        handleOpenChange(newState === 'open')
-      }
-    }
-
-    contentRef.current?.addEventListener('close', handleClose)
-    if (!modal) {
-      contentRef.current?.addEventListener('beforetoggle', handleClose)
-    }
-
-    return () => {
-      contentRef.current?.removeEventListener('close', handleClose)
-      if (!modal) {
-        contentRef.current?.removeEventListener('beforetoggle', handleClose)
-      }
-    }
-  }, [])
 
   function handleOpenChange(state: boolean) {
     if (!contentRef.current) return
@@ -86,6 +59,29 @@ export function usePopover({
       handleOpenChange(false)
     }
 
+    function handleClose(event: Event & { newState: 'open' | 'close' }) {
+      if (modal) {
+        handleOpenChange(false)
+      } else {
+        const newState = event.newState
+        handleOpenChange(newState === 'open')
+      }
+    }
+
+    contentRef.current?.addEventListener('close', handleClose)
+    if (!modal) {
+      contentRef.current?.addEventListener('beforetoggle', handleClose)
+    }
+
+    return () => {
+      contentRef.current?.removeEventListener('close', handleClose)
+      if (!modal) {
+        contentRef.current?.removeEventListener('beforetoggle', handleClose)
+      }
+    }
+  }, [])
+
+  React.useEffect(() => {
     let openTimer = null
     let closeTimer = null
 
@@ -99,18 +95,22 @@ export function usePopover({
       closeTimer = setTimeout(() => handleOpenChange(false), skipDelayDuration)
     }
 
-    if (hoverable) {
+    if (mouseEnter) {
       for (const elm of [triggerRef.current, contentRef.current]) {
         elm?.addEventListener('mouseover', openAfterDelay)
-        elm?.addEventListener('mouseout', closeAfterDelay)
+        if (mouseExist) {
+          elm?.addEventListener('mouseout', closeAfterDelay)
+        }
       }
     }
 
     return () => {
-      if (hoverable) {
+      if (mouseEnter) {
         for (const elm of [triggerRef.current, contentRef.current]) {
           elm?.removeEventListener('mouseover', openAfterDelay)
-          elm?.removeEventListener('mouseout', closeAfterDelay)
+          if (mouseExist) {
+            elm?.removeEventListener('mouseout', closeAfterDelay)
+          }
         }
       }
       cleanLockScrollbar()

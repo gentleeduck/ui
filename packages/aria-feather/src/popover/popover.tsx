@@ -16,12 +16,14 @@ export function Root({
   open: openProp,
   onOpenChange,
   lockScroll = false,
-  hoverable = false,
+  mouseEnter = false,
+  mouseExist = false,
   modal = false,
   closeButton = false,
   skipDelayDuration = 300,
   delayDuration = 0,
-}: PopoverRootProps): React.JSX.Element {
+  ...props
+}: PopoverRootProps & React.HtmlHTMLAttributes<HTMLDivElement>): React.JSX.Element {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
 
   const {
@@ -34,7 +36,8 @@ export function Root({
     open: openProp,
     onOpenChange,
     lockScroll,
-    hoverable,
+    mouseExist,
+    mouseEnter,
     modal,
     skipDelayDuration,
     delayDuration,
@@ -54,18 +57,19 @@ export function Root({
         id,
         modal,
         closeButton,
-        hoverable,
+        mouseEnter,
+        mouseExist,
         lockScroll,
       }}>
-      <div duck-popover="" ref={wrapperRef}>
+      <div {...props} duck-popover="" ref={wrapperRef}>
         {children}
       </div>
     </PopoverContext.Provider>
   )
 }
 
-export function Trigger(props: React.ComponentPropsWithRef<typeof Slot>): React.JSX.Element {
-  const { id } = usePopoverContext()
+export function Trigger(props: React.ComponentPropsWithoutRef<typeof Slot>): React.JSX.Element {
+  const { id, triggerRef } = usePopoverContext()
 
   return (
     <Slot
@@ -80,6 +84,7 @@ export function Trigger(props: React.ComponentPropsWithRef<typeof Slot>): React.
       aria-controls={id}
       duck-popover-trigger=""
       {...props}
+      ref={triggerRef as React.RefObject<HTMLDivElement>}
     />
   )
 }
@@ -109,7 +114,7 @@ export function Content({
       left: { marginRight: `${sideOffset}px` },
       right: { marginLeft: `${sideOffset}px` },
       inset: {},
-    }[side] ?? {}
+    }[side as 'top' | 'bottom' | 'left' | 'right' | 'inset'] ?? {}
 
   // Cross-axis margin based on `align`
   const alignMargins: Partial<CSSStyleDeclaration> =
@@ -140,7 +145,8 @@ export function Content({
       className={className}
       {...{ ...props, closedby }}
       id={id}
-      duck-popover-content="">
+      duck-popover-content=""
+      ref={contentRef}>
       <ShouldRender ref={contentRef} once={renderOnce} open={open}>
         {children}
         {closeButton && <DialogClose />}

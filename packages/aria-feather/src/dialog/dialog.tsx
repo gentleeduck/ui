@@ -30,13 +30,18 @@ export function Root({
   lockScroll = true,
   modal = true,
   closeButton = false,
-}: DialogProps): React.JSX.Element {
+  ...props
+}: Omit<DialogProps, 'wrapperRef'> & React.HtmlHTMLAttributes<HTMLDivElement>): React.JSX.Element {
+  const wrapperRef = React.useRef<HTMLDivElement>(null)
   const {
     open,
     onOpenChange: _onOpenChange,
-    ref,
     triggerRef,
+    contentRef,
   } = useDialog({
+    wrapperRef,
+    closeButton,
+    children,
     open: openProp,
     onOpenChange,
     lockScroll,
@@ -47,16 +52,19 @@ export function Root({
   return (
     <DialogContext.Provider
       value={{
+        wrapperRef,
+        triggerRef,
+        contentRef,
         open,
         onOpenChange: _onOpenChange,
-        ref,
-        triggerRef,
         id,
         modal,
         closeButton,
         lockScroll,
       }}>
-      {children}
+      <div {...props} duck-dialog="" ref={wrapperRef}>
+        {children}
+      </div>
     </DialogContext.Provider>
   )
 }
@@ -91,17 +99,16 @@ export function Content({
   overlay = 'default',
   closedby = 'any',
   dialogClose,
-
   animation = 'default',
   ...props
 }: DialogContentProps) {
-  const { ref, closeButton, open, id } = useDialogContext()
+  const { contentRef, closeButton, open, id } = useDialogContext()
   const prop = { props, closedby }
   const DialogClose = dialogClose
 
   return (
-    <dialog className={className} {...prop} id={id} ref={ref}>
-      <ShouldRender ref={ref} once={renderOnce} open={open}>
+    <dialog className={className} {...prop} id={id} ref={contentRef}>
+      <ShouldRender ref={contentRef} once={renderOnce} open={open}>
         {children}
         {closeButton && <DialogClose />}
       </ShouldRender>
