@@ -147,14 +147,16 @@ function AccordionTrigger({
       duck-accordion-trigger="">
       {children}
       <span className={cn('[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200')}>
-        {icon ? icon : <ChevronDown className='group-open:rotate-180' />}
+        {icon ? icon : <ChevronDown className="group-open:rotate-180" />}
       </span>
     </summary>
   )
 }
 
 const AccordionContent = ({ className, children, ref, ...props }: React.HTMLProps<HTMLDivElement>) => (
-    <div className={cn('pb-4 pt-0 overflow-hidden text-sm', className)} duck-accordion-content="" ref={ref} {...props}>{children}</div>
+  <div className={cn('pb-4 pt-0 overflow-hidden text-sm', className)} duck-accordion-content="" ref={ref} {...props}>
+    {children}
+  </div>
 )
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
