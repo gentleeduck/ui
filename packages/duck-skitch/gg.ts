@@ -48,14 +48,13 @@
 //   ? TType // no duplication to remove, return full union
 //   : Exclude<TType, Duplication> // remove duplication from union
 //
-// type K = RemoveDuplication<Modifier, CheckDuplication<'uuid |> pk |> pk'>>
-// type HI = ValueT<'uuid |> pk |> pk'>
+// type K = RemoveDuplication<Modifier, CheckDuplication<'uuid |> pk'>>
 //
 // // Now table returns trimmed parts
 // declare function table<const T extends ValueT<T>>(value: T): T
 //
 // // Usage:
-// const result = table('uuid |> pk |> unique')
+// const result = table('uuid |> pk')
 // // result has type ['user', 'id', 'uuid']
 // //
 //

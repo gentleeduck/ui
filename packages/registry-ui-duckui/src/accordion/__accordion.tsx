@@ -59,7 +59,6 @@ function Accordion({
 
       trigger.addEventListener('click', () => {
         if (type === 'single') {
-          console.log(itemsRef.current)
           for (let i = 0; i < itemsRef.current.length; i++) {
             const _item = itemsRef.current[i] as HTMLDetailsElement
             const content = _item.querySelector('[duck-accordion-content]') as HTMLDivElement

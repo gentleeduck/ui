@@ -101,6 +101,9 @@ function DropdownMenuContent({
       duck-dropdown-menu-content=""
       className={cn('min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground', className)}
       {...props}
+      side={side}
+      sideOffset={sideOffset}
+      renderOnce={renderOnce}
       ref={contentRef as never}>
       {children}
     </PopoverContent>

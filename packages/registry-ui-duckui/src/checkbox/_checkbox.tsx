@@ -7,6 +7,7 @@ import * as React from 'react'
 import { Label } from '../label'
 
 export interface CheckboxProps extends React.HTMLProps<HTMLInputElement> {}
+
 function Checkbox({
   className,
   indicator,
@@ -39,9 +40,8 @@ function Checkbox({
                     : 'default',
           }),
           AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
-          (indicatorReady && checkedIndicatorReady) || indicatorReady
-            ? ''
-            : 'after:border-[1.5px] after:border-t-0 after:border-l-0 after:rotate-45 after:mb-0.5 after:w-[4px] after:h-[9px] after:bg-transparent',
+          (checkedIndicatorReady || indicatorReady) &&
+            'after:border-[1.5px] after:border-t-0 after:border-l-0 after:rotate-45 after:mb-0.5 after:w-[4px] after:h-[9px] after:bg-transparent',
           className,
         )}
         {...props}

@@ -159,12 +159,13 @@ function SelectItem({ children, ref, className, disabled, ...props }: React.HTML
   return (
     <li
       ref={ref}
+      role="checkbox"
       id={id}
       {...props}
       duck-select-item=""
       aria-disabled={disabled}
       className={cn(
-        "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]>#select-indicator]:bg-secondary [&[aria-selected]]:bg-secondary",
+        "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-secondary",
         disabled && 'opacity-50 pointer-events-none',
       )}>
       <div
@@ -176,7 +177,7 @@ function SelectItem({ children, ref, className, disabled, ...props }: React.HTML
       </div>
       {selectedItem?.id === id && (
         <span
-          className="absolute flex items-center justify-center ltr:right-2 ltr:pl-2 rtl:left-2 rtl:pr-2"
+          className="absolute flex items-center justify-center ltr:right-2 ltr:pl-2 rtl:left-2 rtl:pr-2 duration-0 transition-none"
           id="select-indicator">
           <CheckIcon className="!size-3.5 shrink-0" />
         </span>

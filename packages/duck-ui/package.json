@@ -41,7 +41,7 @@
     "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
     "test": "vitest run",
     "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "build": "tsdown",
+    "build": "tsdown ./src/index.ts",
     "lint": "biome lint --write ./",
     "format": "biome format --write ./",
     "ci": "pnpm run lint && pnpm run format && pnpm run build",

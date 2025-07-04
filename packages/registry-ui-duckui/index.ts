@@ -110,6 +110,7 @@ const components: Record<
   collapsible: {},
   select: {},
 
+  // TODO: check for backward compatibility
   contextMenu: {},
   dropdownMenu: {},
   menuBar: {},

@@ -163,6 +163,9 @@ export function useHandleKeyDown({
         currentItem = itemIndex
         originalCurrentItem = itemIndex
       } else if (e.key === 'Enter' || e.key === 'Escape') {
+        if (itemsRef.current[currentItem]?.hasAttribute('duck-select-item')) {
+          itemsRef.current[currentItem]?.click()
+        }
         if (itemsRef.current[currentItem]?.hasAttribute('duck-dropdown-menu-sub-trigger')) {
           inSubMenu = !inSubMenu
         }
