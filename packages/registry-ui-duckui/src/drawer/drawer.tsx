@@ -70,7 +70,7 @@ function DrawerTitle({
   return (
     <DrawerPrimitive.Title
       ref={ref}
-      className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+      className={cn('font-semibold text-lg leading-none tracking-tight', className)}
       {...props}
     />
   )
@@ -81,7 +81,7 @@ function DrawerDescription({
   ref,
   ...props
 }: React.ComponentPropsWithRef<typeof DrawerPrimitive.Description>): React.JSX.Element {
-  return <DrawerPrimitive.Description ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
+  return <DrawerPrimitive.Description ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
 }
 
 function DrawerWrapper({ trigger, content, duckHook, ...props }: DrawerWrapperProps): React.JSX.Element {
@@ -92,8 +92,8 @@ function DrawerWrapper({ trigger, content, duckHook, ...props }: DrawerWrapperPr
   return (
     <Drawer open={duckHook?.state.shape} onOpenChange={duckHook?.handleOpenChange} {...props}>
       <DrawerTrigger {...trigger} />
-      <DrawerContent className={cn('flex flex-col w-full h-full', contentClassName)} {...contentProps}>
-        <div data-role-wrapper className="flex flex-col gap-4 w-full h-full">
+      <DrawerContent className={cn('flex h-full w-full flex-col', contentClassName)} {...contentProps}>
+        <div data-role-wrapper className="flex h-full w-full flex-col gap-4">
           {_header && (
             <DrawerHeader {...headerProps}>
               {headerProps.children ? (
@@ -107,7 +107,7 @@ function DrawerWrapper({ trigger, content, duckHook, ...props }: DrawerWrapperPr
             </DrawerHeader>
           )}
           {contentChildren}
-          <DrawerFooter className={cn('flex items-ceter gap-2', footerClassName)} {...footerProps}>
+          <DrawerFooter className={cn('items-ceter flex gap-2', footerClassName)} {...footerProps}>
             <DrawerClose asChild {..._subCancel} />
             <div
               {..._subSubmit}

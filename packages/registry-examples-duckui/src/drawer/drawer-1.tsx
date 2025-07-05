@@ -51,8 +51,8 @@ export default function DrawerDemo1() {
                 <span className="sr-only">Decrease</span>
               </Button>
               <div className="flex-1 text-center">
-                <div className="text-7xl font-bold tracking-tighter">{goal}</div>
-                <div className="text-[0.70rem] uppercase text-muted-foreground">Calories/day</div>
+                <div className="font-bold text-7xl tracking-tighter">{goal}</div>
+                <div className="text-[0.70rem] text-muted-foreground uppercase">Calories/day</div>
               </div>
               <Button variant="outline" className="h-8 w-8" onClick={() => onClick(10)} disabled={goal >= 400}>
                 <Plus />

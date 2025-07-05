@@ -166,7 +166,7 @@ function SelectItem({ children, ref, className, disabled, ...props }: React.HTML
       aria-disabled={disabled}
       className={cn(
         "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-secondary",
-        disabled && 'opacity-50 pointer-events-none',
+        disabled && 'pointer-events-none opacity-50',
       )}>
       <div
         className={cn(
@@ -177,7 +177,7 @@ function SelectItem({ children, ref, className, disabled, ...props }: React.HTML
       </div>
       {selectedItem?.id === id && (
         <span
-          className="absolute flex items-center justify-center ltr:right-2 ltr:pl-2 rtl:left-2 rtl:pr-2 duration-0 transition-none"
+          className="absolute flex items-center justify-center transition-none duration-0 ltr:right-2 ltr:pl-2 rtl:left-2 rtl:pr-2"
           id="select-indicator">
           <CheckIcon className="!size-3.5 shrink-0" />
         </span>
@@ -201,7 +201,7 @@ function SelectScrollButton({
       variant="nothing"
       size="xs"
       className={cn(
-        'sticky z-50 w-full cursor-default cursor-pointer [&>div]:justify-center rounded-none bg-background p-0',
+        'sticky z-50 w-full cursor-default cursor-pointer rounded-none bg-background p-0 [&>div]:justify-center',
         scrollDown ? 'bottom-0' : 'top-0',
         className,
       )}

@@ -9,20 +9,20 @@ function Avatar({ className, alt, ref, ...props }: AvatarProps) {
   const [isValid, setIsValid] = React.useState(false)
 
   return (
-    <picture className={cn('relative shrink-0 overflow-hidden rounded-full size-10', className)}>
+    <picture className={cn('relative size-10 shrink-0 overflow-hidden rounded-full', className)}>
       <img
         ref={ref}
         {...props}
         onLoad={() => setIsValid(true)}
         onError={() => setIsValid(false)}
-        className={'relative flex shrink-0 overflow-hidden rounded-full object-cover w-full h-full text-transparent'}
+        className={'relative flex h-full w-full shrink-0 overflow-hidden rounded-full object-cover text-transparent'}
         alt={alt}
       />
       {!isValid && (
         <span
           aria-label={alt}
           role="img"
-          className="absolute flex bg-muted items-center justify-center inset-0 w-full h-full rounded-full">
+          className="absolute inset-0 flex h-full w-full items-center justify-center rounded-full bg-muted">
           {alt?.slice(0, 2)}
         </span>
       )}
@@ -41,7 +41,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     const overflowCount = imgs.length > maxVisible ? imgs.length - maxVisible : 0
 
     return (
-      <div className={cn('flex items-center -space-x-5', className)} ref={ref} {...props}>
+      <div className={cn('-space-x-5 flex items-center', className)} ref={ref} {...props}>
         {visibleImgs.map(({ className, alt, ...props }) => (
           <Avatar
             key={props.id}
@@ -53,8 +53,8 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
 
         {/* Display overflow count if necessary */}
         {overflowCount > 0 && (
-          <div className="relative inline-block z-10">
-            <div className="flex items-center justify-center bg-primary text-primary-foreground rounded-full size-10 text-sm font-medium ring-2 ring-background">
+          <div className="relative z-10 inline-block">
+            <div className="flex size-10 items-center justify-center rounded-full bg-primary font-medium text-primary-foreground text-sm ring-2 ring-background">
               +{overflowCount}
             </div>
           </div>

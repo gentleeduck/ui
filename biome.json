@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
   "linter": {
     "includes": [
       "**",
@@ -44,7 +44,6 @@
         "useNodejsImportProtocol": "error",
         "useNumberNamespace": "error",
         "useConst": "error",
-        "noNonNullAssertion": "off",
         "useDefaultSwitchClause": "error"
       },
       "suspicious": {
@@ -55,7 +54,14 @@
         "noVar": "error"
       },
       "nursery": {
-        "useSortedClasses": "off"
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "info",
+          "options": {
+            "attributes": ["className", "class"],
+            "functions": ["clsx", "cva", "tw", "twMerge", "cn", "twJoin", "tv"]
+          }
+        }
       }
     }
   },

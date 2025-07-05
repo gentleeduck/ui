@@ -17,7 +17,7 @@ function Radio({ className, ref, ...props }: React.HTMLProps<HTMLInputElement>) 
       role="radio"
       aria-checked={props.checked}
       className={cn(
-        'appearance-none h-4 w-4 transition-all rounded-full border border-border ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 checked:border-foreground border-solid flex items-center justify-center after:absolute relative after:bg-foreground after:rounded-full after:scale-0 checked:after:scale-100  after:block after:w-2.5 after:h-2.5 after:opacity-0 checked:after:opacity-100 after:relative after:transition-all ',
+        'relative flex h-4 w-4 appearance-none items-center justify-center rounded-full border border-border border-solid ring-offset-background transition-all after:absolute after:relative after:block after:h-2.5 after:w-2.5 after:scale-0 after:rounded-full after:bg-foreground after:opacity-0 after:transition-all checked:border-foreground checked:after:scale-100 checked:after:opacity-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ',
         className,
       )}
       {...props}

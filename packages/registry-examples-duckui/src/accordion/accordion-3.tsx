@@ -25,12 +25,12 @@ export default function Accordion1Demo() {
       <AccordionItem value="item-1">
         <AccordionTrigger className="hover:no-underline" icon={<FaSortDown />}>
           <div className="flex items-center gap-3">
-            <div className="flex flex-col place-content-center bg-secondary p-2 rounded-lg">
+            <div className="flex flex-col place-content-center rounded-lg bg-secondary p-2">
               <Banknote className="text-primary-foreground" size={35} />
             </div>
-            <div className="flex items-start flex-col">
+            <div className="flex flex-col items-start">
               <h5 className="text-xl">Paying Methods</h5>
-              <p className="text-sm text-muted-foreground">Select your preferred payment method</p>
+              <p className="text-muted-foreground text-sm">Select your preferred payment method</p>
             </div>
           </div>
         </AccordionTrigger>
@@ -61,19 +61,19 @@ export default function Accordion1Demo() {
                   key={value}
                   value={value}
                   aria-selected={selectedValue.payingMethod === value}
-                  className={`border rounded-lg p-4 flex items-center gap-3 hover:bg-muted transition-all duration-300 cursor-pointer h-auto ${
+                  className={`flex h-auto cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-300 hover:bg-muted ${
                     selectedValue.payingMethod === value ? 'bg-muted' : ''
                   }`}
                   onClick={() => handleSelection('payingMethod', value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSelection('payingMethod', value)}
                   role="button"
                   tabIndex={0}>
-                  <div className="flex place-content-center bg-secondary p-2 rounded-lg [&>svg]:text-muted [&>svg]:size-[35px]">
+                  <div className="flex place-content-center rounded-lg bg-secondary p-2 [&>svg]:size-[35px] [&>svg]:text-muted">
                     {icon}
                   </div>
-                  <div className="flex items-start flex-col">
-                    <h5 className="text-lg font-semibold">{label}</h5>
-                    <p className="text-sm text-muted-foreground font-semibold">{description}</p>
+                  <div className="flex flex-col items-start">
+                    <h5 className="font-semibold text-lg">{label}</h5>
+                    <p className="font-semibold text-muted-foreground text-sm">{description}</p>
                   </div>
                 </ToggleGroupItem>
               ))}
@@ -86,12 +86,12 @@ export default function Accordion1Demo() {
       <AccordionItem value="item-2">
         <AccordionTrigger className="hover:no-underline" icon={<FaSortDown />}>
           <div className="flex items-center gap-3">
-            <div className="flex flex-col place-content-center bg-secondary p-2 rounded-lg">
+            <div className="flex flex-col place-content-center rounded-lg bg-secondary p-2">
               <IoWalletOutline className="text-primary-foreground" size={35} />
             </div>
-            <div className="flex items-start flex-col">
+            <div className="flex flex-col items-start">
               <h5 className="text-xl">Wallet Options</h5>
-              <p className="text-sm text-muted-foreground">Choose your digital wallet</p>
+              <p className="text-muted-foreground text-sm">Choose your digital wallet</p>
             </div>
           </div>
         </AccordionTrigger>
@@ -122,19 +122,19 @@ export default function Accordion1Demo() {
                   key={value}
                   value={value}
                   aria-selected={selectedValue.wallet === value}
-                  className={`border rounded-lg p-4 flex items-center gap-3 hover:bg-muted transition-all duration-300 cursor-pointer h-auto ${
+                  className={`flex h-auto cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-300 hover:bg-muted ${
                     selectedValue.wallet === value ? 'bg-muted' : ''
                   }`}
                   onClick={() => handleSelection('wallet', value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSelection('wallet', value)}
                   role="button"
                   tabIndex={0}>
-                  <div className="flex place-content-center bg-secondary p-2 rounded-lg [&>svg]:text-muted [&>svg]:size-[35px]">
+                  <div className="flex place-content-center rounded-lg bg-secondary p-2 [&>svg]:size-[35px] [&>svg]:text-muted">
                     {icon}
                   </div>
-                  <div className="flex items-start flex-col">
-                    <h5 className="text-lg font-semibold">{label}</h5>
-                    <p className="text-sm text-muted-foreground font-semibold">{description}</p>
+                  <div className="flex flex-col items-start">
+                    <h5 className="font-semibold text-lg">{label}</h5>
+                    <p className="font-semibold text-muted-foreground text-sm">{description}</p>
                   </div>
                 </ToggleGroupItem>
               ))}

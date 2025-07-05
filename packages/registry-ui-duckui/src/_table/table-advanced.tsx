@@ -1,4 +1,3 @@
-// @ts-noCheck
 import { cn } from '@gentleduck/libs/cn'
 import { TableHead, TableHeader, TableRow } from '../table'
 import {
@@ -28,7 +27,7 @@ import {
   TableContentDataType,
   TableSearchStateType,
 } from './table-advanced.types'
-import { ScrollArea, ScrollBar } from '../scroll-area/'
+import { ScrollArea,  } from '../scroll-area/'
 import { Checkbox } from '../checkbox'
 import { Input } from '../input'
 
@@ -91,7 +90,6 @@ export function DuckTable({ wrapper, className, children, ...props }: DuckTableP
       className={cn('border border-border rounded-lg !overflow-visible relative', wrapperClassName)}
       {...wrapperProps}>
       <Table {...props}>{children}</Table>
-      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   )
 }

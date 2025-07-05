@@ -58,8 +58,8 @@ export default function DrawerDemo8() {
           Hard Checklist
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="max-w-xs mx-auto after:hidden mb-8 rounded-xl overflow-hidden">
-        <div className={cn('p-4 mx-auto w-full max-w-sm pt-2 overflow-hidden parent', open && 'parent2')}>
+      <DrawerContent className="mx-auto mb-8 max-w-xs overflow-hidden rounded-xl after:hidden">
+        <div className={cn('parent mx-auto w-full max-w-sm overflow-hidden p-4 pt-2', open && 'parent2')}>
           <DuckTransition1 className={cn(open && 'one2')}>
             <HI
               barCount={barCount}
@@ -121,7 +121,7 @@ export function HI(props: {
         <DrawerTitle className="text-md">Almost there.</DrawerTitle>
         <Badge
           variant="destructive"
-          className={`rounded-lg will-change-auto w-[50px] transition-colors duration-300 ${getBadgeColor(progress)}`}>
+          className={`w-[50px] rounded-lg transition-colors duration-300 will-change-auto ${getBadgeColor(progress)}`}>
           <AnimateNumber
             format={{ style: 'decimal', notation: 'standard' }}
             prefix="%"
@@ -132,7 +132,7 @@ export function HI(props: {
         </Badge>
       </div>
       <DrawerDescription>Complete the remaining steps in the checklist before going live.</DrawerDescription>
-      <div className="flex justify-between w-full">
+      <div className="flex w-full justify-between">
         {[...Array(barCount)].map((_, index) => (
           <motion.div
             key={index}
@@ -142,7 +142,7 @@ export function HI(props: {
               scale: index < filledBars ? [1, 1.1, 1] : 1,
             }}
             transition={{ duration: 0.5, delay: index * 0.008 }}
-            className={`w-[5px] h-[1rem] rounded-full transition-colors duration-300 ${
+            className={`h-[1rem] w-[5px] rounded-full transition-colors duration-300 ${
               index < filledBars ? getBarColor(index) : 'bg-gray-200'
             }`}
           />
@@ -206,12 +206,12 @@ export function HI2(props: { setOpen: React.Dispatch<React.SetStateAction<boolea
           },
         ].map((task, index) => (
           <li key={index} className="flex items-start gap-3">
-            <input type="checkbox" className="w-4 h-4 mt-1 accent-green-500" id={`todo-${index}`} />
+            <input type="checkbox" className="mt-1 h-4 w-4 accent-green-500" id={`todo-${index}`} />
             <div>
-              <label htmlFor={`todo-${index}`} className="text-md font-semibold block">
+              <label htmlFor={`todo-${index}`} className="block font-semibold text-md">
                 {task.title}
               </label>
-              <p className="text-sm text-muted-foreground">{task.description}</p>
+              <p className="text-muted-foreground text-sm">{task.description}</p>
             </div>
           </li>
         ))}

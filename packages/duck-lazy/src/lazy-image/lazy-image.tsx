@@ -44,8 +44,8 @@ export function DuckLazyImage(props: LazyImageProps): React.JSX.Element {
 
       {!props.nextImage && (
         <div
-          className={`animate-pulse transition-all inset-0 absolute ${
-            isLoaded ? 'opacity-0 bg-transparent' : 'opacity-100 bg-muted'
+          className={`absolute inset-0 animate-pulse transition-all ${
+            isLoaded ? 'bg-transparent opacity-0' : 'bg-muted opacity-100'
           }`}
           role="status" // Let screen readers know this is a loading status
           aria-live="polite" // Announce the loading state

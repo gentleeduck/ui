@@ -59,7 +59,7 @@ export default function DrawerDemo6() {
 
 export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (adjustment: number) => void }) => {
   return (
-    <div className="w-full flex items-start justify-center pt-4 pb-2">
+    <div className="flex w-full items-start justify-center pt-4 pb-2">
       <div className="p-4 pb-0">
         <div className="flex items-center justify-center space-x-2">
           <Button
@@ -72,8 +72,8 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
             <span className="sr-only">Decrease</span>
           </Button>
           <div className="flex-1 text-center">
-            <div className="text-7xl font-bold tracking-tighter">{goal}</div>
-            <div className="text-[0.70rem] uppercase text-muted-foreground">Calories/day</div>
+            <div className="font-bold text-7xl tracking-tighter">{goal}</div>
+            <div className="text-[0.70rem] text-muted-foreground uppercase">Calories/day</div>
           </div>
           <Button
             variant="outline"

@@ -9,20 +9,20 @@ import { cn } from '@gentleduck/libs/cn'
 
 const SonnerUpload = ({ progress, attachments, remainingTime, onCancel }: UploadSonnerProps): React.JSX.Element => {
   return (
-    <div className="flex gap-3 w-full">
+    <div className="flex w-full gap-3">
       <CircleCheck
         className={cn(
-          'fill-primary [&_path]:stroke-primary-foreground mt-2 !size-[18px] hidden',
+          '!size-[18px] mt-2 hidden fill-primary [&_path]:stroke-primary-foreground',
           progress >= 100 && 'flex',
         )}
       />
       <Loader
         className={cn(
-          'animate-spin text-foreground-muted mt-2 opacity-70 !size-[18px] hidden',
+          '!size-[18px] mt-2 hidden animate-spin text-foreground-muted opacity-70',
           progress < 100 && 'flex',
         )}
       />
-      <div className="flex flex-col gap-2 w-full">
+      <div className="flex w-full flex-col gap-2">
         <div className="flex w-full justify-between">
           <p className="text-foreground text-sm">
             {progress >= 100
@@ -33,13 +33,13 @@ const SonnerUpload = ({ progress, attachments, remainingTime, onCancel }: Upload
           </p>
           <div className="flex items-center gap-2">
             {progress <= 100 && (
-              <p className="text-foreground-light text-sm font-mono">{`${remainingTime && !isNaN(remainingTime) && isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining – ` : ''}`}</p>
+              <p className="font-mono text-foreground-light text-sm">{`${remainingTime && !isNaN(remainingTime) && isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining – ` : ''}`}</p>
             )}
-            <p className="text-foreground-light text-sm font-mono">{`${progress}%`}</p>
+            <p className="font-mono text-foreground-light text-sm">{`${progress}%`}</p>
           </div>
         </div>
-        <Progress value={progress} className="w-full h-1" />
-        <div className="flex items-center justify-between gap-2 w-full">
+        <Progress value={progress} className="h-1 w-full" />
+        <div className="flex w-full items-center justify-between gap-2">
           <small className="text-foreground-muted text-xs">Please do not close the browser until completed</small>
 
           {progress <= 100 && (

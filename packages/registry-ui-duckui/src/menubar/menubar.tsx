@@ -140,7 +140,7 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
   return (
     <menubarContext.Provider value={{}}>
       <div
-        className={cn('flex items-center border p-1 rounded-lg', className)}
+        className={cn('flex items-center rounded-lg border p-1', className)}
         {...props}
         ref={wrapperRef}
         duck-menubar="">

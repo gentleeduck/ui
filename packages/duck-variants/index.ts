@@ -22,14 +22,14 @@ export function generateResponsiveVariants(
 export const buttonVariants = cva('flex items-center', {
   variants: {
     variant: {
-      default: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm',
-      destructive: 'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground shadow-xs',
+      default: 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
+      destructive: 'bg-destructive/90 text-destructive-foreground shadow-xs hover:bg-destructive/70',
       nothing: '',
     },
     size: {
-      xs: 'h-6 px-2 py-1 text-xs [&_svg]:size-[1.3em] rounded-sm',
-      sm: 'h-8 px-3 py-1.5 text-sm [&_svg]:size-[1.3em] rounded-md',
-      default: 'h-9 px-4 py-2 text-base [&_svg]:size-[1.3em] rounded-md' + generateResponsiveVariants(),
+      xs: 'h-6 rounded-sm px-2 py-1 text-xs [&_svg]:size-[1.3em]',
+      sm: 'h-8 rounded-md px-3 py-1.5 text-sm [&_svg]:size-[1.3em]',
+      default: 'h-9 rounded-md px-4 py-2 text-base [&_svg]:size-[1.3em]' + generateResponsiveVariants(),
     },
     border: {
       default: '',

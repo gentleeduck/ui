@@ -9,7 +9,7 @@ export interface AspectRatioProps extends React.HTMLProps<HTMLDivElement> {
 function AspectRatio({ children, style, ratio, ...props }: AspectRatioProps) {
   return (
     <Slot
-      className={'relative overflow-hidden h-auto w-full'}
+      className={'relative h-auto w-full overflow-hidden'}
       style={{
         aspectRatio: `${ratio}`,
         ...style,

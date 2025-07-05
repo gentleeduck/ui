@@ -70,7 +70,7 @@ const FormLabel = ({ className, htmlFor, ref, ...props }: React.ComponentPropsWi
 const FormDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParagraphElement>) => {
   const { formDescriptionId } = useFormField()
 
-  return <p ref={ref} id={formDescriptionId} className={cn('text-sm text-muted-foreground', className)} {...props} />
+  return <p ref={ref} id={formDescriptionId} className={cn('text-muted-foreground text-sm', className)} {...props} />
 }
 
 const FormMessage = ({ className, children, ref, ...props }: React.HTMLProps<HTMLParagraphElement>) => {
@@ -83,7 +83,7 @@ const FormMessage = ({ className, children, ref, ...props }: React.HTMLProps<HTM
   }
 
   return (
-    <p ref={ref} id={formMessageId} className={cn('text-sm font-medium text-destructive', className)} {...props}>
+    <p ref={ref} id={formMessageId} className={cn('font-medium text-destructive text-sm', className)} {...props}>
       {body}
     </p>
   )
@@ -104,8 +104,8 @@ function FormMultiMessage({
       ref={ref}
       id={formMessageId}
       className={cn(
-        'transition-all duration-300 ease-in-out overflow-hidden',
-        errors.length ? 'max-h-[960px] opacity-100 my-1' : 'max-h-0 opacity-0 my-0',
+        'overflow-hidden transition-all duration-300 ease-in-out',
+        errors.length ? 'my-1 max-h-[960px] opacity-100' : 'my-0 max-h-0 opacity-0',
         className,
       )}
       {...props}>
@@ -122,7 +122,7 @@ function FormMultiMessage({
             />
             <span
               className={cn(
-                'text-sm text-nowrap transition-all duration-300 ease-in-out',
+                'text-nowrap text-sm transition-all duration-300 ease-in-out',
                 errors.length > 0 && errors.some((err) => err.message === rule) ? 'text-red-500' : 'text-green-500',
               )}>
               {rule}

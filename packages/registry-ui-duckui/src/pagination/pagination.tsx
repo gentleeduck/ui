@@ -1,3 +1,4 @@
+import { cn } from '@gentleduck/libs/cn'
 import {
   ChevronLeft,
   ChevronLeftIcon,
@@ -8,8 +9,6 @@ import {
   MoreHorizontal,
 } from 'lucide-react'
 import * as React from 'react'
-
-import { cn } from '@gentleduck/libs/cn'
 import { Button, ButtonProps, buttonVariants } from '../button'
 import { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
 
@@ -122,3 +121,64 @@ export {
   PaginationPrevious,
   PaginationWrapper,
 }
+
+export interface DuckPaginationProps {
+  wrapper?: React.ComponentPropsWithoutRef<typeof Pagination>
+  content?: React.ComponentPropsWithoutRef<typeof PaginationContent>
+  item?: React.ComponentPropsWithoutRef<typeof PaginationItem>
+  right?: React.ComponentPropsWithoutRef<typeof Button>
+  maxRight?: React.ComponentPropsWithoutRef<typeof Button>
+  left?: React.ComponentPropsWithoutRef<typeof Button>
+  maxLeft?: React.ComponentPropsWithoutRef<typeof Button>
+}
+
+export const DuckPagination = React.forwardRef<HTMLUListElement, DuckPaginationProps>(
+  ({ wrapper, content, item, right, maxRight, left, maxLeft }, ref) => {
+    const { className: wrapperClassName, ...wrapperProps } = wrapper ?? {}
+    const { className: contentClassName, ...contentProps } = content ?? {}
+    const { className: itemClassName, ...itemProps } = item ?? {}
+    const { className: rightClassName, ...rightProps } = right ?? {}
+    const { className: maxRightClassName, ...maxRightProps } = maxRight ?? {}
+    const { className: leftClassName, ...leftProps } = left ?? {}
+    const { className: maxLeftClassName, ...maxLeftProps } = maxLeft ?? {}
+
+    return (
+      <Pagination ref={ref} className={cn('justify-end', wrapperClassName)} {...wrapperProps}>
+        <PaginationContent className={cn('gap-2', contentClassName)} {...contentProps}>
+          <PaginationItem className={cn(itemClassName)} {...itemProps}>
+            <Button
+              variant="outline"
+              size="icon"
+              className={cn('h-[32px] w-[32px] p-0', maxLeftClassName)}
+              {...maxLeftProps}>
+              <ChevronsLeftIcon className="size-4" />
+            </Button>
+          </PaginationItem>
+          <PaginationItem className={cn(itemClassName)} {...itemProps}>
+            <Button variant="outline" size="icon" className={cn('h-[32px] w-[32px] p-0', leftClassName)} {...leftProps}>
+              <ChevronLeftIcon className="size-4" />
+            </Button>
+          </PaginationItem>
+          <PaginationItem className={cn(itemClassName)} {...itemProps}>
+            <Button
+              variant="outline"
+              size="icon"
+              className={cn('h-[32px] w-[32px] p-0', rightClassName)}
+              {...rightProps}>
+              <ChevronRightIcon className="size-4" />
+            </Button>
+          </PaginationItem>
+          <PaginationItem className={cn(itemClassName)} {...itemProps}>
+            <Button
+              variant="outline"
+              size="icon"
+              className={cn('h-[32px] w-[32px] p-0', maxRightClassName)}
+              {...maxRightProps}>
+              <ChevronsRightIcon className="size-4" />
+            </Button>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    )
+  },
+)

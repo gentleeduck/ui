@@ -118,7 +118,7 @@ function DropdownMenuLabel({
   return (
     <div
       ref={ref}
-      className={cn('px-2 py-1.5 text-sm font-semibold', inset && 'pl-8', className)}
+      className={cn('px-2 py-1.5 font-semibold text-sm', inset && 'pl-8', className)}
       {...props}
       duck-dropdown-menu-label=""
     />
@@ -143,7 +143,7 @@ function DropdownMenuItem({
       className={cn(
         // 'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary focus:bg-secondary',
         // '[&[aria-selected]:focus-visible]:ring-2 [&[aria-selected]:focus-visible]:ring-ring [&[aria-selected]:focus-visible]:ring-offset-2 [&[aria-selected]:focus-visible]:ring-offset-background',
-        'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 focus:bg-secondary', //' [&[aria-selected]:focus-visible]:bg-red-500',
+        'h-auto w-full cursor-default justify-start px-2 focus:bg-secondary [&>div]:w-full [&>div]:justify-between', //' [&[aria-selected]:focus-visible]:bg-red-500',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
         inset && 'pl-8',
         className,
@@ -172,7 +172,7 @@ function DropdownMenuShortcut({
   return (
     <kbd
       className={cn(
-        'inline-flex items-center gap-[2px] transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 text-[.7rem] py-[.12rem] px-2 rounded-[4px] text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none ml-auto text-xs tracking-widest text-muted-foreground',
+        'focus:offset-2 [&_svg]:!size-3 !font-sans pointer-events-none ml-auto inline-flex cursor-none select-none items-center gap-[2px] rounded-[4px] px-2 py-[.12rem] text-[.7rem] text-muted-foreground text-secondary-foreground text-xs tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring',
         colored ? 'bg-muted' : 'ltr:-mr-2 rtl:-ml-2',
         className,
       )}
@@ -219,7 +219,6 @@ function DropdownMenuSubImpritive({ children, className, ...props }: React.HTMLP
       selectedItemRef.current = item
     },
     originalItemsRef,
-    onOpenChange,
     allowAxisArrowKeys: true,
   })
 
@@ -238,7 +237,7 @@ function DropdownMenuSubImpritive({ children, className, ...props }: React.HTMLP
       }}>
       <div
         className={cn(
-          'relative focus:bg-secondary [&[aria-selected]>button]:bg-secondary [&[aria-selected]:focus-visible>button]:bg-secondary [&>button]:focus:bg-secondary',
+          'relative focus:bg-secondary [&>button]:focus:bg-secondary [&[aria-selected]:focus-visible>button]:bg-secondary [&[aria-selected]>button]:bg-secondary',
         )}
         {...props}
         duck-dropdown-menu-sub=""
@@ -274,7 +273,7 @@ function DropdownMenuSubTrigger({
       variant={'ghost'}
       duck-dropdown-menu-sub-trigger=""
       className={cn(
-        '[&>div]:justify-between [&>div]:w-full w-full',
+        'w-full [&>div]:w-full [&>div]:justify-between',
         '[&:hover+div]:opacity-100',
         '[&[aria-selected]]:bg-secondary',
         '[&[data-open="true"]+div]:opacity-100',
@@ -283,7 +282,7 @@ function DropdownMenuSubTrigger({
         inset && 'pl-8',
         className,
       )}
-      secondIcon={secondIcon || <ChevronRight className="rtl:rotate-180 ltr:rotate-0 rtl:-ml-2 ltr:-mr-2" />}
+      secondIcon={secondIcon || <ChevronRight className="rtl:-ml-2 ltr:-mr-2 ltr:rotate-0 rtl:rotate-180" />}
       {...props}>
       {children}
     </PopoverTrigger>
@@ -357,7 +356,7 @@ function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof 
         {...props}
         className="ltr:pl-[1.25rem] rtl:pr-[1.25rem]"
         customIndicator={
-          <span className="absolute ltr:left-1 rtl:right-1 top-1/2 -translate-y-1/2 size-2 flex bg-foreground rounded-full transition-all duration-150 ease-in-out" />
+          <span className="-translate-y-1/2 absolute top-1/2 flex size-2 rounded-full bg-foreground transition-all duration-150 ease-in-out ltr:left-1 rtl:right-1" />
         }
       />
     </DropdownMenuItem>

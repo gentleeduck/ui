@@ -23,7 +23,7 @@ function Toggle({
         className={cn(toggleVariants({ variant, className }), 'appearance-none checked:bg-muted')}
         {...props}
       />
-      <span className={cn('z-1 isolate absolute select-none pointer-events-none')}>{children}</span>
+      <span className={cn('pointer-events-none absolute isolate z-1 select-none')}>{children}</span>
     </label>
   )
 }

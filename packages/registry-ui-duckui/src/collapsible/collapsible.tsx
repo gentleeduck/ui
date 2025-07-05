@@ -94,7 +94,7 @@ function CollapsibleContent({ children, className, ...props }: React.HTMLAttribu
       id={contentId}
       role="region"
       aria-hidden={!open}
-      className={cn('overflow-hidden transition-all duration-300 ease-in-out h-0 data-[open=true]:h-auto ', className)}
+      className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto ', className)}
       {...props}>
       {open && children}
     </div>

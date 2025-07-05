@@ -193,10 +193,10 @@ export function DropdownWrapperContentItem({
         buttonVariants({
           variant: 'ghost',
           size: 'sm',
-          className: 'flex gap-2 items-center justify-start px-2',
+          className: 'flex items-center justify-start gap-2 px-2',
         }),
         itemType === 'checkbox' && 'pl-8',
-        itemType === 'radio' && '[&_span_svg]:w-[.5rem] pl-8',
+        itemType === 'radio' && 'pl-8 [&_span_svg]:w-[.5rem]',
         className,
       )}
       onClick={(e) => {
@@ -279,7 +279,7 @@ export function DropdownWrapperSubContent({
             variant: 'ghost',
             size: 'sm',
           }),
-          'flex gap-2 items-center justify-start',
+          'flex items-center justify-start gap-2',
           itemType !== 'label' && 'pl-8',
           itemType === 'radio' && '[&_span_svg]:w-[.5rem]',
           className,

@@ -12,7 +12,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center flex-col gap-8 min-h-screen">
-      <ComboboxDemo />
+      <TableDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
@@ -856,6 +856,8 @@ import {
 import React from 'react'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import Table1Demo from './constants'
+import { DuckTable, TableDemo } from '@gentleduck/registry-ui-duckui/table'
 
 export function CommandDemo() {
   return (

@@ -61,7 +61,7 @@ function Button({
       )}
       type={type}
       disabled={loading ?? disabled}>
-      <div className="flex items-center justify-between w-full gap-2">
+      <div className="flex w-full items-center justify-between gap-2">
         {!isCollapsed && children}
         {!isCollapsed && secondIcon && secondIcon}
         {loading ? <Loader className="animate-spin" /> : icon}
@@ -87,7 +87,7 @@ function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.J
   return (
     <>
       {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
-        <div className="w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100">
+        <div className="group-hover:-translate-x-1 w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:pr-2 group-hover:opacity-100">
           {animationIcon?.icon}
         </div>
       )}

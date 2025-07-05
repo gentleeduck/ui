@@ -17,7 +17,7 @@ const Separator = ({
     ref={ref}
     aria-orientation={orientation}
     className={cn(
-      'border-border border',
+      'border border-border',
       orientation === 'horizontal' ? 'w-full border-x' : 'h-full border-y',
       className,
     )}
@@ -39,7 +39,7 @@ const Hr = ({
   <hr
     role="separator"
     aria-orientation={y ? 'horizontal' : 'vertical'}
-    className={cn('border-border border', y ? 'w-full border-y' : 'h-full border-x', className)}
+    className={cn('border border-border', y ? 'w-full border-y' : 'h-full border-x', className)}
     {...props}
     duck-hr=""
   />

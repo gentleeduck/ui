@@ -8,7 +8,7 @@ const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (
     ref={ref}
     type="checkbox"
     className={cn(
-      'appearance-none h-4 w-4 transition-all rounded border border-border ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 checked:bg-primary checked:border-primary checked:text-primary-foreground border-solid relative flex items-center justify-center after:absolute    after:block after:w-[5px] after:h-[9px]  after:border-2 after:border-white after:border-t-0 after:border-l-0 after:border-white after:opacity-0 after:rotate-45 after:relative after:transition-all checked:after:opacity-100',
+      'relative flex h-4 w-4 appearance-none items-center justify-center rounded border border-border border-solid ring-offset-background transition-all after:absolute after:relative after:block after:h-[9px] after:w-[5px] after:rotate-45 after:border-2 after:border-white after:border-white after:border-t-0 after:border-l-0 after:opacity-0 after:transition-all checked:border-primary checked:bg-primary checked:text-primary-foreground checked:after:opacity-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
       className,
     )}
     {...props}
@@ -41,7 +41,7 @@ const CheckboxGroup = ({ subtasks, subtasks_default_values, ref, ...props }: Che
   const { _checkbox, _label } = subtasks_default_values || {}
   return (
     <>
-      <div className={cn('flex flex-col w-full gap-2 mb-3')} {...props} ref={ref}>
+      <div className={cn('mb-3 flex w-full flex-col gap-2')} {...props} ref={ref}>
         {subtasks.map((subtask) => {
           const { id, title, className } = subtask
           return (

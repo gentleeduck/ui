@@ -1,154 +1,92 @@
-'use client'
-import React from 'react'
-import { Command, CommandInput, CommandListGroup, CommandListGroupDataType } from '../command'
-import { Label } from '../label'
-import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { cn } from '@gentleduck/libs/cn'
-import { ChevronsUpDown } from 'lucide-react'
-import { Button, CommandType } from '../button'
-import { Badge } from '../badge'
-import { Separator } from '../separator'
+import { Check, ChevronsUpDown } from 'lucide-react'
+import React from 'react'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../command'
+import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 
-interface OnSelectType<T> {
-  value: T[]
-  setValue: React.Dispatch<React.SetStateAction<T[]>>
+export type ComboboxItemType = {
+  label: string
+  value: string
 }
 
-type ComboboxProps<T extends keyof Record<string, unknown>, Y extends keyof Record<string, unknown>> = {
-  type: 'combobox' | 'listbox'
-  onSelect?: OnSelectType<Y>
-  wrapper?: React.HTMLProps<HTMLDivElement> & {}
-  title?: Partial<React.ComponentPropsWithoutRef<typeof Label>> & {}
-  trigger?: Partial<React.ComponentPropsWithoutRef<typeof Button> & { children?: T }>
-  content?: Partial<React.ComponentPropsWithoutRef<typeof PopoverContent>> & {
-    data: CommandListGroupDataType<Y>[]
-    showSearchInput?: boolean
-    groupheading?: string[]
-  }
+export type ComboboxProps<T extends readonly ComboboxItemType[] | ComboboxItemType[]> = {
+  items: T
+  onValueChange?: (value: T[number]['label']) => void
+  defaultValue?: T[number]['label']
+  value?: T[number]['label']
+  popover?: React.ComponentPropsWithoutRef<typeof Popover>
+  popoverTrigger?: React.ComponentPropsWithoutRef<typeof PopoverTrigger>
+  popoverContent?: React.ComponentPropsWithoutRef<typeof PopoverContent>
+
+  command?: React.ComponentPropsWithoutRef<typeof Command>
+  commandInput?: React.ComponentPropsWithoutRef<typeof CommandInput>
+  commandTriggerPlaceholder?: string
+  commandEmpty?: string
+  children: (item: T) => React.ReactNode
 }
 
-const Combobox = <T extends keyof Record<string, unknown> = string, Y extends keyof Record<string, unknown> = string>({
-  wrapper,
-  title,
-  trigger,
-  content,
-  onSelect,
-  type,
-}: ComboboxProps<T, Y>) => {
-  //NOTE: you can use state management lib instead of this local states to use it globally
-  const [open, setOpen] = React.useState(false)
-
-  const { className: wrapperClassName, ...wrapperProps } = wrapper ?? {}
-  const { className: titleClassName, children: titleChildren, ...titleProps } = title ?? {}
-  const { className: triggerClassName, children: triggerChildren, command, ...triggerProps } = trigger ?? {}
-  const {
-    className: contentClassName,
-    data,
-    showSearchInput,
-    children: contentChildren,
-    groupheading,
-    ...contentProps
-  } = content ?? {}
-
-  const filteredData = onSelect?.value?.filter((item) => {
-    return data?.some((el) => el.label === item)
-  })
+export function Combobox<T extends readonly ComboboxItemType[] | ComboboxItemType[]>({
+  value,
+  defaultValue,
+  onValueChange,
+  items,
+  command,
+  commandInput,
+  commandEmpty = 'Nothing found.',
+  commandTriggerPlaceholder = 'Select item...',
+  popover,
+  popoverTrigger,
+  popoverContent,
+  children,
+}: ComboboxProps<T>) {
+  React.useEffect(() => {
+    if (value) {
+      onValueChange?.(value)
+    }
+  }, [value])
 
   return (
-    <>
-      <div className={cn('grid gap-2 items-start', wrapperClassName)} {...wrapperProps}>
-        {title && (
-          <Label htmlFor={titleClassName} className={cn('', titleClassName)} {...titleProps}>
-            {titleChildren}
-          </Label>
-        )}
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              disabled={false}
-              role="combobox"
-              secondIcon={
-                <ChevronsUpDown className={cn('ml-2 opacity-50 overflow-hidden', type === 'listbox' && 'hidden')} />
-              }
-              aria-expanded={open}
-              className={cn(`justify-between`, type === 'combobox' && 'w-[200px] [&_div]:w-[81%]', triggerClassName)}
-              command={
-                {
-                  ...command,
-                  action: () => {
-                    setOpen(!open)
-                    // return false
-                  },
-                  state: open,
-                } as CommandType
-              }
-              {...triggerProps}>
-              <span className="text-ellipsis overflow-hidden whitespace-nowrap">
-                {type === 'combobox' ? (onSelect?.value[0] ?? triggerChildren) : triggerChildren}
-              </span>
-              {type === 'listbox' && filteredData?.length ? <Separator orientation="vertical" className="h-4" /> : null}
-              {type === 'listbox' && (
-                <div className="flex items-center gap-1">
-                  {filteredData?.length! < 3 ? (
-                    filteredData?.map((item, idx) => (
-                      <Badge key={idx} variant={'secondary'} className="rounded-md text-xs px-1 font-normal">
-                        {item}
-                      </Badge>
-                    ))
-                  ) : (
-                    <Badge variant={'secondary'} className="rounded-md text-xs px-1 font-normal">
-                      {filteredData?.length} Selected
-                    </Badge>
-                  )}
-                </div>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className={cn('w-[180px] p-0', contentClassName)} id={titleClassName} {...contentProps}>
-            {contentChildren ? (
-              contentChildren
-            ) : (
-              <Command>
-                {showSearchInput && (
-                  <CommandInput
-                    className={cn(type === 'listbox' && 'p-2 h-fit')}
-                    placeholder={type === 'combobox' ? 'Search...' : 'Filter...'}
-                    required
-                  />
-                )}
-                <CommandListGroup
-                  type={type ?? 'combobox'}
-                  data={data ?? []}
-                  selected={onSelect?.value ?? []}
-                  groupheading={groupheading || []}
-                  checkabble={true}
-                  onSelect={{
-                    key: (value: string | undefined) => {
-                      onSelect?.setValue(
-                        type === 'combobox'
-                          ? [value as Y]
-                          : onSelect?.value.includes(value as Y)
-                            ? onSelect?.value.filter((i) => i !== value)
-                            : [...onSelect?.value, value as Y],
-                      )
-                    },
-                    clear: () => {
-                      onSelect?.setValue(
-                        onSelect?.value.filter((item) => !data?.map((item) => item.label).includes(item)),
-                      )
-                    },
-                  }}
-                />
-              </Command>
-            )}
-          </PopoverContent>
-        </Popover>
-      </div>
-    </>
+    <Popover {...popover}>
+      <PopoverTrigger
+        {...popoverTrigger}
+        secondIcon={popoverTrigger?.secondIcon || <ChevronsUpDown className="opacity-50 !size-4" />}>
+        {value ? items.find((item) => item.value === (value || defaultValue))?.label : commandTriggerPlaceholder}
+      </PopoverTrigger>
+      <PopoverContent {...popoverContent} className={cn('w-[200px] p-0', popoverContent?.className)}>
+        <Command {...command}>
+          <CommandInput {...commandInput} className={cn('h-8 [&_svg]:size-[18px] px-2', commandInput)} />
+          <CommandList>
+            <CommandEmpty>{commandEmpty}</CommandEmpty>
+            {children(items)}
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   )
 }
 
-Combobox.displayName = 'Combobox'
+export function ComboxGroup({ children, ...props }: React.ComponentPropsWithoutRef<typeof CommandGroup>) {
+  return <CommandGroup {...props}>{children}</CommandGroup>
+}
 
-export { Combobox, type ComboboxProps as ComboboxType, type OnSelectType }
+export function ComboboxItem<T extends ComboboxItemType>({
+  item,
+  onSelect,
+  ...props
+}: {
+  item: T
+  onSelect: (value: T['label']) => void
+} & Omit<React.ComponentPropsWithoutRef<typeof CommandItem>, 'onSelect'>) {
+  return (
+    <CommandItem
+      key={item.value}
+      value={item.value}
+      onSelect={(currentValue) => {
+        onSelect(currentValue as T['label'])
+      }}
+      {...props}>
+      {item.label}
+      <Check className={cn('ml-auto', item.value === item.label ? 'opacity-100' : 'opacity-0')} />
+    </CommandItem>
+  )
+}

@@ -12,7 +12,7 @@ const Popover = PopoverPrimitive.Root
 function PopoverTrigger({
   children,
   variant = 'outline',
-  asChild,
+  asChild = false,
   ...props
 }: React.ComponentPropsWithRef<typeof Button>) {
   return (

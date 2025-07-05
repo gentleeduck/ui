@@ -72,7 +72,7 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
         ref={commandRef}
         duck-command-wrapper=""
         className={cn(
-          'flex h-full w-full max-w-96 border shadow-sm flex-col overflow-hidden rounded-md bg-popover text-popover-foreground p-2',
+          'flex h-full w-full max-w-96 flex-col overflow-hidden rounded-md border bg-popover p-2 text-popover-foreground shadow-sm',
           className,
         )}
         {...props}
@@ -104,12 +104,17 @@ function Command({ children, ...props }: React.ComponentPropsWithRef<typeof Comm
  * @param {React.HTMLAttributes<HTMLInputElement>} [...props] - The props of the CommandInput component.
  * @returns {React.JSX.Element} The rendered CommandInput component.
  */
-function CommandInput({ className, onChange, ...props }: React.HTMLProps<HTMLInputElement>): React.JSX.Element {
+function CommandInput({
+  className,
+  placeholder = 'Search...',
+  onChange,
+  ...props
+}: React.HTMLProps<HTMLInputElement>): React.JSX.Element {
   const { setSearch } = useCommandContext()
   const context = useCommandRefsContext()
 
   return (
-    <div className={cn('flex items-center border-b px-3 gap-2 mb-2', className)} cmdk-input-wrapper="">
+    <div className={cn('mb-2 flex items-center gap-2 border-b px-3', className)} cmdk-input-wrapper="">
       <Search className="size-[20px] shrink-0 opacity-50" />
       <input
         ref={context.inputRef}
@@ -117,6 +122,7 @@ function CommandInput({ className, onChange, ...props }: React.HTMLProps<HTMLInp
           setSearch(() => e.target.value)
           onChange?.(e)
         }}
+        placeholder={placeholder}
         className={cn(
           'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
         )}
@@ -137,7 +143,7 @@ function CommandInput({ className, onChange, ...props }: React.HTMLProps<HTMLInp
  */
 function CommandEmpty({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>): React.JSX.Element {
   const context = useCommandRefsContext()
-  return <h6 ref={context.emptyRef} className="py-6 text-center text-sm hidden" {...props} duck-command-empty="" />
+  return <h6 ref={context.emptyRef} className="hidden py-6 text-center text-sm" {...props} duck-command-empty="" />
 }
 
 /**
@@ -171,12 +177,12 @@ function CommandGroup({ className, children, heading, ref, ...props }: CommandGr
     <div
       ref={ref}
       className={cn(
-        'overflow-hidden text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground',
+        'overflow-hidden text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:text-xs',
         className,
       )}
       {...props}
       duck-command-group="">
-      <h3 className="text-xs text-muted-foreground pb-1 pl-1">{heading}</h3>
+      <h3 className="pb-1 pl-1 text-muted-foreground text-xs">{heading}</h3>
       {children}
     </div>
   )
@@ -211,7 +217,7 @@ function CommandItem({
         onClick?.(e)
       }}
       className={cn(
-        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:size-4 flex gap-2 hover:bg-muted cursor-pointer transition-color duration-300 will-change-300 hover:text-accent-foreground [&[aria-selected]]:bg-secondary ",
+        "data-[selected= data-[disabled=true]:pointer-events-none'true']:bg-accent relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&[aria-selected]]:bg-secondary [&_svg]:size-4 ",
         className,
       )}
       {...props}
@@ -242,7 +248,7 @@ function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: Comm
   return (
     <kbd
       className={cn(
-        'inline-flex items-center gap-[2px] transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:offset-2 text-[.7rem] py-[.12rem] px-2 rounded-[4px] text-secondary-foreground [&_svg]:!size-3 !font-sans cursor-none pointer-events-none select-none ltr:ml-auto rtl:mr-auto text-xs tracking-widest text-muted-foreground',
+        'focus:offset-2 [&_svg]:!size-3 !font-sans pointer-events-none inline-flex cursor-none select-none items-center gap-[2px] rounded-[4px] px-2 py-[.12rem] text-[.7rem] text-muted-foreground text-secondary-foreground text-xs tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring ltr:ml-auto rtl:mr-auto',
         className,
       )}
       ref={ref}
@@ -261,7 +267,7 @@ function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: Comm
  */
 function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
-    <div ref={ref} className={cn('-mx-1 h-px bg-secondary my-2', className)} {...props} duck-command-separator="" />
+    <div ref={ref} className={cn('-mx-1 my-2 h-px bg-secondary', className)} {...props} duck-command-separator="" />
   )
 }
 
@@ -276,7 +282,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
 function CommandDialog({ children, ...props }: DialogProps): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="p-0 border-none rounded-md open:backdrop:bg-black/80 [&>div>div]:max-w-full">
+      <DialogContent className="rounded-md border-none p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>

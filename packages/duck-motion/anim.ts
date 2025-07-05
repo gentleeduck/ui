@@ -9,19 +9,19 @@ export const AnimVariants = cva('', {
     },
     overlay: {
       default:
-        'backdrop:transition-[inherit] backdrop:duration-[inherit] backdrop:ease-[inherit] backdrop:bg-black/50  backdrop:opacity-0 starting:open:backdrop:opacity-0 open:backdrop:opacity-100',
+        'backdrop:bg-black/50 backdrop:opacity-0 backdrop:transition-[inherit] backdrop:duration-[inherit] backdrop:ease-[inherit] open:backdrop:opacity-100 starting:open:backdrop:opacity-0',
       nothing: 'backdrop:opacity-0',
     },
     alive: {
-      default: 'transition-all transition-discrete ease-(--duck-motion-ease) duration-[200ms,150ms]',
+      default: 'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
     },
     pseudo: {
       animate:
-        ' [&:before,&:after]:duration-[inherit] [&:before,&:after]:will-change-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:transition-gpu',
+        ' [&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
       default: '',
     },
     accelerated: {
-      default: 'will-change-[opacity,transform,translate,blur] backdrop:will-change-[opacity,blur] transform-gpu',
+      default: 'transform-gpu will-change-[opacity,transform,translate,blur] backdrop:will-change-[opacity,blur]',
     },
   },
   defaultVariants: {
@@ -35,7 +35,7 @@ export const AnimVariants = cva('', {
 export const AnimDialogVariants = cva(`border border-border bg-background rounded-lg shadow-sm outline-hidden p-6`, {
   variants: {
     animation: {
-      default: 'opacity-0 scale-90 starting:open:opacity-0 starting:open:scale-90 open:opacity-100 open:scale-100',
+      default: 'scale-90 opacity-0 open:scale-100 starting:open:scale-90 open:opacity-100 starting:open:opacity-0',
       nothing: '',
     },
   },

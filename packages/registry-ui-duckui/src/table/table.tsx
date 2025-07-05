@@ -1,5 +1,5 @@
-import React from 'react'
 import { cn } from '@gentleduck/libs/cn'
+import React from 'react'
 
 const Table = ({ className, ref, ...props }: React.HTMLProps<HTMLTableElement>) => (
   <div className="relative w-full overflow-auto" role="region" aria-label="Table container" duck-table="">

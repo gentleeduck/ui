@@ -41,7 +41,7 @@ function Checkbox({
           }),
           AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
           (checkedIndicatorReady || indicatorReady) &&
-            'after:border-[1.5px] after:border-t-0 after:border-l-0 after:rotate-45 after:mb-0.5 after:w-[4px] after:h-[9px] after:bg-transparent',
+            'after:mb-0.5 after:h-[9px] after:w-[4px] after:rotate-45 after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent',
           className,
         )}
         {...props}
@@ -76,7 +76,7 @@ const CheckboxGroup = ({ subtasks, subtasks_default_values, ref, ...props }: Che
   const { _checkbox, _label } = subtasks_default_values || {}
   return (
     <>
-      <div className={cn('flex flex-col w-full gap-2 mb-3')} {...props} ref={ref}>
+      <div className={cn('mb-3 flex w-full flex-col gap-2')} {...props} ref={ref}>
         {subtasks.map((subtask) => {
           const { id, title, className } = subtask
           return (

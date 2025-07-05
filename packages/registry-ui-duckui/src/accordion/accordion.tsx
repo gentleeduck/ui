@@ -112,8 +112,8 @@ function AccordionItem({
       id={value}
       aria-labelledby={value}
       className={cn(
-        'border-b border-border group overflow-hidden',
-        '[&::details-content]:h-0 open:[&::details-content]:h-auto [&::details-content]:transition-all [&::details-content]:transition-discrete [&::details-content]:ease-(--duck-motion-ease) [&::details-content]:transform-gpu [&::details-content]:will-change-[height] [&::details-content]:duration-250',
+        'group overflow-hidden border-border border-b',
+        '[&::details-content]:h-0 [&::details-content]:transform-gpu [&::details-content]:transition-all [&::details-content]:transition-discrete [&::details-content]:duration-250 [&::details-content]:ease-(--duck-motion-ease) [&::details-content]:will-change-[height] open:[&::details-content]:h-auto',
         AnimVariants({ overlay: 'nothing' }),
         className,
       )}
@@ -141,7 +141,7 @@ function AccordionTrigger({
       aria-describedby={value}
       ref={ref}
       className={cn(
-        'flex items-center justify-between flex-1 py-4 font-medium transition-all hover:underline [&[data-open=true]_svg]:rotate-180 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'flex flex-1 items-center justify-between whitespace-nowrap py-4 font-medium font-medium text-sm ring-offset-background transition-all transition-colors hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [&[data-open=true]_svg]:rotate-180',
         className,
       )}
       {...props}
@@ -155,7 +155,7 @@ function AccordionTrigger({
 }
 
 const AccordionContent = ({ className, children, ref, ...props }: React.HTMLProps<HTMLDivElement>) => (
-  <div className={cn('pb-4 pt-0 overflow-hidden text-sm', className)} duck-accordion-content="" ref={ref} {...props}>
+  <div className={cn('overflow-hidden pt-0 pb-4 text-sm', className)} duck-accordion-content="" ref={ref} {...props}>
     {children}
   </div>
 )

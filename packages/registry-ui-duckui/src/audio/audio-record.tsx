@@ -230,17 +230,17 @@ export const AudioTimer = React.forwardRef<HTMLDivElement, AudioTimerProps>(({ s
     <div className={cn('relative', className)} ref={ref}>
       <div
         className={cn(
-          'absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 transition duration-100',
-          recording ? 'opacity-100' : 'opacity-0 pointer-events-none right-4',
+          '-translate-y-1/2 absolute top-1/2 right-4 flex items-center gap-2 transition duration-100',
+          recording ? 'opacity-100' : 'pointer-events-none right-4 opacity-0',
         )}>
         <span className="font-mono">{format_time_handler(recordedDuration)}</span>
-        <span className="font-mono w-2 h-2 rounded-full bg-primary animate-pulse" />
+        <span className="h-2 w-2 animate-pulse rounded-full bg-primary font-mono" />
       </div>
       <div>
         {showInput && (
           <Input
             disabled={recording}
-            className={cn('transition fade_animation', recording ? 'w-[179px] !opacity-100' : 'w-[235px]')}
+            className={cn('fade_animation transition', recording ? '!opacity-100 w-[179px]' : 'w-[235px]')}
           />
         )}
       </div>
@@ -262,13 +262,13 @@ export const AudioDelete = React.forwardRef<HTMLButtonElement, AudioDeleteProps>
           onClick && onClick(e)
         }}
         className={cn(
-          'rounded-full relative transition fade_animation',
-          recording ? 'scale-1 opacity-1 w-8 h-8' : 'scale-0 opacity-0 pointer-events-none w-0 h-0',
+          'fade_animation relative rounded-full transition',
+          recording ? 'h-8 w-8 scale-1 opacity-1' : 'pointer-events-none h-0 w-0 scale-0 opacity-0',
           className,
         )}
         ref={ref}
         {...props}>
-        <Trash2 className="size-[1rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation" />
+        <Trash2 className="-translate-y-1/2 -translate-x-1/2 fade_animation absolute top-1/2 left-1/2 size-[1rem] transition" />
       </Button>
     )
   },
@@ -287,19 +287,19 @@ export const AudioStart = React.forwardRef<HTMLButtonElement, AudioStartProps>(
           recording ? stopRecording() : startRecording()
           onClick && onClick(e)
         }}
-        className={cn('rounded-full transition relative w-8 h-8', recording ? 'ml-2' : 'ml-0', className)}
+        className={cn('relative h-8 w-8 rounded-full transition', recording ? 'ml-2' : 'ml-0', className)}
         ref={ref}
         {...props}>
         <Mic
           className={cn(
-            'size-[1rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation',
-            recording ? 'scale-0 opacity-0 pointer-events-none' : 'scale-[1] opacity-100',
+            '-translate-y-1/2 -translate-x-1/2 fade_animation absolute top-1/2 left-1/2 size-[1rem] transition',
+            recording ? 'pointer-events-none scale-0 opacity-0' : 'scale-[1] opacity-100',
           )}
         />
         <ArrowBigUp
           className={cn(
-            'size-[1.18rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation stroke-[1.5]',
-            recording ? 'scale-[1.1] opacity-100' : 'scale-0 opacity-0 pointer-events-none',
+            '-translate-y-1/2 -translate-x-1/2 fade_animation absolute top-1/2 left-1/2 size-[1.18rem] stroke-[1.5] transition',
+            recording ? 'scale-[1.1] opacity-100' : 'pointer-events-none scale-0 opacity-0',
           )}
         />
       </Button>
@@ -332,11 +332,11 @@ const AudioItemWrapper = ({
     <>
       <div
         className={cn(
-          'flex items-center gap-4 transition bg-secondary hover:bg-secondary/70 py-2 px-4 rounded-lg w-fit relative overflow-hidden',
+          'relative flex w-fit items-center gap-4 overflow-hidden rounded-lg bg-secondary px-4 py-2 transition hover:bg-secondary/70',
         )}>
         <div
           className={cn(
-            'w-[150%] h-[200%] flex justify-center items-center bg-primary/5 rounded-full absolute top-50% -left-[150%] z-1 transition-all duration-500 ease-out',
+            '-left-[150%] absolute top-50% z-1 flex h-[200%] w-[150%] items-center justify-center rounded-full bg-primary/5 transition-all duration-500 ease-out',
             isPlaying && '-left-[25%]',
           )}
         />
@@ -344,29 +344,29 @@ const AudioItemWrapper = ({
           onClick={handlePlayPause}
           size="icon"
           className={cn(
-            'rounded-full relative z-10',
-            size === 'sm' ? 'w-8 h-8 [&_svg]:size-4' : size === 'md' ? 'w-10 h-10' : 'w-12 h-12',
+            'relative z-10 rounded-full',
+            size === 'sm' ? 'h-8 w-8 [&_svg]:size-4' : size === 'md' ? 'h-10 w-10' : 'h-12 w-12',
           )}
           loading={loading}>
           <Play
             className={cn(
-              'absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation',
-              !isPlaying && !loading ? 'scale-1 opacity-1' : 'scale-0 opacity-0 pointer-events-none',
+              '-translate-y-1/2 -translate-x-1/2 fade_animation absolute top-1/2 left-1/2 transition',
+              !isPlaying && !loading ? 'scale-1 opacity-1' : 'pointer-events-none scale-0 opacity-0',
             )}
           />
           <Pause
             className={cn(
-              'absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation',
-              isPlaying && !loading ? 'scale-1 opacity-1' : 'scale-0 opacity-0 pointer-events-none',
+              '-translate-y-1/2 -translate-x-1/2 fade_animation absolute top-1/2 left-1/2 transition',
+              isPlaying && !loading ? 'scale-1 opacity-1' : 'pointer-events-none scale-0 opacity-0',
             )}
           />
         </Button>
 
         {
-          <div className="flex flex-col z-10">
-            <div className="cursor-pointer w-fit p-0">{children}</div>
+          <div className="z-10 flex flex-col">
+            <div className="w-fit cursor-pointer p-0">{children}</div>
 
-            <div className="flex items-center gap-2 mt-1">
+            <div className="mt-1 flex items-center gap-2">
               <span className={cn('flex items-center text-accent', size === 'sm' ? 'text-xs' : 'text-sm')}>
                 {isPlaying || timeLeft < duration
                   ? format_time_handler(timeLeft > 0 ? timeLeft : 0)
@@ -374,7 +374,7 @@ const AudioItemWrapper = ({
               </span>
               {
                 /* TODO: YOU SHOULD EDIT THE OBJ TO GIVE YOU VALUE OF RECIPIENT OPENED THE RECORD */
-                <span className="w-2 h-2 bg-green-500 rounded-full" />
+                <span className="h-2 w-2 rounded-full bg-green-500" />
               }
 
               <AudioSpeed />
@@ -393,7 +393,7 @@ export const AudioMoreOptions = ({ attachment }: { attachment: AttachmentType })
       trigger={{
         children: (
           <Button
-            className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
+            className={cn('h-4 w-8 rounded-full font-semibold text-[.6rem]')}
             variant={'default'}
             size={'sm'}
             icon={<Ellipsis className="!size-3" />}
@@ -450,7 +450,7 @@ export const AudioVolume = () => {
       trigger={{
         children: (
           <Button
-            className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
+            className={cn('h-4 w-8 rounded-full font-semibold text-[.6rem]')}
             variant={'default'}
             size={'sm'}
             icon={getVolumeIcon()}
@@ -464,7 +464,7 @@ export const AudioVolume = () => {
         children: (
           <div className="flex items-center space-x-2">
             <Slider
-              className="[&>span]:h-[4px] [&_span[role='slider']]:w-4 [&_span[role='slider']]:h-4 [&_span[role='slider']]:mt-[-6px]"
+              className="[&>span]:h-[4px] [&_span[role='slider']]:mt-[-6px] [&_span[role='slider']]:h-4 [&_span[role='slider']]:w-4"
               defaultValue={volume * 100}
               max={100}
               step={1}
@@ -483,7 +483,7 @@ export const AudioSpeed = () => {
   return (
     <>
       <Button
-        className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
+        className={cn('h-4 w-8 rounded-full font-semibold text-[.6rem]')}
         variant={'default'}
         size={'sm'}
         onClick={() => setSpeed(speed > 1.5 ? 0.5 : speed + 0.5)}>

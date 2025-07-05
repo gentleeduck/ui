@@ -76,8 +76,8 @@ importers:
   .:
     devDependencies:
       '@biomejs/biome':
-        specifier: 2.0.5
-        version: 2.0.5
+        specifier: 2.0.6
+        version: 2.0.6
       '@changesets/cli':
         specifier: ^2.27.7
         version: 2.29.4
@@ -227,7 +227,7 @@ importers:
         version: 0.359.0(react@19.0.0)
       next-themes:
         specifier: ^0.2.1
-        version: 0.2.1(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 0.2.1(next@15.3.4(@babel/core@7.27.4)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       playwright:
         specifier: ^1.53.1
         version: 1.53.1
@@ -2071,7 +2071,7 @@ importers:
         version: 1.4.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-themes:
         specifier: ^0.2.1
-        version: 0.2.1(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 0.2.1(next@15.3.4(@babel/core@7.27.4)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-hook-form:
         specifier: ^7.52.2
         version: 7.56.4(react@19.0.0)
@@ -2849,8 +2849,8 @@ packages:
     engines: {node: '>=14.21.3'}
     hasBin: true
 
-  '@biomejs/biome@2.0.5':
-    resolution: {integrity: sha512-MztFGhE6cVjf3QmomWu83GpTFyWY8KIcskgRf2AqVEMSH4qI4rNdBLdpAQ11TNK9pUfLGz3IIOC1ZYwgBePtig==}
+  '@biomejs/biome@2.0.6':
+    resolution: {integrity: sha512-RRP+9cdh5qwe2t0gORwXaa27oTOiQRQvrFf49x2PA1tnpsyU7FIHX4ZOFMtBC4QNtyWsN7Dqkf5EDbg4X+9iqA==}
     engines: {node: '>=14.21.3'}
     hasBin: true
 
@@ -2860,8 +2860,8 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-arm64@2.0.5':
-    resolution: {integrity: sha512-VIIWQv9Rcj9XresjCf3isBFfWjFStsdGZvm8SmwJzKs/22YQj167ge7DkxuaaZbNf2kmYif0AcjAKvtNedEoEw==}
+  '@biomejs/cli-darwin-arm64@2.0.6':
+    resolution: {integrity: sha512-AzdiNNjNzsE6LfqWyBvcL29uWoIuZUkndu+wwlXW13EKcBHbbKjNQEZIJKYDc6IL+p7bmWGx3v9ZtcRyIoIz5A==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [darwin]
@@ -2872,8 +2872,8 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-x64@2.0.5':
-    resolution: {integrity: sha512-DRpGxBgf5Z7HUFcNUB6n66UiD4VlBlMpngNf32wPraxX8vYU6N9cb3xQWOXIQVBBQ64QfsSLJnjNu79i/LNmSg==}
+  '@biomejs/cli-darwin-x64@2.0.6':
+    resolution: {integrity: sha512-wJjjP4E7bO4WJmiQaLnsdXMa516dbtC6542qeRkyJg0MqMXP0fvs4gdsHhZ7p9XWTAmGIjZHFKXdsjBvKGIJJQ==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [darwin]
@@ -2884,8 +2884,8 @@ packages:
     cpu: [arm64]
     os: [linux]
 
-  '@biomejs/cli-linux-arm64-musl@2.0.5':
-    resolution: {integrity: sha512-OpflTCOw/ElEs7QZqN/HFaSViPHjAsAPxFJ22LhWUWvuJgcy/Z8+hRV0/3mk/ZRWy5A6fCDKHZqAxU+xB6W4mA==}
+  '@biomejs/cli-linux-arm64-musl@2.0.6':
+    resolution: {integrity: sha512-CVPEMlin3bW49sBqLBg2x016Pws7eUXA27XYDFlEtponD0luYjg2zQaMJ2nOqlkKG9fqzzkamdYxHdMDc2gZFw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
@@ -2896,8 +2896,8 @@ packages:
     cpu: [arm64]
     os: [linux]
 
-  '@biomejs/cli-linux-arm64@2.0.5':
-    resolution: {integrity: sha512-FQTfDNMXOknf8+g9Eede2daaduRjTC2SNbfWPNFMadN9K3UKjeZ62jwiYxztPaz9zQQsZU8VbddQIaeQY5CmIA==}
+  '@biomejs/cli-linux-arm64@2.0.6':
+    resolution: {integrity: sha512-ZSVf6TYo5rNMUHIW1tww+rs/krol7U5A1Is/yzWyHVZguuB0lBnIodqyFuwCNqG9aJGyk7xIMS8HG0qGUPz0SA==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
@@ -2908,8 +2908,8 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@biomejs/cli-linux-x64-musl@2.0.5':
-    resolution: {integrity: sha512-9lmjCnajAzpZXbav2P6D87ugkhnaDpJtDvOH5uQbY2RXeW6Rq18uOUltxgacGBP+d8GusTr+s3IFOu7SN0Ok8g==}
+  '@biomejs/cli-linux-x64-musl@2.0.6':
+    resolution: {integrity: sha512-mKHE/e954hR/hSnAcJSjkf4xGqZc/53Kh39HVW1EgO5iFi0JutTN07TSjEMg616julRtfSNJi0KNyxvc30Y4rQ==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
@@ -2920,8 +2920,8 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@biomejs/cli-linux-x64@2.0.5':
-    resolution: {integrity: sha512-znpfydUDPuDkyBTulnODrQVK2FaG/4hIOPcQSsF2GeauQOYrBAOplj0etGB0NUrr0dFsvaQ15nzDXYb60ACoiw==}
+  '@biomejs/cli-linux-x64@2.0.6':
+    resolution: {integrity: sha512-geM1MkHTV1Kh2Cs/Xzot9BOF3WBacihw6bkEmxkz4nSga8B9/hWy5BDiOG3gHDGIBa8WxT0nzsJs2f/hPqQIQw==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
@@ -2932,8 +2932,8 @@ packages:
     cpu: [arm64]
     os: [win32]
 
-  '@biomejs/cli-win32-arm64@2.0.5':
-    resolution: {integrity: sha512-CP2wKQB+gh8HdJTFKYRFETqReAjxlcN9AlYDEoye8v2eQp+L9v+PUeDql/wsbaUhSsLR0sjj3PtbBtt+02AN3A==}
+  '@biomejs/cli-win32-arm64@2.0.6':
+    resolution: {integrity: sha512-290V4oSFoKaprKE1zkYVsDfAdn0An5DowZ+GIABgjoq1ndhvNxkJcpxPsiYtT7slbVe3xmlT0ncdfOsN7KruzA==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [win32]
@@ -2944,8 +2944,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@biomejs/cli-win32-x64@2.0.5':
-    resolution: {integrity: sha512-Sw3rz2m6bBADeQpr3+MD7Ch4E1l15DTt/+dfqKnwkm3cn4BrYwnArmvKeZdVsFRDjMyjlKIP88bw1r7o+9aqzw==}
+  '@biomejs/cli-win32-x64@2.0.6':
+    resolution: {integrity: sha512-bfM1Bce0d69Ao7pjTjUS+AWSZ02+5UHdiAP85Th8e9yV5xzw6JrHXbL5YWlcEKQ84FIZMdDc7ncuti1wd2sdbw==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
@@ -14414,6 +14414,46 @@ packages:
       yaml:
         optional: true
 
+  rolldown-vite@7.0.4:
+    resolution: {integrity: sha512-AcFt2mBWuwH3svDHcz8V5+K8Es1TuZOBDdJh6+ySkGSuNS5sEpRJqnopupeMfB8SHCAXVA6Wp75OQmTBZc+TgQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^20.19.0 || >=22.12.0
+      esbuild: ^0.25.0
+      jiti: '>=1.21.0'
+      less: ^4.0.0
+      sass: ^1.70.0
+      sass-embedded: ^1.70.0
+      stylus: '>=0.54.8'
+      sugarss: ^5.0.0
+      terser: ^5.16.0
+      tsx: ^4.8.1
+      yaml: ^2.4.2
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      esbuild:
+        optional: true
+      jiti:
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+      tsx:
+        optional: true
+      yaml:
+        optional: true
+
   rolldown@1.0.0-beta.16:
     resolution: {integrity: sha512-ruNh01VbnTJsW0kgYywrQ80FUY0yJvXqavPVljGg0dRiwggYB7yXlypw1ptkFiomkEOnOGiwncjiviUakgPHxg==}
     hasBin: true
@@ -16791,63 +16831,63 @@ snapshots:
       '@biomejs/cli-win32-arm64': 2.0.4
       '@biomejs/cli-win32-x64': 2.0.4
 
-  '@biomejs/biome@2.0.5':
+  '@biomejs/biome@2.0.6':
     optionalDependencies:
-      '@biomejs/cli-darwin-arm64': 2.0.5
-      '@biomejs/cli-darwin-x64': 2.0.5
-      '@biomejs/cli-linux-arm64': 2.0.5
-      '@biomejs/cli-linux-arm64-musl': 2.0.5
-      '@biomejs/cli-linux-x64': 2.0.5
-      '@biomejs/cli-linux-x64-musl': 2.0.5
-      '@biomejs/cli-win32-arm64': 2.0.5
-      '@biomejs/cli-win32-x64': 2.0.5
+      '@biomejs/cli-darwin-arm64': 2.0.6
+      '@biomejs/cli-darwin-x64': 2.0.6
+      '@biomejs/cli-linux-arm64': 2.0.6
+      '@biomejs/cli-linux-arm64-musl': 2.0.6
+      '@biomejs/cli-linux-x64': 2.0.6
+      '@biomejs/cli-linux-x64-musl': 2.0.6
+      '@biomejs/cli-win32-arm64': 2.0.6
+      '@biomejs/cli-win32-x64': 2.0.6
 
   '@biomejs/cli-darwin-arm64@2.0.4':
     optional: true
 
-  '@biomejs/cli-darwin-arm64@2.0.5':
+  '@biomejs/cli-darwin-arm64@2.0.6':
     optional: true
 
   '@biomejs/cli-darwin-x64@2.0.4':
     optional: true
 
-  '@biomejs/cli-darwin-x64@2.0.5':
+  '@biomejs/cli-darwin-x64@2.0.6':
     optional: true
 
   '@biomejs/cli-linux-arm64-musl@2.0.4':
     optional: true
 
-  '@biomejs/cli-linux-arm64-musl@2.0.5':
+  '@biomejs/cli-linux-arm64-musl@2.0.6':
     optional: true
 
   '@biomejs/cli-linux-arm64@2.0.4':
     optional: true
 
-  '@biomejs/cli-linux-arm64@2.0.5':
+  '@biomejs/cli-linux-arm64@2.0.6':
     optional: true
 
   '@biomejs/cli-linux-x64-musl@2.0.4':
     optional: true
 
-  '@biomejs/cli-linux-x64-musl@2.0.5':
+  '@biomejs/cli-linux-x64-musl@2.0.6':
     optional: true
 
   '@biomejs/cli-linux-x64@2.0.4':
     optional: true
 
-  '@biomejs/cli-linux-x64@2.0.5':
+  '@biomejs/cli-linux-x64@2.0.6':
     optional: true
 
   '@biomejs/cli-win32-arm64@2.0.4':
     optional: true
 
-  '@biomejs/cli-win32-arm64@2.0.5':
+  '@biomejs/cli-win32-arm64@2.0.6':
     optional: true
 
   '@biomejs/cli-win32-x64@2.0.4':
     optional: true
 
-  '@biomejs/cli-win32-x64@2.0.5':
+  '@biomejs/cli-win32-x64@2.0.6':
     optional: true
 
   '@changesets/apply-release-plan@7.0.12':
@@ -24949,7 +24989,7 @@ snapshots:
       magic-string: 0.30.17
       sirv: 3.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.14)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.5)(jiti@2.4.2)(jsdom@25.0.1)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.14)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.5)(jiti@2.4.2)(jsdom@20.0.3)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
       ws: 8.18.2
     optionalDependencies:
       playwright: 1.53.1
@@ -24969,7 +25009,7 @@ snapshots:
       magic-string: 0.30.17
       sirv: 3.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.5)(jiti@2.4.2)(jsdom@20.0.3)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.5)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
       ws: 8.18.2
     optionalDependencies:
       playwright: 1.53.1
@@ -25206,7 +25246,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.14
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.17.57)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.23.1)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.5)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
 
   '@vitest/utils@3.1.4':
     dependencies:
@@ -30364,7 +30404,7 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  next-themes@0.2.1(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  next-themes@0.2.1(next@15.3.4(@babel/core@7.27.4)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       next: 15.3.4(@babel/core@7.27.4)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.1)
       react: 19.0.0
@@ -32638,26 +32678,6 @@ snapshots:
       tsx: 4.19.4
       yaml: 2.8.0
 
-  rolldown-vite@7.0.3(@types/node@20.17.57)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0):
-    dependencies:
-      '@oxc-project/runtime': 0.75.0
-      fdir: 6.4.6(picomatch@4.0.2)
-      lightningcss: 1.30.1
-      picomatch: 4.0.2
-      postcss: 8.5.6
-      rolldown: 1.0.0-beta.21
-      tinyglobby: 0.2.14
-    optionalDependencies:
-      '@types/node': 20.17.57
-      esbuild: 0.25.5
-      fsevents: 2.3.3
-      jiti: 2.4.2
-      sass: 1.89.1
-      terser: 5.42.0
-      tsx: 4.19.4
-      yaml: 2.8.0
-    optional: true
-
   rolldown-vite@7.0.3(@types/node@22.15.14)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0):
     dependencies:
       '@oxc-project/runtime': 0.75.0
@@ -32695,6 +32715,46 @@ snapshots:
       terser: 5.42.0
       tsx: 4.19.4
       yaml: 2.8.0
+
+  rolldown-vite@7.0.4(@types/node@20.17.57)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0):
+    dependencies:
+      '@oxc-project/runtime': 0.75.0
+      fdir: 6.4.6(picomatch@4.0.2)
+      lightningcss: 1.30.1
+      picomatch: 4.0.2
+      postcss: 8.5.6
+      rolldown: 1.0.0-beta.23
+      tinyglobby: 0.2.14
+    optionalDependencies:
+      '@types/node': 20.17.57
+      esbuild: 0.25.5
+      fsevents: 2.3.3
+      jiti: 2.4.2
+      sass: 1.89.1
+      terser: 5.42.0
+      tsx: 4.19.4
+      yaml: 2.8.0
+    optional: true
+
+  rolldown-vite@7.0.4(@types/node@22.15.29)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0):
+    dependencies:
+      '@oxc-project/runtime': 0.75.0
+      fdir: 6.4.6(picomatch@4.0.2)
+      lightningcss: 1.30.1
+      picomatch: 4.0.2
+      postcss: 8.5.6
+      rolldown: 1.0.0-beta.23
+      tinyglobby: 0.2.14
+    optionalDependencies:
+      '@types/node': 22.15.29
+      esbuild: 0.25.5
+      fsevents: 2.3.3
+      jiti: 2.4.2
+      sass: 1.89.1
+      terser: 5.42.0
+      tsx: 4.19.4
+      yaml: 2.8.0
+    optional: true
 
   rolldown@1.0.0-beta.16:
     dependencies:
@@ -34616,7 +34676,7 @@ snapshots:
       unctx: 2.4.1
       unenv: 1.10.0
       unstorage: 1.16.0(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.38.4(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/pg@8.15.3)(@types/react@19.1.6)(pg@8.16.0)(react@19.1.0)))(ioredis@5.6.1)
-      vite: rolldown-vite@7.0.3(@types/node@20.17.57)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
+      vite: rolldown-vite@7.0.4(@types/node@20.17.57)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
       zod: 3.25.46
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -34694,7 +34754,7 @@ snapshots:
       unctx: 2.4.1
       unenv: 1.10.0
       unstorage: 1.16.0(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.38.4(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(@types/pg@8.15.3)(@types/react@19.0.12)(pg@8.16.0)(react@19.0.0)))(ioredis@5.6.1)
-      vite: rolldown-vite@7.0.3(@types/node@22.15.29)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
+      vite: rolldown-vite@7.0.4(@types/node@22.15.29)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0)
       zod: 3.25.46
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -35212,7 +35272,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 22.15.29
-      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(lightningcss@1.30.1)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(rolldown-vite@7.0.3(@types/node@22.15.29)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.1)(terser@5.42.0)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/ui': 3.2.4(vitest@3.2.4)
       jsdom: 26.1.0
     transitivePeerDependencies:

@@ -14,7 +14,7 @@ function ScrollArea({
   return (
     <div
       className={cn(
-        'overflow-auto [scrollbar-width:thin] [scrollbar-color:transparent_transparent] hover:[scrollbar-color:var(--border)_transparent]',
+        'overflow-auto [scrollbar-color:transparent_transparent] [scrollbar-width:thin] hover:[scrollbar-color:var(--border)_transparent]',
         className,
       )}
       role={label ? 'region' : undefined}
