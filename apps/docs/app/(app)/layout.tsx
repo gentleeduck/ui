@@ -47,8 +47,8 @@ export function ComboboxDemo() {
   const [value, setValue] = React.useState('')
   // console.log(open)
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger className="w-[200px]">
+    <Popover>
+      <PopoverTrigger className="w-[200px]" onClick={() => setOpen(!open)}>
         {value ? frameworks.find((framework) => framework.value === value)?.label : 'Select framework...'}
         <ChevronsUpDown className="opacity-50" />
       </PopoverTrigger>

@@ -56,7 +56,7 @@ export function usePopover({
   }
 
   React.useEffect(() => {
-    // NOTE: Applying control over the open state
+    // Applying control over the open state
     if (openProp === true || openProp === false) {
       const state = openProp === true ? true : false
       contentRef.current.open = state
@@ -67,7 +67,7 @@ export function usePopover({
       triggerRef.current?.setAttribute('data-open', String(state))
       contentRef.current?.setAttribute('data-open', String(state))
 
-      // NOTE: By removing this id we make sure it's fully controlled by us
+      // By removing this id we make sure it's fully controlled by us
       contentRef.current.id = openProp ? null : id
 
       contentRef.current.addEventListener('cancel', handleCancel)
@@ -108,7 +108,7 @@ export function usePopover({
   }, [])
 
   React.useEffect(() => {
-    // NOTE: If it's a controlled component, we don't need to do anything
+    // If it's a controlled component, we don't need to do anything
     if (openProp === true || openProp === false) return
 
     let openTimer = null

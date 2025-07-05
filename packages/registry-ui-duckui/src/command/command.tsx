@@ -50,17 +50,17 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
   const [search, setSearch] = React.useState<string>('')
   const { filteredItems, items, setSelectedItem, commandRef, groups, emptyRef, selectedItem } = useCommandRefsContext()
 
-  // useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
-  // useHandleKeyDown({
-  //   setSelectedItem: (item) => {
-  //     setSelectedItem(item)
-  //   },
-  //   itemsRef: filteredItems,
-  //   originalItemsRef: items,
-  //   allowAxisArrowKeys: false,
-  //   selectedItem: selectedItem,
-  //   open: true,
-  // })
+  useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
+  useHandleKeyDown({
+    setSelectedItem: (item) => {
+      setSelectedItem(item)
+    },
+    itemsRef: filteredItems,
+    originalItemsRef: items,
+    allowAxisArrowKeys: false,
+    selectedItem: selectedItem,
+    open: true,
+  })
 
   return (
     <CommandContext.Provider
