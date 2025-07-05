@@ -23,7 +23,8 @@ export function usePopover({
   mouseExist,
   skipDelayDuration,
   delayDuration,
-}: PopoverProps) {
+  id,
+}: PopoverProps & { id: string }) {
   const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
   const contentRef = React.useRef<HTMLDialogElement | null>(null)
   const [open, setOpen] = React.useState<boolean>(false)
@@ -50,14 +51,39 @@ export function usePopover({
     contentRef.current?.setAttribute('data-open', String(state))
   }
 
+  function handleCancel(e: Event) {
+    e.preventDefault()
+  }
+
+  React.useEffect(() => {
+    // NOTE: Applying control over the open state
+    if (openProp === true || openProp === false) {
+      const state = openProp === true ? true : false
+      contentRef.current.open = state
+      setOpen(state)
+      onOpenChange?.(state)
+      handleOpenChange(state)
+      wrapperRef.current?.setAttribute('data-open', String(state))
+      triggerRef.current?.setAttribute('data-open', String(state))
+      contentRef.current?.setAttribute('data-open', String(state))
+
+      // NOTE: By removing this id we make sure it's fully controlled by us
+      contentRef.current.id = openProp ? null : id
+
+      contentRef.current.addEventListener('cancel', handleCancel)
+      if (openProp) {
+        return () => {
+          contentRef.current?.removeEventListener('cancel', handleCancel)
+        }
+      }
+    }
+  }, [openProp])
+
   React.useEffect(() => {
     if (lockScroll) lockScrollbar(open)
 
-    if (openProp) {
-      handleOpenChange(true)
-    } else if (openProp === false) {
-      handleOpenChange(false)
-    }
+    // If it's a controlled component, we don't need to do anything
+    if (openProp === true || openProp === false) return
 
     function handleClose(event: Event & { newState: 'open' | 'close' }) {
       if (modal) {
@@ -82,6 +108,9 @@ export function usePopover({
   }, [])
 
   React.useEffect(() => {
+    // NOTE: If it's a controlled component, we don't need to do anything
+    if (openProp === true || openProp === false) return
+
     let openTimer = null
     let closeTimer = null
 

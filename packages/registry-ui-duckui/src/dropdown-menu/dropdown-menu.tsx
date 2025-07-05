@@ -31,7 +31,6 @@ function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProp
       selectedItemRef.current = item
     },
     originalItemsRef,
-    onOpenChange,
     allowAxisArrowKeys: true,
   })
 

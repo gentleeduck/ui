@@ -95,15 +95,15 @@ export function CommandMenu() {
                     key={item.name}
                     onClick={() => {
                       console.log('asdf')
-                      setOpen(false)
-                      item.action()
-                      console.log(groupRef.current)
-                      // groupRef.current?.scrollTo(0, 0)
-                      groupRef.current?.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                        inline: 'start',
-                      })
+                      // setOpen(false)
+                      // item.action()
+                      // console.log(groupRef.current)
+                      // // groupRef.current?.scrollTo(0, 0)
+                      // groupRef.current?.scrollIntoView({
+                      //   behavior: 'smooth',
+                      //   block: 'start',
+                      //   inline: 'start',
+                      // })
                     }}>
                     {item.icon}
                     <span>{item.name}</span>

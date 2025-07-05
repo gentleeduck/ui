@@ -26,12 +26,14 @@ export function Root({
 }: PopoverRootProps & React.HtmlHTMLAttributes<HTMLDivElement>): React.JSX.Element {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
 
+  const id = useStableId()
   const {
     open,
     onOpenChange: _onOpenChange,
     contentRef,
     triggerRef,
   } = usePopover({
+    id,
     wrapperRef,
     open: openProp,
     onOpenChange,
@@ -42,7 +44,6 @@ export function Root({
     skipDelayDuration,
     delayDuration,
   })
-  const id = useStableId()
 
   return (
     <PopoverContext.Provider
@@ -69,7 +70,7 @@ export function Root({
 }
 
 export function Trigger(props: React.ComponentPropsWithoutRef<typeof Slot>): React.JSX.Element {
-  const { id, triggerRef } = usePopoverContext()
+  const { id, triggerRef, open } = usePopoverContext()
 
   return (
     <Slot

@@ -35,33 +35,49 @@ export function useCommandRefsContext(): CommandRefsContextType {
 
 export function useCommandElements(
   commandRef: React.RefObject<HTMLDivElement | null>,
-  setSelectedItem: React.Dispatch<React.SetStateAction<HTMLLIElement | null>>,
+  onOpenChange: React.Dispatch<React.SetStateAction<string>>,
 ) {
-  const items = React.useRef<HTMLLIElement[]>([])
-  const filteredItems = React.useRef<HTMLLIElement[]>([])
-  const groups = React.useRef<HTMLDivElement[]>([])
+  const itemsRef = React.useRef<HTMLLIElement[]>([])
+  const filteredItemsRef = React.useRef<HTMLLIElement[]>([])
+  const groupsRef = React.useRef<HTMLDivElement[]>([])
+  const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
 
   React.useEffect(() => {
     if (!commandRef.current) return
     const _items = commandRef.current.querySelectorAll('li[duck-command-item]')
     const _groups = commandRef.current.querySelectorAll('div[duck-command-group]')
-    items.current = Array.from(_items) as HTMLLIElement[]
-    groups.current = Array.from(_groups) as HTMLDivElement[]
-    filteredItems.current = items.current
+    itemsRef.current = Array.from(_items) as HTMLLIElement[]
+    groupsRef.current = Array.from(_groups) as HTMLDivElement[]
+    filteredItemsRef.current = itemsRef.current
 
-    const item = items.current?.[0] as HTMLLIElement
+    for (let i = 0; i < itemsRef.current.length; i++) {
+      const item = itemsRef.current[i] as HTMLLIElement
+      item.addEventListener('mouseenter', () => {
+        for (let i = 0; i < itemsRef.current?.length; i++) {
+          const item = itemsRef.current[i] as HTMLLIElement
+          dstyleItem(item)
+        }
 
-    styleItem(item ?? null)
-    item?.focus()
-    setSelectedItem(item ?? null)
+        item?.setAttribute('aria-selected', '')
+        item?.focus()
+        selectedItemRef.current = item
+      })
+
+      // if (!item.hasAttribute('duck-dropdown-menu-sub-trigger')) {
+      //   item.addEventListener('click', (e) => {
+      //     // onOpenChange(false)
+      //   })
+      // }
+    }
   }, [])
 
-  return { items, groups, filteredItems }
+  return { itemsRef, groupsRef, filteredItemsRef, selectedItemRef }
 }
 
 export function useCommandSearch(
-  items: React.RefObject<HTMLLIElement[]>,
+  itemsRef: React.RefObject<HTMLLIElement[]>,
   search: string,
+  selectedItemRef: React.RefObject<HTMLLIElement | null>,
   setSelectedItem: React.Dispatch<React.SetStateAction<HTMLLIElement | null>>,
   emptyRef: React.RefObject<HTMLHeadingElement | null>,
   commandRef: React.RefObject<HTMLDivElement | null>,
@@ -69,12 +85,12 @@ export function useCommandSearch(
   filteredItems: React.RefObject<HTMLLIElement[]>,
 ): void {
   React.useEffect(() => {
-    if (!commandRef.current || items.current.length === 0) return
+    if (!commandRef.current || itemsRef.current.length === 0) return
     const itemsHidden = new Map<string, HTMLLIElement>()
 
     // Hiding the items that don't match the search query
-    for (let i = 0; i < items.current.length; i++) {
-      const item = items.current[i] as HTMLLIElement
+    for (let i = 0; i < itemsRef.current.length; i++) {
+      const item = itemsRef.current[i] as HTMLLIElement
 
       if (item.textContent?.toLowerCase().includes(search.toLowerCase())) {
         item.classList.remove('hidden')
@@ -86,19 +102,19 @@ export function useCommandSearch(
     }
 
     // Toggling the empty message if all items are hidden
-    if (itemsHidden.size === items.current.length) {
+    if (itemsHidden.size === itemsRef.current.length) {
       emptyRef.current?.classList.remove('hidden')
       setSelectedItem(null)
     } else {
       emptyRef.current?.classList.add('hidden')
-      setSelectedItem(items.current[0] as HTMLLIElement)
+      // setSelectedItem(itemsRef.current[0] as HTMLLIElement)
     }
 
-    // Setting filteredItems to the items that are not hidden
-    filteredItems.current = Array.from(commandRef.current.querySelectorAll('li[duck-command-item]:not(.hidden)'))
-
-    // Clearing all the classes from the items
-    filteredItems.current.map((item) => dstyleItem(item))
+    // // Setting filteredItems to the items that are not hidden
+    // filteredItems.current = Array.from(commandRef.current.querySelectorAll('li[duck-command-item]:not(.hidden)'))
+    //
+    // // Clearing all the classes from the items
+    // filteredItems.current.map((item) => dstyleItem(item))
 
     // Toggling the groups if they have no items
     for (let i = 0; i < groups.current.length; i++) {
@@ -118,10 +134,10 @@ export function useCommandSearch(
       }
     }
 
-    const item = filteredItems.current?.[0] as HTMLLIElement
-    styleItem(item ?? null)
-    item?.focus()
-    setSelectedItem(item ?? null)
+    // const item = filteredItems.current?.[0] as HTMLLIElement
+    // styleItem(item ?? null)
+    // item?.focus()
+    // setSelectedItem(item ?? null)
   }, [search])
 }
 
@@ -130,7 +146,6 @@ export function useHandleKeyDown({
   setSelectedItem,
   open,
   itemsRef,
-  onOpenChange,
   originalItemsRef,
   allowAxisArrowKeys = false,
 }: {
@@ -139,7 +154,6 @@ export function useHandleKeyDown({
   selectedItem: HTMLLIElement | null
   setSelectedItem: (item: HTMLLIElement) => void
   originalItemsRef: React.RefObject<HTMLLIElement[]>
-  onOpenChange?: (open: boolean) => void
   allowAxisArrowKeys?: boolean
 }) {
   React.useEffect(() => {

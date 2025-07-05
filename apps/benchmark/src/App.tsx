@@ -52,7 +52,7 @@ import ShadcnSwitch from './duck/switch/switch'
 // import Dialog from './example/dialog'
 // import Dropdown from './example/dropdown'
 // import HoverCard from './example/hover-card'
-// import Popover from './example/popover'
+import Popover from './example/popover'
 // import Select from './example/select'
 // import Tooltip from './example/tooltip'
 // import Accordion from './example/accordion'
@@ -108,7 +108,7 @@ function App() {
   return (
     // <KeyProvider timeoutMs={100}>
     <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
-      <NavigationMenuDemo />
+      <Popover />
     </div>
     // </KeyProvider>
   )

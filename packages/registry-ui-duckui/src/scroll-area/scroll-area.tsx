@@ -1,7 +1,7 @@
 'use client'
 
-import * as React from 'react'
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 
 function ScrollArea({
   className,
@@ -14,7 +14,7 @@ function ScrollArea({
   return (
     <div
       className={cn(
-        'overflow-auto [scrollbar-width:thin] [scrollbar-gutter:stable] [scrollbar-color:transparent_transparent] hover:[scrollbar-color:var(--border)_transparent]',
+        'overflow-auto [scrollbar-width:thin] [scrollbar-color:transparent_transparent] hover:[scrollbar-color:var(--border)_transparent]',
         className,
       )}
       role={label ? 'region' : undefined}

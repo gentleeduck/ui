@@ -1,9 +1,9 @@
 'use client'
 
-import * as React from 'react'
-import { Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { Command, CommandEmpty, CommandGroup, CommandList } from '../command'
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
+import { Command, CommandEmpty, CommandGroup, CommandList } from '../command'
+import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 
 export type ComboboxContextType<T extends unknown[] = unknown[]> = {
   open: boolean
