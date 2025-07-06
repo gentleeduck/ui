@@ -12,13 +12,13 @@ const Separator = ({
   className?: string
   orientation?: 'horizontal' | 'vertical'
 }) => (
-  <hr
+  <div
     role="separator"
     ref={ref}
     aria-orientation={orientation}
     className={cn(
-      'border border-border',
-      orientation === 'horizontal' ? 'w-full border-x' : 'h-full border-y',
+      'shrink-0 bg-border',
+      orientation === 'horizontal' ? 'h-[1px] w-full' : 'min-h-full w-[1px]',
       className,
     )}
     {...props}
@@ -26,23 +26,4 @@ const Separator = ({
   />
 )
 
-const Hr = ({
-  className,
-  y = false,
-  x = false,
-  ...props
-}: React.HTMLAttributes<HTMLHRElement> & {
-  className?: string
-  y?: boolean
-  x?: boolean
-}) => (
-  <hr
-    role="separator"
-    aria-orientation={y ? 'horizontal' : 'vertical'}
-    className={cn('border border-border', y ? 'w-full border-y' : 'h-full border-x', className)}
-    {...props}
-    duck-hr=""
-  />
-)
-
-export { Separator, Hr }
+export { Separator }

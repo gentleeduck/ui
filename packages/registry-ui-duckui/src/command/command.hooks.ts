@@ -168,10 +168,16 @@ export function useHandleKeyDown({
         const itemIndex = currentItem === 0 ? itemsRef.current.length - 1 : currentItem - 1
         currentItem = itemIndex
         originalCurrentItem = itemIndex
-      } else if (e.key === 'Enter' || e.key === 'Escape') {
-        if (itemsRef.current[currentItem]?.hasAttribute('duck-select-item')) {
+      } else if (e.key === 'Enter') {
+        if (
+          itemsRef.current[currentItem]?.hasAttribute('duck-select-item') ||
+          itemsRef.current[currentItem]?.hasAttribute('duck-command-item')
+        ) {
           itemsRef.current[currentItem]?.click()
         }
+      }
+
+      if (e.key === 'Enter' || e.key === 'Escape') {
         if (itemsRef.current[currentItem]?.hasAttribute('duck-dropdown-menu-sub-trigger')) {
           inSubMenu = !inSubMenu
         }

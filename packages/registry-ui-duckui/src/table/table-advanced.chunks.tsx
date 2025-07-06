@@ -1,7 +1,9 @@
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
+import { Button } from '../button'
 import { Combobox, ComboboxItem, ComboboxItemType, ComboxGroup } from '../combobox'
 import { Input } from '../input'
+import { Separator } from '../separator'
 
 export function DuckTableHeader({ className, ...props }: React.HtmlHTMLAttributes<HTMLDivElement>) {
   return <div className={cn('flex items-center gap-2 justify-between', className)} {...props} duck-table-header="" />
@@ -17,34 +19,59 @@ export function DuckTableSearch({
 export function DuckTableFilter<T extends readonly ComboboxItemType[] | ComboboxItemType[]>({
   value: defaultValue,
   items,
+  heading,
+  trigger,
+  onValueChange,
 }: {
+  trigger?: React.ComponentProps<typeof Combobox>['popoverTrigger']
+  onValueChange?: (value: T[number]['label']) => void
   items: T
-  value?: T[number]['label']
+  value?: string[]
+  heading: string
 }) {
-  const [value, setValue] = React.useState<T[number]['label'] | undefined>(defaultValue)
+  const [value, setValue] = React.useState<string[]>(defaultValue ?? [])
+
   return (
-    <Combobox<T>
-      popoverTrigger={{
-        className: 'w-[200px]',
-      }}
+    <Combobox<T, 'multiple'>
+      type="multiple"
+      popoverTrigger={trigger}
+      command={{ className: 'p-1' }}
       duck-table-filter=""
       items={items}
-      value={value as (typeof items)[number]['label']}
-      onValueChange={(value) => console.log(value)}>
+      value={value}
+      onValueChange={onValueChange as never}>
       {(items) => {
         return (
-          <ComboxGroup heading="Frameworks">
-            {items.map((item) => (
-              <ComboboxItem<typeof item>
-                key={item.value}
-                item={item}
-                onSelect={(value) => {
-                  setValue(value)
-                }}>
-                {item.label}
-              </ComboboxItem>
-            ))}
-          </ComboxGroup>
+          <div className="flex gap-1 flex-col">
+            <ComboxGroup heading={heading}>
+              {items.map((item) => (
+                <ComboboxItem<typeof item>
+                  key={item.value}
+                  item={item}
+                  checked={value.includes(item.value)}
+                  onSelect={(value) => {
+                    setValue((prev) => {
+                      if (prev.includes(value)) {
+                        return prev.filter((item) => item !== value)
+                      } else {
+                        return [...prev, value]
+                      }
+                    })
+                  }}>
+                  {item.label}
+                </ComboboxItem>
+              ))}
+            </ComboxGroup>
+
+            {value.length > 0 && (
+              <>
+                <Separator />
+                <Button className="w-full [&>div]:justify-center" variant={'ghost'} onClick={() => setValue([])}>
+                  Clear Filter
+                </Button>
+              </>
+            )}
+          </div>
         )
       }}
     </Combobox>

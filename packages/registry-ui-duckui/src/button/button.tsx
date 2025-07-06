@@ -61,7 +61,7 @@ function Button({
       )}
       type={type}
       disabled={loading ?? disabled}>
-      <div className="flex w-full items-center justify-between gap-2">
+      <div className="flex h-full w-full items-center justify-between gap-2">
         {!isCollapsed && children}
         {!isCollapsed && secondIcon && secondIcon}
         {loading ? <Loader className="animate-spin" /> : icon}

@@ -8,7 +8,7 @@ const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (
     ref={ref}
     type="checkbox"
     className={cn(
-      'relative flex h-4 w-4 appearance-none items-center justify-center rounded border border-border border-solid ring-offset-background transition-all after:absolute after:relative after:block after:h-[9px] after:w-[5px] after:rotate-45 after:border-2 after:border-white after:border-white after:border-t-0 after:border-l-0 after:opacity-0 after:transition-all checked:border-primary checked:bg-primary checked:text-primary-foreground checked:after:opacity-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+      'relative flex h-4 w-4 appearance-none items-center justify-center rounded border border-border border-solid ring-offset-background transition-all after:absolute after:relative after:block after:h-[9px] after:w-[5px] after:rotate-45 after:border-2 after:border-white after:border-white after:border-t-0 after:border-l-0 after:opacity-0 after:transition-all checked:border-primary checked:bg-primary checked:after:border-background after:mb-[2px] checked:after:opacity-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
       className,
     )}
     {...props}

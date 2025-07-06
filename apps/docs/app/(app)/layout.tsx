@@ -67,7 +67,9 @@ export function ComboboxDemo() {
                     setOpen(false)
                   }}>
                   {framework.label}
-                  <Check className={cn('ml-auto', value === framework.value ? 'opacity-100' : 'opacity-0')} />
+                  <Check
+                    className={cn('border-foreground/50 ', value === framework.value ? 'opacity-100' : 'opacity-0')}
+                  />
                 </CommandItem>
               ))}
             </CommandGroup>

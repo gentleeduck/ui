@@ -103,7 +103,7 @@
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "clsx": "^1.2.1",
-    "lucide-react": "0.359.0",
+    "lucide-react": "catalog:",
     "react": "catalog:react19",
     "react-day-picker": "^8.10.1",
     "react-dom": "catalog:react19",

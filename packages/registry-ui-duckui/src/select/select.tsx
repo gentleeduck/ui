@@ -42,7 +42,6 @@ function SelectWrapper({
     setSelectedItem: (item) => {
       selectedItemRef.current = item
     },
-    onOpenChange,
   })
 
   return (

@@ -40,7 +40,7 @@
     "hast-util-to-string": "^3.0.1",
     "jotai": "^2.9.3",
     "lodash.template": "^4.5.0",
-    "lucide-react": "0.359.0",
+    "lucide-react": "catalog:",
     "mdast-util-toc": "^6.1.1",
     "motion": "^12.4.3",
     "next": "15.3.4",

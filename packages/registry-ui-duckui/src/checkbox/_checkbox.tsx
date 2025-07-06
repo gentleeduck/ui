@@ -7,15 +7,19 @@ import * as React from 'react'
 import { Label } from '../label'
 
 export interface CheckboxProps extends React.HTMLProps<HTMLInputElement> {}
-
 function Checkbox({
   className,
   indicator,
   checkedIndicator,
   ref,
   style,
+  checked,
   ...props
-}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement; checkedIndicator?: React.ReactElement }) {
+}: Omit<React.HTMLProps<HTMLInputElement>, 'checked'> & {
+  indicator?: React.ReactElement
+  checkedIndicator?: React.ReactElement
+  checked?: boolean | 'indeterminate'
+}) {
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
     indicator,
     checkedIndicator,
@@ -27,6 +31,8 @@ function Checkbox({
         ref={ref}
         type="checkbox"
         style={{ ...style, ...inputStyle }}
+        data-checked={checked}
+        checked={checked === 'indeterminate' ? true : checked}
         className={cn(
           checkersStylePattern({
             type: 'checkbox',
@@ -40,8 +46,11 @@ function Checkbox({
                     : 'default',
           }),
           AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
-          (checkedIndicatorReady || indicatorReady) &&
-            'after:mb-0.5 after:h-[9px] after:w-[4px] after:rotate-45 after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent',
+          (indicatorReady && checkedIndicatorReady) || indicatorReady
+            ? ''
+            : 'after:mb-0.5 after:h-[9px] after:w-[4px] after:rotate-45 after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent',
+          'data-[checked="indeterminate"]:border-border data-[checked="indeterminate"]:bg-transparent data-[checked="indeterminate"]:text-foreground',
+          'bg-transparent',
           className,
         )}
         {...props}

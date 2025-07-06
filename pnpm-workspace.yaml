@@ -4,6 +4,7 @@ packages:
   - tooling/*
 
 catalog:
+  'lucide-react': 0.525.0  
   vite: 'npm:rolldown-vite@latest'
   vitest: '^3.2.4'
   tsdown: "^0.11"

@@ -204,7 +204,7 @@ function CommandItem({
   onClick,
   onSelect,
   ...props
-}: React.HTMLProps<HTMLLIElement> & {
+}: React.HTMLProps<HTMLLabelElement> & {
   value?: string
   onSelect?: (value: string) => void
 }): React.JSX.Element {

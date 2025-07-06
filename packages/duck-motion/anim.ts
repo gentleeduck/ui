@@ -155,17 +155,15 @@ export const checkersStylePattern = cva(
   border bg-border border-border checked:bg-primary checked:border-primary text-primary-foreground
   ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
   disabled:cursor-not-allowed disabled:opacity-50 
-<<<<<<< HEAD
   after:absolute after:drop-shadow after:bg-current after:size-[1em] after:rounded-[inherit] after:block after:mask-type-alpha after:mask-contain 
-  after:opacity-0 checked:after:opacity-100 `,
+  after:opacity-0 checked:after:opacity-100`,
   {
     variants: {
       type: {
         checkbox: `
           justify-center rounded p-2
           after:rounded-none after:text-base
-          checked:after:translate-y-0 after:translate-y-1/3 text-xs
-          
+          checked:after:scale-100 after:scale-0 text-xs
             `,
         radio: `
           justify-center p-2 after:text-[10px]
