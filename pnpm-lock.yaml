@@ -126,6 +126,9 @@ importers:
       '@gentleduck/registry-ui-duckui':
         specifier: workspace:*
         version: link:../../packages/registry-ui-duckui
+      '@gentleduck/state':
+        specifier: workspace:*
+        version: link:../../packages/duck-state
       '@gentleduck/tailwind-config':
         specifier: workspace:*
         version: link:../../tooling/tailwind
@@ -225,9 +228,12 @@ importers:
       framer-motion:
         specifier: ^11.18.2
         version: 11.18.2(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      jotai:
+        specifier: ^2.12.5
+        version: 2.12.5(@types/react@19.0.12)(react@19.0.0)
       lucide-react:
-        specifier: 0.359.0
-        version: 0.359.0(react@19.0.0)
+        specifier: 'catalog:'
+        version: 0.525.0(react@19.0.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@15.3.4(@babel/core@7.27.4)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.1))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2106,6 +2112,9 @@ importers:
       '@gentleduck/motion':
         specifier: workspace:*
         version: link:../duck-motion
+      '@gentleduck/state':
+        specifier: workspace:*
+        version: link:../duck-state
       '@gentleduck/tsdown-config':
         specifier: workspace:*
         version: link:../../tooling/tsdown

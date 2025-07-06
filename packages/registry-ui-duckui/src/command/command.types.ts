@@ -4,7 +4,7 @@
  */
 export interface CommandGroupProps extends React.HTMLProps<HTMLDivElement> {
   /** The title for the command group. */
-  heading: string
+  heading?: string
 }
 
 /**
@@ -48,6 +48,7 @@ export type CommandRefsContextType = {
  * This component displays a badge that indicates the keyboard shortcut for a command.
  */
 export interface CommandBadgeProps extends React.HTMLProps<HTMLElement> {
+  variant?: 'default' | 'secondary'
   /** The keyboard shortcut keys (e.g., "ctrl+K"). */
   keys: string
   /** Callback function that is invoked when the shortcut keys are pressed. */

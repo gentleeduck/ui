@@ -6,7 +6,7 @@ import type * as React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 
 function Tooltip({
-  skipDelayDuration = 0,
+  skipDelayDuration = 300,
   delayDuration = 300,
   ...props
 }: Omit<React.ComponentPropsWithRef<typeof Popover>, 'mouseEnter' | 'mouseExist'>) {

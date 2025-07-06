@@ -22,15 +22,21 @@ export function useSelectContext() {
 function SelectWrapper({
   children,
   scrollable = false,
+  value,
+  onValueChange,
   ...props
 }: React.HTMLProps<HTMLDivElement> & {
   scrollable?: boolean
+  value?: string
+  onValueChange?: (value: string) => void
 }) {
   const { open = false, onOpenChange = () => {} } = usePopoverContext()
 
   const { itemsRef, selectedItemRef, contentRef, triggerRef, groupsRef, wrapperRef, selectedItem } = useSelectInit(
     open,
     onOpenChange,
+    value,
+    onValueChange,
   )
 
   useSelectScroll(open, itemsRef, selectedItemRef, contentRef)

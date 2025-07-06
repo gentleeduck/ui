@@ -7,6 +7,8 @@ export function initRefs(
   itemsRef: React.RefObject<HTMLLIElement[]>,
   setSelectedItem: (item: HTMLLIElement) => void,
   onOpenChange: (open: boolean) => void,
+  value: string,
+  onValueChange: (value: string) => void,
 ) {
   const items = wrapperRef.current?.querySelectorAll('[duck-select-item]') as never as HTMLLIElement[]
   const groups = wrapperRef.current?.querySelectorAll('[duck-select-group]') as never as HTMLUListElement[]
@@ -38,6 +40,7 @@ export function initRefs(
       handleItemsSelection(currentItem, itemsRef, (value) => setSelectedItem(value))
       wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
       item.setAttribute('aria-selected', 'true')
+      onValueChange(String(item?.value))
       onOpenChange(false)
     })
   }

@@ -76,7 +76,7 @@ export const AnimPopoverVariants = cva(
 )
 
 export const AnimTooltipVariants = cva(
-  `px-3 py-1.5 text-accent-foreground bg-background border-border text-xs text-balance select-none rounded-sm shadow-none`,
+  `px-3 py-1.5 text-accent-foreground bg-background border-border text-balance select-none rounded-sm shadow-none`,
 )
 
 export const AnimDialogModalVariants = cva(`inset-1/2 -translate-1/2 rtl:translate-x-1/2 sm:max-w-lg w-full`)

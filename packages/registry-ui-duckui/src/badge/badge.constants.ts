@@ -1,7 +1,7 @@
 import { cva } from '@gentleduck/variants'
 
 export const badgeVariants = cva(
-  'inline-flex items-center rounded-full font-semibold text-xs transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2',
+  'inline-flex items-center rounded-full text-xs transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2',
   {
     variants: {
       variant: {

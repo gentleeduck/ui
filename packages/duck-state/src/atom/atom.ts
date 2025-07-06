@@ -1,4 +1,3 @@
-// src/atom.ts
 import { useSyncExternalStore } from 'react'
 
 export type Atom<T> = {
@@ -16,7 +15,6 @@ export function atom<T>(initialValue: T): Atom<T> {
     set: (newValue: T) => {
       if (Object.is(value, newValue)) return // Prevent unnecessary updates
       value = newValue
-      // biome-ignore lint/complexity/noForEach: <explanation>
       listeners.forEach((listener) => listener(newValue))
     },
     subscribe: (listener) => {

@@ -165,11 +165,7 @@ function CommandList({ className, ...props }: React.HTMLAttributes<HTMLUListElem
 /**
  * @description Component to handle the refs of the command
  * @function CommandGroup
- * @param {string} [props.className] - The props of the CommandGroup component.
- * @param {string} [props.heading] - The heading of the CommandGroup component.
- * @param {React.ReactNode} [props.children] - The children of the CommandGroup component.
- * @param {React.Ref<HTMLDivElement>} [props.ref] - The ref of the CommandGroup component.
- * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandGroup component.
+ * @param {CommandGroupProps} props - The props of the CommandGroup component.
  * @returns {React.JSX.Element} The rendered CommandGroup component.
  */
 function CommandGroup({ className, children, heading, ref, ...props }: CommandGroupProps): React.JSX.Element {
@@ -182,7 +178,7 @@ function CommandGroup({ className, children, heading, ref, ...props }: CommandGr
       )}
       {...props}
       duck-command-group="">
-      <h3 className="pb-1 pl-1 text-muted-foreground text-xs">{heading}</h3>
+      {heading && <h3 className="pb-1 pl-1 text-muted-foreground text-xs">{heading}</h3>}
       {children}
     </div>
   )
@@ -228,15 +224,19 @@ function CommandItem({
 /**
  * @description Component to handle the refs of the command
  * @function CommandShortcut
- * @param {string} [props.className] - The props of the CommandShortcut component.
- * @param {string} [props.keys] - The keys of the CommandShortcut component.
- * @param {React.Ref<HTMLDivElement>} [props.ref] - The ref of the CommandShortcut component.
- * @param {React.HTMLAttributes<HTMLDivElement>} [...props] - The props of the CommandShortcut component.
+ * @param {CommandBadgeProps} props - The props of the CommandShortcut component.
  * @returns {React.JSX.Element} The rendered CommandShortcut component.
  */
 import { useKeyCommands } from '@gentleduck/vim/react'
 
-function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: CommandBadgeProps): React.JSX.Element {
+function CommandShortcut({
+  className,
+  keys,
+  onKeysPressed,
+  variant = 'default',
+  ref,
+  ...props
+}: CommandBadgeProps): React.JSX.Element {
   useKeyCommands({
     [keys]: {
       name: keys,
@@ -249,6 +249,7 @@ function CommandShortcut({ className, keys, onKeysPressed, ref, ...props }: Comm
     <kbd
       className={cn(
         'focus:offset-2 [&_svg]:!size-3 !font-sans pointer-events-none inline-flex cursor-none select-none items-center gap-[2px] rounded-[4px] px-2 py-[.12rem] text-[.7rem] text-muted-foreground text-secondary-foreground text-xs tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring ltr:ml-auto rtl:mr-auto',
+        variant === 'secondary' && 'bg-secondary',
         className,
       )}
       ref={ref}

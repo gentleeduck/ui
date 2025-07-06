@@ -56,6 +56,7 @@ export function usePopover({
   }
 
   React.useEffect(() => {
+    if (mouseEnter || mouseExist) return
     // Applying control over the open state
     if (openProp === true || openProp === false) {
       const state = openProp === true ? true : false
@@ -80,6 +81,7 @@ export function usePopover({
   }, [openProp])
 
   React.useEffect(() => {
+    if (mouseEnter || mouseExist) return
     if (lockScroll) lockScrollbar(open)
 
     // If it's a controlled component, we don't need to do anything

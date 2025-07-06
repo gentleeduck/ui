@@ -17,11 +17,12 @@ export type ComboboxProps<
   TData extends readonly ComboboxItemType[] | ComboboxItemType[],
   TType extends 'single' | 'multiple' = 'single',
 > = {
-  type: 'single' | 'multiple'
   items: TData
   onValueChange?: TType extends 'single'
     ? (value: TData[number]['label']) => void
     : (value: TData[number]['label'][]) => void
+  withSearch?: boolean
+  showSelected?: boolean
   defaultValue?: TType extends 'single' ? TData[number]['label'] : TData[number]['label'][]
   value?: TType extends 'single' ? TData[number]['label'] : TData[number]['label'][]
   popover?: React.ComponentPropsWithoutRef<typeof Popover>
@@ -40,7 +41,6 @@ export function Combobox<
 >({
   value,
   defaultValue,
-  type,
   onValueChange,
   items,
   command,
@@ -50,7 +50,8 @@ export function Combobox<
   popover,
   popoverTrigger,
   popoverContent,
-
+  withSearch = true,
+  showSelected = true,
   children,
 }: ComboboxProps<TData, TType>) {
   const MAX_SELECTION = 2
@@ -59,41 +60,45 @@ export function Combobox<
       onValueChange?.(value as any)
     }
   }, [value])
+  const _value = value ?? defaultValue
 
   return (
     <Popover {...popover}>
       <PopoverTrigger {...popoverTrigger} variant={popoverTrigger?.variant ?? 'dashed'}>
         {popoverTrigger?.children}
-        {value ? (
-          value instanceof Array && value.length ? (
-            <>
-              <Separator orientation="vertical" />
-              <div className="flex gap-1">
-                {value.length > MAX_SELECTION ? (
-                  <Badge variant={'secondary'} className="px-2 py-[3px] rounded-[3px] font-normal">
-                    +{value.length} Selected
-                  </Badge>
-                ) : (
-                  value.map((item) => (
-                    <Badge key={item} variant={'secondary'} className="px-2 py-[2px] rounded-[3px] capitalize">
-                      {item}
+        {showSelected &&
+          (_value ? (
+            _value instanceof Array && _value.length ? (
+              <>
+                <Separator orientation="vertical" />
+                <div className="flex gap-1">
+                  {_value.length > MAX_SELECTION ? (
+                    <Badge variant={'secondary'} className="px-2 py-[3px] rounded-sm font-normal">
+                      +{_value.length} Selected
                     </Badge>
-                  ))
-                )}
-              </div>
-            </>
+                  ) : (
+                    _value.map((item) => (
+                      <Badge key={item} variant={'secondary'} className="px-2 py-[2px] rounded-[3px] capitalize">
+                        {item}
+                      </Badge>
+                    ))
+                  )}
+                </div>
+              </>
+            ) : (
+              _value
+            )
           ) : (
-            value
-          )
-        ) : (
-          commandTriggerPlaceholder
-        )}
+            commandTriggerPlaceholder
+          ))}
       </PopoverTrigger>
       <PopoverContent {...popoverContent} className={cn('w-[200px] p-0', popoverContent?.className)}>
         <Command {...command}>
-          <CommandInput {...commandInput} className={cn('h-8 [&_svg]:size-[18px] px-2', commandInput)} />
+          {withSearch && (
+            <CommandInput {...commandInput} className={cn('h-8 [&_svg]:size-[18px] px-2', commandInput)} />
+          )}
           <CommandList>
-            <CommandEmpty>{commandEmpty}</CommandEmpty>
+            {commandEmpty && <CommandEmpty>{commandEmpty}</CommandEmpty>}
             {children(items)}
           </CommandList>
         </Command>

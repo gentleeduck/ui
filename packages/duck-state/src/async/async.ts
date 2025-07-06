@@ -1,5 +1,5 @@
 // src/async.ts
-import { atom, useAtom } from './atom'
+import { atom, useAtom } from '../atom'
 
 export function asyncAtom<T>(fetcher: () => Promise<T>) {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -20,3 +20,26 @@ export function asyncAtom<T>(fetcher: () => Promise<T>) {
 // export function useAsyncAtom<T>(_asyncAtom: ReturnType<typeof asyncAtom>) {
 //   return useAtom((fetcher: () => Promise<T>) => asyncAtom<T>(fetcher))
 // }
+//
+
+export function useAsyncAtom<T>(fetcher: () => Promise<T>) {
+  const atomInstance = asyncAtom(fetcher)
+  return useAtom(atomInstance)
+}
+
+// // caller must pass in atom
+// export function uuseAsyncAtom<T>(
+//   atomInstance: ReturnType<typeof asyncAtom<T>>,
+// ): ReturnType<typeof useAtom<T>> {
+//   return useAtom(atomInstance)
+// }
+//
+//
+// let initialized = false
+// function ensureInitialized() {
+//   if (!initialized) {
+//     value = getter()
+//     initialized = true
+//   }
+// }
+//

@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
+    "@gentleduck/state": "workspace:*",
     "@gentleduck/aria-feather": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/lazy": "workspace:*",

@@ -67,7 +67,7 @@ export function ComboboxDemo() {
                     setOpen(false)
                   }}>
                   {framework.label}
-                  <Check
+                  <Checksdfasdfasf
                     className={cn('border-foreground/50 ', value === framework.value ? 'opacity-100' : 'opacity-0')}
                   />
                 </CommandItem>
