@@ -20,10 +20,11 @@ export function Root({
   mouseExist = false,
   modal = false,
   closeButton = false,
+
   skipDelayDuration = 300,
   delayDuration = 0,
   ...props
-}: PopoverRootProps & React.HtmlHTMLAttributes<HTMLDivElement>): React.JSX.Element {
+}: PopoverRootProps): React.JSX.Element {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
 
   const id = useStableId()
@@ -51,16 +52,10 @@ export function Root({
         wrapperRef,
         triggerRef,
         contentRef,
-        delayDuration,
-        skipDelayDuration,
         open,
         onOpenChange: _onOpenChange,
         id,
-        modal,
         closeButton,
-        mouseEnter,
-        mouseExist,
-        lockScroll,
       }}>
       <div {...props} duck-popover="" ref={wrapperRef}>
         {children}
@@ -70,7 +65,7 @@ export function Root({
 }
 
 export function Trigger(props: React.ComponentPropsWithoutRef<typeof Slot>): React.JSX.Element {
-  const { id, triggerRef, open } = usePopoverContext()
+  const { id, triggerRef } = usePopoverContext()
 
   return (
     <Slot
@@ -148,10 +143,16 @@ export function Content({
       id={id}
       duck-popover-content=""
       ref={contentRef}>
-      <ShouldRender ref={contentRef} once={renderOnce} open={open}>
-        {children}
-        {closeButton && <DialogClose />}
-      </ShouldRender>
+      <ShouldRender
+        ref={contentRef}
+        once={renderOnce}
+        open={open}
+        children={
+          <>
+            {children}
+            {closeButton && <DialogClose />}
+          </>
+        }></ShouldRender>
     </dialog>
   )
 }

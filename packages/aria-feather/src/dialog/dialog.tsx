@@ -58,9 +58,6 @@ export function Root({
         open,
         onOpenChange: _onOpenChange,
         id,
-        modal,
-        closeButton,
-        lockScroll,
       }}>
       <div {...props} duck-dialog="" ref={wrapperRef}>
         {children}

@@ -19,6 +19,8 @@ export interface DuckTableType<T> {
   // Filtering & Sorting
   setFilters(filters: DuckTableFilterFn<T>[]): void
   setSort(sort: DuckTableColumnSort<T>[]): void
+  getQuery(): string
+  setQuery(query: string): void
 
   // Selection & Expansion
   toggleSelect(id: string): void

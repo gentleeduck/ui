@@ -8,16 +8,20 @@ import {
   Listener,
 } from './table.types'
 
+const DEFAULT_PAGE_SIZE = 5
+const DEFAULT_CURRENT_PAGE = 1
+
 export class DuckTable<T> implements DuckTableType<T> {
   private rawData: DuckTableRow<T>[] = []
   private filteredData: DuckTableRow<T>[] = []
   private sortedData: DuckTableRow<T>[] = []
+  private query = ''
 
   private selectedIds = new Set<string>()
   private expandedIds = new Set<string>()
 
-  private currentPage = 1
-  private pageSize = 3
+  private currentPage = DEFAULT_CURRENT_PAGE
+  private pageSize = DEFAULT_PAGE_SIZE
 
   private sortConfig: DuckTableColumnSort<T>[] = []
   private filters: DuckTableFilterFn<T>[] = []
@@ -28,7 +32,7 @@ export class DuckTable<T> implements DuckTableType<T> {
   constructor(options: DuckTableOptions<T>) {
     this.rawData = options.data
     this.filteredData = options.data
-    this.pageSize = options.pageSize || 3
+    this.pageSize = options.pageSize || DEFAULT_PAGE_SIZE
     this.sortConfig = options.initialSort || []
     this.applyAll()
   }
@@ -54,6 +58,15 @@ export class DuckTable<T> implements DuckTableType<T> {
   }
 
   // --- 🔎 Filtering & Sorting ---
+  getQuery(): string {
+    return this.query
+  }
+
+  setQuery(query: string): void {
+    this.query = query
+    this.notify('filter')
+  }
+
   setFilters(filters: DuckTableFilterFn<T>[]): void {
     this.filters = filters
     this.applyAll()
@@ -95,6 +108,11 @@ export class DuckTable<T> implements DuckTableType<T> {
     this.pageSize = size
     this.currentPage = 1
     this.notify('page')
+    console.log(this.pageSize, 'this.pageSize')
+  }
+
+  getPageSize(): number {
+    return this.pageSize
   }
 
   setPage(page: number): void {

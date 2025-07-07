@@ -26,7 +26,7 @@ const hi = [
 export function TableDemo() {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <DuckTable className="w-[765px] flex flex-col gap-4 border rounded-md p-4">
+      <DuckTable<Invoices> className="w-[765px] flex flex-col gap-4 border rounded-md p-4" table={duck_table}>
         <DuckTableBar>
           <DuckTableRightSide>
             <DuckTableSearch />
@@ -122,8 +122,8 @@ export function TableDemo() {
           </DuckTableRightSide>
 
           <DuckTableLeftSide className="gap-8">
-            <DuckTableRowPerPage<Invoices> atoms={duck.atoms} actions={duck.actions} />
-            <DuckTablePagination<Invoices> actions={duck.actions} atoms={duck.atoms} />
+            <DuckTableRowPerPage<Invoices> atoms={duck_table.atoms} actions={duck_table.actions} />
+            <DuckTablePagination<Invoices> actions={duck_table.actions} atoms={duck_table.atoms} />
           </DuckTableLeftSide>
         </DuckTableBar>
       </DuckTable>
@@ -200,7 +200,7 @@ export const table = new D<Invoices>({
   pageSize: 5,
   initialSort: [{ column: 'invoice', direction: 'asc' }],
 })
-export const duck = createDuckTable<Invoices>(invoices)
+export const duck_table = createDuckTable<Invoices>(invoices)
 
 export function TableDemo1() {
   return (
@@ -246,7 +246,7 @@ export function DuckTableHeader<TRow extends Record<string, unknown>>({
 }
 
 export function DuckTableBody() {
-  const rows = useAtom(duck.atoms.rows)
+  const rows = useAtom(duck_table.atoms.rows)
 
   return (
     <TableBody>

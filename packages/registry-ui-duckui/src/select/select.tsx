@@ -7,7 +7,8 @@ import * as React from 'react'
 import { Button } from '../button'
 import { useHandleKeyDown } from '../command'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { useSelectInit, useSelectScroll } from './select.hooks'
+import { useSelectScroll } from './select.hooks'
+import { initRefs } from './select.libs'
 import { SelectContextType } from './select.types'
 
 export const SelectContext = React.createContext<SelectContextType | null>(null)
@@ -22,22 +23,48 @@ export function useSelectContext() {
 function SelectWrapper({
   children,
   scrollable = false,
-  value,
-  onValueChange,
+  value = '',
+  onValueChange = () => {},
   ...props
-}: React.HTMLProps<HTMLDivElement> & {
+}: Omit<React.HTMLProps<HTMLDivElement>, 'value'> & {
   scrollable?: boolean
   value?: string
   onValueChange?: (value: string) => void
 }) {
-  const { open = false, onOpenChange = () => {} } = usePopoverContext()
+  const { open = false, onOpenChange = () => {}, contentRef, triggerRef, wrapperRef } = usePopoverContext()
 
-  const { itemsRef, selectedItemRef, contentRef, triggerRef, groupsRef, wrapperRef, selectedItem } = useSelectInit(
-    open,
-    onOpenChange,
-    value,
-    onValueChange,
-  )
+  const groupsRef = React.useRef<HTMLUListElement[]>([])
+  const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
+  const itemsRef = React.useRef<HTMLLIElement[]>([])
+  const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
+
+  // Handle the cancel event, so the selection will not change if the mouse moved out of the select
+  React.useEffect(() => {
+    function handleCancel(_e: Event) {
+      contentRef.current!.style.pointerEvents = 'none'
+    }
+
+    contentRef.current?.addEventListener('cancel', handleCancel)
+    return () => {
+      contentRef.current?.removeEventListener('cancel', handleCancel)
+    }
+  }, [])
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      initRefs(
+        open,
+        groupsRef,
+        wrapperRef,
+        selectedItemRef,
+        itemsRef,
+        setSelectedItem,
+        onOpenChange,
+        value,
+        onValueChange,
+      )
+    }, 0)
+  }, [open])
 
   useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
   useHandleKeyDown({
@@ -53,17 +80,15 @@ function SelectWrapper({
   return (
     <SelectContext.Provider
       value={{
+        open,
+        value,
         wrapperRef,
         selectedItem,
         itemsRef,
         contentRef,
         groupsRef,
-        open: open,
-        onOpenChange: () => {
-          onOpenChange?.(open)
-        },
         scrollable,
-        triggerRef,
+        triggerRef: triggerRef as never,
       }}>
       <div ref={wrapperRef} {...props} duck-select="">
         {children}
@@ -76,6 +101,8 @@ function Select({
   children,
   ...props
 }: React.ComponentPropsWithRef<typeof Popover> & {
+  value?: string
+  onValueChange?: (value: string) => void
   scrollable?: boolean
 }) {
   return (
@@ -92,9 +119,8 @@ function SelectTrigger({
   ref,
   ...props
 }: React.ComponentPropsWithRef<typeof PopoverTrigger> & { customIndicator?: React.ReactNode }) {
-  const { triggerRef } = useSelectContext()
   return (
-    <PopoverTrigger ref={triggerRef as never} variant={variant} {...props} duck-select-trigger="">
+    <PopoverTrigger variant={variant} {...props} duck-select-trigger="">
       {children}
       <span className="[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:opacity-50">
         {customIndicator ? customIndicator : <ChevronDownIcon />}
@@ -104,7 +130,7 @@ function SelectTrigger({
 }
 
 function SelectContent({ children, className, ref, ...props }: React.ComponentPropsWithRef<typeof PopoverContent>) {
-  const { contentRef, scrollable } = useSelectContext()
+  const { scrollable } = useSelectContext()
   return (
     <PopoverContent
       side={'bottom'}
@@ -112,8 +138,7 @@ function SelectContent({ children, className, ref, ...props }: React.ComponentPr
       aria-activedescendant=""
       className={cn('px-1.5', scrollable ? 'py-0' : 'py-1', className)}
       duck-select-content=""
-      {...props}
-      ref={contentRef as never}>
+      {...props}>
       {scrollable && <SelectScrollUpButton />}
       <div className={cn('max-h-[400px]', scrollable && 'overflow-y-scroll')} duck-select-content-scrollable="">
         {children}
@@ -132,6 +157,7 @@ function SelectGroup({ children, ...props }: React.HTMLProps<HTMLUListElement>) 
 }
 
 function SelectValue({ className, children, placeholder, ...props }: React.HTMLProps<HTMLDivElement>) {
+  const { value, selectedItem } = useSelectContext()
   return (
     <div
       className={cn(
@@ -140,7 +166,7 @@ function SelectValue({ className, children, placeholder, ...props }: React.HTMLP
       )}
       {...props}
       duck-select-value="">
-      {placeholder}
+      {(selectedItem?.getAttribute('data-label') || value) ?? placeholder}
     </div>
   )
 }
@@ -157,8 +183,15 @@ function SelectLabel({ children, className, ref, ...props }: React.HTMLProps<HTM
   )
 }
 
-function SelectItem({ children, ref, className, disabled, ...props }: React.HTMLProps<HTMLLIElement>) {
-  const { selectedItem } = useSelectContext()
+function SelectItem({
+  children,
+  value,
+  className,
+  disabled,
+  ref,
+  ...props
+}: Omit<React.HTMLProps<HTMLLIElement>, 'value'> & { value: string }) {
+  const { selectedItem, value: _value } = useSelectContext()
   const id = React.useId()
 
   return (
@@ -169,6 +202,8 @@ function SelectItem({ children, ref, className, disabled, ...props }: React.HTML
       {...props}
       duck-select-item=""
       aria-disabled={disabled}
+      data-value={value}
+      value={value}
       className={cn(
         "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-secondary",
         disabled && 'pointer-events-none opacity-50',

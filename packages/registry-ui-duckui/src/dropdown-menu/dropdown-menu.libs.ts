@@ -22,10 +22,10 @@ export function initRefs(
   originalItemsRef.current = Array.from(items ?? []) as HTMLLIElement[]
 
   const selectedItem = itemsRef.current[0]
-  if (!selectedItemRef.current) {
-    styleItem(selectedItem ?? null)
-    selectedItemRef.current = selectedItem ?? null
-  }
+  // if (!selectedItemRef.current) {
+  //   styleItem(selectedItem ?? null)
+  //   selectedItemRef.current = selectedItem ?? null
+  // }
 
   for (let i = 0; i < itemsRef.current?.length; i++) {
     const item = itemsRef.current[i] as HTMLLIElement

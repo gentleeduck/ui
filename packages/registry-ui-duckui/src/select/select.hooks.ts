@@ -1,54 +1,10 @@
 import React from 'react'
-import { initRefs } from './select.libs'
-
-export function useSelectInit(open: boolean, onOpenChange: (open: boolean) => void) {
-  const wrapperRef = React.useRef<HTMLDivElement | null>(null)
-  const triggerRef = React.useRef<HTMLDivElement | null>(null)
-  const contentRef = React.useRef<HTMLDivElement | null>(null)
-
-  const groupsRef = React.useRef<HTMLUListElement[]>([])
-  const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
-  const itemsRef = React.useRef<HTMLLIElement[]>([])
-  const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, setSelectedItem, onOpenChange)
-    }, 0)
-  }, [open])
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      function handleClick() {
-        if (!groupsRef.current.length || !itemsRef.current.length) {
-          initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, setSelectedItem, onOpenChange)
-        }
-      }
-
-      triggerRef.current?.addEventListener('click', handleClick)
-
-      return () => {
-        triggerRef.current?.removeEventListener('click', handleClick)
-      }
-    }, 0)
-  }, [])
-
-  return {
-    wrapperRef,
-    triggerRef,
-    contentRef,
-    groupsRef,
-    itemsRef,
-    selectedItem,
-    selectedItemRef,
-  }
-}
 
 export function useSelectScroll(
   open: boolean,
   itemsRef: React.RefObject<HTMLLIElement[]>,
   selectedItemRef: React.RefObject<HTMLLIElement | null>,
-  contentRef: React.RefObject<HTMLDivElement | null>,
+  contentRef: React.RefObject<HTMLDialogElement | null>,
 ) {
   React.useEffect(() => {
     if (!open) return

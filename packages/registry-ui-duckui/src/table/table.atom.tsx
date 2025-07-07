@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react'
 import { DuckTable } from './table.libs'
-import { DuckTableRow } from './table.types'
+import { DuckTableChangeKey, DuckTableColumnSort, DuckTableFilterFn, DuckTableRow } from './table.types'
 
 export type Subscriber = () => void
 
@@ -30,51 +30,102 @@ export function useAtom<T>(atom: { get: () => T; subscribe: (cb: () => void) => 
 export function createDuckTable<T>(initialData: DuckTableRow<T>[]) {
   const table = new DuckTable<T>({ data: initialData })
 
+  // 🧠 Atom stores
   const pageAtom = atom(table['currentPage'])
-  const pageSizeAtom = atom(3)
+  const pageSizeAtom = atom(table.getPageSize())
   const rowsAtom = atom(table.getPage())
   const totalPagesAtom = atom(table.getTotalPages())
+  const rawDataAtom = atom(table.getRawData())
 
   const selectedRowsAtom = atom(table.getSelectedRows())
+  const expandedRowsAtom = atom(table.getExpandedRows())
   const visibleColumnsAtom = atom(table.getVisibleColumns())
-  const filteredRowsAtom = atom(table['filteredData']) // optional
+  const filteredRowsAtom = atom(table['filteredData']) // useful for search
+  const queryAtom = atom(table.getQuery()) // ⚡ search query
 
-  // Sync function: Update table + atoms
-  const sync = () => {
-    rowsAtom.set(table.getPage())
-    totalPagesAtom.set(table.getTotalPages())
-    selectedRowsAtom.set(table.getSelectedRows())
-    visibleColumnsAtom.set(table.getVisibleColumns())
+  // 🤩 Main sync routine
+  const sync = (key: DuckTableChangeKey) => {
+    if (key === 'page' || key === 'all') {
+      pageAtom.set(table['currentPage'])
+      rowsAtom.set(table.getPage())
+      totalPagesAtom.set(table.getTotalPages())
+      pageSizeAtom.set(table.getPageSize())
+    }
+
+    if (key === 'selection' || key === 'all') {
+      selectedRowsAtom.set(table.getSelectedRows())
+    }
+
+    if (key === 'expansion' || key === 'all') {
+      expandedRowsAtom.set(table.getExpandedRows())
+    }
+
+    if (key === 'columnVisibility' || key === 'all') {
+      visibleColumnsAtom.set(table.getVisibleColumns())
+    }
+
+    if (key === 'filter' || key === 'all') {
+      filteredRowsAtom.set(table['filteredData'])
+      queryAtom.set(table.getQuery())
+    }
   }
 
-  // Subscribe to table changes
-  table.onUpdate(() => {
-    pageAtom.set(table['currentPage'])
-    sync()
+  // 🔁 Subscribe to all table changes
+  table.onUpdate((key) => {
+    sync(key)
   })
 
-  // Actions (update both table + atom if needed)
+  // 🎮 Actions
   const actions = {
+    // Paging
     firstPage: () => table.firstPage(),
     lastPage: () => table.lastPage(),
     nextPage: () => table.nextPage(),
     prevPage: () => table.prevPage(),
     setPage: (page: number) => table.setPage(page),
-    toggleSelect: (id: string) => table.toggleSelect(id),
-    toggleColumn: (col: keyof T) => table.toggleColumnVisibility(col),
+
+    // Page Size
+    getPageSize: () => table.getPageSize(),
     setPageSize: (size: number) => table.setPageSize(size),
+
+    // Selection
+    toggleSelect: (id: string) => table.toggleSelect(id),
+
+    // Expansion
+    toggleExpand: (id: string) => table.toggleExpand(id),
+
+    // Column visibility
+    toggleColumn: (col: keyof T) => table.toggleColumnVisibility(col),
+    isColumnVisible: (col: keyof T) => table.isColumnVisible(col),
+
+    // Filters and sort
+    setFilters: (filters: DuckTableFilterFn<T>[]) => table.setFilters(filters),
+    setSort: (sort: DuckTableColumnSort<T>[]) => table.setSort(sort),
+
+    // Search Query
+    setQuery: (query: string) => table.setQuery(query),
+
+    // Raw data update
+    setData: (data: DuckTableRow<T>[]) => table.setData(data),
+
+    // Exporting
+    exportCSV: () => table.exportCSV(),
+    exportJSON: () => table.exportJSON(),
   }
 
   return {
     table,
     atoms: {
+      raw: rawDataAtom,
       page: pageAtom,
-      rows: rowsAtom,
       pageSize: pageSizeAtom,
+      rows: rowsAtom,
       totalPages: totalPagesAtom,
       selected: selectedRowsAtom,
+      expanded: expandedRowsAtom,
       visibleColumns: visibleColumnsAtom,
       filteredRows: filteredRowsAtom,
+      query: queryAtom,
     },
     actions,
   }

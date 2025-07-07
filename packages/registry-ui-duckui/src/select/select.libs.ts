@@ -1,6 +1,7 @@
 import { dstyleItem, handleItemsSelection, styleItem } from '../command'
 
 export function initRefs(
+  open: boolean,
   groupsRef: React.RefObject<HTMLUListElement[] | null>,
   wrapperRef: React.RefObject<HTMLDivElement | null>,
   selectedItemRef: React.RefObject<HTMLLIElement | null>,
@@ -28,20 +29,26 @@ export function initRefs(
 
   for (let i = 0; i < itemsRef.current?.length; i++) {
     const item = itemsRef.current[i] as HTMLLIElement
-
     item.addEventListener('mouseenter', () => {
-      if (!item.hasAttribute('aria-selected')) return
-      dstyleItem(item)
-      item?.blur()
+      if (open) {
+        for (let i = 0; i < itemsRef.current?.length; i++) {
+          const item = itemsRef.current[i] as HTMLLIElement
+          dstyleItem(item)
+        }
+
+        item?.setAttribute('aria-selected', '')
+        item?.focus()
+        selectedItemRef.current = item
+      }
     })
 
     item.addEventListener('click', () => {
       const currentItem = itemsRef.current?.findIndex((_item) => _item.id === item.id)
       handleItemsSelection(currentItem, itemsRef, (value) => setSelectedItem(value))
       wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
-      item.setAttribute('aria-selected', 'true')
       onValueChange(String(item?.value))
       onOpenChange(false)
+      selectedItemRef.current = item
     })
   }
 }

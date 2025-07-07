@@ -12,10 +12,6 @@ export interface DialogContextType {
   open?: boolean
   /** Callback triggered when the open state changes. */
   onOpenChange?: (open: boolean) => void
-  /** Locks page scroll when the dialog is open. Default: `false`. */
-  lockScroll?: boolean
-  /** Makes the dialog modal (blocks background interaction). Default: `true`. */
-  modal?: boolean
   /** Shows a built-in close button if `true`. */
   closeButton?: boolean
   /** Unique identifier for the dialog. */
@@ -46,8 +42,11 @@ export interface DialogContentProps
   >
 }
 
-export interface DialogProps
-  extends Pick<DialogContextType, 'open' | 'onOpenChange' | 'modal' | 'wrapperRef' | 'lockScroll' | 'closeButton'> {
+export interface DialogProps extends Pick<DialogContextType, 'open' | 'onOpenChange' | 'wrapperRef' | 'closeButton'> {
   /** Child components including trigger, content, overlays, etc. */
   children?: React.ReactNode
+  /** Locks page scroll when the dialog is open. Default: `false`. */
+  lockScroll?: boolean
+  /** Makes the dialog modal (blocks background interaction). Default: `true`. */
+  modal?: boolean
 }
