@@ -247,17 +247,27 @@ export function DuckTableHeader<TRow extends Record<string, unknown>>({
 
 export function DuckTableBody() {
   const rows = useAtom(duck_table.atoms.rows)
+  const query = useAtom(duck_table.atoms.query)
+  const newRows = rows.filter((invoice) => JSON.stringify(invoice).toLowerCase().includes(query.toLowerCase()))
 
   return (
     <TableBody>
-      {rows.map((invoice) => (
-        <TableRow key={invoice.invoice}>
-          <TableCell className="font-medium">{invoice.invoice}</TableCell>
-          <TableCell>{invoice.paymentStatus}</TableCell>
-          <TableCell>{invoice.paymentMethod}</TableCell>
-          <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+      {newRows.length ? (
+        newRows.map((invoice) => (
+          <TableRow key={invoice.invoice}>
+            <TableCell className="font-medium">{invoice.invoice}</TableCell>
+            <TableCell>{invoice.paymentStatus}</TableCell>
+            <TableCell>{invoice.paymentMethod}</TableCell>
+            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+          </TableRow>
+        ))
+      ) : (
+        <TableRow>
+          <TableCell colSpan={4} className="text-center">
+            No results found
+          </TableCell>
         </TableRow>
-      ))}
+      )}
     </TableBody>
   )
 }

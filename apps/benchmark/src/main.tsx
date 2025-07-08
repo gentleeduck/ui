@@ -10,7 +10,8 @@ import { lazy } from 'react'
 // import App from './App'
 const App = lazy(() => import('./App'))
 
-import { atom, useAtom } from '@gentleduck/state/atom'
+import { atom, useAtom } from '@gentleduck/state'
+
 export const countAtom = atom(0)
 
 export function Counter() {

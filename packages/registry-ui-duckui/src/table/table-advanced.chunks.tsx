@@ -9,6 +9,8 @@ import { Label } from '../label'
 import { Separator } from '../separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 import { DuckPagination } from '../pagination'
+import { useDuckTable } from './table-advanced'
+import { useAtom } from './table.atom'
 
 export function DuckTableBar({ className, ...props }: React.HtmlHTMLAttributes<HTMLDivElement>) {
   return <div className={cn('flex items-center gap-2 justify-between', className)} {...props} duck-table-header="" />
@@ -26,10 +28,26 @@ export function DuckTableSearch({
   placeholder = 'Search Rows...',
   ...props
 }: React.ComponentPropsWithoutRef<typeof Input>) {
+  function IInput() {
+    const { table } = useDuckTable()
+    const query = useAtom(table.atoms.query)
+
+    return (
+      <Input
+        className="max-w-[200px]"
+        placeholder={placeholder}
+        value={query}
+        onChange={(e) => table.actions.setQuery(e.target.value)}
+        {...props}
+        duck-table-search=""
+      />
+    )
+  }
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Input className="max-w-[200px]" placeholder={placeholder} {...props} duck-table-search="" />
+        <IInput />
       </TooltipTrigger>
       <TooltipContent className="flex items-center gap-2">
         <CommandShortcut keys={'ctrl+s'} onKeysPressed={() => {}} variant="secondary">
