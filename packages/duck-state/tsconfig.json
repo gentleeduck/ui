@@ -1,11 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.iterable"
-    ],
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "incremental": false,
     "rootDir": "./",
     "outDir": "./dist",
@@ -22,23 +18,13 @@
     "verbatimModuleSyntax": true,
     "declaration": true,
     "isolatedDeclarations": false,
-    "types": [
-      "@testing-library/jest-dom"
-    ],
+    "types": ["@testing-library/jest-dom"],
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
+      "~/*": ["./src/*"]
     }
   },
-  "include": [
-    ".",
-    "./src/index.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": [".", "./src/index.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }

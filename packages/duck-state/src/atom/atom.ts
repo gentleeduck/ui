@@ -1,34 +1,39 @@
+import { createStore } from './store'
+
 /* ======================================================== Atom Types ======================================================== */
-type Getter = <Value>(atom: Atom<Value>) => Value
-type Setter = <Value, Args extends unknown[], Result>(atom: WritableAtom<Value, Args, Result>, ...args: Args) => Result
+export type Getter = <Value>(atom: Atom<Value>) => Value
+export type Setter = <Value, Args extends unknown[], Result>(
+  atom: WritableAtom<Value, Args, Result>,
+  ...args: Args
+) => Result
 type Read<Value, Options = never> = (get: Getter, options: Options) => Value
 type Write<Args extends unknown[], Result> = (get: Getter, set: Setter, ...args: Args) => Result
-type SetStateAction<Value> = Value | ((prevState: Value) => Value)
-export type PrimitiveAtom<Value> = WritableAtom<Value, [SetStateAction<Value>], void>
-export type SetAtom<Args extends unknown[], Result> = <P extends Args>(...args: P) => Result
+type SetAtom<Args extends unknown[], Result> = <P extends Args>(...args: P) => Result
+export type SetStateAction<Value> = Value | ((prevState: Value) => Value)
+type PrimitiveAtom<Value> = WritableAtom<Value, [SetStateAction<Value>], void>
 
 export type Atom<Value> = {
-  toString: () => string
+  toString: () => Symbol
   read: Read<Value>
-  debugLabel?: string
   // TODO:
-  // unstable_is?(a: Atom<unknown>): boolean
-  // debugPrivate?: boolean
-  // unstable_onInit?: (store: any) => void
+  unstable_is?(a: Atom<unknown>): boolean
+  debugLabel?: string
+  debugPrivate?: boolean
+  unstable_onInit?: (store: any) => void
 }
 
 export interface WritableAtom<Value, Args extends unknown[], Result> extends Atom<Value> {
   read: Read<Value, SetAtom<Args, Result>>
   write: Write<Args, Result>
   // TODO:
-  // onMount?: () => () => void
+  onMount?: () => () => void
 }
 
 type WithInitValue<Value> = {
   initValue: Value
 }
 
-/* ================================== Atom Declarations ==================================  */
+/* ======================================================== Atom Declarations ======================================================== */
 
 let keyCount = 0
 
@@ -48,16 +53,18 @@ export function atom<TValue>(read: Read<TValue>): PrimitiveAtom<TValue>
 export function atom<TValue>(): PrimitiveAtom<TValue | undefined> & WithInitValue<TValue | undefined>
 // primitive atom
 export function atom<TValue>(init: TValue): PrimitiveAtom<TValue> & WithInitValue<TValue>
-
-/* ================================== Atom Implementation ==================================  */
+/* ======================================================== Atom Implementation ======================================================== */
 export function atom<TValue, Args extends unknown[], Result>(
   read?: TValue | Read<TValue, SetAtom<Args, Result>>,
   write?: Write<Args, Result>,
 ) {
-  const key = `duck-atom${++keyCount}`
+  const key = `atom-${++keyCount}`
+
   const config = {
-    toString() {
-      return import.meta.env?.MODE !== 'production' && this.debugLabel ? key + ':' + this.debugLabel : key
+    toString(): Symbol {
+      return import.meta.env?.MODE === 'development' && this.debugLabel
+        ? Symbol(key + ': ' + this.debugLabel)
+        : Symbol(key)
     },
   } as WritableAtom<TValue, Args, Result> & WithInitValue<TValue>
 
@@ -65,10 +72,14 @@ export function atom<TValue, Args extends unknown[], Result>(
     config.read = read as Read<TValue, SetAtom<Args, Result>>
   } else {
     config.initValue = read as TValue
-    config.read = defaultRead
-    config.write = defaultWrite as never as Write<Args, Result>
-  }
+    config.read = function <Value>(this: Atom<Value>, get: Getter) {
+      return get(this)
+    }
 
+    config.write = function <Value>(this: PrimitiveAtom<Value>, get: Getter, set: Setter, arg: SetStateAction<Value>) {
+      return set(this, typeof arg === 'function' ? (arg as (prev: Value) => Value)(get(this)) : arg)
+    } as unknown as Write<Args, Result>
+  }
   if (write) {
     config.write = write
   }
@@ -76,10 +87,18 @@ export function atom<TValue, Args extends unknown[], Result>(
   return config
 }
 
-function defaultRead<Value>(this: Atom<Value>, get: Getter) {
-  return get(this)
-}
+const count = atom(0)
+const double = atom((get) => get(count) * 2)
 
-function defaultWrite<Value>(this: PrimitiveAtom<Value>, get: Getter, set: Setter, arg: SetStateAction<Value>) {
-  return set(this, typeof arg === 'function' ? (arg as (prev: Value) => Value)(get(this)) : arg)
+const store = createStore()
+
+const unsubscribe = store.subscribe(count, () => {
+  console.log('count changed:', store.get(count))
+})
+
+for (let i = 0; i < 10; i++) {
+  store.set(count, (prev) => prev + 1)
+  console.log(store.get(double))
 }
+console.log(store.get(double)) // 2
+unsubscribe()

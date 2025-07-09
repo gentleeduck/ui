@@ -1,59 +1,72 @@
-import type { Atom, WritableAtom } from './atom'
+import type { Atom, Getter, SetStateAction, Setter, WritableAtom } from './atom'
 
 type Listener = () => void
 
-type Store = {
-  get<Value>(atom: Atom<Value>): Value
-  set<Value, Args extends unknown[], Result>(atom: WritableAtom<Value, Args, Result>, ...args: Args): Result
-  subscribe(atom: Atom<unknown>, listener: Listener): () => void
-}
+export function createStore() {
+  const atomState = new WeakMap<Atom<unknown>, unknown>()
+  const listeners = new WeakMap<Atom<unknown>, Set<Listener>>()
 
-export function createStore(): Store {
-  const stateMap = new Map<string, unknown>()
-  const listenersMap = new Map<string, Set<Listener>>()
+  const store = {
+    get<Value>(atom: Atom<Value>): Value {
+      if ('initValue' in atom) {
+        if (!atomState.has(atom)) {
+          atomState.set(atom, atom.initValue)
+        }
+        return atomState.get(atom) as Value
+      }
 
-  const getKey = (atom: Atom<unknown>) => atom.toString()
+      return atom.read(store.get as Getter, {} as never)
+    },
 
-  const get = <Value>(atom: Atom<Value>): Value => {
-    const key = getKey(atom)
-    if (!stateMap.has(key)) {
-      // FIX: the options here should be typed
-      const value = atom.read(get, {} as never)
-      stateMap.set(key, value)
-    }
-    return stateMap.get(key) as Value
+    set<Value, Args extends unknown[], Result>(atom: WritableAtom<Value, Args, Result>, ...args: Args): Result {
+      if ('initValue' in atom && args.length === 1) {
+        const update = args[0] as SetStateAction<Value>
+        const prev = store.get(atom)
+        const next = typeof update === 'function' ? (update as (prev: Value) => Value)(prev) : update
+
+        atomState.set(atom, next)
+
+        const l = listeners.get(atom)
+        if (l) l.forEach((fn) => fn())
+
+        return undefined as Result
+      }
+
+      const result = atom.write(store.get as Getter, store.set as Setter, ...args)
+
+      const l = listeners.get(atom)
+      if (l) l.forEach((fn) => fn())
+
+      return result
+    },
+
+    subscribe<Value>(atom: Atom<Value>, listener: Listener): () => void {
+      let atomListeners = listeners.get(atom)
+      if (!atomListeners) {
+        atomListeners = new Set()
+        listeners.set(atom, atomListeners)
+      }
+
+      atomListeners.add(listener)
+
+      if (atom.unstable_onInit && !atomState.has(atom)) {
+        atom.unstable_onInit(store)
+      }
+
+      return () => {
+        atomListeners!.delete(listener)
+      }
+    },
+
+    // for debugging/testing
+    _getRaw<Value>(atom: Atom<Value>): Value | undefined {
+      return atomState.get(atom) as Value | undefined
+    },
+
+    _setRaw<Value>(atom: Atom<Value>, value: Value) {
+      atomState.set(atom, value)
+    },
   }
 
-  const set = <Value, Args extends unknown[], Result>(
-    atom: WritableAtom<Value, Args, Result>,
-    ...args: Args
-  ): Result => {
-    const key = getKey(atom)
-    const result = atom.write(get, set, ...args)
-    if ('initValue' in atom) {
-      const nextValue = get(atom)
-      stateMap.set(key, nextValue)
-    }
-    listenersMap.get(key)?.forEach((listener) => listener())
-    return result
-  }
-
-  const subscribe = (_atom: Atom<unknown>, listener: Listener): (() => void) => {
-    const key = getKey(_atom)
-    const setForKey = listenersMap.get(key) ?? new Set<Listener>()
-    setForKey.add(listener)
-    listenersMap.set(key, setForKey)
-    return () => {
-      setForKey.delete(listener)
-      if (setForKey.size === 0) listenersMap.delete(key)
-    }
-  }
-
-  return { get, set, subscribe }
-}
-
-const store = createStore()
-
-export function useStore() {
   return store
 }

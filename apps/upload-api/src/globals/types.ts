@@ -8,6 +8,7 @@ export type GetSchemaType<TColumns extends PgTable> = {
 }
 
 export type BucketFilesType = GetSchemaType<typeof files>
+export type BucketFilesTypee = typeof files.$inferSelect
 export type BucketFoldersType = GetSchemaType<typeof folders>
 
 export type TRPC_RESPONSE<T extends any> =

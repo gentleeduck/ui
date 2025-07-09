@@ -10,15 +10,6 @@ import { lazy } from 'react'
 // import App from './App'
 const App = lazy(() => import('./App'))
 
-import { atom, useAtom } from '@gentleduck/state'
-
-export const countAtom = atom(0)
-
-export function Counter() {
-  const [count, setCount] = useAtom(countAtom)
-  return <button onClick={() => setCount(count + 1)}>{count}</button>
-}
-
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
     <TableDemo />
