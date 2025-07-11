@@ -134,7 +134,7 @@ export function TableDemo() {
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from './table'
 import { DuckTable as D } from './table.libs'
 import React from 'react'
-import { createDuckTable, useAtom } from './table.atom'
+import { createDuckTable, useAtom, useAtomValue } from './table.atom'
 
 type Invoices = {
   invoice: string
@@ -247,7 +247,7 @@ export function DuckTableHeader<TRow extends Record<string, unknown>>({
 
 export function DuckTableBody() {
   const rows = useAtom(duck_table.atoms.rows)
-  const query = useAtom(duck_table.atoms.query)
+  const query = useAtomValue(duck_table.atoms.query)
   const newRows = rows.filter((invoice) => JSON.stringify(invoice).toLowerCase().includes(query.toLowerCase()))
 
   return (

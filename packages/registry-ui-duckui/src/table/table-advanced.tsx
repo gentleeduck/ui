@@ -5,8 +5,7 @@ import { Button } from '../button'
 import { Label } from '../label'
 import { Pagination, PaginationContent, PaginationItem } from '../pagination'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../select'
-import { createDuckTable, useAtom } from './table.atom'
-import { DuckTableType } from './table.types'
+import { createDuckTable, useAtom, useAtomValue } from './table.atom'
 
 export type DuckTableContextType<T extends Record<string, unknown>> = {
   table: ReturnType<typeof createDuckTable<T>>
@@ -51,7 +50,7 @@ export function DuckTableRowPerPage<TRow extends Record<string, unknown>>({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   const { table } = useDuckTable<TRow>()
-  const pageSize = useAtom(table.atoms.pageSize)
+  const pageSize = useAtomValue(table.atoms.pageSize)
 
   const options = [5, 10, 20, 50, 100]
 
@@ -88,7 +87,7 @@ export function DuckTableSelectedRows<TRow extends Record<string, unknown>>({
   const { table } = useDuckTable<TRow>()
 
   const selectedCount = useAtom(table.atoms.selected)
-  const totalCount = useAtom(table.atoms.raw)
+  const totalCount = useAtom(table.atoms.rows)
 
   return (
     <div duck-table-selected-rows="" className={cn('flex items-center gap-2', className)} {...props}>
@@ -106,8 +105,8 @@ export function DuckTablePagination<TRow extends Record<string, unknown>>({
   actions: ReturnType<typeof createDuckTable<TRow>>['actions']
   atoms: ReturnType<typeof createDuckTable<TRow>>['atoms']
 }) {
-  const page = useAtom(atoms.page)
-  const totalPages = useAtom(atoms.totalPages)
+  const page = useAtomValue(atoms.page)
+  const totalPages = useAtomValue(atoms.totalPages)
 
   const isFirst = page <= 1
   const isLast = page >= totalPages

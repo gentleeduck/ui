@@ -8,9 +8,8 @@ import { Input } from '../input'
 import { Label } from '../label'
 import { Separator } from '../separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
-import { DuckPagination } from '../pagination'
+import { useAtom, useAtomValue } from './table.atom'
 import { useDuckTable } from './table-advanced'
-import { useAtom } from './table.atom'
 
 export function DuckTableBar({ className, ...props }: React.HtmlHTMLAttributes<HTMLDivElement>) {
   return <div className={cn('flex items-center gap-2 justify-between', className)} {...props} duck-table-header="" />
@@ -30,7 +29,7 @@ export function DuckTableSearch({
 }: React.ComponentPropsWithoutRef<typeof Input>) {
   function IInput() {
     const { table } = useDuckTable()
-    const query = useAtom(table.atoms.query)
+    const query = useAtomValue(table.atoms.query)
 
     return (
       <Input
@@ -93,7 +92,7 @@ export function DuckTableFilter<T extends readonly ComboboxItemType[] | Combobox
               {items.map((item) => (
                 <ComboboxItem<typeof item>
                   key={item.value}
-                  item={item}
+                  value={item}
                   checked={value.includes(item.value)}
                   onSelect={(value) => {
                     setValue((prev) => {
@@ -161,7 +160,7 @@ export function DuckTableColumnView<T extends readonly ComboboxItemType[] | Comb
               {items.map((item) => (
                 <ComboboxItem<typeof item>
                   key={item.value}
-                  item={item}
+                  value={item}
                   className="[&_input]:border-none"
                   checked={(value.includes(item.value) ? 'indeterminate' : false) as boolean}
                   onSelect={(value) => {

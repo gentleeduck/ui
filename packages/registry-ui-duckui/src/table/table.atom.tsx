@@ -23,10 +23,23 @@ export function atom<T>(initial: T) {
   }
 }
 
-export function useAtom<T>(atom: { get: () => T; subscribe: (cb: () => void) => () => void }) {
+type Atom<T> = ReturnType<typeof atom<T>>
+
+export function useAtomValue<T>(atom: Atom<T>) {
   return useSyncExternalStore(atom.subscribe, atom.get)
 }
 
+export function useSetAtom<T>(atom: Atom<T>) {
+  return atom.set
+}
+
+export function useAtom<T>(atom: Atom<T>): [T, (next: T) => void] {
+  const value = useAtomValue(atom)
+  const set = useSetAtom(atom)
+  return [value, set]
+}
+
+//
 export function createDuckTable<T>(initialData: DuckTableRow<T>[]) {
   const table = new DuckTable<T>({ data: initialData })
 

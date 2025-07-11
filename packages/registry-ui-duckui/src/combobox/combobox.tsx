@@ -8,23 +8,16 @@ import { Checkbox } from '../checkbox'
 import { Badge } from '../badge'
 import { Separator } from '../separator'
 
-export type ComboboxItemType = {
-  label: string
-  value: string
-}
-
 export type ComboboxProps<
-  TData extends readonly ComboboxItemType[] | ComboboxItemType[],
+  TData extends readonly string[] | string[],
   TType extends 'single' | 'multiple' = 'single',
 > = {
   items: TData
-  onValueChange?: TType extends 'single'
-    ? (value: TData[number]['label']) => void
-    : (value: TData[number]['label'][]) => void
+  onValueChange?: TType extends 'single' ? (value: TData[number]) => void : (value: TData[number][]) => void
   withSearch?: boolean
   showSelected?: boolean
-  defaultValue?: TType extends 'single' ? TData[number]['label'] : TData[number]['label'][]
-  value?: TType extends 'single' ? TData[number]['label'] : TData[number]['label'][]
+  defaultValue?: TType extends 'single' ? TData[number] : TData[number][]
+  value?: TType extends 'single' ? TData[number] : TData[number][]
   popover?: React.ComponentPropsWithoutRef<typeof Popover>
   popoverTrigger?: React.ComponentPropsWithoutRef<typeof PopoverTrigger>
   popoverContent?: React.ComponentPropsWithoutRef<typeof PopoverContent>
@@ -35,10 +28,7 @@ export type ComboboxProps<
   children: (item: TData) => React.ReactNode
 }
 
-export function Combobox<
-  TData extends readonly ComboboxItemType[] | ComboboxItemType[],
-  TType extends 'single' | 'multiple' = 'single',
->({
+export function Combobox<TData extends readonly string[] | string[], TType extends 'single' | 'multiple' = 'single'>({
   value,
   defaultValue,
   onValueChange,
@@ -111,24 +101,24 @@ export function ComboxGroup({ children, ...props }: React.ComponentPropsWithoutR
   return <CommandGroup {...props}>{children}</CommandGroup>
 }
 
-export function ComboboxItem<T extends ComboboxItemType>({
-  item,
+export function ComboboxItem<T extends string>({
+  value,
   onSelect,
   children,
   checked,
   ...props
 }: {
-  item: T
-  onSelect?: (value: T['value']) => void
+  value: T
+  onSelect?: (value: T) => void
 } & Omit<React.ComponentPropsWithoutRef<typeof CommandItem>, 'onSelect'>) {
   return (
     <CommandItem
       onSelect={() => {
-        onSelect?.(item.value)
+        onSelect?.(value)
       }}
       {...props}>
-      <Checkbox checked={checked} id={item.value} className="border-foreground/50 pointer-events-none" />
-      {item.label}
+      <Checkbox checked={checked} id={value} className="border-foreground/50 pointer-events-none" />
+      {children}
     </CommandItem>
   )
 }
