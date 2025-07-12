@@ -2,7 +2,7 @@ import { atom, Setter } from '@gentleduck/state/primitive'
 import { DuckTable } from './table.libs'
 import { DuckTableColumnSort, DuckTableOptions } from './table.types'
 
-export function createDuckTable<THeaders extends string[]>(initialData: DuckTableOptions<THeaders>) {
+export function createDuckTable<THeaders extends Lowercase<string>[]>(initialData: DuckTableOptions<THeaders>) {
   const table = new DuckTable<THeaders>(initialData)
 
   // Atoms
@@ -36,10 +36,19 @@ export function createDuckTable<THeaders extends string[]>(initialData: DuckTabl
   )
 
   const columns = atom(table.getColumns())
-  const columnSort = atom(table.getSortConfig(), (_, set, newColumnSort: DuckTableColumnSort[]) => {
-    table.setSortConfig(newColumnSort)
-    set(columnSort, table.getSortConfig())
-  })
+  const columnSort = atom(
+    () => table.getColumnSort(),
+    (_, set, newColumnSort: DuckTableColumnSort[] | ((value: DuckTableColumnSort[]) => DuckTableColumnSort[])) => {
+      if (typeof newColumnSort === 'function') {
+        table.setColumnSort(newColumnSort(table.getColumnSort()))
+      } else {
+        table.setColumnSort(newColumnSort)
+      }
+      set(mutatedRows, table.getMutatedRows())
+      set(currentPageRows, table.getCurrentPageRows())
+      console.log(table.getHistory(), table['sortCache'])
+    },
+  )
   const visibleColumns = atom(table.getVisibleColumns())
   const mutatedRows = atom(table.getMutatedRows())
   const currentPageRows = atom(table.getCurrentPageRows())
@@ -58,6 +67,7 @@ export function createDuckTable<THeaders extends string[]>(initialData: DuckTabl
     atoms: {
       columns,
       visibleColumns,
+      columnSort,
       rows,
       mutatedRows,
       currentPageRows,

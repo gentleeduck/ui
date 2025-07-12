@@ -27,9 +27,7 @@ export function usePopover({
 }: PopoverProps & { id: string }) {
   const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
   const contentRef = React.useRef<HTMLDialogElement | null>(null)
-
-  // Use openProp only as initial state
-  const [open, setOpen] = React.useState<boolean>(() => openProp ?? false)
+  const [open, setOpen] = React.useState<boolean>(false)
 
   function handleOpenChange(state: boolean) {
     if (!contentRef.current) return
@@ -48,40 +46,44 @@ export function usePopover({
 
     setOpen(state)
     onOpenChange?.(state)
-
     wrapperRef.current?.setAttribute('data-open', String(state))
     triggerRef.current?.setAttribute('data-open', String(state))
     contentRef.current?.setAttribute('data-open', String(state))
   }
 
-  function handleCancel(e: Event) {
-    e.preventDefault()
-  }
-
   React.useEffect(() => {
-    // Apply initial state only once
-    handleOpenChange(open)
+    const state = openProp === true ? true : false
+    if (mouseEnter || mouseExist) return
+    // Applying control over the open state
+    if (openProp === true || openProp === false) {
+      contentRef.current.open = state
+      handleOpenChange(state)
 
-    // TEST:
-    // By removing this id we make sure it's fully controlled by us
-    contentRef.current.id = openProp ? null : id
+      // By removing this id we make sure it's fully controlled by us
+      contentRef.current.id = openProp ? null : id
 
-    contentRef.current?.addEventListener('cancel', handleCancel)
-    return () => {
-      contentRef.current?.removeEventListener('cancel', handleCancel)
+      contentRef.current.addEventListener('cancel', (e) => e.preventDefault())
+      if (openProp) {
+        return () => {
+          contentRef.current?.removeEventListener('cancel', (e) => e.preventDefault())
+        }
+      }
     }
-  }, [])
+  }, [openProp])
 
   React.useEffect(() => {
     if (mouseEnter || mouseExist) return
-
     if (lockScroll) lockScrollbar(open)
+
+    // If it's a controlled component, we don't need to do anything
+    if (openProp === true || openProp === false) return
 
     function handleClose(event: Event & { newState: 'open' | 'close' }) {
       if (modal) {
         handleOpenChange(false)
       } else {
-        handleOpenChange(event.newState === 'open')
+        const newState = event.newState
+        handleOpenChange(newState === 'open')
       }
     }
 
@@ -96,13 +98,14 @@ export function usePopover({
         contentRef.current?.removeEventListener('beforetoggle', handleClose)
       }
     }
-  }, [open, lockScroll, modal])
+  }, [])
 
   React.useEffect(() => {
-    if (!mouseEnter) return
+    // If it's a controlled component, we don't need to do anything
+    if (openProp === true || openProp === false) return
 
-    let openTimer: any = null
-    let closeTimer: any = null
+    let openTimer = null
+    let closeTimer = null
 
     function openAfterDelay() {
       clearTimeout(closeTimer)
@@ -114,23 +117,27 @@ export function usePopover({
       closeTimer = setTimeout(() => handleOpenChange(false), skipDelayDuration)
     }
 
-    for (const elm of [triggerRef.current, contentRef.current]) {
-      elm?.addEventListener('mouseover', openAfterDelay)
-      if (mouseExist) {
-        elm?.addEventListener('mouseout', closeAfterDelay)
+    if (mouseEnter) {
+      for (const elm of [triggerRef.current, contentRef.current]) {
+        elm?.addEventListener('mouseover', openAfterDelay)
+        if (mouseExist) {
+          elm?.addEventListener('mouseout', closeAfterDelay)
+        }
       }
     }
 
     return () => {
-      for (const elm of [triggerRef.current, contentRef.current]) {
-        elm?.removeEventListener('mouseover', openAfterDelay)
-        if (mouseExist) {
-          elm?.removeEventListener('mouseout', closeAfterDelay)
+      if (mouseEnter) {
+        for (const elm of [triggerRef.current, contentRef.current]) {
+          elm?.removeEventListener('mouseover', openAfterDelay)
+          if (mouseExist) {
+            elm?.removeEventListener('mouseout', closeAfterDelay)
+          }
         }
       }
       cleanLockScrollbar()
     }
-  }, [mouseEnter, mouseExist, delayDuration, skipDelayDuration])
+  }, [])
 
   return {
     triggerRef,

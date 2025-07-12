@@ -84,25 +84,26 @@ const invoices: DuckTableOptions<Headers>['data'] = [
 ]
 
 const headers: DuckTableOptions<Headers>['headers'] = {
-  invoice: { value: 'Invoice', visible: true, sortable: true, sortDirection: 'desc' },
-  status: { value: 'Status', visible: true, sortable: true, sortDirection: 'desc' },
-  method: { value: 'Method', visible: true, sortable: true, sortDirection: 'desc' },
-  amount: { value: 'Amount', visible: true, sortable: true, sortDirection: 'desc' },
+  invoice: { value: 'invoice', visible: true, sortable: true, direction: 'none' },
+  method: { value: 'method', visible: true, sortable: true, direction: 'none' },
+  status: { value: 'status', visible: true, sortable: true, direction: 'none' },
+  amount: { value: 'amount', visible: true, sortable: true, direction: 'none' },
 }
 
-type Headers = ['invoice', 'status', 'amount', 'method']
+type Headers = ['invoice', 'status', 'method', 'amount']
 
 const table_data: DuckTableOptions<Headers> = {
   headers,
   data: invoices,
-  pageSize: 3,
+  pageSize: 30,
   query: '',
   sort: [
-    {
-      column: 'invoice',
-      direction: 'asc',
-    },
+    // {
+    //   label: 'invoice',
+    //   direction: 'asc',
+    // },
   ],
+  storageKey: 'invoices',
 }
 
 export const duck_table = createDuckTable<Headers>(table_data)

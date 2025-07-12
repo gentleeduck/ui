@@ -148,7 +148,7 @@ export function DuckTableHeader({}: {}) {
               <TableHead
                 key={header.value}
                 className={cn(
-                  'whitespace-nowrap text-ellipsis',
+                  'whitespace-nowrap text-ellipsis capitalize',
                   key === colCount - 1 && 'text-right pr-3',
                   header.sortable && key === colCount - 1 && 'pr-0',
                   header.sortable && key === 0 && 'pl-4',

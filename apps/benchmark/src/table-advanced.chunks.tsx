@@ -4,7 +4,7 @@ import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { useAtom } from '@gentleduck/state/primitive'
+import { useAtom, useSetAtom } from '@gentleduck/state/primitive'
 import { ArrowDown01, ArrowUp10, Minus } from 'lucide-react'
 import React from 'react'
 import { cn } from './lib/utils'
@@ -187,11 +187,23 @@ export function DuckTableColumnView({
   )
 }
 
-export function DuckTableSortable({ label, header }: { label: string; header: HeaderValues }) {
-  const [columns, setColumns] = useAtom(duck_table.atoms.columns)
+export function DuckTableSortable({ header }: { header: HeaderValues }) {
+  const setColumns = useSetAtom(duck_table.atoms.columnSort)
+
+  const [open, setOpen] = React.useState(false)
+  // React.useEffect(() => {
+  //   // console.log(columns)
+  //   console.log(open)
+  // }, [open])
+
   return (
-    <Popover>
-      <PopoverTrigger size={'sm'} variant={'ghost'} className="-ml-1" icon={<ArrowDown01 />}>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger
+        size={'sm'}
+        variant={'ghost'}
+        className="-ml-1 capitalize"
+        icon={<ArrowDown01 />}
+        onClick={() => setOpen(!open)}>
         {header.value}
       </PopoverTrigger>
       <PopoverContent
@@ -206,39 +218,37 @@ export function DuckTableSortable({ label, header }: { label: string; header: He
           icon={<ArrowUp10 />}
           variant={'ghost'}
           size={'sm'}
-          onClick={() =>
+          onClick={() => {
             setColumns((prev) => {
-              console.log(
-                Object.assign(
-                  {},
-                  ...Object.keys(prev).map((key) => {
-                    const column = prev[key as keyof typeof prev]
-                    if (key === label) {
-                      column.sortDirection = 'asc'
-                    }
-                    return { [key]: column }
-                  }),
-                ),
-              )
-              return Object.assign(
-                {},
-                ...Object.keys(prev).map((key) => {
-                  const column = prev[key as keyof typeof prev]
-                  if (key === label) {
-                    column.sortDirection = 'asc'
-                  }
-                  return { [key]: column }
-                }),
-              )
+              return prev.map((column) => (column.label === header.value ? { ...column, direction: 'asc' } : column))
             })
-          }>
+            setOpen(false)
+          }}>
           Ascending
         </Button>
-        <Button icon={<ArrowDown01 />} variant={'ghost'} size={'sm'}>
+        <Button
+          icon={<ArrowDown01 />}
+          variant={'ghost'}
+          size={'sm'}
+          onClick={() => {
+            setColumns((prev) => {
+              return prev.map((column) => (column.label === header.value ? { ...column, direction: 'desc' } : column))
+            })
+            setOpen(false)
+          }}>
           Descending
         </Button>
         <Separator />
-        <Button icon={<Minus />} variant={'ghost'} size={'sm'}>
+        <Button
+          icon={<Minus />}
+          variant={'ghost'}
+          size={'sm'}
+          onClick={() => {
+            setColumns((prev) => {
+              return prev.map((column) => (column.label === header.value ? { ...column, direction: 'none' } : column))
+            })
+            setOpen(false)
+          }}>
           None
         </Button>
       </PopoverContent>
