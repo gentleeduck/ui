@@ -14,6 +14,7 @@ import {
 import { createDuckTable } from './table.hooks'
 import { useAtom, useAtomValue } from '@gentleduck/state/primitive'
 import { cn } from './lib/utils'
+import { duck_table } from './main'
 
 export type DuckTableContextType<T extends Record<string, unknown>> = {
   table: ReturnType<typeof createDuckTable<T>>
@@ -53,12 +54,8 @@ export function DuckTableBody({ children, ...props }: React.HTMLAttributes<HTMLD
   )
 }
 
-export function DuckTableRowPerPage<TRow extends Record<string, unknown>>({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const { table } = useDuckTable<TRow>()
-  const pageSize = useAtomValue(table.atoms.pageSize)
+export function DuckTableRowPerPage({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  const [pageSize, setPageSize] = useAtom(duck_table.atoms.pageSize)
 
   const options = [5, 10, 20, 50, 100]
 
@@ -68,7 +65,7 @@ export function DuckTableRowPerPage<TRow extends Record<string, unknown>>({
       <Select
         value={String(pageSize)}
         onValueChange={(value) => {
-          table.actions.setPageSize(Number(value))
+          setPageSize(Number(value))
         }}
         id="select">
         <SelectTrigger className="px-2 w-[70px] h-8 text-sm">
@@ -88,14 +85,9 @@ export function DuckTableRowPerPage<TRow extends Record<string, unknown>>({
   )
 }
 
-export function DuckTableSelectedRows<TRow extends Record<string, unknown>>({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const { table } = useDuckTable<TRow>()
-
-  const selectedCount = useAtom(table.atoms.selected)
-  const totalCount = useAtom(table.atoms.rows)
+export function DuckTableSelectedRows({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  const selectedCount = useAtomValue(duck_table.atoms.selectedRows)
+  const totalCount = useAtomValue(duck_table.atoms.rows)
 
   return (
     <div duck-table-selected-rows="" className={cn('flex items-center gap-2', className)} {...props}>
@@ -106,15 +98,9 @@ export function DuckTableSelectedRows<TRow extends Record<string, unknown>>({
   )
 }
 
-export function DuckTablePagination<TRow extends Record<string, unknown>>({
-  actions,
-  atoms,
-}: {
-  actions: ReturnType<typeof createDuckTable<TRow>>['actions']
-  atoms: ReturnType<typeof createDuckTable<TRow>>['atoms']
-}) {
-  const page = useAtomValue(atoms.page)
-  const totalPages = useAtomValue(atoms.totalPages)
+export function DuckTablePagination({}: {}) {
+  const [page, setPage] = useAtom(duck_table.atoms.currentPage)
+  const totalPages = useAtomValue(duck_table.atoms.totalPages)
 
   const isFirst = page <= 1
   const isLast = page >= totalPages
@@ -123,13 +109,18 @@ export function DuckTablePagination<TRow extends Record<string, unknown>>({
     <Pagination className={cn('justify-end')}>
       <PaginationContent className={cn('gap-2')}>
         <PaginationItem>
-          <Button variant="outline" size="icon" className="p-0" onClick={actions.firstPage} disabled={isFirst}>
+          <Button variant="outline" size="icon" className="p-0 !size-8" onClick={() => setPage(1)} disabled={isFirst}>
             <ChevronsLeftIcon className="size-4" />
           </Button>
         </PaginationItem>
 
         <PaginationItem>
-          <Button variant="outline" size="icon" className="p-0" onClick={actions.prevPage} disabled={isFirst}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="p-0 !size-8"
+            onClick={() => setPage((prev) => prev - 1)}
+            disabled={isFirst}>
             <ChevronLeftIcon className="size-4" />
           </Button>
         </PaginationItem>
@@ -141,13 +132,23 @@ export function DuckTablePagination<TRow extends Record<string, unknown>>({
         </PaginationItem>
 
         <PaginationItem>
-          <Button variant="outline" size="icon" className="p-0" onClick={actions.nextPage} disabled={isLast}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="p-0 !size-8"
+            onClick={() => setPage((prev) => prev + 1)}
+            disabled={isLast}>
             <ChevronRightIcon className="size-4" />
           </Button>
         </PaginationItem>
 
         <PaginationItem>
-          <Button variant="outline" size="icon" className="p-0" onClick={actions.lastPage} disabled={isLast}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="p-0 !size-8"
+            onClick={() => setPage(totalPages)}
+            disabled={isLast}>
             <ChevronsRightIcon className="size-4" />
           </Button>
         </PaginationItem>

@@ -64,6 +64,7 @@ export class DuckTable<T> implements DuckTableType<T> {
 
   setQuery(query: string): void {
     this.query = query
+    this.filteredData = this.rawData.filter((row) => JSON.stringify(row).includes(query))
     this.notify('filter')
   }
 

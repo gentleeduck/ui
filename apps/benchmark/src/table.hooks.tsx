@@ -1,24 +1,71 @@
-import { atom } from '@gentleduck/state/primitive'
+import { atom, Setter } from '@gentleduck/state/primitive'
 import { DuckTable } from './table.libs'
-import { DuckTableOptions } from './table.types'
+import { DuckTableColumnSort, DuckTableOptions } from './table.types'
 
 export function createDuckTable<THeaders extends string[]>(initialData: DuckTableOptions<THeaders>) {
   const table = new DuckTable<THeaders>(initialData)
 
-  // const pageSize = atom(table.getPageSize())
+  // Atoms
   const rows = atom(table.getRows())
-  const query = atom(table.getQuery())
+  const query = atom(
+    () => table.getQuery(),
+    (_, set, newQuery: string) => {
+      table.setQuery(newQuery)
+      syncAll(set)
+    },
+  )
+
+  const pageSize = atom(
+    () => table.getPageSize(),
+    (_, set, newSize: number) => {
+      table.setPageSize(newSize)
+      syncAll(set)
+    },
+  )
+
+  const currentPage = atom(
+    () => table.getCurrentPage(),
+    (_, set, newPage: (value: number) => number | number) => {
+      if (typeof newPage !== 'function') {
+        table.setCurrentPage(newPage)
+      } else {
+        table.setCurrentPage(newPage(table.getCurrentPage()))
+      }
+      set(currentPageRows, table.getCurrentPageRows())
+    },
+  )
+
   const columns = atom(table.getColumns())
+  const columnSort = atom(table.getSortConfig(), (_, set, newColumnSort: DuckTableColumnSort[]) => {
+    table.setSortConfig(newColumnSort)
+    set(columnSort, table.getSortConfig())
+  })
   const visibleColumns = atom(table.getVisibleColumns())
+  const mutatedRows = atom(table.getMutatedRows())
+  const currentPageRows = atom(table.getCurrentPageRows())
+  const totalPages = atom(table.getTotalPages())
+  const selectedRows = atom(table.getSelectedRows())
+
+  // 🌐 Central sync function
+  function syncAll(set: Setter) {
+    set(mutatedRows, table.getMutatedRows())
+    set(currentPageRows, table.getCurrentPageRows())
+    set(totalPages, table.getTotalPages())
+  }
 
   return {
     table,
     atoms: {
-      visibleColumns,
       columns,
+      visibleColumns,
       rows,
-      // pageSize,
+      mutatedRows,
+      currentPageRows,
+      currentPage,
+      pageSize,
       query,
-    } as const,
+      totalPages,
+      selectedRows,
+    },
   }
 }

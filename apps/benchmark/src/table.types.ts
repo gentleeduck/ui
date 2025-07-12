@@ -2,19 +2,17 @@ export type DuckTableRow<T> = T & { id: string }
 
 export type DuckTableSortDirection = 'asc' | 'desc'
 
-export interface DuckTableColumnSort<T extends readonly string[]> {
-  column: T[number]
-  direction: DuckTableSortDirection
-}
-
 export type DuckTableFilterFn<T> = (row: DuckTableRow<T>) => boolean
 
 /* ===================================================================== */
-type HeaderValues = { value: string; visible: boolean }
+export type DuckTableColumnSort = { label: string; direction: 'asc' | 'desc' | 'none' }
+export type HeaderValues =
+  | { value: string; visible: boolean; sortable: false }
+  | { value: string; visible: boolean; sortable: true; sortDirection: DuckTableColumnSort['direction'] }
 export type DuckTableOptions<THeaders extends readonly string[]> = {
   headers: Record<THeaders[number], HeaderValues>
   data: Record<'id' | THeaders[number], string>[]
   pageSize?: number
-  sort?: DuckTableColumnSort<THeaders>[]
+  sort?: DuckTableColumnSort[]
   query?: string
 }

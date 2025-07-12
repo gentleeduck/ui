@@ -19,9 +19,12 @@ import {
   DuckTableLeftSide,
   DuckTableRightSide,
   DuckTableSearch,
+  DuckTableSortable,
 } from './table-advanced.chunks'
 import { createDuckTable } from './table.hooks'
 import { cn } from './lib/utils'
+import React from 'react'
+import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
 const hi = [
   {
     label: 'All',
@@ -39,8 +42,8 @@ const hi = [
 
 export function TableDemo() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <DuckTable className="w-[765px] flex flex-col gap-4 border rounded-md p-4" table={duck_table}>
+    <div className="min-h-screen flex items-center justify-center overflow-hidden">
+      <DuckTable className="w-[765px] flex flex-col gap-2.5 border rounded-md p-4 overflow-x-hidden" table={duck_table}>
         <DuckTableBar>
           <DuckTableRightSide>
             <DuckTableSearch />
@@ -65,16 +68,12 @@ export function TableDemo() {
 
         <DuckTableBar>
           <DuckTableRightSide>
-            {
-              // <DuckTableSelectedRows />
-            }
+            <DuckTableSelectedRows />
           </DuckTableRightSide>
 
           <DuckTableLeftSide className="gap-8">
-            {
-              // <DuckTableRowPerPage atoms={duck_table.atoms} actions={duck_table.actions} />
-              //   <DuckTablePagination actions={duck_table.actions} atoms={duck_table.atoms} />
-            }
+            <DuckTableRowPerPage />
+            <DuckTablePagination />
           </DuckTableLeftSide>
         </DuckTableBar>
       </DuckTable>
@@ -85,15 +84,17 @@ export function TableDemo() {
 export function TableDemo1() {
   return (
     <div className="border rounded-md overflow-hidden">
-      <Table>
+      <Table style={{ width: '100%', tableLayout: 'fixed' }} className="overflow-hidden">
         <DuckTableHeader />
 
         <DuckTableBody />
 
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
+            <TableCell className="pl-3" colSpan={4}>
+              Total
+            </TableCell>
+            <TableCell className="text-right pr-3">$2,500.00</TableCell>
           </TableRow>
         </TableFooter>
       </Table>
@@ -102,27 +103,73 @@ export function TableDemo1() {
 }
 
 export function DuckTableHeader({}: {}) {
-  const headres = useAtomValue(duck_table.atoms.columns)
+  const headers = useAtomValue(duck_table.atoms.columns)
+
+  const visibleHeaders = Object.values(headers).filter((header) => header.visible)
+  const colCount = visibleHeaders.length
+  const cellWidth = `${100 / colCount}%`
+
+  function HeahderCheckboxSelect() {
+    const mutatedRows = useAtomValue(duck_table.atoms.mutatedRows)
+    const [selectedRows, setSelectedRows] = useAtom(duck_table.atoms.selectedRows)
+
+    return (
+      <Checkbox
+        className="border-border"
+        onChange={(e) => {
+          if (e.currentTarget.checked) {
+            setSelectedRows(mutatedRows.map((row) => row.id))
+          } else {
+            setSelectedRows([])
+          }
+        }}
+        checked={
+          selectedRows.length < mutatedRows.length && selectedRows.length > 0
+            ? 'indeterminate'
+            : selectedRows.length === mutatedRows.length
+              ? true
+              : false
+        }
+      />
+    )
+  }
+
   return (
     <TableHeader>
       <TableRow>
-        {Object.values(headres).map(
-          (header, key) =>
-            header.visible && (
+        {visibleHeaders.map((header, key) => {
+          return (
+            <React.Fragment key={key}>
+              {key === 0 && (
+                <TableHead className="w-[35px] pl-3">
+                  <HeahderCheckboxSelect />
+                </TableHead>
+              )}
               <TableHead
                 key={header.value}
-                className={cn(key === 0 && 'w-[100px]', key === Object.keys(headres).length - 1 && 'text-right')}>
-                {header.value}
+                className={cn(
+                  'whitespace-nowrap text-ellipsis',
+                  key === colCount - 1 && 'text-right pr-3',
+                  header.sortable && key === colCount - 1 && 'pr-0',
+                  header.sortable && key === 0 && 'pl-4',
+                  header.sortable && key !== colCount - 1 && '!px-0',
+                )}
+                style={{
+                  width: cellWidth,
+                  maxWidth: cellWidth,
+                }}>
+                {header.sortable ? <DuckTableSortable header={header} /> : header.value}
               </TableHead>
-            ),
-        )}
+            </React.Fragment>
+          )
+        })}
       </TableRow>
     </TableHeader>
   )
 }
 
 export function DuckTableBody() {
-  const rows = useAtomValue(duck_table.atoms.rows)
+  const rows = useAtomValue(duck_table.atoms.currentPageRows)
   const query = useAtomValue(duck_table.atoms.query)
   const columns = useAtomValue(duck_table.atoms.columns)
 
@@ -132,24 +179,50 @@ export function DuckTableBody() {
 
   const newRows = rows.filter((invoice) => JSON.stringify(invoice).toLowerCase().includes(query.toLowerCase()))
 
+  function RowCheckboxSelect({ id }: { id: (typeof newRows)[number]['id'] }) {
+    const [selectedRows, setSelectedRows] = useAtom(duck_table.atoms.selectedRows)
+
+    return (
+      <Checkbox
+        className="border-border"
+        onChange={(e) => {
+          if (e.currentTarget.checked) {
+            setSelectedRows((prev) => [...prev, id])
+          } else {
+            setSelectedRows((prev) => prev.filter((row) => row !== id))
+          }
+        }}
+        checked={selectedRows.includes(id)}
+      />
+    )
+  }
+
   return (
     <TableBody>
       {newRows.length ? (
-        newRows.map((invoice, key) => {
-          const _invoice = Object.fromEntries(Object.entries(invoice).filter(([key]) => visibleKeys.includes(key)))
+        newRows.map((row, key) => {
+          const _row = Object.fromEntries(Object.entries(row).filter(([key]) => visibleKeys.includes(key)))
           return (
             <TableRow key={key}>
-              {Object.values(_invoice).map((value, key) => (
-                <TableCell
-                  key={key}
-                  className={cn(
-                    // 'w-full max-w-[100px] truncate',
-                    key === 0 && 'w-[100px]',
-                    key === Object.keys(_invoice).length - 1 && 'text-right',
-                  )}>
-                  {value}
-                </TableCell>
-              ))}
+              {Object.values(_row).map((value, key) => {
+                return (
+                  <React.Fragment key={key}>
+                    {key === 0 && (
+                      <TableCell key={key} className="pl-3">
+                        <RowCheckboxSelect id={row.id} />
+                      </TableCell>
+                    )}
+                    <TableCell
+                      key={key}
+                      className={cn(
+                        key === 0 && 'w-[100px]',
+                        key === Object.keys(_row).length - 1 && 'text-right pr-3',
+                      )}>
+                      {value}
+                    </TableCell>
+                  </React.Fragment>
+                )
+              })}
             </TableRow>
           )
         })

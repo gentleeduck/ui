@@ -1,8 +1,8 @@
 import React from 'react'
 import { type Atom } from './atom'
 import { useStore } from './provider'
-import type { ExtractAtomValue } from './types'
 import { createStore } from './store'
+import type { ExtractAtomValue } from './types'
 
 type Options = Parameters<typeof useStore>[0] & {
   delay?: number

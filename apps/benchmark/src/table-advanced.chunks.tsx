@@ -1,16 +1,15 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Combobox, ComboboxItem, ComboboxItemType, ComboxGroup } from '@gentleduck/registry-ui-duckui/combobox'
-import { CommandShortcut } from '@gentleduck/registry-ui-duckui/command'
+import { Combobox, ComboboxItem, ComboxGroup } from '@gentleduck/registry-ui-duckui/combobox'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
-import { Command } from 'lucide-react'
+import { useAtom } from '@gentleduck/state/primitive'
+import { ArrowDown01, ArrowUp10, Minus } from 'lucide-react'
 import React from 'react'
 import { cn } from './lib/utils'
-import { useDuckTable } from './table-advanced'
-import { useAtom, useAtomValue } from '@gentleduck/state/primitive'
 import { duck_table } from './main'
+import { HeaderValues } from './table.types'
 
 export function DuckTableBar({ className, ...props }: React.HtmlHTMLAttributes<HTMLDivElement>) {
   return <div className={cn('flex items-center gap-2 justify-between', className)} {...props} duck-table-header="" />
@@ -29,12 +28,11 @@ export function DuckTableSearch({
   ...props
 }: React.ComponentPropsWithoutRef<typeof Input>) {
   function IInput() {
-    const { table } = useDuckTable()
-    const [query, setQuery] = useAtom(table.atoms.query)
+    const [query, setQuery] = useAtom(duck_table.atoms.query)
 
     return (
       <Input
-        className="max-w-[200px]"
+        className="max-w-[200px] h-8"
         placeholder={placeholder}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
@@ -58,7 +56,7 @@ export function DuckTableSearch({
   //     </Tooltip>
 }
 
-export function DuckTableFilter<T extends readonly ComboboxItemType[] | ComboboxItemType[]>({
+export function DuckTableFilter<T extends readonly string[] | string[]>({
   value: defaultValue,
   items,
   heading,
@@ -66,7 +64,7 @@ export function DuckTableFilter<T extends readonly ComboboxItemType[] | Combobox
   onValueChange,
 }: {
   trigger?: React.ComponentProps<typeof Combobox>['popoverTrigger']
-  onValueChange?: (value: T[number]['label']) => void
+  onValueChange?: (value: string) => void
   items: T
   value?: string[]
   heading: string
@@ -134,14 +132,12 @@ export function DuckTableColumnView({
 }) {
   const [columns, setColumns] = useAtom(duck_table.atoms.columns)
   const _columns = Object.keys(columns)
-  const [visibleColumns, setVisibleColumns] = useAtom(duck_table.atoms.visibleColumns)
 
-  // console.log(visibleColumns, 'visibleColumns')
   return (
     <Combobox<typeof _columns, 'multiple'>
       popoverTrigger={{
         ...trigger,
-        className: cn('px-2', trigger?.className),
+        className: cn('px-2 h-8', trigger?.className),
       }}
       command={{ className: 'p-1' }}
       duck-table-filter=""
@@ -161,7 +157,7 @@ export function DuckTableColumnView({
                   <ComboboxItem<typeof item>
                     key={item}
                     value={item}
-                    className="[&_input]:border-none"
+                    className="[&_input]:border-none capitalize"
                     checked={
                       (columns[item as keyof typeof columns].visible === true ? 'indeterminate' : false) as boolean
                     }
@@ -188,5 +184,64 @@ export function DuckTableColumnView({
         )
       }}
     </Combobox>
+  )
+}
+
+export function DuckTableSortable({ label, header }: { label: string; header: HeaderValues }) {
+  const [columns, setColumns] = useAtom(duck_table.atoms.columns)
+  return (
+    <Popover>
+      <PopoverTrigger size={'sm'} variant={'ghost'} className="-ml-1" icon={<ArrowDown01 />}>
+        {header.value}
+      </PopoverTrigger>
+      <PopoverContent
+        side="bottom"
+        align={'center'}
+        className="w-fit flex flex-col p-1 gap-1 [&_button]:w-[130px] [&_div]:justify-start z-10">
+        <Label className="font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 p-2 pb-1">
+          Column sort
+        </Label>
+        <Separator />
+        <Button
+          icon={<ArrowUp10 />}
+          variant={'ghost'}
+          size={'sm'}
+          onClick={() =>
+            setColumns((prev) => {
+              console.log(
+                Object.assign(
+                  {},
+                  ...Object.keys(prev).map((key) => {
+                    const column = prev[key as keyof typeof prev]
+                    if (key === label) {
+                      column.sortDirection = 'asc'
+                    }
+                    return { [key]: column }
+                  }),
+                ),
+              )
+              return Object.assign(
+                {},
+                ...Object.keys(prev).map((key) => {
+                  const column = prev[key as keyof typeof prev]
+                  if (key === label) {
+                    column.sortDirection = 'asc'
+                  }
+                  return { [key]: column }
+                }),
+              )
+            })
+          }>
+          Ascending
+        </Button>
+        <Button icon={<ArrowDown01 />} variant={'ghost'} size={'sm'}>
+          Descending
+        </Button>
+        <Separator />
+        <Button icon={<Minus />} variant={'ghost'} size={'sm'}>
+          None
+        </Button>
+      </PopoverContent>
+    </Popover>
   )
 }

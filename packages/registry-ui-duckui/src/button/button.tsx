@@ -48,9 +48,9 @@ function Button({
       type={type}
       disabled={loading ?? disabled}>
       <div className="flex h-full w-full items-center justify-center gap-2">
+        {loading ? <Loader className="animate-spin" /> : icon}
         {!isCollapsed && children}
         {!isCollapsed && secondIcon && secondIcon}
-        {loading ? <Loader className="animate-spin" /> : icon}
       </div>
     </Component>
   )

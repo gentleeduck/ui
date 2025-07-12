@@ -35,62 +35,62 @@ const invoices: DuckTableOptions<Headers>['data'] = [
   {
     id: 'INV001',
     invoice: 'INV001',
-    paymentMethod: 'Credit Card',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
+    method: 'Credit Card',
+    status: 'Paid',
+    amount: '$250.00',
   },
   {
     id: 'INV002',
     invoice: 'INV002',
-    paymentMethod: 'PayPal',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
+    method: 'PayPal',
+    status: 'Pending',
+    amount: '$150.00',
   },
   {
     id: 'INV003',
     invoice: 'INV003',
-    paymentMethod: 'Bank Transfer',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$350.00',
+    method: 'Bank Transfer',
+    status: 'Unpaid',
+    amount: '$350.00',
   },
   {
     id: 'INV004',
     invoice: 'INV004',
-    paymentMethod: 'Credit Card',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
+    method: 'Credit Card',
+    status: 'Paid',
+    amount: '$450.00',
   },
   {
     id: 'INV005',
     invoice: 'INV005',
-    paymentMethod: 'PayPal',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
+    method: 'PayPal',
+    status: 'Paid',
+    amount: '$550.00',
   },
   {
     id: 'INV006',
     invoice: 'INV006',
-    paymentMethod: 'Bank Transfer',
-    paymentStatus: 'Pending',
-    totalAmount: '$200.00',
+    method: 'Bank Transfer',
+    status: 'Pending',
+    amount: '$200.00',
   },
   {
     id: 'INV007',
     invoice: 'INV007',
-    paymentMethod: 'Credit Card',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$300.00',
+    method: 'Credit Card',
+    status: 'Unpaid',
+    amount: '$300.00',
   },
 ]
 
-const headers = {
-  invoice: { value: 'Invoice', visible: true },
-  totalAmount: { value: 'Method', visible: true },
-  paymentStatus: { value: 'Status', visible: true },
-  paymentMethod: { value: 'Amount', visible: true },
+const headers: DuckTableOptions<Headers>['headers'] = {
+  invoice: { value: 'Invoice', visible: true, sortable: true, sortDirection: 'desc' },
+  status: { value: 'Status', visible: true, sortable: true, sortDirection: 'desc' },
+  method: { value: 'Method', visible: true, sortable: true, sortDirection: 'desc' },
+  amount: { value: 'Amount', visible: true, sortable: true, sortDirection: 'desc' },
 }
 
-type Headers = ['invoice', 'paymentStatus', 'totalAmount', 'paymentMethod']
+type Headers = ['invoice', 'status', 'amount', 'method']
 
 const table_data: DuckTableOptions<Headers> = {
   headers,

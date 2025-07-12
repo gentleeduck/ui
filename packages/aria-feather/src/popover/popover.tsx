@@ -88,7 +88,7 @@ export function Trigger(props: React.ComponentPropsWithoutRef<typeof Slot>): Rea
 export function Content({
   children,
   className,
-  renderOnce = true,
+  renderOnce = false,
   overlay = 'nothing',
   closedby = 'any',
   dialogClose,
