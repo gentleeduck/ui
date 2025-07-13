@@ -5,12 +5,39 @@ import { DuckTableColumnSort, DuckTableOptions } from './table.types'
 export function createDuckTable<THeaders extends Lowercase<string>[]>(initialData: DuckTableOptions<THeaders>) {
   const table = new DuckTable<THeaders>(initialData)
 
-  // Atoms
+  // Data atoms
   const rows = atom(table.getRows())
+  const columns = atom(table.getColumns())
+  const visibleColumns = atom(
+    () => table.getVisibleColumns(),
+    (_, set, column: DuckTableOptions<THeaders>['columns'][keyof DuckTableOptions<THeaders>['columns']]['value']) => {
+      // console.log(column)
+      table.toggleColumnVisibility(column)
+      set(columns, () => table.getColumns())
+      // console.log(table.getColumns())
+      syncAll(set)
+    },
+  )
+  const mutatedRows = atom(table.getMutatedRows())
+  const currentPageRows = atom(table.getCurrentPageRows())
+  const totalPages = atom(table.getTotalPages())
+  const selectedRows = atom(
+    () => table.getSelectedRows(),
+    (_, set, newIds: ((value: string[]) => string[]) | string[]) => {
+      if (typeof newIds === 'function') {
+        table.setSelectedRows(newIds(table.getSelectedRows()))
+      } else {
+        table.setSelectedRows(newIds)
+      }
+    },
+  )
+
+  // Derived setter atoms with full sync
   const query = atom(
     () => table.getQuery(),
     (_, set, newQuery: string) => {
       table.setQuery(newQuery)
+      set(currentPage, () => table.getCurrentPage())
       syncAll(set)
     },
   )
@@ -25,56 +52,44 @@ export function createDuckTable<THeaders extends Lowercase<string>[]>(initialDat
 
   const currentPage = atom(
     () => table.getCurrentPage(),
-    (_, set, newPage: (value: number) => number | number) => {
-      if (typeof newPage !== 'function') {
-        table.setCurrentPage(newPage)
-      } else {
-        table.setCurrentPage(newPage(table.getCurrentPage()))
-      }
-      set(currentPageRows, table.getCurrentPageRows())
+    (_, set, newPage: ((value: number) => number) | number) => {
+      const page = typeof newPage === 'function' ? newPage(table.getCurrentPage()) : newPage
+      table.setCurrentPage(page)
+      syncAll(set)
     },
   )
 
-  const columns = atom(table.getColumns())
   const columnSort = atom(
     () => table.getColumnSort(),
     (_, set, newColumnSort: DuckTableColumnSort[] | ((value: DuckTableColumnSort[]) => DuckTableColumnSort[])) => {
-      if (typeof newColumnSort === 'function') {
-        table.setColumnSort(newColumnSort(table.getColumnSort()))
-      } else {
-        table.setColumnSort(newColumnSort)
-      }
-      set(mutatedRows, table.getMutatedRows())
-      set(currentPageRows, table.getCurrentPageRows())
+      const sort = typeof newColumnSort === 'function' ? newColumnSort(table.getColumnSort()) : newColumnSort
+      table.setColumnSort(sort)
+      syncAll(set)
     },
   )
-  const visibleColumns = atom(table.getVisibleColumns())
-  const mutatedRows = atom(table.getMutatedRows())
-  const currentPageRows = atom(table.getCurrentPageRows())
-  const totalPages = atom(table.getTotalPages())
-  const selectedRows = atom(table.getSelectedRows())
 
-  // 🌐 Central sync function
+  // Central sync function
   function syncAll(set: Setter) {
     set(mutatedRows, table.getMutatedRows())
     set(currentPageRows, table.getCurrentPageRows())
     set(totalPages, table.getTotalPages())
+    set(selectedRows, table.getSelectedRows())
   }
 
   return {
     table,
     atoms: {
+      rows,
       columns,
       visibleColumns,
-      columnSort,
-      rows,
       mutatedRows,
       currentPageRows,
-      currentPage,
-      pageSize,
-      query,
       totalPages,
       selectedRows,
+      query,
+      pageSize,
+      currentPage,
+      columnSort,
     },
   }
 }

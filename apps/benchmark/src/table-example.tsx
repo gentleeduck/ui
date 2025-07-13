@@ -66,8 +66,8 @@ export function TableDemo() {
 
 export function TableDemo1() {
   return (
-    <div className="border rounded-md overflow-hidden">
-      <Table style={{ width: '100%', tableLayout: 'fixed' }} className="overflow-hidden">
+    <div className="border rounded-md">
+      <Table style={{ width: '100%', tableLayout: 'fixed' }}>
         <DuckTableHeader />
 
         <DuckTableBody />
@@ -99,6 +99,7 @@ export function DuckTableHeader({}: {}) {
     return (
       <Checkbox
         className="border-border"
+        disabled={mutatedRows.length === 0}
         onChange={(e) => {
           if (e.currentTarget.checked) {
             setSelectedRows(mutatedRows.map((row) => row.id))
@@ -109,7 +110,7 @@ export function DuckTableHeader({}: {}) {
         checked={
           selectedRows.length < mutatedRows.length && selectedRows.length > 0
             ? 'indeterminate'
-            : selectedRows.length === mutatedRows.length
+            : selectedRows.length === mutatedRows.length && mutatedRows.length > 0
               ? true
               : false
         }
@@ -119,7 +120,7 @@ export function DuckTableHeader({}: {}) {
 
   return (
     <TableHeader>
-      <TableRow>
+      <TableRow className="[&:has(th>input:disabled)>th]:pointer-events-none [&:has(th>input:disabled)>th]:cursor-not-allowed [&:has(th>input:disabled)>th]:opacity-50">
         {visibleHeaders.map((header, key) => {
           return (
             <React.Fragment key={key}>
@@ -153,16 +154,13 @@ export function DuckTableHeader({}: {}) {
 
 export function DuckTableBody() {
   const rows = useAtomValue(duck_table.atoms.currentPageRows)
-  const query = useAtomValue(duck_table.atoms.query)
   const columns = useAtomValue(duck_table.atoms.columns)
 
   const visibleKeys = Object.entries(columns)
     .filter(([_, config]) => config.visible)
     .map(([key]) => key)
 
-  const newRows = rows.filter((invoice) => JSON.stringify(invoice).toLowerCase().includes(query.toLowerCase()))
-
-  function RowCheckboxSelect({ id }: { id: (typeof newRows)[number]['id'] }) {
+  function RowCheckboxSelect({ id }: { id: (typeof rows)[number]['id'] }) {
     const [selectedRows, setSelectedRows] = useAtom(duck_table.atoms.selectedRows)
 
     return (
@@ -182,16 +180,18 @@ export function DuckTableBody() {
 
   return (
     <TableBody>
-      {newRows.length ? (
-        newRows.map((row, key) => {
-          const _row = Object.fromEntries(Object.entries(row).filter(([key]) => visibleKeys.includes(key)))
+      {rows.length ? (
+        rows.map((row, key) => {
+          const _row = Object.fromEntries(
+            Object.entries(row).filter(([key]) => visibleKeys.includes(key)),
+          ) as typeof row
           return (
             <TableRow key={key}>
-              {Object.values(_row).map((value, key) => {
+              {Object.values(_row as Record<string, string>).map((value, key) => {
                 return (
                   <React.Fragment key={key}>
                     {key === 0 && (
-                      <TableCell key={key} className="pl-3">
+                      <TableCell key={key + 'checkbox'} className="pl-3">
                         <RowCheckboxSelect id={row.id} />
                       </TableCell>
                     )}
@@ -210,12 +210,19 @@ export function DuckTableBody() {
           )
         })
       ) : (
-        <TableRow>
-          <TableCell colSpan={4} className="text-center">
-            No results found
-          </TableCell>
-        </TableRow>
+        <DuckTableBodyNotFound />
       )}
     </TableBody>
+  )
+}
+
+export function DuckTableBodyNotFound() {
+  const visibleColumns = useAtomValue(duck_table.atoms.visibleColumns)
+  return (
+    <TableRow>
+      <TableCell colSpan={visibleColumns.length + 1} className="text-center">
+        No results found
+      </TableCell>
+    </TableRow>
   )
 }

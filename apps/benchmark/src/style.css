@@ -250,3 +250,21 @@
     -webkit-line-clamp: 1;
   }
 }
+
+/* ::-webkit-scrollbar { */
+/*   width: 8px; */
+/*   height: 8px; */
+/* } */
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.my-element {
+  /* scrollbar-gutter: auto | stable && both-edges?; */
+  /* scrollbar-width: thin; */
+  /* scrollbar-color: rgba(0, 0, 0, 0.3) transparent; */
+  scrollbar-gutter: stable;
+  /* scrollbar-width: none; */
+  /* background-color: red; */
+}

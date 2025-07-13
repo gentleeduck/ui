@@ -68,7 +68,7 @@ export function DuckTableRowPerPage({ className, ...props }: React.HTMLAttribute
         <SelectContent className="w-[65px] py-2">
           <SelectGroup>
             {options.map((item) => (
-              <SelectItem key={item} value={String(item)}>
+              <SelectItem key={item} value={String(item)} className="h-4">
                 {item}
               </SelectItem>
             ))}
@@ -103,7 +103,12 @@ export function DuckTablePagination({}: {}) {
     <Pagination className={cn('justify-end')}>
       <PaginationContent className={cn('gap-2')}>
         <PaginationItem>
-          <Button variant="outline" size="icon" className="p-0 !size-8" onClick={() => setPage(1)} disabled={isFirst}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="p-0 !size-8"
+            onClick={() => setPage(() => 1)}
+            disabled={isFirst}>
             <ChevronsLeftIcon className="size-4" />
           </Button>
         </PaginationItem>
@@ -141,7 +146,7 @@ export function DuckTablePagination({}: {}) {
             variant="outline"
             size="icon"
             className="p-0 !size-8"
-            onClick={() => setPage(totalPages)}
+            onClick={() => setPage(() => totalPages)}
             disabled={isLast}>
             <ChevronsRightIcon className="size-4" />
           </Button>

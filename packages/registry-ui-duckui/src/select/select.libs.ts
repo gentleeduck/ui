@@ -20,12 +20,6 @@ export function initRefs(
   itemsRef.current = itemsRef.current.filter(
     (item) => !(item.hasAttribute('aria-disabled') || item.getAttribute('aria-disabled') === 'true'),
   )
-  if (!selectedItemRef.current) {
-    const item = itemsRef.current?.[0] as HTMLLIElement
-    styleItem(item ?? null)
-    item?.focus()
-    selectedItemRef.current = item
-  }
 
   for (let i = 0; i < itemsRef.current?.length; i++) {
     const item = itemsRef.current[i] as HTMLLIElement
@@ -50,5 +44,18 @@ export function initRefs(
       onOpenChange(false)
       selectedItemRef.current = item
     })
+
+    if (item.getAttribute('data-value') === String(value) && !selectedItemRef.current) {
+      styleItem(item)
+      selectedItemRef.current = item
+      setSelectedItem(item)
+    }
+  }
+
+  if (!selectedItemRef.current) {
+    const item = itemsRef.current?.[0] as HTMLLIElement
+    styleItem(item ?? null)
+    item?.focus()
+    selectedItemRef.current = item
   }
 }

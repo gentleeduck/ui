@@ -117,7 +117,14 @@ export function ComboboxItem<T extends string>({
         onSelect?.(value)
       }}
       {...props}>
-      <Checkbox checked={checked} id={value} className="border-foreground/50 pointer-events-none" />
+      <Checkbox
+        checked={checked}
+        id={value}
+        className="border-foreground/50 pointer-events-none"
+        onChange={() => {
+          /* this is empty just to avoid an error like You have provided a checked prop without the onChange handler*/
+        }}
+      />
       {children}
     </CommandItem>
   )

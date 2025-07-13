@@ -1,11 +1,11 @@
 import {
+  DuckColumnValues,
   DuckTableColumnSort,
   DuckTableEvent,
   DuckTableEventMeta,
   DuckTableEventType,
+  DuckTableHistoryDelta,
   DuckTableOptions,
-  HeaderValues,
-  HistoryDelta,
 } from './table.types'
 
 const DEFAULT_PAGE_SIZE = 10
@@ -14,13 +14,13 @@ type NormalizedRow<T> = T & {
   _normalized?: Record<string, string>
 }
 
-export class DuckTable<THeader extends Lowercase<string>[]> {
-  private headers: DuckTableOptions<THeader>['headers'] = {} as never
-  private visibleColumns: (keyof DuckTableOptions<THeader>['headers'])[] = []
-  private rawData: DuckTableOptions<THeader>['data'] = []
-  private viewRows: DuckTableOptions<THeader>['data'] = []
-  private selectedRows: DuckTableOptions<THeader>['data'][number]['id'][] = []
-  private query: Partial<Record<THeader[number], string>> | string
+export class DuckTable<TColumn extends Lowercase<string>[]> {
+  private columns: DuckTableOptions<TColumn>['columns'] = {} as never
+  private visibleColumns: (keyof DuckTableOptions<TColumn>['columns'])[] = []
+  private rows: DuckTableOptions<TColumn>['rows'] = []
+  private viewRows: DuckTableOptions<TColumn>['rows'] = []
+  private selectedRows: DuckTableOptions<TColumn>['rows'][number]['id'][] = []
+  private query: Partial<Record<TColumn[number], string>> | string
   private currentPage = DEFAULT_CURRENT_PAGE
   private pageSize = DEFAULT_PAGE_SIZE
   private sortConfig: DuckTableColumnSort[] = []
@@ -29,28 +29,28 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
   private indexedValues = new Map<string, Map<string, Set<number>>>()
   private _pendingReapply = false
   private dirtyRowIds: Set<string> = new Set()
-  private normalizedData: NormalizedRow<DuckTableOptions<THeader>['data'][number]>[] = []
+  private normalizedData: NormalizedRow<DuckTableOptions<TColumn>['rows'][number]>[] = []
   private static readonly CURRENT_SNAPSHOT_VERSION = 'v1.0.0'
 
   private debug = false
 
   // Change listeners
-  private changeListeners: Array<(event: DuckTableEvent<THeader>) => void> = []
+  private changeListeners: Array<(event: DuckTableEvent<TColumn>) => void> = []
 
-  constructor(options: DuckTableOptions<THeader>) {
-    this.headers = options.headers
-    this.rawData = options.data
-    this.viewRows = options.data.slice()
-    this.assertUniqueIds(this.rawData)
+  constructor(options: DuckTableOptions<TColumn>) {
+    this.columns = options.columns
+    this.rows = options.rows
+    this.viewRows = options.rows.slice()
+    this.assertUniqueIds(this.rows)
     this.query = options.query ?? ''
-    this.visibleColumns = (Object.keys(this.headers) as any[]).filter(
-      (k) => this.headers[k as THeader[number]].visible,
+    this.visibleColumns = (Object.keys(this.columns) as any[]).filter(
+      (k) => this.columns[k as TColumn[number]].visible,
     ) as typeof this.visibleColumns
     this.pageSize = options.pageSize ?? DEFAULT_PAGE_SIZE
-    this.normalizedData = this.rawData.map((row) => this.addNormalized(row))
+    this.normalizedData = this.rows.map((row) => this.addNormalized(row))
 
-    this.sortConfig = Object.values(this.headers).map((h) => {
-      const hv = h as HeaderValues & { direction?: HistoryDelta['type'] }
+    this.sortConfig = Object.values(this.columns).map((h) => {
+      const hv = h as DuckColumnValues & { direction?: DuckTableHistoryDelta['type'] }
       return { label: hv.value, direction: hv.direction || 'none' }
     }) as DuckTableColumnSort[]
   }
@@ -60,41 +60,41 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     this.setColumnSort(this.sortConfig)
   }
 
-  public updateRow(id: string, partial: Partial<DuckTableOptions<THeader>['data'][number]>): void {
-    const index = this.rawData.findIndex((r) => r.id === id)
+  public updateRow(id: string, partial: Partial<DuckTableOptions<TColumn>['rows'][number]>): void {
+    const index = this.rows.findIndex((r) => r.id === id)
     if (index === -1) throw new Error(`Row with id ${id} not found`)
 
-    const updated = this.addNormalized({ ...this.rawData[index], ...partial })
-    this.rawData[index] = updated
+    const updated = this.addNormalized({ ...this.rows[index], ...partial })
+    this.rows[index] = updated
     this.normalizedData[index] = updated
 
     this.dirtyRowIds.add(id)
     this.debounceReapplyView()
   }
 
-  public addRow(row: DuckTableOptions<THeader>['data'][number]): void {
-    if (this.rawData.find((r) => r.id === row.id)) {
+  public addRow(row: DuckTableOptions<TColumn>['rows'][number]): void {
+    if (this.rows.find((r) => r.id === row.id)) {
       throw new Error(`Row with id ${row.id} already exists`)
     }
     const normalized = this.addNormalized(row)
-    this.rawData.push(normalized)
+    this.rows.push(normalized)
     this.normalizedData.push(normalized)
     this.debounceReapplyView()
   }
 
   public deleteRow(id: string): void {
-    this.rawData = this.rawData.filter((r) => r.id !== id)
+    this.rows = this.rows.filter((r) => r.id !== id)
     this.debounceReapplyView()
   }
 
   /**
    * Subscribe to table events
    */
-  public onTableChange(fn: (event: DuckTableEvent<THeader>) => void): void {
+  public onTableChange(fn: (event: DuckTableEvent<TColumn>) => void): void {
     this.changeListeners.push(fn)
   }
 
-  private assertUniqueIds(rows: DuckTableOptions<THeader>['data']): void {
+  private assertUniqueIds(rows: DuckTableOptions<TColumn>['rows']): void {
     const seen = new Set<string>()
     for (const r of rows) {
       if (seen.has(r.id)) throw new Error(`Duplicate ID: ${r.id}`)
@@ -102,8 +102,8 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     }
   }
 
-  private emitChange<T extends DuckTableEventType>(type: T, meta: DuckTableEventMeta<T, THeader>): void {
-    const event = { type, meta } as DuckTableEvent<THeader>
+  private emitChange<T extends DuckTableEventType>(type: T, meta: DuckTableEventMeta<T, TColumn>): void {
+    const event = { type, meta } as DuckTableEvent<TColumn>
     for (const listener of this.changeListeners) {
       listener(event)
     }
@@ -118,20 +118,35 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     this.debug = true
   }
 
+  public setColumns(columns: DuckTableOptions<TColumn>['columns']): void {
+    this.columns = columns
+    this.reapplyView()
+  }
+
   public getColumns() {
-    return this.headers
+    return this.columns
   }
 
   public getVisibleColumns() {
     return this.visibleColumns
   }
 
-  public toggleColumnVisibility(label: keyof DuckTableOptions<THeader>['headers']): void {
+  public toggleColumnVisibility(label: keyof DuckTableOptions<TColumn>['columns']): void {
     if (this.visibleColumns.includes(label)) {
       this.visibleColumns = this.visibleColumns.filter((col) => col !== label)
     } else {
       this.visibleColumns.push(label)
     }
+
+    this.columns = Object.fromEntries(
+      Object.entries(this.columns).map(([key, col]) => [
+        key,
+        key === label
+          ? { ...(col as DuckColumnValues), visible: !(col as DuckColumnValues).visible } // shallow clone only the toggled column
+          : col,
+      ]),
+    ) as DuckTableOptions<TColumn>['columns']
+
     this.emitChange('column-visibility', { label, visible: this.visibleColumns.includes(label) })
   }
 
@@ -145,22 +160,22 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     const key = active.map(({ label, direction }) => `${label.toLowerCase()}:${direction}`).join('|')
 
     if (this.sortCache.has(key)) {
-      this.viewRows = this.sortCache.get(key)!.map((i) => this.rawData[i])
+      this.viewRows = this.sortCache.get(key)!.map((i) => this.rows[i])
       this.emitChange('sort', { cached: true, sortConfig })
       return
     }
 
     if (active.length === 0) {
-      this.viewRows = [...this.rawData]
+      this.viewRows = [...this.rows]
       this.emitChange('sort', { cached: false, sortConfig })
       return
     }
 
-    const idxs = this.rawData
+    const idxs = this.rows
       .map((row, idx) => ({ row, idx }))
       .sort((a, b) => {
         for (const { label, direction } of active) {
-          const header = this.headers[label as keyof typeof this.headers] as HeaderValues & {
+          const header = this.columns[label as keyof typeof this.columns] as DuckColumnValues & {
             sortFn?: (a: any, b: any) => number
           }
           const aV = a.row[label as keyof typeof a.row]
@@ -181,35 +196,35 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
       .map((e) => e.idx)
 
     this.sortCache.set(key, idxs)
-    this.viewRows = idxs.map((i) => this.rawData[i])
+    this.viewRows = idxs.map((i) => this.rows[i])
     this.emitChange('sort', { cached: false, sortConfig })
   }
 
   public getRows() {
-    return this.rawData
+    return this.rows
   }
 
-  public resetRows(data: DuckTableOptions<THeader>['data']): void {
+  public resetRows(data: DuckTableOptions<TColumn>['rows']): void {
     this.assertUniqueIds(data)
-    this.rawData = data
+    this.rows = data
     this.viewRows = data.slice()
     this.sortCache.clear()
     this.indexedValues.clear()
     this.dirtyRowIds.clear()
-    this.normalizedData = this.rawData.map((row) => this.addNormalized(row))
+    this.normalizedData = this.rows.map((row) => this.addNormalized(row))
 
     this.emitChange('reset', { rowCount: data.length })
   }
 
   public getMutatedRows() {
-    return this.viewRows
+    return [...this.viewRows]
   }
 
   public getQuery() {
     return this.query
   }
 
-  public setQuery(query: Partial<Record<THeader[number], string>> | string): void {
+  public setQuery(query: Partial<Record<TColumn[number], string>> | string): void {
     this.query = query
     this.clearArray(this.viewRows)
 
@@ -218,10 +233,10 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
       for (let i = 0; i < this.normalizedData.length; i++) {
         const row = this.normalizedData[i]
         const match = this.visibleColumns.some((k) => {
-          const h = this.headers[k]
+          const h = this.columns[k]
           return h?.filterFn ? h.filterFn(row, query) : row._normalized?.[k]?.includes(lowerQ)
         })
-        if (match) this.viewRows.push(this.rawData[i])
+        if (match) this.viewRows.push(this.rows[i])
       }
     } else if (typeof query === 'object' && query !== null) {
       const matchedSets: Set<number>[] = []
@@ -229,7 +244,7 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
       for (const [col, q] of Object.entries(query)) {
         if (!q) continue
         const normQ = this.normalize(q)
-        const column = col as THeader[number]
+        const column = col as TColumn[number]
 
         this.buildIndexIfMissing(column)
         const columnIndex = this.indexedValues.get(column)
@@ -247,17 +262,18 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
 
       const finalSet = matchedSets.reduce(
         (a, b) => new Set([...a].filter((x) => b.has(x))),
-        matchedSets[0] ?? new Set(this.rawData.map((_, i) => i)),
+        matchedSets[0] ?? new Set(this.rows.map((_, i) => i)),
       )
 
-      for (const i of finalSet) this.viewRows.push(this.rawData[i])
+      for (const i of finalSet) this.viewRows.push(this.rows[i])
     } else {
-      for (let i = 0; i < this.rawData.length; i++) {
-        this.viewRows.push(this.rawData[i])
+      for (let i = 0; i < this.rows.length; i++) {
+        this.viewRows.push(this.rows[i])
       }
     }
 
-    this.currentPage = 1
+    this.setSelectedRows(this.selectedRows.filter((id) => this.viewRows.some((r) => r.id === id)))
+    this.setCurrentPage(1)
     this.emitChange('filter', { query })
   }
 
@@ -271,7 +287,7 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
   }
 
   public getCurrentPage(): number {
-    return this.currentPage
+    return this.viewRows.length > 0 ? this.currentPage : 0
   }
 
   public getPageSize(): number {
@@ -304,13 +320,13 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     return String(val ?? '').toLowerCase()
   }
 
-  private buildIndexIfMissing(column: THeader[number]) {
+  private buildIndexIfMissing(column: TColumn[number]) {
     if (this.indexedValues.has(column)) return
 
     const colIndex = new Map<string, Set<number>>()
 
-    for (let i = 0; i < this.rawData.length; i++) {
-      const val = this.normalize(this.rawData[i][column as keyof (typeof this.rawData)[number]])
+    for (let i = 0; i < this.rows.length; i++) {
+      const val = this.normalize(this.rows[i][column as keyof (typeof this.rows)[number]])
       if (!colIndex.has(val)) colIndex.set(val, new Set())
       colIndex.get(val)!.add(i)
     }
@@ -343,9 +359,9 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     this.dirtyRowIds.clear()
   }
 
-  private addNormalized(row: DuckTableOptions<THeader>['data'][number]): NormalizedRow<typeof row> {
+  private addNormalized(row: DuckTableOptions<TColumn>['rows'][number]): NormalizedRow<typeof row> {
     const normalized: Record<string, string> = {}
-    for (const key of Object.keys(this.headers)) {
+    for (const key of Object.keys(this.columns)) {
       const val = row[key as keyof typeof row]
       normalized[key] = typeof val === 'string' ? val.toLowerCase() : String(val ?? '').toLowerCase()
     }
@@ -356,7 +372,7 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     arr.length = 0
   }
 
-  public getSnapshot(): DuckTableOptions<THeader> {
+  public getSnapshot(): DuckTableOptions<TColumn> {
     return {
       version: DuckTable.CURRENT_SNAPSHOT_VERSION,
       query: this.query,
@@ -365,12 +381,12 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
       pageSize: this.pageSize,
       sortConfig: JSON.parse(JSON.stringify(this.sortConfig)),
       visibleColumns: [...this.visibleColumns],
-      data: this.rawData,
-      headers: this.headers,
+      rows: this.rows,
+      columns: this.columns,
     }
   }
 
-  public hydrate(snapshot: DuckTableOptions<THeader>): void {
+  public hydrate(snapshot: DuckTableOptions<TColumn>): void {
     if (snapshot.query) {
       this.query = snapshot.query
     }
@@ -380,11 +396,11 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     if (snapshot.currentPage) {
       this.currentPage = snapshot.currentPage
     }
-    if (snapshot.data) {
-      this.rawData = snapshot.data
+    if (snapshot.rows) {
+      this.rows = snapshot.rows
     }
-    if (snapshot.headers) {
-      this.headers = snapshot.headers
+    if (snapshot.columns) {
+      this.columns = snapshot.columns
     }
     if (snapshot.pageSize) {
       this.pageSize = snapshot.pageSize

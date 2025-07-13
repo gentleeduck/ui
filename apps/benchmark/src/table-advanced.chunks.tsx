@@ -4,12 +4,12 @@ import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { useAtom, useSetAtom } from '@gentleduck/state/primitive'
+import { useAtom, useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
 import { ArrowDown01, ArrowUp10, Minus } from 'lucide-react'
 import React from 'react'
 import { cn } from './lib/utils'
 import { duck_table } from './main'
-import { HeaderValues } from './table.types'
+import { DuckColumnValues } from './table.types'
 
 export function DuckTableBar({ className, ...props }: React.HtmlHTMLAttributes<HTMLDivElement>) {
   return <div className={cn('flex items-center gap-2 justify-between', className)} {...props} duck-table-header="" />
@@ -34,7 +34,7 @@ export function DuckTableSearch({
       <Input
         className="max-w-[200px] h-8"
         placeholder={placeholder}
-        value={query}
+        value={query as string}
         onChange={(e) => setQuery(e.target.value)}
         {...props}
         duck-table-search=""
@@ -131,6 +131,9 @@ export function DuckTableColumnView({
   heading: string
 }) {
   const [columns, setColumns] = useAtom(duck_table.atoms.columns)
+  const setVisibleColumns = useSetAtom(duck_table.atoms.visibleColumns)
+  // const visibleColumns = useAtomValue(duck_table.atoms.visibleColumns)
+  console.log(columns)
   const _columns = Object.keys(columns)
 
   return (
@@ -153,6 +156,7 @@ export function DuckTableColumnView({
               <Label className="p-2">{heading}</Label>
               <Separator className="mb-1" />
               {items.map((item) => {
+                console.log(columns[item as keyof typeof columns].visible)
                 return (
                   <ComboboxItem<typeof item>
                     key={item}
@@ -162,18 +166,19 @@ export function DuckTableColumnView({
                       (columns[item as keyof typeof columns].visible === true ? 'indeterminate' : false) as boolean
                     }
                     onSelect={(value) => {
-                      setColumns((prev) => {
-                        return Object.assign(
-                          {},
-                          ...Object.keys(prev).map((key) => {
-                            const column = prev[key as keyof typeof prev]
-                            if (key === value) {
-                              column.visible = !column.visible
-                            }
-                            return { [key]: column }
-                          }),
-                        )
-                      })
+                      setVisibleColumns(item as keyof typeof columns)
+                      // setColumns((prev) => {
+                      //   return Object.assign(
+                      //     {},
+                      //     ...Object.keys(prev).map((key) => {
+                      //       const column = prev[key as keyof typeof prev]
+                      //       if (key === value) {
+                      //         column.visible = !column.visible
+                      //       }
+                      //       return { [key]: column }
+                      //     }),
+                      //   )
+                      // })
                     }}>
                     {item}
                   </ComboboxItem>
@@ -187,25 +192,15 @@ export function DuckTableColumnView({
   )
 }
 
-export function DuckTableSortable({ header }: { header: HeaderValues }) {
+export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
   const [columns, setColumns] = useAtom(duck_table.atoms.columnSort)
   // console.log(header, columns)
 
   const [open, setOpen] = React.useState(false)
-  // React.useEffect(() => {
-  //   // console.log(columns)
-  //   console.log(open)
-  // }, [open])
 
-  console.log(open)
   const sort = columns.find((column) => column.label === header.value)?.direction
   return (
-    <Popover
-      open={open}
-      onOpenChange={(open) => {
-        console.log(open, 'open')
-        // setOpen(open)
-      }}>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         size={'sm'}
         variant={'ghost'}

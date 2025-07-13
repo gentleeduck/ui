@@ -39,16 +39,16 @@ function SelectWrapper({
   const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
 
   // Handle the cancel event, so the selection will not change if the mouse moved out of the select
-  React.useEffect(() => {
-    function handleCancel(_e: Event) {
-      contentRef.current!.style.pointerEvents = 'none'
-    }
-
-    contentRef.current?.addEventListener('cancel', handleCancel)
-    return () => {
-      contentRef.current?.removeEventListener('cancel', handleCancel)
-    }
-  }, [])
+  // React.useEffect(() => {
+  //   function handleCancel(_e: Event) {
+  //     contentRef.current!.style.pointerEvents = 'none'
+  //   }
+  //
+  //   contentRef.current?.addEventListener('cancel', handleCancel)
+  //   return () => {
+  //     contentRef.current?.removeEventListener('cancel', handleCancel)
+  //   }
+  // }, [])
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -66,16 +66,16 @@ function SelectWrapper({
     }, 0)
   }, [open])
 
-  useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
-  useHandleKeyDown({
-    open,
-    itemsRef,
-    originalItemsRef: itemsRef,
-    selectedItem,
-    setSelectedItem: (item) => {
-      selectedItemRef.current = item
-    },
-  })
+  // useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
+  // useHandleKeyDown({
+  //   open,
+  //   itemsRef,
+  //   originalItemsRef: itemsRef,
+  //   selectedItem,
+  //   setSelectedItem: (item) => {
+  //     selectedItemRef.current = item
+  //   },
+  // })
 
   return (
     <SelectContext.Provider
@@ -99,6 +99,7 @@ function SelectWrapper({
 
 function Select({
   children,
+  onValueChange,
   ...props
 }: React.ComponentPropsWithRef<typeof Popover> & {
   value?: string
@@ -107,7 +108,9 @@ function Select({
 }) {
   return (
     <Popover {...props}>
-      <SelectWrapper {...props}>{children}</SelectWrapper>
+      <SelectWrapper {...props} onValueChange={onValueChange}>
+        {children}
+      </SelectWrapper>
     </Popover>
   )
 }
