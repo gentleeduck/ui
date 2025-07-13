@@ -129,7 +129,7 @@ type Headers = ['invoice', 'status', 'method', 'amount']
 const table_data: DuckTableOptions<Headers> = {
   columns: headers,
   rows: invoices,
-  pageSize: 50,
+  pageSize: 5,
   query: '',
 
   sortConfig: [

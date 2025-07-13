@@ -1,5 +1,5 @@
-import { createStore } from './store'
 import React from 'react'
+import { createStore } from './store'
 
 type Store = ReturnType<typeof createStore>
 

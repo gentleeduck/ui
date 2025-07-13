@@ -152,7 +152,6 @@ export function DuckTableColumnView() {
               <Label className="p-2">Select Columns</Label>
               <Separator className="mb-1" />
               {items.map((item) => {
-                console.log(columns[item as keyof typeof columns].visible)
                 return (
                   <ComboboxItem<typeof item>
                     key={item}
@@ -176,8 +175,6 @@ export function DuckTableColumnView() {
 
 export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
   const [columns, setColumns] = useAtom(duck_table.atoms.columnSort)
-  // console.log(header, columns)
-
   const [open, setOpen] = React.useState(false)
 
   const sort = columns.find((column) => column.label === header.label)?.direction
@@ -186,15 +183,15 @@ export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
       <PopoverTrigger
         size={'sm'}
         variant={'ghost'}
-        className="-ml-1 capitalize"
+        className="-ml-1 capitalize w-fit"
         icon={sort === 'asc' ? <ArrowUp10 /> : sort === 'desc' ? <ArrowDown01 /> : ''}>
         {header.label}
       </PopoverTrigger>
       <PopoverContent
         side="bottom"
         align={'center'}
-        className="w-fit flex flex-col p-1 gap-1 [&_button]:w-[130px] [&_div]:justify-start">
-        <Label className="font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 p-2 pb-1">
+        className="w-fit flex flex-col p-1 gap-1 [&_button]:w-[130px] [&_button]:justify-start">
+        <Label className="font-medium text-start text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 p-2 pb-1">
           Column sort
         </Label>
         <Separator />

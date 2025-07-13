@@ -43,8 +43,7 @@
         "noNegationElse": "error",
         "useNodejsImportProtocol": "error",
         "useNumberNamespace": "error",
-        "useConst": "error",
-        "useDefaultSwitchClause": "error"
+        "useConst": "error"
       },
       "suspicious": {
         "noDoubleEquals": "error",

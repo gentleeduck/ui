@@ -38,6 +38,7 @@ function Button({
       {...props}
       ref={ref}
       className={cn(
+        'flex h-full w-full items-center justify-center gap-2',
         buttonVariants({
           variant,
           size: isCollapsed ? 'icon' : size,
@@ -46,12 +47,11 @@ function Button({
         }),
       )}
       type={type}
+      asChild={asChild}
       disabled={loading ?? disabled}>
-      <div className="flex h-full w-full items-center justify-center gap-2">
-        {loading ? <Loader className="animate-spin" /> : icon}
-        {!isCollapsed && children}
-        {!isCollapsed && secondIcon && secondIcon}
-      </div>
+      {loading ? <Loader className="animate-spin" /> : icon}
+      {!isCollapsed && children}
+      {!isCollapsed && secondIcon && secondIcon}
     </Component>
   )
 

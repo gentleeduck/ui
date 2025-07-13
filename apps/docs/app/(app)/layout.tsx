@@ -278,6 +278,7 @@ export function DialogDemo() {
               <Label htmlFor="name-1">Name</Label>
               <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
             </div>
+            <PopoverDemo />
             <div className="grid gap-3">
               <Label htmlFor="username-1">Username</Label>
               <Input id="username-1" name="username" defaultValue="@peduarte" />
@@ -368,9 +369,10 @@ export function PopoverDemo() {
         setOpen(s)
       }}
       open={open}
-      modal>
+      // modal
+    >
       <PopoverTrigger>Open popover</PopoverTrigger>
-      <PopoverContent side="bottom" align={'center'} className="w-80">
+      <PopoverContent side="top" align={'center'} className="w-80">
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="font-medium leading-none">Dimensions</h4>

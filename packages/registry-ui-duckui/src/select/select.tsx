@@ -124,11 +124,9 @@ function SelectTrigger({
   ...props
 }: React.ComponentPropsWithRef<typeof PopoverTrigger> & { customIndicator?: React.ReactNode }) {
   return (
-    <PopoverTrigger variant={variant} {...props} duck-select-trigger="">
+    <PopoverTrigger variant={variant} {...props} duck-select-trigger="" className="w-full justify-between">
       {children}
-      <span className="[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:opacity-50">
-        {customIndicator ? customIndicator : <ChevronDownIcon />}
-      </span>
+      <span className="[&>svg]:opacity-50">{customIndicator ? customIndicator : <ChevronDownIcon />}</span>
     </PopoverTrigger>
   )
 }
@@ -161,7 +159,7 @@ function SelectGroup({ children, ...props }: React.HTMLProps<HTMLUListElement>) 
 }
 
 function SelectValue({ className, children, placeholder, ...props }: React.HTMLProps<HTMLDivElement>) {
-  const { value, selectedItem } = useSelectContext()
+  const { value } = useSelectContext()
   return (
     <div
       className={cn(
@@ -170,7 +168,7 @@ function SelectValue({ className, children, placeholder, ...props }: React.HTMLP
       )}
       {...props}
       duck-select-value="">
-      {(selectedItem?.getAttribute('data-label') || value) ?? placeholder}
+      {value.length > 0 ? value : placeholder}
     </div>
   )
 }

@@ -99,7 +99,7 @@ export function Content({
   align = 'center',
   ...props
 }: PopoverContentProps) {
-  const { contentRef, closeButton, id, modal, open } = usePopoverContext()
+  const { contentRef, closeButton, id, modal, open, triggerRef } = usePopoverContext()
   const DialogClose = dialogClose
 
   // Main axis margin based on `side`
@@ -128,10 +128,17 @@ export function Content({
           }[align as 'start' | 'end' | 'center'] ?? {})
         : {}
 
+  // const triggerRect = triggerRef.current?.getBoundingClientRect()
+  // console.log(triggerRect)
+  // const top = triggerRect && triggerRect?.top + triggerRect?.height
+  // const left = triggerRect && triggerRect?.left
+
   const style = {
     '--position-anchor': `--${id}`,
     ...sideMargins,
     ...alignMargins,
+    // top: top,
+    // left: left,
   } as React.CSSProperties
 
   return (
@@ -143,14 +150,12 @@ export function Content({
       id={id}
       duck-popover-content=""
       ref={contentRef}>
-      {
-        <ShouldRender open={open} ref={contentRef}>
-          <>
-            {children}
-            {closeButton && <DialogClose />}
-          </>
-        </ShouldRender>
-      }
+      <ShouldRender open={open} ref={contentRef}>
+        <>
+          {children}
+          {closeButton && <DialogClose />}
+        </>
+      </ShouldRender>
     </dialog>
   )
 }

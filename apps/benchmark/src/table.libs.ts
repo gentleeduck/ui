@@ -18,7 +18,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
   private columns: DuckTableOptions<TColumn>['columns'] = {} as never
   private visibleColumns: (keyof DuckTableOptions<TColumn>['columns'])[] = []
   private rows: DuckTableOptions<TColumn>['rows'] = []
-  private viewRows: DuckTableOptions<TColumn>['rows'] = []
+  private mutatedRows: DuckTableOptions<TColumn>['rows'] = []
   private selectedRows: DuckTableOptions<TColumn>['rows'][number]['id'][] = []
   private query: Partial<Record<TColumn[number], string>> | string
   private currentPage = DEFAULT_CURRENT_PAGE
@@ -40,7 +40,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
   constructor(options: DuckTableOptions<TColumn>) {
     this.columns = options.columns
     this.rows = options.rows
-    this.viewRows = options.rows.slice()
+    this.mutatedRows = options.rows.slice()
     this.assertUniqueIds(this.rows)
     this.query = options.query ?? ''
     this.visibleColumns = (Object.keys(this.columns) as any[]).filter(
@@ -77,9 +77,19 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
       throw new Error(`Row with id ${row.id} already exists`)
     }
     const normalized = this.addNormalized(row)
-    this.rows.push(normalized)
-    this.normalizedData.push(normalized)
+    this.rows = [...this.rows, normalized]
+    this.normalizedData = [...this.normalizedData, normalized]
     this.debounceReapplyView()
+  }
+
+  public setRows(rows: DuckTableOptions<TColumn>['rows']): void {
+    console.log(rows, 'inside')
+    this.rows = rows
+  }
+
+  public setMutatedRows(rows: DuckTableOptions<TColumn>['rows']): void {
+    this.mutatedRows = rows
+    // this.setRows(rows)
   }
 
   public deleteRow(id: string): void {
@@ -147,6 +157,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
       ]),
     ) as DuckTableOptions<TColumn>['columns']
 
+    this.visibleColumns = [...this.visibleColumns]
     this.emitChange('column-visibility', { label, visible: this.visibleColumns.includes(label) })
   }
 
@@ -160,13 +171,13 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
     const key = active.map(({ label, direction }) => `${label.toLowerCase()}:${direction}`).join('|')
 
     if (this.sortCache.has(key)) {
-      this.viewRows = this.sortCache.get(key)!.map((i) => this.rows[i])
+      this.mutatedRows = this.sortCache.get(key)!.map((i) => this.rows[i])
       this.emitChange('sort', { cached: true, sortConfig })
       return
     }
 
     if (active.length === 0) {
-      this.viewRows = [...this.rows]
+      this.mutatedRows = [...this.rows]
       this.emitChange('sort', { cached: false, sortConfig })
       return
     }
@@ -196,7 +207,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
       .map((e) => e.idx)
 
     this.sortCache.set(key, idxs)
-    this.viewRows = idxs.map((i) => this.rows[i])
+    this.mutatedRows = idxs.map((i) => this.rows[i])
     this.emitChange('sort', { cached: false, sortConfig })
   }
 
@@ -207,7 +218,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
   public resetRows(data: DuckTableOptions<TColumn>['rows']): void {
     this.assertUniqueIds(data)
     this.rows = data
-    this.viewRows = data.slice()
+    this.mutatedRows = data.slice()
     this.sortCache.clear()
     this.indexedValues.clear()
     this.dirtyRowIds.clear()
@@ -217,7 +228,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
   }
 
   public getMutatedRows() {
-    return [...this.viewRows]
+    return this.mutatedRows
   }
 
   public getQuery() {
@@ -226,7 +237,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
 
   public setQuery(query: Partial<Record<TColumn[number], string>> | string): void {
     this.query = query
-    this.clearArray(this.viewRows)
+    this.clearArray(this.mutatedRows)
 
     if (typeof query === 'string') {
       const lowerQ = query.toLowerCase()
@@ -236,7 +247,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
           const h = this.columns[k]
           return h?.filterFn ? h.filterFn(row, query) : row._normalized?.[k]?.includes(lowerQ)
         })
-        if (match) this.viewRows.push(this.rows[i])
+        if (match) this.mutatedRows.push(this.rows[i])
       }
     } else if (typeof query === 'object' && query !== null) {
       const matchedSets: Set<number>[] = []
@@ -265,14 +276,14 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
         matchedSets[0] ?? new Set(this.rows.map((_, i) => i)),
       )
 
-      for (const i of finalSet) this.viewRows.push(this.rows[i])
+      for (const i of finalSet) this.mutatedRows.push(this.rows[i])
     } else {
       for (let i = 0; i < this.rows.length; i++) {
-        this.viewRows.push(this.rows[i])
+        this.mutatedRows.push(this.rows[i])
       }
     }
 
-    this.setSelectedRows(this.selectedRows.filter((id) => this.viewRows.some((r) => r.id === id)))
+    this.setSelectedRows(this.selectedRows.filter((id) => this.mutatedRows.some((r) => r.id === id)))
     this.setCurrentPage(1)
     this.emitChange('filter', { query })
   }
@@ -287,7 +298,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
   }
 
   public getCurrentPage(): number {
-    return this.viewRows.length > 0 ? this.currentPage : 0
+    return this.mutatedRows.length > 0 ? this.currentPage : 0
   }
 
   public getPageSize(): number {
@@ -306,14 +317,14 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
   }
 
   public getTotalPages(): number {
-    return Math.ceil(this.viewRows.length / this.pageSize)
+    return Math.ceil(this.mutatedRows.length / this.pageSize)
   }
 
   public getCurrentPageRows() {
     const total = this.getTotalPages()
     if (this.currentPage > total) this.currentPage = 1
     const start = (this.currentPage - 1) * this.pageSize
-    return this.viewRows.slice(start, start + this.pageSize)
+    return this.mutatedRows.slice(start, start + this.pageSize)
   }
 
   private normalize(val: unknown): string {

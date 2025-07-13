@@ -7,18 +7,26 @@ export function createDuckTable<THeaders extends Lowercase<string>[]>(initialDat
 
   // Data atoms
   const rows = atom(table.getRows())
+
+  const mutatedRows = atom(
+    () => table.getMutatedRows(),
+    (_, set, newRows: (value: DuckTableOptions<THeaders>['rows']) => DuckTableOptions<THeaders>['rows']) => {
+      table.setMutatedRows(newRows(table.getMutatedRows()))
+      set(totalPages, table.getTotalPages())
+      set(currentPageRows, table.getCurrentPageRows())
+      set(rows, table.getRows())
+    },
+  )
+
   const columns = atom(table.getColumns())
   const visibleColumns = atom(
     () => table.getVisibleColumns(),
     (_, set, column: DuckTableOptions<THeaders>['columns'][keyof DuckTableOptions<THeaders>['columns']]['label']) => {
-      // console.log(column)
       table.toggleColumnVisibility(column)
       set(columns, () => table.getColumns())
-      // console.log(table.getColumns())
       syncAll(set)
     },
   )
-  const mutatedRows = atom(table.getMutatedRows())
   const currentPageRows = atom(table.getCurrentPageRows())
   const totalPages = atom(table.getTotalPages())
   const selectedRows = atom(
@@ -29,6 +37,9 @@ export function createDuckTable<THeaders extends Lowercase<string>[]>(initialDat
       } else {
         table.setSelectedRows(newIds)
       }
+      set(mutatedRows, () => table.getMutatedRows())
+      set(currentPageRows, table.getCurrentPageRows())
+      set(totalPages, table.getTotalPages())
     },
   )
 
@@ -70,7 +81,7 @@ export function createDuckTable<THeaders extends Lowercase<string>[]>(initialDat
 
   // Central sync function
   function syncAll(set: Setter) {
-    set(mutatedRows, table.getMutatedRows())
+    set(mutatedRows, () => table.getMutatedRows())
     set(currentPageRows, table.getCurrentPageRows())
     set(totalPages, table.getTotalPages())
     set(selectedRows, table.getSelectedRows())

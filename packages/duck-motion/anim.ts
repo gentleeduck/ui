@@ -80,7 +80,7 @@ export const AnimTooltipVariants = cva(
   `px-3 py-1.5 text-accent-foreground bg-background border-border text-balance select-none rounded-sm shadow-none`,
 )
 
-export const AnimDialogModalVariants = cva(`inset-1/2 -translate-1/2 rtl:translate-x-1/2 sm:max-w-lg w-full`)
+export const AnimDialogModalVariants = cva(`sm:max-w-lg w-full place-self-center `)
 
 export const AnimPopoverArrowVariants = cva(
   `overflow-visible after:border-background after:w-0 after:h-0 after:absolute after:[position-anchor:var(--position-anchor)] after:[po ition-area:inherit] 

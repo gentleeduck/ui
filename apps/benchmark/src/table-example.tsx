@@ -26,10 +26,12 @@ import {
 } from '@gentleduck/registry-ui-duckui/dialog'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { useAtomValue } from '@gentleduck/state/primitive'
+import { useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
 import { duck_table } from './main'
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@gentleduck/registry-ui-duckui/select'
+import React from 'react'
 export function TableDemo() {
+  // return
   return (
     <div className="min-h-screen flex items-center justify-center overflow-hidden">
       <DuckTable className="w-[765px] flex flex-col gap-2.5 border rounded-md p-4 overflow-x-hidden">
@@ -61,12 +63,32 @@ export function TableDemo() {
 }
 
 export function DuckTableAdd() {
+  const [open, setOpen] = React.useState(false)
   const columns = useAtomValue(duck_table.atoms.columns)
+  const setRows = useSetAtom(duck_table.atoms.mutatedRows)
+
   return (
-    <Dialog>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <DialogTrigger icon={<Plus />} size={'sm'} variant={'outline'}>
-          Add
+    <Dialog open={open} onOpenChange={setOpen}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          setRows((prev) => {
+            console.log(prev)
+            return [
+              ...prev,
+              {
+                id: crypto.randomUUID(),
+                invoice: 'INV011',
+                method: 'Credit Card',
+                status: 'Unpaid',
+                amount: '$600.00',
+              },
+            ]
+          })
+          setOpen(false)
+        }}>
+        <DialogTrigger size={'sm'} variant={'outline'} asChild>
+          <Button icon={<Plus />}>Add</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -78,11 +100,11 @@ export function DuckTableAdd() {
               value.enum?.length ? (
                 <div key={key} className="grid gap-3">
                   <Label htmlFor={key}>{key}</Label>
-                  <Select name={key}>
+                  <Select id={key} onValueChange={(e) => console.log(e)}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a value" />
                     </SelectTrigger>
-                    <SelectContent className="z-50">
+                    <SelectContent className="z-50 w-[179.7px]">
                       {value.enum.map((option) => (
                         <SelectItem key={option} value={option}>
                           {option}
@@ -99,10 +121,8 @@ export function DuckTableAdd() {
               ),
             )}
           </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
+          <DialogFooter className="[&_button]:w-[120px]">
+            <DialogClose variant={'outline'}>Cancel</DialogClose>
             <Button type="submit">Add Row</Button>
           </DialogFooter>
         </DialogContent>

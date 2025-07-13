@@ -58,6 +58,9 @@ export function Root({
         open,
         onOpenChange: _onOpenChange,
         id,
+        modal,
+        closeButton,
+        lockScroll,
       }}>
       <div {...props} duck-dialog="" ref={wrapperRef}>
         {children}
@@ -92,7 +95,7 @@ export function Trigger({
 export function Content({
   children,
   className,
-  renderOnce = true,
+  renderOnce = false,
   overlay = 'default',
   closedby = 'any',
   dialogClose,
@@ -104,12 +107,14 @@ export function Content({
   const DialogClose = dialogClose
 
   return (
-    <dialog className={className} {...prop} id={id} ref={contentRef}>
-      <ShouldRender ref={contentRef} once={renderOnce} open={open}>
-        {children}
-        {closeButton && <DialogClose />}
-      </ShouldRender>
-    </dialog>
+    <div className={String(open && 'absolute inset-0 z-50 flex min-h-screen w-full items-center justify-center')}>
+      <dialog className={className} {...prop} id={id} ref={contentRef}>
+        <ShouldRender ref={contentRef} once={renderOnce} open={open}>
+          {children}
+          {closeButton && <DialogClose />}
+        </ShouldRender>
+      </dialog>
+    </div>
   )
 }
 

@@ -23,7 +23,6 @@ export function initRefs(
 
   for (let i = 0; i < itemsRef.current?.length; i++) {
     const item = itemsRef.current[i] as HTMLLIElement
-    console.log(item.id, value)
     if (String(item.value) === value) {
       styleItem(item)
       selectedItemRef.current = item
@@ -46,13 +45,12 @@ export function initRefs(
       selectedItemRef.current = item
       setSelectedItem(item)
       // styleItem(item)
+      // console.log()
       // handleItemsSelection(, itemsRef, (value) => setSelectedItem(value))
-      onValueChange(String(item?.value))
+      onValueChange((item.getAttribute('value') as string) ?? '')
       onOpenChange(false)
       wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
-      console.log(item)
     })
-    // console.log(item)
 
     if (item.getAttribute('data-value') === String(value) && !selectedItemRef.current) {
       styleItem(item)

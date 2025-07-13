@@ -146,20 +146,12 @@ export function DuckTablePagination({}: {}) {
 /* Main Table */
 export function DuckTableShape() {
   return (
-    <div className="border rounded-md max-h-[300px] overflow-auto">
+    <div className="border rounded-md max- -[300px] overflow-auto">
       <Table style={{ width: '100%', tableLayout: 'fixed' }}>
         <DuckTableHeader />
 
         <DuckTableBody />
-
-        <TableFooter>
-          <TableRow>
-            <TableCell className="pl-3" colSpan={4}>
-              Total
-            </TableCell>
-            <TableCell className="text-right pr-3">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter>
+        <DuckTableBodyCaption />
       </Table>
     </div>
   )
@@ -304,5 +296,19 @@ export function DuckTableBodyNotFound() {
         No results found
       </TableCell>
     </TableRow>
+  )
+}
+
+export function DuckTableBodyCaption() {
+  const visibleColumns = useAtomValue(duck_table.atoms.visibleColumns)
+  return (
+    <TableFooter>
+      <TableRow>
+        <TableCell className="pl-3" colSpan={visibleColumns.length}>
+          Total
+        </TableCell>
+        <TableCell className="text-right pr-3">$2,500.00</TableCell>
+      </TableRow>
+    </TableFooter>
   )
 }
