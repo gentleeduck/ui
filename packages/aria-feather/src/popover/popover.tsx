@@ -5,6 +5,7 @@ import React from 'react'
 import { Slot } from '../slot'
 import { PopoverContext, usePopover, usePopoverContext } from './popover.hooks'
 import { PopoverContentProps, PopoverRootProps } from './popover.types'
+import { ShouldRender } from '../dialog'
 
 /**
  * Popover component that provides a context for managing its open state and
@@ -98,7 +99,7 @@ export function Content({
   align = 'center',
   ...props
 }: PopoverContentProps) {
-  const { contentRef, closeButton, id, modal } = usePopoverContext()
+  const { contentRef, closeButton, id, modal, open } = usePopoverContext()
   const DialogClose = dialogClose
 
   // Main axis margin based on `side`
@@ -142,10 +143,14 @@ export function Content({
       id={id}
       duck-popover-content=""
       ref={contentRef}>
-      <>
-        {children}
-        {closeButton && <DialogClose />}
-      </>
+      {
+        <ShouldRender open={open} ref={contentRef}>
+          <>
+            {children}
+            {closeButton && <DialogClose />}
+          </>
+        </ShouldRender>
+      }
     </dialog>
   )
 }

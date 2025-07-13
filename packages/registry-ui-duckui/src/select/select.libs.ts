@@ -23,6 +23,12 @@ export function initRefs(
 
   for (let i = 0; i < itemsRef.current?.length; i++) {
     const item = itemsRef.current[i] as HTMLLIElement
+    console.log(item.id, value)
+    if (String(item.value) === value) {
+      styleItem(item)
+      selectedItemRef.current = item
+    }
+
     item.addEventListener('mouseenter', () => {
       if (open) {
         for (let i = 0; i < itemsRef.current?.length; i++) {
@@ -37,13 +43,16 @@ export function initRefs(
     })
 
     item.addEventListener('click', () => {
-      const currentItem = itemsRef.current?.findIndex((_item) => _item.id === item.id)
-      handleItemsSelection(currentItem, itemsRef, (value) => setSelectedItem(value))
-      wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
+      selectedItemRef.current = item
+      setSelectedItem(item)
+      // styleItem(item)
+      // handleItemsSelection(, itemsRef, (value) => setSelectedItem(value))
       onValueChange(String(item?.value))
       onOpenChange(false)
-      selectedItemRef.current = item
+      wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
+      console.log(item)
     })
+    // console.log(item)
 
     if (item.getAttribute('data-value') === String(value) && !selectedItemRef.current) {
       styleItem(item)

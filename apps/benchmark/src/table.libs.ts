@@ -51,7 +51,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
 
     this.sortConfig = Object.values(this.columns).map((h) => {
       const hv = h as DuckColumnValues & { direction?: DuckTableHistoryDelta['type'] }
-      return { label: hv.value, direction: hv.direction || 'none' }
+      return { label: hv.label, direction: hv.direction || 'none' }
     }) as DuckTableColumnSort[]
   }
 

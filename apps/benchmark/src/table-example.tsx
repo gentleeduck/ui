@@ -1,28 +1,34 @@
-import { ToggleLeft } from 'lucide-react'
+import { Plus, ToggleLeft } from 'lucide-react'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@gentleduck/registry-ui-duckui/table'
-import { useAtom, useAtomValue } from '@gentleduck/state/primitive'
-import { duck_table } from './main'
-import { DuckTable, DuckTablePagination, DuckTableRowPerPage, DuckTableSelectedRows } from './table-advanced'
+  DuckTable,
+  DuckTablePagination,
+  DuckTableRowPerPage,
+  DuckTableSelectedRows,
+  DuckTableShape,
+} from './table-advanced'
 import {
-  DuckTableColumnView,
   DuckTableBar,
+  DuckTableColumnView,
   DuckTableLeftSide,
   DuckTableRightSide,
   DuckTableSearch,
-  DuckTableSortable,
 } from './table-advanced.chunks'
-import { cn } from './lib/utils'
-import React from 'react'
-import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
-
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@gentleduck/registry-ui-duckui/dialog'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { useAtomValue } from '@gentleduck/state/primitive'
+import { duck_table } from './main'
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 export function TableDemo() {
   return (
     <div className="min-h-screen flex items-center justify-center overflow-hidden">
@@ -33,21 +39,11 @@ export function TableDemo() {
           </DuckTableRightSide>
 
           <DuckTableLeftSide>
-            <DuckTableColumnView
-              trigger={{
-                variant: 'default',
-                children: (
-                  <>
-                    <ToggleLeft className="!size-5" />
-                    <span>Columns</span>
-                  </>
-                ),
-              }}
-              heading="Select Columns"
-            />
+            <DuckTableColumnView />
+            <DuckTableAdd />
           </DuckTableLeftSide>
         </DuckTableBar>
-        <TableDemo1 />
+        <DuckTableShape />
 
         <DuckTableBar>
           <DuckTableRightSide>
@@ -64,165 +60,53 @@ export function TableDemo() {
   )
 }
 
-export function TableDemo1() {
-  return (
-    <div className="border rounded-md">
-      <Table style={{ width: '100%', tableLayout: 'fixed' }}>
-        <DuckTableHeader />
-
-        <DuckTableBody />
-
-        <TableFooter>
-          <TableRow>
-            <TableCell className="pl-3" colSpan={4}>
-              Total
-            </TableCell>
-            <TableCell className="text-right pr-3">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </div>
-  )
-}
-
-export function DuckTableHeader({}: {}) {
-  const headers = useAtomValue(duck_table.atoms.columns)
-
-  const visibleHeaders = Object.values(headers).filter((header) => header.visible)
-  const colCount = visibleHeaders.length
-  const cellWidth = `${100 / colCount}%`
-
-  function HeahderCheckboxSelect() {
-    const mutatedRows = useAtomValue(duck_table.atoms.mutatedRows)
-    const [selectedRows, setSelectedRows] = useAtom(duck_table.atoms.selectedRows)
-
-    return (
-      <Checkbox
-        className="border-border"
-        disabled={mutatedRows.length === 0}
-        onChange={(e) => {
-          if (e.currentTarget.checked) {
-            setSelectedRows(mutatedRows.map((row) => row.id))
-          } else {
-            setSelectedRows([])
-          }
-        }}
-        checked={
-          selectedRows.length < mutatedRows.length && selectedRows.length > 0
-            ? 'indeterminate'
-            : selectedRows.length === mutatedRows.length && mutatedRows.length > 0
-              ? true
-              : false
-        }
-      />
-    )
-  }
-
-  return (
-    <TableHeader>
-      <TableRow className="[&:has(th>input:disabled)>th]:pointer-events-none [&:has(th>input:disabled)>th]:cursor-not-allowed [&:has(th>input:disabled)>th]:opacity-50">
-        {visibleHeaders.map((header, key) => {
-          return (
-            <React.Fragment key={key}>
-              {key === 0 && (
-                <TableHead className="w-[35px] pl-3">
-                  <HeahderCheckboxSelect />
-                </TableHead>
-              )}
-              <TableHead
-                key={header.value}
-                className={cn(
-                  'whitespace-nowrap text-ellipsis capitalize',
-                  key === colCount - 1 && 'text-right pr-3',
-                  header.sortable && key === colCount - 1 && 'pr-0',
-                  header.sortable && key === 0 && 'pl-4',
-                  header.sortable && key !== colCount - 1 && '!px-0',
-                )}
-                style={{
-                  width: cellWidth,
-                  maxWidth: cellWidth,
-                }}>
-                {header.sortable ? <DuckTableSortable header={header} /> : header.value}
-              </TableHead>
-            </React.Fragment>
-          )
-        })}
-      </TableRow>
-    </TableHeader>
-  )
-}
-
-export function DuckTableBody() {
-  const rows = useAtomValue(duck_table.atoms.currentPageRows)
+export function DuckTableAdd() {
   const columns = useAtomValue(duck_table.atoms.columns)
-
-  const visibleKeys = Object.entries(columns)
-    .filter(([_, config]) => config.visible)
-    .map(([key]) => key)
-
-  function RowCheckboxSelect({ id }: { id: (typeof rows)[number]['id'] }) {
-    const [selectedRows, setSelectedRows] = useAtom(duck_table.atoms.selectedRows)
-
-    return (
-      <Checkbox
-        className="border-border"
-        onChange={(e) => {
-          if (e.currentTarget.checked) {
-            setSelectedRows((prev) => [...prev, id])
-          } else {
-            setSelectedRows((prev) => prev.filter((row) => row !== id))
-          }
-        }}
-        checked={selectedRows.includes(id)}
-      />
-    )
-  }
-
   return (
-    <TableBody>
-      {rows.length ? (
-        rows.map((row, key) => {
-          const _row = Object.fromEntries(
-            Object.entries(row).filter(([key]) => visibleKeys.includes(key)),
-          ) as typeof row
-          return (
-            <TableRow key={key}>
-              {Object.values(_row as Record<string, string>).map((value, key) => {
-                return (
-                  <React.Fragment key={key}>
-                    {key === 0 && (
-                      <TableCell key={key + 'checkbox'} className="pl-3">
-                        <RowCheckboxSelect id={row.id} />
-                      </TableCell>
-                    )}
-                    <TableCell
-                      key={key}
-                      className={cn(
-                        key === 0 && 'w-[100px]',
-                        key === Object.keys(_row).length - 1 && 'text-right pr-3',
-                      )}>
-                      {value}
-                    </TableCell>
-                  </React.Fragment>
-                )
-              })}
-            </TableRow>
-          )
-        })
-      ) : (
-        <DuckTableBodyNotFound />
-      )}
-    </TableBody>
-  )
-}
-
-export function DuckTableBodyNotFound() {
-  const visibleColumns = useAtomValue(duck_table.atoms.visibleColumns)
-  return (
-    <TableRow>
-      <TableCell colSpan={visibleColumns.length + 1} className="text-center">
-        No results found
-      </TableCell>
-    </TableRow>
+    <Dialog>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <DialogTrigger icon={<Plus />} size={'sm'} variant={'outline'}>
+          Add
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Add Row</DialogTitle>
+            <DialogDescription>Fill out the form below to add a new row.</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 grid-cols-2">
+            {Object.entries(columns).map(([key, value]) =>
+              value.enum?.length ? (
+                <div key={key} className="grid gap-3">
+                  <Label htmlFor={key}>{key}</Label>
+                  <Select name={key}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a value" />
+                    </SelectTrigger>
+                    <SelectContent className="z-50">
+                      {value.enum.map((option) => (
+                        <SelectItem key={option} value={option}>
+                          {option}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              ) : (
+                <div key={key} className="grid gap-3">
+                  <Label htmlFor={key}>{key}</Label>
+                  <Input id={key} name={key} placeholder={`Enter ${key}...`} />
+                </div>
+              ),
+            )}
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button type="submit">Add Row</Button>
+          </DialogFooter>
+        </DialogContent>
+      </form>
+    </Dialog>
   )
 }

@@ -1,13 +1,9 @@
 export type DuckTableColumnSort = { label: Lowercase<string>; direction: 'asc' | 'desc' | 'none' }
+
+type ColumnValues = { label: Lowercase<string>; filterFn?: Function; visible: boolean; enum?: readonly string[] }
 export type DuckColumnValues =
-  | { value: Lowercase<string>; filterFn?: Function; visible: boolean; sortable: false }
-  | {
-      value: Lowercase<string>
-      filterFn?: Function
-      visible: boolean
-      sortable: true
-      direction: DuckTableColumnSort['direction']
-    }
+  | (ColumnValues & { sortable: false })
+  | (ColumnValues & { sortable: true; direction: DuckTableColumnSort['direction'] })
 
 export type DuckTableRow<TColumn extends readonly Lowercase<string>[]> = {
   readonly _normalized?: Readonly<Record<TColumn[number], string>>

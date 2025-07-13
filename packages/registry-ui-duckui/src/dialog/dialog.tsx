@@ -14,7 +14,8 @@ function DialogTrigger({
   children,
   asChild,
   ...props
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>) {
+}: Omit<React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>, 'size'> &
+  React.ComponentPropsWithoutRef<typeof Button>) {
   return (
     <DialogPrimitive.Trigger asChild>
       <Button {...props} asChild={asChild}>

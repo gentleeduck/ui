@@ -5,7 +5,7 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { useAtom, useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
-import { ArrowDown01, ArrowUp10, Minus } from 'lucide-react'
+import { ArrowDown01, ArrowUp10, Minus, ToggleLeft } from 'lucide-react'
 import React from 'react'
 import { cn } from './lib/utils'
 import { duck_table } from './main'
@@ -120,40 +120,36 @@ export function DuckTableFilter<T extends readonly string[] | string[]>({
   )
 }
 
-export function DuckTableColumnView({
-  heading,
-  trigger,
-  onValueChange,
-}: {
-  trigger?: React.ComponentProps<typeof Combobox>['popoverTrigger']
-  onValueChange?: (value: string) => void
-  value?: string[]
-  heading: string
-}) {
-  const [columns, setColumns] = useAtom(duck_table.atoms.columns)
+/** cool */
+
+export function DuckTableColumnView() {
+  const columns = useAtomValue(duck_table.atoms.columns)
   const setVisibleColumns = useSetAtom(duck_table.atoms.visibleColumns)
-  // const visibleColumns = useAtomValue(duck_table.atoms.visibleColumns)
-  console.log(columns)
   const _columns = Object.keys(columns)
 
   return (
     <Combobox<typeof _columns, 'multiple'>
       popoverTrigger={{
-        ...trigger,
-        className: cn('px-2 h-8', trigger?.className),
+        variant: 'outline',
+        children: (
+          <>
+            <ToggleLeft className="!size-5" />
+            <span>Columns</span>
+          </>
+        ),
+        className: cn('px-2 h-8'),
       }}
       command={{ className: 'p-1' }}
       duck-table-filter=""
       items={_columns}
       value={_columns}
       withSearch={false}
-      showSelected={false}
-      onValueChange={onValueChange as never}>
+      showSelected={false}>
       {(items) => {
         return (
           <div className="flex gap-1 flex-col">
             <ComboxGroup className="flex flex-col">
-              <Label className="p-2">{heading}</Label>
+              <Label className="p-2">Select Columns</Label>
               <Separator className="mb-1" />
               {items.map((item) => {
                 console.log(columns[item as keyof typeof columns].visible)
@@ -165,21 +161,7 @@ export function DuckTableColumnView({
                     checked={
                       (columns[item as keyof typeof columns].visible === true ? 'indeterminate' : false) as boolean
                     }
-                    onSelect={(value) => {
-                      setVisibleColumns(item as keyof typeof columns)
-                      // setColumns((prev) => {
-                      //   return Object.assign(
-                      //     {},
-                      //     ...Object.keys(prev).map((key) => {
-                      //       const column = prev[key as keyof typeof prev]
-                      //       if (key === value) {
-                      //         column.visible = !column.visible
-                      //       }
-                      //       return { [key]: column }
-                      //     }),
-                      //   )
-                      // })
-                    }}>
+                    onSelect={() => setVisibleColumns(item as keyof typeof columns)}>
                     {item}
                   </ComboboxItem>
                 )
@@ -198,7 +180,7 @@ export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
 
   const [open, setOpen] = React.useState(false)
 
-  const sort = columns.find((column) => column.label === header.value)?.direction
+  const sort = columns.find((column) => column.label === header.label)?.direction
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
@@ -206,12 +188,12 @@ export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
         variant={'ghost'}
         className="-ml-1 capitalize"
         icon={sort === 'asc' ? <ArrowUp10 /> : sort === 'desc' ? <ArrowDown01 /> : ''}>
-        {header.value}
+        {header.label}
       </PopoverTrigger>
       <PopoverContent
         side="bottom"
         align={'center'}
-        className="w-fit flex flex-col p-1 gap-1 [&_button]:w-[130px] [&_div]:justify-start z-10">
+        className="w-fit flex flex-col p-1 gap-1 [&_button]:w-[130px] [&_div]:justify-start">
         <Label className="font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 p-2 pb-1">
           Column sort
         </Label>
@@ -222,7 +204,7 @@ export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
           size={'sm'}
           onClick={() => {
             setColumns((prev) => {
-              return prev.map((column) => (column.label === header.value ? { ...column, direction: 'asc' } : column))
+              return prev.map((column) => (column.label === header.label ? { ...column, direction: 'asc' } : column))
             })
           }}>
           Ascending
@@ -233,7 +215,7 @@ export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
           size={'sm'}
           onClick={() => {
             setColumns((prev) => {
-              return prev.map((column) => (column.label === header.value ? { ...column, direction: 'desc' } : column))
+              return prev.map((column) => (column.label === header.label ? { ...column, direction: 'desc' } : column))
             })
           }}>
           Descending
@@ -245,7 +227,7 @@ export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
           size={'sm'}
           onClick={() => {
             setColumns((prev) => {
-              return prev.map((column) => (column.label === header.value ? { ...column, direction: 'none' } : column))
+              return prev.map((column) => (column.label === header.label ? { ...column, direction: 'none' } : column))
             })
           }}>
           None

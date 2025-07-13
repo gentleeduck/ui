@@ -66,16 +66,16 @@ function SelectWrapper({
     }, 0)
   }, [open])
 
-  // useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
-  // useHandleKeyDown({
-  //   open,
-  //   itemsRef,
-  //   originalItemsRef: itemsRef,
-  //   selectedItem,
-  //   setSelectedItem: (item) => {
-  //     selectedItemRef.current = item
-  //   },
-  // })
+  useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
+  useHandleKeyDown({
+    open,
+    itemsRef,
+    originalItemsRef: itemsRef,
+    selectedItem,
+    setSelectedItem: (item) => {
+      selectedItemRef.current = item
+    },
+  })
 
   return (
     <SelectContext.Provider
@@ -100,6 +100,7 @@ function SelectWrapper({
 function Select({
   children,
   onValueChange,
+  value,
   ...props
 }: React.ComponentPropsWithRef<typeof Popover> & {
   value?: string
@@ -108,7 +109,7 @@ function Select({
 }) {
   return (
     <Popover {...props}>
-      <SelectWrapper {...props} onValueChange={onValueChange}>
+      <SelectWrapper {...props} onValueChange={onValueChange} value={value}>
         {children}
       </SelectWrapper>
     </Popover>
@@ -194,7 +195,7 @@ function SelectItem({
   ref,
   ...props
 }: Omit<React.HTMLProps<HTMLLIElement>, 'value'> & { value: string }) {
-  const { selectedItem, value: _value } = useSelectContext()
+  const { value: _value } = useSelectContext()
   const id = React.useId()
 
   return (
@@ -218,7 +219,7 @@ function SelectItem({
         )}>
         {children}
       </div>
-      {selectedItem?.id === id && (
+      {String(_value) === String(value) && (
         <span
           className="absolute flex items-center justify-center transition-none duration-0 ltr:right-2 ltr:pl-2 rtl:left-2 rtl:pr-2"
           id="select-indicator">

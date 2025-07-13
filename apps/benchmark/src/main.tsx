@@ -8,7 +8,7 @@ import { lazy } from 'react'
 import { atom, useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
 import { createDuckTable } from './table.hooks'
 import { DuckTableBody } from './table-advanced'
-import { TableDemo, TableDemo1 } from './table-example'
+import { TableDemo, DucKTable } from './table-example'
 import { DuckTableOptions } from './table.types'
 import React from 'react'
 
@@ -106,10 +106,22 @@ const invoices: DuckTableOptions<Headers>['rows'] = [
 ]
 
 const headers: DuckTableOptions<Headers>['columns'] = {
-  invoice: { value: 'invoice', visible: true, sortable: true, direction: 'none' },
-  method: { value: 'method', visible: true, sortable: true, direction: 'none' },
-  status: { value: 'status', visible: true, sortable: true, direction: 'none' },
-  amount: { value: 'amount', visible: true, sortable: true, direction: 'none' },
+  invoice: { label: 'invoice', visible: true, sortable: true, direction: 'none' },
+  method: {
+    label: 'method',
+    enum: ['Credit Card', 'PayPal', 'Bank Transfer'] as const,
+    visible: true,
+    sortable: true,
+    direction: 'none',
+  },
+  status: {
+    label: 'status',
+    enum: ['Paid', 'Pending', 'Unpaid'] as const,
+    visible: true,
+    sortable: true,
+    direction: 'none',
+  },
+  amount: { label: 'amount', visible: true, sortable: true, direction: 'none' },
 }
 
 type Headers = ['invoice', 'status', 'method', 'amount']

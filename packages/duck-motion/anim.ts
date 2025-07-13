@@ -36,7 +36,7 @@ export const AnimDialogVariants = cva(`border border-border bg-background rounde
   variants: {
     animation: {
       default:
-        'scale-90 opacity-0 data-[open=true]:scale-100 starting:data-[open=true]:scale-90 data-[open=true]:opacity-100 starting:data-[open=true]:opacity-0',
+        'data-[open=true]:pointer-events-all scale-90 opacity-0 data-[open=false]:pointer-events-none data-[open=true]:scale-100 starting:data-[open=true]:scale-90 data-[open=true]:opacity-100 starting:data-[open=true]:opacity-0',
       nothing: '',
     },
   },

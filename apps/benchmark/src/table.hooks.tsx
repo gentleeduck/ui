@@ -10,7 +10,7 @@ export function createDuckTable<THeaders extends Lowercase<string>[]>(initialDat
   const columns = atom(table.getColumns())
   const visibleColumns = atom(
     () => table.getVisibleColumns(),
-    (_, set, column: DuckTableOptions<THeaders>['columns'][keyof DuckTableOptions<THeaders>['columns']]['value']) => {
+    (_, set, column: DuckTableOptions<THeaders>['columns'][keyof DuckTableOptions<THeaders>['columns']]['label']) => {
       // console.log(column)
       table.toggleColumnVisibility(column)
       set(columns, () => table.getColumns())
