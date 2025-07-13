@@ -2,7 +2,8 @@ import { type AnimPopoverVariants } from '@gentleduck/motion/anim'
 import { VariantProps } from '@gentleduck/variants'
 import { DialogContentProps, DialogContextType, DialogProps } from '../dialog/dialog.types'
 
-export interface PopoverProps extends Omit<DialogProps, 'id' | 'closeButton' | 'triggerRef' | 'contentRef'> {
+export interface PopoverProps
+  extends Omit<DialogProps, 'id' | 'closeButton' | 'triggerRef' | 'contentRef' | 'children'> {
   /** Time in ms to delay closing the popover after trigger blur or mouse leave. */
   skipDelayDuration: number
   /** Time in ms to delay opening the popover after trigger focus or mouse enter. */
@@ -11,6 +12,8 @@ export interface PopoverProps extends Omit<DialogProps, 'id' | 'closeButton' | '
   mouseEnter: boolean
   /** If true, the popover closes when the mouse leaves the trigger or wrapper area. */
   mouseExist: boolean
+  /** If true, the popover is modal. */
+  modal: boolean
 }
 
 export interface PopoverContentProps extends Partial<DialogContentProps>, VariantProps<typeof AnimPopoverVariants> {
@@ -20,7 +23,7 @@ export interface PopoverContentProps extends Partial<DialogContentProps>, Varian
   sideOffset?: number
 }
 
-export interface PopoverContextType extends DialogContextType {}
+export interface PopoverContextType extends DialogContextType, Pick<PopoverProps, 'modal'> {}
 
 export interface PopoverRootProps
   extends React.HtmlHTMLAttributes<HTMLDivElement>,

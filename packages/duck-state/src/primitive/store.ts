@@ -24,14 +24,17 @@ export function createStore() {
         const prev = store.get(atom)
         const next = typeof update === 'function' ? (update as (prev: Value) => Value)(prev) : update
 
-        atomState.set(atom, next)
+        const isEqual = shallowEqual(prev, next)
 
-        const l = listeners.get(atom)
-        if (l) l.forEach((fn) => fn())
+        if (!isEqual) {
+          atomState.set(atom, next)
+
+          const l = listeners.get(atom)
+          if (l) l.forEach((fn) => fn())
+        }
 
         return undefined as Result
       }
-
       const result = atom.write(store.get as Getter, store.set as Setter, ...args)
 
       const l = listeners.get(atom)
@@ -69,6 +72,25 @@ export function createStore() {
   }
 
   return store
+}
+
+function shallowEqual(a: any, b: any): boolean {
+  if (Object.is(a, b)) return true
+  if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) return false
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false
+    for (let i = 0; i < a.length; i++) {
+      if (!Object.is(a[i], b[i])) return false
+    }
+    return true
+  }
+  const keysA = Object.keys(a)
+  const keysB = Object.keys(b)
+  if (keysA.length !== keysB.length) return false
+  for (const key of keysA) {
+    if (!Object.is(a[key], b[key])) return false
+  }
+  return true
 }
 
 /**

@@ -2,7 +2,6 @@
 
 import { useStableId } from '@gentleduck/hooks'
 import React from 'react'
-import { ShouldRender } from '../dialog'
 import { Slot } from '../slot'
 import { PopoverContext, usePopover, usePopoverContext } from './popover.hooks'
 import { PopoverContentProps, PopoverRootProps } from './popover.types'
@@ -34,7 +33,6 @@ export function Root({
     contentRef,
     triggerRef,
   } = usePopover({
-    id,
     wrapperRef,
     open: openProp,
     onOpenChange,
@@ -49,6 +47,7 @@ export function Root({
   return (
     <PopoverContext.Provider
       value={{
+        modal,
         wrapperRef,
         triggerRef,
         contentRef,
@@ -99,7 +98,7 @@ export function Content({
   align = 'center',
   ...props
 }: PopoverContentProps) {
-  const { contentRef, closeButton, open, id } = usePopoverContext()
+  const { contentRef, closeButton, id, modal } = usePopoverContext()
   const DialogClose = dialogClose
 
   // Main axis margin based on `side`
@@ -136,23 +135,17 @@ export function Content({
 
   return (
     <dialog
-      popover="auto"
+      popover={modal ? 'manual' : 'auto'}
       style={style}
       className={className}
       {...{ ...props, closedby }}
       id={id}
       duck-popover-content=""
       ref={contentRef}>
-      <ShouldRender
-        ref={contentRef}
-        once={renderOnce}
-        open={open}
-        children={
-          <>
-            {children}
-            {closeButton && <DialogClose />}
-          </>
-        }></ShouldRender>
+      <>
+        {children}
+        {closeButton && <DialogClose />}
+      </>
     </dialog>
   )
 }

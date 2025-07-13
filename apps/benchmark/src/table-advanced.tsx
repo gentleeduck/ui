@@ -30,19 +30,13 @@ export function useDuckTable<T extends Record<string, unknown>>() {
   return context as DuckTableContextType<T>
 }
 
-export function DuckTable<T extends Record<string, unknown>>({
-  children,
-  table,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & {
-  table: ReturnType<typeof createDuckTable<T>>
-}) {
+export function DuckTable({ children, ...props }: React.HTMLAttributes<HTMLDivElement> & {}) {
   return (
-    <DuckTableContext.Provider value={{ table: table as any }}>
-      <div {...props} duck-table="">
-        {children}
-      </div>
-    </DuckTableContext.Provider>
+    <div {...props} duck-table="">
+      {children}
+    </div>
+    //   <DuckTableContext.Provider value={{ table: table as any }}>
+    // </DuckTableContext.Provider>
   )
 }
 

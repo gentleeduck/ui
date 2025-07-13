@@ -10,6 +10,7 @@ import { createDuckTable } from './table.hooks'
 import { DuckTableBody } from './table-advanced'
 import { TableDemo, TableDemo1 } from './table-example'
 import { DuckTableOptions } from './table.types'
+import React from 'react'
 
 // import App from './App'
 // const App = lazy(() => import('./App'))

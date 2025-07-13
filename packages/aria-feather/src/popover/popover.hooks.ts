@@ -23,118 +23,47 @@ export function usePopover({
   mouseExist,
   skipDelayDuration,
   delayDuration,
-  id,
-}: PopoverProps & { id: string }) {
+}: PopoverProps) {
   const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
   const contentRef = React.useRef<HTMLDialogElement | null>(null)
-  const [open, setOpen] = React.useState<boolean>(false)
+  const [open, setOpen] = React.useState<boolean>(openProp)
 
   function handleOpenChange(state: boolean) {
     if (!contentRef.current) return
 
     try {
-      if (modal) {
-        state ? contentRef.current.showModal() : contentRef.current.close()
-      } else {
-        requestAnimationFrame(() => {
-          state ? contentRef.current.showPopover() : contentRef.current.hidePopover()
-        })
-      }
+      state ? contentRef.current.showPopover() : contentRef.current.hidePopover()
+
+      setOpen(state)
+      onOpenChange?.(state)
+      wrapperRef.current?.setAttribute('data-open', String(state))
+      triggerRef.current?.setAttribute('data-open', String(state))
+      contentRef.current?.setAttribute('data-open', String(state))
     } catch (e) {
       console.warn('Popover failed to toggle', e)
     }
+  }
 
-    setOpen(state)
-    onOpenChange?.(state)
-    wrapperRef.current?.setAttribute('data-open', String(state))
-    triggerRef.current?.setAttribute('data-open', String(state))
-    contentRef.current?.setAttribute('data-open', String(state))
+  function handleClose(event: Event & { newState: 'open' | 'close' }) {
+    handleOpenChange(event.newState === 'open')
   }
 
   React.useEffect(() => {
+    if (mouseEnter || mouseExist || openProp === undefined) return
+    if (lockScroll) lockScrollbar(open)
+
     const state = openProp === true ? true : false
-    if (mouseEnter || mouseExist) return
-    // Applying control over the open state
-    if (openProp === true || openProp === false) {
-      contentRef.current.open = state
-      handleOpenChange(state)
-
-      // By removing this id we make sure it's fully controlled by us
-      contentRef.current.id = openProp ? null : id
-
-      contentRef.current.addEventListener('cancel', (e) => e.preventDefault())
-      if (openProp) {
-        return () => {
-          contentRef.current?.removeEventListener('cancel', (e) => e.preventDefault())
-        }
-      }
-    }
+    handleOpenChange(state)
   }, [openProp])
 
   React.useEffect(() => {
     if (mouseEnter || mouseExist) return
     if (lockScroll) lockScrollbar(open)
 
-    // If it's a controlled component, we don't need to do anything
-    if (openProp === true || openProp === false) return
-
-    function handleClose(event: Event & { newState: 'open' | 'close' }) {
-      if (modal) {
-        handleOpenChange(false)
-      } else {
-        const newState = event.newState
-        handleOpenChange(newState === 'open')
-      }
-    }
-
-    contentRef.current?.addEventListener('close', handleClose)
-    if (!modal) {
-      contentRef.current?.addEventListener('beforetoggle', handleClose)
-    }
+    contentRef.current?.addEventListener('toggle', handleClose)
 
     return () => {
-      contentRef.current?.removeEventListener('close', handleClose)
-      if (!modal) {
-        contentRef.current?.removeEventListener('beforetoggle', handleClose)
-      }
-    }
-  }, [])
-
-  React.useEffect(() => {
-    // If it's a controlled component, we don't need to do anything
-    if (openProp === true || openProp === false) return
-
-    let openTimer = null
-    let closeTimer = null
-
-    function openAfterDelay() {
-      clearTimeout(closeTimer)
-      openTimer = setTimeout(() => handleOpenChange(true), delayDuration)
-    }
-
-    function closeAfterDelay() {
-      clearTimeout(openTimer)
-      closeTimer = setTimeout(() => handleOpenChange(false), skipDelayDuration)
-    }
-
-    if (mouseEnter) {
-      for (const elm of [triggerRef.current, contentRef.current]) {
-        elm?.addEventListener('mouseover', openAfterDelay)
-        if (mouseExist) {
-          elm?.addEventListener('mouseout', closeAfterDelay)
-        }
-      }
-    }
-
-    return () => {
-      if (mouseEnter) {
-        for (const elm of [triggerRef.current, contentRef.current]) {
-          elm?.removeEventListener('mouseover', openAfterDelay)
-          if (mouseExist) {
-            elm?.removeEventListener('mouseout', closeAfterDelay)
-          }
-        }
-      }
+      contentRef.current?.removeEventListener('toggle', handleClose)
       cleanLockScrollbar()
     }
   }, [])

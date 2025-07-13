@@ -35,7 +35,8 @@ export const AnimVariants = cva('', {
 export const AnimDialogVariants = cva(`border border-border bg-background rounded-lg shadow-sm outline-hidden p-6`, {
   variants: {
     animation: {
-      default: 'scale-90 opacity-0 open:scale-100 starting:open:scale-90 open:opacity-100 starting:open:opacity-0',
+      default:
+        'scale-90 opacity-0 data-[open=true]:scale-100 starting:data-[open=true]:scale-90 data-[open=true]:opacity-100 starting:data-[open=true]:opacity-0',
       nothing: '',
     },
   },
@@ -45,7 +46,7 @@ export const AnimDialogVariants = cva(`border border-border bg-background rounde
 })
 
 export const AnimPopoverVariants = cva(
-  `bg-popover text-popover-foreground inset-auto absolute max-h-none p-4 w-fit
+  `bg-popover text-popover-foreground inset-auto absolute max-h-none p-4 w-fit z-50 fixed
   [position-anchor:var(--position-anchor)] m-(--sideOffset) [position-visibility:anchors-visible]`,
   {
     variants: {

@@ -1,6 +1,6 @@
 import DialogPrimitive, { useDialogContext } from '@gentleduck/aria-feather/dialog'
 import { cn } from '@gentleduck/libs/cn'
-import { AnimDialogModalVariants, AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { AnimDialogModalVariants, AnimDialogVariants, AnimPopoverVariants, AnimVariants } from '@gentleduck/motion/anim'
 import { X } from 'lucide-react'
 import type React from 'react'
 import { Button } from '../button'

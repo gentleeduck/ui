@@ -46,7 +46,6 @@ export function createDuckTable<THeaders extends Lowercase<string>[]>(initialDat
       }
       set(mutatedRows, table.getMutatedRows())
       set(currentPageRows, table.getCurrentPageRows())
-      console.log(table.getHistory(), table['sortCache'])
     },
   )
   const visibleColumns = atom(table.getVisibleColumns())

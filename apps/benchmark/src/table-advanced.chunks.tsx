@@ -2,7 +2,7 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Combobox, ComboboxItem, ComboxGroup } from '@gentleduck/registry-ui-duckui/combobox'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
+import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { useAtom, useSetAtom } from '@gentleduck/state/primitive'
 import { ArrowDown01, ArrowUp10, Minus } from 'lucide-react'
@@ -188,7 +188,8 @@ export function DuckTableColumnView({
 }
 
 export function DuckTableSortable({ header }: { header: HeaderValues }) {
-  const setColumns = useSetAtom(duck_table.atoms.columnSort)
+  const [columns, setColumns] = useAtom(duck_table.atoms.columnSort)
+  // console.log(header, columns)
 
   const [open, setOpen] = React.useState(false)
   // React.useEffect(() => {
@@ -196,14 +197,20 @@ export function DuckTableSortable({ header }: { header: HeaderValues }) {
   //   console.log(open)
   // }, [open])
 
+  console.log(open)
+  const sort = columns.find((column) => column.label === header.value)?.direction
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={(open) => {
+        console.log(open, 'open')
+        // setOpen(open)
+      }}>
       <PopoverTrigger
         size={'sm'}
         variant={'ghost'}
         className="-ml-1 capitalize"
-        icon={<ArrowDown01 />}
-        onClick={() => setOpen(!open)}>
+        icon={sort === 'asc' ? <ArrowUp10 /> : sort === 'desc' ? <ArrowDown01 /> : ''}>
         {header.value}
       </PopoverTrigger>
       <PopoverContent
@@ -214,7 +221,7 @@ export function DuckTableSortable({ header }: { header: HeaderValues }) {
           Column sort
         </Label>
         <Separator />
-        <Button
+        <PopoverClose
           icon={<ArrowUp10 />}
           variant={'ghost'}
           size={'sm'}
@@ -222,11 +229,10 @@ export function DuckTableSortable({ header }: { header: HeaderValues }) {
             setColumns((prev) => {
               return prev.map((column) => (column.label === header.value ? { ...column, direction: 'asc' } : column))
             })
-            setOpen(false)
           }}>
           Ascending
-        </Button>
-        <Button
+        </PopoverClose>
+        <PopoverClose
           icon={<ArrowDown01 />}
           variant={'ghost'}
           size={'sm'}
@@ -234,12 +240,11 @@ export function DuckTableSortable({ header }: { header: HeaderValues }) {
             setColumns((prev) => {
               return prev.map((column) => (column.label === header.value ? { ...column, direction: 'desc' } : column))
             })
-            setOpen(false)
           }}>
           Descending
-        </Button>
+        </PopoverClose>
         <Separator />
-        <Button
+        <PopoverClose
           icon={<Minus />}
           variant={'ghost'}
           size={'sm'}
@@ -247,10 +252,9 @@ export function DuckTableSortable({ header }: { header: HeaderValues }) {
             setColumns((prev) => {
               return prev.map((column) => (column.label === header.value ? { ...column, direction: 'none' } : column))
             })
-            setOpen(false)
           }}>
           None
-        </Button>
+        </PopoverClose>
       </PopoverContent>
     </Popover>
   )

@@ -12,7 +12,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center flex-col gap-8 min-h-screen">
-      <TableDemo />
+      <PopoverDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
@@ -259,8 +259,11 @@ import {
 } from '@gentleduck/registry-ui-duckui/dialog'
 
 export function DialogDemo() {
+  const [open, setOpen] = React.useState(false)
+  console.log(open)
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <form onSubmit={(e) => e.preventDefault()}>
         <DialogTrigger asChild>
           <Button variant="outline">Open Dialog</Button>
@@ -356,8 +359,16 @@ export function TooltipDemo() {
 }
 
 export function PopoverDemo() {
+  const [open, setOpen] = React.useState(false)
+
   return (
-    <Popover>
+    <Popover
+      onOpenChange={(s) => {
+        // console.log(s)
+        setOpen(s)
+      }}
+      open={open}
+      modal>
       <PopoverTrigger>Open popover</PopoverTrigger>
       <PopoverContent side="bottom" align={'center'} className="w-80">
         <div className="grid gap-4">
@@ -367,7 +378,9 @@ export function PopoverDemo() {
           </div>
           <div className="grid gap-2">
             <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="width">Width</Label>
+              <Label htmlFor="width" onClick={() => setOpen(false)}>
+                Width
+              </Label>
               <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
             </div>
             <div className="grid grid-cols-3 items-center gap-4">

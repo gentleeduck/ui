@@ -1,8 +1,7 @@
-import { ChartPie, ToggleLeft } from 'lucide-react'
+import { ToggleLeft } from 'lucide-react'
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
@@ -14,36 +13,20 @@ import { duck_table } from './main'
 import { DuckTable, DuckTablePagination, DuckTableRowPerPage, DuckTableSelectedRows } from './table-advanced'
 import {
   DuckTableColumnView,
-  DuckTableFilter,
   DuckTableBar,
   DuckTableLeftSide,
   DuckTableRightSide,
   DuckTableSearch,
   DuckTableSortable,
 } from './table-advanced.chunks'
-import { createDuckTable } from './table.hooks'
 import { cn } from './lib/utils'
 import React from 'react'
 import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
-const hi = [
-  {
-    label: 'All',
-    value: 'all',
-  },
-  {
-    label: 'Active',
-    value: 'active',
-  },
-  {
-    label: 'Inactive',
-    value: 'inactive',
-  },
-] as const
 
 export function TableDemo() {
   return (
     <div className="min-h-screen flex items-center justify-center overflow-hidden">
-      <DuckTable className="w-[765px] flex flex-col gap-2.5 border rounded-md p-4 overflow-x-hidden" table={duck_table}>
+      <DuckTable className="w-[765px] flex flex-col gap-2.5 border rounded-md p-4 overflow-x-hidden">
         <DuckTableBar>
           <DuckTableRightSide>
             <DuckTableSearch />

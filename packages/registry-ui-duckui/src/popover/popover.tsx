@@ -51,4 +51,6 @@ function PopoverContent({
   )
 }
 
-export { Popover, PopoverTrigger, PopoverContent }
+const PopoverClose = PopoverTrigger
+
+export { Popover, PopoverTrigger, PopoverContent, PopoverClose }

@@ -1,15 +1,15 @@
-import { DuckTableColumnSort, DuckTableOptions, HeaderValues } from './table.types'
+import {
+  DuckTableColumnSort,
+  DuckTableEvent,
+  DuckTableEventMeta,
+  DuckTableEventType,
+  DuckTableOptions,
+  HeaderValues,
+  HistoryDelta,
+} from './table.types'
 
 const DEFAULT_PAGE_SIZE = 10
 const DEFAULT_CURRENT_PAGE = 1
-
-type HistoryDelta = {
-  version: number
-  type: 'init' | 'sort' | 'filter' | 'page'
-  timestamp: number
-  ids: string[]
-  meta: any
-}
 
 export class DuckTable<THeader extends Lowercase<string>[]> {
   private headers: DuckTableOptions<THeader>['headers'] = {} as never
@@ -17,7 +17,7 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
   private rawData: DuckTableOptions<THeader>['data'] = []
   private viewRows: DuckTableOptions<THeader>['data'] = []
   private selectedRows: DuckTableOptions<THeader>['data'][number]['id'][] = []
-  private query = ''
+  private query: Partial<Record<THeader[number], string>> | string
   private currentPage = DEFAULT_CURRENT_PAGE
   private pageSize = DEFAULT_PAGE_SIZE
   private sortConfig: DuckTableColumnSort[] = []
@@ -30,10 +30,10 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
   private lastStorageUpdate = 0
 
   private storageKey?: string
-  private broadcast?: BroadcastChannel
-  private instanceId = Math.random().toString(36).slice(2)
-
   private debug = false
+
+  // Change listeners
+  private changeListeners: Array<(event: DuckTableEvent<THeader>) => void> = []
 
   constructor(options: DuckTableOptions<THeader>) {
     this.headers = options.headers
@@ -53,13 +53,47 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
 
     this.storageKey = options.storageKey
     if (this.storageKey && this.isBrowser()) {
-      this.broadcast = new BroadcastChannel(`duck-table:${this.storageKey}`)
-      this.broadcast.onmessage = this.handleBroadcast
       this.loadFromStorage()
       this.watchStorageChanges()
     }
 
     this.pushHistory('init', {}, this.viewRows)
+  }
+
+  public updateRow(id: string, partial: Partial<DuckTableOptions<THeader>['data'][number]>): void {
+    const index = this.rawData.findIndex((r) => r.id === id)
+    if (index === -1) throw new Error(`Row with id ${id} not found`)
+
+    this.rawData[index] = { ...this.rawData[index], ...partial }
+    this.reapplyView()
+    this.pushHistory('edit', { id, changes: partial }, this.viewRows)
+  }
+
+  private reapplyView(): void {
+    this.setQuery(this.query)
+    this.setColumnSort(this.sortConfig)
+  }
+
+  public addRow(row: DuckTableOptions<THeader>['data'][number]): void {
+    if (this.rawData.find((r) => r.id === row.id)) {
+      throw new Error(`Row with id ${row.id} already exists`)
+    }
+    this.rawData.push(row)
+    this.reapplyView()
+    this.pushHistory('add', { id: row.id }, this.viewRows)
+  }
+
+  public deleteRow(id: string): void {
+    this.rawData = this.rawData.filter((r) => r.id !== id)
+    this.reapplyView()
+    this.pushHistory('delete', { id }, this.viewRows)
+  }
+
+  /**
+   * Subscribe to table events
+   */
+  public onTableChange(fn: (event: DuckTableEvent<THeader>) => void): void {
+    this.changeListeners.push(fn)
   }
 
   public getCurrentVersion(): number {
@@ -113,20 +147,43 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     }
   }
 
-  private loadFromStorage(): void {
+  public loadFromStorage(): void {
     if (!this.isBrowser() || !this.storageKey) return
+
     try {
       const raw = localStorage.getItem(this.storageKey)
       if (!raw) return
+
       const saved = JSON.parse(raw) as HistoryDelta[]
       this.history = saved
       this.currentVersionIndex = saved.length - 1
+
       const last = saved[this.currentVersionIndex]
-      if (last) {
-        this.viewRows = this.resolveIdsToRows(last.ids)
-        this.lastStorageUpdate = last.timestamp
+      if (!last) return
+
+      this.viewRows = this.resolveIdsToRows(last.ids)
+      this.lastStorageUpdate = last.timestamp
+
+      // Apply query from meta if present
+      if (last.meta && 'query' in last.meta) {
+        this.query = last.meta.query
       }
-    } catch {
+
+      // Apply pagination if present
+      if (last.meta && 'page' in last.meta) {
+        this.currentPage = last.meta.page
+      }
+
+      if (last.meta && 'pageSize' in last.meta) {
+        this.pageSize = last.meta.pageSize
+      }
+
+      // Apply sort config if present
+      if (last.meta && 'sortConfig' in last.meta) {
+        this.sortConfig = last.meta.sortConfig
+      }
+    } catch (err) {
+      console.warn('[DuckTable] Failed to load from storage:', err)
       this.history = []
     }
   }
@@ -152,27 +209,11 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     })
   }
 
-  private handleBroadcast = (evt: MessageEvent) => {
-    const msg = evt.data as any
-    if (!msg || msg.instanceId === this.instanceId) return
-    if (msg.type !== 'history-update') return
-    if (msg.timestamp <= this.lastStorageUpdate) return
-    const rows = this.resolveIdsToRows(msg.ids)
-    if (rows.length !== msg.ids.length) return
-    this.history.push({
-      version: msg.version,
-      type: msg.entryType,
-      timestamp: msg.timestamp,
-      ids: msg.ids,
-      meta: msg.meta,
-    })
-    this.viewRows = rows
-    this.currentVersionIndex = this.history.length - 1
-    this.lastStorageUpdate = msg.timestamp
-    this.emitChange('broadcast-sync', { version: msg.version })
-  }
-
-  private pushHistory(type: HistoryDelta['type'], meta: any, rows: DuckTableOptions<THeader>['data']): void {
+  private pushHistory<T extends DuckTableEventType>(
+    type: T,
+    meta: DuckTableEventMeta<T, THeader>,
+    rows: DuckTableOptions<THeader>['data'],
+  ): void {
     const ids = rows.map((r) => r.id)
     const delta: HistoryDelta = {
       version: ++this.versionCounter,
@@ -218,24 +259,19 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     return ids.map((id) => map.get(id)!).filter(Boolean)
   }
 
-  private emitChange(type: string, meta: any): void {
+  private emitChange<T extends DuckTableEventType>(type: T, meta: DuckTableEventMeta<T, THeader>): void {
+    const event = { type, meta } as DuckTableEvent<THeader>
+    for (const listener of this.changeListeners) {
+      listener(event)
+    }
+
     if (this.debug) console.debug(`[DuckTable] ${type}`, meta)
 
-    const changeTypes = ['sort', 'filter', 'page']
+    const changeTypes: DuckTableEventType[] = ['sort', 'filter', 'page']
     if (!changeTypes.includes(type)) return
 
     const delta = this.history[this.currentVersionIndex]
-    if (!delta || !this.broadcast) return
-
-    this.broadcast.postMessage({
-      type: 'history-update',
-      entryType: type,
-      version: delta.version,
-      ids: delta.ids,
-      meta: delta.meta,
-      timestamp: delta.timestamp,
-      instanceId: this.instanceId,
-    })
+    if (!delta) return
   }
 
   public enableDebug(): void {
@@ -248,6 +284,15 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
 
   public getVisibleColumns() {
     return this.visibleColumns
+  }
+
+  public toggleColumnVisibility(label: keyof DuckTableOptions<THeader>['headers']): void {
+    if (this.visibleColumns.includes(label)) {
+      this.visibleColumns = this.visibleColumns.filter((col) => col !== label)
+    } else {
+      this.visibleColumns.push(label)
+    }
+    this.emitChange('column-visibility', { label, visible: this.visibleColumns.includes(label) })
   }
 
   public getColumnSort() {
@@ -298,6 +343,8 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     this.sortCache.set(key, idxs)
     this.viewRows = idxs.map((i) => this.rawData[i])
     this.pushHistory('sort', { cached: false, sortConfig: active }, this.viewRows)
+
+    console.log(this.history, this.sortCache)
   }
 
   public getRows() {
@@ -320,20 +367,34 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     return this.query
   }
 
-  public setQuery(q: string): void {
-    this.query = q
-    this.viewRows = this.rawData.filter((row) =>
-      Object.keys(row).some((k) => {
-        const h = this.headers[k as keyof THeader] as HeaderValues
-        return h.filterFn
-          ? h.filterFn(row, q)
-          : String(row[k as keyof typeof row])
-              .toLowerCase()
-              .includes(q.toLowerCase())
-      }),
-    )
+  public setQuery(query: Partial<Record<THeader[number], string>> | string): void {
+    this.query = query
+
+    this.viewRows = this.rawData.filter((row) => {
+      if (typeof query === 'string') {
+        // Global filter: matches any visible field
+        return Object.keys(row).some((k) => {
+          const h = this.headers[k as keyof typeof this.headers] as HeaderValues
+          return h?.filterFn
+            ? h.filterFn(row, query)
+            : String(row[k as keyof typeof row] ?? '')
+                .toLowerCase()
+                .includes(query.toLowerCase())
+        })
+      } else if (typeof query === 'object' && query !== null) {
+        // Advanced filter: match all specified columns
+        return Object.entries(query).every(([col, q]) => {
+          if (!q) return true
+          const val = String(row[col as keyof typeof row] ?? '')
+          return val.toLowerCase().includes((q as string).toLowerCase())
+        })
+      }
+
+      return true // fallback if query is null/undefined
+    })
+
     this.currentPage = 1
-    this.pushHistory('filter', { query: q }, this.viewRows)
+    this.pushHistory('filter', { query }, this.viewRows)
   }
 
   public getSelectedRows() {
