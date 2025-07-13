@@ -10,6 +10,9 @@ import {
 
 const DEFAULT_PAGE_SIZE = 10
 const DEFAULT_CURRENT_PAGE = 1
+type NormalizedRow<T> = T & {
+  _normalized?: Record<string, string>
+}
 
 export class DuckTable<THeader extends Lowercase<string>[]> {
   private headers: DuckTableOptions<THeader>['headers'] = {} as never
@@ -23,13 +26,12 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
   private sortConfig: DuckTableColumnSort[] = []
   private sortCache = new Map<string, number[]>()
 
-  private history: HistoryDelta[] = []
-  private maxHistory = 20
-  private versionCounter = 0
-  private currentVersionIndex = 0
-  private lastStorageUpdate = 0
+  private indexedValues = new Map<string, Map<string, Set<number>>>()
+  private _pendingReapply = false
+  private dirtyRowIds: Set<string> = new Set()
+  private normalizedData: NormalizedRow<DuckTableOptions<THeader>['data'][number]>[] = []
+  private static readonly CURRENT_SNAPSHOT_VERSION = 'v1.0.0'
 
-  private storageKey?: string
   private debug = false
 
   // Change listeners
@@ -45,28 +47,12 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
       (k) => this.headers[k as THeader[number]].visible,
     ) as typeof this.visibleColumns
     this.pageSize = options.pageSize ?? DEFAULT_PAGE_SIZE
+    this.normalizedData = this.rawData.map((row) => this.addNormalized(row))
 
     this.sortConfig = Object.values(this.headers).map((h) => {
       const hv = h as HeaderValues & { direction?: HistoryDelta['type'] }
       return { label: hv.value, direction: hv.direction || 'none' }
     }) as DuckTableColumnSort[]
-
-    this.storageKey = options.storageKey
-    if (this.storageKey && this.isBrowser()) {
-      this.loadFromStorage()
-      this.watchStorageChanges()
-    }
-
-    this.pushHistory('init', {}, this.viewRows)
-  }
-
-  public updateRow(id: string, partial: Partial<DuckTableOptions<THeader>['data'][number]>): void {
-    const index = this.rawData.findIndex((r) => r.id === id)
-    if (index === -1) throw new Error(`Row with id ${id} not found`)
-
-    this.rawData[index] = { ...this.rawData[index], ...partial }
-    this.reapplyView()
-    this.pushHistory('edit', { id, changes: partial }, this.viewRows)
   }
 
   private reapplyView(): void {
@@ -74,19 +60,31 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     this.setColumnSort(this.sortConfig)
   }
 
+  public updateRow(id: string, partial: Partial<DuckTableOptions<THeader>['data'][number]>): void {
+    const index = this.rawData.findIndex((r) => r.id === id)
+    if (index === -1) throw new Error(`Row with id ${id} not found`)
+
+    const updated = this.addNormalized({ ...this.rawData[index], ...partial })
+    this.rawData[index] = updated
+    this.normalizedData[index] = updated
+
+    this.dirtyRowIds.add(id)
+    this.debounceReapplyView()
+  }
+
   public addRow(row: DuckTableOptions<THeader>['data'][number]): void {
     if (this.rawData.find((r) => r.id === row.id)) {
       throw new Error(`Row with id ${row.id} already exists`)
     }
-    this.rawData.push(row)
-    this.reapplyView()
-    this.pushHistory('add', { id: row.id }, this.viewRows)
+    const normalized = this.addNormalized(row)
+    this.rawData.push(normalized)
+    this.normalizedData.push(normalized)
+    this.debounceReapplyView()
   }
 
   public deleteRow(id: string): void {
     this.rawData = this.rawData.filter((r) => r.id !== id)
-    this.reapplyView()
-    this.pushHistory('delete', { id }, this.viewRows)
+    this.debounceReapplyView()
   }
 
   /**
@@ -96,167 +94,12 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     this.changeListeners.push(fn)
   }
 
-  public getCurrentVersion(): number {
-    return this.history[this.currentVersionIndex]?.version ?? 0
-  }
-
-  public getTotalVersions(): number {
-    return this.history.length
-  }
-
-  public getSnapshotIds(version: number): string[] | undefined {
-    return this.history.find((h) => h.version === version)?.ids
-  }
-
-  public jumpToVersion(version: number): void {
-    const entry = this.history.find((h) => h.version === version)
-    if (!entry) throw new Error(`Version ${version} not found`)
-    this.viewRows = this.resolveIdsToRows(entry.ids)
-    this.currentVersionIndex = this.history.indexOf(entry)
-    this.emitChange('jump', { version })
-  }
-
-  public undo(): void {
-    if (this.currentVersionIndex > 0) {
-      this.currentVersionIndex--
-      const e = this.history[this.currentVersionIndex]
-      this.viewRows = this.resolveIdsToRows(e.ids)
-      this.emitChange('undo', { version: e.version })
-    }
-  }
-
-  public redo(): void {
-    if (this.currentVersionIndex < this.history.length - 1) {
-      this.currentVersionIndex++
-      const e = this.history[this.currentVersionIndex]
-      this.viewRows = this.resolveIdsToRows(e.ids)
-      this.emitChange('redo', { version: e.version })
-    }
-  }
-
-  private isBrowser(): boolean {
-    return typeof window !== 'undefined' && typeof localStorage !== 'undefined'
-  }
-
-  private saveToStorage(): void {
-    if (!this.isBrowser() || !this.storageKey) return
-    try {
-      localStorage.setItem(this.storageKey, JSON.stringify(this.history))
-    } catch {
-      /* ignore */
-    }
-  }
-
-  public loadFromStorage(): void {
-    if (!this.isBrowser() || !this.storageKey) return
-
-    try {
-      const raw = localStorage.getItem(this.storageKey)
-      if (!raw) return
-
-      const saved = JSON.parse(raw) as HistoryDelta[]
-      this.history = saved
-      this.currentVersionIndex = saved.length - 1
-
-      const last = saved[this.currentVersionIndex]
-      if (!last) return
-
-      this.viewRows = this.resolveIdsToRows(last.ids)
-      this.lastStorageUpdate = last.timestamp
-
-      // Apply query from meta if present
-      if (last.meta && 'query' in last.meta) {
-        this.query = last.meta.query
-      }
-
-      // Apply pagination if present
-      if (last.meta && 'page' in last.meta) {
-        this.currentPage = last.meta.page
-      }
-
-      if (last.meta && 'pageSize' in last.meta) {
-        this.pageSize = last.meta.pageSize
-      }
-
-      // Apply sort config if present
-      if (last.meta && 'sortConfig' in last.meta) {
-        this.sortConfig = last.meta.sortConfig
-      }
-    } catch (err) {
-      console.warn('[DuckTable] Failed to load from storage:', err)
-      this.history = []
-    }
-  }
-
-  private watchStorageChanges(): void {
-    if (!this.storageKey || !this.isBrowser()) return
-    window.addEventListener('storage', (e) => {
-      if (e.key !== this.storageKey || !e.newValue) return
-      try {
-        const parsed = JSON.parse(e.newValue) as HistoryDelta[]
-        const last = parsed.at(-1)
-        if (!last || last.timestamp <= this.lastStorageUpdate) return
-        const rows = this.resolveIdsToRows(last.ids)
-        if (rows.length !== last.ids.length) return
-        this.history = parsed
-        this.viewRows = rows
-        this.currentVersionIndex = parsed.length - 1
-        this.lastStorageUpdate = last.timestamp
-        this.emitChange('storage-sync', { version: last.version })
-      } catch {
-        /* ignore */
-      }
-    })
-  }
-
-  private pushHistory<T extends DuckTableEventType>(
-    type: T,
-    meta: DuckTableEventMeta<T, THeader>,
-    rows: DuckTableOptions<THeader>['data'],
-  ): void {
-    const ids = rows.map((r) => r.id)
-    const delta: HistoryDelta = {
-      version: ++this.versionCounter,
-      type,
-      timestamp: Date.now(),
-      ids,
-      meta,
-    }
-    this.history.push(delta)
-
-    if (this.history.length > this.maxHistory) {
-      const removed = this.history.splice(0, this.history.length - this.maxHistory)
-      this.versionCounter = this.history[this.history.length - 1].version
-      this.currentVersionIndex = this.history.length - 1
-      this.emitChange('compress', { removed })
-    } else {
-      this.currentVersionIndex = this.history.length - 1
-    }
-
-    this.lastStorageUpdate = delta.timestamp
-    this.saveToStorage()
-    this.emitChange(type, meta)
-  }
-
-  public setMaxHistory(limit: number): void {
-    this.maxHistory = limit
-  }
-
-  public getHistory(): HistoryDelta[] {
-    return [...this.history]
-  }
-
   private assertUniqueIds(rows: DuckTableOptions<THeader>['data']): void {
     const seen = new Set<string>()
     for (const r of rows) {
       if (seen.has(r.id)) throw new Error(`Duplicate ID: ${r.id}`)
       seen.add(r.id)
     }
-  }
-
-  private resolveIdsToRows(ids: string[]): DuckTableOptions<THeader>['data'] {
-    const map = new Map(this.rawData.map((r) => [r.id, r]))
-    return ids.map((id) => map.get(id)!).filter(Boolean)
   }
 
   private emitChange<T extends DuckTableEventType>(type: T, meta: DuckTableEventMeta<T, THeader>): void {
@@ -269,9 +112,6 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
 
     const changeTypes: DuckTableEventType[] = ['sort', 'filter', 'page']
     if (!changeTypes.includes(type)) return
-
-    const delta = this.history[this.currentVersionIndex]
-    if (!delta) return
   }
 
   public enableDebug(): void {
@@ -302,17 +142,17 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
   public setColumnSort(sortConfig: DuckTableColumnSort[]): void {
     this.sortConfig = sortConfig
     const active = sortConfig.filter((s) => s.direction !== 'none')
-    const key = JSON.stringify(active)
+    const key = active.map(({ label, direction }) => `${label.toLowerCase()}:${direction}`).join('|')
 
     if (this.sortCache.has(key)) {
       this.viewRows = this.sortCache.get(key)!.map((i) => this.rawData[i])
-      this.pushHistory('sort', { cached: true, sortConfig: active }, this.viewRows)
+      this.emitChange('sort', { cached: true, sortConfig })
       return
     }
 
     if (active.length === 0) {
       this.viewRows = [...this.rawData]
-      this.pushHistory('sort', { cached: false, sortConfig: [] }, this.viewRows)
+      this.emitChange('sort', { cached: false, sortConfig })
       return
     }
 
@@ -342,9 +182,7 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
 
     this.sortCache.set(key, idxs)
     this.viewRows = idxs.map((i) => this.rawData[i])
-    this.pushHistory('sort', { cached: false, sortConfig: active }, this.viewRows)
-
-    console.log(this.history, this.sortCache)
+    this.emitChange('sort', { cached: false, sortConfig })
   }
 
   public getRows() {
@@ -356,7 +194,11 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     this.rawData = data
     this.viewRows = data.slice()
     this.sortCache.clear()
-    this.pushHistory('filter', { reason: 'reset' }, this.viewRows)
+    this.indexedValues.clear()
+    this.dirtyRowIds.clear()
+    this.normalizedData = this.rawData.map((row) => this.addNormalized(row))
+
+    this.emitChange('reset', { rowCount: data.length })
   }
 
   public getMutatedRows() {
@@ -369,32 +211,54 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
 
   public setQuery(query: Partial<Record<THeader[number], string>> | string): void {
     this.query = query
+    this.clearArray(this.viewRows)
 
-    this.viewRows = this.rawData.filter((row) => {
-      if (typeof query === 'string') {
-        // Global filter: matches any visible field
-        return Object.keys(row).some((k) => {
-          const h = this.headers[k as keyof typeof this.headers] as HeaderValues
-          return h?.filterFn
-            ? h.filterFn(row, query)
-            : String(row[k as keyof typeof row] ?? '')
-                .toLowerCase()
-                .includes(query.toLowerCase())
+    if (typeof query === 'string') {
+      const lowerQ = query.toLowerCase()
+      for (let i = 0; i < this.normalizedData.length; i++) {
+        const row = this.normalizedData[i]
+        const match = this.visibleColumns.some((k) => {
+          const h = this.headers[k]
+          return h?.filterFn ? h.filterFn(row, query) : row._normalized?.[k]?.includes(lowerQ)
         })
-      } else if (typeof query === 'object' && query !== null) {
-        // Advanced filter: match all specified columns
-        return Object.entries(query).every(([col, q]) => {
-          if (!q) return true
-          const val = String(row[col as keyof typeof row] ?? '')
-          return val.toLowerCase().includes((q as string).toLowerCase())
-        })
+        if (match) this.viewRows.push(this.rawData[i])
+      }
+    } else if (typeof query === 'object' && query !== null) {
+      const matchedSets: Set<number>[] = []
+
+      for (const [col, q] of Object.entries(query)) {
+        if (!q) continue
+        const normQ = this.normalize(q)
+        const column = col as THeader[number]
+
+        this.buildIndexIfMissing(column)
+        const columnIndex = this.indexedValues.get(column)
+        if (!columnIndex) continue
+
+        const matchingKeys = [...columnIndex.keys()].filter((k) => k.includes(normQ))
+        const matched = new Set<number>()
+        for (const key of matchingKeys) {
+          for (const idx of columnIndex.get(key)!) {
+            matched.add(idx)
+          }
+        }
+        matchedSets.push(matched)
       }
 
-      return true // fallback if query is null/undefined
-    })
+      const finalSet = matchedSets.reduce(
+        (a, b) => new Set([...a].filter((x) => b.has(x))),
+        matchedSets[0] ?? new Set(this.rawData.map((_, i) => i)),
+      )
+
+      for (const i of finalSet) this.viewRows.push(this.rawData[i])
+    } else {
+      for (let i = 0; i < this.rawData.length; i++) {
+        this.viewRows.push(this.rawData[i])
+      }
+    }
 
     this.currentPage = 1
-    this.pushHistory('filter', { query }, this.viewRows)
+    this.emitChange('filter', { query })
   }
 
   public getSelectedRows() {
@@ -403,6 +267,7 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
 
   public setSelectedRows(ids: string[]): void {
     this.selectedRows = ids
+    this.emitChange('select', { ids })
   }
 
   public getCurrentPage(): number {
@@ -415,13 +280,13 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
 
   public setCurrentPage(page: number): void {
     this.currentPage = page
-    this.pushHistory('page', { page }, this.viewRows)
+    this.emitChange('page', { page, pageSize: this.pageSize })
   }
 
   public setPageSize(size: number): void {
     this.pageSize = size
     this.currentPage = 1
-    this.pushHistory('page', { pageSize: size }, this.viewRows)
+    this.emitChange('page', { page: 1, pageSize: size })
   }
 
   public getTotalPages(): number {
@@ -433,5 +298,118 @@ export class DuckTable<THeader extends Lowercase<string>[]> {
     if (this.currentPage > total) this.currentPage = 1
     const start = (this.currentPage - 1) * this.pageSize
     return this.viewRows.slice(start, start + this.pageSize)
+  }
+
+  private normalize(val: unknown): string {
+    return String(val ?? '').toLowerCase()
+  }
+
+  private buildIndexIfMissing(column: THeader[number]) {
+    if (this.indexedValues.has(column)) return
+
+    const colIndex = new Map<string, Set<number>>()
+
+    for (let i = 0; i < this.rawData.length; i++) {
+      const val = this.normalize(this.rawData[i][column as keyof (typeof this.rawData)[number]])
+      if (!colIndex.has(val)) colIndex.set(val, new Set())
+      colIndex.get(val)!.add(i)
+    }
+
+    this.indexedValues.set(column, colIndex)
+  }
+
+  private debounceReapplyView(): void {
+    if (this._pendingReapply) return
+    this._pendingReapply = true
+    queueMicrotask(() => {
+      this._pendingReapply = false
+      this.reapplyView()
+    })
+  }
+
+  public getDirtyRowIds(): string[] {
+    return Array.from(this.dirtyRowIds)
+  }
+
+  public isRowDirty(id: string): boolean {
+    return this.dirtyRowIds.has(id)
+  }
+
+  public clearDirtyRow(id: string): void {
+    this.dirtyRowIds.delete(id)
+  }
+
+  public clearAllDirtyRows(): void {
+    this.dirtyRowIds.clear()
+  }
+
+  private addNormalized(row: DuckTableOptions<THeader>['data'][number]): NormalizedRow<typeof row> {
+    const normalized: Record<string, string> = {}
+    for (const key of Object.keys(this.headers)) {
+      const val = row[key as keyof typeof row]
+      normalized[key] = typeof val === 'string' ? val.toLowerCase() : String(val ?? '').toLowerCase()
+    }
+    return { ...row, _normalized: normalized }
+  }
+
+  private clearArray<T>(arr: T[]): void {
+    arr.length = 0
+  }
+
+  public getSnapshot(): DuckTableOptions<THeader> {
+    return {
+      version: DuckTable.CURRENT_SNAPSHOT_VERSION,
+      query: this.query,
+      selectedRows: [...this.selectedRows],
+      currentPage: this.currentPage,
+      pageSize: this.pageSize,
+      sortConfig: JSON.parse(JSON.stringify(this.sortConfig)),
+      visibleColumns: [...this.visibleColumns],
+      data: this.rawData,
+      headers: this.headers,
+    }
+  }
+
+  public hydrate(snapshot: DuckTableOptions<THeader>): void {
+    if (snapshot.query) {
+      this.query = snapshot.query
+    }
+    if (snapshot.selectedRows) {
+      this.selectedRows = [...snapshot.selectedRows]
+    }
+    if (snapshot.currentPage) {
+      this.currentPage = snapshot.currentPage
+    }
+    if (snapshot.data) {
+      this.rawData = snapshot.data
+    }
+    if (snapshot.headers) {
+      this.headers = snapshot.headers
+    }
+    if (snapshot.pageSize) {
+      this.pageSize = snapshot.pageSize
+    }
+    if (snapshot.visibleColumns) {
+      this.visibleColumns = [...snapshot.visibleColumns]
+    }
+    if (snapshot.sortConfig) {
+      this.sortConfig = JSON.parse(JSON.stringify(snapshot.sortConfig))
+    }
+
+    this.reapplyView()
+    this.emitChange('hydrate', snapshot as any)
+  }
+
+  public persistSnapshot(key: string): void {
+    const json = JSON.stringify(this.getSnapshot())
+    localStorage.setItem(key, json)
+    this.emitChange('storage-sync', { version: DuckTable.CURRENT_SNAPSHOT_VERSION })
+  }
+
+  public loadSnapshot(key: string): void {
+    const raw = localStorage.getItem(key)
+    if (!raw) return
+    this.hydrate(JSON.parse(raw))
+    this.emitChange('storage-sync', { version: DuckTable.CURRENT_SNAPSHOT_VERSION })
   }
 }

@@ -98,6 +98,7 @@ const table_data: DuckTableOptions<Headers> = {
   data: invoices,
   pageSize: 30,
   query: '',
+
   sort: [
     // {
     //   label: 'invoice',
