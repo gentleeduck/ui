@@ -108,6 +108,7 @@ function App() {
   return (
     // <KeyProvider timeoutMs={100}>
     <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
+      <TooltipDemo />
       <Popover />
     </div>
     // </KeyProvider>
@@ -130,6 +131,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@gentleduck/registry-ui-duckui/navigation-menu'
+import TooltipDemo from './example/tooltip'
 
 const components: { title: string; href: string; description: string }[] = [
   {

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/registry-ui-duckui",
   "private": true,
   "version": "0.1.0",

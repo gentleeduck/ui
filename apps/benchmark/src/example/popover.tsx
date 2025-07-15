@@ -1,4 +1,3 @@
-import { cn } from '@/lib/utils'
 import {
   Command,
   CommandEmpty,
@@ -16,7 +15,43 @@ import React from 'react'
 
 export default function PopoverDemo() {
   const [open, setOpen] = React.useState(true)
-  return <ComboboxDemo />
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger>Open popover</PopoverTrigger>
+      <PopoverContent side="top" align={'center'} className="w-80 border-transparent">
+        <div className="grid gap-4">
+          <div className="space-y-2">
+            <h4 className="font-medium leading-none">Dimensions</h4>
+            <p className="text-muted-foreground text-sm">Set the dimensions for the layer.</p>
+          </div>
+          <div className="grid gap-2">
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label
+                htmlFor="width"
+                onClick={() => {
+                  setOpen(false)
+                }}>
+                Width
+              </Label>
+              <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxWidth">Max. width</Label>
+              <Input id="maxWidth" defaultValue="300px" className="col-span-2 h-8" />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="height">Height</Label>
+              <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxHeight">Max. height</Label>
+              <Input id="maxHeight" defaultValue="none" className="col-span-2 h-8" />
+            </div>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
 }
 
 const frameworks = [
@@ -47,7 +82,7 @@ export function ComboboxDemo() {
   // console.log(open)
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger className="w-[200px]" onClick={() => setOpen(!open)}>
+      <PopoverTrigger className="w-[200px]">
         {value ? frameworks.find((framework) => framework.value === value)?.label : 'Select framework...'}
         <ChevronsUpDown className="opacity-50" />
       </PopoverTrigger>

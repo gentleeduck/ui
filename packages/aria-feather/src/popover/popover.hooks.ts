@@ -32,20 +32,20 @@ export function usePopover({
     if (!contentRef.current) return
 
     try {
-      state ? contentRef.current.showPopover() : contentRef.current.hidePopover()
+      if (!mouseEnter || !mouseExist) {
+        state ? contentRef.current.showPopover() : contentRef.current.hidePopover()
+      }
 
       setOpen(state)
       onOpenChange?.(state)
-      wrapperRef.current?.setAttribute('data-open', String(state))
-      triggerRef.current?.setAttribute('data-open', String(state))
-      contentRef.current?.setAttribute('data-open', String(state))
     } catch (e) {
       console.warn('Popover failed to toggle', e)
     }
   }
 
   function handleClose(event: Event & { newState: 'open' | 'close' }) {
-    handleOpenChange(event.newState === 'open')
+    const newState = event.newState
+    handleOpenChange(newState === 'open')
   }
 
   React.useEffect(() => {
@@ -64,9 +64,47 @@ export function usePopover({
 
     return () => {
       contentRef.current?.removeEventListener('toggle', handleClose)
-      cleanLockScrollbar()
     }
   }, [])
+
+  React.useEffect(() => {
+    // If it's a controlled component, we don't need to do anything
+    if (openProp === true || openProp === false) return
+
+    let openTimer = null
+    let closeTimer = null
+
+    function openAfterDelay() {
+      clearTimeout(closeTimer)
+      openTimer = setTimeout(() => handleOpenChange(true), delayDuration)
+    }
+
+    function closeAfterDelay() {
+      clearTimeout(openTimer)
+      closeTimer = setTimeout(() => handleOpenChange(false), skipDelayDuration)
+    }
+
+    if (mouseEnter) {
+      for (const elm of [triggerRef.current, contentRef.current]) {
+        elm?.addEventListener('mouseover', openAfterDelay)
+        if (mouseExist) {
+          elm?.addEventListener('mouseout', closeAfterDelay)
+        }
+      }
+    }
+
+    return () => {
+      if (mouseEnter) {
+        for (const elm of [triggerRef.current, contentRef.current]) {
+          elm?.removeEventListener('mouseover', openAfterDelay)
+          if (mouseExist) {
+            elm?.removeEventListener('mouseout', closeAfterDelay)
+          }
+        }
+      }
+      cleanLockScrollbar()
+    }
+  }, [open])
 
   return {
     triggerRef,

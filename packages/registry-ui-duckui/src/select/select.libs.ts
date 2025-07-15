@@ -52,17 +52,18 @@ export function initRefs(
       wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
     })
 
-    if (item.getAttribute('data-value') === String(value) && !selectedItemRef.current) {
+    // if ((item.getAttribute('data-value') === String(value) && !selectedItemRef.current )) {
+    if (selectedItemRef.current?.getAttribute('value') === item.getAttribute('value')) {
       styleItem(item)
       selectedItemRef.current = item
       setSelectedItem(item)
     }
   }
 
-  if (!selectedItemRef.current) {
-    const item = itemsRef.current?.[0] as HTMLLIElement
-    styleItem(item ?? null)
-    item?.focus()
-    selectedItemRef.current = item
-  }
+  // if (!selectedItemRef.current) {
+  //   const item = itemsRef.current?.[0] as HTMLLIElement
+  //   styleItem(item ?? null)
+  //   item?.focus()
+  //   selectedItemRef.current = item
+  // }
 }

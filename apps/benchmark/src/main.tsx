@@ -12,7 +12,7 @@ import { TableDemo, DucKTable } from './table-example'
 import { DuckTableOptions } from './table.types'
 import React from 'react'
 
-// import App from './App'
+import App from './App'
 // const App = lazy(() => import('./App'))
 
 createRoot(document.getElementById('root') as HTMLElement).render(<TableDemor />)
@@ -20,7 +20,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(<TableDemor />
 export function TableDemor() {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <MyTable />
+      <App />
     </div>
   )
 }
@@ -132,12 +132,7 @@ const table_data: DuckTableOptions<Headers> = {
   pageSize: 5,
   query: '',
 
-  sortConfig: [
-    // {
-    //   label: 'invoice',
-    //   direction: 'asc',
-    // },
-  ],
+  sortConfig: [],
 }
 
 export const duck_table = createDuckTable<Headers>(table_data)

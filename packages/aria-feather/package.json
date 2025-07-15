@@ -1,6 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/aria-feather",
   "version": "0.1.0",
+  "type": "module",
   "description": "aria-feather is a behavioral component abstraction that makes the aero dynamics of the web",
   "module": "./index.ts",
   "exports": {

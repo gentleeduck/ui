@@ -23,7 +23,12 @@ export interface PopoverContentProps extends Partial<DialogContentProps>, Varian
   sideOffset?: number
 }
 
-export interface PopoverContextType extends DialogContextType, Pick<PopoverProps, 'modal'> {}
+export interface PopoverContextType extends DialogContextType, Pick<PopoverProps, 'modal'> {
+  /** If true, the popover opens when the mouse enters the trigger or wrapper area. */
+  mouseEnter: boolean
+  /** If true, the popover closes when the mouse leaves the trigger or wrapper area. */
+  mouseExist: boolean
+}
 
 export interface PopoverRootProps
   extends React.HtmlHTMLAttributes<HTMLDivElement>,

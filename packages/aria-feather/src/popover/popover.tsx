@@ -2,10 +2,10 @@
 
 import { useStableId } from '@gentleduck/hooks'
 import React from 'react'
+import { ShouldRender } from '../dialog'
 import { Slot } from '../slot'
 import { PopoverContext, usePopover, usePopoverContext } from './popover.hooks'
 import { PopoverContentProps, PopoverRootProps } from './popover.types'
-import { ShouldRender } from '../dialog'
 
 /**
  * Popover component that provides a context for managing its open state and
@@ -56,8 +56,10 @@ export function Root({
         onOpenChange: _onOpenChange,
         id,
         closeButton,
+        mouseEnter,
+        mouseExist,
       }}>
-      <div {...props} duck-popover="" ref={wrapperRef}>
+      <div {...props} duck-popover="" ref={wrapperRef} data-open={open}>
         {children}
       </div>
     </PopoverContext.Provider>
@@ -65,7 +67,7 @@ export function Root({
 }
 
 export function Trigger(props: React.ComponentPropsWithoutRef<typeof Slot>): React.JSX.Element {
-  const { id, triggerRef } = usePopoverContext()
+  const { id, triggerRef, open } = usePopoverContext()
 
   return (
     <Slot
@@ -78,6 +80,7 @@ export function Trigger(props: React.ComponentPropsWithoutRef<typeof Slot>): Rea
       }
       aria-haspopup="dialog"
       aria-controls={id}
+      data-open={open}
       duck-popover-trigger=""
       {...props}
       ref={triggerRef as React.RefObject<HTMLDivElement>}
@@ -99,7 +102,7 @@ export function Content({
   align = 'center',
   ...props
 }: PopoverContentProps) {
-  const { contentRef, closeButton, id, modal, open, triggerRef } = usePopoverContext()
+  const { contentRef, closeButton, id, modal, open, mouseEnter, mouseExist } = usePopoverContext()
   const DialogClose = dialogClose
 
   // Main axis margin based on `side`
@@ -128,35 +131,32 @@ export function Content({
           }[align as 'start' | 'end' | 'center'] ?? {})
         : {}
 
-  // const triggerRect = triggerRef.current?.getBoundingClientRect()
-  // console.log(triggerRect)
-  // const top = triggerRect && triggerRect?.top + triggerRect?.height
-  // const left = triggerRect && triggerRect?.left
-
   const style = {
     '--position-anchor': `--${id}`,
     ...sideMargins,
     ...alignMargins,
-    // top: top,
-    // left: left,
   } as React.CSSProperties
 
+  const isHover = (mouseEnter && mouseExist) || mouseEnter
+  const Component = isHover ? 'div' : 'dialog'
+  const popover = isHover ? undefined : modal ? 'manual' : 'auto'
+
   return (
-    <dialog
-      popover={modal ? 'manual' : 'auto'}
+    <Component
       style={style}
       className={className}
-      {...{ ...props, closedby }}
+      data-open={open}
+      {...({ ...props, closedby, popover } as never as {})}
       id={id}
       duck-popover-content=""
-      ref={contentRef}>
-      <ShouldRender open={open} ref={contentRef}>
+      ref={contentRef as never}>
+      <ShouldRender open={open} ref={contentRef} once={renderOnce}>
         <>
           {children}
           {closeButton && <DialogClose />}
         </>
       </ShouldRender>
-    </dialog>
+    </Component>
   )
 }
 
