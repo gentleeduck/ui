@@ -1,12 +1,11 @@
 'use client'
 // NOTE: @see: https://floating-ui.com/
-import PopoverPrimitive, { usePopoverContext } from '@gentleduck/aria-feather/popover'
+import PopoverPrimitive from '@gentleduck/aria-feather/popover'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimPopoverVariants, AnimVariants } from '@gentleduck/motion/anim'
 import * as React from 'react'
 import { Button } from '../button'
 import { PopoverContentProps } from './popover.types'
-import ReactDOM from 'react-dom'
 
 const Popover = PopoverPrimitive.Root
 

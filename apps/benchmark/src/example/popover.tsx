@@ -14,9 +14,9 @@ import { Check, ChevronsUpDown } from 'lucide-react'
 import React from 'react'
 
 export default function PopoverDemo() {
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(false)
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal>
       <PopoverTrigger>Open popover</PopoverTrigger>
       <PopoverContent side="top" align={'center'} className="w-80 border-transparent">
         <div className="grid gap-4">

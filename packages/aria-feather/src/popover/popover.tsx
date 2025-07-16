@@ -72,6 +72,7 @@ export function Trigger(props: React.ComponentPropsWithoutRef<typeof Slot>): Rea
   return (
     <Slot
       popoverTarget={id}
+      popoverTargetAction="toggle"
       style={
         {
           '--position-anchor': `--${id}`,

@@ -1,6 +1,7 @@
 'use client'
 
 import { usePopoverContext } from '@gentleduck/aria-feather/popover'
+import PopoverPrimitive from '@gentleduck/aria-feather/popover'
 import { cn } from '@gentleduck/libs/cn'
 import { CheckIcon, ChevronDown, ChevronDownIcon, ChevronUp } from 'lucide-react'
 import * as React from 'react'
@@ -37,18 +38,6 @@ function SelectWrapper({
   const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
   const itemsRef = React.useRef<HTMLLIElement[]>([])
   const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
-
-  // Handle the cancel event, so the selection will not change if the mouse moved out of the select
-  // React.useEffect(() => {
-  //   function handleCancel(_e: Event) {
-  //     contentRef.current!.style.pointerEvents = 'none'
-  //   }
-  //
-  //   contentRef.current?.addEventListener('cancel', handleCancel)
-  //   return () => {
-  //     contentRef.current?.removeEventListener('cancel', handleCancel)
-  //   }
-  // }, [])
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -193,13 +182,16 @@ function SelectItem({
   ref,
   ...props
 }: Omit<React.HTMLProps<HTMLLIElement>, 'value'> & { value: string }) {
-  const { value: _value } = useSelectContext()
+  const { value: _value, selectedItem } = useSelectContext()
   const id = React.useId()
 
   return (
     <li
       ref={ref}
       role="checkbox"
+      popoverTarget={id}
+      popoverTargetAction="hide"
+      aria-haspopup="dialog"
       id={id}
       {...props}
       duck-select-item=""
@@ -209,6 +201,8 @@ function SelectItem({
       className={cn(
         "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-secondary",
         disabled && 'pointer-events-none opacity-50',
+        // (_value.length > 0 ? _value : selectedItem?.getAttribute('data-value')) === String(value) &&
+        //   'bg-accent text-accent-foreground',
       )}>
       <div
         className={cn(
@@ -217,7 +211,7 @@ function SelectItem({
         )}>
         {children}
       </div>
-      {String(_value) === String(value) && (
+      {(_value.length > 0 ? _value : selectedItem?.getAttribute('data-value')) === String(value) && (
         <span
           className="absolute flex items-center justify-center transition-none duration-0 ltr:right-2 ltr:pl-2 rtl:left-2 rtl:pr-2"
           id="select-indicator">

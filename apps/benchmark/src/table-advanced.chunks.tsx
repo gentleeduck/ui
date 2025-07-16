@@ -5,11 +5,13 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { useAtom, useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
-import { ArrowDown01, ArrowUp10, Minus, ToggleLeft } from 'lucide-react'
+import { ArrowDown01, ArrowUp10, Command, Minus, ToggleLeft } from 'lucide-react'
 import React from 'react'
 import { cn } from './lib/utils'
 import { duck_table } from './main'
 import { DuckColumnValues } from './table.types'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import { CommandShortcut } from '@gentleduck/registry-ui-duckui/command'
 
 export function DuckTableBar({ className, ...props }: React.HtmlHTMLAttributes<HTMLDivElement>) {
   return <div className={cn('flex items-center gap-2 justify-between', className)} {...props} duck-table-header="" />
@@ -42,18 +44,20 @@ export function DuckTableSearch({
     )
   }
 
-  return <IInput />
-  // <Tooltip>
-  // <TooltipTrigger asChild>
-  // </TooltipTrigger>
-  //   <TooltipContent className="flex items-center gap-2">
-  //     <CommandShortcut keys={'ctrl+s'} onKeysPressed={() => {}} variant="secondary">
-  //       <Command />
-  //       +S
-  //     </CommandShortcut>
-  //       <p>Filter tasks...</p>
-  //     </TooltipContent>
-  //     </Tooltip>
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <IInput />
+      </TooltipTrigger>
+      <TooltipContent className="flex items-center gap-2">
+        <CommandShortcut keys={'ctrl+s'} onKeysPressed={() => {}} variant="secondary">
+          <Command />
+          +S
+        </CommandShortcut>
+        <p>Filter tasks...</p>
+      </TooltipContent>
+    </Tooltip>
+  )
 }
 
 export function DuckTableFilter<T extends readonly string[] | string[]>({

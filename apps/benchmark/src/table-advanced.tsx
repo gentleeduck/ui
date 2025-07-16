@@ -20,11 +20,28 @@ import {
   TableRow,
 } from '@gentleduck/registry-ui-duckui/table'
 import { useAtom, useAtomValue } from '@gentleduck/state/primitive'
-import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-react'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronsLeftIcon,
+  ChevronsRightIcon,
+  MoreHorizontal,
+  MoreVertical,
+  Pencil,
+  Trash2,
+} from 'lucide-react'
 import React from 'react'
 import { cn } from './lib/utils'
 import { duck_table } from './main'
 import { DuckTableSortable } from './table-advanced.chunks'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui-duckui/dropdown-menu'
 
 export function DuckTable({ children, ...props }: React.HTMLAttributes<HTMLDivElement> & {}) {
   return (
@@ -39,7 +56,6 @@ export function DuckTableRowPerPage({ className, ...props }: React.HTMLAttribute
 
   const options = [5, 10, 20, 50, 100]
 
-  console.log(pageSize)
   return (
     <div duck-table-row-per-page="" className={cn('flex items-center gap-2', className)} {...props}>
       <Label className="text-nowrap text-sm">Rows per page</Label>
@@ -273,7 +289,36 @@ export function DuckTableBody() {
                         key === 0 && 'w-[100px]',
                         key === Object.keys(_row).length - 1 && 'text-right pr-3',
                       )}>
-                      {value}
+                      {key !== Object.keys(_row).length - 1 ? (
+                        value
+                      ) : (
+                        <div className="flex items-center justify-end gap-2">
+                          {value}
+                          <DropdownMenu>
+                            <DropdownMenuTrigger
+                              size={'icon'}
+                              icon={<MoreHorizontal />}
+                              className="rounded-sm px-1"
+                              variant={'ghost'}
+                            />
+                            <DropdownMenuContent>
+                              <DropdownMenuLabel className="text-start pb-0">Actions</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem size={'sm'} icon={<Pencil />}>
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                size={'sm'}
+                                icon={<Trash2 />}
+                                variant={'secondary'}
+                                className="hover:bg-red-400 hover:text-accent">
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      )}
                     </TableCell>
                   </React.Fragment>
                 )

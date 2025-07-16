@@ -5,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui
 export default function TooltipDemo() {
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
+      <TooltipTrigger className="bg-transparent p-0 shadow-none rounded-border">
         <Input />
       </TooltipTrigger>
       <TooltipContent>

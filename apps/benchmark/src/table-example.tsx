@@ -66,6 +66,9 @@ export function DuckTableAdd() {
   const [open, setOpen] = React.useState(false)
   const columns = useAtomValue(duck_table.atoms.columns)
   const setRows = useSetAtom(duck_table.atoms.mutatedRows)
+  const [state, setState] = React.useState<Record<string, string>>({
+    ...Object.keys(columns).reduce((prev, key) => ({ ...prev, [key]: '' }), {}),
+  })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -73,17 +76,13 @@ export function DuckTableAdd() {
         onSubmit={(e) => {
           e.preventDefault()
           setRows((prev) => {
-            console.log(prev)
             return [
               ...prev,
               {
                 id: crypto.randomUUID(),
-                invoice: 'INV011',
-                method: 'Credit Card',
-                status: 'Unpaid',
-                amount: '$600.00',
+                ...state,
               },
-            ]
+            ] as never
           })
           setOpen(false)
         }}>
@@ -100,7 +99,10 @@ export function DuckTableAdd() {
               value.enum?.length ? (
                 <div key={key} className="grid gap-3">
                   <Label htmlFor={key}>{key}</Label>
-                  <Select id={key} onValueChange={(e) => console.log(e)}>
+                  <Select
+                    id={key}
+                    onValueChange={(e) => setState((prev) => ({ ...prev, [key]: e }))}
+                    value={state[key]}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a value" />
                     </SelectTrigger>
@@ -116,7 +118,13 @@ export function DuckTableAdd() {
               ) : (
                 <div key={key} className="grid gap-3">
                   <Label htmlFor={key}>{key}</Label>
-                  <Input id={key} name={key} placeholder={`Enter ${key}...`} />
+                  <Input
+                    id={key}
+                    name={key}
+                    placeholder={`Enter ${key}...`}
+                    value={state[key]}
+                    onChange={(e) => setState((prev) => ({ ...prev, [key]: e.target.value }))}
+                  />
                 </div>
               ),
             )}

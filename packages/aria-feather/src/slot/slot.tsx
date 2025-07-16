@@ -20,6 +20,15 @@ export function Slot({
   /** The JSX element or node to be rendered. */
   asChild?: boolean
 }): React.JSX.Element {
+  // if (React.Children.count(children) > 1) {
+  //   return <div {...props}>{children}</div>
+  // }
+  //
+  // return React.cloneElement(children as React.JSX.Element, {
+  //   ...props,
+  //   ...(children as React.JSX.Element).props,
+  // })
+
   const _children = React.Children.toArray(children)
   if (_children.length > 1) {
     return <div {...props}>{children}</div>
@@ -30,18 +39,3 @@ export function Slot({
     ...(_children[0] as React.JSX.Element).props,
   })
 }
-
-// // if ((children as React.JSX.Element).props.children > 1) {
-// //   return <div {...props}>{children}</div>
-// // }
-//
-// if (!React.isValidElement(children)) {
-//   return <div {...props}>{children}</div>
-// }
-//
-// // console.log(children.props.children)
-//
-// // return React.cloneElement((children as React.JSX.Element).props.children, {
-// //   ...props,
-// //   ...(children as React.JSX.Element).props.children.props,
-// // })

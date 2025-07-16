@@ -173,6 +173,9 @@ export function useHandleKeyDown({
           itemsRef.current[currentItem]?.hasAttribute('duck-select-item') ||
           itemsRef.current[currentItem]?.hasAttribute('duck-command-item')
         ) {
+          e.preventDefault()
+          e.stopPropagation()
+          setSelectedItem(itemsRef.current[currentItem] as HTMLLIElement)
           itemsRef.current[currentItem]?.click()
         }
       }
@@ -209,9 +212,10 @@ export function useHandleKeyDown({
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [open])
 
-  React.useEffect(() => {
-    if (!open && itemsRef.current?.[0]) {
-      setSelectedItem(itemsRef.current[0])
-    }
-  }, [open])
+  //FIX:
+  // React.useEffect(() => {
+  //   if (!open && itemsRef.current?.[0]) {
+  //     setSelectedItem(itemsRef.current[0])
+  //   }
+  // }, [open])
 }

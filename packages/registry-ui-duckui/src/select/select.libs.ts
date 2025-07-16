@@ -1,4 +1,4 @@
-import { dstyleItem, handleItemsSelection, styleItem } from '../command'
+import { dstyleItem, styleItem } from '../command'
 
 export function initRefs(
   open: boolean,
@@ -21,11 +21,20 @@ export function initRefs(
     (item) => !(item.hasAttribute('aria-disabled') || item.getAttribute('aria-disabled') === 'true'),
   )
 
+  if (!selectedItemRef.current && !value) {
+    const item = itemsRef.current?.[0] as HTMLLIElement
+    styleItem(item ?? null)
+    item?.focus()
+    selectedItemRef.current = item
+  }
+
   for (let i = 0; i < itemsRef.current?.length; i++) {
     const item = itemsRef.current[i] as HTMLLIElement
-    if (String(item.value) === value) {
+    if (
+      selectedItemRef.current?.getAttribute('value') === item.getAttribute('value') ||
+      item.getAttribute('data-value') === value
+    ) {
       styleItem(item)
-      selectedItemRef.current = item
     }
 
     item.addEventListener('mouseenter', () => {
@@ -44,26 +53,9 @@ export function initRefs(
     item.addEventListener('click', () => {
       selectedItemRef.current = item
       setSelectedItem(item)
-      // styleItem(item)
-      // console.log()
-      // handleItemsSelection(, itemsRef, (value) => setSelectedItem(value))
       onValueChange((item.getAttribute('value') as string) ?? '')
       onOpenChange(false)
       wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
     })
-
-    // if ((item.getAttribute('data-value') === String(value) && !selectedItemRef.current )) {
-    if (selectedItemRef.current?.getAttribute('value') === item.getAttribute('value')) {
-      styleItem(item)
-      selectedItemRef.current = item
-      setSelectedItem(item)
-    }
   }
-
-  // if (!selectedItemRef.current) {
-  //   const item = itemsRef.current?.[0] as HTMLLIElement
-  //   styleItem(item ?? null)
-  //   item?.focus()
-  //   selectedItemRef.current = item
-  // }
 }
