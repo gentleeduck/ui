@@ -72,6 +72,7 @@ export function Root({
 export function Trigger({
   onClick,
   open,
+  asChild = false,
   ...props
 }: React.ComponentPropsWithRef<typeof Slot> & {
   open?: boolean
@@ -87,6 +88,7 @@ export function Trigger({
         onOpenChange(open ?? !_open)
         onClick?.(e)
       }}
+      asChild={asChild}
       {...props}
     />
   )

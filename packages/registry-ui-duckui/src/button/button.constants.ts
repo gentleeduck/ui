@@ -1,7 +1,7 @@
 import { cva } from '@gentleduck/variants'
 
 export const buttonVariants = cva(
-  'relative flex inline-flex h-full w-full cursor-pointer items-center items-center justify-center justify-center gap-2 whitespace-nowrap font-regular ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+  'relative inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap font-regular ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
   {
     variants: {
       variant: {

@@ -12,8 +12,8 @@ function Dialog() {
   return (
     <>
       <DuckDialog />
-      <ShadcnDialog />
       <DuckAlertDialog />
+      <ShadcnDialog />
       <ShadcnAlertDialog />
       {/* <DuckDrawer side='bottom' /> */}
       {/* <DuckDrawer side='left' /> */}

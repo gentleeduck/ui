@@ -1,7 +1,7 @@
 'use client'
 
-import React from 'react'
 import { cn } from '@gentleduck/libs/cn'
+import React from 'react'
 import { Button } from '../button'
 
 const CollapsibleContext = React.createContext<{
@@ -24,32 +24,32 @@ export function useCollapsible() {
 function Collapsible({
   children,
   className,
-  open,
+  open: openProp,
   onOpenChange,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }) {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
+  const [open, setOpen] = React.useState(openProp)
 
   const contentId = React.useId()
 
+  function handleOpenChange(state: boolean) {
+    setOpen(state)
+    onOpenChange?.(state)
+  }
+
   React.useEffect(() => {
     if (open) {
-      triggerRef.current?.setAttribute('data-open', String(open))
-      contentRef.current?.setAttribute('data-open', String(open))
-      contentRef.current?.setAttribute('aria-expanded', String(open))
-      onOpenChange?.(open)
+      handleOpenChange(open)
     }
 
     function handleClick() {
       const open = triggerRef.current?.getAttribute('data-open') === 'true'
-      triggerRef.current?.setAttribute('data-open', String(!open))
-      contentRef.current?.setAttribute('data-open', String(!open))
-      contentRef.current?.setAttribute('aria-expanded', String(!open))
       onOpenChange?.(open)
     }
 
@@ -58,26 +58,35 @@ function Collapsible({
   }, [open])
 
   return (
-    <CollapsibleContext.Provider value={{ open, onOpenChange, wrapperRef, triggerRef, contentRef, contentId }}>
-      <div duck-collapsible="" className={cn('flex flex-col gap-2', className)} ref={wrapperRef} {...props}>
+    <CollapsibleContext.Provider
+      value={{ open, onOpenChange: handleOpenChange, wrapperRef, triggerRef, contentRef, contentId }}>
+      <div
+        duck-collapsible=""
+        className={cn('flex flex-col gap-2', className)}
+        ref={wrapperRef}
+        {...props}
+        data-open={open}>
         {children}
       </div>
     </CollapsibleContext.Provider>
   )
 }
 
-function CollapsibleTrigger({ children, ...props }: React.ComponentPropsWithRef<typeof Button>) {
+function CollapsibleTrigger({ children, onClick, ...props }: React.ComponentPropsWithRef<typeof Button>) {
   const { open, onOpenChange, triggerRef, contentId } = useCollapsible()
 
   return (
     <Button
       ref={triggerRef}
       duck-collapsible-trigger=""
-      variant="outline"
-      size="icon"
+      variant="ghost"
       aria-expanded={open}
+      data-open={open}
       aria-controls={contentId}
-      onClick={() => onOpenChange(!open)}
+      onClick={(e) => {
+        onOpenChange?.(!open)
+        onClick?.(e)
+      }}
       {...props}>
       {children}
     </Button>
@@ -93,7 +102,9 @@ function CollapsibleContent({ children, className, ...props }: React.HTMLAttribu
       duck-collapsible-content=""
       id={contentId}
       role="region"
+      data-open={open}
       aria-hidden={!open}
+      aria-expanded={open}
       className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto ', className)}
       {...props}>
       {open && children}

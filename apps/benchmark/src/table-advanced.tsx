@@ -2,6 +2,7 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Pagination, PaginationContent, PaginationItem } from '@gentleduck/registry-ui-duckui/pagination'
+import { Portal } from '@gentleduck/registry-ui-duckui/portal'
 import {
   Select,
   SelectContent,
@@ -42,6 +43,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@gentleduck/registry-ui-duckui/dropdown-menu'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@gentleduck/registry-ui-duckui/alert-dialog'
 
 export function DuckTable({ children, ...props }: React.HTMLAttributes<HTMLDivElement> & {}) {
   return (
@@ -294,29 +306,7 @@ export function DuckTableBody() {
                       ) : (
                         <div className="flex items-center justify-end gap-2">
                           {value}
-                          <DropdownMenu>
-                            <DropdownMenuTrigger
-                              size={'icon'}
-                              icon={<MoreHorizontal />}
-                              className="rounded-sm px-1"
-                              variant={'ghost'}
-                            />
-                            <DropdownMenuContent>
-                              <DropdownMenuLabel className="text-start pb-0">Actions</DropdownMenuLabel>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem size={'sm'} icon={<Pencil />}>
-                                Edit
-                              </DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem
-                                size={'sm'}
-                                icon={<Trash2 />}
-                                variant={'secondary'}
-                                className="hover:bg-red-400 hover:text-accent">
-                                Delete
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <DuckTableRowActions id={row.id} />
                         </div>
                       )}
                     </TableCell>
@@ -330,6 +320,55 @@ export function DuckTableBody() {
         <DuckTableBodyNotFound />
       )}
     </TableBody>
+  )
+}
+
+export function DuckTableRowActions({ id }: { id: string }) {
+  const [rows, setRows] = useAtom(duck_table.atoms.rows)
+
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger size={'icon'} icon={<MoreHorizontal />} className="rounded-sm px-1" variant={'ghost'} />
+        <DropdownMenuContent>
+          <DropdownMenuLabel className="text-start pb-0">Actions</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem size={'sm'} icon={<Pencil />}>
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DuckTableActionsDelete />
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  )
+}
+
+export function DuckTableActionsDelete() {
+  const [open, setOpen] = React.useState(false)
+  return (
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild onClick={() => setOpen(true)}>
+        <DropdownMenuItem size={'sm'} icon={<Trash2 />} variant={'nothing'} className="">
+          Delete
+        </DropdownMenuItem>
+      </AlertDialogTrigger>
+      <Portal>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your account and remove your data from our
+              servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex items-center gap-2 justify-end">
+            <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </Portal>
+    </AlertDialog>
   )
 }
 

@@ -40,11 +40,8 @@ export function usePopover({
     if (!contentRef.current) return
 
     try {
-      // if (modal) {
+      // state ? contentRef.current.showModal() : contentRef.current.close()
       state ? contentRef.current.showPopover() : contentRef.current.hidePopover()
-      // } else {
-      //   state ? contentRef.current.showModal() : contentRef.current.close()
-      // }
     } catch (e) {
       console.warn('Popover failed to toggle', e)
     }
@@ -64,11 +61,9 @@ export function usePopover({
     }
 
     contentRef.current?.addEventListener('toggle', handleClose)
-    // contentRef.current?.addEventListener('beforetoggle', handleClose)
 
     return () => {
       contentRef.current?.removeEventListener('toggle', handleClose)
-      // contentRef.current?.removeEventListener('beforetoggle', handleClose)
     }
   }, [])
 

@@ -18,9 +18,9 @@ export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean)
   const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
 
   React.useEffect(() => {
-    initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange, sub)
-    // setTimeout(() => {
-    // }, 0)
+    setTimeout(() => {
+      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange, sub)
+    }, 0)
   }, [open])
 
   return {

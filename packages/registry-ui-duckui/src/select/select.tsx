@@ -107,13 +107,18 @@ function Select({
 
 function SelectTrigger({
   children,
+  className,
   customIndicator,
   variant = 'outline',
   ref,
   ...props
 }: React.ComponentPropsWithRef<typeof PopoverTrigger> & { customIndicator?: React.ReactNode }) {
   return (
-    <PopoverTrigger variant={variant} {...props} duck-select-trigger="" className="w-full justify-between">
+    <PopoverTrigger
+      variant={variant}
+      {...props}
+      duck-select-trigger=""
+      className={cn('w-full justify-between', className)}>
       {children}
       <span className="[&>svg]:opacity-50">{customIndicator ? customIndicator : <ChevronDownIcon />}</span>
     </PopoverTrigger>

@@ -38,7 +38,6 @@ function Button({
       {...props}
       ref={ref}
       className={cn(
-        'flex h-full w-full items-center justify-center gap-2',
         buttonVariants({
           variant,
           size: isCollapsed ? 'icon' : size,

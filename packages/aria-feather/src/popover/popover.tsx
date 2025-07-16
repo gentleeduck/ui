@@ -140,7 +140,7 @@ export function Content({
 
   const isHover = (mouseEnter && mouseExist) || mouseEnter
   const Component = isHover ? 'div' : 'dialog'
-  const popover = isHover ? undefined : modal ? 'manual' : 'auto'
+  const popover = modal ? 'manual' : 'auto'
 
   return (
     <Component

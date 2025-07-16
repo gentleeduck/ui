@@ -4,7 +4,7 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 
 export default function DialogDemo() {
   return (
-    <dialog.Dialog open>
+    <dialog.Dialog>
       <dialog.DialogTrigger variant="outline">Edit Profile</dialog.DialogTrigger>
       <dialog.DialogContent renderOnce className="sm:max-w-[425px]">
         <dialog.DialogHeader>

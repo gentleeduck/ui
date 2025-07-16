@@ -98,7 +98,7 @@ function DropdownMenuContent({
   return (
     <PopoverContent
       duck-dropdown-menu-content=""
-      className={cn('min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground', className)}
+      className={cn('min-w-[8rem] p-1 overflow-visible', className)}
       {...props}
       side={side}
       sideOffset={sideOffset}
@@ -141,9 +141,7 @@ function DropdownMenuItem({
       aria-disabled={disabled}
       disabled={disabled}
       className={cn(
-        // 'h-auto w-full justify-start cursor-default [&>div]:justify-between [&>div]:w-full px-2 [&[aria-selected]]:bg-secondary focus:bg-secondary',
-        // '[&[aria-selected]:focus-visible]:ring-2 [&[aria-selected]:focus-visible]:ring-ring [&[aria-selected]:focus-visible]:ring-offset-2 [&[aria-selected]:focus-visible]:ring-offset-background',
-        'h-auto w-full cursor-default justify-start px-2 focus:bg-secondary [&>div]:w-full [&>div]:justify-between', //' [&[aria-selected]:focus-visible]:bg-red-500',
+        'h-auto w-full cursor-default justify-start px-2 focus:bg-secondary',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
         inset && 'pl-8',
         className,
@@ -254,7 +252,7 @@ function DropdownMenuSub({
   ...props
 }: React.ComponentPropsWithoutRef<typeof Popover>): React.JSX.Element {
   return (
-    <Popover {...props} mouseEnter={true} mouseExist={true} delayDuration={200}>
+    <Popover {...props} delayDuration={200} mouseEnter={true} mouseExist={true} modal>
       <DropdownMenuSubImpritive {...props}>{children}</DropdownMenuSubImpritive>
     </Popover>
   )
@@ -273,8 +271,7 @@ function DropdownMenuSubTrigger({
       variant={'ghost'}
       duck-dropdown-menu-sub-trigger=""
       className={cn(
-        'w-full [&>div]:w-full [&>div]:justify-between',
-        '[&:hover+div]:opacity-100',
+        'w-full justify-between hover:opacity-100',
         '[&[aria-selected]]:bg-secondary',
         '[&[data-open="true"]+div]:opacity-100',
         'data-[open=true]:bg-secondary',
@@ -299,13 +296,7 @@ function DropdownMenuSubContent({
 }: React.ComponentPropsWithoutRef<typeof PopoverContent>) {
   return (
     <PopoverContent
-      className={cn(
-        'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
-        'ml-1',
-        '-mt-1',
-        'opacity-0',
-        className,
-      )}
+      className={cn('fixed z-[55] min-w-[8rem] p-1', className)}
       side={side}
       sideOffset={sideOffset}
       {...props}

@@ -12,7 +12,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center flex-col gap-8 min-h-screen">
-      <SelectDemo />
+      <MenubarDemo />
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
