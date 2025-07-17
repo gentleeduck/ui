@@ -4,7 +4,7 @@ import { AnimDialogModalVariants, AnimDialogVariants, AnimPopoverVariants, AnimV
 import { X } from 'lucide-react'
 import type React from 'react'
 import { Button } from '../button'
-import { DialogContentProps } from './dialog.types'
+import type { DialogContentProps } from './dialog.types'
 
 function Dialog({ closeButton = true, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root closeButton={closeButton} {...props} />

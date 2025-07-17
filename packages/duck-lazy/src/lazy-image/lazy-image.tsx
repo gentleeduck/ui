@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useLazyImage } from './lazy-image.hooks'
-import { LazyImageProps } from './lazy-image.types'
-import { StaticImport } from 'next/dist/shared/lib/get-img-props'
+import type { LazyImageProps } from './lazy-image.types'
+import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
 /**
  * `DuckLazyImage` is a React component that lazily loads an image when it comes into view.

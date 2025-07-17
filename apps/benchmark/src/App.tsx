@@ -108,7 +108,6 @@ function Ui() {
     </>
   )
 }
-
 function App() {
   // <SidebarProvider>
   //   <AppSidebar />
@@ -117,14 +116,17 @@ function App() {
   //     <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]"></div>
   //   </main>
   // </SidebarProvider>
+
   return (
-    <TooltipDemo />
+    <div>
+      <PopoverDemo />
+    </div>
+    // <TooltipDemo />
     //   <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
     // </div>
     //
     // <DropdownMenuDemo />
     // <SelectDemo />
-    // <PopoverDemo />
   )
 }
 
@@ -175,6 +177,7 @@ const items = [
 ]
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
+import PopoverDemo from './example/popover'
 export function AppSidebar() {
   return (
     <Sidebar>

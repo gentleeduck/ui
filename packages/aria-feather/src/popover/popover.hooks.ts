@@ -1,9 +1,7 @@
-'use client'
-
 import React from 'react'
 import { cleanLockScrollbar, lockScrollbar } from '../dialog/dialog.libs'
 import type { PopoverContextType } from './popover.types'
-import { PopoverProps } from './popover.types'
+import type { PopoverProps } from './popover.types'
 
 export const PopoverContext = React.createContext<PopoverContextType | null>(null)
 
@@ -31,7 +29,7 @@ export function usePopover({
   const [open, setOpen] = React.useState<boolean>(openProp)
 
   React.useEffect(() => {
-    if ((mouseEnter || mouseExist) && openProp === undefined) return
+    if (mouseEnter || mouseExist || openProp === undefined) return
     if (lockScroll) lockScrollbar(open)
 
     const state = openProp === true ? true : false

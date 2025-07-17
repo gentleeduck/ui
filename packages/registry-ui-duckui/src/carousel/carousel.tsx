@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '../button'
-import { CarouselApi, CarouselContextProps, CarouselProps } from './carousel.types'
+import type { CarouselApi, CarouselContextProps, CarouselProps } from './carousel.types'
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
 

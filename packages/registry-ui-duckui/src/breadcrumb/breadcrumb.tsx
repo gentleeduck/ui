@@ -1,4 +1,4 @@
-import * as React from 'react'
+import type * as React from 'react'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
 import { cn } from '@gentleduck/libs/cn'
 import { Slot } from '@gentleduck/aria-feather/slot'

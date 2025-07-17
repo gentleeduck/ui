@@ -5,7 +5,7 @@ import { Dot } from 'lucide-react'
 
 import { cn } from '@gentleduck/libs/cn'
 import { useInputOTPInit } from './input-otp.hooks'
-import { OTPInputContextType } from './input-otp.types'
+import type { OTPInputContextType } from './input-otp.types'
 
 export const OTPInputContext = React.createContext<OTPInputContextType | null>(null)
 

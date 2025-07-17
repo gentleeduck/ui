@@ -1,9 +1,9 @@
 'use client'
 
-import * as React from 'react'
+import type * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-import { DrawerWrapperProps } from './drawer.types'
+import type { DrawerWrapperProps } from './drawer.types'
 import { cn } from '@gentleduck/libs/cn'
 
 function Drawer({

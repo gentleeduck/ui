@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from '../dropdown-menu'
 
-export interface MenubarContextType {}
+export type MenubarContextType = {}
 const menubarContext = React.createContext<MenubarContextType | null>(null)
 
 function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivElement>) {

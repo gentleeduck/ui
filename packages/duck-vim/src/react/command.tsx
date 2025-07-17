@@ -1,8 +1,9 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, ReactNode } from 'react'
-import { Command, KeyHandler, Registry } from '../command'
-import { KeyContextValue } from './command.types'
+import type React from 'react'
+import { createContext, useContext, useEffect, type ReactNode } from 'react'
+import { type Command, KeyHandler, Registry } from '../command'
+import type { KeyContextValue } from './command.types'
 
 /**
  * A React context that holds the key command registry and handler.

@@ -6,7 +6,7 @@
 // import { v0 } from '@/registry/registry-v0'
 import { registry_ui } from './registry-ui'
 import { registry_examples } from './registry-examples'
-import { Registry } from './registry-schema'
+import type { Registry } from './registry-schema'
 export * from './registry-ui'
 export * from './registry-examples'
 export * from './registry-schema'

@@ -1,5 +1,5 @@
-import { Button, ButtonProps } from '../button'
-import { Pagination, PaginationContent, PaginationItem } from './pagination'
+import type { Button, ButtonProps } from '../button'
+import type { Pagination, PaginationContent, PaginationItem } from './pagination'
 
 export interface DuckPaginationProps {
   wrapper?: React.ComponentPropsWithoutRef<typeof Pagination>

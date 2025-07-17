@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import * as React from 'react'
+import type * as React from 'react'
 
 function ScrollArea({
   className,

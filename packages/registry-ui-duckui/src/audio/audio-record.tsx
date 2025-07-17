@@ -14,12 +14,12 @@ import {
 import * as React from 'react'
 import { Button } from '../button'
 import { Input } from '../input'
-import { AudioVisualizer, dataPoint, new_audio, process_blob, ProcessBlobParams, ThemeColor } from './audio-visualizer'
+import { AudioVisualizer, type dataPoint, new_audio, process_blob, type ProcessBlobParams, type ThemeColor } from './audio-visualizer'
 import { uuidv7 } from 'uuidv7'
 // import { AttachmentType } from './swapy'
 import { PopoverWrapper } from '../popover'
 import { Slider } from '../slider'
-import {
+import type {
   AttachmentType,
   DeleteRecordingHandlerParams,
   RecordingtType,

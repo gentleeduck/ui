@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-import { Field, useForm } from '@tanstack/react-form'
+import { Field, type useForm } from '@tanstack/react-form'
 import type { ReactFormExtendedApi } from '@tanstack/react-form'
 
 import { cn } from '@gentleduck/libs/cn'

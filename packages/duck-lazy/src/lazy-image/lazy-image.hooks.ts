@@ -1,5 +1,5 @@
 import React from 'react'
-import { UseLazyImageReturn } from './lazy-image.types'
+import type { UseLazyImageReturn } from './lazy-image.types'
 
 /**
  * `useLazyImage` is a custom React hook that lazily loads an image only when it enters the viewport using the IntersectionObserver API.

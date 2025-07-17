@@ -1,6 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import { VariantProps } from '@gentleduck/variants'
-import * as React from 'react'
+import type { VariantProps } from '@gentleduck/variants'
+import type * as React from 'react'
 import { badgeVariants } from './badge.constants'
 
 const Badge = ({

@@ -1,6 +1,6 @@
-import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
-import { VariantProps } from '@gentleduck/variants'
-import {
+import type { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import type { VariantProps } from '@gentleduck/variants'
+import type {
   Dialog,
   DialogClose,
   DialogCloseProps,
@@ -9,8 +9,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@radix-ui/react-dialog'
-import { UseDuckAlertReturnType } from '../alert-dialog/alert-dialog.types'
-import { DialogFooter, DialogHeader } from './dialog'
+import type { UseDuckAlertReturnType } from '../alert-dialog/alert-dialog.types'
+import type { DialogFooter, DialogHeader } from './dialog'
 
 export interface DialogContextType {
   open: boolean

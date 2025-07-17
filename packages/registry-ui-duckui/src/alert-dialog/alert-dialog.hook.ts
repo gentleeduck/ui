@@ -1,5 +1,5 @@
 import React from 'react'
-import { StateType, UseDuckAlertReturnType, UserDuckAlertProps } from './alert-dialog.types'
+import type { StateType, UseDuckAlertReturnType, UserDuckAlertProps } from './alert-dialog.types'
 
 /**
  * Custom hook to manage the state and behavior of an alert dialog with a drawer.

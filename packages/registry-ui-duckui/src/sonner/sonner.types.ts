@@ -1,4 +1,4 @@
-import { Toaster as Sonner } from 'sonner'
+import type { Toaster as Sonner } from 'sonner'
 export type ToasterProps = React.ComponentProps<typeof Sonner>
 export type UploadSonnerProps = {
   progress: number

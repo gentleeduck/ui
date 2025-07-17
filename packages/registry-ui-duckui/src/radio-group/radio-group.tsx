@@ -4,7 +4,7 @@ import * as React from 'react'
 import { cn } from '@gentleduck/libs/cn'
 import { Label } from '../label'
 import { useHandleRadioClick } from './radio-group.hooks'
-import { RadioGroupContextType } from './radio-group.types'
+import type { RadioGroupContextType } from './radio-group.types'
 
 export const RadioGroupContext = React.createContext<RadioGroupContextType | null>(null)
 

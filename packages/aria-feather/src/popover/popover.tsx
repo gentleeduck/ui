@@ -5,7 +5,7 @@ import React from 'react'
 import { ShouldRender } from '../dialog'
 import { Slot } from '../slot'
 import { PopoverContext, usePopover, usePopoverContext } from './popover.hooks'
-import { PopoverContentProps, PopoverRootProps } from './popover.types'
+import type { PopoverContentProps, PopoverRootProps } from './popover.types'
 
 // async function loadAnchorPolyfill() {
 //   // Check if the native CSS anchor positioning is supported
@@ -87,15 +87,15 @@ export function Trigger(props: React.ComponentPropsWithoutRef<typeof Slot>): Rea
 
   return (
     <Slot
-      popoverTarget={id}
-      popoverTargetAction="toggle"
-      style={
-        {
-          '--position-anchor': `--${id}`,
-          anchorName: 'var(--position-anchor)',
-        } as React.CSSProperties
-      }
-      aria-haspopup="dialog"
+      // popoverTarget={id}
+      // popoverTargetAction="toggle"
+      // style={
+      //   {
+      //     '--position-anchor': `--${id}`,
+      //     anchorName: 'var(--position-anchor)',
+      //   } as React.CSSProperties
+      // }
+      // aria-haspopup="dialog"
       aria-controls={id}
       data-open={open}
       duck-popover-trigger=""
@@ -122,49 +122,49 @@ export function Content({
   const { contentRef, closeButton, id, modal, open, mouseEnter, mouseExist } = usePopoverContext()
   const DialogClose = dialogClose
 
-  // Main axis margin based on `side`
-  const sideMargins: Partial<CSSStyleDeclaration> =
-    {
-      top: { marginBottom: `${sideOffset}px` },
-      bottom: { marginTop: `${sideOffset}px` },
-      left: { marginRight: `${sideOffset}px` },
-      right: { marginLeft: `${sideOffset}px` },
-      inset: {},
-    }[side as 'top' | 'bottom' | 'left' | 'right' | 'inset'] ?? {}
-
-  // Cross-axis margin based on `align`
-  const alignMargins: Partial<CSSStyleDeclaration> =
-    side === 'top' || side === 'bottom'
-      ? ({
-          start: { marginLeft: `${alignOffset}px` },
-          end: { marginRight: `${alignOffset}px` },
-          center: {},
-        }[align as 'start' | 'end' | 'center'] ?? {})
-      : side === 'left' || side === 'right'
-        ? ({
-            start: { marginTop: `${alignOffset}px` },
-            end: { marginBottom: `${alignOffset}px` },
-            center: {},
-          }[align as 'start' | 'end' | 'center'] ?? {})
-        : {}
-
-  const style = {
-    '--position-anchor': `--${id}`,
-    ...sideMargins,
-    ...alignMargins,
-  } as React.CSSProperties
+  // // Main axis margin based on `side`
+  // const sideMargins: Partial<CSSStyleDeclaration> =
+  //   {
+  //     top: { marginBottom: `${sideOffset}px` },
+  //     bottom: { marginTop: `${sideOffset}px` },
+  //     left: { marginRight: `${sideOffset}px` },
+  //     right: { marginLeft: `${sideOffset}px` },
+  //     inset: {},
+  //   }[side as 'top' | 'bottom' | 'left' | 'right' | 'inset'] ?? {}
+  //
+  // // Cross-axis margin based on `align`
+  // const alignMargins: Partial<CSSStyleDeclaration> =
+  //   side === 'top' || side === 'bottom'
+  //     ? ({
+  //         start: { marginLeft: `${alignOffset}px` },
+  //         end: { marginRight: `${alignOffset}px` },
+  //         center: {},
+  //       }[align as 'start' | 'end' | 'center'] ?? {})
+  //     : side === 'left' || side === 'right'
+  //       ? ({
+  //           start: { marginTop: `${alignOffset}px` },
+  //           end: { marginBottom: `${alignOffset}px` },
+  //           center: {},
+  //         }[align as 'start' | 'end' | 'center'] ?? {})
+  //       : {}
+  //
+  // const style = {
+  //   '--position-anchor': `--${id}`,
+  //   ...sideMargins,
+  //   ...alignMargins,
+  // } as React.CSSProperties
 
   const isHover = (mouseEnter && mouseExist) || mouseEnter
-  const Component = isHover ? 'div' : 'dialog'
+  const Component = isHover ? 'div' : 'div'
   const popover = modal ? 'manual' : 'auto'
 
   return (
     <Component
-      style={style}
+      // style={style}
       className={className}
-      data-open={open}
-      {...({ ...props, closedby, popover } as never as {})}
-      id={id}
+      data-open={true}
+      {...({ ...props, closedby } as never as {})}
+      // id={id}
       duck-popover-content=""
       ref={contentRef as never}>
       <ShouldRender open={open} ref={contentRef} once={renderOnce}>

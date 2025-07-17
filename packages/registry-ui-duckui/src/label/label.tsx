@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react'
+import type * as React from 'react'
 import { cn } from '@gentleduck/libs/cn'
 
 export interface LabelProps extends React.HTMLProps<HTMLLabelElement> {}

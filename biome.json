@@ -32,20 +32,9 @@
     ],
     "enabled": true,
     "rules": {
-      "recommended": false,
-      "complexity": {
-        "noForEach": "error",
-        "noStaticOnlyClass": "error",
-        "noUselessSwitchCase": "error",
-        "useFlatMap": "error",
-        "useWhile": "error"
-      },
-      "style": {
-        "noNegationElse": "error",
-        "useNodejsImportProtocol": "error",
-        "useNumberNamespace": "error",
-        "useConst": "error"
-      },
+      "recommended": true,
+      "complexity": {},
+      "style": {},
       "suspicious": {
         "noDoubleEquals": "error",
         "noThenProperty": "error",

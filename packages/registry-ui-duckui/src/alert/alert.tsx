@@ -1,5 +1,5 @@
-import React from 'react'
-import { VariantProps } from '@gentleduck/variants'
+import type React from 'react'
+import type { VariantProps } from '@gentleduck/variants'
 import { alertVariants } from './alert.constants'
 import { cn } from '@gentleduck/libs/cn'
 

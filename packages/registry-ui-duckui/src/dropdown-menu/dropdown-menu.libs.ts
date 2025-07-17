@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { dstyleItem, handleItemsSelection, styleItem } from '../command/command.libs'
 
 export function initRefs(

@@ -3,7 +3,7 @@
 import { useSvgIndicator } from '@gentleduck/aria-feather/checkers'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
-import * as React from 'react'
+import type * as React from 'react'
 
 function Switch({
   className,

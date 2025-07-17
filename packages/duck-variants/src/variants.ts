@@ -1,4 +1,4 @@
-import { ClassValue, CvaProps, VariantsOptions } from './variants.types'
+import type { ClassValue, CvaProps, VariantsOptions } from './variants.types'
 
 /**
  * Build a stable cache key by serializing props entries in sorted order.
@@ -86,7 +86,7 @@ function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
 
   // object dictionary `{ className: true }`
   for (const key in input) {
-    if (Object.prototype.hasOwnProperty.call(input, key) && input[key]) {
+    if (Object.hasOwn(input, key) && input[key]) {
       tokens.push(key)
     }
   }
@@ -150,7 +150,7 @@ export function cva<TVariants extends Record<string, Record<string, string | str
   // Memoization cache keyed by serialized props
   const cache = new Map<string, string>()
 
-  return function (props: CvaProps<TVariants> = {} as CvaProps<TVariants>): string {
+  return (props: CvaProps<TVariants> = {} as CvaProps<TVariants>): string => {
     // 1) Memo lookup
     const cacheKey = getCacheKey(props)
     const memo = cache.get(cacheKey)

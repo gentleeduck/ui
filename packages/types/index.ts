@@ -167,7 +167,7 @@ export type Mapped<T> = {
  */
 export type MappedTo<
   T extends Record<string, number> | ReadonlyArray<string | number>,
-  U extends unknown,
+  U,
 > = T extends ReadonlyArray<infer Item>
   ? { [K in `${Item & (string | number)}`]: U }
   : T extends object

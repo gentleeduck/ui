@@ -2,7 +2,7 @@
 
 import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
 import { cn } from '@gentleduck/libs/cn'
-import { VariantProps } from '@gentleduck/variants'
+import type { VariantProps } from '@gentleduck/variants'
 import { Slot } from '@radix-ui/react-slot'
 import { PanelLeftIcon } from 'lucide-react'
 import * as React from 'react'
@@ -22,7 +22,7 @@ import {
   sidebarMenuButtonVariants,
 } from './sidebar.constants'
 import { SidebarContext, useSidebar } from './sidebar.hooks'
-import { SidebarContextProps } from './sidebar.types'
+import type { SidebarContextProps } from './sidebar.types'
 
 function SidebarProvider({
   defaultOpen = true,

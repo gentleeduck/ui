@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { type VariantProps } from '@gentleduck/variants'
+import type { VariantProps } from '@gentleduck/variants'
 
 import { cn } from '@gentleduck/libs/cn'
 import { Toggle, toggleVariants } from '../toggle'

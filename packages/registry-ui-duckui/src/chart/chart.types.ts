@@ -1,5 +1,5 @@
-import * as RechartsPrimitive from 'recharts'
-import { THEMES } from './chart'
+import type * as RechartsPrimitive from 'recharts'
+import type { THEMES } from './chart'
 export type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode

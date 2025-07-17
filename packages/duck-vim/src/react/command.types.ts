@@ -1,4 +1,4 @@
-import { KeyHandler, Registry } from '../command'
+import type { KeyHandler, Registry } from '../command'
 
 /**
  * The shape of the value provided by `KeyContext`.

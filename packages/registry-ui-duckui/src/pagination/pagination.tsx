@@ -8,9 +8,9 @@ import {
   ChevronsRightIcon,
   MoreHorizontal,
 } from 'lucide-react'
-import * as React from 'react'
+import type * as React from 'react'
 import { Button, ButtonProps, buttonVariants } from '../button'
-import { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
+import type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
 
 const Pagination = ({ className, ...props }: React.HTMLProps<HTMLHeadElement>) => (
   <nav

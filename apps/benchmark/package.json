@@ -16,6 +16,9 @@
     "publish": "pnpm run ci && changeset publish"
   },
   "dependencies": {
+    "@floating-ui/core": "^1.7.2",
+    "@floating-ui/dom": "^1.7.2",
+    "@gentleduck/duck-float": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/registry-examples-duckui": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",

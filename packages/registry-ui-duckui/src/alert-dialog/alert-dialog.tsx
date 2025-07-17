@@ -7,10 +7,10 @@ import DialogPrimitive from '@gentleduck/aria-feather/dialog'
 //   AlertDialogSheetProps,
 //   AlertDialogWrapperType,
 // } from './alert-dialog.types'
-import React from 'react'
+import type React from 'react'
 import {
   DialogContent,
-  DialogContentProps,
+  type DialogContentProps,
   DialogDescription,
   DialogFooter,
   DialogHeader,

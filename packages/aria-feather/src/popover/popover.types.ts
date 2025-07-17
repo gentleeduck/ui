@@ -1,6 +1,6 @@
-import { type AnimPopoverVariants } from '@gentleduck/motion/anim'
-import { VariantProps } from '@gentleduck/variants'
-import { DialogContentProps, DialogContextType, DialogProps } from '../dialog/dialog.types'
+import type { AnimPopoverVariants } from '@gentleduck/motion/anim'
+import type { VariantProps } from '@gentleduck/variants'
+import type { DialogContentProps, DialogContextType, DialogProps } from '../dialog/dialog.types'
 
 export interface PopoverProps
   extends Omit<DialogProps, 'id' | 'closeButton' | 'triggerRef' | 'contentRef' | 'children'> {

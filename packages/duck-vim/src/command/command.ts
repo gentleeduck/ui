@@ -1,4 +1,4 @@
-import { Command, RegistryClass } from './command.types'
+import type { Command, RegistryClass } from './command.types'
 
 /**
  * A registry for keyboard command sequences.

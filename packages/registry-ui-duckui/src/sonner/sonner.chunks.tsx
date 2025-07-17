@@ -1,9 +1,9 @@
 import { CircleCheck, Loader } from 'lucide-react'
 import { Button } from '../button'
 import { Progress } from '../progress'
-import { UploadSonnerProps } from './sonner.types'
+import type { UploadSonnerProps } from './sonner.types'
 import { formatTime } from './sonner.libs'
-import React from 'react'
+import type React from 'react'
 import { toast } from 'sonner'
 import { cn } from '@gentleduck/libs/cn'
 

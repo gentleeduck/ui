@@ -2,7 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { AnimTooltipVariants } from '@gentleduck/motion/anim'
-import React from 'react'
+import type React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import PopoverPrimitive, { usePopoverContext } from '@gentleduck/aria-feather/popover'
 
@@ -13,10 +13,10 @@ function Tooltip({
 }: Omit<React.ComponentPropsWithRef<typeof Popover>, 'mouseEnter' | 'mouseExist'>) {
   return (
     <Popover
-      skipDelayDuration={skipDelayDuration}
-      delayDuration={delayDuration}
-      mouseEnter={true}
-      mouseExist={true}
+      // skipDelayDuration={skipDelayDuration}
+      // delayDuration={delayDuration}
+      // mouseEnter={true}
+      // mouseExist={true}
       {...props}
     />
   )
@@ -41,7 +41,7 @@ function TooltipContent({
       side={'right'}
       role="tooltip"
       className={cn(
-        // 'select-none text-balance rounded-md border-border bg-background px-3 py-1.5 text-accent-foreground shadow-none',
+        'select-none text-balance rounded-md border-border bg-background px-3 py-1.5 text-accent-foreground shadow-none',
         className,
       )}
       {...props}>

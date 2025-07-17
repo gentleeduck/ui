@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
 
 import { cn } from '@gentleduck/libs/cn'
-import {
+import type {
   ChartContainerProps,
   ChartContextProps,
   ChartLegendContentProps,

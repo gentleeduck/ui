@@ -10,7 +10,7 @@ import { useHandleKeyDown } from '../command'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { RadioGroup, RadioGroupItem } from '../radio-group'
 import { useDropdownMenuContext, useDropdownMenuInit } from './dropdown-menu.hooks'
-import { DropdownMenuContextType, DropdownMenuShortcutProps, DropdownMenuSubContextType } from './dropdown-menu.types'
+import type { DropdownMenuContextType, DropdownMenuShortcutProps, DropdownMenuSubContextType } from './dropdown-menu.types'
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 

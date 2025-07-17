@@ -1,6 +1,6 @@
-import * as SheetPrimitive from '@radix-ui/react-dialog'
-import { UseDuckAlertReturnType } from '../alert-dialog'
-import {
+import type * as SheetPrimitive from '@radix-ui/react-dialog'
+import type { UseDuckAlertReturnType } from '../alert-dialog'
+import type {
   SheetClose,
   SheetContent,
   SheetDescription,

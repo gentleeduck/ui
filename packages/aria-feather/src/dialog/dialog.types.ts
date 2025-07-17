@@ -1,5 +1,5 @@
-import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
-import { VariantProps } from '@gentleduck/variants'
+import type { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import type { VariantProps } from '@gentleduck/variants'
 
 export interface DialogContextType {
   /** Ref to the outermost wrapper element of the dialog. */

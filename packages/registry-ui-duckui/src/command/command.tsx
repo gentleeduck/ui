@@ -2,7 +2,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Search } from 'lucide-react'
 import React from 'react'
-import { Dialog, DialogContent, DialogProps } from '../dialog'
+import { Dialog, DialogContent, type DialogProps } from '../dialog'
 import { ScrollArea } from '../scroll-area'
 import {
   useCommandContext,
@@ -11,7 +11,7 @@ import {
   useCommandSearch,
   useHandleKeyDown,
 } from './command.hooks'
-import { CommandBadgeProps, CommandContextType, CommandGroupProps, CommandRefsContextType } from './command.types'
+import type { CommandBadgeProps, CommandContextType, CommandGroupProps, CommandRefsContextType } from './command.types'
 
 export const CommandContext: React.Context<CommandContextType | null> = React.createContext<CommandContextType | null>(
   null,

@@ -17,7 +17,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from './_dropdown-menu/dropdown-menu'
-import { Button, ButtonProps, buttonVariants, CommandType } from '../button'
+import { Button, type ButtonProps, buttonVariants, type CommandType } from '../button'
 
 export interface DropdownMenuOptionsDataType
   extends Partial<

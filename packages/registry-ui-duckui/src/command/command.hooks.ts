@@ -2,7 +2,7 @@
 import React from 'react'
 import { CommandContext, CommandRefsContext } from './command'
 import { dstyleItem, handleItemsSelection, styleItem } from './command.libs'
-import { CommandContextType, CommandRefsContextType } from './command.types'
+import type { CommandContextType, CommandRefsContextType } from './command.types'
 
 /**
  * Custom hook to access the CommandContext.

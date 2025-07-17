@@ -10,7 +10,7 @@ import { useHandleKeyDown } from '../command'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { useSelectScroll } from './select.hooks'
 import { initRefs } from './select.libs'
-import { SelectContextType } from './select.types'
+import type { SelectContextType } from './select.types'
 
 export const SelectContext = React.createContext<SelectContextType | null>(null)
 export function useSelectContext() {

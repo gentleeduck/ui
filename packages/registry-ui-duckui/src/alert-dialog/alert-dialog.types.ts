@@ -1,7 +1,7 @@
-import { DialogWrapperProps } from '../dialog'
-import { DrawerWrapperProps } from './../drawer/drawer.types'
-import { SheetWrapperProps } from '../sheet'
-import {
+import type { DialogWrapperProps } from '../dialog'
+import type { DrawerWrapperProps } from './../drawer/drawer.types'
+import type { SheetWrapperProps } from '../sheet'
+import type {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,

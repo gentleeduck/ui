@@ -1,5 +1,5 @@
 import { useLazyLoad } from './lazy-component.hooks'
-import { DuckLazyProps } from './lazy-component.types'
+import type { DuckLazyProps } from './lazy-component.types'
 
 /**
  * `DuckLazyComponent` is a React component that lazily loads its content based on visibility within the viewport.

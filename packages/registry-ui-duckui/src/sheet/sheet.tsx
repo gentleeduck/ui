@@ -3,11 +3,11 @@
 import SheetPrimitive from '@gentleduck/aria-feather/sheet'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
-import { VariantProps } from '@gentleduck/variants'
-import React from 'react'
+import type { VariantProps } from '@gentleduck/variants'
+import type React from 'react'
 import {
   DialogClose,
-  DialogContentProps,
+  type DialogContentProps,
   DialogDescription,
   DialogFooter,
   DialogHeader,

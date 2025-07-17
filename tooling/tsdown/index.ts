@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react-swc'
-import { defineConfig } from 'tsdown'
+import type { defineConfig } from 'tsdown'
 
 type TsdownConfig = Parameters<typeof defineConfig>[0]
 

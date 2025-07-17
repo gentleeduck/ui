@@ -3,9 +3,9 @@
 import PopoverPrimitive from '@gentleduck/aria-feather/popover'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimPopoverVariants, AnimVariants } from '@gentleduck/motion/anim'
-import * as React from 'react'
+import type * as React from 'react'
 import { Button } from '../button'
-import { PopoverContentProps } from './popover.types'
+import type { PopoverContentProps } from './popover.types'
 
 const Popover = PopoverPrimitive.Root
 
@@ -39,7 +39,7 @@ function PopoverContent({
       className={cn(
         AnimVariants({ overlay }),
         AnimDialogVariants({ animation }),
-        AnimPopoverVariants({ side, align }),
+        // AnimPopoverVariants({ side, align }),
         className,
       )}
       side={side}

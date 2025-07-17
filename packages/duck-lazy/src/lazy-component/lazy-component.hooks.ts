@@ -1,5 +1,5 @@
 import React from 'react'
-import { UseLazyLoadReturn } from './lazy-component.types'
+import type { UseLazyLoadReturn } from './lazy-component.types'
 
 /**
  * `useLazyLoad` is a custom React hook that enables lazy loading behavior for any component.

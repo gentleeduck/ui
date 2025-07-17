@@ -1,5 +1,5 @@
-import { VariantProps } from '@gentleduck/variants'
-import { buttonVariants } from './button.constants'
+import type { VariantProps } from '@gentleduck/variants'
+import type { buttonVariants } from './button.constants'
 
 /**
  * Props for the Button component, combining native button attributes, variant styles, and custom options.
