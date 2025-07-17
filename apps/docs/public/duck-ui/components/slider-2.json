@@ -1,7 +1,9 @@
 {
   "name": "slider-2",
   "type": "registry:example",
-  "registryDependencies": ["slider"],
+  "registryDependencies": [
+    "slider"
+  ],
   "root_folder": "slider",
   "files": [
     {

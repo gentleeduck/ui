@@ -1,13 +1,9 @@
-import * as React from 'react'
-
-import { buttonVariants } from './button.constants'
-import { AnimationIconProps, ButtonProps } from './button.types'
 import { Slot } from '@gentleduck/aria-feather/slot'
-
 import { cn } from '@gentleduck/libs/cn'
 import { Loader } from 'lucide-react'
-
-// TODO: make button customizable to the max (icon, width, sizes, etc...)
+import * as React from 'react'
+import { buttonVariants } from './button.constants'
+import { AnimationIconProps, ButtonProps } from './button.types'
 
 /**
  * Renders a customizable button component, supporting various styles and behaviors.
@@ -30,7 +26,7 @@ function Button({
   disabled,
   ref,
   ...props
-}: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }): React.JSX.Element {
+}: ButtonProps): React.JSX.Element {
   const Component = (asChild ? Slot : 'button') as React.ElementType
 
   const Button = (
@@ -46,7 +42,6 @@ function Button({
         }),
       )}
       type={type}
-      asChild={asChild}
       disabled={loading ?? disabled}>
       {loading ? <Loader className="animate-spin" /> : icon}
       {!isCollapsed && children}

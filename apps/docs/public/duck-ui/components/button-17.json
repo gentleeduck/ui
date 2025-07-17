@@ -1,12 +1,14 @@
 {
   "name": "button-17",
   "type": "registry:example",
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "button",
   "files": [
     {
       "path": "button/button-17.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button17Demo() {\n  const [open, setOpen] = React.useState<boolean>(false)\n\n  return (\n    <>\n      <Button\n        aria-label='Inbox button with 23 notifications'\n        type='button'\n        role='button'\n        isCollapsed={open}\n        icon={<Inbox />}\n        onClick={() => setOpen(!open)}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button17Demo() {\n  const [open, setOpen] = React.useState<boolean>(false)\n\n  return (\n    <>\n      <Button\n        aria-label=\"Inbox button with 23 notifications\"\n        type=\"button\"\n        role=\"button\"\n        isCollapsed={open}\n        icon={<Inbox />}\n        onClick={() => setOpen(!open)}>\n        Button\n      </Button>\n    </>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-17.tsx"
     }

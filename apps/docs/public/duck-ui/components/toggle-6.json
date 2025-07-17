@@ -1,12 +1,14 @@
 {
   "name": "toggle-6",
   "type": "registry:example",
-  "registryDependencies": ["toggle"],
+  "registryDependencies": [
+    "toggle"
+  ],
   "root_folder": "toggle",
   "files": [
     {
       "path": "toggle/toggle-6.tsx",
-      "content": "import { Toggle } from '@gentleduck/registry-ui-duckui/toggle'\nimport { Italic } from 'lucide-react'\n\nexport default function Toggle1Demo() {\n  return (\n    <Toggle size='lg' aria-label='Toggle italic'>\n      <Italic className='h-4 w-4' />\n    </Toggle>\n  )\n}\n",
+      "content": "import { Toggle } from '@gentleduck/registry-ui-duckui/toggle'\nimport { Italic } from 'lucide-react'\n\nexport default function Toggle1Demo() {\n  return (\n    <Toggle size=\"lg\" aria-label=\"Toggle italic\">\n      <Italic className=\"h-4 w-4\" />\n    </Toggle>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/toggle-6.tsx"
     }

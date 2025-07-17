@@ -1,5 +1,5 @@
-import React from 'react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import React from 'react'
 
 export default function Button2Demo() {
   return (

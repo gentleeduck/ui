@@ -4,14 +4,16 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui
 
 export default function TooltipDemo() {
   return (
-    <Tooltip>
-      <TooltipTrigger className="bg-transparent p-0 shadow-none rounded-border">
-        <Input />
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>Add to library</p>
-      </TooltipContent>
-    </Tooltip>
+    <div className="h-[2000px] mt-[400px]">
+      <Tooltip>
+        <TooltipTrigger className="bg-transparent p-0 shadow-none rounded-border">
+          <Input />
+        </TooltipTrigger>
+        <TooltipContent side={'top'}>
+          <p>Add to library</p>
+        </TooltipContent>
+      </Tooltip>
+    </div>
     // <TooltipProvider delayDuration={0}>
     // </TooltipProvider>
   )

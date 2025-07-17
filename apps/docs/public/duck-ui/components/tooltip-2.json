@@ -1,12 +1,14 @@
 {
   "name": "tooltip-2",
   "type": "registry:example",
-  "registryDependencies": ["tooltip"],
+  "registryDependencies": [
+    "tooltip"
+  ],
   "root_folder": "tooltip",
   "files": [
     {
       "path": "tooltip/tooltip-2.tsx",
-      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport {\n  TooltipProvider,\n  Tooltip,\n  TooltipTrigger,\n  TooltipContent,\n} from '@gentleduck/registry-ui-duckui/tooltip'\n\nexport default function Tooltip2Demo() {\n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant='outline'>Hover</Button>\n        </TooltipTrigger>\n        <TooltipContent>Tooltip Content</TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  )\n}\n",
+      "content": "",
       "type": "registry:example",
       "target": "components/tooltip-2.tsx"
     }

@@ -1,0 +1,17 @@
+{
+  "name": "sonner-3",
+  "type": "registry:example",
+  "registryDependencies": [
+    "sonner"
+  ],
+  "root_folder": "sonner",
+  "files": [
+    {
+      "path": "sonner/sonner-3.tsx",
+      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { toast } from 'sonner'\nimport { SonnerUpload } from '@gentleduck/registry-ui-duckui/sonner'\n\nexport function SONNER_V2() {\n  const controllerRef = React.useRef(new AbortController())\n  const intervalRef = React.useRef<NodeJS.Timeout | null>(null)\n  const progressRef = React.useRef(0)\n\n  const updateToast = (progress: number) => {\n    toast(\n      <SonnerUpload\n        progress={progress}\n        attachments={2}\n        remainingTime={Math.max(0, 3000 - progress * 30)}\n        onCancel={handleCancel}\n      />,\n      { id: 'sonner', dismissible: false },\n    )\n  }\n\n  const startProgress = () => {\n    progressRef.current = 0\n    updateToast(0)\n\n    intervalRef.current = setInterval(() => {\n      const randomStep = Math.floor(Math.random() * 11) + 5 // 5–15%\n      progressRef.current = Math.min(progressRef.current + randomStep, 100)\n      updateToast(progressRef.current)\n\n      if (progressRef.current >= 100) {\n        clearInterval(intervalRef.current)\n        intervalRef.current = null\n      }\n    }, 400)\n  }\n\n  const handleCancel = () => {\n    toast.dismiss('sonner')\n    controllerRef.current.abort()\n    if (intervalRef.current) {\n      clearInterval(intervalRef.current)\n      intervalRef.current = null\n    }\n  }\n\n  const handleClick = () => {\n    handleCancel() // Ensure no previous interval is running\n    controllerRef.current = new AbortController()\n    startProgress()\n  }\n\n  return (\n    <Button size=\"sm\" border=\"default\" variant=\"outline\" onClick={handleClick}>\n      Show Upload Toast\n    </Button>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/sonner-3.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/sonner"
+}

@@ -1,12 +1,14 @@
 {
   "name": "skeleton-2",
   "type": "registry:example",
-  "registryDependencies": ["skeleton"],
+  "registryDependencies": [
+    "skeleton"
+  ],
   "root_folder": "skeleton",
   "files": [
     {
       "path": "skeleton/skeleton-2.tsx",
-      "content": "import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'\n\nexport default function SkeletonCard() {\n  return (\n    <div className='flex flex-col space-y-3'>\n      <Skeleton className='h-[125px] w-[250px] rounded-xl' />\n      <div className='space-y-2'>\n        <Skeleton className='h-4 w-[250px]' />\n        <Skeleton className='h-4 w-[200px]' />\n      </div>\n    </div>\n  )\n}\n",
+      "content": "import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'\n\nexport default function SkeletonCard() {\n  return (\n    <div className=\"flex flex-col space-y-3\">\n      <Skeleton className=\"h-[125px] w-[250px] rounded-xl\" />\n      <div className=\"space-y-2\">\n        <Skeleton className=\"h-4 w-[250px]\" />\n        <Skeleton className=\"h-4 w-[200px]\" />\n      </div>\n    </div>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/skeleton-2.tsx"
     }

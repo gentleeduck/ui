@@ -2,24 +2,26 @@
   "name": "badge",
   "type": "registry:ui",
   "dependencies": [],
-  "registryDependencies": ["slot"],
+  "registryDependencies": [
+    "slot"
+  ],
   "root_folder": "badge",
   "files": [
     {
       "path": "badge/badge.constants.ts",
-      "content": "import { cva } from 'class-variance-authority'\n\nexport const badgeVariants = cva(\n  'inline-flex items-center rounded-full text-xs font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2',\n  {\n    variants: {\n      variant: {\n        default: 'bg-primary text-primary-foreground hover:bg-primary/80',\n        secondary:\n          'bg-secondary text-secondary-foreground hover:bg-secondary/80',\n        destructive:\n          'bg-destructive/90 hover:bg-destructive/70  text-destructive-foreground',\n        warning: 'bg-warning/90 hover:bg-warning/70 text-warning-foreground',\n        dashed:\n          'border border-dashed border-input text-accent-foreground bg-background hover:bg-accent/50 hover:text-accent-foreground',\n        outline:\n          'border border-input text-accent-foreground bg-background hover:bg-accent hover:text-accent-foreground',\n        nothing: 'text-accent-foreground !px-0',\n      },\n      size: {\n        default: 'px-2.5 py-0.5 text-sm',\n        sm: 'px-1.5 py-0.5 text-[.7rem]',\n        lg: 'px-3.5 py-0.9 text-lg',\n        icon: 'size-[28px] text-sm rounded-full justify-center items-center [&_*]:size-[.9rem]',\n      },\n      border: {\n        default: '',\n        primary: 'border border-border/40 hover:border-border/80',\n        secondary:\n          'border border-secondary/40 hover:border-secondary bg-secondary/40 hover:bg-secondary/65',\n        destructive:\n          'border border-destructive/40 hover:border-destructive bg-destructive/40 hover:bg-destructive/65',\n        warning:\n          'border border-warning/40 hover:border-warning bg-warning/40 hover:bg-warning/65',\n      },\n    },\n    defaultVariants: {\n      variant: 'default',\n      size: 'default',\n      border: 'default',\n    },\n  },\n)\n",
+      "content": "import { cva } from '@gentleduck/variants'\n\nexport const badgeVariants = cva(\n  'inline-flex items-center rounded-full text-xs transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2',\n  {\n    variants: {\n      variant: {\n        default: 'bg-primary text-primary-foreground hover:bg-primary/80',\n        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',\n        destructive: 'bg-destructive/90 text-destructive-foreground hover:bg-destructive/70',\n        warning: 'bg-warning/90 text-warning-foreground hover:bg-warning/70',\n        dashed:\n          'border border-input border-dashed bg-background text-accent-foreground hover:bg-accent/50 hover:text-accent-foreground',\n        outline:\n          'border border-input bg-background text-accent-foreground hover:bg-accent hover:text-accent-foreground',\n        nothing: '!px-0 text-accent-foreground',\n      },\n      size: {\n        default: 'px-2.5 py-0.5 text-sm',\n        sm: 'px-1.5 py-0.5 text-[.7rem]',\n        lg: 'px-3.5 py-0.9 text-lg',\n        icon: 'size-[28px] items-center justify-center rounded-full text-sm [&_*]:size-[.9rem]',\n      },\n      border: {\n        default: '',\n        primary: 'border border-border/40 hover:border-border/80',\n        secondary: 'border border-secondary/40 bg-secondary/40 hover:border-secondary hover:bg-secondary/65',\n        destructive: 'border border-destructive/40 bg-destructive/40 hover:border-destructive hover:bg-destructive/65',\n        warning: 'border border-warning/40 bg-warning/40 hover:border-warning hover:bg-warning/65',\n      },\n    },\n    defaultVariants: {\n      variant: 'default',\n      size: 'default',\n      border: 'default',\n    },\n  },\n)\n",
       "type": "registry:ui",
       "target": "components/ui/badge.constants.ts"
     },
     {
       "path": "badge/badge.tsx",
-      "content": "import * as React from 'react'\n\nimport { BadgeProps } from './badge.types'\nimport { badgeVariants } from './badge.constants'\n\nimport { cn } from '@gentleduck/libs/cn'\n\nconst Badge = React.forwardRef<HTMLDivElement, BadgeProps>(\n  ({ className, variant, size, label, ...props }, ref) => {\n    return (\n      <div\n        className={cn(badgeVariants({ variant, size }), className)}\n        ref={ref}\n        {...props}\n      />\n    )\n  },\n)\n\nBadge.displayName = 'Badge'\n\nexport { Badge }\n",
+      "content": "import * as React from 'react'\n\nimport { BadgeProps } from './badge.types'\nimport { badgeVariants } from './badge.constants'\n\nimport { cn } from '@gentleduck/libs/cn'\n\nconst Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant, size, ...props }, ref) => {\n  return <div className={cn(badgeVariants({ variant, size }), className)} ref={ref} {...props} />\n})\n\nBadge.displayName = 'Badge'\n\nexport { Badge }\n",
       "type": "registry:ui",
       "target": "components/ui/badge.tsx"
     },
     {
       "path": "badge/badge.types.ts",
-      "content": "import { VariantProps } from 'class-variance-authority'\nimport { LabelType } from '../button'\nimport { badgeVariants } from './badge.constants'\n\nexport interface BadgeProps\n  extends React.HTMLAttributes<HTMLDivElement>,\n    VariantProps<typeof badgeVariants> {\n  label?: Omit<LabelType, 'showCommand'>\n}\n",
+      "content": "import { VariantProps } from '@gentleduck/variants'\nimport { badgeVariants } from './badge.constants'\n\nexport interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}\n",
       "type": "registry:ui",
       "target": "components/ui/badge.types.ts"
     },

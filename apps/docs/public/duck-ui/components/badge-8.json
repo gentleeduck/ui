@@ -1,12 +1,14 @@
 {
   "name": "badge-8",
   "type": "registry:example",
-  "registryDependencies": ["badge"],
+  "registryDependencies": [
+    "badge"
+  ],
   "root_folder": "badge",
   "files": [
     {
       "path": "badge/badge-8.tsx",
-      "content": "import { Badge } from '@gentleduck/registry-ui-duckui/badge'\nimport { Info } from 'lucide-react'\n\nexport default function Badge8Demo() {\n  return (\n    <Badge\n      arial-label='Badge'\n      role='button'\n      variant={'outline'}\n      size={'icon'}\n      label={{\n        showLabel: true,\n        children: 'Info Badge',\n      }}\n    >\n      <Info />\n    </Badge>\n  )\n}\n",
+      "content": "import { Badge } from '@gentleduck/registry-ui-duckui/badge'\nimport { Info } from 'lucide-react'\n\nexport default function Badge8Demo() {\n  return (\n    <Badge\n      arial-label=\"Badge\"\n      role=\"button\"\n      variant={'outline'}\n      size={'icon'}\n      label={{\n        showLabel: true,\n        children: 'Info Badge',\n      }}>\n      <Info />\n    </Badge>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/badge-8.tsx"
     }

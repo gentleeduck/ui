@@ -1,12 +1,14 @@
 {
   "name": "button-3",
   "type": "registry:example",
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "button",
   "files": [
     {
       "path": "button/button-3.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function Button2Demo() {\n  return (\n    <Button\n      variant={'secondary'}\n      aria-label='Inbox button'\n      type='button'\n      role='button'\n    >\n      Button\n    </Button>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function Button2Demo() {\n  return (\n    <Button variant={'secondary'} aria-label=\"Inbox button\" type=\"button\" role=\"button\">\n      Button\n    </Button>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-3.tsx"
     }

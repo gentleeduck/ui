@@ -5,7 +5,16 @@ export default function Page() {
   // html.setAttribute('dir', 'rtl')
   return (
     <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
-      <SelectDemo />
+      <Tooltip>
+        <TooltipTrigger>
+          <Button aria-label="Inbox button with 23 notifications" type="button" role="button">
+            Button
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side={'left'}>
+          <Badge className="rounded-md">23</Badge>
+        </TooltipContent>
+      </Tooltip>
     </div>
     // <SiteHeader />
     // <main className="flex flex-1 flex-col">{children}</main>
@@ -467,6 +476,7 @@ export function DropdownMenuCheckboxes() {
 }
 
 import { cn } from '@gentleduck/libs/cn'
+import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Command as CCommand,
@@ -478,6 +488,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { Calculator, CreditCard, Settings, Smile, User } from 'lucide-react'
 import React from 'react'
 

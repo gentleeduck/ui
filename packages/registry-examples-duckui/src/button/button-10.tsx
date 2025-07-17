@@ -1,6 +1,6 @@
-import React from 'react'
-import { Inbox } from 'lucide-react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Inbox } from 'lucide-react'
+import React from 'react'
 
 export default function Button10Demo() {
   return (

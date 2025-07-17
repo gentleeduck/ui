@@ -2,56 +2,32 @@
   "name": "upload",
   "type": "registry:ui",
   "dependencies": [],
-  "registryDependencies": ["alert-dialog", "input", "context-menu", "scroll-area", "button"],
+  "registryDependencies": [
+    "alert-dialog",
+    "input",
+    "context-menu",
+    "scroll-area",
+    "button"
+  ],
   "root_folder": "upload",
   "files": [
     {
       "path": "upload/index.ts",
-      "content": "export * from './upload'\nexport * from './upload-advanced'\nexport * from './upload-advanced-chunks'\nexport * from './upload-sonner'\nexport * from './upload.lib'\nexport * from './upload.assets'\nexport * from './upload.constants'\nexport * from './upload.types'\nexport * from './upload.dto'\n",
+      "content": "export * from './upload'\n",
       "type": "registry:ui",
       "target": "components/ui/index.ts"
     },
     {
-      "path": "upload/upload-advanced-chunks.tsx",
-      "content": "",
-      "type": "registry:ui",
-      "target": "components/ui/upload-advanced-chunks.tsx"
-    },
-    {
-      "path": "upload/upload-advanced.tsx",
-      "content": "",
-      "type": "registry:ui",
-      "target": "components/ui/upload-advanced.tsx"
-    },
-    {
-      "path": "upload/upload-sonner.tsx",
-      "content": "",
-      "type": "registry:ui",
-      "target": "components/ui/upload-sonner.tsx"
-    },
-    {
-      "path": "upload/upload.assets.tsx",
-      "content": "",
-      "type": "registry:ui",
-      "target": "components/ui/upload.assets.tsx"
-    },
-    {
       "path": "upload/upload.constants.tsx",
-      "content": "",
+      "content": "import { FileAudio, FileImage, FileText, FileVideo, File } from 'lucide-react'\n\nexport enum FileTypeEnum {\n  Audio = 'audio',\n  Text = 'text',\n  Image = 'image',\n  Video = 'video',\n  Pdf = 'pdf',\n  Unknown = 'unknown',\n}\n\nexport const FILE_TYPE_ICONS: Record<FileTypeEnum, JSX.Element> = {\n  [FileTypeEnum.Audio]: <FileAudio className=\"w-8 h-8\" />,\n  [FileTypeEnum.Text]: <FileText className=\"w-8 h-8\" />,\n  [FileTypeEnum.Image]: <FileImage className=\"w-8 h-8\" />,\n  [FileTypeEnum.Video]: <FileVideo className=\"w-8 h-8\" />,\n  [FileTypeEnum.Pdf]: <FileText className=\"w-8 h-8\" />,\n  [FileTypeEnum.Unknown]: <File className=\"w-8 h-8\" />,\n}\n",
       "type": "registry:ui",
       "target": "components/ui/upload.constants.tsx"
     },
     {
-      "path": "upload/upload.dto.ts",
-      "content": "import { z } from 'zod'\n\nexport const fileTypeSchema = z.object({\n  id: z.string().uuid(),\n  file: z.instanceof(File),\n  name: z.string(),\n  url: z.string().nullable(),\n  type: z.string(),\n  size: z.string(),\n  createdAt: z.instanceof(Date),\n  updatedAt: z.instanceof(Date),\n})\n\nexport type FileSchemaType = z.infer<typeof fileTypeSchema>\n\nexport const attachmentSchema = fileTypeSchema.extend({\n  treeLevel: z.number(),\n})\n",
+      "path": "upload/upload.libs.ts",
+      "content": "import { toast } from 'sonner'\nimport { FileTypeEnum } from './upload.constants'\nimport { FileType } from './upload.types'\nimport { uuidv7 } from 'uuidv7'\n\nexport const getFileType = (type: string): string => {\n  if (!type) return FileTypeEnum.Unknown\n  if (type.startsWith('audio/')) return FileTypeEnum.Audio\n  if (type.startsWith('text/')) return FileTypeEnum.Text\n  if (type.startsWith('image/')) return FileTypeEnum.Image\n  if (type.startsWith('video/')) return FileTypeEnum.Video\n  if (type.startsWith('application/pdf')) return FileTypeEnum.Pdf\n  return FileTypeEnum.Unknown\n}\n\nexport const getAttachmentsToState = ({\n  e,\n  setAttachmentsState,\n}: {\n  e: React.ChangeEvent<HTMLInputElement>\n  setAttachmentsState: React.Dispatch<React.SetStateAction<FileType[]>>\n}) => {\n  const files = e.currentTarget.files\n\n  if (!files) return toast.error('Please select a file')\n\n  const newAttachments: FileType[] = []\n\n  // biome-ignore lint/style/useForOf: <explanation>\n  for (let i = 0; i < files.length; i++) {\n    const file = files[i]\n\n    if (!file) return\n    // if (file !== undefined && file.size > 10 * 1024 * 1024) {\n    //   toast.error(\n    //     `File has exceeded the max size: ${file.name.slice(0, 15)}...`,\n    //   )\n    //   return\n    //   // continue // Skip this file and continue with the next\n    // }\n\n    const attachment: FileType = {\n      id: uuidv7(),\n      file: file,\n      name: file.name,\n      url: null,\n      type: file.type,\n      size: file.size,\n    }\n\n    newAttachments.push(attachment)\n  }\n\n  setAttachmentsState((prev) => [...prev, ...newAttachments])\n  e.currentTarget.value = ''\n}\n\nexport const downloadAttachment = async ({ attachment }: { attachment: FileType }) => {\n  if (attachment.file) {\n    const file: Blob = attachment.file as Blob\n    return download(file, attachment.name ?? 'image.jpg')\n  }\n\n  if (attachment.url) {\n    const file = await fetchBlob({\n      url: 'https://cdn.dribbble.com/userupload/15140814/file/original-22eddfd50ce84be4acb8bbbd50cf7840.jpg?resize=1600x1200',\n    })\n    return download(file ?? new Blob([]), attachment.name ?? 'image.jpg')\n  }\n}\n\nfunction download(blob: Blob, name: string) {\n  const url = URL.createObjectURL(blob)\n  const a = document.createElement('a')\n\n  a.href = url\n  a.download = new Date().getTime() + '_' + name\n  document.body.appendChild(a)\n  a.click()\n  document.body.removeChild(a)\n  URL.revokeObjectURL(url)\n}\n\nexport const fetchBlob = async ({ url }: { url: string }): Promise<Blob | null> => {\n  try {\n    const response = await fetch(url)\n\n    if (!response.ok) {\n      throw new Error(`Failed to fetch audio: ${response.statusText} (status: ${response.status})`)\n    }\n\n    const blob = await response.blob()\n    return blob\n  } catch (error) {\n    console.error('Error fetching audio:', error)\n    return null\n  }\n}\n",
       "type": "registry:ui",
-      "target": "components/ui/upload.dto.ts"
-    },
-    {
-      "path": "upload/upload.lib.tsx",
-      "content": "",
-      "type": "registry:ui",
-      "target": "components/ui/upload.lib.tsx"
+      "target": "components/ui/upload.libs.ts"
     },
     {
       "path": "upload/upload.tsx",
@@ -61,7 +37,7 @@
     },
     {
       "path": "upload/upload.types.ts",
-      "content": "",
+      "content": "import { Button } from '../button'\nimport { ScrollArea } from '../scroll-area'\n\nexport type FileType = {\n  id: string\n  file: File\n  name: string\n  url: string | null\n  type: string\n  size: number\n}\n\nexport type UploadRenameAttachmentButtonProps = {\n  attachment: FileType[]\n}\n\nexport interface UploadContextType<T extends Record<string, any>> {\n  attachments: FileType[]\n  setAttachments: React.Dispatch<React.SetStateAction<FileType[]>>\n  attachmentsState: T[]\n  setAttachmentsState: React.Dispatch<React.SetStateAction<T[]>>\n}\n\nexport interface UploadInputProps extends React.HTMLProps<HTMLDivElement> {}\n\nexport interface UploadItemProps extends React.HTMLProps<HTMLDivElement> {\n  attachment: FileType\n}\n\nexport interface UploadProps extends Omit<React.HTMLProps<HTMLDivElement>, 'content'> {\n  trigger: React.ReactNode\n  content: React.ReactNode\n}\n\nexport interface UploadTriggerProps extends React.HTMLProps<HTMLDivElement> {}\n\nexport interface UploadtItemRemoveProps extends React.HTMLProps<HTMLDivElement> {}\n\nexport interface UploadContentProps extends React.ComponentPropsWithRef<typeof ScrollArea> {}\n\nexport interface StateWithExtraFeatures<T extends Record<string, any>> {\n  data: T | null\n  state: 'pending' | 'success' | 'error'\n}\n",
       "type": "registry:ui",
       "target": "components/ui/upload.types.ts"
     }

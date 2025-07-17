@@ -1,12 +1,14 @@
 {
   "name": "tabs-1",
   "type": "registry:example",
-  "registryDependencies": ["tabs"],
+  "registryDependencies": [
+    "tabs"
+  ],
   "root_folder": "tabs",
   "files": [
     {
       "path": "tabs/tabs-1.tsx",
-      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport {\n  Card,\n  CardContent,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardTitle,\n} from '@gentleduck/registry-ui-duckui/card'\nimport { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'\nimport { Input } from '@gentleduck/registry-ui-duckui/input'\nimport { Label } from '@gentleduck/registry-ui-duckui/label'\n\nexport default function Tabs1Demo() {\n  return (\n    <Tabs\n      defaultValue=\"account\"\n      className=\"w-[400px]\"\n    >\n      <TabsList className=\"grid w-full grid-cols-2\">\n        <TabsTrigger value=\"account\">Account</TabsTrigger>\n        <TabsTrigger value=\"password\">Password</TabsTrigger>\n      </TabsList>\n      <TabsContent value=\"account\">\n        <Card>\n          <CardHeader>\n            <CardTitle>Account</CardTitle>\n            <CardDescription>Make changes to your account here. Click save when you're done.</CardDescription>\n          </CardHeader>\n          <CardContent className=\"space-y-2\">\n            <div className=\"space-y-1\">\n              <Label htmlFor=\"name\">Name</Label>\n              <Input\n                id=\"name\"\n                defaultValue=\"Pedro Duarte\"\n              />\n            </div>\n            <div className=\"space-y-1\">\n              <Label htmlFor=\"username\">Username</Label>\n              <Input\n                id=\"username\"\n                defaultValue=\"@peduarte\"\n              />\n            </div>\n          </CardContent>\n          <CardFooter>\n            <Button>Save changes</Button>\n          </CardFooter>\n        </Card>\n      </TabsContent>\n      <TabsContent value=\"password\">\n        <Card>\n          <CardHeader>\n            <CardTitle>Password</CardTitle>\n            <CardDescription>Change your password here. After saving, you'll be logged out.</CardDescription>\n          </CardHeader>\n          <CardContent className=\"space-y-2\">\n            <div className=\"space-y-1\">\n              <Label htmlFor=\"current\">Current password</Label>\n              <Input\n                id=\"current\"\n                type=\"password\"\n              />\n            </div>\n            <div className=\"space-y-1\">\n              <Label htmlFor=\"new\">New password</Label>\n              <Input\n                id=\"new\"\n                type=\"password\"\n              />\n            </div>\n          </CardContent>\n          <CardFooter>\n            <Button>Save password</Button>\n          </CardFooter>\n        </Card>\n      </TabsContent>\n    </Tabs>\n  )\n}\n",
+      "content": "",
       "type": "registry:example",
       "target": "components/tabs-1.tsx"
     }

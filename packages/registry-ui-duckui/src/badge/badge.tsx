@@ -1,14 +1,16 @@
+import { cn } from '@gentleduck/libs/cn'
+import { VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
-
-import { BadgeProps } from './badge.types'
 import { badgeVariants } from './badge.constants'
 
-import { cn } from '@gentleduck/libs/cn'
-
-const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant, size, ...props }, ref) => {
+const Badge = ({
+  className,
+  variant = 'default',
+  size = 'default',
+  ref,
+  ...props
+}: Omit<React.HTMLProps<HTMLDivElement>, 'size'> & VariantProps<typeof badgeVariants>) => {
   return <div className={cn(badgeVariants({ variant, size }), className)} ref={ref} {...props} />
-})
-
-Badge.displayName = 'Badge'
+}
 
 export { Badge }

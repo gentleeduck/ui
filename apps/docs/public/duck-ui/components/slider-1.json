@@ -1,12 +1,14 @@
 {
   "name": "slider-1",
   "type": "registry:example",
-  "registryDependencies": ["slider"],
+  "registryDependencies": [
+    "slider"
+  ],
   "root_folder": "slider",
   "files": [
     {
       "path": "slider/slider-1.tsx",
-      "content": "import { cn } from '@gentleduck/libs/cn'\nimport { Slider } from '@gentleduck/registry-ui-duckui/slider'\n\ntype SliderProps = React.ComponentProps<typeof Slider>\n\nexport default function SliderDemo({ className, ...props }: SliderProps) {\n    return (\n        <Slider\n            defaultValue={[50]}\n            max={100}\n            step={1}\n            className={cn('w-[60%]', className)}\n            {...props}\n        />\n    )\n}\n",
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport { Slider } from '@gentleduck/registry-ui-duckui/slider'\n\ntype SliderProps = React.ComponentProps<typeof Slider>\n\nexport default function SliderDemo({ className, ...props }: SliderProps) {\n  return <Slider defaultValue={[50]} max={100} step={1} className={cn('w-[60%]', className)} {...props} />\n}\n",
       "type": "registry:example",
       "target": "components/slider-1.tsx"
     }

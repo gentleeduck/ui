@@ -1,12 +1,14 @@
 {
   "name": "sonner-2",
   "type": "registry:example",
-  "registryDependencies": ["sonner"],
+  "registryDependencies": [
+    "sonner"
+  ],
   "root_folder": "sonner",
   "files": [
     {
       "path": "sonner/sonner-2.tsx",
-      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { ShieldAlert } from 'lucide-react'\nimport { toast } from 'sonner'\n\nexport default function SonnerDemo() {\n  return (\n    <Button\n      variant='outline'\n      onClick={() =>\n        toast('Actions have been triggered', {\n          className: 'gap-3',\n          description: `you have clicked the 'super button' button, and btw i can be loading.`,\n          icon: <ShieldAlert />,\n          action: {\n            label: 'Undo',\n            onClick: () => console.log('Undo'),\n          },\n        })\n      }\n    >\n      Show Toast\n    </Button>\n  )\n}\n",
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { ShieldAlert } from 'lucide-react'\nimport { toast } from 'sonner'\n\nexport default function SonnerDemo() {\n  return (\n    <Button\n      variant=\"outline\"\n      onClick={() =>\n        toast('Actions have been triggered', {\n          className: 'gap-3',\n          description: `you have clicked the 'super button' button, and btw i can be loading.`,\n          icon: <ShieldAlert />,\n          action: {\n            label: 'Undo',\n            onClick: () => console.log('Undo'),\n          },\n        })\n      }>\n      Show Toast\n    </Button>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/sonner-2.tsx"
     }

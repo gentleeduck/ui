@@ -72,7 +72,7 @@ export function ComponentPreview({
   }, [Code])
 
   return (
-    <DuckLazyComponent
+    <div
       className={cn('group relative my-4 flex flex-col  [&_div[data-slot="placeholder"]]:h-[512px]', className)}
       {...props}>
       <Tabs defaultValue="preview" className="relative mr-auto w-full" listValues={['preview', 'code', 'build']}>
@@ -122,7 +122,7 @@ export function ComponentPreview({
         </TabsContent>
         <BuildTab />
       </Tabs>
-    </DuckLazyComponent>
+    </div>
   )
 }
 

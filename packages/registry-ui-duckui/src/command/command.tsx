@@ -1,3 +1,4 @@
+'use client'
 import { cn } from '@gentleduck/libs/cn'
 import { Search } from 'lucide-react'
 import React from 'react'
@@ -237,13 +238,15 @@ function CommandShortcut({
   ref,
   ...props
 }: CommandBadgeProps): React.JSX.Element {
-  useKeyCommands({
-    [keys]: {
-      name: keys,
-      description: keys,
-      execute: () => onKeysPressed(),
-    },
-  })
+  if (keys && onKeysPressed) {
+    useKeyCommands({
+      [keys]: {
+        name: keys,
+        description: keys,
+        execute: () => onKeysPressed(),
+      },
+    })
+  }
 
   return (
     <kbd

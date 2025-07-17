@@ -1,12 +1,14 @@
 {
   "name": "button-19",
   "type": "registry:example",
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "button",
   "files": [
     {
       "path": "button/button-19.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { ArrowLeft } from 'lucide-react'\n\nexport default function Button19Demo() {\n  return (\n    <div className='block'>\n      <Button\n        aria-label='Expand inbox button'\n        type='button'\n        role='button'\n        variant='expand_icon'\n        animationIcon={{\n          icon: <ArrowLeft />,\n          iconPlacement: 'left',\n        }}\n      >\n        Button\n      </Button>\n    </div>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { ArrowLeft } from 'lucide-react'\n\nexport default function Button19Demo() {\n  return (\n    <div className=\"block\">\n      <Button\n        aria-label=\"Expand inbox button\"\n        type=\"button\"\n        role=\"button\"\n        variant=\"expand_icon\"\n        animationIcon={{\n          icon: <ArrowLeft />,\n          iconPlacement: 'left',\n        }}>\n        Button\n      </Button>\n    </div>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-19.tsx"
     }

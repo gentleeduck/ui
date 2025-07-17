@@ -1,22 +1,18 @@
-import React from 'react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import React from 'react'
 
 export default function Button14Demo() {
   return (
     <>
-      <Button
-        aria-label="Inbox button with 23 notifications"
-        type="button"
-        role="button"
-        label={{
-          className: 'font-mono',
-          showLabel: true,
-          variant: 'nothing',
-          children: 'Inbox has 23 message',
-          side: 'top',
-        }}>
-        Button
-      </Button>
+      <Tooltip>
+        <TooltipTrigger>
+          <Button aria-label="Inbox button with 23 notifications" type="button" role="button">
+            Button
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent> Inbox has 23 message </TooltipContent>
+      </Tooltip>
     </>
   )
 }

@@ -1,12 +1,14 @@
 {
   "name": "input-3",
   "type": "registry:example",
-  "registryDependencies": ["input"],
+  "registryDependencies": [
+    "input"
+  ],
   "root_folder": "input",
   "files": [
     {
       "path": "input/input-3.tsx",
-      "content": "import { Input } from '@gentleduck/registry-ui-duckui/input'\nimport { Label } from '@gentleduck/registry-ui-duckui/label'\n\nexport default function InputFile() {\n  return (\n    <div className='grid w-full max-w-sm items-center gap-1.5'>\n      <Label htmlFor='picture'>Picture</Label>\n      <Input id='picture' type='file' />\n    </div>\n  )\n}\n",
+      "content": "import { Input } from '@gentleduck/registry-ui-duckui/input'\nimport { Label } from '@gentleduck/registry-ui-duckui/label'\n\nexport default function InputFile() {\n  return (\n    <div className=\"grid w-full max-w-sm items-center gap-1.5\">\n      <Label htmlFor=\"picture\">Picture</Label>\n      <Input id=\"picture\" type=\"file\" />\n    </div>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/input-3.tsx"
     }

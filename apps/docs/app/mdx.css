@@ -32,7 +32,7 @@
   @apply px-2;
 }
 
-[data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
+[data-rehype-pretty-code-fragment] [data-line-numbers]>.line::before {
   @apply text-zinc-50/40 text-xs;
   counter-increment: line;
   content: counter(line);
@@ -62,20 +62,20 @@
   @apply mt-2 pt-6 px-4 text-sm font-medium text-foreground;
 }
 
-[data-rehype-pretty-code-fragment] [data-line-numbers] > .line:before {
+[data-rehype-pretty-code-fragment] [data-line-numbers]>.line:before {
   margin-right: 1rem;
   width: 1rem;
   opacity: 0.76;
 }
 
-[data-rehype-pretty-code-title] + pre {
+[data-rehype-pretty-code-title]+pre {
   @apply mt-2;
 }
 
-.mdx > .steps:first-child > h3:first-child {
+.mdx>.steps:first-child>h3:first-child {
   @apply mt-0;
 }
 
-.steps > h3 {
+.steps>h3 {
   @apply mt-8 mb-4 text-base font-semibold;
 }

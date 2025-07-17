@@ -73,15 +73,7 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
       {
-        path: 'tooltip/tooltip.constants.ts',
-        type: 'registry:ui',
-      },
-      {
         path: 'tooltip/tooltip.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'tooltip/tooltip.types.ts',
         type: 'registry:ui',
       },
     ],
@@ -99,6 +91,10 @@ export const Index: Record<string, any> = {
     files: [
       {
         path: 'command/command.hooks.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'command/command.libs.ts',
         type: 'registry:ui',
       },
       {
@@ -151,6 +147,14 @@ export const Index: Record<string, any> = {
     type: 'registry:ui',
     registryDependencies: [],
     files: [
+      {
+        path: 'accordion/__accordion.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'accordion/_accordion.tsx',
+        type: 'registry:ui',
+      },
       {
         path: 'accordion/accordion.tsx',
         type: 'registry:ui',
@@ -210,7 +214,7 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
       {
-        path: 'table/table-advanced.constants.tsx',
+        path: 'table/table-advanced.chunks.tsx',
         type: 'registry:ui',
       },
       {
@@ -218,7 +222,11 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
       {
-        path: 'table/table-advanced.types.ts',
+        path: 'table/table-example.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'table/table.atom.tsx',
         type: 'registry:ui',
       },
       {
@@ -226,11 +234,7 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
       {
-        path: 'table/table.hook.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table.lib.ts',
+        path: 'table/table.libs.ts',
         type: 'registry:ui',
       },
       {
@@ -259,31 +263,11 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
       {
-        path: 'upload/upload-advanced-chunks.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'upload/upload-advanced.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'upload/upload-sonner.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'upload/upload.assets.tsx',
-        type: 'registry:ui',
-      },
-      {
         path: 'upload/upload.constants.tsx',
         type: 'registry:ui',
       },
       {
-        path: 'upload/upload.dto.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'upload/upload.lib.tsx',
+        path: 'upload/upload.libs.ts',
         type: 'registry:ui',
       },
       {
@@ -1778,6 +1762,23 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-2')),
+    source: '/registry-examples-duckui/src/sonner',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'sonner-3': {
+    name: 'sonner-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['sonner'],
+    files: [
+      {
+        path: 'sonner/sonner-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-3')),
     source: '/registry-examples-duckui/src/sonner',
     category: '',
     subcategory: '',

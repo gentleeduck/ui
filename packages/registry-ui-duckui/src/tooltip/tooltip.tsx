@@ -37,7 +37,14 @@ function TooltipContent({
   ...props
 }: React.ComponentPropsWithRef<typeof PopoverContent>): React.JSX.Element {
   return (
-    <PopoverContent side={side as never} role="tooltip" className={cn(AnimTooltipVariants(), className)} {...props}>
+    <PopoverContent
+      side={'right'}
+      role="tooltip"
+      className={cn(
+        // 'select-none text-balance rounded-md border-border bg-background px-3 py-1.5 text-accent-foreground shadow-none',
+        className,
+      )}
+      {...props}>
       {children}
     </PopoverContent>
   )

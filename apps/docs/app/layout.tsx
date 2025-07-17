@@ -26,6 +26,7 @@ export default function RootLayout({
         {<script src="https://unpkg.com/react-scan/dist/auto.global.js" />}
       </head>
       <body className={cn('min-h-svh bg-background font-sans antialiased duck')}>
+        <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
         <KeyProvider timeoutMs={100}>
           <ThemeProvider
             attribute="class"
@@ -33,9 +34,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
             enableColorScheme>
-            <div vaul-drawer-wrapper="">
-              <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
-            </div>
+            <div vaul-drawer-wrapper=""></div>
             <ThemeSwitcher />
             <Toaster />
             {process.env.NODE_ENV === 'development' && <TailwindIndicator />}

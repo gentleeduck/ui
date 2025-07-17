@@ -1,7 +1,9 @@
 {
   "name": "progress-2",
   "type": "registry:example",
-  "registryDependencies": ["progress"],
+  "registryDependencies": [
+    "progress"
+  ],
   "root_folder": "progress",
   "files": [
     {

@@ -1,12 +1,14 @@
 {
   "name": "button-16",
   "type": "registry:example",
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "button",
   "files": [
     {
       "path": "button/button-16.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\nimport { toast } from 'sonner'\n\nexport default function Button16Demo() {\n  return (\n    <>\n      <Button\n        aria-label='Open inbox and trigger command'\n        type='button'\n        role='button'\n        icon={<Inbox />}\n        label={{\n          showCommand: true,\n          showLabel: true,\n        }}\n        command={{\n          key: 'alt+l',\n          children: 'alt+l',\n          action: () =>\n            toast('Your inbox has been updated', {\n              description: `you have clicked the 'command label' button`,\n            }),\n        }}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\nimport { toast } from 'sonner'\n\nexport default function Button16Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Open inbox and trigger command\"\n        type=\"button\"\n        role=\"button\"\n        icon={<Inbox />}\n        label={{\n          showCommand: true,\n          showLabel: true,\n        }}\n        command={{\n          key: 'alt+l',\n          children: 'alt+l',\n          action: () =>\n            toast('Your inbox has been updated', {\n              description: `you have clicked the 'command label' button`,\n            }),\n        }}>\n        Button\n      </Button>\n    </>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-16.tsx"
     }

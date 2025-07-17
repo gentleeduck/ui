@@ -110,19 +110,19 @@ function Ui() {
 }
 
 function App() {
+  // <SidebarProvider>
+  //   <AppSidebar />
+  //   <main>
+  //     <SidebarTrigger />
+  //     <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]"></div>
+  //   </main>
+  // </SidebarProvider>
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]"></div>
-      </main>
-    </SidebarProvider>
+    <TooltipDemo />
     //   <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
     // </div>
     //
     // <DropdownMenuDemo />
-    // <TooltipDemo />
     // <SelectDemo />
     // <PopoverDemo />
   )

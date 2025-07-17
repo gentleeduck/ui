@@ -1,12 +1,14 @@
 {
   "name": "button-12",
   "type": "registry:example",
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "button",
   "files": [
     {
       "path": "button/button-12.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function Button12Demo() {\n  return (\n    <>\n      <Button\n        aria-label='Inbox button with 23 notifications'\n        type='button'\n        role='button'\n        label={{\n          children: '23',\n        }}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function Button12Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Inbox button with 23 notifications\"\n        type=\"button\"\n        role=\"button\"\n        label={{\n          children: '23',\n        }}>\n        Button\n      </Button>\n    </>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-12.tsx"
     }

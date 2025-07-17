@@ -98,7 +98,7 @@ function DropdownMenuContent({
   return (
     <PopoverContent
       duck-dropdown-menu-content=""
-      className={cn('min-w-[8rem] p-1 overflow-visible', className)}
+      className={cn('min-w-[8rem] overflow-visible p-1', className)}
       {...props}
       side={side}
       sideOffset={sideOffset}

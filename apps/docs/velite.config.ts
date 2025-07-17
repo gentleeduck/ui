@@ -23,8 +23,7 @@ const config = defineConfig({
   collections: {
     docs: {
       name: 'Docs',
-      // pattern: 'docs/**/*.mdx',
-      pattern: 'docs/hi.mdx',
+      pattern: 'docs/**/*.mdx',
       schema: s
         .object({
           title: s.string().max(99),

@@ -1,12 +1,14 @@
 {
   "name": "badge-5",
   "type": "registry:example",
-  "registryDependencies": ["badge"],
+  "registryDependencies": [
+    "badge"
+  ],
   "root_folder": "badge",
   "files": [
     {
       "path": "badge/badge-5.tsx",
-      "content": "import { Badge } from '@gentleduck/registry-ui-duckui/badge'\n\nexport default function Badge4Demo() {\n  return (\n    <Badge arial-label='Badge' role='button' variant={'warning'}>\n      Badge\n    </Badge>\n  )\n}\n",
+      "content": "import { Badge } from '@gentleduck/registry-ui-duckui/badge'\n\nexport default function Badge4Demo() {\n  return (\n    <Badge arial-label=\"Badge\" role=\"button\" variant={'warning'}>\n      Badge\n    </Badge>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/badge-5.tsx"
     }

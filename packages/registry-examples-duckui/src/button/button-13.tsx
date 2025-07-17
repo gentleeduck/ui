@@ -1,20 +1,18 @@
-import React from 'react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Inbox } from 'lucide-react'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import React from 'react'
 
 export default function Button13Demo() {
   return (
     <>
-      <Button
-        aria-label="Inbox button with 23 notifications"
-        type="button"
-        role="button"
-        label={{
-          variant: 'nothing',
-          children: '23',
-        }}>
-        Button
-      </Button>
+      <Tooltip>
+        <TooltipTrigger>
+          <Button aria-label="Inbox button with 23 notifications" type="button" role="button">
+            Button
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side={'left'}>23 Notifications</TooltipContent>
+      </Tooltip>
     </>
   )
 }

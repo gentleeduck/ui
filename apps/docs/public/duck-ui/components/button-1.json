@@ -1,12 +1,14 @@
 {
   "name": "button-1",
   "type": "registry:example",
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "button",
   "files": [
     {
       "path": "button/button-1.tsx",
-      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { ArrowBigUpDash, ShieldAlert } from 'lucide-react'\nimport React from 'react'\nimport { toast } from 'sonner'\n\nexport default function Button1Demo() {\n  const [open, setOpen] = React.useState<boolean>(false)\n  return (\n    <>\n      <Button\n        isCollapsed={open}\n        icon={<ArrowBigUpDash />}\n        aria-label={'advanced button'}\n        size='default'\n        aria-expanded={open}\n        loading={false}\n        onClick={() => setOpen((prev) => !prev)}\n        label={{\n          children: 'Advanced Button 🦆',\n          showCommand: true,\n          showLabel: true,\n          side: 'top',\n          delayDuration: 0,\n        }}\n        command={{\n          label: '⇧+o',\n          key: 'shift+o',\n          action: () =>\n            toast('Actions have been triggered', {\n              className: 'gap-3',\n              description: `you have clicked the 'super button' button, and btw i can be loading.`,\n              icon: <ShieldAlert />,\n              action: {\n                label: 'Undo',\n                onClick: () => console.log('Undo'),\n              },\n            }),\n        }}\n      >\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { ArrowBigUpDash, ShieldAlert } from 'lucide-react'\nimport React from 'react'\nimport { toast } from 'sonner'\n\nexport default function Button1Demo() {\n  const [open, setOpen] = React.useState<boolean>(false)\n  return (\n    <>\n      <Button\n        isCollapsed={open}\n        icon={<ArrowBigUpDash />}\n        aria-label={'advanced button'}\n        size=\"default\"\n        aria-expanded={open}\n        loading={false}\n        onClick={() => setOpen((prev) => !prev)}\n        label={{\n          children: 'Advanced Button 🦆',\n          showCommand: true,\n          showLabel: true,\n          side: 'top',\n          delayDuration: 0,\n        }}\n        command={{\n          label: '⇧+o',\n          key: 'shift+o',\n          action: () =>\n            toast('Actions have been triggered', {\n              className: 'gap-3',\n              description: `you have clicked the 'super button' button, and btw i can be loading.`,\n              icon: <ShieldAlert />,\n              action: {\n                label: 'Undo',\n                onClick: () => console.log('Undo'),\n              },\n            }),\n        }}>\n        Button\n      </Button>\n    </>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-1.tsx"
     }

@@ -1,3 +1,4 @@
+'use client'
 import { useComputedTimeoutTransition, useStableId } from '@gentleduck/hooks'
 import { apply as applyClosedBy, isSupported as isClosedBySupported } from 'dialog-closedby-polyfill'
 import { apply as applyInvokers, isSupported as isInvokersSupported } from 'invokers-polyfill/fn'
