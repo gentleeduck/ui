@@ -40,12 +40,13 @@
   },
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/aria-feather#readme",
   "dependencies": {
-    "@gentleduck/hooks": "workspace:*",
     "dialog-closedby-polyfill": "^1.1.0",
     "invokers-polyfill": "^0.5.5",
     "mini-svg-data-uri": "^1.4.4"
   },
   "peerDependencies": {
+    "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/duck-float": "workspace:*",
     "@changesets/cli": "catalog:",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/tsdown-config": "workspace:*",

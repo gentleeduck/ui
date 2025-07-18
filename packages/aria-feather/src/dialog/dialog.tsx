@@ -130,7 +130,7 @@ export function ShouldRender({
   once?: boolean
   open?: boolean
   children?: React.ReactNode
-  ref?: React.RefObject<HTMLDialogElement | null>
+  ref?: HTMLDialogElement | null
 }) {
   const [_shouldRender, setShouldRender] = React.useState<boolean>(false)
   const [isVisible, setIsVisible] = React.useState<boolean>(false)
@@ -143,7 +143,7 @@ export function ShouldRender({
     if (shouldRender) {
       setIsVisible(true)
     } else {
-      const element = ref?.current
+      const element = ref
       if (element) {
         useComputedTimeoutTransition(element, () => {
           setIsVisible(false)

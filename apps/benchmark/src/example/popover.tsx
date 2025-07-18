@@ -9,44 +9,50 @@ import {
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 // import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from './ggpop'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import React from 'react'
-import { computePosition, offset } from '@gentleduck/duck-float/core'
-import { platform } from '@gentleduck/duck-float/dom'
+import { computePosition, offset } from '@gentleduck/duck-float'
 
 export default function PopoverDemo() {
-  const referenceEl = React.useRef<HTMLDivElement | null>(null)
-  const floatingEl = React.useRef<HTMLDivElement | null>(null)
-
-  React.useLayoutEffect(() => {
-    if (!open || !referenceEl.current || !floatingEl.current) return
-
-    computePosition(referenceEl.current, floatingEl.current, {
-      platform: platform,
-      placement: 'left',
-      middleware: [offset(10)],
-    }).then((result) => {
-      console.log('Position result:', result)
-      Object.assign(floatingEl.current!.style, {
-        left: `${result.x}px`,
-        top: `${result.y}px`,
-        position: 'absolute',
-      })
-    })
-  }, [])
-
+  // const [open, setOpen] = React.useState(false)
   return (
-    <div className="h-[2000px] mt-[400px] relative">
-      <div
-        className="mx-auto grid h-32 w-32 place-items-center border-2 border-dashed border-gray-1000"
-        ref={referenceEl}>
-        <p>right</p>
-      </div>
-
-      <div ref={floatingEl} className="z-10 grid place-items-center bg-rose-500 text-base font-semibold text-gray-50">
-        <div className="px-2 py-2">Floating</div>
-      </div>
+    <div className="h-[2000px] mt-[400px]">
+      <Popover>
+        <PopoverTrigger>Open popover</PopoverTrigger>
+        <PopoverContent side="right" align={'center'} className="w-80 border-transparent">
+          <div className="grid gap-4">
+            <div className="space-y-2">
+              <h4 className="font-medium leading-none">Dimensions</h4>
+              <p className="text-muted-foreground text-sm">Set the dimensions for the layer.</p>
+            </div>
+            <div className="grid gap-2">
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label
+                  htmlFor="width"
+                  onClick={() => {
+                    // setOpen(false)
+                  }}>
+                  Width
+                </Label>
+                <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="maxWidth">Max. width</Label>
+                <Input id="maxWidth" defaultValue="300px" className="col-span-2 h-8" />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="height">Height</Label>
+                <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="maxHeight">Max. height</Label>
+                <Input id="maxHeight" defaultValue="none" className="col-span-2 h-8" />
+              </div>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
     </div>
   )
 }

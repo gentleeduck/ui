@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanLockScrollbar, lockScrollbar } from '../dialog/dialog.libs'
 import type { PopoverContextType } from './popover.types'
-import type { PopoverProps } from './popover.types'
+import { PopoverProps } from './popover.types'
 
 export const PopoverContext = React.createContext<PopoverContextType | null>(null)
 
@@ -28,6 +28,26 @@ export function usePopover({
   const contentRef = React.useRef<HTMLDialogElement | null>(null)
   const [open, setOpen] = React.useState<boolean>(openProp)
 
+  function handleOpenChange(state: boolean) {
+    if (!contentRef.current) return
+
+    try {
+      if (!mouseEnter || !mouseExist) {
+        state ? contentRef.current.showPopover() : contentRef.current.hidePopover()
+      }
+
+      setOpen(state)
+      onOpenChange?.(state)
+    } catch (e) {
+      console.warn('Popover failed to toggle', e)
+    }
+  }
+
+  function handleClose(event: Event & { newState: 'open' | 'close' }) {
+    const newState = event.newState
+    handleOpenChange(newState === 'open')
+  }
+
   React.useEffect(() => {
     if (mouseEnter || mouseExist || openProp === undefined) return
     if (lockScroll) lockScrollbar(open)
@@ -36,29 +56,9 @@ export function usePopover({
     handleOpenChange(state)
   }, [openProp])
 
-  function handleOpenChange(state: boolean) {
-    if (!contentRef.current) return
-
-    try {
-      // state ? contentRef.current.showModal() : contentRef.current.close()
-      state ? contentRef.current.showPopover() : contentRef.current.hidePopover()
-    } catch (e) {
-      console.warn('Popover failed to toggle', e)
-    }
-
-    setOpen(state)
-    onOpenChange?.(state)
-  }
-
   React.useEffect(() => {
     if (mouseEnter || mouseExist) return
     if (lockScroll) lockScrollbar(open)
-
-    function handleClose(event: Event & { newState: 'open' | 'close' }) {
-      const newState = event.newState
-      console.log(newState)
-      handleOpenChange(event.newState === 'open')
-    }
 
     contentRef.current?.addEventListener('toggle', handleClose)
 
@@ -104,7 +104,7 @@ export function usePopover({
       }
       cleanLockScrollbar()
     }
-  }, [])
+  }, [open])
 
   return {
     triggerRef,

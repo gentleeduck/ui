@@ -18,6 +18,7 @@
   "dependencies": {
     "@floating-ui/core": "^1.7.2",
     "@floating-ui/dom": "^1.7.2",
+    "@floating-ui/react": "^0.27.13",
     "@gentleduck/duck-float": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/registry-examples-duckui": "workspace:*",

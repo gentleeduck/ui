@@ -36,7 +36,7 @@ export const AnimDialogVariants = cva(`border border-border bg-background rounde
   variants: {
     animation: {
       default:
-        'data-[open=true]:pointer-events-all scale-90 opacity-0 data-[open=false]:pointer-events-none data-[open=true]:scale-100 starting:data-[open=true]:scale-90 data-[open=true]:opacity-100 starting:data-[open=true]:opacity-0',
+        'data-[open=true]:pointer-events-all scale-90 opacity-0 data-[open=false]:pointer-events-none data-[open=true]:scale-100 starting:data-[open=true]:scale-90 data-[open=true]:opacity-100 starting:data-[open=true]:opacity-0 data-[open=true]:translate-0',
       nothing: '',
     },
   },
@@ -76,7 +76,9 @@ export const AnimPopoverVariants = cva(
   },
 )
 
-export const AnimTooltipVariants = cva(``)
+export const AnimTooltipVariants = cva(
+  `px-3 py-1.5 text-accent-foreground bg-background border-border text-balance select-none rounded-sm shadow-none`,
+)
 
 export const AnimDialogModalVariants = cva(`sm:max-w-lg w-full place-self-center `)
 

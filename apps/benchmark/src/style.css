@@ -268,3 +268,16 @@
   /* scrollbar-width: none; */
   /* background-color: red; */
 }
+
+/* Example CSS to ensure floating element is clean */
+.floating-element {
+  position: absolute;
+  margin: 0;
+  /* transform-origin: bottom center; */
+  /* transition: all 0.2s ease-in-out; */
+  /* Remove default margin */
+  /* top: 0; */
+  /* left: 0; */
+  /* transform: none; */
+  /* No transforms unless from Floating UI */
+}

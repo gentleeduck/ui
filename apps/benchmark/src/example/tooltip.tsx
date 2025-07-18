@@ -22,9 +22,7 @@ export default function TooltipDemo() {
   return (
     <div className="h-[2000px] mt-[400px]">
       <Tooltip>
-        <TooltipTrigger className="bg-transparent p-0 shadow-none rounded-border">
-          <Button>Hover me</Button>
-        </TooltipTrigger>
+        <TooltipTrigger className="bg-transparent p-0 shadow-none rounded-border">Hover me</TooltipTrigger>
         <TooltipContent side={'top'}>
           <p>Add to library</p>
         </TooltipContent>
