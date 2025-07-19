@@ -130,24 +130,34 @@ export function ShouldRender({
   once?: boolean
   open?: boolean
   children?: React.ReactNode
-  ref?: HTMLDialogElement | null
+  ref?: HTMLElement | null // more flexible than HTMLDialogElement
 }) {
-  const [_shouldRender, setShouldRender] = React.useState<boolean>(false)
-  const [isVisible, setIsVisible] = React.useState<boolean>(false)
+  const [_shouldRender, setShouldRender] = React.useState(false)
+  const [isVisible, setIsVisible] = React.useState(false)
+
   const shouldRender = once ? _shouldRender : open
 
   React.useEffect(() => {
     if (open && once) {
       setShouldRender(true)
     }
+
     if (shouldRender) {
       setIsVisible(true)
-    } else {
-      const element = ref
-      if (element) {
-        useComputedTimeoutTransition(element, () => {
+    } else if (ref) {
+      const node = ref
+
+      const handleTransitionEnd = (e: TransitionEvent) => {
+        if (e.target === node) {
           setIsVisible(false)
-        })
+          node.removeEventListener('transitionend', handleTransitionEnd)
+        }
+      }
+
+      node.addEventListener('transitionend', handleTransitionEnd)
+
+      return () => {
+        node.removeEventListener('transitionend', handleTransitionEnd)
       }
     }
   }, [shouldRender, ref, open, once])

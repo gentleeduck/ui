@@ -1,31 +1,34 @@
 import React from 'react'
 import { createStore } from './store'
 
-type Store = ReturnType<typeof createStore>
+/**
+ * A global singleton fallback store used when no Provider wraps your app.
+ */
+let defaultStore: ReturnType<typeof createStore> | undefined
 
-type StoreContextType = ReturnType<typeof React.createContext<Store | undefined>>
-const StoreContext: StoreContextType = React.createContext<Store | undefined>(undefined)
+/**
+ * React Context to supply a local store instance.
+ */
+const StoreContext = React.createContext<ReturnType<typeof createStore> | undefined>(undefined)
 
-type Options = {
-  store?: Store
+/**
+ * Hook to retrieve the current store. Priority: options.store > context > global singleton.
+ */
+export function useStore(options?: { store?: ReturnType<typeof createStore> }) {
+  const contextStore = React.useContext(StoreContext)
+  if (options?.store) return options.store
+  if (contextStore) return contextStore
+  if (!defaultStore) defaultStore = createStore()
+  return defaultStore
 }
 
-export function useStore(options?: Options): Store {
-  const store = React.useContext(StoreContext)
-  return createStore()
-}
+/**
+ * Provider component to inject a local store into React tree.
+ */
+export function Provider({ children, store }: { children: React.ReactNode; store?: ReturnType<typeof createStore> }) {
+  const storeRef = React.useRef<ReturnType<typeof createStore>>(store)
+  if (!storeRef.current) storeRef.current = store || createStore()
 
-export function Provider({
-  children,
-  store,
-}: {
-  children?: React.ReactNode
-  store?: Store
-}): React.ReactElement<{ value: Store | undefined }, React.FunctionComponent<{ value: Store | undefined }>> {
-  const storeRef = React.useRef<Store>(undefined)
-  if (!store && !storeRef.current) {
-    storeRef.current = createStore()
-  }
   return React.createElement(
     StoreContext.Provider,
     {

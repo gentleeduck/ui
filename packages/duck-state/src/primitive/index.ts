@@ -1,4 +1,5 @@
 export * from './atom'
+export * from './provider'
 export * from './store'
 export * from './useAtom'
 export * from './useAtomValue'

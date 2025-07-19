@@ -11,7 +11,7 @@ export function useComputedTimeoutTransition(element: HTMLElement | null, callba
       const computedDuration = getComputedStyle(element).transitionDuration
       if (computedDuration && computedDuration !== '0s') {
         const parsed = Number.parseFloat(computedDuration) * 1000
-        if (parsed > 0 && isFinite(parsed)) {
+        if (parsed > 0 && Number.isFinite(parsed)) {
           duration = parsed
         }
       }

@@ -36,7 +36,7 @@ export const AnimDialogVariants = cva(`border border-border bg-background rounde
   variants: {
     animation: {
       default:
-        'data-[open=true]:pointer-events-all scale-90 opacity-0 data-[open=false]:pointer-events-none data-[open=true]:scale-100 starting:data-[open=true]:scale-90 data-[open=true]:opacity-100 starting:data-[open=true]:opacity-0 data-[open=true]:translate-0',
+        'data-[open=true]:pointer-events-all data-[open=true]:translate-0 scale-90 opacity-0 data-[open=false]:pointer-events-none data-[open=true]:scale-100 starting:data-[open=true]:scale-90 data-[open=true]:opacity-100 starting:data-[open=true]:opacity-0',
       nothing: '',
     },
   },
@@ -58,20 +58,20 @@ export const AnimPopoverVariants = cva(
         inset: `[position-area:_center] origin-center`,
       },
       align: {
-        center: '[--position-area-align:span-all]',
-        end: `[--position-area-align:span-inline-start]`,
-        start: `[--position-area-align:span-inline-end]`,
-        'out-start': `[--position-area-align:inline-start]`,
-        'out-end': `[--position-area-align:inline-end]`,
-        top: `[--position-area-align:block-start]`,
-        bottom: `[--position-area-align:block-end]`,
-        'out-top': `[--position-area-align:span-block-start]`,
-        'out-bottom': `[--position-area-align:span-block-end]`,
+        // center: '[--position-area-align:span-all]',
+        // end: `[--position-area-align:span-inline-start]`,
+        // start: `[--position-area-align:span-inline-end]`,
+        // 'out-start': `[--position-area-align:inline-start]`,
+        // 'out-end': `[--position-area-align:inline-end]`,
+        // top: `[--position-area-align:block-start]`,
+        // bottom: `[--position-area-align:block-end]`,
+        // 'out-top': `[--position-area-align:span-block-start]`,
+        // 'out-bottom': `[--position-area-align:span-block-end]`,
       },
     },
     defaultVariants: {
       side: 'bottom',
-      align: 'center',
+      // align: 'center',
     },
   },
 )

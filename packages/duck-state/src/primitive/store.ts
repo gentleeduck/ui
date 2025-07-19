@@ -6,8 +6,46 @@ export function createStore() {
   const atomState = new WeakMap<Atom<unknown>, unknown>()
   const listeners = new WeakMap<Atom<unknown>, Set<Listener>>()
 
+  // Dependency maps
+  const dependencies = new WeakMap<Atom<any>, Set<Atom<any>>>()
+  const dependents = new WeakMap<Atom<any>, Set<Atom<any>>>()
+
+  let currentlyReadingAtom: Atom<any> | null = null
+
+  function trackDependency(parent: Atom<any>, dep: Atom<any>) {
+    let deps = dependencies.get(parent)
+    if (!deps) {
+      deps = new Set()
+      dependencies.set(parent, deps)
+    }
+    deps.add(dep)
+
+    let revDeps = dependents.get(dep)
+    if (!revDeps) {
+      revDeps = new Set()
+      dependents.set(dep, revDeps)
+    }
+    revDeps.add(parent)
+  }
+
+  function invalidateDependents(atom: Atom<any>) {
+    const dependentsSet = dependents.get(atom)
+    if (!dependentsSet) return
+
+    for (const dependent of dependentsSet) {
+      atomState.delete(dependent) // Invalidate cache
+      invalidateDependents(dependent) // Recursively invalidate downstream
+      const l = listeners.get(dependent)
+      if (l) l.forEach((fn) => fn())
+    }
+  }
+
   const store = {
     get<Value>(atom: Atom<Value>): Value {
+      if (currentlyReadingAtom) {
+        trackDependency(currentlyReadingAtom, atom)
+      }
+
       if ('initValue' in atom) {
         if (!atomState.has(atom)) {
           atomState.set(atom, atom.initValue)
@@ -15,7 +53,20 @@ export function createStore() {
         return atomState.get(atom) as Value
       }
 
-      return atom.read(store.get as Getter, {} as never)
+      // Memoized result
+      if (atomState.has(atom)) {
+        return atomState.get(atom) as Value
+      }
+
+      const prevReading = currentlyReadingAtom
+      currentlyReadingAtom = atom
+
+      const result = atom.read(store.get as Getter, {} as never)
+
+      currentlyReadingAtom = prevReading
+
+      atomState.set(atom, result)
+      return result
     },
 
     set<Value, Args extends unknown[], Result>(atom: WritableAtom<Value, Args, Result>, ...args: Args): Result {
@@ -28,6 +79,7 @@ export function createStore() {
 
         if (!isEqual) {
           atomState.set(atom, next)
+          invalidateDependents(atom)
 
           const l = listeners.get(atom)
           if (l) l.forEach((fn) => fn())
@@ -35,8 +87,10 @@ export function createStore() {
 
         return undefined as Result
       }
+
       const result = atom.write(store.get as Getter, store.set as Setter, ...args)
 
+      invalidateDependents(atom)
       const l = listeners.get(atom)
       if (l) l.forEach((fn) => fn())
 
@@ -61,7 +115,7 @@ export function createStore() {
       }
     },
 
-    // for debugging/testing
+    // For testing/debugging
     _getRaw<Value>(atom: Atom<Value>): Value | undefined {
       return atomState.get(atom) as Value | undefined
     },

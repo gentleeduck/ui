@@ -1,7 +1,6 @@
 import React from 'react'
 import { type Atom } from './atom'
 import { useStore } from './provider'
-import { createStore } from './store'
 import type { ExtractAtomValue } from './types'
 
 type Options = Parameters<typeof useStore>[0] & {
@@ -9,7 +8,6 @@ type Options = Parameters<typeof useStore>[0] & {
   unstable_promiseStatus?: boolean
 }
 
-export const store = createStore()
 export function useAtomValue<Value>(atom: Atom<Value>, options?: Options): Awaited<Value>
 
 export function useAtomValue<AtomType extends Atom<unknown>>(
@@ -18,6 +16,9 @@ export function useAtomValue<AtomType extends Atom<unknown>>(
 ): Awaited<ExtractAtomValue<AtomType>>
 
 export function useAtomValue<Value>(atom: Atom<Value>, options?: Options) {
+  const store = useStore(options)
+  // console.log(store)
+
   return React.useSyncExternalStore(
     (callback) => store.subscribe(atom, callback),
     () => store.get(atom),
