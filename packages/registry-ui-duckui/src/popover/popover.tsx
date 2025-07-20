@@ -1,11 +1,10 @@
 'use client'
-// NOTE: @see: https://floating-ui.com/
 import PopoverPrimitive from '@gentleduck/aria-feather/popover'
 import { cn } from '@gentleduck/libs/cn'
-import { AnimDialogVariants, AnimPopoverVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import type { VariantProps } from '@gentleduck/variants'
 import type * as React from 'react'
 import { Button } from '../button'
-import type { PopoverContentProps } from './popover.types'
 
 const Popover = PopoverPrimitive.Root
 
@@ -13,11 +12,12 @@ function PopoverTrigger({
   children,
   variant = 'outline',
   asChild = false,
+  className,
   ...props
 }: React.ComponentPropsWithRef<typeof Button>) {
   return (
     <PopoverPrimitive.Trigger asChild>
-      <Button {...props} variant={variant} asChild={asChild}>
+      <Button {...props} variant={variant} asChild={asChild} className={cn('justify-between', className)}>
         {children}
       </Button>
     </PopoverPrimitive.Trigger>
@@ -27,24 +27,21 @@ function PopoverTrigger({
 function PopoverContent({
   children,
   className,
-  side = 'bottom',
-  align = 'center',
   animation = 'default',
   overlay = 'nothing',
-  sideOffset = 4,
   ...props
-}: PopoverContentProps): React.JSX.Element {
+}: React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> & {
+  animation?: VariantProps<typeof AnimDialogVariants>['animation']
+  overlay?: VariantProps<typeof AnimVariants>['overlay']
+}): React.JSX.Element {
   return (
     <PopoverPrimitive.Content
       className={cn(
         AnimVariants({ overlay }),
         AnimDialogVariants({ animation }),
-        // AnimPopoverVariants({ side, align }),
+        'absolute z-50 max-h-fit w-fit border-border bg-popover p-4 text-popover-foreground',
         className,
       )}
-      side={side}
-      align={align}
-      sideOffset={sideOffset}
       {...props}>
       {children}
     </PopoverPrimitive.Content>

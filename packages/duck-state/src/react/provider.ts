@@ -1,5 +1,5 @@
 import React from 'react'
-import { createStore } from './store'
+import { createStore } from '../primitive/store'
 
 /**
  * A global singleton fallback store used when no Provider wraps your app.

@@ -1,30 +1,22 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimTooltipVariants } from '@gentleduck/motion/anim'
 import type React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
-import PopoverPrimitive, { usePopoverContext } from '@gentleduck/aria-feather/popover'
 
 function Tooltip({
-  skipDelayDuration = 300,
-  delayDuration = 300,
+  skipDelayDuration = 150,
+  delayDuration = 0,
   ...props
 }: Omit<React.ComponentPropsWithRef<typeof Popover>, 'mouseEnter' | 'mouseExist'>) {
   return (
-    <Popover
-      // skipDelayDuration={skipDelayDuration}
-      // delayDuration={delayDuration}
-      // mouseEnter={true}
-      // mouseExist={true}
-      {...props}
-    />
+    <Popover skipDelayDuration={skipDelayDuration} delayDuration={delayDuration} mouseEnter mouseExist {...props} />
   )
 }
 
 function TooltipTrigger({ className, children, ...props }: React.ComponentPropsWithRef<typeof PopoverTrigger>) {
   return (
-    <PopoverTrigger variant={'nothing'} className={cn('h-auto rounded-none p-0', className)} {...props}>
+    <PopoverTrigger variant={'nothing'} className={cn('', className)} {...props}>
       {children}
     </PopoverTrigger>
   )
@@ -33,17 +25,14 @@ function TooltipTrigger({ className, children, ...props }: React.ComponentPropsW
 function TooltipContent({
   className,
   children,
-  side = 'top',
+  placement = 'top',
   ...props
 }: React.ComponentPropsWithRef<typeof PopoverContent>): React.JSX.Element {
   return (
     <PopoverContent
-      side={'right'}
+      placement={placement}
       role="tooltip"
-      className={cn(
-        'select-none text-balance rounded-md border-border bg-background px-3 py-1.5 text-accent-foreground shadow-none',
-        className,
-      )}
+      className={cn('select-none text-balance rounded-md px-3 py-1.5', className)}
       {...props}>
       {children}
     </PopoverContent>

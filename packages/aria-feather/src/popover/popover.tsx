@@ -1,162 +1,210 @@
 'use client'
 
-import { useStableId } from '@gentleduck/hooks'
-import React from 'react'
-import { ShouldRender } from '../dialog'
+import { arrow, autoUpdate, computePosition, flip, offset, platform, shift, size } from '@gentleduck/duck-float/dom'
+import { Provider as DuckStateProvider, useAtomValue } from '@gentleduck/state/react'
+import React, { createContext, useId } from 'react'
+import { ShouldRender } from '../../../../packages/aria-feather/src/dialog/dialog'
 import { Slot } from '../slot'
-import { PopoverContext, usePopover, usePopoverContext } from './popover.hooks'
-import { PopoverContentProps, PopoverRootProps } from './popover.types'
+import { popoverOpen, popoverRefs } from './popover.atoms'
+import { usePopover, usePopoverContext } from './popover.hooks'
+import type { PopoverContentProps, PopoverContextType } from './popover.types'
 
-/**
- * Popover component that provides a context for managing its open state and
- * behavior. It uses a ref to handle the underlying HTMLPopoverElement.
- */
-export function Root({
+export const PopoverContext = createContext<PopoverContextType | null>(null)
+
+function Root({ children, ...props }: React.ComponentPropsWithoutRef<typeof PopoverInternal>) {
+  return (
+    <DuckStateProvider>
+      <PopoverInternal {...props}>{children}</PopoverInternal>
+    </DuckStateProvider>
+  )
+}
+
+const PopoverInternal = ({
   children,
   open: openProp,
   onOpenChange,
-  lockScroll = false,
-  mouseEnter = false,
-  mouseExist = false,
-  modal = false,
-  closeButton = false,
-
-  skipDelayDuration = 300,
-  delayDuration = 0,
+  skipDelayDuration,
+  delayDuration,
+  mouseEnter,
+  mouseExist,
   ...props
-}: PopoverRootProps): React.JSX.Element {
-  const wrapperRef = React.useRef<HTMLDivElement>(null)
-
-  const id = useStableId()
+}: React.HTMLProps<HTMLDivElement> & {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  skipDelayDuration?: number
+  delayDuration?: number
+  mouseEnter?: boolean
+  mouseExist?: boolean
+}) => {
+  const id = useId()
   const {
-    open,
-    onOpenChange: _onOpenChange,
-    contentRef,
-    triggerRef,
-  } = usePopover({
     wrapperRef,
-    open: openProp,
+    open,
+    contentRef,
+    arrowRef,
+    triggerRef,
+    onOpenChange: _onOpenChange,
+  } = usePopover({
+    openProp,
     onOpenChange,
-    lockScroll,
-    mouseExist,
-    mouseEnter,
-    modal,
     skipDelayDuration,
     delayDuration,
+    mouseEnter,
+    mouseExist,
   })
 
   return (
     <PopoverContext.Provider
-      value={{
-        modal,
-        wrapperRef,
-        triggerRef,
-        contentRef,
-        open,
-        onOpenChange: _onOpenChange,
-        id,
-        closeButton,
-        mouseEnter,
-        mouseExist,
-      }}>
-      <div {...props} duck-popover="" ref={wrapperRef} data-open={open}>
+      value={{ id, wrapperRef, open, contentRef, arrowRef, triggerRef, onOpenChange: _onOpenChange }}>
+      <div {...props} ref={wrapperRef}>
         {children}
       </div>
     </PopoverContext.Provider>
   )
 }
 
-export function Trigger(props: React.ComponentPropsWithoutRef<typeof Slot>): React.JSX.Element {
-  const { id, triggerRef, open, onOpenChange } = usePopoverContext()
-
-  return (
-    <Slot
-      popoverTarget={id}
-      style={
-        {
-          '--position-anchor': `--${id}`,
-          anchorName: 'var(--position-anchor)',
-        } as React.CSSProperties
-      }
-      aria-haspopup="dialog"
-      aria-controls={id}
-      data-open={open}
-      duck-popover-trigger=""
-      {...props}
-      ref={triggerRef as React.RefObject<HTMLDivElement>}
-    />
-  )
+function Trigger({ asChild = false, ...props }: React.ComponentPropsWithRef<typeof Slot>) {
+  const { id } = usePopoverContext()
+  return <Slot {...props} asChild={asChild} duck-popover-trigger="" id={id} />
 }
 
-export function Content({
+function Content({
   children,
-  className,
-  renderOnce = false,
-  overlay = 'nothing',
-  closedby = 'any',
-  dialogClose,
-  animation = 'default',
+  placement = 'bottom',
   sideOffset = 4,
   alignOffset = 0,
-  side = 'top',
-  align = 'center',
+  renderOnce = true,
+  rerender = false,
+  withArrow = false,
+  matchWidth = false,
   ...props
-}: PopoverContentProps) {
-  const { contentRef, closeButton, id, modal, open, mouseEnter, mouseExist } = usePopoverContext()
-  const DialogClose = dialogClose
+}: PopoverContentProps): React.JSX.Element {
+  const openValue = useAtomValue(popoverOpen)
+  const { trigger, content, arrow: _arrow } = useAtomValue(popoverRefs)
 
-  // Main axis margin based on `side`
-  const sideMargins: Partial<CSSStyleDeclaration> =
-    {
-      top: { marginBottom: `${sideOffset}px` },
-      bottom: { marginTop: `${sideOffset}px` },
-      left: { marginRight: `${sideOffset}px` },
-      right: { marginLeft: `${sideOffset}px` },
-      inset: {},
-    }[side as 'top' | 'bottom' | 'left' | 'right' | 'inset'] ?? {}
+  const { id } = usePopoverContext()
+  React.useLayoutEffect(() => {
+    if (!trigger || !content || !_arrow) return
 
-  // Cross-axis margin based on `align`
-  const alignMargins: Partial<CSSStyleDeclaration> =
-    side === 'top' || side === 'bottom'
-      ? ({
-          start: { marginLeft: `${alignOffset}px` },
-          end: { marginRight: `${alignOffset}px` },
-          center: {},
-        }[align as 'start' | 'end' | 'center'] ?? {})
-      : side === 'left' || side === 'right'
-        ? ({
-            start: { marginTop: `${alignOffset}px` },
-            end: { marginBottom: `${alignOffset}px` },
-            center: {},
-          }[align as 'start' | 'end' | 'center'] ?? {})
-        : {}
+    const arrowRect = _arrow.getBoundingClientRect()
+    const arrowSize = Math.max(arrowRect.width, arrowRect.height)
 
-  const style = {
-    '--position-anchor': `--${id}`,
-    ...sideMargins,
-    ...alignMargins,
-  } as React.CSSProperties
+    const cleanup = autoUpdate(trigger, content, () => {
+      computePosition(trigger, content, {
+        placement,
+        platform,
+        middleware: [
+          offset({ mainAxis: withArrow ? sideOffset + arrowRect.height / 2 : sideOffset, crossAxis: alignOffset }),
+          flip(),
+          size({
+            apply({ rects, elements }) {
+              if (matchWidth) {
+                elements.floating.style.width = `${rects.reference.width}px`
+              }
+            },
+          }),
+          shift({ padding: 8 }),
+          arrow({ element: _arrow, padding: 8 }),
+        ],
+      }).then(({ x, y, middlewareData }) => {
+        Object.assign(content.style, { left: `${x}px`, top: `${y}px`, transform: 'translate(0, 0)' })
 
-  const isHover = (mouseEnter && mouseExist) || mouseEnter
-  const Component = isHover ? 'div' : 'dialog'
-  const popover = isHover ? undefined : modal ? 'manual' : 'auto'
+        if (middlewareData.arrow && withArrow) {
+          const { x: arrowX, y: arrowY } = middlewareData.arrow
+          Object.assign(_arrow.style, {
+            left:
+              arrowX != null
+                ? `${arrowX}px`
+                : middlewareData.offset?.placement === 'left'
+                  ? '98.9%'
+                  : `-${arrowSize / 1.22}px`,
+            top:
+              arrowY != null
+                ? `${arrowY}px`
+                : middlewareData.offset?.placement === 'top'
+                  ? '100%'
+                  : `-${arrowSize / 1.6}px`,
+            transform:
+              middlewareData.offset?.placement === 'top'
+                ? 'rotate(180deg)'
+                : middlewareData.offset?.placement === 'bottom'
+                  ? 'rotate(0deg)'
+                  : middlewareData.offset?.placement === 'right'
+                    ? 'rotate(-90deg)'
+                    : 'rotate(90deg)',
+          })
+        }
+      })
+    })
+
+    return () => cleanup()
+  }, [trigger, placement, sideOffset, alignOffset, withArrow, openValue])
+
+  React.useEffect(() => {
+    if (content && openValue) {
+      const focusable = content.querySelector<HTMLElement>(
+        'input:not([disabled]), button:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], area[href], [tabindex]:not([tabindex="-1"])',
+      )
+      focusable?.focus()
+    }
+  }, [content, openValue])
+
+  React.useEffect(() => {
+    if (content) {
+      const triggerRect = trigger?.getBoundingClientRect()
+
+      if (placement.includes('bottom')) {
+        content.style.left = `50%`
+        content.style.transform = `translate(-50%,${triggerRect.bottom + sideOffset}px)`
+      }
+
+      if (placement.includes('top')) {
+        content.style.left = `50%`
+        content.style.transform = `translate(-50%,${triggerRect.bottom - content.offsetHeight - triggerRect.height - sideOffset}px)`
+      }
+
+      if (placement.includes('right')) {
+        content.style.top = `50%`
+        content.style.transform = `translate(${triggerRect.right + sideOffset}px,-50%)`
+      }
+
+      if (placement.includes('left')) {
+        content.style.top = `50%`
+        content.style.transform = `translate(${triggerRect.left - content.offsetWidth - sideOffset}px,-50%)`
+      }
+
+      content.style.transformOrigin = placement.includes('left')
+        ? 'right'
+        : placement.includes('right')
+          ? 'left'
+          : placement.includes('top')
+            ? 'bottom'
+            : placement.includes('bottom')
+              ? 'top'
+              : 'center'
+    }
+  }, [content])
 
   return (
-    <Component
-      style={style}
-      className={className}
-      data-open={open}
-      {...({ ...props, closedby, popover } as never as React.HTMLProps<HTMLElement>)}
-      id={id}
-      duck-popover-content=""
-      ref={contentRef as never}>
-      {children}
-    </Component>
+    <div duck-popover-content="" tabIndex={-1} id={id} data-open={openValue} {...props}>
+      <div
+        id="arrow"
+        className={
+          withArrow
+            ? 'absolute z-3 h-2 w-4 rotate-180 bg-popover bg-red-500 [clip-path:polygon(50%_100%,0_0,100%_0)]'
+            : 'hidden'
+        }
+        duck-popover-arrow=""
+      />
+      {rerender ? (
+        <ShouldRender open={openValue} ref={content} once={renderOnce}>
+          {children}
+        </ShouldRender>
+      ) : (
+        children
+      )}
+    </div>
   )
 }
 
-export default {
-  Root,
-  Trigger,
-  Content,
-}
+export { Root, Trigger, Content }

@@ -1,5 +1,5 @@
-import type { Atom, PrimitiveAtom, SetStateAction, WritableAtom } from './atom'
-import type { ExtractAtomArgs, ExtractAtomResult, ExtractAtomValue } from './types'
+import type { Atom, PrimitiveAtom, SetStateAction, WritableAtom } from '../primitive/atom'
+import type { ExtractAtomArgs, ExtractAtomResult, ExtractAtomValue } from '../primitive/types'
 import { useAtomValue } from './useAtomValue'
 import { useSetAtom } from './useSetAtom'
 

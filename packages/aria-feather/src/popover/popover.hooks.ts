@@ -1,78 +1,110 @@
+import { useAtom, useSetAtom } from '@gentleduck/state/react'
 import React from 'react'
-import { cleanLockScrollbar, lockScrollbar } from '../dialog/dialog.libs'
-import type { PopoverContextType } from './popover.types'
-import { PopoverProps } from './popover.types'
+import { PopoverContext } from './popover'
+import { popoverOpen, popoverRefs } from './popover.atoms'
 
-export const PopoverContext = React.createContext<PopoverContextType | null>(null)
-
-export function usePopoverContext(name: string = 'Popover'): PopoverContextType {
-  const context = React.useContext(PopoverContext)
-  if (!context) {
-    throw new Error(`usePopoverContext must be used within a ${name}`)
-  }
-  return context
+export function usePopoverContext() {
+  const ctx = React.useContext(PopoverContext)
+  if (!ctx) throw new Error('Popover components must be wrapped in <Popover>')
+  return ctx
 }
 
 export function usePopover({
-  wrapperRef,
-  open: openProp,
+  openProp,
   onOpenChange,
-  lockScroll,
-  modal,
-  mouseEnter,
-  mouseExist,
   skipDelayDuration,
   delayDuration,
-}: PopoverProps) {
+  mouseEnter,
+  mouseExist,
+}: {
+  openProp: boolean
+  onOpenChange: (open: boolean) => void
+  skipDelayDuration: number
+  delayDuration: number
+  mouseEnter: boolean
+  mouseExist: boolean
+}) {
+  const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
-  const contentRef = React.useRef<HTMLDialogElement | null>(null)
-  const [open, setOpen] = React.useState<boolean>(openProp)
+  const contentRef = React.useRef<HTMLDivElement | null>(null)
+  const arrowRef = React.useRef<HTMLDivElement>(null)
+  const [openValue, setOpen] = useAtom(popoverOpen)
+  const setRefs = useSetAtom(popoverRefs)
 
-  function handleOpenChange(state: boolean) {
-    if (!contentRef.current) return
+  React.useLayoutEffect(() => {
+    if (!wrapperRef.current) return
+    triggerRef.current = wrapperRef?.current.querySelector('[duck-popover-trigger]')
+    contentRef.current = wrapperRef?.current.querySelector('[duck-popover-content]')
+    arrowRef.current = wrapperRef?.current.querySelector('[duck-popover-arrow]')
+    if (!triggerRef.current || !contentRef.current) return
 
-    try {
-      if (!mouseEnter || !mouseExist) {
-        state ? contentRef.current.showPopover() : contentRef.current.hidePopover()
-      }
-
-      setOpen(state)
-      onOpenChange?.(state)
-    } catch (e) {
-      console.warn('Popover failed to toggle', e)
-    }
-  }
-
-  function handleClose(event: Event & { newState: 'open' | 'close' }) {
-    const newState = event.newState
-    handleOpenChange(newState === 'open')
-  }
-
-  React.useEffect(() => {
-    if (mouseEnter || mouseExist || openProp === undefined) return
-    if (lockScroll) lockScrollbar(open)
-
-    const state = openProp === true ? true : false
-    handleOpenChange(state)
-  }, [openProp])
-
-  React.useEffect(() => {
-    if (mouseEnter || mouseExist) return
-    if (lockScroll) lockScrollbar(open)
-
-    contentRef.current?.addEventListener('toggle', handleClose)
-
-    return () => {
-      contentRef.current?.removeEventListener('toggle', handleClose)
-    }
+    setRefs({
+      trigger: triggerRef.current,
+      content: contentRef.current,
+      wrapper: wrapperRef.current,
+      arrow: arrowRef.current,
+    })
+    return () => setRefs({ trigger: null, content: null, wrapper: null, arrow: null })
   }, [])
 
   React.useEffect(() => {
-    // If it's a controlled component, we don't need to do anything
-    if (openProp === true || openProp === false) return
+    if (
+      // mouseEnter || mouseExist ||
+      openProp === undefined
+    )
+      return
+    setOpen(openProp)
+    onOpenChange?.(openProp)
+  }, [openProp])
 
-    let openTimer = null
-    let closeTimer = null
+  function handleOpenChange(state: boolean) {
+    setOpen(() => {
+      onOpenChange?.(state)
+      console.log(state)
+      return state
+    })
+  }
+
+  React.useEffect(() => {
+    // if (mouseEnter || mouseExist) return
+
+    const handleToggle = () => {
+      setOpen((s) => {
+        onOpenChange?.(!s)
+        return !s
+      })
+    }
+
+    const handleClose = () => handleOpenChange(false)
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose()
+        triggerRef.current?.focus()
+      }
+    }
+
+    const onClick = (e: MouseEvent) => {
+      if (triggerRef.current.contains(e.target as Node)) return
+      const clickedInside = contentRef.current?.contains(e.target as Node)
+      if (!clickedInside) {
+        handleClose()
+      }
+    }
+    triggerRef.current?.addEventListener('click', handleToggle)
+    contentRef.current?.addEventListener('keydown', handleEscape)
+    document.addEventListener('click', onClick)
+
+    return () => {
+      triggerRef.current?.removeEventListener('click', handleToggle)
+      contentRef.current?.removeEventListener('keydown', handleEscape)
+      document.removeEventListener('click', onClick)
+    }
+  }, [openValue])
+
+  React.useEffect(() => {
+    if (!mouseEnter || !mouseExist) return
+    let openTimer: NodeJS.Timeout | null = null
+    let closeTimer: NodeJS.Timeout | null = null
 
     function openAfterDelay() {
       clearTimeout(closeTimer)
@@ -102,14 +134,15 @@ export function usePopover({
           }
         }
       }
-      cleanLockScrollbar()
     }
-  }, [open])
+  }, [openValue])
 
   return {
+    open: openValue,
+    onOpenChange: handleOpenChange,
+    wrapperRef,
     triggerRef,
     contentRef,
-    open,
-    onOpenChange: handleOpenChange,
+    arrowRef,
   }
 }

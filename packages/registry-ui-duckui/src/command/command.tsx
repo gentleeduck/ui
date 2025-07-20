@@ -73,7 +73,7 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
         ref={commandRef}
         duck-command-wrapper=""
         className={cn(
-          'flex h-full w-full max-w-96 flex-col overflow-hidden rounded-md border bg-popover p-2 text-popover-foreground shadow-sm',
+          'flex h-full w-full max-w-96 flex-col overflow-hidden rounded-md bg-popover p-2 text-popover-foreground shadow-sm',
           className,
         )}
         {...props}
@@ -115,7 +115,7 @@ function CommandInput({
   const context = useCommandRefsContext()
 
   return (
-    <div className={cn('mb-2 flex items-center gap-2 border-b px-3', className)} cmdk-input-wrapper="">
+    <div className={cn('mb-2 flex items-center gap-2 border-b px-1', className)} cmdk-input-wrapper="">
       <Search className="size-[20px] shrink-0 opacity-50" />
       <input
         ref={context.inputRef}
@@ -200,6 +200,7 @@ function CommandItem({
   value,
   onClick,
   onSelect,
+  onKeyDown,
   ...props
 }: React.HTMLProps<HTMLLIElement> & {
   value?: string
@@ -209,12 +210,13 @@ function CommandItem({
     <li
       ref={ref}
       duck-command-item=""
+      onKeyDown={onKeyDown}
       onClick={(e) => {
         onSelect?.(value as string)
         onClick?.(e)
       }}
       className={cn(
-        "data-[selected= data-[disabled=true]:pointer-events-none'true']:bg-accent relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&[aria-selected]]:bg-secondary [&_svg]:size-4 ",
+        "data-[selected= data-[disabled=true]:pointer-events-none'true']:bg-accent relative flex cursor-pointer select-none items-center justify-between gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&[aria-selected]]:bg-secondary [&_svg]:size-4 ",
         className,
       )}
       {...props}

@@ -1,14 +1,11 @@
 'use client'
 
 import { usePopoverContext } from '@gentleduck/aria-feather/popover'
-import PopoverPrimitive from '@gentleduck/aria-feather/popover'
 import { cn } from '@gentleduck/libs/cn'
 import { CheckIcon, ChevronDown, ChevronDownIcon, ChevronUp } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'
-import { useHandleKeyDown } from '../command'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { useSelectScroll } from './select.hooks'
 import { initRefs } from './select.libs'
 import type { SelectContextType } from './select.types'
 
@@ -32,7 +29,10 @@ function SelectWrapper({
   value?: string
   onValueChange?: (value: string) => void
 }) {
-  const { open = false, onOpenChange = () => {}, contentRef, triggerRef, wrapperRef } = usePopoverContext()
+  // const [open, onOpenChange] = useAtom(popoverOpen)
+  // const { trigger, content, wrapper } = useAtomValue(popoverRefs)
+
+  const { open, onOpenChange, wrapperRef, triggerRef, contentRef } = usePopoverContext()
 
   const groupsRef = React.useRef<HTMLUListElement[]>([])
   const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
@@ -55,16 +55,16 @@ function SelectWrapper({
     }, 0)
   }, [open])
 
-  useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
-  useHandleKeyDown({
-    open,
-    itemsRef,
-    originalItemsRef: itemsRef,
-    selectedItem,
-    setSelectedItem: (item) => {
-      selectedItemRef.current = item
-    },
-  })
+  // useSelectScroll(open, itemsRef, selectedItemRef, content)
+  // useHandleKeyDown({
+  //   open,
+  //   itemsRef,
+  //   originalItemsRef: itemsRef,
+  //   selectedItem,
+  //   setSelectedItem: (item) => {
+  //     selectedItemRef.current = item
+  //   },
+  // })
 
   return (
     <SelectContext.Provider
@@ -79,7 +79,7 @@ function SelectWrapper({
         scrollable,
         triggerRef: triggerRef as never,
       }}>
-      <div ref={wrapperRef} {...props} duck-select="">
+      <div {...props} duck-select="">
         {children}
       </div>
     </SelectContext.Provider>
@@ -125,13 +125,11 @@ function SelectTrigger({
   )
 }
 
-function SelectContent({ children, className, ref, ...props }: React.ComponentPropsWithRef<typeof PopoverContent>) {
+function SelectContent({ children, className, ...props }: React.ComponentPropsWithRef<typeof PopoverContent>) {
   const { scrollable } = useSelectContext()
   return (
     <PopoverContent
-      side={'bottom'}
-      role="select"
-      aria-activedescendant=""
+      placement={'bottom'}
       className={cn('px-1.5', scrollable ? 'py-0' : 'py-1', className)}
       duck-select-content=""
       {...props}>
@@ -145,11 +143,7 @@ function SelectContent({ children, className, ref, ...props }: React.ComponentPr
 }
 
 function SelectGroup({ children, ...props }: React.HTMLProps<HTMLUListElement>) {
-  return (
-    <ul role="listbox" {...props}>
-      {children}
-    </ul>
-  )
+  return <ul {...props}>{children}</ul>
 }
 
 function SelectValue({ className, children, placeholder, ...props }: React.HTMLProps<HTMLDivElement>) {
@@ -167,9 +161,10 @@ function SelectValue({ className, children, placeholder, ...props }: React.HTMLP
   )
 }
 
-function SelectLabel({ children, className, ref, ...props }: React.HTMLProps<HTMLLabelElement>) {
+function SelectLabel({ htmlFor, children, className, ref, ...props }: React.HTMLProps<HTMLLabelElement>) {
   return (
     <label
+      htmlFor={htmlFor}
       ref={ref}
       className={cn('px-2 py-1.5 text-muted-foreground text-xs', className)}
       {...props}
@@ -193,7 +188,7 @@ function SelectItem({
   return (
     <li
       ref={ref}
-      role="checkbox"
+      // role="checkbox"
       popoverTarget={id}
       popoverTargetAction="hide"
       aria-haspopup="dialog"

@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import { CommandContext, CommandRefsContext } from './command'
 import { dstyleItem, handleItemsSelection, styleItem } from './command.libs'
@@ -189,20 +188,11 @@ export function useHandleKeyDown({
 
       if (allowAxisArrowKeys) {
         const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
-        if (
-          (e.key === 'ArrowLeft' && html.getAttribute('dir') === 'rtl') ||
-          (e.key === 'ArrowRight' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
-        ) {
-          item?.click()
-          return
-        }
-
-        if (
-          (e.key === 'ArrowRight' && html.getAttribute('dir') === 'rtl') ||
-          (e.key === 'ArrowLeft' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
-        ) {
-          item?.click()
-          return
+        if (item.hasAttribute('duck-dropdown-menu-sub-trigger')) {
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            item?.click()
+            return
+          }
         }
       }
 

@@ -9,19 +9,23 @@ import {
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 // import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Popover, PopoverContent, PopoverTrigger } from './ggpop'
+import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import React from 'react'
 import { computePosition, offset } from '@gentleduck/duck-float'
 import { Provider } from '@gentleduck/state/primitive'
 
 export default function PopoverDemo() {
-  // const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
   return (
     <div className="h-[2000px] mt-[400px] flex gap-[400px]">
-      <Popover>
+      <Popover
+        open={open}
+        onOpenChange={(state) => {
+          setOpen(state)
+        }}>
         <PopoverTrigger>Open popover</PopoverTrigger>
-        <PopoverContent placement="top" className="w-80 border-transparent">
+        <PopoverContent placement="bottom" className="w-80 border-transparent">
           <div className="grid gap-4">
             <div className="space-y-2">
               <h4 className="font-medium leading-none">Dimensions</h4>

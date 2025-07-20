@@ -10,7 +10,11 @@ import { useHandleKeyDown } from '../command'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { RadioGroup, RadioGroupItem } from '../radio-group'
 import { useDropdownMenuContext, useDropdownMenuInit } from './dropdown-menu.hooks'
-import type { DropdownMenuContextType, DropdownMenuShortcutProps, DropdownMenuSubContextType } from './dropdown-menu.types'
+import type {
+  DropdownMenuContextType,
+  DropdownMenuShortcutProps,
+  DropdownMenuSubContextType,
+} from './dropdown-menu.types'
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
@@ -88,22 +92,20 @@ function DropdownMenuContent({
   children,
   className,
   renderOnce = true,
-  side = 'top',
+  placement = 'top',
   sideOffset = 8,
   ...props
 }: React.ComponentPropsWithoutRef<typeof PopoverContent> & {
   renderOnce?: boolean
 }): React.JSX.Element {
-  const { contentRef } = useDropdownMenuContext()
   return (
     <PopoverContent
       duck-dropdown-menu-content=""
       className={cn('min-w-[8rem] overflow-visible p-1', className)}
       {...props}
-      side={side}
+      placement={placement}
       sideOffset={sideOffset}
-      renderOnce={renderOnce}
-      ref={contentRef as never}>
+      renderOnce={renderOnce}>
       {children}
     </PopoverContent>
   )
@@ -159,13 +161,13 @@ function DropdownMenuShortcut({
   colored = false,
   ...props
 }: DropdownMenuShortcutProps): React.JSX.Element {
-  useKeyCommands({
-    [keys]: {
-      name: keys,
-      description: keys,
-      execute: () => onKeysPressed(),
-    },
-  })
+  // useKeyCommands({
+  //   [keys]: {
+  //     name: keys,
+  //     description: keys,
+  //     execute: () => onKeysPressed(),
+  //   },
+  // })
 
   return (
     <kbd
@@ -290,14 +292,13 @@ function DropdownMenuSubContent({
   className,
   children,
   sideOffset = 4,
-  side = 'right',
-  align = 'start',
+  placement = 'right',
   ...props
 }: React.ComponentPropsWithoutRef<typeof PopoverContent>) {
   return (
     <PopoverContent
       className={cn('fixed z-[55] min-w-[8rem] p-1', className)}
-      side={side}
+      placement={placement}
       sideOffset={sideOffset}
       {...props}
       duck-dropdown-menu-sub-content="">

@@ -4,11 +4,11 @@
   "version": "1.2.0",
   "description": "A package for state management",
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index-jiSPvUlD.d.ts",
   "main": "./dist/index.js",
   "exports": {
     ".": "./dist/index.js",
-    "./*": "./src/*/index.ts",
+    "./*": "./dist/*/index.js",
     "./examples/*": "./src/examples/*"
   },
   "files": [

@@ -119,7 +119,7 @@ function App() {
 
   return (
     <div>
-      <PopoverDemo />
+      <DropdownMenuDemo />
     </div>
     // <TooltipDemo />
     //   <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">

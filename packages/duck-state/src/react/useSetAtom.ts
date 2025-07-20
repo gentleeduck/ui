@@ -1,7 +1,7 @@
 import React from 'react'
-import type { WritableAtom } from './atom'
+import type { WritableAtom } from '../primitive/atom'
+import type { ExtractAtomArgs, ExtractAtomResult } from '../primitive/types'
 import { useStore } from './provider'
-import type { ExtractAtomArgs, ExtractAtomResult } from './types'
 
 type SetAtom<Args extends unknown[], Result> = (...args: Args) => Result
 type Options = Parameters<typeof useStore>[0]

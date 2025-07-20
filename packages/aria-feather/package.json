@@ -46,6 +46,7 @@
   },
   "peerDependencies": {
     "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/state": "workspace:*",
     "@gentleduck/duck-float": "workspace:*",
     "@changesets/cli": "catalog:",
     "@gentleduck/motion": "workspace:*",

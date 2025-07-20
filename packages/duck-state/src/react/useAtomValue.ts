@@ -1,7 +1,7 @@
 import React from 'react'
-import { type Atom } from './atom'
+import type { Atom } from '../primitive/atom'
+import type { ExtractAtomValue } from '../primitive/types'
 import { useStore } from './provider'
-import type { ExtractAtomValue } from './types'
 
 type Options = Parameters<typeof useStore>[0] & {
   delay?: number
