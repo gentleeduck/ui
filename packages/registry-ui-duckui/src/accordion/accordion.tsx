@@ -1,10 +1,9 @@
 'use client'
 
-import * as React from 'react'
-import { ChevronDown } from 'lucide-react'
-
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants } from '@gentleduck/motion/anim'
+import { ChevronDown } from 'lucide-react'
+import * as React from 'react'
 
 const AccordionContext = React.createContext<{
   value?: string

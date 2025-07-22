@@ -159,11 +159,13 @@ export function useHandleKeyDown({
 
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'ArrowDown') {
+        e.preventDefault()
         if (inSubMenu) return
         const itemIndex = currentItem === itemsRef.current.length - 1 ? 0 : currentItem + 1
         currentItem = itemIndex
         originalCurrentItem = itemIndex
       } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
         if (inSubMenu) return
         const itemIndex = currentItem === 0 ? itemsRef.current.length - 1 : currentItem - 1
         currentItem = itemIndex
@@ -189,10 +191,24 @@ export function useHandleKeyDown({
       if (allowAxisArrowKeys) {
         const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
         if (item.hasAttribute('duck-dropdown-menu-sub-trigger')) {
-          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          console.log(item)
+          if (
+            (e.key === 'ArrowLeft' && html.getAttribute('dir') === 'rtl') ||
+            (e.key === 'ArrowRight' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
+          ) {
+            inSubMenu = !inSubMenu
             item?.click()
             return
           }
+
+          // if (
+          //   (e.key === 'ArrowRight' && html.getAttribute('dir') === 'rtl') ||
+          //   (e.key === 'ArrowLeft' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
+          // ) {
+          //   inSubMenu = !inSubMenu
+          //   item?.click()
+          //   return
+          // }
         }
       }
 

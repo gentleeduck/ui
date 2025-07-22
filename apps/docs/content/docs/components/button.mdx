@@ -1,7 +1,6 @@
 ---
 title: button
 description: A customizable button component for triggering actions in your application.
-
 featured: true
 component: true
 ---
@@ -13,13 +12,14 @@ component: true
 
 ## Features
 
-- **Customizable**: Easily adjust the button's variant, size, and appearance.
-- **Keyboard Shortcuts**: Assign keyboard shortcuts for enhanced user interactions.
-- **Tooltip Integration**: Display tooltips with custom delay and content.
-- **Icon Support**: Include primary and secondary icons alongside text or as standalone elements.
-- **Collapsible**: Optionally collapse the button to icon-only mode.
-- **Loading State**: Display a loading spinner while actions are in progress.
-- **Label Support**: Add labels with flexible positioning and style.
+- Multiple **styles**, **sizes**, and **border** options out of the box
+- Built-in **loading state** with spinner and auto-disable
+- Supports **icons**, **dual icons**, and **collapsed icon-only mode**
+- Flexible `asChild` rendering for links and custom wrappers
+- Smooth **hover animations** with optional `AnimationIcon`
+- Fully **typed**, **accessible**, and **responsive**
+- Powered by `@gentleduck/variants` for scalable theming
+- Clean, composable, and **Tailwind-optimized**
 
 ## Installation
 
@@ -44,43 +44,12 @@ npx duck-ui@latest add button
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @radix-ui/react-slot @ahmedayob/duck-shortcut
+npm install @gentleduck/aria-feather
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
 
 <ComponentSource name="button" />
-
-```ts
-// tailwind.config.ts
-export default {
-  theme: {
-    extend: {
-      keyframes: {
-        shine: {
-          from: { backgroundPosition: '200% 0' },
-          to: { backgroundPosition: '-200% 0' },
-        },
-      },
-      animation: {
-        shine: 'shine 8s ease-in-out infinite',
-      },
-    },
-  },
-}
-```
-
-<Step>
-  The Combobox is built using a composition of the `<Command />
-  `, the `<Tooltip />
-  `, the `<Badge />` component.
-</Step>
-
-<Step>
-  You also will need to install the [`Command`](/docs/components/command#installation) and
-  [`Tooltip`](/docs/components/tooltip#installation) and [`Badge`](/docs/components/badge#installation) components
-  because some dependencies are inherited from them.
-</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -106,24 +75,17 @@ import { Button } from '@/components/ui/button'
 
 #### Example Usage:
 
-```tsx {5, 20}
+```tsx {5, 10}
 import { Button } from '@/components/ui/button'
 
 const MyButton = () => {
   return (
-    <Button
-      size="large"
-      variant="primary"
-      label={{
-        children: 'Submit',
-        side: 'left',
-        showLabel: true,
-      }}
-      icon={<Icon />}
-      onClick={() => console.log('Button clicked')}
-    >
-      Submit
-    </Button>
+    <Tooltip>
+      <Button size="large" variant="primary">
+        Submit
+      </Button>
+      <TooltipContent>Submit Button</TooltipContent>
+    </Tooltip>
   )
 }
 ```
@@ -147,38 +109,6 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
   <Link href="/tos">I'am a Link with tos 🦆</Link>
 </Button>
 ```
-
-<Image
-  src="/images/button_structure_light_1.png"
-  width="716"
-  height="420"
-  alt="button structure 1"
-  className="border rounded-lg overflow-hidden mt-6 w-full dark:hidden"
-/>
-
-<Image
-  src="/images/button_structure_light_2.png"
-  width="716"
-  height="420"
-  alt="button structure 2"
-  className="border rounded-lg overflow-hidden mt-6 w-full dark:hidden"
-/>
-
-<Image
-  src="/images/button_structure_dark_1.png"
-  width="716"
-  height="420"
-  alt="button structure 1"
-  className="border rounded-lg overflow-hidden mt-6 w-full hidden dark:block"
-/>
-
-<Image
-  src="/images/button_structure_dark_2.png"
-  width="716"
-  height="420"
-  alt="button structure 2"
-  className="border rounded-lg overflow-hidden mt-6 w-full hidden dark:block"
-/>
 
 ## Examples
 
@@ -227,304 +157,175 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
 ### Warning
 
 <ComponentPreview
-  name="button-26"
+  name="button-8"
   description="warning button"
 />
 
 ### Dashed
 
 <ComponentPreview
-  name="button-28"
+  name="button-9"
   description="dashed button"
 />
 
 ### Nothing
 
 <ComponentPreview
-  name="button-8"
+  name="button-10"
   description="nothing button"
 />
 
 ### With Border
 
 <ComponentPreview
-  name="button-29"
+  name="button-11"
   description="with border default button"
 />
 
 ### With Border Destructive
 
 <ComponentPreview
-  name="button-30"
+  name="button-12"
   description="with border destructive button"
 />
 
 ### With Border Warning
 
 <ComponentPreview
-  name="button-31"
+  name="button-13"
   description="with border warning button"
 />
 
 ### With Border Secondary
 
 <ComponentPreview
-  name="button-32"
+  name="button-14"
   description="with border Secondary button"
 />
 
 ### With Icon
 
 <ComponentPreview
-  name="button-9"
+  name="button-15"
   description="icon button"
 />
 
 ### Loading
 
 <ComponentPreview
-  name="button-10"
+  name="button-16"
   description="loading button"
 />
 
 ### With Second Icon
 
 <ComponentPreview
-  name="button-11"
+  name="button-17"
   description="badge label button"
   description="seocond icon button"
-/>
-
-### With Badge Label
-
-<ComponentPreview
-  name="button-12"
-  description="badge label button"
-/>
-
-### With Label
-
-<ComponentPreview
-  name="button-13"
-  description="label button"
-/>
-
-### With tooltip
-
-<ComponentPreview
-  name="button-14"
-  description="tooltip button"
-/>
-
-### with Command
-
-<ComponentPreview
-  name="button-15"
-  description="command button"
-/>
-
-### Command Tooltip
-
-<ComponentPreview
-  name="button-16"
-  description="command tooltip button"
 />
 
 ### Collapsible
 
 <ComponentPreview
-  name="button-17"
+  name="button-18"
   description="collapsible button"
 />
 
-### Expand Icon Right
-
-<ComponentPreview
-  name="button-18"
-  description="expand icon right button"
-/>
-
-### Expand Icon Left
+### Expand Icon
 
 <ComponentPreview
   name="button-19"
-  description="expand icon left button"
-/>
-
-### Ring Hover
-
-<ComponentPreview
-  name="button-20"
-  description="ring hover button"
-/>
-
-### Gooey Right
-
-<ComponentPreview
-  name="button-21"
-  description="gooey right button"
-/>
-
-### Gooey Left
-
-<ComponentPreview
-  name="button-22"
-  description="gooey left button"
-/>
-
-### Link Hover 1
-
-<ComponentPreview
-  name="button-23"
-  description="link hover1 button"
-/>
-
-### Link Hover 2
-
-<ComponentPreview
-  name="button-24"
-  description="link hover2 button"
-/>
-
-### Advanced
-
-<ComponentPreview
-  name="button-25"
-  description="advanced button"
+  description="expand icon button"
 />
 
 ---
 
 ## API Reference
 
-### **General Button Properties**
+### General Button Properties
 
-- **`asChild`** (`boolean`, optional):
+* **`variant`** (`'default' | 'destructive' | 'warning' | 'outline' | 'dashed' | 'secondary' | 'ghost' | 'link' | 'expand_icon' | 'nothing'`, optional):
 
-  - Renders the button as a child element of another component when set to `true`, allowing the button to inherit styling from the parent component.
+  * Defines the button style.
+  * `'default'`: Solid primary button.
+  * `'destructive'`: Red destructive action.
+  * `'warning'`: Yellow warning action.
+  * `'outline'`: Outlined with border.
+  * `'dashed'`: Dashed outline variant.
+  * `'secondary'`: Muted secondary style.
+  * `'ghost'`: Transparent with hover effect.
+  * `'link'`: Looks like a hyperlink.
+  * `'expand_icon'`: Icon-expanding group button.
+  * `'nothing'`: Unstyled button (useful for resets).
 
-- **`isCollapsed`** (`boolean`, optional):
+* **`size`** (`'icon' | 'xs' | 'sm' | 'default' | 'lg' | 'xl' | '2xl' | '3xl'`, optional):
 
-  - Collapses the button into an icon-only state, typically used for compact views or toggling states.
+  * Defines the button size.
+  * `'icon'`: Icon-only square button.
+  * `'xs'` → `'3xl'`: From extra small to extra large sizes.
 
-- **`size`** (`'default' | 'xs' | 'sm' | 'sm' | 'lg' | 'xl' | 'xxl' | 'xxxl' | 'icon'`, optional):
+* **`border`** (`'default' | 'primary' | 'secondary' | 'destructive' | 'warning'`, optional):
 
-  - Sets the button size. Defaults to `'default'`. Other options:
-    - `'xs'`: ExtraSmall button with reduced padding.
-    - `'sm'`: Small button with reduced padding.
-    - `'default'`: Defulat button size with reduced padding.
-    - `'lg'`: Large button with extra padding.
-    - `'xl'`: XLarge button with extra padding.
-    - `'xxxl'`: XXLarge button with extra padding.
-    - `'xxxl'`: XXXLarge button with extra padding.
-    - `'icon'`: Icon-only button without additional padding.
+  * Defines the border and background combination.
+  * `'default'`: No additional border styles.
+  * `'primary'`: Subtle primary border.
+  * `'secondary'`: Secondary soft background.
+  * `'destructive'`: Semi-transparent red border.
+  * `'warning'`: Semi-transparent yellow border.
 
-- **`border`** (`'default' |  'primary' | 'secondary' | 'destructive' | 'warning'`, optional):
+* **`asChild`** (`boolean`, optional):
 
-  - Sets the button size. Defaults to `'default'`. Other options:
-    - `'default'`: Without a border.
-    - `'secondary'`: With a secondary border for optional actions.
-    - `'destructive'`: With a destructive border for danger.
-    - `'warning'`: With a warning border for warning.
+  * If `true`, renders using a custom child element via `Slot` (e.g. a `Link`).
 
-- **`variant`** (`string`, optional):
-  - Defines the visual style of the button. Available options:
-    - **`default`**: Primary button style.
-    - **`destructive`**: Red, indicating a destructive action.
-    - **`warning`**: Yellow, indicating a warning action.
-    - **`secondary`**: secondary button with no fill.
-    - **`outline`**: Outlined button with no fill.
-    - **`dashed`**: Dashed button with no fill.
-    - **`ghost`**: Transparent with hover effects.
-    - **`link`**: Styled as a link.
-    - **`expand_icon`**: For expandable buttons.
-    - Special effect variants:
-      - **`ring_hover`**, **`shine`**, **`gooey_right`**, **`gooey_left`**,
-      - **`link_hover1`**, **`link_hover2`**
-- **`border`** (`string`, optional):
-  - Defines the visual style of the button border. Available options:
-    - **`default`**: No border style.
-    - **`primary`**: Primary border style.
-    - **`destructive`**: Destructive border style.
-    - **`warning`**: Warning border style.
-    - **`secondary`**: secondary border style.
-- **`loading`** (`boolean`, optional):
+* **`loading`** (`boolean`, optional):
 
-  - When `true`, displays a loading spinner (uses `Loader` from Lucide).
+  * If `true`, shows a spinning loader icon and disables the button.
 
-- **`children`** (`React.ReactNode`):
+* **`disabled`** (`boolean`, optional):
 
-  - Content or text inside the button.
+  * Disables the button manually.
 
-- **`...props`** (`React.ReactNode`):
-  - the rest of props on an HTML button.
+* **`icon`** (`React.ReactNode`, optional):
 
----
+  * Icon placed before the content (left-aligned or centered if collapsed).
 
-### Icon Properties
+* **`secondIcon`** (`React.ReactNode`, optional):
 
-Button icons can be configured for single or dual icon use, and include optional animation.
+  * Icon placed after the content (right-aligned).
 
-#### **Primary Icon**
+* **`isCollapsed`** (`boolean`, optional):
 
-- **`icon`** ([`IconType`](#icontype), optional):
-  - Specifies the primary icon displayed within the button.
+  * If `true`, renders icon-only button (hides children and secondIcon).
 
-#### **Secondary Icon**
+* **`type`** (`'button' | 'submit' | 'reset'`, optional):
 
-- **`secondIcon`** ([`IconType`](#icontype), optional):
-  - Adds a secondary icon to appear alongside the primary icon.
+  * Native HTML button type. Default is `'button'`.
 
-#### **Animation Icon**
+* **`ref`** (`React.Ref<HTMLButtonElement>`, optional):
 
-- **`animationIcon`** (`{ icon: [IconType](#icontype), iconPlacement: 'left' | 'right' }`, optional):
-  - Defines an animated icon that appears on hover, with `iconPlacement` specifying its position.
+  * Ref forwarding support for imperative access.
+
+* **`className`** (`string`, optional):
+
+  * Custom class name for styling overrides.
+
+* **`...props`** (`React.HTMLProps<HTMLButtonElement>`):
+
+  * All native HTML button props are supported.
 
 ---
 
-## Type Definitions
+### AnimationIcon Properties
 
-### IconType
+* **`children`** (`React.ReactNode`, required):
 
-Defines an icon component from the Lucide library.
+  * The main content or label inside the component.
 
-- **`children`** (LucideIcon): The icon component.
-- **Additional SVG Props**: Includes all `React.SVGProps` for SVG customization.
+* **`animationIcon`** (`{ icon?: React.ReactNode; iconPlacement?: 'left' | 'right' }`, optional):
 
----
-
-### LabelType
-
-Configures an optional label with tooltip support for additional context.
-
-- **`showCommand`** (`boolean`, optional): Show the command on the `Tooltip`.
-- **`showLabel`** (`boolean`, optional): Show the label on the `Tooltip`.
-- **`delayDuration`** (`number`, optional): The delay the `Tooltip` gonna take to me mounted.
-- **`...BadgeProps`** ([`BadgeType`](/docs/components/badge#api-reference),optional): The rest of `Badge` component props.
-- **`...TooltipProps`** ([`TooltipType`](/docs/components/tooltip#api-reference),optional): The rest
-  of `Tooltip` component props.
-- **`...TooltipContent`**
-  ([`TooltipContentType`](/docs/components/tooltip#tooltipcontent),optional): The rest of
-  `TooltipContent` component props.
+  * Defines an animated icon on hover.
+  * `icon`: The icon to animate.
+  * `iconPlacement`: `'left'` or `'right'`, determines icon direction and placement.
 
 ---
-
-### CommandType
-
-Provides keyboard command handling and displays an associated shortcut or action label, it defines a command for keyboard shortcuts, with an action function, state management, and label.
-
-- **`label`** (`string`, optional): The label for the `Command`.
-- **`key`** (`string`, optional): The key for the `Command`.
-- **`show`** (`boolean`, optional): To show the `Command` body on the button.
-- **`action`** (`() => void`): The function that executes with the `Command`.
-- **`shortcut`** (`string[]`, optional): The keyboard keys associated with the `Command`.
-- [**`...BadgeProps`**](/docs/components/badge#api-reference) (optional): The rest of `Badge` components props.
-
-## Changelog
-
-### 2024-12-19 
-
-- **New Variants:** Added new button variants, including muted, dashed, and warning styles.
-- **Border Props:** Introduced new button border properties to allow borders with hover effects.
-- **Hook Update:** Removed state from the `useDuckShortcut` hook, previously imported from `@ahmedayoub/shortcut`.
-- **Documentation:** Updated documentation to reflect the latest changes to the Button component.

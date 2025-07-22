@@ -17,15 +17,12 @@ import { Provider } from '@gentleduck/state/primitive'
 
 export default function PopoverDemo() {
   const [open, setOpen] = React.useState(false)
+  console.log('hay')
   return (
     <div className="h-[2000px] mt-[400px] flex gap-[400px]">
-      <Popover
-        open={open}
-        onOpenChange={(state) => {
-          setOpen(state)
-        }}>
+      <Popover>
         <PopoverTrigger>Open popover</PopoverTrigger>
-        <PopoverContent placement="bottom" className="w-80 border-transparent">
+        <PopoverContent placement="left" className="w-80">
           <div className="grid gap-4">
             <div className="space-y-2">
               <h4 className="font-medium leading-none">Dimensions</h4>

@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "button/button-5.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function Button5Demo() {\n  return (\n    <Button variant={'outline'} aria-label=\"Inbox button\" type=\"button\" role=\"button\">\n      Button\n    </Button>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function ButtonDemo() {\n  return (\n    <Button variant={'outline'} aria-label=\"Inbox button\" type=\"button\">\n      Button\n    </Button>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-5.tsx"
     }

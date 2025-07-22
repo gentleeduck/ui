@@ -6,43 +6,44 @@ import { ArrowBigUpDash, Command, ShieldAlert } from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'
 
-export default function Button1Demo() {
+export default function ButtonDemo() {
   const [open, setOpen] = React.useState<boolean>(false)
 
-  useKeyCommands({
-    ['ctrl+m']: {
-      name: 'ctrl+m',
-      description: 'a command that will open the advanced button',
-      execute: () => {
-        setOpen((prev) => !prev)
-        toast.success('Advanced button')
-      },
-    },
-  })
+  // useKeyCommands({
+  //   'ctrl+m': {
+  //     name: 'ctrl+m',
+  //     description: 'a command that will open the advanced button',
+  //     execute: () => {
+  //     },
+  //   },
+  // })
 
   return (
-    <>
-      <Tooltip>
-        <TooltipTrigger>
-          <Button
-            isCollapsed={open}
-            icon={<ArrowBigUpDash />}
-            aria-label={'advanced button'}
-            size="default"
-            aria-expanded={open}
-            loading={false}
-            onClick={() => setOpen((prev) => !prev)}>
-            Button
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent className="flex items-center gap-2" side={'right'}>
-          <CommandShortcut variant="secondary">
-            <Command />
-            +m
-          </CommandShortcut>
-          <p>Advanced button</p>
-        </TooltipContent>
-      </Tooltip>
-    </>
+    <Tooltip>
+      <TooltipTrigger
+        variant={'default'}
+        isCollapsed={open}
+        icon={<ArrowBigUpDash />}
+        aria-label={'advanced button'}
+        size="default"
+        aria-expanded={open}
+        loading={false}
+        onClick={() => setOpen((prev) => !prev)}>
+        Button
+      </TooltipTrigger>
+      <TooltipContent className="flex items-center gap-2" placement={'top'}>
+        <CommandShortcut
+          variant="secondary"
+          keys="ctrl+m"
+          onKeysPressed={() => {
+            setOpen((prev) => !prev)
+            toast.success('Advanced button')
+          }}>
+          <Command />
+          +m
+        </CommandShortcut>
+        <p>Advanced button</p>
+      </TooltipContent>
+    </Tooltip>
   )
 }

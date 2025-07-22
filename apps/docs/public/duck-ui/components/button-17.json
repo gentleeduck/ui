@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "button/button-17.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button17Demo() {\n  const [open, setOpen] = React.useState<boolean>(false)\n\n  return (\n    <>\n      <Button\n        aria-label=\"Inbox button with 23 notifications\"\n        type=\"button\"\n        role=\"button\"\n        isCollapsed={open}\n        icon={<Inbox />}\n        onClick={() => setOpen(!open)}>\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { ChevronsRight } from 'lucide-react'\n\nexport default function ButtonDemo() {\n  return (\n    <Button aria-label=\"Inbox button with 23 notifications\" type=\"button\" secondIcon={<ChevronsRight />}>\n      Button\n    </Button>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-17.tsx"
     }

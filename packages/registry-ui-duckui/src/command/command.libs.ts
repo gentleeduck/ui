@@ -6,7 +6,9 @@
  */
 export function styleItem(item: HTMLLIElement | null): void {
   if (!item) return
-  item.scrollIntoView({ block: 'center', behavior: 'smooth' })
+  // if (item.hasAttribute('duck-select-item') || item.hasAttribute('duck-command-item')) {
+  //   item.scrollIntoView({ block: 'center', behavior: 'smooth' })
+  // }
   item.setAttribute('aria-selected', '')
   item.focus()
 }
@@ -36,7 +38,6 @@ export function handleItemsSelection(
     if (i === currentItem) {
       styleItem(item)
       setSelectedItem(item)
-      item.scrollIntoView({ block: 'center', behavior: 'smooth' })
     }
   }
 }

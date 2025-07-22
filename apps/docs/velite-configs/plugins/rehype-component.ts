@@ -9,9 +9,9 @@ import { Index } from '~/__ui_registry__'
 export function rehypeComponent() {
   return async (tree: UnistTree) => {
     visit(tree, (node: UnistNode) => {
-      console.dir(node, {
-        depth: 7000,
-      })
+      // console.dir(node, {
+      //   depth: 7000,
+      // })
       // src prop overrides both name and fileName.
       const { value: srcPath } =
         (getNodeAttributeByName(node, 'src') as {

@@ -1,19 +1,9 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Inbox } from 'lucide-react'
-import React from 'react'
 
-export default function Button10Demo() {
+export default function ButtonDemo() {
   return (
-    <>
-      <Button
-        loading={true}
-        icon={<Inbox />}
-        aria-label="Loading inbox button"
-        aria-busy="true"
-        type="button"
-        role="button">
-        <span>Button</span>
-      </Button>
-    </>
+    <Button variant={'nothing'} aria-label="Inbox button" type="button">
+      Button
+    </Button>
   )
 }

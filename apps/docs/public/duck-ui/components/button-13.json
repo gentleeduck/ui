@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "button/button-13.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function Button13Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Inbox button with 23 notifications\"\n        type=\"button\"\n        role=\"button\"\n        label={{\n          variant: 'nothing',\n          children: '23',\n        }}>\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function ButtonDemo() {\n  return (\n    <Button aria-label=\"Inbox button\" type=\"button\" variant=\"warning\" border=\"warning\">\n      Button\n    </Button>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-13.tsx"
     }

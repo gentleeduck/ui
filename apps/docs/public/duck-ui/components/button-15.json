@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "button/button-15.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { toast } from 'sonner'\n\nexport default function Button15Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Inbox button with keyboard shortcut\"\n        type=\"button\"\n        role=\"button\"\n        command={{\n          key: 'alt+k',\n          children: 'alt+k',\n          action: () =>\n            toast('Your inbox has been updated', {\n              description: `you have clicked the 'command' button`,\n            }),\n        }}>\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function ButtonDemo() {\n  return (\n    <Button icon={<Inbox />} aria-label=\"Inbox button\" type=\"button\">\n      Button\n    </Button>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-15.tsx"
     }

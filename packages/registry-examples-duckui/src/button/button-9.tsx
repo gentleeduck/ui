@@ -1,13 +1,9 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Inbox } from 'lucide-react'
-import React from 'react'
 
-export default function Button9Demo() {
+export default function ButtonDemo() {
   return (
-    <>
-      <Button icon={<Inbox />} aria-label="Inbox button" type="button" role="button">
-        Button
-      </Button>
-    </>
+    <Button aria-label="Inbox button" type="button" variant={'dashed'}>
+      Button
+    </Button>
   )
 }

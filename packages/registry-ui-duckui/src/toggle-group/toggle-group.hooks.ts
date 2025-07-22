@@ -1,7 +1,7 @@
 import React from 'react'
 
 export function ToggleGroupInit(type?: 'single' | 'multiple', onValueChange?: (value: string) => void) {
-  const wrapperRef = React.useRef<HTMLDivElement>(null)
+  const wrapperRef = React.useRef<HTMLUListElement>(null)
   const itemsRef = React.useRef<HTMLDivElement[]>([])
   const selectedItemRef = React.useRef<HTMLDivElement[]>([])
 
@@ -23,7 +23,7 @@ export function ToggleGroupInit(type?: 'single' | 'multiple', onValueChange?: (v
           }
         }
 
-        onValueChange && onValueChange(item.value)
+        onValueChange?.(item.value)
         selectedItemRef.current = type === 'single' ? [item] : [...selectedItemRef.current, item]
         item.setAttribute('aria-checked', 'true')
         item.setAttribute('aria-selected', 'true')

@@ -27,14 +27,16 @@ const PopoverInternal = ({
   delayDuration,
   mouseEnter,
   mouseExist,
+  contextMenu,
   ...props
-}: React.HTMLProps<HTMLDivElement> & {
+}: Omit<React.HTMLProps<HTMLDivElement>, 'contextMenu'> & {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   skipDelayDuration?: number
   delayDuration?: number
   mouseEnter?: boolean
   mouseExist?: boolean
+  contextMenu?: boolean
 }) => {
   const id = useId()
   const {
@@ -51,6 +53,7 @@ const PopoverInternal = ({
     delayDuration,
     mouseEnter,
     mouseExist,
+    contextMenu,
   })
 
   return (
@@ -106,7 +109,8 @@ function Content({
           shift({ padding: 8 }),
           arrow({ element: _arrow, padding: 8 }),
         ],
-      }).then(({ x, y, middlewareData }) => {
+      }).then(({ x, y, middlewareData, placement }) => {
+        // console.log(x, y, placement)
         Object.assign(content.style, { left: `${x}px`, top: `${y}px`, transform: 'translate(0, 0)' })
 
         if (middlewareData.arrow && withArrow) {
@@ -141,15 +145,6 @@ function Content({
   }, [trigger, placement, sideOffset, alignOffset, withArrow, openValue])
 
   React.useEffect(() => {
-    if (content && openValue) {
-      const focusable = content.querySelector<HTMLElement>(
-        'input:not([disabled]), button:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], area[href], [tabindex]:not([tabindex="-1"])',
-      )
-      focusable?.focus()
-    }
-  }, [content, openValue])
-
-  React.useEffect(() => {
     if (content) {
       const triggerRect = trigger?.getBoundingClientRect()
 
@@ -165,12 +160,12 @@ function Content({
 
       if (placement.includes('right')) {
         content.style.top = `50%`
-        content.style.transform = `translate(${triggerRect.right + sideOffset}px,-50%)`
+        content.style.transform = `translate(${triggerRect.right + sideOffset}px,-50%) scale(.97)`
       }
 
       if (placement.includes('left')) {
         content.style.top = `50%`
-        content.style.transform = `translate(${triggerRect.left - content.offsetWidth - sideOffset}px,-50%)`
+        content.style.transform = `translate(${triggerRect.left - content.offsetWidth - sideOffset}px,-50%) `
       }
 
       content.style.transformOrigin = placement.includes('left')
@@ -186,7 +181,7 @@ function Content({
   }, [content])
 
   return (
-    <div duck-popover-content="" tabIndex={-1} id={id} data-open={openValue} {...props}>
+    <dialog duck-popover-content="" tabIndex={-1} popover="auto" id={id} open={true} data-open={openValue} {...props}>
       <div
         id="arrow"
         className={
@@ -203,7 +198,7 @@ function Content({
       ) : (
         children
       )}
-    </div>
+    </dialog>
   )
 }
 

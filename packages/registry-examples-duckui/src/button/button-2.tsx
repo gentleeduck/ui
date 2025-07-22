@@ -1,9 +1,8 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import React from 'react'
 
-export default function ButtonSimpleDemo() {
+export default function ButtonDemo() {
   return (
-    <Button aria-label="Simple button" variant={'default'} type="button" role="button">
+    <Button aria-label="Simple button" variant={'default'} type="button">
       Button
     </Button>
   )

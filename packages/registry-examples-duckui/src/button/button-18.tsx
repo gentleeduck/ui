@@ -1,21 +1,18 @@
-import React from 'react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { ArrowRight } from 'lucide-react'
+import { Inbox } from 'lucide-react'
+import React from 'react'
 
-export default function Button18Demo() {
+export default function Button17Demo() {
+  const [open, setOpen] = React.useState<boolean>(false)
+
   return (
-    <div className="block">
-      <Button
-        aria-label="Expand inbox button"
-        type="button"
-        role="button"
-        variant="expand_icon"
-        animationIcon={{
-          icon: <ArrowRight />,
-          iconPlacement: 'right',
-        }}>
-        Button
-      </Button>
-    </div>
+    <Button
+      aria-label="Inbox button with 23 notifications"
+      type="button"
+      isCollapsed={open}
+      icon={<Inbox />}
+      onClick={() => setOpen(!open)}>
+      Button
+    </Button>
   )
 }

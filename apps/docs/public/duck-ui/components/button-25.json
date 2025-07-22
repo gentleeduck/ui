@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "button/button-25.tsx",
-      "content": "import React from 'react'\nimport { Inbox } from 'lucide-react'\nimport { toast } from 'sonner'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function Button24Demo() {\n  const [open, setOpen] = React.useState<boolean>(false)\n\n  const handleClick = () => {\n    setOpen(!open)\n    toast('Your inbox has been updated', {\n      description: `You clicked the 'click me 🎉' button`,\n    })\n  }\n\n  return (\n    <Button\n      role=\"button\"\n      aria-label=\"Inbox button\"\n      aria-expanded={open}\n      aria-pressed={open}\n      isCollapsed={open}\n      icon={<Inbox />}\n      variant=\"default\"\n      tabIndex={0}\n      loading={false}\n      type=\"button\"\n      className=\"[data-open='false']:bg-red-500\"\n      onClick={handleClick}\n      label={{\n        children: 'Click me 🎉',\n        showCommand: true,\n        showLabel: true,\n        delayDuration: 0,\n      }}\n      command={{\n        label: '⇧+k',\n        key: 'shift+k',\n        action: handleClick,\n      }}>\n      Button\n    </Button>\n  )\n}\n",
+      "content": "import { AnimationIcon, Button } from '@gentleduck/registry-ui-duckui/button'\n\nimport { ArrowLeft } from 'lucide-react'\n\nexport default function ButtonDemo() {\n  return (\n    <Button aria-label=\"Expand inbox button\" type=\"button\" variant=\"expand_icon\">\n      <AnimationIcon\n        animationIcon={{\n          icon: <ArrowLeft />,\n          iconPlacement: 'left',\n        }}>\n        Button\n      </AnimationIcon>\n    </Button>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-25.tsx"
     }

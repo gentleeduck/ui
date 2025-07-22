@@ -8,6 +8,7 @@ import { IoWalletOutline } from 'react-icons/io5'
 import { FaApplePay, FaGooglePay } from 'react-icons/fa'
 import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
 import { FaSortDown } from 'react-icons/fa'
+import { cn } from '@gentleduck/libs/cn'
 
 export default function Accordion1Demo() {
   const [selectedValue, setSelectedValue] = React.useState({
@@ -61,12 +62,11 @@ export default function Accordion1Demo() {
                   key={value}
                   value={value}
                   aria-selected={selectedValue.payingMethod === value}
-                  className={`flex h-auto cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-300 hover:bg-muted ${
-                    selectedValue.payingMethod === value ? 'bg-muted' : ''
-                  }`}
+                  className={cn(
+                    'flex h-auto cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-300 hover:bg-muted',
+                    selectedValue.payingMethod === value ? 'bg-muted' : '',
+                  )}
                   onClick={() => handleSelection('payingMethod', value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSelection('payingMethod', value)}
-                  role="button"
                   tabIndex={0}>
                   <div className="flex place-content-center rounded-lg bg-secondary p-2 [&>svg]:size-[35px] [&>svg]:text-muted">
                     {icon}
@@ -121,13 +121,14 @@ export default function Accordion1Demo() {
                 <ToggleGroupItem
                   key={value}
                   value={value}
+                  size={'default'}
                   aria-selected={selectedValue.wallet === value}
-                  className={`flex h-auto cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-300 hover:bg-muted ${
-                    selectedValue.wallet === value ? 'bg-muted' : ''
-                  }`}
+                  className={cn(
+                    'flex h-auto w-full cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-300 hover:bg-muted',
+                    selectedValue.payingMethod === value ? 'bg-muted' : '',
+                  )}
                   onClick={() => handleSelection('wallet', value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSelection('wallet', value)}
-                  role="button"
                   tabIndex={0}>
                   <div className="flex place-content-center rounded-lg bg-secondary p-2 [&>svg]:size-[35px] [&>svg]:text-muted">
                     {icon}

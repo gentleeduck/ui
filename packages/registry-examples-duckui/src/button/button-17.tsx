@@ -1,21 +1,10 @@
-import React from 'react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Inbox } from 'lucide-react'
+import { ChevronsRight } from 'lucide-react'
 
-export default function Button17Demo() {
-  const [open, setOpen] = React.useState<boolean>(false)
-
+export default function ButtonDemo() {
   return (
-    <>
-      <Button
-        aria-label="Inbox button with 23 notifications"
-        type="button"
-        role="button"
-        isCollapsed={open}
-        icon={<Inbox />}
-        onClick={() => setOpen(!open)}>
-        Button
-      </Button>
-    </>
+    <Button aria-label="Inbox button with 23 notifications" type="button" secondIcon={<ChevronsRight />}>
+      Button
+    </Button>
   )
 }

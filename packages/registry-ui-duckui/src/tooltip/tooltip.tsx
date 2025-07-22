@@ -14,9 +14,9 @@ function Tooltip({
   )
 }
 
-function TooltipTrigger({ className, children, ...props }: React.ComponentPropsWithRef<typeof PopoverTrigger>) {
+function TooltipTrigger({ children, ...props }: React.ComponentPropsWithRef<typeof PopoverTrigger>) {
   return (
-    <PopoverTrigger variant={'nothing'} className={cn('', className)} {...props}>
+    <PopoverTrigger variant={'nothing'} {...props}>
       {children}
     </PopoverTrigger>
   )

@@ -1,6 +1,6 @@
 import type { Placement } from '@gentleduck/duck-float/dom'
 
-export type PopoverContentProps = React.HTMLProps<HTMLDivElement> & {
+export type PopoverContentProps = React.HTMLProps<HTMLDialogElement> & {
   matchWidth?: boolean
   withArrow?: boolean
   sideOffset?: number
@@ -16,6 +16,6 @@ export type PopoverContextType = {
   onOpenChange: (open: boolean) => void
   arrowRef: React.RefObject<HTMLDivElement>
   wrapperRef: React.RefObject<HTMLDivElement>
-  contentRef: React.RefObject<HTMLDivElement>
+  contentRef: React.RefObject<HTMLDialogElement>
   triggerRef: React.RefObject<HTMLElement>
 }

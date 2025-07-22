@@ -7,10 +7,11 @@ const Badge = ({
   className,
   variant = 'default',
   size = 'default',
+  border = 'default',
   ref,
   ...props
 }: Omit<React.HTMLProps<HTMLDivElement>, 'size'> & VariantProps<typeof badgeVariants>) => {
-  return <div className={cn(badgeVariants({ variant, size }), className)} ref={ref} {...props} />
+  return <div className={cn(badgeVariants({ variant, size, border }), className)} ref={ref} {...props} />
 }
 
 export { Badge }

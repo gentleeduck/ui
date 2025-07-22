@@ -1,30 +1,10 @@
-import React from 'react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Inbox } from 'lucide-react'
-import { toast } from 'sonner'
 
-export default function Button16Demo() {
+export default function ButtonDemo() {
   return (
-    <>
-      <Button
-        aria-label="Open inbox and trigger command"
-        type="button"
-        role="button"
-        icon={<Inbox />}
-        label={{
-          showCommand: true,
-          showLabel: true,
-        }}
-        command={{
-          key: 'alt+l',
-          children: 'alt+l',
-          action: () =>
-            toast('Your inbox has been updated', {
-              description: `you have clicked the 'command label' button`,
-            }),
-        }}>
-        Button
-      </Button>
-    </>
+    <Button loading={true} icon={<Inbox />} aria-label="Loading inbox button" aria-busy="true" type="button">
+      <span>Button</span>
+    </Button>
   )
 }

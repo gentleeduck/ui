@@ -12,12 +12,11 @@ function PopoverTrigger({
   children,
   variant = 'outline',
   asChild = false,
-  className,
   ...props
 }: React.ComponentPropsWithRef<typeof Button>) {
   return (
     <PopoverPrimitive.Trigger asChild>
-      <Button {...props} variant={variant} asChild={asChild} className={cn('justify-between', className)}>
+      <Button {...props} variant={variant} asChild={asChild}>
         {children}
       </Button>
     </PopoverPrimitive.Trigger>
@@ -39,7 +38,7 @@ function PopoverContent({
       className={cn(
         AnimVariants({ overlay }),
         AnimDialogVariants({ animation }),
-        'absolute z-50 max-h-fit w-fit border-border bg-popover p-4 text-popover-foreground',
+        'absolute z-50 max-h-fit w-fit border border-border bg-popover p-4 text-popover-foreground',
         className,
       )}
       {...props}>

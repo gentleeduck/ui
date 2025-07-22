@@ -13,11 +13,11 @@ component: true
 
 ## Features
 
-- **Customizable**: Supports multiple variants, sizes, and border styles.
-- **Tooltip Integration**: Displays tooltips for additional context.
-- **Icon Support**: Can be used with or without icons.
-- **Border Options**: Choose between different border styles.
-- **Responsive**: Adjusts size and appearance based on the configuration.
+- Supports multiple **styles**, **sizes**, and **borders** with Tailwind theming
+- Built-in **hover**, **focus**, and **ring** states for accessibility
+- **Icon-ready** with circular `icon` mode and smart sizing
+- Lightweight, **ref-forwarding**, and easily composable
+- Powered by `@gentleduck/variants` for scalable, consistent design
 
 ## Installation
 
@@ -42,25 +42,12 @@ npx duck-ui@latest add badge
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @radix-ui/react-tooltip class-variance-authority
+npm install @gentleduck/aria-feather
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
 
 <ComponentSource name="badge" />
-
-```ts
-// tailwind.config.ts
-export default {
-  theme: {
-    extend: {
-      borderWidth: {
-        3: '3px',
-      },
-    },
-  },
-}
-```
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -82,18 +69,24 @@ import { Badge } from '@/components/ui/badge'
 
 ### Badge
 
-`Badge` is a flexible and customizable React component used to display small status indicators, labels, or tags. It supports different variants, sizes, and optional tooltips.
+`Badge` is a flexible and customizable React component used to display small status indicators with
+`Tooltip`, ..etc.
 
 #### Example Usage:
 
-```tsx {5, 10}
+```tsx {5, 12}
 import { Badge } from '@/components/ui/badge'
 
 const MyBadge = () => {
   return (
-    <Badge variant="warning" size="lg" label={{ children: 'Warning badge' }}>
-      Warning
-    </Badge>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Badge arial-label="Badge" variant={'outline'} size={'icon'} className="rounded-full">
+          <Info />
+        </Badge>
+      </TooltipTrigger>
+      <TooltipContent>Info Badge</TooltipContent>
+    </Tooltip>
   )
 }
 ```
@@ -151,7 +144,7 @@ const MyBadge = () => {
 
 ## API Reference
 
-### **General Badge Properties**
+### General Badge Properties
 
 - **`size`** (`'default' | 'sm' | 'lg' | 'icon'`, optional):
   - Defines the badge size.
@@ -178,44 +171,8 @@ const MyBadge = () => {
   - `'destructive'`: Destructive border.
   - `'warning'`: Warning border.
 
-- **`label`** (`LabelType`, optional):
-  - Defines the tooltip label for the badge.
-
 - **`...props`** (`React.HTMLAttributes<HTMLDivElement>`):
   - Additional properties passed to the badge.
 
 ---
 
-## Changelog
-
-### 2025-02-14 
-
-The `badgeVariants` utility has been **significantly expanded** to provide more **customization, improved accessibility, and flexibility**.
-
-#### 🆕 **What's New?**
-
-- **🚀 New Variants Added**  
-  - `warning`: A dedicated warning variant with proper foreground and background contrast.  
-  - `dashed`: A **border-dashed** variant for subtle emphasis.  
-  - `nothing`: A minimalist variant with **no padding**.  
-
-- **🎨 New Border Styles**  
-  - `primary`, `secondary`, `destructive`, and `warning` border options provide **better differentiation and hover effects**.  
-
-- **🔍 Improved Size Options**  
-  - `sm`, `lg`, and `icon` sizes ensure better adaptability across different UI elements.  
-
-#### 🔄 **Changes & Improvements**
-
-- **Refactored Structure**  
-  - The new version removes unnecessary `border-transparent` definitions and improves **hover effects**.  
-  - More consistent `text-foreground` usage across variants.  
-
-- **Better Accessibility & Focus Styles**  
-  - Ensures all variants retain **focus indicators** for better **keyboard navigation**.  
-
-#### 🔥 **Migration Notes**
-
-- If you're using the **old `outline` variant**, it now has improved text contrast.
-- If you need **bordered badges**, use the new `border` options instead of relying on manual styles.
-- New `warning` and `dashed` variants provide better UX for emphasis.

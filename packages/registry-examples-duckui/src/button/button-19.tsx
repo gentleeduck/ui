@@ -1,19 +1,10 @@
-import React from 'react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { ArrowLeft } from 'lucide-react'
+import { Inbox } from 'lucide-react'
 
-export default function Button19Demo() {
+export default function Button24Demo() {
   return (
     <div className="block">
-      <Button
-        aria-label="Expand inbox button"
-        type="button"
-        role="button"
-        variant="expand_icon"
-        animationIcon={{
-          icon: <ArrowLeft />,
-          iconPlacement: 'left',
-        }}>
+      <Button aria-label="Inbox button" type="button" variant="expand_icon" icon={<Inbox />}>
         Button
       </Button>
     </div>

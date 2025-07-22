@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "badge/badge-2.tsx",
-      "content": "import { Badge } from '@gentleduck/registry-ui-duckui/badge'\n\nexport default function Badge2Demo() {\n  return (\n    <Badge arial-label=\"Badge\" role=\"button\" variant={'default'}>\n      Badge\n    </Badge>\n  )\n}\n",
+      "content": "import { Badge } from '@gentleduck/registry-ui-duckui/badge'\n\nexport default function Badge2Demo() {\n  return (\n    <Badge arial-label=\"Badge\" variant={'default'}>\n      Badge\n    </Badge>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/badge-2.tsx"
     }

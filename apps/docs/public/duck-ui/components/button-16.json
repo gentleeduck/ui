@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "button/button-16.tsx",
-      "content": "import React from 'react'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\nimport { toast } from 'sonner'\n\nexport default function Button16Demo() {\n  return (\n    <>\n      <Button\n        aria-label=\"Open inbox and trigger command\"\n        type=\"button\"\n        role=\"button\"\n        icon={<Inbox />}\n        label={{\n          showCommand: true,\n          showLabel: true,\n        }}\n        command={{\n          key: 'alt+l',\n          children: 'alt+l',\n          action: () =>\n            toast('Your inbox has been updated', {\n              description: `you have clicked the 'command label' button`,\n            }),\n        }}>\n        Button\n      </Button>\n    </>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Inbox } from 'lucide-react'\n\nexport default function ButtonDemo() {\n  return (\n    <Button loading={true} icon={<Inbox />} aria-label=\"Loading inbox button\" aria-busy=\"true\" type=\"button\">\n      <span>Button</span>\n    </Button>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/button-16.tsx"
     }

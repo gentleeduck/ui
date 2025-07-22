@@ -15,19 +15,13 @@
     },
     {
       "path": "badge/badge.tsx",
-      "content": "import * as React from 'react'\n\nimport { BadgeProps } from './badge.types'\nimport { badgeVariants } from './badge.constants'\n\nimport { cn } from '@gentleduck/libs/cn'\n\nconst Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant, size, ...props }, ref) => {\n  return <div className={cn(badgeVariants({ variant, size }), className)} ref={ref} {...props} />\n})\n\nBadge.displayName = 'Badge'\n\nexport { Badge }\n",
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport type { VariantProps } from '@gentleduck/variants'\nimport type * as React from 'react'\nimport { badgeVariants } from './badge.constants'\n\nconst Badge = ({\n  className,\n  variant = 'default',\n  size = 'default',\n  border = 'default',\n  ref,\n  ...props\n}: Omit<React.HTMLProps<HTMLDivElement>, 'size'> & VariantProps<typeof badgeVariants>) => {\n  return <div className={cn(badgeVariants({ variant, size, border }), className)} ref={ref} {...props} />\n}\n\nexport { Badge }\n",
       "type": "registry:ui",
       "target": "components/ui/badge.tsx"
     },
     {
-      "path": "badge/badge.types.ts",
-      "content": "import { VariantProps } from '@gentleduck/variants'\nimport { badgeVariants } from './badge.constants'\n\nexport interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}\n",
-      "type": "registry:ui",
-      "target": "components/ui/badge.types.ts"
-    },
-    {
       "path": "badge/index.ts",
-      "content": "export * from './badge'\nexport * from './badge.constants'\nexport * from './badge.types'\n",
+      "content": "export * from './badge'\nexport * from './badge.constants'\n",
       "type": "registry:ui",
       "target": "components/ui/index.ts"
     }

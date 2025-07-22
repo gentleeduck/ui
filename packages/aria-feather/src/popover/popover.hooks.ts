@@ -16,6 +16,7 @@ export function usePopover({
   delayDuration,
   mouseEnter,
   mouseExist,
+  contextMenu,
 }: {
   openProp: boolean
   onOpenChange: (open: boolean) => void
@@ -23,10 +24,11 @@ export function usePopover({
   delayDuration: number
   mouseEnter: boolean
   mouseExist: boolean
+  contextMenu?: boolean
 }) {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
-  const contentRef = React.useRef<HTMLDivElement | null>(null)
+  const contentRef = React.useRef<HTMLDialogElement | null>(null)
   const arrowRef = React.useRef<HTMLDivElement>(null)
   const [openValue, setOpen] = useAtom(popoverOpen)
   const setRefs = useSetAtom(popoverRefs)
@@ -48,58 +50,84 @@ export function usePopover({
   }, [])
 
   React.useEffect(() => {
-    if (
-      // mouseEnter || mouseExist ||
-      openProp === undefined
-    )
-      return
+    if (mouseEnter || mouseExist || openProp === undefined) return
     setOpen(openProp)
     onOpenChange?.(openProp)
   }, [openProp])
 
-  function handleOpenChange(state: boolean) {
+  const handleOpenChange = React.useCallback((state: boolean) => {
     setOpen(() => {
+      if (state) {
+        focusTrigger()
+      } else {
+        triggerRef.current?.focus()
+      }
       onOpenChange?.(state)
-      console.log(state)
       return state
     })
-  }
+  }, [])
+
+  const focusTrigger = React.useCallback(() => {
+    setTimeout(() => {
+      const focusable = contentRef.current?.querySelector<HTMLElement>(
+        'input:not([disabled]), button:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], area[href], [tabindex]:not([tabindex="-1"])',
+      )
+      focusable?.focus()
+    }, 1)
+  }, [])
 
   React.useEffect(() => {
-    // if (mouseEnter || mouseExist) return
-
     const handleToggle = () => {
       setOpen((s) => {
+        if (!s) {
+          focusTrigger()
+        } else {
+          triggerRef.current?.focus()
+        }
         onOpenChange?.(!s)
         return !s
       })
     }
 
-    const handleClose = () => handleOpenChange(false)
+    const handleClose = () => {
+      handleOpenChange(false)
+      triggerRef.current?.focus()
+    }
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        e.preventDefault()
         handleClose()
-        triggerRef.current?.focus()
       }
     }
 
-    const onClick = (e: MouseEvent) => {
-      if (triggerRef.current.contains(e.target as Node)) return
+    const onClickOutside = (e: MouseEvent) => {
+      if (
+        triggerRef.current.contains(e.target as Node) ||
+        String(contentRef.current.hasAttribute('data-open')) === 'true'
+      )
+        return
       const clickedInside = contentRef.current?.contains(e.target as Node)
       if (!clickedInside) {
         handleClose()
       }
     }
-    triggerRef.current?.addEventListener('click', handleToggle)
+
+    if (!contextMenu) {
+      triggerRef.current?.addEventListener('click', handleToggle)
+    }
+
     contentRef.current?.addEventListener('keydown', handleEscape)
-    document.addEventListener('click', onClick)
+    document.addEventListener('click', onClickOutside)
 
     return () => {
-      triggerRef.current?.removeEventListener('click', handleToggle)
+      if (!contextMenu) {
+        triggerRef.current?.removeEventListener('click', handleToggle)
+      }
       contentRef.current?.removeEventListener('keydown', handleEscape)
-      document.removeEventListener('click', onClick)
+      document.removeEventListener('click', onClickOutside)
     }
-  }, [openValue])
+  }, [])
 
   React.useEffect(() => {
     if (!mouseEnter || !mouseExist) return
@@ -108,12 +136,27 @@ export function usePopover({
 
     function openAfterDelay() {
       clearTimeout(closeTimer)
-      openTimer = setTimeout(() => handleOpenChange(true), delayDuration)
+      openTimer = setTimeout(
+        () =>
+          setOpen(() => {
+            onOpenChange?.(true)
+            return true
+          }),
+        delayDuration,
+      )
     }
 
     function closeAfterDelay() {
       clearTimeout(openTimer)
-      closeTimer = setTimeout(() => handleOpenChange(false), skipDelayDuration)
+      closeTimer = setTimeout(
+        () =>
+          setOpen(() => {
+            onOpenChange?.(false)
+            return false
+          }),
+
+        skipDelayDuration,
+      )
     }
 
     if (mouseEnter) {
