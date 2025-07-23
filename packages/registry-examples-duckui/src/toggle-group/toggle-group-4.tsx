@@ -1,6 +1,5 @@
-import { Bold, Italic, Underline } from 'lucide-react'
-
 import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
+import { Bold, Italic, Underline } from 'lucide-react'
 
 export default function ToggleGroup1Demo() {
   return (

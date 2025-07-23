@@ -38,6 +38,7 @@
       "suspicious": {
         "noDoubleEquals": "error",
         "noThenProperty": "error",
+        "noExplicitAny": "off",
         "useIsArray": "error",
         "useGetterReturn": "error",
         "noVar": "error"
@@ -84,6 +85,10 @@
     "enabled": true,
     "actions": {
       "source": {
+        "recommended": true,
+        "useSortedAttributes": "on",
+        "useSortedKeys": "on",
+        "useSortedProperties": "on",
         "organizeImports": "on"
       }
     }

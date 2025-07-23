@@ -1,10 +1,9 @@
 'use client'
 
-import type * as React from 'react'
-
-import { toggleVariants } from './toggle.constants'
-import type { VariantProps } from '@gentleduck/variants'
 import { cn } from '@gentleduck/libs/cn'
+import type { VariantProps } from '@gentleduck/variants'
+import type * as React from 'react'
+import { toggleVariants } from './toggle.constants'
 
 function Toggle({
   className,
@@ -12,19 +11,22 @@ function Toggle({
   variant = 'default',
   size = 'default',
   ref,
+  disabled = false,
   children,
   ...props
 }: Omit<React.HTMLProps<HTMLInputElement>, 'size'> & VariantProps<typeof toggleVariants>) {
   return (
-    <label className={cn('relative flex items-center justify-center', className)} duck-toggle="" data-value={value}>
+    <label className={cn(toggleVariants({ className, size, variant }), '')} data-value={value} duck-toggle="">
       <input
-        type="checkbox"
+        className="invisible absolute hidden"
+        disabled={disabled}
         ref={ref}
+        type="checkbox"
         value={value}
-        className={cn(toggleVariants({ variant, size, className }), 'appearance-none checked:bg-muted')}
         {...props}
       />
-      <span className={cn('pointer-events-none absolute inset-auto isolate z-1 select-none')}>{children}</span>
+
+      {children}
     </label>
   )
 }

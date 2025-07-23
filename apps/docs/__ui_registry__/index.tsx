@@ -144,14 +144,6 @@ export const Index: Record<string, any> = {
     registryDependencies: [],
     files: [
       {
-        path: 'accordion/__accordion.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'accordion/_accordion.tsx',
-        type: 'registry:ui',
-      },
-      {
         path: 'accordion/accordion.tsx',
         type: 'registry:ui',
       },

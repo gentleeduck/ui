@@ -11,9 +11,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const html = document.documentElement
   // html.setAttribute('dir', 'rtl')
   return (
-    <div data-wrapper="" className="flex items-center place-content-center flex-col gap-8 min-h-screen">
+    <div className="flex items-center place-content-center flex-col min-h-screen" data-wrapper="">
       <SiteHeader />
-      <main className="flex flex-1 flex-col">{children}</main>
+      <main className="flex flex-1 flex-col w-full">{children}</main>
       <SiteFooter />
     </div>
   )

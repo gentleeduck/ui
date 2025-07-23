@@ -10,41 +10,40 @@ export const docsConfig: DocsConfig = {
   chartsNav: [],
   mainNav: [
     {
-      title: 'Documentation',
       href: '/docs',
+      title: 'Documentation',
     },
   ],
   sidebarNav: [
     {
-      title: 'Getting Started',
       collapsible: false,
       items: [
         {
-          title: 'Introduction',
           href: '/docs',
           items: [],
+          title: 'Introduction',
         },
         {
-          title: 'Installation',
           href: '/docs/installation',
           items: [],
+          title: 'Installation',
         },
       ],
+      title: 'Getting Started',
     },
     {
-      title: 'Components',
       collapsible: false,
       items: [
         {
-          title: 'Accordion',
           href: '/docs/components/accordion',
           items: [],
+          title: 'Accordion',
         },
         {
-          title: 'Badge',
           href: '/docs/components/badge',
           items: [],
           label: 'new',
+          title: 'Badge',
         },
         {
           title: 'Button',
@@ -80,7 +79,7 @@ export const docsConfig: DocsConfig = {
           title: 'Drawer',
           href: '/docs/components/drawer',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         // {
         //   title: 'Header',
@@ -92,19 +91,19 @@ export const docsConfig: DocsConfig = {
           title: 'Hover Card',
           href: '/docs/components/hover-card',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Input',
           href: '/docs/components/input',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Label',
           href: '/docs/components/label',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         // {
         //   title: 'NavGroup',
@@ -116,49 +115,49 @@ export const docsConfig: DocsConfig = {
           title: 'Progress',
           href: '/docs/components/progress',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Radio Group',
           href: '/docs/components/radio-group',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Scroll Area',
           href: '/docs/components/scroll-area',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Select',
           href: '/docs/components/select',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Separator',
           href: '/docs/components/separator',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Sheet',
           href: '/docs/components/sheet',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Skeleton',
           href: '/docs/components/skeleton',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Slider',
           href: '/docs/components/slider',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         {
           title: 'Sonner',
@@ -169,7 +168,7 @@ export const docsConfig: DocsConfig = {
           title: 'Switch',
           href: '/docs/components/switch',
           items: [],
-          label: 'new',
+          // label: 'new',
         },
         // {
         //   title: 'Table',
@@ -185,16 +184,19 @@ export const docsConfig: DocsConfig = {
         {
           title: 'Text Area',
           href: '/docs/components/textarea',
+          label: 'new',
           items: [],
         },
         {
           title: 'Toggle',
           href: '/docs/components/toggle',
+          label: 'new',
           items: [],
         },
         {
           title: 'Toggle Group',
           href: '/docs/components/toggle-group',
+          label: 'new',
           items: [],
         },
         {
@@ -209,6 +211,7 @@ export const docsConfig: DocsConfig = {
         //   label: 'new',
         // },
       ],
+      title: 'Components',
     },
   ],
 }

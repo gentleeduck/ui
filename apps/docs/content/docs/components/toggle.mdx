@@ -2,9 +2,6 @@
 title: toggle
 description: A two-state button that can be either on or off.
 component: true
-links:
-  doc: https://www.radix-ui.com/docs/primitives/components/toggle
-  api: https://www.radix-ui.com/docs/primitives/components/toggle#api-reference
 ---
 
 <ComponentPreview
@@ -23,7 +20,7 @@ links:
 <TabsContent value="cli">
 
 ```bash
-npx shadcn@latest add toggle
+npx duck-ui@latest add toggle
 ```
 
 </TabsContent>
@@ -32,11 +29,6 @@ npx shadcn@latest add toggle
 
 <Steps>
 
-<Step>Install the following dependencies:</Step>
-
-```bash
-npm install @radix-ui/react-toggle
-```
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -106,13 +98,7 @@ import { Toggle } from '@/components/ui/toggle'
 
 ## API Reference
 
-### **Toggle Component**
-
-The `Toggle` component is a customizable toggle button built using Radix's `TogglePrimitive.Root`. It supports various styles and sizes using the `class-variance-authority` utility.
-
----
-
-### **Properties**
+### Properties
 
 #### General Properties
 
@@ -132,46 +118,5 @@ The `Toggle` component is a customizable toggle button built using Radix's `Togg
 - **`className`** (`string`, optional):  
   Additional classes to apply custom styles.
 
-- **`...props`** (`React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root>`):  
-  Additional props are forwarded to the underlying Radix `TogglePrimitive.Root` component.
-
----
-
-### **Class Variants**
-
-#### Base Styles
-
-The base styles apply common visual properties for all variants:
-
-- Rounded corners, font size, and padding.
-- Color transitions for hover, focus, and disabled states.
-- Supports Radix state-specific styles for `data-[state=on]`.
-
-#### Variant Styles
-
-The `variant` property provides predefined styling options:
-
-- **`default`**:
-
-  - Transparent background.
-  - Standard foreground colors.
-
-- **`outline`**:
-  - Adds a border with the `input` color.
-  - Changes background and text color on hover.
-
-#### Size Styles
-
-The `size` property adjusts height, padding, and minimum width:
-
-- **`default`**: `h-10 px-3 min-w-10`
-- **`sm`**: `h-9 px-2.5 min-w-9`
-- **`lg`**: `h-11 px-5 min-w-11`
-
----
-
-### **Type Definitions**
-
-#### `ToggleVariantProps`
-
-Defines the types for the `variant` and `size` properties.
+- **`...props`** (`React.ComponentPropsWithoutRef<typeof Toggle>`):  
+  Additional props are forwarded to the underlying Radix `Toggle` component.

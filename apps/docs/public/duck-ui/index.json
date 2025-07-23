@@ -137,14 +137,6 @@
     "root_folder": "accordion",
     "files": [
       {
-        "path": "accordion/__accordion.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "accordion/_accordion.tsx",
-        "type": "registry:ui"
-      },
-      {
         "path": "accordion/accordion.tsx",
         "type": "registry:ui"
       },
