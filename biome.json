@@ -1,6 +1,56 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "recommended": false
+      }
+    },
+    "enabled": true
+  },
+  "formatter": {
+    "attributePosition": "multiline",
+    "bracketSpacing": true,
+    "enabled": true,
+    "formatWithErrors": false,
+    "includes": [
+      "**",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/website/**",
+      "!**/build/**",
+      "!**/public/**",
+      "!**/.*/**",
+      "!**/old_*/**",
+      "!**/_*/**",
+      "!packages/___/",
+      "./apps/docs/__ui_registry__/**",
+      "!packages/_oldstuff_refactor/",
+      "!packages/benchmark/",
+      "!packages/duck-orm-skitch/**"
+    ],
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "always",
+      "attributePosition": "auto",
+      "bracketSameLine": true,
+      "bracketSpacing": true,
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all"
+    },
+    "globals": ["Global1"]
+  },
   "linter": {
+    "enabled": true,
     "includes": [
       "**",
       "!**/@*",
@@ -30,19 +80,8 @@
       "!**/table/**",
       "!**/combobox.tsx"
     ],
-    "enabled": true,
     "rules": {
-      "recommended": true,
       "complexity": {},
-      "style": {},
-      "suspicious": {
-        "noDoubleEquals": "error",
-        "noThenProperty": "error",
-        "noExplicitAny": "off",
-        "useIsArray": "error",
-        "useGetterReturn": "error",
-        "noVar": "error"
-      },
       "nursery": {
         "useSortedClasses": {
           "fix": "safe",
@@ -52,67 +91,25 @@
             "functions": ["clsx", "cva", "tw", "twMerge", "cn", "twJoin", "tv"]
           }
         }
+      },
+      "recommended": true,
+      "style": {},
+      "suspicious": {
+        "noDoubleEquals": "error",
+        "noExplicitAny": "off",
+        "noThenProperty": "error",
+        "noVar": "error",
+        "useGetterReturn": "error",
+        "useIsArray": "error"
       }
-    }
-  },
-  "formatter": {
-    "includes": [
-      "**",
-      "!**/node_modules/**",
-      "!**/dist/**",
-      "!**/website/**",
-      "!**/build/**",
-      "!**/public/**",
-      "!**/.*/**",
-      "!**/old_*/**",
-      "!**/_*/**",
-      "!packages/___/",
-      "./apps/docs/__ui_registry__/**",
-      "!packages/_oldstuff_refactor/",
-      "!packages/benchmark/",
-      "!packages/duck-orm-skitch/**"
-    ],
-    "enabled": true,
-    "formatWithErrors": false,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineEnding": "lf",
-    "lineWidth": 120,
-    "attributePosition": "multiline",
-    "bracketSpacing": true
-  },
-  "assist": {
-    "enabled": true,
-    "actions": {
-      "source": {
-        "recommended": true,
-        "useSortedAttributes": "on",
-        "useSortedKeys": "on",
-        "useSortedProperties": "on",
-        "organizeImports": "on"
-      }
-    }
-  },
-  "javascript": {
-    "globals": ["Global1"],
-    "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "trailingCommas": "all",
-      "semicolons": "asNeeded",
-      "arrowParentheses": "always",
-      "bracketSpacing": true,
-      "bracketSameLine": true,
-      "quoteStyle": "single",
-      "attributePosition": "auto"
     }
   },
   "overrides": [
     {
-      "includes": ["**/*.json"],
       "formatter": {
         "indentWidth": 2
-      }
+      },
+      "includes": ["**/*.json"]
     }
   ]
 }

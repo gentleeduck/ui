@@ -119,7 +119,7 @@ function App() {
 
   return (
     <div>
-      <TooltipDemo />
+      <AccordionDemo />
     </div>
     // <TooltipDemo />
     //   <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
@@ -178,6 +178,7 @@ const items = [
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
 import PopoverDemo from './example/popover'
+import AccordionDemo from './duck/accordion/duck'
 export function AppSidebar() {
   return (
     <Sidebar>

@@ -7,39 +7,35 @@ import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
 
 const AccordionContext = React.createContext<{
-  value: string[]
-  onValueChange?: (value: string, setOpen: (value: boolean) => void) => void
-  wrapperRef: React.RefObject<HTMLDivElement | null>
-  collapsible: boolean
-  type: 'single' | 'multiple'
-  itemsRef: React.RefObject<HTMLDetailsElement[]>
+  value?: string[]
+  readonly onValueChange?: (value: string | string[]) => void
+  readonly wrapperRef: React.RefObject<HTMLDivElement | null>
+  readonly onItemChange: (
+    value: string,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    e: React.MouseEvent<HTMLDetailsElement, MouseEvent>,
+  ) => void
+  readonly rerender: boolean
 } | null>(null)
 
-function useAccordion() {
-  const ctx = React.useContext(AccordionContext)
-  if (!ctx) {
-    throw new Error('useAccordion must be used within a <Accordion>')
-  }
-  return ctx
-}
-
-type AccordionProps = Omit<React.HTMLProps<HTMLDivElement>, 'value'> & {
-  collapsible?: boolean
+type AccordionProps = Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'type'> & {
+  rerender?: boolean
 } & (
     | {
         type?: 'single'
         defaultValue?: string
         value?: string
         onValueChange?: (value: string) => void
+        collapsible?: boolean
       }
     | {
         type?: 'multiple'
         defaultValue?: string[]
         onValueChange?: (value: string[]) => void
         value?: string[]
+        collapsible?: never
       }
   )
-
 function Accordion({
   className,
   children,
@@ -48,6 +44,7 @@ function Accordion({
   type = 'single',
   value,
   collapsible = true,
+  rerender = false,
   onValueChange,
   ...props
 }: AccordionProps) {
@@ -60,32 +57,61 @@ function Accordion({
     )
   }, [])
 
-  const handleValueChange = (value: string, setOpen: (value: boolean) => void) => {
-    itemsRef.current.forEach((item) => {
-      // && type === 'single'
-      if (item.id !== value) {
-        item.open = false
-        setOpen(false)
-      } else if (item.id === value) {
-        console.log(value)
-        item.open = true
-        setOpen((x) => true)
+  React.useEffect(() => {
+    if (defaultValue) {
+      itemsRef.current.forEach((item) => {
+        if (defaultValue.includes(item.id)) {
+          item.open = true
+        }
+      })
+    }
+  }, [defaultValue, onValueChange])
+
+  function handleAccordionItemChange(
+    value: string,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    e: React.MouseEvent<HTMLDetailsElement, MouseEvent>,
+  ) {
+    if (type === 'single') {
+      if (collapsible) {
+        itemsRef.current.forEach((item) => {
+          if (item.id !== value) {
+            item.open = false
+          }
+        })
+      } else {
+        itemsRef.current.forEach((item) => {
+          if (item.id === value) {
+            item.open = true
+            e.preventDefault()
+          } else {
+            item.open = false
+          }
+        })
       }
-    })
-    // onValueChange?.(value)
+    } else if (type === 'multiple') {
+      itemsRef.current.forEach((item) => {
+        if (item.id === value) {
+          item.open = !item.open
+          e.preventDefault()
+        }
+      })
+    }
+    if (rerender) {
+      setOpen((x) => !x)
+    }
   }
 
   return (
     <AccordionContext.Provider
       value={{
-        collapsible,
-        onValueChange: handleValueChange,
-        type,
-        value: (type === 'single' ? [value] : value) as string[],
+        rerender,
+        onValueChange: onValueChange as never,
+        onItemChange: handleAccordionItemChange,
+        value: (type === 'single' ? [value ?? defaultValue] : (value ?? defaultValue)) as string[],
         wrapperRef,
-        itemsRef,
       }}>
-      <div className={cn('w-[400px] [interpolate-size:allow-keywords]', className)} {...props} ref={wrapperRef}>
+      <div className={cn('min-w-[400px] [interpolate-size:allow-keywords]', className)} {...props} ref={wrapperRef}>
         {children}
       </div>
     </AccordionContext.Provider>
@@ -95,75 +121,46 @@ function Accordion({
 function AccordionItem({
   className,
   ref,
-  value,
-  onKeyUp,
-  onClick,
   children,
+  onClick,
+  onKeyUp,
+
+  renderOnce = false,
+  value,
   ...props
 }: Omit<React.HTMLProps<HTMLDetailsElement>, 'value'> & {
+  renderOnce?: boolean
   value?: string
 }) {
-  const { onValueChange, value: _value, collapsible, type, itemsRef } = useAccordion()
-  const [open, setOpen] = React.useState(_value?.includes(value as string))
+  const { onItemChange, value: _value, rerender } = React.useContext(AccordionContext) ?? {}
+  const [open, setOpen] = React.useState<boolean>(_value?.includes(value as string) ?? false)
   const _children = Array.from(children as never as React.ReactNode[])
-
-  // React.useEffect(() => {
-  //   if (_value?.includes(value as string)) {
-  //     onValueChange?.(value as string, setOpen)
-  //     setOpen(true)
-  //   }
-  // }, [_value])
 
   return (
     <details
       aria-labelledby={value}
       className={cn(
         'group overflow-hidden border-border border-b',
-        'group [&::details-content]:h-0 [&::details-content]:transform-gpu [&::details-content]:transition-all [&::details-content]:transition-discrete [&::details-content]:duration-250 [&::details-content]:ease-(--duck-motion-ease) [&::details-content]:will-change-[height] open:[&::details-content]:h-auto',
+        '[&::details-content]:h-0 [&::details-content]:transform-gpu [&::details-content]:transition-all [&::details-content]:transition-discrete [&::details-content]:duration-250 [&::details-content]:ease-(--duck-motion-ease) [&::details-content]:will-change-[height] open:[&::details-content]:h-auto',
         AnimVariants({ overlay: 'nothing' }),
         className,
       )}
-      data-open={String(open)}
       id={value}
+      ref={ref}
+      onKeyUp={onKeyUp}
       onClick={(e) => {
         onClick?.(e)
-        if (type === 'single') {
-          itemsRef.current.forEach((item) => {
-            if (item.id !== value) {
-              item.open = false
-            }
-          })
-          console.log(_value, value)
-          if (
-            !collapsible &&
-            open &&
-            itemsRef.current.some((item) => item.id === value && item.getAttribute('data-open') === 'true')
-          ) {
-            e.preventDefault()
-            return
-          }
-          setOpen((s) => !s)
-        }
-        // if (!collapsible && open) {
-        //   e.preventDefault()
-        //   return
-        // }
-        // if (!collapsible && open) {
-        //   e.preventDefault()
-        //   return
-        // }
-        // setOpen((s) => !s)
+        onItemChange?.(value ?? '', setOpen, e)
       }}
-      onKeyUp={onKeyUp}
-      ref={ref}
       {...props}
       duck-accordion-item="">
       {_children[0]}
-
-      <ShouldRender once={false} open={open}>
-        {_children[1]}
-        {open}
-      </ShouldRender>
+      {rerender && (
+        <ShouldRender once={renderOnce} open={open}>
+          {_children[1]}
+        </ShouldRender>
+      )}
+      {!rerender && _children[1]}
     </details>
   )
 }
@@ -193,7 +190,9 @@ function AccordionTrigger({
       duck-accordion-trigger="">
       {children}
       <span
-        className={cn('[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform group-open:[&>svg]:rotate-180')}
+        className={cn(
+          '[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200 group-open:[&>svg]:rotate-180',
+        )}
         duck-accordion-icon="">
         {icon ? icon : <ChevronDown id="arrow" />}
       </span>

@@ -1,14 +1,13 @@
-import React from 'react'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
-import { Banknote } from 'lucide-react'
-import { TbBrandMastercard, TbBrandPaypal } from 'react-icons/tb'
-import { RiVisaLine } from 'react-icons/ri'
-import { BsCreditCard } from 'react-icons/bs'
-import { IoWalletOutline } from 'react-icons/io5'
-import { FaApplePay, FaGooglePay } from 'react-icons/fa'
-import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
-import { FaSortDown } from 'react-icons/fa'
 import { cn } from '@gentleduck/libs/cn'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
+import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
+import { Banknote } from 'lucide-react'
+import React from 'react'
+import { BsCreditCard } from 'react-icons/bs'
+import { FaApplePay, FaGooglePay, FaSortDown } from 'react-icons/fa'
+import { IoWalletOutline } from 'react-icons/io5'
+import { RiVisaLine } from 'react-icons/ri'
+import { TbBrandMastercard, TbBrandPaypal } from 'react-icons/tb'
 
 export default function Accordion1Demo() {
   const [selectedValue, setSelectedValue] = React.useState({
@@ -21,13 +20,13 @@ export default function Accordion1Demo() {
   }
 
   return (
-    <Accordion type="single" collapsible className="w-full">
+    <Accordion className="w-full" defaultValue={'item-1'} open>
       {/* Paying Methods Section */}
       <AccordionItem value="item-1">
         <AccordionTrigger className="hover:no-underline" icon={<FaSortDown />}>
           <div className="flex items-center gap-3">
             <div className="flex flex-col place-content-center rounded-lg bg-secondary p-2">
-              <Banknote className="text-primary-foreground" size={35} />
+              <Banknote className="text-muted-foreground" size={35} />
             </div>
             <div className="flex flex-col items-start">
               <h5 className="text-xl">Paying Methods</h5>
@@ -36,48 +35,46 @@ export default function Accordion1Demo() {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          <ToggleGroup type="single">
-            <ul className="flex items-center justify-center gap-4 p-4">
-              {[
-                {
-                  value: 'mastercard',
-                  label: 'Mastercard',
-                  icon: <TbBrandMastercard />,
-                  description: 'Credit card',
-                },
-                {
-                  value: 'visa',
-                  label: 'Visa',
-                  icon: <RiVisaLine />,
-                  description: 'Debit card',
-                },
-                {
-                  value: 'duckcard',
-                  label: 'Duckcard',
-                  icon: <BsCreditCard />,
-                  description: 'Credit card',
-                },
-              ].map(({ value, label, icon, description }) => (
-                <ToggleGroupItem
-                  key={value}
-                  value={value}
-                  aria-selected={selectedValue.payingMethod === value}
-                  className={cn(
-                    'flex h-auto cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-300 hover:bg-muted',
-                    selectedValue.payingMethod === value ? 'bg-muted' : '',
-                  )}
-                  onClick={() => handleSelection('payingMethod', value)}
-                  tabIndex={0}>
-                  <div className="flex place-content-center rounded-lg bg-secondary p-2 [&>svg]:size-[35px] [&>svg]:text-muted">
-                    {icon}
-                  </div>
-                  <div className="flex flex-col items-start">
-                    <h5 className="font-semibold text-lg">{label}</h5>
-                    <p className="font-semibold text-muted-foreground text-sm">{description}</p>
-                  </div>
-                </ToggleGroupItem>
-              ))}
-            </ul>
+          <ToggleGroup className="gap-3" type="single">
+            {[
+              {
+                description: 'Credit card',
+                icon: <TbBrandMastercard />,
+                label: 'Mastercard',
+                value: 'mastercard',
+              },
+              {
+                description: 'Debit card',
+                icon: <RiVisaLine />,
+                label: 'Visa',
+                value: 'visa',
+              },
+              {
+                description: 'Credit card',
+                icon: <BsCreditCard />,
+                label: 'Duckcard',
+                value: 'duckcard',
+              },
+            ].map(({ value, label, icon, description }) => (
+              <ToggleGroupItem
+                aria-selected={selectedValue.payingMethod === value}
+                className={cn(
+                  'flex h-[90px] w-full cursor-pointer items-center gap-3 rounded-lg border p-2 transition-all duration-300 hover:bg-muted',
+                  selectedValue.payingMethod === value ? 'bg-muted' : '',
+                )}
+                key={value}
+                onClick={() => handleSelection('payingMethod', value)}
+                tabIndex={0}
+                value={value}>
+                <div className="flex place-content-center rounded-lg bg-secondary p-2 text-white [&>svg]:size-[35px] [&>svg]:text-muted-foreground">
+                  {icon}
+                </div>
+                <div className="flex w-full flex-col items-start">
+                  <h5 className="w-full whitespace-nowrap font-semibold text-lg">{label}</h5>
+                  <p className="w-full whitespace-nowrap font-semibold text-muted-foreground text-sm">{description}</p>
+                </div>
+              </ToggleGroupItem>
+            ))}
           </ToggleGroup>
         </AccordionContent>
       </AccordionItem>
@@ -87,7 +84,7 @@ export default function Accordion1Demo() {
         <AccordionTrigger className="hover:no-underline" icon={<FaSortDown />}>
           <div className="flex items-center gap-3">
             <div className="flex flex-col place-content-center rounded-lg bg-secondary p-2">
-              <IoWalletOutline className="text-primary-foreground" size={35} />
+              <IoWalletOutline className="text-muted-foreground" size={35} />
             </div>
             <div className="flex flex-col items-start">
               <h5 className="text-xl">Wallet Options</h5>
@@ -96,50 +93,46 @@ export default function Accordion1Demo() {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          <ToggleGroup type="single">
-            <ul className="flex items-center justify-center gap-4 p-4">
-              {[
-                {
-                  value: 'paypal',
-                  label: 'PayPal',
-                  icon: <TbBrandPaypal />,
-                  description: 'Digital wallet',
-                },
-                {
-                  value: 'applepay',
-                  label: 'Apple Pay',
-                  icon: <FaApplePay />,
-                  description: 'Digital wallet',
-                },
-                {
-                  value: 'googlepay',
-                  label: 'Google Pay',
-                  icon: <FaGooglePay />,
-                  description: 'Digital wallet',
-                },
-              ].map(({ value, label, icon, description }) => (
-                <ToggleGroupItem
-                  key={value}
-                  value={value}
-                  size={'default'}
-                  aria-selected={selectedValue.wallet === value}
-                  className={cn(
-                    'flex h-auto w-full cursor-pointer items-center gap-3 rounded-lg border p-4 transition-all duration-300 hover:bg-muted',
-                    selectedValue.payingMethod === value ? 'bg-muted' : '',
-                  )}
-                  onClick={() => handleSelection('wallet', value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSelection('wallet', value)}
-                  tabIndex={0}>
-                  <div className="flex place-content-center rounded-lg bg-secondary p-2 [&>svg]:size-[35px] [&>svg]:text-muted">
-                    {icon}
-                  </div>
-                  <div className="flex flex-col items-start">
-                    <h5 className="font-semibold text-lg">{label}</h5>
-                    <p className="font-semibold text-muted-foreground text-sm">{description}</p>
-                  </div>
-                </ToggleGroupItem>
-              ))}
-            </ul>
+          <ToggleGroup className="gap-3" type="single">
+            {[
+              {
+                description: 'Digital wallet',
+                icon: <TbBrandPaypal />,
+                label: 'PayPal',
+                value: 'paypal',
+              },
+              {
+                description: 'Digital wallet',
+                icon: <FaApplePay />,
+                label: 'Apple Pay',
+                value: 'applepay',
+              },
+              {
+                description: 'Digital wallet',
+                icon: <FaGooglePay />,
+                label: 'Google Pay',
+                value: 'googlepay',
+              },
+            ].map(({ value, label, icon, description }) => (
+              <ToggleGroupItem
+                aria-selected={selectedValue.wallet === value}
+                className={cn(
+                  'flex h-[90px] w-full cursor-pointer items-center gap-3 rounded-lg border p-2 transition-all duration-300 hover:bg-muted',
+                  selectedValue.wallet === value ? 'bg-muted' : '',
+                )}
+                key={value}
+                onClick={() => handleSelection('wallet', value)}
+                tabIndex={0}
+                value={value}>
+                <div className="flex place-content-center rounded-lg bg-secondary p-2 text-white [&>svg]:size-[35px] [&>svg]:text-muted-foreground">
+                  {icon}
+                </div>
+                <div className="flex w-full flex-col items-start">
+                  <h5 className="w-full whitespace-nowrap font-semibold text-lg">{label}</h5>
+                  <p className="w-full whitespace-nowrap font-semibold text-muted-foreground text-sm">{description}</p>
+                </div>
+              </ToggleGroupItem>
+            ))}
           </ToggleGroup>
         </AccordionContent>
       </AccordionItem>

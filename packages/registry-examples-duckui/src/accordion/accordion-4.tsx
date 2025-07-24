@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react'
 
 export default function Accordion1Demo() {
   return (
-    <Accordion type="multiple" className="w-full">
+    <Accordion className="w-full" type="multiple">
       <AccordionItem value="item-1">
         <AccordionTrigger className="hover:no-underline" icon={<Plus />}>
           Is it accessible?

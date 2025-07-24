@@ -37,6 +37,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/accordion',
           items: [],
+          label: 'new',
           title: 'Accordion',
         },
         {
@@ -46,16 +47,16 @@ export const docsConfig: DocsConfig = {
           title: 'Badge',
         },
         {
-          title: 'Button',
           href: '/docs/components/button',
           items: [
             {
-              title: 'Button',
               href: '/docs/components/button2',
               items: [],
+              title: 'Button',
             },
           ],
           label: 'new',
+          title: 'Button',
         },
         // {
         //   title: 'Combobox',
@@ -76,9 +77,9 @@ export const docsConfig: DocsConfig = {
         //   label: 'new',
         // },
         {
-          title: 'Drawer',
           href: '/docs/components/drawer',
           items: [],
+          title: 'Drawer',
           // label: 'new',
         },
         // {
@@ -88,21 +89,21 @@ export const docsConfig: DocsConfig = {
         //   label: 'new',
         // },
         {
-          title: 'Hover Card',
           href: '/docs/components/hover-card',
           items: [],
+          title: 'Hover Card',
           // label: 'new',
         },
         {
-          title: 'Input',
           href: '/docs/components/input',
           items: [],
+          title: 'Input',
           // label: 'new',
         },
         {
-          title: 'Label',
           href: '/docs/components/label',
           items: [],
+          title: 'Label',
           // label: 'new',
         },
         // {
@@ -112,62 +113,62 @@ export const docsConfig: DocsConfig = {
         //   label: 'new',
         // },
         {
-          title: 'Progress',
           href: '/docs/components/progress',
           items: [],
+          title: 'Progress',
           // label: 'new',
         },
         {
-          title: 'Radio Group',
           href: '/docs/components/radio-group',
           items: [],
+          title: 'Radio Group',
           // label: 'new',
         },
         {
-          title: 'Scroll Area',
           href: '/docs/components/scroll-area',
           items: [],
+          title: 'Scroll Area',
           // label: 'new',
         },
         {
-          title: 'Select',
           href: '/docs/components/select',
           items: [],
+          title: 'Select',
           // label: 'new',
         },
         {
-          title: 'Separator',
           href: '/docs/components/separator',
           items: [],
+          title: 'Separator',
           // label: 'new',
         },
         {
-          title: 'Sheet',
           href: '/docs/components/sheet',
           items: [],
+          title: 'Sheet',
           // label: 'new',
         },
         {
-          title: 'Skeleton',
           href: '/docs/components/skeleton',
           items: [],
+          title: 'Skeleton',
           // label: 'new',
         },
         {
-          title: 'Slider',
           href: '/docs/components/slider',
           items: [],
+          title: 'Slider',
           // label: 'new',
         },
         {
-          title: 'Sonner',
           href: '/docs/components/sonner',
           items: [],
+          title: 'Sonner',
         },
         {
-          title: 'Switch',
           href: '/docs/components/switch',
           items: [],
+          title: 'Switch',
           // label: 'new',
         },
         // {
@@ -177,32 +178,32 @@ export const docsConfig: DocsConfig = {
         //   label: 'new',
         // },
         {
-          title: 'Tabs',
           href: '/docs/components/tabs',
           items: [],
+          title: 'Tabs',
         },
         {
-          title: 'Text Area',
           href: '/docs/components/textarea',
-          label: 'new',
           items: [],
+          label: 'new',
+          title: 'Text Area',
         },
         {
-          title: 'Toggle',
           href: '/docs/components/toggle',
-          label: 'new',
           items: [],
+          label: 'new',
+          title: 'Toggle',
         },
         {
-          title: 'Toggle Group',
           href: '/docs/components/toggle-group',
-          label: 'new',
           items: [],
+          label: 'new',
+          title: 'Toggle Group',
         },
         {
-          title: 'Tooltip',
           href: '/docs/components/tooltip',
           items: [],
+          title: 'Tooltip',
         },
         // {
         //   title: 'Upload',
