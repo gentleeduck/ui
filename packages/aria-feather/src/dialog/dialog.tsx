@@ -112,7 +112,7 @@ export function Content({
   return (
     <div className={String(open && 'absolute inset-0 z-50 flex min-h-screen w-full items-center justify-center')}>
       <dialog className={className} {...prop} id={id} ref={contentRef}>
-        <ShouldRender ref={contentRef} once={renderOnce} open={open}>
+        <ShouldRender ref={contentRef.current} forceMount={renderOnce} open={open}>
           {children}
           {closeButton && <DialogClose />}
         </ShouldRender>
@@ -122,31 +122,33 @@ export function Content({
 }
 
 export function ShouldRender({
-  once = false,
+  forceMount = false,
   open = false,
   children,
   ref,
 }: {
-  once?: boolean
+  forceMount?: boolean
   open?: boolean
   children?: React.ReactNode
-  ref?: HTMLElement | null // more flexible than HTMLDialogElement
+  ref?: HTMLElement | null
 }) {
   const [_shouldRender, setShouldRender] = React.useState(false)
   const [isVisible, setIsVisible] = React.useState(false)
 
-  const shouldRender = once ? _shouldRender : open
+  const shouldRender = forceMount ? _shouldRender : open
 
   React.useEffect(() => {
-    if (open && once) {
-      setShouldRender(true)
+    if (open) {
+      if (forceMount) {
+        setShouldRender(true)
+      }
+      setIsVisible(true)
+      return
     }
 
-    if (shouldRender) {
-      setIsVisible(true)
-    } else if (ref) {
+    // When `open` is false:
+    if (!forceMount && ref) {
       const node = ref
-
       const handleTransitionEnd = (e: TransitionEvent) => {
         if (e.target === node) {
           setIsVisible(false)
@@ -160,9 +162,14 @@ export function ShouldRender({
         node.removeEventListener('transitionend', handleTransitionEnd)
       }
     }
-  }, [shouldRender, ref, open, once])
+
+    // If no ref: hide immediately
+    if (!forceMount && !ref) {
+      setIsVisible(false)
+    }
+  }, [open, forceMount, ref])
 
   if (!shouldRender && !isVisible) return null
 
-  return children
+  return <>{children}</>
 }

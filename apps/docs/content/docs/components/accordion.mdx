@@ -2,9 +2,6 @@
 title: accordion
 description: A vertically stacked set of interactive headings that each reveal a section of content.
 component: true
-links:
-  doc: https://www.radix-ui.com/docs/primitives/components/accordion
-  api: https://www.radix-ui.com/docs/primitives/components/accordion#api-reference
 ---
 
 <ComponentPreview
@@ -37,7 +34,7 @@ npx duck-ui@latest add accordion
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install 
+npm install @gentleduck/aria-feather @gentledduck/anim
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -45,34 +42,6 @@ npm install
 <ComponentSource name="accordion" />
 
 <Step>Update the import paths to match your project setup.</Step>
-
-<Step>Update `tailwind.config.js`</Step>
-
-Add the following animations to your `tailwind.config.js` file:
-
-```js title="tailwind.config.js" {5-18}
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  theme: {
-    extend: {
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-      },
-    },
-  },
-}
-```
 
 </Steps>
 
@@ -83,14 +52,11 @@ module.exports = {
 ## Usage
 
 ```tsx
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
 ```
 
 ```tsx
-<Accordion
-  type="single"
-  collapsible
->
+<Accordion type="single" collapsible>
   <AccordionItem value="item-1">
     <AccordionTrigger>Is it accessible?</AccordionTrigger>
     <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
@@ -125,80 +91,35 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 ### **Accordion**
 
-The `Accordion` component provides a collapsible container for managing `AccordionItem` components.
-
----
-
-### **Accordion Properties**
-
-- **`type`** (`'single' | 'multiple'`, optional):
-
-  - Defines the type of accordion:
-    - `'single'`: Only one item can be open at a time.
-    - `'multiple'`: Allows multiple items to be open simultaneously.
-  - Defaults to `'single'`.
-
-- **`defaultValue`** (`string | string[]`, optional):
-
-  - Sets the initial open state(s) of the accordion items.
-  - Use a string for single-item accordion or an array for multi-item accordion.
-
-- **`value`** (`string | string[]`, optional):
-
-  - Controls the open state(s) of the accordion items.
-  - Works in controlled mode alongside `onValueChange`.
-
-- **`onValueChange`** (`(value: string | string[]) => void`, optional):
-  - Callback fired when the open state changes.
+* **`type?: 'single' | 'multiple'`** (default: `'single'`): Defines accordion behavior. `'single'` allows only one open item; `'multiple'` allows multiple open items.
+* **`defaultValue?: string | string[]`**: Sets initial open state(s); string for single type, array for multiple.
+* **`value?: string | string[]`**: Controlled open state(s); requires `onValueChange` for updates.
+* **`onValueChange?: (value: string | string[]) => void`**: Callback fired when open state changes.
+* **`collapsible?: boolean`** (default: `true`, single type only): Allows collapsing the currently open item by clicking again.
+* **`rerender?: boolean`** (default: `false`): Forces internal re-render on each toggle, enabling conditional remount with `renderOnce`.
+* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props.
 
 ---
 
 ### **AccordionItem**
 
-A single collapsible item within the accordion.
-
-#### **AccordionItem Properties**
-
-- **`value`** (`string`, required): A unique identifier for the accordion item.
-
-- **`className`** (`string`, optional): Additional CSS classes for custom styling.
-
-- **`children`** (`React.ReactNode`): Content of the accordion item.
+* **`value: string`**: Unique identifier tying trigger to content.
+* **`renderOnce?: boolean`** (default: `false`): Mounts content only on first expand and preserves it.
+* **`children: [trigger: ReactNode, content: ReactNode]`**: Two nodes: first the `AccordionTrigger`, second the `AccordionContent`.
+* **`...props?: React.HTMLProps<HTMLDetailsElement>`**: Other native `<details>` props.
 
 ---
 
 ### **AccordionTrigger**
 
-The component that toggles the open/close state of an `AccordionItem`.
-
-#### **AccordionTrigger Properties**
-
-- **`icon`** ([`IconType`](#icontype), optional): Custom icon displayed alongside the trigger text, if not provided, a default `ChevronDown` icon is used.
-
-- **`className`** (`string`, optional): Additional CSS classes for custom styling.
-
-- **`children`** (`React.ReactNode`): Content inside the trigger.
+* **`value?: string`**: Identifier matching parent item’s `value`.
+* **`icon?: ReactNode`**: Custom icon component; defaults to a rotating ChevronDown.
+* **`...props?: React.HTMLProps<HTMLElement>`**: Other native `<summary>` props.
 
 ---
 
 ### **AccordionContent**
 
-The collapsible content displayed when an `AccordionItem` is open.
+* **`rerender?: boolean`** (default: `false`): Controls remount behavior based on parent context.
+* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props.
 
-#### **AccordionContent Properties**
-
-- **`className`** (`string`, optional): Additional CSS classes for custom styling.
-
-- **`children`** (`React.ReactNode`): Content inside the collapsible area.
-
----
-
-## Type Definitions
-
-### IconType
-
-Defines the properties for an icon component.
-
-- **`children`** (`React.ElementType`): The icon component (e.g., a Lucide or custom SVG icon).
-
-- **Additional SVG Props**: Supports all `React.SVGProps` for further customization.

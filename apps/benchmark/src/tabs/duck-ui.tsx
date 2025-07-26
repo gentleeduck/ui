@@ -1,27 +1,16 @@
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@gentleduck/registry-ui-duckui/card'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 
-export default function DuckTabsDemo() {
+export function DuckTabsDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-6">
       <Tabs defaultValue="account" className="w-[294px]">
         <TabsList>
-          <TabsTrigger value="account" className="w-full">
-            Account
-          </TabsTrigger>
-          <TabsTrigger value="password" className="w-full">
-            Password
-          </TabsTrigger>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
         </TabsList>
         <TabsContent value="account">
           <Card>
@@ -39,7 +28,7 @@ export default function DuckTabsDemo() {
                 <Input id="tabs-demo-username" defaultValue="@peduarte" />
               </div>
             </CardContent>
-            <CardFooter className="justify-end">
+            <CardFooter>
               <Button>Save changes</Button>
             </CardFooter>
           </Card>
@@ -60,7 +49,7 @@ export default function DuckTabsDemo() {
                 <Input id="tabs-demo-new" type="password" />
               </div>
             </CardContent>
-            <CardFooter className="justify-end">
+            <CardFooter>
               <Button>Save password</Button>
             </CardFooter>
           </Card>

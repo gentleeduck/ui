@@ -2,9 +2,6 @@
 title: tabs
 description: A set of layered sections of content—known as tab panels—that are displayed one at a time.
 component: true
-links:
-  doc: https://www.radix-ui.com/docs/primitives/components/tabs
-  api: https://www.radix-ui.com/docs/primitives/components/tabs#api-reference
 ---
 
 <ComponentPreview
@@ -35,7 +32,7 @@ npx shadcn@latest add tabs
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @radix-ui/react-tabs
+npm install @gentleduck/aria-feather 
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -70,72 +67,38 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 </Tabs>
 ```
 
-## API Reference  
+## API Reference
 
-### **Tabs Component**  
+### **Tabs**
 
-The `Tabs` component is the root container that manages tab navigation and state.  
-
-- **Inherits all properties from `TabsPrimitive.Root`**  
-
----
-
-### **TabsList**  
-
-A container that holds tab triggers, providing a structured layout for tab navigation.  
-
-- **Inherits all properties from `TabsPrimitive.List`**  
-- **`className`** (`string`, optional):  
-  - Additional CSS classes for styling the list container.  
-
-#### **Default Styles**  
-- Rounded container with a muted background.  
-- Uses `inline-flex` for layout, ensuring proper spacing.  
-- Text color is set to a muted foreground for clarity.  
+* **`value?: string`**: Controlled active tab value. Must be used alongside `onValueChange`.
+* **`defaultValue?: string`**: Uncontrolled initial tab value.
+* **`onValueChange?: (value: string) => void`**: Callback fired when the active tab changes.
+* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props applied to the root tablist container.
 
 ---
 
-### **TabsTrigger**  
+### **TabsList**
 
-A clickable element that acts as a trigger for its corresponding tab content.  
-
-- **Inherits all properties from `TabsPrimitive.Trigger`**  
-- **`className`** (`string`, optional):  
-  - Additional CSS classes for styling the tab trigger.  
-
-#### **Default Styles**  
-- Responsive design with appropriate padding.  
-- Smooth transition effects for an interactive experience.  
-- `focus-visible` ring to enhance accessibility.  
-- Active state includes distinct background and foreground colors.  
+* **`...props?: React.HTMLProps<HTMLUListElement>`**: Native `<ul>` props passed to the tabs list container.
+* Rendered with:
+  `role="tablist"` and `aria-orientation="vertical"` (can be changed later).
 
 ---
 
-### **TabsContent**  
+### **TabsTrigger**
 
-A container that holds the content corresponding to an active tab.  
-
-- **Inherits all properties from `TabsPrimitive.Content`**  
-- **`className`** (`string`, optional):  
-  - Additional CSS classes for styling the content area.  
-
-#### **Default Styles**  
-- `margin-top` spacing for visual separation.  
-- `focus-visible` ring for improved accessibility.  
+* **`value: string`**: A unique value that identifies this tab trigger.
+* **`defaultChecked?: boolean`**: If true, sets this tab as the default active tab on first render.
+* **`disabled?: boolean`**: Disables the tab trigger from user interaction.
+* **`children: ReactNode`**: Label or node to render inside the tab.
+* **`...props?: React.HTMLProps<HTMLLIElement>`**: Other native `<li>` props.
 
 ---
 
-### **Accessibility**  
+### **TabsContent**
 
-The `Tabs` system follows WAI-ARIA accessibility standards, ensuring:  
-- Full keyboard navigation support.  
-- Proper focus management for smooth interactions.  
-- Correct ARIA roles assigned to triggers and content for screen readers.  
-
----
-
-### **Customization**  
-
-All `Tabs` components accept the `className` prop, allowing easy customization using utility classes.  
-- The `cn` utility helps with conditional class merging, making styling flexible.  
-
+* **`value: string`**: The associated value that matches a `TabsTrigger`.
+* **`forceMount?: boolean`** (default: `true`): Ensures the content is mounted even when hidden.
+* **`children: ReactNode`**: Tab panel content.
+* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props applied to the content container.

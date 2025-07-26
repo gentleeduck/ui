@@ -1,4 +1,4 @@
-import { defineConfig, s } from 'velite'
+import { defineConfig, s, ZodMeta } from 'velite'
 // import { docs } from '~/velite-configs'
 
 import { getHighlighter, loadTheme } from '@shikijs/compat'
@@ -23,7 +23,8 @@ const config = defineConfig({
   collections: {
     docs: {
       name: 'Docs',
-      pattern: 'docs/**/*.mdx',
+      pattern: 'docs/components/tabs.mdx',
+      // pattern: 'docs/**/*.mdx',
       schema: s
         .object({
           title: s.string().max(99),
@@ -36,20 +37,24 @@ const config = defineConfig({
           toc: s.toc(),
         })
         //NOTE:: more additional fields (computed fields)
-        .transform((data, { path, meta }) => ({
-          ...data,
-          slug: `${meta.path.split('/').slice(-3, -1).join('/')}/${meta.path.split('/').pop()?.replace('.mdx', '')}`,
-          permalink: `${meta.path.split('/').slice(-2, -1).join('/')}/${meta.path.split('/').pop()?.replace('.mdx', '')}`,
-          sourceFilePath: path,
-          sourceFileName: meta.path.split('/').pop(),
-          sourceFileDir: meta.path.split('/').slice(-3, -1).join('/'),
-          contentType: meta.path.split('.').pop(),
-          flattenedPath: meta.path
-            .split('/')
-            .slice(-2, -1)
-            .join('/')
-            .replace(/\.mdx$/, ''),
-        })),
+        .transform((data, { path, meta }) => {
+          const _meta = meta as ZodMeta & { path: string }
+          return {
+            ...data,
+            toc: cleanTocItems(data.toc),
+            slug: `${_meta.path.split('/').slice(-3, -1).join('/')}/${_meta.path.split('/').pop()?.replace('.mdx', '')}`,
+            permalink: `${_meta.path.split('/').slice(-2, -1).join('/')}/${_meta.path.split('/').pop()?.replace('.mdx', '')}`,
+            sourceFilePath: path,
+            sourceFileName: _meta.path.split('/').pop(),
+            sourceFileDir: _meta.path.split('/').slice(-3, -1).join('/'),
+            contentType: _meta.path.split('.').pop(),
+            flattenedPath: _meta.path
+              .split('/')
+              .slice(-2, -1)
+              .join('/')
+              .replace(/\.mdx$/, ''),
+          }
+        }),
     },
   },
   mdx: {
@@ -109,5 +114,14 @@ const config = defineConfig({
     ] as PluggableList,
   },
 }) as any
+function cleanTocItems(items: any[]): any[] {
+  return items.map((item) => {
+    return {
+      ...item,
+      title: item.title?.replace('undefined', ''),
+      items: item.items ? cleanTocItems(item.items) : [],
+    }
+  })
+}
 
 export default config

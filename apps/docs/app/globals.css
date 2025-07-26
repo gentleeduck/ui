@@ -42,7 +42,7 @@
 
 :root {
   --font-sans: "Geist", "Adjusted Arial Fallback";
-  --font-mono: "Mono", "Adjusted Lucida Sans Typewriter Fallback";
+  --font-mono: "JetBrains Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -302,10 +302,10 @@ code,
 kbd,
 samp,
 pre {
-  font-family: var(--font-mono) !important;
-  font-optical-sizing: auto !important;
-  font-style: normal !important;
-  font-weight: 500 !important;
+  font-family: var(--font-mono);
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 500;
 }
 
 [data-theme="light"] {
@@ -382,6 +382,14 @@ pre {
 
 .steps>h3 {
   @apply mt-8 mb-4 text-base font-semibold;
+}
+
+strong {
+  @apply font-semibold;
+}
+
+strong>code {
+  @apply font-bold;
 }
 
 /* FIX: the animation bounce it bounces so hard. = ==========================*/

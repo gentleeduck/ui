@@ -1,1 +1,1 @@
-export * from './_accordion'
+export * from './accordion'

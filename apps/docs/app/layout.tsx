@@ -23,6 +23,11 @@ export default function RootLayout({
       <head>
         <link href="/fonts/Geist-VF.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link href="/fonts/JetBrainsMono-MD.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+          rel="stylesheet"
+        />
+
         {<script src="https://unpkg.com/react-scan/dist/auto.global.js" />}
       </head>
       <body className={cn('min-h-svh bg-background font-sans antialiased duck')}>

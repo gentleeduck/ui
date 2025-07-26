@@ -89,7 +89,7 @@ export function ComponentPreview({
             </TabsList>
           )}
         </div>
-        <TabsContent value="preview" className="relative rounded-md border mx-2 max-w-full min-w-2/5">
+        <TabsContent value="preview" className="relative rounded-md border max-w-full min-w-2/5 mt-0">
           <div className="flex items-center justify-between p-4 absolute w-full">
             <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
@@ -98,7 +98,7 @@ export function ComponentPreview({
           </div>
           <ThemeWrapper defaultTheme="zinc">
             <div
-              className={cn('preview  flex min-h-[450px]   w-full justify-center p-10', {
+              className={cn('preview flex h-[450px] w-full justify-center p-10', {
                 'items-center': align === 'center',
                 'items-start': align === 'start',
                 'items-end': align === 'end',
@@ -115,14 +115,14 @@ export function ComponentPreview({
             </div>
           </ThemeWrapper>
         </TabsContent>
-        <TabsContent value="code">
+        <TabsContent value="code" className="mt-0 ">
           <div className="flex flex-col space-y-4">
-            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:overflow-auto">{Code}</div>
+            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:overflow-auto [&_pre]:h-[450px]">{Code}</div>
           </div>
         </TabsContent>
-        <BuildTab />
       </Tabs>
     </div>
+    // <BuildTab />
   )
 }
 
@@ -165,8 +165,8 @@ export const TABS = [
     name: 'Code',
     value: 'code',
   },
-  {
-    name: 'Build',
-    value: 'build',
-  },
+  // {
+  //   name: 'Build',
+  //   value: 'build',
+  // },
 ]

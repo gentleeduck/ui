@@ -42,5 +42,3 @@ export const buttonVariants = cva('flex items-center', {
     border: 'default',
   },
 })
-
-console.log(buttonVariants())

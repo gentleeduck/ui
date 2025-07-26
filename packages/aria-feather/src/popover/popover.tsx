@@ -192,7 +192,7 @@ function Content({
         duck-popover-arrow=""
       />
       {rerender ? (
-        <ShouldRender open={openValue} ref={content} once={renderOnce}>
+        <ShouldRender open={openValue} ref={content} forceMount={renderOnce}>
           {children}
         </ShouldRender>
       ) : (
