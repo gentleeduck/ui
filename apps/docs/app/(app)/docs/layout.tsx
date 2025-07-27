@@ -1,5 +1,6 @@
 import { DocsSidebarNav } from '~/components/layouts'
 import { docsConfig } from '~/config/docs'
+import '../../mdx.css'
 
 interface DocsLayoutProps {
   children: React.ReactNode

@@ -119,7 +119,7 @@ function App() {
 
   return (
     <div>
-      <DuckTabsDemo />
+      <ScrollAreaDemo />
     </div>
     // <TooltipDemo />
     //   <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
@@ -180,6 +180,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck
 import PopoverDemo from './example/popover'
 import AccordionDemo from './duck/accordion/duck'
 import { DuckTabsDemo } from './tabs/duck-ui'
+import ScrollAreaDemo from './duck/scroll-area/scroll-area'
 export function AppSidebar() {
   return (
     <Sidebar>
