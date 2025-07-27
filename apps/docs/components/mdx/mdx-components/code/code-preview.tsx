@@ -1,16 +1,15 @@
 'use client'
 
-import * as React from 'react'
-import { ImperativePanelHandle } from 'react-resizable-panels'
-
 import { cn } from '@gentleduck/libs/cn'
+import { Block } from '@gentleduck/registers'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui-duckui/resizable'
+import { Tabs, TabsContent } from '@gentleduck/registry-ui-duckui/tabs'
+import React from 'react'
+import { ImperativePanelHandle } from 'react-resizable-panels'
+import { Icons } from '~/components/icons'
+import { BlockToolbar } from '~/components/ui'
 import { useConfig } from '~/hooks/use-config'
 import { useLiftMode } from '~/hooks/use-lift-mode'
-import { BlockToolbar } from '~/components/ui'
-import { Icons } from '~/components/icons'
-import { Block } from '@gentleduck/registers'
-import { Tabs, TabsContent } from '@gentleduck/registry-ui-duckui/tabs'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui-duckui/resizable'
 
 export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean } }) {
   const [config] = useConfig()
@@ -25,7 +24,6 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
   return (
     <Tabs
       id={block.name}
-      listValues={['preview', 'code', 'build']}
       defaultValue="preview"
       className="relative grid w-full scroll-m-20 gap-4"
       style={

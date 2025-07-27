@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-u
 export default function DuckTabsDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-6">
-      <Tabs defaultValue="account" className="w-[294px]">
+      <Tabs defaultValue="account" className="w-[400px]">
         <TabsList>
           <TabsTrigger value="account" className="w-full">
             Account

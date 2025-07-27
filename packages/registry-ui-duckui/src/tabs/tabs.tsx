@@ -107,7 +107,7 @@ const TabsTrigger = ({
 
 const TabsContent = ({
   children,
-  forceMount = true,
+  forceMount = false,
   className,
   value,
   ref,

@@ -9,9 +9,6 @@ import { Index } from '~/__ui_registry__'
 export function rehypeComponent() {
   return async (tree: UnistTree) => {
     visit(tree, (node: UnistNode) => {
-      // console.dir(node, {
-      //   depth: 7000,
-      // })
       // src prop overrides both name and fileName.
       const { value: srcPath } =
         (getNodeAttributeByName(node, 'src') as {
@@ -54,7 +51,7 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
       `../../packages/registry-${files[i]?.type === 'registry:ui' ? 'ui' : 'examples'}-duckui/src/`,
       files[i]!.path,
     )
-    let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n\n`
+    let source = `${files[i]?.path.split('/').splice(1).join('/')}\n`
 
     try {
       source += fs.readFileSync(filePath, 'utf8')
@@ -94,14 +91,14 @@ export function componentSource({ node, srcPath }: { node: UnistNode; srcPath?: 
         return u('element', {
           tagName: 'pre',
           properties: {
-            __rawString__: 'asdfasd',
+            __rawString__: item.src,
           },
           children: [
             u('element', {
               tagName: 'code',
               properties: {
                 className: ['language-tsx'],
-                // __rawString__: item.src,
+                __rawString__: item.src,
               },
               children: [
                 {
@@ -134,7 +131,7 @@ export function componentPreview({ node }: { node: UnistNode }) {
     // Read the source file.
     const filePath = path.join(process.cwd(), `../../packages/registry-examples-duckui/src/${src}`)
     let source = fs.readFileSync(filePath, 'utf8')
-    console.log(src?.split('/')[0])
+    // console.log(src?.split('/')[0])
 
     // Replace imports.
     // TODO: Use @swc/core and a visitor to replace this.

@@ -93,14 +93,6 @@ const config = defineConfig({
         },
       ],
       rehypePreBlockSource,
-
-      () =>
-        (tree: UnistTree): UnistTree => {
-          tree.children.map((node: UnistNode) => {
-            // console.dir(node, { depth: 7 })
-          })
-          return tree
-        },
       rehypeNpmCommand,
       [
         rehypeAutolinkHeadings,

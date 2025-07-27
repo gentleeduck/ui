@@ -111,21 +111,11 @@ export function CopyNpmCommandButton({ commands, className, ...props }: CopyNpmC
   }, [])
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          size="icon"
-          variant="outline"
-          className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
-          icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
-          {...props}></Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => copyCommand(commands.__npmCommand__, 'npm')}>npm</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => copyCommand(commands.__yarnCommand__, 'yarn')}>yarn</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => copyCommand(commands.__pnpmCommand__, 'pnpm')}>pnpm</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => copyCommand(commands.__bunCommand__, 'bun')}>bun</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      size="icon"
+      variant="outline"
+      className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
+      icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
+      {...props}></Button>
   )
 }

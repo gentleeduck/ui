@@ -181,6 +181,7 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/tabs',
           items: [],
           title: 'Tabs',
+          label: 'new',
         },
         {
           href: '/docs/components/textarea',

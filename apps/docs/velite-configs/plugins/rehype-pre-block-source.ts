@@ -11,11 +11,14 @@ export function rehypePreBlockSource() {
           return
         }
 
-        // biome-ignore lint/complexity/noForEach: <explanation>
         node.children?.forEach((child: UnistNode) => {
           if (child?.type === 'element' && child?.tagName === 'pre') {
+            console.dir(child, {
+              depth: 3,
+            })
             child.properties = {
               ...child?.properties,
+              __className__: child.properties?.__rawString__,
               __rawString__: toString(child as Nodes),
             }
           }

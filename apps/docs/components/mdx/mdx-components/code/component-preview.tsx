@@ -75,14 +75,14 @@ export function ComponentPreview({
     <div
       className={cn('group relative my-4 flex flex-col  [&_div[data-slot="placeholder"]]:h-[512px]', className)}
       {...props}>
-      <Tabs defaultValue="preview" className="relative mr-auto w-full" listValues={['preview', 'code', 'build']}>
+      <Tabs defaultValue="preview" className="relative mr-auto w-full">
         <div className="flex items-center justify-between pb-3">
           {!hideCode && (
             <TabsList className="w-full justify-start border-b bg-transparent p-0 rounded-none overflow-x-auto [&_button]:shadow-none">
               {TABS.map((tab) => (
                 <TabsTrigger
                   value={tab.value}
-                  className="[&[aria-selected='true']]:text-primary border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none">
+                  className="[&[aria-selected='true']]:text-primary border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none [&_input]:focus-visible:ring-transparent [&_input]:focus-visible:shadow-none [&_input]:focus-visible:ring-offset-0">
                   {tab.name}
                 </TabsTrigger>
               ))}
@@ -138,15 +138,16 @@ export const BuildTab = () => {
           <Button
             className="font-bold rounded-sm"
             size={'xs'}
-            label={{
-              children: (
-                <div className="text-center">
-                  Know more about me click me! <br /> BTW i am coming soon...
-                </div>
-              ),
-              showLabel: true,
-              side: 'top',
-            }}>
+            // label={{
+            //   children: (
+            //     <div className="text-center">
+            //       Know more about me click me! <br /> BTW i am coming soon...
+            //     </div>
+            //   ),
+            //   showLabel: true,
+            //   side: 'top',
+            // }}
+          >
             <Crown />
             <span>Upgrade</span>
           </Button>
