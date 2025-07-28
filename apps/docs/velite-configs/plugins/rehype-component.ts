@@ -51,7 +51,7 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
       `../../packages/registry-${files[i]?.type === 'registry:ui' ? 'ui' : 'examples'}-duckui/src/`,
       files[i]!.path,
     )
-    let source = `${files[i]?.path.split('/').splice(1).join('/')}\n`
+    let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n`
 
     try {
       source += fs.readFileSync(filePath, 'utf8')

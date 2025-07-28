@@ -4,6 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { CodeBlockWrapper } from './code-block-wrapper'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
+import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
 interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode[]
@@ -11,23 +12,36 @@ interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function ComponentSource({ children, className, ...props }: ComponentSourceProps) {
-  // console.log(children)
+  console.log(children)
+
+  const defaultValue = String((children[0] as any).props.children[0].props.__rawString__)
+    .split('\n')[0]
+    ?.replace('//', '') as string
+  console.log(defaultValue)
+
   return (
-    <Tabs defaultValue="hello">
-      <TabsList className="">
+    <Tabs className="bg-muted/40 rounded-md" defaultValue={defaultValue}>
+      <TabsList className="justify-start w-fit bg-transparent py-2 px-2">
         {children.map((item) => {
-          // console.log(item.props.children[0].props)
+          const value = String((item as any).props.children[0].props.__rawString__)
+            .split('\n')[0]
+            ?.replace('//', '') as string
           return (
-            <TabsTrigger className="w-full" value={item}>
-              index.tsx
+            <TabsTrigger value={value} className="aria-[selected='true']:bg-muted">
+              {value}
             </TabsTrigger>
           )
         })}
       </TabsList>
+      <Separator />
       {children.map((item) => {
-        console.log(item)
+        const value = String((item as any).props.children[0].props.__rawString__)
+          .split('\n')[0]
+          ?.replace('//', '') as string
         return (
-          <TabsContent className="bg-zinc-800" value={'hello'}>
+          <TabsContent
+            className="bg-transparent [&>div>div]:m-0 m-0 [&_pre]:dark:bg-transparent [&_pre]:border-none"
+            value={value}>
             {item}
           </TabsContent>
         )

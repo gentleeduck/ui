@@ -5,6 +5,7 @@ import { CopyButton, CopyNpmCommandButton } from '~/components/copy-button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Terminal } from 'lucide-react'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 
 export type CodeBlockProps = React.HTMLAttributes<HTMLPreElement> & {
   __rawString__?: string
@@ -26,8 +27,6 @@ export function Pre({
   children,
   ...props
 }: CodeBlockProps) {
-  // console.log(__rawString__, props)
-
   return (
     <div className="mb-4 mt-6 relative" data-theme={(props as any)['data-theme']}>
       {__rawString__ && !__npmCommand__ && (
@@ -49,7 +48,7 @@ export function Pre({
       ) : (
         <pre
           className={cn(
-            'max-h-[650px] show-scroll-hover rounded-lg border bg-white py-4 dark:bg-[#cdd6f403]',
+            'max-h-[650px] overflow-auto rounded-lg border bg-white py-4 dark:bg-muted/80 focus-visible:outline-none focus-visible:shadow-none',
             className,
           )}
           {...props}>
@@ -67,7 +66,6 @@ export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__,
     __pnpmCommand__,
     __bunCommand__,
   }
-  console.log(Object.values(commands))
   return (
     <Tabs className="bg-muted/40 rounded-md" defaultValue="__npmCommand__">
       <TabsList className="justify-start w-fit bg-transparent py-2">
@@ -93,7 +91,9 @@ export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__,
                 'absolute right-3 top-2 bg-transparent border-none [&_svg]:size-5 [&_svg]:text-muted-foreground',
               )}
             />
-            <pre className="p-4 pt-2 text-sm text-muted-foreground">{command}</pre>
+            <pre className="p-4 pt-2 text-sm text-muted-foreground focus-visible:outline-none focus-visible:shadow-none">
+              {command}
+            </pre>
           </TabsContent>
         )
       })}
