@@ -9,10 +9,16 @@ function Switch({
   className,
   indicator,
   checkedIndicator,
+  onChange,
+  onCheckedChange,
   ref,
   style,
   ...props
-}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement; checkedIndicator?: React.ReactElement }) {
+}: React.HTMLProps<HTMLInputElement> & {
+  indicator?: React.ReactElement
+  checkedIndicator?: React.ReactElement
+  onCheckedChange?: (checked: boolean) => void
+}) {
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
     indicator,
     checkedIndicator,
@@ -25,6 +31,11 @@ function Switch({
         role="switch"
         style={{ ...style, ...inputStyle }}
         ref={ref}
+        checked
+        onChange={(e) => {
+          onChange?.(e)
+          onCheckedChange?.(e.target.checked)
+        }}
         className={cn(
           checkersStylePattern({
             type: 'switch',

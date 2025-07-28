@@ -42,7 +42,6 @@ type ItemType = { name: string; type: string; src: string }
 export function get_component_source(files: RegistryItemFile[]): ItemType[] {
   const item: ItemType[] = []
 
-  // biome-ignore lint/style/useForOf: <explanation>
   for (let i = 0; i < files.length; i++) {
     if (!files[i]?.path) {
       console.log(`ERROR: no path found for file ${files[i]?.path}`)
@@ -131,7 +130,6 @@ export function componentPreview({ node }: { node: UnistNode }) {
     // Read the source file.
     const filePath = path.join(process.cwd(), `../../packages/registry-examples-duckui/src/${src}`)
     let source = fs.readFileSync(filePath, 'utf8')
-    // console.log(src?.split('/')[0])
 
     // Replace imports.
     // TODO: Use @swc/core and a visitor to replace this.

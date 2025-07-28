@@ -4,11 +4,57 @@
 import * as React from 'react'
 
 export const Index: Record<string, any> = {
+  accordion: {
+    name: 'accordion',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'accordion/accordion.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'accordion/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/accordion')),
+    source: '/registry-ui-duckui/src/accordion',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  badge: {
+    name: 'badge',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'badge/badge.constants.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'badge/badge.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'badge/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/badge')),
+    source: '/registry-ui-duckui/src/badge',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   button: {
     name: 'button',
     description: '',
     type: 'registry:ui',
-    registryDependencies: ['slot'],
+    registryDependencies: [],
     files: [
       {
         path: 'button/button.constants.ts',
@@ -33,81 +79,65 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  badge: {
-    name: 'badge',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: ['slot'],
-    files: [
-      {
-        path: 'badge/badge.constants.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'badge/badge.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'badge/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/badge')),
-    source: '/registry-ui-duckui/src/badge',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  tooltip: {
-    name: 'tooltip',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: ['slot'],
-    files: [
-      {
-        path: 'tooltip/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'tooltip/tooltip.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/tooltip')),
-    source: '/registry-ui-duckui/src/tooltip',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  command: {
-    name: 'command',
+  switch: {
+    name: 'switch',
     description: '',
     type: 'registry:ui',
     registryDependencies: [],
     files: [
       {
-        path: 'command/command.hooks.ts',
+        path: 'switch/index.ts',
         type: 'registry:ui',
       },
       {
-        path: 'command/command.libs.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'command/command.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'command/command.types.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'command/index.ts',
+        path: 'switch/switch.tsx',
         type: 'registry:ui',
       },
     ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/command')),
-    source: '/registry-ui-duckui/src/command',
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/switch')),
+    source: '/registry-ui-duckui/src/switch',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  tabs: {
+    name: 'tabs',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'tabs/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'tabs/tabs.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/tabs')),
+    source: '/registry-ui-duckui/src/tabs',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  textarea: {
+    name: 'textarea',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'textarea/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'textarea/textarea.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/textarea')),
+    source: '/registry-ui-duckui/src/textarea',
     category: '',
     subcategory: '',
     chunks: [],
@@ -137,192 +167,27 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  accordion: {
-    name: 'accordion',
+  'toggle-group': {
+    name: 'toggle-group',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['toggle'],
     files: [
       {
-        path: 'accordion/accordion.tsx',
+        path: 'toggle-group/index.ts',
         type: 'registry:ui',
       },
       {
-        path: 'accordion/index.ts',
+        path: 'toggle-group/toggle-group.hooks.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'toggle-group/toggle-group.tsx',
         type: 'registry:ui',
       },
     ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/accordion')),
-    source: '/registry-ui-duckui/src/accordion',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  tabs: {
-    name: 'tabs',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'tabs/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'tabs/tabs.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/tabs')),
-    source: '/registry-ui-duckui/src/tabs',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  table: {
-    name: 'table',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [
-      'combobox',
-      'input',
-      'pagination',
-      'scroll-area',
-      'dropdown',
-      'command',
-      'button',
-      'checkbox',
-      'badge',
-      'context-menu',
-      'tooltip',
-    ],
-    files: [
-      {
-        path: 'table/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table-advanced.chunks.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table-advanced.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table-example.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table.atom.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table.constants.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table.libs.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table.types.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/table')),
-    source: '/registry-ui-duckui/src/table',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  upload: {
-    name: 'upload',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: ['alert-dialog', 'input', 'context-menu', 'scroll-area', 'button'],
-    files: [
-      {
-        path: 'upload/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'upload/upload.constants.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'upload/upload.libs.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'upload/upload.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'upload/upload.types.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/upload')),
-    source: '/registry-ui-duckui/src/upload',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'alert-dialog': {
-    name: 'alert-dialog',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'alert-dialog/alert-dialog.hook.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'alert-dialog/alert-dialog.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'alert-dialog/alert-dialog.types.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'alert-dialog/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/alert-dialog')),
-    source: '/registry-ui-duckui/src/alert-dialog',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  drawer: {
-    name: 'drawer',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'drawer/drawer.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'drawer/drawer.types.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'drawer/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/drawer')),
-    source: '/registry-ui-duckui/src/drawer',
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/toggle-group')),
+    source: '/registry-ui-duckui/src/toggle-group',
     category: '',
     subcategory: '',
     chunks: [],

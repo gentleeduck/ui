@@ -1,7 +1,9 @@
 {
   "name": "switch",
   "type": "registry:ui",
-  "dependencies": [],
+  "dependencies": [
+    "@gentleduck/aria-feather"
+  ],
   "registryDependencies": [],
   "root_folder": "switch",
   "files": [
@@ -13,7 +15,7 @@
     },
     {
       "path": "switch/switch.tsx",
-      "content": "'use client'\n\nimport * as SwitchPrimitives from '@radix-ui/react-switch'\nimport * as React from 'react'\n\nimport { cn } from '@gentleduck/libs/cn'\n\nconst Switch = React.forwardRef<\n  React.ElementRef<typeof SwitchPrimitives.Root>,\n  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>\n>(({ className, ...props }, ref) => (\n  <SwitchPrimitives.Root\n    className={cn(\n      'peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input',\n      className,\n    )}\n    {...props}\n    ref={ref}\n  >\n    <SwitchPrimitives.Thumb\n      className={cn(\n        'pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0',\n      )}\n    />\n  </SwitchPrimitives.Root>\n))\nSwitch.displayName = SwitchPrimitives.Root.displayName\n\nexport { Switch }\n",
+      "content": "'use client'\n\nimport { useSvgIndicator } from '@gentleduck/aria-feather/checkers'\nimport { cn } from '@gentleduck/libs/cn'\nimport { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'\nimport type * as React from 'react'\n\nfunction Switch({\n  className,\n  indicator,\n  checkedIndicator,\n  ref,\n  style,\n  ...props\n}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement; checkedIndicator?: React.ReactElement }) {\n  const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({\n    indicator,\n    checkedIndicator,\n  })\n\n  return (\n    <>\n      <input\n        type=\"checkbox\"\n        role=\"switch\"\n        style={{ ...style, ...inputStyle }}\n        ref={ref}\n        className={cn(\n          checkersStylePattern({\n            type: 'switch',\n            indicatorState:\n              indicatorReady && checkedIndicatorReady\n                ? 'both'\n                : indicatorReady\n                  ? 'indicatorReady'\n                  : checkedIndicatorReady\n                    ? 'checkedIndicatorReady'\n                    : 'default',\n          }),\n          AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),\n\n          className,\n        )}\n        {...props}\n        duck-switch=\"\"\n      />\n      <SvgIndicator className=\"sr-only\" />\n    </>\n  )\n}\n\nexport { Switch }\n",
       "type": "registry:ui",
       "target": "components/ui/switch.tsx"
     }

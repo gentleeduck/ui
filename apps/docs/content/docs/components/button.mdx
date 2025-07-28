@@ -243,89 +243,23 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
 
 ## API Reference
 
-### General Button Properties
+### **Button Props**
 
 * **`variant`** (`'default' | 'destructive' | 'warning' | 'outline' | 'dashed' | 'secondary' | 'ghost' | 'link' | 'expand_icon' | 'nothing'`, optional):
-
-  * Defines the button style.
-  * `'default'`: Solid primary button.
-  * `'destructive'`: Red destructive action.
-  * `'warning'`: Yellow warning action.
-  * `'outline'`: Outlined with border.
-  * `'dashed'`: Dashed outline variant.
-  * `'secondary'`: Muted secondary style.
-  * `'ghost'`: Transparent with hover effect.
-  * `'link'`: Looks like a hyperlink.
-  * `'expand_icon'`: Icon-expanding group button.
-  * `'nothing'`: Unstyled button (useful for resets).
-
 * **`size`** (`'icon' | 'xs' | 'sm' | 'default' | 'lg' | 'xl' | '2xl' | '3xl'`, optional):
-
-  * Defines the button size.
-  * `'icon'`: Icon-only square button.
-  * `'xs'` → `'3xl'`: From extra small to extra large sizes.
-
 * **`border`** (`'default' | 'primary' | 'secondary' | 'destructive' | 'warning'`, optional):
-
-  * Defines the border and background combination.
-  * `'default'`: No additional border styles.
-  * `'primary'`: Subtle primary border.
-  * `'secondary'`: Secondary soft background.
-  * `'destructive'`: Semi-transparent red border.
-  * `'warning'`: Semi-transparent yellow border.
-
-* **`asChild`** (`boolean`, optional):
-
-  * If `true`, renders using a custom child element via `Slot` (e.g. a `Link`).
-
-* **`loading`** (`boolean`, optional):
-
-  * If `true`, shows a spinning loader icon and disables the button.
-
-* **`disabled`** (`boolean`, optional):
-
-  * Disables the button manually.
-
-* **`icon`** (`React.ReactNode`, optional):
-
-  * Icon placed before the content (left-aligned or centered if collapsed).
-
-* **`secondIcon`** (`React.ReactNode`, optional):
-
-  * Icon placed after the content (right-aligned).
-
-* **`isCollapsed`** (`boolean`, optional):
-
-  * If `true`, renders icon-only button (hides children and secondIcon).
-
-* **`type`** (`'button' | 'submit' | 'reset'`, optional):
-
-  * Native HTML button type. Default is `'button'`.
-
-* **`ref`** (`React.Ref<HTMLButtonElement>`, optional):
-
-  * Ref forwarding support for imperative access.
-
-* **`className`** (`string`, optional):
-
-  * Custom class name for styling overrides.
-
-* **`...props`** (`React.HTMLProps<HTMLButtonElement>`):
-
-  * All native HTML button props are supported.
+* **`asChild`** (`boolean`, optional): If `true`, renders using a custom child element via `Slot` (e.g. a `Link`).
+* **`loading`** (`boolean`, optional): If `true`, shows a spinning loader icon and disables the button.
+* **`disabled`** (`boolean`, optional): Disables the button manually.
+* **`icon`** (`React.ReactNode`, optional): Icon placed before the content (left-aligned or centered if collapsed).
+* **`secondIcon`** (`React.ReactNode`, optional): Icon placed after the content (right-aligned).
+* **`isCollapsed`** (`boolean`, optional):If `true`, renders icon-only button (hides children and secondIcon).
+* **`type`** (`'button' | 'submit' | 'reset'`, optional): Native HTML button type. Default is `'button'`.
+* **`...props`** (`React.HTMLProps<HTMLButtonElement>`): All native HTML button props are supported.
 
 ---
 
-### AnimationIcon Properties
-
-* **`children`** (`React.ReactNode`, required):
-
-  * The main content or label inside the component.
+### **AnimationIcon Props**
 
 * **`animationIcon`** (`{ icon?: React.ReactNode; iconPlacement?: 'left' | 'right' }`, optional):
-
-  * Defines an animated icon on hover.
-  * `icon`: The icon to animate.
-  * `iconPlacement`: `'left'` or `'right'`, determines icon direction and placement.
-
 ---

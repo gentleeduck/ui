@@ -2,7 +2,8 @@
   "name": "accordion",
   "type": "registry:ui",
   "dependencies": [
-    "@radix-ui/react-accordion"
+    "@gentleduck/aria-feather",
+    "@gentledduck/anim"
   ],
   "registryDependencies": [],
   "root_folder": "accordion",

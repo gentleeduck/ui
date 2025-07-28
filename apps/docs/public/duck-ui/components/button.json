@@ -1,10 +1,10 @@
 {
   "name": "button",
   "type": "registry:ui",
-  "dependencies": [],
-  "registryDependencies": [
-    "slot"
+  "dependencies": [
+    "@gentleduck/aria-feather"
   ],
+  "registryDependencies": [],
   "root_folder": "button",
   "files": [
     {

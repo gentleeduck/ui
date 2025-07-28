@@ -48,7 +48,7 @@ export function Pre({
       ) : (
         <pre
           className={cn(
-            'max-h-[650px] overflow-auto rounded-lg border bg-white py-4 dark:bg-muted/80 focus-visible:outline-none focus-visible:shadow-none',
+            'max-h-[650px] overflow-auto rounded-lg border bg-white py-4 dark:bg-muted/40 focus-visible:outline-none focus-visible:shadow-none [&_code]:bg-transparent',
             className,
           )}
           {...props}>

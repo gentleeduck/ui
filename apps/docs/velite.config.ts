@@ -23,8 +23,8 @@ const config = defineConfig({
   collections: {
     docs: {
       name: 'Docs',
-      pattern: 'docs/components/tabs.mdx',
-      // pattern: 'docs/**/*.mdx',
+      // pattern: 'docs/components/toggle-group.mdx',
+      pattern: 'docs/**/*.mdx',
       schema: s
         .object({
           title: s.string().max(99),
@@ -93,6 +93,14 @@ const config = defineConfig({
         },
       ],
       rehypePreBlockSource,
+
+      () =>
+        (tree: UnistTree): UnistTree => {
+          tree.children.map((node: UnistNode) => {
+            // console.dir(node, { depth: 7 })
+          })
+          return tree
+        },
       rehypeNpmCommand,
       [
         rehypeAutolinkHeadings,

@@ -29,6 +29,12 @@ npx duck-ui@latest add toggle-group
 
 <Steps>
 
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/variants
+```
+
 <Step>Copy and paste the following code into your project.</Step>
 
 <ComponentSource name="toggle-group" />
@@ -101,39 +107,17 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 ## API Reference
 
-### **ToggleGroup Properties**
+### **ToggleGroup Props**
 
-- **`variant`** (`'default' | 'outline'`, optional):  
-  Defines the visual style of the toggle group items.
-
-  - **`default`** (default): Transparent background.
-  - **`outline`**: Bordered style with hover effects.
-
-- **`size`** (`'default' | 'sm' | 'lg'`, optional):  
-  Sets the size of the toggle group items.
-
-  - **`default`** (default): Medium-sized items.
-  - **`sm`**: Small items with reduced height and padding.
-  - **`lg`**: Large items with increased height and padding.
-
-- **`...props`** (`React.ComponentPropsWithoutRef<typeof ToggleGroup>`):  
-  Additional props are forwarded to the underlying Radix `ToggleGroup` component.
+* **`variant`** (`'default' | 'outline'`, optional):Defines the visual style of the toggle group items.
+* **`size`** (`'default' | 'sm' | 'lg'`, optional): Sets the size of the toggle group items.
+* **`...props`** (`React.ComponentPropsWithoutRef<typeof ToggleGroup>`):  Additional props are forwarded to the underlying Radix `ToggleGroup` component.
 
 ---
 
-### ToggleGroupItem Properties
+### **ToggleGroupItem Props**
 
-- **`variant`** (`'default' | 'outline'`, optional):  
-  Defines the visual style of the individual toggle item. Inherits from `ToggleGroup` if not specified.
+* **`variant`** (`'default' | 'outline'`, optional): Defines the visual style of the individual toggle item. Inherits from `ToggleGroup` if not specified.
+* **`size`** (`'default' | 'sm' | 'lg'`, optional): Sets the size of the individual toggle item. Inherits from `ToggleGroup` if not specified.
+* **`...props`** (`React.ComponentPropsWithoutRef<typeof ToggleGroup>`): Additional props are forwarded to the underlying Radix `ToggleGroup` component.
 
-- **`size`** (`'default' | 'sm' | 'lg'`, optional):  
-  Sets the size of the individual toggle item. Inherits from `ToggleGroup` if not specified.
-
-- **`...props`** (`React.ComponentPropsWithoutRef<typeof ToggleGroup>`):  
-  Additional props are forwarded to the underlying Radix `ToggleGroup` component.
-
----
-
-### Context-Based Inheritance
-
-The `ToggleGroup` component uses React context to pass the `variant` and `size` properties to its children (`ToggleGroupItem`). This ensures consistent styles across all items in the group unless overridden at the item level.

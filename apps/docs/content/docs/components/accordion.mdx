@@ -101,7 +101,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 
 ---
 
-### **AccordionItem**
+### **AccordionItem Props**
 
 * **`value: string`**: Unique identifier tying trigger to content.
 * **`renderOnce?: boolean`** (default: `false`): Mounts content only on first expand and preserves it.
@@ -110,7 +110,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 
 ---
 
-### **AccordionTrigger**
+### **AccordionTrigger Props**
 
 * **`value?: string`**: Identifier matching parent item’s `value`.
 * **`icon?: ReactNode`**: Custom icon component; defaults to a rotating ChevronDown.
@@ -118,7 +118,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 
 ---
 
-### **AccordionContent**
+### **AccordionContent Props**
 
 * **`rerender?: boolean`** (default: `false`): Controls remount behavior based on parent context.
 * **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props.

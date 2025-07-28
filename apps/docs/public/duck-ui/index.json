@@ -1,11 +1,56 @@
 [
   {
+    "name": "accordion",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/aria-feather",
+      "@gentledduck/anim"
+    ],
+    "registryDependencies": [],
+    "root_folder": "accordion",
+    "files": [
+      {
+        "path": "accordion/accordion.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "accordion/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/accordion"
+  },
+  {
+    "name": "badge",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/aria-feather"
+    ],
+    "registryDependencies": [],
+    "root_folder": "badge",
+    "files": [
+      {
+        "path": "badge/badge.constants.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "badge/badge.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "badge/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/badge"
+  },
+  {
     "name": "button",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [
-      "slot"
+    "dependencies": [
+      "@gentleduck/aria-feather"
     ],
+    "registryDependencies": [],
     "root_folder": "button",
     "files": [
       {
@@ -28,86 +73,68 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
-    "name": "badge",
-    "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [
-      "slot"
-    ],
-    "root_folder": "badge",
-    "files": [
-      {
-        "path": "badge/badge.constants.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "badge/badge.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "badge/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/badge"
-  },
-  {
-    "name": "tooltip",
+    "name": "switch",
     "type": "registry:ui",
     "dependencies": [
-      ""
+      "@gentleduck/aria-feather"
     ],
-    "registryDependencies": [
-      "slot"
-    ],
-    "root_folder": "tooltip",
+    "registryDependencies": [],
+    "root_folder": "switch",
     "files": [
       {
-        "path": "tooltip/index.ts",
+        "path": "switch/index.ts",
         "type": "registry:ui"
       },
       {
-        "path": "tooltip/tooltip.tsx",
+        "path": "switch/switch.tsx",
         "type": "registry:ui"
       }
     ],
-    "source": "/registry-ui-duckui/src/tooltip"
+    "source": "/registry-ui-duckui/src/switch"
   },
   {
-    "name": "command",
+    "name": "tabs",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/aria-feather "
+    ],
+    "registryDependencies": [],
+    "root_folder": "tabs",
+    "files": [
+      {
+        "path": "tabs/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "tabs/tabs.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/tabs"
+  },
+  {
+    "name": "textarea",
     "type": "registry:ui",
     "dependencies": [],
     "registryDependencies": [],
-    "root_folder": "command",
+    "root_folder": "textarea",
     "files": [
       {
-        "path": "command/command.hooks.ts",
+        "path": "textarea/index.ts",
         "type": "registry:ui"
       },
       {
-        "path": "command/command.libs.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "command/command.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "command/command.types.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "command/index.ts",
+        "path": "textarea/textarea.tsx",
         "type": "registry:ui"
       }
     ],
-    "source": "/registry-ui-duckui/src/command"
+    "source": "/registry-ui-duckui/src/textarea"
   },
   {
     "name": "toggle",
     "type": "registry:ui",
     "dependencies": [
-      "@radix-ui/react-toggle"
+      "@gentleduck/variants"
     ],
     "registryDependencies": [],
     "root_folder": "toggle",
@@ -128,186 +155,28 @@
     "source": "/registry-ui-duckui/src/toggle"
   },
   {
-    "name": "accordion",
-    "type": "registry:ui",
-    "dependencies": [
-      "@radix-ui/react-accordion"
-    ],
-    "registryDependencies": [],
-    "root_folder": "accordion",
-    "files": [
-      {
-        "path": "accordion/accordion.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "accordion/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/accordion"
-  },
-  {
-    "name": "tabs",
-    "type": "registry:ui",
-    "dependencies": [
-      "@radix-ui/react-tabs"
-    ],
-    "registryDependencies": [],
-    "root_folder": "tabs",
-    "files": [
-      {
-        "path": "tabs/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "tabs/tabs.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/tabs"
-  },
-  {
-    "name": "table",
+    "name": "toggle-group",
     "type": "registry:ui",
     "dependencies": [],
     "registryDependencies": [
-      "combobox",
-      "input",
-      "pagination",
-      "scroll-area",
-      "dropdown",
-      "command",
-      "button",
-      "checkbox",
-      "badge",
-      "context-menu",
-      "tooltip"
+      "toggle"
     ],
-    "root_folder": "table",
+    "root_folder": "toggle-group",
     "files": [
       {
-        "path": "table/index.ts",
+        "path": "toggle-group/index.ts",
         "type": "registry:ui"
       },
       {
-        "path": "table/table-advanced.chunks.tsx",
+        "path": "toggle-group/toggle-group.hooks.ts",
         "type": "registry:ui"
       },
       {
-        "path": "table/table-advanced.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "table/table-example.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "table/table.atom.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "table/table.constants.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "table/table.libs.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "table/table.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "table/table.types.ts",
+        "path": "toggle-group/toggle-group.tsx",
         "type": "registry:ui"
       }
     ],
-    "source": "/registry-ui-duckui/src/table"
-  },
-  {
-    "name": "upload",
-    "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [
-      "alert-dialog",
-      "input",
-      "context-menu",
-      "scroll-area",
-      "button"
-    ],
-    "root_folder": "upload",
-    "files": [
-      {
-        "path": "upload/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "upload/upload.constants.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "upload/upload.libs.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "upload/upload.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "upload/upload.types.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/upload"
-  },
-  {
-    "name": "alert-dialog",
-    "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
-    "root_folder": "alert-dialog",
-    "files": [
-      {
-        "path": "alert-dialog/alert-dialog.hook.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "alert-dialog/alert-dialog.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "alert-dialog/alert-dialog.types.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "alert-dialog/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/alert-dialog"
-  },
-  {
-    "name": "drawer",
-    "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
-    "root_folder": "drawer",
-    "files": [
-      {
-        "path": "drawer/drawer.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "drawer/drawer.types.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "drawer/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/drawer"
+    "source": "/registry-ui-duckui/src/toggle-group"
   },
   {
     "name": "accordion-1",

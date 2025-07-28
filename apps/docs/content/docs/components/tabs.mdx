@@ -47,3 +47,58 @@ npm install @gentleduck/aria-feather
 
 </Tabs>
 
+## Usage
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+```
+
+```tsx
+<Tabs
+  defaultValue="account"
+  className="w-[400px]"
+>
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Make changes to your account here.</TabsContent>
+  <TabsContent value="password">Change your password here.</TabsContent>
+</Tabs>
+```
+
+## API Reference
+
+### **Tabs Props**
+
+* **`value?: string`**: Controlled active tab value. Must be used alongside `onValueChange`.
+* **`defaultValue?: string`**: Uncontrolled initial tab value.
+* **`onValueChange?: (value: string) => void`**: Callback fired when the active tab changes.
+* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props applied to the root tablist container.
+
+---
+
+### **TabsList Props**
+
+* **`...props?: React.HTMLProps<HTMLUListElement>`**: Native `<ul>` props passed to the tabs list container.
+* Rendered with:
+  `role="tablist"` and `aria-orientation="vertical"` (can be changed later).
+
+---
+
+### **TabsTrigger Props**
+
+* **`value: string`**: A unique value that identifies this tab trigger.
+* **`defaultChecked?: boolean`**: If true, sets this tab as the default active tab on first render.
+* **`disabled?: boolean`**: Disables the tab trigger from user interaction.
+* **`children: ReactNode`**: Label or node to render inside the tab.
+* **`...props?: React.HTMLProps<HTMLLIElement>`**: Other native `<li>` props.
+
+---
+
+### **TabsContent Props**
+
+* **`value: string`**: The associated value that matches a `TabsTrigger`.
+* **`forceMount?: boolean`** (default: `true`): Ensures the content is mounted even when hidden.
+* **`children: ReactNode`**: Tab panel content.
+* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props applied to the content container.
