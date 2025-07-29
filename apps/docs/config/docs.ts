@@ -37,25 +37,19 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/accordion',
           items: [],
-          label: 'new',
+          label: 'refacotored',
           title: 'Accordion',
         },
         {
           href: '/docs/components/badge',
           items: [],
-          label: 'new',
+          label: 'refacotored',
           title: 'Badge',
         },
         {
           href: '/docs/components/button',
-          items: [
-            {
-              href: '/docs/components/button2',
-              items: [],
-              title: 'Button',
-            },
-          ],
-          label: 'new',
+          items: [],
+          label: 'refacotored',
           title: 'Button',
         },
         // {
@@ -103,8 +97,8 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/label',
           items: [],
+          label: 'refacotored',
           title: 'Label',
-          // label: 'new',
         },
         // {
         //   title: 'NavGroup',
@@ -115,8 +109,8 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/progress',
           items: [],
+          label: 'refacotored',
           title: 'Progress',
-          // label: 'new',
         },
         {
           href: '/docs/components/radio-group',
@@ -128,7 +122,7 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/scroll-area',
           items: [],
           title: 'Scroll Area',
-          // label: 'new',
+          label: 'refacotored',
         },
         {
           href: '/docs/components/select',
@@ -139,8 +133,8 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/separator',
           items: [],
+          label: 'refacotored',
           title: 'Separator',
-          // label: 'new',
         },
         {
           href: '/docs/components/sheet',
@@ -152,7 +146,7 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/skeleton',
           items: [],
           title: 'Skeleton',
-          label: 'new',
+          label: 'refacotored',
         },
         {
           href: '/docs/components/slider',
@@ -164,13 +158,13 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/sonner',
           items: [],
           title: 'Sonner',
-          label: 'new',
+          label: 'refacotored',
         },
         {
           href: '/docs/components/switch',
           items: [],
           title: 'Switch',
-          label: 'new',
+          label: 'refacotored',
         },
         // {
         //   title: 'Table',
@@ -182,24 +176,24 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/tabs',
           items: [],
           title: 'Tabs',
-          label: 'new',
+          label: 'refacotored',
         },
         {
           href: '/docs/components/textarea',
           items: [],
-          label: 'new',
+          label: 'refacotored',
           title: 'Text Area',
         },
         {
           href: '/docs/components/toggle',
           items: [],
-          label: 'new',
+          label: 'refacotored',
           title: 'Toggle',
         },
         {
           href: '/docs/components/toggle-group',
           items: [],
-          label: 'new',
+          label: 'refacotored',
           title: 'Toggle Group',
         },
         {

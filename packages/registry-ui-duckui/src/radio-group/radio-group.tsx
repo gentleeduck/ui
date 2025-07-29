@@ -1,27 +1,61 @@
 'use client'
 
-import * as React from 'react'
+import { useSvgIndicator } from '@gentleduck/aria-feather/checkers'
 import { cn } from '@gentleduck/libs/cn'
+import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
+import * as React from 'react'
 import { Label } from '../label'
 import { useHandleRadioClick } from './radio-group.hooks'
-import type { RadioGroupContextType } from './radio-group.types'
+
+export interface RadioGroupContextType {
+  value: string
+  onValueChange: (value: string) => void
+  wrapperRef: React.RefObject<HTMLUListElement | null>
+  itemsRef: React.RefObject<HTMLLIElement[]>
+  selectedItemRef: React.RefObject<HTMLLIElement | null>
+}
 
 export const RadioGroupContext = React.createContext<RadioGroupContextType | null>(null)
 
-function Radio({ className, ref, ...props }: React.HTMLProps<HTMLInputElement>) {
+function Radio({
+  className,
+  indicator,
+  checkedIndicator,
+  ref,
+  style,
+  ...props
+}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement; checkedIndicator?: React.ReactElement }) {
+  const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
+    indicator,
+    checkedIndicator,
+  })
+
   return (
-    <input
-      type="radio"
-      ref={ref}
-      duck-radio=""
-      role="radio"
-      aria-checked={props.checked}
-      className={cn(
-        'relative flex h-4 w-4 appearance-none items-center justify-center rounded-full border border-border border-solid ring-offset-background transition-all after:absolute after:relative after:block after:h-2.5 after:w-2.5 after:scale-0 after:rounded-full after:bg-foreground after:opacity-0 after:transition-all checked:border-foreground checked:after:scale-100 checked:after:opacity-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ',
-        className,
-      )}
-      {...props}
-    />
+    <>
+      <input
+        type="radio"
+        ref={ref}
+        duck-radio=""
+        style={{ ...style, ...inputStyle }}
+        className={cn(
+          checkersStylePattern({
+            type: 'radio',
+            indicatorState:
+              indicatorReady && checkedIndicatorReady
+                ? 'both'
+                : indicatorReady
+                  ? 'indicatorReady'
+                  : checkedIndicatorReady
+                    ? 'checkedIndicatorReady'
+                    : 'default',
+          }),
+          AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
+          className,
+        )}
+        {...props}
+      />
+      <SvgIndicator className="sr-only" />
+    </>
   )
 }
 

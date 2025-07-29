@@ -13,7 +13,7 @@
     },
     {
       "path": "progress/progress.tsx",
-      "content": "'use client'\n\nimport * as React from 'react'\nimport * as ProgressPrimitive from '@radix-ui/react-progress'\n\nimport { cn } from '@gentleduck/libs/cn'\n\nconst Progress = React.forwardRef<\n  React.ElementRef<typeof ProgressPrimitive.Root>,\n  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>\n>(({ className, value, ...props }, ref) => (\n  <ProgressPrimitive.Root\n    ref={ref}\n    className={cn(\n      'relative h-4 w-full overflow-hidden rounded-full bg-secondary',\n      className\n    )}\n    {...props}\n  >\n    <ProgressPrimitive.Indicator\n      className='h-full w-full flex-1 bg-primary transition-all'\n      style={{ transform: `translateX(-${100 - (value || 0)}%)` }}\n    />\n  </ProgressPrimitive.Root>\n))\nProgress.displayName = ProgressPrimitive.Root.displayName\n\nexport { Progress }\n",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type * as React from 'react'\n\nfunction Progress({\n  className,\n  ref,\n  value,\n  ...props\n}: Omit<React.HTMLProps<HTMLDivElement>, 'value'> & { value: number }) {\n  return (\n    <div\n      ref={ref}\n      className={cn('relative h-4 w-full overflow-hidden rounded-full bg-secondary', className)}\n      {...props}\n      role=\"progressbar\"\n      aria-valuenow={value}\n      aria-valuemin={0}\n      aria-valuemax={100}>\n      <div\n        className=\"h-full w-full flex-1 bg-primary transition-all\"\n        style={{ transform: `translateX(-${100 - (value ?? 0)}%)` }}\n      />\n    </div>\n  )\n}\n\nexport { Progress }\n",
       "type": "registry:ui",
       "target": "components/ui/progress.tsx"
     }

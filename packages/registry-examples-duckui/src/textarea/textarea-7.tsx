@@ -33,11 +33,13 @@ export default function TextareaForm() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast('You submitted the following values', {
+    toast('You submitted the following values:', {
       description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
+        <div>
+          <pre className="mt-2 w-[300px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        </div>
       ),
     })
   }

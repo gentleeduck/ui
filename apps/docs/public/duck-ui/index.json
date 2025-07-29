@@ -73,6 +73,64 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
+    "name": "label",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "label",
+    "files": [
+      {
+        "path": "label/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "label/label.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/label"
+  },
+  {
+    "name": "progress",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "progress",
+    "files": [
+      {
+        "path": "progress/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "progress/progress.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/progress"
+  },
+  {
+    "name": "radio-group",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "radio-group",
+    "files": [
+      {
+        "path": "radio-group/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "radio-group/radio-group.hooks.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "radio-group/radio-group.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/radio-group"
+  },
+  {
     "name": "scroll-area",
     "type": "registry:ui",
     "dependencies": [],
@@ -89,6 +147,24 @@
       }
     ],
     "source": "/registry-ui-duckui/src/scroll-area"
+  },
+  {
+    "name": "separator",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "separator",
+    "files": [
+      {
+        "path": "separator/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "separator/separator.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/separator"
   },
   {
     "name": "skeleton",
@@ -1041,21 +1117,6 @@
     "files": [
       {
         "path": "progress/progress-1.tsx",
-        "type": "registry:example"
-      }
-    ],
-    "source": "/registry-examples-duckui/src/progress"
-  },
-  {
-    "name": "progress-2",
-    "type": "registry:example",
-    "registryDependencies": [
-      "progress"
-    ],
-    "root_folder": "progress",
-    "files": [
-      {
-        "path": "progress/progress-2.tsx",
         "type": "registry:example"
       }
     ],

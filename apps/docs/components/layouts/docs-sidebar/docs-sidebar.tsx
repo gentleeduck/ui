@@ -34,7 +34,7 @@ const CategoryItem = ({ item, pathname }: { item: SidebarNavItem; pathname: stri
       <div className="flex items-center justify-between w-full text-start text-sm font-semibold [&>div]:justify-between [&>div]:w-full h-[36px]">
         {item.title}
         {item.label && (
-          <span className="ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
+          <span className="ml-2 rounded-md bg- px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
             {item.label}
           </span>
         )}

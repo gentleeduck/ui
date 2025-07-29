@@ -1,6 +1,7 @@
 import { Metadata, Viewport } from 'next'
-import { siteConfig } from './site'
 import { Docs } from '~/.velite'
+import { absoluteUrl } from '~/lib/utils'
+import { siteConfig } from './site'
 
 export const METADATA: Metadata = {
   title: {
@@ -12,11 +13,11 @@ export const METADATA: Metadata = {
   keywords: ['Next.js', 'React', 'Tailwind CSS', 'Server Components', 'Radix UI'],
   authors: [
     {
-      name: 'shadcn',
-      url: 'https://shadcn.com',
+      name: 'wilddcuk2',
+      url: 'https://github.com/wildduck2',
     },
   ],
-  creator: 'shadcn',
+  creator: 'wilddcuk2',
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -38,7 +39,7 @@ export const METADATA: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: '@shadcn',
+    creator: '@wild_ducka',
   },
   icons: {
     icon: '/favicon.ico',
@@ -57,12 +58,12 @@ export const VIEWPORT: Viewport = {
 
 export const SLUG_METADATA = (doc: Docs) => ({
   title: doc.title,
-  // description: doc.description,
+  description: doc.description,
   openGraph: {
     title: doc.title,
-    // description: doc.description,
-    // type: 'article',
-    // url: absoluteUrl(doc.slug),
+    description: doc.description,
+    type: 'article',
+    url: absoluteUrl(doc.slug),
     images: [
       {
         url: siteConfig.ogImage,
@@ -75,7 +76,7 @@ export const SLUG_METADATA = (doc: Docs) => ({
   twitter: {
     card: 'summary_large_image',
     title: doc.title,
-    // description: doc.description,
+    description: doc.description,
     images: [siteConfig.ogImage],
     creator: '@wildduck',
   },

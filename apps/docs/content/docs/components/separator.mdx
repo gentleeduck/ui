@@ -2,16 +2,13 @@
 title: separator
 description: Visually or semantically separates content.
 component: true
-links:
-  doc: https://www.radix-ui.com/docs/primitives/components/separator
-  api: https://www.radix-ui.com/docs/primitives/components/separator#api-reference
 ---
 
 <ComponentPreview name="separator-1" description="A separator component." />
 
 ## Installation
 
-<Tabs defaultValue="cli" listValues={['cli', 'manual']}>
+<Tabs defaultValue="cli">
 
 <TabsList>
   <TabsTrigger value="cli">CLI</TabsTrigger>
@@ -20,7 +17,7 @@ links:
 <TabsContent value="cli">
 
 ```bash
-npx shadcn@latest add separator
+npx duck-ui@latest add separator
 ```
 
 </TabsContent>
@@ -28,11 +25,6 @@ npx shadcn@latest add separator
 <TabsContent value="manual">
 
 <Steps>
-<Step>Install the following dependencies:</Step>
-
-```bash
-npm install @radix-ui/react-separator
-```
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -55,3 +47,10 @@ import { Separator } from "@/components/ui/separator"
 ```tsx
 <Separator />
 ```
+
+
+## API Reference
+
+### **Separator Properties**
+- **`orientation`** (`'horizontal' | 'vertical'`, optional): Sets the orientation of the separator. Default: 'horizontal'.
+

@@ -25,6 +25,30 @@ export const registry_ui: Registry = [
     root_folder: 'button',
     files: [],
   },
+  {
+    name: 'label',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'label',
+    files: [],
+  },
+  {
+    name: 'progress',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'progress',
+    files: [],
+  },
+  {
+    name: 'radio-group',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'radio-group',
+    files: [],
+  },
 
   {
     name: 'scroll-area',
@@ -32,6 +56,15 @@ export const registry_ui: Registry = [
     dependencies: [],
     registryDependencies: [],
     root_folder: 'scroll-area',
+    files: [],
+  },
+
+  {
+    name: 'separator',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'separator',
     files: [],
   },
   {

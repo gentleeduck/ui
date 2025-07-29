@@ -1,8 +1,7 @@
 'use client'
 
-import type * as React from 'react'
-
 import { cn } from '@gentleduck/libs/cn'
+import type * as React from 'react'
 
 function Progress({
   className,
