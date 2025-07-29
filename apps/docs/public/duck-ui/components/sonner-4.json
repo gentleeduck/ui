@@ -1,0 +1,17 @@
+{
+  "name": "sonner-4",
+  "type": "registry:example",
+  "registryDependencies": [
+    "sonner"
+  ],
+  "root_folder": "sonner",
+  "files": [
+    {
+      "path": "sonner/sonner-4.tsx",
+      "content": "",
+      "type": "registry:example",
+      "target": "components/sonner-4.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/sonner"
+}

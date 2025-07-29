@@ -9,21 +9,11 @@ import { Index } from '~/__ui_registry__'
 export function rehypeComponent() {
   return async (tree: UnistTree) => {
     visit(tree, (node: UnistNode) => {
-      // src prop overrides both name and fileName.
-      const { value: srcPath } =
-        (getNodeAttributeByName(node, 'src') as {
-          name: string
-          value?: string
-          type?: string
-        }) || {}
-
       if (node.name === 'ComponentSource') {
         componentSource({
           node,
-          srcPath,
         })
       }
-
       if (node.name === 'ComponentPreview') {
         componentPreview({
           node,
@@ -34,6 +24,7 @@ export function rehypeComponent() {
 }
 
 function getNodeAttributeByName(node: UnistNode, name: string) {
+  // console.log(node)
   return node.attributes?.find((attribute) => attribute.name === name)
 }
 
@@ -74,10 +65,11 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
   return item
 }
 
-export function componentSource({ node, srcPath }: { node: UnistNode; srcPath?: string }) {
+export function componentSource({ node }: { node: UnistNode }) {
   const name = getNodeAttributeByName(node, 'name')?.value as string
 
-  if (!name && !srcPath) {
+  if (!name) {
+    console.log('no name found')
     return null
   }
 
@@ -127,6 +119,10 @@ export function componentPreview({ node }: { node: UnistNode }) {
     const component = Index[`${name}`]
     const src = component?.files?.[0]?.path
 
+    if (!src) {
+      console.log('no src found for', name)
+      return null
+    }
     // Read the source file.
     const filePath = path.join(process.cwd(), `../../packages/registry-examples-duckui/src/${src}`)
     let source = fs.readFileSync(filePath, 'utf8')

@@ -1,13 +1,19 @@
+import { cn } from '@gentleduck/libs/cn'
 import { CircleCheck, Loader } from 'lucide-react'
-import { Button } from '../button'
-import { Progress } from '../progress'
-import type { UploadSonnerProps } from './sonner.types'
-import { formatTime } from './sonner.libs'
 import type React from 'react'
 import { toast } from 'sonner'
-import { cn } from '@gentleduck/libs/cn'
+import { Button } from '../button'
+import { Progress } from '../progress'
+import { formatTime } from './sonner.libs'
+import type { UploadSonnerProps } from './sonner.types'
 
-const SonnerUpload = ({ progress, attachments, remainingTime, onCancel }: UploadSonnerProps): React.JSX.Element => {
+const SonnerUpload = ({
+  progress,
+  attachments,
+  remainingTime,
+  onCancel,
+  onComplete,
+}: UploadSonnerProps): React.JSX.Element => {
   return (
     <div className="flex w-full gap-3">
       <CircleCheck
@@ -40,14 +46,26 @@ const SonnerUpload = ({ progress, attachments, remainingTime, onCancel }: Upload
         </div>
         <Progress value={progress} className="h-1 w-full" />
         <div className="flex w-full items-center justify-between gap-2">
-          <small className="text-foreground-muted text-xs">Please do not close the browser until completed</small>
+          <small className="w-full text-foreground-muted text-xs">
+            {progress < 100 ? 'Please do not close the browser until completed' : 'Upload complete'}
+          </small>
 
-          {progress <= 100 && (
+          {progress === 100 && (
             <Button
               variant="default"
               size="xs"
               border="default"
-              onClick={(_) => onCancel && onCancel(_, (id: string) => toast.dismiss(id))}>
+              onClick={(_) => onComplete?.(_, (id: string) => toast.dismiss(id))}>
+              Complete
+            </Button>
+          )}
+
+          {progress < 100 && (
+            <Button
+              variant="default"
+              size="xs"
+              border="default"
+              onClick={(_) => onCancel?.(_, (id: string) => toast.dismiss(id))}>
               Cancel
             </Button>
           )}

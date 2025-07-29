@@ -31,7 +31,6 @@ function Switch({
         role="switch"
         style={{ ...style, ...inputStyle }}
         ref={ref}
-        checked
         onChange={(e) => {
           onChange?.(e)
           onCheckedChange?.(e.target.checked)

@@ -152,7 +152,7 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/skeleton',
           items: [],
           title: 'Skeleton',
-          // label: 'new',
+          label: 'new',
         },
         {
           href: '/docs/components/slider',
@@ -164,12 +164,13 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/sonner',
           items: [],
           title: 'Sonner',
+          label: 'new',
         },
         {
           href: '/docs/components/switch',
           items: [],
           title: 'Switch',
-          // label: 'new',
+          label: 'new',
         },
         // {
         //   title: 'Table',

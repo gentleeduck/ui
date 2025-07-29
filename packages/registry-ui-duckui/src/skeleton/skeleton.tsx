@@ -1,5 +1,5 @@
-import type * as React from 'react'
 import { cn } from '@gentleduck/libs/cn'
+import type * as React from 'react'
 
 function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
   return (

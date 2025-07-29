@@ -25,6 +25,40 @@ export const registry_ui: Registry = [
     root_folder: 'button',
     files: [],
   },
+
+  {
+    name: 'scroll-area',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'scroll-area',
+    files: [],
+  },
+  {
+    name: 'skeleton',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'skeleton',
+    files: [],
+  },
+  {
+    name: 'slider',
+    type: 'registry:ui',
+    dependencies: ['@gentleduck/variants'],
+    registryDependencies: [],
+    root_folder: 'slider',
+    files: [],
+  },
+
+  {
+    name: 'sonner',
+    type: 'registry:ui',
+    dependencies: ['sonner'],
+    registryDependencies: [],
+    root_folder: 'sonner',
+    files: [],
+  },
   {
     name: 'switch',
     type: 'registry:ui',
@@ -33,7 +67,6 @@ export const registry_ui: Registry = [
     root_folder: 'switch',
     files: [],
   },
-
   {
     name: 'tabs',
     type: 'registry:ui',

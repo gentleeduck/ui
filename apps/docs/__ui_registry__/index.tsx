@@ -79,6 +79,102 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'scroll-area': {
+    name: 'scroll-area',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'scroll-area/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'scroll-area/scroll-area.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/scroll-area')),
+    source: '/registry-ui-duckui/src/scroll-area',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  skeleton: {
+    name: 'skeleton',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'skeleton/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'skeleton/skeleton.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/skeleton')),
+    source: '/registry-ui-duckui/src/skeleton',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  slider: {
+    name: 'slider',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'slider/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'slider/slider.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/slider')),
+    source: '/registry-ui-duckui/src/slider',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  sonner: {
+    name: 'sonner',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'sonner/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'sonner/sonner.chunks.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'sonner/sonner.libs.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'sonner/sonner.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'sonner/sonner.types.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/sonner')),
+    source: '/registry-ui-duckui/src/sonner',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   switch: {
     name: 'switch',
     description: '',

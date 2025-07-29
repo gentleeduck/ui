@@ -98,7 +98,7 @@ export function ComponentPreview({
           </div>
           <ThemeWrapper defaultTheme="zinc">
             <div
-              className={cn('preview flex h-[450px] w-full justify-center p-10', {
+              className={cn('preview flex h-[500px] w-full justify-center p-10', {
                 'items-center': align === 'center',
                 'items-start': align === 'start',
                 'items-end': align === 'end',
@@ -117,7 +117,9 @@ export function ComponentPreview({
         </TabsContent>
         <TabsContent value="code" className="mt-0 ">
           <div className="flex flex-col space-y-4">
-            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:overflow-auto [&_pre]:h-[450px]">{Code}</div>
+            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:overflow-auto [&_pre]:h-[500px] [&_div[data-theme]]:my-0">
+              {Code}
+            </div>
           </div>
         </TabsContent>
       </Tabs>
@@ -129,11 +131,11 @@ export function ComponentPreview({
 export const BuildTab = () => {
   return (
     <TabsContent value="build" className="relative overflow-hidden">
-      <div className="h-[450px] overflow-hidden rounded-lg">
+      <div className="h-[500px] overflow-hidden rounded-lg">
         <img src="/builder.png" alt="build" className="object-cover" />
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[450px] top-0 left-0 inset-0">
+      <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[500px] top-0 left-0 inset-0">
         <div className="flex items-center gap-4">
           <Button
             className="font-bold rounded-sm"

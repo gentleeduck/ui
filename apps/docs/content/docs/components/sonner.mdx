@@ -109,45 +109,21 @@ toast('Event has been created.')
   description="A toast component."
 />
 
+<ComponentPreview
+  name="sonner-3"
+  description="A download toast component."
+/>
+
 ## API Reference
 
-### Props
+### **Sonner Props**
 
-The `Toaster` component accepts all the props supported by `Sonner`, with additional theme-aware styling.
+- **`theme`** (`'light' | 'dark' | 'system'`, default: `'system'`) – Specifies the theme for the toaster. Uses the current theme from `next-themes` if available.
+- **`className`** (`string`, default: `'toaster'`) – Adds additional CSS classes to the main toaster wrapper.
+- **`toastOptions`** (`object`, default: `{}`) – Customizes individual toast components. See `ToastOptions` below.
+- **`classNames`** (`object`) – Custom CSS classes for different toast elements.
+- **`classNames.toast`** (`string`) – Styles applied to the toast container.
+- **`classNames.description`** (`string`) – Styles applied to the toast description text.
+- **`classNames.actionButton`** (`string`) – Styles applied to action buttons inside the toast.
+- **`classNames.cancelButton`** (`string`) – Styles applied to cancel buttons inside the toast.
 
-| Prop           | Type     | Default   | Description                                                        |
-| -------------- | -------- | --------- | ------------------------------------------------------------------ | -------- | -------------------------------------------------------------------------------------------- |
-| `theme`        | `'light' | 'dark'    | 'system'`                                                          | `system` | Specifies the theme for the toaster. Uses the current theme from `next-themes` if available. |
-| `className`    | `string` | `toaster` | Adds additional CSS classes to the main toaster wrapper.           |
-| `toastOptions` | `object` | `{}`      | Customizes individual toast components (see `ToastOptions` below). |
-
----
-
-### ToastOptions
-
-The `toastOptions` object allows you to customize the appearance and behavior of the individual toasts.
-
-| Option                    | Type     | Description                                                  |
-| ------------------------- | -------- | ------------------------------------------------------------ |
-| `classNames`              | `object` | Custom CSS classes for different toast elements (see below). |
-| `classNames.toast`        | `string` | Styles applied to the toast container.                       |
-| `classNames.description`  | `string` | Styles applied to the toast description text.                |
-| `classNames.actionButton` | `string` | Styles applied to action buttons inside the toast.           |
-| `classNames.cancelButton` | `string` | Styles applied to cancel buttons inside the toast.           |
-
-#### Default `classNames`
-
-| Element        | Default Class Name                                                                                                                      |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `toast`        | `group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg` |
-| `description`  | `group-[.toast]:text-muted-foreground`                                                                                                  |
-| `actionButton` | `group-[.toast]:bg-primary group-[.toast]:text-primary-foreground`                                                                      |
-| `cancelButton` | `group-[.toast]:bg-muted group-[.toast]:text-muted-foreground`                                                                          |
-
----
-
-### Notes
-
-- Ensure you have `sonner` installed and configured in your project.
-- Place the `Toaster` component in your root layout or main app file to make it available globally.
-- Theme-awareness is achieved via the `useTheme` hook from `next-themes`, and the default theme is set to `system` if no specific theme is provided.

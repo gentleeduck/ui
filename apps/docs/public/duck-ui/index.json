@@ -73,6 +73,94 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
+    "name": "scroll-area",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "scroll-area",
+    "files": [
+      {
+        "path": "scroll-area/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "scroll-area/scroll-area.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/scroll-area"
+  },
+  {
+    "name": "skeleton",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "skeleton",
+    "files": [
+      {
+        "path": "skeleton/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "skeleton/skeleton.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/skeleton"
+  },
+  {
+    "name": "slider",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/variants"
+    ],
+    "registryDependencies": [],
+    "root_folder": "slider",
+    "files": [
+      {
+        "path": "slider/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "slider/slider.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/slider"
+  },
+  {
+    "name": "sonner",
+    "type": "registry:ui",
+    "dependencies": [
+      "sonner"
+    ],
+    "registryDependencies": [],
+    "root_folder": "sonner",
+    "files": [
+      {
+        "path": "sonner/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sonner/sonner.chunks.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sonner/sonner.libs.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sonner/sonner.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sonner/sonner.types.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/sonner"
+  },
+  {
     "name": "switch",
     "type": "registry:ui",
     "dependencies": [

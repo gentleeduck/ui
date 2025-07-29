@@ -3,7 +3,7 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { toast } from 'sonner'
 import { SonnerUpload } from '@gentleduck/registry-ui-duckui/sonner'
 
-export function SONNER_V2() {
+export default function SonnerDmeo() {
   const controllerRef = React.useRef(new AbortController())
   const intervalRef = React.useRef<NodeJS.Timeout | null>(null)
   const progressRef = React.useRef(0)
@@ -14,9 +14,10 @@ export function SONNER_V2() {
         progress={progress}
         attachments={2}
         remainingTime={Math.max(0, 3000 - progress * 30)}
+        onComplete={handleComplete}
         onCancel={handleCancel}
       />,
-      { id: 'sonner', dismissible: false },
+      { id: 'sonner', dismissible: false, duration: 30000 },
     )
   }
 
@@ -43,6 +44,10 @@ export function SONNER_V2() {
       clearInterval(intervalRef.current)
       intervalRef.current = null
     }
+  }
+
+  const handleComplete = () => {
+    toast.dismiss('sonner')
   }
 
   const handleClick = () => {

@@ -59,11 +59,9 @@ const config = defineConfig({
   },
   mdx: {
     remarkPlugins: [remarkGfm, codeImport],
-
     rehypePlugins: [
-      () => {},
-      rehypeSlug,
       rehypeComponent,
+      rehypeSlug,
       rehypeExtractTitle,
       metadataPlugin,
       [
