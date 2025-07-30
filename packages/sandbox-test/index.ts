@@ -1,7 +1,7 @@
 import { type } from 'arktype'
 
 const User = type({
-  name: 'string | string',
+  name: '(string | number)[]',
   platform: "'android' | 'ios'",
   'versions?': 'string | number | null',
 })

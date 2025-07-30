@@ -1,9 +1,8 @@
 'use client'
-import { useStableId } from '@gentleduck/hooks'
+import { useComputedTimeoutTransition, useStableId } from '@gentleduck/hooks'
 import { apply as applyClosedBy, isSupported as isClosedBySupported } from 'dialog-closedby-polyfill'
 import { apply as applyInvokers, isSupported as isInvokersSupported } from 'invokers-polyfill/fn'
 import React from 'react'
-import { Mount } from '../mount'
 import { Slot } from '../slot'
 import { useDialog, useDialogContext } from './dialog.hooks'
 import type { DialogContentProps, DialogContextType, DialogProps } from './dialog.types'
@@ -73,9 +72,12 @@ export function Root({
 
 export function Trigger({
   onClick,
+  open,
   asChild = false,
   ...props
-}: React.ComponentPropsWithRef<typeof Slot> & {}): React.JSX.Element {
+}: React.ComponentPropsWithRef<typeof Slot> & {
+  open?: boolean
+}): React.JSX.Element {
   const { onOpenChange, open: _open, id, triggerRef } = useDialogContext()
 
   return (
@@ -84,7 +86,7 @@ export function Trigger({
       aria-haspopup="dialog"
       aria-controls={id}
       onClick={(e) => {
-        onOpenChange(!_open)
+        onOpenChange(open ?? !_open)
         onClick?.(e)
       }}
       asChild={asChild}
@@ -110,11 +112,64 @@ export function Content({
   return (
     <div className={String(open && 'absolute inset-0 z-50 flex min-h-screen w-full items-center justify-center')}>
       <dialog className={className} {...prop} id={id} ref={contentRef}>
-        <Mount ref={contentRef.current} forceMount={renderOnce} open={open}>
+        <ShouldRender ref={contentRef.current} forceMount={renderOnce} open={open}>
           {children}
           {closeButton && <DialogClose />}
-        </Mount>
+        </ShouldRender>
       </dialog>
     </div>
   )
+}
+
+export function ShouldRender({
+  forceMount = false,
+  open = false,
+  children,
+  ref,
+}: {
+  forceMount?: boolean
+  open?: boolean
+  children?: React.ReactNode
+  ref?: HTMLElement | null
+}) {
+  const [_shouldRender, setShouldRender] = React.useState(false)
+  const [isVisible, setIsVisible] = React.useState(false)
+
+  const shouldRender = forceMount ? _shouldRender : open
+
+  React.useEffect(() => {
+    if (open) {
+      if (forceMount) {
+        setShouldRender(true)
+      }
+      setIsVisible(true)
+      return
+    }
+
+    // When `open` is false:
+    if (!forceMount && ref) {
+      const node = ref
+      const handleTransitionEnd = (e: TransitionEvent) => {
+        if (e.target === node) {
+          setIsVisible(false)
+          node.removeEventListener('transitionend', handleTransitionEnd)
+        }
+      }
+
+      node.addEventListener('transitionend', handleTransitionEnd)
+
+      return () => {
+        node.removeEventListener('transitionend', handleTransitionEnd)
+      }
+    }
+
+    // If no ref: hide immediately
+    if (!forceMount && !ref) {
+      setIsVisible(false)
+    }
+  }, [open, forceMount, ref])
+
+  if (!shouldRender && !isVisible) return null
+
+  return <>{children}</>
 }

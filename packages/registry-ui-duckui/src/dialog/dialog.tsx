@@ -1,6 +1,6 @@
 import DialogPrimitive, { useDialogContext } from '@gentleduck/aria-feather/dialog'
 import { cn } from '@gentleduck/libs/cn'
-import { AnimDialogModalVariants, AnimDialogVariants, AnimPopoverVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { AnimDialogModalVariants, AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import { X } from 'lucide-react'
 import type React from 'react'
 import { Button } from '../button'
@@ -12,20 +12,17 @@ function Dialog({ closeButton = true, ...props }: React.ComponentPropsWithoutRef
 
 function DialogTrigger({
   children,
-  asChild,
   ...props
-}: Omit<React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>, 'size'> &
-  React.ComponentPropsWithoutRef<typeof Button>) {
+}: Omit<React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>, 'size' | 'asChild'> &
+  Omit<React.ComponentPropsWithoutRef<typeof Button>, 'asChild'>) {
   return (
     <DialogPrimitive.Trigger asChild>
-      <Button {...props} asChild={asChild}>
-        {children}
-      </Button>
+      <Button {...props}>{children}</Button>
     </DialogPrimitive.Trigger>
   )
 }
 
-function DialogCloseX({
+export function DialogCloseX({
   ref,
   size = 16,
   children,

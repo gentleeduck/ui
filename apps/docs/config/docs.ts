@@ -52,6 +52,12 @@ export const docsConfig: DocsConfig = {
           label: 'refacotored',
           title: 'Button',
         },
+        {
+          href: '/docs/components/dialog',
+          items: [],
+          label: 'refacotored',
+          title: 'Dialog',
+        },
         // {
         //   title: 'Combobox',
         //   href: '/docs/components/combobox',
@@ -91,8 +97,8 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/input',
           items: [],
+          label: 'refacotored',
           title: 'Input',
-          // label: 'new',
         },
         {
           href: '/docs/components/label',
@@ -139,8 +145,8 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/sheet',
           items: [],
+          label: 'refacotored',
           title: 'Sheet',
-          // label: 'new',
         },
         {
           href: '/docs/components/skeleton',

@@ -3,7 +3,7 @@
 import { arrow, autoUpdate, computePosition, flip, offset, platform, shift, size } from '@gentleduck/duck-float/dom'
 import { Provider as DuckStateProvider, useAtomValue } from '@gentleduck/state/react'
 import React, { createContext, useId } from 'react'
-import { ShouldRender } from '../../../../packages/aria-feather/src/dialog/dialog'
+import { Mount } from '../mount'
 import { Slot } from '../slot'
 import { popoverOpen, popoverRefs } from './popover.atoms'
 import { usePopover, usePopoverContext } from './popover.hooks'
@@ -192,9 +192,9 @@ function Content({
         duck-popover-arrow=""
       />
       {rerender ? (
-        <ShouldRender open={openValue} ref={content} forceMount={renderOnce}>
+        <Mount open={openValue} ref={content} forceMount={renderOnce}>
           {children}
-        </ShouldRender>
+        </Mount>
       ) : (
         children
       )}

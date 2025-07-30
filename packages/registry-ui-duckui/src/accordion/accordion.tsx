@@ -1,6 +1,6 @@
 'use client'
 
-import { ShouldRender } from '@gentleduck/aria-feather/dialog'
+import { Mount } from '@gentleduck/aria-feather/mount'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants } from '@gentleduck/motion/anim'
 import { ChevronDown } from 'lucide-react'
@@ -156,9 +156,9 @@ function AccordionItem({
       duck-accordion-item="">
       {_children[0]}
       {rerender && (
-        <ShouldRender once={renderOnce} open={open}>
+        <Mount once={renderOnce} open={open}>
           {_children[1]}
-        </ShouldRender>
+        </Mount>
       )}
       {!rerender && _children[1]}
     </details>

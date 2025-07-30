@@ -7,6 +7,7 @@ import type { VariantProps } from '@gentleduck/variants'
 import type React from 'react'
 import {
   DialogClose,
+  DialogCloseX,
   type DialogContentProps,
   DialogDescription,
   DialogFooter,
@@ -34,7 +35,7 @@ function SheetContent({
 }: DialogContentProps & VariantProps<typeof AnimSheetVariants>): React.JSX.Element {
   return (
     <SheetPrimitive.Content
-      dialogClose={DialogClose}
+      dialogClose={DialogCloseX}
       className={cn(
         AnimVariants({ overlay: overlay }),
         AnimDialogVariants({ animation: 'nothing' }),

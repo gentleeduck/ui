@@ -79,6 +79,31 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  dialog: {
+    name: 'dialog',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'dialog/dialog.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dialog/dialog.types.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dialog/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/dialog')),
+    source: '/registry-ui-duckui/src/dialog',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   input: {
     name: 'input',
     description: '',
@@ -920,6 +945,40 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button/button-9')),
     source: '/registry-examples-duckui/src/button',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'dialog-1': {
+    name: 'dialog-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['dialog'],
+    files: [
+      {
+        path: 'dialog/dialog-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/dialog/dialog-1')),
+    source: '/registry-examples-duckui/src/dialog',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'dialog-2': {
+    name: 'dialog-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['dialog'],
+    files: [
+      {
+        path: 'dialog/dialog-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/dialog/dialog-2')),
+    source: '/registry-examples-duckui/src/dialog',
     category: '',
     subcategory: '',
     chunks: [],

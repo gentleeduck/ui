@@ -23,6 +23,13 @@ export const registry_examples: Registry = [
     files: [],
   },
   {
+    name: 'dialog-examples',
+    type: 'registry:example',
+    registryDependencies: ['dialog'],
+    root_folder: 'dialog',
+    files: [],
+  },
+  {
     name: 'card-examples',
     type: 'registry:example',
     registryDependencies: ['card'],

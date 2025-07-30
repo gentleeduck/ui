@@ -1,6 +1,6 @@
 'use client'
 
-import { ShouldRender } from '@gentleduck/aria-feather/dialog'
+import { Mount } from '@gentleduck/aria-feather/mount'
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
 
@@ -133,9 +133,9 @@ const TabsContent = ({
       )}
       {...props}
       duck-tabs-content="">
-      <ShouldRender forceMount={forceMount} open={activeItem === value} ref={null}>
+      <Mount forceMount={forceMount} open={activeItem === value} ref={null}>
         {children}
-      </ShouldRender>
+      </Mount>
     </div>
   )
 }

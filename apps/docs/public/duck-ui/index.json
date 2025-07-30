@@ -73,6 +73,30 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
+    "name": "dialog",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/aria-feather"
+    ],
+    "registryDependencies": [],
+    "root_folder": "dialog",
+    "files": [
+      {
+        "path": "dialog/dialog.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dialog/dialog.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dialog/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/dialog"
+  },
+  {
     "name": "input",
     "type": "registry:ui",
     "dependencies": [],
@@ -824,6 +848,36 @@
       }
     ],
     "source": "/registry-examples-duckui/src/button"
+  },
+  {
+    "name": "dialog-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "dialog"
+    ],
+    "root_folder": "dialog",
+    "files": [
+      {
+        "path": "dialog/dialog-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/dialog"
+  },
+  {
+    "name": "dialog-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "dialog"
+    ],
+    "root_folder": "dialog",
+    "files": [
+      {
+        "path": "dialog/dialog-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/dialog"
   },
   {
     "name": "card-1",

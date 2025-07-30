@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "input/input-5.tsx",
-      "content": "import { Input } from '@gentleduck/registry-ui-duckui/input'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport function InputWithButton() {\n  return (\n    <div className=\"flex w-full max-w-sm items-center space-x-2\">\n      <Input type=\"email\" placeholder=\"Email\" />\n      <Button type=\"submit\">Subscribe</Button>\n    </div>\n  )\n}\n",
+      "content": "import { Input } from '@gentleduck/registry-ui-duckui/input'\nimport { Label } from '@gentleduck/registry-ui-duckui/label'\n\nexport default function InputWithButton() {\n  return (\n    <div className=\"flex w-full max-w-sm space-y-2 flex-col\">\n      <Label htmlFor=\"email\">Email</Label>\n      <Input type=\"email\" placeholder=\"Email\" />\n    </div>\n  )\n}\n",
       "type": "registry:example",
       "target": "components/input-5.tsx"
     }

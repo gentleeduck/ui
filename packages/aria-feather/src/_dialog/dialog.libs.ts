@@ -3,7 +3,7 @@ export function lockScrollbar(isLocked: boolean) {
 
   // documentElement.style.scrollbarGutter = 'stable'
   body.style.overflow = isLocked ? 'hidden' : 'auto'
-  // document.body.style.paddingRight = isLocked ? '5px' : ''
+  document.body.style.paddingRight = isLocked ? '4px' : ''
 }
 
 export function cleanLockScrollbar() {

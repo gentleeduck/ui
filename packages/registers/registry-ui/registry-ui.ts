@@ -25,6 +25,14 @@ export const registry_ui: Registry = [
     root_folder: 'button',
     files: [],
   },
+  {
+    name: 'dialog',
+    type: 'registry:ui',
+    dependencies: ['@gentleduck/aria-feather'],
+    registryDependencies: [],
+    root_folder: 'dialog',
+    files: [],
+  },
 
   {
     name: 'input',
@@ -74,6 +82,14 @@ export const registry_ui: Registry = [
     dependencies: [],
     registryDependencies: [],
     root_folder: 'separator',
+    files: [],
+  },
+  {
+    name: 'sheet',
+    type: 'registry:ui',
+    dependencies: ['@gentleduck/aria-feather'],
+    registryDependencies: ['dialog'],
+    root_folder: 'sheet',
     files: [],
   },
   {

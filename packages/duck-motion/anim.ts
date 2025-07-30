@@ -9,19 +9,19 @@ export const AnimVariants = cva('', {
     },
     overlay: {
       default:
-        'backdrop:bg-black/50 backdrop:opacity-0 backdrop:transition-[inherit] backdrop:duration-[inherit] backdrop:ease-[inherit] open:backdrop:opacity-100 starting:open:backdrop:opacity-0',
+        'backdrop:transition-[inherit] backdrop:duration-[inherit] backdrop:ease-[inherit] backdrop:bg-black/50  backdrop:opacity-0 starting:open:backdrop:opacity-0 open:backdrop:opacity-100',
       nothing: 'backdrop:opacity-0',
     },
     alive: {
-      default: 'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+      default: 'transition-all transition-discrete ease-(--duck-motion-ease) duration-[200ms,150ms]',
     },
     pseudo: {
       animate:
-        ' [&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
+        ' [&:before,&:after]:duration-[inherit] [&:before,&:after]:will-change-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:transition-gpu',
       default: '',
     },
     accelerated: {
-      default: 'transform-gpu will-change-[opacity,transform,translate,blur] backdrop:will-change-[opacity,blur]',
+      default: 'will-change-[opacity,transform,translate,blur] backdrop:will-change-[opacity,blur] transform-gpu',
     },
   },
   defaultVariants: {
@@ -35,8 +35,7 @@ export const AnimVariants = cva('', {
 export const AnimDialogVariants = cva(`border border-border bg-background rounded-lg shadow-sm outline-hidden p-6`, {
   variants: {
     animation: {
-      default:
-        'data-[open=true]:pointer-events-all opacity-0 data-[open=false]:pointer-events-none data-[open=false]:scale-97 data-[open=true]:scale-100 starting:data-[open=true]:scale-97 data-[open=true]:opacity-100 starting:data-[open=true]:opacity-0',
+      default: 'opacity-0 scale-90 starting:open:opacity-0 starting:open:scale-90 open:opacity-100 open:scale-100',
       nothing: '',
     },
   },
@@ -46,7 +45,7 @@ export const AnimDialogVariants = cva(`border border-border bg-background rounde
 })
 
 export const AnimPopoverVariants = cva(
-  `bg-popover text-popover-foreground inset-auto absolute max-h-none p-4 w-fit z-50 fixed
+  `bg-popover text-popover-foreground inset-auto absolute max-h-none p-4 w-fit
   [position-anchor:var(--position-anchor)] m-(--sideOffset) [position-visibility:anchors-visible]`,
   {
     variants: {
@@ -58,29 +57,29 @@ export const AnimPopoverVariants = cva(
         inset: `[position-area:_center] origin-center`,
       },
       align: {
-        // center: '[--position-area-align:span-all]',
-        // end: `[--position-area-align:span-inline-start]`,
-        // start: `[--position-area-align:span-inline-end]`,
-        // 'out-start': `[--position-area-align:inline-start]`,
-        // 'out-end': `[--position-area-align:inline-end]`,
-        // top: `[--position-area-align:block-start]`,
-        // bottom: `[--position-area-align:block-end]`,
-        // 'out-top': `[--position-area-align:span-block-start]`,
-        // 'out-bottom': `[--position-area-align:span-block-end]`,
+        center: '[--position-area-align:span-all]',
+        end: `[--position-area-align:span-inline-start]`,
+        start: `[--position-area-align:span-inline-end]`,
+        'out-start': `[--position-area-align:inline-start]`,
+        'out-end': `[--position-area-align:inline-end]`,
+        top: `[--position-area-align:block-start]`,
+        bottom: `[--position-area-align:block-end]`,
+        'out-top': `[--position-area-align:span-block-start]`,
+        'out-bottom': `[--position-area-align:span-block-end]`,
       },
     },
     defaultVariants: {
       side: 'bottom',
-      // align: 'center',
+      align: 'center',
     },
   },
 )
 
 export const AnimTooltipVariants = cva(
-  `px-3 py-1.5 text-accent-foreground bg-background border-border text-balance select-none rounded-sm shadow-none`,
+  `px-3 py-1.5 text-accent-foreground bg-background border-border text-xs text-balance select-none rounded-sm shadow-none`,
 )
 
-export const AnimDialogModalVariants = cva(`sm:max-w-lg w-full place-self-center `)
+export const AnimDialogModalVariants = cva(`inset-1/2 -translate-1/2 rtl:translate-x-1/2 sm:max-w-lg w-full`)
 
 export const AnimPopoverArrowVariants = cva(
   `overflow-visible after:border-background after:w-0 after:h-0 after:absolute after:[position-anchor:var(--position-anchor)] after:[po ition-area:inherit] 
@@ -156,15 +155,17 @@ export const checkersStylePattern = cva(
   border bg-border border-border checked:bg-primary checked:border-primary text-primary-foreground
   ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
   disabled:cursor-not-allowed disabled:opacity-50 
+<<<<<<< HEAD
   after:absolute after:drop-shadow after:bg-current after:size-[1em] after:rounded-[inherit] after:block after:mask-type-alpha after:mask-contain 
-  after:opacity-0 checked:after:opacity-100`,
+  after:opacity-0 checked:after:opacity-100 `,
   {
     variants: {
       type: {
         checkbox: `
           justify-center rounded p-2
           after:rounded-none after:text-base
-          checked:after:scale-100 after:scale-0 text-xs
+          checked:after:translate-y-0 after:translate-y-1/3 text-xs
+          
             `,
         radio: `
           justify-center p-2 after:text-[10px]
