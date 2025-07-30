@@ -1,11 +1,11 @@
 import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
 
-export function InputWithButton() {
+export default function InputWithButton() {
   return (
-    <div className="flex w-full max-w-sm items-center space-x-2">
+    <div className="flex w-full max-w-sm space-y-2 flex-col">
+      <Label htmlFor="email">Email</Label>
       <Input type="email" placeholder="Email" />
-      <Button type="submit">Subscribe</Button>
     </div>
   )
 }

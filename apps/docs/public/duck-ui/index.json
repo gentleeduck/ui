@@ -73,6 +73,24 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
+    "name": "input",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "input",
+    "files": [
+      {
+        "path": "input/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "input/input.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/input"
+  },
+  {
     "name": "label",
     "type": "registry:ui",
     "dependencies": [],

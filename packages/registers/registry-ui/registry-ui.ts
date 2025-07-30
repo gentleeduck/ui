@@ -25,6 +25,15 @@ export const registry_ui: Registry = [
     root_folder: 'button',
     files: [],
   },
+
+  {
+    name: 'input',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'input',
+    files: [],
+  },
   {
     name: 'label',
     type: 'registry:ui',

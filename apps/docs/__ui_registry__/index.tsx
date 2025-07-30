@@ -79,6 +79,27 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  input: {
+    name: 'input',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'input/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'input/input.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/input')),
+    source: '/registry-ui-duckui/src/input',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   label: {
     name: 'label',
     description: '',

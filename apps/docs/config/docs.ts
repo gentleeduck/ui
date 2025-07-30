@@ -115,8 +115,8 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/radio-group',
           items: [],
+          label: 'still-working',
           title: 'Radio Group',
-          // label: 'new',
         },
         {
           href: '/docs/components/scroll-area',
