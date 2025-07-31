@@ -10,6 +10,14 @@ export const registry_ui: Registry = [
     files: [],
   },
   {
+    name: 'alert-dialog',
+    type: 'registry:ui',
+    dependencies: ['@gentleduck/aria-feather'],
+    registryDependencies: [],
+    root_folder: 'alert-dialog',
+    files: [],
+  },
+  {
     name: 'badge',
     type: 'registry:ui',
     dependencies: ['@gentleduck/aria-feather'],
@@ -26,6 +34,14 @@ export const registry_ui: Registry = [
     files: [],
   },
   {
+    name: 'command',
+    type: 'registry:ui',
+    dependencies: ['@gentleduck/aria-feather'],
+    registryDependencies: [],
+    root_folder: 'command',
+    files: [],
+  },
+  {
     name: 'dialog',
     type: 'registry:ui',
     dependencies: ['@gentleduck/aria-feather'],
@@ -33,7 +49,14 @@ export const registry_ui: Registry = [
     root_folder: 'dialog',
     files: [],
   },
-
+  {
+    name: 'drawer',
+    type: 'registry:ui',
+    dependencies: ['@gentleduck/aria-feather'],
+    registryDependencies: [],
+    root_folder: 'drawer',
+    files: [],
+  },
   {
     name: 'input',
     type: 'registry:ui',

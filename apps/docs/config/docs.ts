@@ -41,6 +41,12 @@ export const docsConfig: DocsConfig = {
           title: 'Accordion',
         },
         {
+          href: '/docs/components/alert-dialog',
+          items: [],
+          // label: 'refacotored',
+          title: 'Alert Dialog',
+        },
+        {
           href: '/docs/components/badge',
           items: [],
           label: 'refacotored',
@@ -55,7 +61,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/dialog',
           items: [],
-          label: 'refacotored',
+          // label: 'refacotored',
           title: 'Dialog',
         },
         // {
@@ -64,12 +70,12 @@ export const docsConfig: DocsConfig = {
         //   items: [],
         //   label: 'new',
         // },
-        // {
-        //   title: 'Command',
-        //   href: '/docs/components/command',
-        //   items: [],
-        //   label: 'new',
-        // },
+        {
+          title: 'Command',
+          href: '/docs/components/command',
+          // label: 'new',
+          items: [],
+        },
         // {
         //   title: 'DropdowmMenu',
         //   href: '/docs/components/dropdowm-menu',
@@ -79,8 +85,8 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/drawer',
           items: [],
+          label: 'refacotored',
           title: 'Drawer',
-          // label: 'new',
         },
         // {
         //   title: 'Header',

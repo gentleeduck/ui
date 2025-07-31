@@ -9,6 +9,13 @@ export const registry_examples: Registry = [
     files: [],
   },
   {
+    name: 'alert-dialog-examples',
+    type: 'registry:example',
+    registryDependencies: ['alert-dialog'],
+    root_folder: 'alert-dialog',
+    files: [],
+  },
+  {
     name: 'badge-examples',
     type: 'registry:example',
     registryDependencies: ['badge'],
@@ -27,6 +34,13 @@ export const registry_examples: Registry = [
     type: 'registry:example',
     registryDependencies: ['dialog'],
     root_folder: 'dialog',
+    files: [],
+  },
+  {
+    name: 'command-examples',
+    type: 'registry:example',
+    registryDependencies: ['command'],
+    root_folder: 'command',
     files: [],
   },
   {

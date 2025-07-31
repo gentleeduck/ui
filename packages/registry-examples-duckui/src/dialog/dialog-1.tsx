@@ -15,7 +15,7 @@ import React from 'react'
 
 export default function DialogDemo() {
   return (
-    <Dialog>
+    <Dialog modal>
       <form onSubmit={(e) => e.preventDefault()}>
         <DialogTrigger variant={'outline'}>Open Dialog</DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">

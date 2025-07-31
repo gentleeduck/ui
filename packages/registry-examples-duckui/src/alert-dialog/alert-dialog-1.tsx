@@ -1,4 +1,3 @@
-import { Button } from '@/registry/registry-ui-components'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,15 +8,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/registry/registry-ui-components/alert-dialog'
+} from '@gentleduck/registry-ui-duckui/alert-dialog'
 
 export default function AlertDialogMainDemo() {
   return (
     <>
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="outline">Open</Button>
-        </AlertDialogTrigger>
+        <AlertDialogTrigger>Open</AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

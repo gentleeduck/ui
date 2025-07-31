@@ -55,8 +55,7 @@ export function useCommandElements(commandRef: React.RefObject<HTMLDivElement | 
           dstyleItem(item)
         }
 
-        item?.setAttribute('aria-selected', '')
-        item?.focus()
+        styleItem(item)
         selectedItemRef.current = item
       })
     }
@@ -88,7 +87,7 @@ export function useCommandSearch(
         item.classList.remove('hidden')
       } else {
         item.classList.add('hidden')
-        item.removeAttribute('aria-selected')
+        dstyleItem(item)
         itemsHidden.set(i.toString(), item)
       }
     }
@@ -152,7 +151,6 @@ export function useHandleKeyDown({
     if (!open) return
 
     const idx = originalItemsRef.current?.findIndex((item) => item === selectedItem)
-    const html = document.documentElement
     let originalCurrentItem = idx === -1 ? 0 : idx
     let currentItem = idx === -1 ? 0 : idx
     let inSubMenu = false
@@ -191,24 +189,11 @@ export function useHandleKeyDown({
       if (allowAxisArrowKeys) {
         const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
         if (item.hasAttribute('duck-dropdown-menu-sub-trigger')) {
-          console.log(item)
-          if (
-            (e.key === 'ArrowLeft' && html.getAttribute('dir') === 'rtl') ||
-            (e.key === 'ArrowRight' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
-          ) {
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
             inSubMenu = !inSubMenu
             item?.click()
             return
           }
-
-          // if (
-          //   (e.key === 'ArrowRight' && html.getAttribute('dir') === 'rtl') ||
-          //   (e.key === 'ArrowLeft' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
-          // ) {
-          //   inSubMenu = !inSubMenu
-          //   item?.click()
-          //   return
-          // }
         }
       }
 
@@ -218,11 +203,4 @@ export function useHandleKeyDown({
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [open])
-
-  //FIX:
-  // React.useEffect(() => {
-  //   if (!open && itemsRef.current?.[0]) {
-  //     setSelectedItem(itemsRef.current[0])
-  //   }
-  // }, [open])
 }
