@@ -1,0 +1,17 @@
+{
+  "name": "command-2",
+  "type": "registry:example",
+  "registryDependencies": [
+    "command"
+  ],
+  "root_folder": "command",
+  "files": [
+    {
+      "path": "command/command-2.tsx",
+      "content": "export default function CommandDemo() {\n  return 'asdfasdf'\n}\n",
+      "type": "registry:example",
+      "target": "components/command-2.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/command"
+}

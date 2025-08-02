@@ -1,0 +1,269 @@
+---
+title: command
+description: A fast, composable, unstyled command menu for React applications.
+component: true
+---
+
+<ComponentPreview
+  name="command-1"
+  align="start"
+  className="[&_.preview>div]:max-w-[450px]"
+  description="A command menu"
+  showSettings={false}
+/>
+
+## Features
+
+* **Searchable Command Dialog:** Command palette with fuzzy search and real-time filtering.
+* **Groupable Command List:** Organize commands into logical groups with optional headings.
+* **Selectable Items:** Items support click actions, selection states, and checkmark indicators.
+* **Keyboard Navigation:** Full keyboard support with arrow keys, Enter, and Escape navigation.
+* **Custom Shortcuts:** Optional shortcut labels shown beside each command item.
+* **Empty State Handling:** Automatically displays a fallback when no items match the query.
+* **Loopable Navigation:** Optional looping behavior for continuous up/down key cycling.
+* **Custom Filtering Logic:** Swap out the built-in filter with your own function.
+* **Accessible & Composable:** ARIA roles and headless architecture for complete flexibility.
+* **Responsive Design:** Adapts gracefully to different screen sizes and containers.
+* **Dialog or Inline Support:** Can be used as a floating dialog or embedded inline.
+
+## About
+This component uses the [@gentleduck/duck-vim](https://github.com/gentleeduck/ui/tree/master/packages/duck-vim) library under the hood.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx duck-ui@latest add command
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install cmdk
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="command" />
+
+<Step>
+  The Combobox is built using a composition of the `<Button />
+  `, `<Dialog />
+  `, `<ScrollArea />` and the `<Tooltip />` component.
+</Step>
+
+<Step>
+  You also will need to install the [`Button`](/docs/components/Command#installation),
+  [`Tooltip`](/docs/components/Tooltip#installation), [`Dialog`](/docs/components/Dialog#installation) and
+  [`ScrollArea`](/docs/components/ScrollArea#installation) components because some dependencies are inherited from them.
+</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+  TooltipProvider,
+} from '@/components/ui'
+```
+
+```tsx
+<Command>
+  <CommandInput placeholder="Type a command or search..." />
+  <CommandList>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Suggestions">
+      <CommandItem>Search GitHub</CommandItem>
+      <CommandItem>Search Twitter</CommandItem>
+      <CommandItem>Search Discord</CommandItem>
+    </CommandGroup>
+    <CommandSeparator />
+    <CommandGroup heading="Settings">
+      <CommandItem>General</CommandItem>
+      <CommandItem>Profile</CommandItem>
+      <CommandItem>Notifications</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
+
+## Examples
+
+### List Group
+
+<ComponentPreview
+  name="command-2"
+  description="A component dialog."
+  showSettings={false}
+/>
+
+### Dialog
+
+<ComponentPreview
+  name="command-3"
+  description="A component dialog."
+  showSettings={false}
+/>
+
+To show the command menu in a dialog, use the `<CommandDialog />` component, or use the `<Button/>` component with the `command` variant.
+
+```tsx
+export function CommandMenu() {
+  const [open, setOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setOpen(open => !open)
+      }
+    }
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
+  }, [])
+
+  return (
+    <CommandDialog
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Suggestions">
+          <CommandItem>Settings</CommandItem>
+          <CommandItem>Messages</CommandItem>
+          <CommandItem>Search</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
+  )
+}
+```
+
+## API Reference
+
+### **Command Props**
+
+* **`props`** (`React.HTMLProps<HTMLDivElement>`): All native div props are supported.
+
+---
+
+### **CommandInput Props**
+
+* **`placeholder`** (`string`, optional): Placeholder text in the input. Default is `'Search...'`.
+* **`autoFocus`** (`boolean`, optional): Automatically focus input on mount. Default is `true`.
+* **`onChange`** (`React.ChangeEventHandler`, optional): Triggered when the input value changes.
+* **`...props`** (`React.HTMLProps<HTMLInputElement>`): All native input props are supported.
+
+---
+
+### **CommandList Props**
+
+* **`props`** (`React.HTMLAttributes<HTMLUListElement>`): All native `ul` props are supported.
+
+---
+
+### **CommandItem Props**
+
+* **`value`** (`string`, optional): The internal value for selection.
+* **`onSelect`** (`(value: string) => void`, optional): Called when the item is selected.
+* **`onClick`** (`React.MouseEventHandler`, optional): Native click event.
+* **`onKeyDown`** (`React.KeyboardEventHandler`, optional): Native keydown event.
+* **`...props`** (`React.HTMLProps<HTMLLIElement>`): All native `li` props are supported.
+
+---
+
+### **CommandGroup Props**
+
+* **`heading`** (`string`, optional): Optional heading for the group.
+* **`props`** (`React.HTMLProps<HTMLDivElement>`): All native `div` props are supported.
+
+---
+
+### **CommandEmpty Props**
+
+* **`props`** (`React.HTMLAttributes<HTMLHeadingElement>`): All native `h6` props are supported.
+
+---
+
+### **CommandShortcut Props**
+
+* **`keys`** (`string`, optional): Keyboard shortcut string (e.g. `"ctrl+K"`).
+* **`onKeysPressed`** (`() => void`, optional): Triggered when shortcut is pressed.
+* **`variant`** (`'default' | 'secondary'`, optional): Visual style variant.
+* **`...props`** (`React.HTMLProps<HTMLElement>`): All native `kbd` props are supported.
+
+---
+
+### **CommandSeparator Props**
+
+* **`props`** (`React.HTMLProps<HTMLDivElement>`): All native `div` props are supported.
+
+---
+
+### **CommandDialog Props**
+
+* **`props`** (`DialogProps`): All props supported by the underlying `<Dialog />` component.
+
+---
+
+## Types
+
+### **CommandContextType**
+
+* **`search`** (`string`): Current search query value.
+* **`setSearch`** (`React.Dispatch<React.SetStateAction<string>>`): Setter for search query.
+
+---
+
+### **CommandRefsContextType**
+
+* **`commandRef`** (`React.RefObject<HTMLDivElement | null>`): Root command container reference.
+* **`listRef`** (`React.RefObject<HTMLUListElement | null>`): UL element holding items.
+* **`emptyRef`** (`React.RefObject<HTMLHeadingElement | null>`): Empty state heading ref.
+* **`inputRef`** (`React.RefObject<HTMLInputElement | null>`): Search input field reference.
+* **`selectedItem`** (`HTMLLIElement \| null`): Currently selected item.
+* **`setSelectedItem`** (`React.Dispatch<React.SetStateAction<HTMLLIElement | null>>`): Setter for selected item.
+* **`items`** (`React.RefObject<HTMLLIElement[]>`): All command items.
+* **`filteredItems`** (`React.RefObject<HTMLLIElement[]>`): Filtered items after search.
+* **`groups`** (`React.RefObject<HTMLDivElement[]>`): Groups of command items.
+
+---
+
+### **CommandBadgeProps (CommandShortcut)**
+
+* **`keys`** (`string`, optional): Keyboard shortcut string (e.g. `'ctrl+K'`).
+* **`onKeysPressed`** (`() => void`, optional): Called when the shortcut is triggered.
+* **`variant`** (`'default' | 'secondary'`, optional): Visual style.
+* **`className`** (`string`, optional): Additional class names.
+* **`...props`** (`React.HTMLProps<HTMLElement>`): Native `kbd` element props.

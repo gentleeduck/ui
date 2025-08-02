@@ -1,0 +1,17 @@
+{
+  "name": "command-1",
+  "type": "registry:example",
+  "registryDependencies": [
+    "command"
+  ],
+  "root_folder": "command",
+  "files": [
+    {
+      "path": "command/command-1.tsx",
+      "content": "import {\n  Command,\n  CommandEmpty,\n  CommandGroup,\n  CommandInput,\n  CommandItem,\n  CommandList,\n  CommandSeparator,\n  CommandShortcut,\n} from '@gentleduck/registry-ui-duckui/command'\nimport { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'\nimport React from 'react'\n\nexport default function CommandDemo() {\n  return (\n    <Command className=\"border h-fit pt-0\">\n      <CommandInput placeholder=\"Type a command or search...\" />\n      <CommandList>\n        <CommandEmpty>No results found.</CommandEmpty>\n        <CommandGroup heading=\"Suggestions\">\n          <CommandItem>\n            <Calendar />\n            <span>Calendar</span>\n          </CommandItem>\n          <CommandItem>\n            <Smile />\n            <span>Search Emoji</span>\n          </CommandItem>\n          <CommandItem disabled>\n            <Calculator />\n            <span>Calculator</span>\n          </CommandItem>\n        </CommandGroup>\n        <CommandSeparator />\n        <CommandGroup heading=\"Settings\">\n          <CommandItem>\n            <User />\n            <span>Profile</span>\n            <CommandShortcut onKeysPressed={() => {}} keys=\"⌘P\">\n              ⌘P\n            </CommandShortcut>\n          </CommandItem>\n          <CommandItem>\n            <CreditCard />\n            <span>Billing</span>\n            <CommandShortcut onKeysPressed={() => {}} keys=\"⌘B\">\n              ⌘B\n            </CommandShortcut>\n          </CommandItem>\n          <CommandItem>\n            <Settings />\n            <span>Settings</span>\n            <CommandShortcut onKeysPressed={() => {}} keys=\"⌘S\">\n              ⌘S\n            </CommandShortcut>\n          </CommandItem>\n        </CommandGroup>\n      </CommandList>\n    </Command>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/command-1.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/command"
+}

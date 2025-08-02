@@ -1,0 +1,132 @@
+---
+title: alert-dialog
+description: A modal dialog temporarily interrupts the user's workflow with important content, requiring immediate attention and a response before allowing further interaction.
+featured: true
+component: true
+---
+
+<ComponentPreview
+  name="alert-dialog-1"
+  description="An alert dialog with cancel and continue buttons."
+/>
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx duck-ui@latest add alert-dialog
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/area-feather 
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="alert-dialog" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+```
+
+```tsx
+<AlertDialog>
+  <AlertDialogTrigger variant="outline">Open</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Examples
+
+### Drawer
+
+<ComponentPreview
+  name="alert-dialog-2"
+  description="An alert dialog with cancel and continue buttons."
+/>
+
+### Sheet
+
+<ComponentPreview
+  name="alert-dialog-3"
+  description="An alert dialog with cancel and continue buttons."
+/>
+
+### Dialog
+
+<ComponentPreview
+  name="alert-dialog-4"
+  description="An alert dialog with cancel and continue buttons."
+/>
+
+## API Reference
+
+### **AlertDialogProps**
+
+- **`defaultOpen`** (`boolean`, optional): Determines if the dialog should be open by default.
+- **`open`** (`boolean`, optional): Controls the visibility of the dialog.
+- **`onOpenChange`** (`(open: boolean) => void`, optional): Callback function triggered when the dialog opens or closes.
+
+---
+
+### **AlertDialogTrigger**
+
+- **`asChild`** (`boolean`): If `true`, the trigger will be rendered as a child element.
+
+---
+
+### **AlertDialogContent**
+
+- **`asChild`** (`boolean`): If `true`, the content will be rendered as a child element.
+- **`forceMount`** (`boolean`): If `true`, forces the content to mount.
+
+- **`onOpenAutoFocus`** (`(event: Event) => void`): Callback for managing focus when the dialog opens.
+- **`onCloseAutoFocus`** (`(event: Event) => void`): Callback for managing focus when the dialog closes.
+- **`onEscapeKeyDown`** (`(event: KeyboardEvent) => void`): Callback for handling the Escape key press.
