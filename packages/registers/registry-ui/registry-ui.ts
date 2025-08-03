@@ -50,11 +50,27 @@ export const registry_ui: Registry = [
     files: [],
   },
   {
+    name: 'breadcrumb',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'breadcrumb',
+    files: [],
+  },
+  {
     name: 'command',
     type: 'registry:ui',
     dependencies: ['@gentleduck/aria-feather'],
     registryDependencies: [],
     root_folder: 'command',
+    files: [],
+  },
+  {
+    name: 'card',
+    type: 'registry:ui',
+    dependencies: ['@gentleduck/aria-feather'],
+    registryDependencies: [],
+    root_folder: 'card',
     files: [],
   },
   {

@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "aspect-ratio/aspect-ratio.tsx",
-      "content": "'use client'\n\nimport { Slot } from '@gentleduck/aria-feather/slot'\n\nexport interface AspectRatioProps extends React.HTMLProps<HTMLDivElement> {\n  ratio: string\n}\n\nfunction AspectRatio({ children, style, ratio, ...props }: AspectRatioProps) {\n  return (\n    <Slot\n      className={'relative h-auto w-full overflow-hidden'}\n      style={{\n        aspectRatio: ratio,\n        ...style,\n      }}\n      {...props}>\n      {children}\n    </Slot>\n  )\n}\n\nexport { AspectRatio }\n",
+      "content": "'use client'\n\nimport { Slot } from '@gentleduck/aria-feather/slot'\nimport { cn } from '@gentleduck/libs/cn'\n\nfunction AspectRatio({\n  style,\n  className,\n  ratio,\n  ...props\n}: React.HTMLProps<HTMLDivElement> & {\n  ratio: string\n}) {\n  return (\n    <Slot\n      className={cn('relative h-auto w-full overflow-hidden', className)}\n      style={{\n        aspectRatio: ratio,\n        ...style,\n      }}\n      {...props}\n    />\n  )\n}\n\nexport { AspectRatio }\n",
       "type": "registry:ui",
       "target": "components/ui/aspect-ratio.tsx"
     },

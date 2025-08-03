@@ -1,22 +1,25 @@
 'use client'
 
 import { Slot } from '@gentleduck/aria-feather/slot'
+import { cn } from '@gentleduck/libs/cn'
 
-export interface AspectRatioProps extends React.HTMLProps<HTMLDivElement> {
+function AspectRatio({
+  style,
+  className,
+  ratio,
+  ...props
+}: React.HTMLProps<HTMLDivElement> & {
   ratio: string
-}
-
-function AspectRatio({ children, style, ratio, ...props }: AspectRatioProps) {
+}) {
   return (
     <Slot
-      className={'relative h-auto w-full overflow-hidden'}
+      className={cn('relative h-auto w-full overflow-hidden', className)}
       style={{
         aspectRatio: ratio,
         ...style,
       }}
-      {...props}>
-      {children}
-    </Slot>
+      {...props}
+    />
   )
 }
 

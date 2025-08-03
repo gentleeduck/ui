@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 
 type ShouldRenderProps = {
@@ -56,7 +57,11 @@ export function Mount({ forceMount = false, open = false, children, ref, skipWai
   return <>{children}</>
 }
 
-function useComputedTimeoutTransition(el: HTMLElement, callback: () => void): ReturnType<typeof setTimeout> {
+function useComputedTimeoutTransition(
+  el: HTMLElement | null | undefined,
+  callback: () => void,
+): ReturnType<typeof setTimeout> | undefined {
+  if (!el || !(el instanceof HTMLElement)) return
   const duration = getComputedStyle(el).transitionDuration
   const ms = parseFloat(duration) * 1000 || 0
   return setTimeout(callback, ms)

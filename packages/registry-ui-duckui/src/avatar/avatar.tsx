@@ -1,7 +1,7 @@
 'use client'
 
-import * as React from 'react'
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 
 export interface AvatarProps extends React.HTMLProps<HTMLImageElement> {}
 

@@ -43,11 +43,13 @@
 }
 
 :root {
+  --font-sans: "Geist", "Adjusted Arial Fallback";
+  --font-mono: "JetBrains Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
-  /* --card: oklch(1 0 0); */
-  /* --card-foreground: oklch(0.145 0 0); */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
@@ -179,8 +181,8 @@
   }
 
   ::-webkit-scrollbar {
-    width: 0px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {

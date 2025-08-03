@@ -71,6 +71,12 @@ export const docsConfig: DocsConfig = {
           title: 'Badge',
         },
         {
+          href: '/docs/components/breadcrumb',
+          items: [],
+          label: 'refacotored',
+          title: 'Breadcrumb',
+        },
+        {
           href: '/docs/components/button',
           items: [],
           label: 'refacotored',
@@ -93,6 +99,12 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/command',
           label: 'refacotored',
           items: [],
+        },
+        {
+          href: '/docs/components/calendar',
+          items: [],
+          label: 'refacotored',
+          title: 'Calendar',
         },
         // {
         //   title: 'DropdowmMenu',

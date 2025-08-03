@@ -1,5 +1,6 @@
 'use client'
 
+import { Mount } from '@gentleduck/aria-feather/mount'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { Button } from '../button'
@@ -93,7 +94,12 @@ function CollapsibleTrigger({ children, onClick, ...props }: React.ComponentProp
   )
 }
 
-function CollapsibleContent({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function CollapsibleContent({
+  children,
+  forceMount = false,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { forceMount?: boolean }) {
   const { open, contentRef, contentId } = useCollapsible()
 
   return (
@@ -107,7 +113,9 @@ function CollapsibleContent({ children, className, ...props }: React.HTMLAttribu
       aria-expanded={open}
       className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto ', className)}
       {...props}>
-      {open && children}
+      <Mount forceMount={forceMount} open={open} ref={contentRef as never}>
+        {children}
+      </Mount>
     </div>
   )
 }

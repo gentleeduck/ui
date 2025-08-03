@@ -1,0 +1,17 @@
+{
+  "name": "calendar-2",
+  "type": "registry:example",
+  "registryDependencies": [
+    "calendar"
+  ],
+  "root_folder": "calendar",
+  "files": [
+    {
+      "path": "calendar/calendar-2.tsx",
+      "content": "'use client'\n\nimport { Calendar } from '@gentleduck/registry-ui-duckui/calendar'\nimport * as React from 'react'\n\nexport default function CalendarDemo() {\n  const [date, setDate] = React.useState<Date | undefined>(new Date())\n\n  return (\n    <Calendar\n      mode=\"single\"\n      selected={date}\n      onSelect={setDate}\n      className=\"rounded-md border shadow-sm\"\n      captionLayout=\"dropdown\"\n    />\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/calendar-2.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/calendar"
+}

@@ -44,6 +44,13 @@ export const registry_examples: Registry = [
     files: [],
   },
   {
+    name: 'breadcrumb-examples',
+    type: 'registry:example',
+    registryDependencies: ['breadcrumb'],
+    root_folder: 'breadcrumb',
+    files: [],
+  },
+  {
     name: 'dialog-examples',
     type: 'registry:example',
     registryDependencies: ['dialog'],
@@ -62,6 +69,13 @@ export const registry_examples: Registry = [
     type: 'registry:example',
     registryDependencies: ['card'],
     root_folder: 'card',
+    files: [],
+  },
+  {
+    name: 'calendar-examples',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    root_folder: 'calendar',
     files: [],
   },
   {

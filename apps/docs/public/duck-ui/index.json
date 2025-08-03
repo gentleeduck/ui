@@ -143,6 +143,28 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
+    "name": "breadcrumb",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/_breadcrumb.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "breadcrumb/breadcrumb.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "breadcrumb/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/breadcrumb"
+  },
+  {
     "name": "command",
     "type": "registry:ui",
     "dependencies": [
@@ -173,6 +195,26 @@
       }
     ],
     "source": "/registry-ui-duckui/src/command"
+  },
+  {
+    "name": "card",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/aria-feather"
+    ],
+    "registryDependencies": [],
+    "root_folder": "card",
+    "files": [
+      {
+        "path": "card/card.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "card/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/card"
   },
   {
     "name": "dialog",
@@ -1140,6 +1182,126 @@
     "source": "/registry-examples-duckui/src/button"
   },
   {
+    "name": "breadcrumb-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "breadcrumb"
+    ],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/breadcrumb"
+  },
+  {
+    "name": "breadcrumb-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "breadcrumb"
+    ],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/breadcrumb"
+  },
+  {
+    "name": "breadcrumb-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "breadcrumb"
+    ],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/breadcrumb"
+  },
+  {
+    "name": "breadcrumb-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "breadcrumb"
+    ],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/breadcrumb"
+  },
+  {
+    "name": "breadcrumb-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "breadcrumb"
+    ],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/breadcrumb"
+  },
+  {
+    "name": "breadcrumb-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "breadcrumb"
+    ],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/breadcrumb"
+  },
+  {
+    "name": "breadcrumb-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "breadcrumb"
+    ],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/breadcrumb"
+  },
+  {
+    "name": "breadcrumb-8",
+    "type": "registry:example",
+    "registryDependencies": [
+      "breadcrumb"
+    ],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/breadcrumb"
+  },
+  {
     "name": "dialog-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -1228,6 +1390,126 @@
       }
     ],
     "source": "/registry-examples-duckui/src/card"
+  },
+  {
+    "name": "calendar-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "files": [
+      {
+        "path": "calendar/calendar-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/calendar"
+  },
+  {
+    "name": "calendar-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "files": [
+      {
+        "path": "calendar/calendar-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/calendar"
+  },
+  {
+    "name": "calendar-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "files": [
+      {
+        "path": "calendar/calendar-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/calendar"
+  },
+  {
+    "name": "calendar-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "files": [
+      {
+        "path": "calendar/calendar-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/calendar"
+  },
+  {
+    "name": "calendar-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "files": [
+      {
+        "path": "calendar/calendar-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/calendar"
+  },
+  {
+    "name": "calendar-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "files": [
+      {
+        "path": "calendar/calendar-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/calendar"
+  },
+  {
+    "name": "calendar-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "files": [
+      {
+        "path": "calendar/calendar-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/calendar"
+  },
+  {
+    "name": "calendar-8",
+    "type": "registry:example",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "files": [
+      {
+        "path": "calendar/calendar-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/calendar"
   },
   {
     "name": "drawer-1",

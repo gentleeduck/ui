@@ -1,12 +1,27 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { Button, buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
-import { DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker'
-import { Button, buttonVariants } from '../button'
+import { DayButton, getDefaultClassNames } from 'react-day-picker'
+import { DayPicker } from 'react-day-picker/persian'
 
-function Calendar({
+export default function CalendarDemo() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date(2025, 5, 12))
+
+  return (
+    <Calendar
+      mode="single"
+      defaultMonth={date}
+      selected={date}
+      onSelect={setDate}
+      className="rounded-lg border shadow-sm"
+    />
+  )
+}
+
+/** @__Example___@_ */ function Calendar({
   className,
   classNames,
   showOutsideDays = true,
@@ -61,7 +76,7 @@ function Calendar({
           'relative rounded-md border border-input shadow-xs has-focus:border-ring has-focus:ring-[3px] has-focus:ring-ring/50',
           defaultClassNames.dropdown_root,
         ),
-        dropdown: cn('absolute inset-0 bg-popover opacity-0', defaultClassNames.dropdown),
+        dropdown: cn('absolute inset-0 opacity-0', defaultClassNames.dropdown),
         caption_label: cn(
           'select-none font-medium',
           captionLayout === 'label'
@@ -153,5 +168,3 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
     />
   )
 }
-
-export { Calendar, CalendarDayButton }

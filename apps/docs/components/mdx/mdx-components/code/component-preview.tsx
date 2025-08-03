@@ -76,7 +76,7 @@ export function ComponentPreview({
       className={cn('group relative my-4 flex flex-col  [&_div[data-slot="placeholder"]]:h-[512px]', className)}
       {...props}>
       <Tabs defaultValue="preview" className="relative mr-auto w-full">
-        <div className="flex items-center justify-between pb-3">
+        <div className="flex items-center justify-between">
           {!hideCode && (
             <TabsList className="w-full justify-start border-b bg-transparent p-0 rounded-none overflow-x-auto [&_button]:shadow-none">
               {TABS.map((tab) => (
@@ -115,12 +115,8 @@ export function ComponentPreview({
             </div>
           </ThemeWrapper>
         </TabsContent>
-        <TabsContent value="code" className="mt-0 ">
-          <div className="flex flex-col space-y-4">
-            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:overflow-auto [&_pre]:h-[500px] [&_div[data-theme]]:my-0">
-              {Code}
-            </div>
-          </div>
+        <TabsContent value="code" className="mt-0 [&>div>div]:mt-2 [&>div>div]:mb-0">
+          {Code}
         </TabsContent>
         <BuildTab />
       </Tabs>

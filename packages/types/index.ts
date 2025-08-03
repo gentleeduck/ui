@@ -165,10 +165,9 @@ export type Mapped<T> = {
  * // }
  * ```
  */
-export type MappedTo<
-  T extends Record<string, number> | ReadonlyArray<string | number>,
-  U,
-> = T extends ReadonlyArray<infer Item>
+export type MappedTo<T extends Record<string, number> | ReadonlyArray<string | number>, U> = T extends ReadonlyArray<
+  infer Item
+>
   ? { [K in `${Item & (string | number)}`]: U }
   : T extends object
     ? { [K in keyof Mutable<T>]: U }
