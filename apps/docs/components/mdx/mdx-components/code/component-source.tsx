@@ -5,7 +5,6 @@ import React from 'react'
 import { CodeBlockWrapper } from './code-block-wrapper'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 
 interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode[]
@@ -19,7 +18,7 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
 
   return (
     <Tabs className="bg-muted/40 rounded-md" defaultValue={defaultValue}>
-      <TabsList className="justify-start w-fit bg-transparent py-2 px-2 overflow-x-auto max-w-[610px]">
+      <TabsList className="justify-start w-fit bg-transparent py-2 px-2 overflow-x-auto ">
         {children.map((item) => {
           const value = String((item as any).props.children[0].props.__rawString__)
             .split('\n')[0]

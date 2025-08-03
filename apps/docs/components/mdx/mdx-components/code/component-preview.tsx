@@ -89,7 +89,7 @@ export function ComponentPreview({
             </TabsList>
           )}
         </div>
-        <TabsContent value="preview" className="relative rounded-md border max-w-full min-w-2/5">
+        <TabsContent value="preview" className="relative rounded-md border min-w-2/5">
           <div className="flex items-center justify-between p-4 absolute w-full">
             <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ export function ComponentPreview({
             </div>
           </ThemeWrapper>
         </TabsContent>
-        <TabsContent value="code" className="mt-0 [&>div>div]:mt-2 [&>div>div]:mb-0">
+        <TabsContent value="code" className="mt-0 [&>div>div]:mt-2 [&>div>div]:mb-0 [&_pre]:h-[502px]">
           {Code}
         </TabsContent>
         <BuildTab />

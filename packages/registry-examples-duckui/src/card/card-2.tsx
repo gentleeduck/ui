@@ -1,5 +1,3 @@
-import { BellRing, Check } from 'lucide-react'
-
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
@@ -11,6 +9,7 @@ import {
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
 import { Switch } from '@gentleduck/registry-ui-duckui/switch'
+import { BellRing, Check } from 'lucide-react'
 
 const notifications = [
   {
@@ -29,7 +28,7 @@ const notifications = [
 
 type CardProps = React.ComponentProps<typeof Card>
 
-export function CardDemo({ className, ...props }: CardProps) {
+export default function CardDemo({ className, ...props }: CardProps) {
   return (
     <Card className={cn('w-[380px]', className)} {...props}>
       <CardHeader>

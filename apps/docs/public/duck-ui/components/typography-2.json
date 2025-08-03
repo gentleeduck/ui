@@ -1,0 +1,15 @@
+{
+  "name": "typography-2",
+  "type": "registry:example",
+  "registryDependencies": [],
+  "root_folder": "typography",
+  "files": [
+    {
+      "path": "typography/typography-2.tsx",
+      "content": "export default function TypographyH1() {\n  return (\n    <h1 className=\"scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance\">\n      Taxing Laughter: The Joke Tax Chronicles\n    </h1>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/typography-2.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/typography"
+}

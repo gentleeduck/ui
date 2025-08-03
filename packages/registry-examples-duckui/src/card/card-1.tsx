@@ -13,7 +13,7 @@ import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 
-export function CardWithForm() {
+export default function CardWithForm() {
   return (
     <Card className="w-[350px]">
       <CardHeader>

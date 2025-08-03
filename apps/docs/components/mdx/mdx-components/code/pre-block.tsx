@@ -28,9 +28,7 @@ export function Pre({
   ...props
 }: CodeBlockProps) {
   return (
-    <div
-      className="mb-4 mt-6 relative overflow-hidden rounded-md border bg-white dark:bg-muted/40 [&_code]:bg-transparent"
-      data-theme={(props as any)['data-theme']}>
+    <div className="mb-4 mt-6 relative" data-theme={(props as any)['data-theme']}>
       {__rawString__ && !__npmCommand__ && (
         <CopyButton
           value={__rawString__}
@@ -50,7 +48,7 @@ export function Pre({
       ) : (
         <pre
           className={cn(
-            'max-h-[500px] overflow-auto py-4 focus-visible:shadow-none focus-visible:outline-none',
+            'max-h-[650px] overflow-auto rounded-lg border bg-white py-4 dark:bg-muted/40 focus-visible:outline-none focus-visible:shadow-none [&_code]:bg-transparent',
             className,
           )}
           {...props}>

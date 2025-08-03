@@ -1,0 +1,15 @@
+{
+  "name": "typography-3",
+  "type": "registry:example",
+  "registryDependencies": [],
+  "root_folder": "typography",
+  "files": [
+    {
+      "path": "typography/typography-3.tsx",
+      "content": "export default function TypographyH2() {\n  return (\n    <h2 className=\"scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0\">\n      The People of the Kingdom\n    </h2>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/typography-3.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/typography"
+}

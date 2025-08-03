@@ -106,6 +106,12 @@ export const docsConfig: DocsConfig = {
           label: 'refacotored',
           title: 'Calendar',
         },
+        {
+          href: '/docs/components/card',
+          items: [],
+          label: 'refacotored',
+          title: 'Card',
+        },
         // {
         //   title: 'DropdowmMenu',
         //   href: '/docs/components/dropdowm-menu',
@@ -249,6 +255,12 @@ export const docsConfig: DocsConfig = {
         //   items: [],
         //   label: 'new',
         // },
+        {
+          href: '/docs/components/typography',
+          items: [],
+          title: 'Typography',
+          label: 'refacotored',
+        },
       ],
       title: 'Components',
     },

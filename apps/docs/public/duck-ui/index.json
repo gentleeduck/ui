@@ -2425,5 +2425,187 @@
       }
     ],
     "source": "/registry-examples-duckui/src/aspect-ratio"
+  },
+  {
+    "name": "typography-1",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-10",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-11",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-11.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-12",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-12.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-13",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-13.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-14",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-14.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-2",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-3",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-4",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-5",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-6",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-7",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-8",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "typography-9",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "files": [
+      {
+        "path": "typography/typography-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/typography"
   }
 ]

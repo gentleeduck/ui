@@ -218,4 +218,12 @@ export const registry_examples: Registry = [
     root_folder: 'aspect-ratio',
     files: [],
   },
+  {
+    name: 'typography-examples',
+    type: 'registry:example',
+    registryDependencies: [],
+    // registryDependencies: ['typography'],
+    root_folder: 'typography',
+    files: [],
+  },
 ]

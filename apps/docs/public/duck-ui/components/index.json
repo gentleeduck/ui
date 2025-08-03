@@ -1,5 +1,5 @@
 {
-  "name": "aspect-ratio-1",
+  "name": "typography-9",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",
