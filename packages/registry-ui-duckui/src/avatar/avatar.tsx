@@ -15,14 +15,14 @@ function Avatar({ className, alt, ref, ...props }: AvatarProps) {
         {...props}
         onLoad={() => setIsValid(true)}
         onError={() => setIsValid(false)}
-        className={'relative flex h-full w-full shrink-0 overflow-hidden rounded-full object-cover text-transparent'}
+        className={'relative flex h-full w-full shrink-0 overflow-hidden object-cover text-transparent'}
         alt={alt}
       />
       {!isValid && (
         <span
           aria-label={alt}
           role="img"
-          className="absolute inset-0 flex h-full w-full items-center justify-center rounded-full bg-muted">
+          className="absolute inset-0 flex h-full w-full items-center justify-center bg-muted">
           {alt?.slice(0, 2)}
         </span>
       )}

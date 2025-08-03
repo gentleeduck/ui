@@ -1,9 +1,7 @@
 {
   "name": "alert-dialog",
   "type": "registry:ui",
-  "dependencies": [
-    "@gentleduck/aria-feather"
-  ],
+  "dependencies": [],
   "registryDependencies": [],
   "root_folder": "alert-dialog",
   "files": [

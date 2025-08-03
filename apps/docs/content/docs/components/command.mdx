@@ -52,24 +52,12 @@ npx duck-ui@latest add command
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install cmdk
+npm install @gentleduck/duck-vim
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
 
 <ComponentSource name="command" />
-
-<Step>
-  The Combobox is built using a composition of the `<Button />
-  `, `<Dialog />
-  `, `<ScrollArea />` and the `<Tooltip />` component.
-</Step>
-
-<Step>
-  You also will need to install the [`Button`](/docs/components/Command#installation),
-  [`Tooltip`](/docs/components/Tooltip#installation), [`Dialog`](/docs/components/Dialog#installation) and
-  [`ScrollArea`](/docs/components/ScrollArea#installation) components because some dependencies are inherited from them.
-</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -118,7 +106,7 @@ import {
 
 ## Examples
 
-### List Group
+### Dialog
 
 <ComponentPreview
   name="command-2"
@@ -126,30 +114,25 @@ import {
   showSettings={false}
 />
 
-### Dialog
-
-<ComponentPreview
-  name="command-3"
-  description="A component dialog."
-  showSettings={false}
-/>
-
 To show the command menu in a dialog, use the `<CommandDialog />` component, or use the `<Button/>` component with the `command` variant.
 
 ```tsx
+import { useKeyCommands } from '@gentleduck/vim/react'
+
 export function CommandMenu() {
   const [open, setOpen] = React.useState(false)
 
-  React.useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen(open => !open)
-      }
-    }
-    document.addEventListener('keydown', down)
-    return () => document.removeEventListener('keydown', down)
-  }, [])
+  useKeyCommands({
+    'ctrl+j': {
+      name: '⌘j',
+      description: 'Open command menu',
+      execute: () => {
+        window.event?.preventDefault()
+        setOpen(true)
+      },
+    },
+  })
+
 
   return (
     <CommandDialog

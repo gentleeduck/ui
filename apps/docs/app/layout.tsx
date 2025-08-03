@@ -44,7 +44,9 @@ export default function RootLayout({
             </div>
             <ThemeSwitcher />
             <Toaster />
-            {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
+            {
+              // process.env.NODE_ENV === 'development' && <TailwindIndicator />
+            }
           </ThemeProvider>
         </KeyProvider>
       </body>

@@ -1,10 +1,9 @@
 'use client'
 
-import * as React from 'react'
-
 import { cn } from '@gentleduck/libs/cn'
-import { CopyButton, CopyWithClassNames } from '~/components/copy-button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
+import * as React from 'react'
+import { CopyButton, CopyWithClassNames } from '~/components/copy-button'
 
 interface ComponentExampleProps extends React.HTMLAttributes<HTMLDivElement> {
   extractClassname?: boolean

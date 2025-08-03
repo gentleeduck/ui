@@ -41,10 +41,28 @@ export const docsConfig: DocsConfig = {
           title: 'Accordion',
         },
         {
+          href: '/docs/components/alert',
+          items: [],
+          label: 'refacotored',
+          title: 'Alert',
+        },
+        {
           href: '/docs/components/alert-dialog',
           items: [],
           // label: 'refacotored',
           title: 'Alert Dialog',
+        },
+        {
+          href: '/docs/components/aspect-ratio',
+          items: [],
+          label: 'refacotored',
+          title: 'Aspect Ratio',
+        },
+        {
+          href: '/docs/components/avatar',
+          items: [],
+          label: 'refacotored',
+          title: 'Avatar',
         },
         {
           href: '/docs/components/badge',
@@ -73,7 +91,7 @@ export const docsConfig: DocsConfig = {
         {
           title: 'Command',
           href: '/docs/components/command',
-          // label: 'new',
+          label: 'refacotored',
           items: [],
         },
         // {

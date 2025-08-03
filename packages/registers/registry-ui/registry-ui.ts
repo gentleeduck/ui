@@ -10,11 +10,27 @@ export const registry_ui: Registry = [
     files: [],
   },
   {
-    name: 'alert-dialog',
+    name: 'alert',
     type: 'registry:ui',
     dependencies: ['@gentleduck/aria-feather'],
     registryDependencies: [],
+    root_folder: 'alert',
+    files: [],
+  },
+  {
+    name: 'alert-dialog',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
     root_folder: 'alert-dialog',
+    files: [],
+  },
+  {
+    name: 'avatar',
+    type: 'registry:ui',
+    dependencies: ['@gentleduck/aria-feather'],
+    registryDependencies: [],
+    root_folder: 'avatar',
     files: [],
   },
   {
@@ -178,6 +194,14 @@ export const registry_ui: Registry = [
     dependencies: [],
     registryDependencies: ['toggle'],
     root_folder: 'toggle-group',
+    files: [],
+  },
+  {
+    name: 'aspect-ratio',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'aspect-ratio',
     files: [],
   },
 ]

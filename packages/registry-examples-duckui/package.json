@@ -33,6 +33,7 @@
     "lucide-react": "0.359.0",
     "motion": "^12.4.3",
     "motion-number": "^1.0.0",
+    "next": "catalog:",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
     "react-hook-form": "^7.60.0",

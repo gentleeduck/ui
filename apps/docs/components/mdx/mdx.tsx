@@ -4,6 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
 import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui-duckui/alert'
 import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import Image from 'next/image'
 import Link from 'next/link'
 import * as React from 'react'
@@ -11,13 +12,12 @@ import runtime from 'react/jsx-runtime'
 import { NpmCommands } from 'types/unist'
 import { Event } from '~/lib/events'
 import { CopyButton, CopyNpmCommandButton } from '../copy-button'
-import { ComponentExample } from '../ui'
 import {
   A,
   Callout,
   Code,
   CodeBlockWrapper,
-  CodePreview,
+  ComponentExample,
   ComponentPreview,
   ComponentSource,
   FrameworkDocs,
@@ -35,13 +35,12 @@ import {
   Tab,
   TabContent,
   TabList,
-  TabTrigger,
   Table,
   TableCell,
   TableHeader,
   TableRow,
+  TabTrigger,
 } from './mdx-components'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)

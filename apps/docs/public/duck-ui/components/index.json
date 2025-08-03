@@ -1,5 +1,5 @@
 {
-  "name": "tooltip-2",
+  "name": "aspect-ratio-1",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

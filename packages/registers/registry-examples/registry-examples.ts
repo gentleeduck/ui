@@ -9,10 +9,24 @@ export const registry_examples: Registry = [
     files: [],
   },
   {
+    name: 'alert-examples',
+    type: 'registry:example',
+    registryDependencies: ['alert'],
+    root_folder: 'alert',
+    files: [],
+  },
+  {
     name: 'alert-dialog-examples',
     type: 'registry:example',
     registryDependencies: ['alert-dialog'],
     root_folder: 'alert-dialog',
+    files: [],
+  },
+  {
+    name: 'avatar-examples',
+    type: 'registry:example',
+    registryDependencies: ['avatar'],
+    root_folder: 'avatar',
     files: [],
   },
   {
@@ -181,6 +195,13 @@ export const registry_examples: Registry = [
     type: 'registry:example',
     registryDependencies: ['tooltip'],
     root_folder: 'tooltip',
+    files: [],
+  },
+  {
+    name: 'aspect-ratio-examples',
+    type: 'registry:example',
+    registryDependencies: ['aspect-ratio'],
+    root_folder: 'aspect-ratio',
     files: [],
   },
 ]

@@ -89,7 +89,7 @@ export function ComponentPreview({
             </TabsList>
           )}
         </div>
-        <TabsContent value="preview" className="relative rounded-md border max-w-full min-w-2/5 mt-0">
+        <TabsContent value="preview" className="relative rounded-md border max-w-full min-w-2/5">
           <div className="flex items-center justify-between p-4 absolute w-full">
             <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
@@ -98,7 +98,7 @@ export function ComponentPreview({
           </div>
           <ThemeWrapper defaultTheme="zinc">
             <div
-              className={cn('preview flex h-[500px] w-full justify-center p-10', {
+              className={cn('preview flex h-[500px] w-full justify-center p-10 overflow-hidden', {
                 'items-center': align === 'center',
                 'items-start': align === 'start',
                 'items-end': align === 'end',
@@ -122,9 +122,9 @@ export function ComponentPreview({
             </div>
           </div>
         </TabsContent>
+        <BuildTab />
       </Tabs>
     </div>
-    // <BuildTab />
   )
 }
 
@@ -137,21 +137,9 @@ export const BuildTab = () => {
 
       <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[500px] top-0 left-0 inset-0">
         <div className="flex items-center gap-4">
-          <Button
-            className="font-bold rounded-sm"
-            size={'xs'}
-            // label={{
-            //   children: (
-            //     <div className="text-center">
-            //       Know more about me click me! <br /> BTW i am coming soon...
-            //     </div>
-            //   ),
-            //   showLabel: true,
-            //   side: 'top',
-            // }}
-          >
+          <Button className="font-bold rounded-sm" size={'xs'}>
             <Crown />
-            <span>Upgrade</span>
+            <span>Coming soon</span>
           </Button>
         </div>
       </div>
@@ -169,7 +157,7 @@ export const TABS = [
     value: 'code',
   },
   // {
-  //   name: 'Build',
-  //   value: 'build',
+  //   name: 'Benchmark',
+  //   value: 'benchmark',
   // },
 ]

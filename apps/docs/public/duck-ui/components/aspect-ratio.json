@@ -1,0 +1,22 @@
+{
+  "name": "aspect-ratio",
+  "type": "registry:ui",
+  "dependencies": [],
+  "registryDependencies": [],
+  "root_folder": "aspect-ratio",
+  "files": [
+    {
+      "path": "aspect-ratio/aspect-ratio.tsx",
+      "content": "'use client'\n\nimport { Slot } from '@gentleduck/aria-feather/slot'\n\nexport interface AspectRatioProps extends React.HTMLProps<HTMLDivElement> {\n  ratio: string\n}\n\nfunction AspectRatio({ children, style, ratio, ...props }: AspectRatioProps) {\n  return (\n    <Slot\n      className={'relative h-auto w-full overflow-hidden'}\n      style={{\n        aspectRatio: ratio,\n        ...style,\n      }}\n      {...props}>\n      {children}\n    </Slot>\n  )\n}\n\nexport { AspectRatio }\n",
+      "type": "registry:ui",
+      "target": "components/ui/aspect-ratio.tsx"
+    },
+    {
+      "path": "aspect-ratio/index.ts",
+      "content": "export * from './aspect-ratio'\n",
+      "type": "registry:ui",
+      "target": "components/ui/index.ts"
+    }
+  ],
+  "source": "/registry-ui-duckui/src/aspect-ratio"
+}

@@ -300,7 +300,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
 function CommandDialog({ children, ...props }: DialogProps): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="rounded-md border-none p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full">
+      <DialogContent className="rounded-md p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full fixed">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>

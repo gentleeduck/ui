@@ -1,0 +1,17 @@
+{
+  "name": "avatar-1",
+  "type": "registry:example",
+  "registryDependencies": [
+    "avatar"
+  ],
+  "root_folder": "avatar",
+  "files": [
+    {
+      "path": "avatar/avatar-1.tsx",
+      "content": "import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'\n\nexport default function AvatarDemo() {\n  return (\n    <div className=\"flex flex-row flex-wrap items-center gap-12\">\n      <Avatar src=\"https://github.com/shadcn.png\" />\n      <Avatar className=\"rounded-lg\" src=\"https://github.com/evilrabbit.png\" />\n      <div className=\"-space-x-2 flex *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale\">\n        <Avatar src=\"https://github.com/shadcn.png\" />\n        <Avatar src=\"https://github.com/leerob.png\" />\n        <Avatar src=\"https://github.com/evilrabbit.png\" alt=\"ev\" />\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/avatar-1.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/avatar"
+}

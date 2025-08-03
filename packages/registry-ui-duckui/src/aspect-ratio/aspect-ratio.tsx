@@ -3,7 +3,7 @@
 import { Slot } from '@gentleduck/aria-feather/slot'
 
 export interface AspectRatioProps extends React.HTMLProps<HTMLDivElement> {
-  ratio: number | string
+  ratio: string
 }
 
 function AspectRatio({ children, style, ratio, ...props }: AspectRatioProps) {
@@ -11,7 +11,7 @@ function AspectRatio({ children, style, ratio, ...props }: AspectRatioProps) {
     <Slot
       className={'relative h-auto w-full overflow-hidden'}
       style={{
-        aspectRatio: `${ratio}`,
+        aspectRatio: ratio,
         ...style,
       }}
       {...props}>
