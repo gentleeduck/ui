@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "lib": [
+      "ES2022",
+      "dom",
+      "dom.iterable"
+    ],
+    "incremental": false,
+    "rootDir": "./",
+    "outDir": "./dist",
+    "target": "esnext",
+    "strict": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true /* FIXME remove this once vite fixes it */,
+    "allowImportingTsExtensions": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "verbatimModuleSyntax": true,
+    "declaration": true,
+    "isolatedDeclarations": false,
+    "types": [],
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    ".",
+    "./src/index.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

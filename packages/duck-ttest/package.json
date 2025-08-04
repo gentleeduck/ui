@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck/state",
+  "name": "@gentleduck/ttest",
   "version": "0.2.0",
-  "description": "A package for state management",
+  "description": "A package for type testing",
   "type": "module",
-  "types": "./dist/index-jiSPvUlD.d.ts",
+  "types": "./dist/**/*.d.ts",
   "main": "./dist/index.js",
   "exports": {
     ".": "./dist/index.js",
@@ -15,6 +15,7 @@
     "dist"
   ],
   "scripts": {
+    "type-test": "tsc --noEmit",
     "build": "tsdown",
     "lint": "biome lint --write ./",
     "format": "biome format --write ./",
@@ -31,26 +32,22 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-state"
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-ttest"
   },
   "bugs": {
     "url": "https://github.com/gentleduck/ui/issues"
   },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-state#readme",
-  "dependencies": {},
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-ttest#readme",
+  "dependencies": {
+    "@types/node": "catalog:"
+  },
   "devDependencies": {
     "@changesets/cli": "catalog:",
+    "@gentleduck/tsdown-config": "workspace:*",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "husky": "catalog:",
-    "tsdown": "catalog:",
-    "@gentleduck/tsdown-config": "workspace:*"
-  },
-  "peerDependencies": {
-    "@types/node": "catalog:",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19",
-    "typescript": "catalog:"
+    "tsdown": "catalog:"
   },
   "packageManager": "pnpm@10.10.0",
   "engines": {
