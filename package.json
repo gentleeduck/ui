@@ -11,9 +11,7 @@
     "format": "biome format --write ./",
     "lint:ws": "pnpm dlx sherif@latest",
     "lint": "biome lint --write ./",
-    "test": "vitest",
-    "bench": "vitest bench",
-    "coverage": "vitest run --coverage"
+    "test": "vitest"
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.6",

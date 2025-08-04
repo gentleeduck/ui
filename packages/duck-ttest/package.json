@@ -2,37 +2,46 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/ttest",
   "version": "0.2.0",
-  "description": "A package for type testing",
+  "description": "Compile-time type testing utilities for TypeScript",
   "type": "module",
-  "types": "./dist/**/*.d.ts",
-  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./*": "./dist/*/index.js",
-    "./examples/*": "./src/examples/*"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./src/index.ts"
+    }
   },
   "files": [
-    "dist"
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "article-about-this.md",
+    "tsconfig.json"
   ],
   "scripts": {
-    "type-test": "tsc --noEmit",
-    "build": "tsdown",
+    "test": "tsc --noEmit",
     "lint": "biome lint --write ./",
     "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "ci": "pnpm run lint && pnpm run format && pnpm run test",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
   },
   "keywords": [
-    "react",
-    "components",
-    "performance"
+    "type",
+    "testing",
+    "typescript",
+    "compile-time",
+    "types"
   ],
-  "author": "wilddcuk",
+  "author": "wildduck",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-ttest"
+    "url": "https://github.com/gentleduck/ui",
+    "directory": "packages/duck-ttest"
   },
   "bugs": {
     "url": "https://github.com/gentleduck/ui/issues"
@@ -43,14 +52,10 @@
   },
   "devDependencies": {
     "@changesets/cli": "catalog:",
-    "@gentleduck/tsdown-config": "workspace:*",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19",
-    "husky": "catalog:",
-    "tsdown": "catalog:"
+    "husky": "catalog:"
   },
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.11.0",
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.2.0"
   }
 }
