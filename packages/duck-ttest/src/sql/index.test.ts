@@ -4,7 +4,8 @@
 
 import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
-import type { InferSchema } from '.'
+import type { InferSchema, ResolveFields, ResolveRef } from '.'
+import type { PickByValue } from '~/objects'
 
 // -------------------------------------------
 // Test 1 – Basic SQL Types
@@ -126,3 +127,95 @@ type Test_InferSchema_Unknown = AssertTrue<
   >,
   'Expected unknown for unsupported SQL types like JSON, BLOB'
 >
+
+const AnimalSQL = `
+  CREATE TABLE animals (
+    animal_id UUID PRIMARY KEY,
+    species TEXT NOT NULL,
+    birth_date DATE,
+    death_date DATE,
+    weight_kg FLOAT,
+    mother_id UUID REFERENCES animals(animal_id),
+    father_id UUID REFERENCES animals(animal_id),
+    enclosure_id UUID REFERENCES enclosures(enclosure_id),
+    feeding_plan_id UUID REFERENCES feeding_plans(plan_id),
+    genetic_code TEXT,
+    endangered BOOLEAN DEFAULT false,
+    created_at DATE DEFAULT CURRENT_DATE,
+    updated_at DATE DEFAULT CURRENT_DATE
+  )
+`
+
+const EnclosureSQL = `
+  CREATE TABLE enclosures (
+    enclosure_id UUID PRIMARY KEY,
+    name TEXT,
+    area_sq_meters FLOAT,
+    is_indoor BOOLEAN,
+    last_cleaned DATE
+  )
+`
+
+const FeedingPlanSQL = `
+  CREATE TABLE feeding_plans (
+    plan_id UUID PRIMARY KEY,
+    name TEXT,
+    schedule TEXT,
+    calories_per_day INT,
+    protein_ratio FLOAT
+  )
+`
+type Animal = InferSchema<typeof AnimalSQL>
+type Enclosure = InferSchema<typeof EnclosureSQL>
+type FeedingPlan = InferSchema<typeof FeedingPlanSQL>
+
+type ResolvedAnimal = ResolveFields<
+  Animal,
+  {
+    animals: Animal
+    enclosures: Enclosure
+    feeding_plans: FeedingPlan
+  }
+>
+
+// --- Example usage and test types ---
+
+// Test case 1: Basic table with various constraints
+type TestSQL1 = `
+  CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    age INT DEFAULT 18,
+    bio TEXT,
+    status ENUM('active', 'inactive', 'pending') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
+`
+
+// Test case 2: Table with foreign keys and nullable fields
+type TestSQL2 = `
+  CREATE TABLE posts (
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    content TEXT,
+    user_id INT REFERENCES users(id),
+    published BOOLEAN DEFAULT false,
+    category ENUM('tech', 'lifestyle', 'business') NOT NULL
+  )
+`
+
+// Test case 3: Table with no auto-increment primary key
+type TestSQL3 = `
+  CREATE TABLE settings (
+    key VARCHAR(50) PRIMARY KEY,
+    value TEXT NOT NULL,
+    description TEXT,
+    is_public BOOLEAN DEFAULT false
+  )
+`
+
+// Test the inferred schemas
+type UserSchema = InferSchema<TestSQL1>
+type PostSchema = InferSchema<TestSQL2>
+type SettingsSchema = InferSchema<TestSQL3>

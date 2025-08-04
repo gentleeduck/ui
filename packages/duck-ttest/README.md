@@ -7,9 +7,9 @@
 
 ## 💡 What is this?
 
-`duck-ttest` is a zero-runtime library for writing **type-level tests** in TypeScript.
+`ttest` is a zero-runtime library for writing **type-level tests** in TypeScript.
 
-You spend countless hours designing complex types and systems, `duck-ttest` gives you a way to **validate** them with confidence. No `console.log`, no runtime hacks, just pure **type assertion** at compile-time.
+You spend countless hours designing complex types and systems, `ttest` gives you a way to **validate** them with confidence. No `console.log`, no runtime hacks, just pure **type assertion** at compile-time.
 
 ---
 
@@ -26,9 +26,9 @@ You spend countless hours designing complex types and systems, `duck-ttest` give
 ## 📦 Installation
 
 ```bash
-pnpm add -D @gentleduck/duck-ttest
+pnpm add -D @gentleduck/ttest
 # or
-npm install --save-dev @gentleduck/duck-ttest
+npm install --save-dev @gentleduck/ttest
 ```
 
 ---
@@ -48,7 +48,7 @@ type Test_Column = AssertTrue<
 
 ## ❓ Why Not `tsd` or `expect-type`?
 
-`@gentleduck/duck-ttest` is inspired by them but designed for **framework authors** and **type-heavy codebases**:
+`@gentleduck/ttest` is inspired by them but designed for **framework authors** and **type-heavy codebases**:
 
 * Cleaner API for grouped tests.
 * More powerful inference testing.
@@ -76,7 +76,7 @@ type Test_X1 = AssertTrue<
 > Runtime tests test behavior.
 > Type tests test **contracts**.
 
-If you’re building a schema system, compiler, or framework, types *are* your architecture. You can’t trust what you can’t test. `@gentleduck/duck-ttest` exists to **close the feedback loop** between your types and your logic.
+If you’re building a schema system, compiler, or framework, types *are* your architecture. You can’t trust what you can’t test. `@gentleduck/ttest` exists to **close the feedback loop** between your types and your logic.
 
 ---
 

@@ -1,4 +1,4 @@
-# 🦆 `duck-ttest`: TypeScript Unit Tests for Your Types
+# 🦆 `ttest`: TypeScript Unit Tests for Your Types
 
 > *Because types are logic, and logic deserves tests.*
 
@@ -16,7 +16,7 @@ If your project includes:
 
 …then your types are doing real work. That means real bugs. And real bugs deserve real tests, **type-level tests**.
 
-Enter `duck-ttest`.
+Enter `ttest`.
 
 ---
 
@@ -44,10 +44,10 @@ This is why type tests matter.
 
 ---
 
-## What `duck-ttest` Gives You
+## What `ttest` Gives You
 
 ```ts
-import { AssertTrue, Equal } from '@gentleduck/duck-ttest';
+import { AssertTrue, Equal } from '@gentleduck/ttest';
 
 type X1 = XOR<{ a: number; common: string }, { b: boolean; common: string }>
 // expected: { a: number } | { b: boolean }
@@ -67,7 +67,7 @@ All of these:
 
 ## Built-in Type Suites (SQL, JSON, and More)
 
-`duck-ttest` includes **ready-to-use type suites** to help you model and validate structured formats like:
+`ttest` includes **ready-to-use type suites** to help you model and validate structured formats like:
 
 * SQL schemas (`InferSchema<T>`)
 * JSON types and paths (`InferJson<T>`)
@@ -114,9 +114,9 @@ Test passes if the structure is correct, fails loudly if not.
 
 ---
 
-## `duck-ttest` vs `tsd` vs `expect-type`
+## `ttest` vs `tsd` vs `expect-type`
 
-| Feature                            | `duck-ttest` | `tsd` | `expect-type` |
+| Feature                            | `ttest` | `tsd` | `expect-type` |
 | ---------------------------------- | ------------ | ----- | ------------- |
 | Compile-time only (no CLI)         | ✅            | ❌     | ✅             |
 | Works in `.ts` or `.test.ts` files | ✅            | ❌     | ✅             |
@@ -165,7 +165,7 @@ And **your compiler needs tests**.
 
 ## TL;DR
 
-* `duck-ttest` is a type-level testing utility.
+* `ttest` is a type-level testing utility.
 * It tests your types like logic, because they *are* logic.
 * Includes built-in helpers for **SQL, JSON, and DSL inference**.
 * Zero runtime, zero CLI, zero config, zero bundle size.
@@ -177,7 +177,7 @@ And **your compiler needs tests**.
 ## Get Started
 
 ```bash
-pnpm add -D @gentleduck/duck-ttest
+pnpm add -D @gentleduck/ttest
 ```
 
 Then write some type assertions in your `.ts` files. If they compile, your types are good.
@@ -200,6 +200,6 @@ Then you’re writing logic.
 
 And logic needs tests.
 
-Use `duck-ttest`.
+Use `ttest`.
 
 Because TypeScript is your compiler now, and your compiler needs a test suite.
