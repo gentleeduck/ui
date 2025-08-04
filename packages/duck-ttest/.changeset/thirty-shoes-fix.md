@@ -2,4 +2,4 @@
 "@gentleduck/ttest": patch
 ---
 
-done with the first shot
+done with the first release
