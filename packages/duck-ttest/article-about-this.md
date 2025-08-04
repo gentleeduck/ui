@@ -177,7 +177,7 @@ And **your compiler needs tests**.
 ## Get Started
 
 ```bash
-pnpm add -D duck-ttest
+pnpm add -D @gentleduck/duck-ttest
 ```
 
 Then write some type assertions in your `.ts` files. If they compile, your types are good.

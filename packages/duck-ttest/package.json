@@ -1,15 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/ttest",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "Compile-time type testing utilities for TypeScript",
   "type": "module",
-  "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./src/index.ts"
-    }
+    "./*": "./src/*/index.ts"
   },
   "files": [
     "dist",

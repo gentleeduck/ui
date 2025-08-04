@@ -24,6 +24,7 @@
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "@vitejs/plugin-react-swc": "catalog:",
+    "@gentleduck/ttest": "workspace:*",
     "typescript": "catalog:",
     "vite": "catalog:"
   },
