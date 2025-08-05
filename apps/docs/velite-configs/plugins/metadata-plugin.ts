@@ -8,21 +8,22 @@ export function rhypeMetadataPlugin() {
         let match = {} as any
 
         if (node.data?.meta) {
-          const meta = node.data.meta as string
+          const meta = node.data?.meta as string
 
-          match.__title__ = (meta.match(/title="([^"]*)"/) ?? [])[1]
+          match.__title__ = (meta?.match(/title="([^"]*)"/) ?? [])[1]
 
-          match.__marks__ = [...meta.matchAll(/\/([^/]+)\//g)].map((m) => m[1])
+          match.__marks__ = [...meta?.matchAll(/\/([^/]+)\//g)].map((m) => m[1])
         }
 
         // @ts-ignore
-        node.data.meta = node.data.meta?.replace(/\/([^/]+)\//g, '')
+        // node.data.meta = node.data.meta?.replace(/\/([^/]+)\//g, '')
         node.properties = {
           ...node.properties,
           __rawString__: node.children?.[0]?.value,
           ...match,
         }
       }
+      // console.log(node)
     })
 
     return tree
