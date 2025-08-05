@@ -58,17 +58,15 @@ export type ExtractReferences<S extends string> = S extends `${string} REFERENCE
   : null
 
 // --- Enum extraction ---
-export type ExtractEnum<S extends string> = S extends `${string}ENUM(${infer EnumValues})${string}`
-  ? ParseEnumValues<EnumValues>
+export type ExtractEnum<S extends string> = S extends `${string}ENUM(${infer Values})${string}`
+  ? ParseEnumValues<Values>
   : never
 
-export type ParseEnumValues<S extends string> = S extends `'${infer First}'`
-  ? First
-  : S extends `'${infer First}',${infer Rest}`
-    ? First | ParseEnumValues<Trim<Rest>>
-    : S extends `'${infer First}', ${infer Rest}`
-      ? First | ParseEnumValues<Trim<Rest>>
-      : never
+export type ParseEnumValues<S extends string> = S extends `'${infer First}',${infer Rest}`
+  ? First | ParseEnumValues<Trim<Rest>>
+  : S extends `'${infer Only}'`
+    ? Only
+    : never
 
 // --- Constraint detection ---
 export type HasDefault<S extends string> = S extends `${string} DEFAULT ${string}` ? true : false
@@ -81,28 +79,27 @@ export type IsAutoIncrement<S extends string> = S extends `${string} AUTOINCREME
     : false
 
 // --- Constraint stripping for type extraction ---
-export type StripConstraints<S extends string> = S extends `${infer Head} DEFAULT ${string}`
-  ? StripConstraints<Head>
-  : S extends `${infer Head} PRIMARY KEY`
-    ? StripConstraints<Head>
-    : S extends `${infer Head} NOT NULL`
-      ? StripConstraints<Head>
-      : S extends `${infer Head} UNIQUE`
-        ? StripConstraints<Head>
-        : S extends `${infer Head} AUTOINCREMENT`
-          ? StripConstraints<Head>
-          : S extends `${infer Head} AUTO_INCREMENT`
-            ? StripConstraints<Head>
-            : S extends `${infer Head} REFERENCES ${string}`
-              ? StripConstraints<Head>
+export type StripConstraints<S extends string> = S extends `${infer H} DEFAULT ${string}`
+  ? StripConstraints<H>
+  : S extends `${infer H} PRIMARY KEY`
+    ? StripConstraints<H>
+    : S extends `${infer H} NOT NULL`
+      ? StripConstraints<H>
+      : S extends `${infer H} UNIQUE`
+        ? StripConstraints<H>
+        : S extends `${infer H} AUTOINCREMENT`
+          ? StripConstraints<H>
+          : S extends `${infer H} AUTO_INCREMENT`
+            ? StripConstraints<H>
+            : S extends `${infer H} REFERENCES ${string}`
+              ? StripConstraints<H>
               : S
 
 export type CleanSQLType<S extends string> = UppercaseWord<NormalizeType<StripConstraints<S>>>
 
 // --- Parenthesis-aware Splitter for columns ---
-// Helper to increment/decrement depth via tuple lengths
 type Inc<D extends any[]> = [any, ...D]
-type Dec<D extends any[]> = D extends [any, ...infer Rest] ? Rest : []
+type Dec<D extends any[]> = D extends [any, ...infer R] ? R : []
 
 export type SplitColumns<
   S extends string,
@@ -119,32 +116,36 @@ export type SplitColumns<
       : Depth extends []
         ? S extends `${Sep}${infer Rest}`
           ? SplitColumns<Rest, Sep, Depth, '', [...Acc, Trim<Curr>]>
-          : S extends `${infer First}${infer Rest}`
-            ? SplitColumns<Rest, Sep, Depth, `${Curr}${First}`, Acc>
+          : S extends `${infer F}${infer R}`
+            ? SplitColumns<R, Sep, Depth, `${Curr}${F}`, Acc>
             : never
-        : S extends `${infer First}${infer Rest}`
-          ? SplitColumns<Rest, Sep, Depth, `${Curr}${First}`, Acc>
+        : S extends `${infer F}${infer R}`
+          ? SplitColumns<R, Sep, Depth, `${Curr}${F}`, Acc>
           : never
 
 // --- Determine if field should be nullable ---
-export type IsNullable<S extends string> = IsNotNull<S> extends true
+export type IsNullable<S extends string> = HasDefault<S> extends true // DEFAULT ⇒ non-nullable
   ? false
-  : IsPrimaryKey<S> extends true
+  : IsAutoIncrement<S> extends true // AUTO_INCREMENT ⇒ non-nullable
     ? false
-    : true
+    : IsNotNull<S> extends true // NOT NULL ⇒ non-nullable
+      ? false
+      : IsPrimaryKey<S> extends true // PRIMARY KEY ⇒ non-nullable
+        ? false
+        : true // otherwise nullable
 
 // --- Determine if field should be optional ---
-export type IsOptional<S extends string> = HasDefault<S> extends true
+export type IsOptional<S extends string> = HasDefault<S> extends true // DEFAULT ⇒ optional
   ? true
-  : IsPrimaryKey<S> extends true
+  : IsPrimaryKey<S> extends true // PK ⇒ optional if auto-inc only
     ? IsAutoIncrement<S> extends true
       ? true
       : false
-    : IsNotNull<S> extends true
+    : IsNotNull<S> extends true // NOT NULL without default ⇒ required
       ? false
-      : true
+      : true // otherwise optional
 
-// --- Get the base TypeScript type ---
+// --- Base type resolution ---
 export type GetBaseType<S extends string> = ExtractReferences<S> extends Ref<infer T, infer C>
   ? Ref<T, C>
   : ExtractEnum<S> extends never
@@ -154,20 +155,19 @@ export type GetBaseType<S extends string> = ExtractReferences<S> extends Ref<inf
     : ExtractEnum<S>
 
 // --- Apply nullability ---
-export type ApplyNullability<BaseType, S extends string> = IsNullable<S> extends true ? BaseType | null : BaseType
+export type ApplyNullability<Base, S extends string> = IsNullable<S> extends true ? Base | null : Base
 
-// --- Parse individual column ---
+// --- Parse column definition ---
 export type ParseColumnDef<S extends string> = S extends `${infer Name} ${infer Raw}`
   ? [Trim<Name>, ApplyNullability<GetBaseType<Raw>, Raw>, IsOptional<Raw>]
   : never
 
-// --- Extract columns from CREATE TABLE ---
-export type ExtractColumns<SQL extends string> = NormalizeSQL<SQL> extends `CREATE TABLE ${infer _} (${infer Columns})`
-  ? SplitColumns<Columns>
+// --- Extract columns and build schema ---
+export type ExtractColumns<SQL extends string> = NormalizeSQL<SQL> extends `CREATE TABLE ${infer _} (${infer C})`
+  ? SplitColumns<C>
   : never
 
-// --- Build the final schema type ---
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
+export type UnionToIntersection<U> = (U extends any ? (x: U) => void : never) extends (x: infer I) => void ? I : never
 
 export type BuildSchemaType<Cols extends readonly string[]> = UnionToIntersection<
   {
@@ -178,19 +178,16 @@ export type BuildSchemaType<Cols extends readonly string[]> = UnionToIntersectio
       : never
   }[number]
 >
-type hay = ExtractColumns<TestSQL1>
-type hay1 = BuildSchemaType<hay>
 
-// --- Entry point ---
 export type InferSchema<S extends string> = ExtractColumns<S> extends infer Cols extends readonly string[]
   ? { [K in keyof BuildSchemaType<Cols>]: BuildSchemaType<Cols>[K] }
   : never
 
 // --- Reference resolution ---
-export type ResolveRef<T, Schemas extends Record<string, any>> = T extends Ref<infer Table, infer Col>
-  ? Table extends keyof Schemas
-    ? Col extends keyof Schemas[Table]
-      ? Schemas[Table][Col]
+export type ResolveRef<T, Schemas extends Record<string, any>> = T extends Ref<infer Tbl, infer Col>
+  ? Tbl extends keyof Schemas
+    ? Col extends keyof Schemas[Tbl]
+      ? Schemas[Tbl][Col]
       : unknown
     : unknown
   : T
@@ -199,9 +196,8 @@ export type ResolveFields<T, Schemas extends Record<string, any>> = {
   [P in keyof T]: ResolveRef<T[P], Schemas>
 }
 
-// --- Example usage and test types ---
+// --- Examples ---
 
-// Test case 1: Basic table with various constraints
 type TestSQL1 = `
   CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -209,12 +205,12 @@ type TestSQL1 = `
     email VARCHAR(255) UNIQUE NOT NULL,
     age INT DEFAULT 18,
     bio TEXT,
-    status ENUM('active', 'inactive', 'pending') DEFAULT 'pending',
+    status ENUM('active','inactive','pending') DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )
-`
+  )`
 
-// Test case 2: Table with foreign keys and nullable fields
+type UserSchema = InferSchema<TestSQL1> // { id?: number; name: string; email: string; age?: number; bio?: string | null; status?: 'active' | 'inactive' | 'pending'; created_at?: string }
+
 type TestSQL2 = `
   CREATE TABLE posts (
     id INTEGER PRIMARY KEY,
@@ -222,21 +218,7 @@ type TestSQL2 = `
     content TEXT,
     user_id INT REFERENCES users(id),
     published BOOLEAN DEFAULT false,
-    category ENUM('tech', 'lifestyle', 'business') NOT NULL
-  )
-`
+    category ENUM('tech','lifestyle','business') NOT NULL
+  )`
 
-// Test case 3: Table with no auto-increment primary key
-type TestSQL3 = `
-  CREATE TABLE settings (
-    key VARCHAR(50) PRIMARY KEY,
-    value TEXT NOT NULL,
-    description TEXT,
-    is_public BOOLEAN DEFAULT false
-  )
-`
-
-// Test the inferred schemas
-type UserSchema = InferSchema<TestSQL1>
 type PostSchema = InferSchema<TestSQL2>
-type SettingsSchema = InferSchema<TestSQL3>

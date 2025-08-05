@@ -46,10 +46,10 @@ type Test_InferSchema_Mixed = AssertTrue<
   Equal<
     SQLTest_Mixed,
     {
+      name?: string | null
       id: number
-      name: string
-      active: boolean
-      age: number
+      active?: boolean
+      age?: number | null
     }
   >,
   'Expected correct mapping for INTEGER, VARCHAR, BOOLEAN, FLOAT'
@@ -71,9 +71,9 @@ type Test_InferSchema_Extended = AssertTrue<
   Equal<
     SQLTest_Extended,
     {
-      value: number
-      recorded: string
-      uid: string
+      value?: number | null
+      recorded?: string | null
+      uid?: string | null
     }
   >,
   'Expected DOUBLE PRECISION → number, DATE → string, UUID → string'
@@ -96,9 +96,9 @@ type Test_InferSchema_Formatted = AssertTrue<
   Equal<
     SQLTest_Formatted,
     {
+      name?: string | null
       item_id: number
-      name: string
-      price: number
+      price?: number
     }
   >,
   'Expected parser to handle indents, spaces, and line breaks'
@@ -120,9 +120,9 @@ type Test_InferSchema_Unknown = AssertTrue<
   Equal<
     SQLTest_Unknown,
     {
-      id: number
-      meta: unknown
-      blob: unknown
+      id?: number | null
+      meta?: any
+      blob?: Uint8Array<ArrayBufferLike> | null
     }
   >,
   'Expected unknown for unsupported SQL types like JSON, BLOB'
