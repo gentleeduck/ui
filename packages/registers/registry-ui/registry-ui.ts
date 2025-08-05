@@ -236,6 +236,13 @@ export const registry_ui: Registry = [
     root_folder: 'resizable',
     files: [],
   },
+  {
+    name: 'pagination',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'pagination',
+    files: [],
+  },
   // {
   //   name: 'typography',
   //   type: 'registry:ui',

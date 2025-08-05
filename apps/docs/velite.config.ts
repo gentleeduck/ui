@@ -11,8 +11,14 @@ import remarkGfm from 'remark-gfm'
 import { Pluggable, PluggableList, Plugin } from 'unified'
 import { rehypeNpmCommand } from './lib/rehype-npm-command'
 import { UnistNode, UnistTree } from './types/unist'
-import { metadataPlugin, rehypeComponent, rehypeExtractTitle, rehypePreBlockSource } from './velite-configs/plugins'
-import { Nodes } from 'hast'
+import {
+  rhypeMetadataPlugin,
+  rehypeComponent,
+  rehypePreBlockSource,
+  rehypeLineComment,
+  rehypeMarkText,
+} from './velite-configs/plugins'
+import { visit } from 'unist-util-visit'
 
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
@@ -23,8 +29,8 @@ const config = defineConfig({
   collections: {
     docs: {
       name: 'Docs',
-      // pattern: 'docs/components/toggle-group.mdx',
-      pattern: 'docs/**/*.mdx',
+      pattern: 'docs/components/pagination.mdx',
+      // pattern: 'docs/**/*.mdx',
       schema: s
         .object({
           title: s.string().max(99),
@@ -62,8 +68,7 @@ const config = defineConfig({
     rehypePlugins: [
       rehypeComponent,
       rehypeSlug,
-      rehypeExtractTitle,
-      metadataPlugin,
+      rhypeMetadataPlugin,
       [
         rehypePrettyCode,
         {
@@ -73,7 +78,6 @@ const config = defineConfig({
           },
           getHighlighter,
           onVisitLine(node: UnistNode) {
-            // console.log(node)
             // Prevent lines from collapsing in `display: grid` mode, and allow empty
             // lines to be copy/pasted
             if (node.children?.length === 0) {
@@ -90,25 +94,27 @@ const config = defineConfig({
           },
         },
       ],
-      rehypePreBlockSource,
 
-      () =>
-        (tree: UnistTree): UnistTree => {
-          tree.children.map((node: UnistNode) => {
-            // console.dir(node, { depth: 7 })
-          })
-          return tree
-        },
-      rehypeNpmCommand,
-      [
-        rehypeAutolinkHeadings,
-        {
-          properties: {
-            className: ['subheading-anchor'],
-            ariaLabel: 'Link to section',
-          },
-        },
-      ],
+      rehypeMarkText,
+      // rehypePreBlockSource,
+
+      // () =>
+      //   (tree: UnistTree): UnistTree => {
+      //     tree.children.map((node: UnistNode) => {
+      //       // console.dir(node, { depth: 7 })
+      //     })
+      //     return tree
+      //   },
+      // rehypeNpmCommand,
+      // [
+      //   rehypeAutolinkHeadings,
+      //   {
+      //     properties: {
+      //       className: ['subheading-anchor'],
+      //       ariaLabel: 'Link to section',
+      //     },
+      //   },
+      // ],
     ] as PluggableList,
   },
 }) as any

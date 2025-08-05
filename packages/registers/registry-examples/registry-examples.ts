@@ -240,4 +240,11 @@ export const registry_examples: Registry = [
     root_folder: 'resizable',
     files: [],
   },
+  {
+    name: 'pagination-examples',
+    type: 'registry:example',
+    registryDependencies: ['pagination'],
+    root_folder: 'pagination',
+    files: [],
+  },
 ]

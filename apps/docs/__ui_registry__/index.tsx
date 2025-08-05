@@ -689,6 +689,31 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  pagination: {
+    name: 'pagination',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'pagination/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'pagination/pagination.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'pagination/pagination.types.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/pagination')),
+    source: '/registry-ui-duckui/src/pagination',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'accordion-1': {
     name: 'accordion-1',
     description: '',
@@ -3065,6 +3090,23 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-3')),
     source: '/registry-examples-duckui/src/resizable',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'pagination-1': {
+    name: 'pagination-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['pagination'],
+    files: [
+      {
+        path: 'pagination/pagination-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/pagination/pagination-1')),
+    source: '/registry-examples-duckui/src/pagination',
     category: '',
     subcategory: '',
     chunks: [],

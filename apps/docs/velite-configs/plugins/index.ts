@@ -1,4 +1,4 @@
 export * from './metadata-plugin'
 export * from './rehype-component'
-export * from './regype-extract-title'
+export * from './rehype-line-comment'
 export * from './rehype-pre-block-source'

@@ -1,23 +1,26 @@
-import { UnistNode, UnistTree } from '../uniset'
 import { visit } from 'unist-util-visit'
+import { UnistNode, UnistTree } from '../uniset'
 
-export function metadataPlugin() {
+export function rhypeMetadataPlugin() {
   return (tree: UnistTree): UnistTree => {
     visit(tree, 'element', (node: UnistNode) => {
       if (node.tagName === 'code' && node.children) {
-        let match = [] as unknown as RegExpExecArray
+        let match = {} as any
 
         if (node.data?.meta) {
-          match = [
-            ...match,
-            ((node.data.meta as string).match(/event="([^"]*)"/) ?? [])[1],
-          ] as unknown as RegExpExecArray
+          const meta = node.data.meta as string
+
+          match.__title__ = (meta.match(/title="([^"]*)"/) ?? [])[1]
+
+          match.__marks__ = [...meta.matchAll(/\/([^/]+)\//g)].map((m) => m[1])
         }
 
+        // @ts-ignore
+        node.data.meta = node.data.meta?.replace(/\/([^/]+)\//g, '')
         node.properties = {
           ...node.properties,
           __rawString__: node.children?.[0]?.value,
-          __event__: match?.[0],
+          ...match,
         }
       }
     })

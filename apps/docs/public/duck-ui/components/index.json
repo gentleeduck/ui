@@ -1,5 +1,5 @@
 {
-  "name": "resizable-3",
+  "name": "pagination-1",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

@@ -633,6 +633,27 @@
     "source": "/registry-ui-duckui/src/resizable"
   },
   {
+    "name": "pagination",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "pagination",
+    "files": [
+      {
+        "path": "pagination/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "pagination/pagination.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "pagination/pagination.types.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/pagination"
+  },
+  {
     "name": "accordion-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -2703,5 +2724,20 @@
       }
     ],
     "source": "/registry-examples-duckui/src/resizable"
+  },
+  {
+    "name": "pagination-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "pagination"
+    ],
+    "root_folder": "pagination",
+    "files": [
+      {
+        "path": "pagination/pagination-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/pagination"
   }
 ]

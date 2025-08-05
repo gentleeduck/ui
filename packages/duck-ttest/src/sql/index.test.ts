@@ -135,7 +135,7 @@ const AnimalSQL = `
     birth_date DATE,
     death_date DATE,
     weight_kg FLOAT,
-    mother_id UUID REFERENCES animals(animal_id),
+    mother_id UUID REFERENCES animals(animal_id) NOT NULL,
     father_id UUID REFERENCES animals(animal_id),
     enclosure_id UUID REFERENCES enclosures(enclosure_id),
     feeding_plan_id UUID REFERENCES feeding_plans(plan_id),

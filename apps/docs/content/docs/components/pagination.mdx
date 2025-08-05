@@ -1,0 +1,11 @@
+---
+title: pagination
+description: Pagination with page navigation, next and previous links.
+component: true
+---
+
+
+```diff title="hellofrom.js" showLineNumbers /typeof Link/ /const/ {1} 
++ type PaginationLinkProps = ... & React.ComponentProps<typeof Link>
+- const PaginationLink = ({...props }: ) => (
+```

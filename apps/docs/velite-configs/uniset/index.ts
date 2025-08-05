@@ -8,7 +8,8 @@ export interface UnistNode extends Node {
   properties?: {
     __rawString__?: string
     __className__?: string
-    __event__?: string
+    __title__?: string
+    __marks__?: string[]
     [key: string]: unknown
   } & NpmCommands
   attributes?: {
