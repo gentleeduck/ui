@@ -220,6 +220,22 @@ export const registry_ui: Registry = [
     root_folder: 'aspect-ratio',
     files: [],
   },
+  {
+    name: 'table',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'table',
+    files: [],
+  },
+  {
+    name: 'resizable',
+    type: 'registry:ui',
+    dependencies: [],
+    registryDependencies: [],
+    root_folder: 'resizable',
+    files: [],
+  },
   // {
   //   name: 'typography',
   //   type: 'registry:ui',

@@ -195,30 +195,3 @@ export type ResolveRef<T, Schemas extends Record<string, any>> = T extends Ref<i
 export type ResolveFields<T, Schemas extends Record<string, any>> = {
   [P in keyof T]: ResolveRef<T[P], Schemas>
 }
-
-// --- Examples ---
-
-type TestSQL1 = `
-  CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    age INT DEFAULT 18,
-    bio TEXT,
-    status ENUM('active','inactive','pending') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )`
-
-type UserSchema = InferSchema<TestSQL1> // { id?: number; name: string; email: string; age?: number; bio?: string | null; status?: 'active' | 'inactive' | 'pending'; created_at?: string }
-
-type TestSQL2 = `
-  CREATE TABLE posts (
-    id INTEGER PRIMARY KEY,
-    title TEXT NOT NULL,
-    content TEXT,
-    user_id INT REFERENCES users(id),
-    published BOOLEAN DEFAULT false,
-    category ENUM('tech','lifestyle','business') NOT NULL
-  )`
-
-type PostSchema = InferSchema<TestSQL2>

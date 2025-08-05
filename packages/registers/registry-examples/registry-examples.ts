@@ -226,4 +226,18 @@ export const registry_examples: Registry = [
     root_folder: 'typography',
     files: [],
   },
+  {
+    name: 'table-examples',
+    type: 'registry:example',
+    registryDependencies: ['table'],
+    root_folder: 'table',
+    files: [],
+  },
+  {
+    name: 'resizable-examples',
+    type: 'registry:example',
+    registryDependencies: ['resizable'],
+    root_folder: 'resizable',
+    files: [],
+  },
 ]

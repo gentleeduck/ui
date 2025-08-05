@@ -597,6 +597,42 @@
     "source": "/registry-ui-duckui/src/aspect-ratio"
   },
   {
+    "name": "table",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "table",
+    "files": [
+      {
+        "path": "table/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "table/table.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/table"
+  },
+  {
+    "name": "resizable",
+    "type": "registry:ui",
+    "dependencies": [],
+    "registryDependencies": [],
+    "root_folder": "resizable",
+    "files": [
+      {
+        "path": "resizable/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "resizable/resizable.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/resizable"
+  },
+  {
     "name": "accordion-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -2607,5 +2643,65 @@
       }
     ],
     "source": "/registry-examples-duckui/src/typography"
+  },
+  {
+    "name": "table-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "table"
+    ],
+    "root_folder": "table",
+    "files": [
+      {
+        "path": "table/table-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/table"
+  },
+  {
+    "name": "resizable-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "resizable"
+    ],
+    "root_folder": "resizable",
+    "files": [
+      {
+        "path": "resizable/resizable-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/resizable"
+  },
+  {
+    "name": "resizable-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "resizable"
+    ],
+    "root_folder": "resizable",
+    "files": [
+      {
+        "path": "resizable/resizable-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/resizable"
+  },
+  {
+    "name": "resizable-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "resizable"
+    ],
+    "root_folder": "resizable",
+    "files": [
+      {
+        "path": "resizable/resizable-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/resizable"
   }
 ]

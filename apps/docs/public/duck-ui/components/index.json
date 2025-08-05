@@ -1,5 +1,5 @@
 {
-  "name": "typography-9",
+  "name": "resizable-3",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

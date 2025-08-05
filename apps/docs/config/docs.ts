@@ -173,6 +173,12 @@ export const docsConfig: DocsConfig = {
           label: 'refacotored',
         },
         {
+          href: '/docs/components/resizable',
+          items: [],
+          title: 'Resizable',
+          label: 'refacotored',
+        },
+        {
           href: '/docs/components/select',
           items: [],
           title: 'Select',
@@ -214,12 +220,12 @@ export const docsConfig: DocsConfig = {
           title: 'Switch',
           label: 'refacotored',
         },
-        // {
-        //   title: 'Table',
-        //   href: '/docs/components/table',
-        //   items: [],
-        //   label: 'new',
-        // },
+        {
+          title: 'Table',
+          href: '/docs/components/table',
+          label: 'refacotored',
+          items: [],
+        },
         {
           href: '/docs/components/tabs',
           items: [],

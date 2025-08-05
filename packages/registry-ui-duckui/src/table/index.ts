@@ -1,5 +1,1 @@
 export * from './table'
-export * from './table.atom'
-export * from './table.libs'
-export * from './table-advanced'
-export * from './table-example'
