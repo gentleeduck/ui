@@ -12,6 +12,7 @@ import { Pluggable, PluggableList, Plugin } from 'unified'
 import { rehypeNpmCommand } from './lib/rehype-npm-command'
 import { UnistNode, UnistTree } from './types/unist'
 import { rehypeComponent, rehypePreBlockSource, rhypeMetadataPlugin } from './velite-configs/plugins'
+import { visit } from 'unist-util-visit'
 
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
@@ -21,8 +22,8 @@ const config = defineConfig({
   collections: {
     docs: {
       name: 'Docs',
-      // pattern: 'docs/components/pagination.mdx',
-      pattern: 'docs/**/*.mdx',
+      pattern: 'docs/components/pagination.mdx',
+      // pattern: 'docs/**/*.mdx',
       schema: s
         .object({
           title: s.string().max(99),

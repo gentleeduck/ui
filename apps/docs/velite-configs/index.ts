@@ -21,6 +21,4 @@ export * from './collections'
  * combobox
  * chart
  * carousel
- * checkbox
- * pagination
  */
