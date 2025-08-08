@@ -5,8 +5,7 @@
 @source "../node_modules/@gentleduck/motion";
 
 @import "./mdx.css";
-
-@plugin "tailwindcss-animate";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 

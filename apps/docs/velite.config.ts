@@ -11,19 +11,19 @@ import remarkGfm from 'remark-gfm'
 import { Pluggable, PluggableList, Plugin } from 'unified'
 import { rehypeNpmCommand } from './lib/rehype-npm-command'
 import { UnistNode, UnistTree } from './types/unist'
-import { rehypeComponent, rehypePreBlockSource, rhypeMetadataPlugin } from './velite-configs/plugins'
-import { visit } from 'unist-util-visit'
+import { rhypeMetadataPlugin, rehypeComponent, rehypePreBlockSource } from './velite-configs/plugins'
 
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
 
 // rehypeExtractTitle.js
+// ! FIX: type error
 const config = defineConfig({
   collections: {
     docs: {
       name: 'Docs',
-      pattern: 'docs/components/pagination.mdx',
-      // pattern: 'docs/**/*.mdx',
+      // pattern: 'docs/components/pagination.mdx',
+      pattern: 'docs/**/*.mdx',
       schema: s
         .object({
           title: s.string().max(99),
@@ -60,6 +60,7 @@ const config = defineConfig({
     remarkPlugins: [remarkGfm, codeImport],
     rehypePlugins: [
       rehypeComponent,
+      // @ts-ignore
       rehypeSlug,
       rhypeMetadataPlugin,
       [
@@ -69,45 +70,30 @@ const config = defineConfig({
             dark: 'catppuccin-mocha',
             light: 'github-light',
           },
+
           getHighlighter,
           onVisitLine(node: UnistNode) {
-            // console.log(node)
             // Prevent lines from collapsing in `display: grid` mode, and allow empty
             // lines to be copy/pasted
             if (node.children?.length === 0) {
               node.children = [{ type: 'text', value: ' ' }]
             }
           },
-          onVisitHighlightedLine(node: UnistNode): void {
+          onVisitHighlightedLine(node: UnistNode) {
             // @ts-ignore
-            node?.properties?.className.push('line--highlighted')
+            node.properties.className.push('line--highlighted')
           },
-          onVisitHighlightedWord(node: UnistNode): void {
+          onVisitHighlightedWord(node: UnistNode) {
             // @ts-ignore
-            node?.properties?.className.push('word--highlighted')
+            node.properties.className = ['word--highlighted']
           },
         },
       ],
       rehypePreBlockSource,
-
-      () =>
-        (tree: UnistTree): UnistTree => {
-          tree.children.map((node: UnistNode) => {
-            // console.dir(node, { depth: 7 })
-          })
-          return tree
-        },
       rehypeNpmCommand,
-      [
-        rehypeAutolinkHeadings,
-        {
-          properties: {
-            className: ['subheading-anchor'],
-            ariaLabel: 'Link to section',
-          },
-        },
-      ],
-    ] as PluggableList,
+      // @ts-ignore
+      [rehypeAutolinkHeadings, { properties: { className: ['subheading-anchor'], ariaLabel: 'Link to section' } }],
+    ],
   },
 }) as any
 function cleanTocItems(items: any[]): any[] {

@@ -42,7 +42,7 @@ pre {
   @apply px-2;
 }
 
-[data-rehype-pretty-code-fragment] [data-line-numbers]>.line::before {
+[data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
   @apply text-zinc-50/40 text-xs;
   counter-increment: line;
   content: counter(line);
@@ -52,8 +52,9 @@ pre {
   text-align: right;
 }
 
-[data-rehype-pretty-code-fragment] .line--highlighted {
-  @apply bg-zinc-800/5 dark:bg-[#89b4fa14];
+[data-rehype-pretty-code-fragment] .line--highlighted,
+[data-rehype-pretty-code-fragment] .word--highlighted {
+  @apply bg-zinc-800/5 dark:bg-foreground/5;
 }
 
 [data-rehype-pretty-code-fragment] .line-highlighted span {
@@ -61,26 +62,22 @@ pre {
 }
 
 [data-rehype-pretty-code-fragment] .word--highlighted {
-  @apply rounded-md bg-zinc-700/50 border-zinc-700/70 p-1;
-}
-
-.dark [data-rehype-pretty-code-fragment] .word--highlighted {
-  @apply bg-zinc-900;
+  @apply rounded-md p-1;
 }
 
 [data-rehype-pretty-code-title] {
   /* @apply mt-2 pt-6 px-4 text-sm font-medium text-foreground; */
 }
 
-[data-rehype-pretty-code-title]+pre {
+[data-rehype-pretty-code-title] + pre {
   /* @apply mt-2; */
 }
 
-.mdx>.steps:first-child>h3:first-child {
+.mdx > .steps:first-child > h3:first-child {
   @apply mt-0;
 }
 
-.steps>h3 {
+.steps > h3 {
   @apply mt-8 mb-4 text-base font-semibold;
 }
 
@@ -88,47 +85,49 @@ strong {
   @apply font-semibold;
 }
 
-strong>code {
+strong > code {
   @apply font-bold;
 }
 
 /* FIX: the animation bounce it bounces so hard. = ==========================*/
 
 :root {
-  --duck-spring: linear(0,
-      0.001 0.4%,
-      0.007 0.9%,
-      0.016 1.4%,
-      0.028 1.9%,
-      0.065 3%,
-      0.114 4.1%,
-      0.165 5.1%,
-      0.228 6.2%,
-      0.504 10.7%,
-      0.62 12.7%,
-      0.734 14.9%,
-      0.827 17%,
-      0.865 18%,
-      0.902 19.1%,
-      0.934 20.2%,
-      0.963 21.3%,
-      0.987 22.4%,
-      1.009 23.6%,
-      1.026 24.8%,
-      1.04 26%,
-      1.051 27.4%,
-      1.059 28.9%,
-      1.064 30.5%,
-      1.064 32.2%,
-      1.062 34%,
-      1.056 36.1%,
-      1.026 44.1%,
-      1.013 47.9%,
-      1.004 51.8%,
-      0.999 55.9%,
-      0.996 63.9%,
-      1 83.2%,
-      1);
+  --duck-spring: linear(
+    0,
+    0.001 0.4%,
+    0.007 0.9%,
+    0.016 1.4%,
+    0.028 1.9%,
+    0.065 3%,
+    0.114 4.1%,
+    0.165 5.1%,
+    0.228 6.2%,
+    0.504 10.7%,
+    0.62 12.7%,
+    0.734 14.9%,
+    0.827 17%,
+    0.865 18%,
+    0.902 19.1%,
+    0.934 20.2%,
+    0.963 21.3%,
+    0.987 22.4%,
+    1.009 23.6%,
+    1.026 24.8%,
+    1.04 26%,
+    1.051 27.4%,
+    1.059 28.9%,
+    1.064 30.5%,
+    1.064 32.2%,
+    1.062 34%,
+    1.056 36.1%,
+    1.026 44.1%,
+    1.013 47.9%,
+    1.004 51.8%,
+    0.999 55.9%,
+    0.996 63.9%,
+    1 83.2%,
+    1
+  );
   --min-height: 0px;
   --max-height: 320px;
 }
