@@ -14,17 +14,18 @@
   },
   "dependencies": {
     "arktype": "^2.1.20",
+    "expect": "^30.0.5",
     "jotai": "^2.9.3",
     "react": "catalog:react19",
     "react-dom": "catalog:react19"
   },
   "devDependencies": {
+    "@gentleduck/ttest": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "@vitejs/plugin-react-swc": "catalog:",
-    "@gentleduck/ttest": "workspace:*",
     "typescript": "catalog:",
     "vite": "catalog:"
   },

@@ -1,5 +1,5 @@
 {
-  "name": "pagination-1",
+  "name": "checkbox-8",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

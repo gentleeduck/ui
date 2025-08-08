@@ -243,6 +243,13 @@ export const registry_ui: Registry = [
     root_folder: 'pagination',
     files: [],
   },
+  {
+    name: 'checkbox',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'checkbox',
+    files: [],
+  },
   // {
   //   name: 'typography',
   //   type: 'registry:ui',

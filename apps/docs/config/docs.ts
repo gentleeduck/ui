@@ -95,6 +95,12 @@ export const docsConfig: DocsConfig = {
         //   label: 'new',
         // },
         {
+          title: 'Checkbox',
+          href: '/docs/components/checkbox',
+          label: 'refacotored',
+          items: [],
+        },
+        {
           title: 'Command',
           href: '/docs/components/command',
           label: 'refacotored',

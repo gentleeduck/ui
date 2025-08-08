@@ -3,11 +3,11 @@ import './globals.css'
 import '@gentleduck/motion/css'
 import './mdx.css'
 import { cn } from '@gentleduck/libs/cn'
-import { ThemeProvider } from '~/components/providers'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
-import { ThemeSwitcher } from '~/components/theme-switcher'
-import { TailwindIndicator } from '~/components/layouts/tailwind-indicator'
 import { KeyProvider } from '@gentleduck/vim/react'
+import { TailwindIndicator } from '~/components/layouts/tailwind-indicator'
+import { ThemeProvider } from '~/components/providers'
+import { ThemeSwitcher } from '~/components/theme-switcher'
 
 export const metadata: Metadata = {
   title: 'Create Next App',

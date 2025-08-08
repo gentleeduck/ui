@@ -1,0 +1,112 @@
+---
+title: checkbox
+description: A control that allows the user to toggle between checked and not checked.
+component: true
+---
+
+<ComponentPreview name="checkbox-1" description="A checkbox" />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx duck-ui@latest add checkbox
+````
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="checkbox" title="components/ui/checkbox.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+```
+
+```tsx
+<Checkbox />
+```
+
+## API
+
+### `Checkbox`
+
+* **`indicator?: React.ReactElement`** – Custom SVG or element to display as the unchecked indicator.
+* **`checkedIndicator?: React.ReactElement`** – Custom SVG or element to display when checked.
+* **`checked?: boolean | 'indeterminate'`** – Controlled checked state.
+* **`defaultChecked?: boolean | 'indeterminate'`** – Initial checked state (uncontrolled).
+* **`onCheckedChange?: (checked: boolean | 'indeterminate') => void`** – Callback when the checked state changes.
+* **`className?: string`** – Additional CSS classes.
+* **`style?: React.CSSProperties`** – Inline styles for the input element.
+* *(plus all native `input` attributes except `checked`, `onChange`, and `defaultChecked`)*
+
+---
+
+### `CheckboxWithLabel`
+
+* **`_checkbox: CheckboxProps`** – Props forwarded to the internal `<Checkbox />`.
+* **`_label: React.ComponentPropsWithoutRef<typeof Label>`** – Props forwarded to the `<Label />`.
+* **`id?: string`** – Used to link the checkbox and label via `htmlFor`.
+* **`className?: string`** – Additional wrapper classes.
+* *(plus all native `div` props)*
+
+---
+
+### `CheckboxGroup`
+
+* **`subtasks: { id: string; title: string; checked?: boolean | 'indeterminate' }[]`** – Array of checkbox items.
+* **`subtasks_default_values?: CheckboxWithLabelProps`** – Default props applied to all subtasks.
+* **`className?: string`** – Additional wrapper classes.
+* *(plus all native `div` props)*
+
+---
+
+## Examples
+
+### Basic uncontrolled checkbox
+<ComponentPreview name="checkbox-2" />
+
+### Controlled checkbox
+
+<ComponentPreview name="checkbox-3" />
+
+### Checkbox with label
+
+<ComponentPreview name="checkbox-4" />
+
+### Indeterminate state
+
+<ComponentPreview name="checkbox-5" />
+
+###  Checkbox group
+
+<ComponentPreview name="checkbox-6" />
+
+### Custom indicator icons
+
+<ComponentPreview name="checkbox-7" />
+
+### Form
+
+<ComponentPreview name="checkbox-8" />

@@ -247,4 +247,12 @@ export const registry_examples: Registry = [
     root_folder: 'pagination',
     files: [],
   },
+
+  {
+    name: 'checkbox-examples',
+    type: 'registry:example',
+    registryDependencies: [],
+    root_folder: 'checkbox',
+    files: [],
+  },
 ]

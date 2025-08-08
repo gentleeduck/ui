@@ -1,64 +1,116 @@
+'use client'
+
+import { useSvgIndicator } from '@gentleduck/aria-feather/checkers'
 import { cn } from '@gentleduck/libs/cn'
+import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import * as React from 'react'
 import { Label } from '../label'
+import { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
 
-export interface CheckboxProps extends React.HTMLProps<HTMLInputElement> {}
-const Checkbox = ({ className, ref, ...props }: CheckboxProps) => (
-  <input
-    ref={ref}
-    type="checkbox"
-    className={cn(
-      'relative flex h-4 w-4 appearance-none items-center justify-center rounded border border-border border-solid ring-offset-background transition-all after:absolute after:relative after:mb-[2px] after:block after:h-[9px] after:w-[5px] after:rotate-45 after:border-2 after:border-white after:border-white after:border-t-0 after:border-l-0 after:opacity-0 after:transition-all checked:border-primary checked:bg-primary checked:after:border-background checked:after:opacity-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-      className,
-    )}
-    {...props}
-  />
-)
+const Checkbox = ({
+  className,
+  indicator,
+  checkedIndicator,
+  style,
+  checked: controlledChecked,
+  defaultChecked = false,
+  onCheckedChange,
+  ref,
+  ...props
+}: CheckboxProps) => {
+  const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
+    indicator,
+    checkedIndicator,
+  })
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
-export interface CheckboxWithLabelProps extends React.HTMLProps<HTMLDivElement> {
-  _checkbox: React.ComponentPropsWithoutRef<typeof Checkbox>
-  _label: React.ComponentPropsWithoutRef<typeof Label>
+  const isControlled = controlledChecked !== undefined
+  const checked = isControlled ? controlledChecked : defaultChecked
+
+  const handleChange = (next: CheckedState) => {
+    onCheckedChange?.(next)
+  }
+
+  React.useEffect(() => {
+    if (ref && typeof ref !== 'function' && checked === 'indeterminate' && ref.current) {
+      ref.current.indeterminate = true
+      changeCheckedState(checked, ref.current)
+    }
+    changeCheckedState(checked, inputRef.current!)
+  }, [checked, ref])
+
+  function changeCheckedState(state: CheckedState, input: HTMLInputElement) {
+    input.setAttribute('aria-checked', `${state}`)
+    input.setAttribute('data-checked', `${state}`)
+    input.checked = state as boolean
+  }
+
+  return (
+    <>
+      <input
+        ref={ref ?? inputRef}
+        type="checkbox"
+        style={{ ...style, ...inputStyle }}
+        onChange={(e) => {
+          const nextChecked = e.target.checked ? true : e.target.indeterminate ? 'indeterminate' : false
+          e.target.indeterminate = false
+          changeCheckedState(nextChecked, e.target)
+          handleChange(nextChecked)
+        }}
+        className={cn(
+          checkersStylePattern({
+            type: 'checkbox',
+            indicatorState:
+              indicatorReady && checkedIndicatorReady
+                ? 'both'
+                : indicatorReady
+                  ? 'indicatorReady'
+                  : checkedIndicatorReady
+                    ? 'checkedIndicatorReady'
+                    : 'default',
+          }),
+          AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
+          (indicatorReady && checkedIndicatorReady) || indicatorReady
+            ? ''
+            : 'after:mb-0.5 after:h-[9px] after:w-[4px] after:rotate-45 after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent',
+          'data-[checked="indeterminate"]:border-border data-[checked="indeterminate"]:bg-transparent data-[checked="indeterminate"]:text-foreground',
+          'bg-transparent',
+          className,
+        )}
+        {...props}
+      />
+      <SvgIndicator className="sr-only" />
+    </>
+  )
 }
 
-const CheckboxWithLabel = React.forwardRef<React.ElementRef<'div'>, CheckboxWithLabelProps>(
-  ({ id, _checkbox, _label, className, ...props }, ref) => {
-    const { className: labelClassName, ...labelProps } = _label
-    return (
-      <div ref={ref} className={cn('flex items-center justify-start gap-2', className)} {...props}>
-        <Checkbox id={id} {..._checkbox} />
-        <Label htmlFor={id} className={cn('curosor-pointer', labelClassName)} {...labelProps} />
-      </div>
-    )
-  },
-)
-
-export interface CheckboxGroupProps extends React.HTMLProps<HTMLDivElement> {
-  subtasks: CheckboxProps[]
-  subtasks_default_values?: CheckboxWithLabelProps
+const CheckboxWithLabel = ({ id, _checkbox, _label, className, ref, ...props }: CheckboxWithLabelProps) => {
+  const { className: labelClassName, ...labelProps } = _label
+  return (
+    <div ref={ref} className={cn('flex items-center justify-start gap-2', className)} {...props}>
+      <Checkbox id={id} {..._checkbox} />
+      <Label htmlFor={id} className={cn('cursor-pointer', labelClassName)} {...labelProps} />
+    </div>
+  )
 }
 
 const CheckboxGroup = ({ subtasks, subtasks_default_values, ref, ...props }: CheckboxGroupProps) => {
   const { _checkbox, _label } = subtasks_default_values || {}
   return (
-    <>
-      <div className={cn('mb-3 flex w-full flex-col gap-2')} {...props} ref={ref}>
-        {subtasks.map((subtask) => {
-          const { id, title, className } = subtask
-          return (
-            <div key={id} className={cn('flex items-center justify-start gap-2', className)}>
-              <CheckboxWithLabel
-                id={id}
-                _checkbox={{
-                  ..._checkbox,
-                  className: 'w-4 h-4 rounded-full border-muted-foreground/80',
-                }}
-                _label={{ ..._label, children: title }}
-              />
-            </div>
-          )
-        })}
-      </div>
-    </>
+    <div className={cn('mb-3 flex flex-col gap-2')} {...props} ref={ref}>
+      {subtasks.map(({ id, title, checked }) => (
+        <CheckboxWithLabel
+          key={id}
+          id={id}
+          _checkbox={{
+            ..._checkbox,
+            checked,
+            className: 'w-4 h-4 rounded-full border-muted-foreground/80',
+          }}
+          _label={{ ..._label, children: title }}
+        />
+      ))}
+    </div>
   )
 }
 
