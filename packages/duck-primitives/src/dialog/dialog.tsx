@@ -3,7 +3,7 @@ import { useStableId } from '@gentleduck/hooks'
 import { apply as applyClosedBy, isSupported as isClosedBySupported } from 'dialog-closedby-polyfill'
 import { apply as applyInvokers, isSupported as isInvokersSupported } from 'invokers-polyfill/fn'
 import React from 'react'
-import { Mount } from '../mount'
+import { Mount, MountMinimal } from '../mount'
 import { Slot } from '../slot'
 import { useDialog, useDialogContext } from './dialog.hooks'
 import type { DialogContentProps, DialogContextType, DialogProps } from './dialog.types'
@@ -110,10 +110,10 @@ export function Content({
   return (
     <div className={String(open && 'absolute inset-0 z-50 flex min-h-screen w-full items-center justify-center')}>
       <dialog className={className} {...prop} id={id} ref={contentRef}>
-        <Mount ref={contentRef.current} forceMount={renderOnce} open={open}>
+        <MountMinimal ref={contentRef.current} forceMount={renderOnce} open={open}>
           {children}
           {closeButton && <DialogClose />}
-        </Mount>
+        </MountMinimal>
       </dialog>
     </div>
   )

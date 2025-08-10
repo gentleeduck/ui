@@ -22,6 +22,8 @@ interface PopoverOptions {
   modal?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  sideOffset?: number
+  alignOffset?: number
 }
 
 export function usePopover({
@@ -30,6 +32,8 @@ export function usePopover({
   modal,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
+  sideOffset = 4,
+  alignOffset = 0,
 }: PopoverOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
 
@@ -42,7 +46,7 @@ export function usePopover({
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(5),
+      offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
       flip({
         crossAxis: placement.includes('-'),
         fallbackAxisSideDirection: 'end',
@@ -109,7 +113,7 @@ function Trigger({
   asChild?: boolean
 }) {
   const context = usePopoverContext()
-  const childrenRef = (children as any).ref
+  const childrenRef = (children as any)?.ref
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
 
   // `asChild` allows the user to pass any element as the anchor

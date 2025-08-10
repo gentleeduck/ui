@@ -9,29 +9,29 @@ import { toast } from 'sonner'
 export default function ButtonDemo() {
   const [open, setOpen] = React.useState<boolean>(false)
 
-  // useKeyCommands({
-  //   'ctrl+m': {
-  //     name: 'ctrl+m',
-  //     description: 'a command that will open the advanced button',
-  //     execute: () => {
-  //     },
-  //   },
-  // })
+  useKeyCommands({
+    'ctrl+m': {
+      name: 'ctrl+m',
+      description: 'a command that will open the advanced button',
+      execute: () => {},
+    },
+  })
 
   return (
-    <Tooltip>
-      <TooltipTrigger
-        variant={'default'}
-        isCollapsed={open}
-        icon={<ArrowBigUpDash />}
-        aria-label={'advanced button'}
-        size="default"
-        aria-expanded={open}
-        loading={false}
-        onClick={() => setOpen((prev) => !prev)}>
-        Button
+    <Tooltip placement="top">
+      <TooltipTrigger asChild>
+        <Button
+          isCollapsed={open}
+          icon={<ArrowBigUpDash />}
+          aria-label={'advanced button'}
+          size="default"
+          aria-expanded={open}
+          loading={false}
+          onClick={() => setOpen((prev) => !prev)}>
+          Button
+        </Button>
       </TooltipTrigger>
-      <TooltipContent className="flex items-center gap-2" placement={'top'}>
+      <TooltipContent className="flex items-center gap-2">
         <CommandShortcut
           variant="secondary"
           keys="ctrl+m"

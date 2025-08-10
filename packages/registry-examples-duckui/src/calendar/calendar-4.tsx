@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Calendar } from '@gentleduck/registry-ui-duckui/calendar'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
@@ -25,11 +26,14 @@ export default function CalendarDemo() {
         </Label>
         <Select
           value={dropdown}
-          onValueChange={(value) => setDropdown(value as React.ComponentProps<typeof Calendar>['captionLayout'])}>
-          <SelectTrigger id="dropdown" size="sm" className="bg-background w-full">
-            <SelectValue placeholder="Dropdown" />
+          onValueChange={(value) => setDropdown(value as React.ComponentProps<typeof Calendar>['captionLayout'])}
+          placement="top-start">
+          <SelectTrigger asChild>
+            <Button id="dropdown" size="sm" className="w-full bg-background">
+              <SelectValue placeholder="Dropdown" />
+            </Button>
           </SelectTrigger>
-          <SelectContent align="center">
+          <SelectContent>
             <SelectItem value="dropdown">Month and Year</SelectItem>
             <SelectItem value="dropdown-months">Month Only</SelectItem>
             <SelectItem value="dropdown-years">Year Only</SelectItem>

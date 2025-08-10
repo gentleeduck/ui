@@ -17,7 +17,7 @@ export interface MountProps {
   children?: React.ReactNode
 }
 
-export function Mount({
+function Mount({
   open = false,
   forceMount = false,
   renderOnce = false,
@@ -26,25 +26,25 @@ export function Mount({
   waitForRender = false,
   waitForRenderMs = 150,
   waitForRenderChecks = 2,
-  waitForRenderMaxMs = 150,
+  waitForRenderMaxMs = 200,
   ref,
   onReady,
   children,
 }: MountProps) {
   const [shouldRender, setShouldRender] = React.useState(forceMount || open)
-  const nodeRef = React.useRef<HTMLElement | null>(null)
+  const [isVisible, setIsVisible] = React.useState(open && !waitForRender)
 
   const closeTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
   const cleanupRenderWaitRef = React.useRef<() => void>(() => {})
 
   const getNode = React.useCallback(() => {
-    if (ref && typeof (ref as any).current !== 'undefined') {
+    if (!ref) return null
+    if (typeof (ref as any).current !== 'undefined') {
       return (ref as React.RefObject<HTMLElement>).current ?? null
     }
-    return (ref as HTMLElement) ?? nodeRef.current
+    return ref instanceof HTMLElement ? ref : null
   }, [ref])
 
-  // Only re-render when "shouldRender" changes, visibility is handled imperatively
   React.useEffect(() => {
     cleanupRenderWaitRef.current?.()
     cleanupRenderWaitRef.current = undefined
@@ -54,19 +54,15 @@ export function Mount({
         setShouldRender(false)
         requestAnimationFrame(() => setShouldRender(true))
       } else {
-        if (!shouldRender) setShouldRender(true)
-      }
-
-      const node = getNode()
-      if (node) {
-        node.style.visibility = 'hidden'
+        setShouldRender(true)
       }
 
       if (waitForRender) {
+        const node = getNode()
         cleanupRenderWaitRef.current = waitForDomStable(
           node,
           () => {
-            if (node) node.style.visibility = 'visible'
+            setIsVisible(true)
             onReady?.()
           },
           waitForRenderMs,
@@ -74,22 +70,22 @@ export function Mount({
           waitForRenderMaxMs,
         )
       } else {
-        if (node) node.style.visibility = 'visible'
+        setIsVisible(true)
         onReady?.()
       }
       return
     }
 
-    // Closing
-    const node = getNode()
+    // closing
     if (skipClosingDelay) {
-      if (node) node.style.visibility = 'hidden'
+      setIsVisible(false)
       if (!renderOnce && !forceMount) setShouldRender(false)
       return
     }
 
+    const node = getNode()
     closeTimeoutRef.current = computeTransitionTimeout(node, () => {
-      if (node) node.style.visibility = 'hidden'
+      setIsVisible(false)
       if (!renderOnce && !forceMount) setShouldRender(false)
     })
   }, [
@@ -104,12 +100,11 @@ export function Mount({
     waitForRenderMaxMs,
     getNode,
     onReady,
-    shouldRender,
   ])
 
-  if (!shouldRender) return null
+  if (!shouldRender && !isVisible) return null
 
-  return <div ref={nodeRef as any}>{children}</div>
+  return <>{children}</>
 }
 
 // --- helpers ---
@@ -126,8 +121,8 @@ function parseCssTime(value: string | null) {
   )
 }
 
-function computeTransitionTimeout(el: HTMLElement | null, cb: () => void) {
-  if (!el) {
+function computeTransitionTimeout(el: HTMLElement | null | undefined, cb: () => void) {
+  if (!el || !(el instanceof HTMLElement)) {
     cb()
     return null
   }
@@ -139,8 +134,14 @@ function computeTransitionTimeout(el: HTMLElement | null, cb: () => void) {
   return setTimeout(cb, Math.max(ms, 16))
 }
 
-function waitForDomStable(el: HTMLElement | null, cb: () => void, quietMs = 150, stableChecks = 2, maxWaitMs = 2000) {
-  if (!el) {
+function waitForDomStable(
+  el: HTMLElement | null | undefined,
+  cb: () => void,
+  quietMs = 150,
+  stableChecks = 2,
+  maxWaitMs = 2000,
+) {
+  if (!el || !(el instanceof HTMLElement)) {
     const raf = requestAnimationFrame(cb)
     return () => cancelAnimationFrame(raf)
   }
@@ -167,6 +168,7 @@ function waitForDomStable(el: HTMLElement | null, cb: () => void, quietMs = 150,
       }
     }
   })
+
   ro.observe(el)
 
   function runCb() {
@@ -182,3 +184,71 @@ function waitForDomStable(el: HTMLElement | null, cb: () => void, quietMs = 150,
 
   return cleanup
 }
+
+type MountMinimalProps = {
+  forceMount?: boolean
+  open?: boolean
+  children?: React.ReactNode
+  ref?: HTMLDialogElement | null
+  skipWaiting?: boolean
+}
+
+function MountMinimal({ forceMount = false, open = false, children, ref, skipWaiting = false }: MountMinimalProps) {
+  const [_shouldRender, setShouldRender] = React.useState(false)
+  const [isVisible, setIsVisible] = React.useState(false)
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const shouldRender = forceMount ? _shouldRender : open
+
+  React.useEffect(() => {
+    if (open && forceMount) {
+      setShouldRender(true)
+    }
+
+    if (shouldRender) {
+      setIsVisible(true)
+      return
+    }
+
+    const element = ref
+    if (element) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+
+      if (skipWaiting) {
+        // Skip animation delay and immediately hide
+        setIsVisible(false)
+        timeoutRef.current = null
+      } else {
+        timeoutRef.current = useComputedTimeoutTransition(element, () => {
+          setIsVisible(false)
+          timeoutRef.current = null
+        })
+      }
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
+      }
+    }
+  }, [shouldRender, ref, open, forceMount, skipWaiting])
+
+  if (!shouldRender && !isVisible) return null
+
+  return <>{children}</>
+}
+
+function useComputedTimeoutTransition(
+  el: HTMLElement | null | undefined,
+  callback: () => void,
+): ReturnType<typeof setTimeout> | undefined {
+  if (!el || !(el instanceof HTMLElement)) return
+  const duration = getComputedStyle(el).transitionDuration
+  const ms = parseFloat(duration) * 1000 || 0
+  return setTimeout(callback, ms)
+}
+
+export { Mount, MountMinimal }
