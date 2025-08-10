@@ -1,7 +1,9 @@
 {
   "name": "menubar-1",
   "type": "registry:example",
-  "registryDependencies": [],
+  "registryDependencies": [
+    "menubar"
+  ],
   "root_folder": "menubar",
   "files": [
     {

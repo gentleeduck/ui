@@ -835,6 +835,23 @@
     "source": "/registry-ui-duckui/src/dropdown-menu"
   },
   {
+    "name": "collapsible",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "collapsible",
+    "files": [
+      {
+        "path": "collapsible/collapsible.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "collapsible/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/collapsible"
+  },
+  {
     "name": "accordion-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -3139,7 +3156,9 @@
   {
     "name": "popover-1",
     "type": "registry:example",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "popover"
+    ],
     "root_folder": "popover",
     "files": [
       {
@@ -3152,7 +3171,9 @@
   {
     "name": "menubar-1",
     "type": "registry:example",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "menubar"
+    ],
     "root_folder": "menubar",
     "files": [
       {
@@ -3165,7 +3186,9 @@
   {
     "name": "dropdown-menu-1",
     "type": "registry:example",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "dropdown-menu"
+    ],
     "root_folder": "dropdown-menu",
     "files": [
       {
@@ -3178,7 +3201,9 @@
   {
     "name": "dropdown-menu-2",
     "type": "registry:example",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "dropdown-menu"
+    ],
     "root_folder": "dropdown-menu",
     "files": [
       {
@@ -3191,7 +3216,9 @@
   {
     "name": "dropdown-menu-3",
     "type": "registry:example",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "dropdown-menu"
+    ],
     "root_folder": "dropdown-menu",
     "files": [
       {
@@ -3200,5 +3227,116 @@
       }
     ],
     "source": "/registry-examples-duckui/src/dropdown-menu"
+  },
+  {
+    "name": "combobox-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "popover",
+      "command"
+    ],
+    "root_folder": "combobox",
+    "files": [
+      {
+        "path": "combobox/combobox-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/combobox"
+  },
+  {
+    "name": "combobox-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "popover",
+      "command"
+    ],
+    "root_folder": "combobox",
+    "files": [
+      {
+        "path": "combobox/combobox-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/combobox"
+  },
+  {
+    "name": "combobox-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "popover",
+      "command"
+    ],
+    "root_folder": "combobox",
+    "files": [
+      {
+        "path": "combobox/combobox-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/combobox"
+  },
+  {
+    "name": "combobox-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "popover",
+      "command"
+    ],
+    "root_folder": "combobox",
+    "files": [
+      {
+        "path": "combobox/combobox-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/combobox"
+  },
+  {
+    "name": "combobox-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "popover",
+      "command"
+    ],
+    "root_folder": "combobox",
+    "files": [
+      {
+        "path": "combobox/combobox-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/combobox"
+  },
+  {
+    "name": "combobox-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "popover",
+      "command"
+    ],
+    "root_folder": "combobox",
+    "files": [
+      {
+        "path": "combobox/combobox-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/combobox"
+  },
+  {
+    "name": "collapsible-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "collapsible"
+    ],
+    "root_folder": "collapsible",
+    "files": [
+      {
+        "path": "collapsible/collapsible-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/collapsible"
   }
 ]

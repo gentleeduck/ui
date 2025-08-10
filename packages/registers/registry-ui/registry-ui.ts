@@ -306,6 +306,13 @@ export const registry_ui: Registry = [
     root_folder: 'dropdown-menu',
     files: [],
   },
+  {
+    name: 'collapsible',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'collapsible',
+    files: [],
+  },
 
   // {
   //   name: 'typography',

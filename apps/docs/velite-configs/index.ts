@@ -5,11 +5,8 @@ export * from './collections'
  * menubar
  * input-otp
  * slider
- * dropdown-menu
  * data-table
  * context-menu
  * form
- * collapsible
- * combobox
  * chart
  */

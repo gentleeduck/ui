@@ -218,7 +218,7 @@ function CommandItem({
   onSelect,
   onKeyDown,
   ...props
-}: React.HTMLProps<HTMLLIElement> & {
+}: Omit<React.HTMLProps<HTMLLIElement>, 'onSelect'> & {
   value?: string
   onSelect?: (value: string) => void
 }): React.JSX.Element {
@@ -232,7 +232,7 @@ function CommandItem({
         onClick?.(e)
       }}
       className={cn(
-        "data-[selected= data-[disabled=true]:pointer-events-none'true']:bg-accent relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&[aria-selected]]:bg-secondary [&_svg]:size-4 ",
+        "data-[selected= data-[disabled=true]:pointer-events-none'true']:bg-accent relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&[aria-selected]]:bg-secondary [&_svg]:size-4",
         className,
       )}
       {...props}
@@ -300,7 +300,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
 function CommandDialog({ children, ...props }: DialogProps): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="rounded-md p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full fixed">
+      <DialogContent className="fixed rounded-md p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>

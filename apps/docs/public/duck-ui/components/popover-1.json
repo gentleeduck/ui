@@ -1,7 +1,9 @@
 {
   "name": "popover-1",
   "type": "registry:example",
-  "registryDependencies": [],
+  "registryDependencies": [
+    "popover"
+  ],
   "root_folder": "popover",
   "files": [
     {

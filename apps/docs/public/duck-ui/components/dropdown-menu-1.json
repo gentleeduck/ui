@@ -1,7 +1,9 @@
 {
   "name": "dropdown-menu-1",
   "type": "registry:example",
-  "registryDependencies": [],
+  "registryDependencies": [
+    "dropdown-menu"
+  ],
   "root_folder": "dropdown-menu",
   "files": [
     {

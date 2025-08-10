@@ -1,5 +1,5 @@
 {
-  "name": "dropdown-menu-3",
+  "name": "collapsible-1",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

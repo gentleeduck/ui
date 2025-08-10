@@ -1,0 +1,21 @@
+{
+  "name": "collapsible",
+  "type": "registry:ui",
+  "registryDependencies": [],
+  "root_folder": "collapsible",
+  "files": [
+    {
+      "path": "collapsible/collapsible.tsx",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport { MountMinimal } from '@gentleduck/primitives/mount'\nimport React from 'react'\nimport { Button } from '../button'\n\nconst CollapsibleContext = React.createContext<{\n  open: boolean\n  onOpenChange: (open: boolean) => void\n  wrapperRef: React.RefObject<HTMLDivElement | null>\n  triggerRef: React.RefObject<HTMLButtonElement | null>\n  contentRef: React.RefObject<HTMLDivElement | null>\n  contentId: string\n} | null>(null)\n\nexport function useCollapsible() {\n  const context = React.useContext(CollapsibleContext)\n  if (!context) {\n    throw new Error('useCollapsible must be used within a Collapsible')\n  }\n  return context\n}\n\nfunction Collapsible({\n  children,\n  className,\n  open: openProp,\n  onOpenChange,\n  ...props\n}: React.HTMLAttributes<HTMLDivElement> & {\n  open?: boolean\n  onOpenChange?: (open: boolean) => void\n}) {\n  const wrapperRef = React.useRef<HTMLDivElement>(null)\n  const triggerRef = React.useRef<HTMLButtonElement>(null)\n  const contentRef = React.useRef<HTMLDivElement>(null)\n  const [open, setOpen] = React.useState(openProp ?? false)\n\n  const contentId = React.useId()\n\n  function handleOpenChange(state: boolean) {\n    setOpen(state)\n    onOpenChange?.(state)\n  }\n\n  React.useEffect(() => {\n    if (open) {\n      handleOpenChange(open)\n    }\n\n    function handleClick() {\n      const open = triggerRef.current?.getAttribute('data-open') === 'true'\n      onOpenChange?.(open)\n    }\n\n    triggerRef.current?.addEventListener('click', handleClick)\n    return () => triggerRef.current?.removeEventListener('click', handleClick)\n  }, [open])\n\n  return (\n    <CollapsibleContext.Provider\n      value={{ open, onOpenChange: handleOpenChange, wrapperRef, triggerRef, contentRef, contentId }}>\n      <div\n        duck-collapsible=\"\"\n        className={cn('flex flex-col gap-2', className)}\n        ref={wrapperRef}\n        {...props}\n        data-open={open}>\n        {children}\n      </div>\n    </CollapsibleContext.Provider>\n  )\n}\n\nfunction CollapsibleTrigger({ children, onClick, ...props }: React.ComponentPropsWithRef<typeof Button>) {\n  const { open, onOpenChange, triggerRef, contentId } = useCollapsible()\n\n  return (\n    <Button\n      ref={triggerRef}\n      duck-collapsible-trigger=\"\"\n      variant=\"ghost\"\n      aria-expanded={open}\n      data-open={open}\n      aria-controls={contentId}\n      onClick={(e) => {\n        onOpenChange?.(!open)\n        onClick?.(e)\n      }}\n      {...props}>\n      {children}\n    </Button>\n  )\n}\n\nfunction CollapsibleContent({\n  children,\n  forceMount = false,\n  className,\n  ...props\n}: React.HTMLAttributes<HTMLDivElement> & { forceMount?: boolean }) {\n  const { open, contentRef, contentId } = useCollapsible()\n\n  return (\n    <div\n      ref={contentRef}\n      duck-collapsible-content=\"\"\n      id={contentId}\n      role=\"region\"\n      data-open={open}\n      aria-hidden={!open}\n      aria-expanded={open}\n      className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto', className)}\n      {...props}>\n      <MountMinimal forceMount={forceMount} open={open} ref={contentRef as never}>\n        {children}\n      </MountMinimal>\n    </div>\n  )\n}\n\nexport { Collapsible, CollapsibleTrigger, CollapsibleContent }\n",
+      "type": "registry:ui",
+      "target": "components/ui/collapsible.tsx"
+    },
+    {
+      "path": "collapsible/index.ts",
+      "content": "export * from './collapsible'\n",
+      "type": "registry:ui",
+      "target": "components/ui/index.ts"
+    }
+  ],
+  "source": "/registry-ui-duckui/src/collapsible"
+}

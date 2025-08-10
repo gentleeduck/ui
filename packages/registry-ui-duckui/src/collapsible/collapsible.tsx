@@ -1,7 +1,7 @@
 'use client'
 
-import { Mount } from '@gentleduck/primitives/mount'
 import { cn } from '@gentleduck/libs/cn'
+import { MountMinimal } from '@gentleduck/primitives/mount'
 import React from 'react'
 import { Button } from '../button'
 
@@ -35,7 +35,7 @@ function Collapsible({
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
-  const [open, setOpen] = React.useState(openProp)
+  const [open, setOpen] = React.useState(openProp ?? false)
 
   const contentId = React.useId()
 
@@ -111,11 +111,11 @@ function CollapsibleContent({
       data-open={open}
       aria-hidden={!open}
       aria-expanded={open}
-      className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto ', className)}
+      className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto', className)}
       {...props}>
-      <Mount forceMount={forceMount} open={open} ref={contentRef as never}>
+      <MountMinimal forceMount={forceMount} open={open} ref={contentRef as never}>
         {children}
-      </Mount>
+      </MountMinimal>
     </div>
   )
 }

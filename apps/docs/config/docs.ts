@@ -107,6 +107,18 @@ export const docsConfig: DocsConfig = {
           items: [],
         },
         {
+          title: 'Collapsible',
+          href: '/docs/components/collapsible',
+          items: [],
+          label: 'new',
+        },
+        {
+          title: 'Combobox',
+          href: '/docs/components/combobox',
+          items: [],
+          label: 'new',
+        },
+        {
           title: 'Command',
           href: '/docs/components/command',
           label: 'new',
@@ -124,12 +136,6 @@ export const docsConfig: DocsConfig = {
           label: 'new',
           title: 'Dialog',
         },
-        // {
-        //   title: 'Combobox',
-        //   href: '/docs/components/combobox',
-        //   items: [],
-        //   label: 'new',
-        // },
         {
           href: '/docs/components/drawer',
           items: [],

@@ -931,6 +931,27 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  collapsible: {
+    name: 'collapsible',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'collapsible/collapsible.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'collapsible/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/collapsible')),
+    source: '/registry-ui-duckui/src/collapsible',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'accordion-1': {
     name: 'accordion-1',
     description: '',
@@ -3621,7 +3642,7 @@ export const Index: Record<string, any> = {
     name: 'popover-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['popover'],
     files: [
       {
         path: 'popover/popover-1.tsx',
@@ -3638,7 +3659,7 @@ export const Index: Record<string, any> = {
     name: 'menubar-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['menubar'],
     files: [
       {
         path: 'menubar/menubar-1.tsx',
@@ -3655,7 +3676,7 @@ export const Index: Record<string, any> = {
     name: 'dropdown-menu-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['dropdown-menu'],
     files: [
       {
         path: 'dropdown-menu/dropdown-menu-1.tsx',
@@ -3672,7 +3693,7 @@ export const Index: Record<string, any> = {
     name: 'dropdown-menu-2',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['dropdown-menu'],
     files: [
       {
         path: 'dropdown-menu/dropdown-menu-2.tsx',
@@ -3689,7 +3710,7 @@ export const Index: Record<string, any> = {
     name: 'dropdown-menu-3',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['dropdown-menu'],
     files: [
       {
         path: 'dropdown-menu/dropdown-menu-3.tsx',
@@ -3698,6 +3719,125 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-3')),
     source: '/registry-examples-duckui/src/dropdown-menu',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'combobox-1': {
+    name: 'combobox-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover', 'command'],
+    files: [
+      {
+        path: 'combobox/combobox-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-1')),
+    source: '/registry-examples-duckui/src/combobox',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'combobox-2': {
+    name: 'combobox-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover', 'command'],
+    files: [
+      {
+        path: 'combobox/combobox-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-2')),
+    source: '/registry-examples-duckui/src/combobox',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'combobox-3': {
+    name: 'combobox-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover', 'command'],
+    files: [
+      {
+        path: 'combobox/combobox-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-3')),
+    source: '/registry-examples-duckui/src/combobox',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'combobox-4': {
+    name: 'combobox-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover', 'command'],
+    files: [
+      {
+        path: 'combobox/combobox-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-4')),
+    source: '/registry-examples-duckui/src/combobox',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'combobox-5': {
+    name: 'combobox-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover', 'command'],
+    files: [
+      {
+        path: 'combobox/combobox-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-5')),
+    source: '/registry-examples-duckui/src/combobox',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'combobox-6': {
+    name: 'combobox-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover', 'command'],
+    files: [
+      {
+        path: 'combobox/combobox-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-6')),
+    source: '/registry-examples-duckui/src/combobox',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'collapsible-1': {
+    name: 'collapsible-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['collapsible'],
+    files: [
+      {
+        path: 'collapsible/collapsible-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/collapsible/collapsible-1')),
+    source: '/registry-examples-duckui/src/collapsible',
     category: '',
     subcategory: '',
     chunks: [],
