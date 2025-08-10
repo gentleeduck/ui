@@ -5,7 +5,6 @@ import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import { VariantProps } from '@gentleduck/variants'
 import type React from 'react'
-import { Button } from '../button'
 
 function Tooltip({
   skipDelayDuration,
@@ -17,17 +16,9 @@ function Tooltip({
 
 function TooltipTrigger({
   children,
-  variant = 'outline',
-  asChild = false,
   ...props
-}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger> & React.ComponentPropsWithRef<typeof Button>) {
-  return (
-    <TooltipPrimitive.Trigger asChild>
-      <Button {...props} variant={variant} asChild={asChild}>
-        {children}
-      </Button>
-    </TooltipPrimitive.Trigger>
-  )
+}: Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>) {
+  return <TooltipPrimitive.Trigger {...props}>{children}</TooltipPrimitive.Trigger>
 }
 
 function TooltipContent({

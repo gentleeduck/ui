@@ -7,7 +7,7 @@ import React from 'react'
 
 export default function PopoverDemo() {
   return (
-    <Popover placement="right">
+    <Popover>
       <PopoverTrigger>Open popover</PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="grid gap-4">

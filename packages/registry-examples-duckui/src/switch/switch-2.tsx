@@ -32,7 +32,7 @@ export default function SwitchForm() {
     toast.info(
       <div>
         <h4 className="font-medium text-lg">You submitted the following values:</h4>
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        <pre className="mt-2 w-[270px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       </div>,

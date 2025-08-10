@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Calendar } from '@gentleduck/registry-ui-duckui/calendar'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
@@ -18,14 +17,12 @@ export default function CalendarDemo() {
         <Label htmlFor="date-picker" className="px-1">
           Date
         </Label>
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button variant="outline" id="date-picker" className="w-32 justify-between font-normal">
-              {date ? date.toLocaleDateString() : 'Select date'}
-              <ChevronDownIcon />
-            </Button>
+        <Popover open={open} onOpenChange={setOpen} placement="top-start">
+          <PopoverTrigger variant="outline" id="date-picker" className="w-34 justify-between font-normal">
+            {date ? date.toLocaleDateString() : 'Select date'}
+            <ChevronDownIcon />
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+          <PopoverContent className="w-auto overflow-hidden p-0">
             <Calendar
               mode="single"
               selected={date}
@@ -38,7 +35,7 @@ export default function CalendarDemo() {
           </PopoverContent>
         </Popover>
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex w-34 flex-col gap-3">
         <Label htmlFor="time-picker" className="px-1">
           Time
         </Label>
@@ -47,7 +44,7 @@ export default function CalendarDemo() {
           id="time-picker"
           step="1"
           defaultValue="10:30:00"
-          className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+          className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
         />
       </div>
     </div>

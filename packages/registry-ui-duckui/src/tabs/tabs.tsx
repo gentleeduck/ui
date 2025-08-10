@@ -1,6 +1,6 @@
 'use client'
 
-import { Mount } from '@gentleduck/duck-primitives/mount'
+import { Mount, MountMinimal } from '@gentleduck/duck-primitives/mount'
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
 
@@ -117,10 +117,11 @@ const TabsContent = ({
   forceMount?: boolean
 }) => {
   const { activeItem } = useTabs()
+  const localRef = React.useRef<HTMLDivElement>(null)
 
   return (
     <div
-      ref={ref}
+      ref={localRef}
       data-value={value}
       role="tabpanel"
       tabIndex={-1}
@@ -133,9 +134,9 @@ const TabsContent = ({
       )}
       {...props}
       duck-tabs-content="">
-      <Mount forceMount={forceMount} open={activeItem === value} ref={null}>
+      <MountMinimal forceMount={forceMount} open={activeItem === value} ref={null}>
         {children}
-      </Mount>
+      </MountMinimal>
     </div>
   )
 }

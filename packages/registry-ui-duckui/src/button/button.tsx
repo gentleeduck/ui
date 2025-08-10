@@ -29,7 +29,7 @@ function Button({
 }: ButtonProps): React.JSX.Element {
   const Component = (asChild ? Slot : 'button') as React.ElementType
 
-  const Button = (
+  return (
     <Component
       {...props}
       ref={ref}
@@ -43,13 +43,13 @@ function Button({
       )}
       type={type}
       disabled={loading ?? disabled}>
-      {loading ? <Loader className="animate-spin" /> : icon}
-      {!isCollapsed && children}
-      {!isCollapsed && secondIcon && secondIcon}
+      <>
+        {loading ? <Loader className="animate-spin" /> : icon}
+        {!isCollapsed && children}
+        {!isCollapsed && secondIcon && secondIcon}
+      </>
     </Component>
   )
-
-  return Button
 }
 
 /**

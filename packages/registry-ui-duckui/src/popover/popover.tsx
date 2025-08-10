@@ -4,17 +4,11 @@ import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import type { VariantProps } from '@gentleduck/variants'
 import type * as React from 'react'
-import { Button } from '../button'
 
 const Popover = PopoverPrimitive.Root
 
-function PopoverTrigger({
-  children,
-  variant = 'outline',
-  asChild = false,
-  ...props
-}: React.ComponentPropsWithRef<typeof Button>) {
-  return <PopoverPrimitive.Trigger asChild></PopoverPrimitive.Trigger>
+function PopoverTrigger({ children, ...props }: React.ComponentPropsWithRef<typeof PopoverPrimitive.Trigger>) {
+  return <PopoverPrimitive.Trigger {...props}>{children}</PopoverPrimitive.Trigger>
 }
 
 function PopoverContent({
