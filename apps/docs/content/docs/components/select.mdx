@@ -85,3 +85,110 @@ import {
 ### Form
 
 <ComponentPreview name="select-3" />
+
+## API Reference
+
+### **Select**
+
+* **`value`** (`string`, optional): Current selected value of the select component.
+* **`onValueChange`** (`(value: string) => void`, optional): Callback fired when the selected value changes.
+* **`scrollable`** (`boolean`, optional, default: `false`): Enables scroll buttons and makes the dropdown content scrollable.
+* **`...props`** (`React.ComponentPropsWithRef<typeof Popover>`): Props forwarded to the underlying Popover component.
+
+**Behavior:**
+Wraps the select dropdown in a Popover. Manages open state and selection context.
+
+---
+
+### **SelectWrapper**
+
+* Internal component managing refs, selection state, and event handlers.
+* Uses context `SelectContext` to expose state and refs.
+* Handles initialization of items and groups, manages highlighting and selection.
+
+---
+
+### **SelectTrigger**
+
+* **`customIndicator`** (`React.ReactNode`, optional): Custom icon to display on the trigger instead of the default ChevronDown.
+* **`...props`** (`React.ComponentPropsWithRef<typeof PopoverTrigger>`): Props forwarded to the PopoverTrigger component.
+
+**Behavior:**
+Button that toggles the dropdown popover. Displays current selection and indicator icon.
+
+---
+
+### **SelectContent**
+
+* **`...props`** (`React.ComponentPropsWithRef<typeof PopoverContent>`): Props forwarded to the PopoverContent component.
+
+**Behavior:**
+Renders the dropdown panel, with optional scroll buttons and scrollable container if `scrollable` is enabled.
+
+---
+
+### **SelectGroup**
+
+* **`...props`** (`React.HTMLProps<HTMLUListElement>`): Props forwarded to the `<ul>` element.
+
+---
+
+### **SelectValue**
+
+* **`placeholder`** (`string`, optional): Text to show when no value is selected.
+* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Props forwarded to the container `<div>`.
+
+**Behavior:**
+Displays the selected value or placeholder text.
+
+---
+
+### **SelectLabel**
+
+* **`htmlFor`** (`string`): ID of the associated input or control.
+* **`...props`** (`React.HTMLProps<HTMLLabelElement>`): Props forwarded to the `<label>` element.
+
+---
+
+### **SelectItem**
+
+* **`value`** (`string`): The value representing this item.
+* **`disabled`** (`boolean`, optional): Whether the item is disabled.
+* **`props`** (`React.HTMLProps<HTMLLIElement>`): Props forwarded to the `<li>` element.
+
+**Behavior:**
+Selectable item inside the dropdown list. Shows checkmark if selected.
+
+---
+
+### **SelectSeparator**
+
+* **`props`** (`React.HTMLProps<HTMLDivElement>`): Props forwarded to the separator `<div>`.
+
+**Behavior:**
+Visual separator between groups or items.
+
+---
+
+### **SelectScrollUpButton / SelectScrollDownButton**
+
+* **`props`** (`React.ComponentPropsWithRef<typeof Button>`): Props forwarded to the button component.
+
+**Behavior:**
+Buttons that appear when `scrollable` is enabled to scroll the dropdown list up or down.
+
+---
+
+### **SelectContext**
+
+The context exposes:
+
+* `open`: (`boolean`) Dropdown open state.
+* `value`: (`string`) Current selected value.
+* `wrapperRef`: Ref to the outer wrapper `<div>`.
+* `triggerRef`: Ref to the trigger button `<div>`.
+* `contentRef`: Ref to the scrollable dropdown content `<div>`.
+* `groupsRef`: Ref to groups `<ul>` elements.
+* `itemsRef`: Ref to the list of select items `<li>`.
+* `selectedItem`: Currently selected item DOM element.
+* `scrollable`: (`boolean`) If the dropdown is scrollable.

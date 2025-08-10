@@ -47,3 +47,16 @@ import { Label } from "@/components/ui/label"
 ```tsx
 <Label htmlFor="email">Your email address</Label>
 ```
+
+## API Reference
+
+### **Label**
+
+* **`props`** (`React.HTMLProps<HTMLLabelElement>`): Other native label props such as `htmlFor`, `children`, etc.
+
+**Behavior:**
+
+* Renders a styled `<label>` element with default font size, weight, and disabled state styles.
+* Supports merging custom classes via the `cn` utility.
+* Works well with form inputs, especially when using `peer` selectors for interactivity.
+

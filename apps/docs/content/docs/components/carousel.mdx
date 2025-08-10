@@ -297,3 +297,95 @@ export function Example() {
 />
 
 See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for more information on using plugins.
+
+## API Reference
+
+### **Carousel**
+
+* **`opts`** (`CarouselOptions`, optional): Configuration options passed to `embla-carousel`.
+* **`plugins`** (`CarouselPlugin`, optional): Array of Embla plugins.
+* **`orientation`** (`'horizontal' | 'vertical'`, default: `'horizontal'`): Carousel axis direction.
+* **`setApi`** (`(api: CarouselApi) => void`, optional): Callback to expose the Embla API.
+* **`...props`** (`React.HTMLProps<HTMLDivElement>`): All other standard `<div>` props.
+
+**Behavior:**
+
+* Provides context (`CarouselContext`) for child components.
+* Handles keyboard navigation (Left/Right arrows).
+* Tracks whether previous/next scroll is possible.
+
+---
+
+### **CarouselContent**
+
+* **`props`** (`React.HTMLProps<HTMLDivElement>`): Standard `<div>` props.
+
+**Behavior:**
+
+* Wraps slides in an Embla scroll container.
+* Adjusts layout based on `orientation` (horizontal or vertical).
+
+---
+
+### **CarouselItem**
+
+* **`props`** (`React.HTMLProps<HTMLDivElement>`): Standard `<div>` props.
+
+**Behavior:**
+
+* Represents a single slide with `role="group"` and `aria-roledescription="slide"`.
+* Uses spacing (`pl-4` or `pt-4`) depending on `orientation`.
+
+---
+
+### **CarouselPrevious**
+
+* **`variant`** (`string`, default: `'outline'`): Variant prop for the `Button` component.
+* **`size`** (`string`, default: `'icon'`): Size prop for the `Button` component.
+* **`...props`** (`React.ComponentProps<typeof Button>`): All other `Button` props.
+
+**Behavior:**
+
+* Scrolls to the previous slide when clicked.
+* Disabled when `canScrollPrev` is false.
+* Positioned absolutely relative to carousel orientation.
+
+---
+
+### **CarouselNext**
+
+* **`variant`** (`string`, default: `'outline'`): Variant prop for the `Button` component.
+* **`size`** (`string`, default: `'icon'`): Size prop for the `Button` component.
+* **`...props`** (`React.ComponentProps<typeof Button>`): All other `Button` props.
+
+**Behavior:**
+
+* Scrolls to the next slide when clicked.
+* Disabled when `canScrollNext` is false.
+* Positioned absolutely relative to carousel orientation.
+
+---
+
+### **Types**
+
+```ts
+type CarouselApi = UseEmblaCarouselType[1]
+type CarouselOptions = Parameters<typeof useEmblaCarousel>[0]
+type CarouselPlugin = Parameters<typeof useEmblaCarousel>[1]
+
+type CarouselProps = {
+  opts?: CarouselOptions
+  plugins?: CarouselPlugin
+  orientation?: 'horizontal' | 'vertical'
+  setApi?: (api: CarouselApi) => void
+}
+
+type CarouselContextProps = {
+  carouselRef: ReturnType<typeof useEmblaCarousel>[0]
+  api: CarouselApi
+  scrollPrev: () => void
+  scrollNext: () => void
+  canScrollPrev: boolean
+  canScrollNext: boolean
+} & CarouselProps
+```

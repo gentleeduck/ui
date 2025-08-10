@@ -22,8 +22,6 @@ function Sheet({ closeButton = true, ...props }: React.ComponentPropsWithoutRef<
 
 const SheetTrigger = DialogTrigger
 
-const SheetClose = SheetTrigger
-
 function SheetContent({
   children,
   className,
@@ -104,93 +102,6 @@ const SheetTitle = DialogTitle
  */
 const SheetDescription = DialogDescription
 
-// /**
-//  * `SheetWrapper` is a React component that wraps a `Sheet` component and renders children elements
-//  * conditionally based on the screen size. If the screen width is 768px or greater, a `Drawer` is rendered; otherwise,
-//  * a `Sheet` is rendered.
-//  * @param {SheetWrapperProps} props - The properties passed to the component.
-//  * @returns {React.JSX.Element} The rendered `Drawer` or `Sheet` component.
-//  */
-// function SheetWrapper({
-//   trigger,
-//   content,
-//   duckHook,
-//   ...props
-// }: SheetWrapperProps): React.JSX.Element {
-//   const {
-//     className: subContentClassName,
-//     children: subcontentChildren,
-//     _header,
-//     _footer,
-//     ...subContentProps
-//   } = content
-//   const {
-//     className: subHeaderClassName,
-//     _description: subDescription,
-//     _title: subTitle,
-//     ...subHeaderProps
-//   } = _header ?? {}
-//   const {
-//     className: subFooterClassName,
-//     _submit: _subSubmit,
-//     _cancel: _subCancel,
-//     ...subFooterProps
-//   } = _footer ?? {}
+const SheetClose = DialogClose
 
-//   return (
-//     <Sheet
-//       open={duckHook?.state.shape}
-//       onOpenChange={duckHook?.handleOpenChange}
-//       {...props}
-//     >
-//       <SheetTrigger {...trigger} />
-//       <SheetContent
-//         className={cn('flex flex-col w-full h-full', subContentClassName)}
-//         {...subContentProps}
-//       >
-//         <div data-role-wrapper className='flex flex-col gap-4 w-full h-full'>
-//           {_header && (
-//             <SheetHeader {...subHeaderProps}>
-//               {subHeaderProps.children ? (
-//                 subHeaderProps.children
-//               ) : (
-//                 <>
-//                   <SheetTitle {...subTitle} />
-//                   <SheetDescription {...subDescription} />
-//                 </>
-//               )}
-//             </SheetHeader>
-//           )}
-//           {subcontentChildren}
-//           <SheetFooter
-//             className={cn('gap-2', subFooterClassName)}
-//             {...subFooterProps}
-//           >
-//             <SheetClose asChild {..._subCancel} />
-//             <div
-//               {..._subSubmit}
-//               className={cn('ml-0', _subSubmit?.className)}
-//               onClick={(e) => {
-//                 duckHook?.setState({ shape: false, alert: false })
-//                 _subSubmit?.onClick?.(e)
-//               }}
-//             />
-//           </SheetFooter>
-//         </div>
-//       </SheetContent>
-//     </Sheet>
-//   )
-// }
-// SheetWrapper.displayName = 'SheetWrapper'
-
-export {
-  Sheet,
-  SheetTrigger,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
-  // SheetWrapper,
-}
+export { Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription }

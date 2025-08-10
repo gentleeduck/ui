@@ -1,14 +1,17 @@
 export function lockScrollbar(isLocked: boolean) {
   const { documentElement, body } = document
 
-  // documentElement.style.scrollbarGutter = 'stable'
-  body.style.overflow = isLocked ? 'hidden' : 'auto'
-  // document.body.style.paddingRight = isLocked ? '5px' : ''
+  if (isLocked) {
+    // Reserve scrollbar space so width doesn't change
+    documentElement.style.scrollbarGutter = 'stable'
+    body.style.overflow = 'hidden'
+  } else {
+    documentElement.style.scrollbarGutter = ''
+    body.style.overflow = ''
+  }
 }
 
 export function cleanLockScrollbar() {
-  //NOTE: consider leaving this as it is. we might consider using it in the future.
-  // document.documentElement.style.scrollbarGutter = "";
+  document.documentElement.style.scrollbarGutter = ''
   document.body.style.overflow = ''
-  // document.body.style.paddingRight = '8px'
 }

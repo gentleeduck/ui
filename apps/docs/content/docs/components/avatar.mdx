@@ -54,3 +54,33 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
   <AvatarFallback>CN</AvatarFallback>
 </Avatar>
 ```
+
+## API Reference
+
+### **Avatar**
+
+* **`alt`** (`string`, optional): Alternate text for the avatar image, also used for fallback initials.
+* **`className`** (`string`, optional): Additional class names for styling the avatar container.
+* **`ref`** (`React.Ref<HTMLImageElement>`, optional): Ref for the underlying `img` element.
+* **`...props`** (`React.HTMLProps<HTMLImageElement>`): Native `img` element props.
+
+**Behavior:**
+
+* Displays an image inside a circular container.
+* If the image fails to load, shows a fallback with the first two characters of `alt`.
+
+---
+
+### **AvatarGroup**
+
+* **`imgs`** (`React.HTMLProps<HTMLImageElement>[]`, required): Array of props for each avatar image.
+* **`maxVisible`** (`number`, optional): Maximum number of avatars to display before showing overflow count. Default: `3`.
+* **`className`** (`string`, optional): Additional class names for styling the avatar group container.
+* **`ref`** (`React.Ref<HTMLDivElement>`, optional): Ref for the container element.
+* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Native `div` element props.
+
+**Behavior:**
+
+* Displays up to `maxVisible` avatars side-by-side with overlapping spacing.
+* If there are more avatars than `maxVisible`, shows a `+N` overflow indicator.
+

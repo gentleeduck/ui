@@ -128,19 +128,97 @@ A non-dismissible drawer For cases when your drawer has to be always visible, No
 
 ## API Reference
 
-### Drawer Component Props
+### **Drawer**
 
-- **`shouldScaleBackground`** (`boolean`, default: `true`) - Scales the background when the drawer opens. Requires `[data-vaul-drawer-wrapper]`.
-- **`closeThreshold`** (`number`) - Value (0-1) determining when the drawer should close.
-- **`scrollLockTimeout`** (`number`, default: `500`) - Delay in milliseconds before allowing drag after scrolling.
-- **`snapPoints`** (`array`) - Defines the drawer's snap points in percentages or pixels.
-- **`fadeFromIndex`** (`number`) - Defines from which snap point the fade effect begins.
-- **`modal`** (`boolean`, default: `true`) - Allows interaction with elements outside the drawer when `false`.
-- **`handleOnly`** (`boolean`, default: `false`) - Restricts drawer dragging to `<Drawer.Handle />`.
-- **`direction`** (`string`, default: `bottom`) - Specifies drawer direction (`top`, `bottom`, `left`, `right`).
-- **`preventScrollRestoration`** (`boolean`, default: `true`) - Prevents scroll restoration when navigating inside the drawer.
-- **`disablePreventScroll`** (`boolean`, default: `true`) - Disables page scroll prevention when the drawer is open.
-- **`noBodyStyles`** (`boolean`, default: `false`) - Prevents Vaul from applying styles to the body.
-- **`setBackgroundColorOnScale`** (`boolean`, default: `true`) - Controls background color change when scaling the drawer.
-- **`[data-vaul-no-drag]`** - Prevents dragging the drawer when interacting with specific elements.
+* **`shouldScaleBackground`** (`boolean`, optional, default: `true`): Whether to scale the background when drawer is open.
+* **`...props`** (`React.ComponentProps<typeof DrawerPrimitive.Root>`): Native props for the drawer root.
 
+**Behavior:**
+
+* Root drawer component wrapping all drawer logic using `vaul`'s `Drawer.Root`.
+* Controls open state and background scaling.
+
+---
+
+### **DrawerTrigger**
+
+* Wrapper around `DrawerPrimitive.Trigger`.
+* Used to toggle the drawer open or closed.
+
+---
+
+### **DrawerPortal**
+
+* Wrapper around `DrawerPrimitive.Portal`.
+* Renders drawer content in a React Portal.
+
+---
+
+### **DrawerClose**
+
+* Wrapper around `DrawerPrimitive.Close`.
+* Closes the drawer when clicked.
+
+---
+
+### **DrawerOverlay**
+
+* **`props`** (`React.ComponentPropsWithRef<typeof DrawerPrimitive.Overlay>`): Native overlay props.
+
+**Behavior:**
+
+* Fullscreen semi-transparent backdrop behind drawer content.
+
+---
+
+### **DrawerContent**
+
+* **`overlay`** (`React.ComponentPropsWithRef<typeof DrawerOverlay>`, optional): Props forwarded to overlay.
+* **`props`** (`React.ComponentPropsWithRef<typeof DrawerPrimitive.Content>`): Native drawer content props.
+
+**Behavior:**
+
+* Contains the drawer panel content and overlay wrapped inside a portal.
+* Has a drag handle bar for UX.
+
+---
+
+### **DrawerHeader**
+
+* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): Native div props.
+
+**Behavior:**
+
+* Container for drawer header section, usually title and description.
+* Grid layout with spacing.
+
+---
+
+### **DrawerFooter**
+
+* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): Native div props.
+
+**Behavior:**
+
+* Footer container for buttons or actions.
+* Flex layout with spacing.
+
+---
+
+### **DrawerTitle**
+
+* **`props`** (`React.ComponentPropsWithRef<typeof DrawerPrimitive.Title>`): Native title props.
+
+**Behavior:**
+
+* Styled heading for drawer title.
+
+---
+
+### **DrawerDescription**
+
+* **`props`** (`React.ComponentPropsWithRef<typeof DrawerPrimitive.Description>`): Native description props.
+
+**Behavior:**
+
+* Styled text description under the title.

@@ -50,3 +50,18 @@ import { Progress } from "@/components/ui/progress"
 ```tsx
 <Progress value={33} />
 ```
+
+## API Reference
+
+### **Progress**
+
+* **`value`** (`number`, required): Progress value from `0` to `100` representing the completion percentage.
+* **`...props`** (`Omit<React.HTMLProps<HTMLDivElement>, 'value'>`): Other native div props.
+
+**Behavior:**
+
+* Renders a progress bar container with a colored inner bar representing progress.
+* Uses `aria` attributes for accessibility (`role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`).
+* The inner bar's width is animated via CSS `transform: translateX` for smooth transitions.
+* The container is styled with rounded corners, overflow hidden, and background color for progress track.
+

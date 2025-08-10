@@ -12,7 +12,7 @@ component: true
 
 ## Installation
 
-<Tabs>
+<Tabs defaultValue="cli">
 
 <TabsList>
   <TabsTrigger value="cli">CLI</TabsTrigger>
@@ -33,7 +33,7 @@ npx duck-ui@latest add dialog
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/duck-primitives
+npm install @gentleduck/duck-primitives @gentleduck/motion
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -115,3 +115,72 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
   </DialogContent>
 </Dialog>
 ```
+
+## API Reference
+
+### **Dialog**
+
+* **`closeButton`** (`boolean`, optional): Whether to display a close button. Default: `true`.
+* **`...props`** (`DialogPrimitive.Root` props): All props supported by `DialogPrimitive.Root`.
+
+---
+
+### **DialogTrigger**
+
+* **`children`** (`React.ReactNode`): Content to render inside the trigger button.
+* **`...props`** (`Omit<DialogPrimitive.Trigger, 'size' | 'asChild'> & Omit<Button, 'asChild'>`): Props from both `DialogPrimitive.Trigger` and `Button` components.
+
+---
+
+### **DialogCloseX**
+
+* **`size`** (`number`, optional): Icon size in pixels. Default: `16`.
+* **`children`** (`React.ReactNode`, optional): Custom content instead of the default `<X />` icon.
+* **`...props`** (`React.HTMLProps<HTMLButtonElement>`): Native button props.
+
+---
+
+### **DialogContent**
+
+* **`renderOnce`** (`boolean`, optional): Whether to render the content only once. Default: `false`.
+* **`overlay`** (`string`, optional): Overlay animation variant. Default: `'default'`.
+* **`closedby`** (`string`, optional): How the dialog can be closed. Default: `'any'`.
+* **`animation`** (`string`, optional): Dialog animation style. Default: `'default'`.
+* **`className`** (`string`, optional): Additional class names.
+* **`children`** (`React.ReactNode`): Dialog inner content.
+* **`...props`** (`DialogContentProps`): All props from `DialogContentProps`.
+
+---
+
+### **DialogHeader**
+
+* **`className`** (`string`, optional): Additional class names.
+* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Native `div` element props.
+
+---
+
+### **DialogFooter**
+
+* **`className`** (`string`, optional): Additional class names.
+* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Native `div` element props.
+
+---
+
+### **DialogTitle**
+
+* **`className`** (`string`, optional): Additional class names.
+* **`...props`** (`React.HTMLProps<HTMLHeadingElement>`): Native heading element props.
+
+---
+
+### **DialogDescription**
+
+* **`className`** (`string`, optional): Additional class names.
+* **`...props`** (`React.HTMLProps<HTMLParagraphElement>`): Native paragraph element props.
+
+---
+
+### **DialogClose**
+
+* **Alias of**: `DialogTrigger`.
+

@@ -9,7 +9,7 @@ import {
   MoreHorizontal,
 } from 'lucide-react'
 import type * as React from 'react'
-import { Button, ButtonProps, buttonVariants } from '../button'
+import { Button, buttonVariants } from '../button'
 import type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
 
 const Pagination = ({ className, ...props }: React.HTMLProps<HTMLHeadElement>) => (

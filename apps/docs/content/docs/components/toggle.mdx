@@ -103,8 +103,34 @@ import { Toggle } from '@/components/ui/toggle'
 
 ## API Reference
 
-### **Toggle Properties**
+### **Toggle**
 
-* **`variant`** (`'default' | 'outline'`, optional): Defines the visual style of the toggle.
-* **`size`** (`'default' | 'sm' | 'lg'`, optional): Sets the size of the toggle button.
-* **`...props`** (`Omit<React.HTMLProps<HTMLInputElement>, 'size'> & VariantProps<typeof toggleVariants>`): Additional props are forwarded to the underlying Radix `Toggle` component.
+* **`value`** (`string`, required): The value associated with the toggle input.
+* **`variant`** (`'default' | 'outline'`, optional, default: `'default'`): Visual style variant of the toggle.
+* **`size`** (`'default' | 'sm' | 'lg'`, optional, default: `'default'`): Size variant of the toggle.
+* **`disabled`** (`boolean`, optional, default: `false`): Disables the toggle if set to `true`.
+* **`...props`** (`React.HTMLProps<HTMLInputElement>`): Additional native input props forwarded to the hidden `<input>`.
+
+---
+
+**Behavior:**
+Renders a visually styled toggle switch wrapping a native checkbox `<input>` (hidden and invisible). The toggle visually updates based on the input's checked and disabled states using CSS selectors. The component supports size and variant styling via `toggleVariants`, which uses `cva` for variant management.
+
+---
+
+### **toggleVariants**
+
+A variant style function built with `cva` that defines CSS class names based on:
+
+* **`variant`**:
+
+  * `default`: Transparent background, text colors change on hover and checked states.
+  * `outline`: Adds border, transparent background, changes colors on hover and when checked.
+
+* **`size`**:
+
+  * `default`: Height 40px (h-10), minimum width 40px (min-w-10), padding x 12px (px-3).
+  * `sm`: Height 36px (h-9), min width 36px, padding x 10px.
+  * `lg`: Height 44px (h-11), min width 44px, padding x 20px.
+
+Includes hover, focus, checked, and disabled styling, as well as child SVG sizing and pointer events management.

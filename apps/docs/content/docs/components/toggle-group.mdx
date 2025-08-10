@@ -107,17 +107,30 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 ## API Reference
 
-### **ToggleGroup Props**
+### **ToggleGroup**
 
-* **`variant`** (`'default' | 'outline'`, optional):Defines the visual style of the toggle group items.
-* **`size`** (`'default' | 'sm' | 'lg'`, optional): Sets the size of the toggle group items.
-* **`...props`** (`React.ComponentPropsWithoutRef<typeof ToggleGroup>`):  Additional props are forwarded to the underlying Radix `ToggleGroup` component.
+* **`variant`** (`string`, optional, default: `'default'`): Visual style variant for the toggles (passed down to items).
+* **`size`** (`string`, optional): Size variant for the toggles (passed down to items).
+* **`type`** (`'single' | 'multiple'`, optional): Determines selection behavior. `'single'` allows only one toggle selected at a time; `'multiple'` allows multiple toggles selected.
+* **`onValueChange`** (`(value: string) => void`, optional): Callback invoked when a toggle item is selected or deselected.
+* **`...props`** (`React.HTMLProps<HTMLUListElement>`): Additional native props forwarded to the root `<ul>` element.
 
 ---
 
-### **ToggleGroupItem Props**
+**Behavior:**
+Renders a group of toggle items as a flex container. Manages internal refs for all toggle items and tracks selected toggles depending on the `type` (`single` or `multiple`). Selection state is synchronized via ARIA attributes and the native `checked` property on underlying inputs. The `onValueChange` callback is called with the value of the selected toggle(s). Supports `variant` and `size` styling passed down to child toggles.
 
-* **`variant`** (`'default' | 'outline'`, optional): Defines the visual style of the individual toggle item. Inherits from `ToggleGroup` if not specified.
-* **`size`** (`'default' | 'sm' | 'lg'`, optional): Sets the size of the individual toggle item. Inherits from `ToggleGroup` if not specified.
-* **`...props`** (`React.ComponentPropsWithoutRef<typeof ToggleGroup>`): Additional props are forwarded to the underlying Radix `ToggleGroup` component.
+---
+
+### **ToggleGroupItem**
+
+* **`variant`** (`string`, optional): Visual style variant for the toggle item.
+* **`size`** (`string`, optional): Size variant for the toggle item.
+* **`value`** (`string`, required): The unique value identifying this toggle item.
+* **`...props`** (`React.ComponentProps<typeof Toggle.Toggle>`): Additional props forwarded to the internal `Toggle.Toggle` component.
+
+---
+
+**Behavior:**
+Represents an individual toggle item inside a `ToggleGroup`. Receives style and behavior context from the parent group via React context. The item updates the group's selection state on interaction and synchronizes its own checked state and ARIA attributes accordingly. The `duck-toggle-group-item` attribute is added for targeting.
 

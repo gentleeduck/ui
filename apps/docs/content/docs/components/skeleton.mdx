@@ -56,3 +56,12 @@ import { Skeleton } from "@/components/ui/skeleton"
   name="skeleton-2"
   description="A card with skeleton showing a loading state."
 />
+
+## API Reference
+
+### **Skeleton**
+
+* **`props`** (`React.ComponentProps<'div'>`): All other standard div props are forwarded to the root `<div>` element.
+
+**Behavior:**
+Renders a `div` with a pulsing animation (`animate-pulse`), rounded corners (`rounded-md`), and a muted background (`bg-muted`). Used as a placeholder UI skeleton while content is loading. It is marked with `aria-hidden="true"` for accessibility and includes a custom attribute `duck-skeleton` for styling or targeting.

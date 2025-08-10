@@ -209,3 +209,80 @@ It displays a dropdown on desktop and a drawer on mobile.
   className="[&_.preview]:p-2"
   description="A responsive breadcrumb. It displays a dropdown on desktop and a drawer on mobile."
 />
+
+
+## API Reference
+
+### **Breadcrumb**
+
+* **`separator`** (`React.ReactNode`, optional): Custom separator element between breadcrumb items. Defaults to `ChevronRight`.
+* **`...props`** (`React.ComponentPropsWithRef<'nav'>`): Native `nav` element props.
+
+**Behavior:**
+
+* Renders a `<nav>` with `aria-label="breadcrumb"` for accessibility.
+* Serves as the root wrapper for the breadcrumb navigation structure.
+
+---
+
+### **BreadcrumbList**
+
+* **`props`** (`React.ComponentPropsWithRef<'ol'>`): Native `ol` element props.
+
+**Behavior:**
+
+* Displays breadcrumb items in a flex row with spacing and wrapping support.
+
+---
+
+### **BreadcrumbItem**
+
+* **`props`** (`React.ComponentPropsWithRef<'li'>`): Native `li` element props.
+
+**Behavior:**
+
+* Represents a single breadcrumb step.
+
+---
+
+### **BreadcrumbLink**
+
+* **`asChild`** (`boolean`, optional): If `true`, uses the `Slot` component instead of rendering an `<a>` directly.
+* **`...props`** (`React.ComponentPropsWithRef<'a'>`): Native `a` element props.
+
+**Behavior:**
+
+* Renders a link for a breadcrumb step with hover styles.
+
+---
+
+### **BreadcrumbPage**
+
+* **`props`** (`React.ComponentPropsWithRef<'span'>`): Native `span` element props.
+
+**Behavior:**
+
+* Marks the current page in the breadcrumb trail.
+* Uses `aria-current="page"` and `aria-disabled="true"`.
+
+---
+
+### **BreadcrumbSeparator**
+
+* **`props`** (`React.ComponentProps<'li'>`): Native `li` element props.
+
+**Behavior:**
+
+* Visually separates breadcrumb items.
+* Uses `role="presentation"` and `aria-hidden="true"`.
+
+---
+
+### **BreadcrumbEllipsis**
+
+* **`props`** (`React.ComponentProps<'span'>`): Native `span` element props.
+
+**Behavior:**
+
+* Displays an ellipsis icon (`<MoreHorizontal />`) to indicate collapsed breadcrumb items.
+* Includes a visually hidden `"More"` label for screen readers.

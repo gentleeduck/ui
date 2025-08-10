@@ -84,47 +84,6 @@ function DrawerDescription({
   return <DrawerPrimitive.Description ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
 }
 
-function DrawerWrapper({ trigger, content, duckHook, ...props }: DrawerWrapperProps): React.JSX.Element {
-  const { className: contentClassName, children: contentChildren, _header, _footer, ...contentProps } = content
-  const { className: headerClassName, _description, _title, ...headerProps } = _header ?? {}
-  const { className: footerClassName, _submit: _subSubmit, _cancel: _subCancel, ...footerProps } = _footer ?? {}
-
-  return (
-    <Drawer open={duckHook?.state.shape} onOpenChange={duckHook?.handleOpenChange} {...props}>
-      <DrawerTrigger {...trigger} />
-      <DrawerContent className={cn('flex h-full w-full flex-col', contentClassName)} {...contentProps}>
-        <div data-role-wrapper className="flex h-full w-full flex-col gap-4">
-          {_header && (
-            <DrawerHeader {...headerProps}>
-              {headerProps.children ? (
-                headerProps.children
-              ) : (
-                <>
-                  <DrawerTitle {..._title} />
-                  <DrawerDescription {..._description} />
-                </>
-              )}
-            </DrawerHeader>
-          )}
-          {contentChildren}
-          <DrawerFooter className={cn('items-ceter flex gap-2', footerClassName)} {...footerProps}>
-            <DrawerClose asChild {..._subCancel} />
-            <div
-              {..._subSubmit}
-              className={cn('w-full', _subSubmit?.className)}
-              onClick={(e) => {
-                duckHook?.setState({ shape: false, alert: false })
-                _subSubmit?.onClick?.(e)
-              }}
-            />
-          </DrawerFooter>
-        </div>
-      </DrawerContent>
-    </Drawer>
-  )
-}
-DrawerWrapper.displayName = 'DrawerWrapper'
-
 export {
   Drawer,
   DrawerPortal,
@@ -136,5 +95,4 @@ export {
   DrawerFooter,
   DrawerTitle,
   DrawerDescription,
-  DrawerWrapper,
 }

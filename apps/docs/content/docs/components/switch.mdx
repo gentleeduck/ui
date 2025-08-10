@@ -59,3 +59,23 @@ import { Switch } from "@/components/ui/switch"
 ### Form
 
 <ComponentPreview name="switch-2" />
+
+## API Reference
+
+### **Switch**
+
+* **`className`** (`string`, optional): Additional class names to apply to the underlying checkbox input.
+* **`indicator`** (`React.ReactElement`, optional): Custom SVG or React element to render as the unchecked state indicator.
+* **`checkedIndicator`** (`React.ReactElement`, optional): Custom SVG or React element to render as the checked state indicator.
+* **`onChange`** (`(event: React.ChangeEvent<HTMLInputElement>) => void`, optional): Event handler for the native checkbox `change` event.
+* **`onCheckedChange`** (`(checked: boolean) => void`, optional): Callback called with the new checked boolean value when the switch toggles.
+* **`ref`** (`React.Ref<HTMLInputElement>`, optional): Ref forwarded to the native checkbox input element.
+* **`style`** (`React.CSSProperties`, optional): Inline styles applied to the input element.
+* **`...props`** (`React.HTMLProps<HTMLInputElement>`): Additional native input props forwarded to the checkbox input.
+
+---
+
+**Behavior:**
+Renders an accessible checkbox with `role="switch"` supporting custom SVG indicators for checked and unchecked states. Applies animated styles based on the presence of indicators and manages both native `onChange` and a boolean-based `onCheckedChange` callback.
+
+The `useSvgIndicator` hook manages which indicator SVG to show and injects styles to the input for proper display.

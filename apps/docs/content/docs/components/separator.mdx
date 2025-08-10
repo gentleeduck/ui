@@ -48,9 +48,14 @@ import { Separator } from "@/components/ui/separator"
 <Separator />
 ```
 
-
 ## API Reference
 
-### **Separator Properties**
-- **`orientation`** (`'horizontal' | 'vertical'`, optional): Sets the orientation of the separator. Default: 'horizontal'.
+### **Separator**
+
+* **`orientation`** (`'horizontal' | 'vertical'`, optional, default: `'horizontal'`): Controls the orientation of the separator line.
+* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Additional props forwarded to the root `<div>` element.
+
+**Behavior:**
+Renders an accessible separator line with appropriate ARIA role and orientation.
+By default, renders a horizontal 1px high full-width line; if `orientation` is `'vertical'`, renders a vertical 1px wide full-height line.
 

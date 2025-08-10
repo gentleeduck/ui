@@ -116,27 +116,27 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/comp
 
 ## API Reference
 
-### **Tooltip Props**
+### **Tooltip**
 
-* **`skipDelayDuration?: number`** (default: `150`): Delay in milliseconds before reopening after the tooltip closes.
-* **`delayDuration?: number`** (default: `700`): Delay in milliseconds before the tooltip appears when hovered or focused.
-* **`...props?: React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>`**: All other props from [`TooltipPrimitive.Root`](#) are passed through.
-
----
-
-### **TooltipTrigger Props**
-
-* **`variant?: string`** (default: `'outline'`): Visual style variant for the trigger button.
-* **`asChild?: boolean`** (default: `false`): If `true`, renders the trigger as a child element instead of the default `<Button>`.
-* **`children: ReactNode`**: The element or text that will trigger the tooltip.
-* **`...props?: React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger> & React.ComponentPropsWithRef<typeof Button>`**: All other props from the primitive trigger and the Button component.
+* **`skipDelayDuration`** (`boolean`, optional): If true, disables the delay before showing the tooltip.
+* **`delayDuration`** (`number`, optional): Milliseconds delay before showing the tooltip.
+* **`...props`** (`React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>`): Additional props forwarded to the underlying Tooltip root component.
 
 ---
 
-### **TooltipContent Props**
+### **TooltipTrigger**
 
-* **`animation?: VariantProps<typeof AnimDialogVariants>['animation']`** (default: `'default'`): Determines the tooltip’s entry and exit animation style.
-* **`overlay?: VariantProps<typeof AnimVariants>['overlay']`** (default: `'nothing'`): Specifies overlay appearance or absence.
-* **`className?: string`**: Additional classes to style the tooltip.
-* **`children: ReactNode`**: Tooltip content to be displayed.
-* **`...props?: React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>`**: All other props from [`TooltipPrimitive.Content`](#) are passed through.
+* **`props`** (`Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>`): Additional props forwarded to the tooltip trigger element.
+
+---
+
+### **TooltipContent**
+
+* **`animation`** (`'default' | 'nothing'`, optional, default: `'default'`): Animation variant controlling how the tooltip appears.
+* **`overlay`** (`'default' | 'nothing' | ...`, optional, default: `'nothing'`): Overlay variant controlling background overlay style (from AnimVariants).
+* **`...props`** (`React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>`): Additional props forwarded to the tooltip content container.
+
+---
+
+**Behavior:**
+Provides accessible tooltip functionality by wrapping the primitive tooltip components. Supports animation and overlay variants for styling the tooltip appearance. The tooltip content is absolutely positioned with maximum width and styled with a border, background, and padding to match popover UI standards. The trigger handles user interaction to show or hide the tooltip content.

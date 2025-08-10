@@ -6,13 +6,13 @@ import {
   offset,
   Placement,
   shift,
+  size,
   useClick,
   useDismiss,
   useFloating,
   useInteractions,
   useMergeRefs,
   useRole,
-  size,
 } from '@floating-ui/react'
 import * as React from 'react'
 import { Mount } from '../mount'

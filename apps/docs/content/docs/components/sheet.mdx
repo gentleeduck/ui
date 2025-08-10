@@ -98,3 +98,80 @@ You can adjust the size of the sheet using CSS classes:
   </SheetContent>
 </Sheet>
 ```
+
+## API Reference
+
+### **Sheet**
+
+* **`closeButton`** (`boolean`, optional, default: `true`): Whether to show the default close button on the sheet.
+* **`...props`** (`React.ComponentPropsWithoutRef<typeof SheetPrimitive.Root>`): All other props are forwarded to the underlying Sheet root component.
+
+**Behavior:**
+Renders the root container of the sheet dialog. Manages open/close state and displays the sheet overlay.
+
+---
+
+### **SheetTrigger**
+
+* **`props`** (`React.ComponentPropsWithoutRef<typeof DialogTrigger>`): All props are forwarded to the trigger element.
+
+**Behavior:**
+Renders the element that toggles the sheet open/close state. Acts as the trigger button or element.
+
+---
+
+### **SheetContent**
+
+* **`renderOnce`** (`boolean`, optional, default: `false`): Controls whether the content should only render once (currently unused).
+* **`overlay`** (`string`, optional, default: `'default'`): Animation overlay style variant.
+* **`closedby`** (`string`, optional, default: `'any'`): Close behavior (currently unused).
+* **`side`** (`string`, optional, default: `'right'`): The side from which the sheet slides in.
+* **`...props`** (`DialogContentProps & VariantProps<typeof AnimSheetVariants>`): Other props forwarded to the sheet content container.
+
+**Behavior:**
+Renders the animated content area of the sheet with overlay and slide-in animations. Wraps children in a vertical flex container with spacing.
+
+---
+
+### **SheetHeader**
+
+* **`props`** (`React.HTMLProps<HTMLDivElement>`): Other standard div props.
+
+**Behavior:**
+Renders a vertical flex container for the sheet header, typically used for titles or controls.
+
+---
+
+### **SheetFooter**
+
+* **`props`** (`React.HTMLProps<HTMLDivElement>`): Other standard div props.
+
+**Behavior:**
+Renders a flex container for the sheet footer, stacked on small screens and horizontal with spacing on larger screens.
+
+---
+
+### **SheetTitle**
+
+* **`props`** (`React.HTMLProps<HTMLHeadingElement>`): Other heading element props.
+
+**Behavior:**
+Renders the heading/title element inside the sheet header.
+
+---
+
+### **SheetDescription**
+
+* **`props`** (`React.HTMLProps<HTMLParagraphElement>`): Other paragraph element props.
+
+**Behavior:**
+Renders a description paragraph inside the sheet.
+
+---
+
+### **SheetClose**
+
+* **`props`** (`React.ComponentPropsWithoutRef<typeof DialogClose>`): Props forwarded to the close button.
+
+**Behavior:**
+Renders a button that closes the sheet when clicked.

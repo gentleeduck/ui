@@ -9,6 +9,10 @@ component: true
   description="A popover component with a form."
 />
 
+## About
+
+Drawer built with [@floating-ui/react](https://floating-ui.com/) 
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -57,3 +61,141 @@ import {
   <PopoverContent>Place content for the popover here.</PopoverContent>
 </Popover>
 ```
+
+## API Reference
+
+### **Popover**
+
+Wrapper component based on `PopoverPrimitive.Root`.
+Acts as the main container controlling the popover state.
+
+---
+
+### **PopoverTrigger**
+
+Props: `React.ComponentPropsWithRef<typeof PopoverPrimitive.Trigger>`
+Renders the element that triggers the popover when interacted with (e.g., click or hover).
+Pass children and native props as needed.
+
+---
+
+### **PopoverContent**
+
+Props:
+
+* `animation`?: `'default' | ...` (from `AnimDialogVariants['animation']`) - animation variant for popover appearance, default is `'default'`.
+* `overlay`?: `'nothing' | ...` (from `AnimVariants['overlay']`) - overlay animation variant, default is `'nothing'`.
+* `ref`?: React.Ref<HTMLDivElement> - forwarded ref to the popover content container.
+* `...props`: native props forwarded to `PopoverPrimitive.Content`.
+
+**Behavior:**
+Styled container for popover content with animation and overlay variants applied.
+Has fixed max width and height constraints and proper layering (`z-50`).
+
+---
+
+### **PopoverClose**
+
+Alias for `PopoverTrigger`. Use this component to render an element that closes the popover.
+
+---
+
+Let me know if you'd like me to generate usage examples or a detailed explanation!
+Here's a clean API reference for your **Popover** components using h3 headings:
+
+---
+
+### **Popover**
+
+Wrapper component based on `PopoverPrimitive.Root`.
+Acts as the main container controlling the popover state.
+
+---
+
+### **PopoverTrigger**
+
+Props: `React.ComponentPropsWithRef<typeof PopoverPrimitive.Trigger>`
+Renders the element that triggers the popover when interacted with (e.g., click or hover).
+Pass children and native props as needed.
+
+---
+
+### **PopoverContent**
+
+Props:
+
+* `animation`?: `'default' | ...` (from `AnimDialogVariants['animation']`) - animation variant for popover appearance, default is `'default'`.
+* `overlay`?: `'nothing' | ...` (from `AnimVariants['overlay']`) - overlay animation variant, default is `'nothing'`.
+* `ref`?: React.Ref<HTMLDivElement> - forwarded ref to the popover content container.
+* `...props`: native props forwarded to `PopoverPrimitive.Content`.
+
+**Behavior:**
+Styled container for popover content with animation and overlay variants applied.
+Has fixed max width and height constraints and proper layering (`z-50`).
+
+---
+
+### **PopoverClose**
+
+Alias for `PopoverTrigger`. Use this component to render an element that closes the popover.
+
+---
+
+### **Popover** (`Root`)
+
+Main wrapper component managing the popover state and positioning.
+Built on `usePopover` hook and React context.
+Props:
+
+* `initialOpen?: boolean` — whether popover is open initially (default: `false`)
+* `placement?: Placement` — popover placement relative to trigger (default: `'bottom'`)
+* `modal?: boolean` — whether to trap focus inside popover
+* `open?: boolean` — controlled open state
+* `onOpenChange?: (open: boolean) => void` — callback on open state change
+* `sideOffset?: number` — offset on the main axis (default: `4`)
+* `alignOffset?: number` — offset on the cross axis (default: `0`)
+* `matchWidth?: boolean` — whether popover width matches trigger width
+
+---
+
+### **PopoverTrigger** (`Trigger`)
+
+Element that toggles popover visibility.
+Supports `asChild` prop to pass any element as trigger.
+
+Props:
+All `React.HTMLProps<HTMLElement>` with:
+
+* `asChild?: boolean` — if true, clones child element to be trigger
+* forwarded ref merged with internal refs
+* manages click to toggle open state
+
+---
+
+### **PopoverContent** (`Content`)
+
+Renders the popover content within a floating portal with focus management.
+
+Props:
+
+* All native `div` props forwarded
+* Animated scaling on open/close
+* Uses `Mount` component for conditional rendering
+* Styles and positioning managed by floating-ui
+
+---
+
+### **Popover (Primitive) Components**
+
+Additionally, there are primitive wrappers if you want lower-level control:
+
+* `Popover` — alias for `PopoverPrimitive.Root`
+* `PopoverTrigger` — wraps `PopoverPrimitive.Trigger`
+* `PopoverContent` — wraps `PopoverPrimitive.Content` with animation and styling
+* `PopoverClose` — alias for `PopoverTrigger` for close buttons
+
+Props follow those of their respective `PopoverPrimitive` components with added animation and overlay variant support:
+
+* `animation?: VariantProps<typeof AnimDialogVariants>['animation']` (default: `'default'`)
+* `overlay?: VariantProps<typeof AnimVariants>['overlay']` (default: `'nothing'`)
+

@@ -1,10 +1,9 @@
 'use client'
 
-import * as React from 'react'
+import { cn } from '@gentleduck/libs/cn'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-
-import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 import { Button } from '../button'
 import type { CarouselApi, CarouselContextProps, CarouselProps } from './carousel.types'
 

@@ -103,3 +103,96 @@ const PaginationLink = ({...props }: ) => (
 **Note:** We are making updates to the cli to automatically do this for you.
 
 </Callout>
+
+## API Reference
+
+### **Pagination**
+
+* **`props`** (`React.HTMLProps<HTMLHeadElement>`): Native props forwarded to the `<nav>` element.
+
+**Behavior:**
+
+* Wrapper `<nav>` element with role `navigation` and `aria-label="pagination"`.
+* Centers the pagination content by default.
+
+---
+
+### **PaginationContent**
+
+* **`props`** (`React.HTMLProps<HTMLUListElement>`): Native props forwarded to the `<ul>` element.
+
+**Behavior:**
+
+* Displays pagination items in a horizontal flex row with gaps.
+
+---
+
+### **PaginationItem**
+
+* **`props`** (`React.HTMLProps<HTMLLIElement>`): Native props forwarded to the `<li>` element.
+
+**Behavior:**
+
+* Wraps individual pagination controls or links.
+
+---
+
+### **PaginationLink**
+
+* **`isActive`** (`boolean`, optional): Marks the link as active/current page (adds `aria-current="page"` and styles).
+* **`size`** (`'icon' | 'default' | 'sm'`, optional, default: `'icon'`): Size variant for the button style.
+* **`...props`** (`React.HTMLProps<HTMLAnchorElement>`): Native props forwarded to the `<a>` element.
+
+**Behavior:**
+
+* Styled link element representing a page number or control.
+* Uses different variants for active and inactive states.
+
+---
+
+### **PaginationPrevious**
+
+* Extends **PaginationLink** with:
+
+  * `aria-label="Go to previous page"`
+  * Shows left arrow icon and text "Previous".
+  * Uses `'default'` size and adds spacing classes.
+
+---
+
+### **PaginationNext**
+
+* Extends **PaginationLink** with:
+
+  * `aria-label="Go to next page"`
+  * Shows text "Next" and right arrow icon.
+  * Uses `'default'` size and adds spacing classes.
+
+---
+
+### **PaginationEllipsis**
+
+* **`props`** (`React.HTMLProps<HTMLSpanElement>`): Native props forwarded to the `<span>` element.
+
+**Behavior:**
+
+* Displays a non-interactive ellipsis icon with screen-reader text "More pages".
+* Used to indicate skipped page numbers.
+
+---
+
+### **PaginationWrapper**
+
+* **`wrapper`** (`React.ComponentPropsWithoutRef<typeof Pagination>`, optional): Props for the pagination container.
+* **`content`** (`React.ComponentPropsWithoutRef<typeof PaginationContent>`, optional): Props for the content list.
+* **`item`** (`React.ComponentPropsWithoutRef<typeof PaginationItem>`, optional): Props for each pagination item.
+* **`right`** (`React.ComponentPropsWithoutRef<typeof Button>`, optional): Props for the "Next" button.
+* **`maxRight`** (`React.ComponentPropsWithoutRef<typeof Button>`, optional): Props for the "Last" button.
+* **`left`** (`React.ComponentPropsWithoutRef<typeof Button>`, optional): Props for the "Previous" button.
+* **`maxLeft`** (`React.ComponentPropsWithoutRef<typeof Button>`, optional): Props for the "First" button.
+
+**Behavior:**
+
+* High-level wrapper composing first, previous, next, and last buttons with default styles.
+* Allows customizing props and classes for all internal buttons and wrappers.
+

@@ -419,3 +419,42 @@ npx duck-ui@latest add calendar-02
 ```
 
 This will install the latest version of the calendar blocks.
+
+## API Reference
+
+## **Calendar**
+
+* **`buttonVariant`** (`React.ComponentProps<typeof Button>['variant']`, optional): Variant style for the calendar’s navigation buttons. Default: `'ghost'`.
+* **`className`** (`string`, optional): Additional class names for the root calendar container.
+* **`classNames`** (`Partial<ReturnType<typeof getDefaultClassNames>>`, optional): Overrides for internal DayPicker class names.
+* **`showOutsideDays`** (`boolean`, optional): Whether to show days from the previous/next month in the current month view. Default: `true`.
+* **`captionLayout`** (`'buttons' | 'dropdown' | 'label'`, optional): Layout for the month/year caption. Default: `'label'`.
+* **`formatters`** (`DayPicker['formatters']`, optional): Custom formatting functions for dates and labels.
+* **`components`** (`DayPicker['components']`, optional): Custom component overrides for internal DayPicker parts.
+* **`...props`** (`React.ComponentProps<typeof DayPicker>`): All other `react-day-picker` props.
+
+**Behavior:**
+
+* Wraps `react-day-picker` with **GentleDuck** styles and design system tokens.
+* Custom navigation icons (`ChevronLeftIcon`, `ChevronRightIcon`, `ChevronDownIcon`).
+* Fully themeable via `classNames` and `buttonVariant`.
+* Supports date ranges, single-date selection, and week numbers.
+* Automatically focuses the currently highlighted day.
+
+---
+
+## **CalendarDayButton**
+
+* **`day`** (`DateObj`, required): The date object for this cell from `react-day-picker`.
+* **`modifiers`** (`DayModifiers`, required): Selection and state flags for the day (e.g., `selected`, `range_start`).
+* **`className`** (`string`, optional): Additional class names for styling the day button.
+* **`...props`** (`React.ComponentProps<typeof DayButton>`): Native `DayButton` props from `react-day-picker`.
+
+**Behavior:**
+
+* Uses the GentleDuck `<Button>` component for consistent button styles.
+* Supports range highlighting (`data-range-start`, `data-range-middle`, `data-range-end`).
+* Adds a unique `data-day` attribute for identifying each date cell.
+* Applies focus ring styles when the day is keyboard-focused.
+* Shows selection and range colors consistent with design system tokens.
+

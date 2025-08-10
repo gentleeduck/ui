@@ -82,3 +82,59 @@ You can use the `<Table />` component to build more complex data tables. Combine
 See the [Data Table](/docs/components/table) documentation for more information.
 
 You can also see an example of a data table in the [Tasks](/examples/tasks) demo.
+
+---
+
+## API Reference
+
+### **Table**
+
+* **`props`** (`React.ComponentProps<'table'>`): Native props forwarded to the `<table>` element.
+
+---
+
+### **TableHeader**
+
+* **`props`** (`React.ComponentProps<'thead'>`): Native props forwarded to the `<thead>` element.
+
+---
+
+### **TableBody**
+
+* **`props`** (`React.ComponentProps<'tbody'>`): Native props forwarded to the `<tbody>` element.
+
+---
+
+### **TableFooter**
+
+* **`props`** (`React.ComponentProps<'tfoot'>`): Native props forwarded to the `<tfoot>` element.
+
+---
+
+### **TableRow**
+
+* **`props`** (`React.ComponentProps<'tr'>`): Native props forwarded to the `<tr>` element.
+
+---
+
+### **TableHead**
+
+* **`props`** (`React.ComponentProps<'th'>`): Native props forwarded to the `<th>` element.
+
+---
+
+### **TableCell**
+
+* **`props`** (`React.ComponentProps<'td'>`): Native props forwarded to the `<td>` element.
+
+---
+
+### **TableCaption**
+
+* **`props`** (`React.ComponentProps<'caption'>`): Native props forwarded to the `<caption>` element.
+
+---
+
+**Behavior:**
+These components provide a styled, accessible table structure with flexible customization via `className` and props forwarding. The `Table` component wraps the native `<table>` in a div for responsive overflow. Header, body, footer, rows, heads, cells, and caption have default styling with support for hover, selection, and alignment adjustments — including special handling for checkboxes inside cells.
+

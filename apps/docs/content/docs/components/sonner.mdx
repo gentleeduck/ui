@@ -127,3 +127,54 @@ toast('Event has been created.')
 - **`classNames.actionButton`** (`string`) – Styles applied to action buttons inside the toast.
 - **`classNames.cancelButton`** (`string`) – Styles applied to cancel buttons inside the toast.
 
+
+### **SonnerUpload**
+
+* **`progress`** (`number`, required)
+  Current upload progress percentage (0–100).
+* **`attachments`** (`number`, required)
+  Number of files being uploaded.
+* **`remainingTime`** (`number`, optional)
+  Estimated remaining upload time in seconds.
+* **`onCancel`** (`(e: React.MouseEvent<HTMLButtonElement>, dismiss: (id: string) => void) => void`, optional)
+  Callback triggered when the Cancel button is clicked. Receives the click event and a function to dismiss the toast by ID.
+* **`onComplete`** (`(e: React.MouseEvent<HTMLButtonElement>, dismiss: (id: string) => void) => void`, optional)
+  Callback triggered when the Complete button is clicked. Receives the click event and a function to dismiss the toast by ID.
+
+**Behavior:**
+Renders a UI showing upload progress with animated icons, progress bar, dynamic text for number of files and remaining time, and buttons to cancel or confirm completion. The Cancel button is visible during upload; Complete button appears after upload finishes.
+
+---
+
+### **Utility Function**
+
+#### `formatTime(seconds: number): string`
+
+Formats a duration in seconds into a human-readable string:
+
+* Returns days if >= 1 day (`'Xd '`),
+* else hours if >= 1 hour (`'Xh '`),
+* else minutes if >= 1 minute (`'Xm '`),
+* else seconds (`'Xs'`).
+
+---
+
+### **Types**
+
+```ts
+export type UploadSonnerProps = {
+  progress: number
+  attachments: number
+  remainingTime?: number
+  onCancel?: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    dismiss: (id: string) => void
+  ) => void
+  onComplete?: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    dismiss: (id: string) => void
+  ) => void
+}
+
+export type ToasterProps = React.ComponentProps<typeof Sonner>
+```

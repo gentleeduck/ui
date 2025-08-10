@@ -65,3 +65,43 @@ import {
   </HoverCardContent>
 </HoverCard>
 ```
+
+## API Reference
+
+### **HoverCard**
+
+* **`skipDelayDuration`** (`boolean`, optional): Skip the delay duration before showing the card.
+* **`delayDuration`** (`number`, optional): Delay time in milliseconds before showing the card.
+* **`placement`** (`string`, optional, default: `'bottom'`): Position of the hover card relative to the trigger.
+* **`...props`** (`React.ComponentPropsWithRef<typeof HoverCardPrimitive.Root>`): Native props passed to the root component.
+
+**Behavior:**
+
+* Root component controlling hover card open state and positioning.
+
+---
+
+### **HoverCardTrigger**
+
+* **`variant`** (`string`, optional, default: `'outline'`): Variant style applied to the internal button.
+* **`asChild`** (`boolean`, optional, default: `false`): Whether to use the child as the trigger element directly.
+* **`...props`** (`React.ComponentPropsWithRef<typeof HoverCardPrimitive.Trigger>` & `React.ComponentPropsWithRef<typeof Button>`): Props forwarded to the trigger and internal button.
+
+**Behavior:**
+
+* Wraps the trigger element in a `Button` by default with configurable variant.
+* Supports forwarding refs and using a custom child element as trigger.
+
+---
+
+### **HoverCardContent**
+
+* **`animation`** (`string`, optional, default: `'default'`): Animation variant controlling content appearance, from `AnimDialogVariants`.
+* **`overlay`** (`string`, optional, default: `'nothing'`): Overlay style variant from `AnimVariants`.
+* **`...props`** (`React.ComponentPropsWithRef<typeof HoverCardPrimitive.Content>`): Native props forwarded to content.
+
+**Behavior:**
+
+* Displays the hover card panel with animations, overlay styles, and custom content.
+* Positioned absolutely with max width and styled background and border.
+

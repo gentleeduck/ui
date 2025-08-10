@@ -63,3 +63,26 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 ### Horizontal Scrolling
 
 <ComponentPreview name="scroll-area-2" />
+
+## API Reference
+
+### **ScrollArea**
+
+* **`alwaysVisible`** (`boolean`, optional`, default: `false\`): Whether the scrollbars should always be visible or only appear when scrolling.
+* **`viewportClassName`** (`string`, optional): Additional CSS classes to apply to the scroll viewport container.
+* **`orientation`** (`'vertical' | 'horizontal' | 'both'`, optional, default: `'vertical'`): Controls which scrollbars are shown and tracked: vertical, horizontal, or both.
+* **`...props`** (`React.HTMLAttributes<HTMLDivElement>`): Other native props forwarded to the outer container `<div>`.
+
+---
+
+### **Behavior**
+
+* Custom scroll area wrapper with fully controlled scrollbars.
+* Supports vertical, horizontal, or both directions.
+* Scrollbar thumbs update dynamically on scroll and resize.
+* Supports dragging the scrollbar thumbs to scroll content.
+* Scrollbar tracks respond to clicks to jump to a scroll position.
+* Scrollbars fade in on hover or stay always visible if `alwaysVisible` is set.
+* Uses internal refs to manage DOM nodes and positioning logic.
+* Handles accessibility by forwarding native `div` props.
+

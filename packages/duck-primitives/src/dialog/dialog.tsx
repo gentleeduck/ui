@@ -109,7 +109,12 @@ export function Content({
 
   return (
     <div className={String(open && 'absolute inset-0 z-50 flex min-h-screen w-full items-center justify-center')}>
-      <dialog className={className} {...prop} id={id} ref={contentRef}>
+      <dialog
+        className={className}
+        {...prop}
+        id={id}
+        ref={contentRef}
+        style={{ transform: `scale(${open ? 1 : 0.95})` }}>
         <MountMinimal ref={contentRef.current} forceMount={renderOnce} open={open}>
           {children}
           {closeButton && <DialogClose />}

@@ -72,3 +72,65 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 ### Form
 
 <ComponentPreview name="radio-group-2" />
+
+## API Reference
+
+### **RadioGroup**
+
+* **`value`** (`string`, optional): Controlled value of the selected radio item.
+* **`defaultValue`** (`string`, optional): Initial selected value when uncontrolled.
+* **`onValueChange`** (`(value: string) => void`, optional): Callback fired when selection changes.
+* **`...props`** (`React.HTMLProps<HTMLUListElement>`): Native props forwarded to the `<ul>` container.
+
+**Behavior:**
+
+* Provides context for radio items.
+* Manages selection state (controlled or uncontrolled).
+* Renders a `<ul>` with role `radiogroup`.
+* Uses internal hooks for managing click behavior and ARIA attributes.
+
+---
+
+### **RadioGroupItem**
+
+* **`value`** (`string`, required): Unique value for the radio item, also used as the element's `id`.
+* **`customIndicator`** (`React.ReactNode`, optional): Custom indicator element rendered inside the item.
+* **`...props`** (`Omit<React.HTMLProps<HTMLLIElement>, 'value'>`): Native props forwarded to the `<li>` element.
+
+**Behavior:**
+
+* Renders a list item representing a single radio option.
+* Supports custom indicator and label.
+* Handles `aria-checked` state toggling and styling.
+* Associates label with radio input via `htmlFor` and `id`.
+
+---
+
+### **Radio**
+
+* **`indicator`** (`React.ReactElement`, optional): Custom SVG or element for unchecked state indicator.
+* **`checkedIndicator`** (`React.ReactElement`, optional): Custom SVG or element for checked state indicator.
+* **`...props`** (`React.HTMLProps<HTMLInputElement>`): Native props forwarded to the radio `<input>`.
+
+**Behavior:**
+
+* Hidden native radio input that manages selection.
+* Renders accessible, animated SVG indicators via `useSvgIndicator` hook.
+* Supports custom checked and unchecked indicators.
+* Applies animation and styling variants.
+
+---
+
+### **useRadioGroupContext**
+
+* Hook to consume the `RadioGroupContext`.
+* Throws an error if used outside of a `RadioGroup` provider.
+
+---
+
+### **useHandleRadioClick**
+
+* Hook to manage click handlers and ARIA states on radio items.
+* Accepts optional `defaultValue`, `value`, and `onValueChange` callback.
+* Returns refs to the wrapper (`<ul>`), selected item, and all items.
+

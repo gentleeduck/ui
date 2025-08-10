@@ -97,3 +97,16 @@ import { Input } from "@/components/ui/input"
 ### Form
 
 <ComponentPreview name="input-7" />
+
+## API Reference
+
+### **Input**
+
+* **`type`** (`string`, optional): The HTML input type (e.g., `'text'`, `'password'`, `'email'`).
+* **`...props`** (`React.HTMLProps<HTMLInputElement>`): Other native input props like `placeholder`, `disabled`, `value`, `onChange`, etc.
+
+**Behavior:**
+
+* Renders a fully styled HTML `<input>` element with focus, disabled, and placeholder styles.
+* Supports utility class merging using the `cn` helper.
+* Designed for flexible use in forms or standalone input fields.
