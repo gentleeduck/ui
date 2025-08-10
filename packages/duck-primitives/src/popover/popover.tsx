@@ -12,6 +12,7 @@ import {
   useInteractions,
   useMergeRefs,
   useRole,
+  size,
 } from '@floating-ui/react'
 import * as React from 'react'
 import { Mount } from '../mount'
@@ -24,6 +25,7 @@ interface PopoverOptions {
   onOpenChange?: (open: boolean) => void
   sideOffset?: number
   alignOffset?: number
+  matchWidth?: boolean
 }
 
 export function usePopover({
@@ -34,26 +36,41 @@ export function usePopover({
   onOpenChange: setControlledOpen,
   sideOffset = 4,
   alignOffset = 0,
-}: PopoverOptions = {}) {
+  matchWidth = false,
+}: PopoverOptions) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
+
+  const middleware = [
+    offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
+    flip({
+      crossAxis: placement.includes('-'),
+      fallbackAxisSideDirection: 'end',
+      padding: 5,
+    }),
+    shift({ padding: 5 }),
+  ]
+
+  if (matchWidth) {
+    middleware.push(
+      size({
+        apply({ rects, elements }) {
+          Object.assign(elements.floating.style, {
+            minWidth: `${rects.reference.width}px`,
+          })
+        },
+      }),
+    )
+  }
 
   const data = useFloating({
     placement,
     open,
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
-    middleware: [
-      offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
-      flip({
-        crossAxis: placement.includes('-'),
-        fallbackAxisSideDirection: 'end',
-        padding: 5,
-      }),
-      shift({ padding: 5 }),
-    ],
+    middleware,
   })
 
   const context = data.context

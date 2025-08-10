@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
@@ -8,7 +9,9 @@ import React from 'react'
 export default function PopoverDemo() {
   return (
     <Popover>
-      <PopoverTrigger>Open popover</PopoverTrigger>
+      <PopoverTrigger asChild>
+        <Button variant="outline">Open popover</Button>
+      </PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="grid gap-4">
           <div className="space-y-2">

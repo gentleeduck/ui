@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import * as React from 'react'
 
 export default function CalendarDemo() {
-  const [dropdown, setDropdown] = React.useState<React.ComponentProps<typeof Calendar>['captionLayout']>('dropdown')
+  const [dropdown, setDropdown] = React.useState<React.ComponentProps<typeof Calendar>['captionLayout']>()
   const [date, setDate] = React.useState<Date | undefined>(new Date(2025, 5, 12))
 
   return (
@@ -28,10 +28,8 @@ export default function CalendarDemo() {
           value={dropdown}
           onValueChange={(value) => setDropdown(value as React.ComponentProps<typeof Calendar>['captionLayout'])}
           placement="top-start">
-          <SelectTrigger asChild>
-            <Button id="dropdown" size="sm" className="w-full bg-background">
-              <SelectValue placeholder="Dropdown" />
-            </Button>
+          <SelectTrigger id="dropdown" className="w-full bg-background">
+            <SelectValue placeholder="Month and Year" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="dropdown">Month and Year</SelectItem>

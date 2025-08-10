@@ -15,14 +15,16 @@ function PopoverContent({
   children,
   className,
   animation = 'default',
+  ref,
   overlay = 'nothing',
   ...props
-}: React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> & {
+}: React.ComponentPropsWithRef<typeof PopoverPrimitive.Content> & {
   animation?: VariantProps<typeof AnimDialogVariants>['animation']
   overlay?: VariantProps<typeof AnimVariants>['overlay']
 }): React.JSX.Element {
   return (
     <PopoverPrimitive.Content
+      ref={ref}
       className={cn(
         AnimVariants({ overlay }),
         AnimDialogVariants({ animation }),

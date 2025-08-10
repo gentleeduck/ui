@@ -53,14 +53,16 @@ export default function CalendarDemo() {
               <FormLabel>Date of birth</FormLabel>
               <Popover placement="bottom-start">
                 <FormControl>
-                  <PopoverTrigger
-                    variant={'outline'}
-                    className={cn(
-                      'w-[240px] px-2 text-left font-normal [&_svg]:w-4',
-                      !field.value && 'text-muted-foreground',
-                    )}>
-                    {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
-                    <CalendarIcon className="ml-auto opacity-50" />
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={'outline'}
+                      className={cn(
+                        'w-[240px] px-2 text-left font-normal [&_svg]:w-4',
+                        !field.value && 'text-muted-foreground',
+                      )}>
+                      {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+                      <CalendarIcon className="ml-auto opacity-50" />
+                    </Button>
                   </PopoverTrigger>
                 </FormControl>
                 <PopoverContent className="w-auto p-0">

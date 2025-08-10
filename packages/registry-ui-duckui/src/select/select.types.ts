@@ -3,7 +3,7 @@ export interface SelectContextType {
   value: string
   wrapperRef: React.RefObject<HTMLDivElement | null>
   triggerRef: React.RefObject<HTMLDivElement | null>
-  contentRef: React.RefObject<HTMLDialogElement | null>
+  contentRef: React.RefObject<HTMLDivElement | null>
   groupsRef: React.RefObject<HTMLUListElement[] | null>
   itemsRef: React.RefObject<HTMLLIElement[] | null>
   selectedItem: HTMLLIElement | null

@@ -57,7 +57,7 @@ export default function CalendarDemo() {
                     <Button
                       variant={'outline'}
                       className={cn('w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}>
-                      <div className="flex items-center justify-between w-full">
+                      <div className="flex w-full items-center justify-between">
                         {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </div>

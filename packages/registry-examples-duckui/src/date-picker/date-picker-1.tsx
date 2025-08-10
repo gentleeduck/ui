@@ -16,10 +16,12 @@ export default function CalendarDemo() {
       <Label htmlFor="date" className="px-1">
         Date of birth
       </Label>
-      <Popover open={open} onOpenChange={setOpen} placement="top">
-        <PopoverTrigger variant="outline" id="date" className="w-48 justify-between font-normal">
-          {date ? date.toLocaleDateString() : 'Select date'}
-          <ChevronDownIcon />
+      <Popover open={open} onOpenChange={setOpen} placement="top-start">
+        <PopoverTrigger>
+          <Button variant="outline" id="date" className="w-48 justify-between font-normal">
+            {date ? date.toLocaleDateString() : 'Select date'}
+            <ChevronDownIcon />
+          </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0">
           <Calendar

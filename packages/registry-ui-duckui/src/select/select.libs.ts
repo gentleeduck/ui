@@ -4,6 +4,7 @@ export function initRefs(
   open: boolean,
   groupsRef: React.RefObject<HTMLUListElement[] | null>,
   wrapperRef: React.RefObject<HTMLDivElement | null>,
+  contentRef: React.RefObject<HTMLDivElement | null>,
   selectedItemRef: React.RefObject<HTMLLIElement | null>,
   itemsRef: React.RefObject<HTMLLIElement[]>,
   setSelectedItem: (item: HTMLLIElement) => void,
@@ -11,8 +12,8 @@ export function initRefs(
   value: string,
   onValueChange: (value: string) => void,
 ) {
-  const items = wrapperRef.current?.querySelectorAll('[duck-select-item]') as never as HTMLLIElement[]
-  const groups = wrapperRef.current?.querySelectorAll('[duck-select-group]') as never as HTMLUListElement[]
+  const items = contentRef.current?.querySelectorAll('[duck-select-item]') as never as HTMLLIElement[]
+  const groups = contentRef.current?.querySelectorAll('[duck-select-group]') as never as HTMLUListElement[]
 
   itemsRef.current = Array.from(items)
   groupsRef.current = Array.from(groups)
