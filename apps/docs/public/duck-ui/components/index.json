@@ -1,5 +1,5 @@
 {
-  "name": "popover-1",
+  "name": "dropdown-menu-3",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

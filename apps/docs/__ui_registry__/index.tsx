@@ -869,6 +869,68 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  menubar: {
+    name: 'menubar',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'menubar/_menubar.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'menubar/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'menubar/menubar.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/menubar')),
+    source: '/registry-ui-duckui/src/menubar',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'dropdown-menu': {
+    name: 'dropdown-menu',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'dropdown-menu/dropdown-menu-wrapper.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dropdown-menu/dropdown-menu.hooks.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dropdown-menu/dropdown-menu.libs.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dropdown-menu/dropdown-menu.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dropdown-menu/dropdown-menu.types.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dropdown-menu/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/dropdown-menu')),
+    source: '/registry-ui-duckui/src/dropdown-menu',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'accordion-1': {
     name: 'accordion-1',
     description: '',
@@ -3568,6 +3630,74 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/popover/popover-1')),
     source: '/registry-examples-duckui/src/popover',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'menubar-1': {
+    name: 'menubar-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'menubar/menubar-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/menubar/menubar-1')),
+    source: '/registry-examples-duckui/src/menubar',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'dropdown-menu-1': {
+    name: 'dropdown-menu-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'dropdown-menu/dropdown-menu-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-1')),
+    source: '/registry-examples-duckui/src/dropdown-menu',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'dropdown-menu-2': {
+    name: 'dropdown-menu-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'dropdown-menu/dropdown-menu-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-2')),
+    source: '/registry-examples-duckui/src/dropdown-menu',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'dropdown-menu-3': {
+    name: 'dropdown-menu-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'dropdown-menu/dropdown-menu-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-3')),
+    source: '/registry-examples-duckui/src/dropdown-menu',
     category: '',
     subcategory: '',
     chunks: [],

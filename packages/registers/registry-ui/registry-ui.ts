@@ -292,6 +292,20 @@ export const registry_ui: Registry = [
     root_folder: 'select',
     files: [],
   },
+  {
+    name: 'menubar',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'menubar',
+    files: [],
+  },
+  {
+    name: 'dropdown-menu',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'dropdown-menu',
+    files: [],
+  },
 
   // {
   //   name: 'typography',

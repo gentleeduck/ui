@@ -1,10 +1,8 @@
 'use client'
 
-import { cn } from '@gentleduck/libs/cn'
-import React from 'react'
-import { CodeBlockWrapper } from './code-block-wrapper'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
+import React from 'react'
 
 interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode[]
@@ -12,13 +10,13 @@ interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function ComponentSource({ children, className, ...props }: ComponentSourceProps) {
-  const defaultValue = String((children[0] as any).props.children?.[0]?.props?.__rawString__)
-    .split('\n')?.[0]
+  const defaultValue = String((children[0] as any).props.children[0].props.__rawString__)
+    .split('\n')[0]
     ?.replace('//', '') as string
 
   return (
     <Tabs className="bg-muted/40 rounded-md" defaultValue={defaultValue}>
-      <TabsList className="justify-start w-fit bg-transparent py-2 px-2 overflow-x-auto ">
+      <TabsList className="justify-start w-[622px] bg-transparent py-2 px-2 overflow-x-auto ">
         {children.map((item) => {
           const value = String((item as any).props.children[0].props.__rawString__)
             .split('\n')[0]

@@ -276,4 +276,18 @@ export const registry_examples: Registry = [
     root_folder: 'popover',
     files: [],
   },
+  {
+    name: 'menubar-examples',
+    type: 'registry:example',
+    registryDependencies: [],
+    root_folder: 'menubar',
+    files: [],
+  },
+  {
+    name: 'dropdown-menu-examples',
+    type: 'registry:example',
+    registryDependencies: [],
+    root_folder: 'dropdown-menu',
+    files: [],
+  },
 ]

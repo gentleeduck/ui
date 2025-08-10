@@ -781,6 +781,60 @@
     "source": "/registry-ui-duckui/src/select"
   },
   {
+    "name": "menubar",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "menubar",
+    "files": [
+      {
+        "path": "menubar/_menubar.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "menubar/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "menubar/menubar.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/menubar"
+  },
+  {
+    "name": "dropdown-menu",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "dropdown-menu",
+    "files": [
+      {
+        "path": "dropdown-menu/dropdown-menu-wrapper.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/dropdown-menu.hooks.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/dropdown-menu.libs.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/dropdown-menu.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/dropdown-menu.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/dropdown-menu"
+  },
+  {
     "name": "accordion-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -3094,5 +3148,57 @@
       }
     ],
     "source": "/registry-examples-duckui/src/popover"
+  },
+  {
+    "name": "menubar-1",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "menubar",
+    "files": [
+      {
+        "path": "menubar/menubar-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/menubar"
+  },
+  {
+    "name": "dropdown-menu-1",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "dropdown-menu",
+    "files": [
+      {
+        "path": "dropdown-menu/dropdown-menu-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/dropdown-menu"
+  },
+  {
+    "name": "dropdown-menu-2",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "dropdown-menu",
+    "files": [
+      {
+        "path": "dropdown-menu/dropdown-menu-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/dropdown-menu"
+  },
+  {
+    "name": "dropdown-menu-3",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "dropdown-menu",
+    "files": [
+      {
+        "path": "dropdown-menu/dropdown-menu-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/dropdown-menu"
   }
 ]

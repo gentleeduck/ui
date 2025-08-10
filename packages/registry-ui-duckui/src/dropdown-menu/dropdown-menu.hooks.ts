@@ -11,6 +11,8 @@ export const useDropdownMenuContext = () => {
 }
 
 export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean) => void, sub: boolean) {
+  const triggerRef = React.useRef<HTMLButtonElement>(null)
+  const contentRef = React.useRef<HTMLDivElement>(null)
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const groupsRef = React.useRef<HTMLDivElement[]>([])
   const itemsRef = React.useRef<HTMLLIElement[]>([])
@@ -19,12 +21,14 @@ export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean)
 
   React.useEffect(() => {
     setTimeout(() => {
-      initRefs(groupsRef, wrapperRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange, sub)
+      initRefs(groupsRef, contentRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange, sub)
     }, 0)
   }, [open])
 
   return {
     wrapperRef,
+    triggerRef,
+    contentRef,
     groupsRef,
     itemsRef,
     originalItemsRef,

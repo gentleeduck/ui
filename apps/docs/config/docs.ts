@@ -49,7 +49,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/alert-dialog',
           items: [],
-          // label: 'refacotored',
+          label: 'new',
           title: 'Alert Dialog',
         },
         {
@@ -137,6 +137,12 @@ export const docsConfig: DocsConfig = {
           title: 'Drawer',
         },
         {
+          href: '/docs/components/dropdown-menu',
+          items: [],
+          label: 'new',
+          title: 'Dropdown Menu',
+        },
+        {
           href: '/docs/components/hover-card',
           items: [],
           label: 'new',
@@ -155,13 +161,19 @@ export const docsConfig: DocsConfig = {
           title: 'Label',
         },
         {
+          href: '/docs/components/menubar',
+          items: [],
+          label: 'dddddd',
+          title: 'Menubar',
+        },
+        {
           href: '/docs/components/pagination',
           items: [],
           label: 'new',
           title: 'Pagination',
         },
         {
-          title: 'popover',
+          title: 'Popover',
           href: '/docs/components/popover',
           items: [],
           label: 'new',
@@ -205,7 +217,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/sheet',
           items: [],
-          label: 'refacotored',
+          label: 'new',
           title: 'Sheet',
         },
         {

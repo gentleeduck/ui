@@ -1,13 +1,13 @@
 import { cn } from '@gentleduck/libs/cn'
 import { groupArrays } from '@gentleduck/libs/group-array'
 import * as React from 'react'
+import { Button, type ButtonProps, buttonVariants } from '../button'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -16,8 +16,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from './_dropdown-menu/dropdown-menu'
-import { Button, type ButtonProps, buttonVariants, type CommandType } from '../button'
+} from './dropdown-menu'
 
 export interface DropdownMenuOptionsDataType
   extends Partial<
@@ -105,20 +104,18 @@ export function DropdownMenuView({ content, trigger, ...props }: DropdownMenuVie
                     {nestedData?.optionsData?.length ? (
                       <DropdownMenuSub key={`sub-item-${idx}`}>
                         <DropdownWrapperSubTrigger trigger={item} />
-                        <DropdownMenuPortal>
-                          <DropdownMenuSubContent className={cn('w-[200px]', nestedClassName)} {...nestedProps}>
-                            {groupedNestedOption?.map((nestedItem, idx) => {
-                              return (
-                                <React.Fragment key={`nested-${idx}`}>
-                                  <DropdownWrapperSubContent itemType={nestedData?.itemType} nestedData={nestedItem} />
-                                  {idx !== groupedNestedOption?.length - 1 && (
-                                    <DropdownMenuSeparator key={`separator-${idx}`} />
-                                  )}
-                                </React.Fragment>
-                              )
-                            })}
-                          </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
+                        <DropdownMenuSubContent className={cn('w-[200px]', nestedClassName)} {...nestedProps}>
+                          {groupedNestedOption?.map((nestedItem, idx) => {
+                            return (
+                              <React.Fragment key={`nested-${idx}`}>
+                                <DropdownWrapperSubContent itemType={nestedData?.itemType} nestedData={nestedItem} />
+                                {idx !== groupedNestedOption?.length - 1 && (
+                                  <DropdownMenuSeparator key={`separator-${idx}`} />
+                                )}
+                              </React.Fragment>
+                            )
+                          })}
+                        </DropdownMenuSubContent>
                       </DropdownMenuSub>
                     ) : (
                       <DropdownWrapperContentItem idx={idx} item={item} itemType={options.itemType} />
@@ -267,7 +264,6 @@ export function DropdownWrapperSubContent({
         : itemType === 'radio'
           ? DropdownMenuRadioItem
           : DropdownMenuItem
-    console.log(value)
 
     return (
       <Component

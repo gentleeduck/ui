@@ -1,17 +1,17 @@
 import type React from 'react'
-import { dstyleItem, handleItemsSelection, styleItem } from '../command/command.libs'
+import { dstyleItem } from '../command/command.libs'
 
 export function initRefs(
   groupsRef: React.RefObject<HTMLDivElement[] | null>,
-  wrapperRef: React.RefObject<HTMLDivElement | null>,
+  contentRef: React.RefObject<HTMLDivElement | null>,
   selectedItemRef: React.RefObject<HTMLLIElement | null>,
   itemsRef: React.RefObject<HTMLLIElement[]>,
   originalItemsRef: React.RefObject<HTMLLIElement[]>,
   onOpenChange: (open: boolean) => void,
   sub: boolean,
 ) {
-  const groups = wrapperRef.current?.querySelectorAll('[duck-dropdown-menu-group]')
-  const items = wrapperRef.current?.querySelectorAll(
+  const groups = contentRef.current?.querySelectorAll('[duck-dropdown-menu-group]')
+  const items = contentRef.current?.querySelectorAll(
     sub
       ? '[duck-dropdown-menu-item]:not([duck-dropdown-menu-sub-trigger]):not([aria-disabled])'
       : `[duck-dropdown-menu-item]:not([aria-disabled]):not([duck-dropdown-menu-sub-content] [duck-dropdown-menu-item]), [duck-dropdown-menu-sub-trigger]`,
