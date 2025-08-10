@@ -15,7 +15,7 @@
   "dependencies": {
     "arktype": "^2.1.20",
     "expect": "^30.0.5",
-    "jotai": "^2.9.3",
+    "jotai": "^2.12.5",
     "react": "catalog:react19",
     "react-dom": "catalog:react19"
   },

@@ -37,7 +37,7 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
           ?.replace('//', '') as string
         return (
           <TabsContent
-            className="bg-transparent [&>div>div]:m-0 m-0 [&_pre]:dark:bg-transparent [&_pre]:border-none focus-visible:outline-none focus-visible:shadow-none focus-visible:ring-0"
+            className="bg-transparent [&>div>div>div]:m-0 m-0 [&_pre]:dark:bg-transparent [&_pre]:border-none focus-visible:outline-none focus-visible:shadow-none focus-visible:ring-0"
             value={value}>
             {item}
           </TabsContent>

@@ -1,9 +1,9 @@
-import { Slot } from '@gentleduck/aria-feather/slot'
 import { cn } from '@gentleduck/libs/cn'
 import { Loader } from 'lucide-react'
 import type * as React from 'react'
 import { buttonVariants } from './button.constants'
 import type { AnimationIconProps, ButtonProps } from './button.types'
+import { Slot } from '../slot'
 
 /**
  * Renders a customizable button component, supporting various styles and behaviors.

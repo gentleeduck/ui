@@ -1,8 +1,6 @@
 'use client'
 
-import { CheckIcon, ClipboardIcon } from 'lucide-react'
-import * as React from 'react'
-
+import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   DropdownMenu,
@@ -10,11 +8,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@gentleduck/registry-ui-duckui/dropdown-menu'
+import { CheckIcon, ClipboardIcon, Copy } from 'lucide-react'
+import * as React from 'react'
 import { Event, trackEvent } from '~/lib/events'
-import { cn } from '@gentleduck/libs/cn'
 import { CopyButtonProps, CopyNpmCommandButtonProps, CopyWithClassNamesProps } from './copy-button.types'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
-import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
 export async function copyToClipboardWithMeta(value: string, event?: Event) {
   navigator.clipboard.writeText(value)
@@ -37,8 +34,8 @@ export function CopyButton({ value, className, variant = 'ghost', event, ...prop
       size="icon"
       variant={variant}
       aria-label="Copy"
-      className={cn('w-6.5 h-6.5 [&_svg]:h-3.5 [&_svg]:w-3.5 shadow-none rounded-sm', className)}
-      icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
+      className={cn('w-6.5 h-6.5 [&_svg]:h-3.5 [&_svg]:w-3.5 shadow-none rounded-sm z-50', className)}
+      icon={hasCopied ? <CheckIcon /> : <Copy />}
       onClick={() => {
         copyToClipboardWithMeta(
           value,
@@ -73,16 +70,16 @@ export function CopyWithClassNames({ value, classNames, className, ...props }: C
   }, [])
 
   return (
-    <DropdownMenu>
+    <DropdownMenu placement="bottom-end">
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
           variant="outline"
-          className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
+          className={cn('relative z-50 [&_svg]:w-3.5 !size-6.5', className)}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           {...props}></Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent>
         <DropdownMenuItem onClick={() => copyToClipboard(value)}>Component</DropdownMenuItem>
         <DropdownMenuItem onClick={() => copyToClipboard(classNames)}>Classname</DropdownMenuItem>
       </DropdownMenuContent>

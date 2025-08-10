@@ -12,7 +12,6 @@ export * from './collections'
  * select
  * slider
  * dropdown-menu
- * date-picker
  * data-table
  * context-menu
  * form
@@ -20,5 +19,4 @@ export * from './collections'
  * collapsible
  * combobox
  * chart
- * carousel
  */

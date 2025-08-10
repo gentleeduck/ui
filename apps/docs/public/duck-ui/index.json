@@ -3,7 +3,7 @@
     "name": "accordion",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather",
+      "@gentleduck/duck-primitives",
       "@gentledduck/anim"
     ],
     "registryDependencies": [],
@@ -24,7 +24,7 @@
     "name": "alert",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [],
     "root_folder": "alert",
@@ -74,7 +74,7 @@
     "name": "avatar",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [],
     "root_folder": "avatar",
@@ -94,7 +94,7 @@
     "name": "badge",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [],
     "root_folder": "badge",
@@ -118,7 +118,7 @@
     "name": "button",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [],
     "root_folder": "button",
@@ -168,7 +168,7 @@
     "name": "command",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [],
     "root_folder": "command",
@@ -200,7 +200,7 @@
     "name": "card",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [],
     "root_folder": "card",
@@ -220,7 +220,7 @@
     "name": "dialog",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [],
     "root_folder": "dialog",
@@ -244,7 +244,7 @@
     "name": "drawer",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [],
     "root_folder": "drawer",
@@ -380,7 +380,7 @@
     "name": "sheet",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [
       "dialog"
@@ -476,7 +476,7 @@
     "name": "switch",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather"
+      "@gentleduck/duck-primitives"
     ],
     "registryDependencies": [],
     "root_folder": "switch",
@@ -496,7 +496,7 @@
     "name": "tabs",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/aria-feather "
+      "@gentleduck/duck-primitives "
     ],
     "registryDependencies": [],
     "root_folder": "tabs",
@@ -673,6 +673,82 @@
       }
     ],
     "source": "/registry-ui-duckui/src/checkbox"
+  },
+  {
+    "name": "carousel",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "carousel",
+    "files": [
+      {
+        "path": "carousel/carousel.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "carousel/carousel.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "carousel/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/carousel"
+  },
+  {
+    "name": "popover",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "popover",
+    "files": [
+      {
+        "path": "popover/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "popover/popover.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "popover/popover.types.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/popover"
+  },
+  {
+    "name": "tooltip",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "tooltip",
+    "files": [
+      {
+        "path": "tooltip/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "tooltip/tooltip.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/tooltip"
+  },
+  {
+    "name": "hover-card",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "hover-card",
+    "files": [
+      {
+        "path": "hover-card/hover-card.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "hover-card/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/hover-card"
   },
   {
     "name": "accordion-1",
@@ -2864,5 +2940,174 @@
       }
     ],
     "source": "/registry-examples-duckui/src/checkbox"
+  },
+  {
+    "name": "carousel-1",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "carousel",
+    "files": [
+      {
+        "path": "carousel/carousel-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/carousel"
+  },
+  {
+    "name": "carousel-2",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "carousel",
+    "files": [
+      {
+        "path": "carousel/carousel-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/carousel"
+  },
+  {
+    "name": "carousel-3",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "carousel",
+    "files": [
+      {
+        "path": "carousel/carousel-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/carousel"
+  },
+  {
+    "name": "carousel-4",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "carousel",
+    "files": [
+      {
+        "path": "carousel/carousel-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/carousel"
+  },
+  {
+    "name": "carousel-5",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "carousel",
+    "files": [
+      {
+        "path": "carousel/carousel-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/carousel"
+  },
+  {
+    "name": "carousel-6",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "carousel",
+    "files": [
+      {
+        "path": "carousel/carousel-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/carousel"
+  },
+  {
+    "name": "date-picker-1",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "date-picker",
+    "files": [
+      {
+        "path": "date-picker/date-picker-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/date-picker"
+  },
+  {
+    "name": "date-picker-2",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "date-picker",
+    "files": [
+      {
+        "path": "date-picker/date-picker-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/date-picker"
+  },
+  {
+    "name": "date-picker-3",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "date-picker",
+    "files": [
+      {
+        "path": "date-picker/date-picker-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/date-picker"
+  },
+  {
+    "name": "date-picker-4",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "date-picker",
+    "files": [
+      {
+        "path": "date-picker/date-picker-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/date-picker"
+  },
+  {
+    "name": "date-picker-5",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "date-picker",
+    "files": [
+      {
+        "path": "date-picker/date-picker-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/date-picker"
+  },
+  {
+    "name": "date-picker-6",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "date-picker",
+    "files": [
+      {
+        "path": "date-picker/date-picker-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/date-picker"
+  },
+  {
+    "name": "popover-1",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "popover",
+    "files": [
+      {
+        "path": "popover/popover-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/popover"
   }
 ]

@@ -255,4 +255,25 @@ export const registry_examples: Registry = [
     root_folder: 'checkbox',
     files: [],
   },
+  {
+    name: 'carousel-examples',
+    type: 'registry:example',
+    registryDependencies: [],
+    root_folder: 'carousel',
+    files: [],
+  },
+  {
+    name: 'date-picker-examples',
+    type: 'registry:example',
+    registryDependencies: [],
+    root_folder: 'date-picker',
+    files: [],
+  },
+  {
+    name: 'popover-examples',
+    type: 'registry:example',
+    registryDependencies: [],
+    root_folder: 'popover',
+    files: [],
+  },
 ]

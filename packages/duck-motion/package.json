@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@gentleduck/libs": "workspace:*",
-    "@gentleduck/variants": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
+    "@gentleduck/variants": "workspace:*",
     "typescript": "catalog:"
   },
   "packageManager": "pnpm@10.10.0",

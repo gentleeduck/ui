@@ -1,5 +1,5 @@
 {
-  "name": "checkbox-8",
+  "name": "popover-1",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

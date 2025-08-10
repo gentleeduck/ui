@@ -1,4 +1,4 @@
-import type * as PopoverPrimitive from '@gentleduck/aria-feather/popover'
+import type * as PopoverPrimitive from '@gentleduck/duck-primitives/popover'
 import type { AnimPopoverVariants } from '@gentleduck/motion/anim'
 import type { VariantProps } from '@gentleduck/variants'
 

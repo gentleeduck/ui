@@ -4,7 +4,7 @@ import DialogPrimitive, {
   useOverlayClose,
   useDialogContext,
   // useDrawerDrag,
-} from '@gentleduck/aria-feather/dialog'
+} from '@gentleduck/duck-primitives/dialog'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentleduck/libs/cn'

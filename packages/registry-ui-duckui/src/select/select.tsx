@@ -1,6 +1,6 @@
 'use client'
 
-import { usePopoverContext } from '@gentleduck/aria-feather/popover'
+import { usePopoverContext } from '@gentleduck/duck-primitives/popover'
 import { cn } from '@gentleduck/libs/cn'
 import { CheckIcon, ChevronDown, ChevronDownIcon, ChevronUp } from 'lucide-react'
 import * as React from 'react'

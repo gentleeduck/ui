@@ -19,13 +19,12 @@
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
-    "zod": "catalog:",
     "clsx": "^1.2.1",
-    "tailwind-merge": "^1.14.0"
+    "tailwind-merge": "^1.14.0",
+    "zod": "catalog:"
   },
-  "dependencies": {},
-  "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=22.0.0"
-  }
+  },
+  "packageManager": "pnpm@10.10.0"
 }

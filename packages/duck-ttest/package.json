@@ -46,9 +46,8 @@
   "peerDependencies": {
     "@types/node": "catalog:"
   },
-  "devDependencies": {},
-  "packageManager": "pnpm@10.11.0",
   "engines": {
     "node": ">=24.2.0"
-  }
+  },
+  "packageManager": "pnpm@10.11.0"
 }

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@gentleduck/duck-primitives",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
+  "module": "./index.ts",
+  "exports": {
+    "./*": "./src/*/index.ts"
+  },
+  "keywords": [
+    "aria",
+    "gentleduck",
+    "behavioral",
+    "component",
+    "accessibility",
+    "a11y",
+    "react-aria",
+    "primitives",
+    "ui",
+    "react"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
+  },
+  "author": "gentleduck",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/primitives"
+  },
+  "bugs": {
+    "url": "https://github.com/gentleduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/primitives#readme",
+  "dependencies": {},
+  "peerDependencies": {
+    "@floating-ui/react": "^0.27.13",
+    "dialog-closedby-polyfill": "^1.1.0",
+    "invokers-polyfill": "^0.5.5",
+    "mini-svg-data-uri": "^1.4.4",
+    "@changesets/cli": "catalog:",
+    "@gentleduck/duck-float": "workspace:*",
+    "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/motion": "workspace:*",
+    "@gentleduck/state": "workspace:*",
+    "@gentleduck/tsdown-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
+    "@gentleduck/variants": "workspace:*",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "clsx": "^1.2.1",
+    "husky": "catalog:",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "tsdown": "catalog:"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

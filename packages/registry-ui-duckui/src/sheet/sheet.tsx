@@ -1,6 +1,6 @@
 'use client'
 
-import SheetPrimitive from '@gentleduck/aria-feather/sheet'
+import SheetPrimitive from '@gentleduck/duck-primitives/sheet'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
 import type { VariantProps } from '@gentleduck/variants'

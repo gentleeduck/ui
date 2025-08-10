@@ -2,7 +2,7 @@
 
 // import * as DialogPrimitive from '@radix-ui/react-dialog';
 
-import DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive from '@gentleduck/duck-primitives/dialog'
 import React from 'react'
 import { DrawerContext, useDrawerContext } from './context'
 import './style.css'

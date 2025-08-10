@@ -1,41 +1,58 @@
 'use client'
 
+import * as TooltipPrimitive from '@gentleduck/duck-primitives/tooltip'
 import { cn } from '@gentleduck/libs/cn'
+import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { VariantProps } from '@gentleduck/variants'
 import type React from 'react'
-import { Popover, PopoverContent, PopoverTrigger } from '../popover'
+import { Button } from '../button'
 
 function Tooltip({
-  skipDelayDuration = 150,
-  delayDuration = 250,
+  skipDelayDuration,
+  delayDuration,
   ...props
-}: Omit<React.ComponentPropsWithRef<typeof Popover>, 'mouseEnter' | 'mouseExist'>) {
-  return (
-    <Popover skipDelayDuration={skipDelayDuration} delayDuration={delayDuration} mouseEnter mouseExist {...props} />
-  )
+}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>) {
+  return <TooltipPrimitive.Root skipDelayDuration={skipDelayDuration} delayDuration={delayDuration} {...props} />
 }
 
-function TooltipTrigger({ children, ...props }: React.ComponentPropsWithRef<typeof PopoverTrigger>) {
+function TooltipTrigger({
+  children,
+  variant = 'outline',
+  asChild = false,
+  ...props
+}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger> & React.ComponentPropsWithRef<typeof Button>) {
   return (
-    <PopoverTrigger variant={'nothing'} {...props}>
-      {children}
-    </PopoverTrigger>
+    <TooltipPrimitive.Trigger asChild>
+      <Button {...props} variant={variant} asChild={asChild}>
+        {children}
+      </Button>
+    </TooltipPrimitive.Trigger>
   )
 }
 
 function TooltipContent({
   className,
   children,
-  placement = 'top',
+  animation = 'default',
+  overlay = 'nothing',
   ...props
-}: React.ComponentPropsWithRef<typeof PopoverContent>): React.JSX.Element {
+}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Content> & {
+  animation?: VariantProps<typeof AnimDialogVariants>['animation']
+  overlay?: VariantProps<typeof AnimVariants>['overlay']
+}): React.JSX.Element {
   return (
-    <PopoverContent
-      placement={placement}
+    <TooltipPrimitive.Content
       role="tooltip"
-      className={cn('select-none text-balance rounded-md px-3 py-1.5', className)}
+      className={cn(
+        AnimVariants({ overlay }),
+        AnimDialogVariants({ animation }),
+        'absolute z-50 max-h-fit w-fit max-w-[300px] text-balance border border-border bg-popover p-4 text-popover-foreground',
+        'select-none px-3 py-1.5',
+        className,
+      )}
       {...props}>
       {children}
-    </PopoverContent>
+    </TooltipPrimitive.Content>
   )
 }
 

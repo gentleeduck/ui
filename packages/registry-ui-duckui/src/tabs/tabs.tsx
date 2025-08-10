@@ -1,6 +1,6 @@
 'use client'
 
-import { Mount } from '@gentleduck/aria-feather/mount'
+import { Mount } from '@gentleduck/duck-primitives/mount'
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
 

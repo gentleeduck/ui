@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "@vitejs/plugin-react-swc": "^3.8.0",
-    "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
-    "@vitest/coverage-v8": "catalog:"
+    "vitest": "catalog:"
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*"

@@ -71,10 +71,11 @@ function Ui() {
       {/* <div className='flex flex-col gap-4 p-4'>
       <NativeButton />
       <NativeTextarea />
+      // <Dialog />
     </div> */}
 
       <div className="flex flex-col gap-4 p-4">
-        <Dialog />
+        <PopoverDemo />
       </div>
 
       {
@@ -119,7 +120,7 @@ function App() {
 
   return (
     <div>
-      <Dialog />
+      <TooltipDemo />
     </div>
     // <TooltipDemo />
     //   <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">

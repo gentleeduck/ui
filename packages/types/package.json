@@ -24,14 +24,13 @@
   ],
   "author": "gentleduck",
   "license": "MIT",
-  "dependencies": {},
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "peelDependencies": {},
   "devDependencies": {
     "@gentleduck/biome-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*"
   },
-  "packageManager": "pnpm@10.10.0",
-  "engines": {
-    "node": ">=22.0.0"
-  }
+  "packageManager": "pnpm@10.10.0"
 }

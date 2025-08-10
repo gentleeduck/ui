@@ -1,3 +1,0 @@
-# `@gentleduck/aria-feather`
-
-

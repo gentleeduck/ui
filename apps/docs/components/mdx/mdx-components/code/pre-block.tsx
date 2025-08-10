@@ -34,7 +34,10 @@ export function Pre({
           value={__rawString__}
           variant={'outline'}
           event={__event__}
-          className={cn('absolute right-4 top-4 z-10', __withMeta__ && 'top-16')}
+          className={cn(
+            'absolute right-3 top-3 [&_svg]:size-5 [&_svg]:text-muted-foreground',
+            __withMeta__ && 'top-16',
+          )}
         />
       )}
       {__npmCommand__ && __yarnCommand__ && __pnpmCommand__ && __bunCommand__ ? (
@@ -48,7 +51,7 @@ export function Pre({
       ) : (
         <pre
           className={cn(
-            'max-h-[650px] overflow-auto rounded-lg border bg-white py-4 dark:bg-muted/40 focus-visible:outline-none focus-visible:shadow-none [&_code]:bg-transparent',
+            'max-h-[650px] overflow-auto rounded-lg border bg-muted/40 py-4 dark:bg-muted/40 focus-visible:outline-none focus-visible:shadow-none [&_code]:bg-transparent',
             className,
           )}
           {...props}>

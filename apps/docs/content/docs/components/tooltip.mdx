@@ -1,6 +1,6 @@
 ---
 title: tooltip
-description: A customizable and accessible tooltip component with smooth animations and global configuration options.
+description: A customizable and accessible tooltip component with smooth animations, global configuration, and flexible triggers.
 component: true
 ---
 
@@ -11,10 +11,14 @@ component: true
 
 ## Features
 
-- **Customizable Appearance:** Easily adjust the appearance of the tooltip, including its position, offset, and alignment.
-- **Accessibility Support:** Built-in ARIA attributes ensure the tooltip is accessible to screen readers and meets accessibility standards.
-- **Smooth Animations:** Supports origin-aware animations for a polished user experience.
-- **Global Configuration:** Use `TooltipProvider` to manage tooltip behavior across your entire application.
+- **Floating UI powered positioning** – Smart positioning with `flip`, `shift`, and `offset` middleware for optimal placement.
+- **Origin-aware animations** – Uses `AnimVariants` and `AnimDialogVariants` for smooth, direction-aware transitions.
+- **Customizable delays** – Control open/close delays with `delayDuration` and `skipDelayDuration`.
+- **Global configuration** – Manage tooltip behavior across your app using `Tooltip`.
+- **Flexible triggers** – Wrap any element (`asChild`) or use built-in styled `Button` variants.
+- **Accessible by default** – Implements proper ARIA attributes and keyboard navigation.
+- **Portal rendering** – Renders tooltips with `FloatingPortal` to avoid layout clipping.
+- **Imperative animation control** – Ensures animations play correctly using `Mount` lifecycle hooks.
 
 ## Installation
 
@@ -29,7 +33,7 @@ component: true
 
 ```bash
 npx duck-ui@latest add tooltip
-```
+````
 
 </TabsContent>
 
@@ -37,17 +41,17 @@ npx duck-ui@latest add tooltip
 
 <Steps>
 
-<Step>Install the required dependencies:</Step>
+<Step>Install dependencies:</Step>
 
 ```bash
-npm install @radix-ui/react-tooltip
+npm install @gentleduck/duck-primitives @gentleduck/motion @gentleduck/variants @gentleduck/libs
 ```
 
-<Step>Copy the following component code into your project.</Step>
+<Step>Copy the `Tooltip` component code into your project.</Step>
 
 <ComponentSource name="tooltip" />
 
-<Step>Ensure the import paths align with your project's structure.</Step>
+<Step>Ensure import paths match your project structure.</Step>
 
 </Steps>
 
@@ -57,66 +61,51 @@ npm install @radix-ui/react-tooltip
 
 ## Usage
 
-Import the necessary components from your UI library:
-
 ```tsx
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui'
-```
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui'
 
-Here's a basic example of using the Tooltip component:
-
-```tsx
 <TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger>Hover</TooltipTrigger>
-    <TooltipContent>
-      <p>Add to library</p>
-    </TooltipContent>
+  <Tooltip delayDuration={500} skipDelayDuration={100}>
+    <TooltipTrigger variant="outline">Hover</TooltipTrigger>
+    <TooltipContent>Tooltip text</TooltipContent>
   </Tooltip>
 </TooltipProvider>
 ```
 
 ## Examples
 
-### Configure Globally
-
-This example demonstrates how to configure tooltips globally using the `TooltipProvider`:
-
-<ComponentPreview
-  name="tooltip-2"
-  description="tooltip"
-/>
-
-### Origin-Aware Animations
-
-Enhance your tooltips with smooth animations that consider the origin of the tooltip, you can write
-this animation in any place in your app ( tailwindcss, css, scss, ..stc ).:
+### Custom Trigger with `asChild`
 
 ```tsx
-import { Tooltip, TooltipTrigger, TooltipContent } from '@radix-ui/react-tooltip'
-import './styles.css'
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <span className="underline cursor-pointer">Hover me</span>
+    </TooltipTrigger>
+    <TooltipContent>Custom element trigger</TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
 
-export default function App() {
-  return (
-    <Tooltip>
-      <TooltipTrigger>Hover me</TooltipTrigger>
-      <TooltipContent className="TooltipContent">Tooltip with animation</TooltipContent>
-    </Tooltip>
-  )
-}
+### Animated Tooltip
+
+```tsx
+<Tooltip animation="default" overlay="fade">
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent className="TooltipContent">Animated tooltip</TooltipContent>
+</Tooltip>
 ```
 
 ```css
-/* styles.css */
 .TooltipContent {
-  transform-origin: var(--radix-tooltip-content-transform-origin);
-  animation: scaleIn 0.5s ease-out;
+  transform-origin: var(--duck-tooltip-transform-origin);
+  animation: scaleIn 0.3s ease-out;
 }
 
 @keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale(0);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
@@ -127,104 +116,27 @@ export default function App() {
 
 ## API Reference
 
-### TooltipProvider
+### **Tooltip Props**
 
-`TooltipProvider` wraps your app and provides global tooltip functionality.
-
-**_Key Properties_**
-
-- **`delayDuration`** (`number`): `700`, Delay before the tooltip appears.
-
-- **`skipDelayDuration`** (`number`): `300`, Skip delay duration when hiding.
-
-- **`disableHoverableContent`** (`boolean`): `false`, Disable hoverable content.
+* **`skipDelayDuration?: number`** (default: `150`): Delay in milliseconds before reopening after the tooltip closes.
+* **`delayDuration?: number`** (default: `700`): Delay in milliseconds before the tooltip appears when hovered or focused.
+* **`...props?: React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>`**: All other props from [`TooltipPrimitive.Root`](#) are passed through.
 
 ---
 
-### TooltipRoot
+### **TooltipTrigger Props**
 
-`TooltipRoot` is the container that holds all the parts of a tooltip.
-
-**_Key Properties_**
-
-- **`defaultOpen`** (`boolean`): `false`, Whether the tooltip is open by default.
-
-- **`open`** (`boolean`): `false`, Control the open state programmatically.
-
-- **`onOpenChange`** (`function`): `-`, Callback for when the open state changes.
-
-- **`delayDuration`** (`number`): `700`, Delay before the tooltip appears.
-
-- **`disableHoverableContent`** (`boolean`): `false`, Disable hoverable content.
+* **`variant?: string`** (default: `'outline'`): Visual style variant for the trigger button.
+* **`asChild?: boolean`** (default: `false`): If `true`, renders the trigger as a child element instead of the default `<Button>`.
+* **`children: ReactNode`**: The element or text that will trigger the tooltip.
+* **`...props?: React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger> & React.ComponentPropsWithRef<typeof Button>`**: All other props from the primitive trigger and the Button component.
 
 ---
 
-### TooltipTrigger
+### **TooltipContent Props**
 
-`TooltipTrigger` is the element that toggles the tooltip visibility.
-
-**_Key Properties_**
-
-- **`asChild`** (`boolean`): `false`, Passes the trigger to a child component.
-
----
-
-### TooltipPortal
-
-`TooltipPortal` renders the tooltip content into a portal, allowing it to appear outside of the regular DOM hierarchy.
-
-**_Key Properties_**
-
-- **`forceMount`** (`boolean`): `false`, Always render the portal even when closed.
-
-- **`container`** (`HTMLElement`): `document.body`, Container for the portal.
-
----
-
-### TooltipContent
-
-`TooltipContent` is the popup element that appears when the tooltip is active.
-
-**_Key Properties_**
-
-- **`asChild`** (`boolean`): `false`, Passes the content to a child component.
-
-- **`aria-label`** (`string`): `-`, ARIA label for accessibility.
-
-- **`onEscapeKeyDown`** (`function`): `-`, Callback when the escape key is pressed.
-
-- **`onPointerDownOutside`** (`function`): `-`, Callback when the pointer is clicked outside.
-
-- **`forceMount`** (`boolean`): `false`, Always render the content even when closed.
-
-- **`side`** (`enum`): `"top"`, Side to position the tooltip.
-
-- **`sideOffset`** (`number`): `0`, Offset from the side.
-
-- **`align`** (`enum`): `"center"`, Alignment relative to the trigger.
-
-- **`alignOffset`** (`number`): `0`, Offset for alignment.
-
-- **`avoidCollisions`** (`boolean`): `true`, Avoid collisions with the viewport.
-
-- **`collisionBoundary`** (`Boundary`): `[]`, Boundary to avoid collisions with.
-
-- **`collisionPadding`** (`number \| Padding`): `0`, Padding for collisions.
-
-- **`arrowPadding`** (`number`): `0`, Padding for the arrow.
-
-- **`sticky`** (`enum`): `"partial"`, Sticky behavior for the tooltip.
-
-- **`hideWhenDetached`** (`boolean`): `false`, Hide tooltip when the trigger is detached.
-
----
-
-### TooltipArrow
-
-`TooltipArrow` renders an optional arrow element that points towards the trigger.
-
-- \***_Key Properties_** \*`asChild`\*\* (`boolean`): `false`, Passes the arrow to a child component.
-
-- **`width`** (`number`): `10`, Width of the arrow.
-
-- **`height`** (`number`): `5`, Height of the arrow.
+* **`animation?: VariantProps<typeof AnimDialogVariants>['animation']`** (default: `'default'`): Determines the tooltip’s entry and exit animation style.
+* **`overlay?: VariantProps<typeof AnimVariants>['overlay']`** (default: `'nothing'`): Specifies overlay appearance or absence.
+* **`className?: string`**: Additional classes to style the tooltip.
+* **`children: ReactNode`**: Tooltip content to be displayed.
+* **`...props?: React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>`**: All other props from [`TooltipPrimitive.Content`](#) are passed through.

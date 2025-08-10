@@ -1,6 +1,6 @@
 'use client'
 
-import { useSvgIndicator } from '@gentleduck/aria-feather/checkers'
+import { useSvgIndicator } from '@gentleduck/duck-primitives/checkers'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import type * as React from 'react'

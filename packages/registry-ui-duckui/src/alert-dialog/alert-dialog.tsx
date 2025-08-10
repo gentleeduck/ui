@@ -1,6 +1,6 @@
 'use client'
 
-import DialogPrimitive from '@gentleduck/aria-feather/dialog'
+import DialogPrimitive from '@gentleduck/duck-primitives/dialog'
 // import {
 //   AlertDialogDialogProps,
 //   AlertDialogDrawerProps,

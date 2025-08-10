@@ -118,12 +118,24 @@ export const docsConfig: DocsConfig = {
           label: 'refacotored',
           title: 'Card',
         },
-        // {
-        //   title: 'DropdowmMenu',
-        //   href: '/docs/components/dropdowm-menu',
-        //   items: [],
-        //   label: 'new',
-        // },
+        {
+          href: '/docs/components/carousel',
+          items: [],
+          label: 'refacotored',
+          title: 'Carousel',
+        },
+        {
+          href: '/docs/components/date-picker',
+          items: [],
+          label: 'refacotored',
+          title: 'Date Picker',
+        },
+        {
+          title: 'Popover',
+          href: '/docs/components/popover',
+          items: [],
+          label: 'new',
+        },
         {
           href: '/docs/components/drawer',
           items: [],

@@ -43,17 +43,17 @@
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-lazy#readme",
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
+    "@gentleduck/tsdown-config": "workspace:*",
     "@types/react": "^19.0.10",
     "husky": "^9.1.7",
     "tsdown": "catalog:",
-    "@gentleduck/tsdown-config": "workspace:*",
     "tsup": "^8.4.0"
   },
   "peerDependencies": {
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
-    "react": "catalog:react19",
     "next": "catalog:",
+    "react": "catalog:react19",
     "typescript": "catalog:"
   },
   "peerDependenciesMeta": {

@@ -1,0 +1,27 @@
+{
+  "name": "popover",
+  "type": "registry:ui",
+  "registryDependencies": [],
+  "root_folder": "popover",
+  "files": [
+    {
+      "path": "popover/index.ts",
+      "content": "export * from './popover'\n",
+      "type": "registry:ui",
+      "target": "components/ui/index.ts"
+    },
+    {
+      "path": "popover/popover.tsx",
+      "content": "'use client'\nimport PopoverPrimitive from '@gentleduck/duck-primitives/popover'\nimport { cn } from '@gentleduck/libs/cn'\nimport { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'\nimport type { VariantProps } from '@gentleduck/variants'\nimport type * as React from 'react'\nimport { Button } from '../button'\n\nconst Popover = PopoverPrimitive.Root\n\nfunction PopoverTrigger({\n  children,\n  variant = 'outline',\n  asChild = false,\n  ...props\n}: React.ComponentPropsWithRef<typeof Button>) {\n  return <PopoverPrimitive.Trigger asChild></PopoverPrimitive.Trigger>\n}\n\nfunction PopoverContent({\n  children,\n  className,\n  animation = 'default',\n  overlay = 'nothing',\n  ...props\n}: React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> & {\n  animation?: VariantProps<typeof AnimDialogVariants>['animation']\n  overlay?: VariantProps<typeof AnimVariants>['overlay']\n}): React.JSX.Element {\n  return (\n    <PopoverPrimitive.Content\n      className={cn(\n        AnimVariants({ overlay }),\n        AnimDialogVariants({ animation }),\n        'absolute z-50 max-h-fit w-fit max-w-[300px] border border-border bg-popover p-4 text-popover-foreground',\n        className,\n      )}\n      {...props}>\n      {children}\n    </PopoverPrimitive.Content>\n  )\n}\n\nconst PopoverClose = PopoverTrigger\n\nexport { Popover, PopoverTrigger, PopoverContent, PopoverClose }\n",
+      "type": "registry:ui",
+      "target": "components/ui/popover.tsx"
+    },
+    {
+      "path": "popover/popover.types.ts",
+      "content": "import type * as PopoverPrimitive from '@gentleduck/duck-primitives/popover'\nimport type { AnimPopoverVariants } from '@gentleduck/motion/anim'\nimport type { VariantProps } from '@gentleduck/variants'\n\nexport type PopoverContentProps = React.ComponentPropsWithRef<typeof PopoverPrimitive.Content> &\n  VariantProps<typeof AnimPopoverVariants> & {\n    sideOffset?: number\n    alignOffset?: number\n  }\n",
+      "type": "registry:ui",
+      "target": "components/ui/popover.types.ts"
+    }
+  ],
+  "source": "/registry-ui-duckui/src/popover"
+}

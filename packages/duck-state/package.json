@@ -37,14 +37,16 @@
     "url": "https://github.com/gentleduck/ui/issues"
   },
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-state#readme",
-  "dependencies": {},
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "devDependencies": {
     "@changesets/cli": "catalog:",
+    "@gentleduck/tsdown-config": "workspace:*",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "husky": "catalog:",
-    "tsdown": "catalog:",
-    "@gentleduck/tsdown-config": "workspace:*"
+    "tsdown": "catalog:"
   },
   "peerDependencies": {
     "@types/node": "catalog:",
@@ -52,8 +54,5 @@
     "react-dom": "catalog:react19",
     "typescript": "catalog:"
   },
-  "packageManager": "pnpm@10.10.0",
-  "engines": {
-    "node": ">=22.0.0"
-  }
+  "packageManager": "pnpm@10.10.0"
 }

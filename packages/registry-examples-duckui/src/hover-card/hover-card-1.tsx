@@ -1,15 +1,12 @@
-import { CalendarIcon } from 'lucide-react'
-
 import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@gentleduck/registry-ui-duckui/hover-card'
+import { CalendarIcon } from 'lucide-react'
 
 export default function HoverCardDemo() {
   return (
     <HoverCard>
-      <HoverCardTrigger asChild>
-        <Button variant="link">@nextjs</Button>
-      </HoverCardTrigger>
+      <HoverCardTrigger variant={'link'}>@nextjs</HoverCardTrigger>
       <HoverCardContent className="w-80">
         <div className="flex justify-between space-x-4">
           <Avatar src="https://github.com/vercel.png" alt="VC" />

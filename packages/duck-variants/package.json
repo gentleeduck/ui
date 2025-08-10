@@ -55,9 +55,9 @@
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "clsx": "^1.2.1",
+    "cva": "1.0.0-beta.3",
     "husky": "^9.1.7",
-    "tsdown": "catalog:",
-    "cva": "1.0.0-beta.3"
+    "tsdown": "catalog:"
   },
   "peerDependencies": {
     "typescript": "catalog:"

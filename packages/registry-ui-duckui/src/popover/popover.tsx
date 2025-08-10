@@ -1,5 +1,5 @@
 'use client'
-import PopoverPrimitive from '@gentleduck/aria-feather/popover'
+import PopoverPrimitive from '@gentleduck/duck-primitives/popover'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import type { VariantProps } from '@gentleduck/variants'
@@ -14,13 +14,7 @@ function PopoverTrigger({
   asChild = false,
   ...props
 }: React.ComponentPropsWithRef<typeof Button>) {
-  return (
-    <PopoverPrimitive.Trigger asChild>
-      <Button {...props} variant={variant} asChild={asChild}>
-        {children}
-      </Button>
-    </PopoverPrimitive.Trigger>
-  )
+  return <PopoverPrimitive.Trigger asChild></PopoverPrimitive.Trigger>
 }
 
 function PopoverContent({
@@ -38,7 +32,7 @@ function PopoverContent({
       className={cn(
         AnimVariants({ overlay }),
         AnimDialogVariants({ animation }),
-        'absolute z-50 max-h-fit w-fit border border-border bg-popover p-4 text-popover-foreground',
+        'absolute z-50 max-h-fit w-fit max-w-[300px] border border-border bg-popover p-4 text-popover-foreground',
         className,
       )}
       {...props}>

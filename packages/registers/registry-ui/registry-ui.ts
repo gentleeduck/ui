@@ -4,7 +4,7 @@ export const registry_ui: Registry = [
   {
     name: 'accordion',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather', '@gentledduck/anim'],
+    dependencies: ['@gentleduck/duck-primitives', '@gentledduck/anim'],
     registryDependencies: [],
     root_folder: 'accordion',
     files: [],
@@ -12,7 +12,7 @@ export const registry_ui: Registry = [
   {
     name: 'alert',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: [],
     root_folder: 'alert',
     files: [],
@@ -28,7 +28,7 @@ export const registry_ui: Registry = [
   {
     name: 'avatar',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: [],
     root_folder: 'avatar',
     files: [],
@@ -36,7 +36,7 @@ export const registry_ui: Registry = [
   {
     name: 'badge',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: [],
     root_folder: 'badge',
     files: [],
@@ -44,7 +44,7 @@ export const registry_ui: Registry = [
   {
     name: 'button',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: [],
     root_folder: 'button',
     files: [],
@@ -60,7 +60,7 @@ export const registry_ui: Registry = [
   {
     name: 'command',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: [],
     root_folder: 'command',
     files: [],
@@ -68,7 +68,7 @@ export const registry_ui: Registry = [
   {
     name: 'card',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: [],
     root_folder: 'card',
     files: [],
@@ -76,7 +76,7 @@ export const registry_ui: Registry = [
   {
     name: 'dialog',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: [],
     root_folder: 'dialog',
     files: [],
@@ -84,7 +84,7 @@ export const registry_ui: Registry = [
   {
     name: 'drawer',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: [],
     root_folder: 'drawer',
     files: [],
@@ -142,7 +142,7 @@ export const registry_ui: Registry = [
   {
     name: 'sheet',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: ['dialog'],
     root_folder: 'sheet',
     files: [],
@@ -175,7 +175,7 @@ export const registry_ui: Registry = [
   {
     name: 'switch',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather'],
+    dependencies: ['@gentleduck/duck-primitives'],
     registryDependencies: [],
     root_folder: 'switch',
     files: [],
@@ -183,7 +183,7 @@ export const registry_ui: Registry = [
   {
     name: 'tabs',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/aria-feather '],
+    dependencies: ['@gentleduck/duck-primitives '],
     registryDependencies: [],
     root_folder: 'tabs',
     files: [],
@@ -250,6 +250,35 @@ export const registry_ui: Registry = [
     root_folder: 'checkbox',
     files: [],
   },
+  {
+    name: 'carousel',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'carousel',
+    files: [],
+  },
+  {
+    name: 'popover',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'popover',
+    files: [],
+  },
+  {
+    name: 'tooltip',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'tooltip',
+    files: [],
+  },
+  {
+    name: 'hover-card',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'hover-card',
+    files: [],
+  },
+
   // {
   //   name: 'typography',
   //   type: 'registry:ui',

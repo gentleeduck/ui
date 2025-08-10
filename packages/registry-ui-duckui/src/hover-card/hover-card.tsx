@@ -1,37 +1,65 @@
 'use client'
 
+import * as HoverCardPrimitive from '@gentleduck/duck-primitives/tooltip'
 import { cn } from '@gentleduck/libs/cn'
-import { Popover, PopoverContent, PopoverTrigger } from '../popover'
+import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { VariantProps } from '@gentleduck/variants'
+import type React from 'react'
+import { Button } from '../button'
 
 function HoverCard({
-  mouseEnter = true,
-  skipDelayDuration = 0,
-  delayDuration = 500,
+  skipDelayDuration,
+  delayDuration,
+  placement = 'bottom',
   ...props
-}: React.ComponentPropsWithRef<typeof Popover>) {
+}: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Root>) {
   return (
-    <Popover
-      mouseEnter={mouseEnter}
-      mouseExist={mouseEnter}
+    <HoverCardPrimitive.Root
       skipDelayDuration={skipDelayDuration}
       delayDuration={delayDuration}
+      placement={placement}
       {...props}
     />
   )
 }
 
-const HoverCardTrigger = PopoverTrigger
+function HoverCardTrigger({
+  children,
+  variant = 'outline',
+  asChild = false,
+  ...props
+}: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithRef<typeof Button>) {
+  return (
+    <HoverCardPrimitive.Trigger asChild>
+      <Button {...props} variant={variant} asChild={asChild}>
+        {children}
+      </Button>
+    </HoverCardPrimitive.Trigger>
+  )
+}
 
 function HoverCardContent({
   className,
   children,
-  side = 'bottom',
+  animation = 'default',
+  overlay = 'nothing',
   ...props
-}: React.ComponentPropsWithRef<typeof PopoverContent>): React.JSX.Element {
+}: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Content> & {
+  animation?: VariantProps<typeof AnimDialogVariants>['animation']
+  overlay?: VariantProps<typeof AnimVariants>['overlay']
+}): React.JSX.Element {
   return (
-    <PopoverContent side={side as never} role="tooltip" className={cn('max-w-[20rem]', className)} {...props}>
+    <HoverCardPrimitive.Content
+      role="HoverCard"
+      className={cn(
+        AnimVariants({ overlay }),
+        AnimDialogVariants({ animation }),
+        'absolute z-50 max-h-fit w-fit max-w-[300px] text-balance border border-border bg-popover p-4 text-popover-foreground',
+        className,
+      )}
+      {...props}>
       {children}
-    </PopoverContent>
+    </HoverCardPrimitive.Content>
   )
 }
 
