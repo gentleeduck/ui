@@ -977,6 +977,27 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'react-hook-form': {
+    name: 'react-hook-form',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'react-hook-form/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'react-hook-form/react-hook.form.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/react-hook-form')),
+    source: '/registry-ui-duckui/src/react-hook-form',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'accordion-1': {
     name: 'accordion-1',
     description: '',

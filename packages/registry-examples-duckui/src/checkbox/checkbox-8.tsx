@@ -15,7 +15,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@gentleduck/registry-ui-duckui/form-react-hook'
+} from '@gentleduck/registry-ui-duckui/react-hook-form'
 
 const items = [
   {

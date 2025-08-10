@@ -9,7 +9,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@gentleduck/registry-ui-duckui/form-react-hook'
+} from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'

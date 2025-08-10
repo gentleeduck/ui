@@ -320,4 +320,12 @@ export const registry_ui: Registry = [
     root_folder: 'input-otp',
     files: [],
   },
+
+  {
+    name: 'react-hook-form',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'react-hook-form',
+    files: [],
+  },
 ]

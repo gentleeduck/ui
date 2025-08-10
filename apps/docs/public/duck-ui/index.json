@@ -873,6 +873,23 @@
     "source": "/registry-ui-duckui/src/input-otp"
   },
   {
+    "name": "react-hook-form",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "react-hook-form",
+    "files": [
+      {
+        "path": "react-hook-form/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "react-hook-form/react-hook.form.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/react-hook-form"
+  },
+  {
     "name": "accordion-1",
     "type": "registry:example",
     "registryDependencies": [

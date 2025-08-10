@@ -149,6 +149,12 @@ export const docsConfig: DocsConfig = {
           title: 'Dropdown Menu',
         },
         {
+          href: '/docs/components/react-hook-form',
+          items: [],
+          label: 'new',
+          title: 'React Hook Form',
+        },
+        {
           href: '/docs/components/hover-card',
           items: [],
           label: 'new',

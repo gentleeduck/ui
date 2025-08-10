@@ -9,7 +9,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@gentleduck/registry-ui-duckui/form-react-hook'
+} from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'

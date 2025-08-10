@@ -1,14 +1,7 @@
 'use client'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@gentleduck/registry-ui-duckui/form-react-hook'
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'

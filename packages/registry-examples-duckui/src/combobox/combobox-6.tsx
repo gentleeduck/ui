@@ -18,7 +18,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@gentleduck/registry-ui-duckui/form-react-hook'
+} from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, ChevronsUpDown } from 'lucide-react'
