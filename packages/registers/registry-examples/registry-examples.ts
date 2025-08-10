@@ -304,4 +304,11 @@ export const registry_examples: Registry = [
     root_folder: 'collapsible',
     files: [],
   },
+  {
+    name: 'input-otp-examples',
+    type: 'registry:example',
+    registryDependencies: ['input-otp'],
+    root_folder: 'input-otp',
+    files: [],
+  },
 ]

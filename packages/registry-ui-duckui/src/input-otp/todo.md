@@ -1,2 +1,0 @@
-- [ ] make the caret animation as props to the input-slot
-- [ ] add animation to the inputs

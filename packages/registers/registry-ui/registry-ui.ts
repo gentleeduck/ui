@@ -313,13 +313,11 @@ export const registry_ui: Registry = [
     root_folder: 'collapsible',
     files: [],
   },
-
-  // {
-  //   name: 'typography',
-  //   type: 'registry:ui',
-  //   dependencies: [],
-  //   registryDependencies: [],
-  //   root_folder: 'typography',
-  //   files: [],
-  // },
+  {
+    name: 'input-otp',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'input-otp',
+    files: [],
+  },
 ]

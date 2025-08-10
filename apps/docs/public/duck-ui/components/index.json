@@ -1,5 +1,5 @@
 {
-  "name": "collapsible-1",
+  "name": "input-otp-6",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

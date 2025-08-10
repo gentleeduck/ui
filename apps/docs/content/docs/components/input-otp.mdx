@@ -1,0 +1,147 @@
+---
+title: input-otp 
+description: Accessible one-time password component with copy paste functionality.
+component: true
+---
+
+<ComponentPreview name="input-otp-1" description="An 6 digits input OTP." />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+<Steps>
+
+<Step>Run the following command:</Step>
+
+```bash
+npx duck-ui@latest add input-otp
+```
+
+</Steps>
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs 
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="input-otp" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+```
+
+```tsx showLineNumbers
+<InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot />
+    <InputOTPSlot />
+    <InputOTPSlot />
+  </InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup>
+    <InputOTPSlot />
+    <InputOTPSlot />
+    <InputOTPSlot />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+## Examples
+
+### Pattern
+
+Use the `pattern` prop to define a custom pattern for the OTP input.
+
+<ComponentPreview
+  name="input-otp-2"
+  description="An input OTP with alphanumeric pattern."
+/>
+
+```tsx showLineNumbers {1,7}
+
+...
+
+<InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot />
+    {/* ... */}
+  </InputOTPGroup>
+</InputOTP>
+```
+
+### Separator
+
+You can use the `<InputOTPSeparator />` component to add a separator between the input groups.
+
+<ComponentPreview
+  name="input-otp-3"
+  description="An input OTP with custom separator."
+/>
+
+```tsx showLineNumbers {4,15}
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+...
+
+<InputOTP maxLength={4}>
+  <InputOTPGroup>
+    <InputOTPSlot />
+    <InputOTPSlot />
+  </InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup>
+    <InputOTPSlot />
+    <InputOTPSlot />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+### Controlled
+
+You can use the `value` and `onValueChange` props to control the input value.
+
+<ComponentPreview name="input-otp-4" />
+
+### Custom separator 
+
+<ComponentPreview name="input-otp-5" />
+
+### Form
+
+<ComponentPreview name="input-otp-6" />

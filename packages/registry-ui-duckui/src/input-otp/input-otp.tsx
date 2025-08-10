@@ -1,27 +1,33 @@
 'use client'
 
-import * as React from 'react'
-import { Dot } from 'lucide-react'
-
 import { cn } from '@gentleduck/libs/cn'
+import { Dot } from 'lucide-react'
+import * as React from 'react'
 import { useInputOTPInit } from './input-otp.hooks'
-import type { OTPInputContextType } from './input-otp.types'
 
-export const OTPInputContext = React.createContext<OTPInputContextType | null>(null)
+export const REGEXP_ONLY_DIGITS_AND_CHARS = /^[\w\d\p{P}\p{S}]$/u
+export const REGEXP_ONLY_DIGITS = /^[0-9]$/
+export const OTPInputContext = React.createContext<{
+  value?: string
+  wrapperRef: React.RefObject<HTMLDivElement | null>
+  inputsRef: React.RefObject<HTMLInputElement[]>
+} | null>(null)
 
 function InputOTP({
   className,
   children,
   value,
   onValueChange,
+  pattern,
   ref,
   'aria-label': ariaLabel = 'One-time password input',
   ...props
-}: React.HTMLProps<HTMLDivElement> & {
+}: Omit<React.HTMLProps<HTMLDivElement>, 'pattern'> & {
   value?: string
   onValueChange?: (value: string) => void
+  pattern?: RegExp
 }) {
-  const { inputsRef, wrapperRef } = useInputOTPInit(value, onValueChange)
+  const { inputsRef, wrapperRef } = useInputOTPInit(value, onValueChange, pattern)
 
   return (
     <OTPInputContext.Provider
