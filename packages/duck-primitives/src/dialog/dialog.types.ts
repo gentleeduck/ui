@@ -1,5 +1,6 @@
 import type { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import type { VariantProps } from '@gentleduck/variants'
+import { MountMinimal } from '~/mount'
 
 export interface DialogContextType {
   /** Ref to the outermost wrapper element of the dialog. */
@@ -25,9 +26,8 @@ export interface DialogContextType {
 export interface DialogContentProps
   extends React.HTMLProps<HTMLDialogElement>,
     VariantProps<typeof AnimVariants>,
-    VariantProps<typeof AnimDialogVariants> {
-  /** If `true`, the content will only be rendered once (no re-renders on open/close). */
-  renderOnce?: boolean
+    VariantProps<typeof AnimDialogVariants>,
+    React.ComponentPropsWithoutRef<typeof MountMinimal> {
   /**
    * Determines what can close the dialog:
    * - `'any'`: Clicking outside or pressing escape will close it.

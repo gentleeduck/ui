@@ -1,6 +1,6 @@
 'use client'
 
-import { usePopoverContext } from '@gentleduck/duck-primitives/popover'
+import { usePopoverContext } from '@gentleduck/primitives/popover'
 import { cn } from '@gentleduck/libs/cn'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { Check, ChevronRight } from 'lucide-react'

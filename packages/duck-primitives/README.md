@@ -1,3 +1,3 @@
-# `@gentleduck/duck-primitives`
+# `@gentleduck/primitives`
 
 

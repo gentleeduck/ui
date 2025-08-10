@@ -1,4 +1,4 @@
-import DialogPrimitive, { useDialogContext } from '@gentleduck/duck-primitives/dialog'
+import DialogPrimitive, { useDialogContext } from '@gentleduck/primitives/dialog'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogModalVariants, AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import { X } from 'lucide-react'

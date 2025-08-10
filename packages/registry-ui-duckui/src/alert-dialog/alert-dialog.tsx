@@ -1,6 +1,6 @@
 'use client'
 
-import DialogPrimitive from '@gentleduck/duck-primitives/dialog'
+import DialogPrimitive from '@gentleduck/primitives/dialog'
 import type React from 'react'
 import {
   DialogContent,

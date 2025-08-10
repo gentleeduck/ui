@@ -4,7 +4,7 @@ import DialogPrimitive, {
   useOverlayClose,
   useDialogContext,
   // useDrawerDrag,
-} from '@gentleduck/duck-primitives/dialog'
+} from '@gentleduck/primitives/dialog'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentleduck/libs/cn'

@@ -1,11 +1,9 @@
 import { cn } from '@gentleduck/libs/cn'
-import { Check, ChevronsUpDown } from 'lucide-react'
 import React from 'react'
+import { Badge } from '../badge'
+import { Checkbox } from '../checkbox'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../command'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { Label } from '../label'
-import { Checkbox } from '../checkbox'
-import { Badge } from '../badge'
 import { Separator } from '../separator'
 
 export type ComboboxProps<

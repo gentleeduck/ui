@@ -141,7 +141,7 @@ export function Content({
         id={id}
         ref={contentRef}
         style={{ transform: `scale(${open ? 1 : 0.95})` }}>
-        <MountMinimal ref={contentRef.current} forceMount={renderOnce} open={open}>
+        <MountMinimal ref={contentRef.current} renderOnce={renderOnce} open={open}>
           {children}
           {closeButton && <DialogClose />}
         </MountMinimal>

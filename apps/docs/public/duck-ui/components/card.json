@@ -2,7 +2,7 @@
   "name": "card",
   "type": "registry:ui",
   "dependencies": [
-    "@gentleduck/duck-primitives"
+    "@gentleduck/primitives"
   ],
   "registryDependencies": [],
   "root_folder": "card",

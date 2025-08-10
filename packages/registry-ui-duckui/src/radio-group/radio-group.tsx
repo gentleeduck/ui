@@ -1,8 +1,8 @@
 'use client'
 
-import { useSvgIndicator } from '@gentleduck/duck-primitives/checkers'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
+import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import * as React from 'react'
 import { Label } from '../label'
 import { useHandleRadioClick } from './radio-group.hooks'

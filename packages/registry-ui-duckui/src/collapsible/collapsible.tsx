@@ -1,6 +1,6 @@
 'use client'
 
-import { Mount } from '@gentleduck/duck-primitives/mount'
+import { Mount } from '@gentleduck/primitives/mount'
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
 import { Button } from '../button'

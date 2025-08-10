@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck/duck-primitives",
+  "name": "@gentleduck/primitives",
   "version": "0.1.0",
   "type": "module",
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
@@ -48,7 +48,6 @@
     "invokers-polyfill": "^0.5.5",
     "mini-svg-data-uri": "^1.4.4",
     "@changesets/cli": "catalog:",
-    "@gentleduck/duck-float": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/state": "workspace:*",

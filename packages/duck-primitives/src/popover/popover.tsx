@@ -166,7 +166,14 @@ function Trigger({
   )
 }
 
-function Content({ style, ref: propRef, ...props }: React.HTMLProps<HTMLDivElement>) {
+function Content({
+  style,
+  ref: propRef,
+  forceMount = true,
+  renderOnce = false,
+  waitForRender = true,
+  ...props
+}: React.HTMLProps<HTMLDivElement> & React.ComponentPropsWithoutRef<typeof Mount>) {
   const { context: floatingContext, ...context } = usePopoverContext()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
 
@@ -184,7 +191,13 @@ function Content({ style, ref: propRef, ...props }: React.HTMLProps<HTMLDivEleme
           }}
           data-open={context.open}
           {...context.getFloatingProps(props)}>
-          <Mount open={context.open} ref={ref as never} forceMount waitForRender>
+          <Mount
+            open={context.open}
+            ref={ref as never}
+            forceMount={forceMount}
+            waitForRender={waitForRender}
+            renderOnce={renderOnce}
+            {...props}>
             {props.children}
           </Mount>
         </div>
