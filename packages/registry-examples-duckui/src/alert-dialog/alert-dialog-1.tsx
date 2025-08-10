@@ -9,12 +9,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@gentleduck/registry-ui-duckui/alert-dialog'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 export default function AlertDialogMainDemo() {
   return (
     <>
       <AlertDialog>
-        <AlertDialogTrigger>Open</AlertDialogTrigger>
+        <AlertDialogTrigger asChild>
+          <Button variant="outline">Open</Button>
+        </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -24,8 +27,12 @@ export default function AlertDialogMainDemo() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction>Continue</AlertDialogAction>
+            <AlertDialogCancel asChild>
+              <Button variant="outline">Cancel</Button>
+            </AlertDialogCancel>
+            <AlertDialogAction asChild>
+              <Button>Continue</Button>
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

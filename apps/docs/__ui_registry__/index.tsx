@@ -161,10 +161,6 @@ export const Index: Record<string, any> = {
     registryDependencies: [],
     files: [
       {
-        path: 'breadcrumb/_breadcrumb.tsx',
-        type: 'registry:ui',
-      },
-      {
         path: 'breadcrumb/breadcrumb.tsx',
         type: 'registry:ui',
       },
@@ -266,10 +262,6 @@ export const Index: Record<string, any> = {
     files: [
       {
         path: 'drawer/drawer.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'drawer/drawer.types.ts',
         type: 'registry:ui',
       },
       {
@@ -776,10 +768,6 @@ export const Index: Record<string, any> = {
       },
       {
         path: 'popover/popover.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'popover/popover.types.ts',
         type: 'registry:ui',
       },
     ],
@@ -1931,40 +1919,6 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-4')),
-    source: '/registry-examples-duckui/src/drawer',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'drawer-5': {
-    name: 'drawer-5',
-    description: '',
-    type: 'registry:example',
-    registryDependencies: ['drawer'],
-    files: [
-      {
-        path: 'drawer/drawer-5.tsx',
-        type: 'registry:example',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-5')),
-    source: '/registry-examples-duckui/src/drawer',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'drawer-6': {
-    name: 'drawer-6',
-    description: '',
-    type: 'registry:example',
-    registryDependencies: ['drawer'],
-    files: [
-      {
-        path: 'drawer/drawer-6.tsx',
-        type: 'registry:example',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-6')),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
     subcategory: '',

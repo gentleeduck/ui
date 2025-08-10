@@ -1,12 +1,6 @@
 'use client'
 
 import DialogPrimitive from '@gentleduck/duck-primitives/dialog'
-// import {
-//   AlertDialogDialogProps,
-//   AlertDialogDrawerProps,
-//   AlertDialogSheetProps,
-//   AlertDialogWrapperType,
-// } from './alert-dialog.types'
 import type React from 'react'
 import {
   DialogContent,
@@ -17,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../dialog'
-import { cn } from '@gentleduck/libs/cn'
 
 const AlertDialog = DialogPrimitive.Root
 

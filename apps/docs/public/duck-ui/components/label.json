@@ -13,7 +13,7 @@
     },
     {
       "path": "label/label.tsx",
-      "content": "'use client'\n\nimport type * as React from 'react'\nimport { cn } from '@gentleduck/libs/cn'\n\nexport interface LabelProps extends React.HTMLProps<HTMLLabelElement> {}\n\nfunction Label({ className, ref, ...props }: LabelProps) {\n  return (\n    <label\n      ref={ref}\n      className={cn(\n        'font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',\n        className,\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type * as React from 'react'\n\nexport interface LabelProps extends React.HTMLProps<HTMLLabelElement> {}\n\nfunction Label({ className, ref, ...props }: LabelProps) {\n  return (\n    <label\n      ref={ref}\n      className={cn(\n        'font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',\n        className,\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n",
       "type": "registry:ui",
       "target": "components/ui/label.tsx"
     }

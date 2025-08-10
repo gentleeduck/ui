@@ -85,7 +85,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/dialog',
           items: [],
-          // label: 'refacotored',
+          label: 'new',
           title: 'Dialog',
         },
         // {
@@ -139,15 +139,9 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/drawer',
           items: [],
-          label: 'refacotored',
+          label: 'new',
           title: 'Drawer',
         },
-        // {
-        //   title: 'Header',
-        //   href: '/docs/components/header',
-        //   items: [],
-        //   label: 'new',
-        // },
         {
           href: '/docs/components/hover-card',
           items: [],

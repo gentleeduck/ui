@@ -15,12 +15,13 @@ import React from 'react'
 
 export default function DialogDemo() {
   const [open, setOpen] = React.useState(false)
-  console.log(open)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <form onSubmit={(e) => e.preventDefault()}>
-        <DialogTrigger variant={'outline'}>Open Dialog</DialogTrigger>
+        <DialogTrigger>
+          <Button variant={'outline'}>Open Dialog</Button>
+        </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
@@ -37,7 +38,9 @@ export default function DialogDemo() {
             </div>
           </div>
           <DialogFooter>
-            <DialogClose variant={'outline'}>Cancel</DialogClose>
+            <DialogClose asChild>
+              <Button variant={'outline'}>Cancel</Button>
+            </DialogClose>
             <Button type="submit">Save changes</Button>
           </DialogFooter>
         </DialogContent>

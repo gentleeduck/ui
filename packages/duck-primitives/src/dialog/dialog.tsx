@@ -1,10 +1,10 @@
 'use client'
+import { useMergeRefs } from '@floating-ui/react'
 import { useStableId } from '@gentleduck/hooks'
 import { apply as applyClosedBy, isSupported as isClosedBySupported } from 'dialog-closedby-polyfill'
 import { apply as applyInvokers, isSupported as isInvokersSupported } from 'invokers-polyfill/fn'
 import React from 'react'
-import { Mount, MountMinimal } from '../mount'
-import { Slot } from '../slot'
+import { MountMinimal } from '../mount'
 import { useDialog, useDialogContext } from './dialog.hooks'
 import type { DialogContentProps, DialogContextType, DialogProps } from './dialog.types'
 
@@ -72,22 +72,48 @@ export function Root({
 }
 
 export function Trigger({
-  onClick,
+  children,
   asChild = false,
+  ref: propRef,
+  onClick,
   ...props
-}: React.ComponentPropsWithRef<typeof Slot> & {}): React.JSX.Element {
-  const { onOpenChange, open: _open, id, triggerRef } = useDialogContext()
+}: React.HTMLProps<HTMLElement> & {
+  asChild?: boolean
+}) {
+  const { onOpenChange, open, id, triggerRef } = useDialogContext()
+
+  const mergedRef = useMergeRefs([triggerRef as React.Ref<HTMLButtonElement>, propRef])
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children, {
+      ...props,
+      ...(children.props as any),
+      ref: mergedRef,
+      'aria-haspopup': 'dialog',
+      'aria-controls': id,
+      'data-open': open,
+      onClick: (e: React.MouseEvent<HTMLElement>) => {
+        onOpenChange(!open)
+        onClick?.(e)
+        // @ts-ignore
+        if (children.props.onClick) children.props.onClick(e)
+      },
+    })
+  }
 
   return (
-    <Slot
-      ref={triggerRef as React.RefObject<HTMLDivElement>}
+    <button
+      ref={mergedRef}
+      // @ts-ignore
+      type="button"
       aria-haspopup="dialog"
       aria-controls={id}
+      data-open={open}
+      children={children}
       onClick={(e) => {
-        onOpenChange(!_open)
+        onOpenChange(!open)
         onClick?.(e)
       }}
-      asChild={asChild}
       {...props}
     />
   )

@@ -10,16 +10,8 @@ function Dialog({ closeButton = true, ...props }: React.ComponentPropsWithoutRef
   return <DialogPrimitive.Root closeButton={closeButton} {...props} />
 }
 
-function DialogTrigger({
-  children,
-  ...props
-}: Omit<React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>, 'size' | 'asChild'> &
-  Omit<React.ComponentPropsWithoutRef<typeof Button>, 'asChild'>) {
-  return (
-    <DialogPrimitive.Trigger asChild>
-      <Button {...props}>{children}</Button>
-    </DialogPrimitive.Trigger>
-  )
+function DialogTrigger({ children, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>) {
+  return <DialogPrimitive.Trigger {...props}>{children}</DialogPrimitive.Trigger>
 }
 
 export function DialogCloseX({
