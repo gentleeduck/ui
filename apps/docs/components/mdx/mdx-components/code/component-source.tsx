@@ -12,8 +12,8 @@ interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function ComponentSource({ children, className, ...props }: ComponentSourceProps) {
-  const defaultValue = String((children[0] as any).props.children[0].props.__rawString__)
-    .split('\n')[0]
+  const defaultValue = String((children[0] as any).props.children?.[0]?.props?.__rawString__)
+    .split('\n')?.[0]
     ?.replace('//', '') as string
 
   return (

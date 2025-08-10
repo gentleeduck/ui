@@ -33,12 +33,17 @@ npx duck-ui@latest add alert-dialog
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/area-feather 
+npm install @gentleduck/primitives
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
 
 <ComponentSource name="alert-dialog" />
+
+
+<Step>Add the `Dialog` component to your project.</Step>
+
+The `AlertDialog` component uses the `[dialog](/docs/components/dialog)` component. Make sure you have it installed in your project.
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -82,29 +87,6 @@ import { Button } from '@/components/ui/button';
   </AlertDialogContent>
 </AlertDialog>
 ```
-
-## Examples
-
-### Drawer
-
-<ComponentPreview
-  name="alert-dialog-2"
-  description="An alert dialog with cancel and continue buttons."
-/>
-
-### Sheet
-
-<ComponentPreview
-  name="alert-dialog-3"
-  description="An alert dialog with cancel and continue buttons."
-/>
-
-### Dialog
-
-<ComponentPreview
-  name="alert-dialog-4"
-  description="An alert dialog with cancel and continue buttons."
-/>
 
 ## API Reference
 

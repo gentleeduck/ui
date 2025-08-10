@@ -9,6 +9,7 @@ import type {
   SheetTitle,
   SheetTrigger,
 } from '../sheet'
+import { Button } from '../button'
 
 /**
  * A wrapper component for the [Radix UI Sheet](https://www.radix-ui.com/docs/primitives/components/sheet)
@@ -21,8 +22,8 @@ export type SheetWrapperProps = {
       _description?: React.ComponentPropsWithoutRef<typeof SheetDescription>
     }
     _footer?: React.ComponentPropsWithoutRef<typeof SheetFooter> & {
-      _cancel?: React.ComponentPropsWithoutRef<typeof SheetClose>
-      _submit?: React.HTMLProps<HTMLDivElement>
+      _cancel?: React.ComponentPropsWithoutRef<typeof Button>
+      _submit?: React.ComponentPropsWithoutRef<typeof Button>
     }
   }
   duckHook?: UseDuckAlertReturnType

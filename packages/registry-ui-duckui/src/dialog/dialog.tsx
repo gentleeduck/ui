@@ -3,7 +3,6 @@ import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogModalVariants, AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import { X } from 'lucide-react'
 import type React from 'react'
-import { Button } from '../button'
 import type { DialogContentProps } from './dialog.types'
 
 function Dialog({ closeButton = true, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {

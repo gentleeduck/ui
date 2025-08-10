@@ -83,30 +83,6 @@ export const docsConfig: DocsConfig = {
           title: 'Button',
         },
         {
-          href: '/docs/components/dialog',
-          items: [],
-          label: 'new',
-          title: 'Dialog',
-        },
-        // {
-        //   title: 'Combobox',
-        //   href: '/docs/components/combobox',
-        //   items: [],
-        //   label: 'new',
-        // },
-        {
-          title: 'Checkbox',
-          href: '/docs/components/checkbox',
-          label: 'new',
-          items: [],
-        },
-        {
-          title: 'Command',
-          href: '/docs/components/command',
-          label: 'new',
-          items: [],
-        },
-        {
           href: '/docs/components/calendar',
           items: [],
           label: 'new',
@@ -125,17 +101,35 @@ export const docsConfig: DocsConfig = {
           title: 'Carousel',
         },
         {
+          title: 'Checkbox',
+          href: '/docs/components/checkbox',
+          label: 'new',
+          items: [],
+        },
+        {
+          title: 'Command',
+          href: '/docs/components/command',
+          label: 'new',
+          items: [],
+        },
+        {
           href: '/docs/components/date-picker',
           items: [],
           label: 'new',
           title: 'Date Picker',
         },
         {
-          title: 'popover',
-          href: '/docs/components/popover',
+          href: '/docs/components/dialog',
           items: [],
           label: 'new',
+          title: 'Dialog',
         },
+        // {
+        //   title: 'Combobox',
+        //   href: '/docs/components/combobox',
+        //   items: [],
+        //   label: 'new',
+        // },
         {
           href: '/docs/components/drawer',
           items: [],
@@ -161,6 +155,18 @@ export const docsConfig: DocsConfig = {
           title: 'Label',
         },
         {
+          href: '/docs/components/pagination',
+          items: [],
+          label: 'new',
+          title: 'Pagination',
+        },
+        {
+          title: 'popover',
+          href: '/docs/components/popover',
+          items: [],
+          label: 'new',
+        },
+        {
           href: '/docs/components/progress',
           items: [],
           label: 'new',
@@ -173,16 +179,16 @@ export const docsConfig: DocsConfig = {
           title: 'Radio Group',
         },
         {
-          href: '/docs/components/scroll-area',
-          items: [],
-          label: 'new',
-          title: 'Scroll Area',
-        },
-        {
           href: '/docs/components/resizable',
           items: [],
           label: 'new',
           title: 'Resizable',
+        },
+        {
+          href: '/docs/components/scroll-area',
+          items: [],
+          label: 'new',
+          title: 'Scroll Area',
         },
         {
           href: '/docs/components/select',

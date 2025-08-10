@@ -9,7 +9,6 @@ import type {
   DialogTitle,
   DialogTrigger,
 } from '@radix-ui/react-dialog'
-import type { UseDuckAlertReturnType } from '../alert-dialog/alert-dialog.types'
 import type { DialogFooter, DialogHeader } from './dialog'
 
 export interface DialogContextType {
@@ -72,21 +71,3 @@ export interface DialogDescriptionResponsiveProps extends React.ComponentPropsWi
  * DialogCloseResponsiveProps
  */
 export interface DialogCloseResponsiveProps extends React.ComponentPropsWithoutRef<typeof DialogClose> {}
-
-/**
- * DialogWrapper Props
- */
-export interface DialogWrapperProps extends DialogResponsiveProps {
-  trigger?: DialogTriggerResponsiveProps
-  content: DialogContentResponsiveProps & {
-    _header?: DialogHeaderResponsiveProps & {
-      _title?: DialogTitleResponsiveProps
-      _description?: DialogDescriptionResponsiveProps
-    }
-    _footer?: DialogFooterResponsiveProps & {
-      _cancel?: DialogCloseProps
-      _submit?: React.HTMLProps<HTMLDivElement>
-    }
-  }
-  duckHook?: UseDuckAlertReturnType
-}

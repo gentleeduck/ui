@@ -1,10 +1,8 @@
 'use client'
 
+import { cn } from '@gentleduck/libs/cn'
 import type * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
-
-import type { DrawerWrapperProps } from './drawer.types'
-import { cn } from '@gentleduck/libs/cn'
 
 function Drawer({
   shouldScaleBackground = true,

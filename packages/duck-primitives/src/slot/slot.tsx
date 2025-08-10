@@ -1,41 +1,161 @@
+'use client'
+import { composeRefs } from '@gentleduck/hooks/use-composed-refs'
 import React from 'react'
 
-/**
- * A simple utility component that allows passing a JSX element as a prop
- * and renders it with the passed props. If the passed element is not a JSX
- * element, it wraps it in a `div` component.
- *
- * @param {React.HTMLProps<HTMLDivElement>} [props] - The props to be passed to the rendered element.
- * @param {React.ReactNode} [props.children] - The JSX element or node to be rendered.
- * @param {boolean} [props.asChild] - Whether to render the passed element as a child of the component.
- * @param {React.HTMLProps<HTMLDivElement>} [...props] - Additional props to be passed to the rendered element.
- *
- * @returns {React.JSX.Element} The rendered element with the passed props.
- */
-export function Slot({
-  children,
-  asChild = false,
-  ...props
-}: React.HTMLProps<HTMLDivElement> & {
-  /** The JSX element or node to be rendered. */
-  asChild?: boolean
-}): React.JSX.Element {
-  // if (React.Children.count(children) > 1) {
-  //   return <div {...props}>{children}</div>
-  // }
-  //
-  // return React.cloneElement(children as React.JSX.Element, {
-  //   ...props,
-  //   ...(children as React.JSX.Element).props,
-  // })
+interface SlotProps extends React.HTMLAttributes<HTMLElement> {
+  children?: React.ReactNode
+}
 
-  const _children = React.Children.toArray(children)
-  if (_children.length > 1) {
-    return <div {...props}>{children}</div>
+export function createSlot(ownerName: string) {
+  const SlotClone = createSlotClone(ownerName)
+  const Slot = React.forwardRef<HTMLElement, SlotProps>((props, forwardedRef) => {
+    const { children, ...slotProps } = props
+    const childrenArray = React.Children.toArray(children)
+    const slottable = childrenArray.find(isSlottable)
+
+    if (slottable) {
+      // the new element to render is the one passed as a child of `Slottable`
+      const newElement = slottable.props.children
+
+      const newChildren = childrenArray.map((child) => {
+        if (child === slottable) {
+          // because the new element will be the one rendered, we are only interested
+          // in grabbing its children (`newElement.props.children`)
+          if (React.Children.count(newElement) > 1) return React.Children.only(null)
+          return React.isValidElement(newElement) ? (newElement.props as { children: React.ReactNode }).children : null
+        } else {
+          return child
+        }
+      })
+
+      return (
+        <SlotClone {...slotProps} ref={forwardedRef}>
+          {React.isValidElement(newElement) ? React.cloneElement(newElement, undefined, newChildren) : null}
+        </SlotClone>
+      )
+    }
+
+    return (
+      <SlotClone {...slotProps} ref={forwardedRef}>
+        {children}
+      </SlotClone>
+    )
+  })
+
+  Slot.displayName = `${ownerName}.Slot`
+  return Slot
+}
+
+const Slot = createSlot('Slot')
+
+interface SlotCloneProps {
+  children: React.ReactNode
+}
+
+function createSlotClone(ownerName: string) {
+  const SlotClone = React.forwardRef<any, SlotCloneProps>((props, forwardedRef) => {
+    const { children, ...slotProps } = props
+
+    if (React.isValidElement(children)) {
+      const childrenRef = getElementRef(children)
+      const props = mergeProps(slotProps, children.props as AnyProps)
+      // do not pass ref to React.Fragment for React 19 compatibility
+      if (children.type !== React.Fragment) {
+        props.ref = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
+      }
+      return React.cloneElement(children, props)
+    }
+
+    return React.Children.count(children) > 1 ? React.Children.only(null) : null
+  })
+
+  SlotClone.displayName = `${ownerName}.SlotClone`
+  return SlotClone
+}
+
+const SLOTTABLE_IDENTIFIER = Symbol('radix.slottable')
+
+interface SlottableProps {
+  children: React.ReactNode
+}
+
+interface SlottableComponent extends React.FC<SlottableProps> {
+  __radixId: symbol
+}
+
+export function createSlottable(ownerName: string) {
+  const Slottable: SlottableComponent = ({ children }) => {
+    return <>{children}</>
+  }
+  Slottable.displayName = `${ownerName}.Slottable`
+  Slottable.__radixId = SLOTTABLE_IDENTIFIER
+  return Slottable
+}
+
+const Slottable = createSlottable('Slottable')
+
+type AnyProps = Record<string, any>
+
+function isSlottable(child: React.ReactNode): child is React.ReactElement<SlottableProps, typeof Slottable> {
+  return (
+    React.isValidElement(child) &&
+    typeof child.type === 'function' &&
+    '__radixId' in child.type &&
+    child.type.__radixId === SLOTTABLE_IDENTIFIER
+  )
+}
+
+function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
+  // all child props should override
+  const overrideProps = { ...childProps }
+
+  for (const propName in childProps) {
+    const slotPropValue = slotProps[propName]
+    const childPropValue = childProps[propName]
+
+    const isHandler = /^on[A-Z]/.test(propName)
+    if (isHandler) {
+      // if the handler exists on both, we compose them
+      if (slotPropValue && childPropValue) {
+        overrideProps[propName] = (...args: unknown[]) => {
+          const result = childPropValue(...args)
+          slotPropValue(...args)
+          return result
+        }
+      }
+      // but if it exists only on the slot, we use only this one
+      else if (slotPropValue) {
+        overrideProps[propName] = slotPropValue
+      }
+    }
+    // if it's `style`, we merge them
+    else if (propName === 'style') {
+      overrideProps[propName] = { ...slotPropValue, ...childPropValue }
+    } else if (propName === 'className') {
+      overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(' ')
+    }
   }
 
-  return React.cloneElement(_children[0] as React.JSX.Element, {
-    ...props,
-    ...(_children[0] as React.JSX.Element).props,
-  })
+  return { ...slotProps, ...overrideProps }
 }
+
+function getElementRef(element: React.ReactElement) {
+  // React <=18 in DEV
+  let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get
+  let mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
+  if (mayWarn) {
+    return (element as any).ref
+  }
+
+  // React 19 in DEV
+  getter = Object.getOwnPropertyDescriptor(element, 'ref')?.get
+  mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
+  if (mayWarn) {
+    return (element.props as { ref?: React.Ref<unknown> }).ref
+  }
+
+  // Not DEV
+  return (element.props as { ref?: React.Ref<unknown> }).ref || (element as any).ref
+}
+
+export { Slot, Slottable }

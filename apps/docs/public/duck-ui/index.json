@@ -52,15 +52,7 @@
     "root_folder": "alert-dialog",
     "files": [
       {
-        "path": "alert-dialog/alert-dialog.hook.ts",
-        "type": "registry:ui"
-      },
-      {
         "path": "alert-dialog/alert-dialog.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "alert-dialog/alert-dialog.types.ts",
         "type": "registry:ui"
       },
       {
@@ -221,6 +213,10 @@
     "registryDependencies": [],
     "root_folder": "dialog",
     "files": [
+      {
+        "path": "dialog/dialog-responsive.tsx",
+        "type": "registry:ui"
+      },
       {
         "path": "dialog/dialog.tsx",
         "type": "registry:ui"
@@ -739,6 +735,52 @@
     "source": "/registry-ui-duckui/src/hover-card"
   },
   {
+    "name": "calendar",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "calendar",
+    "files": [
+      {
+        "path": "calendar/calendar.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "calendar/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/calendar"
+  },
+  {
+    "name": "select",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "select",
+    "files": [
+      {
+        "path": "select/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "select/select.hooks.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "select/select.libs.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "select/select.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "select/select.types.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/select"
+  },
+  {
     "name": "accordion-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -853,51 +895,6 @@
     "files": [
       {
         "path": "alert-dialog/alert-dialog-1.tsx",
-        "type": "registry:example"
-      }
-    ],
-    "source": "/registry-examples-duckui/src/alert-dialog"
-  },
-  {
-    "name": "alert-dialog-2",
-    "type": "registry:example",
-    "registryDependencies": [
-      "alert-dialog"
-    ],
-    "root_folder": "alert-dialog",
-    "files": [
-      {
-        "path": "alert-dialog/alert-dialog-2.tsx",
-        "type": "registry:example"
-      }
-    ],
-    "source": "/registry-examples-duckui/src/alert-dialog"
-  },
-  {
-    "name": "alert-dialog-3",
-    "type": "registry:example",
-    "registryDependencies": [
-      "alert-dialog"
-    ],
-    "root_folder": "alert-dialog",
-    "files": [
-      {
-        "path": "alert-dialog/alert-dialog-3.tsx",
-        "type": "registry:example"
-      }
-    ],
-    "source": "/registry-examples-duckui/src/alert-dialog"
-  },
-  {
-    "name": "alert-dialog-4",
-    "type": "registry:example",
-    "registryDependencies": [
-      "alert-dialog"
-    ],
-    "root_folder": "alert-dialog",
-    "files": [
-      {
-        "path": "alert-dialog/alert-dialog-4.tsx",
         "type": "registry:example"
       }
     ],
@@ -1708,6 +1705,36 @@
     "files": [
       {
         "path": "drawer/drawer-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
+  },
+  {
+    "name": "drawer-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/drawer"
+  },
+  {
+    "name": "drawer-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "files": [
+      {
+        "path": "drawer/drawer-6.tsx",
         "type": "registry:example"
       }
     ],

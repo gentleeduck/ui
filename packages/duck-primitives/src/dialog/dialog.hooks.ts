@@ -50,10 +50,10 @@ export function useDialog({ open: openProp, onOpenChange, lockScroll, modal, wra
       handleOpenChange(false)
     }
 
-    contentRef.current?.addEventListener('close', handleClose)
+    contentRef.current?.addEventListener('cancel', handleClose)
 
     return () => {
-      contentRef.current?.removeEventListener('close', handleClose)
+      contentRef.current?.removeEventListener('cancel', handleClose)
       cleanLockScrollbar()
     }
   }, [open, openProp, onOpenChange])

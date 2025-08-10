@@ -57,15 +57,7 @@ export const Index: Record<string, any> = {
     registryDependencies: [],
     files: [
       {
-        path: 'alert-dialog/alert-dialog.hook.ts',
-        type: 'registry:ui',
-      },
-      {
         path: 'alert-dialog/alert-dialog.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'alert-dialog/alert-dialog.types.ts',
         type: 'registry:ui',
       },
       {
@@ -235,6 +227,10 @@ export const Index: Record<string, any> = {
     type: 'registry:ui',
     registryDependencies: [],
     files: [
+      {
+        path: 'dialog/dialog-responsive.tsx',
+        type: 'registry:ui',
+      },
       {
         path: 'dialog/dialog.tsx',
         type: 'registry:ui',
@@ -819,6 +815,60 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  calendar: {
+    name: 'calendar',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'calendar/calendar.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'calendar/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/calendar')),
+    source: '/registry-ui-duckui/src/calendar',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  select: {
+    name: 'select',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'select/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'select/select.hooks.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'select/select.libs.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'select/select.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'select/select.types.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/select')),
+    source: '/registry-ui-duckui/src/select',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'accordion-1': {
     name: 'accordion-1',
     description: '',
@@ -950,57 +1000,6 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/alert-dialog/alert-dialog-1')),
-    source: '/registry-examples-duckui/src/alert-dialog',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'alert-dialog-2': {
-    name: 'alert-dialog-2',
-    description: '',
-    type: 'registry:example',
-    registryDependencies: ['alert-dialog'],
-    files: [
-      {
-        path: 'alert-dialog/alert-dialog-2.tsx',
-        type: 'registry:example',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/alert-dialog/alert-dialog-2')),
-    source: '/registry-examples-duckui/src/alert-dialog',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'alert-dialog-3': {
-    name: 'alert-dialog-3',
-    description: '',
-    type: 'registry:example',
-    registryDependencies: ['alert-dialog'],
-    files: [
-      {
-        path: 'alert-dialog/alert-dialog-3.tsx',
-        type: 'registry:example',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/alert-dialog/alert-dialog-3')),
-    source: '/registry-examples-duckui/src/alert-dialog',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'alert-dialog-4': {
-    name: 'alert-dialog-4',
-    description: '',
-    type: 'registry:example',
-    registryDependencies: ['alert-dialog'],
-    files: [
-      {
-        path: 'alert-dialog/alert-dialog-4.tsx',
-        type: 'registry:example',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/alert-dialog/alert-dialog-4')),
     source: '/registry-examples-duckui/src/alert-dialog',
     category: '',
     subcategory: '',
@@ -1919,6 +1918,40 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-4')),
+    source: '/registry-examples-duckui/src/drawer',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-5': {
+    name: 'drawer-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-5')),
+    source: '/registry-examples-duckui/src/drawer',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'drawer-6': {
+    name: 'drawer-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-6')),
     source: '/registry-examples-duckui/src/drawer',
     category: '',
     subcategory: '',

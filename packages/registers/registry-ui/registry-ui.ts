@@ -278,6 +278,20 @@ export const registry_ui: Registry = [
     root_folder: 'hover-card',
     files: [],
   },
+  {
+    name: 'calendar',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'calendar',
+    files: [],
+  },
+  {
+    name: 'select',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'select',
+    files: [],
+  },
 
   // {
   //   name: 'typography',

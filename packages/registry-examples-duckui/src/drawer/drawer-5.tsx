@@ -25,7 +25,7 @@ function generateRandomGoals(count: number, minGoal: number = 100, maxGoal: numb
 
 const goals = generateRandomGoals(20)
 
-export default function DrawerDemo() {
+export default function DrawerDemo7Shadcn() {
   const [goal, setGoal] = React.useState<number>(350)
 
   function onClick(adjustment: number) {
@@ -33,10 +33,11 @@ export default function DrawerDemo() {
   }
 
   return (
-    <Drawer>
+    <Drawer modal={false}>
       <DrawerTrigger asChild>
         <Button variant="outline">Open New Drawer</Button>
       </DrawerTrigger>
+
       <DrawerContent className="h-[480px]">
         <div className="mx-auto max-w-sm">
           <DrawerHeader>
