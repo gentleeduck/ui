@@ -1,11 +1,11 @@
 import { cn } from '@gentleduck/libs/cn'
-import { FC } from 'react'
 
-interface CodeProps extends React.HTMLAttributes<HTMLElement> {}
+interface CodeProps extends React.HTMLAttributes<HTMLElement> {
+  __rawString__?: boolean
+}
 
-export const Code: FC<CodeProps> = ({ className, ...props }) => {
-  const rawString = (props as any)?.['__rawString__'] as string
-  if (rawString) {
+export function CodeBlock({ className, __rawString__, ...props }: CodeProps) {
+  if (__rawString__) {
     return (
       <code
         className={cn(

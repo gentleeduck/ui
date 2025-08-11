@@ -28,8 +28,8 @@ pre {
   @apply relative bg-muted/40 dark:bg-muted/40 rounded-lg border-border border mb-4 mt-6;
 }
 
-[data-value]>[data-rehype-pretty-code-fragment] {
-  @apply bg-transparent m-0 static;
+div[data-value]:not([data-value="cli"])[duck-tabs-content]>[data-rehype-pretty-code-fragment] {
+  @apply bg-transparent m-0 static rounded-none border-0;
 }
 
 [data-rehype-pretty-code-fragment] code {

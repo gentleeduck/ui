@@ -80,15 +80,12 @@ export function componentSource({ node }: { node: UnistNode }) {
       ...items.map((item) => {
         return u('element', {
           tagName: 'pre',
-          properties: {
-            __rawString__: item.src,
-          },
+          properties: {},
           children: [
             u('element', {
               tagName: 'code',
               properties: {
                 className: ['language-tsx'],
-                __rawString__: item.src,
               },
               children: [
                 {
@@ -135,15 +132,9 @@ export function componentPreview({ node }: { node: UnistNode }) {
     node.children?.push(
       u('element', {
         tagName: 'pre',
-        properties: {
-          __src__: source,
-        },
         children: [
           u('element', {
             tagName: 'code',
-            properties: {
-              className: ['language-tsx'],
-            },
             children: [
               {
                 type: 'text',

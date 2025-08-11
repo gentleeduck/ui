@@ -79,8 +79,9 @@ export function ComponentPreview({
         <div className="flex items-center justify-between">
           {!hideCode && (
             <TabsList className="w-full justify-start border-b bg-transparent p-0 rounded-none overflow-x-auto [&_button]:shadow-none">
-              {TABS.map((tab) => (
+              {TABS.map((tab, idx) => (
                 <TabsTrigger
+                  key={idx}
                   value={tab.value}
                   className="[&[aria-selected='true']]:text-primary border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none [&_input]:focus-visible:ring-transparent [&_input]:focus-visible:shadow-none [&_input]:focus-visible:ring-offset-0">
                   {tab.name}

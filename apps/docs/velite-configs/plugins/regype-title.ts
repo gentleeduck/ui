@@ -16,7 +16,6 @@ export function rehypeTitle() {
             Object.keys(child.properties ?? {}).includes('data-rehype-pretty-code-title')
           ) {
             child.tagName = 'figcaption'
-            console.dir(child, { depth: null })
           }
         })
       }

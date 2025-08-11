@@ -15,7 +15,7 @@ import { CopyButton, CopyNpmCommandButton } from '../copy-button'
 import {
   A,
   Callout,
-  Code,
+  CodeBlock,
   CodeBlockWrapper,
   ComponentExample,
   ComponentPreview,
@@ -42,6 +42,7 @@ import {
   TabTrigger,
 } from './mdx-components'
 import { FigcaptionBlock } from './mdx-components/code/figcaption-block'
+import { SpanBlock } from './mdx-components/code/span-block'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -89,7 +90,8 @@ const components = {
   td: TableCell,
   pre: PreBlock,
   figcaption: FigcaptionBlock,
-  code: Code,
+  code: CodeBlock,
+  // span: SpanBlock,
   Image,
   Callout,
   ComponentPreview,

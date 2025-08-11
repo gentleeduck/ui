@@ -269,7 +269,7 @@ importers:
         version: 7.62.0(react@19.0.0)
       rolldown:
         specifier: latest
-        version: 1.0.0-beta.31
+        version: 1.0.0-beta.32
       sonda:
         specifier: ^0.7.1
         version: 0.7.1
@@ -375,10 +375,10 @@ importers:
         version: 1.2.1
       contentlayer:
         specifier: ^0.3.4
-        version: 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
+        version: 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
       contentlayer2:
         specifier: ^0.4.6
-        version: 0.4.6(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
+        version: 0.4.6(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -391,6 +391,9 @@ importers:
       hast-util-heading-rank:
         specifier: ^3.0.0
         version: 3.0.0
+      hast-util-to-jsx-runtime:
+        specifier: ^2.3.6
+        version: 2.3.6
       hast-util-to-string:
         specifier: ^3.0.1
         version: 3.0.1
@@ -414,10 +417,10 @@ importers:
         version: 15.3.4(@babel/core@7.27.4)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1)
       next-contentlayer:
         specifier: ^0.3.4
-        version: 0.3.4(contentlayer@0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0))(esbuild@0.25.8)(markdown-wasm@1.2.0)(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 0.3.4(contentlayer@0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0))(esbuild@0.23.1)(markdown-wasm@1.2.0)(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next-contentlayer2:
         specifier: ^0.4.6
-        version: 0.4.6(acorn@8.15.0)(contentlayer2@0.4.6(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0))(esbuild@0.25.8)(markdown-wasm@1.2.0)(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 0.4.6(acorn@8.15.0)(contentlayer2@0.4.6(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0))(esbuild@0.23.1)(markdown-wasm@1.2.0)(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -5337,6 +5340,9 @@ packages:
   '@napi-rs/wasm-runtime@1.0.1':
     resolution: {integrity: sha512-KVlQ/jgywZpixGCKMNwxStmmbYEMyokZpCf2YuIChhfJA2uqfAKNEM8INz7zzTo55iEXfBhIIs3VqYyqzDLj8g==}
 
+  '@napi-rs/wasm-runtime@1.0.3':
+    resolution: {integrity: sha512-rZxtMsLwjdXkMUGC3WwsPwLNVqVqnTJT6MNIB6e+5fhMcSCPP0AOsNWuMQ5mdCq6HNjs/ZeWAEchpqeprqBD2Q==}
+
   '@netlify/binary-info@1.0.0':
     resolution: {integrity: sha512-4wMPu9iN3/HL97QblBsBay3E1etIciR84izI3U+4iALY+JHCrI+a2jO0qbAZ/nxKoegypYEaiiqWXylm+/zfrw==}
 
@@ -5699,6 +5705,10 @@ packages:
     resolution: {integrity: sha512-3rzy1bJAZ4s7zV9TKT60x119RwJDCDqEtCwK/Zc2qlm7wGhiIUxLLYUhE/mN91yB0u1kxm5sh4NjU12sPqQTpg==}
     engines: {node: '>=6.9.0'}
 
+  '@oxc-project/runtime@0.81.0':
+    resolution: {integrity: sha512-zm/LDVOq9FEmHiuM8zO4DWirv0VP2Tv2VsgaiHby9nvpq+FVrcqNYgv+TysLKOITQXWZj/roluTxFvpkHP0Iuw==}
+    engines: {node: '>=6.9.0'}
+
   '@oxc-project/types@0.68.1':
     resolution: {integrity: sha512-Q/H52+HXPPxuIHwQnVkEM8GebLnNcokkI4zQQdbxLIZdfxMGhAm9+gEqsMku3t95trN/1titHUmCM9NxbKaE2g==}
 
@@ -5710,6 +5720,9 @@ packages:
 
   '@oxc-project/types@0.80.0':
     resolution: {integrity: sha512-xxHQm8wfCv2e8EmtaDwpMeAHOWqgQDAYg+BJouLXSQt5oTKu9TIXrgNMGSrM2fLvKmECsRd9uUFAAD+hPyootA==}
+
+  '@oxc-project/types@0.81.0':
+    resolution: {integrity: sha512-CnOqkybZK8z6Gx7Wb1qF7AEnSzbol1WwcIzxYOr8e91LytGOjo0wCpgoYWZo8sdbpqX+X+TJayIzo4Pv0R/KjA==}
 
   '@oxc-resolver/binding-darwin-arm64@7.0.1':
     resolution: {integrity: sha512-LpqmYjzY+f4AThJ9oy1DjRfkWoQcwGJtpU1UWRlR5Zm5Q/H86hFqkf8D97aqku1lLjzewi7qFWyo2gR1Fwkhhw==}
@@ -7137,6 +7150,11 @@ packages:
     cpu: [arm64]
     os: [android]
 
+  '@rolldown/binding-android-arm64@1.0.0-beta.32':
+    resolution: {integrity: sha512-Gs+313LfR4Ka3hvifdag9r44WrdKQaohya7ZXUXzARF7yx0atzFlVZjsvxtKAw1Vmtr4hB/RjUD1jf73SW7zDw==}
+    cpu: [arm64]
+    os: [android]
+
   '@rolldown/binding-darwin-arm64@1.0.0-beta.16':
     resolution: {integrity: sha512-dzlvuodUFc/QX97jYSsPHtYysqeSeM5gBxiN+DpV93tXEYyFMWm3cECxNmShz4ZM+lrgm6eG2/txzLZ/z9qWLw==}
     cpu: [arm64]
@@ -7149,6 +7167,11 @@ packages:
 
   '@rolldown/binding-darwin-arm64@1.0.0-beta.31':
     resolution: {integrity: sha512-BHfHJ8Nb5G7ZKJl6pimJacupONT4F7w6gmQHw41rouAnJF51ORDwGefWeb6OMLzGmJwzxlIVPERfnJf1EsMM7A==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@rolldown/binding-darwin-arm64@1.0.0-beta.32':
+    resolution: {integrity: sha512-W8oMqzGcI7wKPXUtS3WJNXzbghHfNiuM1UBAGpVb+XlUCgYRQJd2PRGP7D3WGql3rR3QEhUvSyAuCBAftPQw6Q==}
     cpu: [arm64]
     os: [darwin]
 
@@ -7172,6 +7195,11 @@ packages:
     cpu: [x64]
     os: [darwin]
 
+  '@rolldown/binding-darwin-x64@1.0.0-beta.32':
+    resolution: {integrity: sha512-pM4c4sKUk37noJrnnDkJknLhCsfZu7aWyfe67bD0GQHfzAPjV16wPeD9CmQg4/0vv+5IfHYaa4VE536xbA+W0Q==}
+    cpu: [x64]
+    os: [darwin]
+
   '@rolldown/binding-darwin-x64@1.0.0-beta.8-commit.534fde3':
     resolution: {integrity: sha512-xH9mSqc29+P3rCKv8EAih3FbF3Yz8HqT9nzZU5WuxrJ2mjoUwgI4rshFRJGUzjzYPuF4TTX5ooEApI+ndhvyWQ==}
     cpu: [x64]
@@ -7189,6 +7217,11 @@ packages:
 
   '@rolldown/binding-freebsd-x64@1.0.0-beta.31':
     resolution: {integrity: sha512-nffC1u7ccm12qlAea8ExY3AvqlaHy/o/3L4p5Es8JFJ3zJSs6e3DyuxGZZVdl9EVwsLxPPTvioIl4tEm2afwyw==}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@rolldown/binding-freebsd-x64@1.0.0-beta.32':
+    resolution: {integrity: sha512-M8SUgFlYb5kJJWcFC8gUMRiX4WLFxPKMed3SJ2YrxontgIrEcpizPU8nLNVsRYEStoSfKHKExpQw3OP6fm+5bw==}
     cpu: [x64]
     os: [freebsd]
 
@@ -7212,6 +7245,11 @@ packages:
     cpu: [arm]
     os: [linux]
 
+  '@rolldown/binding-linux-arm-gnueabihf@1.0.0-beta.32':
+    resolution: {integrity: sha512-FuQpbNC/hE//bvv29PFnk0AtpJzdPdYl5CMhlWPovd9g3Kc3lw9TrEPIbL7gRPUdhKAiq6rVaaGvOnXxsa0eww==}
+    cpu: [arm]
+    os: [linux]
+
   '@rolldown/binding-linux-arm-gnueabihf@1.0.0-beta.8-commit.534fde3':
     resolution: {integrity: sha512-JQFHthJZSlkJA98bu3lSVXAt6Kg0NhRr2KfKSfJ9ITJyWmQbpIaC+5ATCejPJLbRTb/38SiJW3ggpn/NKgfOFQ==}
     cpu: [arm]
@@ -7232,6 +7270,11 @@ packages:
     cpu: [arm64]
     os: [linux]
 
+  '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.32':
+    resolution: {integrity: sha512-hRZygRlaGCjcNTNY9GV7dDI18sG1dK3cc7ujHq72LoDad23zFDUGMQjiSxHWK+/r92iMV+j2MiHbvzayxqynsg==}
+    cpu: [arm64]
+    os: [linux]
+
   '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.8-commit.534fde3':
     resolution: {integrity: sha512-JYZPiZi7e2OQEcnkQQrpsG2PjvnCkOtd+6PH5X6i9CBoym79h/l9WKYCve4ylqQWsWe8WVs+lcLqBHRwm2LfZw==}
     cpu: [arm64]
@@ -7249,6 +7292,11 @@ packages:
 
   '@rolldown/binding-linux-arm64-musl@1.0.0-beta.31':
     resolution: {integrity: sha512-duJ3IkEBj9Xe9NYW1n8Y3483VXHGi8zQ0ZsLbK8464EJUXLF7CXM8Ry+jkkUw+ZvA+Zu1E/+C6p2Y6T9el0C9g==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@rolldown/binding-linux-arm64-musl@1.0.0-beta.32':
+    resolution: {integrity: sha512-HzgT6h+CXLs+GKAU0Wvkt3rvcv0CmDBsDjlPhh4GHysOKbG9NjpKYX2zvjx671E9pGbTvcPpwy7gGsy7xpu+8g==}
     cpu: [arm64]
     os: [linux]
 
@@ -7277,6 +7325,11 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@rolldown/binding-linux-x64-gnu@1.0.0-beta.32':
+    resolution: {integrity: sha512-Ab/wbf6gdzphDbsg51UaxsC93foQ7wxhtg0SVCXd25BrV4MAJ1HoDtKN/f4h0maFmJobkqYub2DlmoasUzkvBg==}
+    cpu: [x64]
+    os: [linux]
+
   '@rolldown/binding-linux-x64-gnu@1.0.0-beta.8-commit.534fde3':
     resolution: {integrity: sha512-JuO+i82hYTexZoVFBkvTuEA6YPyjurPEv+ljmNkLA70NsuLWN6iw1Va0hz+TgcYh7wNsDBtWjN2W16/oeRqBGw==}
     cpu: [x64]
@@ -7297,10 +7350,20 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@rolldown/binding-linux-x64-musl@1.0.0-beta.32':
+    resolution: {integrity: sha512-VoxqGEfh5A1Yx+zBp/FR5QwAbtzbuvky2SVc+ii4g1gLD4zww6mt/hPi5zG+b88zYPFBKHpxMtsz9cWqXU5V5Q==}
+    cpu: [x64]
+    os: [linux]
+
   '@rolldown/binding-linux-x64-musl@1.0.0-beta.8-commit.534fde3':
     resolution: {integrity: sha512-3WSs+v5lIWtl7ScUzNCasNjf4UAXLaPuQHxKP+nPdwhmGseKOLjpHmaJe9CTHQiJPuMJ1GtIXWM5oDMO3TSjYA==}
     cpu: [x64]
     os: [linux]
+
+  '@rolldown/binding-openharmony-arm64@1.0.0-beta.32':
+    resolution: {integrity: sha512-qZ1ViyOUDGbiZrSAJ/FIAhYUElDfVxxFW6DLT/w4KeoZN3HsF4jmRP95mXtl51/oGrqzU9l9Q2f7/P4O/o2ZZA==}
+    cpu: [arm64]
+    os: [openharmony]
 
   '@rolldown/binding-wasm32-wasi@1.0.0-beta.16':
     resolution: {integrity: sha512-gFWaCVJENQWYAWkk6yJbteyMmxdZAYE9VLB4S4YqfxOYbGvVxq0K1Dn89uPEzN4beEaLToe917YzXqLdv4tPvQ==}
@@ -7314,6 +7377,11 @@ packages:
 
   '@rolldown/binding-wasm32-wasi@1.0.0-beta.31':
     resolution: {integrity: sha512-fM1eUIuHLsNJXRlWOuIIex1oBJ89I0skFWo5r/D3KSJ5gD9MBd3g4Hp+v1JGohvyFE+7ylnwRxSUyMEeYpA69A==}
+    engines: {node: '>=14.0.0'}
+    cpu: [wasm32]
+
+  '@rolldown/binding-wasm32-wasi@1.0.0-beta.32':
+    resolution: {integrity: sha512-hEkG3wD+f3wytV0lqwb/uCrXc4r4Ny/DWJFJPfQR3VeMWplhWGgSHNwZc2Q7k86Yi36f9NNzzWmrIuvHI9lCVw==}
     engines: {node: '>=14.0.0'}
     cpu: [wasm32]
 
@@ -7337,6 +7405,11 @@ packages:
     cpu: [arm64]
     os: [win32]
 
+  '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.32':
+    resolution: {integrity: sha512-k3MvDf8SiA7uP2ikP0unNouJ2YCrnwi7xcVW+RDgMp5YXVr3Xu6svmT3HGn0tkCKUuPmf+uy8I5uiHt5qWQbew==}
+    cpu: [arm64]
+    os: [win32]
+
   '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.8-commit.534fde3':
     resolution: {integrity: sha512-fbdRFDttUqWaM2YVEai9Qk8qcQGaEz2TLr1YEPqSaNs0N8ZX4bP8WbmQLrQPGdfpCn0GzFwOcyyQLVzex2Zbvw==}
     cpu: [arm64]
@@ -7354,6 +7427,11 @@ packages:
 
   '@rolldown/binding-win32-ia32-msvc@1.0.0-beta.31':
     resolution: {integrity: sha512-0TQcKu9xZVHYALit+WJsSuADGlTFfOXhnZoIHWWQhTk3OgbwwbYcSoZUXjRdFmR6Wswn4csHtJGN1oYKeQ6/2g==}
+    cpu: [ia32]
+    os: [win32]
+
+  '@rolldown/binding-win32-ia32-msvc@1.0.0-beta.32':
+    resolution: {integrity: sha512-wAi/FxGh7arDOUG45UmnXE1sZUa0hY4cXAO2qWAjFa3f7bTgz/BqwJ7XN5SUezvAJPNkME4fEpInfnBvM25a0w==}
     cpu: [ia32]
     os: [win32]
 
@@ -7377,6 +7455,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@rolldown/binding-win32-x64-msvc@1.0.0-beta.32':
+    resolution: {integrity: sha512-Ej0i4PZk8ltblZtzVK8ouaGUacUtxRmTm5S9794mdyU/tYxXjAJNseOfxrnHpMWKjMDrOKbqkPqJ52T9NR4LQQ==}
+    cpu: [x64]
+    os: [win32]
+
   '@rolldown/binding-win32-x64-msvc@1.0.0-beta.8-commit.534fde3':
     resolution: {integrity: sha512-6lAzp3kMr4VZ+DXHZazvr51OtKdr8mgWWLspxSyrr+WVCdF3SdPh0vp1cZ6+c+psm5YWW6RZClhGAzjM+ZzD1w==}
     cpu: [x64]
@@ -7390,6 +7473,9 @@ packages:
 
   '@rolldown/pluginutils@1.0.0-beta.31':
     resolution: {integrity: sha512-IaDZ9NhjOIOkYtm+hH0GX33h3iVZ2OeSUnFF0+7Z4+1GuKs4Kj5wK3+I2zNV9IPLfqV4XlwWif8SXrZNutxciQ==}
+
+  '@rolldown/pluginutils@1.0.0-beta.32':
+    resolution: {integrity: sha512-QReCdvxiUZAPkvp1xpAg62IeNzykOFA6syH2CnClif4YmALN1XKpB39XneL80008UbtMShthSVDKmrx05N1q/g==}
 
   '@rolldown/pluginutils@1.0.0-beta.9':
     resolution: {integrity: sha512-e9MeMtVWo186sgvFFJOPGy7/d2j2mZhLJIdVW0C/xDluuOvymEATqz6zKsP0ZmXGzQtqlyjz5sC1sYQUoJG98w==}
@@ -8674,9 +8760,6 @@ packages:
 
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
-
-  '@types/estree@1.0.6':
-    resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
@@ -13861,9 +13944,6 @@ packages:
   property-information@6.5.0:
     resolution: {integrity: sha512-PgTgs/BlvHxOu8QuEN7wi5A0OmXaBcHpmCSTehcs6Uuu9IkDIEo13Hy7n898RHfrQ49vKCoGeWZSaAK01nwVig==}
 
-  property-information@7.0.0:
-    resolution: {integrity: sha512-7D/qOz/+Y4X/rzSB6jKxKUsQnphO046ei8qxG59mtM3RG3DHgTK81HrxrmoDVINJb8NKT5ZsRbwHvQ6B68Iyhg==}
-
   property-information@7.1.0:
     resolution: {integrity: sha512-TwEZ+X+yCJmYfL7TPUOcvBZ4QfoT5YenQiJuX//0th53DE6w0xxLEtfK3iyryQFddXuvkIk51EEgrJQ0WJkOmQ==}
 
@@ -14680,6 +14760,10 @@ packages:
 
   rolldown@1.0.0-beta.31:
     resolution: {integrity: sha512-M2Q+RfG0FMJeSW3RSFTbvtjGVTcQpTQvN247D0EMSsPkpZFoinopR9oAnQiwgogQyzDuvKNnbyCbQQlmNAzSoQ==}
+    hasBin: true
+
+  rolldown@1.0.0-beta.32:
+    resolution: {integrity: sha512-vxI2sPN07MMaoYKlFrVva5qZ1Y7DAZkgp7MQwTnyHt4FUMz9Sh+YeCzNFV9JYHI6ZNwoGWLCfCViE3XVsRC1cg==}
     hasBin: true
 
   rolldown@1.0.0-beta.8-commit.534fde3:
@@ -16686,7 +16770,7 @@ snapshots:
       tsup: 8.5.0(@swc/core@1.12.0(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
       typescript: 5.8.3
       vite: rolldown-vite@7.0.1(@types/node@20.19.9)(esbuild@0.23.1)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.8)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.23.1)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
       zod: 3.24.2
     transitivePeerDependencies:
       - jiti
@@ -17518,9 +17602,9 @@ snapshots:
     dependencies:
       chalk: 4.1.2
 
-  '@contentlayer/cli@0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)':
+  '@contentlayer/cli@0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)':
     dependencies:
-      '@contentlayer/core': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
+      '@contentlayer/core': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
       '@contentlayer/utils': 0.3.4
       clipanion: 3.2.1(typanion@3.14.0)
       typanion: 3.14.0
@@ -17530,22 +17614,22 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  '@contentlayer/client@0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)':
+  '@contentlayer/client@0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)':
     dependencies:
-      '@contentlayer/core': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
+      '@contentlayer/core': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - esbuild
       - markdown-wasm
       - supports-color
 
-  '@contentlayer/core@0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)':
+  '@contentlayer/core@0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)':
     dependencies:
       '@contentlayer/utils': 0.3.4
       camel-case: 4.1.2
       comment-json: 4.2.5
       gray-matter: 4.0.3
-      mdx-bundler: 9.2.1(esbuild@0.25.8)
+      mdx-bundler: 9.2.1(esbuild@0.23.1)
       rehype-stringify: 9.0.4
       remark-frontmatter: 4.0.1
       remark-parse: 10.0.2
@@ -17554,15 +17638,15 @@ snapshots:
       type-fest: 3.13.1
       unified: 10.1.2
     optionalDependencies:
-      esbuild: 0.25.8
+      esbuild: 0.23.1
       markdown-wasm: 1.2.0
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - supports-color
 
-  '@contentlayer/source-files@0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)':
+  '@contentlayer/source-files@0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)':
     dependencies:
-      '@contentlayer/core': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
+      '@contentlayer/core': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
       '@contentlayer/utils': 0.3.4
       chokidar: 3.6.0
       fast-glob: 3.3.3
@@ -17579,10 +17663,10 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  '@contentlayer/source-remote-files@0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)':
+  '@contentlayer/source-remote-files@0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)':
     dependencies:
-      '@contentlayer/core': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer/source-files': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
+      '@contentlayer/core': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer/source-files': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
       '@contentlayer/utils': 0.3.4
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
@@ -17612,6 +17696,19 @@ snapshots:
       ts-pattern: 4.3.0
       type-fest: 3.13.1
 
+  '@contentlayer2/cli@0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)':
+    dependencies:
+      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer2/utils': 0.4.3
+      clipanion: 3.2.1(typanion@3.14.0)
+      typanion: 3.14.0
+    transitivePeerDependencies:
+      - '@effect-ts/otel-node'
+      - acorn
+      - esbuild
+      - markdown-wasm
+      - supports-color
+
   '@contentlayer2/cli@0.4.3(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0)':
     dependencies:
       '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0)
@@ -17625,12 +17722,9 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  '@contentlayer2/cli@0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)':
+  '@contentlayer2/client@0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)':
     dependencies:
-      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer2/utils': 0.4.3
-      clipanion: 3.2.1(typanion@3.14.0)
-      typanion: 3.14.0
+      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - acorn
@@ -17648,14 +17742,26 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  '@contentlayer2/client@0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)':
+  '@contentlayer2/core@0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)':
     dependencies:
-      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
+      '@contentlayer2/utils': 0.4.3
+      camel-case: 4.1.2
+      comment-json: 4.2.5
+      gray-matter: 4.0.3
+      mdx-bundler: 10.1.1(acorn@8.15.0)(esbuild@0.23.1)
+      rehype-stringify: 10.0.1
+      remark-frontmatter: 5.0.0
+      remark-parse: 11.0.0
+      remark-rehype: 11.1.1
+      source-map-support: 0.5.21
+      type-fest: 4.41.0
+      unified: 11.0.5
+    optionalDependencies:
+      esbuild: 0.23.1
+      markdown-wasm: 1.2.0
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - acorn
-      - esbuild
-      - markdown-wasm
       - supports-color
 
   '@contentlayer2/core@0.4.3(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0)':
@@ -17680,26 +17786,24 @@ snapshots:
       - acorn
       - supports-color
 
-  '@contentlayer2/core@0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)':
+  '@contentlayer2/source-files@0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)':
     dependencies:
+      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
       '@contentlayer2/utils': 0.4.3
-      camel-case: 4.1.2
-      comment-json: 4.2.5
+      chokidar: 3.6.0
+      fast-glob: 3.3.3
       gray-matter: 4.0.3
-      mdx-bundler: 10.1.1(acorn@8.15.0)(esbuild@0.25.8)
-      rehype-stringify: 10.0.1
-      remark-frontmatter: 5.0.0
-      remark-parse: 11.0.0
-      remark-rehype: 11.1.1
-      source-map-support: 0.5.21
-      type-fest: 4.41.0
+      imagescript: 1.3.0
+      micromatch: 4.0.8
+      ts-pattern: 5.6.2
       unified: 11.0.5
-    optionalDependencies:
-      esbuild: 0.25.8
-      markdown-wasm: 1.2.0
+      yaml: 2.7.0
+      zod: 3.25.76
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - acorn
+      - esbuild
+      - markdown-wasm
       - supports-color
 
   '@contentlayer2/source-files@0.4.3(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0)':
@@ -17722,19 +17826,11 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  '@contentlayer2/source-files@0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)':
+  '@contentlayer2/source-remote-files@0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)':
     dependencies:
-      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
+      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer2/source-files': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
       '@contentlayer2/utils': 0.4.3
-      chokidar: 3.6.0
-      fast-glob: 3.3.3
-      gray-matter: 4.0.3
-      imagescript: 1.3.0
-      micromatch: 4.0.8
-      ts-pattern: 5.6.2
-      unified: 11.0.5
-      yaml: 2.7.0
-      zod: 3.25.76
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - acorn
@@ -17746,18 +17842,6 @@ snapshots:
     dependencies:
       '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0)
       '@contentlayer2/source-files': 0.4.3(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0)
-      '@contentlayer2/utils': 0.4.3
-    transitivePeerDependencies:
-      - '@effect-ts/otel-node'
-      - acorn
-      - esbuild
-      - markdown-wasm
-      - supports-color
-
-  '@contentlayer2/source-remote-files@0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)':
-    dependencies:
-      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer2/source-files': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
       '@contentlayer2/utils': 0.4.3
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
@@ -18036,11 +18120,21 @@ snapshots:
       '@esbuild-kit/core-utils': 3.3.2
       get-tsconfig: 4.10.0
 
-  '@esbuild-plugins/node-resolve@0.1.4(esbuild@0.25.8)':
+  '@esbuild-plugins/node-resolve@0.1.4(esbuild@0.23.1)':
     dependencies:
       '@types/resolve': 1.20.6
       debug: 4.4.1(supports-color@5.5.0)
-      esbuild: 0.25.8
+      esbuild: 0.23.1
+      escape-string-regexp: 4.0.0
+      resolve: 1.22.10
+    transitivePeerDependencies:
+      - supports-color
+
+  '@esbuild-plugins/node-resolve@0.2.2(esbuild@0.23.1)':
+    dependencies:
+      '@types/resolve': 1.20.6
+      debug: 4.4.1(supports-color@5.5.0)
+      esbuild: 0.23.1
       escape-string-regexp: 4.0.0
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -18051,16 +18145,6 @@ snapshots:
       '@types/resolve': 1.20.6
       debug: 4.4.1(supports-color@5.5.0)
       esbuild: 0.25.5
-      escape-string-regexp: 4.0.0
-      resolve: 1.22.10
-    transitivePeerDependencies:
-      - supports-color
-
-  '@esbuild-plugins/node-resolve@0.2.2(esbuild@0.25.8)':
-    dependencies:
-      '@types/resolve': 1.20.6
-      debug: 4.4.1(supports-color@5.5.0)
-      esbuild: 0.25.8
       escape-string-regexp: 4.0.0
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -19957,20 +20041,20 @@ snapshots:
       - supports-color
     optional: true
 
-  '@mdx-js/esbuild@2.3.0(esbuild@0.25.8)':
+  '@mdx-js/esbuild@2.3.0(esbuild@0.23.1)':
     dependencies:
       '@mdx-js/mdx': 2.3.0
-      esbuild: 0.25.8
+      esbuild: 0.23.1
       node-fetch: 3.3.2
       vfile: 5.3.7
     transitivePeerDependencies:
       - supports-color
 
-  '@mdx-js/esbuild@3.1.0(acorn@8.15.0)(esbuild@0.25.5)':
+  '@mdx-js/esbuild@3.1.0(acorn@8.15.0)(esbuild@0.23.1)':
     dependencies:
       '@mdx-js/mdx': 3.1.0(acorn@8.15.0)
       '@types/unist': 3.0.3
-      esbuild: 0.25.5
+      esbuild: 0.23.1
       source-map: 0.7.4
       vfile: 6.0.3
       vfile-message: 4.0.2
@@ -19978,11 +20062,11 @@ snapshots:
       - acorn
       - supports-color
 
-  '@mdx-js/esbuild@3.1.0(acorn@8.15.0)(esbuild@0.25.8)':
+  '@mdx-js/esbuild@3.1.0(acorn@8.15.0)(esbuild@0.25.5)':
     dependencies:
       '@mdx-js/mdx': 3.1.0(acorn@8.15.0)
       '@types/unist': 3.0.3
-      esbuild: 0.25.8
+      esbuild: 0.25.5
       source-map: 0.7.4
       vfile: 6.0.3
       vfile-message: 4.0.2
@@ -20143,6 +20227,13 @@ snapshots:
     optional: true
 
   '@napi-rs/wasm-runtime@1.0.1':
+    dependencies:
+      '@emnapi/core': 1.4.5
+      '@emnapi/runtime': 1.4.5
+      '@tybys/wasm-util': 0.10.0
+    optional: true
+
+  '@napi-rs/wasm-runtime@1.0.3':
     dependencies:
       '@emnapi/core': 1.4.5
       '@emnapi/runtime': 1.4.5
@@ -20530,6 +20621,8 @@ snapshots:
 
   '@oxc-project/runtime@0.80.0': {}
 
+  '@oxc-project/runtime@0.81.0': {}
+
   '@oxc-project/types@0.68.1': {}
 
   '@oxc-project/types@0.73.0': {}
@@ -20537,6 +20630,8 @@ snapshots:
   '@oxc-project/types@0.73.2': {}
 
   '@oxc-project/types@0.80.0': {}
+
+  '@oxc-project/types@0.81.0': {}
 
   '@oxc-resolver/binding-darwin-arm64@7.0.1':
     optional: true
@@ -22966,6 +23061,9 @@ snapshots:
   '@rolldown/binding-android-arm64@1.0.0-beta.31':
     optional: true
 
+  '@rolldown/binding-android-arm64@1.0.0-beta.32':
+    optional: true
+
   '@rolldown/binding-darwin-arm64@1.0.0-beta.16':
     optional: true
 
@@ -22973,6 +23071,9 @@ snapshots:
     optional: true
 
   '@rolldown/binding-darwin-arm64@1.0.0-beta.31':
+    optional: true
+
+  '@rolldown/binding-darwin-arm64@1.0.0-beta.32':
     optional: true
 
   '@rolldown/binding-darwin-arm64@1.0.0-beta.8-commit.534fde3':
@@ -22987,6 +23088,9 @@ snapshots:
   '@rolldown/binding-darwin-x64@1.0.0-beta.31':
     optional: true
 
+  '@rolldown/binding-darwin-x64@1.0.0-beta.32':
+    optional: true
+
   '@rolldown/binding-darwin-x64@1.0.0-beta.8-commit.534fde3':
     optional: true
 
@@ -22997,6 +23101,9 @@ snapshots:
     optional: true
 
   '@rolldown/binding-freebsd-x64@1.0.0-beta.31':
+    optional: true
+
+  '@rolldown/binding-freebsd-x64@1.0.0-beta.32':
     optional: true
 
   '@rolldown/binding-freebsd-x64@1.0.0-beta.8-commit.534fde3':
@@ -23011,6 +23118,9 @@ snapshots:
   '@rolldown/binding-linux-arm-gnueabihf@1.0.0-beta.31':
     optional: true
 
+  '@rolldown/binding-linux-arm-gnueabihf@1.0.0-beta.32':
+    optional: true
+
   '@rolldown/binding-linux-arm-gnueabihf@1.0.0-beta.8-commit.534fde3':
     optional: true
 
@@ -23023,6 +23133,9 @@ snapshots:
   '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.31':
     optional: true
 
+  '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.32':
+    optional: true
+
   '@rolldown/binding-linux-arm64-gnu@1.0.0-beta.8-commit.534fde3':
     optional: true
 
@@ -23033,6 +23146,9 @@ snapshots:
     optional: true
 
   '@rolldown/binding-linux-arm64-musl@1.0.0-beta.31':
+    optional: true
+
+  '@rolldown/binding-linux-arm64-musl@1.0.0-beta.32':
     optional: true
 
   '@rolldown/binding-linux-arm64-musl@1.0.0-beta.8-commit.534fde3':
@@ -23050,6 +23166,9 @@ snapshots:
   '@rolldown/binding-linux-x64-gnu@1.0.0-beta.31':
     optional: true
 
+  '@rolldown/binding-linux-x64-gnu@1.0.0-beta.32':
+    optional: true
+
   '@rolldown/binding-linux-x64-gnu@1.0.0-beta.8-commit.534fde3':
     optional: true
 
@@ -23062,7 +23181,13 @@ snapshots:
   '@rolldown/binding-linux-x64-musl@1.0.0-beta.31':
     optional: true
 
+  '@rolldown/binding-linux-x64-musl@1.0.0-beta.32':
+    optional: true
+
   '@rolldown/binding-linux-x64-musl@1.0.0-beta.8-commit.534fde3':
+    optional: true
+
+  '@rolldown/binding-openharmony-arm64@1.0.0-beta.32':
     optional: true
 
   '@rolldown/binding-wasm32-wasi@1.0.0-beta.16':
@@ -23080,6 +23205,11 @@ snapshots:
       '@napi-rs/wasm-runtime': 1.0.1
     optional: true
 
+  '@rolldown/binding-wasm32-wasi@1.0.0-beta.32':
+    dependencies:
+      '@napi-rs/wasm-runtime': 1.0.3
+    optional: true
+
   '@rolldown/binding-wasm32-wasi@1.0.0-beta.8-commit.534fde3':
     dependencies:
       '@napi-rs/wasm-runtime': 0.2.12
@@ -23094,6 +23224,9 @@ snapshots:
   '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.31':
     optional: true
 
+  '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.32':
+    optional: true
+
   '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.8-commit.534fde3':
     optional: true
 
@@ -23104,6 +23237,9 @@ snapshots:
     optional: true
 
   '@rolldown/binding-win32-ia32-msvc@1.0.0-beta.31':
+    optional: true
+
+  '@rolldown/binding-win32-ia32-msvc@1.0.0-beta.32':
     optional: true
 
   '@rolldown/binding-win32-ia32-msvc@1.0.0-beta.8-commit.534fde3':
@@ -23118,6 +23254,9 @@ snapshots:
   '@rolldown/binding-win32-x64-msvc@1.0.0-beta.31':
     optional: true
 
+  '@rolldown/binding-win32-x64-msvc@1.0.0-beta.32':
+    optional: true
+
   '@rolldown/binding-win32-x64-msvc@1.0.0-beta.8-commit.534fde3':
     optional: true
 
@@ -23126,6 +23265,8 @@ snapshots:
   '@rolldown/pluginutils@1.0.0-beta.19': {}
 
   '@rolldown/pluginutils@1.0.0-beta.31': {}
+
+  '@rolldown/pluginutils@1.0.0-beta.32': {}
 
   '@rolldown/pluginutils@1.0.0-beta.9': {}
 
@@ -24861,8 +25002,6 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.8
 
-  '@types/estree@1.0.6': {}
-
   '@types/estree@1.0.7': {}
 
   '@types/estree@1.0.8': {}
@@ -25309,7 +25448,7 @@ snapshots:
       magic-string: 0.30.17
       sirv: 3.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.14)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.8)(jiti@2.4.2)(jsdom@20.0.3)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.14)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.8)(jiti@2.4.2)(jsdom@25.0.1)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
       ws: 8.18.2
     optionalDependencies:
       playwright: 1.53.1
@@ -25408,7 +25547,7 @@ snapshots:
       magic-string: 0.30.17
       sirv: 3.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.8)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.23.1)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
       ws: 8.18.2
     optionalDependencies:
       playwright: 1.53.1
@@ -25514,6 +25653,14 @@ snapshots:
     optionalDependencies:
       vite: rolldown-vite@6.3.21(@types/node@20.17.57)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
 
+  '@vitest/mocker@3.2.4(rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.23.1)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))':
+    dependencies:
+      '@vitest/spy': 3.2.4
+      estree-walker: 3.0.3
+      magic-string: 0.30.17
+    optionalDependencies:
+      vite: rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.23.1)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
+
   '@vitest/mocker@3.2.4(rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.5)(jiti@1.21.7)(sass@1.89.1)(terser@5.43.1)(tsx@4.19.4)(yaml@2.8.0))':
     dependencies:
       '@vitest/spy': 3.2.4
@@ -25521,14 +25668,6 @@ snapshots:
       magic-string: 0.30.17
     optionalDependencies:
       vite: rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.5)(jiti@1.21.7)(sass@1.89.1)(terser@5.43.1)(tsx@4.19.4)(yaml@2.8.0)
-
-  '@vitest/mocker@3.2.4(rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))':
-    dependencies:
-      '@vitest/spy': 3.2.4
-      estree-walker: 3.0.3
-      magic-string: 0.30.17
-    optionalDependencies:
-      vite: rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
 
   '@vitest/mocker@3.2.4(rolldown-vite@6.3.21(@types/node@22.15.14)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))':
     dependencies:
@@ -25669,7 +25808,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.14
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.8)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.23.1)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
 
   '@vitest/utils@3.1.4':
     dependencies:
@@ -26716,6 +26855,21 @@ snapshots:
       snake-case: 2.1.0
       upper-case: 1.1.3
 
+  contentlayer2@0.4.6(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0):
+    dependencies:
+      '@contentlayer2/cli': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer2/client': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer2/source-files': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer2/source-remote-files': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer2/utils': 0.4.3
+    transitivePeerDependencies:
+      - '@effect-ts/otel-node'
+      - acorn
+      - esbuild
+      - markdown-wasm
+      - supports-color
+
   contentlayer2@0.4.6(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0):
     dependencies:
       '@contentlayer2/cli': 0.4.3(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0)
@@ -26731,28 +26885,13 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  contentlayer2@0.4.6(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0):
+  contentlayer@0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0):
     dependencies:
-      '@contentlayer2/cli': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer2/client': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer2/source-files': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer2/source-remote-files': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer2/utils': 0.4.3
-    transitivePeerDependencies:
-      - '@effect-ts/otel-node'
-      - acorn
-      - esbuild
-      - markdown-wasm
-      - supports-color
-
-  contentlayer@0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0):
-    dependencies:
-      '@contentlayer/cli': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer/client': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer/core': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer/source-files': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer/source-remote-files': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
+      '@contentlayer/cli': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer/client': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer/core': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer/source-files': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer/source-remote-files': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
       '@contentlayer/utils': 0.3.4
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
@@ -28606,7 +28745,7 @@ snapshots:
 
   hast-util-to-jsx-runtime@2.3.6:
     dependencies:
-      '@types/estree': 1.0.6
+      '@types/estree': 1.0.8
       '@types/hast': 3.0.4
       '@types/unist': 3.0.3
       comma-separated-tokens: 2.0.3
@@ -28616,7 +28755,7 @@ snapshots:
       mdast-util-mdx-expression: 2.0.1
       mdast-util-mdx-jsx: 3.2.0
       mdast-util-mdxjs-esm: 2.0.1
-      property-information: 7.0.0
+      property-information: 7.1.0
       space-separated-tokens: 2.0.2
       style-to-js: 1.1.16
       unist-util-position: 5.0.0
@@ -30015,6 +30154,22 @@ snapshots:
 
   mdurl@2.0.0: {}
 
+  mdx-bundler@10.1.1(acorn@8.15.0)(esbuild@0.23.1):
+    dependencies:
+      '@babel/runtime': 7.27.6
+      '@esbuild-plugins/node-resolve': 0.2.2(esbuild@0.23.1)
+      '@fal-works/esbuild-plugin-global-externals': 2.1.2
+      '@mdx-js/esbuild': 3.1.0(acorn@8.15.0)(esbuild@0.23.1)
+      esbuild: 0.23.1
+      gray-matter: 4.0.3
+      remark-frontmatter: 5.0.0
+      remark-mdx-frontmatter: 4.0.0
+      uuid: 9.0.1
+      vfile: 6.0.3
+    transitivePeerDependencies:
+      - acorn
+      - supports-color
+
   mdx-bundler@10.1.1(acorn@8.15.0)(esbuild@0.25.5):
     dependencies:
       '@babel/runtime': 7.27.6
@@ -30031,29 +30186,13 @@ snapshots:
       - acorn
       - supports-color
 
-  mdx-bundler@10.1.1(acorn@8.15.0)(esbuild@0.25.8):
+  mdx-bundler@9.2.1(esbuild@0.23.1):
     dependencies:
       '@babel/runtime': 7.27.6
-      '@esbuild-plugins/node-resolve': 0.2.2(esbuild@0.25.8)
+      '@esbuild-plugins/node-resolve': 0.1.4(esbuild@0.23.1)
       '@fal-works/esbuild-plugin-global-externals': 2.1.2
-      '@mdx-js/esbuild': 3.1.0(acorn@8.15.0)(esbuild@0.25.8)
-      esbuild: 0.25.8
-      gray-matter: 4.0.3
-      remark-frontmatter: 5.0.0
-      remark-mdx-frontmatter: 4.0.0
-      uuid: 9.0.1
-      vfile: 6.0.3
-    transitivePeerDependencies:
-      - acorn
-      - supports-color
-
-  mdx-bundler@9.2.1(esbuild@0.25.8):
-    dependencies:
-      '@babel/runtime': 7.27.6
-      '@esbuild-plugins/node-resolve': 0.1.4(esbuild@0.25.8)
-      '@fal-works/esbuild-plugin-global-externals': 2.1.2
-      '@mdx-js/esbuild': 2.3.0(esbuild@0.25.8)
-      esbuild: 0.25.8
+      '@mdx-js/esbuild': 2.3.0(esbuild@0.23.1)
+      esbuild: 0.23.1
       gray-matter: 4.0.3
       remark-frontmatter: 4.0.1
       remark-mdx-frontmatter: 1.1.1
@@ -30794,6 +30933,21 @@ snapshots:
 
   netmask@2.0.2: {}
 
+  next-contentlayer2@0.4.6(acorn@8.15.0)(contentlayer2@0.4.6(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0))(esbuild@0.23.1)(markdown-wasm@1.2.0)(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      '@contentlayer2/utils': 0.4.3
+      contentlayer2: 0.4.6(acorn@8.15.0)(esbuild@0.23.1)(markdown-wasm@1.2.0)
+      next: 15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+    transitivePeerDependencies:
+      - '@effect-ts/otel-node'
+      - acorn
+      - esbuild
+      - markdown-wasm
+      - supports-color
+
   next-contentlayer2@0.4.6(acorn@8.15.0)(contentlayer2@0.4.6(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0))(esbuild@0.25.5)(markdown-wasm@1.2.0)(next@15.3.4(@babel/core@7.27.4)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.25.5)(markdown-wasm@1.2.0)
@@ -30809,26 +30963,11 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  next-contentlayer2@0.4.6(acorn@8.15.0)(contentlayer2@0.4.6(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0))(esbuild@0.25.8)(markdown-wasm@1.2.0)(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  next-contentlayer@0.3.4(contentlayer@0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0))(esbuild@0.23.1)(markdown-wasm@1.2.0)(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
-      '@contentlayer2/core': 0.4.3(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      '@contentlayer2/utils': 0.4.3
-      contentlayer2: 0.4.6(acorn@8.15.0)(esbuild@0.25.8)(markdown-wasm@1.2.0)
-      next: 15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1)
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-    transitivePeerDependencies:
-      - '@effect-ts/otel-node'
-      - acorn
-      - esbuild
-      - markdown-wasm
-      - supports-color
-
-  next-contentlayer@0.3.4(contentlayer@0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0))(esbuild@0.25.8)(markdown-wasm@1.2.0)(next@15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
-      '@contentlayer/core': 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
+      '@contentlayer/core': 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
       '@contentlayer/utils': 0.3.4
-      contentlayer: 0.3.4(esbuild@0.25.8)(markdown-wasm@1.2.0)
+      contentlayer: 0.3.4(esbuild@0.23.1)(markdown-wasm@1.2.0)
       next: 15.3.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -32019,8 +32158,6 @@ snapshots:
 
   property-information@6.5.0: {}
 
-  property-information@7.0.0: {}
-
   property-information@7.1.0: {}
 
   prosemirror-changeset@2.3.0:
@@ -33085,6 +33222,25 @@ snapshots:
       tsx: 4.20.3
       yaml: 2.8.0
 
+  rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.23.1)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0):
+    dependencies:
+      '@oxc-project/runtime': 0.73.0
+      fdir: 6.4.6(picomatch@4.0.2)
+      lightningcss: 1.30.1
+      picomatch: 4.0.2
+      postcss: 8.5.6
+      rolldown: 1.0.0-beta.16
+      tinyglobby: 0.2.14
+    optionalDependencies:
+      '@types/node': 20.19.9
+      esbuild: 0.23.1
+      fsevents: 2.3.3
+      jiti: 2.4.2
+      sass: 1.89.1
+      terser: 5.43.1
+      tsx: 4.20.3
+      yaml: 2.8.0
+
   rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.5)(jiti@1.21.7)(sass@1.89.1)(terser@5.43.1)(tsx@4.19.4)(yaml@2.8.0):
     dependencies:
       '@oxc-project/runtime': 0.73.0
@@ -33102,25 +33258,6 @@ snapshots:
       sass: 1.89.1
       terser: 5.43.1
       tsx: 4.19.4
-      yaml: 2.8.0
-
-  rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0):
-    dependencies:
-      '@oxc-project/runtime': 0.73.0
-      fdir: 6.4.6(picomatch@4.0.2)
-      lightningcss: 1.30.1
-      picomatch: 4.0.2
-      postcss: 8.5.6
-      rolldown: 1.0.0-beta.16
-      tinyglobby: 0.2.14
-    optionalDependencies:
-      '@types/node': 20.19.9
-      esbuild: 0.25.8
-      fsevents: 2.3.3
-      jiti: 2.4.2
-      sass: 1.89.1
-      terser: 5.43.1
-      tsx: 4.20.3
       yaml: 2.8.0
 
   rolldown-vite@6.3.21(@types/node@22.15.14)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0):
@@ -33390,6 +33527,28 @@ snapshots:
       '@rolldown/binding-win32-arm64-msvc': 1.0.0-beta.31
       '@rolldown/binding-win32-ia32-msvc': 1.0.0-beta.31
       '@rolldown/binding-win32-x64-msvc': 1.0.0-beta.31
+
+  rolldown@1.0.0-beta.32:
+    dependencies:
+      '@oxc-project/runtime': 0.81.0
+      '@oxc-project/types': 0.81.0
+      '@rolldown/pluginutils': 1.0.0-beta.32
+      ansis: 4.1.0
+    optionalDependencies:
+      '@rolldown/binding-android-arm64': 1.0.0-beta.32
+      '@rolldown/binding-darwin-arm64': 1.0.0-beta.32
+      '@rolldown/binding-darwin-x64': 1.0.0-beta.32
+      '@rolldown/binding-freebsd-x64': 1.0.0-beta.32
+      '@rolldown/binding-linux-arm-gnueabihf': 1.0.0-beta.32
+      '@rolldown/binding-linux-arm64-gnu': 1.0.0-beta.32
+      '@rolldown/binding-linux-arm64-musl': 1.0.0-beta.32
+      '@rolldown/binding-linux-x64-gnu': 1.0.0-beta.32
+      '@rolldown/binding-linux-x64-musl': 1.0.0-beta.32
+      '@rolldown/binding-openharmony-arm64': 1.0.0-beta.32
+      '@rolldown/binding-wasm32-wasi': 1.0.0-beta.32
+      '@rolldown/binding-win32-arm64-msvc': 1.0.0-beta.32
+      '@rolldown/binding-win32-ia32-msvc': 1.0.0-beta.32
+      '@rolldown/binding-win32-x64-msvc': 1.0.0-beta.32
 
   rolldown@1.0.0-beta.8-commit.534fde3(@oxc-project/runtime@0.68.1):
     dependencies:
@@ -35422,13 +35581,13 @@ snapshots:
       - tsx
       - yaml
 
-  vite-node@3.2.4(@types/node@20.19.9)(esbuild@0.25.5)(jiti@1.21.7)(sass@1.89.1)(terser@5.43.1)(tsx@4.19.4)(yaml@2.8.0):
+  vite-node@3.2.4(@types/node@20.19.9)(esbuild@0.23.1)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.1(supports-color@5.5.0)
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.5)(jiti@1.21.7)(sass@1.89.1)(terser@5.43.1)(tsx@4.19.4)(yaml@2.8.0)
+      vite: rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.23.1)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@types/node'
       - esbuild
@@ -35443,13 +35602,13 @@ snapshots:
       - tsx
       - yaml
 
-  vite-node@3.2.4(@types/node@20.19.9)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0):
+  vite-node@3.2.4(@types/node@20.19.9)(esbuild@0.25.5)(jiti@1.21.7)(sass@1.89.1)(terser@5.43.1)(tsx@4.19.4)(yaml@2.8.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.1(supports-color@5.5.0)
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
+      vite: rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.5)(jiti@1.21.7)(sass@1.89.1)(terser@5.43.1)(tsx@4.19.4)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@types/node'
       - esbuild
@@ -35724,6 +35883,51 @@ snapshots:
       - tsx
       - yaml
 
+  vitest@3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.23.1)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0):
+    dependencies:
+      '@types/chai': 5.2.2
+      '@vitest/expect': 3.2.4
+      '@vitest/mocker': 3.2.4(rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.23.1)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))
+      '@vitest/pretty-format': 3.2.4
+      '@vitest/runner': 3.2.4
+      '@vitest/snapshot': 3.2.4
+      '@vitest/spy': 3.2.4
+      '@vitest/utils': 3.2.4
+      chai: 5.2.0
+      debug: 4.4.1(supports-color@5.5.0)
+      expect-type: 1.2.1
+      magic-string: 0.30.17
+      pathe: 2.0.3
+      picomatch: 4.0.2
+      std-env: 3.9.0
+      tinybench: 2.9.0
+      tinyexec: 0.3.2
+      tinyglobby: 0.2.14
+      tinypool: 1.1.1
+      tinyrainbow: 2.0.0
+      vite: rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.23.1)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
+      vite-node: 3.2.4(@types/node@20.19.9)(esbuild@0.23.1)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/debug': 4.1.12
+      '@types/node': 20.19.9
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@20.19.9)(jiti@2.4.2)(lightningcss@1.30.1)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/ui': 3.2.4(vitest@3.2.4)
+      jsdom: 26.1.0
+    transitivePeerDependencies:
+      - esbuild
+      - jiti
+      - less
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - yaml
+
   vitest@3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.5)(jiti@1.21.7)(jsdom@26.1.0)(sass@1.89.1)(terser@5.43.1)(tsx@4.19.4)(yaml@2.8.0):
     dependencies:
       '@types/chai': 5.2.2
@@ -35753,51 +35957,6 @@ snapshots:
       '@types/debug': 4.1.12
       '@types/node': 20.19.9
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@20.19.9)(jiti@1.21.7)(lightningcss@1.30.1)(sass@1.89.1)(terser@5.43.1)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.2.4)
-      '@vitest/ui': 3.2.4(vitest@3.2.4)
-      jsdom: 26.1.0
-    transitivePeerDependencies:
-      - esbuild
-      - jiti
-      - less
-      - msw
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - yaml
-
-  vitest@3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(esbuild@0.25.8)(jiti@2.4.2)(jsdom@26.1.0)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0):
-    dependencies:
-      '@types/chai': 5.2.2
-      '@vitest/expect': 3.2.4
-      '@vitest/mocker': 3.2.4(rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))
-      '@vitest/pretty-format': 3.2.4
-      '@vitest/runner': 3.2.4
-      '@vitest/snapshot': 3.2.4
-      '@vitest/spy': 3.2.4
-      '@vitest/utils': 3.2.4
-      chai: 5.2.0
-      debug: 4.4.1(supports-color@5.5.0)
-      expect-type: 1.2.1
-      magic-string: 0.30.17
-      pathe: 2.0.3
-      picomatch: 4.0.2
-      std-env: 3.9.0
-      tinybench: 2.9.0
-      tinyexec: 0.3.2
-      tinyglobby: 0.2.14
-      tinypool: 1.1.1
-      tinyrainbow: 2.0.0
-      vite: rolldown-vite@6.3.21(@types/node@20.19.9)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
-      vite-node: 3.2.4(@types/node@20.19.9)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0)
-      why-is-node-running: 2.3.0
-    optionalDependencies:
-      '@types/debug': 4.1.12
-      '@types/node': 20.19.9
-      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@20.19.9)(jiti@2.4.2)(lightningcss@1.30.1)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/ui': 3.2.4(vitest@3.2.4)
       jsdom: 26.1.0
     transitivePeerDependencies:
@@ -36022,7 +36181,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 22.15.29
-      '@vitest/browser': 3.2.4(playwright@1.53.1)(rolldown-vite@7.1.0(@types/node@22.15.29)(esbuild@0.25.8)(jiti@2.4.2)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(lightningcss@1.30.1)(sass@1.89.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/ui': 3.2.4(vitest@3.2.4)
       jsdom: 26.1.0
     transitivePeerDependencies:

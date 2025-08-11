@@ -74,18 +74,18 @@ export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__,
         <div className="size-4 bg-foreground/65 flex flex-col items-center justify-center ltr:ml-3 ltr:mr-2 rtl:ml-2 rtl:mr-3">
           <Terminal className="text-background size-4 " />
         </div>
-        {Object.keys(commands).map((command) => {
+        {Object.keys(commands).map((command, idx) => {
           return (
-            <TabsTrigger value={command} className="aria-[selected='true']:bg-muted">
+            <TabsTrigger value={command} key={idx} className="aria-[selected='true']:bg-muted">
               {command.replace('__', '').replace('Command', '').replace('__', '')}
             </TabsTrigger>
           )
         })}
       </TabsList>
       <Separator />
-      {Object.entries(commands).map(([commandKey, command]) => {
+      {Object.entries(commands).map(([commandKey, command], idx) => {
         return (
-          <TabsContent value={commandKey}>
+          <TabsContent value={commandKey} key={idx}>
             <CopyButton
               value={command as string}
               variant={'outline'}
