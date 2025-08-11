@@ -24,7 +24,6 @@ export function rehypeComponent() {
 }
 
 function getNodeAttributeByName(node: UnistNode, name: string) {
-  // console.log(node)
   return node.attributes?.find((attribute) => attribute.name === name)
 }
 
@@ -102,7 +101,6 @@ export function componentSource({ node }: { node: UnistNode }) {
         })
       }),
     )
-    // console.dir(node.children, { deptH: 4 })
   } catch (error) {
     console.error(error)
   }

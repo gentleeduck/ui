@@ -54,7 +54,7 @@ pre {
 
 [data-rehype-pretty-code-fragment] .line--highlighted,
 [data-rehype-pretty-code-fragment] .word--highlighted {
-  @apply bg-foreground/5 dark:bg-foreground/5;
+  @apply bg-foreground/4 dark:bg-foreground/5;
 }
 
 [data-rehype-pretty-code-fragment] .line-highlighted span {

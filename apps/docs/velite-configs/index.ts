@@ -6,6 +6,5 @@ export * from './collections'
  * slider
  * data-table
  * context-menu
- * form
  * chart
  */

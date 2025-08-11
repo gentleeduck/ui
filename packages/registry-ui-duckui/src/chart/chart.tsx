@@ -1,9 +1,9 @@
 'use client'
 
+import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
-
-import { cn } from '@gentleduck/libs/cn'
+import { getPayloadConfigFromPayload } from './chart.libs'
 import type {
   ChartContainerProps,
   ChartContextProps,
@@ -11,7 +11,6 @@ import type {
   ChartStyleProps,
   ChartTooltipContentProps,
 } from './chart.types'
-import { getPayloadConfigFromPayload } from './chart.libs'
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 export const THEMES = { light: '', dark: '.dark' } as const

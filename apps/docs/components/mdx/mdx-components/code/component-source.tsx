@@ -10,6 +10,10 @@ interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function ComponentSource({ children, className, ...props }: ComponentSourceProps) {
+  if (!children.length) {
+    return children
+  }
+
   const defaultValue = String((children[0] as any).props.children[0].props.__rawString__)
     .split('\n')[0]
     ?.replace('//', '') as string
@@ -17,24 +21,25 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
   return (
     <Tabs className="bg-muted/40 rounded-md" defaultValue={defaultValue}>
       <TabsList className="justify-start w-[622px] bg-transparent py-2 px-2 overflow-x-auto ">
-        {children.map((item) => {
+        {children.map((item, idx) => {
           const value = String((item as any).props.children[0].props.__rawString__)
             .split('\n')[0]
             ?.replace('//', '') as string
           return (
-            <TabsTrigger value={value} className="aria-[selected='true']:bg-muted">
+            <TabsTrigger value={value} className="aria-[selected='true']:bg-muted" key={idx}>
               {value}
             </TabsTrigger>
           )
         })}
       </TabsList>
       <Separator />
-      {children.map((item) => {
+      {children.map((item, idx) => {
         const value = String((item as any).props.children[0].props.__rawString__)
           .split('\n')[0]
           ?.replace('//', '') as string
         return (
           <TabsContent
+            key={idx}
             className="bg-transparent [&>div>div]:m-0 m-0 [&_pre]:dark:bg-transparent [&_pre]:border-none focus-visible:outline-none focus-visible:shadow-none focus-visible:ring-0"
             value={value}>
             {item}

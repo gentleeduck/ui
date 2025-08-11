@@ -101,6 +101,12 @@ export const docsConfig: DocsConfig = {
           title: 'Carousel',
         },
         {
+          href: '/docs/components/chart',
+          items: [],
+          label: '',
+          title: 'Chart',
+        },
+        {
           title: 'Checkbox',
           href: '/docs/components/checkbox',
           label: 'new',
@@ -139,7 +145,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/drawer',
           items: [],
-          label: 'new',
+          label: '',
           title: 'Drawer',
         },
         {

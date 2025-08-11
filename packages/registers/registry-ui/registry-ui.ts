@@ -328,4 +328,11 @@ export const registry_ui: Registry = [
     root_folder: 'react-hook-form',
     files: [],
   },
+  {
+    name: 'chart',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'chart',
+    files: [],
+  },
 ]

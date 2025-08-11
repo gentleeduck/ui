@@ -890,6 +890,31 @@
     "source": "/registry-ui-duckui/src/react-hook-form"
   },
   {
+    "name": "chart",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "chart",
+    "files": [
+      {
+        "path": "chart/chart.libs.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "chart/chart.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "chart/chart.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "chart/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/chart"
+  },
+  {
     "name": "accordion-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -3466,5 +3491,110 @@
       }
     ],
     "source": "/registry-examples-duckui/src/input-otp"
+  },
+  {
+    "name": "chart-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "files": [
+      {
+        "path": "chart/chart-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/chart"
+  },
+  {
+    "name": "chart-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "files": [
+      {
+        "path": "chart/chart-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/chart"
+  },
+  {
+    "name": "chart-3",
+    "type": "registry:example",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "files": [
+      {
+        "path": "chart/chart-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/chart"
+  },
+  {
+    "name": "chart-4",
+    "type": "registry:example",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "files": [
+      {
+        "path": "chart/chart-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/chart"
+  },
+  {
+    "name": "chart-5",
+    "type": "registry:example",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "files": [
+      {
+        "path": "chart/chart-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/chart"
+  },
+  {
+    "name": "chart-6",
+    "type": "registry:example",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "files": [
+      {
+        "path": "chart/chart-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/chart"
+  },
+  {
+    "name": "chart-7",
+    "type": "registry:example",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "files": [
+      {
+        "path": "chart/chart-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/chart"
   }
 ]
