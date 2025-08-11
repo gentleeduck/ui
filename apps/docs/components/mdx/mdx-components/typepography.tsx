@@ -1,6 +1,6 @@
-import React from 'react'
 import { cn } from '@gentleduck/libs/cn'
 import Link from 'next/link'
+import React from 'react'
 
 interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 interface AnchorProps extends React.HTMLAttributes<HTMLAnchorElement> {}

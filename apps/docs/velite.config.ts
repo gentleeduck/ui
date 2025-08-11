@@ -13,6 +13,7 @@ import { rehypeNpmCommand } from './lib/rehype-npm-command'
 import { UnistNode, UnistTree } from './types/unist'
 import { rhypeMetadataPlugin, rehypeComponent, rehypePreBlockSource } from './velite-configs/plugins'
 import { visit } from 'unist-util-visit'
+import { rehypeTitle } from './velite-configs/plugins/regype-title'
 
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
@@ -90,6 +91,7 @@ const config = defineConfig({
           },
         },
       ],
+      rehypeTitle,
       rehypePreBlockSource,
       rehypeNpmCommand,
       // @ts-ignore

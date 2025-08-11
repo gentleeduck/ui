@@ -31,7 +31,7 @@ import {
   LinkBlock,
   LinkedCard,
   P,
-  Pre,
+  PreBlock,
   Tab,
   TabContent,
   TabList,
@@ -41,6 +41,7 @@ import {
   TableRow,
   TabTrigger,
 } from './mdx-components'
+import { FigcaptionBlock } from './mdx-components/code/figcaption-block'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -86,7 +87,8 @@ const components = {
   tr: TableRow,
   th: TableHeader,
   td: TableCell,
-  pre: Pre,
+  pre: PreBlock,
+  figcaption: FigcaptionBlock,
   code: Code,
   Image,
   Callout,

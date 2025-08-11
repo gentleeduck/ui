@@ -1,5 +1,5 @@
-import { FC } from 'react'
 import { cn } from '@gentleduck/libs/cn'
+import { FC } from 'react'
 
 interface TableProps extends React.HTMLAttributes<HTMLTableElement> {}
 interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {}
