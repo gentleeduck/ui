@@ -2,6 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
+import { buttonVariants } from '../button'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -29,111 +30,184 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
   const selectedItemRef = React.useRef<HTMLButtonElement | null>(null)
   const clickedItemRef = React.useRef<HTMLButtonElement | null>(null)
 
-  React.useEffect(() => {
-    const triggers = Array.from(
-      wrapperRef.current?.querySelectorAll('[duck-menubar-trigger]') as never as HTMLButtonElement[],
-    )
-    const contents = Array.from(
-      wrapperRef.current?.querySelectorAll('[duck-menubar-content]') as never as HTMLDialogElement[],
-    )
-    triggersRef.current = triggers
-    contentsRef.current = contents
+  const triggerHandlersRef = React.useRef(
+    new WeakMap<
+      HTMLButtonElement,
+      {
+        click: EventListenerOrEventListenerObject
+        focus: EventListenerOrEventListenerObject
+        mouseover: EventListenerOrEventListenerObject
+      }
+    >(),
+  )
+  const contentHandlersRef = React.useRef(new WeakMap<HTMLDialogElement, (e: KeyboardEvent) => void>())
 
-    wrapperRef.current?.addEventListener('keydown', (e) => {
+  React.useEffect(() => {
+    const wrapper = wrapperRef.current
+    if (!wrapper) return
+
+    const collectTriggers = () => {
+      const list = Array.from(wrapper.querySelectorAll('[duck-menubar-trigger]')) as HTMLButtonElement[]
+      triggersRef.current = list
+      if (!selectedItemRef.current && list.length > 0) {
+        selectedItemRef.current = list[0] as HTMLButtonElement
+      } else if (selectedItemRef.current && !list.includes(selectedItemRef.current)) {
+        selectedItemRef.current = list[0] ?? null
+      }
+      return list
+    }
+
+    collectTriggers()
+
+    const focusSelected = () => {
+      requestAnimationFrame(() => {
+        selectedItemRef.current?.focus()
+      })
+    }
+
+    const moveSelectedBy = (delta: number) => {
+      const list = triggersRef.current
+      if (list.length === 0) return
+      const currentIndex = Math.max(0, list.indexOf(selectedItemRef.current as HTMLButtonElement))
+      let nextIndex = currentIndex + delta
+      if (nextIndex < 0) nextIndex = list.length - 1
+      if (nextIndex >= list.length) nextIndex = 0
+      selectedItemRef.current = list[nextIndex] as HTMLButtonElement
+    }
+
+    const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         e.preventDefault()
-        const currentIndex = triggers.indexOf(selectedItemRef.current as HTMLButtonElement)
+        moveSelectedBy(e.key === 'ArrowRight' ? 1 : -1)
+        focusSelected()
+      }
 
-        if (e.key === 'ArrowRight') {
-          const nextIndex = currentIndex + 1
-          selectedItemRef.current = nextIndex < triggers.length ? triggers[nextIndex]! : triggers[0]!
-          clickedItemRef.current && selectedItemRef.current?.click()
-        } else if (e.key === 'ArrowLeft') {
-          const nextIndex = currentIndex - 1
-          selectedItemRef.current = nextIndex >= 0 ? triggers[nextIndex]! : triggers[triggers.length - 1]!
-          clickedItemRef.current && selectedItemRef.current?.click()
+      if (e.key === 'Enter') {
+        clickedItemRef.current = selectedItemRef.current
+      }
+    }
+
+    const handleContentKeydownFactory = (content: HTMLDialogElement) => {
+      const handler = (e: KeyboardEvent) => {
+        // collect actionable items inside the content
+        const items = Array.from(
+          content.querySelectorAll('[duck-dropdown-menu-item]:not([aria-disabled]), [duck-dropdown-menu-sub-trigger]'),
+        ) as HTMLElement[]
+
+        // UP / DOWN: navigate items inside the dropdown content and prevent page scroll
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          if (items.length === 0) return
+          e.preventDefault() // <- prevents page scrolling
+
+          // find current selected item (aria-selected) or activeElement fallback
+          let currentIndex = items.findIndex((it) => it.getAttribute('aria-selected') !== null)
+          if (currentIndex === -1) {
+            const active = document.activeElement
+            currentIndex = items.indexOf(active as HTMLElement)
+          }
+
+          const delta = e.key === 'ArrowDown' ? 1 : -1
+          const nextIndex =
+            currentIndex === -1
+              ? delta === 1
+                ? 0
+                : items.length - 1
+              : (currentIndex + delta + items.length) % items.length
+
+          const prev = items[currentIndex]
+          const next = items[nextIndex]
+
+          if (prev) prev.removeAttribute('aria-selected')
+          if (next) {
+            next.setAttribute('aria-selected', 'true')
+            // focus the item on next animation frame
+            requestAnimationFrame(() => {
+              ;(next as HTMLElement).focus()
+            })
+          }
+          return
         }
 
-        console.log(selectedItemRef.current)
-        for (let i = 0; i < triggers.length; i++) {
-          const trigger = triggers[i] as HTMLButtonElement
-          trigger.setAttribute('data-open', 'false')
+        // LEFT / RIGHT: keep the existing menubar logic (switch menubar items)
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          const selected = items.find((it) => it.getAttribute('aria-selected') !== null)
 
-          if (trigger === selectedItemRef.current) {
-            trigger.setAttribute('data-open', 'true')
-            setTimeout(() => trigger.focus(), 10)
+          if (!selected?.hasAttribute('duck-dropdown-menu-sub-trigger')) {
+            e.preventDefault()
+            const delta = e.key === 'ArrowRight' ? 1 : -1
+            moveSelectedBy(delta)
+            clickedItemRef.current = selectedItemRef.current
+            selectedItemRef.current?.click()
           }
         }
       }
+      return handler
+    }
 
-      // if (e.key === 'Enter') {
-      //   selectedItemRef.current?.click()
-      // }
-    })
+    wrapper.addEventListener('keydown', handleKeydown)
 
-    for (let i = 0; i < triggers.length; i++) {
-      const trigger = triggers[i] as HTMLButtonElement
-      const content = contents[i] as HTMLDialogElement
+    // attach handlers to triggers (only once each)
+    const triggers = triggersRef.current
+    triggers.forEach((trigger) => {
+      if (triggerHandlersRef.current.has(trigger)) return
 
-      trigger.addEventListener('focus', () => {
-        if (!clickedItemRef.current && !selectedItemRef.current) {
-          trigger.setAttribute('data-open', 'true')
+      const onClick = () => {
+        const contents = Array.from(document.querySelectorAll('[duck-menubar-content]')) as HTMLDialogElement[]
+        contentsRef.current = contents
+
+        triggersRef.current.forEach((t) => {
+          if (t !== trigger && t.dataset.open === 'true') {
+            t.click()
+          }
+        })
+
+        contents.forEach((content) => {
+          if (!contentHandlersRef.current.has(content)) {
+            const handler = handleContentKeydownFactory(content)
+            content.addEventListener('keydown', handler)
+            contentHandlersRef.current.set(content, handler)
+          }
+        })
+      }
+      const onFocus = () => {
+        selectedItemRef.current = trigger
+      }
+      const onMouseOver = () => {
+        if (clickedItemRef.current) {
           selectedItemRef.current = trigger
         }
-      })
+      }
 
-      trigger.addEventListener('click', () => {
-        const state = trigger.getAttribute('data-open')
-        for (let i = 0; i < triggers.length; i++) {
-          const trigger = triggers[i] as HTMLButtonElement
-          trigger.setAttribute('data-open', 'false')
-        }
-        clickedItemRef.current = trigger
-        selectedItemRef.current = trigger
-        trigger.setAttribute('data-open', String(!state))
-      })
+      trigger.addEventListener('click', onClick)
+      trigger.addEventListener('focus', onFocus)
+      trigger.addEventListener('mouseover', onMouseOver)
 
-      trigger.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-          console.log('hi')
-          e.preventDefault()
-          content.focus()
-        }
-      })
+      triggerHandlersRef.current.set(trigger, { click: onClick, focus: onFocus, mouseover: onMouseOver })
+    })
 
-      //
-      //   trigger.addEventListener('mouseenter', () => {
-      //     if (
-      //       clickedItemRef.current &&
-      //       trigger.getAttribute('data-open') === 'false' &&
-      //       trigger !== clickedItemRef.current
-      //     ) {
-      //       for (let i = 0; i < triggers.length; i++) {
-      //         const trigger = triggers[i] as HTMLButtonElement
-      //         trigger.setAttribute('data-open', 'false')
-      //       }
-      //       selectedItemRef.current = trigger
-      //       selectedItemRef.current?.click()
-      //       selectedItemRef.current.setAttribute('data-open', 'true')
-      //     }
-      //   })
-      //
-      //   // reset the open state when the mouse leaves
-      //   wrapperRef.current?.addEventListener('mouseleave', () => {
-      //     selectedItemRef.current = null
-      //     clickedItemRef.current = null
-      //   })
-      //
-      //   // clean the items that are not open
-      //   let toggle: boolean = false
-      //   content.addEventListener('toggle', () => {
-      //     if (toggle) {
-      //       for (let i = 0; i < triggers.length; i++) {
-      //         triggers[i]?.setAttribute('data-open', 'false')
-      //       }
-      //     }
-      //     toggle = !toggle
-      //   })
+    // attach any existing contents at mount
+    const initialContents = Array.from(document.querySelectorAll('[duck-menubar-content]')) as HTMLDialogElement[]
+    contentsRef.current = initialContents
+    initialContents.forEach((content) => {
+      if (!contentHandlersRef.current.has(content)) {
+        const handler = handleContentKeydownFactory(content)
+        content.addEventListener('keydown', handler)
+        contentHandlersRef.current.set(content, handler)
+      }
+    })
+
+    // cleanup
+    return () => {
+      wrapper.removeEventListener('keydown', handleKeydown)
+
+      triggersRef.current.forEach((trigger) => {
+        const h = triggerHandlersRef.current.get(trigger)
+        if (!h) return
+        trigger.removeEventListener('click', h.click)
+        trigger.removeEventListener('focus', h.focus)
+        trigger.removeEventListener('mouseover', h.mouseover)
+        triggerHandlersRef.current.delete(trigger)
+      })
     }
   }, [])
 
@@ -158,18 +232,13 @@ function MenubarMenu({ children, ...props }: React.HTMLProps<HTMLDivElement>) {
   )
 }
 
-function MenubarTrigger({
-  children,
-  className,
-  variant = 'ghost',
-  ...props
-}: React.ComponentPropsWithRef<typeof DropdownMenuTrigger>) {
+function MenubarTrigger({ children, className, ...props }: React.ComponentPropsWithRef<typeof DropdownMenuTrigger>) {
   return (
     <DropdownMenuTrigger
-      variant={variant}
       className={cn(
+        buttonVariants({ variant: 'ghost', size: 'sm' }),
         'data-[open="true"]:bg-secondary',
-        // 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
+        'focus-visible:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
         className,
       )}
       {...props}
