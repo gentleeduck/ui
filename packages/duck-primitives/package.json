@@ -48,6 +48,7 @@
     "invokers-polyfill": "^0.5.5",
     "mini-svg-data-uri": "^1.4.4",
     "@changesets/cli": "catalog:",
+    "@gentleduck/libs": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/state": "workspace:*",

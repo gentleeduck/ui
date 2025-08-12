@@ -20,7 +20,7 @@ links:
 <TabsContent value="cli">
 
 ```bash
-npx shadcn@latest add slider
+npx duck-ui@latest add slider
 ```
 
 </TabsContent>
@@ -32,7 +32,7 @@ npx shadcn@latest add slider
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/libs
+npm install @gentleduck/libs @gentleduck/primitives
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -56,3 +56,66 @@ import { Slider } from "@/components/ui/slider"
 ```tsx
 <Slider defaultValue={[33]} max={100} step={1} />
 ```
+
+<ComponentPreview name="slider-2" description="A slider component." />
+
+## API Reference
+
+### **Slider.Root**
+
+* **`min`** (`number`, optional, default: `0`): Minimum allowed value.
+* **`max`** (`number`, optional, default: `100`): Maximum allowed value.
+* **`step`** (`number`, optional, default: `1`): Increment step for values.
+* **`value`** (`number[]`, optional): Controlled values array (one or two values for range sliders).
+* **`defaultValue`** (`number[]`, optional, default: `[50]`): Uncontrolled initial values.
+* **`onValueChange`** (`(value: number[]) => void`, optional): Callback fired when slider values change.
+* **`orientation`** (`'horizontal' | 'vertical'`, optional, default: `'horizontal'`): Slider orientation.
+* **`rtl`** (`boolean`, optional, default: `false`): Enables right-to-left layout support.
+* **`...props`** (`Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue'>`): Props forwarded to the root `<div>` element.
+
+**Behavior:**
+Provides slider state, value management, and interaction logic through context to all child components (`Track`, `Range`, `Thumb`). Handles both single-value and range sliders with pointer and keyboard interactions, snapping values to `step` and clamping between `min` and `max`.
+
+---
+
+### **Slider.Track**
+
+* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): Props forwarded to the track container `<div>`.
+
+**Behavior:**
+Renders the slider’s track area where thumbs can be moved. Automatically sizes based on `orientation` and stores a `ref` for position-to-value calculations.
+
+---
+
+### **Slider.Range**
+
+* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): Props forwarded to the range indicator `<div>`.
+
+**Behavior:**
+Displays the active filled portion of the slider between thumbs (or from `min` to current value in single-thumb sliders). Position and size are computed based on `values`, `min`, `max`, and `orientation`.
+
+---
+
+### **Slider.Thumb**
+
+* **`index`** (`number`, required): The index of the thumb in the `values` array.
+* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Props forwarded to the thumb `<button>` element.
+
+**Behavior:**
+Interactive handle for selecting slider values. Supports dragging with pointer events and value adjustments via keyboard (`Arrow`, `PageUp`, `PageDown`, `Home`, `End`). Positions itself along the track relative to its current value.
+
+---
+
+### **SliderContext & useSliderContext()**
+
+* **`SliderContext`**: React context providing slider state and methods:
+
+  * `min`, `max`, `step`, `values`, `orientation`, `rtl`
+  * `trackRef` — Ref to track element.
+  * `setValueAt(index, value)` — Updates value for a specific thumb.
+  * `positionToValue(pos, rect)` — Converts pointer position to slider value.
+
+* **`useSliderContext()`**: Hook for accessing `SliderContext`. Throws an error if used outside `Slider.Root`.
+
+**Behavior:**
+Enables internal communication between slider components without prop drilling.

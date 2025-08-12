@@ -59,20 +59,13 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: string }> }) => 
         <div className="mb-4 flex items-center space-x-1 text-sm leading-none text-muted-foreground">
           <div className="truncate">Docs</div>
           <ChevronRightIcon className="h-3.5 w-3.5" />
-          <div className="text-foreground">{doc.title}</div>
+          <div className="text-foreground capitalize">{doc.title.split('-').join(' ')}</div>
         </div>
         <div className="space-y-2">
           <h1 className={cn('scroll-m-20 text-3xl font-bold tracking-tight capitalize')}>
             {doc.title.split('-').join(' ')}
           </h1>
-          {doc.description && (
-            <p className="text-base text-muted-foreground">
-              {
-                // <Balancer>{doc.description}</Balancer>
-              }
-              {doc.description}
-            </p>
-          )}
+          {doc.description && <p className="text-base text-muted-foreground">{doc.description}</p>}
         </div>
         {doc.links ? (
           <div className="flex items-center space-x-2 pt-4">

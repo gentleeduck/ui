@@ -1,93 +1,44 @@
 'use client'
 
-import type * as React from 'react'
 import { cn } from '@gentleduck/libs/cn'
+import * as SliderPrimitive from '@gentleduck/primitives/slider'
+import * as React from 'react'
 
-// function Slider({
-//   className,
-//   value,
-//   onValueChange,
-//   min = 0,
-//   max = 100,
-//   ...props
-// }: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'> & {
-//   value?: number
-//   onValueChange?: (value: number) => void
-// }) {
-//   return (
-//     <input
-//       type="range"
-//       className={cn(
-//         // remove default appearance
-//         'w-full appearance-none bg-transparent',
-
-//         // track style (webkit)
-//         '[&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-secondary',
-
-//         // track style (firefox)
-//         '[&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-secondary',
-
-//         // thumb style (webkit) - centered with negative margin
-//         '[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:mt-[-6px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-background [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:transition-colors [&::-webkit-slider-thumb]:ring-offset-background [&::-webkit-slider-thumb]:focus-visible:outline-none [&::-webkit-slider-thumb]:focus-visible:ring-2 [&::-webkit-slider-thumb]:focus-visible:ring-ring [&::-webkit-slider-thumb]:focus-visible:ring-offset-2',
-
-//         // thumb style (firefox)
-//         '[&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-background [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:transition-colors [&::-moz-range-thumb]:focus-visible:outline-none [&::-moz-range-thumb]:focus-visible:ring-2 [&::-moz-range-thumb]:focus-visible:ring-ring [&::-moz-range-thumb]:focus-visible:ring-offset-2',
-
-//         // disabled state
-//         'disabled:pointer-events-none disabled:opacity-50',
-//         className,
-//       )}
-//       onChange={(e) => onValueChange?.(e.target.valueAsNumber)}
-//       value={value}
-//       {...props}
-//     />
-//   )
-// }
-
-// export { Slider }
-
-function Slider({
-  className,
-  value,
-  onValueChange,
-  min = 0,
-  max = 100,
-  ...props
-}: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'> & {
-  value?: number
-  onValueChange?: (value: number) => void
-}) {
+function Slider({ className, ref, ...props }: React.ComponentPropsWithRef<typeof SliderPrimitive.Root>) {
   return (
-    <input
-      type="range"
-      className={cn(
-        // remove default appearance
-        'w-full appearance-none bg-transparent',
-
-        // track style
-        'overflow-hidden rounded-md',
-
-        // track style (webkit)
-        '[&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-secondary',
-
-        // track style (firefox)
-        '[&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-secondary',
-
-        // thumb style (webkit) - centered with negative margin
-        '[&::-webkit-slider-thumb]:mt-[-6px] [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:bg-background [&::-webkit-slider-thumb]:ring-offset-background [&::-webkit-slider-thumb]:transition-colors [&::-webkit-slider-thumb]:focus-visible:outline-none [&::-webkit-slider-thumb]:focus-visible:ring-2 [&::-webkit-slider-thumb]:focus-visible:ring-ring [&::-webkit-slider-thumb]:focus-visible:ring-offset-2',
-
-        // thumb style (firefox)
-        '[&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:bg-background [&::-moz-range-thumb]:transition-colors [&::-moz-range-thumb]:focus-visible:outline-none [&::-moz-range-thumb]:focus-visible:ring-2 [&::-moz-range-thumb]:focus-visible:ring-ring [&::-moz-range-thumb]:focus-visible:ring-offset-2 [&::-webkit-slider-thumb]:appearance-none ',
-        `[&::-moz-range-thumb]:[box-shadow:_-2000px_0_0_2000px_var(--primary)] [&::-webkit-slider-thumb]:[box-shadow:_-2000px_0_0_2000px_var(--primary)] `,
-        // disabled state
-        'disabled:pointer-events-none disabled:opacity-50',
-        className,
-      )}
-      onChange={(e) => onValueChange?.(e.target.valueAsNumber)}
-      value={value}
-      {...props}
-    />
+    <SliderPrimitive.Root
+      ref={ref}
+      className={cn('relative flex w-full touch-none select-none items-center', className)}
+      {...props}>
+      <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+        <SliderPrimitive.Range className="absolute h-full bg-primary" />
+      </SliderPrimitive.Track>
+      <SliderPrimitive.Thumb
+        className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+        index={0}
+      />
+    </SliderPrimitive.Root>
+  )
+}
+function SliderRange({ className, ref, ...props }: React.ComponentPropsWithRef<typeof SliderPrimitive.Root>) {
+  return (
+    <SliderPrimitive.Root
+      ref={ref}
+      className={cn('relative flex w-full touch-none select-none items-center', className)}
+      {...props}>
+      <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+        <SliderPrimitive.Range className="absolute h-full bg-primary" />
+      </SliderPrimitive.Track>
+      <SliderPrimitive.Thumb
+        className="block size-4 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+        index={0}
+      />
+      <SliderPrimitive.Thumb
+        className="block size-4 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+        index={1}
+      />
+    </SliderPrimitive.Root>
   )
 }
 
-export { Slider }
+export { Slider, SliderRange }

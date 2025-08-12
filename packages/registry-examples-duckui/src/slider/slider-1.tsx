@@ -1,8 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Slider } from '@gentleduck/registry-ui-duckui/slider'
 
-type SliderProps = React.ComponentProps<typeof Slider>
-
-export default function SliderDemo({ className, ...props }: SliderProps) {
-  return <Slider defaultValue={[50]} max={100} step={1} className={cn('w-[60%]', className)} {...props} />
+export default function SliderDemo() {
+  return <Slider defaultValue={[50]} max={100} className={cn('w-[60%]')} />
 }
