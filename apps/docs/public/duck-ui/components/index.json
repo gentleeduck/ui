@@ -1,5 +1,5 @@
 {
-  "name": "chart-7",
+  "name": "navigation-menu-1",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

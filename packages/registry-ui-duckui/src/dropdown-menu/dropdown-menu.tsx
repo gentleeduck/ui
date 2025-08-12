@@ -237,7 +237,7 @@ function DropdownMenuSubImpritive({ children, className, ...props }: React.HTMLP
 
 function DropdownMenuSub({ children, ...props }: React.ComponentPropsWithoutRef<typeof Popover>): React.JSX.Element {
   return (
-    <Popover {...props} modal placement="right-start">
+    <Popover {...props} modal enableHover placement="right-start">
       <DropdownMenuSubImpritive {...props}>{children}</DropdownMenuSubImpritive>
     </Popover>
   )

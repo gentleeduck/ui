@@ -31,6 +31,7 @@ export default function RootLayout({
 
         {<script src="https://unpkg.com/react-scan/dist/auto.global.js" />}
       </head>
+      <div className="w-[500px]" />
       <body className={cn('min-h-svh bg-background font-sans antialiased duck')}>
         <KeyProvider timeoutMs={100}>
           <ThemeProvider

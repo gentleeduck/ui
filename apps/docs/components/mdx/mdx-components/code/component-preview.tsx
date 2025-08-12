@@ -73,7 +73,7 @@ export function ComponentPreview({
 
   return (
     <div
-      className={cn('group relative my-4 flex flex-col  [&_div[data-slot="placeholder"]]:h-[512px]', className)}
+      className={cn('group relative my-4 flex flex-col [&_div[data-slot="placeholder"]]:h-[512px]', className)}
       {...props}>
       <Tabs defaultValue="preview" className="relative mr-auto w-full">
         <div className="flex items-center justify-between">
@@ -99,7 +99,8 @@ export function ComponentPreview({
           </div>
           <ThemeWrapper defaultTheme="zinc">
             <div
-              className={cn('preview flex h-[500px] w-full justify-center p-10 overflow-hidden', {
+              duck-preview=""
+              className={cn('preview flex h-[500px] w-full justify-center p-10', {
                 'items-center': align === 'center',
                 'items-start': align === 'start',
                 'items-end': align === 'end',

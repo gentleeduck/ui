@@ -39,4 +39,6 @@ function PopoverContent({
 
 const PopoverClose = PopoverTrigger
 
-export { Popover, PopoverTrigger, PopoverContent, PopoverClose }
+const PopoverPortal = PopoverPrimitive.Portal
+
+export { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverPortal }

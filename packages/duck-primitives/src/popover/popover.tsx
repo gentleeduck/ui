@@ -10,6 +10,7 @@ import {
   useClick,
   useDismiss,
   useFloating,
+  useHover,
   useInteractions,
   useMergeRefs,
   useRole,
@@ -26,6 +27,8 @@ interface PopoverOptions {
   sideOffset?: number
   alignOffset?: number
   matchWidth?: boolean
+  enableHover?: boolean
+  mainAxis?: boolean
 }
 
 export function usePopover({
@@ -37,6 +40,8 @@ export function usePopover({
   sideOffset = 4,
   alignOffset = 0,
   matchWidth = false,
+  enableHover = false,
+  mainAxis = true,
 }: PopoverOptions) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
 
@@ -47,6 +52,7 @@ export function usePopover({
     offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
     flip({
       crossAxis: placement.includes('-'),
+      mainAxis,
       fallbackAxisSideDirection: 'end',
       padding: 5,
     }),
@@ -81,7 +87,14 @@ export function usePopover({
   const dismiss = useDismiss(context)
   const role = useRole(context)
 
-  const interactions = useInteractions([click, dismiss, role])
+  const hover = useHover(context, {
+    move: true,
+    restMs: 200,
+    enabled: enableHover,
+    delay: { open: 150, close: 150 },
+  })
+
+  const interactions = useInteractions([click, dismiss, role, hover])
 
   return React.useMemo(
     () => ({
@@ -172,38 +185,45 @@ function Content({
   forceMount = true,
   renderOnce = false,
   waitForRender = true,
+  withPortal = true,
   ...props
-}: React.HTMLProps<HTMLDivElement> & React.ComponentPropsWithoutRef<typeof Mount>) {
+}: React.HTMLProps<HTMLDivElement> &
+  React.ComponentPropsWithoutRef<typeof Mount> & {
+    withPortal?: boolean
+  }) {
   const { context: floatingContext, ...context } = usePopoverContext()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
 
-  return (
-    <FloatingPortal>
-      <FloatingFocusManager context={floatingContext} modal={context.modal}>
-        <div
-          ref={ref}
-          style={{
-            ...{
-              ...context.floatingStyles,
-              transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.9})`,
-            },
-            ...style,
-          }}
-          data-open={context.open}
-          {...context.getFloatingProps(props)}>
-          <Mount
-            open={context.open}
-            ref={ref as never}
-            forceMount={forceMount}
-            waitForRender={waitForRender}
-            renderOnce={renderOnce}
-            {...props}>
-            {props.children}
-          </Mount>
-        </div>
-      </FloatingFocusManager>
-    </FloatingPortal>
+  const Children = (
+    <FloatingFocusManager context={floatingContext} modal={context.modal}>
+      <div
+        ref={ref}
+        style={{
+          ...{
+            ...context.floatingStyles,
+            transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.9})`,
+          },
+          ...style,
+        }}
+        data-open={context.open}
+        {...context.getFloatingProps(props)}>
+        <Mount
+          open={context.open}
+          ref={ref as never}
+          forceMount={forceMount}
+          waitForRender={waitForRender}
+          renderOnce={renderOnce}
+          {...props}>
+          {props.children}
+        </Mount>
+      </div>
+    </FloatingFocusManager>
   )
+  return withPortal ? <Portal>{Children}</Portal> : Children
 }
 
-export { Root, Trigger, Content }
+function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
+  return <FloatingPortal {...props}>{children}</FloatingPortal>
+}
+
+export { Root, Trigger, Content, Portal }

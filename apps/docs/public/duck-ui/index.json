@@ -787,10 +787,6 @@
     "root_folder": "menubar",
     "files": [
       {
-        "path": "menubar/_menubar.tsx",
-        "type": "registry:ui"
-      },
-      {
         "path": "menubar/index.ts",
         "type": "registry:ui"
       },
@@ -807,10 +803,6 @@
     "registryDependencies": [],
     "root_folder": "dropdown-menu",
     "files": [
-      {
-        "path": "dropdown-menu/dropdown-menu-wrapper.tsx",
-        "type": "registry:ui"
-      },
       {
         "path": "dropdown-menu/dropdown-menu.hooks.ts",
         "type": "registry:ui"
@@ -913,6 +905,23 @@
       }
     ],
     "source": "/registry-ui-duckui/src/chart"
+  },
+  {
+    "name": "navigation-menu",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "navigation-menu",
+    "files": [
+      {
+        "path": "navigation-menu/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "navigation-menu/navigation-menu.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/navigation-menu"
   },
   {
     "name": "accordion-1",
@@ -3596,5 +3605,20 @@
       }
     ],
     "source": "/registry-examples-duckui/src/chart"
+  },
+  {
+    "name": "navigation-menu-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "navigation-menu"
+    ],
+    "root_folder": "navigation-menu",
+    "files": [
+      {
+        "path": "navigation-menu/navigation-menu-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/navigation-menu"
   }
 ]

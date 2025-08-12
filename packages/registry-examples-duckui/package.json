@@ -28,6 +28,7 @@
   "dependencies": {
     "@floating-ui/react": "^0.27.13",
     "@hookform/resolvers": "^3.10.0",
+    "@radix-ui/colors": "^3.0.0",
     "@radix-ui/react-hover-card": "^1.1.1",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
@@ -38,6 +39,7 @@
     "motion": "^12.4.3",
     "motion-number": "^1.0.0",
     "next": "catalog:",
+    "radix-ui": "^1.4.2",
     "react": "catalog:react19",
     "react-day-picker": "catalog:",
     "react-dom": "catalog:react19",

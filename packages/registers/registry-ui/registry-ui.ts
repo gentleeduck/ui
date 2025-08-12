@@ -335,4 +335,11 @@ export const registry_ui: Registry = [
     root_folder: 'chart',
     files: [],
   },
+  {
+    name: 'navigation-menu',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'navigation-menu',
+    files: [],
+  },
 ]

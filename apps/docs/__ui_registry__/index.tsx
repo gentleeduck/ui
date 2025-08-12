@@ -876,10 +876,6 @@ export const Index: Record<string, any> = {
     registryDependencies: [],
     files: [
       {
-        path: 'menubar/_menubar.tsx',
-        type: 'registry:ui',
-      },
-      {
         path: 'menubar/index.ts',
         type: 'registry:ui',
       },
@@ -900,10 +896,6 @@ export const Index: Record<string, any> = {
     type: 'registry:ui',
     registryDependencies: [],
     files: [
-      {
-        path: 'dropdown-menu/dropdown-menu-wrapper.tsx',
-        type: 'registry:ui',
-      },
       {
         path: 'dropdown-menu/dropdown-menu.hooks.ts',
         type: 'registry:ui',
@@ -1023,6 +1015,27 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(() => import('@gentleduck/registry-ui-duckui/chart')),
     source: '/registry-ui-duckui/src/chart',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'navigation-menu': {
+    name: 'navigation-menu',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'navigation-menu/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'navigation-menu/navigation-menu.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/navigation-menu')),
+    source: '/registry-ui-duckui/src/navigation-menu',
     category: '',
     subcategory: '',
     chunks: [],
@@ -4134,6 +4147,23 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/chart/chart-7')),
     source: '/registry-examples-duckui/src/chart',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'navigation-menu-1': {
+    name: 'navigation-menu-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['navigation-menu'],
+    files: [
+      {
+        path: 'navigation-menu/navigation-menu-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/navigation-menu/navigation-menu-1')),
+    source: '/registry-examples-duckui/src/navigation-menu',
     category: '',
     subcategory: '',
     chunks: [],

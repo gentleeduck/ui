@@ -311,12 +311,18 @@ export const registry_examples: Registry = [
     root_folder: 'input-otp',
     files: [],
   },
-
   {
     name: 'chart-examples',
     type: 'registry:example',
     registryDependencies: ['chart'],
     root_folder: 'chart',
+    files: [],
+  },
+  {
+    name: 'navigation-menu-examples',
+    type: 'registry:example',
+    registryDependencies: ['navigation-menu'],
+    root_folder: 'navigation-menu',
     files: [],
   },
 ]

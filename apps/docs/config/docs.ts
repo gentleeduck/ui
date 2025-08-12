@@ -155,6 +155,12 @@ export const docsConfig: DocsConfig = {
           title: 'Dropdown Menu',
         },
         {
+          href: '/docs/components/navigation-menu',
+          items: [],
+          label: 'new',
+          title: 'Navigation Menu',
+        },
+        {
           href: '/docs/components/react-hook-form',
           items: [],
           label: 'new',

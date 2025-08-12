@@ -270,6 +270,10 @@
   .container {
     @apply px-4;
   }
+
+  [duck-abc] {
+    @apply w-600;
+  }
 }
 
 @layer utilities {
