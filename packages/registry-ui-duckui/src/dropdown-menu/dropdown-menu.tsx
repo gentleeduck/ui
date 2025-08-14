@@ -93,6 +93,7 @@ function DropdownMenuContent({
   const { contentRef } = useDropdownMenuContext()
   return (
     <PopoverContent
+      lockScroll
       ref={contentRef}
       duck-dropdown-menu-content=""
       className={cn('min-w-[8rem] overflow-visible p-1', className)}
@@ -276,6 +277,7 @@ function DropdownMenuSubContent({
   const { contentRef } = useDropdownMenuSubContext()
   return (
     <PopoverContent
+      lockScroll={true}
       ref={contentRef}
       className={cn('fixed z-[55] min-w-[8rem] p-1', className)}
       {...props}

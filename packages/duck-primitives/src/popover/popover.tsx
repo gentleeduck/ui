@@ -16,6 +16,7 @@ import {
   useRole,
 } from '@floating-ui/react'
 import * as React from 'react'
+import { cleanLockScrollbar, lockScrollbar } from '../dialog'
 import { Mount } from '../mount'
 
 interface PopoverOptions {
@@ -186,13 +187,22 @@ function Content({
   renderOnce = false,
   waitForRender = true,
   withPortal = true,
+  lockScroll = false,
   ...props
 }: React.HTMLProps<HTMLDivElement> &
   React.ComponentPropsWithoutRef<typeof Mount> & {
     withPortal?: boolean
+    lockScroll?: boolean
   }) {
   const { context: floatingContext, ...context } = usePopoverContext()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
+
+  React.useEffect(() => {
+    if (lockScroll && context.open) {
+      lockScrollbar(true)
+    }
+    return () => cleanLockScrollbar()
+  }, [lockScroll, context.open])
 
   const Children = (
     <FloatingFocusManager context={floatingContext} modal={context.modal}>

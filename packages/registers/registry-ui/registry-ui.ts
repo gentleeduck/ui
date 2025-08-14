@@ -342,4 +342,11 @@ export const registry_ui: Registry = [
     root_folder: 'navigation-menu',
     files: [],
   },
+  {
+    name: 'context-menu',
+    type: 'registry:ui',
+    registryDependencies: [],
+    root_folder: 'context-menu',
+    files: [],
+  },
 ]

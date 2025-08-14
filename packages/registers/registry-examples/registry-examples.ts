@@ -325,4 +325,11 @@ export const registry_examples: Registry = [
     root_folder: 'navigation-menu',
     files: [],
   },
+  {
+    name: 'context-menu-examples',
+    type: 'registry:example',
+    registryDependencies: ['context-menu'],
+    root_folder: 'context-menu',
+    files: [],
+  },
 ]
