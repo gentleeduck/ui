@@ -131,6 +131,12 @@ export const docsConfig: DocsConfig = {
           items: [],
         },
         {
+          title: 'Context Menu',
+          href: '/docs/components/context-menu',
+          label: 'new',
+          items: [],
+        },
+        {
           href: '/docs/components/date-picker',
           items: [],
           label: 'new',

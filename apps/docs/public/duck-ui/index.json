@@ -924,6 +924,23 @@
     "source": "/registry-ui-duckui/src/navigation-menu"
   },
   {
+    "name": "context-menu",
+    "type": "registry:ui",
+    "registryDependencies": [],
+    "root_folder": "context-menu",
+    "files": [
+      {
+        "path": "context-menu/context-menu.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "context-menu/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/context-menu"
+  },
+  {
     "name": "accordion-1",
     "type": "registry:example",
     "registryDependencies": [
@@ -3620,5 +3637,20 @@
       }
     ],
     "source": "/registry-examples-duckui/src/navigation-menu"
+  },
+  {
+    "name": "context-menu-1",
+    "type": "registry:example",
+    "registryDependencies": [
+      "context-menu"
+    ],
+    "root_folder": "context-menu",
+    "files": [
+      {
+        "path": "context-menu/context-menu-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/context-menu"
   }
 ]

@@ -1040,6 +1040,27 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'context-menu': {
+    name: 'context-menu',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'context-menu/context-menu.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'context-menu/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/context-menu')),
+    source: '/registry-ui-duckui/src/context-menu',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'accordion-1': {
     name: 'accordion-1',
     description: '',
@@ -4164,6 +4185,23 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/navigation-menu/navigation-menu-1')),
     source: '/registry-examples-duckui/src/navigation-menu',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'context-menu-1': {
+    name: 'context-menu-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['context-menu'],
+    files: [
+      {
+        path: 'context-menu/context-menu-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/context-menu/context-menu-1')),
+    source: '/registry-examples-duckui/src/context-menu',
     category: '',
     subcategory: '',
     chunks: [],
