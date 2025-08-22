@@ -332,4 +332,11 @@ export const registry_examples: Registry = [
     root_folder: 'context-menu',
     files: [],
   },
+  {
+    name: 'data-table-examples',
+    type: 'registry:example',
+    registryDependencies: [],
+    root_folder: 'data-table',
+    files: [],
+  },
 ]

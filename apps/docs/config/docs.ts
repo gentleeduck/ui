@@ -137,6 +137,12 @@ export const docsConfig: DocsConfig = {
           items: [],
         },
         {
+          href: '/docs/components/data-table',
+          items: [],
+          label: 'new',
+          title: 'Data Table',
+        },
+        {
           href: '/docs/components/date-picker',
           items: [],
           label: 'new',

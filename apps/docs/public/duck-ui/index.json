@@ -3652,5 +3652,18 @@
       }
     ],
     "source": "/registry-examples-duckui/src/context-menu"
+  },
+  {
+    "name": "data-table-1",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "data-table",
+    "files": [
+      {
+        "path": "data-table/data-table-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/data-table"
   }
 ]

@@ -4206,4 +4206,21 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'data-table-1': {
+    name: 'data-table-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'data-table/data-table-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/data-table/data-table-1')),
+    source: '/registry-examples-duckui/src/data-table',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
 }

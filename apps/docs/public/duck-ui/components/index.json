@@ -1,5 +1,5 @@
 {
-  "name": "context-menu-1",
+  "name": "data-table-1",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

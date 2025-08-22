@@ -27,12 +27,12 @@ function walkAndMutate(node: UnistNode, marks: string[]) {
     const child = node.children[i]
 
     // Dive deeper if not text
-    if (child.type === 'element') {
+    if (child?.type === 'element') {
       walkAndMutate(child, marks)
     }
 
     // If it's a text node and contains any mark string
-    if (child.type === 'text' && typeof child.value === 'string') {
+    if (child?.type === 'text' && typeof child.value === 'string') {
       const parts = splitAndWrapMarks(child.value, marks)
 
       // Replace the original text node with wrapped nodes
