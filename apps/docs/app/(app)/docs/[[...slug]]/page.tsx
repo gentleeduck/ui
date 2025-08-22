@@ -58,22 +58,12 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
     if (!String(post?.slug)?.includes(_params.slug) && post?.slug === 'content/docs/index' && !_params.slug) {
       return true
     }
-    // console.log(
-    //   isArray(_param.slug) ? _param.slug.join('/') : _param.slug,
-    //   fullUrl,
-    //   fullUrl.endsWith(isArray(_param.slug) ? _param.slug.join('/') : _param.slug),
-    //   post.slug,
-    // )
 
     if (post.slug.endsWith('/index')) {
-      console.log(post.slug, fullUrl + '/index')
       return String(fullUrl + '/index').endsWith(post.slug)
     } else {
       return fullUrl.endsWith(post.slug)
     }
-
-    return fullUrl.endsWith('/installation')
-    return post?.slug.includes(isArray(_params.slug) ? _params.slug.join('/') : _params.slug)
   })
 
   if (!doc) {

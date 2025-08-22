@@ -43,7 +43,18 @@ const config = defineConfig({
           return {
             ...data,
             toc: cleanTocItems(data.toc),
-            slug: `${_meta.path.split('/').slice(-3, -1).join('/')}/${_meta.path.split('/').pop()?.replace('.mdx', '')}`,
+            slug: _meta.path
+              .split('docs/')
+              .pop() // take everything after the first "docs/"
+              ?.replace(/\.mdx$/, '') // remove .mdx extension
+              .replace(/^\/+/, '') // remove leading slashes
+              ? `docs/${_meta.path
+                  .split('docs/')
+                  .pop()
+                  ?.replace(/\.mdx$/, '')
+                  .replace(/^\/+/, '')}`
+              : 'docs',
+
             permalink: `${_meta.path.split('/').slice(-2, -1).join('/')}/${_meta.path.split('/').pop()?.replace('.mdx', '')}`,
             sourceFilePath: path,
             sourceFileName: _meta.path.split('/').pop(),
