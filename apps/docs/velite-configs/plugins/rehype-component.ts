@@ -135,6 +135,9 @@ export function componentPreview({ node }: { node: UnistNode }) {
         children: [
           u('element', {
             tagName: 'code',
+            properties: {
+              className: ['language-tsx'],
+            },
             children: [
               {
                 type: 'text',

@@ -9,10 +9,10 @@ import rehypeSlug from 'rehype-slug'
 import { codeImport } from 'remark-code-import'
 import remarkGfm from 'remark-gfm'
 import { Pluggable, PluggableList, Plugin } from 'unified'
-import { visit } from 'unist-util-visit'
 import { rehypeNpmCommand } from './lib/rehype-npm-command'
 import { UnistNode, UnistTree } from './types/unist'
-import { rehypeComponent, rehypePreBlockSource, rhypeMetadataPlugin } from './velite-configs/plugins'
+import { rhypeMetadataPlugin, rehypeComponent, rehypePreBlockSource } from './velite-configs/plugins'
+import { visit } from 'unist-util-visit'
 import { rehypeTitle } from './velite-configs/plugins/regype-title'
 
 // `s` is extended from Zod with some custom schemas,
@@ -91,7 +91,7 @@ const config = defineConfig({
           },
         },
       ],
-      rehypeTitle,
+      // rehypeTitle,
       rehypePreBlockSource,
       rehypeNpmCommand,
       // @ts-ignore

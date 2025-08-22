@@ -117,7 +117,9 @@ export function ComponentPreview({
             </div>
           </ThemeWrapper>
         </TabsContent>
-        <TabsContent value="code" className="mt-0 [&>div>div]:mt-2 [&>div>div]:mb-0 [&_pre]:h-[502px]">
+        <TabsContent
+          value="code"
+          className="mt-2 [&>div>div]:mb-0 [&_pre]:h-[502px] relative bg-muted/40 rounded-lg border [&>div>div>button]:top-4 [&>div>div>button]:right-4">
           {Code}
         </TabsContent>
         <BuildTab />
