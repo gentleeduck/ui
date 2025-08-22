@@ -10,6 +10,8 @@ import { DocsPager } from '~/components/pager'
 import { DashboardTableOfContents } from '~/components/toc'
 import { SLUG_METADATA } from '~/config/metadata'
 import { docs } from '../../../../.velite'
+import { isArray } from 'util'
+import { headers } from 'next/headers'
 
 interface DocPageProps {
   params: {
@@ -19,7 +21,7 @@ interface DocPageProps {
 
 async function getDocFromParams({ params }: DocPageProps) {
   const slug = params.slug
-  const doc = docs.find((doc) => slug.includes(doc.permalink))
+  const doc = docs.find((doc) => slug?.includes(doc.permalink))
 
   if (!doc) {
     return null
@@ -43,10 +45,35 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return SLUG_METADATA(doc)
 }
 
-const PostLayout = async ({ params }: { params: Promise<{ slug: string }> }) => {
-  const _param = await params
+const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
+  const headersList = await headers()
+  const host = headersList.get('host')
+  const protocol = headersList.get('x-forwarded-proto') || 'http'
+  const _params = await params
+  const path = _params.slug ? '/' + _params.slug.join('/') : '/'
+
+  const fullUrl = `${protocol}://${host}/docs${path}`
+
   const doc = docs.find((post) => {
-    return _param.slug.includes(post?.title)
+    if (!String(post?.slug)?.includes(_params.slug) && post?.slug === 'content/docs/index' && !_params.slug) {
+      return true
+    }
+    // console.log(
+    //   isArray(_param.slug) ? _param.slug.join('/') : _param.slug,
+    //   fullUrl,
+    //   fullUrl.endsWith(isArray(_param.slug) ? _param.slug.join('/') : _param.slug),
+    //   post.slug,
+    // )
+
+    if (post.slug.endsWith('/index')) {
+      console.log(post.slug, fullUrl + '/index')
+      return String(fullUrl + '/index').endsWith(post.slug)
+    } else {
+      return fullUrl.endsWith(post.slug)
+    }
+
+    return fullUrl.endsWith('/installation')
+    return post?.slug.includes(isArray(_params.slug) ? _params.slug.join('/') : _params.slug)
   })
 
   if (!doc) {

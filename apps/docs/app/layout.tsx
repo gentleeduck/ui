@@ -5,7 +5,6 @@ import './mdx.css'
 import { cn } from '@gentleduck/libs/cn'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
-import { TailwindIndicator } from '~/components/layouts/tailwind-indicator'
 import { ThemeProvider } from '~/components/providers'
 import { ThemeSwitcher } from '~/components/theme-switcher'
 
@@ -28,10 +27,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
           rel="stylesheet"
         />
-
-        {<script src="https://unpkg.com/react-scan/dist/auto.global.js" />}
       </head>
-      <div className="w-[500px]" />
       <body className={cn('min-h-svh bg-background font-sans antialiased duck')}>
         <KeyProvider timeoutMs={100}>
           <ThemeProvider

@@ -28,6 +28,11 @@ export const docsConfig: DocsConfig = {
           items: [],
           title: 'Installation',
         },
+        {
+          href: '/docs/javascript',
+          items: [],
+          title: 'JavaScript',
+        },
       ],
       title: 'Getting Started',
     },
