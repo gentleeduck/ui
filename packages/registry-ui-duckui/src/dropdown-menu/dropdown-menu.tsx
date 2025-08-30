@@ -54,9 +54,9 @@ function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProp
   )
 }
 
-function DropdownMenu({ children, ...props }: React.ComponentPropsWithRef<typeof Popover>) {
+function DropdownMenu({ children, contextMenu, ...props }: React.ComponentPropsWithRef<typeof Popover>) {
   return (
-    <Popover {...props}>
+    <Popover contextMenu={contextMenu} {...props}>
       <DropdownMenuImpritive {...props}>{children}</DropdownMenuImpritive>
     </Popover>
   )

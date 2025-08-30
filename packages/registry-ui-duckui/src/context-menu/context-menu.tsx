@@ -21,7 +21,7 @@ import {
 import { cn } from '@gentleduck/libs/cn'
 
 function ContextMenu(props: React.ComponentPropsWithoutRef<typeof DropdownMenu>) {
-  return <DropdownMenu {...props} duck-context-menu="" />
+  return <DropdownMenu contextMenu {...props} duck-context-menu="" />
 }
 
 function ContextMenuTrigger(props: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger>) {

@@ -30,6 +30,7 @@ interface PopoverOptions {
   matchWidth?: boolean
   enableHover?: boolean
   mainAxis?: boolean
+  contextMenu?: boolean
 }
 
 export function usePopover({
@@ -43,6 +44,7 @@ export function usePopover({
   matchWidth = false,
   enableHover = false,
   mainAxis = true,
+  contextMenu = false,
 }: PopoverOptions) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
 
@@ -55,9 +57,10 @@ export function usePopover({
       crossAxis: placement.includes('-'),
       mainAxis,
       fallbackAxisSideDirection: 'end',
-      padding: 5,
+      fallbackPlacements: contextMenu ? ['left-start'] : null,
+      padding: 4,
     }),
-    shift({ padding: 5 }),
+    shift({ padding: 4 }),
   ]
 
   if (matchWidth) {
@@ -73,10 +76,11 @@ export function usePopover({
   }
 
   const data = useFloating({
-    placement,
     open,
     onOpenChange: setOpen,
+    placement,
     whileElementsMounted: autoUpdate,
+    strategy: contextMenu ? 'fixed' : 'absolute',
     middleware,
   })
 
@@ -86,7 +90,7 @@ export function usePopover({
     enabled: controlledOpen == null,
   })
   const dismiss = useDismiss(context)
-  const role = useRole(context)
+  const role = useRole(context, contextMenu ? { role: 'menu' } : {})
 
   const hover = useHover(context, {
     move: true,
@@ -96,6 +100,53 @@ export function usePopover({
   })
 
   const interactions = useInteractions([click, dismiss, role, hover])
+  const allowMouseUpCloseRef = React.useRef(false)
+
+  React.useEffect(() => {
+    if (!contextMenu) return
+    let timeout: number
+
+    function onContextMenu(e: MouseEvent) {
+      e.preventDefault()
+
+      data.refs.setPositionReference({
+        getBoundingClientRect() {
+          return {
+            width: 0,
+            height: 0,
+            x: e.clientX,
+            y: e.clientY,
+            top: e.clientY,
+            right: e.clientX,
+            bottom: e.clientY,
+            left: e.clientX,
+          }
+        },
+      })
+
+      setOpen(true)
+      clearTimeout(timeout)
+
+      allowMouseUpCloseRef.current = false
+      timeout = window.setTimeout(() => {
+        allowMouseUpCloseRef.current = true
+      }, 300)
+    }
+
+    function onMouseUp() {
+      if (allowMouseUpCloseRef.current) {
+        setOpen(false)
+      }
+    }
+
+    document.addEventListener('contextmenu', onContextMenu)
+    document.addEventListener('mouseup', onMouseUp)
+    return () => {
+      document.removeEventListener('contextmenu', onContextMenu)
+      document.removeEventListener('mouseup', onMouseUp)
+      clearTimeout(timeout)
+    }
+  }, [data.refs])
 
   return React.useMemo(
     () => ({
