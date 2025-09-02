@@ -102,7 +102,7 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
           // find current selected item (aria-selected) or activeElement fallback
           let currentIndex = items.findIndex((it) => it.getAttribute('aria-selected') !== null)
           if (currentIndex === -1) {
-            const active = document.activeElement
+            const active = document?.activeElement
             currentIndex = items.indexOf(active as HTMLElement)
           }
 
@@ -152,7 +152,7 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
       if (triggerHandlersRef.current.has(trigger)) return
 
       const onClick = () => {
-        const contents = Array.from(document.querySelectorAll('[duck-menubar-content]')) as HTMLDialogElement[]
+        const contents = Array.from(document?.querySelectorAll('[duck-menubar-content]')) as HTMLDialogElement[]
         contentsRef.current = contents
 
         triggersRef.current.forEach((t) => {
@@ -186,7 +186,7 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
     })
 
     // attach any existing contents at mount
-    const initialContents = Array.from(document.querySelectorAll('[duck-menubar-content]')) as HTMLDialogElement[]
+    const initialContents = Array.from(document?.querySelectorAll('[duck-menubar-content]')) as HTMLDialogElement[]
     contentsRef.current = initialContents
     initialContents.forEach((content) => {
       if (!contentHandlersRef.current.has(content)) {
@@ -224,7 +224,7 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
   )
 }
 
-function MenubarMenu({ children, ...props }: React.HTMLProps<HTMLDivElement>) {
+function MenubarMenu({ children, ...props }: Omit<React.HTMLProps<HTMLDivElement>, 'contextMenu'>) {
   return (
     <DropdownMenu {...props} duck-menubar-menu="">
       <div {...props}>{children}</div>

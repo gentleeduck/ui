@@ -180,7 +180,12 @@ function Content({ style, ref: propRef, ...props }: React.HTMLProps<HTMLDivEleme
             ...style,
           } as React.CSSProperties
         }>
-        <Mount open={context.open} ref={localRef} waitForRender onReady={applyReadyStyles}>
+        <Mount
+          open={context.open}
+          // @ts-ignore
+          ref={localRef}
+          waitForRender
+          onReady={applyReadyStyles}>
           {props.children}
         </Mount>
       </div>

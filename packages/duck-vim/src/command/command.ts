@@ -1,3 +1,4 @@
+'use client'
 import type { Command, RegistryClass } from './command.types'
 
 /**

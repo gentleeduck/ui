@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/primitives",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "private": false,
   "type": "module",
@@ -50,8 +50,6 @@
   },
   "peerDependencies": {
     "@floating-ui/react": "^0.27.13",
-    "dialog-closedby-polyfill": "^1.1.0",
-    "invokers-polyfill": "^0.5.5",
     "mini-svg-data-uri": "^1.4.4",
     "clsx": "^1.2.1",
     "react": "catalog:react19",

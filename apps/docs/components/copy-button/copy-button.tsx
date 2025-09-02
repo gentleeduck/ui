@@ -11,7 +11,8 @@ import {
 import { CheckIcon, ClipboardIcon, Copy } from 'lucide-react'
 import * as React from 'react'
 import { Event, trackEvent } from '~/lib/events'
-import { CopyButtonProps, CopyNpmCommandButtonProps, CopyWithClassNamesProps } from './copy-button.types'
+import { NpmCommands } from '~/types/unist'
+import { CopyButtonProps, CopyWithClassNamesProps } from './copy-button.types'
 
 export async function copyToClipboardWithMeta(value: string, event?: Event) {
   navigator.clipboard.writeText(value)
@@ -87,7 +88,13 @@ export function CopyWithClassNames({ value, classNames, className, ...props }: C
   )
 }
 
-export function CopyNpmCommandButton({ commands, className, ...props }: CopyNpmCommandButtonProps) {
+export function CopyNpmCommandButton({
+  commands,
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof Button> & {
+  commands: Required<NpmCommands>
+}) {
   const [hasCopied, setHasCopied] = React.useState(false)
 
   React.useEffect(() => {

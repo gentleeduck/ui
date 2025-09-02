@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Function to style the selected item
  * @function styleItem

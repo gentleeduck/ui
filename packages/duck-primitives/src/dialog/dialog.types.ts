@@ -1,6 +1,6 @@
 import type { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import type { VariantProps } from '@gentleduck/variants'
-import { MountMinimal } from '~/mount'
+import { MountMinimal } from '../mount'
 
 export interface DialogContextType {
   /** Ref to the outermost wrapper element of the dialog. */
@@ -44,6 +44,8 @@ export interface DialogContentProps
       size?: number
     }
   >
+  /** Determines whether the content should be rendered only once. */
+  renderOnce?: boolean
 }
 
 export interface DialogProps

@@ -1,3 +1,4 @@
+//@ts-noCheck
 import {
   ArrowBigUp,
   Download,

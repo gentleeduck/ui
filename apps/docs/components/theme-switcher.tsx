@@ -10,7 +10,6 @@ export function ThemeSwitcher() {
   const segment = useSelectedLayoutSegment()
 
   React.useEffect(() => {
-    // biome-ignore lint/complexity/noForEach: <explanation>
     document.body.classList.forEach((className) => {
       if (className.match(/^theme.*/)) {
         document.body.classList.remove(className)

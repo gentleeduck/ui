@@ -1,4 +1,7 @@
+'use client'
+
 export function lockScrollbar(isLocked: boolean) {
+  if (!document) return
   const { documentElement, body } = document
 
   if (isLocked) {
@@ -12,6 +15,8 @@ export function lockScrollbar(isLocked: boolean) {
 }
 
 export function cleanLockScrollbar() {
-  document.documentElement.style.scrollbarGutter = ''
-  document.body.style.overflow = ''
+  if (document) {
+    document.documentElement.style.scrollbarGutter = ''
+    document.body.style.overflow = ''
+  }
 }

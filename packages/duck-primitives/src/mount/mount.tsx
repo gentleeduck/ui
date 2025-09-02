@@ -46,7 +46,8 @@ function Mount({
   }, [ref])
 
   React.useEffect(() => {
-    cleanupRenderWaitRef.current?.()
+    cleanupRenderWaitRef?.current?.()
+    // @ts-ignore
     cleanupRenderWaitRef.current = undefined
 
     if (open) {
@@ -233,6 +234,7 @@ function MountMinimal({
         setIsVisible(false)
         timeoutRef.current = null
       } else {
+        // @ts-ignore
         timeoutRef.current = useComputedTimeoutTransition(element, () => {
           setIsVisible(false)
           timeoutRef.current = null

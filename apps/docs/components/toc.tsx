@@ -1,12 +1,11 @@
 // @ts-nocheck
 'use client'
 
-import * as React from 'react'
-
-import { TableOfContents } from '~/lib/toc'
 import { cn } from '@gentleduck/libs/cn'
-import { useMounted } from '~/hooks/use-mounted'
+import * as React from 'react'
 import { Docs } from '~/.velite'
+import { useMounted } from '~/hooks/use-mounted'
+import { TableOfContents } from '~/lib/toc'
 
 interface TocProps {
   toc: Docs['toc']

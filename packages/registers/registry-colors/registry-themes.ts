@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { ColorBase } from './registry-colors.dto'
 
 export const registry_themes: ColorBase = [

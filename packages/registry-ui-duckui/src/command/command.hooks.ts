@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { CommandContext, CommandRefsContext } from './command'
 import { dstyleItem, handleItemsSelection, styleItem } from './command.libs'
@@ -200,7 +202,7 @@ export function useHandleKeyDown({
       handleItemsSelection(currentItem, itemsRef, setSelectedItem)
     }
 
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    document?.addEventListener('keydown', handleKeyDown)
+    return () => document?.removeEventListener('keydown', handleKeyDown)
   }, [open])
 }

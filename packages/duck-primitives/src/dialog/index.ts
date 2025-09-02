@@ -1,3 +1,5 @@
+'use client'
+
 import { Content, Root, Trigger } from './dialog'
 
 export * from './dialog'

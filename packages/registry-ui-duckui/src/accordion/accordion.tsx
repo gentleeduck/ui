@@ -156,7 +156,7 @@ function AccordionItem({
       duck-accordion-item="">
       {_children[0]}
       {rerender && (
-        <Mount once={renderOnce} open={open}>
+        <Mount renderOnce={renderOnce} open={open}>
           {_children[1]}
         </Mount>
       )}

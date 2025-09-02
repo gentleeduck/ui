@@ -1,3 +1,4 @@
+'use client'
 import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import { useLazyImage } from './lazy-image.hooks'

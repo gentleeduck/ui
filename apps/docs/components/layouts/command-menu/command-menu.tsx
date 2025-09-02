@@ -3,14 +3,15 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
+  // CommandDialog,
+  // CommandEmpty,
+  // CommandGroup,
+  // CommandInput,
+  // CommandItem,
+  // CommandList,
+  // CommandSeparator,
+  // CommandShortcut,
+  useCommandRefsContext,
 } from '@gentleduck/registry-ui-duckui/command'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { useKeyCommands } from '@gentleduck/vim/react'
@@ -19,9 +20,7 @@ import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 import { docsConfig } from '~/config/docs'
-import { useCommandRefsContext } from '../../../../../packages/registry-ui-duckui/src/command/command.hooks'
 
-// asdf
 export function CommandMenu() {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
@@ -58,63 +57,64 @@ export function CommandMenu() {
       ],
     },
   ]
+  return ''
 
-  return (
-    <>
-      <Button
-        variant="outline"
-        size={'sm'}
-        className={cn(
-          'relative w-full h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between ltr:pr-2 rtl:pl-2 md:w-40 lg:w-64',
-        )}
-        onClick={() => setOpen(true)}>
-        <span className="hidden lg:inline-flex">Search documentation...</span>
-        <span className="inline-flex lg:hidden">Search...</span>
-        <CommandShortcut
-          keys={'ctrl+k'}
-          onKeysPressed={() => {
-            setOpen(!open)
-            window.event?.preventDefault()
-          }}
-          className="bg-secondary">
-          <Command className="!size-3" />
-          <span className="text-md">K</span>
-        </CommandShortcut>
-      </Button>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search..." autoFocus />
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandList className="max-h-[299px]">
-          {items.map((group, idx) => (
-            <React.Fragment key={group.title}>
-              <CommandGroup heading={group.title}>
-                {group.items.map((item) => (
-                  <CommandItem
-                    id={item.name}
-                    key={item.name}
-                    onClick={() => {
-                      setOpen(false)
-                      item.action()
-                      groupRef.current?.scrollTo(0, 0)
-                      groupRef.current?.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                        inline: 'start',
-                      })
-                    }}>
-                    {item.icon}
-                    <span>{item.name}</span>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-              {idx !== items.length - 1 && <CommandSeparator />}
-            </React.Fragment>
-          ))}
-        </CommandList>
-        <CommandFooter />
-      </CommandDialog>
-    </>
-  )
+  // return (
+  //   <>
+  //     <Button
+  //       variant="outline"
+  //       size={'sm'}
+  //       className={cn(
+  //         'relative w-full h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between ltr:pr-2 rtl:pl-2 md:w-40 lg:w-64',
+  //       )}
+  //       onClick={() => setOpen(true)}>
+  //       <span className="hidden lg:inline-flex">Search documentation...</span>
+  //       <span className="inline-flex lg:hidden">Search...</span>
+  //       <CommandShortcut
+  //         keys={'ctrl+k'}
+  //         onKeysPressed={() => {
+  //           setOpen(!open)
+  //           window.event?.preventDefault()
+  //         }}
+  //         className="bg-secondary">
+  //         <Command className="!size-3" />
+  //         <span className="text-md">K</span>
+  //       </CommandShortcut>
+  //     </Button>
+  //     <CommandDialog open={open} onOpenChange={setOpen}>
+  //       <CommandInput placeholder="Search..." autoFocus />
+  //       <CommandEmpty>No results found.</CommandEmpty>
+  //       <CommandList className="max-h-[299px]">
+  //         {items.map((group, idx) => (
+  //           <React.Fragment key={group.title}>
+  //             <CommandGroup heading={group.title}>
+  //               {group.items.map((item) => (
+  //                 <CommandItem
+  //                   id={item.name}
+  //                   key={item.name}
+  //                   onClick={() => {
+  //                     setOpen(false)
+  //                     item.action()
+  //                     groupRef.current?.scrollTo(0, 0)
+  //                     groupRef.current?.scrollIntoView({
+  //                       behavior: 'smooth',
+  //                       block: 'start',
+  //                       inline: 'start',
+  //                     })
+  //                   }}>
+  //                   {item.icon}
+  //                   <span>{item.name}</span>
+  //                 </CommandItem>
+  //               ))}
+  //             </CommandGroup>
+  //             {idx !== items.length - 1 && <CommandSeparator />}
+  //           </React.Fragment>
+  //         ))}
+  //       </CommandList>
+  //       <CommandFooter />
+  //     </CommandDialog>
+  //   </>
+  // )
 }
 
 function CommandFooter() {
@@ -131,7 +131,7 @@ function CommandFooter() {
   })
   return (
     <div className="flex items-center gap-4 px-2 pt-2 border-t justify-between w-full">
-      <div className="flex items-cneter gap-4 w-full">
+      <div className="flex items-center gap-4 w-full">
         {selectedItem?.innerText && (
           <Button className={cn('px-2')} variant={'outline'} size={'xs'}>
             <CornerDownLeft />

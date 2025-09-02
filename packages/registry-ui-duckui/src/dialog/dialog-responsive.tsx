@@ -1,3 +1,4 @@
+'use client'
 import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 import React from 'react'
 import {

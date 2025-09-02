@@ -1,5 +1,11 @@
 # @gentleduck/primitives
 
+## 0.1.9
+
+### Patch Changes
+
+- nothing
+
 ## 0.1.8
 
 ### Patch Changes

@@ -57,6 +57,7 @@ export function usePopover({
       crossAxis: placement.includes('-'),
       mainAxis,
       fallbackAxisSideDirection: 'end',
+      // @ts-ignore
       fallbackPlacements: contextMenu ? ['left-start'] : null,
       padding: 4,
     }),

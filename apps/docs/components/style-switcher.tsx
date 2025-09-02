@@ -13,11 +13,12 @@ export function StyleSwitcher({ className, ...props }: React.ComponentPropsWitho
   return (
     <Select
       value={config.style}
-      onValueChange={(value: Style['name']) =>
-        setConfig({
-          ...config,
-          style: value,
-        })
+      onValueChange={
+        ((value: Style['name']) =>
+          setConfig({
+            ...config,
+            style: value,
+          })) as never
       }>
       <SelectTrigger className={cn('h-7 w-[145px] text-xs [&_svg]:h-4 [&_svg]:w-4', className)} {...props}>
         <span className="text-muted-foreground">Style: </span>

@@ -5,7 +5,7 @@ import React from 'react'
 export function ComponentCard({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <AspectRatio
-      ratio={1 / 1}
+      ratio={'1/1'}
       className={cn('flex items-center justify-center rounded-md border p-8', className)}
       {...props}
     />

@@ -1,4 +1,5 @@
 'use client'
+
 import { cn } from '@gentleduck/libs/cn'
 import { Search } from 'lucide-react'
 import React from 'react'

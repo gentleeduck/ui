@@ -41,5 +41,10 @@
   "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=22.0.0"
-  }
+  },
+  "peerDependencies": {
+    "clsx": "^1.2.1",
+    "tailwind-merge": "^1.14.0"
+  },
+  "dependencies": {}
 }

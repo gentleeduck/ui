@@ -49,11 +49,11 @@ export function ThemeCustomizer() {
         </DrawerContent>
       </Drawer>
       <div className="hidden items-center md:flex">
-        <Popover>
+        <Popover placement="bottom-start">
           <PopoverTrigger asChild>
             <Button size="sm">Customize</Button>
           </PopoverTrigger>
-          <PopoverContent align="start" className="z-40 w-[340px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
+          <PopoverContent className="z-40 w-[340px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
             <Customizer />
           </PopoverContent>
         </Popover>
@@ -94,9 +94,7 @@ export function ThemeCustomizer() {
                         <span className="sr-only">{theme.label}</span>
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent align="center" className="rounded-[0.5rem] bg-zinc-900 text-zinc-50">
-                      {theme.label}
-                    </TooltipContent>
+                    <TooltipContent className="rounded-[0.5rem] bg-zinc-900 text-zinc-50">{theme.label}</TooltipContent>
                   </Tooltip>
                 )
               })}

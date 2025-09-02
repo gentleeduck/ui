@@ -1,12 +1,11 @@
 'use client'
 
-import * as React from 'react'
-
-import { useColors } from '~/hooks/use-colors'
-import { type Color, getColorFormat } from '~/lib/colors'
 import { cn } from '@gentleduck/libs/cn'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@gentleduck/registry-ui-duckui/select'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
+import * as React from 'react'
+import { useColors } from '~/hooks/use-colors'
+import { type Color, getColorFormat } from '~/lib/colors'
 
 export function ColorFormatSelector({
   color,
@@ -23,12 +22,12 @@ export function ColorFormatSelector({
   }
 
   return (
-    <Select value={format} onValueChange={setFormat}>
+    <Select value={format} placement="bottom-end" onValueChange={setFormat as any}>
       <SelectTrigger className={cn('h-7 w-auto gap-1.5 rounded-lg pr-2 text-xs', className)} {...props}>
         <span className="font-medium">Format: </span>
         <span className="font-mono text-xs text-muted-foreground">{format}</span>
       </SelectTrigger>
-      <SelectContent align="end" className="rounded-xl">
+      <SelectContent className="rounded-xl">
         {Object.entries(formats).map(([format, value]) => (
           <SelectItem
             key={format}

@@ -1,0 +1,41 @@
+---
+title: gentleduck-libs
+description: "A collection of reusable React hooks for the duck-ui component library."
+---
+
+<Callout>
+
+This package provides a collection of reusable React hooks for the **duck-ui** component library.
+
+</Callout>
+
+## Installation
+
+```bash
+npm install @gentleduck/hooks
+```
+
+## Available Hooks
+
+- `use-composed-refs` — Merge multiple refs into a single ref.
+- `use-computed-timeout-transition` — Manage timeout-based transitions.
+- `use-debounce` — Debounce a value.
+- `use-is-mobile` — Detect if the user is on a mobile device.
+- `use-media-query` — Use media queries in your components.
+- `use-on-open-change` — Handle open/close state changes.
+- `use-stable-id` — Generate a stable ID.
+
+## Usage
+
+To use a hook, import it from the corresponding directory:
+
+```tsx
+import { useDebounce } from '@gentleduck/libs/use-debounce';
+
+function MyComponent() {
+  const [value, setValue] = useState('');
+  const debouncedValue = useDebounce(value, 500);
+
+  return <div>{debouncedValue}</div>;
+}
+````

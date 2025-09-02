@@ -64,14 +64,14 @@ function Form({ disabled, className, ...props }: Omit<React.ComponentProps<typeo
       loading={pending}
       secondIcon={<V0Logo />}
       disabled={disabled || pending}
-      label={{
-        children: 'Edit in V0',
-        showLabel: true,
-        side: 'bottom',
-        // delayDuration: 0,
-      }}
+      // label={{
+      //   children: 'Edit in V0',
+      //   showLabel: true,
+      //   side: 'bottom',
+      //   // delayDuration: 0,
+      // }}
       {...props}>
-      Edit in
+      Edit in V0
     </Button>
   )
 }

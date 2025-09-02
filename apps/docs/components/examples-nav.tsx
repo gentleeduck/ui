@@ -1,10 +1,9 @@
 'use client'
 
+import { cn } from '@gentleduck/libs/cn'
+import { ArrowRightIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ArrowRightIcon } from '@radix-ui/react-icons'
-
-import { cn } from '@gentleduck/libs/cn'
 
 const examples = [
   {

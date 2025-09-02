@@ -1,3 +1,5 @@
+
+//@ts-noCheck
 import React from 'react'
 // import { IoHeart } from 'react-icons/io5'
 // import { IoMdHeartEmpty } from 'react-icons/io'

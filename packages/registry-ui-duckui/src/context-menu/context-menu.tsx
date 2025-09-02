@@ -100,14 +100,7 @@ function ContextMenuSubContent(props: React.ComponentPropsWithoutRef<typeof Drop
 }
 
 function ContextMenuContent(props: React.ComponentPropsWithoutRef<typeof DropdownMenuContent>) {
-  return (
-    <DropdownMenuContent
-      {...props}
-      className={cn('fixed', props.className)}
-      placement={'bottom'}
-      duck-context-menu-content=""
-    />
-  )
+  return <DropdownMenuContent {...props} className={cn('fixed', props.className)} duck-context-menu-content="" />
 }
 
 function ContextMenuItem(props: React.ComponentPropsWithoutRef<typeof DropdownMenuItem>) {

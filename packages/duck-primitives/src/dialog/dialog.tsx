@@ -1,20 +1,11 @@
 'use client'
+
 import { useMergeRefs } from '@floating-ui/react'
 import { useStableId } from '@gentleduck/hooks/use-stable-id'
-import { apply as applyClosedBy, isSupported as isClosedBySupported } from 'dialog-closedby-polyfill'
-import { apply as applyInvokers, isSupported as isInvokersSupported } from 'invokers-polyfill/fn'
 import React from 'react'
 import { MountMinimal } from '../mount'
 import { useDialog, useDialogContext } from './dialog.hooks'
 import type { DialogContentProps, DialogContextType, DialogProps } from './dialog.types'
-
-if (!isClosedBySupported()) {
-  applyClosedBy()
-}
-
-if (!isInvokersSupported()) {
-  applyInvokers()
-}
 
 /**
  * Context for managing the open state of the dialog.
@@ -93,10 +84,10 @@ export function Trigger({
       'aria-controls': id,
       'data-open': open,
       onClick: (e: React.MouseEvent<HTMLElement>) => {
-        onOpenChange(!open)
+        onOpenChange?.(!open)
         onClick?.(e)
         // @ts-ignore
-        if (children.props.onClick) children.props.onClick(e)
+        if (children.props.onClick) children.props?.onClick?.(e)
       },
     })
   }
@@ -111,7 +102,7 @@ export function Trigger({
       data-open={open}
       children={children}
       onClick={(e) => {
-        onOpenChange(!open)
+        onOpenChange?.(!open)
         onClick?.(e)
       }}
       {...props}
