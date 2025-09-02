@@ -1,7 +1,12 @@
 {
   "name": "tooltip",
   "type": "registry:ui",
-  "registryDependencies": [],
+  "dependencies": [
+    "@gentleduck/variants",
+    "@gentleduck/libs",
+    "@gentleduck/motion",
+    "@gentleduck/primitives"
+  ],
   "root_folder": "tooltip",
   "files": [
     {
@@ -12,7 +17,7 @@
     },
     {
       "path": "tooltip/tooltip.tsx",
-      "content": "'use client'\n\nimport * as TooltipPrimitive from '@gentleduck/primitives/tooltip'\nimport { cn } from '@gentleduck/libs/cn'\nimport { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'\nimport { VariantProps } from '@gentleduck/variants'\nimport type React from 'react'\n\nfunction Tooltip({\n  skipDelayDuration,\n  delayDuration,\n  ...props\n}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>) {\n  return <TooltipPrimitive.Root skipDelayDuration={skipDelayDuration} delayDuration={delayDuration} {...props} />\n}\n\nfunction TooltipTrigger({\n  children,\n  ...props\n}: Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>) {\n  return <TooltipPrimitive.Trigger {...props}>{children}</TooltipPrimitive.Trigger>\n}\n\nfunction TooltipContent({\n  className,\n  children,\n  animation = 'default',\n  overlay = 'nothing',\n  ...props\n}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Content> & {\n  animation?: VariantProps<typeof AnimDialogVariants>['animation']\n  overlay?: VariantProps<typeof AnimVariants>['overlay']\n}): React.JSX.Element {\n  return (\n    <TooltipPrimitive.Content\n      role=\"tooltip\"\n      className={cn(\n        AnimVariants({ overlay }),\n        AnimDialogVariants({ animation }),\n        'absolute z-50 max-h-fit w-fit max-w-[300px] text-balance border border-border bg-popover p-4 text-popover-foreground',\n        'select-none px-3 py-1.5',\n        className,\n      )}\n      {...props}>\n      {children}\n    </TooltipPrimitive.Content>\n  )\n}\n\nexport { Tooltip, TooltipTrigger, TooltipContent }\n",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'\nimport * as TooltipPrimitive from '@gentleduck/primitives/tooltip'\nimport { VariantProps } from '@gentleduck/variants'\nimport type React from 'react'\n\nfunction Tooltip({\n  skipDelayDuration,\n  delayDuration,\n  ...props\n}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>) {\n  return <TooltipPrimitive.Root skipDelayDuration={skipDelayDuration} delayDuration={delayDuration} {...props} />\n}\n\nfunction TooltipTrigger({\n  children,\n  ...props\n}: Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>) {\n  return <TooltipPrimitive.Trigger {...props}>{children}</TooltipPrimitive.Trigger>\n}\n\nfunction TooltipContent({\n  className,\n  children,\n  animation = 'default',\n  overlay = 'nothing',\n  ...props\n}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Content> & {\n  animation?: VariantProps<typeof AnimDialogVariants>['animation']\n  overlay?: VariantProps<typeof AnimVariants>['overlay']\n}): React.JSX.Element {\n  return (\n    <TooltipPrimitive.Content\n      role=\"tooltip\"\n      className={cn(\n        AnimVariants({ overlay }),\n        AnimDialogVariants({ animation }),\n        'absolute z-50 max-h-fit w-fit max-w-[300px] text-balance border border-border bg-popover p-4 text-popover-foreground',\n        'select-none px-3 py-1.5',\n        className,\n      )}\n      {...props}>\n      {children}\n    </TooltipPrimitive.Content>\n  )\n}\n\nexport { Tooltip, TooltipTrigger, TooltipContent }\n",
       "type": "registry:ui",
       "target": "components/ui/tooltip.tsx"
     }

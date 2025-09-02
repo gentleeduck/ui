@@ -2,9 +2,13 @@
   "name": "sonner",
   "type": "registry:ui",
   "dependencies": [
-    "sonner"
+    "sonner",
+    "next-themes"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "button",
+    "progress"
+  ],
   "root_folder": "sonner",
   "files": [
     {

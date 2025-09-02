@@ -1,8 +1,9 @@
 {
   "name": "separator",
   "type": "registry:ui",
-  "dependencies": [],
-  "registryDependencies": [],
+  "dependencies": [
+    "@gentleduck/libs"
+  ],
   "root_folder": "separator",
   "files": [
     {

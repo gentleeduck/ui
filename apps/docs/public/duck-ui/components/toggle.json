@@ -2,7 +2,8 @@
   "name": "toggle",
   "type": "registry:ui",
   "dependencies": [
-    "@gentleduck/variants"
+    "@gentleduck/variants",
+    "@gentleduck/libs"
   ],
   "registryDependencies": [],
   "root_folder": "toggle",

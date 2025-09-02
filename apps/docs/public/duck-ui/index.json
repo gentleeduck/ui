@@ -4,9 +4,9 @@
     "type": "registry:ui",
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentledduck/anim"
+      "@gentledduck/motion",
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
     "root_folder": "accordion",
     "files": [
       {
@@ -24,9 +24,9 @@
     "name": "alert",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "@gentledduck/variants",
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
     "root_folder": "alert",
     "files": [
       {
@@ -47,8 +47,12 @@
   {
     "name": "alert-dialog",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/primitives"
+    ],
+    "registryDependencies": [
+      "dialog"
+    ],
     "root_folder": "alert-dialog",
     "files": [
       {
@@ -63,12 +67,31 @@
     "source": "/registry-ui-duckui/src/alert-dialog"
   },
   {
+    "name": "aspect-ratio",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/primitives",
+      "@gentleduck/libs"
+    ],
+    "root_folder": "aspect-ratio",
+    "files": [
+      {
+        "path": "aspect-ratio/aspect-ratio.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "aspect-ratio/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/aspect-ratio"
+  },
+  {
     "name": "avatar",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
     "root_folder": "avatar",
     "files": [
       {
@@ -86,9 +109,9 @@
     "name": "badge",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "@gentleduck/variants",
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
     "root_folder": "badge",
     "files": [
       {
@@ -107,12 +130,33 @@
     "source": "/registry-ui-duckui/src/badge"
   },
   {
+    "name": "breadcrumb",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/primitives",
+      "@gentleduck/libs"
+    ],
+    "root_folder": "breadcrumb",
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "breadcrumb/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/breadcrumb"
+  },
+  {
     "name": "button",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "@gentleduck/primitives",
+      "@gentleduck/variants",
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
     "root_folder": "button",
     "files": [
       {
@@ -135,30 +179,165 @@
     "source": "/registry-ui-duckui/src/button"
   },
   {
-    "name": "breadcrumb",
+    "name": "calendar",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
-    "root_folder": "breadcrumb",
+    "dependencies": [
+      "react-day-picker",
+      "date-fns",
+      "@gentleduck/libs"
+    ],
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "calendar",
     "files": [
       {
-        "path": "breadcrumb/breadcrumb.tsx",
+        "path": "calendar/calendar.tsx",
         "type": "registry:ui"
       },
       {
-        "path": "breadcrumb/index.ts",
+        "path": "calendar/index.ts",
         "type": "registry:ui"
       }
     ],
-    "source": "/registry-ui-duckui/src/breadcrumb"
+    "source": "/registry-ui-duckui/src/calendar"
+  },
+  {
+    "name": "card",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
+    "root_folder": "card",
+    "files": [
+      {
+        "path": "card/card.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "card/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/card"
+  },
+  {
+    "name": "carousel",
+    "type": "registry:ui",
+    "dependencies": [
+      "embla-carousel-react",
+      "@gentleduck/libs"
+    ],
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "carousel",
+    "files": [
+      {
+        "path": "carousel/carousel.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "carousel/carousel.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "carousel/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/carousel"
+  },
+  {
+    "name": "chart",
+    "type": "registry:ui",
+    "dependencies": [
+      "recharts",
+      "@gentleduck/libs"
+    ],
+    "root_folder": "chart",
+    "files": [
+      {
+        "path": "chart/chart.libs.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "chart/chart.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "chart/chart.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "chart/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/chart"
+  },
+  {
+    "name": "checkbox",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/primitives",
+      "@gentleduck/motion",
+      "@gentleduck/libs"
+    ],
+    "registryDependencies": [
+      "label"
+    ],
+    "root_folder": "checkbox",
+    "files": [
+      {
+        "path": "checkbox/checkbox.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "checkbox/checkbox.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "checkbox/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/checkbox"
+  },
+  {
+    "name": "collapsible",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
+    ],
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "collapsible",
+    "files": [
+      {
+        "path": "collapsible/collapsible.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "collapsible/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/collapsible"
   },
   {
     "name": "command",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "@gentleduck/vim",
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
+    "registryDependencies": [
+      "scroll-area",
+      "dialog"
+    ],
     "root_folder": "command",
     "files": [
       {
@@ -185,32 +364,36 @@
     "source": "/registry-ui-duckui/src/command"
   },
   {
-    "name": "card",
+    "name": "context-menu",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
-    "root_folder": "card",
+    "registryDependencies": [
+      "dropdown-menu"
+    ],
+    "root_folder": "context-menu",
     "files": [
       {
-        "path": "card/card.tsx",
+        "path": "context-menu/context-menu.tsx",
         "type": "registry:ui"
       },
       {
-        "path": "card/index.ts",
+        "path": "context-menu/index.ts",
         "type": "registry:ui"
       }
     ],
-    "source": "/registry-ui-duckui/src/card"
+    "source": "/registry-ui-duckui/src/context-menu"
   },
   {
     "name": "dialog",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "@gentleduck/primitives",
+      "@gentleduck/motion",
+      "@gentleduck/hooks",
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
     "root_folder": "dialog",
     "files": [
       {
@@ -236,9 +419,9 @@
     "name": "drawer",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "vaul",
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
     "root_folder": "drawer",
     "files": [
       {
@@ -253,10 +436,123 @@
     "source": "/registry-ui-duckui/src/drawer"
   },
   {
+    "name": "dropdown-menu",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/primitives",
+      "@gentleduck/libs",
+      "@gentleduck/vim"
+    ],
+    "registryDependencies": [
+      "command",
+      "button",
+      "popover",
+      "radio-group"
+    ],
+    "root_folder": "dropdown-menu",
+    "files": [
+      {
+        "path": "dropdown-menu/dropdown-menu.hooks.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/dropdown-menu.libs.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/dropdown-menu.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/dropdown-menu.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/dropdown-menu"
+  },
+  {
+    "name": "navigation-menu",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/variants",
+      "@gentleduck/libs",
+      "@radix-ui/react-navigation-menu"
+    ],
+    "registryDependencies": [],
+    "root_folder": "navigation-menu",
+    "files": [
+      {
+        "path": "navigation-menu/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "navigation-menu/navigation-menu.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/navigation-menu"
+  },
+  {
+    "name": "react-hook-form",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/libs",
+      "@gentleduck/primitives",
+      "react-hook-form",
+      "zod",
+      "@hookform/resolvers"
+    ],
+    "registryDependencies": [
+      "label"
+    ],
+    "root_folder": "react-hook-form",
+    "files": [
+      {
+        "path": "react-hook-form/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "react-hook-form/react-hook.form.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/react-hook-form"
+  },
+  {
+    "name": "hover-card",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/lib",
+      "@gentleduck/primitives",
+      "@gentleduck/motion",
+      "@gentleduck/variants"
+    ],
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "hover-card",
+    "files": [
+      {
+        "path": "hover-card/hover-card.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "hover-card/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/hover-card"
+  },
+  {
     "name": "input",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
     "root_folder": "input",
     "files": [
       {
@@ -271,10 +567,34 @@
     "source": "/registry-ui-duckui/src/input"
   },
   {
+    "name": "input-otp",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
+    "root_folder": "input-otp",
+    "files": [
+      {
+        "path": "input-otp/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "input-otp/input-otp.hooks.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "input-otp/input-otp.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/input-otp"
+  },
+  {
     "name": "label",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
     "root_folder": "label",
     "files": [
       {
@@ -289,10 +609,83 @@
     "source": "/registry-ui-duckui/src/label"
   },
   {
+    "name": "menubar",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
+    "registryDependencies": [
+      "button",
+      "dropdown-menu"
+    ],
+    "root_folder": "menubar",
+    "files": [
+      {
+        "path": "menubar/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "menubar/menubar.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/menubar"
+  },
+  {
+    "name": "pagination",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "pagination",
+    "files": [
+      {
+        "path": "pagination/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "pagination/pagination.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "pagination/pagination.types.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/pagination"
+  },
+  {
+    "name": "popover",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/primitives",
+      "@gentleduck/variants",
+      "@gentleduck/libs",
+      "@gentleduck/motion"
+    ],
+    "registryDependencies": [],
+    "root_folder": "popover",
+    "files": [
+      {
+        "path": "popover/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "popover/popover.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/popover"
+  },
+  {
     "name": "progress",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
     "root_folder": "progress",
     "files": [
       {
@@ -309,8 +702,14 @@
   {
     "name": "radio-group",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/primitives",
+      "@gentleduck/libs",
+      "@gentleduck/motion"
+    ],
+    "registryDependencies": [
+      "label"
+    ],
     "root_folder": "radio-group",
     "files": [
       {
@@ -329,10 +728,30 @@
     "source": "/registry-ui-duckui/src/radio-group"
   },
   {
+    "name": "resizable",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
+    "root_folder": "resizable",
+    "files": [
+      {
+        "path": "resizable/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "resizable/resizable.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/resizable"
+  },
+  {
     "name": "scroll-area",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
     "root_folder": "scroll-area",
     "files": [
       {
@@ -347,10 +766,48 @@
     "source": "/registry-ui-duckui/src/scroll-area"
   },
   {
+    "name": "select",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/primitives",
+      "@gentleduck/libs"
+    ],
+    "registryDependencies": [
+      "command",
+      "button",
+      "popover"
+    ],
+    "root_folder": "select",
+    "files": [
+      {
+        "path": "select/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "select/select.hooks.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "select/select.libs.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "select/select.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "select/select.types.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/select"
+  },
+  {
     "name": "separator",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
     "root_folder": "separator",
     "files": [
       {
@@ -368,10 +825,10 @@
     "name": "sheet",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
-    ],
-    "registryDependencies": [
-      "dialog"
+      "@gentleduck/primitives",
+      "@gentleduck/libs",
+      "@gentleduck/motion",
+      "@gentleduck/variants"
     ],
     "root_folder": "sheet",
     "files": [
@@ -382,10 +839,6 @@
       {
         "path": "sheet/sheet.tsx",
         "type": "registry:ui"
-      },
-      {
-        "path": "sheet/sheet.types.ts",
-        "type": "registry:ui"
       }
     ],
     "source": "/registry-ui-duckui/src/sheet"
@@ -393,8 +846,9 @@
   {
     "name": "skeleton",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
     "root_folder": "skeleton",
     "files": [
       {
@@ -412,9 +866,9 @@
     "name": "slider",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/variants"
+      "@gentleduck/primitives",
+      "@gentleduck/libs"
     ],
-    "registryDependencies": [],
     "root_folder": "slider",
     "files": [
       {
@@ -432,9 +886,13 @@
     "name": "sonner",
     "type": "registry:ui",
     "dependencies": [
-      "sonner"
+      "sonner",
+      "next-themes"
     ],
-    "registryDependencies": [],
+    "registryDependencies": [
+      "button",
+      "progress"
+    ],
     "root_folder": "sonner",
     "files": [
       {
@@ -464,9 +922,10 @@
     "name": "switch",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "@gentleduck/primitives",
+      "@gentleduck/libs",
+      "@gentleduck/motion"
     ],
-    "registryDependencies": [],
     "root_folder": "switch",
     "files": [
       {
@@ -481,10 +940,30 @@
     "source": "/registry-ui-duckui/src/switch"
   },
   {
+    "name": "table",
+    "type": "registry:ui",
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
+    "root_folder": "table",
+    "files": [
+      {
+        "path": "table/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "table/table.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "source": "/registry-ui-duckui/src/table"
+  },
+  {
     "name": "tabs",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives "
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "registryDependencies": [],
     "root_folder": "tabs",
@@ -503,8 +982,9 @@
   {
     "name": "textarea",
     "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
     "root_folder": "textarea",
     "files": [
       {
@@ -522,7 +1002,8 @@
     "name": "toggle",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/variants"
+      "@gentleduck/variants",
+      "@gentleduck/libs"
     ],
     "registryDependencies": [],
     "root_folder": "toggle",
@@ -545,7 +1026,10 @@
   {
     "name": "toggle-group",
     "type": "registry:ui",
-    "dependencies": [],
+    "dependencies": [
+      "@gentleduck/variants",
+      "@gentleduck/libs"
+    ],
     "registryDependencies": [
       "toggle"
     ],
@@ -567,143 +1051,14 @@
     "source": "/registry-ui-duckui/src/toggle-group"
   },
   {
-    "name": "aspect-ratio",
-    "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
-    "root_folder": "aspect-ratio",
-    "files": [
-      {
-        "path": "aspect-ratio/aspect-ratio.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "aspect-ratio/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/aspect-ratio"
-  },
-  {
-    "name": "table",
-    "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
-    "root_folder": "table",
-    "files": [
-      {
-        "path": "table/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "table/table.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/table"
-  },
-  {
-    "name": "resizable",
-    "type": "registry:ui",
-    "dependencies": [],
-    "registryDependencies": [],
-    "root_folder": "resizable",
-    "files": [
-      {
-        "path": "resizable/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "resizable/resizable.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/resizable"
-  },
-  {
-    "name": "pagination",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "pagination",
-    "files": [
-      {
-        "path": "pagination/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "pagination/pagination.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "pagination/pagination.types.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/pagination"
-  },
-  {
-    "name": "checkbox",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "checkbox",
-    "files": [
-      {
-        "path": "checkbox/checkbox.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "checkbox/checkbox.types.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "checkbox/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/checkbox"
-  },
-  {
-    "name": "carousel",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "carousel",
-    "files": [
-      {
-        "path": "carousel/carousel.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "carousel/carousel.types.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "carousel/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/carousel"
-  },
-  {
-    "name": "popover",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "popover",
-    "files": [
-      {
-        "path": "popover/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "popover/popover.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/popover"
-  },
-  {
     "name": "tooltip",
     "type": "registry:ui",
-    "registryDependencies": [],
+    "dependencies": [
+      "@gentleduck/variants",
+      "@gentleduck/libs",
+      "@gentleduck/motion",
+      "@gentleduck/primitives"
+    ],
     "root_folder": "tooltip",
     "files": [
       {
@@ -716,229 +1071,6 @@
       }
     ],
     "source": "/registry-ui-duckui/src/tooltip"
-  },
-  {
-    "name": "hover-card",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "hover-card",
-    "files": [
-      {
-        "path": "hover-card/hover-card.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "hover-card/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/hover-card"
-  },
-  {
-    "name": "calendar",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "calendar",
-    "files": [
-      {
-        "path": "calendar/calendar.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "calendar/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/calendar"
-  },
-  {
-    "name": "select",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "select",
-    "files": [
-      {
-        "path": "select/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "select/select.hooks.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "select/select.libs.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "select/select.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "select/select.types.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/select"
-  },
-  {
-    "name": "menubar",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "menubar",
-    "files": [
-      {
-        "path": "menubar/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "menubar/menubar.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/menubar"
-  },
-  {
-    "name": "dropdown-menu",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "dropdown-menu",
-    "files": [
-      {
-        "path": "dropdown-menu/dropdown-menu.hooks.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "dropdown-menu/dropdown-menu.libs.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "dropdown-menu/dropdown-menu.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "dropdown-menu/dropdown-menu.types.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "dropdown-menu/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/dropdown-menu"
-  },
-  {
-    "name": "collapsible",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "collapsible",
-    "files": [
-      {
-        "path": "collapsible/collapsible.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "collapsible/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/collapsible"
-  },
-  {
-    "name": "input-otp",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "input-otp",
-    "files": [
-      {
-        "path": "input-otp/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "input-otp/input-otp.hooks.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "input-otp/input-otp.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/input-otp"
-  },
-  {
-    "name": "react-hook-form",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "react-hook-form",
-    "files": [
-      {
-        "path": "react-hook-form/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "react-hook-form/react-hook.form.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/react-hook-form"
-  },
-  {
-    "name": "chart",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "chart",
-    "files": [
-      {
-        "path": "chart/chart.libs.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "chart/chart.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "chart/chart.types.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "chart/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/chart"
-  },
-  {
-    "name": "navigation-menu",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "navigation-menu",
-    "files": [
-      {
-        "path": "navigation-menu/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "navigation-menu/navigation-menu.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/navigation-menu"
-  },
-  {
-    "name": "context-menu",
-    "type": "registry:ui",
-    "registryDependencies": [],
-    "root_folder": "context-menu",
-    "files": [
-      {
-        "path": "context-menu/context-menu.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "context-menu/index.ts",
-        "type": "registry:ui"
-      }
-    ],
-    "source": "/registry-ui-duckui/src/context-menu"
   },
   {
     "name": "accordion-1",

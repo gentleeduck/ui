@@ -1,8 +1,14 @@
 {
   "name": "radio-group",
   "type": "registry:ui",
-  "dependencies": [],
-  "registryDependencies": [],
+  "dependencies": [
+    "@gentleduck/primitives",
+    "@gentleduck/libs",
+    "@gentleduck/motion"
+  ],
+  "registryDependencies": [
+    "label"
+  ],
   "root_folder": "radio-group",
   "files": [
     {

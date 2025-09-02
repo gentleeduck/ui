@@ -2,9 +2,9 @@
   "name": "slider",
   "type": "registry:ui",
   "dependencies": [
-    "@gentleduck/variants"
+    "@gentleduck/primitives",
+    "@gentleduck/libs"
   ],
-  "registryDependencies": [],
   "root_folder": "slider",
   "files": [
     {

@@ -2173,6 +2173,9 @@ importers:
       '@floating-ui/react':
         specifier: ^0.27.13
         version: 0.27.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@gentleduck/variants':
+        specifier: workspace:*
+        version: link:../duck-variants
       '@radix-ui/react-hover-card':
         specifier: ^1.1.14
         version: 1.1.14(@types/react-dom@19.0.4(@types/react@19.0.12))(@types/react@19.0.12)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2240,9 +2243,6 @@ importers:
       '@gentleduck/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript
-      '@gentleduck/variants':
-        specifier: workspace:*
-        version: link:../duck-variants
       '@gentleduck/vim':
         specifier: workspace:*
         version: link:../duck-vim

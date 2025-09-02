@@ -1,7 +1,10 @@
 {
   "name": "toggle-group",
   "type": "registry:ui",
-  "dependencies": [],
+  "dependencies": [
+    "@gentleduck/variants",
+    "@gentleduck/libs"
+  ],
   "registryDependencies": [
     "toggle"
   ],

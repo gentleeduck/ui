@@ -1,7 +1,15 @@
 {
   "name": "select",
   "type": "registry:ui",
-  "registryDependencies": [],
+  "dependencies": [
+    "@gentleduck/primitives",
+    "@gentleduck/libs"
+  ],
+  "registryDependencies": [
+    "command",
+    "button",
+    "popover"
+  ],
   "root_folder": "select",
   "files": [
     {
