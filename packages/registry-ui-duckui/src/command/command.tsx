@@ -194,12 +194,12 @@ function CommandGroup({ className, children, heading, ref, ...props }: CommandGr
     <div
       ref={ref}
       className={cn(
-        'overflow-hidden text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:text-xs',
+        'overflow-hidden text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:text-sm',
         className,
       )}
       {...props}
       duck-command-group="">
-      {heading && <h3 className="pb-1 pl-1 text-muted-foreground text-xs">{heading}</h3>}
+      {heading && <h3 className="pb-1 pl-1 text-muted-foreground text-sm">{heading}</h3>}
       {children}
     </div>
   )
@@ -270,7 +270,7 @@ function CommandShortcut({
   return (
     <kbd
       className={cn(
-        'focus:offset-2 [&_svg]:!size-3 !font-sans pointer-events-none inline-flex cursor-none select-none items-center gap-[2px] rounded-[4px] px-2 py-[.12rem] text-[.7rem] text-muted-foreground text-secondary-foreground text-xs tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring ltr:ml-auto rtl:mr-auto',
+        'focus:offset-2 [&_svg]:!size-3 !font-sans pointer-events-none inline-flex cursor-none select-none items-center gap-[2px] rounded-[4px] px-2 py-[.12rem] text-secondary-foreground text-sm tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring ltr:ml-auto rtl:mr-auto',
         variant === 'secondary' && 'bg-secondary',
         className,
       )}
@@ -301,7 +301,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
 function CommandDialog({ children, ...props }: DialogProps): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="fixed rounded-md p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full">
+      <DialogContent className="fixed rounded-md p-0 open:backdrop:bg-black/80 [&>div>div]:max-w-full lg:max-w-[600px]">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>

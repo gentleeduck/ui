@@ -184,7 +184,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border font-normal;
     scroll-behavior: smooth;
   }
 

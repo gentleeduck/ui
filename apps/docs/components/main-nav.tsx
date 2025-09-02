@@ -21,7 +21,7 @@ export function MainNav() {
         <Link
           href="/docs/installation"
           className={cn(
-            'transition-colors hover:text-foreground/80',
+            'transition-colors hover:text-foreground/80 font-medium',
             pathname === '/docs/installation' ? 'text-foreground' : 'text-foreground/80',
           )}>
           Docs
@@ -29,7 +29,7 @@ export function MainNav() {
         <Link
           href="/docs/components"
           className={cn(
-            'transition-colors hover:text-foreground/80',
+            'transition-colors hover:text-foreground/80 font-medium',
             pathname?.startsWith('/docs/components') && !pathname?.startsWith('/docs/component/chart')
               ? 'text-foreground'
               : 'text-foreground/80',
@@ -39,7 +39,7 @@ export function MainNav() {
         <Link
           href="/blocks"
           className={cn(
-            'transition-colors hover:text-foreground/80',
+            'transition-colors hover:text-foreground/80 font-medium',
             pathname?.startsWith('/blocks') ? 'text-foreground' : 'text-foreground/80',
           )}>
           Blocks
@@ -47,7 +47,7 @@ export function MainNav() {
         <Link
           href="/charts"
           className={cn(
-            'transition-colors hover:text-foreground/80',
+            'transition-colors hover:text-foreground/80 font-medium',
             pathname?.startsWith('/docs/component/chart') || pathname?.startsWith('/charts')
               ? 'text-foreground'
               : 'text-foreground/80',
@@ -57,7 +57,7 @@ export function MainNav() {
         <Link
           href="/themes"
           className={cn(
-            'transition-colors hover:text-foreground/80',
+            'transition-colors hover:text-foreground/80 font-medium',
             pathname?.startsWith('/themes') ? 'text-foreground' : 'text-foreground/80',
           )}>
           Themes
@@ -65,7 +65,7 @@ export function MainNav() {
         <Link
           href="/colors"
           className={cn(
-            'transition-colors hover:text-foreground/80',
+            'transition-colors hover:text-foreground/80 font-medium',
             pathname?.startsWith('/colors') ? 'text-foreground' : 'text-foreground/80',
           )}>
           Colors

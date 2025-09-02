@@ -33,7 +33,7 @@ const CategoryItem = ({ item, pathname }: { item: SidebarNavItem; pathname: stri
       <div className="flex items-center justify-between w-full text-start text-sm font-semibold [&>div]:justify-between [&>div]:w-full h-[36px]">
         {item.title}
         {item.label && (
-          <span className="ml-2 rounded-md bg- px-1.5 py-0.5 text-xs font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
+          <span className="ml-2 rounded-md bg- px-1.5 py-0.5 text-sm font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
             {item.label}
           </span>
         )}
@@ -51,7 +51,7 @@ interface DocsSidebarNavItemsProps {
   className?: string
 }
 
-export function DocsSidebarNavItems({ items, pathname, className }: DocsSidebarNavItemsProps) {
+export function DocsSidebarNavItems({ items, pathname }: DocsSidebarNavItemsProps) {
   return (
     items?.length && (
       <ul>
@@ -70,14 +70,14 @@ export function DocsSidebarNavItem({ item, pathname }: { item: SidebarNavItem; p
         <Link
           href={item.href}
           className={cn(
-            'group flex w-full items-center px-4 py-1 focus-visible:border-l border-primary focus-visible:outline-none text-sm',
+            'group flex w-full items-center px-4 py-1 focus-visible:border-l border-primary focus-visible:outline-none font-medium text-sm',
             pathname === item.href ? 'font-medium text-foreground' : 'text-muted-foreground',
           )}
           target={item.external ? '_blank' : ''}
           rel={item.external ? 'noreferrer' : ''}>
           {item.title}
           {item.label && (
-            <span className="ml-2 rounded-md bg-[#89b4fa] px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
+            <span className="ml-2 rounded-md bg-[#89b4fa] px-1.5 py-0.5 leading-none text-[#000000] no-underline group-hover:no-underline text-xs font-medium">
               {item.label}
             </span>
           )}
@@ -93,7 +93,7 @@ export function DocsSidebarNavItem({ item, pathname }: { item: SidebarNavItem; p
       )}>
       {item.title}
       {item.label && (
-        <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none text-muted-foreground no-underline group-hover:no-underline">
+        <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 leading-none text-muted-foreground no-underline group-hover:no-underline text-sm">
           {item.label}
         </span>
       )}
