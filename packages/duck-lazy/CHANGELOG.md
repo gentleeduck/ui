@@ -1,5 +1,11 @@
 # @gentleduck/lazy
 
+## 1.2.1
+
+### Patch Changes
+
+- new docs and integration in duck-ui
+
 ## 1.2.0
 
 ### Minor Changes
