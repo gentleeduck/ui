@@ -1,0 +1,15 @@
+{
+  "name": "cva-1",
+  "type": "registry:example",
+  "registryDependencies": [],
+  "root_folder": "cva",
+  "files": [
+    {
+      "path": "cva/cva-1.tsx",
+      "content": "'use client'\n\nimport { useState } from 'react'\n\nimport {\n  Select,\n  SelectContent,\n  SelectGroup,\n  SelectItem,\n  SelectLabel,\n  SelectTrigger,\n  SelectValue,\n} from '@gentleduck/registry-ui-duckui/select'\nimport { cva } from '@gentleduck/variants'\nimport { cn } from '@gentleduck/libs/cn'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\n\n// CVA definition for a box\nconst boxVariants = cva('flex items-center justify-center rounded-lg text-white', {\n  variants: {\n    variant: {\n      primary: 'bg-blue-500',\n      success: 'bg-green-500',\n      danger: 'bg-red-500',\n      warning: 'bg-yellow-500 text-black',\n    },\n  },\n  defaultVariants: {\n    variant: 'primary',\n  },\n})\n\nexport default function CvaDemo() {\n  const [variant, setVariant] = useState<'primary' | 'success' | 'danger' | 'warning'>('primary')\n\n  return (\n    <div className=\"flex items-center gap-6 p-6\">\n      {/* Select to choose a variant */}\n      <Select onValueChange={(val) => setVariant(val as any)}>\n        <SelectTrigger className=\"w-[200px]\">\n          <SelectValue placeholder=\"Choose a Variant\" />\n        </SelectTrigger>\n        <SelectContent>\n          <SelectGroup>\n            <SelectLabel>Variants</SelectLabel>\n            <SelectItem value=\"primary\">Primary</SelectItem>\n            <SelectItem value=\"success\">Success</SelectItem>\n            <SelectItem value=\"danger\">Danger</SelectItem>\n            <SelectItem value=\"warning\">Warning</SelectItem>\n          </SelectGroup>\n        </SelectContent>\n      </Select>\n\n      {/* Box preview */}\n      <Button className={cn(boxVariants({ variant }))}>{variant.toUpperCase()}</Button>\n    </div>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/cva-1.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/cva"
+}

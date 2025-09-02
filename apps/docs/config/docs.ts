@@ -27,14 +27,40 @@ export const docsConfig: DocsConfig = {
           href: '/docs/installation',
           items: [],
           title: 'Installation',
+          label: 'new',
         },
         {
           href: '/docs/javascript',
           items: [],
           title: 'JavaScript',
+          label: 'new',
         },
       ],
       title: 'Getting Started',
+    },
+    {
+      collapsible: false,
+      items: [
+        {
+          href: '/docs/packages/duck-lazy',
+          items: [],
+          title: '@gentleduck/lazy',
+          label: 'new',
+        },
+        {
+          href: '/docs/packages/duck-variants',
+          items: [],
+          title: '@gentleduck/variants',
+          label: 'new',
+        },
+        {
+          href: '/docs/packages/duck-vim',
+          items: [],
+          title: '@gentleduck/vim',
+          label: 'new',
+        },
+      ],
+      title: 'Core Packages',
     },
     {
       collapsible: false,

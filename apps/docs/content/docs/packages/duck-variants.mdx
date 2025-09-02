@@ -1,0 +1,307 @@
+---
+title: "gentleduck-variants"
+description: A lightweight, type-safe utility for generating class names from variant configurations. Designed to be fast, ergonomic, and easy to adopt in both small components and large design systems.
+---
+
+<ComponentPreview name="cva-1" description="cva utility examples" />
+
+## Installation 
+
+```bash
+npm install @gentleduck/variants
+```
+
+
+## Usage
+
+```tsx
+import { cva } from '@gentleduck/variants'
+
+const button = cva('btn', {
+  variants: {
+    size: { sm: 'px-2 py-1 text-sm', md: 'px-4 py-2', lg: 'px-6 py-3' },
+    tone: { default: 'bg-blue-500 text-white', subtle: 'bg-gray-100 text-gray-800' }
+  },
+  defaultVariants: { size: 'md', tone: 'default' }
+})
+
+// Use it in JSX
+<button className={button({ size: 'lg' })}>Click</button>
+```
+
+This will output a deduplicated, deterministic `className` string and is
+memoized for repeated calls with identical props.
+
+---
+
+## Core concepts (what you need to know)
+
+* **base** — classes always applied.
+* **variants** — named axes of variation (e.g., `size`, `tone`).
+* **defaultVariants** — sensible defaults when a prop is omitted.
+* **compoundVariants** — conditional rules that add classes when multiple
+  variant selections match simultaneously.
+* **ClassValue** — flexible input allowing strings, arrays, objects, and
+  nested combinations.
+* **Memoization** — results are cached by a deterministic key so identical
+  calls are fast.
+
+---
+
+## API reference (concise)
+
+```ts
+// Create a factory
+const fn = cva(baseOrOptions, maybeOptions?)
+
+// Call it to get a class string
+fn(props?) // returns string
+```
+
+**Important types:** `VariantProps<typeof fn>`, `CvaProps<TVariants>`,
+`ClassValue`.
+
+For complete signatures and the TypeScript definitions, see the Types
+Reference section at the bottom.
+
+---
+
+## Examples (practical & actionable)
+
+### 1) Button component (production-ready)
+
+```tsx
+import { cva, type VariantProps } from '@gentleduck/variants'
+import { cn } from '@/lib/utils'
+
+const buttonVariants = cva('inline-flex items-center justify-center rounded', {
+  variants: {
+    variant: {
+      default: 'bg-primary text-white hover:bg-primary/90',
+      ghost: 'bg-transparent hover:bg-accent'
+    },
+    size: { sm: 'h-8 px-3', md: 'h-10 px-4', lg: 'h-12 px-6' }
+  },
+  defaultVariants: { variant: 'default', size: 'md' }
+})
+
+type ButtonProps = VariantProps<typeof buttonVariants> & React.ButtonHTMLAttributes<HTMLButtonElement>
+
+export function Button({ className, variant, size, ...props }: ButtonProps) {
+  return <button className={cn(buttonVariants({ variant, size }), className)} {...props} />
+}
+```
+
+### 2) Compound variants for a card
+
+```ts
+const card = cva('rounded border p-4', {
+  variants: {
+    tone: { default: 'bg-white', success: 'bg-green-50', danger: 'bg-red-50' },
+    size: { md: 'p-4', lg: 'p-6' },
+    elevated: { true: 'shadow-lg', false: 'shadow-none' }
+  },
+  compoundVariants: [
+    { tone: 'danger', elevated: true, className: 'ring-1 ring-red-200' },
+    { size: 'lg', tone: ['default', 'success'], className: 'font-semibold' }
+  ]
+})
+```
+
+### 3) Passing conditional runtime classes
+
+```tsx
+const classes = card({ tone: 'success', className: [{ 'animate-pulse': isLoading }, custom] })
+```
+
+---
+
+## Best practices & performance tips
+
+* **Prefer defaultVariants** for the most common case — it reduces caller
+  verbosity and improves readability.
+* **Use compoundVariants** to centrally encode rules that would otherwise be
+  repeated across components.
+* **Group classes with arrays** for clearer organization in large variant maps.
+* **Pass runtime state via `className`** as an object or array (e.g.
+  `{ 'is-loading': isLoading }`).
+* **Memoization**: because results are cached, calling the CVA function in hot
+  render paths (e.g., inside list renderers) is safe and fast.
+
+---
+
+## Troubleshooting & FAQ
+
+<Accordion>
+
+<AccordionItem>
+
+<AccordionTrigger>
+**Q: Why aren't my compoundVariants applying?**
+</AccordionTrigger>
+
+<AccordionContent>
+A: Ensure the compound object keys exactly match your variant names and that
+values are either the exact allowed value or an array of allowed values.
+Also confirm you did not pass `'unset'` (used to explicitly disable variant
+application).
+</AccordionContent>
+
+</AccordionItem>
+
+<AccordionItem>
+
+<AccordionTrigger>
+**Q: My classes are out of order or duplicated.**
+</AccordionTrigger>
+
+<AccordionContent>
+A: The library deduplicates tokens and preserves the first-seen ordering where
+possible. If ordering matters (rare), restructure base vs variant classes so
+base-critical tokens appear first.
+</AccordionContent>
+
+</AccordionItem>
+
+<AccordionItem>
+
+<AccordionTrigger>
+**Q: How do I completely disable a variant's default?**
+</AccordionTrigger>
+
+<AccordionContent>
+
+A: Pass the literal string `'unset'` for that variant: e.g.
+`button({ size: 'unset' })` will skip size classes.
+
+</AccordionContent>
+
+</AccordionItem>
+
+</Accordion>
+
+---
+
+## Migration notes (from class-variance-authority)
+
+* The API is intentionally similar — most simple uses will be drop-in.
+* This library enforces stricter type inference; some loose usages that
+  previously passed TypeScript may need small type adjustments.
+* Performance and memoization behavior differ — test critical paths if you
+  relied on CVA internals.
+
+---
+
+## Types reference
+
+### 1. Variant Params
+
+This defines the mapping of **variant names** (like `size`, `intent`, etc.) to their **possible values**.
+It accepts either a single key or an array of keys for each variant.
+
+<CodeBlockWrapper>
+
+```tsx title="variants.ts"
+export type VariantParams<
+  TVariants extends Record<string, Record<string, string | string[]>>
+> = {
+  [K in keyof TVariants]?: keyof TVariants[K] | Array<keyof TVariants[K]>
+}
+```
+
+</CodeBlockWrapper>
+
+---
+
+### 2. CVA Configuration
+
+Defines how to configure a **CVA function**, including:
+
+* `variants`: The base mapping of variants → classes
+* `defaultVariants`: Defaults applied when no value is passed
+* `compoundVariants`: Conditional styles that apply when multiple variants match
+
+<CodeBlockWrapper>
+
+```tsx title="variants.ts"
+export interface VariantsOptions<
+  TVariants extends Record<string, Record<string, string | string[]>>
+> {
+  variants: TVariants
+  defaultVariants?: VariantParams<TVariants>
+  compoundVariants?: Array<
+    VariantParams<TVariants> & {
+      class?: ClassValue
+      className?: ClassValue
+    }
+  >
+}
+```
+
+</CodeBlockWrapper>
+
+---
+
+### 3. CVA Props
+
+Props that a **CVA-generated function** accepts.
+Includes both **variant selections** and optional `class`/`className` overrides.
+
+<CodeBlockWrapper>
+
+```tsx title="variants.ts"
+export type CvaProps<
+  TVariants extends Record<string, Record<string, string | string[]>>
+> = VariantParams<TVariants> & {
+  className?: ClassValue
+  class?: ClassValue
+}
+```
+
+</CodeBlockWrapper>
+
+---
+
+### 4. Variant Props
+
+Utility type to **extract only the variant-related props** from a CVA function, omitting `class` and `className`.
+
+<CodeBlockWrapper>
+
+```tsx title="variants.ts"
+export type VariantProps<T> = T extends (props?: infer P) => string
+  ? {
+      [K in keyof P as K extends 'class' | 'className' ? never : K]: P[K]
+    }
+  : never
+```
+
+</CodeBlockWrapper>
+
+---
+
+### 5. Class Utility Types
+
+Helper types that define the **shape of class names**:
+
+* `ClassDictionary`: conditional `{ 'class': boolean }`
+* `ClassArray`: nested arrays of class values
+* `ClassValue`: union of everything accepted as a class
+
+<CodeBlockWrapper>
+
+```tsx title="variants.ts"
+export type ClassDictionary = Record<string, boolean | undefined>
+
+export type ClassArray = ClassValue[]
+
+export type ClassValue =
+  | string
+  | number
+  | boolean
+  | ClassDictionary
+  | ClassArray
+```
+
+</CodeBlockWrapper>
+

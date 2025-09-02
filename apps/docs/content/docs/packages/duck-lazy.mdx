@@ -1,0 +1,233 @@
+---
+title: "gentleduck-lazy"
+description: It is a lightweight and accessible React library for lazy-loading images and components. It uses the **IntersectionObserver API** to trigger loading when content enters the viewport, ensuring smooth performance and accessibility.
+---
+
+## Features
+
+- **Lazy loading for components and images**  
+- **Customizable** with IntersectionObserver options  
+- **Accessibility-first**: ARIA roles, live regions, focus management  
+- **Placeholder support** while content loads  
+- **Composable hooks** for custom behavior  
+
+---
+
+## Installation
+
+```bash
+npm install @gentleduck/lazy
+````
+
+---
+
+## Usage
+
+### 1) Lazy Component
+
+The `DuckLazyComponent` defers rendering until its children enter the viewport.
+
+<CodeBlockWrapper>
+
+```tsx
+import { DuckLazyComponent } from '@gentleduck/lazy'
+
+function MyComponent() {
+  return (
+    <DuckLazyComponent options={{ rootMargin: '100px', threshold: 0.25 }}>
+      <div>Content that will be lazily loaded</div>
+    </DuckLazyComponent>
+  )
+}
+```
+
+</CodeBlockWrapper>
+
+#### Props
+
+* `options?`: IntersectionObserver options (`rootMargin`, `threshold`)
+* `children`: The lazy-loaded content
+
+---
+
+### 2) Lazy Image
+
+The `DuckLazyImage` supports placeholders, accessibility attributes, and Next.js `next/image`.
+
+<CodeBlockWrapper>
+
+```tsx
+import { DuckLazyImage } from '@gentleduck/lazy'
+
+function MyImageComponent() {
+  return (
+    <DuckLazyImage
+      src="https://example.com/image.jpg"
+      placeholder="https://example.com/placeholder.jpg"
+      alt="A description of the image"
+      width={400}
+      height={300}
+      options={{ rootMargin: '100px', threshold: 0.25 }}
+    />
+  )
+}
+```
+
+</CodeBlockWrapper>
+
+#### Props
+
+* `src`: URL of the image (required)
+* `placeholder?`: Placeholder URL while loading
+* `alt`: Accessible description (required)
+* `width` / `height`: Image size (required)
+* `options?`: IntersectionObserver options
+* `nextImage?`: Enables Next.js `next/image` optimization
+
+---
+
+### 3) `useLazyLoad` Hook
+
+Attach lazy-loading behavior to any element.
+
+<CodeBlockWrapper>
+
+```tsx
+import { useLazyLoad } from '@gentleduck/lazy'
+
+function MyComponent() {
+  const { isVisible, elementRef } = useLazyLoad({
+    rootMargin: '100px',
+    threshold: 0.25,
+  })
+
+  return (
+    <div ref={elementRef}>
+      {isVisible ? <div>Visible content</div> : <div>Loading...</div>}
+    </div>
+  )
+}
+```
+
+</CodeBlockWrapper>
+
+#### Returns
+
+* `isVisible`: `boolean` → if element is visible
+* `elementRef`: `React.Ref` → attach to observed element
+
+---
+
+### 4) `useLazyImage` Hook
+
+Specialized hook for images: manages visibility + load state.
+
+<CodeBlockWrapper>
+
+```tsx
+import { useLazyImage } from '@gentleduck/lazy'
+
+function LazyImage({ src, placeholder }) {
+  const { isLoaded, imageRef } = useLazyImage(src, {
+    rootMargin: '100px',
+    threshold: 0.25,
+  })
+
+  return (
+    <div ref={imageRef}>
+      {!isLoaded && <img src={placeholder} alt="Placeholder" />}
+      {isLoaded && <img src={src} alt="Main Image" />}
+    </div>
+  )
+}
+```
+
+</CodeBlockWrapper>
+
+#### Returns
+
+* `isLoaded`: `boolean` → if image finished loading
+* `imageRef`: `React.Ref` → attach to `<img>`
+
+---
+
+## `DuckLazyImage` Component (Detailed)
+
+Optimized lazy image loader with placeholder + accessibility.
+
+<CodeBlockWrapper>
+
+```tsx
+import { DuckLazyImage } from '@gentleduck/lazy'
+
+function MyImageComponent() {
+  return (
+    <DuckLazyImage
+      src="https://example.com/image.jpg"
+      placeholder="https://example.com/placeholder.jpg"
+      alt="Mountain view"
+      width={400}
+      height={300}
+      options={{ rootMargin: '100px', threshold: 0.25 }}
+    />
+  )
+}
+```
+
+</CodeBlockWrapper>
+
+---
+
+## Integration with Next.js
+
+Enable Next.js image optimization with `nextImage`.
+
+<CodeBlockWrapper>
+
+```tsx
+<DuckLazyImage
+  nextImage
+  src="https://example.com/image.jpg"
+  placeholder="https://example.com/placeholder.jpg"
+  alt="Next.js optimized image"
+  width={400}
+  height={300}
+/>
+```
+
+</CodeBlockWrapper>
+
+Benefits:
+
+* Built-in Next.js optimization
+* Seamless lazy loading
+
+---
+
+## Integration with React
+
+Works as a drop-in replacement for `<img>` in plain React apps.
+
+<CodeBlockWrapper>
+
+```tsx
+<DuckLazyImage
+  src="https://example.com/image.jpg"
+  placeholder="https://example.com/placeholder.jpg"
+  alt="React lazy image"
+  width={400}
+  height={300}
+/>
+```
+
+</CodeBlockWrapper>
+
+---
+
+## Accessibility Features
+
+* `aria-live="polite"` → announces loading state
+* `aria-hidden` → hides placeholders from AT
+* `role="img"` + `aria-label` for screen readers
+* `aria-atomic` + `aria-relevant` for granular updates
+

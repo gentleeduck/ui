@@ -1,0 +1,120 @@
+---
+title: "gentleduck-vim"
+description: "Tiny, framework-agnostic keyboard command engine with optional React bindings."
+---
+
+## Features
+
+- Core is DOM‑only and framework‑agnostic.
+- Optional React bindings provide a provider + hook for ergonomic usage.
+- Supports multi‑step sequences with timeout and prefix matching.
+- Written in TypeScript and ships types.
+
+---
+
+## Installation
+
+```bash
+npm install @gentleduck/vim
+```
+
+```ts
+// Core
+import { Registry, KeyHandler, type Command } from '@gentleduck/vim/command'
+
+// React bindings
+import { KeyProvider, useKeyCommands } from '@gentleduck/vim/react'
+```
+
+If you're consuming from source inside a monorepo, import via your workspace alias or relative path.
+
+## Quick start - vanilla
+
+```ts
+import { Registry, KeyHandler, type Command } from '@gentleduck/vim/command'
+
+const registry = new Registry(true)
+const handler = new KeyHandler(registry, 600)
+
+const openPalette: Command = {
+  name: 'Open Command Palette',
+  execute: () => console.log('palette!'),
+}
+
+registry.register('ctrl+k', openPalette)
+registry.register('g+d', { name: 'Go Dashboard', execute: () => console.log('dash') })
+
+handler.attach(document)
+```
+
+## Quick start - React
+
+```tsx
+import React from 'react'
+import { KeyProvider, useKeyCommands } from '@gentleduck/vim/react'
+
+function App() {
+  useKeyCommands({
+    'g+d': { name: 'Go Dashboard', execute: () => console.log('dash') },
+    'ctrl+k': { name: 'Open Palette', execute: () => console.log('palette') },
+  })
+
+  return <div>Press g then d, or Ctrl+K</div>
+}
+
+export default function Root() {
+  return (
+    <KeyProvider debug timeoutMs={600}>
+      <App />
+    </KeyProvider>
+  )
+}
+```
+
+## Concepts
+
+- **Key descriptor** - `ctrl?+alt?+meta?+shift?+key` (lowercased). Aliases: ` ` → `space`, `escape` → `esc`, `control` → `ctrl`.
+- **Sequence** - steps joined by `+`, e.g. `g+d`.
+- **Prefixes** - registering `g+d` marks `g` as a prefix while awaiting the next key.
+- **Timeout** - an active prefix expires after `timeoutMs`.
+
+## API (core)
+
+### `Command` type
+
+```ts
+interface Command {
+  name: string
+  description?: string
+  execute: <T>(args?: T) => void | Promise<void>
+}
+```
+
+### `Registry`
+
+- `constructor(debug?: boolean)`
+- `register(key: string, cmd: Command)`
+- `hasCommand(key: string): boolean`
+- `getCommand(key: string): Command | undefined`
+- `isPrefix(key: string): boolean`
+
+### `KeyHandler`
+
+- `constructor(registry: Registry, timeoutMs = 600)`
+- `attach(target = document)`
+- `detach(target = document)`
+
+Behavior: ignores pure modifier keys; attempts full-sequence match, waits on prefix, retries last key, then resets.
+
+## React bindings
+
+- `KeyProvider` - mounts `Registry` + `KeyHandler`, attaches on mount.
+- `useKeyCommands(commands)` - registers mappings under the provider.
+- `KeyContext` - advanced access to `{ registry, handler }`.
+
+## Advanced usage & tips
+
+- Attach handlers to specific elements for scoped shortcuts.
+- Create multiple registries for isolation between features.
+- Call `registry.getCommand('...')?.execute()` for programmatic triggers.
+- Enable `debug` during development to log matching behaviour.

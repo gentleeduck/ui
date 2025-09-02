@@ -4223,4 +4223,21 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'cva-1': {
+    name: 'cva-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'cva/cva-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/cva/cva-1')),
+    source: '/registry-examples-duckui/src/cva',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
 }
