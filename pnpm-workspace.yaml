@@ -1,7 +1,7 @@
 packages:
-  - apps/*
-  - packages/*
-  - tooling/*
+  - "apps/*"
+  - "packages/*"
+  - "tooling/*"
 
 catalog:
   'lucide-react': 0.525.0  
