@@ -1,7 +1,13 @@
 {
   "name": "carousel",
   "type": "registry:ui",
-  "registryDependencies": [],
+  "dependencies": [
+    "embla-carousel-react",
+    "@gentleduck/libs"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "carousel",
   "files": [
     {

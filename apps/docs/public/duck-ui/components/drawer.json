@@ -2,9 +2,9 @@
   "name": "drawer",
   "type": "registry:ui",
   "dependencies": [
-    "@gentleduck/primitives"
+    "vaul",
+    "@gentleduck/libs"
   ],
-  "registryDependencies": [],
   "root_folder": "drawer",
   "files": [
     {

@@ -1,6 +1,11 @@
 {
   "name": "navigation-menu",
   "type": "registry:ui",
+  "dependencies": [
+    "@gentleduck/variants",
+    "@gentleduck/libs",
+    "@radix-ui/react-navigation-menu"
+  ],
   "registryDependencies": [],
   "root_folder": "navigation-menu",
   "files": [

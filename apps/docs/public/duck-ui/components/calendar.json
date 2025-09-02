@@ -1,7 +1,14 @@
 {
   "name": "calendar",
   "type": "registry:ui",
-  "registryDependencies": [],
+  "dependencies": [
+    "react-day-picker",
+    "date-fns",
+    "@gentleduck/libs"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "calendar",
   "files": [
     {

@@ -1,8 +1,12 @@
 {
   "name": "alert-dialog",
   "type": "registry:ui",
-  "dependencies": [],
-  "registryDependencies": [],
+  "dependencies": [
+    "@gentleduck/primitives"
+  ],
+  "registryDependencies": [
+    "dialog"
+  ],
   "root_folder": "alert-dialog",
   "files": [
     {

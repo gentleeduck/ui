@@ -1,7 +1,10 @@
 {
   "name": "chart",
   "type": "registry:ui",
-  "registryDependencies": [],
+  "dependencies": [
+    "recharts",
+    "@gentleduck/libs"
+  ],
   "root_folder": "chart",
   "files": [
     {

@@ -2,9 +2,10 @@
   "name": "button",
   "type": "registry:ui",
   "dependencies": [
-    "@gentleduck/primitives"
+    "@gentleduck/primitives",
+    "@gentleduck/variants",
+    "@gentleduck/libs"
   ],
-  "registryDependencies": [],
   "root_folder": "button",
   "files": [
     {

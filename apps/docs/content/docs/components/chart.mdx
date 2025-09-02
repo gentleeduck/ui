@@ -47,15 +47,8 @@ export function MyChart() {
 
 We do not wrap Recharts. This means you're not locked into an abstraction. When a new Recharts version is released, you can follow the official upgrade path to upgrade your charts.
 
-**The components are yours**.
 
 ## Installation
-
-<Callout className="mt-4">
-
-**Note:** If you are using charts with **React 19** or the **Next.js 15**, see the note [here](/docs/react-19#recharts).
-
-</Callout>
 
 <Tabs defaultValue="cli">
 
@@ -106,7 +99,7 @@ npx duck-ui@latest add chart
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install recharts
+npm install recharts @gentleduck/libs 
 ```
 
 <Step>Copy and paste the following code into `components/ui/chart.tsx`.</Step>

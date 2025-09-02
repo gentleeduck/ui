@@ -2,9 +2,9 @@
   "name": "badge",
   "type": "registry:ui",
   "dependencies": [
-    "@gentleduck/primitives"
+    "@gentleduck/variants",
+    "@gentleduck/libs"
   ],
-  "registryDependencies": [],
   "root_folder": "badge",
   "files": [
     {

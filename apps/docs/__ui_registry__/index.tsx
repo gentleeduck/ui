@@ -8,7 +8,7 @@ export const Index: Record<string, any> = {
     name: 'accordion',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'accordion/accordion.tsx',
@@ -29,7 +29,7 @@ export const Index: Record<string, any> = {
     name: 'alert',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'alert/alert.constants.ts',
@@ -54,7 +54,7 @@ export const Index: Record<string, any> = {
     name: 'alert-dialog',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['dialog'],
     files: [
       {
         path: 'alert-dialog/alert-dialog.tsx',
@@ -71,11 +71,32 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'aspect-ratio': {
+    name: 'aspect-ratio',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: undefined,
+    files: [
+      {
+        path: 'aspect-ratio/aspect-ratio.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'aspect-ratio/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/aspect-ratio')),
+    source: '/registry-ui-duckui/src/aspect-ratio',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   avatar: {
     name: 'avatar',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'avatar/avatar.tsx',
@@ -96,7 +117,7 @@ export const Index: Record<string, any> = {
     name: 'badge',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'badge/badge.constants.ts',
@@ -117,11 +138,32 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  breadcrumb: {
+    name: 'breadcrumb',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: undefined,
+    files: [
+      {
+        path: 'breadcrumb/breadcrumb.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'breadcrumb/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/breadcrumb')),
+    source: '/registry-ui-duckui/src/breadcrumb',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   button: {
     name: 'button',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'button/button.constants.ts',
@@ -146,23 +188,144 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  breadcrumb: {
-    name: 'breadcrumb',
+  calendar: {
+    name: 'calendar',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['button'],
     files: [
       {
-        path: 'breadcrumb/breadcrumb.tsx',
+        path: 'calendar/calendar.tsx',
         type: 'registry:ui',
       },
       {
-        path: 'breadcrumb/index.ts',
+        path: 'calendar/index.ts',
         type: 'registry:ui',
       },
     ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/breadcrumb')),
-    source: '/registry-ui-duckui/src/breadcrumb',
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/calendar')),
+    source: '/registry-ui-duckui/src/calendar',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  card: {
+    name: 'card',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: undefined,
+    files: [
+      {
+        path: 'card/card.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'card/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/card')),
+    source: '/registry-ui-duckui/src/card',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  carousel: {
+    name: 'carousel',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['button'],
+    files: [
+      {
+        path: 'carousel/carousel.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'carousel/carousel.types.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'carousel/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/carousel')),
+    source: '/registry-ui-duckui/src/carousel',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  chart: {
+    name: 'chart',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: undefined,
+    files: [
+      {
+        path: 'chart/chart.libs.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'chart/chart.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'chart/chart.types.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'chart/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/chart')),
+    source: '/registry-ui-duckui/src/chart',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  checkbox: {
+    name: 'checkbox',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['label'],
+    files: [
+      {
+        path: 'checkbox/checkbox.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'checkbox/checkbox.types.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'checkbox/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/checkbox')),
+    source: '/registry-ui-duckui/src/checkbox',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  collapsible: {
+    name: 'collapsible',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['button'],
+    files: [
+      {
+        path: 'collapsible/collapsible.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'collapsible/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/collapsible')),
+    source: '/registry-ui-duckui/src/collapsible',
     category: '',
     subcategory: '',
     chunks: [],
@@ -171,7 +334,7 @@ export const Index: Record<string, any> = {
     name: 'command',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['scroll-area', 'dialog'],
     files: [
       {
         path: 'command/command.hooks.ts',
@@ -200,23 +363,23 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  card: {
-    name: 'card',
+  'context-menu': {
+    name: 'context-menu',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['dropdown-menu'],
     files: [
       {
-        path: 'card/card.tsx',
+        path: 'context-menu/context-menu.tsx',
         type: 'registry:ui',
       },
       {
-        path: 'card/index.ts',
+        path: 'context-menu/index.ts',
         type: 'registry:ui',
       },
     ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/card')),
-    source: '/registry-ui-duckui/src/card',
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/context-menu')),
+    source: '/registry-ui-duckui/src/context-menu',
     category: '',
     subcategory: '',
     chunks: [],
@@ -225,7 +388,7 @@ export const Index: Record<string, any> = {
     name: 'dialog',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'dialog/dialog-responsive.tsx',
@@ -254,7 +417,7 @@ export const Index: Record<string, any> = {
     name: 'drawer',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'drawer/drawer.tsx',
@@ -271,11 +434,107 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'dropdown-menu': {
+    name: 'dropdown-menu',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['command', 'button', 'popover', 'radio-group'],
+    files: [
+      {
+        path: 'dropdown-menu/dropdown-menu.hooks.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dropdown-menu/dropdown-menu.libs.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dropdown-menu/dropdown-menu.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dropdown-menu/dropdown-menu.types.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'dropdown-menu/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/dropdown-menu')),
+    source: '/registry-ui-duckui/src/dropdown-menu',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'navigation-menu': {
+    name: 'navigation-menu',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'navigation-menu/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'navigation-menu/navigation-menu.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/navigation-menu')),
+    source: '/registry-ui-duckui/src/navigation-menu',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'react-hook-form': {
+    name: 'react-hook-form',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['label'],
+    files: [
+      {
+        path: 'react-hook-form/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'react-hook-form/react-hook.form.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/react-hook-form')),
+    source: '/registry-ui-duckui/src/react-hook-form',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  'hover-card': {
+    name: 'hover-card',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['button'],
+    files: [
+      {
+        path: 'hover-card/hover-card.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'hover-card/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/hover-card')),
+    source: '/registry-ui-duckui/src/hover-card',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   input: {
     name: 'input',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'input/index.ts',
@@ -292,11 +551,36 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  'input-otp': {
+    name: 'input-otp',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: undefined,
+    files: [
+      {
+        path: 'input-otp/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'input-otp/input-otp.hooks.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'input-otp/input-otp.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/input-otp')),
+    source: '/registry-ui-duckui/src/input-otp',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   label: {
     name: 'label',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'label/index.ts',
@@ -313,11 +597,78 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  menubar: {
+    name: 'menubar',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['button', 'dropdown-menu'],
+    files: [
+      {
+        path: 'menubar/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'menubar/menubar.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/menubar')),
+    source: '/registry-ui-duckui/src/menubar',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  pagination: {
+    name: 'pagination',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['button'],
+    files: [
+      {
+        path: 'pagination/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'pagination/pagination.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'pagination/pagination.types.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/pagination')),
+    source: '/registry-ui-duckui/src/pagination',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  popover: {
+    name: 'popover',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'popover/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'popover/popover.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/popover')),
+    source: '/registry-ui-duckui/src/popover',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   progress: {
     name: 'progress',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'progress/index.ts',
@@ -338,7 +689,7 @@ export const Index: Record<string, any> = {
     name: 'radio-group',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['label'],
     files: [
       {
         path: 'radio-group/index.ts',
@@ -359,11 +710,32 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  resizable: {
+    name: 'resizable',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: undefined,
+    files: [
+      {
+        path: 'resizable/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'resizable/resizable.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/resizable')),
+    source: '/registry-ui-duckui/src/resizable',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   'scroll-area': {
     name: 'scroll-area',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'scroll-area/index.ts',
@@ -380,11 +752,44 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
+  select: {
+    name: 'select',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['command', 'button', 'popover'],
+    files: [
+      {
+        path: 'select/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'select/select.hooks.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'select/select.libs.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'select/select.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'select/select.types.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/select')),
+    source: '/registry-ui-duckui/src/select',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
   separator: {
     name: 'separator',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'separator/index.ts',
@@ -405,7 +810,7 @@ export const Index: Record<string, any> = {
     name: 'sheet',
     description: '',
     type: 'registry:ui',
-    registryDependencies: ['dialog'],
+    registryDependencies: undefined,
     files: [
       {
         path: 'sheet/index.ts',
@@ -413,10 +818,6 @@ export const Index: Record<string, any> = {
       },
       {
         path: 'sheet/sheet.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'sheet/sheet.types.ts',
         type: 'registry:ui',
       },
     ],
@@ -430,7 +831,7 @@ export const Index: Record<string, any> = {
     name: 'skeleton',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'skeleton/index.ts',
@@ -451,7 +852,7 @@ export const Index: Record<string, any> = {
     name: 'slider',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'slider/index.ts',
@@ -472,7 +873,7 @@ export const Index: Record<string, any> = {
     name: 'sonner',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['button', 'progress'],
     files: [
       {
         path: 'sonner/index.ts',
@@ -505,7 +906,7 @@ export const Index: Record<string, any> = {
     name: 'switch',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'switch/index.ts',
@@ -518,6 +919,27 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(() => import('@gentleduck/registry-ui-duckui/switch')),
     source: '/registry-ui-duckui/src/switch',
+    category: '',
+    subcategory: '',
+    chunks: [],
+  },
+  table: {
+    name: 'table',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: undefined,
+    files: [
+      {
+        path: 'table/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'table/table.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/table')),
+    source: '/registry-ui-duckui/src/table',
     category: '',
     subcategory: '',
     chunks: [],
@@ -547,7 +969,7 @@ export const Index: Record<string, any> = {
     name: 'textarea',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'textarea/index.ts',
@@ -614,170 +1036,11 @@ export const Index: Record<string, any> = {
     subcategory: '',
     chunks: [],
   },
-  'aspect-ratio': {
-    name: 'aspect-ratio',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'aspect-ratio/aspect-ratio.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'aspect-ratio/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/aspect-ratio')),
-    source: '/registry-ui-duckui/src/aspect-ratio',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  table: {
-    name: 'table',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'table/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'table/table.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/table')),
-    source: '/registry-ui-duckui/src/table',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  resizable: {
-    name: 'resizable',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'resizable/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'resizable/resizable.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/resizable')),
-    source: '/registry-ui-duckui/src/resizable',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  pagination: {
-    name: 'pagination',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'pagination/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'pagination/pagination.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'pagination/pagination.types.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/pagination')),
-    source: '/registry-ui-duckui/src/pagination',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  checkbox: {
-    name: 'checkbox',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'checkbox/checkbox.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'checkbox/checkbox.types.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'checkbox/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/checkbox')),
-    source: '/registry-ui-duckui/src/checkbox',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  carousel: {
-    name: 'carousel',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'carousel/carousel.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'carousel/carousel.types.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'carousel/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/carousel')),
-    source: '/registry-ui-duckui/src/carousel',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  popover: {
-    name: 'popover',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'popover/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'popover/popover.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/popover')),
-    source: '/registry-ui-duckui/src/popover',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
   tooltip: {
     name: 'tooltip',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: undefined,
     files: [
       {
         path: 'tooltip/index.ts',
@@ -790,273 +1053,6 @@ export const Index: Record<string, any> = {
     ],
     component: React.lazy(() => import('@gentleduck/registry-ui-duckui/tooltip')),
     source: '/registry-ui-duckui/src/tooltip',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'hover-card': {
-    name: 'hover-card',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'hover-card/hover-card.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'hover-card/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/hover-card')),
-    source: '/registry-ui-duckui/src/hover-card',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  calendar: {
-    name: 'calendar',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'calendar/calendar.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'calendar/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/calendar')),
-    source: '/registry-ui-duckui/src/calendar',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  select: {
-    name: 'select',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'select/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'select/select.hooks.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'select/select.libs.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'select/select.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'select/select.types.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/select')),
-    source: '/registry-ui-duckui/src/select',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  menubar: {
-    name: 'menubar',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'menubar/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'menubar/menubar.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/menubar')),
-    source: '/registry-ui-duckui/src/menubar',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'dropdown-menu': {
-    name: 'dropdown-menu',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'dropdown-menu/dropdown-menu.hooks.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'dropdown-menu/dropdown-menu.libs.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'dropdown-menu/dropdown-menu.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'dropdown-menu/dropdown-menu.types.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'dropdown-menu/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/dropdown-menu')),
-    source: '/registry-ui-duckui/src/dropdown-menu',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  collapsible: {
-    name: 'collapsible',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'collapsible/collapsible.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'collapsible/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/collapsible')),
-    source: '/registry-ui-duckui/src/collapsible',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'input-otp': {
-    name: 'input-otp',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'input-otp/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'input-otp/input-otp.hooks.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'input-otp/input-otp.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/input-otp')),
-    source: '/registry-ui-duckui/src/input-otp',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'react-hook-form': {
-    name: 'react-hook-form',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'react-hook-form/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'react-hook-form/react-hook.form.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/react-hook-form')),
-    source: '/registry-ui-duckui/src/react-hook-form',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  chart: {
-    name: 'chart',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'chart/chart.libs.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'chart/chart.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'chart/chart.types.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'chart/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/chart')),
-    source: '/registry-ui-duckui/src/chart',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'navigation-menu': {
-    name: 'navigation-menu',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'navigation-menu/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'navigation-menu/navigation-menu.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/navigation-menu')),
-    source: '/registry-ui-duckui/src/navigation-menu',
-    category: '',
-    subcategory: '',
-    chunks: [],
-  },
-  'context-menu': {
-    name: 'context-menu',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: [],
-    files: [
-      {
-        path: 'context-menu/context-menu.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'context-menu/index.ts',
-        type: 'registry:ui',
-      },
-    ],
-    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/context-menu')),
-    source: '/registry-ui-duckui/src/context-menu',
     category: '',
     subcategory: '',
     chunks: [],

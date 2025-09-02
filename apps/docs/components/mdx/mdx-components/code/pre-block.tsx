@@ -85,7 +85,7 @@ export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__,
       <Separator />
       {Object.entries(commands).map(([commandKey, command], idx) => {
         return (
-          <TabsContent value={commandKey} key={idx}>
+          <TabsContent value={commandKey} key={idx} className="[&_pre]:max-w-[620px] [&_pre]:overflow-auto">
             <CopyButton
               value={command as string}
               variant={'outline'}

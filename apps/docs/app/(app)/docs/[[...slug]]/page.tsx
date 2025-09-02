@@ -54,7 +54,7 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
   const fullUrl = `${protocol}://${host}/docs${path}`
 
   const doc = docs.find((post) => {
-    if (!String(post?.slug)?.includes(_params.slug) && post?.slug === 'content/docs/index' && !_params.slug) {
+    if (post?.slug === 'docs/index' && !_params.slug) {
       return true
     }
 

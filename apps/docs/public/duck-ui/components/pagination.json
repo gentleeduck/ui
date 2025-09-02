@@ -1,7 +1,12 @@
 {
   "name": "pagination",
   "type": "registry:ui",
-  "registryDependencies": [],
+  "dependencies": [
+    "@gentleduck/libs"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "pagination",
   "files": [
     {

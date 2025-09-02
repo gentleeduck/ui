@@ -2,9 +2,8 @@
   "name": "avatar",
   "type": "registry:ui",
   "dependencies": [
-    "@gentleduck/primitives"
+    "@gentleduck/libs"
   ],
-  "registryDependencies": [],
   "root_folder": "avatar",
   "files": [
     {

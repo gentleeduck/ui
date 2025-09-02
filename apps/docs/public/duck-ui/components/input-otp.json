@@ -1,7 +1,9 @@
 {
   "name": "input-otp",
   "type": "registry:ui",
-  "registryDependencies": [],
+  "dependencies": [
+    "@gentleduck/libs"
+  ],
   "root_folder": "input-otp",
   "files": [
     {

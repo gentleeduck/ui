@@ -1,7 +1,13 @@
 {
   "name": "collapsible",
   "type": "registry:ui",
-  "registryDependencies": [],
+  "dependencies": [
+    "@gentleduck/libs",
+    "@gentleduck/primitives"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
   "root_folder": "collapsible",
   "files": [
     {
