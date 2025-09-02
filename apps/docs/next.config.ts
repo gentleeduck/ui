@@ -3,7 +3,14 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
-  transpilePackages: ['@gentleduck/registry-ui-duckui', '@gentleduck/registry-examples-duckui', '@gentleduck/variants'],
+  transpilePackages: [
+    '@gentleduck/registry-ui-duckui',
+    '@gentleduck/registry-examples-duckui',
+    '@gentleduck/variants',
+    '@gentleduck/motion',
+    '@gentleduck/libs',
+    '@gentleduck/hooks',
+  ],
   images: {
     remotePatterns: [
       {
