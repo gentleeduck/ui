@@ -16,6 +16,7 @@
     "publish": "pnpm run ci && changeset publish"
   },
   "devDependencies": {
+    "@gentleduck/variants": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/registry-ui": "workspace:*",

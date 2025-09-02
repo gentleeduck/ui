@@ -181,7 +181,7 @@ function AccordionTrigger({
       aria-controls={value}
       aria-describedby={value}
       className={cn(
-        'flex flex-1 cursor-pointer select-none items-center justify-between whitespace-nowrap py-4 font-medium font-medium text-sm ring-offset-background transition-all transition-colors hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'flex flex-1 cursor-pointer select-none items-center justify-between whitespace-nowrap py-4 font-medium font-medium text-base ring-offset-background transition-all transition-colors hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         className,
       )}
       id={value}
@@ -209,7 +209,7 @@ const AccordionContent = ({
 }: React.HTMLProps<HTMLDivElement> & { rerender?: boolean }) => {
   return (
     <div
-      className={cn('select-none overflow-hidden pt-0 pb-4 text-sm', className)}
+      className={cn('select-none overflow-hidden pt-0 pb-4 text-base', className)}
       duck-accordion-content=""
       ref={ref}
       {...props}>

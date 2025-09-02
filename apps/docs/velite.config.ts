@@ -102,7 +102,7 @@ const config = defineConfig({
           },
         },
       ],
-      // rehypeTitle,
+      rehypeTitle,
       rehypePreBlockSource,
       rehypeNpmCommand,
       // @ts-ignore

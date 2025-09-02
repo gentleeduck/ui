@@ -1,5 +1,5 @@
 {
-  "name": "data-table-1",
+  "name": "cva-1",
   "type": "registry:style",
   "dependencies": [
     "tailwindcss-animate",

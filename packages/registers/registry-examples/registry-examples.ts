@@ -339,4 +339,11 @@ export const registry_examples: Registry = [
     root_folder: 'data-table',
     files: [],
   },
+  {
+    name: 'cva-examples',
+    type: 'registry:example',
+    registryDependencies: [],
+    root_folder: 'cva',
+    files: [],
+  },
 ]

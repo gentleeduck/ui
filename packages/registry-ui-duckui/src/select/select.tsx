@@ -1,8 +1,8 @@
 'use client'
 
-import { usePopoverContext } from '@gentleduck/primitives/popover'
 import { cn } from '@gentleduck/libs/cn'
-import { CheckIcon, ChevronDown, ChevronDownIcon, ChevronUp } from 'lucide-react'
+import { usePopoverContext } from '@gentleduck/primitives/popover'
+import { CheckIcon, ChevronDown, ChevronUp } from 'lucide-react'
 import * as React from 'react'
 import { Button, buttonVariants } from '../button'
 import { useHandleKeyDown } from '../command'
@@ -93,6 +93,7 @@ function SelectWrapper({
 function Select({
   children,
   onValueChange,
+  contextMenu,
   value,
   ...props
 }: React.ComponentPropsWithRef<typeof Popover> & {
@@ -101,7 +102,7 @@ function Select({
   scrollable?: boolean
 }) {
   return (
-    <Popover {...props} matchWidth>
+    <Popover {...props} matchWidth contextMenu={contextMenu}>
       <SelectWrapper {...props} onValueChange={onValueChange} value={value}>
         {children}
       </SelectWrapper>
@@ -124,7 +125,9 @@ function SelectTrigger({
       className={cn(buttonVariants({ variant: 'outline' }), 'w-full justify-between', className)}
       ref={triggerRef}>
       {children}
-      <span className="[&>svg]:opacity-50">{customIndicator ? customIndicator : <ChevronDownIcon />}</span>
+      <span className="[&>svg]:opacity-50">
+        {customIndicator ? customIndicator : <ChevronDown className="-mr-1" />}
+      </span>
     </PopoverTrigger>
   )
 }
@@ -135,7 +138,7 @@ function SelectContent({ children, className, ...props }: React.ComponentPropsWi
     <PopoverContent className={cn('px-1.5', scrollable ? 'py-0' : 'py-1', className)} duck-select-content="" {...props}>
       {scrollable && <SelectScrollUpButton />}
       <div
-        className={cn('max-h-[400px]', scrollable && 'overflow-y-scroll')}
+        className={cn(scrollable && 'max-h-[450px] overflow-y-scroll')}
         duck-select-content-scrollable=""
         ref={contentRef as never}>
         {children}
@@ -154,7 +157,7 @@ function SelectValue({ className, children, placeholder, ...props }: React.HTMLP
   return (
     <div
       className={cn(
-        'relative flex select-none items-center gap-2 truncate rounded-xs text-sm outline-hidden',
+        'relative flex select-none items-center gap-2 truncate rounded-xs text-base outline-hidden',
         className,
       )}
       {...props}
@@ -169,7 +172,7 @@ function SelectLabel({ htmlFor, children, className, ref, ...props }: React.HTML
     <label
       htmlFor={htmlFor}
       ref={ref}
-      className={cn('px-2 py-1.5 text-muted-foreground text-xs', className)}
+      className={cn('px-2 text-muted-foreground text-sm', className)}
       {...props}
       duck-select-label="">
       {children}
@@ -202,12 +205,12 @@ function SelectItem({
       data-value={value}
       value={value}
       className={cn(
-        "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-secondary",
+        "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1 text-base outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-secondary",
         disabled && 'pointer-events-none opacity-50',
       )}>
       <div
         className={cn(
-          'relative flex select-none items-center gap-2 truncate rounded-xs text-sm outline-hidden',
+          'relative flex select-none items-center gap-2 truncate rounded-xs text-base outline-hidden',
           className,
         )}>
         {children}

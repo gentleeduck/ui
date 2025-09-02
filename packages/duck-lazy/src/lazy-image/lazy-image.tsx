@@ -1,7 +1,7 @@
+import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import { useLazyImage } from './lazy-image.hooks'
 import type { LazyImageProps } from './lazy-image.types'
-import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
 /**
  * `DuckLazyImage` is a React component that lazily loads an image when it comes into view.
@@ -85,7 +85,7 @@ function PlaceHolder({
       src={src as (string | StaticImport) & string}
       height={height}
       alt={alt as string}
-      {...props}
+      {...(props as any)}
     />
   )
 }

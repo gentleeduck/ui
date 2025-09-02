@@ -3665,5 +3665,18 @@
       }
     ],
     "source": "/registry-examples-duckui/src/data-table"
+  },
+  {
+    "name": "cva-1",
+    "type": "registry:example",
+    "registryDependencies": [],
+    "root_folder": "cva",
+    "files": [
+      {
+        "path": "cva/cva-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/cva"
   }
 ]
