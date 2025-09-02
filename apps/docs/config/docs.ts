@@ -59,6 +59,12 @@ export const docsConfig: DocsConfig = {
           title: '@gentleduck/vim',
           label: 'new',
         },
+        {
+          href: '/docs/packages/duck-primitives',
+          items: [],
+          title: '@gentleduck/primitives',
+          label: 'new',
+        },
       ],
       title: 'Core Packages',
     },

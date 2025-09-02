@@ -3,16 +3,16 @@
   "version": "1.2.0",
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "type": "module",
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index.js",
+  "private": false,
+  "main": "./index.ts",
   "exports": {
     "./*": "./src/*/index.ts"
   },
   "files": [
-    "dist"
+    "src",
+    "!src/**/__tests__"
   ],
   "scripts": {
-    "build": "tsdown",
     "lint": "biome lint --write ./",
     "format": "biome format --write ./",
     "ci": "pnpm run lint && pnpm run format && pnpm run build",
@@ -43,10 +43,8 @@
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-lazy#readme",
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
-    "@gentleduck/tsdown-config": "workspace:*",
     "@types/react": "^19.0.10",
     "husky": "^9.1.7",
-    "tsdown": "catalog:",
     "tsup": "^8.4.0"
   },
   "peerDependencies": {

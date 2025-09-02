@@ -36,14 +36,14 @@ memoized for repeated calls with identical props.
 
 ## Core concepts (what you need to know)
 
-* **base** — classes always applied.
-* **variants** — named axes of variation (e.g., `size`, `tone`).
-* **defaultVariants** — sensible defaults when a prop is omitted.
-* **compoundVariants** — conditional rules that add classes when multiple
+* **base** - classes always applied.
+* **variants** - named axes of variation (e.g., `size`, `tone`).
+* **defaultVariants** - sensible defaults when a prop is omitted.
+* **compoundVariants** - conditional rules that add classes when multiple
   variant selections match simultaneously.
-* **ClassValue** — flexible input allowing strings, arrays, objects, and
+* **ClassValue** - flexible input allowing strings, arrays, objects, and
   nested combinations.
-* **Memoization** — results are cached by a deterministic key so identical
+* **Memoization** - results are cached by a deterministic key so identical
   calls are fast.
 
 ---
@@ -118,7 +118,7 @@ const classes = card({ tone: 'success', className: [{ 'animate-pulse': isLoading
 
 ## Best practices & performance tips
 
-* **Prefer defaultVariants** for the most common case — it reduces caller
+* **Prefer defaultVariants** for the most common case - it reduces caller
   verbosity and improves readability.
 * **Use compoundVariants** to centrally encode rules that would otherwise be
   repeated across components.
@@ -184,10 +184,10 @@ A: Pass the literal string `'unset'` for that variant: e.g.
 
 ## Migration notes (from class-variance-authority)
 
-* The API is intentionally similar — most simple uses will be drop-in.
+* The API is intentionally similar - most simple uses will be drop-in.
 * This library enforces stricter type inference; some loose usages that
   previously passed TypeScript may need small type adjustments.
-* Performance and memoization behavior differ — test critical paths if you
+* Performance and memoization behavior differ - test critical paths if you
   relied on CVA internals.
 
 ---

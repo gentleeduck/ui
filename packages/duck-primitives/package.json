@@ -3,6 +3,7 @@
   "name": "@gentleduck/primitives",
   "version": "0.1.0",
   "type": "module",
+  "private": false,
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "module": "./index.ts",
   "exports": {
@@ -21,10 +22,10 @@
     "react"
   ],
   "files": [
-    "dist"
+    "src",
+    "!src/**/__tests__"
   ],
   "scripts": {
-    "build": "tsdown",
     "lint": "biome lint --write ./",
     "format": "biome format --write ./",
     "ci": "pnpm run lint && pnpm run format && pnpm run build",
@@ -35,13 +36,17 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/primitives"
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives"
   },
   "bugs": {
     "url": "https://github.com/gentleduck/ui/issues"
   },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/primitives#readme",
-  "dependencies": {},
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives#readme",
+  "devDependencies": {
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "husky": "catalog:"
+  },
   "peerDependencies": {
     "@floating-ui/react": "^0.27.13",
     "dialog-closedby-polyfill": "^1.1.0",
@@ -52,16 +57,11 @@
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/state": "workspace:*",
-    "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@gentleduck/variants": "workspace:*",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19",
     "clsx": "^1.2.1",
-    "husky": "catalog:",
     "react": "catalog:react19",
-    "react-dom": "catalog:react19",
-    "tsdown": "catalog:"
+    "react-dom": "catalog:react19"
   },
   "packageManager": "pnpm@10.10.0",
   "engines": {

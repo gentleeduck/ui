@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "files": [
-    "dist"
+    "src",
+    "!src/**/__tests__"
   ],
   "types": "./dist/index.d.ts",
   "module": "./dist/index.js",
