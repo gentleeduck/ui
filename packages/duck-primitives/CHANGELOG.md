@@ -1,5 +1,13 @@
 # @gentleduck/primitives
 
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @gentleduck/variants@0.1.12
+  - @gentleduck/motion@0.1.0
+
 ## 0.1.9
 
 ### Patch Changes

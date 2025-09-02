@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/primitives",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "private": false,
   "type": "module",
