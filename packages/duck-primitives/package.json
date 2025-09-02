@@ -3,7 +3,7 @@
   "name": "@gentleduck/primitives",
   "version": "0.1.0",
   "type": "module",
-  "private": false,
+  "private": true,
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "module": "./index.ts",
   "exports": {

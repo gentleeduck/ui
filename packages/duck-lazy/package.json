@@ -3,7 +3,7 @@
   "version": "1.2.1",
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "type": "module",
-  "private": true,
+  "private": false,
   "main": "./index.ts",
   "exports": {
     "./*": "./src/*/index.ts"
