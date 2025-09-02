@@ -30,7 +30,7 @@ build
 .DS_Store
 *.pem
 .vinxi
-apps/docs/.velite
+
 # debug
 npm-debug.log*
 yarn-debug.log*
