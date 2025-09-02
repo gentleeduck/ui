@@ -130,7 +130,8 @@
     "react-hook-form": "^7.62.0",
     "react-resizable-panels": "^2.0.23",
     "recharts": "2.15.1",
-    "uuidv7": "^1.0.2"
+    "uuidv7": "^1.0.2",
+    "@gentleduck/variants": "workspace:*"
   },
   "packageManager": "pnpm@10.10.0",
   "engines": {
