@@ -1,5 +1,5 @@
 'use client'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Search } from 'lucide-react'
 import React from 'react'
 import { Dialog, DialogContent, type DialogProps } from '../dialog'

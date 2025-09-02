@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Block } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {} from '@gentleduck/registry-ui-duckui/drawer'

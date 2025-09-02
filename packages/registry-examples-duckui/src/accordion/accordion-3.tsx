@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
 import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
 import { Banknote } from 'lucide-react'

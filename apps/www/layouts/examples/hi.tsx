@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Calendar } from '@gentleduck/registry-ui-duckui/calendar'
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@gentleduck/registry-ui-duckui/form'

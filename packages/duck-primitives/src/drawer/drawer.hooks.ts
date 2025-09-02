@@ -1,8 +1,5 @@
+import { useDebounce } from '@gentleduck/hooks'
 import React from 'react'
-import {
-  useDebounce,
-  // useComputedTimeoutTransition
-} from '@gentleduck/duck-hooks'
 export interface UseDrawerDragProps {
   ref: React.RefObject<HTMLDialogElement>
   holdUpThreshold?: number

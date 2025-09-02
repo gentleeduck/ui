@@ -1,10 +1,11 @@
 'use client'
 
-import SheetPrimitive from '@gentleduck/primitives/sheet'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
+import SheetPrimitive from '@gentleduck/primitives/sheet'
 import type { VariantProps } from '@gentleduck/variants'
 import type React from 'react'
+import { Button } from '../button'
 import {
   DialogClose,
   DialogCloseX,
@@ -16,7 +17,6 @@ import {
   DialogTrigger,
 } from '../dialog'
 import { SheetWrapperProps } from './sheet.types'
-import { Button } from '../button'
 
 function Sheet({ closeButton = true, ...props }: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root closeButton={closeButton} {...props} />

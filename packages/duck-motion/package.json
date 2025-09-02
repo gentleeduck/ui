@@ -27,7 +27,7 @@
     "publish": "pnpm run ci && changeset publish"
   },
   "devDependencies": {
-    "@gentleduck/duck-libs": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@gentleduck/variants": "workspace:*",
     "typescript": "catalog:"

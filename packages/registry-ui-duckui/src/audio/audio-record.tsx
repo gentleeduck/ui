@@ -36,7 +36,7 @@ import type {
   StopRecordingHandlerParams,
   VisualizerClickHandlerParams,
 } from './audio.types'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { format_time_handler } from './audio.libs'
 // import { downloadAttachment } from './comment'
 

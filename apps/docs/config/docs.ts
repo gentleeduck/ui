@@ -66,6 +66,18 @@ export const docsConfig: DocsConfig = {
           label: 'new',
         },
         {
+          href: '/docs/packages/duck-libs',
+          items: [],
+          title: '@gentleduck/libs',
+          label: 'new',
+        },
+        {
+          href: '/docs/packages/duck-hooks',
+          items: [],
+          title: '@gentleduck/hooks',
+          label: 'new',
+        },
+        {
           href: '/docs/packages/duck-ttest',
           items: [],
           title: '@gentleduck/ttest',

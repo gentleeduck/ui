@@ -4,7 +4,7 @@ import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
 import * as React from 'react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Block } from '@gentleduck/registers'
 import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 import { Label } from '@gentleduck/registry-ui-duckui/label'

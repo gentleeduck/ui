@@ -1,6 +1,6 @@
 // 'use client'
 //
-// import { cn } from '@gentleduck/duck-libs/cn'
+// import { cn } from '@gentleduck/libs/cn'
 // import { filesize } from 'filesize'
 // import { Download, Ellipsis, Trash, Upload as UploadIcon } from 'lucide-react'
 // import { X } from 'lucide-react'

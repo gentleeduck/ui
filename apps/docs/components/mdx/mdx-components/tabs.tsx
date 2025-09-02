@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@gentleduck/registry-ui-duckui/tabs'
 
 export function Tab({ className, ...props }: React.ComponentProps<typeof Tabs>) {

@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import type { VariantProps } from '@gentleduck/variants'
 import type React from 'react'
 import { alertVariants } from './alert.constants'

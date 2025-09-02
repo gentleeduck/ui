@@ -1,5 +1,14 @@
 # docs-2
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @gentleduck/libs@0.1.4
+  - @gentleduck/motion@0.1.0
+  - @gentleduck/registry-ui-duckui@0.1.0
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Block } from '@gentleduck/registers'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui-duckui/resizable'
 import { Tabs, TabsContent } from '@gentleduck/registry-ui-duckui/tabs'

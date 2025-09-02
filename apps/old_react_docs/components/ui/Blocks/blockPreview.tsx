@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { useConfig } from '~/hooks/use-config'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { BlockToolbar } from '~/components/ui'

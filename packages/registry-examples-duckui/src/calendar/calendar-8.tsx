@@ -1,8 +1,9 @@
 'use client'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Calendar } from '@gentleduck/registry-ui-duckui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import {
   Form,
   FormControl,
@@ -12,7 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@gentleduck/registry-ui-duckui/react-hook-form'
-import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'

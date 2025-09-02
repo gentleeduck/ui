@@ -4,7 +4,7 @@ import { Doc } from 'contentlayer/generated'
 import { NavItem, NavItemWithChildren } from 'types/nav'
 
 import { docsConfig } from '~/config/docs'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 
 interface DocsPagerProps {

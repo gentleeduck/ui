@@ -6,7 +6,7 @@ import { Crown } from 'lucide-react'
 import * as React from 'react'
 import { Index } from '~/__ui_registry__'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { V0Button } from '~/components/V0'
 import { CopyButton } from '~/components/copy-button'

@@ -1,8 +1,8 @@
 'use client'
 
-import * as TooltipPrimitive from '@gentleduck/primitives/tooltip'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import * as TooltipPrimitive from '@gentleduck/primitives/tooltip'
 import { VariantProps } from '@gentleduck/variants'
 import type React from 'react'
 

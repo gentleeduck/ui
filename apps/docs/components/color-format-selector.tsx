@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { useColors } from '~/hooks/use-colors'
 import { type Color, getColorFormat } from '~/lib/colors'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@gentleduck/registry-ui-duckui/select'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 

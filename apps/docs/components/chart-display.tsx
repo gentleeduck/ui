@@ -1,5 +1,5 @@
 import { getBlock } from '~/lib/blocks'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { ChartToolbar } from '~/components/chart-toolbar'
 
 export async function ChartDisplay({ name, children, className }: { name: string } & React.ComponentProps<'div'>) {

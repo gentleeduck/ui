@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Terminal } from 'lucide-react'

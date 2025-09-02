@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 import { buttonVariants } from './button.constants'
 import { ButtonProps } from './button.types'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { TooltipProvider } from '@radix-ui/react-tooltip'
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

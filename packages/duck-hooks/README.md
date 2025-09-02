@@ -1,4 +1,4 @@
-# @gentleduck/duck-hooks
+# @gentleduck/libs
 
 This package provides a collection of reusable React hooks for the duck-ui component library.
 
@@ -17,7 +17,7 @@ This package provides a collection of reusable React hooks for the duck-ui compo
 To use a hook, import it from the corresponding directory:
 
 ```typescript
-import { useDebounce } from '@gentleduck/duck-hooks/use-debounce';
+import { useDebounce } from '@gentleduck/libs/use-debounce';
 
 function MyComponent() {
   const [value, setValue] = useState('');

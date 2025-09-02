@@ -19,9 +19,9 @@
   "devDependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
     "@gentleduck/primitives": "workspace:*",
-    "@gentleduck/duck-hooks": "workspace:*",
+    "@gentleduck/hooks": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
-    "@gentleduck/duck-libs": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/state": "workspace:*",
     "@gentleduck/tsdown-config": "workspace:*",

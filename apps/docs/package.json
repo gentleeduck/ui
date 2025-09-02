@@ -1,6 +1,6 @@
 {
   "name": "@gentleduck/docs",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -14,9 +14,9 @@
   "dependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
     "@excalidraw/excalidraw": "^0.17.2",
-    "@gentleduck/duck-hooks": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
-    "@gentleduck/duck-libs": "workspace:*",
+    "@gentleduck/hooks": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/registers": "workspace:*",
     "@gentleduck/registry-examples-duckui": "workspace:*",

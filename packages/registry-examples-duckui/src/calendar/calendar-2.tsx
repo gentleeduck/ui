@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Button, buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'

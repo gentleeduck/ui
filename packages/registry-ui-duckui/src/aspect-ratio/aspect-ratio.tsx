@@ -1,7 +1,7 @@
 'use client'
 
+import { cn } from '@gentleduck/libs/cn'
 import { Slot } from '@gentleduck/primitives/slot'
-import { cn } from '@gentleduck/duck-libs/cn'
 
 function AspectRatio({
   style,

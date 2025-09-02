@@ -1,5 +1,5 @@
 'use client'
-import { composeRefs } from '@gentleduck/duck-hooks/use-composed-refs'
+import { composeRefs } from '@gentleduck/hooks/use-composed-refs'
 import React from 'react'
 
 interface SlotProps extends React.HTMLAttributes<HTMLElement> {

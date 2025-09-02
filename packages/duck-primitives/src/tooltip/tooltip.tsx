@@ -12,7 +12,6 @@ import {
   useInteractions,
   useMergeRefs,
   useRole,
-  safePolygon,
 } from '@floating-ui/react'
 import * as React from 'react'
 import { Mount } from '../mount'

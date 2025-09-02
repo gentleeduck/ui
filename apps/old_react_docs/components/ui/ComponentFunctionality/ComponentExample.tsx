@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { CopyButton, CopyWithClassNames } from '~/components/copy-button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 

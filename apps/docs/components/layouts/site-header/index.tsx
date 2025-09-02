@@ -1,13 +1,12 @@
-import Link from 'next/link'
-
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { Github, Twitter } from 'lucide-react'
+import Link from 'next/link'
 import { MainNav } from '~/components/main-nav'
 import { MobileNav } from '~/components/mobile-nav'
+import { ModeSwitcher } from '~/components/mode-toggle'
 import { siteConfig } from '~/config/site'
 import { CommandMenu } from '../command-menu'
-import { ModeSwitcher } from '~/components/mode-toggle'
 
 export function SiteHeader() {
   return (

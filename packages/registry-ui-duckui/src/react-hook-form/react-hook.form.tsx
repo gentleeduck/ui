@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Slot } from '@radix-ui/react-slot'
 import * as React from 'react'
 import {

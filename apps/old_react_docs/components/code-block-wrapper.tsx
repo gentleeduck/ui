@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../../packages/_oldstuff_refactor/ui/ShadcnUI'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
   expandButtonTitle?: string

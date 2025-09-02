@@ -328,15 +328,15 @@ importers:
       '@excalidraw/excalidraw':
         specifier: ^0.17.2
         version: 0.17.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@gentleduck/duck-hooks':
+      '@gentleduck/hooks':
         specifier: workspace:*
         version: link:../../packages/duck-hooks
-      '@gentleduck/duck-libs':
-        specifier: workspace:*
-        version: link:../../packages/duck-libs
       '@gentleduck/lazy':
         specifier: workspace:*
         version: link:../../packages/duck-lazy
+      '@gentleduck/libs':
+        specifier: workspace:*
+        version: link:../../packages/duck-libs
       '@gentleduck/motion':
         specifier: workspace:*
         version: link:../../packages/duck-motion
@@ -789,7 +789,7 @@ importers:
         specifier: ^3.24.1
         version: 3.25.46
     devDependencies:
-      '@gentleduck/duck-libs':
+      '@gentleduck/libs':
         specifier: workspace:*
         version: link:../../packages/duck-libs
       '@gentleduck/registers':
@@ -1000,10 +1000,7 @@ importers:
       '@ahmedayob/duck-shortcut':
         specifier: ^0.0.2
         version: 0.0.2(@changesets/cli@2.29.4)(@types/mousetrap@1.6.15)(@types/node@20.17.57)(@types/react-dom@19.1.5(@types/react@19.1.6))(@types/react@19.1.6)(date-fns@2.30.0)(jiti@2.4.2)(jsdom@26.1.0)(mousetrap@1.6.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1)(terser@5.43.1)(tsup@8.5.0(@swc/core@1.12.0(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0))(tsx@4.20.3)(typescript@5.8.3)(vitest@3.2.4)(yaml@2.8.0)(zod@3.24.2)
-      '@gentleduck/duck-hooks':
-        specifier: workspace:*
-        version: link:../../packages/duck-hooks
-      '@gentleduck/duck-libs':
+      '@gentleduck/libs':
         specifier: workspace:*
         version: link:../../packages/duck-libs
       '@gentleduck/motion':
@@ -1139,10 +1136,7 @@ importers:
       '@ahmedayob/duck-shortcut':
         specifier: ^0.0.2
         version: 0.0.2(@changesets/cli@2.29.4)(@types/mousetrap@1.6.15)(@types/node@22.15.29)(@types/react-dom@19.1.5(@types/react@19.1.6))(@types/react@19.1.6)(date-fns@4.1.0)(jiti@2.4.2)(jsdom@20.0.3)(mousetrap@1.6.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.1)(terser@5.43.1)(tsup@8.5.0(@swc/core@1.12.0(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.6)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0))(tsx@4.19.4)(typescript@5.8.3)(vitest@3.2.4)(yaml@2.8.0)(zod@3.24.2)
-      '@gentleduck/duck-hooks':
-        specifier: workspace:*
-        version: link:../duck-hooks
-      '@gentleduck/duck-libs':
+      '@gentleduck/libs':
         specifier: workspace:*
         version: link:../duck-libs
       '@gentleduck/registry-examples-duckui':
@@ -1670,7 +1664,7 @@ importers:
 
   packages/duck-motion:
     devDependencies:
-      '@gentleduck/duck-libs':
+      '@gentleduck/libs':
         specifier: workspace:*
         version: link:../duck-libs
       '@gentleduck/typescript-config':
@@ -1691,10 +1685,10 @@ importers:
       '@floating-ui/react':
         specifier: ^0.27.13
         version: 0.27.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@gentleduck/duck-hooks':
+      '@gentleduck/hooks':
         specifier: workspace:*
         version: link:../duck-hooks
-      '@gentleduck/duck-libs':
+      '@gentleduck/libs':
         specifier: workspace:*
         version: link:../duck-libs
       '@gentleduck/motion':
@@ -2145,10 +2139,10 @@ importers:
         specifier: 'catalog:'
         version: 3.24.2
     devDependencies:
-      '@gentleduck/duck-hooks':
+      '@gentleduck/hooks':
         specifier: workspace:*
         version: link:../duck-hooks
-      '@gentleduck/duck-libs':
+      '@gentleduck/libs':
         specifier: workspace:*
         version: link:../duck-libs
       '@gentleduck/registry-ui':
@@ -2221,15 +2215,15 @@ importers:
       '@ahmedayob/duck-shortcut':
         specifier: ^0.0.2
         version: 0.0.2(@changesets/cli@2.29.4)(@types/mousetrap@1.6.15)(@types/node@22.15.29)(@types/react-dom@19.0.4(@types/react@19.0.12))(@types/react@19.0.12)(date-fns@4.1.0)(jiti@2.4.2)(jsdom@26.1.0)(mousetrap@1.6.5)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.1)(terser@5.43.1)(tsup@8.5.0(@swc/core@1.12.0(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.6)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0))(tsx@4.19.4)(typescript@5.8.3)(vitest@3.2.4)(yaml@2.8.0)(zod@3.24.2)
-      '@gentleduck/duck-hooks':
+      '@gentleduck/hooks':
         specifier: workspace:*
         version: link:../duck-hooks
-      '@gentleduck/duck-libs':
-        specifier: workspace:*
-        version: link:../duck-libs
       '@gentleduck/lazy':
         specifier: workspace:*
         version: link:../duck-lazy
+      '@gentleduck/libs':
+        specifier: workspace:*
+        version: link:../duck-libs
       '@gentleduck/motion':
         specifier: workspace:*
         version: link:../duck-motion

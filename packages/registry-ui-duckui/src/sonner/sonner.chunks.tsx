@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { CircleCheck, Loader } from 'lucide-react'
 import type React from 'react'
 import { toast } from 'sonner'

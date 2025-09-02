@@ -6,7 +6,7 @@ import Link from 'next/link'
 import * as React from 'react'
 import { NpmCommands } from 'types/unist'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Callout } from '~/components/callout'

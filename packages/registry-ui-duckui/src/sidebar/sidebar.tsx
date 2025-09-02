@@ -1,7 +1,7 @@
 'use client'
 
-import { useIsMobile } from '@gentleduck/duck-hooks/use-is-mobile'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
+import { cn } from '@gentleduck/libs/cn'
 import type { VariantProps } from '@gentleduck/variants'
 import { Slot } from '@radix-ui/react-slot'
 import { PanelLeftIcon } from 'lucide-react'

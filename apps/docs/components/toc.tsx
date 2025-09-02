@@ -4,7 +4,7 @@
 import * as React from 'react'
 
 import { TableOfContents } from '~/lib/toc'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { useMounted } from '~/hooks/use-mounted'
 import { Docs } from '~/.velite'
 

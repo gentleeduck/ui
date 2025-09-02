@@ -5,7 +5,7 @@ import template from 'lodash.template'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { copyToClipboardWithMeta } from '~/components/copy-button'
 import { ThemeWrapper } from '~/components/theme-wrapper'

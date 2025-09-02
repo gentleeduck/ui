@@ -1,7 +1,8 @@
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
 import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'
 import { Metadata } from 'next'
+import { headers } from 'next/headers'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
@@ -10,8 +11,6 @@ import { DocsPager } from '~/components/pager'
 import { DashboardTableOfContents } from '~/components/toc'
 import { SLUG_METADATA } from '~/config/metadata'
 import { docs } from '../../../../.velite'
-import { isArray } from 'util'
-import { headers } from 'next/headers'
 
 interface DocPageProps {
   params: {

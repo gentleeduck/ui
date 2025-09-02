@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 export function SpanBlock({ className, children, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
   console.log(isLineComment(children?.toString()!)) // true

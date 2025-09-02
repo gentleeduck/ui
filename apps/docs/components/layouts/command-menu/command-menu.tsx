@@ -1,13 +1,7 @@
 'use client'
 
-import { useTheme } from 'next-themes'
-import { useRouter } from 'next/navigation'
-import * as React from 'react'
-
+import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-react'
-import { docsConfig } from '~/config/docs'
-import { cn } from '@gentleduck/duck-libs/cn'
 import {
   CommandDialog,
   CommandEmpty,
@@ -18,9 +12,14 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
-import { useCommandRefsContext } from '../../../../../packages/registry-ui-duckui/src/command/command.hooks'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { useKeyCommands } from '@gentleduck/vim/react'
+import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useTheme } from 'next-themes'
+import * as React from 'react'
+import { docsConfig } from '~/config/docs'
+import { useCommandRefsContext } from '../../../../../packages/registry-ui-duckui/src/command/command.hooks'
 
 // asdf
 export function CommandMenu() {

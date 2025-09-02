@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 function Textarea({ className, ref, ...props }: React.HTMLProps<HTMLTextAreaElement>) {
   return (

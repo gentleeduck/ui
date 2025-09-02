@@ -1,11 +1,10 @@
 'use client'
 
-import * as React from 'react'
-import { useFormStatus } from 'react-dom'
-
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { Block } from '@gentleduck/registers'
 import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
+import * as React from 'react'
+import { useFormStatus } from 'react-dom'
 import { toast } from 'sonner'
 import { editInV0 } from './v0Button.server'
 

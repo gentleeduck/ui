@@ -1,7 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/duck-libs/cn'
-import Image from 'next/image'
+import { cn } from '@gentleduck/libs/cn'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,6 +10,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@gentleduck/registry-ui-duckui/navigation-menu'
+import Image from 'next/image'
 import Link from 'next/link'
 import * as React from 'react'
 

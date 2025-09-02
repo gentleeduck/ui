@@ -1,6 +1,5 @@
 'use client'
 
-import { cn } from '@gentleduck/duck-libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Select,

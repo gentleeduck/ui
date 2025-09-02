@@ -13,7 +13,7 @@
     },
     {
       "path": "textarea/textarea.tsx",
-      "content": "import { cn } from '@gentleduck/duck-libs/cn'\n\nfunction Textarea({ className, ref, ...props }: React.HTMLProps<HTMLTextAreaElement>) {\n  return (\n    <textarea\n      className={cn(\n        'flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',\n        className,\n      )}\n      ref={ref}\n      duck-textarea=\"\"\n      {...props}\n    />\n  )\n}\n\nexport { Textarea }\n",
+      "content": "import { cn } from '@gentleduck/libs/cn'\n\nfunction Textarea({ className, ref, ...props }: React.HTMLProps<HTMLTextAreaElement>) {\n  return (\n    <textarea\n      className={cn(\n        'flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',\n        className,\n      )}\n      ref={ref}\n      duck-textarea=\"\"\n      {...props}\n    />\n  )\n}\n\nexport { Textarea }\n",
       "type": "registry:ui",
       "target": "components/ui/textarea.tsx"
     }

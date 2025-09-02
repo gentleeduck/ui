@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 import { GripVertical } from 'lucide-react'
 import type * as React from 'react'
 import * as ResizablePrimitive from 'react-resizable-panels'

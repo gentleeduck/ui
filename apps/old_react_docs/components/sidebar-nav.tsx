@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { SidebarNavItem } from 'types/nav'
 
 import { type DocsConfig } from '~/config/docs'
-import { cn } from '@gentleduck/duck-libs/cn'
+import { cn } from '@gentleduck/libs/cn'
 
 export interface DocsSidebarNavProps {
   config: DocsConfig

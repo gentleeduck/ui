@@ -1,4 +1,10 @@
-# @gentleduck/duck-libs
+# @gentleduck/libs
+
+## 0.1.4
+
+### Patch Changes
+
+- done
 
 ## 0.1.3
 
