@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Index } from '~/__ui_registry__'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { CopyButton } from '~/components/copy-button'
 import { Icons } from '~/components/icons'

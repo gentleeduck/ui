@@ -17,8 +17,8 @@
   },
   "devDependencies": {
     "@gentleduck/variants": "workspace:*",
-    "@gentleduck/hooks": "workspace:*",
-    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/duck-hooks": "workspace:*",
+    "@gentleduck/duck-libs": "workspace:*",
     "@gentleduck/registry-ui": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",

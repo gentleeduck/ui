@@ -5,7 +5,7 @@
 // import { Field, type useForm } from '@tanstack/react-form'
 // import type { ReactFormExtendedApi } from '@tanstack/react-form'
 //
-// import { cn } from '@gentleduck/libs/cn'
+// import { cn } from '@gentleduck/duck-libs/cn'
 // import { Label } from '../label'
 // import { useFormField } from './form.hooks'
 // import { Circle } from 'lucide-react'

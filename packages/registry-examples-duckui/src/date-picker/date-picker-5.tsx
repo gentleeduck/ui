@@ -1,6 +1,6 @@
 'use client'
 
-import { parseDate } from '@gentleduck/libs/parse-date'
+import { parseDate } from '@gentleduck/duck-libs/parse-date'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Calendar } from '@gentleduck/registry-ui-duckui/calendar'
 import { Input } from '@gentleduck/registry-ui-duckui/input'

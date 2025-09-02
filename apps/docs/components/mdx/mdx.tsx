@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
 import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui-duckui/alert'
 import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'

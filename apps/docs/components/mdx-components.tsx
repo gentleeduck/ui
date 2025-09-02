@@ -7,7 +7,7 @@
 // import { NpmCommands } from 'types/unist'
 //
 // import { Event } from '~/lib/events'
-// import { cn } from '@gentleduck/libs/cn'
+// import { cn } from '@gentleduck/duck-libs/cn'
 // import { Callout } from '~/components/callout'
 // import { CodeBlockWrapper } from '~/components/code-block-wrapper'
 // import {

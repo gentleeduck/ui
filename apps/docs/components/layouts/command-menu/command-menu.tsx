@@ -7,7 +7,7 @@ import * as React from 'react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-react'
 import { docsConfig } from '~/config/docs'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import {
   CommandDialog,
   CommandEmpty,

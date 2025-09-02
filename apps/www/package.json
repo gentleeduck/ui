@@ -1,6 +1,6 @@
 {
   "name": "docs-2",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
-    "@gentleduck/hooks": "workspace:*",
-    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/duck-hooks": "workspace:*",
+    "@gentleduck/duck-libs": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",
     "@gentleduck/variants": "workspace:*",

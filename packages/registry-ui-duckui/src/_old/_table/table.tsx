@@ -17,14 +17,14 @@ import {
 } from '../tooltip'
 import { LabelType } from '../button'
 import { Badge } from '../badge'
-import { useDebounceCallback } from '@gentleduck/hooks/use-debounce'
+import { useDebounceCallback } from '@gentleduck/duck-hooks/use-debounce'
 import { get_options_data } from './table.lib'
 import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
 import { useDuckTable } from './table.hook'
 import { TableHeaderType, TablePaginationType } from './table.types'
 
-import { cn } from '@gentleduck/libs/cn'
-import { groupArrays } from '@gentleduck/libs/group-array'
+import { cn } from '@gentleduck/duck-libs/cn'
+import { groupArrays } from '@gentleduck/duck-libs/group-array'
 
 import { CirclePlus, LucideIcon } from 'lucide-react'
 import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'

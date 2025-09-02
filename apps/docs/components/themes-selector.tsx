@@ -3,7 +3,7 @@
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'

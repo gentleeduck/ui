@@ -7,7 +7,7 @@ import DialogPrimitive, {
 } from '@gentleduck/primitives/dialog'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
 import React from 'react'
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../dialog'

@@ -15,7 +15,7 @@ import { DashboardTableOfContents } from '~/components/toc'
 import { ScrollArea } from '../../../../../../packages/_oldstuff_refactor/ui/scroll-area'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
 import { absoluteUrl } from '~/lib/utils'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 
 interface DocPageProps {
   params: Promise<{

@@ -1,0 +1,11 @@
+# Exclude tests and configs
+__tests__/
+*.config.js
+*.config.ts
+*.test.ts
+*.test.tsx
+
+# Exclude logs and caches
+*.log
+.cache/
+

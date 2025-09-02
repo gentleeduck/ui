@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
 export function FigcaptionBlock({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {

@@ -4,7 +4,7 @@ import * as React from 'react'
 import { CheckIcon, ClipboardIcon } from 'lucide-react'
 
 import { Event, trackEvent } from '~/lib/events'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
 

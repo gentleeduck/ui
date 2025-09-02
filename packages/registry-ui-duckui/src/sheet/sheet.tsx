@@ -1,7 +1,7 @@
 'use client'
 
 import SheetPrimitive from '@gentleduck/primitives/sheet'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { AnimDialogVariants, AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
 import type { VariantProps } from '@gentleduck/variants'
 import type React from 'react'

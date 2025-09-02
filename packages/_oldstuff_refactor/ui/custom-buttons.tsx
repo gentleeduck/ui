@@ -4,7 +4,7 @@ import React from 'react'
 // import { LucideIcon } from 'lucide-react'
 import { LikedType, TaggedUserType } from './swapy'
 import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 
 export interface LikeButtonProps extends Omit<ButtonProps, 'onClick'> {
   user: TaggedUserType

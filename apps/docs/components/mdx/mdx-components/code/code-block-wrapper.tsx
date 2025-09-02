@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import * as React from 'react'
 
 export function CodeBlockWrapper({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {

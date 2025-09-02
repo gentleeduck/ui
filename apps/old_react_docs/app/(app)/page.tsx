@@ -10,7 +10,7 @@ import { ThemeWrapper } from '~/components/theme-wrapper'
 import { ThemeCustomizer } from '~/components/theme-customizer'
 import { ThemesTabs } from './themes/tabs'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 
 export default function IndexPage() {
   return (

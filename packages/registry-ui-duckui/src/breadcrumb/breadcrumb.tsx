@@ -1,6 +1,6 @@
 import type * as React from 'react'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Slot } from '@gentleduck/primitives/slot'
 
 const Breadcrumb = ({

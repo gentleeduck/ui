@@ -1,7 +1,7 @@
 'use client'
 
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import type * as React from 'react'
 

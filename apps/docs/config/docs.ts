@@ -65,6 +65,12 @@ export const docsConfig: DocsConfig = {
           title: '@gentleduck/primitives',
           label: 'new',
         },
+        {
+          href: '/docs/packages/duck-ttest',
+          items: [],
+          title: '@gentleduck/ttest',
+          label: 'new',
+        },
       ],
       title: 'Core Packages',
     },

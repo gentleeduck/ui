@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import Image from 'next/image'
 import {
   NavigationMenu,

@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { cva } from '@gentleduck/variants'
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
 import { ChevronDown } from 'lucide-react'

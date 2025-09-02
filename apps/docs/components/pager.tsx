@@ -3,7 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { NavItem, NavItemWithChildren } from 'types/nav'
 
 import { docsConfig } from '~/config/docs'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { Docs } from '../.velite'
 

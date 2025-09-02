@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@gentleduck/duck-libs",
+  "version": "0.1.3",
+  "private": false,
+  "type": "module",
+  "files": [
+    "src"
+  ],
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    "./*": "./src/*/index.ts",
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
+  },
+  "devDependencies": {
+    "@gentleduck/tsdown-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "zod": "catalog:"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui",
+    "directory": "packages/duck-libs"
+  },
+  "bugs": {
+    "url": "https://github.com/gentleduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-libs#readme",
+  "author": "wilddcuk",
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

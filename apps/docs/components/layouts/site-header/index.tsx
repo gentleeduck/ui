@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { Github, Twitter } from 'lucide-react'
 import { MainNav } from '~/components/main-nav'

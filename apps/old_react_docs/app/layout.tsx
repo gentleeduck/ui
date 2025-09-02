@@ -12,7 +12,7 @@ import { DefaultSonner } from '@gentleduck/registry-ui-duckui/sonner'
 
 import localFont from 'next/font/local'
 import { TRPCReactProvider } from '~/trpc/react'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 
 // Font files can be colocated inside of `pages`
 const EmojiFont = localFont({ src: '../assets/fonts/font.ttf' })

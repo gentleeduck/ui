@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { useFormStatus } from 'react-dom'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Block } from '@gentleduck/registers'
 import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
 import { toast } from 'sonner'

@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 
 interface CodeProps extends React.HTMLAttributes<HTMLElement> {
   __rawString__?: boolean

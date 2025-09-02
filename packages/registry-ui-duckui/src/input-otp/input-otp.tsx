@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Dot } from 'lucide-react'
 import * as React from 'react'
 import { useInputOTPInit } from './input-otp.hooks'

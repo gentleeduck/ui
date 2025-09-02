@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { VariantProps } from 'class-variance-authority'
 import { AlertCircle, Trash } from 'lucide-react'
 import React from 'react'

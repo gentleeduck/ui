@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { ScrollArea, ScrollBar } from '../../../packages/_oldstuff_refactor/default/ui/scroll-area'
 
 const links = [

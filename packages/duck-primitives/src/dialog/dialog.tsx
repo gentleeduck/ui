@@ -1,6 +1,6 @@
 'use client'
 import { useMergeRefs } from '@floating-ui/react'
-import { useStableId } from '@gentleduck/hooks'
+import { useStableId } from '@gentleduck/duck-hooks'
 import { apply as applyClosedBy, isSupported as isClosedBySupported } from 'dialog-closedby-polyfill'
 import { apply as applyInvokers, isSupported as isInvokersSupported } from 'invokers-polyfill/fn'
 import React from 'react'

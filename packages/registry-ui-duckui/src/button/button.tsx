@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Slot } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
 import type * as React from 'react'

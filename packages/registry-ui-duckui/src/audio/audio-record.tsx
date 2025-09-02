@@ -14,7 +14,14 @@ import {
 import * as React from 'react'
 import { Button } from '../button'
 import { Input } from '../input'
-import { AudioVisualizer, type dataPoint, new_audio, process_blob, type ProcessBlobParams, type ThemeColor } from './audio-visualizer'
+import {
+  AudioVisualizer,
+  type dataPoint,
+  new_audio,
+  process_blob,
+  type ProcessBlobParams,
+  type ThemeColor,
+} from './audio-visualizer'
 import { uuidv7 } from 'uuidv7'
 // import { AttachmentType } from './swapy'
 import { PopoverWrapper } from '../popover'
@@ -29,7 +36,7 @@ import type {
   StopRecordingHandlerParams,
   VisualizerClickHandlerParams,
 } from './audio.types'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { format_time_handler } from './audio.libs'
 // import { downloadAttachment } from './comment'
 

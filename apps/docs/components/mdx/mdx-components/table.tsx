@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { FC } from 'react'
 
 interface TableProps extends React.HTMLAttributes<HTMLTableElement> {}

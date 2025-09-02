@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 
 function PageHeader({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (

@@ -1,7 +1,7 @@
 // 'use client'
 // import * as React from 'react'
-// import { cn } from '@gentleduck/libs/cn'
-// import {  groupArrays } from '@gentleduck/libs/group-array'
+// import { cn } from '@gentleduck/duck-libs/cn'
+// import {  groupArrays } from '@gentleduck/duck-libs/group-array'
 // import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
 // import { Separator } from './ShadcnUI/separator'
 //

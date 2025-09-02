@@ -1,6 +1,6 @@
 'use client'
 
-import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
+import { useMediaQuery } from '@gentleduck/duck-hooks/use-media-query'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Command,

@@ -1,6 +1,6 @@
 'use client'
 import PopoverPrimitive from '@gentleduck/primitives/popover'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import type { VariantProps } from '@gentleduck/variants'
 import type * as React from 'react'

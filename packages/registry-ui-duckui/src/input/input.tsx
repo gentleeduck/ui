@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import * as React from 'react'
 
 const Input = ({ className, type, ref, ...props }: React.HTMLProps<HTMLInputElement>) => {

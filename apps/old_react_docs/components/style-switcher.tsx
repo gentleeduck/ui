@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { Style, styles } from '@gentleduck/registers'
 import { useConfig } from '~/hooks/use-config'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import {
   Select,
   SelectContent,

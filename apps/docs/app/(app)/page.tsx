@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { siteConfig } from '~/config/site'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
 import { Button, buttonVariants } from '@gentleduck/registry-ui-duckui/button'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { toast } from 'sonner'
 import { CommandMenu } from '~/components/layouts'
 

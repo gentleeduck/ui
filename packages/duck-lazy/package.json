@@ -1,6 +1,6 @@
 {
   "name": "@gentleduck/lazy",
-  "version": "1.2.1",
+  "version": "1.2.5",
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "type": "module",
   "private": false,
@@ -10,7 +10,13 @@
   },
   "files": [
     "src",
-    "!src/**/__tests__"
+    "!src/**/__tests__",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "article-about-this.md",
+    "tsconfig.json"
   ],
   "scripts": {
     "lint": "biome lint --write ./",

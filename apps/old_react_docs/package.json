@@ -110,7 +110,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/duck-libs": "workspace:*",
     "@gentleduck/registers": "workspace:*",
     "@gentleduck/registry-build-duckui": "workspace:*",
     "@gentleduck/registry-examples-duckui": "workspace:*",

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { ScrollArea, ScrollBar } from '../../../packages/_oldstuff_refactor/ui/scroll-area'
 
 const examples = [

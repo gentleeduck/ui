@@ -1,2 +1,98 @@
 ---
+title: Primitives Catalog
+description: Internal catalog of available primitives in @gentleduck/primitives
+---
 
+<Callout>
+
+**This page lists **all primitives currently shipped** with `@gentleduck/primitives`.  
+Each section shows whether the primitive is implemented and gives a quick demo if possible.  
+_This page is **internal-only**, for maintainers and contributors._**
+
+</Callout>
+
+
+## Installation
+
+```bash
+npm install @gentleduck/primitives
+```
+
+---
+
+## Implemented Primitives
+
+### Dialog
+```tsx live
+function Example() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <>
+      <Dialog.Trigger onClick={() => setOpen(true)}>Open</Dialog.Trigger>
+      <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>Dialog Title</Dialog.Title>
+          <Dialog.Description>Some content here.</Dialog.Description>
+          <Dialog.Close>Close</Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Root>
+    </>
+  );
+}
+````
+
+---
+
+### Popover
+
+```tsx live
+function Example() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <Popover.Root open={open} onOpenChange={setOpen}>
+      <Popover.Trigger>Toggle</Popover.Trigger>
+      <Popover.Content>
+        <p>Popover content</p>
+      </Popover.Content>
+    </Popover.Root>
+  );
+}
+```
+
+---
+
+### Tooltip
+
+```tsx live
+<Tooltip.Root>
+  <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+  <Tooltip.Content>Tooltip text</Tooltip.Content>
+</Tooltip.Root>
+```
+
+---
+
+### Slider
+
+```tsx live
+<Slider.Root defaultValue={[50]} max={100} step={1}>
+  <Slider.Track>
+    <Slider.Range />
+  </Slider.Track>
+  <Slider.Thumb />
+</Slider.Root>
+```
+
+---
+
+## Other Primitives
+
+* `@gentleduck/primitives/drawer` → Dismissible panel (WIP)
+* `@gentleduck/primitives/sheet` → Full-width/height surface
+* `@gentleduck/primitives/navigation-menu` → Navigation menu (WIP)
+* `@gentleduck/primitives/mount` → Mount/unmount helpers
+* `@gentleduck/primitives/slot` → Composition utility
+* `@gentleduck/primitives/checkers` → Conditional behavior helpers
+
+---

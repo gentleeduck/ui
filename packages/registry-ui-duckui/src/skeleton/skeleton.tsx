@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import type * as React from 'react'
 
 function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {

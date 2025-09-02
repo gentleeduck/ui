@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Command } from 'lucide-react'
 import { docsConfig } from '~/config/docs'

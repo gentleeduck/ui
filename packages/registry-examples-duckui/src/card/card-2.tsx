@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Card,

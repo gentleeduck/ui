@@ -1,7 +1,7 @@
 'use client'
 
 import { Mount, MountMinimal } from '@gentleduck/primitives/mount'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import * as React from 'react'
 
 export function useTabs() {

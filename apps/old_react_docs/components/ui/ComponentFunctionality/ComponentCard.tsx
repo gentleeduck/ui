@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { AspectRatio } from '../../../../../packages/_oldstuff_refactor/ui/ShadcnUI/aspect-ratio'
 
 export function ComponentCard({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {

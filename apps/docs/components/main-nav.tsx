@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { siteConfig } from '~/config/site'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Icons } from '~/components/icons'
 import { DocsConfig } from '~/config/docs'
 import { SidebarNavItem } from '~/types/nav'

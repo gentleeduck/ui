@@ -1,4 +1,4 @@
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { SliderRange } from '@gentleduck/registry-ui-duckui/slider'
 
 export default function SliderDemo() {

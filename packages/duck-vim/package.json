@@ -1,32 +1,54 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/vim",
-  "private": true,
-  "version": "0.1.0",
+  "version": "0.1.7",
+  "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
+  "license": "MIT",
+  "private": false,
   "type": "module",
   "files": [
     "src",
-    "!src/**/__tests__"
+    "!src/**/*.test.*",
+    "!src/**/__test__/**",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "article-about-this.md",
+    "tsconfig.json"
   ],
-  "types": "./dist/index.d.ts",
-  "module": "./dist/index.js",
   "exports": {
     ".": "./src/index.ts",
     "./*": "./src/*/index.ts"
   },
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "author": "wildduck",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleeduck/ui",
+    "directory": "packages/duck-vim"
+  },
+  "bugs": {
+    "url": "https://github.com/gentleeduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentleeduck/ui/tree/master/packages/duck-vim#readme",
   "scripts": {
+    "ci": "pnpm run lint && pnpm run format",
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",
     "clean:git": "git clean -xdf .cache .turbo node_modules dist",
-    "build": "tsdown",
     "dev": "vitest",
-    "test": "vitest run",
-    "lint": "biome lint --write ./",
     "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run test && pnpm run build",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
     "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "react": ">=18 || 19",
+    "react-dom": ">=18 || 19"
   },
   "devDependencies": {
-    "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/user-event": "^14.6.1",
@@ -36,18 +58,15 @@
     "@types/react-dom": "catalog:react19",
     "clsx": "^1.2.1",
     "jsdom": "^20.0.3",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19",
     "rimraf": "^4.4.1",
     "tailwind-merge": "^1.14.0",
-    "tsdown": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
     "zod": "catalog:"
   },
-  "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=22.0.0"
-  }
+  },
+  "packageManager": "pnpm@10.10.0"
 }

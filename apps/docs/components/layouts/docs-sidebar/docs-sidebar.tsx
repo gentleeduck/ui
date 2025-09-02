@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { SidebarNavItem } from 'types/nav'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { type DocsConfig } from '~/config/docs'
 
 export interface DocsSidebarNavProps {

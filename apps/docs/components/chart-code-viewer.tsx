@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { useMediaQuery } from '~/hooks/use-media-query'
 import { useThemesConfig } from '~/hooks/use-themes-config'
 import { BlockCopyButton } from '~/components/ui'

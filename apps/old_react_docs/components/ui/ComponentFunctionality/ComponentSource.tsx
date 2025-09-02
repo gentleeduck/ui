@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { CodeBlockWrapper } from '~/components/code-block-wrapper'
 
 interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {

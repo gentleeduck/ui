@@ -4,7 +4,7 @@ import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
 import { Icons } from '~/components/icons'

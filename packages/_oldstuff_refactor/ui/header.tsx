@@ -4,8 +4,8 @@ import React from 'react'
 
 import { NavCollabsedType, NavGroup, NavGroupProps, NavType } from './nav-group'
 import { Separator } from './ShadcnUI/separator'
-import { cn } from '@gentleduck/libs/cn'
-import { filteredObject } from '@gentleduck/libs/filtered-object'
+import { cn } from '@gentleduck/duck-libs/cn'
+import { filteredObject } from '@gentleduck/duck-libs/filtered-object'
 
 type HeaderProps<T extends boolean> = {
   header: HeaderType

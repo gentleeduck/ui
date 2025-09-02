@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { BlockCopyButton } from '~/components/ui'
 import { Block, type BlockChunk } from '@gentleduck/registers'

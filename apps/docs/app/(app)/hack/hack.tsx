@@ -515,7 +515,7 @@ import {
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
 import React from 'react'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 export function CommandDemo() {
@@ -1458,7 +1458,7 @@ import {
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
 import React from 'react'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 export function CommandDemo() {

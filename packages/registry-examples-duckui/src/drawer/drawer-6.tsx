@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {

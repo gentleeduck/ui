@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 import { docsConfig } from '~/config/docs'
 import { siteConfig } from '~/config/site'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Icons } from '~/components/icons'
 import { Sheet, SheetContent, SheetTrigger } from '@gentleduck/registry-ui-duckui/sheet'
 import { ScrollArea } from '../../../packages/_oldstuff_refactor/ui/scroll-area'

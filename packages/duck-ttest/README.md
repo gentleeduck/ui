@@ -82,5 +82,5 @@ If you’re building a schema system, compiler, or framework, types *are* your a
 
 ## 🦆 License
 
-MIT © 2025 \[gentleduck\]
+[MIT © GentleDuck](./LICENSE)
 

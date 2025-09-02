@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDebounce } from '@gentleduck/hooks'
+import { useDebounce } from '@gentleduck/duck-hooks'
 import { UseDrawerDragProps } from './drawer.types'
 
 export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDrawerDragProps) {

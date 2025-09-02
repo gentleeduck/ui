@@ -1,14 +1,20 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/primitives",
-  "version": "0.1.0",
-  "type": "module",
-  "private": true,
+  "version": "0.1.5",
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
-  "module": "./index.ts",
-  "exports": {
-    "./*": "./src/*/index.ts"
+  "private": false,
+  "type": "module",
+  "license": "MIT",
+  "author": "gentleduck",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives"
   },
+  "bugs": {
+    "url": "https://github.com/gentleduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives#readme",
   "keywords": [
     "aria",
     "gentleduck",
@@ -21,50 +27,50 @@
     "ui",
     "react"
   ],
+  "module": "./index.ts",
+  "exports": {
+    "./*": "./src/*/index.ts"
+  },
   "files": [
     "src",
-    "!src/**/__tests__"
+    "!src/**/__tests__",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "article-about-this.md",
+    "tsconfig.json"
   ],
   "scripts": {
     "lint": "biome lint --write ./",
     "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "ci": "pnpm run lint && pnpm run format",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
-  },
-  "author": "gentleduck",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives"
-  },
-  "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
-  },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives#readme",
-  "devDependencies": {
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19",
-    "husky": "catalog:"
   },
   "peerDependencies": {
     "@floating-ui/react": "^0.27.13",
     "dialog-closedby-polyfill": "^1.1.0",
     "invokers-polyfill": "^0.5.5",
     "mini-svg-data-uri": "^1.4.4",
+    "clsx": "^1.2.1",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
     "@changesets/cli": "catalog:",
-    "@gentleduck/libs": "workspace:*",
-    "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/duck-libs": "workspace:*",
+    "@gentleduck/duck-hooks": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/state": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "@gentleduck/variants": "workspace:*",
-    "clsx": "^1.2.1",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19"
+    "@gentleduck/variants": "workspace:*"
   },
-  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "husky": "catalog:"
+  },
   "engines": {
     "node": ">=22.0.0"
-  }
+  },
+  "packageManager": "pnpm@10.10.0"
 }

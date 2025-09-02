@@ -1,7 +1,7 @@
 'use client'
 
 import { Mount } from '@gentleduck/primitives/mount'
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { AnimVariants } from '@gentleduck/motion/anim'
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'

@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
+import { useMediaQuery } from '@gentleduck/duck-hooks/use-media-query'
 import React from 'react'
 import {
   Drawer,

@@ -6,7 +6,7 @@ import { Loader2 } from 'lucide-react'
 import { useFormStatus } from 'react-dom'
 import { toast } from 'sonner'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Block, Style } from '@gentleduck/registers'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { ButtonProps } from '@gentleduck/registry-ui-duckui/button'

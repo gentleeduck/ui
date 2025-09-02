@@ -13,7 +13,7 @@ import {
   TooltipTrigger,
 } from '@gentleduck/registry-ui-duckui/tooltip'
 
-import { cn } from '@gentleduck/libs/cn'
+import { cn } from '@gentleduck/duck-libs/cn'
 import { Inbox, Mail } from 'lucide-react'
 
 export interface DuckSwitcherProps {
