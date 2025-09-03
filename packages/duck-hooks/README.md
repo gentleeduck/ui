@@ -1,4 +1,4 @@
-# @gentleduck/libs
+# @gentleduck/hooks
 
 This package provides a collection of reusable React hooks for the duck-ui component library.
 

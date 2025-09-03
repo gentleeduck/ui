@@ -1,5 +1,14 @@
 # @gentleduck/docs
 
+## 0.1.17
+
+### Patch Changes
+
+- Updated dependencies
+  - @gentleduck/hooks@0.1.2
+  - @gentleduck/registry-examples-duckui@0.1.0
+  - @gentleduck/registry-ui-duckui@0.1.0
+
 ## 0.1.16
 
 ### Patch Changes

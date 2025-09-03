@@ -1,5 +1,12 @@
 # @gentleduck/primitives
 
+## 0.1.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @gentleduck/hooks@0.1.2
+
 ## 0.1.14
 
 ### Patch Changes
