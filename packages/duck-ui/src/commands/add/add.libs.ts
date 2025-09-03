@@ -7,12 +7,12 @@ import { registry_component_install } from '~/utils/registry-mutation'
 import { spinner as Spinner } from '~/utils/spinner'
 import { add_arguments_schema, add_options_schema, addOptions } from './add.dto'
 
-export async function add_command_action(_components: string[], opt: addOptions) {
+export async function add_command_action(args: string[], opt: addOptions) {
   const spinner = Spinner('initializing...').start()
   try {
     const options = add_options_schema.parse(opt)
 
-    const components_names = add_arguments_schema.parse(_components)
+    const components_names = add_arguments_schema.parse(args)
     let components: Registry = []
 
     if (components_names.length) {

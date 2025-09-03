@@ -22,10 +22,10 @@ export const add_command_config: addCommandConfig = {
       description: 'overwrite existing components',
       defaultValue: false,
     },
-    option_3: {
-      flags: '-r, --registry',
-      description: 'install from registry',
-      defaultValue: false,
-    },
+    // option_3: {
+    //   flags: '-r, --registry',
+    //   description: 'install from registry',
+    //   defaultValue: false,
+    // },
   },
 }

@@ -238,8 +238,8 @@ export async function process_component_dependencies(
       [packageManager !== 'npm' ? 'add' : 'install', 'lucide-react', ...allDependencies],
       {
         cwd: process.cwd(),
-        // shell: true,
-        // stdio: 'ignore',
+        shell: true,
+        stdio: 'ignore',
       },
     )
     if (installation_step_1) return spinner.fail(`${installation_step_1}`)
