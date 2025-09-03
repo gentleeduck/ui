@@ -1,12 +1,13 @@
 import { CardsDemo } from '~/components/cards'
 import { ThemeCustomizer } from '~/components/theme-customizer'
+import { ThemeWrapper } from '~/components/theme-wrapper'
 
 export const dynamic = 'force-static'
 export const revalidate = false
 
 export default function ThemesPage() {
   return (
-    <>
+    <ThemeWrapper>
       <div id="themes" className="container-wrapper scroll-mt-20">
         <div className="container flex items-center justify-between gap-8 px-6 py-4 md:px-8">
           <ThemeCustomizer />
@@ -17,6 +18,6 @@ export default function ThemesPage() {
           <CardsDemo />
         </div>
       </div>
-    </>
+    </ThemeWrapper>
   )
 }

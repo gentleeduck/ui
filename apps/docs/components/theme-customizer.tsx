@@ -16,7 +16,7 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
-import { CheckIcon, CopyIcon, MoonIcon, ResetIcon, SunIcon } from '@radix-ui/react-icons'
+import { CheckIcon, CopyIcon, InfoCircledIcon, MoonIcon, ResetIcon, SunIcon } from '@radix-ui/react-icons'
 import template from 'lodash.template'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
@@ -26,6 +26,7 @@ import { useConfig } from '~/hooks/use-config'
 
 export function ThemeCustomizer() {
   const [config, setConfig] = useConfig()
+  console.log(config)
   const { resolvedTheme: mode } = useTheme()
   const [mounted, setMounted] = React.useState(false)
 
@@ -46,11 +47,11 @@ export function ThemeCustomizer() {
         </DrawerContent>
       </Drawer>
       <div className="hidden items-center md:flex">
-        <Popover placement="bottom-start">
+        <Popover placement="bottom">
           <PopoverTrigger asChild>
             <Button size="sm">Customize</Button>
           </PopoverTrigger>
-          <PopoverContent className="z-40 w-[340px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
+          <PopoverContent className="z-40 max-w-full w-[370px] rounded-[12px] p-6">
             <Customizer />
           </PopoverContent>
         </Popover>
@@ -66,7 +67,7 @@ export function ThemeCustomizer() {
                 }
 
                 return (
-                  <Tooltip key={theme.name}>
+                  <Tooltip key={theme.name} placement="top">
                     <TooltipTrigger asChild>
                       <button
                         onClick={() =>
@@ -91,7 +92,7 @@ export function ThemeCustomizer() {
                         <span className="sr-only">{theme.label}</span>
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent className="rounded-[0.5rem] bg-zinc-900 text-zinc-50">{theme.label}</TooltipContent>
+                    <TooltipContent>{theme.label}</TooltipContent>
                   </Tooltip>
                 )
               })}
@@ -122,7 +123,7 @@ function Customizer() {
   }, [])
 
   return (
-    <ThemeWrapper defaultTheme="zinc" className="flex flex-col space-y-4 md:space-y-6">
+    <ThemeWrapper defaultTheme="pink" className="flex flex-col space-y-4 md:space-y-6 w-full">
       <div className="flex items-start pt-4 md:pt-0">
         <div className="space-y-1 pr-2">
           <div className="font-semibold leading-none tracking-tight">Customize</div>
@@ -144,66 +145,6 @@ function Customizer() {
         </Button>
       </div>
       <div className="flex flex-1 flex-col space-y-4 md:space-y-6">
-        {
-          // <div className="space-y-1.5">
-          //          <div className="flex w-full items-center">
-          //            <Label className="text-xs">Style</Label>
-          //            <Popover>
-          //              <PopoverTrigger>
-          //                <InfoCircledIcon className="ml-1 h-3 w-3" />
-          //                <span className="sr-only">About styles</span>
-          //              </PopoverTrigger>
-          //              <PopoverContent
-          //                className="space-y-3 rounded-[0.5rem] text-sm"
-          //                side="right"
-          //                align="start"
-          //                alignOffset={-20}
-          //              >
-          //                <p className="font-medium">
-          //                  What is the difference between the New York and Default style?
-          //                </p>
-          //                <p>
-          //                  A style comes with its own set of components, animations,
-          //                  icons and more.
-          //                </p>
-          //                <p>
-          //                  The <span className="font-medium">Default</span> style has
-          //                  larger inputs, uses lucide-react for icons and
-          //                  tailwindcss-animate for animations.
-          //                </p>
-          //                <p>
-          //                  The <span className="font-medium">New York</span> style ships
-          //                  with smaller buttons and cards with shadows. It uses icons
-          //                  from Radix Icons.
-          //                </p>
-          //              </PopoverContent>
-          //            </Popover>
-          //          </div>
-          //          <div className="grid grid-cols-3 gap-2">
-          //            <Button
-          //              variant={"outline"}
-          //              size="sm"
-          //              onClick={() => setConfig({ ...config, style: "default" })}
-          //              className={cn(
-          //                config.style === "default" && "border-2 border-primary"
-          //              )}
-          //            >
-          //              Default
-          //            </Button>
-          //            <Button
-          //              variant={"outline"}
-          //              size="sm"
-          //              onClick={() => setConfig({ ...config, style: "new-york" })}
-          //              className={cn(
-          //                config.style === "new-york" && "border-2 border-primary"
-          //              )}
-          //            >
-          //              New York
-          //            </Button>
-          //          </div>
-          //        </div>
-        }
-
         <div className="space-y-1.5">
           <Label className="text-xs">Color</Label>
           <div className="grid grid-cols-3 gap-2">
@@ -229,7 +170,7 @@ function Customizer() {
                   }>
                   <span
                     className={cn(
-                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]',
+                      'mx-1 flex h-5 w-2.5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]',
                     )}>
                     {isActive && <CheckIcon className="h-4 w-4 text-white" />}
                   </span>
@@ -373,9 +314,9 @@ function CustomizerCode() {
 
   return (
     <ThemeWrapper defaultTheme="zinc" className="relative space-y-4">
-      <div data-rehype-pretty-code-fragment="">
-        <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
-          <code className="relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+      <div data-rehype-pretty-code-fragment="" className="!my-0">
+        <pre className="max-h-[450px] py-4 overflow-auto">
+          <code className="relative text-sm grid">
             <span className="line text-white">@layer base &#123;</span>
             <span className="line text-white">&nbsp;&nbsp;:root &#123;</span>
             <span className="line text-white">
