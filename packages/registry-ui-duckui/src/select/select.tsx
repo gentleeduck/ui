@@ -25,11 +25,13 @@ function SelectWrapper({
   scrollable = false,
   value = '',
   onValueChange = () => {},
+  defaultValue,
   ...props
-}: Omit<React.HTMLProps<HTMLDivElement>, 'value'> & {
+}: Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'defaultValue'> & {
   scrollable?: boolean
   value?: string
   onValueChange?: (value: string) => void
+  defaultValue?: string
 }) {
   const { open, setOpen: onOpenChange } = usePopoverContext()
 
@@ -48,13 +50,13 @@ function SelectWrapper({
         groupsRef,
         wrapperRef,
         contentRef,
-
         selectedItemRef,
         itemsRef,
         setSelectedItem,
         onOpenChange,
         value,
         onValueChange,
+        defaultValue,
       )
     }, 0)
   }, [open])
@@ -94,16 +96,18 @@ function Select({
   children,
   onValueChange,
   contextMenu,
+  defaultValue,
   value,
   ...props
 }: React.ComponentPropsWithRef<typeof Popover> & {
+  defaultValue?: string
   value?: string
   onValueChange?: (value: string) => void
   scrollable?: boolean
 }) {
   return (
     <Popover {...props} matchWidth contextMenu={contextMenu}>
-      <SelectWrapper {...props} onValueChange={onValueChange} value={value}>
+      <SelectWrapper {...props} onValueChange={onValueChange} value={value} defaultValue={defaultValue}>
         {children}
       </SelectWrapper>
     </Popover>

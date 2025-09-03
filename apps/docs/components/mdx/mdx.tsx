@@ -6,7 +6,6 @@ import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui-duc
 import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import Image from 'next/image'
-import Link from 'next/link'
 import * as React from 'react'
 import runtime from 'react/jsx-runtime'
 import { NpmCommands } from 'types/unist'
@@ -20,6 +19,7 @@ import {
   ComponentExample,
   ComponentPreview,
   ComponentSource,
+  ComponentsList,
   FrameworkDocs,
   H1,
   H2,
@@ -68,6 +68,7 @@ const components = {
   Link: LinkBlock,
   LinkedCard,
   Button,
+  ComponentsList,
   ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
     <ul className={cn('my-6 ml-6 list-disc', className)} {...props} />
   ),

@@ -33,15 +33,15 @@ export const metadata: Metadata = {
 export default function ColorsLayout({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <PageHeader className="flex flex-col justify-center justify-self-center text-center">
+      <PageHeader>
         <Announcement />
-        <PageHeaderHeading className="text-center w-full">{title}</PageHeaderHeading>
+        <PageHeaderHeading>{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>
-        <PageActions className="justify-center mx-auto w-full">
-          <Button size="sm">
+        <PageActions>
+          <Button asChild size="sm">
             <a href="#colors">Browse Colors</a>
           </Button>
-          <Button variant="ghost" size="sm">
+          <Button asChild variant="ghost" size="sm">
             <Link href="/docs/theming">Documentation</Link>
           </Button>
         </PageActions>

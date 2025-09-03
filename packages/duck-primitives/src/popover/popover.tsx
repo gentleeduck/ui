@@ -20,7 +20,7 @@ import { cleanLockScrollbar, lockScrollbar } from '../dialog'
 import { Mount } from '../mount'
 
 interface PopoverOptions {
-  initialOpen?: boolean
+  defaultOpen?: boolean
   placement?: Placement
   modal?: boolean
   open?: boolean
@@ -34,7 +34,7 @@ interface PopoverOptions {
 }
 
 export function usePopover({
-  initialOpen = false,
+  defaultOpen = false,
   placement = 'bottom',
   modal,
   open: controlledOpen,
@@ -46,7 +46,7 @@ export function usePopover({
   mainAxis = true,
   contextMenu = false,
 }: PopoverOptions) {
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen

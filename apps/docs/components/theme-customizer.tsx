@@ -1,18 +1,8 @@
 'use client'
 
-import { CheckIcon, CopyIcon, MoonIcon, ResetIcon, SunIcon } from '@radix-ui/react-icons'
-import template from 'lodash.template'
-import { useTheme } from 'next-themes'
-import * as React from 'react'
-
 import { cn } from '@gentleduck/libs/cn'
+import { registry_themes, Theme } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { copyToClipboardWithMeta } from '~/components/copy-button'
-import { ThemeWrapper } from '~/components/theme-wrapper'
-import { useConfig } from '~/hooks/use-config'
-
-import '~/styles/mdx.css'
-import { Theme, registry_themes } from '@gentleduck/registers'
 import {
   Dialog,
   DialogContent,
@@ -26,6 +16,13 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import { CheckIcon, CopyIcon, MoonIcon, ResetIcon, SunIcon } from '@radix-ui/react-icons'
+import template from 'lodash.template'
+import { useTheme } from 'next-themes'
+import * as React from 'react'
+import { copyToClipboardWithMeta } from '~/components/copy-button'
+import { ThemeWrapper } from '~/components/theme-wrapper'
+import { useConfig } from '~/hooks/use-config'
 
 export function ThemeCustomizer() {
   const [config, setConfig] = useConfig()

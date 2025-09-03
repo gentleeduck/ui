@@ -23,6 +23,8 @@ interface TooltipOptions {
   onOpenChange?: (open: boolean) => void
   skipDelayDuration?: number
   delayDuration?: number
+  sideOffset?: number
+  alignOffset?: number
 }
 
 export function useTooltip({
@@ -32,6 +34,8 @@ export function useTooltip({
   onOpenChange: setControlledOpen,
   delayDuration = 700,
   skipDelayDuration = 150,
+  sideOffset = 4,
+  alignOffset = 0,
 }: TooltipOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
 
@@ -44,13 +48,13 @@ export function useTooltip({
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(5),
+      offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
       flip({
         crossAxis: placement.includes('-'),
         fallbackAxisSideDirection: 'start',
-        padding: 5,
+        padding: 4,
       }),
-      shift({ padding: 5 }),
+      shift({ padding: 4 }),
     ],
   })
 

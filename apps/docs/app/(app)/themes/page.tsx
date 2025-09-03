@@ -1,3 +1,4 @@
+import { CardsDemo } from '~/components/cards'
 import { ThemeCustomizer } from '~/components/theme-customizer'
 
 export const dynamic = 'force-static'

@@ -1,9 +1,9 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 
-import { Announcement } from '@/components/announcement'
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@/components/page-header'
-import { Button } from '@/registry/new-york-v4/ui/button'
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Announcement } from '~/components/announcement'
 
 const title = 'Pick a Color. Make it yours.'
 const description = 'Try our hand-picked themes. Copy and paste them into your project. New theme editor coming soon.'
@@ -31,15 +31,15 @@ export const metadata: Metadata = {
 export default function ThemesLayout({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <PageHeader>
+      <PageHeader className="flex flex-col justify-center justify-self-center text-center">
         <Announcement />
-        <PageHeaderHeading>{title}</PageHeaderHeading>
+        <PageHeaderHeading className="text-center w-full">{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>
-        <PageActions>
-          <Button asChild size="sm">
-            <a href="#themes">Browse Themes</a>
+        <PageActions className="justify-center mx-auto w-full">
+          <Button size="sm">
+            <a href="#colors">Browse Colors</a>
           </Button>
-          <Button asChild variant="ghost" size="sm">
+          <Button variant="ghost" size="sm">
             <Link href="/docs/theming">Documentation</Link>
           </Button>
         </PageActions>

@@ -11,6 +11,7 @@ export function initRefs(
   onOpenChange: (open: boolean) => void,
   value: string,
   onValueChange: (value: string) => void,
+  defaultValue: string,
 ) {
   const items = contentRef.current?.querySelectorAll('[duck-select-item]') as never as HTMLLIElement[]
   const groups = contentRef.current?.querySelectorAll('[duck-select-group]') as never as HTMLUListElement[]
@@ -22,11 +23,28 @@ export function initRefs(
     (item) => !(item.hasAttribute('aria-disabled') || item.getAttribute('aria-disabled') === 'true'),
   )
 
-  if (!selectedItemRef.current && !value) {
-    const item = itemsRef.current?.[0] as HTMLLIElement
-    styleItem(item ?? null)
-    item?.focus()
-    selectedItemRef.current = item
+  // Select initial item:
+  if (!selectedItemRef.current) {
+    let item: HTMLLIElement | null = null
+
+    if (value) {
+      item =
+        itemsRef.current.find((el) => el.getAttribute('value') === value || el.getAttribute('data-value') === value) ??
+        null
+    } else if (defaultValue) {
+      item =
+        itemsRef.current.find(
+          (el) => el.getAttribute('value') === defaultValue || el.getAttribute('data-value') === defaultValue,
+        ) ?? null
+    } else {
+      item = itemsRef.current?.[0] ?? null
+    }
+
+    if (item) {
+      styleItem(item)
+      item.focus()
+      selectedItemRef.current = item
+    }
   }
 
   for (let i = 0; i < itemsRef.current?.length; i++) {

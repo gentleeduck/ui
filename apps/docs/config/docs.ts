@@ -30,6 +30,12 @@ export const docsConfig: DocsConfig = {
           label: 'new',
         },
         {
+          href: '/docs/components',
+          items: [],
+          title: 'Components',
+          label: 'new',
+        },
+        {
           href: '/docs/theming',
           items: [],
           title: 'Thmeing',
