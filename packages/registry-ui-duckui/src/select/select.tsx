@@ -122,7 +122,7 @@ function SelectTrigger({
     <PopoverTrigger
       {...props}
       duck-select-trigger=""
-      className={cn(buttonVariants({ variant: 'outline' }), 'w-full justify-between', className)}
+      className={cn(buttonVariants({ variant: 'outline' }), 'w-full justify-between text-sm', className)}
       ref={triggerRef}>
       {children}
       <span className="[&>svg]:opacity-50">

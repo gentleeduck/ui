@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@gentleduck/registry-ui-duckui/select'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 import * as React from 'react'
@@ -22,19 +23,21 @@ export function ColorFormatSelector({
   }
 
   return (
-    <Select value={format} placement="bottom-end" onValueChange={setFormat as any}>
-      <SelectTrigger className={cn('h-7 w-auto gap-1.5 rounded-lg pr-2 text-xs', className)} {...props}>
-        <span className="font-medium">Format: </span>
-        <span className="font-mono text-xs text-muted-foreground">{format}</span>
-      </SelectTrigger>
-      <SelectContent className="rounded-xl">
+    <Select value={format} onValueChange={setFormat as never} placement="bottom-end">
+      <Button size={'sm'} variant="ghost" asChild>
+        <SelectTrigger className={cn(className)} {...props}>
+          <span className="font-medium text-sm">Format: </span>
+          <span className="text-muted-foreground font-mono">{format}</span>
+        </SelectTrigger>
+      </Button>
+      <SelectContent>
         {Object.entries(formats).map(([format, value]) => (
           <SelectItem
             key={format}
             value={format}
             className="gap-2 rounded-lg [&>span]:flex [&>span]:items-center [&>span]:gap-2">
-            <span className="font-medium">{format}</span>
-            <span className="font-mono text-xs text-muted-foreground">{value}</span>
+            <span className="font-medium text-sm">{format}</span>
+            <span className="text-muted-foreground font-mono text-xs">{value}</span>
           </SelectItem>
         ))}
       </SelectContent>
@@ -43,5 +46,5 @@ export function ColorFormatSelector({
 }
 
 export function ColorFormatSelectorSkeleton({ className, ...props }: React.ComponentProps<typeof Skeleton>) {
-  return <Skeleton className={cn('h-7 w-[116px] gap-1.5 rounded-lg', className)} {...props} />
+  return <Skeleton className={cn('h-8 w-[132px] gap-1.5 rounded-md', className)} {...props} />
 }

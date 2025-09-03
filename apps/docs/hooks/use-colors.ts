@@ -1,15 +1,16 @@
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-
-import { ColorFormat } from '~/lib/colors'
 import { useMounted } from '~/hooks/use-mounted'
+import { ColorFormat } from '~/lib/colors'
 
 type Config = {
   format: ColorFormat
+  lastCopied: string
 }
 
 const colorsAtom = atomWithStorage<Config>('colors', {
   format: 'hsl',
+  lastCopied: '',
 })
 
 export function useColors() {
@@ -19,6 +20,8 @@ export function useColors() {
   return {
     isLoading: !mounted,
     format: colors.format,
-    setFormat: (format: ColorFormat) => setColors({ format }),
+    lastCopied: colors.lastCopied,
+    setFormat: (format: ColorFormat) => setColors({ ...colors, format }),
+    setLastCopied: (lastCopied: string) => setColors({ ...colors, lastCopied }),
   }
 }

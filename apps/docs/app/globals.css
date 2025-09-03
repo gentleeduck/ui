@@ -44,10 +44,6 @@
 }
 
 :root {
-  --font-sans: "Geist", "Adjusted Arial Fallback";
-  --font-mono: "JetBrains Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
-  --radius: 0.625rem;
-  --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -126,6 +122,13 @@
 }
 
 @theme inline {
+  --breakpoint-3xl: 1600px;
+  --breakpoint-4xl: 2000px;
+  --font-sans: "Geist", "Adjusted Arial Fallback";
+  --font-mono: "JetBrains Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
+  --radius: 0.625rem;
+  --radius: 0.5rem;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -259,14 +262,22 @@
     @apply border-border/30 dark:border-border border-dashed;
   }
 
-  /* .container-wrapper { */
-  /*   @apply mx-auto w-full; */
+  /* .container { */
+  /*   @apply px-4 xl:px-6 mx-auto max-w-[1950px]; */
   /* } */
 
   .container {
-    @apply px-4 xl:px-6 mx-auto max-w-[1950px];
+    @apply 3xl:max-w-screen-2xl mx-auto max-w-[1400px] px-4 lg:px-8;
   }
 }
+
+/* @utility container-wrapper { */
+/*   @apply 3xl:fixed:max-w-[calc(var(--breakpoint-2xl)+2rem)] mx-auto w-full px-2; */
+/* } */
+/**/
+/* @utility container { */
+/*   @apply 3xl:max-w-screen-2xl mx-auto max-w-[1400px] px-4 lg:px-8; */
+/* } */
 
 @media (max-width: 640px) {
   .container {
