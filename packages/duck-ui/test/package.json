@@ -13,10 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
+    "@gentleduck/libs": "^0.1.4",
+    "@gentleduck/variants": "^0.1.12",
     "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/postcss": "^4.0.12",
     "@tailwindcss/vite": "^4.0.14",
     "autoprefixer": "^10.4.20",
+    "lucide-react": "catalog:",
     "postcss": "^8.5.3",
     "tailwindcss": "catalog:"
   },

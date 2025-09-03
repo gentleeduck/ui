@@ -105,9 +105,7 @@ export async function install_registry_dependencies({ registry_dependencies }: D
 
   if (!components.length) {
     spinner.fail('🦆 No components found')
-    process.exit(0)
   }
-  console.log(components)
 
   spinner.succeed(
     `🦋 Fetched necessary component${components.length > 1 ? 's' : ''} ${highlighter.info(`[${components.length}]`)}`,

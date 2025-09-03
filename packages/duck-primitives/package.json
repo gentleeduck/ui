@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/primitives",
-  "version": "0.1.10",
+  "version": "0.1.14",
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "private": false,
   "type": "module",
@@ -54,15 +54,15 @@
     "clsx": "^1.2.1",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
-    "@changesets/cli": "catalog:",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/state": "workspace:*",
-    "@gentleduck/typescript-config": "workspace:*",
     "@gentleduck/variants": "workspace:*"
   },
   "devDependencies": {
+    "@changesets/cli": "catalog:",
+    "@gentleduck/typescript-config": "workspace:*",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "husky": "catalog:"

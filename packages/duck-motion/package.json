@@ -1,37 +1,53 @@
 {
   "name": "@gentleduck/motion",
-  "private": true,
-  "version": "0.1.0",
+  "description": "motion is a behavioral component abstraction that makes the aero dynamics of the web",
+  "private": false,
+  "version": "0.1.3",
   "type": "module",
   "types": "./index.ts",
+  "$schema": "https://json.schemastore.org/package.json",
+  "files": [
+    "src"
+  ],
   "exports": {
     ".": {
-      "import": "./index.ts"
+      "import": "./src/index.ts"
     },
     "./css": {
-      "import": "./index.css"
+      "import": "./src/index.css"
     },
     "./anim": {
-      "import": "./anim.ts"
+      "import": "./src/anim.ts"
     },
     "./easing": {
-      "import": "./easing.ts"
+      "import": "./src/easing.ts"
     }
   },
   "scripts": {
-    "build": "tsdown",
     "lint": "biome lint --write ./",
     "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "ci": "pnpm run lint && pnpm run format",
     "release": "changeset version",
     "publish": "pnpm run ci && changeset publish"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "@gentleduck/libs": "workspace:*",
-    "@gentleduck/typescript-config": "workspace:*",
     "@gentleduck/variants": "workspace:*",
     "typescript": "catalog:"
   },
+  "devDependencies": {
+    "@gentleduck/typescript-config": "workspace:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui",
+    "directory": "packages/duck-motion"
+  },
+  "bugs": {
+    "url": "https://github.com/gentleduck/ui/issues"
+  },
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-motion#readme",
+  "author": "wilddcuk",
   "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=22.0.0"

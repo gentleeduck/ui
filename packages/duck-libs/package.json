@@ -1,7 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/libs",
-  "version": "0.1.4",
+  "description": "libs is a behavioral component abstraction that makes the aero dynamics of the web",
+  "version": "0.1.5",
   "private": false,
   "type": "module",
   "files": [
