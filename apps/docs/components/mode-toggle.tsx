@@ -1,9 +1,9 @@
 'use client'
 
-import * as React from 'react'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import * as React from 'react'
 import { META_THEME_COLORS } from '~/config/site'
 import { useMetaColor } from '~/hooks/use-meta-colors'
 
@@ -28,6 +28,7 @@ export function ModeSwitcher() {
           <MoonIcon className="hidden [html.light_&]:block" />
         </>
       }
-      size={'icon'}></Button>
+      size={'icon'}
+    />
   )
 }

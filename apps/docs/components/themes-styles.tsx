@@ -4,6 +4,7 @@ import { useThemesConfig } from '~/hooks/use-themes-config'
 
 export function ThemesStyle() {
   const { themesConfig } = useThemesConfig()
+  console.log(themesConfig)
 
   if (!themesConfig.activeTheme) {
     return null

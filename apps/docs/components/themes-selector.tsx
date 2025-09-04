@@ -33,7 +33,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
           <div
             key={theme.id}
             className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-transparent">
-            <Skeleton className="h-6 w-6 rounded-xs" />
+            <Skeleton className="h-6 w-6 rounded-sm" />
           </div>
         ))}
       </div>
@@ -76,7 +76,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
                     '--color-4': 'hsl(var(--chart-4))',
                   } as React.CSSProperties
                 }>
-                <div className="h-6 w-6 overflow-hidden rounded-xs">
+                <div className="h-6 w-6 overflow-hidden rounded-sm">
                   <div
                     className={cn(
                       'grid h-12 w-12 -translate-x-1/4 -translate-y-1/4 grid-cols-2 overflow-hidden rounded-md transition-all ease-in-out group-hover:rotate-45',

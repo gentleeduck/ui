@@ -1,16 +1,16 @@
-import { Style, Theme } from '@gentleduck/registers'
+import { BaseColor, Style } from '@gentleduck/registers'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 
 type Config = {
   style: Style['name']
-  theme: Theme['name']
+  theme: BaseColor['name']
   radius: number
 }
 
 const configAtom = atomWithStorage<Config>('config', {
   style: 'default',
-  theme: 'pink',
+  theme: 'rose',
   radius: 0.5,
 })
 

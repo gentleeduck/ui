@@ -3,10 +3,13 @@ import './globals.css'
 import '@gentleduck/motion/css'
 import './mdx.css'
 import { cn } from '@gentleduck/libs/cn'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
 import { ThemeProvider } from '~/components/providers'
 import { ThemeSwitcher } from '~/components/theme-switcher'
+import { TailwindIndicator } from '~/components/layouts'
+import { ThemeWrapper } from '~/components/theme-wrapper'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -36,14 +39,15 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
             enableColorScheme>
-            <div vaul-drawer-wrapper="">
-              <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
-            </div>
-            <ThemeSwitcher />
-            <Toaster />
-            {
-              // process.env.NODE_ENV === 'development' && <TailwindIndicator />
-            }
+            <ThemeWrapper>
+              <div vaul-drawer-wrapper="">
+                <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
+              </div>
+              <ThemeSwitcher />
+              <VercelAnalytics />
+              <Toaster />
+              {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
+            </ThemeWrapper>
           </ThemeProvider>
         </KeyProvider>
       </body>

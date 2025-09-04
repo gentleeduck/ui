@@ -4,6 +4,10 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
 
+import 'public/duck-ui/themes.css'
+import { Customizer, ThemeCustomizer } from '~/components/theme-customizer'
+import { ThemeWrapper } from '~/components/theme-wrapper'
+
 const title = 'Pick a Color. Make it yours.'
 const description = 'Try our hand-picked themes. Copy and paste them into your project. New theme editor coming soon.'
 
@@ -29,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function ThemesLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <>
       <PageHeader className="flex flex-col justify-center justify-self-center text-center">
         <Announcement />
         <PageHeaderHeading className="text-center w-full">{title}</PageHeaderHeading>
@@ -43,7 +47,20 @@ export default function ThemesLayout({ children }: { children: React.ReactNode }
           </Button>
         </PageActions>
       </PageHeader>
-      {children}
-    </div>
+      <div id="themes" className="border-grid scroll-mt-24 border-b">
+        <div className="container-wrapper">
+          <div className="container flex items-center py-4">
+            <ThemeCustomizer />
+          </div>
+        </div>
+      </div>
+      <div className="container-wrapper">
+        <div className="container py-6">
+          <section id="themes" className="scroll-mt-20">
+            {children}
+          </section>
+        </div>
+      </div>
+    </>
   )
 }

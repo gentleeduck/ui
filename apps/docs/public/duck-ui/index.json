@@ -666,7 +666,6 @@
       "@gentleduck/libs",
       "@gentleduck/motion"
     ],
-    "registryDependencies": [],
     "root_folder": "popover",
     "files": [
       {
@@ -887,7 +886,8 @@
     "type": "registry:ui",
     "dependencies": [
       "sonner",
-      "next-themes"
+      "next-themes",
+      "@gentleduck/libs"
     ],
     "registryDependencies": [
       "button",
