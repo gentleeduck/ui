@@ -1,5 +1,4 @@
 export * from './command-menu'
-export * from './docs-sidebar'
 export * from './site-footer'
 export * from './site-header'
 export * from './tailwind-indicator'

@@ -272,7 +272,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/menubar',
           items: [],
-          label: 'dddddd',
+          label: 'new',
           title: 'Menubar',
         },
         {

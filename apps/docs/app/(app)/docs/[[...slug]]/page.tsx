@@ -7,10 +7,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
 import { Mdx } from '~/components/mdx/mdx'
-import { DocsPager } from '~/components/pager'
-import { DashboardTableOfContents } from '~/components/toc'
 import { SLUG_METADATA } from '~/config/metadata'
 import { docs } from '../../../../.velite'
+import { DocCopy } from '~/components/ui/Blocks/doc-copy'
+import { DashboardTableOfContents, DocsCopyPage, DocsPagerBottom, DocsPagerTop } from '~/components/docs'
+import { absoluteUrl } from '~/lib/utils'
 
 interface DocPageProps {
   params: {
@@ -72,16 +73,17 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
       <div className="mx-auto w-full min-w-0 max-w-2xl" style={{ contain: 'paint' }}>
-        <div className="mb-4 flex items-center space-x-1 text-sm leading-none text-muted-foreground">
-          <div className="truncate">Docs</div>
-          <ChevronRightIcon className="h-3.5 w-3.5" />
-          <div className="text-foreground capitalize">{doc.title.split('-').join(' ')}</div>
-        </div>
         <div className="space-y-2">
-          <h1 className={cn('scroll-m-20 text-3xl font-bold tracking-tight capitalize')}>
-            {doc.title.split('-').join(' ')}
-          </h1>
-          {doc.description && <p className="text-base text-muted-foreground">{doc.description}</p>}
+          <div className="absolute top-0 right-0 flex items-center gap-2">
+            <DocsCopyPage page={doc.content} url={absoluteUrl('')} />
+            <DocsPagerTop doc={doc} />
+          </div>
+          <div className="space-y-2">
+            <h1 className={cn('scroll-m-20 text-3xl font-bold tracking-tight capitalize')}>
+              {doc.title.split('-').join(' ')}
+            </h1>
+            {doc.description && <p className="text-base text-muted-foreground">{doc.description}</p>}
+          </div>
         </div>
         {doc.links ? (
           <div className="flex items-center space-x-2 pt-4">
@@ -110,7 +112,7 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
         <div className="pb-12 pt-8">
           <Mdx code={doc.body} />
         </div>
-        {<DocsPager doc={doc} />}
+        {<DocsPagerBottom doc={doc} />}
       </div>
       {doc.toc && (
         <div className="hidden text-sm xl:block">

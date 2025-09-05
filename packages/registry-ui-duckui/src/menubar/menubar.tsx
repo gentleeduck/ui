@@ -172,9 +172,19 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
       const onFocus = () => {
         selectedItemRef.current = trigger
       }
+
       const onMouseOver = () => {
-        if (clickedItemRef.current) {
-          selectedItemRef.current = trigger
+        // if any trigger is currently open, hovering should switch the open menu
+        const anyOpen = triggersRef.current.some((t) => t.dataset.open === 'true')
+
+        // always update the visual selection for keyboard/mouse interplay
+        selectedItemRef.current = trigger
+
+        if (anyOpen) {
+          // only trigger a click if this hovered trigger isn't already open
+          if (trigger.dataset.open !== 'true') {
+            trigger.click()
+          }
         }
       }
 
