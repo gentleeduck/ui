@@ -1,22 +1,21 @@
-import * as React from 'react'
-
+import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 import { cn } from '@gentleduck/libs/cn'
-import { useMediaQuery } from '~/hooks/use-media-query'
-import { useThemesConfig } from '~/hooks/use-themes-config'
-import { BlockCopyButton } from '~/components/ui'
 import { Block } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
 import { Sheet, SheetContent, SheetTrigger } from '@gentleduck/registry-ui-duckui/sheet'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
+import { ComponentProps, useMemo, useState } from 'react'
+import { BlockCopyButton } from '~/components/ui'
+import { useThemesConfig } from '~/hooks/use-themes-config'
 import { V0Button } from './V0'
 
-export function ChartCodeViewer({ chart, className, children }: { chart: Block } & React.ComponentProps<'div'>) {
-  const [tab, setTab] = React.useState('code')
+export function ChartCodeViewer({ chart, className, children }: { chart: Block } & ComponentProps<'div'>) {
+  const [tab, setTab] = useState('code')
   const { themesConfig } = useThemesConfig()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
-  const themeCode = React.useMemo(() => {
+  const themeCode = useMemo(() => {
     return `\
 @layer base {
   :root {

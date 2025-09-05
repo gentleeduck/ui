@@ -77,7 +77,7 @@ export function DocsSidebarNavItem({ item, pathname }: { item: SidebarNavItem; p
           rel={item.external ? 'noreferrer' : ''}>
           {item.title}
           {item.label && (
-            <span className="ml-2 rounded-md bg-[#89b4fa] px-1.5 py-0.5 leading-none text-[#000000] no-underline group-hover:no-underline text-xs font-medium">
+            <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 leading-none text-accent no-underline group-hover:no-underline text-xs font-medium">
               {item.label}
             </span>
           )}
