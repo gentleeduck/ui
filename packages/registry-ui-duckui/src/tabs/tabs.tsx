@@ -100,7 +100,9 @@ const TabsTrigger = ({
         checked={isActive}
         defaultChecked={defaultChecked}
       />
-      <label htmlFor={value}>{children}</label>
+      <label htmlFor={value} className="font-medium">
+        {children}
+      </label>
     </li>
   )
 }

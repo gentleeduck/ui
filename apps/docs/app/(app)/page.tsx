@@ -1,12 +1,9 @@
 'use client'
 
-import Link from 'next/link'
-
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
-import { Button, buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { cn } from '@gentleduck/libs/cn'
-import { toast } from 'sonner'
-import { CommandMenu } from '~/components/layouts'
+import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import Link from 'next/link'
+import { PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
 
 export default function IndexPage() {
   return (

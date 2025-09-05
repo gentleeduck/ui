@@ -1,17 +1,13 @@
 'use client'
 
-import { DuckLazyComponent } from '@gentleduck/lazy/lazy-component'
+import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Crown } from 'lucide-react'
 import * as React from 'react'
 import { Index } from '~/__ui_registry__'
-
-import { cn } from '@gentleduck/libs/cn'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
-import { V0Button } from '~/components/V0'
 import { CopyButton } from '~/components/copy-button'
 import { Icons } from '~/components/icons'
-import { ThemeWrapper } from '~/components/theme-wrapper'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
@@ -83,7 +79,7 @@ export function ComponentPreview({
                 <TabsTrigger
                   key={idx}
                   value={tab.value}
-                  className="[&[aria-selected='true']]:text-primary border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none [&_input]:focus-visible:ring-transparent [&_input]:focus-visible:shadow-none [&_input]:focus-visible:ring-offset-0">
+                  className="border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none [&_input]:focus-visible:ring-transparent [&_input]:focus-visible:shadow-none [&_input]:focus-visible:ring-offset-0">
                   {tab.name}
                 </TabsTrigger>
               ))}
@@ -97,25 +93,23 @@ export function ComponentPreview({
               <CopyButton value={codeString} variant="outline" />
             </div>
           </div>
-          <ThemeWrapper defaultTheme="zinc">
-            <div
-              duck-preview=""
-              className={cn('preview flex h-[500px] w-full justify-center p-10', {
-                'items-center': align === 'center',
-                'items-start': align === 'start',
-                'items-end': align === 'end',
-              })}>
-              <React.Suspense
-                fallback={
-                  <div className="flex w-full items-center justify-center text-sm text-muted-foreground">
-                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                    Loading...
-                  </div>
-                }>
-                {Preview}
-              </React.Suspense>
-            </div>
-          </ThemeWrapper>
+          <div
+            duck-preview=""
+            className={cn('preview flex h-[500px] w-full justify-center p-10', {
+              'items-center': align === 'center',
+              'items-start': align === 'start',
+              'items-end': align === 'end',
+            })}>
+            <React.Suspense
+              fallback={
+                <div className="flex w-full items-center justify-center text-sm text-muted-foreground">
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  Loading...
+                </div>
+              }>
+              {Preview}
+            </React.Suspense>
+          </div>
         </TabsContent>
         <TabsContent
           value="code"

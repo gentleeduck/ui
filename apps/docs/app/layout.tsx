@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import './globals.css'
 import '@gentleduck/motion/css'
 import './mdx.css'
+import 'public/duck-ui/themes.css'
 import { cn } from '@gentleduck/libs/cn'
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
-import { ThemeProvider } from '~/components/providers'
-import { ThemeSwitcher } from '~/components/theme-switcher'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { TailwindIndicator } from '~/components/layouts'
-import { ThemeWrapper } from '~/components/theme-wrapper'
+import { ThemeProvider } from '~/components/providers'
+import { ThemeWrapper } from '~/components/themes'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,13 +21,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // <link href="/fonts/Geist-VF.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
+  // <link href="/fonts/JetBrainsMono-MD.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
   return (
     <html lang="ar" dir="ltr" suppressHydrationWarning>
       <head>
-        <link href="/fonts/Geist-VF.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link href="/fonts/JetBrainsMono-MD.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
           rel="stylesheet"
         />
       </head>
@@ -43,7 +45,6 @@ export default function RootLayout({
               <div vaul-drawer-wrapper="">
                 <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
               </div>
-              <ThemeSwitcher />
               <VercelAnalytics />
               <Toaster />
               {process.env.NODE_ENV === 'development' && <TailwindIndicator />}

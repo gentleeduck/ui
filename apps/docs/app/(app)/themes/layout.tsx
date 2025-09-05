@@ -5,8 +5,7 @@ import { Announcement } from '~/components/announcement'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
 
 import 'public/duck-ui/themes.css'
-import { Customizer, ThemeCustomizer } from '~/components/theme-customizer'
-import { ThemeWrapper } from '~/components/theme-wrapper'
+import { ThemeCustomizer } from '~/components/themes'
 
 const title = 'Pick a Color. Make it yours.'
 const description = 'Try our hand-picked themes. Copy and paste them into your project. New theme editor coming soon.'

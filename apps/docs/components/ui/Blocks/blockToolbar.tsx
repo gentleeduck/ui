@@ -1,24 +1,22 @@
 'use client'
 
-import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
-import * as React from 'react'
-import { ImperativePanelHandle } from 'react-resizable-panels'
-
 import { cn } from '@gentleduck/libs/cn'
 import { Block } from '@gentleduck/registers'
 import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { Switch } from '@gentleduck/registry-ui-duckui/switch'
 import { TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
-import { StyleSwitcher } from '~/components/style-switcher'
+import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
+import * as React from 'react'
+import { ImperativePanelHandle } from 'react-resizable-panels'
+import { StyleSwitcher } from '~/components/themes'
 import { BlockCopyButton } from '~/components/ui'
+import { V0Button } from '~/components/V0'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 import { trackEvent } from '~/lib/events'
-
-import { Switch } from '@gentleduck/registry-ui-duckui/switch'
-import { V0Button } from '~/components/V0'
 
 export function BlockToolbar({
   block,
