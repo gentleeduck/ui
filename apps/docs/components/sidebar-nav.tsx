@@ -48,6 +48,11 @@ export function DocsSidebarNavItems({ items, pathname }: DocsSidebarNavItemsProp
             target={item.external ? '_blank' : ''}
             rel={item.external ? 'noreferrer' : ''}>
             {item.title}
+            {item.label && (
+              <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 text-xs leading-none text-accent no-underline group-hover:no-underline">
+                {item.label}
+              </span>
+            )}
           </Link>
         ) : (
           <span

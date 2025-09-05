@@ -7,6 +7,7 @@ import { MobileNav } from '~/components/mobile-nav'
 import { ModeSwitcher } from '~/components/mode-toggle'
 import { siteConfig } from '~/config/site'
 import { CommandMenu } from '../command-menu'
+import React from 'react'
 
 export function SiteHeader() {
   return (
@@ -20,17 +21,7 @@ export function SiteHeader() {
               <CommandMenu />
             </div>
             <nav className="flex items-center">
-              <Link href={siteConfig.links.github} target="_blank" rel="noreferrer" aria-label="GitHub">
-                <div
-                  className={cn(
-                    buttonVariants({
-                      variant: 'ghost',
-                      size: 'icon',
-                    }),
-                  )}>
-                  <Github />
-                </div>
-              </Link>
+              <GitHubStarsButton />
               <Link href={siteConfig.links.twitter} target="_blank" rel="noreferrer" aria-label="Twitter">
                 <div
                   className={cn(
@@ -48,5 +39,38 @@ export function SiteHeader() {
         </div>
       </div>
     </header>
+  )
+}
+
+export function GitHubStarsButton() {
+  const [stars, setStars] = React.useState<number | null>(null)
+
+  React.useEffect(() => {
+    async function fetchStars() {
+      try {
+        const res = await fetch('https://api.github.com/repos/gentleeduck/ui')
+        const data = await res.json()
+        setStars(data.stargazers_count)
+      } catch (err) {
+        console.error('Failed to fetch stars:', err)
+      }
+    }
+    fetchStars()
+  }, [])
+
+  return (
+    <Link href={siteConfig.links.github} target="_blank" aria-label="GitHub" rel="noopener noreferrer">
+      <div
+        className={cn(
+          buttonVariants({
+            variant: 'ghost',
+            size: 'icon',
+            className: 'size-auto w-16 h-8 text-sm font-medium',
+          }),
+        )}>
+        <Github />
+        {stars !== null ? stars.toLocaleString() : '...'}
+      </div>
+    </Link>
   )
 }

@@ -1,10 +1,9 @@
 import { cn } from '@gentleduck/libs/cn'
-// import { Slot } from '@gentleduck/primitives/slot'
+import { Slot } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
 import * as React from 'react'
 import { buttonVariants } from './button.constants'
 import type { AnimationIconProps, ButtonProps } from './button.types'
-import { Slot } from '@radix-ui/react-slot'
 
 /**
  * Renders a customizable button component, supporting various styles and behaviors.

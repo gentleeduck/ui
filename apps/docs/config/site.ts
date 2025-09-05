@@ -6,7 +6,7 @@ export const siteConfig = {
     'Duck UI is a versatile UI library that simplifies creating modern, customizable interfaces. It provides a set of pre-built components for fast and consistent design across applications.',
   links: {
     twitter: 'https://x.com/wild_ducka',
-    github: 'https://github.com/gentleduck/ui',
+    github: 'https://github.com/gentleeduck/ui',
   },
 }
 

@@ -21,14 +21,14 @@ import {
 } from '@gentleduck/registry-ui-duckui/drawer'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
-import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
+import { ResetIcon } from '@radix-ui/react-icons'
 import template from 'lodash.template'
-import { Check, ClipboardIcon } from 'lucide-react'
+import { CheckIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import { copyToClipboardWithMeta } from '~/components/copy-button'
+import { CopyButton } from '~/components/copy-button'
 import { useConfig } from '~/hooks/use-config'
 
 interface BaseColorOKLCH {
@@ -54,7 +54,7 @@ export function ThemeCustomizer() {
           <PopoverTrigger asChild>
             <Button size="sm">Customize</Button>
           </PopoverTrigger>
-          <PopoverContent className="z-40 w-[340px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
+          <PopoverContent className="z-40 max-w-[325px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
             <Customizer />
           </PopoverContent>
         </Popover>
@@ -66,26 +66,49 @@ export function ThemeCustomizer() {
 
 export function Customizer() {
   const [mounted, setMounted] = React.useState(false)
-  const { resolvedTheme: mode } = useTheme()
+  const { setTheme: setMode, resolvedTheme: mode } = useTheme()
   const [config, setConfig] = useConfig()
 
   React.useEffect(() => {
     setMounted(true)
   }, [])
 
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
-    <div className="grid w-full flex-1 grid-cols-2 flex-wrap items-start gap-2 sm:flex sm:items-center md:gap-6">
-      <div className="flex flex-col gap-2">
-        <Label className="sr-only text-xs">Color</Label>
-        <div className="flex flex-wrap gap-1 md:gap-2">
-          {baseColors
-            .filter((theme) => !['slate', 'stone', 'gray', 'neutral'].includes(theme.name))
-            .map((theme) => {
+    <div className="flex flex-col space-y-4 md:space-y-6">
+      <div className="flex items-start pt-4 md:pt-0">
+        <div className="space-y-1 pr-2">
+          <div className="font-semibold leading-none tracking-tight">Customize</div>
+          <div className="text-xs text-muted-foreground">Pick a style and color for your components.</div>
+        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="ml-auto rounded-[0.5rem]"
+          onClick={() => {
+            setConfig({
+              ...config,
+              theme: 'zinc',
+              radius: 0.5,
+            })
+          }}>
+          <ResetIcon />
+          <span className="sr-only">Reset</span>
+        </Button>
+      </div>
+      <div className="flex flex-1 flex-col space-y-4 md:space-y-6">
+        <div className="space-y-1.5">
+          <Label className="text-xs">Color</Label>
+          <div className="grid grid-cols-3 gap-2">
+            {baseColors.map((theme) => {
               const isActive = config.theme === theme.name
 
               return mounted ? (
                 <Button
-                  variant="outline"
+                  variant={'outline'}
                   size="sm"
                   key={theme.name}
                   onClick={() => {
@@ -94,10 +117,7 @@ export function Customizer() {
                       theme: theme.name,
                     })
                   }}
-                  className={cn(
-                    'w-[32px] rounded-lg lg:px-2.5 xl:w-[86px]',
-                    isActive && 'border-primary/50 ring-[2px] ring-primary/30',
-                  )}
+                  className={cn('justify-start', isActive && 'border-2 border-primary')}
                   style={
                     {
                       '--theme-primary': `hsl(${theme?.activeColor[mode === 'dark' ? 'dark' : 'light']})`,
@@ -105,46 +125,70 @@ export function Customizer() {
                   }>
                   <span
                     className={cn(
-                      'flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[--theme-primary]',
+                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[var(--theme-primary)]',
                     )}>
-                    {isActive && <Check className="!size-2.5 text-white" />}
+                    {isActive && <CheckIcon className="!size-3 text-white" />}
                   </span>
-                  <span className="hidden xl:block">{theme.label === 'Zinc' ? 'Default' : theme.label}</span>
+                  {theme.label}
                 </Button>
               ) : (
-                <Skeleton className="h-8 w-[32px] xl:w-[86px]" key={theme.name} />
+                <Skeleton className="h-8 w-full" key={theme.name} />
               )
             })}
+          </div>
         </div>
-      </div>
-      <Separator orientation="vertical" className="hidden h-6 sm:block" />
-      <div className="flex flex-col gap-2">
-        <Label className="sr-only text-xs">Radius</Label>
-        <div className="flex flex-wrap gap-1 md:gap-2">
-          {['0', '0.3', '0.5', '0.75', '1.0'].map((value) => {
-            return (
-              <Button
-                variant={'outline'}
-                size="sm"
-                key={value}
-                onClick={() => {
-                  setConfig({
-                    ...config,
-                    radius: parseFloat(value),
-                  })
-                }}
-                className={cn(
-                  'w-[40px] rounded-lg',
-                  config.radius === parseFloat(value) && 'border-primary/50 ring-[2px] ring-primary/30',
-                )}>
-                {value}
-              </Button>
-            )
-          })}
+        <div className="space-y-1.5">
+          <Label className="text-xs">Radius</Label>
+          <div className="grid grid-cols-5 gap-2">
+            {['0', '0.3', '0.5', '0.75', '1.0'].map((value) => {
+              return (
+                <Button
+                  variant={'outline'}
+                  size="sm"
+                  key={value}
+                  onClick={() => {
+                    setConfig({
+                      ...config,
+                      radius: parseFloat(value),
+                    })
+                  }}
+                  className={cn(config.radius === parseFloat(value) && 'border-2 border-primary')}>
+                  {value}
+                </Button>
+              )
+            })}
+          </div>
         </div>
-      </div>
-      <div className="flex gap-2 sm:ml-auto">
-        <CopyCodeButton />
+        <div className="space-y-1.5">
+          <Label className="text-xs">Mode</Label>
+          <div className="grid grid-cols-3 gap-2">
+            {mounted ? (
+              <>
+                <Button
+                  variant={'outline'}
+                  size="sm"
+                  onClick={() => setMode('light')}
+                  className={cn(mode === 'light' && 'border-2 border-primary')}>
+                  <SunIcon className="mr-1 -translate-x-1" />
+                  Light
+                </Button>
+                <Button
+                  variant={'outline'}
+                  size="sm"
+                  onClick={() => setMode('dark')}
+                  className={cn(mode === 'dark' && 'border-2 border-primary')}>
+                  <MoonIcon className="mr-1 -translate-x-1" />
+                  Dark
+                </Button>
+              </>
+            ) : (
+              <>
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -203,40 +247,36 @@ function CustomizerCode() {
     }
   }, [hasCopied])
 
+  const Button = () => {
+    return (
+      <CopyButton
+        className="top-2 right-2 absolute"
+        value={
+          themeVersion === 'v3'
+            ? getThemeCode(activeTheme, config.radius)
+            : getThemeCodeOKLCH(activeThemeOKLCH, config.radius)
+        }
+      />
+    )
+  }
+
   return (
     <Tabs value={themeVersion} onValueChange={setThemeVersion}>
       <div className="flex items-center justify-between">
-        <TabsList>
-          <TabsTrigger value="v4">Tailwind v4</TabsTrigger>
-          <TabsTrigger value="v3">v3</TabsTrigger>
+        <TabsList className="bg-zinc-950 dark:bg-zinc-900">
+          <TabsTrigger value="v4" className="w-full">
+            Tailwind v4
+          </TabsTrigger>
+          <TabsTrigger value="v3" className="w-full">
+            v3
+          </TabsTrigger>
         </TabsList>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => {
-            copyToClipboardWithMeta(
-              themeVersion === 'v3'
-                ? getThemeCode(activeTheme, config.radius)
-                : getThemeCodeOKLCH(activeThemeOKLCH, config.radius),
-              {
-                name: 'copy_theme_code',
-                properties: {
-                  theme: config.theme,
-                  radius: config.radius,
-                },
-              },
-            )
-            setHasCopied(true)
-          }}
-          className="absolute right-0 top-0 shadow-none">
-          {hasCopied ? <Check /> : <ClipboardIcon />}
-          Copy
-        </Button>
       </div>
       <TabsContent value="v4">
-        <div data-rehype-pretty-code-fragment="">
-          <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
-            <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+        <div data-rehype-pretty-code-fragment="" className="">
+          <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
+            <Button />
+            <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">
               <span className="line text-white">&nbsp;:root &#123;</span>
               <span className="line text-white">&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;</span>
               {Object.entries(activeThemeOKLCH?.light).map(([key, value]) => (
@@ -259,8 +299,9 @@ function CustomizerCode() {
       </TabsContent>
       <TabsContent value="v3">
         <div data-rehype-pretty-code-fragment="">
-          <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
-            <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+          <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
+            <Button />
+            <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">
               <span className="line text-white">@layer base &#123;</span>
               <span className="line text-white">&nbsp;&nbsp;:root &#123;</span>
               <span className="line text-white">

@@ -8,29 +8,21 @@ interface SlotProps extends React.HTMLAttributes<HTMLElement> {
 
 export function createSlot(ownerName: string) {
   const SlotClone = createSlotClone(ownerName)
+
   const Slot = React.forwardRef<HTMLElement, SlotProps>((props, forwardedRef) => {
     const { children, ...slotProps } = props
     const childrenArray = React.Children.toArray(children)
     const slottable = childrenArray.find(isSlottable)
 
     if (slottable) {
-      // the new element to render is the one passed as a child of `Slottable`
+      // the element passed inside <Slottable>{/* element */}</Slottable>
       const newElement = slottable.props.children
-
-      const newChildren = childrenArray.map((child) => {
-        if (child === slottable) {
-          // because the new element will be the one rendered, we are only interested
-          // in grabbing its children (`newElement.props.children`)
-          if (React.Children.count(newElement) > 1) return React.Children.only(null)
-          return React.isValidElement(newElement) ? (newElement.props as { children: React.ReactNode }).children : null
-        } else {
-          return child
-        }
-      })
+      // replace the slottable placeholder with the actual element to render
+      const replacedChildren = childrenArray.map((child) => (child === slottable ? newElement : child))
 
       return (
         <SlotClone {...slotProps} ref={forwardedRef}>
-          {React.isValidElement(newElement) ? React.cloneElement(newElement, undefined, newChildren) : null}
+          {replacedChildren}
         </SlotClone>
       )
     }
@@ -55,18 +47,34 @@ interface SlotCloneProps {
 function createSlotClone(ownerName: string) {
   const SlotClone = React.forwardRef<any, SlotCloneProps>((props, forwardedRef) => {
     const { children, ...slotProps } = props
+    const childrenArray = React.Children.toArray(children)
 
-    if (React.isValidElement(children)) {
-      const childrenRef = getElementRef(children)
-      const props = mergeProps(slotProps, children.props as AnyProps)
-      // do not pass ref to React.Fragment for React 19 compatibility
-      if (children.type !== React.Fragment) {
-        props.ref = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
-      }
-      return React.cloneElement(children, props)
+    if (childrenArray.length === 0) return null
+
+    // find the first valid React element among children to merge props into
+    const firstElementIndex = childrenArray.findIndex((c) => React.isValidElement(c))
+    if (firstElementIndex === -1) {
+      // no element to merge into — just return children as-is
+      return <>{children}</>
     }
 
-    return React.Children.count(children) > 1 ? React.Children.only(null) : null
+    const element = childrenArray[firstElementIndex] as React.ReactElement
+    const elementRef = getElementRef(element)
+    const merged = mergeProps(slotProps, (element.props as AnyProps) || {})
+
+    // do not pass ref to React.Fragment for React 19 compatibility
+    if (element.type !== React.Fragment) {
+      merged.ref = forwardedRef ? composeRefs(forwardedRef, elementRef) : elementRef
+    }
+
+    const cloned = React.cloneElement(element, merged)
+
+    // rebuild children array with the cloned element in place
+    const finalChildren = childrenArray.map((c, idx) => (idx === firstElementIndex ? cloned : c))
+
+    // If there is only one child after replacement, return it directly,
+    // otherwise return the array (JSX allows arrays of nodes).
+    return finalChildren.length === 1 ? (finalChildren[0] as React.ReactElement) : <>{finalChildren}</>
   })
 
   SlotClone.displayName = `${ownerName}.SlotClone`
@@ -101,12 +109,12 @@ function isSlottable(child: React.ReactNode): child is React.ReactElement<Slotta
     React.isValidElement(child) &&
     typeof child.type === 'function' &&
     '__radixId' in child.type &&
-    child.type.__radixId === SLOTTABLE_IDENTIFIER
+    (child.type as any).__radixId === SLOTTABLE_IDENTIFIER
   )
 }
 
 function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
-  // all child props should override
+  // child props override slot props, but handlers compose
   const overrideProps = { ...childProps }
 
   for (const propName in childProps) {
@@ -115,21 +123,16 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
 
     const isHandler = /^on[A-Z]/.test(propName)
     if (isHandler) {
-      // if the handler exists on both, we compose them
       if (slotPropValue && childPropValue) {
         overrideProps[propName] = (...args: unknown[]) => {
           const result = childPropValue(...args)
           slotPropValue(...args)
           return result
         }
-      }
-      // but if it exists only on the slot, we use only this one
-      else if (slotPropValue) {
+      } else if (slotPropValue) {
         overrideProps[propName] = slotPropValue
       }
-    }
-    // if it's `style`, we merge them
-    else if (propName === 'style') {
+    } else if (propName === 'style') {
       overrideProps[propName] = { ...slotPropValue, ...childPropValue }
     } else if (propName === 'className') {
       overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(' ')
@@ -140,21 +143,21 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
 }
 
 function getElementRef(element: React.ReactElement) {
-  // React <=18 in DEV
+  // React <=18 dev
   let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get
-  let mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
+  let mayWarn = getter && 'isReactWarning' in getter && (getter as any).isReactWarning
   if (mayWarn) {
     return (element as any).ref
   }
 
-  // React 19 in DEV
+  // React 19 dev
   getter = Object.getOwnPropertyDescriptor(element, 'ref')?.get
-  mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
+  mayWarn = getter && 'isReactWarning' in getter && (getter as any).isReactWarning
   if (mayWarn) {
     return (element.props as { ref?: React.Ref<unknown> }).ref
   }
 
-  // Not DEV
+  // production
   return (element.props as { ref?: React.Ref<unknown> }).ref || (element as any).ref
 }
 

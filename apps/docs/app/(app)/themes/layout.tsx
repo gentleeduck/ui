@@ -46,9 +46,9 @@ export default function ThemesLayout({ children }: { children: React.ReactNode }
           </Button>
         </PageActions>
       </PageHeader>
-      <div id="themes" className="border-grid scroll-mt-24 border-b">
+      <div id="themes" className="scroll-mt-24">
         <div className="container-wrapper">
-          <div className="container flex items-center py-4">
+          <div className="container flex items-center">
             <ThemeCustomizer />
           </div>
         </div>
