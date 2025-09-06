@@ -8,31 +8,31 @@ import { cn } from '@gentleduck/libs/cn'
 const links = [
   {
     name: 'Area Chart',
-    href: '/charts#area-chart',
+    href: '/charts/area',
   },
   {
     name: 'Bar Chart',
-    href: '/charts#bar-chart',
+    href: '/charts/bar',
   },
   {
     name: 'Line Chart',
-    href: '/charts#line-chart',
+    href: '/charts/line',
   },
   {
     name: 'Pie Chart',
-    href: '/charts#pie-chart',
+    href: '/charts/pie',
   },
   {
     name: 'Radar Chart',
-    href: '/charts#radar-chart',
+    href: '/charts/radar',
   },
   {
     name: 'Radial Chart',
-    href: '/charts#radial-chart',
+    href: '/charts/radial',
   },
   {
     name: 'Tooltip',
-    href: '/charts#tooltip',
+    href: '/charts/tooltip',
   },
 ]
 

@@ -19,6 +19,7 @@
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/registers": "workspace:*",
+    "@gentleduck/registry-blocks-duckui": "workspace:*",
     "@gentleduck/registry-examples-duckui": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",
     "@gentleduck/vim": "workspace:*",

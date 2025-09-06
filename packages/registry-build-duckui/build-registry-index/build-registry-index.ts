@@ -83,17 +83,21 @@ export async function build_registry_index({
       }))
     })
 
+    spinner.text = `🧭 Retrieving ${styleText('green', 'block')} component files...`
+
+    const blocksItems = await Promise.all(registry.filter((item) => item.type === 'registry:block'))
+
     spinner.text = `🧭 Writing registry index to file... (${styleText(
       'green',
       (uiItems.length + exampleItemsMapped.length).toString(),
     )} items)`
 
-    const registryJson = JSON.stringify([...uiItems, ...exampleItemsMapped], null, 2)
+    const registryJson = JSON.stringify([...uiItems, ...exampleItemsMapped, ...blocksItems], null, 2)
 
-    rimraf.sync(path.join(REGISTRY_PATH, 'index.json')) // Remove old index
+    rimraf.sync(path.join(REGISTRY_PATH, 'index.json'))
     await fs.writeFile(path.join(REGISTRY_PATH, 'index.json'), registryJson, 'utf8')
 
-    return [...uiItems, ...exampleItemsMapped] as z.infer<typeof registry_schema>
+    return [...uiItems, ...exampleItemsMapped, ...blocksItems] as z.infer<typeof registry_schema>
   } catch (error) {
     spinner.fail(`🧭 Failed to build registry index: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(1)

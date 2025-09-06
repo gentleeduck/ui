@@ -37,22 +37,22 @@ export async function main() {
   let tsx_content: string
   tsx_content = tsx_index
 
-  // for (const item of index) {
-  //   // 1- build the components in the public folder.
-  //   await build_registry_components({
-  //     item,
-  //     spinner,
-  //     registry_count: index.length,
-  //     idx: index.indexOf(item),
-  //   })
-  //   // 2- build the __registry__/
-  //   tsx_content += await build_registry_tsx({ item, spinner })
-  //
-  //   // 3- build the styles index.json
-  //   await build_registry_styles_index({ item, spinner })
-  // }
-  // // 4- write the index.tsx
-  // await write_index_tsx({ tsx_content, spinner })
+  for (const item of index) {
+    // 1- build the components in the public folder.
+    await build_registry_components({
+      item,
+      spinner,
+      registry_count: index.length,
+      idx: index.indexOf(item),
+    })
+    // 2- build the __registry__/
+    tsx_content += await build_registry_tsx({ item, spinner })
+
+    // 3- build the styles index.json
+    await build_registry_styles_index({ item, spinner })
+  }
+  // 4- write the index.tsx
+  await write_index_tsx({ tsx_content, spinner })
 
   // 5- build registry colors
   await registry_build_colors({ spinner })

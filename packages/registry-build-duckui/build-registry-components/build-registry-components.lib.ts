@@ -69,7 +69,7 @@ export async function get_file_content({ file, spinner }: GetFileContentParams):
   try {
     const filePath = path.join(
       process.cwd(),
-      `../${file.type.includes('ui') ? ENV.REGISTRY_UI_PATH : ENV.REGISTRY_EXAMPLES_PATH}/${file.path}`,
+      `../${file.type.includes('ui') ? ENV.REGISTRY_UI_PATH : file.type.includes('example') ? ENV.REGISTRY_EXAMPLES_PATH : ENV.REGISTRY_BLOCKS_PATH}/${file.path}`,
     )
     spinner.text = `🧭 Reading file content: ${filePath}`
     const content = await fs.readFile(filePath, 'utf8')

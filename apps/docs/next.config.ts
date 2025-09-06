@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   transpilePackages: [
     '@gentleduck/registry-ui-duckui',
     '@gentleduck/registry-examples-duckui',
+    '@gentleduck/registry-blocks-duckui',
     '@gentleduck/variants',
     '@gentleduck/motion',
     '@gentleduck/libs',
@@ -42,10 +43,6 @@ const nextConfig: NextConfig = {
         hostname: 'raw.githubusercontent.com',
       },
     ],
-  },
-  webpack: (config) => {
-    config.resolve.alias['~'] = path.resolve(__dirname)
-    return config
   },
 }
 

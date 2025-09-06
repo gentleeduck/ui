@@ -4,7 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { BlockCopyButton } from '~/components/ui'
 import { ChartCodeViewer } from '~/components/chart-code-viewer'
 
-import '@/styles/mdx.css'
+import 'public/duck-ui/themes.css'
 import { AreaChart, BarChartBig, Hexagon, LineChart, MousePointer2, PieChart, Radar } from 'lucide-react'
 import { Block } from '@gentleduck/registers'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
@@ -30,13 +30,13 @@ export function ChartToolbar({ chart, className, children }: { chart: Block } & 
 }
 
 function ChartTitle({ chart }: { chart: Block }) {
-  const { subcategory } = chart
+  const { categories } = chart
 
-  if (!subcategory) {
+  if (!categories?.length) {
     return null
   }
 
-  if (subcategory === 'Line') {
+  if (categories.includes('charts-line')) {
     return (
       <>
         <LineChart /> Chart
@@ -44,7 +44,7 @@ function ChartTitle({ chart }: { chart: Block }) {
     )
   }
 
-  if (subcategory === 'Bar') {
+  if (categories.includes('charts-bar')) {
     return (
       <>
         <BarChartBig /> Chart
@@ -52,7 +52,7 @@ function ChartTitle({ chart }: { chart: Block }) {
     )
   }
 
-  if (subcategory === 'Pie') {
+  if (categories.includes('charts-pie')) {
     return (
       <>
         <PieChart /> Chart
@@ -60,7 +60,7 @@ function ChartTitle({ chart }: { chart: Block }) {
     )
   }
 
-  if (subcategory === 'Area') {
+  if (categories.includes('charts-area')) {
     return (
       <>
         <AreaChart /> Chart
@@ -68,7 +68,7 @@ function ChartTitle({ chart }: { chart: Block }) {
     )
   }
 
-  if (subcategory === 'Radar') {
+  if (categories.includes('charts-radar')) {
     return (
       <>
         <Hexagon /> Chart
@@ -76,7 +76,7 @@ function ChartTitle({ chart }: { chart: Block }) {
     )
   }
 
-  if (subcategory === 'Radial') {
+  if (categories.includes('charts-radial')) {
     return (
       <>
         <Radar /> Chart
@@ -84,7 +84,7 @@ function ChartTitle({ chart }: { chart: Block }) {
     )
   }
 
-  if (subcategory === 'Tooltip') {
+  if (categories.includes('charts-tooltip')) {
     return (
       <>
         <MousePointer2 />
@@ -93,5 +93,5 @@ function ChartTitle({ chart }: { chart: Block }) {
     )
   }
 
-  return subcategory
+  return categories[1]
 }

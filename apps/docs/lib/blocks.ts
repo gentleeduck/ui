@@ -3,12 +3,11 @@
 import { promises as fs } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { Index } from '~/__ui_registry__'
+import { BlockChunk, block_schema, registry_entry_schema, Style } from '@gentleduck/registers'
 import { Project, ScriptKind, SourceFile, SyntaxKind } from 'ts-morph'
 import { z } from 'zod'
-
+import { Index } from '~/__ui_registry__'
 import { highlightCode } from '~/lib/highlight-code'
-import { BlockChunk, block_schema, registry_entry_schema, Style } from '@gentleduck/registers'
 
 const DEFAULT_BLOCKS_STYLE = 'default' satisfies Style['name']
 
@@ -22,8 +21,7 @@ export async function getAllBlockIds(style: Style['name'] = DEFAULT_BLOCKS_STYLE
 }
 
 export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
-  // @ts-ignore
-  const entry = Index[style][name]
+  const entry = Index[name]
 
   const content = await _getBlockContent(name, style)
 
@@ -59,25 +57,20 @@ export async function getBlock(name: string, style: Style['name'] = DEFAULT_BLOC
     ...content,
     chunks,
     description: content.description || '',
-    type: 'components:block',
+    type: 'registry:block',
   })
 }
 
 async function _getAllBlocks(style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
   const index = z.record(registry_entry_schema).parse(Index[style])
 
-  return Object.values(index).filter(
-    // ! FIX: fix the type error
-    // @ts-expect-error This comparison appears to be unintentional because the types '"registry:style" | "registry:lib" | "registry:example" | "registry:block" | "registry:component" | "registry:ui" | "registry:hook" | "registry:theme" | "registry:page"' and '"components:block"' have no overlap.ts(2367)
-    (block) => block.type === 'components:block', //   (block) => block.type === 'registry:block',
-  )
+  return Object.values(index).filter((block) => block.type === 'registry:example')
 }
 
-async function _getBlockCode(name: string, style: Style['name'] = DEFAULT_BLOCKS_STYLE) {
-  // @ts-ignore
-  const entry = Index[style][name]
+async function _getBlockCode(name: string) {
+  const entry = Index[name]
   if (!entry) {
-    console.error(`Block ${name} not found in style ${style}`)
+    console.error(`Block ${name} not found`)
     return ''
   }
   const block = registry_entry_schema.parse(entry)
@@ -86,11 +79,11 @@ async function _getBlockCode(name: string, style: Style['name'] = DEFAULT_BLOCKS
     return ''
   }
 
-  return await readFile(block.source)
+  return await readFile(block.files![0]!.path)
 }
 
-async function readFile(source: string) {
-  const filepath = path.join(process.cwd(), source)
+async function readFile(_path: string) {
+  const filepath = path.join(process.cwd().replace('apps/docs', 'packages/registry-examples-duckui/src') + '/' + _path)
   return await fs.readFile(filepath, 'utf-8')
 }
 
@@ -100,7 +93,7 @@ async function createTempSourceFile(filename: string) {
 }
 
 async function _getBlockContent(name: string, style: Style['name']) {
-  const raw = await _getBlockCode(name, style)
+  const raw = await _getBlockCode(name)
 
   const tempFile = await createTempSourceFile(`${name}.tsx`)
   const sourceFile = project.createSourceFile(tempFile, raw, {
