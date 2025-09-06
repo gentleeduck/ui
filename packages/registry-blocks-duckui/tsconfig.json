@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@gentleduck/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "paths": {
+      "~/old-registry-ui": ["../_oldstuff_refactor/ui/index.ts"],
+      "~/*": ["./*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [".", "../_oldstuff_refactor/default/ui/index.ts"],
+  "exclude": ["node_modules", "dist"]
+}

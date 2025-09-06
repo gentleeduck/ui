@@ -1,0 +1,59 @@
+{
+  "name": "@gentleduck/registry-blocks-duckui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*",
+    "./charts": "./src/chart/*"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "build": "tsdown",
+    "lint": "biome lint --write ./",
+    "format": "biome format --write ./",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "release": "changeset version",
+    "publish": "pnpm run ci && changeset publish"
+  },
+  "devDependencies": {
+    "@gentleduck/variants": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/registry-ui": "workspace:*",
+    "@gentleduck/registry-ui-duckui": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
+    "@gentleduck/vim": "workspace:*",
+    "tsdown": "catalog:",
+    "tsx": "catalog:"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.27.13",
+    "@hookform/resolvers": "^3.10.0",
+    "@radix-ui/colors": "^3.0.0",
+    "@radix-ui/react-hover-card": "^1.1.1",
+    "@tanstack/react-table": "^8.21.3",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "date-fns": "^2.30.0",
+    "embla-carousel-autoplay": "8.0.0-rc15",
+    "embla-carousel-react": "8.0.0-rc15",
+    "lucide-react": "0.359.0",
+    "motion": "^12.4.3",
+    "motion-number": "^1.0.0",
+    "next": "catalog:",
+    "radix-ui": "^1.4.2",
+    "react": "catalog:react19",
+    "react-day-picker": "catalog:",
+    "react-dom": "catalog:react19",
+    "react-hook-form": "^7.62.0",
+    "react-icons": "^5.5.0",
+    "recharts": "2.15.1",
+    "sonner": "^2.0.1",
+    "zod": "catalog:"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
