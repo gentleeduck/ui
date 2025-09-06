@@ -73,10 +73,6 @@ export function Customizer() {
     setMounted(true)
   }, [])
 
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
   return (
     <div className="flex flex-col space-y-4 md:space-y-6">
       <div className="flex items-start pt-4 md:pt-0">

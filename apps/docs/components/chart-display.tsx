@@ -2,29 +2,47 @@ import { getBlock } from '~/lib/blocks'
 import { cn } from '@gentleduck/libs/cn'
 import { ChartToolbar } from '~/components/chart-toolbar'
 
+import * as React from 'react'
+import { z } from 'zod'
+import { registryItemSchema } from './gg'
+import { highlightCode } from '~/lib/highlight-code'
+import { getRegistryItem } from './gg1'
+
+export type Chart = z.infer<typeof registryItemSchema> & {
+  highlightedCode: string
+}
+
 export async function ChartDisplay({ name, children, className }: { name: string } & React.ComponentProps<'div'>) {
-  const chart = await getBlock(name)
+  const chart = await getCachedRegistryItem(name)
+  const highlightedCode = await getChartHighlightedCode(chart?.files?.[0]?.content ?? '')
 
-  // Cannot (and don't need to) pass to the client.
-  delete chart?.component
-  delete chart?.chunks
-
-  if (!chart) {
+  if (!chart || !highlightedCode) {
     return null
   }
 
   return (
     <div
       className={cn(
-        'themes-wrapper group relative flex flex-col overflow-hidden rounded-xl border shadow transition-all duration-200 ease-in-out hover:z-30',
+        'themes-wrapper group relative flex flex-col overflow-hidden rounded-xl border transition-all duration-200 ease-in-out hover:z-30',
         className,
       )}>
       <ChartToolbar
-        chart={chart}
-        className="relative z-20 flex justify-end border-b bg-card px-3 py-2.5 text-card-foreground">
+        chart={{
+          ...chart,
+          // , highlightedCode
+        }}
+        className="bg-card text-card-foreground relative z-20 flex justify-end border-b px-3 py-2.5">
         {children}
       </ChartToolbar>
       <div className="relative z-10 [&>div]:rounded-none [&>div]:border-none [&>div]:shadow-none">{children}</div>
     </div>
   )
 }
+
+const getCachedRegistryItem = React.cache(async (name: string) => {
+  return await getRegistryItem(name)
+})
+
+const getChartHighlightedCode = React.cache(async (content: string) => {
+  return await highlightCode(content)
+})

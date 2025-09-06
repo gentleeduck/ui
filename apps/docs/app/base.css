@@ -81,7 +81,6 @@
   --breakpoint-4xl: 2000px;
   --font-sans: "Geist", "Adjusted Arial Fallback";
   --font-mono: "JetBrains Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
-  --radius: 0.625rem;
   --radius: 0.5rem;
 
   --color-background: var(--background);

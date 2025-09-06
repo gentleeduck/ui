@@ -16,8 +16,8 @@ export * from './registry-ui'
 export * from './styles'
 
 export const registry: Registry = [
-  // ...registry_ui,
-  // ...registry_examples,
+  ...registry_ui,
+  ...registry_examples,
   ...registry_charts,
   // ...blocks,
   // ...charts,

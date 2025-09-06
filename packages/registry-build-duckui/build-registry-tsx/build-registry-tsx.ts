@@ -17,7 +17,7 @@ export async function build_registry_tsx({ item, spinner }: GetComponentFilesArg
     const component_path = `${
       item.type.includes('ui')
         ? `@gentleduck/registry-ui-duckui`
-        : item.type.includes('examples')
+        : item.type.includes('example')
           ? `@gentleduck/registry-examples-duckui/${item.root_folder}`
           : `@gentleduck/registry-blocks-duckui/${item.root_folder}`
     }/${item?.name}`
@@ -33,7 +33,7 @@ export async function build_registry_tsx({ item, spinner }: GetComponentFilesArg
       files: ${JSON.stringify(item.files, null, 2)},
       component: React.lazy(() => import("${component_path}")),
       source: "${item.source}",
-      categories: "${item.categories ?? ''}",
+      categories: [${item.categories?.map((category) => `"${category}"`).join(', ')}],
       root_folder: "${item.root_folder}",
       chunks: [
         ${chunks

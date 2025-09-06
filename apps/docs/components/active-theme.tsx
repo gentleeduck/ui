@@ -11,7 +11,7 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
-export function ActiveThemeProviderr({ children, initialTheme }: { children: ReactNode; initialTheme?: string }) {
+export function ActiveThemeProvider({ children, initialTheme }: { children: ReactNode; initialTheme?: string }) {
   const [activeTheme, setActiveTheme] = useState<string>(() => initialTheme || DEFAULT_THEME)
 
   useEffect(() => {

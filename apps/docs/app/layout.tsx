@@ -10,6 +10,7 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { TailwindIndicator } from '~/components/layouts'
 import { ThemeProvider } from '~/components/providers'
 import { ThemeWrapper } from '~/components/themes'
+import { ActiveThemeProvider } from '~/components/active-theme'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -42,9 +43,10 @@ export default function RootLayout({
             disableTransitionOnChange
             enableColorScheme>
             <ThemeWrapper>
-              <div vaul-drawer-wrapper="">
+              <div vaul-drawer-wrapper="" className="theme-container">
                 <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
               </div>
+
               <VercelAnalytics />
               <Toaster />
               {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
