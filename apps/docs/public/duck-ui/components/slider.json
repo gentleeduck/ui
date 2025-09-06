@@ -1,0 +1,24 @@
+{
+  "name": "slider",
+  "type": "registry:ui",
+  "dependencies": [
+    "@gentleduck/primitives",
+    "@gentleduck/libs"
+  ],
+  "root_folder": "slider",
+  "files": [
+    {
+      "path": "slider/index.ts",
+      "content": "export * from './slider'\n",
+      "type": "registry:ui",
+      "target": "components/ui/index.ts"
+    },
+    {
+      "path": "slider/slider.tsx",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport * as SliderPrimitive from '@gentleduck/primitives/slider'\nimport * as React from 'react'\n\nfunction Slider({ className, ref, ...props }: React.ComponentPropsWithRef<typeof SliderPrimitive.Root>) {\n  return (\n    <SliderPrimitive.Root\n      ref={ref}\n      className={cn('relative flex w-full touch-none select-none items-center', className)}\n      {...props}>\n      <SliderPrimitive.Track className=\"relative h-2 w-full grow overflow-hidden rounded-full bg-secondary\">\n        <SliderPrimitive.Range className=\"absolute h-full bg-primary\" />\n      </SliderPrimitive.Track>\n      <SliderPrimitive.Thumb\n        className=\"block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50\"\n        index={0}\n      />\n    </SliderPrimitive.Root>\n  )\n}\nfunction SliderRange({ className, ref, ...props }: React.ComponentPropsWithRef<typeof SliderPrimitive.Root>) {\n  return (\n    <SliderPrimitive.Root\n      ref={ref}\n      className={cn('relative flex w-full touch-none select-none items-center', className)}\n      {...props}>\n      <SliderPrimitive.Track className=\"relative h-2 w-full grow overflow-hidden rounded-full bg-secondary\">\n        <SliderPrimitive.Range className=\"absolute h-full bg-primary\" />\n      </SliderPrimitive.Track>\n      <SliderPrimitive.Thumb\n        className=\"block size-4 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50\"\n        index={0}\n      />\n      <SliderPrimitive.Thumb\n        className=\"block size-4 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50\"\n        index={1}\n      />\n    </SliderPrimitive.Root>\n  )\n}\n\nexport { Slider, SliderRange }\n",
+      "type": "registry:ui",
+      "target": "components/ui/slider.tsx"
+    }
+  ],
+  "source": "/registry-ui-duckui/src/slider"
+}

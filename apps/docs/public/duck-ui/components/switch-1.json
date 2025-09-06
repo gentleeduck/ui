@@ -1,0 +1,17 @@
+{
+  "name": "switch-1",
+  "type": "registry:example",
+  "registryDependencies": [
+    "switch"
+  ],
+  "root_folder": "switch",
+  "files": [
+    {
+      "path": "switch/switch-1.tsx",
+      "content": "'use client'\n\nimport { Switch } from '@gentleduck/registry-ui-duckui/switch'\n\nexport default function SwitchForm() {\n  return <Switch />\n}\n",
+      "type": "registry:example",
+      "target": "components/switch-1.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/switch"
+}

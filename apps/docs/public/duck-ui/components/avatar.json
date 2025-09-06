@@ -1,0 +1,23 @@
+{
+  "name": "avatar",
+  "type": "registry:ui",
+  "dependencies": [
+    "@gentleduck/libs"
+  ],
+  "root_folder": "avatar",
+  "files": [
+    {
+      "path": "avatar/avatar.tsx",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport * as React from 'react'\n\nexport interface AvatarProps extends React.HTMLProps<HTMLImageElement> {}\n\nfunction Avatar({ className, alt, ref, ...props }: AvatarProps) {\n  const [isValid, setIsValid] = React.useState(false)\n\n  return (\n    <picture className={cn('relative size-10 shrink-0 overflow-hidden rounded-full', className)}>\n      <img\n        ref={ref}\n        {...props}\n        onLoad={() => setIsValid(true)}\n        onError={() => setIsValid(false)}\n        className={'relative flex h-full w-full shrink-0 overflow-hidden object-cover text-transparent'}\n        alt={alt}\n      />\n      {!isValid && (\n        <span\n          aria-label={alt}\n          role=\"img\"\n          className=\"absolute inset-0 flex h-full w-full items-center justify-center bg-muted\">\n          {alt?.slice(0, 2)}\n        </span>\n      )}\n    </picture>\n  )\n}\n\nexport interface AvatarGroupProps extends React.HTMLProps<HTMLDivElement> {\n  imgs: React.HTMLProps<HTMLImageElement>[]\n  maxVisible?: number\n}\n\nconst AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(\n  ({ imgs, maxVisible = 3, className, ...props }, ref) => {\n    const visibleImgs = imgs.slice(0, maxVisible)\n    const overflowCount = imgs.length > maxVisible ? imgs.length - maxVisible : 0\n\n    return (\n      <div className={cn('-space-x-5 flex items-center', className)} ref={ref} {...props}>\n        {visibleImgs.map(({ className, alt, ...props }) => (\n          <Avatar\n            key={props.id}\n            className={cn('border-2 border-border', className)}\n            alt={alt?.slice(0, 2)}\n            {...props}\n          />\n        ))}\n\n        {/* Display overflow count if necessary */}\n        {overflowCount > 0 && (\n          <div className=\"relative z-10 inline-block\">\n            <div className=\"flex size-10 items-center justify-center rounded-full bg-primary font-medium text-primary-foreground text-sm ring-2 ring-background\">\n              +{overflowCount}\n            </div>\n          </div>\n        )}\n      </div>\n    )\n  },\n)\n\nexport { Avatar, AvatarGroup }\n",
+      "type": "registry:ui",
+      "target": "components/ui/avatar.tsx"
+    },
+    {
+      "path": "avatar/index.ts",
+      "content": "export * from './avatar'\n",
+      "type": "registry:ui",
+      "target": "components/ui/index.ts"
+    }
+  ],
+  "source": "/registry-ui-duckui/src/avatar"
+}

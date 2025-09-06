@@ -1,0 +1,30 @@
+{
+  "name": "badge",
+  "type": "registry:ui",
+  "dependencies": [
+    "@gentleduck/variants",
+    "@gentleduck/libs"
+  ],
+  "root_folder": "badge",
+  "files": [
+    {
+      "path": "badge/badge.constants.ts",
+      "content": "import { cva } from '@gentleduck/variants'\n\nexport const badgeVariants = cva(\n  'inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-md border px-2 py-0.5 font-medium transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3',\n  {\n    variants: {\n      variant: {\n        default: 'bg-primary text-primary-foreground hover:bg-primary/80',\n        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',\n        destructive: 'bg-destructive/90 text-destructive-foreground hover:bg-destructive/70',\n        warning: 'bg-warning/90 text-warning-foreground hover:bg-warning/70',\n        dashed:\n          'border border-input border-dashed bg-background text-accent-foreground hover:bg-accent/50 hover:text-accent-foreground',\n        outline:\n          'border border-input bg-background text-accent-foreground hover:bg-accent hover:text-accent-foreground',\n        nothing: '!px-0 text-accent-foreground',\n      },\n      size: {\n        default: 'px-2.5 py-0.5 text-sm',\n        sm: 'px-1.5 py-0.5 text-[.7rem]',\n        lg: 'px-3.5 py-0.9 text-lg',\n        icon: 'size-[28px] items-center justify-center rounded-full text-sm [&_*]:size-[.9rem]',\n      },\n      border: {\n        default: '',\n        primary: 'border border-border/40 hover:border-border/80',\n        secondary: 'border border-secondary/40 bg-secondary/40 hover:border-secondary hover:bg-secondary/65',\n        destructive: 'border border-destructive/40 bg-destructive/40 hover:border-destructive hover:bg-destructive/65',\n        warning: 'border border-warning/40 bg-warning/40 hover:border-warning hover:bg-warning/65',\n      },\n    },\n    defaultVariants: {\n      variant: 'default',\n      size: 'default',\n      border: 'default',\n    },\n  },\n)\n",
+      "type": "registry:ui",
+      "target": "components/ui/badge.constants.ts"
+    },
+    {
+      "path": "badge/badge.tsx",
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport { Slot } from '@gentleduck/primitives/slot'\nimport type { VariantProps } from '@gentleduck/variants'\nimport type * as React from 'react'\nimport { badgeVariants } from './badge.constants'\n\nconst Badge = ({\n  className,\n  variant = 'default',\n  size = 'default',\n  border = 'default',\n  ref,\n  asChild = false,\n  ...props\n}: Omit<React.HTMLProps<HTMLDivElement>, 'size'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) => {\n  const Comp = asChild ? Slot : 'span'\n\n  return <Comp data-slot=\"badge\" className={cn(badgeVariants({ variant, size, border }), className)} {...props} />\n}\n\nexport { Badge }\n",
+      "type": "registry:ui",
+      "target": "components/ui/badge.tsx"
+    },
+    {
+      "path": "badge/index.ts",
+      "content": "export * from './badge'\nexport * from './badge.constants'\n",
+      "type": "registry:ui",
+      "target": "components/ui/index.ts"
+    }
+  ],
+  "source": "/registry-ui-duckui/src/badge"
+}

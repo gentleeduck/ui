@@ -1,0 +1,17 @@
+{
+  "name": "input-6",
+  "type": "registry:example",
+  "registryDependencies": [
+    "input"
+  ],
+  "root_folder": "input",
+  "files": [
+    {
+      "path": "input/input-6.tsx",
+      "content": "import { Input } from '@gentleduck/registry-ui-duckui/input'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function InputWithButton() {\n  return (\n    <div className=\"flex w-full max-w-sm items-center space-x-2\">\n      <Input type=\"email\" placeholder=\"Email\" />\n      <Button type=\"submit\">Subscribe</Button>\n    </div>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/input-6.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/input"
+}

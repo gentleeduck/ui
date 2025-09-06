@@ -1,0 +1,17 @@
+{
+  "name": "slider-1",
+  "type": "registry:example",
+  "registryDependencies": [
+    "slider"
+  ],
+  "root_folder": "slider",
+  "files": [
+    {
+      "path": "slider/slider-1.tsx",
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport { Slider } from '@gentleduck/registry-ui-duckui/slider'\n\nexport default function SliderDemo() {\n  return <Slider defaultValue={[50]} max={100} className={cn('w-[60%]')} />\n}\n",
+      "type": "registry:example",
+      "target": "components/slider-1.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/slider"
+}

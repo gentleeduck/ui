@@ -1,0 +1,21 @@
+{
+  "name": "chart-tooltip-label-custom",
+  "type": "registry:block",
+  "registryDependencies": [
+    "card",
+    "chart"
+  ],
+  "root_folder": "charts",
+  "files": [
+    {
+      "path": "charts/chart-tooltip-label-custom.tsx",
+      "content": "'use client'\n\nimport { Bar, BarChart, XAxis } from 'recharts'\n\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'\nimport { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui-duckui/chart'\nconst chartData = [\n  { date: '2024-07-15', running: 450, swimming: 300 },\n  { date: '2024-07-16', running: 380, swimming: 420 },\n  { date: '2024-07-17', running: 520, swimming: 120 },\n  { date: '2024-07-18', running: 140, swimming: 550 },\n  { date: '2024-07-19', running: 600, swimming: 350 },\n  { date: '2024-07-20', running: 480, swimming: 400 },\n]\n\nconst chartConfig = {\n  activities: {\n    label: 'Activities',\n  },\n  running: {\n    label: 'Running',\n    color: 'var(--chart-1)',\n  },\n  swimming: {\n    label: 'Swimming',\n    color: 'var(--chart-2)',\n  },\n} satisfies ChartConfig\n\nexport default function Component() {\n  return (\n    <Card>\n      <CardHeader>\n        <CardTitle>Tooltip - Custom label</CardTitle>\n        <CardDescription>Tooltip with custom label from chartConfig.</CardDescription>\n      </CardHeader>\n      <CardContent>\n        <ChartContainer config={chartConfig}>\n          <BarChart accessibilityLayer data={chartData}>\n            <XAxis\n              dataKey=\"date\"\n              tickLine={false}\n              tickMargin={10}\n              axisLine={false}\n              tickFormatter={(value) => {\n                return new Date(value).toLocaleDateString('en-US', {\n                  weekday: 'short',\n                })\n              }}\n            />\n            <Bar dataKey=\"running\" stackId=\"a\" fill=\"var(--color-running)\" radius={[0, 0, 4, 4]} />\n            <Bar dataKey=\"swimming\" stackId=\"a\" fill=\"var(--color-swimming)\" radius={[4, 4, 0, 0]} />\n            <ChartTooltip\n              content={<ChartTooltipContent labelKey=\"activities\" indicator=\"line\" />}\n              cursor={false}\n              defaultIndex={1}\n            />\n          </BarChart>\n        </ChartContainer>\n      </CardContent>\n    </Card>\n  )\n}\n",
+      "type": "registry:block",
+      "target": "components/chart-tooltip-label-custom.tsx"
+    }
+  ],
+  "categories": [
+    "charts",
+    "charts-area"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "breadcrumb-4",
+  "type": "registry:example",
+  "registryDependencies": [
+    "breadcrumb"
+  ],
+  "root_folder": "breadcrumb",
+  "files": [
+    {
+      "path": "breadcrumb/breadcrumb-4.tsx",
+      "content": "import {\n  Breadcrumb,\n  BreadcrumbEllipsis,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from '@gentleduck/registry-ui-duckui/breadcrumb'\nimport Link from 'next/link'\n\nexport default function BreadcrumbDemo() {\n  return (\n    <Breadcrumb>\n      <BreadcrumbList>\n        <BreadcrumbItem>\n          <BreadcrumbLink asChild>\n            <Link href=\"/\">Home</Link>\n          </BreadcrumbLink>\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbEllipsis />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbLink asChild>\n            <Link href=\"/docs/components\">Components</Link>\n          </BreadcrumbLink>\n        </BreadcrumbItem>\n        <BreadcrumbSeparator />\n        <BreadcrumbItem>\n          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>\n        </BreadcrumbItem>\n      </BreadcrumbList>\n    </Breadcrumb>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/breadcrumb-4.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/breadcrumb"
+}

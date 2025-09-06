@@ -1,0 +1,22 @@
+{
+  "name": "chart-tooltip-advanced",
+  "type": "registry:style",
+  "dependencies": [
+    "tailwindcss-animate",
+    "class-variance-authority",
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "tailwind": {
+    "config": {
+      "plugins": [
+        "require(\"tailwindcss-animate\")"
+      ]
+    }
+  },
+  "root_folder": "",
+  "cssVars": {},
+  "files": []
+}

@@ -1,0 +1,17 @@
+{
+  "name": "input-otp-3",
+  "type": "registry:example",
+  "registryDependencies": [
+    "input-otp"
+  ],
+  "root_folder": "input-otp",
+  "files": [
+    {
+      "path": "input-otp/input-otp-3.tsx",
+      "content": "import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'\n\nimport React from 'react'\n\nexport default function InputOTPWithSeparator() {\n  return (\n    <InputOTP maxLength={6}>\n      <InputOTPGroup>\n        <InputOTPSlot />\n        <InputOTPSlot />\n      </InputOTPGroup>\n      <InputOTPSeparator />\n      <InputOTPGroup>\n        <InputOTPSlot />\n        <InputOTPSlot />\n      </InputOTPGroup>\n      <InputOTPSeparator />\n      <InputOTPGroup>\n        <InputOTPSlot />\n        <InputOTPSlot />\n      </InputOTPGroup>\n    </InputOTP>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/input-otp-3.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/input-otp"
+}

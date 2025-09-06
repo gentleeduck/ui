@@ -1,0 +1,17 @@
+{
+  "name": "radio-group-1",
+  "type": "registry:example",
+  "registryDependencies": [
+    "radio-group"
+  ],
+  "root_folder": "radio-group",
+  "files": [
+    {
+      "path": "radio-group/radio-group-1.tsx",
+      "content": "'use client'\n\nimport { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'\n\nexport default function RadioGroupDemo() {\n  return (\n    <RadioGroup\n      className=\"[&>div]:felx flex flex-col space-y-1 [&>div]:items-center [&>div]:space-x-3 [&>div]:space-y-0\"\n      defaultValue=\"comfortable\">\n      <RadioGroupItem value=\"default\">Default</RadioGroupItem>\n      <RadioGroupItem value=\"comfortable\">Comfortable</RadioGroupItem>\n      <RadioGroupItem value=\"compact\">Compact</RadioGroupItem>\n    </RadioGroup>\n  )\n}\n",
+      "type": "registry:example",
+      "target": "components/radio-group-1.tsx"
+    }
+  ],
+  "source": "/registry-examples-duckui/src/radio-group"
+}
