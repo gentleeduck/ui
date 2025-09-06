@@ -15,14 +15,14 @@ export function ThemesStyle() {
 .themes-wrapper,
 [data-chart] {
   ${Object.entries(themesConfig.activeTheme.cssVars.light)
-    .map(([key, value]) => `hsl(${key}: ${value};)`)
+    .map(([key, value]) => `${key}: hsl(${value});`)
     .join('\n')}
 }
 
 .dark .themes-wrapper,
 .dark [data-chart] {
   ${Object.entries(themesConfig.activeTheme.cssVars.dark)
-    .map(([key, value]) => `hsl(${key}: ${value};)`)
+    .map(([key, value]) => `${key}: hsl(${value});`)
     .join('\n')}
 }
   `}

@@ -4,13 +4,8 @@ import { ChartToolbar } from '~/components/chart-toolbar'
 
 import * as React from 'react'
 import { z } from 'zod'
-import { registryItemSchema } from './gg'
 import { highlightCode } from '~/lib/highlight-code'
-import { getRegistryItem } from './gg1'
-
-export type Chart = z.infer<typeof registryItemSchema> & {
-  highlightedCode: string
-}
+import { getRegistryItem } from '~/lib/get-registry-item'
 
 export async function ChartDisplay({ name, children, className }: { name: string } & React.ComponentProps<'div'>) {
   const chart = await getCachedRegistryItem(name)
@@ -29,7 +24,7 @@ export async function ChartDisplay({ name, children, className }: { name: string
       <ChartToolbar
         chart={{
           ...chart,
-          // , highlightedCode
+          highlightedCode,
         }}
         className="bg-card text-card-foreground relative z-20 flex justify-end border-b px-3 py-2.5">
         {children}

@@ -56,26 +56,25 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
         const isActive = theme.name === activeTheme.name
         const isDarkTheme = ['Midnight'].includes(theme.name)
         const cssVars = mounted && mode === 'dark' ? theme.cssVars.dark : theme.cssVars.light
-        console.log(cssVars)
 
         return (
           <Tooltip key={theme.name} placement={isDesktop ? 'left' : 'top'}>
-            <TooltipTrigger>
+            <TooltipTrigger
+              style={
+                {
+                  ...cssVars,
+                  '--color-1': `hsl(${cssVars['--chart-1']})`,
+                  '--color-2': `hsl(${cssVars['--chart-2']})`,
+                  '--color-3': `hsl(${cssVars['--chart-3']})`,
+                  '--color-4': `hsl(${cssVars['--chart-4']})`,
+                } as React.CSSProperties
+              }>
               <ToggleGroupItem
                 value={theme.name}
                 className={cn(
                   'group flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border-2 border-transparent p-0 hover:bg-transparent focus-visible:bg-transparent aria-checked:border-[var(--color-1)]',
                   mounted && isDarkTheme && mode !== 'dark' ? 'invert-[1]' : '',
-                )}
-                style={
-                  {
-                    ...cssVars,
-                    '--color-1': `${cssVars['--chart-1']}`,
-                    '--color-2': `${cssVars['--chart-2']}`,
-                    '--color-3': `${cssVars['--chart-3']}`,
-                    '--color-4': `${cssVars['--chart-4']}`,
-                  } as React.CSSProperties
-                }>
+                )}>
                 <div className="h-6 w-6 overflow-hidden rounded-sm">
                   <div
                     className={cn(
