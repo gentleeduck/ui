@@ -125,7 +125,7 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
     <Sheet>
       <SheetTrigger asChild>{button}</SheetTrigger>
       <SheetContent
-        side="left"
+        side="right"
         className={cn(
           'flex flex-col gap-0 border-l-0 p-0 dark:border-l sm:max-w-sm md:w-[700px] md:max-w-[700px]',
           className,

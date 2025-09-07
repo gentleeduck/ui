@@ -53,7 +53,6 @@ function SheetContent({
   VariantProps<typeof AnimSheetVariants> & {
     renderOnce?: boolean
     sideOffset?: number
-    closedby: string
   }): React.JSX.Element {
   return (
     <SheetPrimitive.Portal>

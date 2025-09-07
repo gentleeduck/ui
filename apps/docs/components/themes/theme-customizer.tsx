@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { BaseColor, baseColors, baseColorsOKLCH } from '@gentleduck/registers'
+import { BaseColor, baseColors, baseColorsOKLCH, baseColorsV4 } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Dialog,
@@ -213,7 +213,7 @@ export function CopyCodeButton({ className, ...props }: React.ComponentProps<typ
             Copy code
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-w-2xl outline-none">
+        <DialogContent className="w-[300px] md:w-[500px] lg:w-[600px] outline-none">
           <DialogHeader>
             <DialogTitle>Theme</DialogTitle>
             <DialogDescription>Copy and paste the following code into your CSS file.</DialogDescription>
@@ -234,7 +234,6 @@ function CustomizerCode() {
     () => baseColorsOKLCH[config.theme as keyof typeof baseColorsOKLCH],
     [config.theme],
   )
-  console.log(baseColorsOKLCH, config.theme)
 
   React.useEffect(() => {
     if (hasCopied) {
@@ -247,7 +246,7 @@ function CustomizerCode() {
   const Button = () => {
     return (
       <CopyButton
-        className="top-2 right-2 absolute"
+        className="top-4 right-4 absolute"
         value={
           themeVersion === 'v3'
             ? getThemeCode(activeTheme, config.radius)
@@ -269,10 +268,10 @@ function CustomizerCode() {
           </TabsTrigger>
         </TabsList>
       </div>
-      <TabsContent value="v4">
-        <div data-rehype-pretty-code-fragment="" className="">
+      <TabsContent value="v4" className="relative">
+        <Button />
+        <div data-rehype-pretty-code-fragment="">
           <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
-            <Button />
             <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">
               <span className="line text-white">&nbsp;:root &#123;</span>
               <span className="line text-white">&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;</span>
@@ -294,10 +293,10 @@ function CustomizerCode() {
           </pre>
         </div>
       </TabsContent>
-      <TabsContent value="v3">
+      <TabsContent value="v3" className="relative">
+        <Button />
         <div data-rehype-pretty-code-fragment="">
           <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
-            <Button />
             <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">
               <span className="line text-white">@layer base &#123;</span>
               <span className="line text-white">&nbsp;&nbsp;:root &#123;</span>

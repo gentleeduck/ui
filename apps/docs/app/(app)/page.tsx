@@ -1,40 +1,65 @@
-'use client'
-
-import { cn } from '@gentleduck/libs/cn'
-import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Metadata } from 'next'
 import Link from 'next/link'
-import { PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
+import { Announcement } from '~/components/announcement'
+import { CardsDemo } from '~/components/cards'
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
+import { ThemeCustomizer } from '~/components/themes'
 
-export default function IndexPage() {
+const title = 'Build Beautiful UIs with Simplicity and Power.'
+const description = 'Bring life to your own website with a pack full of ideas made specially for magical websites.'
+
+export const dynamic = 'force-static'
+export const revalidate = false
+
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: {
+    images: [
+      {
+        url: `/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [
+      {
+        url: `/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`,
+      },
+    ],
+  },
+}
+
+export default function Page() {
   return (
     <>
-      <div className="grid gap-8 grid-cols-2 select-none container h-[90svh]">
-        <PageHeader className="flex flex-col justify-center px-0">
-          <PageHeaderHeading className="text-3xl font-semibold mb-3 sm:text-7xl lg:text-6xl px-0">
-            Build Beautiful UIs with Simplicity and Power.
-          </PageHeaderHeading>
-          <PageHeaderDescription className="mb-3 sm:text-xl max-w-[800px] text-muted-foreground font-normal">
-            Bring life to your own website with a pack full of ideas made specially for magical websites.
-          </PageHeaderDescription>
-          <Link
-            href={'/docs/components/button'}
-            className={cn(
-              buttonVariants({
-                variant: 'default',
-                size: '2xl',
-              }),
-            )}>
-            Get Stared
-          </Link>
-        </PageHeader>
-        <div className="flex flex-col justify-center items-center">
-          <img
-            src={'/home.avif'}
-            width={570}
-            height={530}
-            className="w-full"
-            alt="3 people happy to see you using duck ui"
-          />
+      <PageHeader className="flex flex-col justify-center justify-self-center text-center">
+        <Announcement />
+        <PageHeaderHeading className="text-center w-full">{title}</PageHeaderHeading>
+        <PageHeaderDescription>{description}</PageHeaderDescription>
+        <PageActions className="justify-center mx-auto w-full">
+          <Button size="sm">
+            <Link href="/docs/installation">Get Started</Link>
+          </Button>
+          <Button variant="ghost" size="sm">
+            <Link href="/docs/components">What we have?</Link>
+          </Button>
+        </PageActions>
+      </PageHeader>
+      <div id="themes" className="scroll-mt-24">
+        <div className="container-wrapper">
+          <div className="container flex items-center">
+            <ThemeCustomizer />
+          </div>
+        </div>
+      </div>
+      <div className="container-wrapper">
+        <div className="container py-6">
+          <section id="themes" className="scroll-mt-20">
+            <CardsDemo />
+          </section>
         </div>
       </div>
     </>
