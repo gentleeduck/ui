@@ -13,6 +13,26 @@ export const docsConfig: DocsConfig = {
       href: '/docs',
       title: 'Documentation',
     },
+    {
+      href: '/components',
+      title: 'Components',
+    },
+    {
+      href: '/blocks',
+      title: 'Blocks',
+    },
+    {
+      href: '/themes',
+      title: 'Themes',
+    },
+    {
+      href: '/charts/area',
+      title: 'Charts',
+    },
+    {
+      href: '/colors',
+      title: 'Colors',
+    },
   ],
   sidebarNav: [
     {

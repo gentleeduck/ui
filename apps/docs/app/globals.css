@@ -95,11 +95,35 @@
     text-rendering: optimizeLegibility;
   }
 
-  .duck-truncate {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
+  /* ::selection { */
+  /*   @apply bg-selection text-selection-foreground; */
+  /* } */
+
+  html {
+    @apply scroll-smooth;
   }
+
+  body {
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+    [data-wrapper] {
+      @apply min-[1800px]:border-t;
+    }
+  }
+
+  a:active,
+  button:active {
+    @apply opacity-60 md:opacity-100;
+  }
+}
+
+@utility duck-truncate {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 @layer utilities {
@@ -120,19 +144,6 @@
   .chunk-container::after {
     content: "";
     @apply absolute -inset-4 shadow-xl rounded-xl border;
-  }
-
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
   }
 
   .border-grid {
@@ -178,5 +189,14 @@
     white-space: nowrap;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

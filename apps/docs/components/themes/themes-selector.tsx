@@ -51,7 +51,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
 
         setThemesConfig({ ...themesConfig, activeTheme: theme })
       }}
-      className={cn('flex items-center justify-center gap-0.5 py-4 lg:flex-col lg:justify-start lg:gap-1', className)}>
+      className={cn('flex items-center justify-center gap-0.5 lg:flex-col lg:justify-start lg:gap-1', className)}>
       {themes.map((theme) => {
         const isActive = theme.name === activeTheme.name
         const isDarkTheme = ['Midnight'].includes(theme.name)

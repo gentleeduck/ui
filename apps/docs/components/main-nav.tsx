@@ -43,7 +43,7 @@ export function MainNav() {
           Blocks
         </Link>
         <Link
-          href="/charts"
+          href="/charts/area"
           className={cn(
             'transition-colors hover:text-foreground/80 font-medium',
             pathname?.startsWith('/docs/component/chart') || pathname?.startsWith('/charts')

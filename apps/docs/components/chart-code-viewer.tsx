@@ -81,20 +81,20 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
           )}
         </div>
         <TabsContent value="code" className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex">
-          <div className="relative overflow-auto rounded-lg bg-black">
+          <div className="relative overflow-auto rounded-lg">
             <div
               data-rehype-pretty-code-fragment
               dangerouslySetInnerHTML={{
                 __html: chart.highlightedCode,
               }}
-              className="w-full overflow-hidden [&_pre]:overflow-auto [&_pre]:!bg-black [&_pre]:py-6 [&_pre]:font-mono [&_pre]:text-sm [&_pre]:leading-relaxed"
+              className="w-full overflow-hidden [&_pre]:overflow-auto [&_pre]:max-h-[44.5vh] [&_pre]:py-2 [&_pre]:!bg-zinc-900 [&_pre]:text-sm [&_pre]:leading-relaxed !my-0"
             />
           </div>
         </TabsContent>
         <TabsContent value="theme" className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex">
-          <div data-rehype-pretty-code-fragment className="relative overflow-auto rounded-lg bg-black py-6">
-            <pre className="bg-black font-mono text-sm leading-relaxed">
-              <code data-line-numbers="">
+          <div data-rehype-pretty-code-fragment="" className="">
+            <pre className="max-h-[44.5vh] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
+              <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">
                 <span className="line text-zinc-700">{`/* ${themesConfig?.activeTheme.name} */`}</span>
                 {themeCode.split('\n').map((line, index) => (
                   <span key={index} className="line">
@@ -125,7 +125,7 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
     <Sheet>
       <SheetTrigger asChild>{button}</SheetTrigger>
       <SheetContent
-        side="right"
+        side="left"
         className={cn(
           'flex flex-col gap-0 border-l-0 p-0 dark:border-l sm:max-w-sm md:w-[700px] md:max-w-[700px]',
           className,

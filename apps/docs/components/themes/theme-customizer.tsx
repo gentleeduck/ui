@@ -234,6 +234,7 @@ function CustomizerCode() {
     () => baseColorsOKLCH[config.theme as keyof typeof baseColorsOKLCH],
     [config.theme],
   )
+  console.log(baseColorsOKLCH, config.theme)
 
   React.useEffect(() => {
     if (hasCopied) {
@@ -275,7 +276,7 @@ function CustomizerCode() {
             <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">
               <span className="line text-white">&nbsp;:root &#123;</span>
               <span className="line text-white">&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;</span>
-              {Object.entries(activeThemeOKLCH?.light).map(([key, value]) => (
+              {Object.entries(activeThemeOKLCH?.light)?.map(([key, value]) => (
                 <span className="line text-white" key={key}>
                   &nbsp;&nbsp;&nbsp;--{key}: {value};
                 </span>
@@ -283,7 +284,7 @@ function CustomizerCode() {
               <span className="line text-white">&nbsp;&#125;</span>
               <span className="line text-white">&nbsp;</span>
               <span className="line text-white">&nbsp;.dark &#123;</span>
-              {Object.entries(activeThemeOKLCH?.dark).map(([key, value]) => (
+              {Object.entries(activeThemeOKLCH?.dark)?.map(([key, value]) => (
                 <span className="line text-white" key={key}>
                   &nbsp;&nbsp;&nbsp;--{key}: {value};
                 </span>
