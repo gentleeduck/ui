@@ -1,68 +1,62 @@
-'use client'
+import { useClick, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
 
-import React from 'react'
+import * as React from 'react'
 import { DialogContext } from './dialog'
-import { cleanLockScrollbar, lockScrollbar } from './dialog.libs'
-import type { DialogContextType, DialogProps } from './dialog.types'
+import { DialogOptions } from './dialog.types'
 
-export function useDialogContext(name: string = 'Dialog'): DialogContextType {
-  const context = React.useContext(DialogContext)
-  if (!context) {
-    throw new Error(`useDialogContext must be used within a ${name}`)
-  }
-  return context
+export function useDialog({
+  defaultOpen = false,
+  open: controlledOpen,
+  onOpenChange: setControlledOpen,
+  closeButton = true,
+}: DialogOptions) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
+  const [labelId, setLabelId] = React.useState<string | undefined>()
+  const [titleId, setTitleId] = React.useState<string | undefined>()
+  const [descriptionId, setDescriptionId] = React.useState<string | undefined>()
+
+  const open = controlledOpen ?? uncontrolledOpen
+  const setOpen = setControlledOpen ?? setUncontrolledOpen
+
+  const data = useFloating({
+    open,
+    onOpenChange: setOpen,
+  })
+
+  const context = data.context
+
+  const click = useClick(context, {
+    enabled: controlledOpen == null,
+  })
+  const dismiss = useDismiss(context, { outsidePressEvent: 'mousedown' })
+  const role = useRole(context)
+
+  const interactions = useInteractions([click, dismiss, role])
+
+  return React.useMemo(
+    () => ({
+      open,
+      setOpen,
+      ...interactions,
+      ...data,
+      labelId,
+      descriptionId,
+      titleId,
+      setLabelId,
+      setDescriptionId,
+      setTitleId,
+      closeButton,
+    }),
+    [open, setOpen, interactions, data, labelId, descriptionId, setTitleId],
+  )
 }
 
-export function useDialog({ open: openProp, onOpenChange, lockScroll, modal, wrapperRef }: DialogProps) {
-  const triggerRef = React.useRef<HTMLElement | HTMLButtonElement | null>(null)
-  const contentRef = React.useRef<HTMLDialogElement | null>(null)
-  const [open, setOpen] = React.useState<boolean>(openProp ?? false)
+export const useDialogContext = () => {
+  const context = React.useContext(DialogContext)
 
-  function handleOpenChange(state: boolean) {
-    if (!contentRef.current) return
-
-    try {
-      if (modal) {
-        state ? contentRef.current.showModal() : contentRef.current.close()
-      } else {
-        state ? contentRef.current.show() : contentRef.current.close()
-      }
-    } catch (e) {
-      console.warn('Dialog failed to toggle', e)
-    }
-
-    setOpen(state)
-    onOpenChange?.(state)
-    wrapperRef.current?.setAttribute('data-open', String(state))
-    triggerRef.current?.setAttribute('data-open', String(state))
-    contentRef.current?.setAttribute('data-open', String(state))
+  if (context == null) {
+    throw new Error('Dialog components must be wrapped in <Dialog />')
   }
 
-  React.useEffect(() => {
-    if (lockScroll) lockScrollbar(open)
-
-    if (openProp) {
-      handleOpenChange(true)
-    } else if (openProp === false) {
-      handleOpenChange(false)
-    }
-
-    function handleClose() {
-      handleOpenChange(false)
-    }
-
-    contentRef.current?.addEventListener('cancel', handleClose)
-
-    return () => {
-      contentRef.current?.removeEventListener('cancel', handleClose)
-      cleanLockScrollbar()
-    }
-  }, [open, openProp, onOpenChange])
-
-  return {
-    triggerRef,
-    contentRef,
-    open,
-    onOpenChange: handleOpenChange,
-  }
+  return context
 }

@@ -1,107 +1,118 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimDialogVariants, AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
-import SheetPrimitive from '@gentleduck/primitives/sheet'
-import type { VariantProps } from '@gentleduck/variants'
+import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
+import SheetPrimitive, { useSheetContext } from '@gentleduck/primitives/sheet'
+import { VariantProps } from '@gentleduck/variants'
+import { X } from 'lucide-react'
 import type React from 'react'
-import {
-  DialogClose,
-  DialogCloseX,
-  type DialogContentProps,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../dialog'
 
 function Sheet({ closeButton = true, ...props }: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root closeButton={closeButton} {...props} />
 }
 
-const SheetTrigger = DialogTrigger
+function SheetTrigger({ children, ...props }: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Trigger>) {
+  return <SheetPrimitive.Trigger {...props}>{children}</SheetPrimitive.Trigger>
+}
+
+export function SheetCloseX({
+  ref,
+  size = 16,
+  children,
+  className,
+  ...props
+}: React.HTMLProps<HTMLButtonElement> & {
+  size?: number
+}): React.JSX.Element {
+  const { setOpen } = useSheetContext()
+
+  return (
+    <button
+      {...props}
+      ref={ref}
+      type="button"
+      aria-label="close"
+      className={cn(
+        'absolute end-3 top-3 size-4 cursor-pointer rounded text-accent-foreground opacity-70 transition-all hover:opacity-100',
+        className,
+      )}
+      onClick={() => setOpen?.(false)}>
+      {children ?? <X aria-hidden size={size} />}
+    </button>
+  )
+}
 
 function SheetContent({
   children,
   className,
   renderOnce = false,
-  overlay = 'default',
-  closedby = 'any',
   side = 'right',
   ...props
-}: DialogContentProps & VariantProps<typeof AnimSheetVariants>): React.JSX.Element {
+}: React.ComponentPropsWithRef<typeof SheetPrimitive.Content> &
+  VariantProps<typeof AnimVariants> &
+  VariantProps<typeof AnimSheetVariants> & {
+    renderOnce?: boolean
+    sideOffset?: number
+    closedby: string
+  }): React.JSX.Element {
   return (
-    <SheetPrimitive.Content
-      dialogClose={DialogCloseX}
-      className={cn(
-        AnimVariants({ overlay: overlay }),
-        AnimDialogVariants({ animation: 'nothing' }),
-        AnimSheetVariants({ side: side }),
-        className,
-        'overflow-hidden rounded-none',
-      )}
-      {...props}>
-      <div className="flex flex-col gap-4">{children}</div>
-    </SheetPrimitive.Content>
+    <SheetPrimitive.Portal>
+      <SheetPrimitive.Overlay
+        className={cn('data-[open=false]:delay-100 data-[open=false]:duration-400 data-[open=true]:duration-400')}>
+        <SheetPrimitive.Content
+          renderOnce={renderOnce}
+          SheetClose={SheetCloseX}
+          className={cn(AnimVariants(), AnimSheetVariants({ side }), className)}
+          {...props}>
+          {children}
+        </SheetPrimitive.Content>
+      </SheetPrimitive.Overlay>
+    </SheetPrimitive.Portal>
   )
 }
 
-/**
- * SheetHeader component renders a header section for a sheet.
- * It supports additional class names and props to customize the
- * appearance and behavior of the header. The component uses a
- * flexbox layout to arrange its children in a vertical column
- * and applies responsive text alignment.
- *
- * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
- * @param {React.Ref<HTMLDivElement>} [props.ref] - A ref to be forwarded to the component.
- * @param {string} props.className - Additional class names for styling.
- *
- * @returns {React.JSX.Element} The rendered SheetHeader component.
- */
-const SheetHeader = DialogHeader
-/**
- * SheetFooter component renders a footer section for a sheet.
- * It supports additional class names and props to customize the
- * appearance and behavior of the footer. The component uses a
- * flexbox layout to arrange its children in a column on small
- * screens and in a row with space between items on larger screens.
- *
- * @param {React.HTMLProps<HTMLDivElement>} props - The properties passed to the component.
- * @param {string} props.className - Additional class names for styling.
- * @param {React.Ref<HTMLDivElement>} [props.ref] - Additional class names for styling.
- *
- * @returns {React.JSX.Element} The rendered SheetFooter component.
- */
-const SheetFooter = DialogFooter
+function SheetHeader({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithRef<typeof SheetPrimitive.Heading>): React.JSX.Element {
+  return (
+    <SheetPrimitive.Heading
+      ref={ref}
+      className={cn('flex flex-col gap-1.5 text-left rtl:text-right', className)}
+      {...props}
+    />
+  )
+}
 
-/**
- * `SheetTitle` is a React component that forwards its ref to the `SheetTitle` component.
- * It applies additional class names for styling and accepts all props that `SheetTitle` accepts.
- *
- * @param {React.HTMLProps<HTMLHeadingElement>} props - The properties passed to the component.
- * @param {string} [props.className ] - Additional class names to apply to the component.
- * @param {React.Ref<HTMLHeadingElement>} [props.ref] - A ref to be forwarded to the `SheetTitle` component.
- * @param {React.HTMLProps<HTMLHeadingElement>} [...props] - All other props to be passed to the `SheetTitle` component.
- *
- * @returns {React.JSX.Element} The rendered `SheetTitle` component with forwarded ref and applied class names.
- */
-const SheetTitle = DialogTitle
+function SheetFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
+  return (
+    <div ref={ref} className={cn(`flex flex-col-reverse gap-2 sm:flex-row sm:justify-end`, className)} {...props} />
+  )
+}
 
-/**
- * `SheetDescription` is a React forwardRef component that wraps around `SheetDescription`.
- * It allows you to pass a `ref` and additional props to the `SheetDescription` component.
- *
- * @param {React.HTMLProps<HTMLParagraphElement>} props - The properties passed to the component.
- * @param {string} [props.className] - A className to apply to the component.
- * @param {React.Ref} [props.ref] - A ref to be forwarded to the `SheetPrimitive.Description` component.
- * @param {React.HTMLProps<HTMLParagraphElement>} [..props] - Additional props to be passed to the component.
- *
- * @returns {React.JSX.Element} A `SheetDescription` component with forwarded ref and additional props.
- */
-const SheetDescription = DialogDescription
+function SheetTitle({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithRef<typeof SheetPrimitive.Title>): React.JSX.Element {
+  return (
+    <SheetPrimitive.Title
+      ref={ref}
+      className={cn('font-semibold text-lg leading-none tracking-tight', className)}
+      {...props}
+    />
+  )
+}
 
-const SheetClose = DialogClose
+const SheetDescription = ({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithRef<typeof SheetPrimitive.Description>): React.JSX.Element => (
+  <SheetPrimitive.Description ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
+)
 
-export { Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription }
+const SheetClose = SheetPrimitive.Close
+
+export { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, SheetClose }
