@@ -21,19 +21,7 @@ export const AnimVariants = cva('', {
 })
 
 export const AnimDialogVariants = cva(
-  `relative z-50 h-fit w-full border border-border bg-background rounded-lg shadow-sm outline-hidden p-6 flex flex-col gap-4 overflow-hidden`,
-  {
-    variants: {
-      animation: {
-        default:
-          'pointer-events-none opacity-0 starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:scale-100 data-[open=true]:opacity-100',
-        nothing: '',
-      },
-    },
-    defaultVariants: {
-      animation: 'default',
-    },
-  },
+  `relative z-50 h-fit w-full border border-border text-popover-foreground bg-popover rounded-lg shadow-sm outline-hidden p-6 flex flex-col overflow-hidden pointer-events-none opacity-0 starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100 text-balance`,
 )
 
 export const AnimPopoverArrowVariants = cva(

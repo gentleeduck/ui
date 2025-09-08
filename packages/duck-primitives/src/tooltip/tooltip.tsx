@@ -14,7 +14,7 @@ import {
   useRole,
 } from '@floating-ui/react'
 import * as React from 'react'
-import { Mount } from '../mount'
+import { Mountt } from '../mount'
 
 interface TooltipOptions {
   initialOpen?: boolean
@@ -23,8 +23,6 @@ interface TooltipOptions {
   onOpenChange?: (open: boolean) => void
   skipDelayDuration?: number
   delayDuration?: number
-  sideOffset?: number
-  alignOffset?: number
 }
 
 export function useTooltip({
@@ -32,10 +30,8 @@ export function useTooltip({
   placement = 'top',
   open: controlledOpen,
   onOpenChange: setControlledOpen,
-  delayDuration = 700,
+  delayDuration = 150,
   skipDelayDuration = 150,
-  sideOffset = 4,
-  alignOffset = 0,
 }: TooltipOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
 
@@ -48,13 +44,13 @@ export function useTooltip({
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
+      offset(5),
       flip({
         crossAxis: placement.includes('-'),
         fallbackAxisSideDirection: 'start',
-        padding: 4,
+        padding: 5,
       }),
-      shift({ padding: 4 }),
+      shift({ padding: 5 }),
     ],
   })
 
@@ -143,7 +139,12 @@ const Trigger = ({
   )
 }
 
-function Content({ style, ref: propRef, ...props }: React.HTMLProps<HTMLDivElement>) {
+function Content({
+  style,
+  ref: propRef,
+  renderOnce = true,
+  ...props
+}: React.HTMLProps<HTMLDivElement> & { renderOnce?: boolean }) {
   const context = useTooltipContext()
   const localRef = React.useRef<HTMLDivElement | null>(null)
   const mergedRef = useMergeRefs([context.refs.setFloating, propRef as any, localRef])
@@ -169,32 +170,28 @@ function Content({ style, ref: propRef, ...props }: React.HTMLProps<HTMLDivEleme
   }, [context.open, context.floatingStyles])
 
   return (
-    <FloatingPortal>
-      <div
-        ref={mergedRef}
-        data-open={context.open}
-        {...context.getFloatingProps(props)}
-        style={
-          {
-            ...(context.floatingStyles || {}),
-            transform: `${context.floatingStyles?.transform ?? ''} scale(0.95)`,
-            opacity: 0,
-            '--duck-tooltip-transform-origin': context.floatingStyles?.transformOrigin,
-            transformOrigin: 'var(--duck-tooltip-transform-origin)',
-            ...style,
-          } as React.CSSProperties
-        }>
-        <Mount
-          open={context.open}
-          // @ts-ignore
-          ref={localRef}
-          waitForRender
-          onReady={applyReadyStyles}>
-          {props.children}
-        </Mount>
-      </div>
-    </FloatingPortal>
+    <div
+      ref={mergedRef}
+      data-open={context.open}
+      {...context.getFloatingProps(props)}
+      style={
+        {
+          ...(context.floatingStyles || {}),
+          transform: `${context.floatingStyles?.transform ?? ''} scale(${context.open ? 1 : 0.95})`,
+          '--duck-tooltip-transform-origin': context.floatingStyles?.transformOrigin,
+          transformOrigin: 'var(--duck-tooltip-transform-origin)',
+          ...style,
+        } as React.CSSProperties
+      }>
+      <Mountt open={context.open} ref={localRef} waitForRender onReady={applyReadyStyles} renderOnce={renderOnce}>
+        {props.children}
+      </Mountt>
+    </div>
   )
 }
 
-export { Root, Trigger, Content }
+function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
+  return <FloatingPortal {...props}>{children}</FloatingPortal>
+}
+
+export { Root, Trigger, Content, Portal }

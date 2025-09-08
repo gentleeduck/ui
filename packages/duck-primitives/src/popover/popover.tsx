@@ -79,15 +79,11 @@ function Trigger({
 function Content({
   style,
   ref: propRef,
-  forceMount = true,
   renderOnce = false,
-  waitForRender = true,
-  withPortal = true,
   lockScroll = false,
   ...props
 }: React.HTMLProps<HTMLDivElement> &
   React.ComponentPropsWithoutRef<typeof Mount> & {
-    withPortal?: boolean
     lockScroll?: boolean
   }) {
   const { context: floatingContext, ...context } = usePopoverContext()
@@ -100,7 +96,7 @@ function Content({
     return () => cleanLockScrollbar()
   }, [lockScroll, context.open])
 
-  const Children = (
+  return (
     <FloatingFocusManager context={floatingContext} modal={context.modal}>
       <div
         ref={ref}
@@ -113,19 +109,12 @@ function Content({
         }}
         data-open={context.open}
         {...context.getFloatingProps(props)}>
-        <Mount
-          open={context.open}
-          ref={ref as never}
-          forceMount={forceMount}
-          waitForRender={waitForRender}
-          renderOnce={renderOnce}
-          {...props}>
+        <Mount open={context.open} renderOnce={renderOnce}>
           {props.children}
         </Mount>
       </div>
     </FloatingFocusManager>
   )
-  return withPortal ? <Portal>{Children}</Portal> : Children
 }
 
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {

@@ -68,17 +68,13 @@ function Trigger({
 function Content({
   style,
   ref: propRef,
-  forceMount = true,
   renderOnce = false,
-  waitForRender = true,
-  withPortal = true,
   side = 'right',
   SheetClose: SheetClose,
   ...props
 }: React.HTMLProps<HTMLDivElement> &
   React.ComponentPropsWithoutRef<typeof Mount> & {
     side?: 'left' | 'right' | 'top' | 'bottom'
-    withPortal?: boolean
     SheetClose?: React.FC
   }) {
   const { context: floatingContext, ...context } = useSheetContext()
@@ -94,18 +90,10 @@ function Content({
         style={{
           ...style,
         }}>
-        {
-          <Mount
-            open={context.open}
-            ref={ref as never}
-            forceMount={forceMount}
-            waitForRender={waitForRender}
-            renderOnce={renderOnce}
-            {...props}>
-            {context.closeButton && <SheetClose />}
-            {props.children}
-          </Mount>
-        }
+        <Mount open={context.open} renderOnce={renderOnce} {...props}>
+          {props.children}
+          {context.closeButton && <SheetClose />}
+        </Mount>
       </div>
     </FloatingFocusManager>
   )

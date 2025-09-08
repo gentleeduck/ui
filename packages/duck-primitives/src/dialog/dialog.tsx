@@ -4,8 +4,8 @@ import { FloatingFocusManager, FloatingOverlay, FloatingPortal, useMergeRefs } f
 import * as React from 'react'
 import { Mount } from '../mount'
 import { useDialog, useDialogContext } from './dialog.hooks'
-import { DialogContextProps, DialogOptions } from './dialog.types'
 import { cleanLockScrollbar, lockScrollbar } from './dialog.libs'
+import { DialogContextProps, DialogOptions } from './dialog.types'
 
 const DialogContext = React.createContext<DialogContextProps>(null)
 
@@ -68,19 +68,11 @@ function Trigger({
 function Content({
   style,
   ref: propRef,
-  forceMount = true,
-  renderOnce = false,
-  waitForRender = true,
-  withPortal = true,
   dialogClose: DialogClose,
-  lockScroll = false,
   ...props
-}: React.HTMLProps<HTMLDivElement> &
-  React.ComponentPropsWithoutRef<typeof Mount> & {
-    withPortal?: boolean
-    lockScroll?: boolean
-    dialogClose?: React.FC
-  }) {
+}: React.HTMLProps<HTMLDivElement> & {
+  dialogClose?: React.FC
+}) {
   const { context: floatingContext, ...context } = useDialogContext()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
 
@@ -97,18 +89,10 @@ function Content({
         }}
         data-open={context.open}
         {...context.getFloatingProps(props)}>
-        {
-          <Mount
-            open={context.open}
-            ref={ref as never}
-            forceMount={forceMount}
-            waitForRender={waitForRender}
-            renderOnce={renderOnce}
-            {...props}>
-            {context.closeButton && <DialogClose />}
-            {props.children}
-          </Mount>
-        }
+        <Mount open={context.open}>
+          {props.children}
+          {context.closeButton && <DialogClose />}
+        </Mount>
       </div>
     </FloatingFocusManager>
   )
@@ -128,7 +112,6 @@ function OverLay({ children, lockScroll = true, ...props }: React.ComponentProps
     <FloatingOverlay
       style={
         {
-          transition: 'opacity 200ms ease-in-out',
           pointerEvents: context.open ? 'auto' : 'none',
           opacity: context.open ? 1 : 0,
           zIndex: 100,
