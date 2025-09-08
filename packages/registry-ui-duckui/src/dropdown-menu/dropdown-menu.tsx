@@ -96,7 +96,7 @@ function DropdownMenuContent({
       lockScroll
       ref={contentRef}
       duck-dropdown-menu-content=""
-      className={cn('min-w-[8rem] overflow-visible p-1', className)}
+      className={cn('min-w-[180px] overflow-visible p-1', className)}
       {...props}>
       {children}
     </PopoverContent>

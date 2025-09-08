@@ -2,15 +2,14 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
-import * as HoverCardPrimitive from '@gentleduck/primitives/tooltip'
-import { VariantProps } from '@gentleduck/variants'
+import * as HoverCardPrimitive from '@gentleduck/primitives/hover-card'
 import type React from 'react'
 import { Button } from '../button'
 
 function HoverCard({
   skipDelayDuration,
   delayDuration,
-  placement = 'bottom',
+  placement = 'top',
   ...props
 }: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Root>) {
   return (
@@ -41,22 +40,12 @@ function HoverCardTrigger({
 function HoverCardContent({
   className,
   children,
-  animation = 'default',
-  overlay = 'nothing',
   ...props
-}: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Content> & {
-  animation?: VariantProps<typeof AnimDialogVariants>['animation']
-  overlay?: VariantProps<typeof AnimVariants>['overlay']
-}): React.JSX.Element {
+}: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Content>): React.JSX.Element {
   return (
     <HoverCardPrimitive.Content
-      role="HoverCard"
-      className={cn(
-        AnimVariants({ overlay }),
-        AnimDialogVariants({ animation }),
-        'absolute z-50 max-h-fit w-fit max-w-[300px] text-balance border border-border bg-popover p-4 text-popover-foreground',
-        className,
-      )}
+      role="hover-card"
+      className={cn(AnimVariants(), AnimDialogVariants(), className)}
       {...props}>
       {children}
     </HoverCardPrimitive.Content>

@@ -259,7 +259,7 @@ function MenubarTrigger({ children, className, ...props }: React.ComponentPropsW
 }
 
 function MenubarContent({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuContent>) {
-  return <DropdownMenuContent {...props} className="max-w-[250px]" duck-menubar-content="" />
+  return <DropdownMenuContent {...props} duck-menubar-content="" />
 }
 
 function MenubarItem({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuItem>) {

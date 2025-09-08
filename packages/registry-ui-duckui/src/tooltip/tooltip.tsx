@@ -3,7 +3,6 @@
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import * as TooltipPrimitive from '@gentleduck/primitives/tooltip'
-import { VariantProps } from '@gentleduck/variants'
 import type React from 'react'
 
 function Tooltip({
@@ -24,27 +23,22 @@ function TooltipTrigger({
 function TooltipContent({
   className,
   children,
-  animation = 'default',
-  overlay = 'nothing',
+  ref,
   ...props
-}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Content> & {
-  animation?: VariantProps<typeof AnimDialogVariants>['animation']
-  overlay?: VariantProps<typeof AnimVariants>['overlay']
-}): React.JSX.Element {
+}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>): React.JSX.Element {
   return (
-    <TooltipPrimitive.Content
-      role="tooltip"
-      className={cn(
-        AnimVariants({ overlay }),
-        AnimDialogVariants({ animation }),
-        'absolute z-50 max-h-fit w-fit max-w-[300px] text-balance border border-border bg-popover p-4 text-popover-foreground',
-        'select-none px-3 py-1.5',
-        className,
-      )}
-      {...props}>
-      {children}
-    </TooltipPrimitive.Content>
+    <TooltipPrimitive.Portal>
+      <TooltipPrimitive.Content
+        ref={ref}
+        role="tooltip"
+        className={cn(AnimVariants(), AnimDialogVariants(), 'w-fit select-none px-3 py-1.5', className)}
+        {...props}>
+        {children}
+      </TooltipPrimitive.Content>
+    </TooltipPrimitive.Portal>
   )
 }
 
-export { Tooltip, TooltipTrigger, TooltipContent }
+const TooltipPortal = TooltipPrimitive.Portal
+
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipPortal }

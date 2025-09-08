@@ -58,6 +58,7 @@ function DialogContent({
     <DialogPrimitive.Portal>
       <DialogPrimitive.OverLay className={cn(AnimVariants())}>
         <DialogPrimitive.Content
+          renderOnce={renderOnce}
           dialogClose={DialogCloseX}
           className={cn(AnimVariants(), AnimDialogVariants({ animation: animation }), className)}
           {...props}>

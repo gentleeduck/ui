@@ -1,16 +1,3 @@
-/**
- * Props for the CommandGroup component.
- * This component is used to group command items under a common heading.
- */
-export interface CommandGroupProps extends React.HTMLProps<HTMLDivElement> {
-  /** The title for the command group. */
-  heading?: string
-}
-
-/**
- * Type for the context used within the Command components.
- * This context provides the current search query and a function to update it.
- */
 export type CommandContextType = {
   /** The current search query. */
   search: string
