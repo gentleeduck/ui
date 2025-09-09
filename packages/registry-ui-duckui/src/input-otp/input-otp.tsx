@@ -67,7 +67,7 @@ const InputOTPSlot = ({ className, ref, ...props }: React.ComponentPropsWithRef<
     <input
       ref={ref}
       className={cn(
-        'relative h-10 w-10 border-input border-y border-r text-center text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+        'relative h-10 w-10 border-input border-y border-r text-center text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md focus:shadow-none focus:outline-none focus:ring-ring focus:ring-offset-2',
         className,
       )}
       aria-required="true"

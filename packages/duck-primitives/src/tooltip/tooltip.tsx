@@ -1,94 +1,14 @@
-import type { Placement } from '@floating-ui/react'
-import {
-  autoUpdate,
-  FloatingPortal,
-  flip,
-  offset,
-  shift,
-  useDismiss,
-  useFloating,
-  useFocus,
-  useHover,
-  useInteractions,
-  useMergeRefs,
-  useRole,
-} from '@floating-ui/react'
+import { FloatingFocusManager, FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import * as React from 'react'
-import { Mountt } from '../mount'
+import { cleanLockScrollbar, lockScrollbar } from '../dialog'
+import { Presence } from '../presence'
+import { Slot } from '../slot'
+import { useTooltip } from './tooltip.hooks'
+import { TooltipOptions } from './tooltip.types'
 
-interface TooltipOptions {
-  initialOpen?: boolean
-  placement?: Placement
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-  skipDelayDuration?: number
-  delayDuration?: number
-}
+const TooltipContext = React.createContext<ReturnType<typeof useTooltip> | null>(null)
 
-export function useTooltip({
-  initialOpen = false,
-  placement = 'top',
-  open: controlledOpen,
-  onOpenChange: setControlledOpen,
-  delayDuration = 150,
-  skipDelayDuration = 150,
-}: TooltipOptions = {}) {
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
-
-  const open = controlledOpen ?? uncontrolledOpen
-  const setOpen = setControlledOpen ?? setUncontrolledOpen
-
-  const data = useFloating({
-    placement,
-    open,
-    onOpenChange: setOpen,
-    whileElementsMounted: autoUpdate,
-    middleware: [
-      offset(5),
-      flip({
-        crossAxis: placement.includes('-'),
-        fallbackAxisSideDirection: 'start',
-        padding: 5,
-      }),
-      shift({ padding: 5 }),
-    ],
-  })
-
-  const context = data.context
-
-  const hover = useHover(context, {
-    move: false,
-    restMs: skipDelayDuration,
-    enabled: controlledOpen == null,
-    delay: { open: delayDuration, close: delayDuration },
-  })
-
-  const focus = useFocus(context, {
-    enabled: controlledOpen == null,
-  })
-  const dismiss = useDismiss(context, {
-    outsidePress: false,
-  })
-  const role = useRole(context, { role: 'tooltip' })
-
-  const interactions = useInteractions([hover, focus, dismiss, role])
-
-  return React.useMemo(
-    () => ({
-      open,
-      setOpen,
-      ...interactions,
-      ...data,
-    }),
-    [open, setOpen, interactions, data],
-  )
-}
-
-type ContextType = ReturnType<typeof useTooltip> | null
-
-const TooltipContext = React.createContext<ContextType>(null)
-
-export const useTooltipContext = () => {
+export function useTooltipContext() {
   const context = React.useContext(TooltipContext)
 
   if (context == null) {
@@ -98,22 +18,31 @@ export const useTooltipContext = () => {
   return context
 }
 
-function Root({ children, ...options }: { children: React.ReactNode } & TooltipOptions) {
+function Root({
+  children,
+  ...restOptions
+}: {
+  children: React.ReactNode
+} & TooltipOptions) {
   // This can accept any props as options, e.g. `placement`,
   // or other positioning options.
-  const tooltip = useTooltip(options)
-  return <TooltipContext.Provider value={tooltip}>{children}</TooltipContext.Provider>
+  const Tooltip = useTooltip({ ...restOptions })
+  return <TooltipContext.Provider value={Tooltip}>{children}</TooltipContext.Provider>
 }
 
-const Trigger = ({
+function Trigger({
   children,
   asChild = false,
   ref: propRef,
+  onClick,
   ...props
-}: React.HTMLProps<HTMLButtonElement> & { asChild?: boolean }) => {
+}: React.ComponentPropsWithRef<typeof Slot> & {
+  asChild?: boolean
+}) {
   const context = useTooltipContext()
-  const childrenRef = (children as any).ref
+  const childrenRef = (children as any)?.ref
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
+  const Comp = asChild ? Slot : 'button'
 
   // `asChild` allows the user to pass any element as the anchor
   if (asChild && React.isValidElement(children)) {
@@ -124,69 +53,71 @@ const Trigger = ({
         ...props,
         ...(children.props as any),
         'data-open': context.open,
+        onClick: (e: React.MouseEvent<HTMLElement>) => {
+          onClick?.(e)
+          context.setOpen(!context.open)
+        },
       }),
     )
   }
 
   return (
-    <button
+    <Comp
       ref={ref}
       // The user can style the trigger based on the state
       data-open={context.open}
+      onClick={(e: React.MouseEvent<HTMLElement>) => {
+        context.setOpen(!context.open)
+        onClick?.(e)
+      }}
       {...context.getReferenceProps(props)}>
       {children}
-    </button>
+    </Comp>
   )
 }
-
 function Content({
   style,
   ref: propRef,
+  forceMount = true,
   renderOnce = true,
+  lockScroll = false,
   ...props
-}: React.HTMLProps<HTMLDivElement> & { renderOnce?: boolean }) {
-  const context = useTooltipContext()
-  const localRef = React.useRef<HTMLDivElement | null>(null)
-  const mergedRef = useMergeRefs([context.refs.setFloating, propRef as any, localRef])
-  const readyRef = React.useRef(false)
+}: React.HTMLProps<HTMLDivElement> & {
+  forceMount?: boolean
+  renderOnce?: boolean
+  lockScroll?: boolean
+}) {
+  const { context: floatingContext, ...context } = useTooltipContext()
+  const ref = useMergeRefs([context.refs.setFloating, propRef])
 
-  // Apply animation imperatively when ready
-  const applyReadyStyles = React.useCallback(() => {
-    if (!localRef.current) return
-    readyRef.current = true
-    localRef.current.style.transform = `${context.floatingStyles?.transform ?? ''} scale(1)`
-    localRef.current.style.opacity = '1'
-  }, [context.floatingStyles])
-
-  // Reset styles on close (imperatively)
   React.useEffect(() => {
-    if (!context.open) {
-      readyRef.current = false
-      if (localRef.current) {
-        localRef.current.style.transform = `${context.floatingStyles?.transform ?? ''} scale(0.95)`
-        localRef.current.style.opacity = '0'
-      }
+    if (lockScroll && context.open) {
+      lockScrollbar(true)
     }
-  }, [context.open, context.floatingStyles])
+    return () => cleanLockScrollbar()
+  }, [lockScroll, context.open])
 
   return (
-    <div
-      ref={mergedRef}
-      data-open={context.open}
-      {...context.getFloatingProps(props)}
-      style={
-        {
-          ...(context.floatingStyles || {}),
-          transform: `${context.floatingStyles?.transform ?? ''} scale(${context.open ? 1 : 0.95})`,
-          '--duck-tooltip-transform-origin': context.floatingStyles?.transformOrigin,
-          transformOrigin: 'var(--duck-tooltip-transform-origin)',
-          ...style,
-        } as React.CSSProperties
-      }>
-      <Mountt open={context.open} ref={localRef} waitForRender onReady={applyReadyStyles} renderOnce={renderOnce}>
-        {props.children}
-      </Mountt>
-    </div>
+    <Presence present={forceMount || context.open}>
+      <FloatingFocusManager context={floatingContext} modal={context.modal}>
+        <div
+          ref={ref}
+          style={{
+            ...{
+              ...context.floatingStyles,
+              transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
+              '--duck-tooltip-content-transform-origin': context.floatingStyles?.transformOrigin,
+              transformOrigin: 'var(--duck-tooltip-content-transform-origin)',
+            },
+            ...style,
+          }}
+          data-side={context.placement.split('-')[0]}
+          data-open={context.open}
+          {...context.getFloatingProps(props)}>
+          {props.children}
+        </div>
+      </FloatingFocusManager>
+    </Presence>
   )
 }
 

@@ -3,7 +3,6 @@
 import { cn } from '@gentleduck/libs/cn'
 import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
 import DialogPrimitive, { useDialogContext } from '@gentleduck/primitives/dialog'
-import { VariantProps } from '@gentleduck/variants'
 import { X } from 'lucide-react'
 import type React from 'react'
 
@@ -33,7 +32,7 @@ export function DialogCloseX({
       type="button"
       aria-label="close"
       className={cn(
-        'absolute end-3 top-3 size-4 cursor-pointer rounded text-accent-foreground opacity-70 transition-all hover:opacity-100',
+        "absolute absolute end-3 top-3 top-4 right-4 size-4 cursor-pointer rounded rounded-xs text-accent-foreground opacity-70 opacity-70 ring-offset-background transition-all transition-opacity hover:opacity-100 hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className,
       )}
       onClick={() => setOpen?.(false)}>
@@ -45,26 +44,22 @@ export function DialogCloseX({
 function DialogContent({
   children,
   className,
-  renderOnce = false,
-  animation = 'default',
   ...props
-}: React.ComponentPropsWithRef<typeof DialogPrimitive.Content> &
-  VariantProps<typeof AnimVariants> &
-  VariantProps<typeof AnimDialogVariants> & {
-    renderOnce?: boolean
-    sideOffset?: number
-  }): React.JSX.Element {
+}: React.ComponentPropsWithRef<typeof DialogPrimitive.Content>): React.JSX.Element {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.OverLay className={cn(AnimVariants())}>
+      <DialogPrimitive.Overlay className={cn(AnimVariants())}>
         <DialogPrimitive.Content
-          renderOnce={renderOnce}
           dialogClose={DialogCloseX}
-          className={cn(AnimVariants(), AnimDialogVariants({ animation: animation }), className)}
+          className={cn(
+            AnimVariants(),
+            'pointer-events-none relative z-50 flex h-fit w-full flex-col gap-4 overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
+            className,
+          )}
           {...props}>
           {children}
         </DialogPrimitive.Content>
-      </DialogPrimitive.OverLay>
+      </DialogPrimitive.Overlay>
     </DialogPrimitive.Portal>
   )
 }

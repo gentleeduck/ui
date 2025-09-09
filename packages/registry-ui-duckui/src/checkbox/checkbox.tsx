@@ -69,12 +69,12 @@ const Checkbox = ({
                     ? 'checkedIndicatorReady'
                     : 'default',
           }),
-          AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
+          AnimVariants({ pseudo: 'animate' }),
           (indicatorReady && checkedIndicatorReady) || indicatorReady
             ? ''
             : 'after:mb-0.5 after:h-[9px] after:w-[4px] after:rotate-45 after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent',
           'data-[checked="indeterminate"]:border-border data-[checked="indeterminate"]:bg-transparent data-[checked="indeterminate"]:text-foreground',
-          'bg-transparent',
+          'bg-transparent rounded-sm',
           className,
         )}
         {...props}

@@ -96,7 +96,7 @@ function DropdownMenuContent({
       lockScroll
       ref={contentRef}
       duck-dropdown-menu-content=""
-      className={cn('min-w-[180px] overflow-visible p-1', className)}
+      className={cn('w-auto min-w-[180px] overflow-visible p-1', className)}
       {...props}>
       {children}
     </PopoverContent>
@@ -108,9 +108,9 @@ function DropdownMenuLabel({
   ref,
   inset,
   ...props
-}: React.HTMLProps<HTMLDivElement> & { inset?: boolean }): React.JSX.Element {
+}: React.HTMLProps<HTMLLabelElement> & { inset?: boolean }): React.JSX.Element {
   return (
-    <div
+    <label
       ref={ref}
       className={cn('px-2 py-1.5 font-semibold text-sm', inset && 'pl-8', className)}
       {...props}
@@ -283,7 +283,7 @@ function DropdownMenuSubContent({
     <PopoverContent
       lockScroll={true}
       ref={contentRef}
-      className={cn('fixed z-[55] min-w-[8rem] p-1', className)}
+      className={cn('fixed z-[55] w-auto min-w-[8rem] p-1', className)}
       {...props}
       duck-dropdown-menu-sub-content="">
       {children}

@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@gentleduck/variants": "workspace:*",
+    "@gentleduck/primitives": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/registry-ui": "workspace:*",
