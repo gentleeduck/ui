@@ -56,22 +56,6 @@ export function ExampleDialog() {
 
 > API shape may vary between primitives. See each primitive’s `src/<primitive>/` for details.
 
----
-
-## 📚 Available Primitives
-
-```text
-@gentleduck/primitives/checkers          helpers for conditional behaviors
-@gentleduck/primitives/dialog            accessible modal dialog
-@gentleduck/primitives/drawer            anchored, dismissible panel
-@gentleduck/primitives/mount             mount/unmount utilities
-@gentleduck/primitives/navigation-menu   menu/navigation behaviors (WIP)
-@gentleduck/primitives/popover           floating, non-modal surface
-@gentleduck/primitives/sheet             full-height/width surface
-@gentleduck/primitives/slider            pointer/keyboard-driven slider
-@gentleduck/primitives/slot              composition utility
-@gentleduck/primitives/tooltip           accessible tooltip
-```
 
 ## 🔒 Security
 

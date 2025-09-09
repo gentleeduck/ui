@@ -1,11 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { AnimVariants } from '@gentleduck/motion/anim'
 import SheetPrimitive, { useSheetContext } from '@gentleduck/primitives/sheet'
 import { VariantProps } from '@gentleduck/variants'
 import { X } from 'lucide-react'
 import type React from 'react'
+import { AnimSheetVariants } from './sheet.constants'
 
 function Sheet({ closeButton = true, ...props }: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root closeButton={closeButton} {...props} />
@@ -50,18 +51,11 @@ function SheetContent({
 }: React.ComponentPropsWithRef<typeof SheetPrimitive.Content> &
   VariantProps<typeof AnimSheetVariants>): React.JSX.Element {
   return (
-    // className={cn('data-[open=false]:delay-100 data-[open=false]:duration-400 data-[open=true]:duration-400')}>
     <SheetPrimitive.Portal>
       <SheetPrimitive.Overlay className={cn(AnimVariants())}>
         <SheetPrimitive.Content
           SheetClose={SheetCloseX}
-          className={cn(
-            AnimVariants(),
-            AnimSheetVariants({ side }),
-
-            // 'data-[open=false]:fade-out-0 data-[open=true]:fade-in-0 data-[open=false]:zoom-out-95 data-[open=true]:zoom-in-95 pointer-events-none fixed top-[50%] left-[50%] z-50 flex h-fit w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] flex-col gap-4 overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=false]:animate-out data-[open=true]:animate-in data-[open=true]:opacity-100 sm:max-w-lg',
-            className,
-          )}
+          className={cn(AnimVariants(), AnimSheetVariants({ side }), className)}
           {...props}>
           {children}
         </SheetPrimitive.Content>

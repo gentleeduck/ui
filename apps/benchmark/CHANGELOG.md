@@ -1,5 +1,14 @@
 # benchmark
 
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @gentleduck/motion@0.1.4
+  - @gentleduck/registry-ui-duckui@0.1.0
+  - @gentleduck/registry-examples-duckui@0.1.0
+
 ## 0.1.8
 
 ### Patch Changes

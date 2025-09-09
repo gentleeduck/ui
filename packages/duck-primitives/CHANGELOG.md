@@ -1,5 +1,24 @@
 # @gentleduck/primitives
 
+## 0.1.18
+
+### Patch Changes
+
+- Updated dependencies
+  - @gentleduck/motion@0.1.4
+
+## 0.1.17
+
+### Patch Changes
+
+- fixed the positioning
+
+## 0.1.16
+
+### Patch Changes
+
+- fixed the positioning
+
 ## 0.1.15
 
 ### Patch Changes

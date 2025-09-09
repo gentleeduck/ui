@@ -54,7 +54,7 @@ export function ThemeCustomizer() {
           <PopoverTrigger asChild>
             <Button size="sm">Customize</Button>
           </PopoverTrigger>
-          <PopoverContent className="z-40 max-w-[325px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
+          <PopoverContent className="z-40 max-w-[375px] w-auto rounded-[12px] bg-white p-6 dark:bg-zinc-950">
             <Customizer />
           </PopoverContent>
         </Popover>

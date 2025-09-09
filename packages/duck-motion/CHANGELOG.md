@@ -1,5 +1,11 @@
 # @gentleduck/motion
 
+## 0.1.4
+
+### Patch Changes
+
+- enhanced the animations
+
 ## 0.1.3
 
 ### Patch Changes

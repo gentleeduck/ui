@@ -2,7 +2,7 @@
   "name": "@gentleduck/motion",
   "description": "motion is a behavioral component abstraction that makes the aero dynamics of the web",
   "private": false,
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "types": "./index.ts",
   "$schema": "https://json.schemastore.org/package.json",

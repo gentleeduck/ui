@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { AnimVariants } from '@gentleduck/motion/anim'
 import * as HoverCardPrimitive from '@gentleduck/primitives/hover-card'
 import type React from 'react'
 import { Button } from '../button'
@@ -45,7 +45,11 @@ function HoverCardContent({
   return (
     <HoverCardPrimitive.Content
       role="hover-card"
-      className={cn(AnimVariants(), AnimDialogVariants(), className)}
+      className={cn(
+        AnimVariants(),
+        'relative z-50 h-fit w-fit overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
+        className,
+      )}
       {...props}>
       {children}
     </HoverCardPrimitive.Content>

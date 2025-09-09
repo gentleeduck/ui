@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/primitives",
-  "version": "0.1.15",
+  "version": "0.1.18",
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "private": false,
   "type": "module",
@@ -65,16 +65,12 @@
     "@gentleduck/typescript-config": "workspace:*",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
-    "husky": "catalog:"
+    "husky": "catalog:",
+    "@types/node": "catalog:"
   },
   "engines": {
     "node": ">=22.0.0"
   },
   "packageManager": "pnpm@10.10.0",
-  "dependencies": {
-    "@floating-ui/react-dom": "2.1.6",
-    "@types/node": "catalog:",
-    "aria-hidden": "1.2.6",
-    "react-remove-scroll": "2.7.1"
-  }
+  "dependencies": {}
 }
