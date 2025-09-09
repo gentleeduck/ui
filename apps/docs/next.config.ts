@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
     '@gentleduck/registry-blocks-duckui',
     '@gentleduck/variants',
     '@gentleduck/motion',
+    '@gentleduck/primitives',
     '@gentleduck/libs',
     '@gentleduck/hooks',
   ],

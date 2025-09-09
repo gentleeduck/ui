@@ -1,6 +1,6 @@
 'use client'
 
-import { Close, Content, Description, DialogContext, Heading, OverLay, Portal, Root, Title, Trigger } from './dialog'
+import { Close, Content, Description, DialogContext, Heading, Overlay, Portal, Root, Title, Trigger } from './dialog'
 
 export * from './dialog'
 export * from './dialog.hooks'
@@ -15,7 +15,7 @@ export default {
   Description,
   Close,
   Title,
-  OverLay,
+  Overlay,
   Portal,
   DialogContext,
 }

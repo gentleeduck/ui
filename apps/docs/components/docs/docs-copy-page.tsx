@@ -80,28 +80,26 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
   )
 
   return (
-    <Popover placement="bottom-start">
-      <div className="bg-secondary group/buttons relative flex rounded-lg *:[[data-slot=button]]:focus-visible:relative *:[[data-slot=button]]:focus-visible:z-10">
-        <Button variant="secondary" size="sm" className="[&_svg]:!size-3.5" onClick={() => copyToClipboard(page)}>
-          {isCopied ? <Check /> : <Copy />}
-          Copy Page
-        </Button>
-        <Separator orientation="vertical" className="bg-foreground/25" />
-        <DropdownMenu placement="bottom-end">
-          <DropdownMenuTrigger asChild className="hidden sm:flex">
-            {trigger}
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="shadow-none bg-muted">
-            {Object.entries(menuItems).map(([key, value]) => (
-              <DropdownMenuItem
-                key={key}
-                className="flex [&>a]:flex [&>a]:items-center [&>a]:gap-2 [&[aria-selected]]:bg-zinc-600/40">
-                {value(url)}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </Popover>
+    <div className="bg-secondary group/buttons relative flex rounded-lg *:[[data-slot=button]]:focus-visible:relative *:[[data-slot=button]]:focus-visible:z-10">
+      <Button variant="secondary" size="sm" className="[&_svg]:!size-3.5" onClick={() => copyToClipboard(page)}>
+        {isCopied ? <Check /> : <Copy />}
+        Copy Page
+      </Button>
+      <Separator orientation="vertical" className="bg-foreground/25" />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild className="hidden sm:flex">
+          {trigger}
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="shadow-none bg-muted" align="end">
+          {Object.entries(menuItems).map(([key, value]) => (
+            <DropdownMenuItem
+              key={key}
+              className="flex [&>a]:flex [&>a]:items-center [&>a]:gap-2 [&[aria-selected]]:bg-zinc-600/40">
+              {value(url)}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   )
 }

@@ -4,6 +4,7 @@ import { FloatingFocusManager, FloatingOverlay, FloatingPortal, useMergeRefs } f
 import * as React from 'react'
 import { cleanLockScrollbar, lockScrollbar } from '../dialog'
 import { Mount } from '../mount'
+import { Slot } from '../slot'
 import { useSheet, useSheetContext } from './sheet.hooks'
 import { SheetContextProps, SheetOptions } from './sheet.types'
 
@@ -25,12 +26,13 @@ function Trigger({
   ref: propRef,
   onClick,
   ...props
-}: React.HTMLProps<HTMLElement> & {
+}: React.ComponentPropsWithRef<typeof Slot> & {
   asChild?: boolean
 }) {
   const context = useSheetContext()
   const childrenRef = (children as any)?.ref
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
+  const Comp = asChild ? Slot : 'button'
 
   // `asChild` allows the user to pass any element as the anchor
   if (asChild && React.isValidElement(children)) {
@@ -50,18 +52,17 @@ function Trigger({
   }
 
   return (
-    <button
+    <Comp
       ref={ref}
-      type="button"
       // The user can style the trigger based on the state
       data-open={context.open}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
-        onClick?.(e)
         context.setOpen(!context.open)
+        onClick?.(e)
       }}
       {...context.getReferenceProps(props)}>
       {children}
-    </button>
+    </Comp>
   )
 }
 
@@ -69,14 +70,16 @@ function Content({
   style,
   ref: propRef,
   renderOnce = false,
+  forceMount = false,
   side = 'right',
   SheetClose: SheetClose,
   ...props
-}: React.HTMLProps<HTMLDivElement> &
-  React.ComponentPropsWithoutRef<typeof Mount> & {
-    side?: 'left' | 'right' | 'top' | 'bottom'
-    SheetClose?: React.FC
-  }) {
+}: React.HTMLProps<HTMLDivElement> & {
+  renderOnce?: boolean
+  forceMount?: boolean
+  side?: 'left' | 'right' | 'top' | 'bottom'
+  SheetClose?: React.FC
+}) {
   const { context: floatingContext, ...context } = useSheetContext()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
 
@@ -90,10 +93,12 @@ function Content({
         style={{
           ...style,
         }}>
-        <Mount open={context.open} renderOnce={renderOnce} {...props}>
-          {props.children}
-          {context.closeButton && <SheetClose />}
-        </Mount>
+        {
+          <Mount open={context.open} renderOnce={renderOnce} {...props}>
+            {props.children}
+            {context.closeButton && <SheetClose />}
+          </Mount>
+        }
       </div>
     </FloatingFocusManager>
   )
@@ -117,9 +122,9 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
           pointerEvents: context.open ? 'auto' : 'none',
           opacity: context.open ? 1 : 0,
           zIndex: 45,
-          '--duck-overlay-bg': 'oklch(0.12 0 0 / 0.83)',
+          '--duck-sheet-overlay-bg': 'oklch(0.12 0 0 / 0.83)',
           backdropFilter: 'blur(1px)',
-          background: 'var(--duck-overlay-bg)',
+          background: 'var(--duck-sheet-overlay-bg)',
           overflow: 'hidden',
         } as React.CSSProperties
       }
@@ -129,7 +134,7 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
   )
 }
 
-function Heading({ children, ref, ...props }: React.HTMLProps<HTMLHeadingElement>) {
+function Heading({ children, ref, ...props }: React.HTMLProps<HTMLDivElement>) {
   const { setLabelId } = useSheetContext()
   const id = React.useId()
 
@@ -141,13 +146,13 @@ function Heading({ children, ref, ...props }: React.HTMLProps<HTMLHeadingElement
   }, [id, setLabelId])
 
   return (
-    <h2 {...props} ref={ref} id={id}>
+    <div {...props} ref={ref} id={id}>
       {children}
-    </h2>
+    </div>
   )
 }
 
-function Title({ children, ref, ...props }: React.HTMLProps<HTMLParagraphElement>) {
+function Title({ children, ref, ...props }: React.HTMLProps<HTMLHeadingElement>) {
   const { setTitleId } = useSheetContext()
   const id = React.useId()
 
@@ -183,9 +188,9 @@ function Description({ children, ref, ...props }: React.HTMLProps<HTMLParagraphE
   )
 }
 
-function Close(props: React.HTMLProps<HTMLButtonElement>) {
+function Close(props: React.ComponentPropsWithRef<typeof Slot>) {
   const { setOpen } = useSheetContext()
-  return <button {...props} ref={props?.ref} onClick={() => setOpen(false)} type="button" />
+  return <Slot {...props} ref={props?.ref} onClick={() => setOpen(false)} />
 }
 
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {

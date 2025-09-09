@@ -1,7 +1,8 @@
 import { FloatingFocusManager, FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import * as React from 'react'
 import { cleanLockScrollbar, lockScrollbar } from '../dialog'
-import { Mount } from '../mount'
+import { Presence } from '../presence'
+import { Slot } from '../slot'
 import { usePopover } from './popover.hooks'
 import { PopoverOptions } from './popover.types'
 
@@ -36,12 +37,13 @@ function Trigger({
   ref: propRef,
   onClick,
   ...props
-}: React.HTMLProps<HTMLElement> & {
+}: React.ComponentPropsWithRef<typeof Slot> & {
   asChild?: boolean
 }) {
   const context = usePopoverContext()
   const childrenRef = (children as any)?.ref
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
+  const Comp = asChild ? Slot : 'button'
 
   // `asChild` allows the user to pass any element as the anchor
   if (asChild && React.isValidElement(children)) {
@@ -61,31 +63,32 @@ function Trigger({
   }
 
   return (
-    <button
+    <Comp
       ref={ref}
-      type="button"
       // The user can style the trigger based on the state
       data-open={context.open}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
-        onClick?.(e)
         context.setOpen(!context.open)
+        onClick?.(e)
       }}
       {...context.getReferenceProps(props)}>
       {children}
-    </button>
+    </Comp>
   )
 }
 
 function Content({
   style,
   ref: propRef,
-  renderOnce = false,
+  forceMount = true,
+  renderOnce = true,
   lockScroll = false,
   ...props
-}: React.HTMLProps<HTMLDivElement> &
-  React.ComponentPropsWithoutRef<typeof Mount> & {
-    lockScroll?: boolean
-  }) {
+}: React.HTMLProps<HTMLDivElement> & {
+  forceMount?: boolean
+  renderOnce?: boolean
+  lockScroll?: boolean
+}) {
   const { context: floatingContext, ...context } = usePopoverContext()
   const ref = useMergeRefs([context.refs.setFloating, propRef])
 
@@ -97,23 +100,26 @@ function Content({
   }, [lockScroll, context.open])
 
   return (
-    <FloatingFocusManager context={floatingContext} modal={context.modal}>
-      <div
-        ref={ref}
-        style={{
-          ...{
-            ...context.floatingStyles,
-            transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.9})`,
-          },
-          ...style,
-        }}
-        data-open={context.open}
-        {...context.getFloatingProps(props)}>
-        <Mount open={context.open} renderOnce={renderOnce}>
+    <Presence present={forceMount || context.open}>
+      <FloatingFocusManager context={floatingContext} modal={context.modal}>
+        <div
+          ref={ref}
+          style={{
+            ...{
+              ...context.floatingStyles,
+              transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
+              '--duck-sheet-content-transform-origin': context.floatingStyles?.transformOrigin,
+              transformOrigin: 'var(--duck-sheet-content-transform-origin)',
+            },
+            ...style,
+          }}
+          data-side={context.placement.split('-')[0]}
+          data-open={context.open}
+          {...context.getFloatingProps(props)}>
           {props.children}
-        </Mount>
-      </div>
-    </FloatingFocusManager>
+        </div>
+      </FloatingFocusManager>
+    </Presence>
   )
 }
 

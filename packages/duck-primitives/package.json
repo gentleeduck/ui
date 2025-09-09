@@ -50,15 +50,15 @@
   },
   "peerDependencies": {
     "@floating-ui/react": "^0.27.13",
-    "mini-svg-data-uri": "^1.4.4",
-    "clsx": "^1.2.1",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/state": "workspace:*",
-    "@gentleduck/variants": "workspace:*"
+    "@gentleduck/variants": "workspace:*",
+    "clsx": "^1.2.1",
+    "mini-svg-data-uri": "^1.4.4",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19"
   },
   "devDependencies": {
     "@changesets/cli": "catalog:",
@@ -70,5 +70,11 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "packageManager": "pnpm@10.10.0"
+  "packageManager": "pnpm@10.10.0",
+  "dependencies": {
+    "@floating-ui/react-dom": "2.1.6",
+    "@types/node": "catalog:",
+    "aria-hidden": "1.2.6",
+    "react-remove-scroll": "2.7.1"
+  }
 }

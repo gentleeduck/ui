@@ -50,7 +50,7 @@ export function ThemeCustomizer() {
         </DrawerContent>
       </Drawer>
       <div className="hidden items-center md:flex">
-        <Popover placement="bottom">
+        <Popover placement="right">
           <PopoverTrigger asChild>
             <Button size="sm">Customize</Button>
           </PopoverTrigger>

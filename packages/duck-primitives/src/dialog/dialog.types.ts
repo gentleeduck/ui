@@ -14,4 +14,5 @@ export type DialogOptions = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   closeButton?: boolean
+  modal?: boolean
 }

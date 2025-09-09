@@ -75,7 +75,9 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
       <div className="mx-auto w-full min-w-0 max-w-2xl" style={{ contain: 'paint' }}>
         <div className="space-y-2">
           <div className="absolute top-0 right-0 flex items-center gap-2">
-            <DocsCopyPage page={doc.content} url={absoluteUrl('')} />
+            {
+              // <DocsCopyPage page={doc.content} url={absoluteUrl('')} />
+            }
             <DocsPagerTop doc={doc} />
           </div>
           <div className="space-y-2">
