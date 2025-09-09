@@ -10,7 +10,7 @@ function Label({ className, ref, ...props }: LabelProps) {
     <label
       ref={ref}
       className={cn(
-        'font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+        'text-balance font-medium font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
         className,
       )}
       {...props}

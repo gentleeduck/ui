@@ -56,7 +56,7 @@ function SelectWrapper({
         onOpenChange,
         value,
         onValueChange,
-        defaultValue,
+        defaultValue as string,
       )
     }, 0)
   }, [open])
@@ -126,10 +126,10 @@ function SelectTrigger({
     <PopoverTrigger
       {...props}
       duck-select-trigger=""
-      className={cn(buttonVariants({ variant: 'outline' }), 'w-full justify-between text-sm', className)}
+      className={cn(buttonVariants({ variant: 'outline' }), 'w-full justify-between text-base', className)}
       ref={triggerRef}>
       {children}
-      <span className="[&>svg]:opacity-50">
+      <span className="[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-muted-foreground [&>svg]:duration-300">
         {customIndicator ? customIndicator : <ChevronDown className="-mr-1" />}
       </span>
     </PopoverTrigger>
@@ -139,7 +139,10 @@ function SelectTrigger({
 function SelectContent({ children, className, ...props }: React.ComponentPropsWithRef<typeof PopoverContent>) {
   const { scrollable, contentRef } = useSelectContext()
   return (
-    <PopoverContent className={cn('px-1.5', scrollable ? 'py-0' : 'py-1', className)} duck-select-content="" {...props}>
+    <PopoverContent
+      className={cn('w-auto px-1.5 [&>div]:w-full', scrollable ? 'py-0' : 'py-1', className)}
+      duck-select-content=""
+      {...props}>
       {scrollable && <SelectScrollUpButton />}
       <div
         className={cn(scrollable && 'max-h-[450px] overflow-y-scroll')}
@@ -166,7 +169,7 @@ function SelectValue({ className, children, placeholder, ...props }: React.HTMLP
       )}
       {...props}
       duck-select-value="">
-      {value.length > 0 ? value : placeholder}
+      {value.length > 0 ? value : <span className="text-muted-foreground">{placeholder}</span>}
     </div>
   )
 }
@@ -209,7 +212,7 @@ function SelectItem({
       data-value={value}
       value={value}
       className={cn(
-        "relative flex flex cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1 text-base outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-secondary",
+        "relative flex flex w-full cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1 text-base outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-secondary",
         disabled && 'pointer-events-none opacity-50',
       )}>
       <div

@@ -49,7 +49,7 @@ export function useHandleRadioClick(defaultValue?: string, value?: string, onVal
       const itemLabel = item.querySelector('label') as HTMLLabelElement
 
       // Handle default value
-      if (defaultValue === item.id) {
+      if (defaultValue === item.id || value === item.id) {
         handleItem(itemInput, item)
       }
 

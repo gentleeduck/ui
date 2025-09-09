@@ -49,7 +49,8 @@ function Radio({
                     ? 'checkedIndicatorReady'
                     : 'default',
           }),
-          AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
+          AnimVariants({ pseudo: 'animate' }),
+          'rounded-full',
           className,
         )}
         {...props}
@@ -108,7 +109,7 @@ function RadioGroupItem({
       {...props}>
       {customIndicator && <span id="radio-indicator">{customIndicator}</span>}
       <Radio id={value} className={cn(customIndicator?.toString() && 'hidden')} />
-      <Label duck-radio-label="" className="font-normal text-sm" htmlFor={value}>
+      <Label duck-radio-label="" className="font-normal text-base" htmlFor={value}>
         {children}
       </Label>
     </li>
