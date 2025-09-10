@@ -1,0 +1,150 @@
+{
+  "name": "matsu",
+  "label": "Matsu",
+  "activeColor": {
+    "light": "111.7 9.7% 71%",
+    "dark": "111.7 9.7% 51%"
+  },
+  "cssVars": {
+    "theme": {
+      "font-weight-light": "700",
+      "font-weight-normal": "700",
+      "font-weight-medium": "700",
+      "font-weight-semibold": "700",
+      "font-sans": "Nunito, sans-serif",
+      "font-serif": "PT Serif, serif",
+      "shadow-xs": "0 2px 0 0 var(--border)",
+      "shadow-sm": "0 2px 0 0 var(--border)",
+      "shadow-md": "0 2px 0 0 var(--border)",
+      "shadow-lg": "0 2px 0 0 var(--border)",
+      "shadow-xl": "0 2px 0 0 var(--border)",
+      "shadow-2xl": "0 2px 0 0 var(--border)",
+      "shadow-3xl": "0 2px 0 0 var(--border)"
+    },
+    "light": {
+      "background": "oklch(0.91 0.048 83.6)",
+      "foreground": "oklch(0.41 0.077 78.9)",
+      "card": "oklch(0.92 0.042 83.6)",
+      "card-foreground": "oklch(0.41 0.077 74.3)",
+      "popover": "oklch(0.92 0.042 83.6)",
+      "popover-foreground": "oklch(0.41 0.077 74.3)",
+      "primary": "oklch(0.71 0.097 111.7)",
+      "primary-foreground": "oklch(0.98 0.005 0)",
+      "primary-border": "oklch(0.59 0.096 111.8)",
+      "secondary": "oklch(0.88 0.055 83.6)",
+      "secondary-foreground": "oklch(0.51 0.077 78.9)",
+      "muted": "oklch(0.86 0.064 83.7)",
+      "muted-foreground": "oklch(0.51 0.077 74.3)",
+      "accent": "oklch(0.86 0.055 83.6)",
+      "accent-foreground": "oklch(0.26 0.016 0)",
+      "destructive": "oklch(0.63 0.24 29.2)",
+      "destructive-foreground": "oklch(0.97 0.018 0)",
+      "destructive-border": "oklch(0.43 0.24 29.2)",
+      "warning": "39.66deg 88.68% 51.57%",
+      "warning-foreground": "0deg 0.37% 97.38%",
+      "warning-border": "39.66deg 88.68% 51.57%",
+      "border": "oklch(0.74 0.063 80.8)",
+      "input": "oklch(0.74 0.063 80.8)",
+      "ring": "oklch(0.51 0.077 74.3)",
+      "radius": "0.625rem",
+      "chart-1": "oklch(0.66 0.19 41.6)",
+      "chart-2": "oklch(0.68 0.16 184.9)",
+      "chart-3": "oklch(0.48 0.09 210.9)",
+      "chart-4": "oklch(0.85 0.19 85.4)",
+      "chart-5": "oklch(0.74 0.19 66.3)",
+      "sidebar-foreground": "oklch(0.41 0.077 78.9)",
+      "sidebar-background": "oklch(0.87 0.059 83.7)",
+      "sidebar-primary": "oklch(0.26 0.016 0)",
+      "sidebar-primary-foreground": "oklch(0.98 0.005 0)",
+      "sidebar-accent": "oklch(0.83 0.058 83.6)",
+      "sidebar-accent-foreground": "oklch(0.26 0.016 0)",
+      "sidebar-border": "oklch(0.91 0.005 0)",
+      "sidebar-ring": "oklch(0.71 0.005 0)"
+    },
+    "dark": {
+      "background": "oklch(0.21 0.048 83.6)",
+      "foreground": "oklch(0.91 0.077 78.9)",
+      "card": "oklch(0.22 0.042 83.6)",
+      "card-foreground": "oklch(0.91 0.077 74.3)",
+      "popover": "oklch(0.22 0.042 83.6)",
+      "popover-foreground": "oklch(0.91 0.077 74.3)",
+      "primary": "oklch(0.81 0.097 111.7)",
+      "primary-foreground": "oklch(0.18 0.005 0)",
+      "primary-border": "oklch(0.69 0.096 111.8)",
+      "secondary": "oklch(0.28 0.055 83.6)",
+      "secondary-foreground": "oklch(0.91 0.077 78.9)",
+      "muted": "oklch(0.26 0.064 83.7)",
+      "muted-foreground": "oklch(0.81 0.077 74.3)",
+      "accent": "oklch(0.26 0.055 83.6)",
+      "accent-foreground": "oklch(0.96 0.016 0)",
+      "destructive": "oklch(0.53 0.24 29.2)",
+      "destructive-foreground": "oklch(0.97 0.018 0)",
+      "destructive-border": "oklch(0.33 0.24 29.2)",
+      "warning": "39.66deg 88.68% 51.57%",
+      "warning-foreground": "0deg 0.37% 97.38%",
+      "warning-border": "0deg 0.37% 97.38%",
+      "border": "oklch(0.34 0.063 80.8)",
+      "input": "oklch(0.34 0.063 80.8)",
+      "ring": "oklch(0.81 0.077 74.3)",
+      "radius": "0.625rem",
+      "chart-1": "oklch(0.76 0.19 41.6)",
+      "chart-2": "oklch(0.78 0.16 184.9)",
+      "chart-3": "oklch(0.58 0.09 210.9)",
+      "chart-4": "oklch(0.75 0.19 85.4)",
+      "chart-5": "oklch(0.64 0.19 66.3)",
+      "sidebar-foreground": "oklch(0.91 0.077 78.9)",
+      "sidebar-background": "oklch(0.17 0.059 83.7)",
+      "sidebar-primary": "oklch(0.96 0.016 0)",
+      "sidebar-primary-foreground": "oklch(0.18 0.005 0)",
+      "sidebar-accent": "oklch(0.23 0.058 83.6)",
+      "sidebar-accent-foreground": "oklch(0.96 0.016 0)",
+      "sidebar-border": "oklch(0.31 0.005 0)",
+      "sidebar-ring": "oklch(0.81 0.005 0)"
+    }
+  },
+  "css": {
+    "@layer base": {
+      "body": {
+        "font-weight": "var(--font-weight-bold)"
+      },
+      ".border": {
+        "border-width": "2px !important"
+      },
+      ".border-l": {
+        "border-left-width": "2px !important"
+      },
+      ".border-r": {
+        "border-right-width": "2px !important"
+      },
+      ".border-t": {
+        "border-top-width": "2px !important"
+      },
+      ".border-b": {
+        "border-bottom-width": "2px !important"
+      },
+      ".shadow-primary": {
+        "box-shadow": "0 2px 0 0 var(--primary-border)"
+      },
+      ".shadow-destructive": {
+        "box-shadow": "0 2px 0 0 var(--destructive)"
+      },
+      ".shadow-destructive-border": {
+        "box-shadow": "0 2px 0 0 var(--destructive-border)"
+      },
+      ".texture": {
+        "background-image": "url(https://matsu-theme.vercel.app/texture.jpg)",
+        "background-size": "100% 100%",
+        "background-repeat": "repeat",
+        "opacity": "0.12",
+        "mix-blend-mode": "multiply",
+        "z-index": "100",
+        "isolation": "isolate",
+        "position": "fixed",
+        "inset": "0",
+        "width": "100vw",
+        "height": "100dvh",
+        "pointer-events": "none"
+      }
+    }
+  }
+}
