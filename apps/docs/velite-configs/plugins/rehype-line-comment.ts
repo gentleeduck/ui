@@ -4,7 +4,6 @@ import { UnistNode, UnistTree } from '../uniset'
 export function rehypeMarkText() {
   return (tree: UnistTree) => {
     visit(tree, 'element', (node: UnistNode) => {
-      console.dir(node, { depth: null })
       if (node.tagName === 'pre') {
         const codeNode = node.children?.find((n) => n.tagName === 'code')
         if (!codeNode) return
@@ -12,7 +11,6 @@ export function rehypeMarkText() {
         const marks = codeNode.properties?.__marks__ ?? []
         if (!Array.isArray(marks) || marks.length === 0) return
 
-        console.log(marks, codeNode)
         // walkAndMutate(codeNode, marks)
       }
     })

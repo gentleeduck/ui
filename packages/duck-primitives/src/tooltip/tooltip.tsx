@@ -36,7 +36,7 @@ function Trigger({
   ref: propRef,
   onClick,
   ...props
-}: React.ComponentPropsWithRef<typeof Slot> & {
+}: React.HTMLProps<typeof HTMLButtonElement> & {
   asChild?: boolean
 }) {
   const context = useTooltipContext()
@@ -54,6 +54,7 @@ function Trigger({
         ...(children.props as any),
         'data-open': context.open,
         onClick: (e: React.MouseEvent<HTMLElement>) => {
+          // @ts-ignore
           onClick?.(e)
           context.setOpen(!context.open)
         },
@@ -68,8 +69,10 @@ function Trigger({
       data-open={context.open}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
+        // @ts-ignore
         onClick?.(e)
       }}
+      // @ts-ignore
       {...context.getReferenceProps(props)}>
       {children}
     </Comp>

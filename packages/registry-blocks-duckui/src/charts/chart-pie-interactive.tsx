@@ -57,7 +57,7 @@ const chartConfig = {
 
 export default function Component() {
   const id = 'pie-interactive'
-  const [activeMonth, setActiveMonth] = React.useState(desktopData[0].month)
+  const [activeMonth, setActiveMonth] = React.useState(desktopData[0]!.month)
 
   const activeIndex = React.useMemo(() => desktopData.findIndex((item) => item.month === activeMonth), [activeMonth])
   const months = React.useMemo(() => desktopData.map((item) => item.month), [])
@@ -70,11 +70,11 @@ export default function Component() {
           <CardTitle>Pie Chart - Interactive</CardTitle>
           <CardDescription>January - June 2024</CardDescription>
         </div>
-        <Select value={activeMonth} onValueChange={setActiveMonth}>
+        <Select value={activeMonth} onValueChange={setActiveMonth} placement="bottom-end">
           <SelectTrigger className="ml-auto h-7 w-[130px] rounded-lg pl-2.5" aria-label="Select a value">
             <SelectValue placeholder="Select month" />
           </SelectTrigger>
-          <SelectContent align="end" className="rounded-xl">
+          <SelectContent className="rounded-xl">
             {months.map((key) => {
               const config = chartConfig[key as keyof typeof chartConfig]
 
@@ -121,8 +121,8 @@ export default function Component() {
                   if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
                     return (
                       <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
-                        <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-3xl font-bold">
-                          {desktopData[activeIndex].desktop.toLocaleString()}
+                        <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground font-bold text-3xl">
+                          {desktopData[activeIndex]!.desktop.toLocaleString()}
                         </tspan>
                         <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
                           Visitors

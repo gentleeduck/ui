@@ -23,7 +23,6 @@ export function rhypeMetadataPlugin() {
           ...match,
         }
       }
-      // console.log(node)
     })
 
     return tree

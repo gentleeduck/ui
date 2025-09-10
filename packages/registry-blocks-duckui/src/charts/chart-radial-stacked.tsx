@@ -28,7 +28,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function Component() {
-  const totalVisitors = chartData[0].desktop + chartData[0].mobile
+  const totalVisitors = chartData[0]!.desktop + chartData[0]!.mobile
 
   return (
     <Card className="flex flex-col">

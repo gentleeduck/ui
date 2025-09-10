@@ -36,7 +36,7 @@ function SelectWrapper({
   const { open, setOpen: onOpenChange } = usePopoverContext()
 
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
-  const triggerRef = React.useRef<HTMLDivElement | null>(null)
+  const triggerRef = React.useRef<HTMLButtonElement | null>(null)
   const contentRef = React.useRef<HTMLDivElement | null>(null)
   const groupsRef = React.useRef<HTMLUListElement[]>([])
   const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
@@ -127,7 +127,7 @@ function SelectTrigger({
       {...props}
       duck-select-trigger=""
       className={cn(buttonVariants({ variant: 'outline' }), 'w-full justify-between text-base', className)}
-      ref={triggerRef}>
+      ref={triggerRef as never}>
       {children}
       <span className="[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-muted-foreground [&>svg]:duration-300">
         {customIndicator ? customIndicator : <ChevronDown className="-mr-1" />}

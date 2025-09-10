@@ -8,41 +8,21 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import Image from 'next/image'
 import * as React from 'react'
 import runtime from 'react/jsx-runtime'
-import { NpmCommands } from 'types/unist'
-import { Event } from '~/lib/events'
-import { CopyButton, CopyNpmCommandButton } from '../copy-button'
+import { Callout } from './mdx-components/callout'
 import {
-  A,
-  Callout,
   CodeBlock,
   CodeBlockWrapper,
   ComponentExample,
   ComponentPreview,
   ComponentSource,
-  ComponentsList,
-  FrameworkDocs,
-  H1,
-  H2,
-  H3,
-  H4,
-  H5,
-  H6,
-  Hr,
-  LinkBlock,
-  LinkedCard,
-  P,
   PreBlock,
-  Tab,
-  TabContent,
-  TabList,
-  Table,
-  TableCell,
-  TableHeader,
-  TableRow,
-  TabTrigger,
-} from './mdx-components'
+} from './mdx-components/code'
 import { FigcaptionBlock } from './mdx-components/code/figcaption-block'
-import { SpanBlock } from './mdx-components/code/span-block'
+import { ComponentsList } from './mdx-components/components-list'
+// import { FrameworkDocs } from './mdx-components/framework-docs'
+import { Table, TableCell, TableHeader, TableRow } from './mdx-components/table'
+import { Tab, TabContent, TabList, TabTrigger } from './mdx-components/tabs'
+import { A, H1, H2, H3, H4, H5, H6, Hr, LinkBlock, LinkedCard, P } from './mdx-components/typepography'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -113,7 +93,7 @@ const components = {
   TabsList: TabList,
   TabsTrigger: TabTrigger,
   TabsContent: TabContent,
-  FrameworkDocs,
+  // FrameworkDocs,
 }
 
 interface MdxProps {

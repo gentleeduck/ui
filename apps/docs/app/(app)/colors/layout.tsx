@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { ColorsNav } from '~/components/colors'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
+import { ThemeWrapper } from '~/components/themes'
 
 const title = 'Tailwind Colors in Every Format'
 const description =
@@ -56,7 +57,7 @@ export default function ColorsLayout({ children }: { children: React.ReactNode }
       <div className="container-wrapper">
         <div className="container py-6">
           <section id="colors" className="scroll-mt-20">
-            {children}
+            <ThemeWrapper>{children}</ThemeWrapper>
           </section>
         </div>
       </div>

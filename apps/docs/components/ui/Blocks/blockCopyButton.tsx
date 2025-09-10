@@ -1,12 +1,11 @@
 'use client'
 
-import * as React from 'react'
-import { CheckIcon, ClipboardIcon } from 'lucide-react'
-
-import { Event, trackEvent } from '~/lib/events'
 import { cn } from '@gentleduck/libs/cn'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import { CheckIcon, ClipboardIcon } from 'lucide-react'
+import * as React from 'react'
+import { Event, trackEvent } from '~/lib/events'
 
 export function BlockCopyButton({
   event,

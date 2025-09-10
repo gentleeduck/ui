@@ -51,7 +51,6 @@ export async function build_registry_tsx({ item, spinner }: GetComponentFilesArg
           .join(',\n')}
       ]
     },`
-    console.log(registryEntry)
 
     spinner.text = `Successfully built TSX registry entry for ${item.name}`
 

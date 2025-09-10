@@ -47,7 +47,7 @@ function Switch({
                     ? 'checkedIndicatorReady'
                     : 'default',
           }),
-          AnimVariants({ overlay: 'nothing', pseudo: 'animate' }),
+          AnimVariants({ pseudo: 'animate' }),
 
           className,
         )}

@@ -1326,9 +1326,6 @@ importers:
       '@floating-ui/react':
         specifier: ^0.27.13
         version: 0.27.16(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      '@floating-ui/react-dom':
-        specifier: 2.1.6
-        version: 2.1.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@gentleduck/hooks':
         specifier: workspace:*
         version: link:../duck-hooks
@@ -1344,12 +1341,6 @@ importers:
       '@gentleduck/variants':
         specifier: workspace:*
         version: link:../duck-variants
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.18.0
-      aria-hidden:
-        specifier: 1.2.6
-        version: 1.2.6
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
@@ -1362,9 +1353,6 @@ importers:
       react-dom:
         specifier: catalog:react19
         version: 19.1.1(react@19.1.1)
-      react-remove-scroll:
-        specifier: 2.7.1
-        version: 2.7.1(@types/react@19.1.12)(react@19.1.1)
     devDependencies:
       '@changesets/cli':
         specifier: 'catalog:'
@@ -1372,6 +1360,9 @@ importers:
       '@gentleduck/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.18.0
       '@types/react':
         specifier: catalog:react19
         version: 19.1.12

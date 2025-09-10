@@ -1,8 +1,8 @@
-import * as React from 'react'
-import { notFound } from 'next/navigation'
-import { ChartDisplay } from '~/components/chart-display'
 import { cn } from '@gentleduck/libs/cn'
+import { notFound } from 'next/navigation'
+import * as React from 'react'
 import { charts } from '../charts'
+import { ChartDisplay } from '~/components/charts'
 
 export const revalidate = false
 export const dynamic = 'force-static'
@@ -39,14 +39,16 @@ export default async function ChartPage({ params }: ChartPageProps) {
       <div className="grid flex-1 scroll-mt-20 items-stretch gap-10 md:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:gap-10">
         {Array.from({ length: 12 }).map((_, index) => {
           const chart = chartList[index]
-          return chart ? (
-            <ChartDisplay
-              key={chart.id}
-              name={chart.id}
-              className={cn(chart.fullWidth && 'md:col-span-2 lg:col-span-3')}>
-              <chart.component />
-            </ChartDisplay>
-          ) : null
+          return (
+            chart && (
+              <ChartDisplay
+                key={chart.id}
+                name={chart.id}
+                className={cn(chart.fullWidth && 'md:col-span-2 lg:col-span-3')}>
+                <chart.component />
+              </ChartDisplay>
+            )
+          )
         })}
       </div>
     </div>

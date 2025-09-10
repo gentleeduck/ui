@@ -405,10 +405,6 @@
         "type": "registry:ui"
       },
       {
-        "path": "dialog/dialog.types.ts",
-        "type": "registry:ui"
-      },
-      {
         "path": "dialog/index.ts",
         "type": "registry:ui"
       }
@@ -833,6 +829,10 @@
     "files": [
       {
         "path": "sheet/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sheet/sheet.constants.tsx",
         "type": "registry:ui"
       },
       {
@@ -3384,6 +3384,21 @@
     "files": [
       {
         "path": "popover/popover-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "source": "/registry-examples-duckui/src/popover"
+  },
+  {
+    "name": "popover-2",
+    "type": "registry:example",
+    "registryDependencies": [
+      "popover"
+    ],
+    "root_folder": "popover",
+    "files": [
+      {
+        "path": "popover/popover-2.tsx",
         "type": "registry:example"
       }
     ],

@@ -9,8 +9,7 @@ import { KeyProvider } from '@gentleduck/vim/react'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { TailwindIndicator } from '~/components/layouts'
 import { ThemeProvider } from '~/components/providers'
-import { ThemeWrapper } from '~/components/themes'
-import { ActiveThemeProvider } from '~/components/active-theme'
+import { ThemesStyle } from '~/components/themes'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -42,18 +41,17 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
             enableColorScheme>
-            <ThemeWrapper>
-              <div vaul-drawer-wrapper="">
-                <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
-              </div>
+            <div vaul-drawer-wrapper="">
+              <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
+            </div>
 
-              <VercelAnalytics />
-              <Toaster />
-              {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
-            </ThemeWrapper>
+            <VercelAnalytics />
+            <Toaster />
+            {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
           </ThemeProvider>
         </KeyProvider>
       </body>
+      <ThemesStyle />
     </html>
   )
 }

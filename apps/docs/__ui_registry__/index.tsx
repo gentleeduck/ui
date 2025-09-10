@@ -399,10 +399,6 @@ export const Index: Record<string, any> = {
         type: 'registry:ui',
       },
       {
-        path: 'dialog/dialog.types.ts',
-        type: 'registry:ui',
-      },
-      {
         path: 'dialog/index.ts',
         type: 'registry:ui',
       },
@@ -814,6 +810,10 @@ export const Index: Record<string, any> = {
     files: [
       {
         path: 'sheet/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'sheet/sheet.constants.tsx',
         type: 'registry:ui',
       },
       {
@@ -3755,6 +3755,23 @@ export const Index: Record<string, any> = {
       },
     ],
     component: React.lazy(() => import('@gentleduck/registry-examples-duckui/popover/popover-1')),
+    source: '/registry-examples-duckui/src/popover',
+    categories: [undefined],
+    root_folder: 'popover',
+    chunks: [],
+  },
+  'popover-2': {
+    name: 'popover-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover'],
+    files: [
+      {
+        path: 'popover/popover-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/popover/popover-2')),
     source: '/registry-examples-duckui/src/popover',
     categories: [undefined],
     root_folder: 'popover',

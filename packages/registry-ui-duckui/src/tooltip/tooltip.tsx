@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimDialogVariants, AnimVariants } from '@gentleduck/motion/anim'
+import { AnimVariants } from '@gentleduck/motion/anim'
 import * as TooltipPrimitive from '@gentleduck/primitives/tooltip'
 import type React from 'react'
 

@@ -41,7 +41,7 @@ export async function getRegistryItem(name: string) {
 
   // Get meta.
   // Assume the first file is the main file.
-  const meta = await getFileMeta(files[0]!.target as string)
+  const meta = await getFileMeta(files[0]!.path as string)
 
   // Fix file paths.
   files = fixFilePaths(files)
@@ -61,8 +61,6 @@ export async function getRegistryItem(name: string) {
 }
 
 async function getFileContent(file: { path: string; type: string }) {
-  console.log(file)
-
   const raw = await fs.readFile(
     process.cwd().replace('apps/docs', 'packages/registry-blocks-duckui/src/') + file.path,
     'utf-8',
@@ -98,25 +96,24 @@ async function getFileContent(file: { path: string; type: string }) {
 }
 
 async function getFileMeta(filePath: string) {
-  console.log(process.cwd().replace('apps/docs', 'packages/registry-examples-duckui/src') + filePath)
-  // const raw = await fs.readFile(
-  //   process.cwd().replace('apps/docs', 'packages/registry-examples-duckui/src') + filePath,
-  //   'utf-8',
-  // )
-  //
-  // const project = new Project({
-  //   compilerOptions: {},
-  // })
-  //
-  // const tempFile = await createTempSourceFile(filePath)
-  // const sourceFile = project.createSourceFile(tempFile, raw, {
-  //   scriptKind: ScriptKind.TSX,
-  // })
-  //
+  const raw = await fs.readFile(
+    process.cwd().replace('apps/docs', 'packages/registry-blocks-duckui/src/') + filePath,
+    'utf-8',
+  )
+
+  const project = new Project({
+    compilerOptions: {},
+  })
+
+  const tempFile = await createTempSourceFile(filePath)
+  const sourceFile = project.createSourceFile(tempFile, raw, {
+    scriptKind: ScriptKind.TSX,
+  })
+
   // const iframeHeight = extractVariable(sourceFile, 'iframeHeight')
   // const containerClassName = extractVariable(sourceFile, 'containerClassName')
   // const description = extractVariable(sourceFile, 'description')
-  //
+
   // return {
   //   iframeHeight,
   //   containerClassName,

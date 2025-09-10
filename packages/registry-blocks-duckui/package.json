@@ -5,7 +5,8 @@
   "type": "module",
   "exports": {
     "./*": "./src/*",
-    "./charts": "./src/chart/*"
+    ".": "./src/index.ts",
+    "./charts/*": "./src/charts/*"
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo node_modules dist",

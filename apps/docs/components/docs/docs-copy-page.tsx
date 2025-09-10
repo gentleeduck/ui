@@ -7,7 +7,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@gentleduck/registry-ui-duckui/dropdown-menu'
-import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Check, ChevronDown, Copy } from 'lucide-react'
 import { useCopyToClipboard } from '~/hooks/use-copy-to-clipboard'
@@ -86,11 +85,11 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
         Copy Page
       </Button>
       <Separator orientation="vertical" className="bg-foreground/25" />
-      <DropdownMenu>
+      <DropdownMenu placement="bottom-end">
         <DropdownMenuTrigger asChild className="hidden sm:flex">
           {trigger}
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="shadow-none bg-muted" align="end">
+        <DropdownMenuContent className="shadow-none bg-muted">
           {Object.entries(menuItems).map(([key, value]) => (
             <DropdownMenuItem
               key={key}

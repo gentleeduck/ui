@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { CardsDemo } from '~/components/cards'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
-import { ThemeCustomizer } from '~/components/themes'
+import { ThemeCustomizer, ThemeWrapper } from '~/components/themes'
 
 const title = 'Build Beautiful UIs with Simplicity and Power.'
 const description = 'Bring life to your own website with a pack full of ideas made specially for magical websites.'
@@ -48,17 +48,12 @@ export default function Page() {
           </Button>
         </PageActions>
       </PageHeader>
-      <div id="themes" className="scroll-mt-24">
-        <div className="container-wrapper">
-          <div className="container flex items-center">
-            <ThemeCustomizer />
-          </div>
-        </div>
-      </div>
       <div className="container-wrapper">
         <div className="container py-6">
           <section id="themes" className="scroll-mt-20">
-            <CardsDemo />
+            <ThemeWrapper>
+              <CardsDemo />
+            </ThemeWrapper>
           </section>
         </div>
       </div>

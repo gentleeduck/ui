@@ -142,7 +142,7 @@ function AccordionItem({
       className={cn(
         'group overflow-hidden border-border border-b',
         '[&::details-content]:h-0 [&::details-content]:transform-gpu [&::details-content]:transition-all [&::details-content]:transition-discrete [&::details-content]:duration-250 [&::details-content]:ease-(--duck-motion-ease) [&::details-content]:will-change-[height] open:[&::details-content]:h-auto',
-        AnimVariants({ overlay: 'nothing' }),
+        AnimVariants(),
         className,
       )}
       id={value}
