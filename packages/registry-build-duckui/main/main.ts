@@ -49,7 +49,9 @@ export async function main() {
     tsx_content += await build_registry_tsx({ item, spinner })
 
     // 3- build the styles index.json
-    await build_registry_styles_index({ item, spinner })
+    // NOTE: we do not have style we have removed this feature we only serve one style and you will
+    // make your own style if you want because we can not cover all the style people like :).
+    // await build_registry_styles_index({ item, spinner })
   }
   // 4- write the index.tsx
   await write_index_tsx({ tsx_content, spinner })

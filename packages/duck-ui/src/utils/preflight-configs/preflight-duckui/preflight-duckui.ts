@@ -38,10 +38,15 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
     spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
     spinner.stop()
     const config_options = await prompts(duckui_config_prompts)
+
+    if (!Object.keys(config_options).length) {
+      spinner.text = `The required ${highlighter.info('duck-ui')} config not found...`
+      process.exit(0)
+    }
     const parse_config_options = duckui_prompts_schema.parse(config_options)
     spinner.start()
 
-    const theme_css = await get_registry_base_color('zinc')
+    const theme_css = await get_registry_base_color(parse_config_options.base_color)
 
     const exists = fs.existsSync(path.join(_options.cwd, parse_config_options.css))
     if (exists) {

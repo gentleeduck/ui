@@ -44,7 +44,7 @@ export async function init_command_action(args: string[], opt: InitOptions) {
       spinner.stop()
       const prompt: { component: string[] } = await prompts([
         {
-          type: 'multiselect',
+          type: 'autocompleteMultiselect',
           name: 'component',
           message: 'Select component to install',
           choices: filtered_registry!.map((item) => ({

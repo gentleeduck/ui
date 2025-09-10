@@ -2,7 +2,20 @@ import { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
 import { DuckuiPrompts } from './preflight-duckui.dto'
 
-export const BASE_COLORS = ['zinc', 'slate', 'gray', 'neutral', 'red', 'rose', 'orange', 'green', 'blue'] as const
+export const BASE_COLORS = [
+  'zinc',
+  'slate',
+  'stone',
+  'gray',
+  'neutral',
+  'red',
+  'rose',
+  'orange',
+  'green',
+  'blue',
+  'yellow',
+  'violet',
+] as const
 
 export const PROJECT_TYPE = ['NEXT_JS', 'TANSTACK_START', 'VITE', 'UNKNOWN'] as const
 
@@ -34,7 +47,7 @@ export const duckui_config_prompts: PromptObject[] = [
     name: 'base_color',
     message: `Select a ${highlighter.info('base color')} for your project`,
     choices: BASE_COLORS.map((color) => ({
-      title: `${color.split('').slice(0, 1).toString().toUpperCase()}${color.split('').slice(1, -1)}`,
+      title: `${color}`,
       value: color,
     })),
     initial: 0,
@@ -63,7 +76,7 @@ export const duckui_config_prompts: PromptObject[] = [
     type: 'confirm',
     name: 'css_variables',
     message: `You want to se ${highlighter.info('CSS')} variables?`,
-    initial: false,
+    initial: true,
     active: 'yes',
     inactive: 'no',
   },

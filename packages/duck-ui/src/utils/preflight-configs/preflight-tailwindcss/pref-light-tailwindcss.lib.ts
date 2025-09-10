@@ -30,7 +30,6 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
 
     let is_tailwind_installed: boolean = false
 
-    // biome-ignore lint/style/useForOf: <explanation>
     for (let i = 0; i < styles_files.length; i++) {
       const file = styles_files[i]
       const content = await fs.readFile(path.join((file.dirent as never)['parentPath'], file.name), 'utf-8')
@@ -87,21 +86,24 @@ export const tailwindcss_dependencies = (
   cwd: string,
 ) => {
   try {
+    const cssDir = path.join(cwd, css_path)
+    fs.mkdirSync(cssDir, { recursive: true })
+
     switch (project_type) {
       case 'NEXT_JS':
         fs.writeFileSync(path.join(cwd, 'postcss.config.mjs'), post_css_nextjs)
-        fs.writeFileSync(path.join(cwd, css_path, 'styles.css'), tailwindcss_poiler)
+        fs.writeFileSync(path.join(cssDir, 'styles.css'), tailwindcss_poiler)
         return ['tailwindcss', 'postcss', '@tailwindcss/postcss']
 
       case 'VITE':
       case 'TANSTACK_START':
         fs.writeFileSync(path.join(cwd, 'vite.config.ts'), tailwindcss_vite)
-        fs.writeFileSync(path.join(cwd, css_path, 'styles.css'), tailwindcss_poiler)
+        fs.writeFileSync(path.join(cssDir, 'styles.css'), tailwindcss_poiler)
         return ['tailwindcss', '@tailwindcss/vite']
 
       default:
         fs.writeFileSync(path.join(cwd, 'vite.config.ts'), tailwindcss_vite)
-        fs.writeFileSync(path.join(cwd, css_path, 'styles.css'), tailwindcss_poiler)
+        fs.writeFileSync(path.join(cssDir, 'styles.css'), tailwindcss_poiler)
         return ['tailwindcss', '@tailwindcss/vite']
     }
   } catch (error) {

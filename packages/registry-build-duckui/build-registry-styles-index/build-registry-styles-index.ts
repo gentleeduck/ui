@@ -44,7 +44,7 @@ export async function build_registry_styles_index({ item, spinner }: BuildRegist
     }
 
     const targetPath = path.join(REGISTRY_PATH, 'components', 'index.json')
-    await fs.writeFile(targetPath, JSON.stringify(payload, null, 2), 'utf8')
+    // await fs.writeFile(targetPath, JSON.stringify(payload, null, 2), 'utf8')
 
     spinner.text = `🧭 Registry styles index built successfully: ${targetPath}`
   } catch (error) {

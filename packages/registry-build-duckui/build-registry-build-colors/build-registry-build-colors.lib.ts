@@ -1,34 +1,32 @@
+import { existsSync } from 'node:fs'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import {
-  baseColors,
-  baseColorsOKLCH,
-  baseColorsV4,
-  colorMapping,
-  registry_colors,
-  registry_themes,
-} from '@gentleduck/registers'
+import { baseColors, baseColorsOKLCH, colorMapping, registry_colors, registry_themes } from '@gentleduck/registers'
 import template from 'lodash.template'
+import { Ora } from 'ora'
+import rimraf from 'rimraf'
+import { REGISTRY_PATH } from '../main'
 import {
   BASE_STYLES,
   BASE_STYLES_WITH_VARIABLES,
   THEME_STYLES_WITH_VARIABLES,
 } from './build-registry-build-colors.constants'
-import { REGISTRY_PATH } from '../main'
-import { Ora } from 'ora'
-import { existsSync } from 'node:fs'
-import rimraf from 'rimraf'
 
 // ----------------------------------------------------------------------------
 
 export async function build_registry_themes(spinner: Ora) {
+  spinner.text = '🧭 Initializing registry themes build'
+
   // Helpers
   const ensureDir = async (p: string) => {
     if (!existsSync(p)) await fs.mkdir(p, { recursive: true })
   }
   const writeJson = async (p: string, data: any) => await fs.writeFile(p, JSON.stringify(data, null, 2), 'utf8')
 
-  // 1) Colors index
+  // --------------------------------------------------------------------------
+  // Step 1: Build base colors index
+  // --------------------------------------------------------------------------
+  spinner.text = '🎨 Generating base colors index'
   const colorsTargetPath = path.join(REGISTRY_PATH, 'colors')
   rimraf.sync(colorsTargetPath) // clean start
   await ensureDir(colorsTargetPath)
@@ -58,9 +56,12 @@ export async function build_registry_themes(spinner: Ora) {
       continue
     }
   }
-
   await writeJson(path.join(colorsTargetPath, 'index.json'), colorsData)
 
+  // --------------------------------------------------------------------------
+  // Step 2: Generate base color JSON files
+  // --------------------------------------------------------------------------
+  spinner.text = '🧩 Creating per-base-color JSON files'
   const baseColorsList = Object.keys(baseColorsOKLCH)
 
   for (const baseColor of baseColorsList) {
@@ -96,7 +97,7 @@ export async function build_registry_themes(spinner: Ora) {
     }
 
     // v4 vars
-    base.cssVarsV4 = baseColorsV4[baseColor as keyof typeof baseColorsV4]
+    base.cssVarsV4 = baseColorsOKLCH[baseColor as keyof typeof baseColorsOKLCH]
 
     // Templates
     base.inlineColorsTemplate = template(BASE_STYLES)({})
@@ -108,8 +109,9 @@ export async function build_registry_themes(spinner: Ora) {
   }
 
   // --------------------------------------------------------------------------
-  // Build themes.css once (uses baseColors array, not baseColorsList)
+  // Step 3: Build themes.css
   // --------------------------------------------------------------------------
+  spinner.text = '📄 Generating themes.css'
   const themeCSS: string[] = []
   for (const theme of baseColors) {
     themeCSS.push(
@@ -122,39 +124,22 @@ export async function build_registry_themes(spinner: Ora) {
   await fs.writeFile(path.join(REGISTRY_PATH, `themes.css`), themeCSS.join('\n'), 'utf8')
 
   // --------------------------------------------------------------------------
-  // Build themes json files (write them into REGISTRY_PATH/themes)
+  // Step 4: Build theme JSON files
   // --------------------------------------------------------------------------
+  spinner.text = '📦 Creating individual theme JSON files'
   const themesTarget = path.join(REGISTRY_PATH, 'themes')
   rimraf.sync(themesTarget)
   await ensureDir(themesTarget)
 
-  for (const baseColor of baseColorsList) {
-    const payload: Record<string, any> = {
-      name: baseColor,
-      label: baseColor.charAt(0).toUpperCase() + baseColor.slice(1),
-      cssVars: {},
-    }
-
-    for (const [mode, values] of Object.entries(colorMapping)) {
-      payload.cssVars[mode] = {}
-      for (const [key, value] of Object.entries(values)) {
-        if (typeof value !== 'string') continue
-        const resolvedColor = value.replace(/{{base}}-/g, `${baseColor}-`)
-        payload.cssVars[mode][key] = resolvedColor
-
-        const [resolvedBase, scale] = resolvedColor.split('-')
-        const color = scale
-          ? colorsData[resolvedBase!]?.find((item: any) => item.scale === parseInt(scale))
-          : colorsData[resolvedBase!]
-
-        if (color) {
-          payload.cssVars[mode][key] = color.hslChannel
-        }
-      }
-    }
-
-    await writeJson(path.join(themesTarget, `${payload.name}.json`), payload)
+  for (const theme of registry_themes) {
+    console.log(path.join(themesTarget, `${theme.name}.json`))
+    await writeJson(path.join(themesTarget, `${theme.name}.json`), theme)
   }
+
+  // --------------------------------------------------------------------------
+  // Done 🎉
+  // --------------------------------------------------------------------------
+  spinner.text = '✅ Registry themes build complete'
 }
 
 // ----------------------------------------------------------------------------
@@ -169,8 +154,6 @@ export async function build_registry_themes(spinner: Ora) {
  * @returns {Promise<void>} Resolves when the colors index is successfully written.
  * @throws {Error} If writing the file fails.
  *
- * //FIX: remove the any type when you modify the registry the next time.
- * //TODO: add the new theme to the registry
  */
 export async function registry_build_colors_index(
   colors_data: Record<string, any>,
