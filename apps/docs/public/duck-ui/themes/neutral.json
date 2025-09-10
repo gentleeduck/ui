@@ -1,6 +1,10 @@
 {
   "name": "neutral",
   "label": "Neutral",
+  "activeColor": {
+    "light": "0 0% 45.1%",
+    "dark": "0 0% 32.2%"
+  },
   "cssVars": {
     "light": {
       "background": "0 0% 100%",
@@ -17,10 +21,13 @@
       "muted-foreground": "0 0% 45.1%",
       "accent": "0 0% 96.1%",
       "accent-foreground": "0 0% 9%",
-      "destructive": "0 84.2% 60.2%",
-      "destructive-foreground": "0 0% 98%",
+      "destructive": "355.33deg 89.11% 51.9%",
+      "destructive-foreground": "0deg 0.37% 97.38%",
+      "warning": "39.13deg 91.14% 53.8%",
+      "warning-foreground": "0deg 0.37% 97.38%",
       "border": "0 0% 89.8%",
       "input": "0 0% 89.8%",
+      "radius": "0.5rem",
       "ring": "0 0% 3.9%",
       "chart-1": "12 76% 61%",
       "chart-2": "173 58% 39%",
@@ -43,10 +50,13 @@
       "muted-foreground": "0 0% 63.9%",
       "accent": "0 0% 14.9%",
       "accent-foreground": "0 0% 98%",
-      "destructive": "0 62.8% 30.6%",
-      "destructive-foreground": "0 0% 98%",
+      "destructive": "0deg 65.6% 50.98%",
+      "destructive-foreground": "0deg 0.37% 97.38%",
+      "warning": "39.66deg 88.68% 51.57%",
+      "warning-foreground": "0deg 0.37% 97.38%",
       "border": "0 0% 14.9%",
       "input": "0 0% 14.9%",
+      "radius": "0.5rem",
       "ring": "0 0% 83.1%",
       "chart-1": "220 70% 50%",
       "chart-2": "160 60% 45%",

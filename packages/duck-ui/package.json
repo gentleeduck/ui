@@ -1,6 +1,6 @@
 {
   "name": "@gentleduck/duck-ui",
-  "version": "0.0.2",
+  "version": "1.0.3",
   "description": "Add components to your apps.",
   "private": false,
   "publishConfig": {
@@ -14,8 +14,11 @@
   "keywords": [
     "components",
     "ui",
-    "tailwind",
-    "radix-ui",
+    "tailwindcss",
+    "react",
+    "nextjs",
+    "frameworks",
+    "typescript",
     "duck-ui"
   ],
   "type": "module",
@@ -29,12 +32,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-ui"
+    "url": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-ui"
   },
   "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-ui#readme",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-ui#readme",
   "scripts": {
     "dev": "tsdown --watch",
     "start": "node dist/index.js",
@@ -50,7 +53,6 @@
   },
   "dependencies": {
     "@antfu/ni": "^0.21.12",
-    "@gentleduck/registers": "workspace:*",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
     "chalk": "5.2.0",
@@ -70,6 +72,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@gentleduck/registers": "workspace:*",
     "@types/babel__core": "^7.20.1",
     "@types/diff": "^5.0.3",
     "@types/figlet": "^1.7.0",

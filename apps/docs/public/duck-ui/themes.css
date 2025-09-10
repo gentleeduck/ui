@@ -285,7 +285,7 @@
 
   --ring: hsl(0 0% 3.9%);
 
-  --radius: hsl();
+  --radius: hsl(0.5rem);
 }
 
 .dark .theme-neutral {
@@ -541,7 +541,7 @@
 
   --ring: hsl(142.1 76.2% 36.3%);
 
-  --radius: hsl();
+  --radius: hsl(0.5rem);
 }
 
 .dark .theme-green {
@@ -605,7 +605,7 @@
 
   --ring: hsl(221.2 83.2% 53.3%);
 
-  --radius: hsl();
+  --radius: hsl(0.5rem);
 }
 
 .dark .theme-blue {
@@ -669,7 +669,7 @@
 
   --ring: hsl(20 14.3% 4.1%);
 
-  --radius: hsl(0.95rem);
+  --radius: hsl(0.5rem);
 }
 
 .dark .theme-yellow {
@@ -733,7 +733,7 @@
 
   --ring: hsl(262.1 83.3% 57.8%);
 
-  --radius: hsl();
+  --radius: hsl(0.95rem);
 }
 
 .dark .theme-violet {

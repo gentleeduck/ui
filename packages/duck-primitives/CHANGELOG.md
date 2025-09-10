@@ -1,5 +1,12 @@
 # @gentleduck/primitives
 
+## 0.1.19
+
+### Patch Changes
+
+- fixed bugs
+- fixed the positioning
+
 ## 0.1.18
 
 ### Patch Changes

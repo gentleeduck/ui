@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { BaseColor, baseColors, baseColorsOKLCH, baseColorsV4 } from '@gentleduck/registers'
+import { BaseColor, baseColors, baseColorsOKLCH } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Dialog,
