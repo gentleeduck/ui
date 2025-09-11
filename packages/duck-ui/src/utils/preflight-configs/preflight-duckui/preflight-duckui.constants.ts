@@ -87,32 +87,3 @@ export const duckui_config_prompts: PromptObject[] = [
     initial: '',
   },
 ]
-
-export const default_duckui_config = ({
-  project_type,
-  monorepo,
-  css,
-  prefix,
-  alias,
-  base_color,
-  css_variables,
-}: DuckuiPrompts) => {
-  return `{
-  "schema": "https://duckui.vercel.app/schema.json",
-  "rsc": "${['NEXT_JS'].includes(project_type)}",
-  "monorepo": ${monorepo},
-  "tailwind": {
-    "baseColor": "${base_color}",
-    "css": "${css}",
-    "cssVariables": ${css_variables},
-    "prefix": "${prefix}"
-  },
-  "aliases": {
-    "ui": "${alias}/ui",
-    "libs": "${alias}/libs",
-    "hooks": "${alias}/hooks",
-    "pages": "${alias}/pages",
-    "layouts": "${alias}/layouts"
-  }
-}`
-}

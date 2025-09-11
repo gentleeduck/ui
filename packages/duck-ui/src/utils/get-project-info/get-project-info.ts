@@ -40,7 +40,9 @@ export async function get_duckui_config(cwd: string, spinner: Ora) {
     })
 
     if (!files.length) {
-      spinner.fail(`🦆 No ${highlighter.info('duckui')} configs found`)
+      spinner.fail(
+        `🦆 No ${highlighter.info('duckui')} configs found \n🦆 Please run ${highlighter.info('@gentleduck/duck-ui init')} to create one\n🦆 Notice you gonna add your package manager executer\n🦆 command at the beginning or the CLI command!\n🦆 Like ${highlighter.info('pnpm dlx @gentleduck/duck-ui init')}\n🦆 If you need any info run the help command,\n🦆 Having issues?   ${highlighter.info('https://github.com/gentleeduck/duck-ui/issues')}.`,
+      )
       process.exit(1)
     }
 

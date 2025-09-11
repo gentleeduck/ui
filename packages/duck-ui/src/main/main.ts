@@ -1,8 +1,8 @@
 import { Command } from 'commander'
-import { config } from './main.constants'
+import { add_command } from '~/commands/add'
 import { init_command } from '../commands/init'
 import { get_package_json } from '../utils'
-import { add_command } from '~/commands/add'
+import { config } from './main.constants'
 
 export function init() {
   const duck_ui = new Command()

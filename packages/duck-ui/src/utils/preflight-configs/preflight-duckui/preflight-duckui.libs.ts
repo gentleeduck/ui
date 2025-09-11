@@ -1,9 +1,9 @@
 import { Ora } from 'ora'
-import { default_duckui_config } from './preflight-duckui.constants'
 import { DuckuiPrompts } from './preflight-duckui.dto'
 import { highlighter } from '~/utils/text-styling'
 import path from 'node:path'
 import fs from 'fs-extra'
+import { Theme } from '@gentleduck/registers'
 
 export async function init_duckui_config(cwd: string, spinner: Ora, duck_config: DuckuiPrompts) {
   try {
@@ -19,4 +19,69 @@ export async function init_duckui_config(cwd: string, spinner: Ora, duck_config:
     )
     process.exit(0)
   }
+}
+
+export function generateThemeCSS({ name, cssVars }: Theme) {
+  const lightVars = Object.entries(cssVars.light)
+    .map(([key, val]) => `  --${key}: ${val};`)
+    .join('\n')
+
+  const darkVars = Object.entries(cssVars.dark)
+    .map(([key, val]) => `  --${key}: ${val};`)
+    .join('\n')
+
+  // map only oklch values into --color-* for Tailwind inline theme
+  const tailwindVars = Object.entries(cssVars.light)
+    .map(([key, val]) => (val.startsWith('oklch') ? `  --color-${key}: var(--${key});` : `  --${key}: var(--${key});`))
+    .join('\n')
+
+  return `
+/* ${name} theme */
+:root {
+${lightVars}
+}
+
+.dark {
+${darkVars}
+}
+
+@theme inline {
+  --breakpoint-3xl: 1600px;
+  --breakpoint-4xl: 2000px;
+
+${tailwindVars}
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+`.trim()
+}
+
+export const default_duckui_config = ({
+  project_type,
+  monorepo,
+  css,
+  prefix,
+  alias,
+  base_color,
+  css_variables,
+}: DuckuiPrompts) => {
+  return `{
+  "schema": "https://duckui.vercel.app/schema.json",
+  "rsc": "${['NEXT_JS'].includes(project_type)}",
+  "monorepo": ${monorepo},
+  "tailwind": {
+    "baseColor": "${base_color}",
+    "css": "${css}",
+    "cssVariables": ${css_variables},
+    "prefix": "${prefix}"
+  },
+  "aliases": {
+    "ui": "${alias}/ui",
+    "pages": "${alias}/pages",
+    "layouts": "${alias}/layouts"
+  }
+}`
 }
