@@ -1,0 +1,75 @@
+---
+title: duck-ui
+description: Use the gentleduck/ui CLI to add components to your project.
+---
+
+## init
+
+Use the `init` command to initialize configuration and dependencies for a new project.
+
+The `init` command installs dependencies, adds the `cn` util and configures CSS variables for the project.
+
+```bash
+npx duck-ui@latest init
+```
+
+**Options**
+
+```bash
+Usage: duck-ui init [options] [components...]
+
+initialize your project and install dependencies
+
+Arguments:
+  components         name, url or local path to component
+
+Options:
+  -t, --template <template>      the template to use. (next, next-monorepo)
+  -b, --base-color <base-color>  the base color to use. (neutral, gray, zinc, stone, slate)
+  -y, --yes                      skip confirmation prompt. (default: true)
+  -f, --force                    force overwrite of existing configuration. (default: false)
+  -c, --cwd <cwd>                the working directory. defaults to the current directory.
+  -s, --silent                   mute output. (default: false)
+  --src-dir                      use the src directory when creating a new project. (default: false)
+  --no-src-dir                   do not use the src directory when creating a new project.
+  --css-variables                use css variables for theming. (default: true)
+  --no-css-variables             do not use css variables for theming.
+  --no-base-style                do not install the base duck-ui style
+  -h, --help                     display help for command
+```
+
+---
+
+## add
+
+Use the `add` command to add components and dependencies to your project.
+
+```bash
+npx duck-ui@latest add [component]
+```
+
+**Options**
+
+```bash
+Usage: duck-ui add [options] [components...]
+
+add a component to your project
+
+Arguments:
+  components         name, url or local path to component
+
+Options:
+  -y, --yes           skip confirmation prompt. (default: false)
+  -o, --overwrite     overwrite existing files. (default: false)
+  -c, --cwd <cwd>     the working directory. defaults to the current directory.
+  -a, --all           add all available components (default: false)
+  -p, --path <path>   the path to add the component to.
+  -s, --silent        mute output. (default: false)
+  --src-dir           use the src directory when creating a new project. (default: false)
+  --no-src-dir        do not use the src directory when creating a new project.
+  --css-variables     use css variables for theming. (default: true)
+  --no-css-variables  do not use css variables for theming.
+  -h, --help          display help for command
+```
+
+---
