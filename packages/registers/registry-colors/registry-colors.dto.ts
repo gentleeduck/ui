@@ -40,14 +40,16 @@ export type CSSVars = z.infer<typeof css_vars_schema>
 
 export const color_scheme = z.object({
   name: z.string(),
-  label: z.string(),
-  activeColor: z.object({
-    light: hsl_schema,
-    dark: hsl_schema,
-  }),
+  label: z.string().optional(),
+  activeColor: z
+    .object({
+      light: hsl_schema,
+      dark: hsl_schema,
+    })
+    .optional(),
   cssVars: z.object({
     light: css_vars_schema,
-    dark: css_vars_schema,
+    dark: css_vars_schema.omit({ radius: true }),
     // This will be used for themes not base_colors
     theme: z.object({}).optional(),
   }),

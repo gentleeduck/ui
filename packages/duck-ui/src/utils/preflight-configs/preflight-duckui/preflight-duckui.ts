@@ -8,7 +8,7 @@ import { IGNORED_DIRECTORIES } from '../../get-project-info'
 import { highlighter } from '../../text-styling'
 import { duckui_config_prompts, duckui_prompts } from './preflight-duckui.constants'
 import { duckui_prompts_schema, preflight_duckui_options_schema } from './preflight-duckui.dto'
-import { init_duckui_config } from './preflight-duckui.libs'
+import { generateThemeCSS, init_duckui_config } from './preflight-duckui.libs'
 import { InitOptions } from '~/commands/init'
 
 export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
@@ -47,11 +47,12 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
     spinner.start()
 
     const theme_css = await get_registry_base_color(parse_config_options.base_color)
+    const css = generateThemeCSS(theme_css)
 
     const exists = fs.existsSync(path.join(_options.cwd, parse_config_options.css))
     if (exists) {
       const old_content = await fs.readFile(path.join(_options.cwd, parse_config_options.css), 'utf-8')
-      if (old_content.length > 20) {
+      if (old_content.length > 50) {
         let { overwrite }: prompts.Answers<'overwrite'> = { overwrite: true }
         if (!_options.yes) {
           spinner.stop()
@@ -64,12 +65,10 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
         }
 
         if (overwrite) {
-          fs.writeFileSync(path.join(_options.cwd, parse_config_options.css), old_content + theme_css)
+          fs.writeFileSync(path.join(_options.cwd, parse_config_options.css), old_content + css)
         }
       }
     }
-
-    fs.writeFileSync(path.join(_options.cwd, parse_config_options.css), theme_css)
 
     await init_duckui_config(_options.cwd, spinner, parse_config_options)
   } catch (error) {

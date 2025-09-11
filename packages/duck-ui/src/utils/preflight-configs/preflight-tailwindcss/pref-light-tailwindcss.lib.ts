@@ -1,8 +1,9 @@
+import path from 'node:path'
 import { execa } from 'execa'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
-import path from 'node:path'
 import { Ora } from 'ora'
+import prompts from 'prompts'
 import { ZodError } from 'zod'
 import { get_package_manager } from '../../get-package-manager'
 import { IGNORED_DIRECTORIES } from '../../get-project-info'
@@ -14,7 +15,6 @@ import {
   tailwindcss_poiler,
   tailwindcss_vite,
 } from './pref-light-tailwindcss.constants'
-import prompts from 'prompts'
 
 export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
   try {
@@ -93,18 +93,18 @@ export const tailwindcss_dependencies = (
       case 'NEXT_JS':
         fs.writeFileSync(path.join(cwd, 'postcss.config.mjs'), post_css_nextjs)
         fs.writeFileSync(path.join(cssDir, 'styles.css'), tailwindcss_poiler)
-        return ['tailwindcss', 'postcss', '@tailwindcss/postcss']
+        return ['tailwindcss', 'postcss', '@tailwindcss/postcss', 'tw-animate-css']
 
       case 'VITE':
       case 'TANSTACK_START':
         fs.writeFileSync(path.join(cwd, 'vite.config.ts'), tailwindcss_vite)
         fs.writeFileSync(path.join(cssDir, 'styles.css'), tailwindcss_poiler)
-        return ['tailwindcss', '@tailwindcss/vite']
+        return ['tailwindcss', '@tailwindcss/vite', 'tw-animate-css']
 
       default:
         fs.writeFileSync(path.join(cwd, 'vite.config.ts'), tailwindcss_vite)
         fs.writeFileSync(path.join(cssDir, 'styles.css'), tailwindcss_poiler)
-        return ['tailwindcss', '@tailwindcss/vite']
+        return ['tailwindcss', '@tailwindcss/vite', 'tw-animate-css']
     }
   } catch (error) {
     console.log(error)
