@@ -27,7 +27,7 @@ export default function BreadcrumbDemo() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <DropdownMenu placement="top-start">
+          <DropdownMenu placement="top-start" onOpenChange={() => {}}>
             <DropdownMenuTrigger className="flex items-center gap-1">
               <BreadcrumbEllipsis className="size-4" />
               <span className="sr-only">Toggle menu</span>

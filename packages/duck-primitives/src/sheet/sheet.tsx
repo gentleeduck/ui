@@ -87,26 +87,25 @@ function Content({
   const ref = useMergeRefs([context.refs.setFloating, propRef])
 
   return (
-    <FloatingFocusManager context={floatingContext}>
-      <div
-        ref={ref}
-        data-open={context.open}
-        data-side={side}
-        {...context.getFloatingProps(props)}
-        style={{
-          ...style,
-        }}>
-        {
-          <Mount open={context.open} renderOnce={renderOnce} {...props}>
-            {props.children}
-            {context.closeButton && (
-              // @ts-ignore
-              <SheetClose />
-            )}
-          </Mount>
-        }
-      </div>
-    </FloatingFocusManager>
+    <Mount open={context.open} renderOnce={renderOnce} {...props}>
+      <FloatingFocusManager context={floatingContext}>
+        <div
+          ref={ref}
+          data-open={context.open}
+          data-side={side}
+          {...context.getFloatingProps(props)}
+          style={{
+            ...style,
+            position: 'fixed',
+          }}>
+          {props.children}
+          {context.closeButton && (
+            // @ts-ignore
+            <SheetClose />
+          )}
+        </div>
+      </FloatingFocusManager>
+    </Mount>
   )
 }
 
@@ -127,7 +126,7 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
         {
           pointerEvents: context.open ? 'auto' : 'none',
           opacity: context.open ? 1 : 0,
-          zIndex: 45,
+          zIndex: 49,
           '--duck-sheet-overlay-bg': 'oklch(0.12 0 0 / 0.83)',
           backdropFilter: 'blur(1px)',
           background: 'var(--duck-sheet-overlay-bg)',

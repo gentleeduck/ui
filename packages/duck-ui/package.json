@@ -1,6 +1,6 @@
 {
-  "name": "@gentleduck/duck-ui",
-  "version": "1.0.3",
+  "name": "duck-ui",
+  "version": "1.0.7",
   "description": "Add components to your apps.",
   "private": false,
   "publishConfig": {

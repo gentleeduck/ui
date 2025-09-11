@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/primitives",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "private": false,
   "type": "module",
@@ -52,9 +52,6 @@
     "@floating-ui/react": "^0.27.13",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
-    "@gentleduck/motion": "workspace:*",
-    "@gentleduck/state": "workspace:*",
-    "@gentleduck/variants": "workspace:*",
     "clsx": "^1.2.1",
     "mini-svg-data-uri": "^1.4.4",
     "react": "catalog:react19",

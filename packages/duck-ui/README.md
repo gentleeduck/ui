@@ -1,1 +1,1 @@
-# @gentleduck/duck-ui
+# @gentleduck/cli

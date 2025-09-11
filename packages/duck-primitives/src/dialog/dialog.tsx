@@ -90,8 +90,8 @@ function Content({
         ref={ref}
         style={{
           transform: `scale(${context.open ? 1 : 0.9})`,
-
           ...style,
+          position: 'fixed',
         }}
         data-open={context.open}
         {...context.getFloatingProps(props)}>
@@ -123,12 +123,10 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
         {
           pointerEvents: context.open ? 'auto' : 'none',
           opacity: context.open ? 1 : 0,
-          zIndex: 100,
+          zIndex: 49,
           '--duck-dialog-overlay-bg': 'oklch(0.12 0 0 / 0.83)',
           backdropFilter: 'blur(1px)',
           background: 'var(--duck-dialog-overlay-bg)',
-          display: 'grid',
-          placeContent: 'center',
           overflow: 'hidden',
         } as React.CSSProperties
       }

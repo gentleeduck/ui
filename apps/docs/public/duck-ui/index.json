@@ -4,7 +4,7 @@
     "type": "registry:ui",
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentledduck/motion",
+      "@gentleduck/motion",
       "@gentleduck/libs"
     ],
     "root_folder": "accordion",
@@ -24,7 +24,7 @@
     "name": "alert",
     "type": "registry:ui",
     "dependencies": [
-      "@gentledduck/variants",
+      "@gentleduck/variants",
       "@gentleduck/libs"
     ],
     "root_folder": "alert",
@@ -48,7 +48,8 @@
     "name": "alert-dialog",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/primitives"
+      "@gentleduck/primitives",
+      "@gentleduck/libs"
     ],
     "registryDependencies": [
       "dialog"
@@ -524,8 +525,7 @@
     "dependencies": [
       "@gentleduck/lib",
       "@gentleduck/primitives",
-      "@gentleduck/motion",
-      "@gentleduck/variants"
+      "@gentleduck/motion"
     ],
     "registryDependencies": [
       "button"
@@ -658,7 +658,6 @@
     "type": "registry:ui",
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/variants",
       "@gentleduck/libs",
       "@gentleduck/motion"
     ],
@@ -1054,7 +1053,6 @@
     "name": "tooltip",
     "type": "registry:ui",
     "dependencies": [
-      "@gentleduck/variants",
       "@gentleduck/libs",
       "@gentleduck/motion",
       "@gentleduck/primitives"

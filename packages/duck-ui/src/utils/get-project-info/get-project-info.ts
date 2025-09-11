@@ -41,7 +41,7 @@ export async function get_duckui_config(cwd: string, spinner: Ora) {
 
     if (!files.length) {
       spinner.fail(
-        `🦆 No ${highlighter.info('duckui')} configs found \n🦆 Please run ${highlighter.info('@gentleduck/duck-ui init')} to create one\n🦆 Notice you gonna add your package manager executer\n🦆 command at the beginning or the CLI command!\n🦆 Like ${highlighter.info('pnpm dlx @gentleduck/duck-ui init')}\n🦆 If you need any info run the help command,\n🦆 Having issues?   ${highlighter.info('https://github.com/gentleeduck/duck-ui/issues')}.`,
+        `🦆 No ${highlighter.info('duckui')} configs found \n🦆 Please run ${highlighter.info('duck-ui init')} to create one\n🦆 Notice you gonna add your package manager executer\n🦆 command at the beginning or the CLI command!\n🦆 Like ${highlighter.info('pnpm dlx duck-ui init')}\n🦆 If you need any info run the help command,\n🦆 Having issues?   ${highlighter.info('https://github.com/gentleeduck/duck-ui/issues')}.`,
       )
       process.exit(1)
     }
@@ -49,9 +49,14 @@ export async function get_duckui_config(cwd: string, spinner: Ora) {
     const duckui_config_raw = await fs.readFile(path.join(cwd, 'duck-ui.config.json'), 'utf8')
 
     const duckui_config = JSON.parse(duckui_config_raw) // Ensure JSON parsing
-    const duckui_parsed_config = duck_ui_schema.parse(duckui_config)
+    const duckui_parsed_config = duck_ui_schema.safeParse(duckui_config)
+    if (duckui_parsed_config.error) {
+      console.dir(duckui_parsed_config.error, { depth: null })
+      spinner.succeed(`🦆 ${highlighter.info('duckui')} invalid configs found`)
+      process.exit(0)
+    }
 
-    return duckui_parsed_config
+    return duckui_parsed_config.data
   } catch (error) {
     if (error instanceof ZodError) {
       spinner.fail(`🦆 Failed to get ${highlighter.info('duckui')} configs: ${error.message}`)

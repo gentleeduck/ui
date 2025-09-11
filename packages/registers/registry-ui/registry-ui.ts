@@ -4,21 +4,21 @@ export const registry_ui: Registry = [
   {
     name: 'accordion',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/primitives', '@gentledduck/motion', '@gentleduck/libs'],
+    dependencies: ['@gentleduck/primitives', '@gentleduck/motion', '@gentleduck/libs'],
     root_folder: 'accordion',
     files: [],
   },
   {
     name: 'alert',
     type: 'registry:ui',
-    dependencies: ['@gentledduck/variants', '@gentleduck/libs'],
+    dependencies: ['@gentleduck/variants', '@gentleduck/libs'],
     root_folder: 'alert',
     files: [],
   },
   {
     name: 'alert-dialog',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/primitives'],
+    dependencies: ['@gentleduck/primitives', '@gentleduck/libs'],
     registryDependencies: ['dialog'],
     root_folder: 'alert-dialog',
     files: [],
@@ -162,7 +162,7 @@ export const registry_ui: Registry = [
   {
     name: 'hover-card',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/lib', '@gentleduck/primitives', '@gentleduck/motion', '@gentleduck/variants'],
+    dependencies: ['@gentleduck/lib', '@gentleduck/primitives', '@gentleduck/motion'],
     registryDependencies: ['button'],
     root_folder: 'hover-card',
     files: [],
@@ -207,7 +207,7 @@ export const registry_ui: Registry = [
   {
     name: 'popover',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/primitives', '@gentleduck/variants', '@gentleduck/libs', '@gentleduck/motion'],
+    dependencies: ['@gentleduck/primitives', '@gentleduck/libs', '@gentleduck/motion'],
     root_folder: 'popover',
     files: [],
   },
@@ -332,7 +332,7 @@ export const registry_ui: Registry = [
   {
     name: 'tooltip',
     type: 'registry:ui',
-    dependencies: ['@gentleduck/variants', '@gentleduck/libs', '@gentleduck/motion', '@gentleduck/primitives'],
+    dependencies: ['@gentleduck/libs', '@gentleduck/motion', '@gentleduck/primitives'],
     root_folder: 'tooltip',
     files: [],
   },

@@ -4,8 +4,7 @@
   "dependencies": [
     "@gentleduck/lib",
     "@gentleduck/primitives",
-    "@gentleduck/motion",
-    "@gentleduck/variants"
+    "@gentleduck/motion"
   ],
   "registryDependencies": [
     "button"

@@ -3,7 +3,7 @@
   "type": "registry:ui",
   "dependencies": [
     "@gentleduck/primitives",
-    "@gentledduck/motion",
+    "@gentleduck/motion",
     "@gentleduck/libs"
   ],
   "root_folder": "accordion",

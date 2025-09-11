@@ -56,7 +56,7 @@ const config = defineConfig({
                   .replace(/^\/+/, '')}`
               : 'docs',
 
-            permalink: `${_meta.path.split('/').slice(-2, -1).join('/')}/${_meta.path.split('/').pop()?.replace('.mdx', '')}`,
+            permalink: _meta.path.replace(/^.*docs\//, '').replace(/\.mdx$/, ''),
             sourceFilePath: path,
             sourceFileName: _meta.path.split('/').pop(),
             sourceFileDir: _meta.path.split('/').slice(-3, -1).join('/'),

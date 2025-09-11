@@ -75,7 +75,6 @@
       "!packages/duck-benchmark/**",
       "!packages/registry-build-duckui/**",
       "!**/duck-state/**",
-      "!packages/duck-ui/**",
       "!packages/sandbox-server/**",
       "!apps/benchmark/**",
       "!**/upload/**",

@@ -2,7 +2,7 @@
   "name": "alert",
   "type": "registry:ui",
   "dependencies": [
-    "@gentledduck/variants",
+    "@gentleduck/variants",
     "@gentleduck/libs"
   ],
   "root_folder": "alert",

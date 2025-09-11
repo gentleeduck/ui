@@ -70,7 +70,7 @@ export const default_duckui_config = ({
 }: DuckuiPrompts) => {
   return `{
   "schema": "https://duckui.vercel.app/schema.json",
-  "rsc": "${['NEXT_JS'].includes(project_type)}",
+  "rsc": ${['NEXT_JS'].includes(project_type)},
   "monorepo": ${monorepo},
   "tailwind": {
     "baseColor": "${base_color}",
@@ -80,6 +80,8 @@ export const default_duckui_config = ({
   },
   "aliases": {
     "ui": "${alias}/ui",
+    "libs": "${alias}/libs",
+    "hooks": "${alias}/hooks",
     "pages": "${alias}/pages",
     "layouts": "${alias}/layouts"
   }

@@ -2,7 +2,6 @@
   "name": "tooltip",
   "type": "registry:ui",
   "dependencies": [
-    "@gentleduck/variants",
     "@gentleduck/libs",
     "@gentleduck/motion",
     "@gentleduck/primitives"

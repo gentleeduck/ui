@@ -1,5 +1,13 @@
 # @gentleduck/primitives
 
+## 0.1.20
+
+### Patch Changes
+
+- fixed bugs
+- fixed the package.json
+- fixed the positioning
+
 ## 0.1.19
 
 ### Patch Changes
