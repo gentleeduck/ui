@@ -52,14 +52,13 @@ function SheetContent({
   VariantProps<typeof AnimSheetVariants>): React.JSX.Element {
   return (
     <SheetPrimitive.Portal>
-      <SheetPrimitive.Overlay className={cn(AnimVariants())}>
-        <SheetPrimitive.Content
-          SheetClose={SheetCloseX}
-          className={cn(AnimVariants(), AnimSheetVariants({ side }), className)}
-          {...props}>
-          {children}
-        </SheetPrimitive.Content>
-      </SheetPrimitive.Overlay>
+      <SheetPrimitive.Content
+        SheetClose={SheetCloseX}
+        className={cn(AnimSheetVariants({ side }), className)}
+        {...props}>
+        {children}
+      </SheetPrimitive.Content>
+      <SheetPrimitive.Overlay className={cn(AnimVariants())} />
     </SheetPrimitive.Portal>
   )
 }

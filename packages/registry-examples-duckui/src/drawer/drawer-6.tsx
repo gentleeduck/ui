@@ -50,7 +50,6 @@ export default function DrawerDemo8() {
     if (progress <= 95) return 'bg-lime-500'
     return 'bg-green-500'
   }
-  console.log(open)
   return (
     <Drawer fixed={true} shouldScaleBackground={false}>
       <DrawerTrigger asChild>

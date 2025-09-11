@@ -30,7 +30,7 @@ const fileIcons = [
       <svg
         stroke="currentColor"
         fill="currentColor"
-        stroke-width="0"
+        strokeWidth="0"
         role="img"
         viewBox="0 0 24 24"
         height="200px"
@@ -46,7 +46,7 @@ const fileIcons = [
       <svg
         stroke="currentColor"
         fill="currentColor"
-        stroke-width="0"
+        strokeWidth="0"
         viewBox="0 0 512 512"
         height="200px"
         width="200px"
@@ -61,7 +61,7 @@ const fileIcons = [
       <svg
         stroke="currentColor"
         fill="currentColor"
-        stroke-width="0"
+        strokeWidth="0"
         role="img"
         viewBox="0 0 24 24"
         height="200px"
@@ -77,7 +77,7 @@ const fileIcons = [
       <svg
         stroke="currentColor"
         fill="currentColor"
-        stroke-width="0"
+        strokeWidth="0"
         viewBox="0 0 16 16"
         height="200px"
         width="200px"
@@ -94,7 +94,7 @@ const fileIcons = [
       <svg
         stroke="currentColor"
         fill="currentColor"
-        stroke-width="0"
+        strokeWidth="0"
         viewBox="0 0 512 512"
         height="200px"
         width="200px"
@@ -109,7 +109,7 @@ const fileIcons = [
       <svg
         stroke="currentColor"
         fill="currentColor"
-        stroke-width="0"
+        strokeWidth="0"
         viewBox="0 0 512 512"
         height="1em"
         width="1em"
@@ -124,7 +124,7 @@ const fileIcons = [
       <svg
         stroke="currentColor"
         fill="none"
-        stroke-width="2"
+        strokeWidth="2"
         viewBox="0 0 24 24"
         stroke-linecap="round"
         stroke-linejoin="round"

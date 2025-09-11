@@ -42,9 +42,12 @@ export default function RootLayout({
             disableTransitionOnChange
             enableColorScheme>
             <ThemeWrapper>
-              <div vaul-drawer-wrapper="">
-                <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
-              </div>
+              {
+                // @ts-ignore
+                <div vaul-drawer-wrapper="" aria-hidden="undefined">
+                  <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
+                </div>
+              }
 
               <VercelAnalytics />
               <Toaster />

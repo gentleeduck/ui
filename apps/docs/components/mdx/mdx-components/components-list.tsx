@@ -4,8 +4,6 @@ import { docs } from '~/.velite'
 export function ComponentsList() {
   const components = docs.filter((doc) => doc.component)
 
-  console.log(components)
-
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8 lg:gap-x-16 lg:gap-y-6 xl:gap-x-20">
       {components.map((component) => (

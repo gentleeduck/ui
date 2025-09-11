@@ -118,9 +118,7 @@ npm install react-hook-form @hookform/resolvers zod @gentleduck/primitives @gent
 
 <Steps>
 
-<Step>
-### Create a form schema
-</Step>
+<Step>Create a form schema</Step>
 
 Define the shape of your form using a Zod schema. You can read more about using Zod in the [Zod documentation](https://zod.dev).
 
@@ -134,9 +132,7 @@ const formSchema = z.object({
 })
 ```
 
-<Step>
-### Define a form
-</Step>
+<Step>Define a form</Step>
 
 Use the `useForm` hook from `react-hook-form` to create a form.
 
@@ -173,9 +169,7 @@ export function ProfileForm() {
 
 Since `FormField` is using a controlled component, you need to provide a default value for the field. See the [React Hook Form docs](https://react-hook-form.com/docs/usecontroller) to learn more about controlled components.
 
-<Step>
-### Build your form
-</Step>
+<Step>Build your form</Step>
 
 We can now use the `<Form />` components to build our form.
 
@@ -233,9 +227,7 @@ export function ProfileForm() {
 }
 ```
 
-<Step>
-### Done
-</Step>
+<Step>Done</Step>
 
 That's it. You now have a fully accessible form that is type-safe with client-side validation.
 

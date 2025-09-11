@@ -63,15 +63,15 @@ const BreadcrumbPage = ({ className, ref, ...props }: React.ComponentPropsWithRe
   )
 }
 
-const BreadcrumbSeparator = ({ children, className, ...props }: React.ComponentProps<'li'>) => (
-  <li
+const BreadcrumbSeparator = ({ children, className, ...props }: React.ComponentProps<'div'>) => (
+  <div
     className={cn('[&>svg]:size-3.5', className)}
     {...props}
     role="presentation"
     aria-hidden="true"
     duck-breadcrumb-separator="">
     {children ?? <ChevronRight />}
-  </li>
+  </div>
 )
 
 const BreadcrumbEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => (

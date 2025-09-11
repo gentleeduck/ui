@@ -19,7 +19,7 @@ export default function DialogDemo() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <form onSubmit={(e) => e.preventDefault()}>
-        <DialogTrigger>
+        <DialogTrigger asChild>
           <Button variant={'outline'}>Open Dialog</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">

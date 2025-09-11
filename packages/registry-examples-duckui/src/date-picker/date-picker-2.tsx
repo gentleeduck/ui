@@ -24,7 +24,7 @@ export default function CalendarDemo() {
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+        <PopoverContent className="w-auto overflow-hidden p-0">
           <Calendar
             mode="single"
             selected={date}
