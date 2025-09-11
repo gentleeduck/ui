@@ -116,7 +116,7 @@ export function Customizer() {
                   className={cn('justify-start', isActive && 'border-2 border-primary')}
                   style={
                     {
-                      '--theme-primary': `hsl(${theme?.activeColor[mode === 'dark' ? 'dark' : 'light']})`,
+                      '--theme-primary': `hsl(${theme?.activeColor?.[mode === 'dark' ? 'dark' : 'light']})`,
                     } as React.CSSProperties
                   }>
                   <span
