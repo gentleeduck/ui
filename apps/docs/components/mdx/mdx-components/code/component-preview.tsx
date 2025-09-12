@@ -35,7 +35,6 @@ export function ComponentPreview({
   const Code = Codes[0]
 
   const Preview = React.useMemo(() => {
-    //@ts-ignore
     const Component = Index[name]?.component
 
     if (!Component) {

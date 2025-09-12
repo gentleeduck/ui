@@ -61,10 +61,10 @@ export function OrderForm() {
         <CardContent className="px-6 space-y-6">
           {/* Email Address */}
           <div className="space-y-2 flex flex-col">
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="email2">Email address</Label>
             <div className="relative">
               <Input
-                id="email"
+                id="email2"
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.currentTarget.value)}

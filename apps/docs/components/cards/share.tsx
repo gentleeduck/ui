@@ -61,7 +61,7 @@ export function CardsShare() {
                   </div>
                 </div>
                 <Select defaultValue="edit" placement="bottom-end">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" asChild>
                     <SelectTrigger className="ml-auto pr-2" aria-label="Edit">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>

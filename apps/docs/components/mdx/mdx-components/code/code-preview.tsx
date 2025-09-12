@@ -6,8 +6,8 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduc
 import { Tabs, TabsContent } from '@gentleduck/registry-ui-duckui/tabs'
 import React from 'react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
+import { BlockToolbar } from '~/components/blocks'
 import { Icons } from '~/components/icons'
-import { BlockToolbar } from '~/components/ui'
 import { useConfig } from '~/hooks/use-config'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 
