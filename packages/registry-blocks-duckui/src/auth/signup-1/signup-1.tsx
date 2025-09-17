@@ -1,0 +1,141 @@
+'use client'
+import { cn } from '@gentleduck/libs/cn'
+import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
+import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { Upload } from 'lucide-react'
+import Image from 'next/image'
+import React from 'react'
+import { icons } from './signup-1.constants'
+
+export default function PopoverDemo() {
+  return (
+    <div
+      className="!px-0 container grid w-full grid-cols-1 rounded-2xl border border-border bg-card lg:grid-cols-2"
+      style={
+        {
+          '--font-sans': '"Inter", sans-serif',
+          '--color-primary': '#2854d0',
+          '--color-accent': '#535353',
+          '--color-destructive': '#AC0F42',
+          '--color-destructive-foreground': '#FEF2F6',
+          '--color-muted': '#8C8C96',
+          fontFamily: 'var(--font-sans)',
+        } as React.CSSProperties
+      }>
+      <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');</style>
+      {/* Left Side */}
+      <div className="flex flex-col gap-4 border-border border-r p-12 xl:p-18 xl:px-22">
+        {/* Title */}
+        <h2 className="font-semibold text-2xl">Signup</h2>
+
+        {/* Steps */}
+        <div className="mb-2 grid items-center justify-between gap-4 xl:flex">
+          <div className="flex items-center gap-3">
+            <div className="grid size-9 shrink-0 place-content-center rounded-lg bg-[var(--color-primary)]">
+              <icons.user_filled className="size-4 fill-primary-foreground dark:fill-accent-foreground" />
+            </div>
+            <h3 className="font-semibold text-primary/90 text-xl">Personal Information</h3>
+          </div>
+          <div className="flex items-center gap-1">
+            {Array.from({ length: 5 }, (_, i) => (
+              <div
+                key={i}
+                className={cn(
+                  'grid size-8 place-content-center rounded-full bg-muted font-semibold text-muted-foreground',
+                  i === 0 && 'bg-foreground text-accent',
+                )}>
+                {i + 1}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Upload */}
+        <div className="flex items-start gap-4">
+          <div className="size-[100px] shrink-0 overflow-hidden rounded-xl bg-muted">
+            <Avatar src="/avatars/06.png" alt="WD" width={100} height={100} />
+          </div>
+          <div className="flex flex-col gap-2">
+            <h3 className="font-medium text-lg">Profile Picture</h3>
+            <div className="item-center grid gap-2 sm:flex">
+              <Button
+                icon={<Upload className="text-[var(--color-muted)]" />}
+                className="hover:bg-secondary/80 dark:bg-secondary dark:text-accent-foreground">
+                Upload Image
+              </Button>
+              <Button
+                variant={'destructive'}
+                className="bg-[var(--color-destructive-foreground)] text-[var(--color-destructive)] hover:bg-[var(--color-destructive)]/20 dark:bg-destructive/20 dark:hover:bg-destructive/10">
+                Remove
+              </Button>
+            </div>
+            <p className="text-[var(--color-muted)] text-sm">.png, .jpg, files up to 10mb at least 400px by 400px</p>
+          </div>
+        </div>
+
+        <Separator className="my-4 border-t-2 border-dashed bg-transparent" />
+
+        {/* Form */}
+        <form className="flex flex-col gap-2 [&_input]:border-[1.5px] [&_input]:bg-[var(--color-muted)]/10 [&_input]:placeholder:font-normal [&_input]:placeholder:text-[var(--color-muted)] [&_label]:text-[var(--color-accent)] dark:[&_label]:text-accent-foreground">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="mb-2 flex flex-col gap-2">
+              <Label htmlFor="first-name">First Name</Label>
+              <Input id="first-name" placeholder="Enter your first name.." />
+            </div>
+            <div className="mb-2 flex flex-col gap-2">
+              <Label htmlFor="last-name">Last Name</Label>
+              <Input id="last-name" placeholder="Enter your last name.." />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" placeholder="your@email.com" />
+            </div>
+          </div>
+        </form>
+
+        <Separator className="my-4 border-t-2 border-dashed bg-transparent" />
+
+        {/* Terms */}
+        <div className="mb-8 flex items-start gap-2">
+          <Checkbox
+            id="terms"
+            className="mt-1 h-5 w-5 checked:border-[var(--color-primary)] checked:bg-[var(--color-primary)] dark:checked:text-accent-foreground"
+          />
+          <div className="flex flex-col">
+            <Label htmlFor="terms" className="text-[var(--color-accent)] text-lg dark:text-accent-foreground">
+              Subscribe to product update email
+            </Label>
+            <p className="text-[var(--color-muted)]">Get latest updates about features and product updates</p>
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <div className="flex flex-col justify-end gap-2 rounded-2xl">
+          <Button
+            size={'lg'}
+            className="rounded-lg bg-[var(--color-primary)] text-primary-foreground hover:bg-[var(--color-primary)]/90 dark:text-accent-foreground">
+            Continue
+          </Button>
+          <Button size={'lg'} className="rounded-lg" variant={'secondary'}>
+            You already have an account ?<span className="font-semibold underline"> Sign in</span>
+          </Button>
+        </div>
+      </div>
+
+      {/* Right Side */}
+      <div className="hidden h-full flex-col gap-4 px-16 pt-16 pr-0 lg:flex xl:pt-18 xl:pl-22">
+        <div className="relative h-full w-full">
+          <Image src="/login.jpg" alt="WD" fill className="hidden object-cover object-left-top dark:block" />
+          <Image src="/login-light.jpg" alt="WD" fill className="block object-cover object-left-top dark:hidden" />
+        </div>
+      </div>
+    </div>
+  )
+}

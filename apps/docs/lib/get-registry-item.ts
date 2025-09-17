@@ -41,7 +41,7 @@ export async function getRegistryItem(name: string) {
 
   // Get meta.
   // Assume the first file is the main file.
-  const meta = await getFileMeta(files[0]!.path as string)
+  const meta = await getFileMeta(files[0]?.path as string)
 
   // Fix file paths.
   files = fixFilePaths(files)
@@ -74,11 +74,6 @@ async function getFileContent(file: { path: string; type: string }) {
   const sourceFile = project.createSourceFile(tempFile, raw, {
     scriptKind: ScriptKind.TSX,
   })
-
-  // Remove meta variables.
-  removeVariable(sourceFile, 'iframeHeight')
-  removeVariable(sourceFile, 'containerClassName')
-  removeVariable(sourceFile, 'description')
 
   let code = sourceFile.getFullText()
 

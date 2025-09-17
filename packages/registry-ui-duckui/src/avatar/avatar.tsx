@@ -6,7 +6,7 @@ import * as React from 'react'
 export interface AvatarProps extends React.HTMLProps<HTMLImageElement> {}
 
 function Avatar({ className, alt, ref, ...props }: AvatarProps) {
-  const [isValid, setIsValid] = React.useState(false)
+  const [isValid, setIsValid] = React.useState(true)
 
   return (
     <picture className={cn('relative size-10 shrink-0 overflow-hidden rounded-full', className)}>

@@ -132,7 +132,6 @@ export async function build_registry_themes(spinner: Ora) {
   await ensureDir(themesTarget)
 
   for (const theme of registry_themes) {
-    console.log(path.join(themesTarget, `${theme.name}.json`))
     await writeJson(path.join(themesTarget, `${theme.name}.json`), theme)
   }
 

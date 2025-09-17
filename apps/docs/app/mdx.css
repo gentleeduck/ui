@@ -1,3 +1,39 @@
+/* JetBrains Mono 400 (Regular) */
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v18/tU9WHmZ0lvLh0QnF6m-fMBBGlQ.woff2) format("woff2");
+}
+
+/* JetBrains Mono 500 (Medium) */
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v18/tU9WHmZ0lvLh0QnF6m-fMBc5lQ.woff2) format("woff2");
+}
+
+/* JetBrains Mono 600 (SemiBold) */
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v18/tU9WHmZ0lvLh0QnF6m-fMBZGlQ.woff2) format("woff2");
+}
+
+/* JetBrains Mono 700 (Bold) */
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v18/tU9WHmZ0lvLh0QnF6m-fMBDGlQ.woff2) format("woff2");
+}
+
 code,
 kbd,
 samp,

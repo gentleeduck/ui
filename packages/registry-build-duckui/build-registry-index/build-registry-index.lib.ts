@@ -36,8 +36,9 @@ export async function get_component_files({
 }: GetComponentFilesArgs): Promise<z.infer<typeof registry_schema>[0] | undefined> {
   try {
     // Determine the base path depending on the type of registry item
-    const basePath = `..${type.includes('ui') ? ENV.REGISTRY_UI_PATH : ENV.REGISTRY_EXAMPLES_PATH}${item.root_folder}`
+    const basePath = `..${type.includes('ui') ? ENV.REGISTRY_UI_PATH : type.includes('example') ? ENV.REGISTRY_EXAMPLES_PATH : ENV.REGISTRY_BLOCKS_PATH}${item.root_folder}`
     const cwdPath = path.join(process.cwd(), basePath)
+    console.log(cwdPath)
 
     // Scan for TypeScript and TSX files within the component's root directory
     const files = await fg.glob('*.{ts,tsx}', { cwd: cwdPath, deep: 1 })

@@ -85,7 +85,19 @@ export async function build_registry_index({
 
     spinner.text = `🧭 Retrieving ${styleText('green', 'block')} component files...`
 
-    const blocksItems = await Promise.all(registry.filter((item) => item.type === 'registry:block'))
+    const blocksItems = await Promise.all(
+      registry
+        .filter((item) => item.type === 'registry:block')
+        .map((item) =>
+          get_component_files({
+            item,
+            type: 'registry:block',
+            spinner,
+            idx: 0,
+            registry_count: registry.length,
+          }),
+        ),
+    )
 
     spinner.text = `🧭 Writing registry index to file... (${styleText(
       'green',
