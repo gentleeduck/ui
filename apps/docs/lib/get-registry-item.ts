@@ -1,5 +1,5 @@
 import { registry_entry_schema, registry_item_file_schema } from '@gentleduck/registers'
-import { promises as fs } from 'fs'
+import fs from 'fs/promises'
 import { tmpdir } from 'os'
 import path from 'path'
 import { Project, ScriptKind, SourceFile } from 'ts-morph'

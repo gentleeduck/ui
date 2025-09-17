@@ -1,7 +1,8 @@
 import { cva } from '@gentleduck/variants'
 
 export const buttonVariants = cva(
-  'relative inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap font-regular ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+  "relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium text-sm outline-none transition-all focus-visible:border-ring focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+
   {
     variants: {
       variant: {
@@ -19,14 +20,10 @@ export const buttonVariants = cva(
         nothing: '',
       },
       size: {
-        icon: 'size-9 rounded-md p-0 text-base [&_svg]:size-[1.3em]',
-        xs: 'h-6 rounded-sm px-2 py-1 text-xs [&_svg]:size-[1.3em]',
-        sm: 'h-8 rounded-md px-3 py-1.5 text-sm [&_svg]:size-[1.3em]',
-        default: 'h-9 rounded-md px-4 py-2 text-base [&_svg]:size-[1.3em]',
-        lg: 'h-10 rounded-md px-6 py-2.5 text-lg [&_svg]:size-[1.3em]',
-        xl: 'h-12 rounded-lg px-8 py-3 text-xl [&_svg]:size-[1.3em]',
-        '2xl': 'h-14 rounded-lg px-10 py-3.5 text-2xl [&_svg]:size-[1.3em]',
-        '3xl': 'h-16 rounded-lg px-12 py-4 text-3xl [&_svg]:size-[1.3em]',
+        icon: 'size-8',
+        sm: 'h-8 gap-1.5 px-3 has-[>svg]:px-2.5',
+        default: 'h-9 px-4 py-2 has-[>svg]:px-3',
+        lg: 'h-10 px-6 has-[>svg]:px-4',
       },
       border: {
         default: '',

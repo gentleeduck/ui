@@ -33,7 +33,7 @@ export async function build_registry_tsx({ item, spinner }: GetComponentFilesArg
       files: ${JSON.stringify(item.files, null, 2)},
       component: React.lazy(() => import("${component_path}")),
       source: "${item.source}",
-      categories: [${item.categories?.map((category) => `"${category}"`).join(', ')}],
+      categories: [${(item.categories ?? []).map((category) => `"${category}"`).join(', ')}],
       root_folder: "${item.root_folder}",
       chunks: [
         ${chunks
