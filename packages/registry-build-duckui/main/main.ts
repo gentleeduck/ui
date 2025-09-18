@@ -1,13 +1,12 @@
+import { styleText } from 'node:util'
 import { registry, registry_schema } from '@gentleduck/registers'
-import { build_registry_index } from '../build-registry-index'
+import { registry_build_colors } from '../build-registry-build-colors'
 import { build_registry_components } from '../build-registry-components'
+import { build_registry_home } from '../build-registry-home'
+import { build_registry_index } from '../build-registry-index'
 import { build_registry_tsx, write_index_tsx } from '../build-registry-tsx'
 import { tsx_index } from './main.constants'
-import { build_registry_styles_index } from '../build-registry-styles-index'
-import { registry_build_colors } from '../build-registry-build-colors'
-import { build_registry_home } from '../build-registry-home'
 import { spinner as Spinner } from './main.lib'
-import { styleText } from 'node:util'
 
 export async function main() {
   const spinner = Spinner('')
@@ -47,16 +46,11 @@ export async function main() {
     })
     // 2- build the __registry__/
     tsx_content += await build_registry_tsx({ item, spinner })
-
-    // 3- build the styles index.json
-    // NOTE: we do not have style we have removed this feature we only serve one style and you will
-    // make your own style if you want because we can not cover all the style people like :).
-    // await build_registry_styles_index({ item, spinner })
   }
-  // 4- write the index.tsx
+  // 5- write the index.tsx
   await write_index_tsx({ tsx_content, spinner })
 
-  // 5- build registry colors
+  // 6- build registry colors
   await registry_build_colors({ spinner })
 
   spinner.succeed(styleText('green', `🎉 Registry built successfully!`))

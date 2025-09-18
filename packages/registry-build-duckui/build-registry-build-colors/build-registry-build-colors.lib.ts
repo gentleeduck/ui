@@ -145,14 +145,6 @@ export async function build_registry_themes(spinner: Ora) {
 
 /**
  * Builds and writes the colors index file from the registry.
- *
- * @async
- * @param {Record<string, any>} colors_data - The color data object to populate.
- * @param {string} colors_target_path - The target directory for the index.json file.
- * @param {import("ora").Ora} spinner - The spinner instance for displaying progress.
- * @returns {Promise<void>} Resolves when the colors index is successfully written.
- * @throws {Error} If writing the file fails.
- *
  */
 export async function registry_build_colors_index(
   colors_data: Record<string, any>,

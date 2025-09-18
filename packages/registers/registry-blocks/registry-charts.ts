@@ -1,6 +1,6 @@
-import type { Registry } from '../registry-schema'
+import type { RegistryEntry } from '../registry-schema'
 
-export const registry_charts: Registry = [
+export const registry_charts: RegistryEntry[] = [
   // Area Charts
   {
     name: 'chart-area-axes',

@@ -1,8 +1,8 @@
-import ora, { type Options } from 'ora'
-import path from 'node:path'
 import fs from 'node:fs/promises'
-import { Project } from 'ts-morph'
 import { tmpdir } from 'node:os'
+import path from 'node:path'
+import ora, { type Options } from 'ora'
+import { Project } from 'ts-morph'
 
 // ----------------------------------------------------------------------------
 export async function create_temp_source_file(filename: string) {
@@ -17,6 +17,7 @@ export const project = new Project({
 export function fix_import(content: string) {
   const regex = /@\/(.+?)\/((?:.*?\/)?(?:components|ui|hooks|lib))\/([\w-]+)/g
 
+  // TODO: find out thwat to do with the path
   const replacement = (match: string, path: string, type: string, component: string) => {
     if (type.endsWith('components')) {
       return `@/components/${component}`

@@ -1,6 +1,6 @@
-import type { Registry } from '../registry-schema'
+import type { RegistryEntry } from '../registry-schema'
 
-export const registry_auth: Registry = [
+export const registry_auth: RegistryEntry[] = [
   {
     name: 'signup-1',
     type: 'registry:block',
@@ -8,5 +8,8 @@ export const registry_auth: Registry = [
     files: [],
     root_folder: 'auth/signup-1',
     categories: ['auth', 'signup-1'],
+    tailwind: {
+      config: {},
+    },
   },
 ]

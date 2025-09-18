@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { registry_entry_schema } from '@gentleduck/registers'
-import { gen_temp_source_files, get_file_content, get_file_target } from './build-registry-components.lib'
-import { PUBLIC_REGISTRY_PATH, REGISTRY_INDEX_WHITELIST } from '../main'
-import { GetComponentFilesParams, GetFileParams } from './build-registry-components.types'
 import { styleText } from 'node:util'
+import { registry_entry_schema } from '@gentleduck/registers'
+import { PUBLIC_REGISTRY_PATH, REGISTRY_INDEX_WHITELIST } from '../main'
+import { gen_temp_source_files, get_file_content, get_file_target } from './build-registry-components.lib'
+import { GetComponentFilesParams, GetFileParams } from './build-registry-components.types'
 
 // ----------------------------------------------------------------------------
 
@@ -13,17 +13,6 @@ import { styleText } from 'node:util'
  *
  * This function handles the setup and processing of a registry component while displaying progress
  * using a spinner. It does not return a value but ensures the item is correctly processed.
- *
- * @async
- * @param {GetComponentFilesParams} args - The arguments required to build registry components.
- * @param {import("zod").infer<typeof registry_schema>[number]} args.item - The registry component item to process.
- * @param {import("ora").Ora} args.spinner - The spinner instance for displaying progress.
- * @param {number} args.idx - The current index of the item in the registry.
- * @param {number} args.registry_count - The total number of items in the registry.
- *
- * @returns {Promise<void>} A promise that resolves when the registry component is built.
- *
- * @throws {Error} If an unexpected error occurs during the build process, it is logged via `Logger.error`.
  */
 export async function build_registry_components({
   item,
@@ -73,13 +62,6 @@ export async function build_registry_components({
 
 /**
  * Retrieves file content, generates a temporary source file, and determines its target path.
- *
- * @async
- * @param {GetFileParams} params - The parameters for processing the file.
- * @param {z.infer<typeof registry_item_file_schema>} params.file - The file schema object.
- * @param {z.infer<typeof registry_entry_schema>} params.item - The registry entry object.
- * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
- * @returns {Promise<typeof file>} An object containing the file path, type, content, and target.
  */
 export async function get_file({ file, item, spinner }: GetFileParams): Promise<typeof file | undefined> {
   try {

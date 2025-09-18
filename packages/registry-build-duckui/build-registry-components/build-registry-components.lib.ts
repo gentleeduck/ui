@@ -1,19 +1,13 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { create_temp_source_file, ENV, project } from '../main'
 import { ScriptKind, SourceFile } from 'ts-morph'
+import { create_temp_source_file, ENV, project } from '../main'
 import { GenTempSourceFilesParams, GetFileContentParams, GetFileTargetParams } from './build-registry-components.types'
 
 // ----------------------------------------------------------------------------
 
 /**
  * Determines the target path for a given file based on the registry entry type.
- *
- * @param {GetFileTargetParams} params - Parameters containing the registry item and file data.
- * @param {z.infer<typeof registry_entry_schema>} params.item - The registry entry object.
- * @param {z.infer<typeof registry_item_file_schema>} params.file - The file schema object.
- * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
- * @returns {Promise<string | undefined>} The computed target path or `undefined` if no target is found.
  */
 export async function get_file_target({ item, file, spinner }: GetFileTargetParams): Promise<string | undefined> {
   try {
@@ -29,7 +23,6 @@ export async function get_file_target({ item, file, spinner }: GetFileTargetPara
 
       switch (item.type) {
         case 'registry:block':
-        case 'registry:component':
         case 'registry:example':
           target = `components/${fileName}`
           break
@@ -59,11 +52,6 @@ export async function get_file_target({ item, file, spinner }: GetFileTargetPara
 
 /**
  * Reads the content of a given file from the registry directory.
- *
- * @param {GetFileContentParams} file - Parameters containing the file data.
- * @param {z.infer<typeof registry_item_file_schema>} params.file - The file schema object.
- * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
- * @returns {Promise<string | undefined>} The file content as a string, or undefined if reading fails.
  */
 export async function get_file_content({ file, spinner }: GetFileContentParams): Promise<string | undefined> {
   try {
@@ -86,12 +74,6 @@ export async function get_file_content({ file, spinner }: GetFileContentParams):
 
 /**
  * Generates a temporary TypeScript source file.
- *
- * @param {GenTempSourceFilesParams} params - Parameters including the file data and optional content.
- * @param {z.infer<typeof registry_item_file_schema>} params.file - The file schema object.
- * @param {z.infer<typeof registry_item_file_schema>} params.file - The file schema object.
- * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
- * @returns {Promise<SourceFile | undefined>} The generated temporary source file, or undefined if processing fails.
  */
 export async function gen_temp_source_files({
   file,

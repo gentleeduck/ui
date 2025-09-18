@@ -1,12 +1,9 @@
-import figlet from 'figlet'
 import cliWidth from 'cli-width'
+import figlet from 'figlet'
 import { Ora } from 'ora'
 
 /**
  * Generates and prints the Duck UI ASCII home screen.
- *
- * @returns {Promise<void>} Resolves when ASCII text is successfully printed.
- * @throws {Error} Logs an error if ASCII generation fails.
  */
 export async function build_registry_home(spinner: Ora): Promise<void> {
   try {
@@ -20,11 +17,6 @@ export async function build_registry_home(spinner: Ora): Promise<void> {
 
 /**
  * Generates ASCII text using figlet.
- *
- * @async
- * @param {string} text - The text to convert into ASCII art.
- * @returns {Promise<string>} Resolves with the generated ASCII text.
- * @throws {Error} Rejects if figlet encounters an error.
  */
 async function generateAsciiArt(text: string): Promise<string> {
   return new Promise((resolve, reject) => {

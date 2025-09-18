@@ -14,7 +14,7 @@ import { icons } from './signup-1.constants'
 export default function PopoverDemo() {
   return (
     <div
-      className="!px-0 container grid w-full grid-cols-1 rounded-2xl border border-border bg-card lg:grid-cols-2"
+      className="!px-0 container grid w-full grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-2"
       style={
         {
           '--font-sans': '"Inter", sans-serif',
@@ -23,6 +23,7 @@ export default function PopoverDemo() {
           '--color-destructive': '#AC0F42',
           '--color-destructive-foreground': '#FEF2F6',
           '--color-muted': '#8C8C96',
+          scale: 0.8,
           fontFamily: 'var(--font-sans)',
         } as React.CSSProperties
       }>
@@ -130,7 +131,7 @@ export default function PopoverDemo() {
       </div>
 
       {/* Right Side */}
-      <div className="hidden h-full flex-col gap-4 px-16 pt-16 pr-0 lg:flex xl:pt-18 xl:pl-22">
+      <div className="hidden h-full flex-col gap-4 overflow-hidden px-16 pt-16 pr-0 lg:flex xl:pt-18 xl:pl-22">
         <div className="relative h-full w-full">
           <Image src="/login.jpg" alt="WD" fill className="hidden object-cover object-left-top dark:block" />
           <Image src="/login-light.jpg" alt="WD" fill className="block object-cover object-left-top dark:hidden" />

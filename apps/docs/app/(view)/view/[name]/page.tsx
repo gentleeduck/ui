@@ -1,10 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
-import { registry_entry_schema, registry_item_file_schema } from '@gentleduck/registers'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next/types'
 import React from 'react'
-import z from 'zod'
-import { Index } from '~/__ui_registry__'
 import { siteConfig } from '~/config/site'
 import { getRegistryComponent, getRegistryItem } from '~/lib/get-registry-item'
 import { absoluteUrl } from '~/lib/utils'
@@ -84,19 +81,14 @@ export default async function BlockPage({
   const { name } = await params
   const item = await getCachedRegistryItem(name)
   const Component = getRegistryComponent(name)
-  console.log({ item, Component })
 
-  if (!Component) {
+  if (!Component || !item) {
     return notFound()
   }
 
   return (
     <>
-      <div
-        className={cn(
-          'bg-background',
-          // item.meta?.container
-        )}>
+      <div className={cn('h-screen flex flex-col items-center justify-center')}>
         <Component />
       </div>
     </>

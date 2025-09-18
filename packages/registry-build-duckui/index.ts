@@ -1,4 +1,5 @@
 import { main } from './main'
+
 main()
 
 // NOTE: Uncomment this if you want to use this script in another place

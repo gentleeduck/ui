@@ -1,6 +1,6 @@
-import type { Registry } from '../registry-schema'
+import type { RegistryEntry } from '../registry-schema'
 
-export const registry_ui: Registry = [
+export const registry_ui: RegistryEntry[] = [
   {
     name: 'accordion',
     type: 'registry:ui',

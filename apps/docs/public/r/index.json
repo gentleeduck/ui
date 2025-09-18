@@ -1,0 +1,33 @@
+[
+  {
+    "name": "signup-1",
+    "type": "registry:block",
+    "registryDependencies": [
+      "button",
+      "input",
+      "avatar",
+      "separator",
+      "label",
+      "react-hook-form"
+    ],
+    "root_folder": "auth/signup-1",
+    "files": [
+      {
+        "path": "auth/signup-1/signup-1.constants.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "auth/signup-1/signup-1.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "tailwind": {
+      "config": {}
+    },
+    "categories": [
+      "auth",
+      "signup-1"
+    ],
+    "source": "/registry-examples-duckui/src/auth/signup-1"
+  }
+]

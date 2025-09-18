@@ -15,15 +15,22 @@ export * from './registry-schema'
 export * from './registry-ui'
 export * from './styles'
 
-export const registry: Registry = [
-  // ...registry_ui,
-  // ...registry_examples,
-  // ...registry_charts,
-  ...registry_auth,
-  // ...blocks,
+export const registry: Registry = {
+  uis: [
+    // ...registry_ui
+  ],
+  examples: [
+    // ...registry_examples,
+  ],
+
+  blocks: [
+    ...registry_auth,
+    // ...registry_charts,
+    // ...blocks,
+  ],
   // ...charts,
   // ...lib,
   // ...hooks,
   // ...themes,
   //...v0
-]
+}
