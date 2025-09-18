@@ -23,8 +23,220 @@
     ],
     "categories": [
       "authentication",
-      "signup-1"
+      "signup"
     ],
-    "source": "/registry-examples-duckui/src/authentication/signup-1"
+    "source": "/registry-examples-duckui/src/authentication/signup-1",
+    "tree": [
+      {
+        "name": "signup-1.constants.tsx",
+        "path": "authentication/signup-1/signup-1.constants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "signup-1.tsx",
+        "path": "authentication/signup-1/signup-1.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "name": "login-1",
+    "type": "registry:block",
+    "registryDependencies": [
+      "button",
+      "input",
+      "avatar",
+      "separator",
+      "label",
+      "react-hook-form"
+    ],
+    "root_folder": "authentication/login-1",
+    "files": [
+      {
+        "path": "authentication/login-1/login-1.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "authentication/login-1/login-form.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "categories": [
+      "authentication",
+      "login"
+    ],
+    "source": "/registry-examples-duckui/src/authentication/login-1",
+    "tree": [
+      {
+        "name": "login-1.tsx",
+        "path": "authentication/login-1/login-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "login-form.tsx",
+        "path": "authentication/login-1/login-form.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "name": "login-2",
+    "type": "registry:block",
+    "registryDependencies": [
+      "button",
+      "input",
+      "avatar",
+      "separator",
+      "label",
+      "react-hook-form"
+    ],
+    "root_folder": "authentication/login-2",
+    "files": [
+      {
+        "path": "authentication/login-2/login-2.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "authentication/login-2/login-form.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "categories": [
+      "authentication",
+      "login"
+    ],
+    "source": "/registry-examples-duckui/src/authentication/login-2",
+    "tree": [
+      {
+        "name": "login-2.tsx",
+        "path": "authentication/login-2/login-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "login-form.tsx",
+        "path": "authentication/login-2/login-form.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "name": "login-3",
+    "type": "registry:block",
+    "registryDependencies": [
+      "button",
+      "input",
+      "avatar",
+      "separator",
+      "label",
+      "react-hook-form"
+    ],
+    "root_folder": "authentication/login-3",
+    "files": [
+      {
+        "path": "authentication/login-3/login-3.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "authentication/login-3/login-form.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "categories": [
+      "authentication",
+      "login"
+    ],
+    "source": "/registry-examples-duckui/src/authentication/login-3",
+    "tree": [
+      {
+        "name": "login-3.tsx",
+        "path": "authentication/login-3/login-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "login-form.tsx",
+        "path": "authentication/login-3/login-form.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "name": "login-4",
+    "type": "registry:block",
+    "registryDependencies": [
+      "button",
+      "input",
+      "avatar",
+      "separator",
+      "label",
+      "react-hook-form"
+    ],
+    "root_folder": "authentication/login-4",
+    "files": [
+      {
+        "path": "authentication/login-4/login-4.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "authentication/login-4/login-form.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "categories": [
+      "authentication",
+      "login"
+    ],
+    "source": "/registry-examples-duckui/src/authentication/login-4",
+    "tree": [
+      {
+        "name": "login-4.tsx",
+        "path": "authentication/login-4/login-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "login-form.tsx",
+        "path": "authentication/login-4/login-form.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "name": "login-5",
+    "type": "registry:block",
+    "registryDependencies": [
+      "button",
+      "input",
+      "avatar",
+      "separator",
+      "label",
+      "react-hook-form"
+    ],
+    "root_folder": "authentication/login-5",
+    "files": [
+      {
+        "path": "authentication/login-5/login-5.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "authentication/login-5/login-form.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "categories": [
+      "authentication",
+      "login"
+    ],
+    "source": "/registry-examples-duckui/src/authentication/login-5",
+    "tree": [
+      {
+        "name": "login-5.tsx",
+        "path": "authentication/login-5/login-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "login-form.tsx",
+        "path": "authentication/login-5/login-form.tsx",
+        "type": "file"
+      }
+    ]
   }
 ]
