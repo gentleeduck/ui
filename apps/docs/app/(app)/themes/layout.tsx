@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
 
-import 'public/duck-ui/themes.css'
 import { ThemeCustomizer, ThemeWrapper } from '~/components/themes'
 
 const title = 'Pick a Color. Make it yours.'

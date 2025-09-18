@@ -7,9 +7,6 @@ import type { AnimationIconProps, ButtonProps } from './button.types'
 
 /**
  * Renders a customizable button component, supporting various styles and behaviors.
- *
- * @param {ButtonProps} props - The props for the button component.
- * @returns {React.JSX.Element} A button element with the specified configurations.
  */
 function Button({
   children,
@@ -43,20 +40,15 @@ function Button({
       )}
       type={type}
       disabled={loading ?? disabled}>
-      <>
-        {loading ? <Loader className="animate-spin" /> : icon}
-        {!isCollapsed && children}
-        {!isCollapsed && secondIcon && secondIcon}
-      </>
+      {loading ? <Loader className="animate-spin" /> : icon}
+      {!isCollapsed && children}
+      {!isCollapsed && secondIcon && secondIcon}
     </Component>
   )
 }
 
 /**
  * Renders an animation icon component.
- *
- * @param {AnimationIconProps} props - The props for the animation icon component.
- * @returns {React.JSX.Element} An animation icon component with the specified configurations.
  */
 function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.JSX.Element {
   return (

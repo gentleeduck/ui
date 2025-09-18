@@ -34,90 +34,212 @@
   src: url(https://fonts.gstatic.com/s/jetbrainsmono/v18/tU9WHmZ0lvLh0QnF6m-fMBDGlQ.woff2) format("woff2");
 }
 
-code,
-kbd,
-samp,
-pre {
-  font-family: var(--font-mono);
-  font-optical-sizing: auto;
-  font-style: normal;
-  font-weight: 500;
-}
+@layer components {
 
-[data-theme="light"] {
-  display: block;
-}
+  code,
+  code>*>*,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 600;
+  }
 
-[data-theme="dark"] {
-  display: none;
-}
+  [data-theme="light"] {
+    display: block;
+  }
 
-.dark [data-theme="light"] {
-  display: none;
-}
+  [data-theme="dark"] {
+    display: none;
+  }
 
-.dark [data-theme="dark"] {
-  display: block;
-}
+  .dark [data-theme="light"] {
+    display: none;
+  }
 
-[data-rehype-pretty-code-fragment] {
-  @apply relative bg-muted/40 dark:bg-muted/40 rounded-lg border-border border mb-4 mt-6;
-}
+  .dark [data-theme="dark"] {
+    display: block;
+  }
 
-div[data-value]:not([data-value="cli"])[duck-tabs-content]>[data-rehype-pretty-code-fragment] {
-  @apply bg-transparent m-0 static rounded-none border-0;
-}
+  [data-rehype-pretty-code-fragment] {
+    @apply relative bg-muted/40 dark:bg-muted/40 rounded-lg border-border border mb-4 mt-6;
+  }
 
-[data-rehype-pretty-code-fragment] code {
-  counter-reset: line;
-  box-decoration-break: clone;
-}
+  div[data-value]:not([data-value="cli"])[duck-tabs-content]>[data-rehype-pretty-code-fragment] {
+    @apply bg-transparent m-0 static rounded-none border-0;
+  }
 
-[data-rehype-pretty-code-fragment] .line {
-  @apply px-4 min-h-[1rem] py-0.5 w-full inline-block;
-}
+  [data-rehype-pretty-code-fragment] code {
+    counter-reset: line;
+    box-decoration-break: clone;
+  }
 
-[data-rehype-pretty-code-fragment] [data-line-numbers] .line {
-  @apply px-2;
-}
+  [data-rehype-pretty-code-fragment] .line {
+    @apply px-4 min-h-[1rem] py-0.5 w-full inline-block;
+  }
 
-[data-rehype-pretty-code-fragment] [data-line-numbers]>.line::before {
-  @apply text-zinc-50/40 text-xs;
-  counter-increment: line;
-  content: counter(line);
-  display: inline-block;
-  width: 1.8rem;
-  margin-right: 1.4rem;
-  text-align: right;
-}
+  [data-rehype-pretty-code-fragment] [data-line-numbers] .line {
+    @apply px-2;
+  }
 
-[data-rehype-pretty-code-fragment] .line--highlighted,
-[data-rehype-pretty-code-fragment] .word--highlighted {
-  @apply bg-foreground/4 dark:bg-foreground/5;
-}
+  [data-rehype-pretty-code-fragment] [data-line-numbers]>.line::before {
+    @apply text-zinc-50/40 text-xs;
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 1.8rem;
+    margin-right: 1.4rem;
+    text-align: right;
+  }
 
-[data-rehype-pretty-code-fragment] .line-highlighted span {
-  @apply relative;
-}
+  [data-rehype-pretty-code-fragment] .line--highlighted,
+  [data-rehype-pretty-code-fragment] .word--highlighted {
+    @apply bg-foreground/4 dark:bg-foreground/5;
+  }
 
-[data-rehype-pretty-code-fragment] .word--highlighted {
-  @apply rounded-md p-1;
-}
+  [data-rehype-pretty-code-fragment] .line-highlighted span {
+    @apply relative;
+  }
 
-.mdx>.steps:first-child>h3:first-child {
-  @apply mt-0;
-}
+  [data-rehype-pretty-code-fragment] .word--highlighted {
+    @apply rounded-md p-1;
+  }
 
-.steps>h3 {
-  @apply mt-8 mb-4 text-base font-semibold;
-}
+  .mdx>.steps:first-child>h3:first-child {
+    @apply mt-0;
+  }
 
-strong {
-  @apply font-semibold;
-}
+  .steps>h3 {
+    @apply mt-8 mb-4 text-base font-semibold;
+  }
 
-strong>code {
-  @apply font-bold;
+  strong {
+    @apply font-semibold;
+  }
+
+  strong>code {
+    @apply font-bold;
+  }
+
+  .steps {
+    &:first-child {
+      @apply !mt-0;
+    }
+
+    &:first-child>h3:first-child {
+      @apply !mt-0;
+    }
+
+    >h3 {
+      @apply !mt-16;
+    }
+
+    >h3+p {
+      @apply !mt-2;
+    }
+  }
+
+  [data-rehype-pretty-code-figure] {
+    background-color: var(--color-code);
+    color: var(--color-code-foreground);
+    border-radius: var(--radius-lg);
+    border-width: 0px;
+    border-color: var(--border);
+    margin-top: calc(var(--spacing) * 6);
+    overflow: hidden;
+    font-size: var(--text-base);
+    outline: none;
+    position: relative;
+    @apply -mx-1 md:-mx-1;
+
+    &:has([data-rehype-pretty-code-title]) [data-slot="copy-button"] {
+      top: calc(var(--spacing) * 1.5) !important;
+    }
+  }
+
+  [data-rehype-pretty-code-title] {
+    border-bottom: color-mix(in oklab, var(--border) 30%, transparent);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    padding-block: calc(var(--spacing) * 2.5);
+    padding-inline: calc(var(--spacing) * 4);
+    font-size: var(--text-base);
+    font-family: var(--font-mono);
+    color: var(--color-code-foreground);
+  }
+
+  [data-line-numbers] {
+    display: grid;
+    min-width: 100%;
+    white-space: pre;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    counter-reset: line;
+    box-decoration-break: clone;
+  }
+
+  [data-line-numbers] [data-line]::before {
+    font-size: var(--text-base);
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: calc(var(--spacing) * 16);
+    padding-right: calc(var(--spacing) * 6);
+    text-align: right;
+    color: var(--color-code-number);
+    background-color: var(--color-code);
+    position: sticky;
+    left: 0;
+  }
+
+  [data-line-numbers] [data-highlighted-line][data-line]::before {
+    background-color: var(--color-code-highlight);
+  }
+
+  [data-line] {
+    padding-top: calc(var(--spacing) * 0.5);
+    padding-bottom: calc(var(--spacing) * 0.5);
+    min-height: calc(var(--spacing) * 1);
+    width: 100%;
+    display: inline-block;
+  }
+
+  [data-line] span {
+    color: var(--shiki-light);
+
+    @variant dark {
+      color: var(--shiki-dark) !important;
+    }
+  }
+
+  [data-highlighted-line],
+  [data-highlighted-chars] {
+    position: relative;
+    background-color: var(--color-code-highlight);
+  }
+
+  [data-highlighted-line] {
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 100%;
+      content: "";
+      background-color: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
+    }
+  }
+
+  [data-highlighted-chars] {
+    border-radius: var(--radius-md);
+    padding-inline: 0.3rem;
+    padding-block: 0.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
 }
 
 /* FIX: the animation bounce it bounces so hard. = ==========================*/

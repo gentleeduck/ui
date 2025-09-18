@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import './globals.css'
 import '@gentleduck/motion/css'
 import './mdx.css'
-import 'public/duck-ui/themes.css'
 import { cn } from '@gentleduck/libs/cn'
+import 'public/r/themes.css'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { TailwindIndicator } from '~/components/layouts'
 import { ThemeProvider } from '~/components/providers'
-import { ThemesStyle, ThemeWrapper } from '~/components/themes'
+import { ThemeWrapper } from '~/components/themes'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,8 +21,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // <link href="/fonts/Geist-VF.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
-  // <link href="/fonts/JetBrainsMono-MD.woff2" rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" />
   return (
     <html lang="ar" dir="ltr" suppressHydrationWarning>
       <head></head>

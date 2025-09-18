@@ -10,24 +10,21 @@
       "label",
       "react-hook-form"
     ],
-    "root_folder": "auth/signup-1",
+    "root_folder": "authentication/signup-1",
     "files": [
       {
-        "path": "auth/signup-1/signup-1.constants.tsx",
+        "path": "authentication/signup-1/signup-1.constants.tsx",
         "type": "registry:block"
       },
       {
-        "path": "auth/signup-1/signup-1.tsx",
+        "path": "authentication/signup-1/signup-1.tsx",
         "type": "registry:block"
       }
     ],
-    "tailwind": {
-      "config": {}
-    },
     "categories": [
-      "auth",
+      "authentication",
       "signup-1"
     ],
-    "source": "/registry-examples-duckui/src/auth/signup-1"
+    "source": "/registry-examples-duckui/src/authentication/signup-1"
   }
 ]

@@ -11,10 +11,10 @@ import Image from 'next/image'
 import React from 'react'
 import { icons } from './signup-1.constants'
 
-export default function PopoverDemo() {
+export default function signup_1() {
   return (
     <div
-      className="!px-0 container grid w-full grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-2"
+      className="grid grid-cols-1 overflow-auto rounded-2xl border border-border bg-card lg:grid-cols-2"
       style={
         {
           '--font-sans': '"Inter", sans-serif',
@@ -23,13 +23,14 @@ export default function PopoverDemo() {
           '--color-destructive': '#AC0F42',
           '--color-destructive-foreground': '#FEF2F6',
           '--color-muted': '#8C8C96',
-          scale: 0.8,
+          // scale: 0.8,
           fontFamily: 'var(--font-sans)',
+          margin: '3rem',
         } as React.CSSProperties
       }>
       <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');</style>
       {/* Left Side */}
-      <div className="flex flex-col gap-4 border-border border-r p-12 xl:p-18 xl:px-22">
+      <div className="flex flex-col gap-4 p-5 sm:p-12 lg:border-border lg:border-r xl:p-18 xl:px-22">
         {/* Title */}
         <h2 className="font-semibold text-2xl">Signup</h2>
 

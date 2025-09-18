@@ -41,7 +41,8 @@ export async function getRegistryItem(name: string) {
 
   // Get meta.
   // Assume the first file is the main file.
-  const meta = await getFileMeta(files[0]?.path as string)
+  // TODO: Get meta from registry.
+  // const meta = await getFileMeta(files[0]?.path as string)
 
   // Fix file paths.
   files = fixFilePaths(files)
@@ -49,7 +50,7 @@ export async function getRegistryItem(name: string) {
   const parsed = registry_entry_schema.safeParse({
     ...result.data,
     files,
-    meta,
+    // meta,
   })
 
   if (!parsed.success) {
@@ -120,8 +121,8 @@ function getFileTarget(file: z.infer<typeof registry_item_file_schema>) {
   let target = file.target
 
   if (!target || target === '') {
-    const fileName = file.path.split('/').pop()
-    if (file.type === 'registry:block' || file.type === 'registry:component' || file.type === 'registry:example') {
+    const fileName = file.path.split('/').splice(-2).join('/')
+    if (file.type === 'registry:block' || file.type === 'registry:example') {
       target = `components/${fileName}`
     }
 
@@ -144,10 +145,6 @@ function getFileTarget(file: z.infer<typeof registry_item_file_schema>) {
 async function createTempSourceFile(filename: string) {
   const dir = await fs.mkdtemp(path.join(tmpdir(), 'shadcn-'))
   return path.join(dir, filename)
-}
-
-function removeVariable(sourceFile: SourceFile, name: string) {
-  sourceFile.getVariableDeclaration(name)?.remove()
 }
 
 function fixFilePaths(files: z.infer<typeof registry_entry_schema>['files']) {

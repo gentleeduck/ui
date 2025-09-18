@@ -27,15 +27,17 @@ function Collapsible({
   className,
   open: openProp,
   onOpenChange,
+  defaultOpen,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & {
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  defaultOpen?: boolean
 }) {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
-  const [open, setOpen] = React.useState(openProp ?? false)
+  const [open, setOpen] = React.useState(openProp ?? defaultOpen ?? false)
 
   const contentId = React.useId()
 

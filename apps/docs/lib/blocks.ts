@@ -8,6 +8,7 @@ export async function getAllBlockIds(
   types: z.infer<typeof registry_entry_schema>['type'][] = ['registry:block'],
   categories: string[] = [],
 ): Promise<string[]> {
+  console.log({ categories })
   const blocks = await getAllBlocks(types, categories)
 
   return blocks.map((block) => block.name)

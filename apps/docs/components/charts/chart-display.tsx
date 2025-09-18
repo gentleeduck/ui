@@ -19,7 +19,6 @@ export async function ChartDisplay({ name, children, className }: { name: string
         className,
       )}>
       <ChartToolbar
-        // @ts-ignore
         chart={{
           ...chart,
           highlightedCode,

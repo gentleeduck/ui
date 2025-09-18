@@ -6,10 +6,7 @@ export const registry_auth: RegistryEntry[] = [
     type: 'registry:block',
     registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
     files: [],
-    root_folder: 'auth/signup-1',
-    categories: ['auth', 'signup-1'],
-    tailwind: {
-      config: {},
-    },
+    root_folder: 'authentication/signup-1',
+    categories: ['authentication', 'signup-1'],
   },
 ]

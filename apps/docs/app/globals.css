@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
-@source "../node_modules/@gentleduck/registry-ui-duckui";
-@source "../node_modules/@gentleduck/lazy";
-@source "../../../packages/_oldstuff_refactor/ui";
-@source "../node_modules/@gentleduck/motion";
+@source "../node_modules/@gentleduck/registry-ui-duckui/src/";
+@source "../node_modules/@gentleduck/registry-blocks-duckui/src/";
+@source "../node_modules/@gentleduck/registry-examples-duckui/src/";
+@source "../node_modules/@gentleduck/lazy/src/";
+@source "../../../packages/_oldstuff_refactor/ui/";
+@source "../node_modules/@gentleduck/motion/src/";
 
 @import "./mdx.css";
 @import "./themes.css";
@@ -35,13 +37,6 @@
   font-weight: 100 900;
   font-display: swap;
   src: url(/fonts/Geist-VF.woff2) format("woff2");
-}
-
-@font-face {
-  font-family: "Mono";
-  font-weight: 500;
-  font-display: fallback;
-  src: url(/fonts/JetBrainsMono-MD.woff2) format("woff2");
 }
 
 @theme {

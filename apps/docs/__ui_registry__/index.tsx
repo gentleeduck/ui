@@ -11,18 +11,18 @@ export const Index: Record<string, any> = {
     registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
     files: [
       {
-        path: 'auth/signup-1/signup-1.constants.tsx',
+        path: 'authentication/signup-1/signup-1.constants.tsx',
         type: 'registry:block',
       },
       {
-        path: 'auth/signup-1/signup-1.tsx',
+        path: 'authentication/signup-1/signup-1.tsx',
         type: 'registry:block',
       },
     ],
-    component: React.lazy(() => import('@gentleduck/registry-blocks-duckui/auth/signup-1/signup-1')),
-    source: '/registry-examples-duckui/src/auth/signup-1',
-    categories: ['auth', 'signup-1'],
-    root_folder: 'auth/signup-1',
+    component: React.lazy(() => import('@gentleduck/registry-blocks-duckui/authentication/signup-1/signup-1')),
+    source: '/registry-examples-duckui/src/authentication/signup-1',
+    categories: ['authentication', 'signup-1'],
+    root_folder: 'authentication/signup-1',
     chunks: [],
   },
 }
