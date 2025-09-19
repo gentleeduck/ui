@@ -19,20 +19,20 @@ const Alert = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
 >(({ className, variant, ...props }, ref) => (
-  <div ref={ref} role="alert" className={cn(alertVariants({ variant }), className)} {...props} />
+  <div className={cn(alertVariants({ variant }), className)} ref={ref} role="alert" {...props} />
 ))
 Alert.displayName = 'Alert'
 
 const AlertTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h5 ref={ref} className={cn('mb-1 font-medium leading-none tracking-tight', className)} {...props} />
+    <h5 className={cn('mb-1 font-medium leading-none tracking-tight', className)} ref={ref} {...props} />
   ),
 )
 AlertTitle.displayName = 'AlertTitle'
 
 const AlertDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('text-sm [&_p]:leading-relaxed', className)} {...props} />
+    <div className={cn('text-sm [&_p]:leading-relaxed', className)} ref={ref} {...props} />
   ),
 )
 AlertDescription.displayName = 'AlertDescription'
@@ -56,11 +56,11 @@ export const UploadAlertDelete = ({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          size={'xs'}
           className={cn('justify-between w-full rounded-xs', className)}
-          variant={'ghost'}
           command={command}
-          icon={<Trash />}>
+          icon={<Trash />}
+          size={'xs'}
+          variant={'ghost'}>
           Delete
         </Button>
       </AlertDialogTrigger>
@@ -73,7 +73,7 @@ export const UploadAlertDelete = ({
           </h5>
           <Separator />
           <div className="p-4">
-            <Alert variant={'destructive'} className="space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12">
+            <Alert className="space-y-2 [&>svg]:left-6 [&>svg]:top-6 [&>svg~*]:pl-12" variant={'destructive'}>
               <AlertCircle />
               <AlertTitle>This action cannot be undone.</AlertTitle>
               <AlertDescription>Are you sure you want to delete the selected file?</AlertDescription>
@@ -86,9 +86,9 @@ export const UploadAlertDelete = ({
           <AlertDialogCancel
             className={cn(
               buttonVariants({
-                variant: 'outline',
                 className: 'px-8',
                 size: 'sm',
+                variant: 'outline',
               }),
             )}
             onClick={onCancel}>
@@ -97,10 +97,10 @@ export const UploadAlertDelete = ({
           <AlertDialogAction
             className={cn(
               buttonVariants({
-                variant: 'destructive',
                 border: 'destructive',
                 className: 'px-8',
                 size: 'sm',
+                variant: 'destructive',
               }),
             )}
             onClick={onContinue}>

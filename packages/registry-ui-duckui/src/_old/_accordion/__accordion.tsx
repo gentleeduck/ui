@@ -1,10 +1,10 @@
 'use client'
 
-import * as React from 'react'
-import { ChevronDown } from 'lucide-react'
 
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants } from '@gentleduck/motion/anim'
+import { ChevronDown } from 'lucide-react'
+import * as React from 'react'
 
 const AccordionContext = React.createContext<{
   value?: string
@@ -86,8 +86,8 @@ function Accordion({
   return (
     <AccordionContext.Provider
       value={{
-        value,
         onValueChange,
+        value,
         wrapperRef,
       }}>
       <div className={cn('w-[400px] [interpolate-size:allow-keywords]')} {...props} ref={wrapperRef}>
@@ -107,8 +107,6 @@ function AccordionItem({
 }) {
   return (
     <details
-      ref={ref}
-      id={value}
       aria-labelledby={value}
       className={cn(
         'group overflow-hidden border-border border-b',
@@ -116,6 +114,8 @@ function AccordionItem({
         AnimVariants({ overlay: 'nothing' }),
         className,
       )}
+      id={value}
+      ref={ref}
       {...props}
       duck-accordion-item=""
     />
@@ -135,14 +135,14 @@ function AccordionTrigger({
 }) {
   return (
     <summary
-      id={value}
       aria-controls={value}
       aria-describedby={value}
-      ref={ref}
       className={cn(
         'flex flex-1 items-center justify-between whitespace-nowrap py-4 font-medium font-medium text-sm ring-offset-background transition-all transition-colors hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [&[data-open=true]_svg]:rotate-180',
         className,
       )}
+      id={value}
+      ref={ref}
       {...props}
       duck-accordion-trigger="">
       {children}

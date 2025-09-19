@@ -22,7 +22,6 @@ import {
 } from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, ChevronsUpDown } from 'lucide-react'
-import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -62,7 +61,7 @@ export default function ComboboxForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="language"
@@ -73,9 +72,9 @@ export default function ComboboxForm() {
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
-                      variant="outline"
+                      className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}
                       role="combobox"
-                      className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}>
+                      variant="outline">
                       {field.value
                         ? languages.find((language) => language.value === field.value)?.label
                         : 'Select language'}
@@ -85,17 +84,17 @@ export default function ComboboxForm() {
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
                   <Command>
-                    <CommandInput placeholder="Search framework..." className="h-9" />
+                    <CommandInput className="h-9" placeholder="Search framework..." />
                     <CommandList>
                       <CommandEmpty>No framework found.</CommandEmpty>
                       <CommandGroup>
                         {languages.map((language) => (
                           <CommandItem
-                            value={language.label}
                             key={language.value}
                             onSelect={() => {
                               form.setValue('language', language.value)
-                            }}>
+                            }}
+                            value={language.label}>
                             {language.label}
                             <Check
                               className={cn('ml-auto', language.value === field.value ? 'opacity-100' : 'opacity-0')}

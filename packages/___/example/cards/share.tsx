@@ -1,12 +1,7 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/registry/default/ui/'
+import { Avatar, AvatarFallback, AvatarImage, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Separator } from '@/registry/default/ui/'
 import { Button } from '@/registry/registry-ui-components'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/registry/default/ui/'
-import { Input } from '@/registry/default/ui/'
-import { Label } from '@/registry/default/ui/'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/registry/default/ui/'
-import { Separator } from '@/registry/default/ui/'
 
 export function CardsShare() {
   return (
@@ -17,11 +12,11 @@ export function CardsShare() {
       </CardHeader>
       <CardContent>
         <div className="flex space-x-2">
-          <Label htmlFor="link" className="sr-only">
+          <Label className="sr-only" htmlFor="link">
             Link
           </Label>
-          <Input id="link" value="http://example.com/link/to/document" readOnly />
-          <Button variant="secondary" className="shrink-0">
+          <Input id="link" readOnly value="http://example.com/link/to/document" />
+          <Button className="shrink-0" variant="secondary">
             Copy Link
           </Button>
         </div>
@@ -32,7 +27,7 @@ export function CardsShare() {
             <div className="flex items-center justify-between space-x-4">
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage src="/avatars/03.png" alt="Image" />
+                  <AvatarImage alt="Image" src="/avatars/03.png" />
                   <AvatarFallback>OM</AvatarFallback>
                 </Avatar>
                 <div>
@@ -41,7 +36,7 @@ export function CardsShare() {
                 </div>
               </div>
               <Select defaultValue="edit">
-                <SelectTrigger className="ml-auto w-[110px]" aria-label="Edit">
+                <SelectTrigger aria-label="Edit" className="ml-auto w-[110px]">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -53,7 +48,7 @@ export function CardsShare() {
             <div className="flex items-center justify-between space-x-4">
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage src="/avatars/05.png" alt="Image" />
+                  <AvatarImage alt="Image" src="/avatars/05.png" />
                   <AvatarFallback>IN</AvatarFallback>
                 </Avatar>
                 <div>
@@ -62,7 +57,7 @@ export function CardsShare() {
                 </div>
               </div>
               <Select defaultValue="view">
-                <SelectTrigger className="ml-auto w-[110px]" aria-label="Edit">
+                <SelectTrigger aria-label="Edit" className="ml-auto w-[110px]">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -74,7 +69,7 @@ export function CardsShare() {
             <div className="flex items-center justify-between space-x-4">
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage src="/avatars/01.png" alt="Image" />
+                  <AvatarImage alt="Image" src="/avatars/01.png" />
                   <AvatarFallback>SD</AvatarFallback>
                 </Avatar>
                 <div>
@@ -83,7 +78,7 @@ export function CardsShare() {
                 </div>
               </div>
               <Select defaultValue="view">
-                <SelectTrigger className="ml-auto w-[110px]" aria-label="Edit">
+                <SelectTrigger aria-label="Edit" className="ml-auto w-[110px]">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>

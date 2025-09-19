@@ -16,8 +16,6 @@ import {
 
 const SHEET_SIDES = ['top', 'right', 'bottom', 'left'] as const
 
-type SheetSide = (typeof SHEET_SIDES)[number]
-
 export default function SheetSide() {
   return (
     <div className="grid grid-cols-2 gap-2">
@@ -34,11 +32,11 @@ export default function SheetSide() {
             <div className="item-start flex h-full flex-direction flex-col justify-start gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" value="Pedro Duarte" className="col-span-3" />
+                <Input className="col-span-3" id="name" value="Pedro Duarte" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username">Username</Label>
-                <Input id="username" value="@peduarte" className="col-span-3" />
+                <Input className="col-span-3" id="username" value="@peduarte" />
               </div>
             </div>
             <SheetFooter>

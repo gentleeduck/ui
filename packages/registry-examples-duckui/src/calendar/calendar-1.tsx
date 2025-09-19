@@ -8,11 +8,11 @@ export default function CalendarDemo() {
 
   return (
     <Calendar
-      mode="single"
-      selected={date}
-      onSelect={setDate}
-      className="rounded-md border shadow-sm"
       captionLayout="dropdown"
+      className="rounded-md border shadow-sm"
+      mode="single"
+      onSelect={setDate}
+      selected={date}
     />
   )
 }

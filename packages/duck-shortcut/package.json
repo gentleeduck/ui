@@ -1,29 +1,24 @@
 {
-  "name": "@gentleduck/shortcut",
-  "version": "0.0.2",
-  "main": "index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/TheDuckUI/shortcut"
+  "author": "ahmed ayob",
+  "dependencies": {
+    "esbuild": "^0.25.5",
+    "vite": "catalog:"
   },
-  "github": "https://github.com/TheDuckUI/shortcut",
-  "homepage": "https://github.com/TheDuckUI/shortcut",
+  "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
+  "devDependencies": {
+    "@types/mousetrap": "^1.6.15",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "files": [
     "/dist"
   ],
-  "private": false,
-  "scripts": {
-    "dev": "vite",
-    "test": "vitest run",
-    "build": "tsdown",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
+  "github": "https://github.com/TheDuckUI/shortcut",
+  "homepage": "https://github.com/TheDuckUI/shortcut",
   "keywords": [
     "react",
     "react-component",
@@ -45,9 +40,10 @@
     "key-events",
     "web-accessibility"
   ],
-  "author": "ahmed ayob",
   "license": "MIT",
-  "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
+  "main": "index.js",
+  "module": "dist/index.mjs",
+  "name": "@gentleduck/shortcut",
   "peerDependencies": {
     "@changesets/cli": "^2.27.7",
     "date-fns": "^3.6.0",
@@ -60,17 +56,21 @@
     "vitest": "catalog:",
     "zod": "catalog:"
   },
-  "devDependencies": {
-    "@types/mousetrap": "^1.6.15",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19"
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheDuckUI/shortcut"
   },
-  "dependencies": {
-    "esbuild": "^0.25.5",
-    "vite": "catalog:"
+  "scripts": {
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "dev": "vite",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version",
+    "test": "vitest run"
   },
-  "engines": {
-    "node": ">=22.0.0"
-  }
+  "types": "dist/index.d.ts",
+  "version": "0.0.2"
 }

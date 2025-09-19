@@ -29,59 +29,59 @@ export function CommandMenu() {
   const groupRef = React.useRef<HTMLUListElement>(null)
   const items = [
     ...docsConfig.sidebarNav.map((group) => ({
-      title: group.title,
       items: group.items.map((navItem) => ({
-        name: navItem.title,
-        icon: <Circle className="h-3 w-3 mr-2" />,
         action: () => router.push(navItem.href as string),
+        icon: <Circle className="h-3 w-3 mr-2" />,
+        name: navItem.title,
       })),
+      title: group.title,
     })),
     {
-      title: 'Theme',
       items: [
         {
-          name: 'Light',
-          icon: <Sun className="mr-2 h-4 w-4" />,
           action: () => setTheme('light'),
+          icon: <Sun className="mr-2 h-4 w-4" />,
+          name: 'Light',
         },
         {
-          name: 'Dark',
-          icon: <Moon className="mr-2 h-4 w-4" />,
           action: () => setTheme('dark'),
+          icon: <Moon className="mr-2 h-4 w-4" />,
+          name: 'Dark',
         },
         {
-          name: 'System',
-          icon: <FileIcon className="mr-2 h-4 w-4" />,
           action: () => setTheme('system'),
+          icon: <FileIcon className="mr-2 h-4 w-4" />,
+          name: 'System',
         },
       ],
+      title: 'Theme',
     },
   ]
 
   return (
     <>
       <Button
-        variant="outline"
-        size={'sm'}
         className={cn(
           'relative w-full h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between ltr:pr-2 rtl:pl-2 md:w-40 lg:w-64',
         )}
-        onClick={() => setOpen(true)}>
+        onClick={() => setOpen(true)}
+        size={'sm'}
+        variant="outline">
         <span className="hidden lg:inline-flex">Search documentation...</span>
         <span className="inline-flex lg:hidden">Search...</span>
         <CommandShortcut
+          className="bg-secondary"
           keys={'ctrl+k'}
           onKeysPressed={() => {
             setOpen(!open)
             window.event?.preventDefault()
-          }}
-          className="bg-secondary">
+          }}>
           <Command className="!size-3" />
           <span className="text-md">K</span>
         </CommandShortcut>
       </Button>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search..." autoFocus />
+      <CommandDialog onOpenChange={setOpen} open={open}>
+        <CommandInput autoFocus placeholder="Search..." />
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandList className="max-h-[350px]">
           {items.map((group, idx) => (
@@ -120,32 +120,32 @@ function CommandFooter() {
   const { selectedItem } = useCommandRefsContext()
   useKeyCommands({
     'ctrl+c': {
-      name: 'ctrl+c',
       description: 'Copy command',
       execute: () =>
         navigator.clipboard.writeText(
           ('pnpm dlx @duck-ui add ' + selectedItem?.innerText.toLowerCase().replace(/ /g, '-')) as string,
         ),
+      name: 'ctrl+c',
     },
   })
   return (
     <div className="flex items-center gap-4 px-2 pt-2 border-t justify-between w-full">
       <div className="flex items-center gap-4 w-full">
         {selectedItem?.innerText && (
-          <Button className={cn('px-2')} variant={'outline'} size={'xs'}>
+          <Button className={cn('px-2')} size={'xs'} variant={'outline'}>
             <CornerDownLeft />
-            <Separator orientation="vertical" className="m-0 p-0 h-4" />
+            <Separator className="m-0 p-0 h-4" orientation="vertical" />
             {selectedItem?.innerText}
           </Button>
         )}
         {selectedItem?.innerText &&
         docsConfig.sidebarNav[1]!.items.find((item) => item.title === selectedItem?.innerText)?.title.toLowerCase() ? (
-          <Button className={cn('px-2')} variant={'outline'} size={'xs'}>
+          <Button className={cn('px-2')} size={'xs'} variant={'outline'}>
             <div className="flex items-center gap-1">
               <Command className="!size-3" />
               <p className="text-md">C</p>
             </div>
-            <Separator orientation="vertical" className="m-0 p-0 h-4" />
+            <Separator className="m-0 p-0 h-4" orientation="vertical" />
             <div className="flex items-center gap-1">
               <span>pnpm dlx @duck-ui add</span>
               <span className="text-blue-400">

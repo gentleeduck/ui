@@ -1,6 +1,6 @@
 import * as Automerge from '@automerge/automerge'
-import { WebSocketServer, WebSocket } from 'ws'
 import { uuidv7 } from 'uuidv7'
+import { WebSocket, WebSocketServer } from 'ws'
 
 const wss = new WebSocketServer({ port: 3030 })
 const docs = new Map<string, Automerge.Doc<{ content: string }>>() // keyed by file path
@@ -24,7 +24,7 @@ wss.on('connection', (ws) => {
       }
 
       const changes = Automerge.getAllChanges(doc)
-      ws.send(JSON.stringify({ type: 'init', changes: changes.map((c) => Array.from(c)) }))
+      ws.send(JSON.stringify({ changes: changes.map((c) => Array.from(c)), type: 'init' }))
       console.log(`🟢 ${userName} joined to edit: ${filePath}`)
     }
 
@@ -44,9 +44,9 @@ wss.on('connection', (ws) => {
         if (clientWs !== ws && meta.filePath === filePath && clientWs.readyState === 1) {
           clientWs.send(
             JSON.stringify({
-              type: 'changes',
-              from: userName,
               changes: msg.changes,
+              from: userName,
+              type: 'changes',
             }),
           )
         }

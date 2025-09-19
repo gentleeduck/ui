@@ -1,15 +1,14 @@
+import * as Minio from 'minio'
 import { ENV } from '../globals/env'
 import { InsertFileType } from '../upload'
 
-import * as Minio from 'minio'
-
 // Instantiate the MinIO client with the object store service
 export const minioClient = new Minio.Client({
+  accessKey: '1UxcxyANSL1EPQLySbRv',
   endPoint: 'localhost',
   port: 9000,
-  useSSL: false,
-  accessKey: '1UxcxyANSL1EPQLySbRv',
   secretKey: 'KAaYeGVEClPf3zThXdx6IBkFzZZqaJbtzC3A3cEY',
+  useSSL: false,
 })
 
 export class MINIO {
@@ -25,8 +24,8 @@ export class MINIO {
       // Set the object metadata
       const metaData = {
         'Content-Type': start.split(':')[1]?.split(';')[0] ?? 'text/plain',
-        'X-Amz-Meta-Testing': 1234,
         example: 5678,
+        'X-Amz-Meta-Testing': 1234,
       }
 
       // Convert the Base64 string to a Buffer
@@ -45,14 +44,14 @@ export class MINIO {
 
       // Return the URL of the uploaded file
       return {
-        message: 'File uploaded successfully',
         fileUrl,
+        message: 'File uploaded successfully',
       }
     } catch (_) {
       const error = {
-        message: 'Error: failed to upload file to Minio',
-        fileUrl: null,
         _,
+        fileUrl: null,
+        message: 'Error: failed to upload file to Minio',
       }
       console.log(error)
       return error

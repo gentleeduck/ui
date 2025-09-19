@@ -94,24 +94,18 @@ const Carousel = ({
   return (
     <CarouselContext.Provider
       value={{
-        carouselRef,
         api: api,
+        canScrollNext,
+        canScrollPrev,
+        carouselRef,
         opts,
         orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
-        scrollPrev,
         scrollNext,
-        canScrollPrev,
-        canScrollNext,
+        scrollPrev,
       }}>
-      <div
-        ref={ref}
-        onKeyDownCapture={handleKeyDown}
-        className={cn('relative', className)}
-        role="region"
-        aria-roledescription="carousel"
-        {...props}>
+      <section className={cn('relative', className)} onKeyDownCapture={handleKeyDown} ref={ref} {...props}>
         {children}
-      </div>
+      </section>
     </CarouselContext.Provider>
   )
 }
@@ -120,26 +114,25 @@ const CarouselContent = ({ className, ref, ...props }: React.HTMLProps<HTMLDivEl
   const { carouselRef, orientation } = useCarousel()
 
   return (
-    <div ref={carouselRef} className="overflow-hidden">
+    <div className="overflow-hidden" ref={carouselRef}>
       <div
-        ref={ref}
         className={cn('flex', orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col', className)}
+        ref={ref}
         {...props}
       />
     </div>
   )
 }
 
-const CarouselItem = ({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>) => {
+const CarouselItem = ({ className, ref, ...props }: React.HTMLProps<HTMLLIElement>) => {
   const { orientation } = useCarousel()
 
   return (
-    <div
-      ref={ref}
-      role="group"
-      aria-roledescription="slide"
+    <li
       className={cn('min-w-0 shrink-0 grow-0 basis-full', orientation === 'horizontal' ? 'pl-4' : 'pt-4', className)}
+      ref={ref}
       {...props}
+      aria-roledescription="slide"
     />
   )
 }
@@ -155,9 +148,6 @@ const CarouselPrevious = ({
 
   return (
     <Button
-      ref={ref}
-      variant={variant}
-      size={size}
       className={cn(
         'absolute h-8 w-8 rounded-full',
         orientation === 'horizontal'
@@ -167,6 +157,9 @@ const CarouselPrevious = ({
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
+      ref={ref}
+      size={size}
+      variant={variant}
       {...props}>
       <ArrowLeft className="h-4 w-4" />
       <span className="sr-only">Previous slide</span>
@@ -185,9 +178,6 @@ const CarouselNext = ({
 
   return (
     <Button
-      ref={ref}
-      variant={variant}
-      size={size}
       className={cn(
         'absolute h-8 w-8 rounded-full',
         orientation === 'horizontal'
@@ -197,6 +187,9 @@ const CarouselNext = ({
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
+      ref={ref}
+      size={size}
+      variant={variant}
       {...props}>
       <ArrowRight className="h-4 w-4" />
       <span className="sr-only">Next slide</span>

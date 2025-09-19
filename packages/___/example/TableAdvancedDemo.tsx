@@ -1,4 +1,5 @@
-import { DropdownMenuOptionsDataType, ComboboxType } from '../ui'
+import { EyeNoneIcon } from '@radix-ui/react-icons'
+import { log } from 'console'
 import {
   ArrowDownIcon,
   ArrowRightIcon,
@@ -16,10 +17,9 @@ import {
   Twitch,
   Twitter,
 } from 'lucide-react'
-import { EyeNoneIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib'
-import { log } from 'console'
 import { TableContentDataType } from '@/registry/registry-ui-components/table'
+import { ComboboxType, DropdownMenuOptionsDataType } from '../ui'
 
 export type TableDataType = {
   task: React.ReactNode | string
@@ -49,11 +49,11 @@ export const tableHeaderDropDown: DropdownMenuOptionsDataType<TableHeaderOptions
       setHeaders(() => updatedColumns)
       setTableData(() => (updatedColumns[idx].currentSort === 'desc' ? sortedData : data))
     },
+    children: 'Desc',
     icon: {
       children: ArrowUpIcon,
       className: 'mr-2 h-3.5 w-3.5 text-muted-foreground/70',
     },
-    children: 'Desc',
   },
   {
     action: (e, { headers, column, setHeaders }) => {
@@ -61,11 +61,11 @@ export const tableHeaderDropDown: DropdownMenuOptionsDataType<TableHeaderOptions
 
       setHeaders(headers.filter((sub) => sub !== column))
     },
+    children: 'Hide',
     icon: {
       children: EyeNoneIcon as LucideIcon,
       className: 'mr-2 h-3.5 w-3.5 text-muted-foreground/70',
     },
-    children: 'Hide',
   },
 ]
 
@@ -74,60 +74,60 @@ export type PriorityType = 'High' | 'Medium' | 'Low'
 const iconStyle = 'size-4 stroke-[1.5] text-muted-foreground'
 export const filtersData = [
   {
-    type: 'listbox',
-    trigger: {
-      children: 'priority',
-      label: {
-        children: 'Filter Method',
-        showLabel: true,
-        showCommand: true,
-        side: 'top',
-      },
-      command: {
-        label: '⌃+⇧+M',
-        key: 'ctrl+shift+m',
-      },
-    },
     content: {
-      showSearchInput: true,
       data: [
         {
-          label: 'Low',
           element: {
             icon: {
               children: ArrowDownIcon,
               className: 'size-4 stroke-[1.5]',
             },
           },
+          label: 'Low',
         },
         {
-          label: 'Medium',
           element: {
             icon: {
-              icon: ArrowRightIcon,
               className: 'size-4 stroke-[1.5]',
+              icon: ArrowRightIcon,
             },
           },
+          label: 'Medium',
         },
         {
-          label: 'High',
           element: {
             icon: {
               children: ArrowUpIcon,
               className: 'size-4 stroke-[1.5]',
             },
           },
+          label: 'High',
         },
       ],
+      showSearchInput: true,
     },
+    trigger: {
+      children: 'priority',
+      command: {
+        key: 'ctrl+shift+m',
+        label: '⌃+⇧+M',
+      },
+      label: {
+        children: 'Filter Method',
+        showCommand: true,
+        showLabel: true,
+        side: 'top',
+      },
+    },
+    type: 'listbox',
   } as ComboboxType<keyof TableDataType, PriorityType>,
 ]
 
 export const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<TableDataType>, true>[] = [
   {
     children: 'Edit',
-    onClick: () => console.log('edit'),
     icon: { children: Pencil },
+    onClick: () => console.log('edit'),
   },
   {
     children: 'Share',
@@ -135,20 +135,22 @@ export const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<Tab
       children: Share2,
     },
     nestedData: {
-      group: [2],
-      defaultValue: 'Twitter',
       defaultChecked: true,
+      defaultValue: 'Twitter',
+      group: [2],
       itemType: 'radio',
       optionsData: [
         {
-          className: '[&_svg]:text-[#1DA1F2]',
-          value: 'Twitter',
           children: 'Twitter',
+          className: '[&_svg]:text-[#1DA1F2]',
           icon: {
             children: Twitter,
           },
+          value: 'Twitter',
         },
         {
+          children: 'Twitch',
+          className: '[&_svg]:text-[#6441a5]',
           command: {
             key: 'b',
             label: '⌘+e',
@@ -156,9 +158,7 @@ export const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<Tab
           icon: {
             children: Twitch,
           },
-          className: '[&_svg]:text-[#6441a5]',
           value: 'Twitch',
-          children: 'Twitch',
         },
       ],
     },
@@ -171,11 +171,11 @@ export const optionsData: DropdownMenuOptionsDataType<TableHeaderOptionsType<Tab
   },
   {
     children: 'Delete',
-    command: { label: '⌘⌫', key: 'a' },
+    className: '[&_span]:text-red-500 text-red-500 [&_span]:hover:text-primary',
+    command: { key: 'a', label: '⌘⌫' },
     icon: {
       children: Trash2,
     },
-    className: '[&_span]:text-red-500 text-red-500 [&_span]:hover:text-primary',
   },
 ]
 
@@ -183,25 +183,6 @@ export default function DataTableMainDemo() {
   return (
     <>
       <TableCustomView<true, TableDataType, StatusType | PriorityType>
-        wrapper={{
-          className: cn('lg:w-[632px] ldg:w-[524px] w-[270px] m-auto'),
-        }}
-        table={{
-          className: cn('lg:w-[632px] lig:w-[524px] w-[270px]  h-[351px]'),
-        }}
-        header={columns}
-        selection={true}
-        filters={filtersData as ComboboxType<keyof TableDataType, StatusType | PriorityType>[]}
-        tableContentData={[...tableData]}
-        viewButton={true}
-        tableSearch={true}
-        pagination={{
-          groupSize: 6,
-          showSelectCount: true,
-          showPageCount: true,
-          showGroup: true,
-          showNavigation: true,
-        }}
         contextMenu={{
           group: [3, 1],
           optionsData: optionsData,
@@ -209,6 +190,25 @@ export default function DataTableMainDemo() {
         dropdownMenu={{
           group: [3, 1],
           optionsData: optionsData,
+        }}
+        filters={filtersData as ComboboxType<keyof TableDataType, StatusType | PriorityType>[]}
+        header={columns}
+        pagination={{
+          groupSize: 6,
+          showGroup: true,
+          showNavigation: true,
+          showPageCount: true,
+          showSelectCount: true,
+        }}
+        selection={true}
+        table={{
+          className: cn('lg:w-[632px] lig:w-[524px] w-[270px]  h-[351px]'),
+        }}
+        tableContentData={[...tableData]}
+        tableSearch={true}
+        viewButton={true}
+        wrapper={{
+          className: cn('lg:w-[632px] ldg:w-[524px] w-[270px] m-auto'),
         }}
       />
     </>

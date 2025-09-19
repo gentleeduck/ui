@@ -4,9 +4,9 @@ import { cn } from '@gentleduck/libs/cn'
 import { BlockCopyButton } from '~/components/ui'
 
 import 'public/duck-ui/themes.css'
-import { AreaChart, BarChartBig, Hexagon, LineChart, MousePointer2, PieChart, Radar } from 'lucide-react'
 import { Block } from '@gentleduck/registers'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { AreaChart, BarChartBig, Hexagon, LineChart, MousePointer2, PieChart, Radar } from 'lucide-react'
 import { ChartCodeViewer } from './chart-code-viewer'
 
 export function ChartToolbar({ chart, className, children }: { chart: Block } & React.ComponentProps<'div'>) {
@@ -17,12 +17,12 @@ export function ChartToolbar({ chart, className, children }: { chart: Block } & 
       </div>
       <div className="ml-auto flex items-center gap-2 [&>form]:flex">
         <BlockCopyButton
+          className="[&_svg]-h-3 h-6 w-6 rounded-[6px] bg-transparent text-foreground shadow-none hover:bg-muted dark:text-foreground [&_svg]:w-3"
+          code={chart.code}
           event="copy_chart_code"
           name={chart.name}
-          code={chart.code}
-          className="[&_svg]-h-3 h-6 w-6 rounded-[6px] bg-transparent text-foreground shadow-none hover:bg-muted dark:text-foreground [&_svg]:w-3"
         />
-        <Separator orientation="vertical" className="mx-0 hidden h-4 md:flex" />
+        <Separator className="mx-0 hidden h-4 md:flex" orientation="vertical" />
         <ChartCodeViewer chart={chart}>{children}</ChartCodeViewer>
       </div>
     </div>

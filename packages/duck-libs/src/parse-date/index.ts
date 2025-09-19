@@ -18,8 +18,8 @@ export function parseDate(input: string): Date | null {
 
   const inXDaysMatch = normalized.match(/^in (\d+) days?$/)
   if (inXDaysMatch) {
-    const days = parseInt(inXDaysMatch[1]!, 10)
-    if (!isNaN(days)) {
+    const days = parseInt(inXDaysMatch[1] as string, 10)
+    if (!Number.isNaN(days)) {
       const date = new Date(now)
       date.setDate(now.getDate() + days)
       return date
@@ -28,7 +28,7 @@ export function parseDate(input: string): Date | null {
 
   // Try to parse as a natural date string (like "August 10, 2025")
   const parsed = new Date(input)
-  if (!isNaN(parsed.getTime())) {
+  if (!Number.isNaN(parsed.getTime())) {
     return parsed
   }
 

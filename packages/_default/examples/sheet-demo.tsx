@@ -27,16 +27,16 @@ export default function SheetDemo() {
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label className="text-right" htmlFor="name">
               Name
             </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
+            <Input className="col-span-3" id="name" value="Pedro Duarte" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
+            <Label className="text-right" htmlFor="username">
               Username
             </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
+            <Input className="col-span-3" id="username" value="@peduarte" />
           </div>
         </div>
         <SheetFooter>

@@ -24,8 +24,8 @@ export function useSvgIndicator({
   React.useEffect(() => {
     const hasOff = Boolean(refOff.current?.innerHTML.trim())
     const hasOn = Boolean(refOn.current?.innerHTML.trim())
-    const newUriOff = hasOff ? svgToMiniDataURI(refOff.current!.innerHTML.trim()) : ''
-    const newUriOn = hasOn ? svgToMiniDataURI(refOn.current!.innerHTML.trim()) : ''
+    const newUriOff = hasOff ? svgToMiniDataURI(refOff.current?.innerHTML.trim()) : ''
+    const newUriOn = hasOn ? svgToMiniDataURI(refOn.current?.innerHTML.trim()) : ''
 
     setUriOff(newUriOff)
     setUriOn(newUriOn)
@@ -43,12 +43,12 @@ export function useSvgIndicator({
   const SvgIndicator: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => (
     <>
       {indicator && (
-        <div hidden aria-hidden {...props} ref={refOff}>
+        <div aria-hidden hidden {...props} ref={refOff}>
           {indicator}
         </div>
       )}
       {checkedIndicator && (
-        <div hidden aria-hidden {...props} ref={refOn}>
+        <div aria-hidden hidden {...props} ref={refOn}>
           {checkedIndicator}
         </div>
       )}
@@ -56,8 +56,8 @@ export function useSvgIndicator({
   )
 
   return {
-    indicatorReady,
     checkedIndicatorReady,
+    indicatorReady,
     inputStyle,
     SvgIndicator,
   }

@@ -1,4 +1,4 @@
-import { CheckboxGroup, CheckboxGroupSubtasks } from '@gentleduck/registry-ui-duckui/checkbox'
+import { CheckboxGroup, type CheckboxGroupSubtasks } from '@gentleduck/registry-ui-duckui/checkbox'
 import { toast } from 'sonner'
 
 export default function Example() {

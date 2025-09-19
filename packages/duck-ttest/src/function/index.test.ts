@@ -72,3 +72,5 @@ type Test_Promisify = [
     'Expected Promisify to preserve rest parameters and wrap result'
   >,
 ]
+
+/* @__IGNORED__@ */ type _IGNORE = [...Test_ReturnTypeSafe, ...Test_ParametersSafe, ...Test_Curried, ...Test_Promisify]

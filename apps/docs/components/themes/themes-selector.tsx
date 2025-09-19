@@ -30,8 +30,8 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
         )}>
         {themes.map((theme) => (
           <div
-            key={theme.id}
-            className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-transparent">
+            className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-transparent"
+            key={theme.id}>
             <Skeleton className="h-6 w-6 rounded-sm" />
           </div>
         ))}
@@ -41,8 +41,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
 
   return (
     <ToggleGroup
-      type="single"
-      value={activeTheme.name}
+      className={cn('flex items-center justify-center gap-0.5 lg:flex-col lg:justify-start lg:gap-1', className)}
       onValueChange={(value) => {
         const theme = themes.find((theme) => theme.name === value)
         if (!theme) {
@@ -51,7 +50,8 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
 
         setThemesConfig({ ...themesConfig, activeTheme: theme })
       }}
-      className={cn('flex items-center justify-center gap-0.5 lg:flex-col lg:justify-start lg:gap-1', className)}>
+      type="single"
+      value={activeTheme.name}>
       {themes.map((theme) => {
         const isActive = theme.name === activeTheme.name
         const isDarkTheme = ['Midnight'].includes(theme.name)
@@ -70,11 +70,11 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
                 } as React.CSSProperties
               }>
               <ToggleGroupItem
-                value={theme.name}
                 className={cn(
                   'group flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border-2 border-transparent p-0 hover:bg-transparent focus-visible:bg-transparent aria-checked:border-[var(--color-1)]',
                   mounted && isDarkTheme && mode !== 'dark' ? 'invert-[1]' : '',
-                )}>
+                )}
+                value={theme.name}>
                 <div className="h-6 w-6 overflow-hidden rounded-sm">
                   <div
                     className={cn(

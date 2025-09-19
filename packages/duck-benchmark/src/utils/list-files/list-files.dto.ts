@@ -1,26 +1,26 @@
 import { z } from 'zod'
 
 export const fileInfoSchema = z.object({
+  bundle_size: z.number().optional(),
+  compile_time_ms: z.number().optional(),
+  created_at: z.date(),
+  errors: z.array(z.string()).optional(),
+  modified_at: z.date(),
   name: z.string(),
   path: z.string(),
-  size: z.number(),
-  created_at: z.date(),
-  modified_at: z.date(),
-  compile_time_ms: z.number().optional(),
   render_time_ms: z.number().optional(),
-  bundle_size: z.number().optional(),
-  errors: z.array(z.string()).optional(),
+  size: z.number(),
 })
 
 export type FileInfo = z.infer<typeof fileInfoSchema>
 
 // Base schema for a folder (without recursion)
 export const baseFolderSchema = z.object({
+  createdAt: z.date(),
+  files: z.array(fileInfoSchema),
+  modifiedAt: z.date(),
   name: z.string(),
   path: z.string(),
-  createdAt: z.date(),
-  modifiedAt: z.date(),
-  files: z.array(fileInfoSchema),
 })
 
 export const folderInfoSchema: z.ZodType<FolderInfo> = baseFolderSchema.extend({

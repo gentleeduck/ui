@@ -2,7 +2,7 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 
 export default function ButtonDemo() {
   return (
-    <Button variant={'destructive'} aria-label="Inbox button" type="button">
+    <Button aria-label="Inbox button" type="button" variant={'destructive'}>
       Button
     </Button>
   )

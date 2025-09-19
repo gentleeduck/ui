@@ -11,9 +11,9 @@ export function CardsCalendar() {
     <Card className="max-w-[260px] py-0 h-fit">
       <CardContent className="p-1">
         <Calendar
-          numberOfMonths={1}
-          mode="range"
           defaultMonth={start}
+          mode="range"
+          numberOfMonths={1}
           selected={{
             from: start,
             to: addDays(start, 8),

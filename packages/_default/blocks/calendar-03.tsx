@@ -12,14 +12,14 @@ export default function Calendar03() {
 
   return (
     <Calendar
+      className="rounded-lg border shadow-sm"
+      defaultMonth={dates[0]}
+      max={5}
       mode="multiple"
       numberOfMonths={2}
-      defaultMonth={dates[0]}
+      onSelect={setDates}
       required
       selected={dates}
-      onSelect={setDates}
-      max={5}
-      className="rounded-lg border shadow-sm"
     />
   )
 }

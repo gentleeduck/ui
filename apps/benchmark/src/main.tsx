@@ -4,15 +4,14 @@ import './style.css'
 // @ts-expect-error css
 import '@gentleduck/motion/css'
 
-import { lazy } from 'react'
 import { atom, useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
-import { createDuckTable } from './table.hooks'
-import { DuckTableBody } from './table-advanced'
-import { TableDemo, DucKTable } from './table-example'
-import { DuckTableOptions } from './table.types'
-import React from 'react'
-
+import React, { lazy } from 'react'
 import App from './App'
+import { createDuckTable } from './table.hooks'
+import { DuckTableOptions } from './table.types'
+import { DuckTableBody } from './table-advanced'
+import { DucKTable, TableDemo } from './table-example'
+
 // const App = lazy(() => import('./App'))
 
 createRoot(document.getElementById('root') as HTMLElement).render(<TableDemor />)

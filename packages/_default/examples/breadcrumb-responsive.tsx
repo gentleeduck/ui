@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import Link from "next/link"
+import * as React from "react"
 
 import { useMediaQuery } from "@/hooks/use-media-query"
 import {
@@ -56,10 +56,10 @@ export default function BreadcrumbResponsive() {
           <>
             <BreadcrumbItem>
               {isDesktop ? (
-                <DropdownMenu open={open} onOpenChange={setOpen}>
+                <DropdownMenu onOpenChange={setOpen} open={open}>
                   <DropdownMenuTrigger
-                    className="flex items-center gap-1"
                     aria-label="Toggle menu"
+                    className="flex items-center gap-1"
                   >
                     <BreadcrumbEllipsis className="h-4 w-4" />
                   </DropdownMenuTrigger>
@@ -74,7 +74,7 @@ export default function BreadcrumbResponsive() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Drawer open={open} onOpenChange={setOpen}>
+                <Drawer onOpenChange={setOpen} open={open}>
                   <DrawerTrigger aria-label="Toggle Menu">
                     <BreadcrumbEllipsis className="h-4 w-4" />
                   </DrawerTrigger>
@@ -88,9 +88,9 @@ export default function BreadcrumbResponsive() {
                     <div className="grid gap-1 px-4">
                       {items.slice(1, -2).map((item, index) => (
                         <Link
-                          key={index}
-                          href={item.href ? item.href : "#"}
                           className="py-1 text-sm"
+                          href={item.href ? item.href : "#"}
+                          key={index}
                         >
                           {item.label}
                         </Link>

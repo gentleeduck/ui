@@ -11,11 +11,11 @@ export default function Calendar15() {
 
   return (
     <Calendar
-      mode="single"
-      defaultMonth={date}
-      selected={date}
-      onSelect={setDate}
       className="rounded-lg border shadow-sm"
+      defaultMonth={date}
+      mode="single"
+      onSelect={setDate}
+      selected={date}
       showWeekNumber
     />
   )

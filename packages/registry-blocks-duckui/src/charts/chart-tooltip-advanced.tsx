@@ -1,7 +1,12 @@
 'use client'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui-duckui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui-duckui/chart'
 import { Bar, BarChart, XAxis } from 'recharts'
 
 export const description = 'A stacked bar chart with a legend'
@@ -17,12 +22,12 @@ const chartData = [
 
 const chartConfig = {
   running: {
-    label: 'Running',
     color: 'var(--chart-1)',
+    label: 'Running',
   },
   swimming: {
-    label: 'Swimming',
     color: 'var(--chart-2)',
+    label: 'Swimming',
   },
 } satisfies ChartConfig
 
@@ -37,22 +42,21 @@ export default function Component() {
         <ChartContainer config={chartConfig}>
           <BarChart accessibilityLayer data={chartData}>
             <XAxis
-              dataKey="date"
-              tickLine={false}
-              tickMargin={10}
               axisLine={false}
+              dataKey="date"
               tickFormatter={(value) => {
                 return new Date(value).toLocaleDateString('en-US', {
                   weekday: 'short',
                 })
               }}
+              tickLine={false}
+              tickMargin={10}
             />
-            <Bar dataKey="running" stackId="a" fill="var(--color-running)" radius={[0, 0, 4, 4]} />
-            <Bar dataKey="swimming" stackId="a" fill="var(--color-swimming)" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="running" fill="var(--color-running)" radius={[0, 0, 4, 4]} stackId="a" />
+            <Bar dataKey="swimming" fill="var(--color-swimming)" radius={[4, 4, 0, 0]} stackId="a" />
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  hideLabel
                   className="w-[180px]"
                   formatter={(value, name, item, index) => (
                     <>
@@ -65,15 +69,15 @@ export default function Component() {
                         }
                       />
                       {chartConfig[name as keyof typeof chartConfig]?.label || name}
-                      <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                      <div className="ml-auto flex items-baseline gap-0.5 font-medium font-mono text-foreground tabular-nums">
                         {value}
                         <span className="font-normal text-muted-foreground">kcal</span>
                       </div>
                       {/* Add this after the last item */}
                       {index === 1 && (
-                        <div className="mt-1.5 flex basis-full items-center border-t pt-1.5 text-xs font-medium text-foreground">
+                        <div className="mt-1.5 flex basis-full items-center border-t pt-1.5 font-medium text-foreground text-xs">
                           Total
-                          <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                          <div className="ml-auto flex items-baseline gap-0.5 font-medium font-mono text-foreground tabular-nums">
                             {item.payload.running + item.payload.swimming}
                             <span className="font-normal text-muted-foreground">kcal</span>
                           </div>
@@ -81,6 +85,7 @@ export default function Component() {
                       )}
                     </>
                   )}
+                  hideLabel
                 />
               }
               cursor={false}

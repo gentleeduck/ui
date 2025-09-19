@@ -45,14 +45,14 @@ export function BlockWrapper({ block, children }: React.PropsWithChildren<{ bloc
       <AnimatePresence>
         {isLiftMode && (
           <motion.div
-            className="absolute inset-0 z-30 bg-background/90 fill-mode-backwards"
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            className="absolute inset-0 z-30 bg-background/90 fill-mode-backwards"
             exit={{
               opacity: 0,
-              transition: { ease: 'easeOut', duration: 0.38 },
+              transition: { duration: 0.38, ease: 'easeOut' },
             }}
-            transition={{ ease: 'easeOut', duration: 0.2, delay: 0.18 }}
+            initial={{ opacity: 0 }}
+            transition={{ delay: 0.18, duration: 0.2, ease: 'easeOut' }}
           />
         )}
       </AnimatePresence>

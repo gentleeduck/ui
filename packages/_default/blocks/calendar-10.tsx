@@ -24,25 +24,25 @@ export default function Calendar10() {
         <CardTitle>Appointment</CardTitle>
         <CardDescription>Find a date</CardDescription>
         <Button
-          size="sm"
-          variant="outline"
           className="absolute right-4 top-4"
           onClick={() => {
             setMonth(new Date())
             setDate(new Date())
           }}
+          size="sm"
+          variant="outline"
         >
           Today
         </Button>
       </CardHeader>
       <CardContent>
         <Calendar
+          className="bg-transparent p-0"
           mode="single"
           month={month}
           onMonthChange={setMonth}
-          selected={date}
           onSelect={setDate}
-          className="bg-transparent p-0"
+          selected={date}
         />
       </CardContent>
     </Card>

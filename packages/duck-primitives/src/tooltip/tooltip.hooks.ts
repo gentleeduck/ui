@@ -11,7 +11,7 @@ import {
   useRole,
 } from '@floating-ui/react'
 import React from 'react'
-import { TooltipOptions } from './tooltip.types'
+import type { TooltipOptions } from './tooltip.types'
 
 export function useTooltip({
   defaultOpen = false,
@@ -31,23 +31,23 @@ export function useTooltip({
   const setOpen = setControlledOpen ?? setUncontrolledOpen
 
   const middleware = [
-    offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
+    offset({ crossAxis: alignOffset, mainAxis: sideOffset }),
     flip({
       crossAxis: placement.includes('-'),
-      mainAxis,
       fallbackAxisSideDirection: 'start',
+      mainAxis,
       padding: 4,
     }),
     shift({ padding: 4 }),
   ]
 
   const data = useFloating({
-    open,
-    onOpenChange: setOpen,
-    placement,
-    whileElementsMounted: autoUpdate,
-    strategy: 'absolute',
     middleware,
+    onOpenChange: setOpen,
+    open,
+    placement,
+    strategy: 'absolute',
+    whileElementsMounted: autoUpdate,
   })
 
   const context = data.context
@@ -62,10 +62,10 @@ export function useTooltip({
   })
 
   const hover = useHover(context, {
+    delay: { close: delayDuration, open: delayDuration },
+    enabled: controlledOpen == null,
     move: false,
     restMs: skipDelayDuration,
-    enabled: controlledOpen == null,
-    delay: { open: delayDuration, close: delayDuration },
   })
 
   const interactions = useInteractions([dismiss, focus, role, hover])

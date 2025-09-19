@@ -1,5 +1,14 @@
 import React from 'react'
-import { RadioGroupContext } from './radio-group'
+
+export interface RadioGroupContextType {
+  value: string
+  onValueChange: (value: string) => void
+  wrapperRef: React.RefObject<HTMLUListElement | null>
+  itemsRef: React.RefObject<HTMLLIElement[]>
+  selectedItemRef: React.RefObject<HTMLLIElement | null>
+}
+
+export const RadioGroupContext = React.createContext<RadioGroupContextType | null>(null)
 
 export function useRadioGroupContext() {
   const context = React.useContext(RadioGroupContext)
@@ -59,8 +68,8 @@ export function useHandleRadioClick(defaultValue?: string, value?: string, onVal
   }, [wrapperRef])
 
   return {
-    wrapperRef,
-    selectedItemRef,
     itemsRef,
+    selectedItemRef,
+    wrapperRef,
   }
 }

@@ -77,15 +77,8 @@ export const iframeHeight = "800px"
 export const description = "An inset sidebar with secondary navigation."
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
-      title: "Playground",
-      url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
@@ -102,10 +95,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Playground",
+      url: "#",
     },
     {
-      title: "Models",
-      url: "#",
       icon: Bot,
       items: [
         {
@@ -121,10 +114,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Models",
+      url: "#",
     },
     {
-      title: "Documentation",
-      url: "#",
       icon: BookOpen,
       items: [
         {
@@ -144,10 +137,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Documentation",
+      url: "#",
     },
     {
-      title: "Settings",
-      url: "#",
       icon: Settings2,
       items: [
         {
@@ -167,37 +160,44 @@ const data = {
           url: "#",
         },
       ],
+      title: "Settings",
+      url: "#",
     },
   ],
   navSecondary: [
     {
+      icon: LifeBuoy,
       title: "Support",
       url: "#",
-      icon: LifeBuoy,
     },
     {
+      icon: Send,
       title: "Feedback",
       url: "#",
-      icon: Send,
     },
   ],
   projects: [
     {
+      icon: Frame,
       name: "Design Engineering",
       url: "#",
-      icon: Frame,
     },
     {
+      icon: PieChart,
       name: "Sales & Marketing",
       url: "#",
-      icon: PieChart,
     },
     {
+      icon: Map,
       name: "Travel",
       url: "#",
-      icon: Map,
     },
   ],
+  user: {
+    avatar: "/avatars/shadcn.jpg",
+    email: "m@example.com",
+    name: "shadcn",
+  },
 }
 
 export default function Page() {
@@ -207,7 +207,7 @@ export default function Page() {
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="lg" asChild>
+              <SidebarMenuButton asChild size="lg">
                 <a href="#">
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                     <Command className="size-4" />
@@ -227,9 +227,9 @@ export default function Page() {
             <SidebarMenu>
               {data.navMain.map((item) => (
                 <Collapsible
-                  key={item.title}
                   asChild
                   defaultOpen={item.isActive}
+                  key={item.title}
                 >
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild tooltip={item.title}>
@@ -285,9 +285,9 @@ export default function Page() {
                       </SidebarMenuAction>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
+                      align="end"
                       className="w-48"
                       side="bottom"
-                      align="end"
                     >
                       <DropdownMenuItem>
                         <Folder className="text-muted-foreground" />
@@ -337,13 +337,13 @@ export default function Page() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton
-                    size="lg"
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                    size="lg"
                   >
                     <Avatar className="h-8 w-8 rounded-lg">
                       <AvatarImage
-                        src={data.user.avatar}
                         alt={data.user.name}
+                        src={data.user.avatar}
                       />
                       <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                     </Avatar>
@@ -359,17 +359,17 @@ export default function Page() {
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
+                  align="end"
                   className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                   side="bottom"
-                  align="end"
                   sideOffset={4}
                 >
                   <DropdownMenuLabel className="p-0 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                       <Avatar className="h-8 w-8 rounded-lg">
                         <AvatarImage
-                          src={data.user.avatar}
                           alt={data.user.name}
+                          src={data.user.avatar}
                         />
                         <AvatarFallback className="rounded-lg">
                           CN
@@ -422,7 +422,7 @@ export default function Page() {
         <header className="flex h-16 shrink-0 items-center gap-2">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Separator className="mr-2 h-4" orientation="vertical" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">

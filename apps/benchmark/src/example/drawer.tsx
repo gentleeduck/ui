@@ -2,14 +2,20 @@
 // FIX:
 'use client'
 
-import { Drawer, DrawerClose, DrawerContent, DrawerTitle, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
-import { NestedDrawerProvider } from '@gentleduck/registry-ui-duckui/drawer'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTitle,
+  DrawerTrigger,
+  NestedDrawerProvider,
+} from '@gentleduck/registry-ui-duckui/drawer'
 
 export default function DrawerExample() {
   return (
     <div>
       <Drawer>
-        <DrawerTrigger variant={'outline'} className="rounded-full">
+        <DrawerTrigger className="rounded-full" variant={'outline'}>
           Open Drawer
         </DrawerTrigger>
         <DrawerContent>
@@ -31,7 +37,7 @@ export default function DrawerExample() {
 
             <Drawer>
               <NestedDrawerProvider>
-                <DrawerTrigger variant={'outline'} className="rounded-full">
+                <DrawerTrigger className="rounded-full" variant={'outline'}>
                   Open Drawer
                 </DrawerTrigger>
                 <DrawerContent>

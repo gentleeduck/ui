@@ -1,9 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck/ttest",
-  "version": "0.4.1",
+  "author": "wildduck",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/ui/issues"
+  },
   "description": "Compile-time type testing utilities for TypeScript",
-  "type": "module",
+  "engines": {
+    "node": ">=24.2.0"
+  },
   "exports": {
     "./*": "./src/*/index.ts"
   },
@@ -14,16 +18,12 @@
     "CHANGELOG.md",
     "SECURITY.md",
     "article-about-this.md",
-    "tsconfig.json"
+    "tsconfig.json",
+    "!**/__tests__",
+    "!**/*.test.*",
+    "!**/*.spec.*"
   ],
-  "scripts": {
-    "test": "tsc --noEmit",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run test",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
+  "homepage": "https://github.com/gentleeduck/ui/tree/master/packages/duck-ttest#readme",
   "keywords": [
     "type",
     "testing",
@@ -31,22 +31,25 @@
     "compile-time",
     "types"
   ],
-  "author": "wildduck",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleeduck/ui",
-    "directory": "packages/duck-ttest"
-  },
-  "bugs": {
-    "url": "https://github.com/gentleeduck/ui/issues"
-  },
-  "homepage": "https://github.com/gentleeduck/ui/tree/master/packages/duck-ttest#readme",
+  "name": "@gentleduck/ttest",
+  "packageManager": "pnpm@10.11.0",
   "peerDependencies": {
     "@types/node": "catalog:"
   },
-  "engines": {
-    "node": ">=24.2.0"
+  "repository": {
+    "directory": "packages/duck-ttest",
+    "type": "git",
+    "url": "https://github.com/gentleeduck/ui"
   },
-  "packageManager": "pnpm@10.11.0"
+  "scripts": {
+    "ci": "pnpm run lint && pnpm run format && pnpm run test",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version",
+    "test": "tsc --noEmit"
+  },
+  "type": "module",
+  "version": "0.4.1"
 }

@@ -1,10 +1,5 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
-
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
 import {
@@ -16,6 +11,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@gentleduck/registry-ui-duckui/react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
 const items = [
   {
@@ -52,10 +51,10 @@ const FormSchema = z.object({
 
 export default function CheckboxReactHookFormMultiple() {
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
     defaultValues: {
       items: ['recents', 'home'],
     },
+    resolver: zodResolver(FormSchema),
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -70,7 +69,7 @@ export default function CheckboxReactHookFormMultiple() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="items"
@@ -82,12 +81,12 @@ export default function CheckboxReactHookFormMultiple() {
               </div>
               {items.map((item) => (
                 <FormField
-                  key={item.id}
                   control={form.control}
+                  key={item.id}
                   name="items"
                   render={({ field }) => {
                     return (
-                      <FormItem key={item.id} className="flex flex-row items-center gap-2">
+                      <FormItem className="flex flex-row items-center gap-2" key={item.id}>
                         <FormControl>
                           <Checkbox
                             checked={field.value?.includes(item.id)}
@@ -98,7 +97,7 @@ export default function CheckboxReactHookFormMultiple() {
                             }}
                           />
                         </FormControl>
-                        <FormLabel className="text-sm font-normal">{item.label}</FormLabel>
+                        <FormLabel className="font-normal text-sm">{item.label}</FormLabel>
                       </FormItem>
                     )
                   }}

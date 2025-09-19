@@ -1,13 +1,8 @@
 'use client'
 
 import * as React from 'react'
-
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Textarea } from '@/registry/default/ui/'
 import { Button } from '@/registry/registry-ui-components'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/registry/default/ui/'
-import { Input } from '@/registry/default/ui/'
-import { Label } from '@/registry/default/ui/'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/registry/default/ui/'
-import { Textarea } from '@/registry/default/ui/'
 
 export function CardsReportIssue() {
   const id = React.useId()
@@ -23,7 +18,7 @@ export function CardsReportIssue() {
           <div className="grid gap-2">
             <Label htmlFor={`area-${id}`}>Area</Label>
             <Select defaultValue="billing">
-              <SelectTrigger id={`area-${id}`} aria-label="Area">
+              <SelectTrigger aria-label="Area" id={`area-${id}`}>
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
@@ -39,9 +34,9 @@ export function CardsReportIssue() {
             <Label htmlFor={`security-level-${id}`}>Security Level</Label>
             <Select defaultValue="2">
               <SelectTrigger
-                id={`security-level-${id}`}
+                aria-label="Security Level"
                 className="line-clamp-1 w-full truncate"
-                aria-label="Security Level">
+                id={`security-level-${id}`}>
                 <SelectValue placeholder="Select level" />
               </SelectTrigger>
               <SelectContent>

@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Card,
@@ -33,7 +31,7 @@ export default function CardWithForm() {
                 <SelectTrigger id="framework">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
-                <SelectContent position="popper">
+                <SelectContent>
                   <SelectItem value="next">Next.js</SelectItem>
                   <SelectItem value="sveltekit">SvelteKit</SelectItem>
                   <SelectItem value="astro">Astro</SelectItem>

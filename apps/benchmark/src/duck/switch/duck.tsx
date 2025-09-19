@@ -6,7 +6,7 @@ export default function SwitchDemo() {
     <div>
       <div className="flex items-center gap-4">
         <Switch id="terms" />
-        <Switch indicator={<Moon />} checkedIndicator={<Sun />} id="terms" />
+        <Switch checkedIndicator={<Sun />} id="terms" indicator={<Moon />} />
       </div>
     </div>
   )

@@ -73,8 +73,8 @@ export function DuckLazyComponent({ children, options, ...props }: DuckLazyProps
         children
       ) : (
         <div
-          data-slot="placeholder"
           className="mb-4 h-[512px] animate-pulse bg-muted"
+          data-slot="placeholder"
           // role='status' // Indicate to screen readers that this is a placeholder
           // aria-live='polite' // Announce the loading state to screen readers
         />

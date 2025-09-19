@@ -12,7 +12,7 @@ import {
   useRole,
 } from '@floating-ui/react'
 import * as React from 'react'
-import { PopoverOptions } from './popover.types'
+import type { PopoverOptions } from './popover.types'
 
 export function usePopover({
   defaultOpen = false,
@@ -33,13 +33,13 @@ export function usePopover({
   const setOpen = setControlledOpen ?? setUncontrolledOpen
 
   const middleware = [
-    offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
+    offset({ crossAxis: alignOffset, mainAxis: sideOffset }),
     flip({
       crossAxis: placement.includes('-'),
-      mainAxis,
       fallbackAxisSideDirection: 'end',
-      // @ts-ignore
+      // @ts-expect-error
       fallbackPlacements: contextMenu ? ['left-start'] : null,
+      mainAxis,
       padding: 4,
     }),
     shift({ padding: 4 }),
@@ -58,12 +58,12 @@ export function usePopover({
   }
 
   const data = useFloating({
-    open,
-    onOpenChange: setOpen,
-    placement,
-    whileElementsMounted: autoUpdate,
-    strategy: contextMenu ? 'fixed' : 'absolute',
     middleware,
+    onOpenChange: setOpen,
+    open,
+    placement,
+    strategy: contextMenu ? 'fixed' : 'absolute',
+    whileElementsMounted: autoUpdate,
   })
 
   const context = data.context
@@ -75,10 +75,10 @@ export function usePopover({
   const role = useRole(context, contextMenu ? { role: 'menu' } : {})
 
   const hover = useHover(context, {
+    delay: { close: 150, open: 150 },
+    enabled: enableHover,
     move: true,
     restMs: 200,
-    enabled: enableHover,
-    delay: { open: 150, close: 150 },
   })
 
   const interactions = useInteractions([click, dismiss, role, hover])
@@ -94,14 +94,14 @@ export function usePopover({
       data.refs.setPositionReference({
         getBoundingClientRect() {
           return {
-            width: 0,
+            bottom: e.clientY,
             height: 0,
+            left: e.clientX,
+            right: e.clientX,
+            top: e.clientY,
+            width: 0,
             x: e.clientX,
             y: e.clientY,
-            top: e.clientY,
-            right: e.clientX,
-            bottom: e.clientY,
-            left: e.clientX,
           }
         },
       })

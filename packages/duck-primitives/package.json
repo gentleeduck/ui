@@ -1,33 +1,22 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck/primitives",
-  "version": "0.1.20",
-  "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
-  "private": false,
-  "type": "module",
-  "license": "MIT",
   "author": "gentleduck",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives"
-  },
   "bugs": {
     "url": "https://github.com/gentleduck/ui/issues"
   },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives#readme",
-  "keywords": [
-    "aria",
-    "gentleduck",
-    "behavioral",
-    "component",
-    "accessibility",
-    "a11y",
-    "react-aria",
-    "primitives",
-    "ui",
-    "react"
-  ],
-  "module": "./index.ts",
+  "dependencies": {},
+  "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
+  "devDependencies": {
+    "@changesets/cli": "catalog:",
+    "@gentleduck/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "husky": "catalog:"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "exports": {
     "./*": "./src/*/index.ts"
   },
@@ -41,13 +30,23 @@
     "article-about-this.md",
     "tsconfig.json"
   ],
-  "scripts": {
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives#readme",
+  "keywords": [
+    "aria",
+    "gentleduck",
+    "behavioral",
+    "component",
+    "accessibility",
+    "a11y",
+    "react-aria",
+    "primitives",
+    "ui",
+    "react"
+  ],
+  "license": "MIT",
+  "module": "./index.ts",
+  "name": "@gentleduck/primitives",
+  "packageManager": "pnpm@10.10.0",
   "peerDependencies": {
     "@floating-ui/react": "^0.27.13",
     "@gentleduck/hooks": "workspace:*",
@@ -57,17 +56,18 @@
     "react": "catalog:react19",
     "react-dom": "catalog:react19"
   },
-  "devDependencies": {
-    "@changesets/cli": "catalog:",
-    "@gentleduck/typescript-config": "workspace:*",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19",
-    "husky": "catalog:",
-    "@types/node": "catalog:"
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives"
   },
-  "engines": {
-    "node": ">=22.0.0"
+  "scripts": {
+    "ci": "pnpm run lint && pnpm run format",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version"
   },
-  "packageManager": "pnpm@10.10.0",
-  "dependencies": {}
+  "type": "module",
+  "version": "0.1.20"
 }

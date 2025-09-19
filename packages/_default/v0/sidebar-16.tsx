@@ -1,7 +1,5 @@
 "use client"
 
-import * as React from "react"
-import Link from "next/link"
 import {
   BadgeCheck,
   Bell,
@@ -25,9 +23,10 @@ import {
   SquareTerminal,
   Trash2,
 } from "lucide-react"
-
-import { cn } from "@/lib/utils"
+import Link from "next/link"
+import * as React from "react"
 import { Icons } from "@/components/icons"
+import { cn } from "@/lib/utils"
 import {
   Avatar,
   AvatarFallback,
@@ -94,15 +93,8 @@ export const description = "An inset sidebar with site header navigation."
 const HEADER_HEIGHT = "4rem"
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
-      title: "Playground",
-      url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
@@ -119,10 +111,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Playground",
+      url: "#",
     },
     {
-      title: "Models",
-      url: "#",
       icon: Bot,
       items: [
         {
@@ -138,10 +130,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Models",
+      url: "#",
     },
     {
-      title: "Documentation",
-      url: "#",
       icon: BookOpen,
       items: [
         {
@@ -161,10 +153,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Documentation",
+      url: "#",
     },
     {
-      title: "Settings",
-      url: "#",
       icon: Settings2,
       items: [
         {
@@ -184,74 +176,81 @@ const data = {
           url: "#",
         },
       ],
+      title: "Settings",
+      url: "#",
     },
   ],
   navSecondary: [
     {
+      icon: LifeBuoy,
       title: "Support",
       url: "#",
-      icon: LifeBuoy,
     },
     {
+      icon: Send,
       title: "Feedback",
       url: "#",
-      icon: Send,
     },
   ],
   projects: [
     {
+      icon: Frame,
       name: "Design Engineering",
       url: "#",
-      icon: Frame,
     },
     {
+      icon: PieChart,
       name: "Sales & Marketing",
       url: "#",
-      icon: PieChart,
     },
     {
+      icon: Map,
       name: "Travel",
       url: "#",
-      icon: Map,
     },
   ],
+  user: {
+    avatar: "/avatars/shadcn.jpg",
+    email: "m@example.com",
+    name: "shadcn",
+  },
 }
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
+    href: "/docs/primitives/alert-dialog",
+    title: "Alert Dialog",
   },
   {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
     description:
       "For sighted users to preview content available behind a link.",
+    href: "/docs/primitives/hover-card",
+    title: "Hover Card",
   },
   {
-    title: "Progress",
-    href: "/docs/primitives/progress",
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+    href: "/docs/primitives/progress",
+    title: "Progress",
   },
   {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
     description: "Visually or semantically separates content.",
+    href: "/docs/primitives/scroll-area",
+    title: "Scroll-area",
   },
   {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
     description:
       "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+    href: "/docs/primitives/tabs",
+    title: "Tabs",
   },
   {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
     description:
       "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    href: "/docs/primitives/tooltip",
+    title: "Tooltip",
   },
 ]
 
@@ -271,9 +270,9 @@ export default function Page() {
         <div className="flex items-center gap-2 w-full">
           <Button
             className="hidden md:flex"
-            variant="ghost"
-            size="icon"
             onClick={() => setOpen(!open)}
+            size="icon"
+            variant="ghost"
           >
             <Sidebar />
           </Button>
@@ -282,7 +281,7 @@ export default function Page() {
             <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
               <Command className="size-4" />
             </div>
-            <Separator orientation="vertical" className="ml-4 h-4" />
+            <Separator className="ml-4 h-4" orientation="vertical" />
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -360,7 +359,7 @@ export default function Page() {
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                       {components.map((component) => (
                         <li>
-                          <NavigationMenuLink key={component.title} asChild>
+                          <NavigationMenuLink asChild key={component.title}>
                             <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                               <div className="text-sm font-medium leading-none">
                                 {component.title}
@@ -389,7 +388,7 @@ export default function Page() {
           </div>
         </div>
       </header>
-      <SidebarProvider open={open} onOpenChange={setOpen}>
+      <SidebarProvider onOpenChange={setOpen} open={open}>
         <Sidebar
           className="top-[--header-height] pb-[--header-height]"
           variant="inset"
@@ -397,7 +396,7 @@ export default function Page() {
           <SidebarHeader>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton size="lg" asChild>
+                <SidebarMenuButton asChild size="lg">
                   <a href="#">
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                       <Command className="size-4" />
@@ -417,9 +416,9 @@ export default function Page() {
               <SidebarMenu>
                 {data.navMain.map((item) => (
                   <Collapsible
-                    key={item.title}
                     asChild
                     defaultOpen={item.isActive}
+                    key={item.title}
                   >
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild tooltip={item.title}>
@@ -475,9 +474,9 @@ export default function Page() {
                         </SidebarMenuAction>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent
+                        align={isMobile ? "end" : "start"}
                         className="w-48"
                         side={isMobile ? "bottom" : "right"}
-                        align={isMobile ? "end" : "start"}
                       >
                         <DropdownMenuItem>
                           <Folder className="text-muted-foreground" />
@@ -527,13 +526,13 @@ export default function Page() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <SidebarMenuButton
-                      size="lg"
                       className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                      size="lg"
                     >
                       <Avatar className="h-8 w-8 rounded-lg">
                         <AvatarImage
-                          src={data.user.avatar}
                           alt={data.user.name}
+                          src={data.user.avatar}
                         />
                         <AvatarFallback className="rounded-lg">
                           CN
@@ -551,17 +550,17 @@ export default function Page() {
                     </SidebarMenuButton>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
+                    align="end"
                     className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                     side={isMobile ? "bottom" : "right"}
-                    align="end"
                     sideOffset={4}
                   >
                     <DropdownMenuLabel className="p-0 font-normal">
                       <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                         <Avatar className="h-8 w-8 rounded-lg">
                           <AvatarImage
-                            src={data.user.avatar}
                             alt={data.user.name}
+                            src={data.user.avatar}
                           />
                           <AvatarFallback className="rounded-lg">
                             CN
@@ -616,7 +615,7 @@ export default function Page() {
             <div className="flex items-center gap-2 px-4 py-2">
               <div className="flex md:hidden items-center gap-2">
                 <SidebarTrigger />
-                <Separator orientation="vertical" className="mr-2 h-4" />
+                <Separator className="mr-2 h-4" orientation="vertical" />
               </div>
               <Breadcrumb>
                 <BreadcrumbList>

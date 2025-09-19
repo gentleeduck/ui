@@ -1,17 +1,17 @@
 import kleur from 'kleur'
 import logSymbols from 'log-symbols'
-import { LoggerParams, LoggerType } from './text-styling.types'
+import type { LoggerParams, LoggerType } from './text-styling.types'
+
 const { error, warning, info, success } = logSymbols
 
 // Define the logger object with proper types
 export const logger: LoggerType = {
-  error: ({ with_icon = true, args }: LoggerParams): LoggerType => {
-    console.log(kleur.red([with_icon ? error : '', 'ERROR:'].join(' ')), kleur.red(args.join(' ')))
+  break: (): LoggerType => {
+    console.log('')
     return logger
   },
-
-  warn: ({ with_icon = true, args }: LoggerParams): LoggerType => {
-    console.log(kleur.yellow([with_icon ? warning : '', 'WARN:'].join(' ')), kleur.yellow(args.join(' ')))
+  error: ({ with_icon = true, args }: LoggerParams): LoggerType => {
+    console.log(kleur.red([with_icon ? error : '', 'ERROR:'].join(' ')), kleur.red(args.join(' ')))
     return logger
   },
 
@@ -25,8 +25,8 @@ export const logger: LoggerType = {
     return logger
   },
 
-  break: (): LoggerType => {
-    console.log('')
+  warn: ({ with_icon = true, args }: LoggerParams): LoggerType => {
+    console.log(kleur.yellow([with_icon ? warning : '', 'WARN:'].join(' ')), kleur.yellow(args.join(' ')))
     return logger
   },
 }

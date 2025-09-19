@@ -51,7 +51,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
 
     this.sortConfig = Object.values(this.columns).map((h) => {
       const hv = h as DuckColumnValues & { direction?: DuckTableHistoryDelta['type'] }
-      return { label: hv.label, direction: hv.direction || 'none' }
+      return { direction: hv.direction || 'none', label: hv.label }
     }) as DuckTableColumnSort[]
   }
 
@@ -113,7 +113,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
   }
 
   private emitChange<T extends DuckTableEventType>(type: T, meta: DuckTableEventMeta<T, TColumn>): void {
-    const event = { type, meta } as DuckTableEvent<TColumn>
+    const event = { meta, type } as DuckTableEvent<TColumn>
     for (const listener of this.changeListeners) {
       listener(event)
     }
@@ -183,7 +183,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
     }
 
     const idxs = this.rows
-      .map((row, idx) => ({ row, idx }))
+      .map((row, idx) => ({ idx, row }))
       .sort((a, b) => {
         for (const { label, direction } of active) {
           const header = this.columns[label as keyof typeof this.columns] as DuckColumnValues & {
@@ -385,15 +385,15 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
 
   public getSnapshot(): DuckTableOptions<TColumn> {
     return {
-      version: DuckTable.CURRENT_SNAPSHOT_VERSION,
-      query: this.query,
-      selectedRows: [...this.selectedRows],
+      columns: this.columns,
       currentPage: this.currentPage,
       pageSize: this.pageSize,
-      sortConfig: JSON.parse(JSON.stringify(this.sortConfig)),
-      visibleColumns: [...this.visibleColumns],
+      query: this.query,
       rows: this.rows,
-      columns: this.columns,
+      selectedRows: [...this.selectedRows],
+      sortConfig: JSON.parse(JSON.stringify(this.sortConfig)),
+      version: DuckTable.CURRENT_SNAPSHOT_VERSION,
+      visibleColumns: [...this.visibleColumns],
     }
   }
 

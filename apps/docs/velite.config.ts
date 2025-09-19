@@ -9,10 +9,10 @@ import rehypeSlug from 'rehype-slug'
 import { codeImport } from 'remark-code-import'
 import remarkGfm from 'remark-gfm'
 import { Pluggable, PluggableList, Plugin } from 'unified'
+import { visit } from 'unist-util-visit'
 import { rehypeNpmCommand } from './lib/rehype-npm-command'
 import { UnistNode, UnistTree } from './types/unist'
-import { rhypeMetadataPlugin, rehypeComponent, rehypePreBlockSource } from './velite-configs/plugins'
-import { visit } from 'unist-util-visit'
+import { rehypeComponent, rehypePreBlockSource, rhypeMetadataPlugin } from './velite-configs/plugins'
 import { rehypeTitle } from './velite-configs/plugins/regype-title'
 
 // `s` is extended from Zod with some custom schemas,
@@ -28,14 +28,14 @@ const config = defineConfig({
       pattern: 'docs/**/*.mdx',
       schema: s
         .object({
-          title: s.string().max(99),
-          metadata: s.metadata(),
-          description: s.string(),
-          links: s.object({ doc: s.string().optional(), api: s.string().optional() }).optional(),
-          component: s.boolean().default(false),
-          excerpt: s.excerpt(),
-          content: s.markdown(),
           body: s.mdx(),
+          component: s.boolean().default(false),
+          content: s.markdown(),
+          description: s.string(),
+          excerpt: s.excerpt(),
+          links: s.object({ api: s.string().optional(), doc: s.string().optional() }).optional(),
+          metadata: s.metadata(),
+          title: s.string().max(99),
           toc: s.toc(),
         })
         //NOTE:: more additional fields (computed fields)
@@ -43,7 +43,14 @@ const config = defineConfig({
           const _meta = meta as ZodMeta & { path: string }
           return {
             ...data,
-            toc: cleanTocItems(data.toc),
+            contentType: _meta.path.split('.').pop(),
+            flattenedPath: _meta.path
+              .split('/')
+              .slice(-2, -1)
+              .join('/')
+              .replace(/\.mdx$/, ''),
+
+            permalink: _meta.path.replace(/^.*docs\//, '').replace(/\.mdx$/, ''),
             slug: _meta.path
               .split('docs/')
               .pop() // take everything after the first "docs/"
@@ -55,23 +62,15 @@ const config = defineConfig({
                   ?.replace(/\.mdx$/, '')
                   .replace(/^\/+/, '')}`
               : 'docs',
-
-            permalink: _meta.path.replace(/^.*docs\//, '').replace(/\.mdx$/, ''),
-            sourceFilePath: path,
-            sourceFileName: _meta.path.split('/').pop(),
             sourceFileDir: _meta.path.split('/').slice(-3, -1).join('/'),
-            contentType: _meta.path.split('.').pop(),
-            flattenedPath: _meta.path
-              .split('/')
-              .slice(-2, -1)
-              .join('/')
-              .replace(/\.mdx$/, ''),
+            sourceFileName: _meta.path.split('/').pop(),
+            sourceFilePath: path,
+            toc: cleanTocItems(data.toc),
           }
         }),
     },
   },
   mdx: {
-    remarkPlugins: [remarkGfm, codeImport],
     rehypePlugins: [
       rehypeComponent,
       // @ts-ignore
@@ -80,19 +79,7 @@ const config = defineConfig({
       [
         rehypePrettyCode,
         {
-          theme: {
-            dark: 'catppuccin-mocha',
-            light: 'github-light',
-          },
-
           getHighlighter,
-          onVisitLine(node: UnistNode) {
-            // Prevent lines from collapsing in `display: grid` mode, and allow empty
-            // lines to be copy/pasted
-            if (node.children?.length === 0) {
-              node.children = [{ type: 'text', value: ' ' }]
-            }
-          },
           onVisitHighlightedLine(node: UnistNode) {
             // @ts-ignore
             node.properties.className.push('line--highlighted')
@@ -101,22 +88,34 @@ const config = defineConfig({
             // @ts-ignore
             node.properties.className = ['word--highlighted']
           },
+          onVisitLine(node: UnistNode) {
+            // Prevent lines from collapsing in `display: grid` mode, and allow empty
+            // lines to be copy/pasted
+            if (node.children?.length === 0) {
+              node.children = [{ type: 'text', value: ' ' }]
+            }
+          },
+          theme: {
+            dark: 'catppuccin-mocha',
+            light: 'github-light',
+          },
         },
       ],
       rehypeTitle,
       rehypePreBlockSource,
       rehypeNpmCommand,
       // @ts-ignore
-      [rehypeAutolinkHeadings, { properties: { className: ['subheading-anchor'], ariaLabel: 'Link to section' } }],
+      [rehypeAutolinkHeadings, { properties: { ariaLabel: 'Link to section', className: ['subheading-anchor'] } }],
     ],
+    remarkPlugins: [remarkGfm, codeImport],
   },
 }) as any
 function cleanTocItems(items: any[]): any[] {
   return items.map((item) => {
     return {
       ...item,
-      title: item.title?.replace('undefined', ''),
       items: item.items ? cleanTocItems(item.items) : [],
+      title: item.title?.replace('undefined', ''),
     }
   })
 }

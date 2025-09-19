@@ -32,28 +32,28 @@ export async function generateMetadata({
   const description = item.description
 
   return {
-    title: item.description,
     description,
     openGraph: {
-      title,
       description,
-      type: 'article',
-      url: absoluteUrl(`/view/${item.name}`),
       images: [
         {
+          alt: siteConfig.name,
+          height: 630,
           url: siteConfig.ogImage,
           width: 1200,
-          height: 630,
-          alt: siteConfig.name,
         },
       ],
+      title,
+      type: 'article',
+      url: absoluteUrl(`/view/${item.name}`),
     },
+    title: item.description,
     twitter: {
       card: 'summary_large_image',
-      title,
+      creator: '@shadcn',
       description,
       images: [siteConfig.ogImage],
-      creator: '@shadcn',
+      title,
     },
   }
 }

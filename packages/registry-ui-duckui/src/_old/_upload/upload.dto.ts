@@ -2,14 +2,14 @@
 import { z } from 'zod'
 
 export const fileTypeSchema = z.object({
-  id: z.string().uuid(),
-  file: z.instanceof(File),
-  name: z.string(),
-  url: z.string().nullable(),
-  type: z.string(),
-  size: z.string(),
   createdAt: z.instanceof(Date),
+  file: z.instanceof(File),
+  id: z.string().uuid(),
+  name: z.string(),
+  size: z.string(),
+  type: z.string(),
   updatedAt: z.instanceof(Date),
+  url: z.string().nullable(),
 })
 
 export type FileSchemaType = z.infer<typeof fileTypeSchema>

@@ -20,7 +20,7 @@ function InputOTP({
   onValueChange,
   pattern,
   ref,
-  'aria-label': ariaLabel = 'One-time password input',
+  'aria-label': ariaLabel = 'otp-one-time-password',
   ...props
 }: Omit<React.HTMLProps<HTMLDivElement>, 'pattern'> & {
   value?: string
@@ -32,15 +32,16 @@ function InputOTP({
   return (
     <OTPInputContext.Provider
       value={{
+        inputsRef,
         value,
         wrapperRef,
-        inputsRef,
       }}>
+      {/** biome-ignore lint: false positive */}
       <div
-        ref={wrapperRef}
-        className={cn('flex items-center gap-2 disabled:cursor-not-allowed has-[:disabled]:opacity-50', className)}
-        role="group"
         aria-label={ariaLabel}
+        className={cn('flex items-center gap-2 disabled:cursor-not-allowed has-[:disabled]:opacity-50', className)}
+        ref={wrapperRef}
+        role="region"
         {...props}
         duck-input-otp="">
         {children}
@@ -51,11 +52,12 @@ function InputOTP({
 
 const InputOTPGroup = ({ className, ref, ...props }: React.ComponentPropsWithRef<'div'>) => {
   return (
+    // biome-ignore lint: false positive
     <div
-      ref={ref}
+      aria-label="otp-group"
       className={cn('flex items-center', className)}
+      ref={ref}
       role="group"
-      aria-label="OTP group"
       {...props}
       duck-input-otp-group=""
     />
@@ -65,15 +67,15 @@ const InputOTPGroup = ({ className, ref, ...props }: React.ComponentPropsWithRef
 const InputOTPSlot = ({ className, ref, ...props }: React.ComponentPropsWithRef<'input'>) => {
   return (
     <input
-      ref={ref}
+      aria-invalid="false"
+      aria-required="true"
       className={cn(
         'relative h-10 w-10 border-input border-y border-r text-center text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md focus:shadow-none focus:outline-none focus:ring-ring focus:ring-offset-2',
         className,
       )}
-      aria-required="true"
-      aria-invalid="false"
-      maxLength={1}
       duck-input-otp-slot=""
+      maxLength={1}
+      ref={ref}
       {...props}
     />
   )
@@ -87,7 +89,7 @@ const InputOTPSeparator = ({
   customIndicator?: React.ReactNode
 }) => {
   return (
-    <div ref={ref} role="presentation" aria-hidden="true" {...props} duck-input-otp-separator="">
+    <div aria-hidden="true" ref={ref} role="presentation" {...props} duck-input-otp-separator="">
       {customIndicator ? customIndicator : <Dot />}
     </div>
   )

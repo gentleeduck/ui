@@ -1,34 +1,32 @@
 // @ts-noCheck
-import * as React from 'react'
 
-import { ScrollArea } from '../scroll-area'
-import { PaginationCustomView } from '../pagination'
-import { Input } from '../input'
-import { Combobox, type ComboboxType } from '../combobox'
-import { CommandShortcut, type CommandListGroupDataType } from '../command'
-import { DropdownMenuView } from '../dropdown-menu'
-import { ContextCustomView, DuckContextMenuProps } from '../context-menu'
-
-import {
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '../tooltip'
-import { LabelType } from '../button'
-import { Badge } from '../badge'
-import { useDebounceCallback } from '@gentleduck/libs/use-debounce'
-import { get_options_data } from './table.lib'
-import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
-import { useDuckTable } from './table.hook'
-import { TableHeaderType, TablePaginationType } from './table.types'
 
 import { cn } from '@gentleduck/libs/cn'
 import { groupArrays } from '@gentleduck/libs/group-array'
-
-import { CirclePlus, LucideIcon } from 'lucide-react'
+import { useDebounceCallback } from '@gentleduck/libs/use-debounce'
 import { CaretSortIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
+import { CirclePlus, LucideIcon } from 'lucide-react'
+import * as React from 'react'
+import { Badge } from '../badge'
+import { LabelType } from '../button'
+import { Combobox, type ComboboxType } from '../combobox'
+import { type CommandListGroupDataType, CommandShortcut } from '../command'
+import { ContextCustomView, DuckContextMenuProps } from '../context-menu'
+import { DropdownMenuView } from '../dropdown-menu'
+import { Input } from '../input'
+import { PaginationCustomView } from '../pagination'
+import { ScrollArea } from '../scroll-area'
 import { Separator } from '../separator'
+import {
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipTrigger,
+} from '../tooltip'
+import { PAGE_INDEX, PAGE_SIZE } from './table.constants'
+import { useDuckTable } from './table.hook'
+import { get_options_data } from './table.lib'
+import { TableHeaderType, TablePaginationType } from './table.types'
 
 /*
  *  - This's the normal table components.
@@ -42,8 +40,8 @@ const Table = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div className='relative w-full overflow-auto'>
     <table
-      ref={ref}
       className={cn('w-full caption-bottom text-sm', className)}
+      ref={ref}
       {...props}
     />
   </div>
@@ -55,8 +53,8 @@ const TableHeader = React.forwardRef<
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
   <thead
-    ref={ref}
     className={cn('[&_tr]:border-b', className)}
+    ref={ref}
     {...props}
   />
 ))
@@ -67,8 +65,8 @@ const TableBody = React.forwardRef<
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
   <tbody
-    ref={ref}
     className={cn('[&_tr:last-child]:border-0', className)}
+    ref={ref}
     {...props}
   />
 ))
@@ -79,11 +77,11 @@ const TableFooter = React.forwardRef<
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
   <tfoot
-    ref={ref}
     className={cn(
       'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0',
       className
     )}
+    ref={ref}
     {...props}
   />
 ))
@@ -94,11 +92,11 @@ const TableRow = React.forwardRef<
   React.HTMLAttributes<HTMLTableRowElement>
 >(({ className, ...props }, ref) => (
   <tr
-    ref={ref}
     className={cn(
       'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
       className
     )}
+    ref={ref}
     {...props}
   />
 ))
@@ -109,11 +107,11 @@ const TableHead = React.forwardRef<
   React.ThHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
   <th
-    ref={ref}
     className={cn(
       'h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',
       className
     )}
+    ref={ref}
     {...props}
   />
 ))
@@ -124,8 +122,8 @@ const TableCell = React.forwardRef<
   React.TdHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
   <td
-    ref={ref}
     className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
+    ref={ref}
     {...props}
   />
 ))
@@ -136,8 +134,8 @@ const TableCaption = React.forwardRef<
   React.HTMLAttributes<HTMLTableCaptionElement>
 >(({ className, ...props }, ref) => (
   <caption
-    ref={ref}
     className={cn('mt-4 text-sm text-muted-foreground', className)}
+    ref={ref}
     {...props}
   />
 ))
@@ -247,8 +245,8 @@ const DuckTableSearchInput = React.forwardRef<
         <TooltipTrigger>
           <Input
             className={cn('h-8 w-[150px] lg:w-[200px]', triggerClassName)}
-            ref={inputRef}
             placeholder={placeholder}
+            ref={inputRef}
             {...triggerProps}
           />
         </TooltipTrigger>
@@ -264,9 +262,9 @@ const DuckTableSearchInput = React.forwardRef<
             {...badgeProps}
           >
             <Badge
-              variant='secondary'
-              size='sm'
               className='p-0 px-2'
+              size='sm'
+              variant='secondary'
             >
               {badgeChildren}
             </Badge>
@@ -309,28 +307,28 @@ export const DuckTableFilter = <
         } = filter?.trigger ?? {}
         return (
           <Combobox<Y, Extract<keyof T, string>>
-            key={idx}
-            type={'listbox'}
-            title={filter?.title}
-            wrapper={filter?.wrapper}
-            trigger={{
-              icon: { children: CirclePlus },
-              children: (triggerChildren ?? 'not found') as Y,
-              size: 'sm',
-              className: cn('', triggerClassName),
-              ...triggerProps,
-            }}
-            onSelect={
-              filter?.onSelect ?? {
-                value: filterBy as Extract<keyof T, string>[],
-                setValue: setFilterBy as React.Dispatch<
-                  React.SetStateAction<Extract<keyof T, string>[]>
-                >,
-              }
-            }
             content={{
               ...filter?.content!,
             }}
+            key={idx}
+            onSelect={
+              filter?.onSelect ?? {
+                setValue: setFilterBy as React.Dispatch<
+                  React.SetStateAction<Extract<keyof T, string>[]>
+                >,
+                value: filterBy as Extract<keyof T, string>[],
+              }
+            }
+            title={filter?.title}
+            trigger={{
+              children: (triggerChildren ?? 'not found') as Y,
+              className: cn('', triggerClassName),
+              icon: { children: CirclePlus },
+              size: 'sm',
+              ...triggerProps,
+            }}
+            type={'listbox'}
+            wrapper={filter?.wrapper}
           />
         )
       })}
@@ -396,31 +394,14 @@ export const TableBarViewButton = <
   const { setColumnsViewed, columnsViewed } = useDuckTable<T>() ?? {}
 
   const option_data = get_options_data<T>({
-    header,
     columnsViewed,
+    header,
     setColumnsViewed,
   })
 
   return (
     <>
       <DropdownMenuView
-        trigger={{
-          size: 'sm',
-          icon: {
-            children: MixerHorizontalIcon as LucideIcon,
-          },
-          children: 'View',
-          label: {
-            children: 'Toggle columns',
-            showCommand: true,
-            showLabel: true,
-            side: 'top',
-          },
-          command: {
-            key: 'ctrl+shift+v',
-            label: '⌃+⇧+V',
-          },
-        }}
         content={{
           label: {
             children: 'Toggle columns',
@@ -429,6 +410,23 @@ export const TableBarViewButton = <
             itemType: 'checkbox',
             optionsData: option_data,
           },
+        }}
+        trigger={{
+          children: 'View',
+          command: {
+            key: 'ctrl+shift+v',
+            label: '⌃+⇧+V',
+          },
+          icon: {
+            children: MixerHorizontalIcon as LucideIcon,
+          },
+          label: {
+            children: 'Toggle columns',
+            showCommand: true,
+            showLabel: true,
+            side: 'top',
+          },
+          size: 'sm',
         }}
       />
     </>
@@ -448,6 +446,7 @@ export const DuckTableBodyRow = <C extends Record<string, unknown>>({
   const { children, ...props } = row ?? {}
   return (
     <ContextCustomView
+      content={content}
       trigger={{
         ...trigger,
         children: (
@@ -455,7 +454,6 @@ export const DuckTableBodyRow = <C extends Record<string, unknown>>({
         ),
       }}
       wrapper={wrapper}
-      content={content}
     />
   )
 }
@@ -521,52 +519,6 @@ export const DuckTablePagination = ({ }: DuckTablePaginationProps) => {
   return (
     /*NOTE: Navigation */
     <PaginationCustomView
-      right={{
-        onClick: () => {
-          setPagination((old) => ({
-            ...old,
-            pageIndex:
-              old.pageIndex === old.pageSize - 1
-                ? old.pageSize - 1
-                : (old.pageIndex ?? 1) + 1,
-          }))
-        },
-        command: {
-          key: 'ctrl+shift+up',
-          label: '⌃+⇧+↑',
-          // action: () =>
-          //     setPaginationState({
-          //         ...paginationState,
-          //         activePage:
-          //             paginationState.activePage === resultArrays.length - 1
-          //                 ? resultArrays.length - 1
-          //                 : (paginationState.activePage ?? 1) + 1,
-          //     })
-          //     ,
-        },
-        label: {
-          showCommand: true,
-          showLabel: true,
-          side: 'top',
-          children: 'Next page',
-        },
-        // disabled: paginationState.activePage === resultArrays.length - 1,
-      }}
-      maxRight={{
-        // onClick: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
-        // command: {
-        //     key: 'ctrl+shift+right',
-        //     label: '⌃+⇧+→',
-        //     action: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
-        // },
-        label: {
-          showCommand: true,
-          showLabel: true,
-          side: 'top',
-          children: 'Last page',
-        },
-        // disabled: paginationState.activePage === resultArrays.length - 1,
-      }}
       left={{
         // onClick: () =>
         //     setPaginationState({
@@ -583,10 +535,10 @@ export const DuckTablePagination = ({ }: DuckTablePaginationProps) => {
         //         }),
         // },
         label: {
+          children: 'Previous page',
           showCommand: true,
           showLabel: true,
           side: 'top',
-          children: 'Previous page',
         },
         // disabled: paginationState.activePage === 0,
       }}
@@ -598,12 +550,58 @@ export const DuckTablePagination = ({ }: DuckTablePaginationProps) => {
         //     action: () => setPaginationState({ ...paginationState, activePage: 0 }),
         // },
         label: {
+          children: 'First page',
           showCommand: true,
           showLabel: true,
           side: 'top',
-          children: 'First page',
         },
         // disabled: paginationState.activePage === 0,
+      }}
+      maxRight={{
+        // onClick: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
+        // command: {
+        //     key: 'ctrl+shift+right',
+        //     label: '⌃+⇧+→',
+        //     action: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
+        // },
+        label: {
+          children: 'Last page',
+          showCommand: true,
+          showLabel: true,
+          side: 'top',
+        },
+        // disabled: paginationState.activePage === resultArrays.length - 1,
+      }}
+      right={{
+        command: {
+          key: 'ctrl+shift+up',
+          label: '⌃+⇧+↑',
+          // action: () =>
+          //     setPaginationState({
+          //         ...paginationState,
+          //         activePage:
+          //             paginationState.activePage === resultArrays.length - 1
+          //                 ? resultArrays.length - 1
+          //                 : (paginationState.activePage ?? 1) + 1,
+          //     })
+          //     ,
+        },
+        label: {
+          children: 'Next page',
+          showCommand: true,
+          showLabel: true,
+          side: 'top',
+        },
+        onClick: () => {
+          setPagination((old) => ({
+            ...old,
+            pageIndex:
+              old.pageIndex === old.pageSize - 1
+                ? old.pageSize - 1
+                : (old.pageIndex ?? 1) + 1,
+          }))
+        },
+        // disabled: paginationState.activePage === resultArrays.length - 1,
       }}
     />
   )
@@ -638,7 +636,7 @@ const TablePagination = <
     )
       .filter(Boolean)
       .reduce((acc, curr) => {
-        acc.push({ label: curr!, element: { children: curr! } })
+        acc.push({ element: { children: curr! }, label: curr! })
         return acc
       }, [] as CommandListGroupDataType[])
     : []
@@ -663,26 +661,11 @@ const TablePagination = <
               </span>
               <TooltipProvider>
                 <Combobox<Extract<keyof C, string>, Y>
-                  type='combobox'
                   content={{
+                    className: 'w-[5rem] h-fit',
                     data: (pageLengthData ??
                       []) as CommandListGroupDataType<Y>[],
                     showSearchInput: false,
-                    className: 'w-[5rem] h-fit',
-                  }}
-                  trigger={{
-                    command: {
-                      key: 'ctrl+shift+c',
-                      label: '⌃+⇧+C',
-                    },
-                    label: {
-                      children: 'Rows per page',
-                      showLabel: true,
-                      side: 'top',
-                      className: 'text-xs',
-                      showCommand: true,
-                    },
-                    className: 'w-[4.5rem] h-[32px] gap-0',
                   }}
                   onSelect={{
                     setValue: setValue as React.Dispatch<
@@ -690,6 +673,21 @@ const TablePagination = <
                     >,
                     value: value as Y[],
                   }}
+                  trigger={{
+                    className: 'w-[4.5rem] h-[32px] gap-0',
+                    command: {
+                      key: 'ctrl+shift+c',
+                      label: '⌃+⇧+C',
+                    },
+                    label: {
+                      children: 'Rows per page',
+                      className: 'text-xs',
+                      showCommand: true,
+                      showLabel: true,
+                      side: 'top',
+                    },
+                  }}
+                  type='combobox'
                 />
               </TooltipProvider>
             </div>

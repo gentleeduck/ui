@@ -1,13 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "./base.json",
   "compilerOptions": {
     "declaration": true,
-    "esModuleInterop": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "noEmit": false,
+    "esModuleInterop": true,
     "module": "Preserve",
-    "moduleResolution": "Bundler"
-  }
+    "moduleResolution": "Bundler",
+    "noEmit": false
+  },
+  "extends": "./base.json"
 }

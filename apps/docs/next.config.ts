@@ -3,7 +3,93 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'zpgqhogoevbgpxustvmo.supabase.co',
+        protocol: 'https',
+      },
+      {
+        hostname: 'media.discordapp.net', // Add this line for Discord images
+        protocol: 'https',
+      },
+      {
+        hostname: 'images.unsplash.com', // Add this line for Discord images
+        protocol: 'https',
+      },
+      {
+        hostname: 'images.pexels.com',
+        protocol: 'https',
+      },
+      {
+        hostname: 'plus.unsplash.com',
+        protocol: 'https',
+      },
+      {
+        hostname: 'github.com',
+        protocol: 'https',
+      },
+      {
+        hostname: 'raw.githubusercontent.com',
+        protocol: 'https',
+      },
+    ],
+  },
   reactStrictMode: false,
+  redirects: async () => {
+    return [
+      {
+        destination: '/docs/components',
+        permanent: true,
+        source: '/components',
+      },
+      {
+        destination: '/docs/components/:path*',
+        permanent: true,
+        source: '/docs/primitives/:path*',
+      },
+      {
+        destination: '/docs/components/react-hook-form',
+        permanent: false,
+        source: '/docs/forms',
+      },
+      {
+        destination: '/docs/components/form',
+        permanent: false,
+        source: '/docs/forms/react-hook-form',
+      },
+      {
+        destination: '/docs/components/sidebar',
+        permanent: true,
+        source: '/sidebar',
+      },
+      {
+        destination: '/docs/react-19',
+        permanent: true,
+        source: '/react-19',
+      },
+      {
+        destination: '/charts/area',
+        permanent: true,
+        source: '/charts',
+      },
+      {
+        destination: '/view/:name',
+        permanent: true,
+        source: '/view/styles/:style/:name',
+      },
+      {
+        destination: '/docs/:path*.md',
+        permanent: true,
+        source: '/docs/:path*.mdx',
+      },
+      {
+        destination: '/docs/mcp',
+        permanent: false,
+        source: '/mcp',
+      },
+    ]
+  },
   transpilePackages: [
     '@gentleduck/registry-ui-duckui',
     '@gentleduck/registry-examples-duckui',
@@ -14,92 +100,6 @@ const nextConfig: NextConfig = {
     '@gentleduck/libs',
     '@gentleduck/hooks',
   ],
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'zpgqhogoevbgpxustvmo.supabase.co',
-      },
-      {
-        protocol: 'https',
-        hostname: 'media.discordapp.net', // Add this line for Discord images
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com', // Add this line for Discord images
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.pexels.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'plus.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'github.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'raw.githubusercontent.com',
-      },
-    ],
-  },
-  redirects: async () => {
-    return [
-      {
-        source: '/components',
-        destination: '/docs/components',
-        permanent: true,
-      },
-      {
-        source: '/docs/primitives/:path*',
-        destination: '/docs/components/:path*',
-        permanent: true,
-      },
-      {
-        source: '/docs/forms',
-        destination: '/docs/components/react-hook-form',
-        permanent: false,
-      },
-      {
-        source: '/docs/forms/react-hook-form',
-        destination: '/docs/components/form',
-        permanent: false,
-      },
-      {
-        source: '/sidebar',
-        destination: '/docs/components/sidebar',
-        permanent: true,
-      },
-      {
-        source: '/react-19',
-        destination: '/docs/react-19',
-        permanent: true,
-      },
-      {
-        source: '/charts',
-        destination: '/charts/area',
-        permanent: true,
-      },
-      {
-        source: '/view/styles/:style/:name',
-        destination: '/view/:name',
-        permanent: true,
-      },
-      {
-        source: '/docs/:path*.mdx',
-        destination: '/docs/:path*.md',
-        permanent: true,
-      },
-      {
-        source: '/mcp',
-        destination: '/docs/mcp',
-        permanent: false,
-      },
-    ]
-  },
   // rewrites: async () => {
   //   return [
   //     {

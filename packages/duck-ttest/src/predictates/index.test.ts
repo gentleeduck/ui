@@ -64,7 +64,7 @@ type Test_IsPartial_False = AssertTrue<
 >
 
 type Test_IsPartial_Empty = AssertTrue<
-  Equal<IsPartial<{}>, true>,
+  Equal<IsPartial<object>, true>,
   'Expected IsPartial to return true for empty object (all keys optional)'
 >
 
@@ -83,6 +83,21 @@ type Test_IsRequired_False = AssertTrue<
 >
 
 type Test_IsRequired_Empty = AssertTrue<
-  Equal<IsRequired<{}>, true>,
+  Equal<IsRequired<object>, true>,
   'Expected IsRequired to return true for empty object (no optional keys)'
 >
+
+/* @__IGNORED__@ */ type _IGNORE = [
+  Test_IsMutable_True,
+  Test_IsMutable_False,
+  Test_IsMutable_Mixed,
+  Test_IsReadonly_True,
+  Test_IsReadonly_False,
+  Test_IsReadonly_Mixed,
+  Test_IsPartial_True,
+  Test_IsPartial_False,
+  Test_IsPartial_Empty,
+  Test_IsRequired_True,
+  Test_IsRequired_False,
+  Test_IsRequired_Empty,
+]

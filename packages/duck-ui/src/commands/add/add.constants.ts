@@ -1,26 +1,26 @@
-import { addCommandConfig } from './add.types'
+import type { addCommandConfig } from './add.types'
 
 export const add_command_config: addCommandConfig = {
-  name: 'add',
-  description: 'add the project',
   argumentss: {
     arg_1: {
-      name: '[components...]',
+      defaultValue: [],
       description:
         'names, url or local path to component to install when you do not provide this you will be directed to a list of the components to select from',
-      defaultValue: [],
+      name: '[components...]',
     },
   },
+  description: 'add the project',
+  name: 'add',
   options: {
     option_1: {
-      flags: '-y, --yes',
-      description: 'skip confirmation prompt.',
       defaultValue: false,
+      description: 'skip confirmation prompt.',
+      flags: '-y, --yes',
     },
     option_2: {
-      flags: '-f, --force',
-      description: 'overwrite existing components',
       defaultValue: false,
+      description: 'overwrite existing components',
+      flags: '-f, --force',
     },
     // option_3: {
     //   flags: '-r, --registry',

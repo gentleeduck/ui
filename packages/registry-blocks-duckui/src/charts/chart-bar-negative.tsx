@@ -8,7 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui-duckui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui-duckui/chart'
 import { TrendingUp } from 'lucide-react'
 import { Bar, BarChart, CartesianGrid, Cell, LabelList } from 'recharts'
 
@@ -40,15 +45,15 @@ export default function Component() {
         <ChartContainer config={chartConfig}>
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel hideIndicator />} />
+            <ChartTooltip content={<ChartTooltipContent hideIndicator hideLabel />} cursor={false} />
             <Bar dataKey="visitors">
-              <LabelList position="top" dataKey="month" fillOpacity={1} />
+              <LabelList dataKey="month" fillOpacity={1} position="top" />
               {chartData.map((item) => {
                 if (item.visitors > 0) {
-                  return <Cell key={item.month} fill={'var(--chart-1'} />
+                  return <Cell fill={'var(--chart-1'} key={item.month} />
                 }
 
-                return <Cell key={item.month} fill={'var(--chart-2'} />
+                return <Cell fill={'var(--chart-2'} key={item.month} />
               })}
             </Bar>
           </BarChart>
@@ -58,7 +63,7 @@ export default function Component() {
         <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">Showing total visitors for the last 6 months</div>
+        <div className="text-muted-foreground leading-none">Showing total visitors for the last 6 months</div>
       </CardFooter>
     </Card>
   )

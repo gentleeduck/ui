@@ -13,8 +13,8 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
         {
           // @ts-ignore
           <aside
-            className="border-grid fixed top-[4rem] z-30 hidden h-[calc(100vh-4rem)] w-full shrink-0 border-r md:sticky md:block"
-            aria-hidden="undefined">
+            aria-hidden="undefined"
+            className="border-grid fixed top-[4rem] z-30 hidden h-[calc(100vh-4rem)] w-full shrink-0 border-r md:sticky md:block">
             <div className="h-full overflow-auto py-8">
               <DocsSidebarNav config={docsConfig} />
             </div>

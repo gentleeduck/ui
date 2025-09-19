@@ -1,13 +1,13 @@
 'use client'
 
-import DialogPrimitive, {
-  useDialogContext,
-  // useDrawerDrag,
-} from '@gentleduck/primitives/dialog'
 // import { sheetVariants } from './sheet.constants'
 // import { SheetContentProps, SheetWrapperProps } from './sheet.types'
 import { cn } from '@gentleduck/libs/cn'
 import { AnimSheetVariants, AnimVariants } from '@gentleduck/motion/anim'
+import DialogPrimitive, {
+  useDialogContext,
+  // useDrawerDrag,
+} from '@gentleduck/primitives/dialog'
 import React from 'react'
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../dialog'
 import { useDrawerDrag } from './drawer.hooks'
@@ -96,9 +96,9 @@ const DrawerContent = ({
   const { open, ref, onOpenChange } = useDialogContext()
   const holdUpThreshold = 10
   const { onPointerDown, onPointerUp, onPointerMove, isDragging } = useDrawerDrag({
-    ref: ref as React.RefObject<HTMLDialogElement>,
-    onOpenChange,
     holdUpThreshold,
+    onOpenChange,
+    ref: ref as React.RefObject<HTMLDialogElement>,
   })
   const id = React.useId()
 
@@ -113,11 +113,11 @@ const DrawerContent = ({
 
   return (
     <dialog
-      ref={ref}
+      closedby="any"
       data-drawer
       data-open={open ? 'true' : 'false'}
       id={'drawer' + id}
-      closedby="any"
+      ref={ref}
       {...props}
       className={cn(
         `ease-cubic-bezier(0.32,_0.72,_0,_1)
@@ -129,11 +129,11 @@ const DrawerContent = ({
         "p-0 select-none touch-none"
       )}>
       <div
+        onPointerCancel={onPointerUp}
         onPointerDown={onPointerDown}
+        onPointerLeave={onPointerUp}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        onPointerLeave={onPointerUp}
-        onPointerCancel={onPointerUp}
         // style={{
         //   willChange: 'transform',
         //   touchAction: 'none',

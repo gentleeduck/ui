@@ -1,9 +1,7 @@
 'use client'
 
-import * as React from 'react'
 import { Calendar, MoreHorizontal, Tags, Trash, User } from 'lucide-react'
-
-import { Button } from '@/registry/registry-ui-components'
+import * as React from 'react'
 import {
   Command,
   CommandEmpty,
@@ -24,6 +22,7 @@ import {
   DropdownMenuTrigger,
   TooltipProvider,
 } from '@/registry/default/ui'
+import { Button } from '@/registry/registry-ui-components'
 
 const labels = ['feature', 'bug', 'enhancement', 'documentation', 'design', 'question', 'maintenance']
 
@@ -38,9 +37,9 @@ export default function ComboboxDropdownMenu() {
           <span className="mr-2 rounded-lg bg-primary px-2 py-1 text-xs text-primary-foreground">{label}</span>
           <span className="text-muted-foreground">Create a command feature</span>
         </p>
-        <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenu onOpenChange={setOpen} open={open}>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm">
+            <Button size="sm" variant="ghost">
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
@@ -63,18 +62,18 @@ export default function ComboboxDropdownMenu() {
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent className="p-0">
                   <Command>
-                    <CommandInput placeholder="Filter label..." autoFocus={true} />
+                    <CommandInput autoFocus={true} placeholder="Filter label..." />
                     <CommandList>
                       <CommandEmpty>No label found.</CommandEmpty>
                       <CommandGroup>
                         {labels.map((label) => (
                           <CommandItem
                             key={label}
-                            value={label}
                             onSelect={(value) => {
                               setLabel(value)
                               setOpen(false)
-                            }}>
+                            }}
+                            value={label}>
                             {label}
                           </CommandItem>
                         ))}

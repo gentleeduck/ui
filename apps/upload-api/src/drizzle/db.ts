@@ -1,7 +1,7 @@
-import { ENV } from '../globals/env'
-import * as DB_SCHEMA from './schema'
-import * as RELATIONS from './relations'
 import { drizzle } from 'drizzle-orm/node-postgres'
+import { ENV } from '../globals/env'
+import * as RELATIONS from './relations'
+import * as DB_SCHEMA from './schema'
 
 // DEFINE SCHEMA.
 export const schema = {

@@ -93,6 +93,19 @@ export type CvaProps<TVariants extends Record<string, Record<string, string | st
 }
 
 /**
+ * Removes an array type from a union type.
+ * Used to exclude `class` and `className` from `VariantProps`.
+ * @template T - A union type.
+ * @example
+ * ```ts
+ * type Props = { class?: string; className?: string }
+ * type PropsWithoutArray = RemoveArray<Props>
+ * // => { class?: string; className?: string }
+ * ```
+ */
+type RemoveArray<T> = T extends any[] ? never : T
+
+/**
  * Extracts only the variant-related props from a CVA function’s signature,
  * omitting `class` and `className`.
  *
@@ -112,7 +125,7 @@ export type CvaProps<TVariants extends Record<string, Record<string, string | st
  */
 export type VariantProps<T> = T extends (props?: infer P) => string
   ? {
-      [K in keyof P as K extends 'class' | 'className' ? never : K]: P[K]
+      [K in keyof P as K extends 'class' | 'className' ? never : K]: RemoveArray<P[K]>
     }
   : never
 

@@ -14,50 +14,50 @@ import {
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@gentleduck/registry-ui-duckui/table'
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from '@tanstack/react-table'
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
 const data: Payment[] = [
   {
-    id: 'm5gr84i9',
     amount: 316,
-    status: 'success',
     email: 'ken99@example.com',
+    id: 'm5gr84i9',
+    status: 'success',
   },
   {
-    id: '3u1reuv4',
     amount: 242,
-    status: 'success',
     email: 'Abe45@example.com',
-  },
-  {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@example.com',
-  },
-  {
-    id: '5kma53ae',
-    amount: 874,
+    id: '3u1reuv4',
     status: 'success',
-    email: 'Silas22@example.com',
   },
   {
-    id: 'bhqecj4p',
+    amount: 837,
+    email: 'Monserrat44@example.com',
+    id: 'derv1ws0',
+    status: 'processing',
+  },
+  {
+    amount: 874,
+    email: 'Silas22@example.com',
+    id: '5kma53ae',
+    status: 'success',
+  },
+  {
     amount: 721,
-    status: 'failed',
     email: 'carmella@example.com',
+    id: 'bhqecj4p',
+    status: 'failed',
   },
 ]
 
@@ -70,70 +70,68 @@ export type Payment = {
 
 export const columns: ColumnDef<Payment>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
     cell: ({ row }) => (
       <Checkbox
+        aria-label="Select row"
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
       />
     ),
-    enableSorting: false,
     enableHiding: false,
+    enableSorting: false,
+    header: ({ table }) => (
+      <Checkbox
+        aria-label="Select all"
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+      />
+    ),
+    id: 'select',
   },
   {
     accessorKey: 'status',
-    header: 'Status',
     cell: ({ row }) => <div className="capitalize">{row.getValue('status')}</div>,
+    header: 'Status',
   },
   {
     accessorKey: 'email',
+    cell: ({ row }) => <div className="text-sm lowercase">{row.getValue('email')}</div>,
     header: ({ column }) => {
       return (
         <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           className="text-sm"
-          size={'sm'}>
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          size={'sm'}
+          variant="ghost">
           Email
           <ArrowUpDown />
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase text-sm">{row.getValue('email')}</div>,
   },
   {
     accessorKey: 'amount',
-    header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('amount'))
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
         currency: 'USD',
+        style: 'currency',
       }).format(amount)
 
       return <div className="text-right font-medium text-sm">{formatted}</div>
     },
+    header: () => <div className="text-right">Amount</div>,
   },
   {
-    id: 'actions',
-    enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original
 
       return (
         <DropdownMenu placement="bottom-end">
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-8 h-8 p-0 ml-auto" size={'sm'}>
+            <Button className="ml-auto h-8 w-8 p-0" size={'sm'} variant="ghost">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal />
             </Button>
@@ -150,6 +148,8 @@ export const columns: ColumnDef<Payment>[] = [
         </DropdownMenu>
       )
     },
+    enableHiding: false,
+    id: 'actions',
   },
 ]
 
@@ -160,21 +160,21 @@ export default function DataTableDemo() {
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
-    data,
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    data,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
     state: {
-      sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      sorting,
     },
   })
 
@@ -182,14 +182,14 @@ export default function DataTableDemo() {
     <div className="w-full">
       <div className="flex items-center justify-between py-4">
         <Input
+          className="max-w-sm"
+          onChange={(event) => table.getColumn('email')?.setFilterValue(event.currentTarget.value)}
           placeholder="Filter emails..."
           value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('email')?.setFilterValue(event.currentTarget.value)}
-          className="max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto text-sm">
+            <Button className="ml-auto text-sm" variant="outline">
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -200,9 +200,9 @@ export default function DataTableDemo() {
               .map((column) => {
                 return (
                   <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
                     checked={column.getIsVisible()}
+                    className="capitalize"
+                    key={column.id}
                     onCheckedChange={(value) => column.toggleVisibility(!!value)}>
                     {column.id}
                   </DropdownMenuCheckboxItem>
@@ -229,7 +229,7 @@ export default function DataTableDemo() {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow data-state={row.getIsSelected() && 'selected'} key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
@@ -237,7 +237,7 @@ export default function DataTableDemo() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell className="h-24 text-center" colSpan={columns.length}>
                   No results.
                 </TableCell>
               </TableRow>
@@ -246,19 +246,19 @@ export default function DataTableDemo() {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="text-muted-foreground flex-1 text-sm">
+        <div className="flex-1 text-muted-foreground text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
           selected.
         </div>
         <div className="space-x-2">
           <Button
-            variant="outline"
-            size="sm"
+            disabled={!table.getCanPreviousPage()}
             onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}>
+            size="sm"
+            variant="outline">
             Previous
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <Button disabled={!table.getCanNextPage()} onClick={() => table.nextPage()} size="sm" variant="outline">
             Next
           </Button>
         </div>

@@ -28,7 +28,7 @@ export async function build_registry_components({
 
     spinner.text = `🧭 Processing registry item: ${item.name} (${idx + 1}/${registry_count})`
 
-    const files = await Promise.all(item.files.map((file) => get_file({ item, file, spinner })))
+    const files = await Promise.all(item.files.map((file) => get_file({ file, item, spinner })))
 
     const payload = registry_entry_schema.safeParse({ ...item, files })
 
@@ -68,14 +68,14 @@ export async function get_file({ file, item, spinner }: GetFileParams): Promise<
     spinner.text = `🧭 Processing file: ${file.path} (${item.name})`
 
     const content = await get_file_content({ file, spinner })
-    const source_file = await gen_temp_source_files({ file, content, spinner })
-    const target = await get_file_target({ item, file, spinner })
+    const source_file = await gen_temp_source_files({ content, file, spinner })
+    const target = await get_file_target({ file, item, spinner })
 
     return {
-      path: file.path,
-      type: item.type,
       content: source_file?.getText(),
+      path: file.path,
       target,
+      type: item.type,
     }
   } catch (error) {
     spinner.fail(`Failed to process file ${file.path}: ${error}`)

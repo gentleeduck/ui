@@ -1,15 +1,15 @@
+import path from 'node:path'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
-import path from 'node:path'
-import { Ora } from 'ora'
+import type { Ora } from 'ora'
 import prompts from 'prompts'
+import type { InitOptions } from '~/commands/init'
 import { get_registry_base_color } from '~/utils/get-registry'
 import { IGNORED_DIRECTORIES } from '../../get-project-info'
 import { highlighter } from '../../text-styling'
 import { duckui_config_prompts, duckui_prompts } from './preflight-duckui.constants'
 import { duckui_prompts_schema, preflight_duckui_options_schema } from './preflight-duckui.dto'
 import { generateThemeCSS, init_duckui_config } from './preflight-duckui.libs'
-import { InitOptions } from '~/commands/init'
 
 export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
   try {
@@ -57,9 +57,9 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
         if (!_options.yes) {
           spinner.stop()
           overwrite = await prompts({
-            type: 'confirm',
-            name: 'overwrite',
             message: `The ${highlighter.info('duck-ui')} config already exists, do you want to overwrite it?`,
+            name: 'overwrite',
+            type: 'confirm',
           })
           spinner.start()
         }

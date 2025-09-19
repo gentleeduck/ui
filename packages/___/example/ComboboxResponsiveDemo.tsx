@@ -24,20 +24,20 @@ import {
 
 const data: CommandListGroupDataType[] = [
   {
-    label: 'Ubuntu',
     element: { children: 'Ubuntu' },
+    label: 'Ubuntu',
   },
   {
-    label: 'Debian',
     element: { children: 'Debian' },
+    label: 'Debian',
   },
   {
-    label: 'Fedora',
     element: { children: 'Fedora' },
+    label: 'Fedora',
   },
   {
-    label: 'Arch Linux',
     element: { children: 'Arch Linux' },
+    label: 'Arch Linux',
   },
 ]
 
@@ -49,13 +49,13 @@ export default function ComboBoxResponsive() {
   if (isDesktop) {
     return (
       <TooltipProvider>
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover onOpenChange={setOpen} open={open}>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="w-[150px] justify-start">
+            <Button className="w-[150px] justify-start" variant="outline">
               {selectedStatus ? <>{selectedStatus}</> : <>+ Set status</>}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0" align="start">
+          <PopoverContent align="start" className="w-[200px] p-0">
             <StatusList setSelectedStatus={setSelectedStatus} />
           </PopoverContent>
         </Popover>
@@ -65,9 +65,9 @@ export default function ComboBoxResponsive() {
 
   return (
     <TooltipProvider>
-      <Drawer open={open} onOpenChange={setOpen}>
+      <Drawer onOpenChange={setOpen} open={open}>
         <DrawerTrigger asChild>
-          <Button variant="outline" className="w-[150px] justify-start">
+          <Button className="w-[150px] justify-start" variant="outline">
             {selectedStatus ? <>{selectedStatus}</> : <>+ Set Distro</>}
           </Button>
         </DrawerTrigger>
@@ -88,14 +88,14 @@ function StatusList({ setSelectedStatus }: { setSelectedStatus: (status: string 
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandListGroup
+          className="h-[166px]"
           data={data}
           group={[data.length]}
-          className="h-[166px]"
           groupheading={['Suggestions', 'Settings']}
-          selected={['']}
           onSelect={{
             key: (value) => setSelectedStatus(value as string),
           }}
+          selected={['']}
         />
       </CommandList>
     </Command>

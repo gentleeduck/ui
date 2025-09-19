@@ -9,11 +9,10 @@ import {
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
 import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
-import React from 'react'
 
 export default function CommandDemo() {
   return (
-    <Command className="border h-fit pt-0">
+    <Command className="h-fit border pt-0">
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
@@ -36,21 +35,21 @@ export default function CommandDemo() {
           <CommandItem>
             <User />
             <span>Profile</span>
-            <CommandShortcut onKeysPressed={() => {}} keys="⌘P">
+            <CommandShortcut keys="⌘P" onKeysPressed={() => {}}>
               ⌘P
             </CommandShortcut>
           </CommandItem>
           <CommandItem>
             <CreditCard />
             <span>Billing</span>
-            <CommandShortcut onKeysPressed={() => {}} keys="⌘B">
+            <CommandShortcut keys="⌘B" onKeysPressed={() => {}}>
               ⌘B
             </CommandShortcut>
           </CommandItem>
           <CommandItem>
             <Settings />
             <span>Settings</span>
-            <CommandShortcut onKeysPressed={() => {}} keys="⌘S">
+            <CommandShortcut keys="⌘S" onKeysPressed={() => {}}>
               ⌘S
             </CommandShortcut>
           </CommandItem>

@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
 export const init_options_schema = z.object({
-  yes: z.boolean().default(false),
   cwd: z.string().default(process.cwd()),
+  yes: z.boolean().default(false),
 })
 
 export const init_arguments_schema = z.array(z.string()).default([])

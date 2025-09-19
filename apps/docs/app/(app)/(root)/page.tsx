@@ -13,7 +13,6 @@ export const dynamic = 'force-static'
 export const revalidate = false
 
 export const metadata: Metadata = {
-  title,
   description,
   openGraph: {
     images: [
@@ -22,6 +21,7 @@ export const metadata: Metadata = {
       },
     ],
   },
+  title,
   twitter: {
     card: 'summary_large_image',
     images: [
@@ -43,14 +43,14 @@ export default function Page() {
           <Button size="sm">
             <Link href="/docs/installation">Get Started</Link>
           </Button>
-          <Button variant="ghost" size="sm">
+          <Button size="sm" variant="ghost">
             <Link href="/docs/components">What we have?</Link>
           </Button>
         </PageActions>
       </PageHeader>
       <div className="container-wrapper">
         <div className="container py-6">
-          <section id="themes" className="scroll-mt-20">
+          <section className="scroll-mt-20" id="themes">
             <ThemeWrapper>
               <CardsDemo />
             </ThemeWrapper>

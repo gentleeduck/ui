@@ -33,14 +33,14 @@ function usePresence(present: boolean) {
   const initialState = present ? 'mounted' : 'unmounted'
   const [state, send] = useStateMachine(initialState, {
     mounted: {
-      UNMOUNT: 'unmounted',
       ANIMATION_OUT: 'unmountSuspended',
-    },
-    unmountSuspended: {
-      MOUNT: 'mounted',
-      ANIMATION_END: 'unmounted',
+      UNMOUNT: 'unmounted',
     },
     unmounted: {
+      MOUNT: 'mounted',
+    },
+    unmountSuspended: {
+      ANIMATION_END: 'unmounted',
       MOUNT: 'mounted',
     },
   })

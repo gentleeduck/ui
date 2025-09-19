@@ -1,45 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck/state",
-  "version": "0.2.0",
-  "description": "A package for state management",
-  "type": "module",
-  "types": "./dist/index-jiSPvUlD.d.ts",
-  "main": "./dist/index.js",
-  "exports": {
-    ".": "./dist/index.js",
-    "./*": "./dist/*/index.js",
-    "./examples/*": "./src/examples/*"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsdown",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
-  "keywords": [
-    "react",
-    "components",
-    "performance"
-  ],
   "author": "wilddcuk",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-state"
-  },
   "bugs": {
     "url": "https://github.com/gentleduck/ui/issues"
   },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-state#readme",
-  "engines": {
-    "node": ">=22.0.0"
-  },
+  "description": "A package for state management",
   "devDependencies": {
     "@changesets/cli": "catalog:",
     "@gentleduck/tsdown-config": "workspace:*",
@@ -48,11 +13,46 @@
     "husky": "catalog:",
     "tsdown": "catalog:"
   },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*/index.js",
+    "./examples/*": "./src/examples/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-state#readme",
+  "keywords": [
+    "react",
+    "components",
+    "performance"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "name": "@gentleduck/state",
+  "packageManager": "pnpm@10.10.0",
   "peerDependencies": {
     "@types/node": "catalog:",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
     "typescript": "catalog:"
   },
-  "packageManager": "pnpm@10.10.0"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-state"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version"
+  },
+  "type": "module",
+  "types": "./dist/index-jiSPvUlD.d.ts",
+  "version": "0.2.0"
 }

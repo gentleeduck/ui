@@ -1,12 +1,12 @@
 import path from 'node:path'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
-import { type PackageJson } from 'type-fest'
+import type { Ora } from 'ora'
+import type { PackageJson } from 'type-fest'
+import { ZodError } from 'zod'
+import { duck_ui_schema } from '../preflight-configs/preflight-duckui'
 import { highlighter, logger } from '../text-styling'
 import { IGNORED_DIRECTORIES } from './get-project-info.constants'
-import { Ora } from 'ora'
-import { duck_ui_schema } from '../preflight-configs/preflight-duckui'
-import { ZodError } from 'zod'
 import { ts_config_schema } from './get-project-info.dto'
 
 // Get package.json

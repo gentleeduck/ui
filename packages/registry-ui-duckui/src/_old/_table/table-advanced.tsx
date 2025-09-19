@@ -1,5 +1,8 @@
 import { cn } from '@gentleduck/libs/cn'
-import { TableHead, TableHeader, TableRow } from '../table'
+import { ArrowDownIcon, ArrowUpDown, ArrowUpIcon } from 'lucide-react'
+import React from 'react'
+import { Button } from '../button'
+import { Checkbox } from '../checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,17 +11,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../dropdown-menu'
-import { ArrowDownIcon, ArrowUpDown, ArrowUpIcon } from 'lucide-react'
-import React from 'react'
-import { Button } from '../button'
+import { Input } from '../input'
+import { ScrollArea,  } from '../scroll-area/'
+import { TableHead, TableHeader, TableRow } from '../table'
 import { Table, TableBody } from './table'
 import { dropdownMenuOptions } from './table-advanced.constants'
 import {
   DuckTableBodyProps,
   DuckTableContextType,
   DuckTableHeadCheckboxProps,
-  DuckTableHeadSelectableProps,
   DuckTableHeaderProps,
+  DuckTableHeadSelectableProps,
   DuckTableProps,
   DuckTableProviderProps,
   DuckTableRowCheckboxProps,
@@ -27,9 +30,6 @@ import {
   TableContentDataType,
   TableSearchStateType,
 } from './table-advanced.types'
-import { ScrollArea,  } from '../scroll-area/'
-import { Checkbox } from '../checkbox'
-import { Input } from '../input'
 
 export const DuckTableContext = React.createContext<DuckTableContextType<any> | null>(null)
 
@@ -66,13 +66,13 @@ export function DuckTableProvider<TColumnName extends string[]>({
   return (
     <DuckTable.Provider
       value={{
-        tableColumns,
-        setTableColumns,
-        tableRows: table_rows,
-        selectedRows,
-        setSelectedRows,
         search,
+        selectedRows,
         setSearch,
+        setSelectedRows,
+        setTableColumns,
+        tableColumns,
+        tableRows: table_rows,
       }}>
       <div className={cn(`w-full- flex flex-col gap-4 w-[800px] h-[500px]`, className)} {...props}>
         {children}
@@ -121,7 +121,7 @@ export function DuckTableHeader({}: DuckTableHeaderProps) {
                     {...props}>
                     {idx === 0 ? (
                       <div className="flex items-center gap-4">
-                        <DuckTableHeadCheckbox type="header" className={cn(sortable && 'justify-end')} />
+                        <DuckTableHeadCheckbox className={cn(sortable && 'justify-end')} type="header" />
                         {/*NOTE: Rendering Sorting else rendering label*/}
                         <Component />
                       </div>
@@ -146,6 +146,13 @@ export function DuckTableHeadCheckbox({ className, ...props }: DuckTableHeadChec
   return (
     <div className={cn('flex items-center w-fit data-[state=open]:bg-accent text-xs capitalize', className)} {...props}>
       <Checkbox
+        checked={
+          selectedRows.size === tableRows.length
+            ? true
+            : selectedRows.size < tableRows.length && selectedRows.size
+              ? 'indeterminate'
+              : false
+        }
         className="border-border"
         onClick={() => {
           setSelectedRows(() => {
@@ -155,13 +162,6 @@ export function DuckTableHeadCheckbox({ className, ...props }: DuckTableHeadChec
             return new Set(tableRows.map((item) => item))
           })
         }}
-        checked={
-          selectedRows.size === tableRows.length
-            ? true
-            : selectedRows.size < tableRows.length && selectedRows.size
-              ? 'indeterminate'
-              : false
-        }
       />
     </div>
   )
@@ -181,22 +181,10 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              size="sm"
-              aria-label="table-column-options"
               aria-controls="dropdown-menu"
-              name="dropdown-menu-trigger"
-              variant="ghost"
+              aria-label="table-column-options"
               aria-sort={column['aria-sort']}
               className="data-[state=open]:bg-accent [&>div]:justify-between w-full [&>div]:w-full capitalize"
-              secondIcon={
-                column['aria-sort'] === 'ascending' ? (
-                  <ArrowDownIcon className="text-muted-foreground" />
-                ) : column['aria-sort'] === 'descending' ? (
-                  <ArrowUpIcon className="text-muted-foreground" />
-                ) : (
-                  <ArrowUpDown className="text-muted-foreground" />
-                )
-              }
               label={
                 showLabel
                   ? {
@@ -206,7 +194,19 @@ export function DuckTableHeadSelectable<TSort extends boolean = true>({
                       side: 'top',
                     }
                   : undefined
-              }>
+              }
+              name="dropdown-menu-trigger"
+              secondIcon={
+                column['aria-sort'] === 'ascending' ? (
+                  <ArrowDownIcon className="text-muted-foreground" />
+                ) : column['aria-sort'] === 'descending' ? (
+                  <ArrowUpIcon className="text-muted-foreground" />
+                ) : (
+                  <ArrowUpDown className="text-muted-foreground" />
+                )
+              }
+              size="sm"
+              variant="ghost">
               {(label as string) ?? children}
             </Button>
           </DropdownMenuTrigger>
@@ -275,6 +275,7 @@ export function DuckTableRowCheckbox<TColumnName extends readonly TableColumnTyp
   return (
     <div className={cn('flex items-center w-fit data-[state=open]:bg-accent text-xs capitalize', className)} {...props}>
       <Checkbox
+        checked={selectedRows.has(tableRow) ? true : false}
         className="border-border"
         onClick={() => {
           setSelectedRows(() => {
@@ -284,7 +285,6 @@ export function DuckTableRowCheckbox<TColumnName extends readonly TableColumnTyp
             return new Set([...selectedRows, tableRow])
           })
         }}
-        checked={selectedRows.has(tableRow) ? true : false}
       />
     </div>
   )

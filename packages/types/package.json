@@ -1,36 +1,36 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck/types",
-  "version": "0.0.1",
+  "author": "gentleduck",
   "description": "this is a package for types and utils for typescript",
-  "private": true,
-  "type": "module",
-  "types": "index.ts",
-  "main": "index.ts",
+  "devDependencies": {
+    "@gentleduck/biome-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "exports": {
     ".": "./index.ts"
-  },
-  "scripts": {
-    "start:env": "tsx ./index.ts",
-    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
-    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./"
   },
   "keywords": [
     "type",
     "typescript",
     "typescript-utilities"
   ],
-  "author": "gentleduck",
   "license": "MIT",
-  "engines": {
-    "node": ">=22.0.0"
-  },
+  "main": "index.ts",
+  "name": "@gentleduck/types",
+  "packageManager": "pnpm@10.10.0",
   "peelDependencies": {},
-  "devDependencies": {
-    "@gentleduck/biome-config": "workspace:*",
-    "@gentleduck/typescript-config": "workspace:*"
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "start:env": "tsx ./index.ts"
   },
-  "packageManager": "pnpm@10.10.0"
+  "type": "module",
+  "types": "index.ts",
+  "version": "0.0.1"
 }

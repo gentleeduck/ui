@@ -12,45 +12,45 @@ import {
 const invoices = [
   {
     invoice: 'INV101',
+    paymentMethod: 'Apple Pay',
     paymentStatus: 'Unpaid',
     totalAmount: '$180.00',
-    paymentMethod: 'Apple Pay',
   },
   {
     invoice: 'INV102',
+    paymentMethod: 'Credit Card',
     paymentStatus: 'Paid',
     totalAmount: '$720.00',
-    paymentMethod: 'Credit Card',
   },
   {
     invoice: 'INV103',
+    paymentMethod: 'PayPal',
     paymentStatus: 'Pending',
     totalAmount: '$95.00',
-    paymentMethod: 'PayPal',
   },
   {
     invoice: 'INV104',
+    paymentMethod: 'Bank Transfer',
     paymentStatus: 'Paid',
     totalAmount: '$1,250.00',
-    paymentMethod: 'Bank Transfer',
   },
   {
     invoice: 'INV105',
+    paymentMethod: 'Debit Card',
     paymentStatus: 'Unpaid',
     totalAmount: '$430.00',
-    paymentMethod: 'Debit Card',
   },
   {
     invoice: 'INV106',
+    paymentMethod: 'Apple Pay',
     paymentStatus: 'Pending',
     totalAmount: '$610.00',
-    paymentMethod: 'Apple Pay',
   },
   {
     invoice: 'INV107',
+    paymentMethod: 'Google Pay',
     paymentStatus: 'Paid',
     totalAmount: '$390.00',
-    paymentMethod: 'Google Pay',
   },
 ]
 

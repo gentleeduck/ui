@@ -1,7 +1,7 @@
 import { toast } from 'sonner'
+import { uuidv7 } from 'uuidv7'
 import { FileTypeEnum } from './upload.constants'
 import { FileType } from './upload.types'
-import { uuidv7 } from 'uuidv7'
 
 export const getFileType = (type: string): string => {
   if (!type) return FileTypeEnum.Unknown
@@ -26,7 +26,6 @@ export const getAttachmentsToState = ({
 
   const newAttachments: FileType[] = []
 
-  // biome-ignore lint/style/useForOf: <explanation>
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
 
@@ -40,12 +39,12 @@ export const getAttachmentsToState = ({
     // }
 
     const attachment: FileType = {
-      id: uuidv7(),
       file: file,
+      id: uuidv7(),
       name: file.name,
-      url: null,
-      type: file.type,
       size: file.size,
+      type: file.type,
+      url: null,
     }
 
     newAttachments.push(attachment)

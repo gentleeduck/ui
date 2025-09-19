@@ -7,58 +7,58 @@ export const radiusSchema = z.string()
 // CSS variables schema
 export const css_vars_schema = z
   .object({
-    background: hsl_schema,
-    foreground: hsl_schema,
-    card: hsl_schema,
-    'card-foreground': hsl_schema,
-    popover: hsl_schema,
-    'popover-foreground': hsl_schema,
-    primary: hsl_schema,
-    'primary-foreground': hsl_schema,
-    secondary: hsl_schema,
-    'secondary-foreground': hsl_schema,
-    muted: hsl_schema,
-    'muted-foreground': hsl_schema,
     accent: hsl_schema,
     'accent-foreground': hsl_schema,
-    destructive: hsl_schema,
-    'destructive-foreground': hsl_schema,
-    warning: hsl_schema,
-    'warning-foreground': hsl_schema,
+    background: hsl_schema,
     border: hsl_schema,
-    input: hsl_schema,
-    ring: hsl_schema,
-    radius: radiusSchema,
+    card: hsl_schema,
+    'card-foreground': hsl_schema,
     'chart-1': hsl_schema,
     'chart-2': hsl_schema,
     'chart-3': hsl_schema,
     'chart-4': hsl_schema,
     'chart-5': hsl_schema,
+    destructive: hsl_schema,
+    'destructive-foreground': hsl_schema,
+    foreground: hsl_schema,
+    input: hsl_schema,
+    muted: hsl_schema,
+    'muted-foreground': hsl_schema,
+    popover: hsl_schema,
+    'popover-foreground': hsl_schema,
+    primary: hsl_schema,
+    'primary-foreground': hsl_schema,
+    radius: radiusSchema,
+    ring: hsl_schema,
+    secondary: hsl_schema,
+    'secondary-foreground': hsl_schema,
+    warning: hsl_schema,
+    'warning-foreground': hsl_schema,
   })
   .catchall(z.string())
 export type CSSVars = z.infer<typeof css_vars_schema>
 
 export const color_scheme = z.object({
-  name: z.string(),
-  label: z.string().optional(),
   activeColor: z
     .object({
-      light: hsl_schema,
       dark: hsl_schema,
+      light: hsl_schema,
     })
     .optional(),
-  cssVars: z.object({
-    light: css_vars_schema,
-    dark: css_vars_schema.omit({ radius: true }),
-    // This will be used for themes not base_colors
-    theme: z.object({}).optional(),
-  }),
   // This will be used for themes not base_colors
   css: z
     .object({
       '@layer base': z.object({}),
     })
     .optional(),
+  cssVars: z.object({
+    dark: css_vars_schema.omit({ radius: true }),
+    light: css_vars_schema,
+    // This will be used for themes not base_colors
+    theme: z.object({}).optional(),
+  }),
+  label: z.string().optional(),
+  name: z.string(),
 })
 export type ColorScheme = z.infer<typeof color_scheme>
 

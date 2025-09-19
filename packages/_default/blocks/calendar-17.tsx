@@ -16,36 +16,36 @@ export default function Calendar17() {
     <Card className="w-fit py-4">
       <CardContent className="px-4">
         <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
           className="bg-transparent p-0 [--cell-size:2.8rem]"
+          mode="single"
+          onSelect={setDate}
+          selected={date}
         />
       </CardContent>
       <CardFooter className="*:[div]:w-full flex gap-2 border-t px-4 pb-0 pt-4">
         <div className="flex-1">
-          <Label htmlFor="time-from" className="sr-only">
+          <Label className="sr-only" htmlFor="time-from">
             Start Time
           </Label>
           <Input
-            id="time-from"
-            type="time"
-            step="1"
-            defaultValue="10:30:00"
             className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+            defaultValue="10:30:00"
+            id="time-from"
+            step="1"
+            type="time"
           />
         </div>
         <span>-</span>
         <div className="flex-1">
-          <Label htmlFor="time-to" className="sr-only">
+          <Label className="sr-only" htmlFor="time-to">
             End Time
           </Label>
           <Input
-            id="time-to"
-            type="time"
-            step="1"
-            defaultValue="12:30:00"
             className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+            defaultValue="12:30:00"
+            id="time-to"
+            step="1"
+            type="time"
           />
         </div>
       </CardFooter>

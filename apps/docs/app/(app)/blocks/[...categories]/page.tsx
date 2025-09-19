@@ -8,29 +8,29 @@ export const dynamicParams = false
 export async function generateStaticParams() {
   const registryCategories = [
     {
+      hidden: false,
       name: 'Sidebar',
       slug: 'sidebar',
-      hidden: false,
     },
     {
+      hidden: true,
       name: 'Dashboard',
       slug: 'dashboard',
-      hidden: true,
     },
     {
-      name: 'Authentication',
-      slug: 'authentication',
       hidden: false,
+      name: 'Authentication',
+      slug: 'authentications',
     },
     {
+      hidden: false,
       name: 'Login',
       slug: 'login',
-      hidden: false,
     },
     {
+      hidden: false,
       name: 'Calendar',
       slug: 'calendar',
-      hidden: false,
     },
   ]
   return registryCategories.map((category) => ({
@@ -45,7 +45,7 @@ export default async function BlocksPage({ params }: { params: Promise<{ categor
   return (
     <div className="flex flex-col gap-12 md:gap-24">
       {blocks.map((name) => (
-        <BlockDisplay name={name} key={name} />
+        <BlockDisplay key={name} name={name} />
       ))}
     </div>
   )

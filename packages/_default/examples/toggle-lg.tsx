@@ -4,7 +4,7 @@ import { Toggle } from "@/registry/default/ui/toggle"
 
 export default function ToggleLg() {
   return (
-    <Toggle size="lg" aria-label="Toggle italic">
+    <Toggle aria-label="Toggle italic" size="lg">
       <Italic className="h-4 w-4" />
     </Toggle>
   )

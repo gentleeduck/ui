@@ -22,8 +22,8 @@ export async function BlockDisplay({ name }: { name: string }) {
   ])
 
   return (
-    <BlockViewer item={item} tree={tree} highlightedFiles={highlightedFiles}>
-      <ComponentPreview name={item.name} hideCode />
+    <BlockViewer highlightedFiles={highlightedFiles} item={item} tree={tree}>
+      <ComponentPreview hideCode name={item.name} />
     </BlockViewer>
   )
 }

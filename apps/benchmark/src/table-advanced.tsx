@@ -1,5 +1,24 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@gentleduck/registry-ui-duckui/alert-dialog'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Pagination, PaginationContent, PaginationItem } from '@gentleduck/registry-ui-duckui/pagination'
 import { Portal } from '@gentleduck/registry-ui-duckui/portal'
@@ -35,25 +54,6 @@ import React from 'react'
 import { cn } from './lib/utils'
 import { duck_table } from './main'
 import { DuckTableSortable } from './table-advanced.chunks'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@gentleduck/registry-ui-duckui/dropdown-menu'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@gentleduck/registry-ui-duckui/alert-dialog'
 
 export function DuckTable({ children, ...props }: React.HTMLAttributes<HTMLDivElement> & {}) {
   return (
@@ -69,21 +69,21 @@ export function DuckTableRowPerPage({ className, ...props }: React.HTMLAttribute
   const options = [5, 10, 20, 50, 100]
 
   return (
-    <div duck-table-row-per-page="" className={cn('flex items-center gap-2', className)} {...props}>
+    <div className={cn('flex items-center gap-2', className)} duck-table-row-per-page="" {...props}>
       <Label className="text-nowrap text-sm">Rows per page</Label>
       <Select
-        value={String(pageSize)}
+        id="select"
         onValueChange={(value) => {
           setPageSize(Number(value))
         }}
-        id="select">
+        value={String(pageSize)}>
         <SelectTrigger className="px-2 w-[70px] h-8 text-sm">
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="w-[65px] py-2">
           <SelectGroup>
             {options.map((item) => (
-              <SelectItem key={item} value={String(item)} className="h-4">
+              <SelectItem className="h-4" key={item} value={String(item)}>
                 {item}
               </SelectItem>
             ))}
@@ -99,7 +99,7 @@ export function DuckTableSelectedRows({ className, ...props }: React.HTMLAttribu
   const totalCount = useAtomValue(duck_table.atoms.rows)
 
   return (
-    <div duck-table-selected-rows="" className={cn('flex items-center gap-2', className)} {...props}>
+    <div className={cn('flex items-center gap-2', className)} duck-table-selected-rows="" {...props}>
       <Label className="text-nowrap">
         {selectedCount.length} of {totalCount.length} row(s) selected
       </Label>
@@ -119,22 +119,22 @@ export function DuckTablePagination({}: {}) {
       <PaginationContent className={cn('gap-2')}>
         <PaginationItem>
           <Button
-            variant="outline"
-            size="icon"
             className="p-0 !size-8"
+            disabled={isFirst}
             onClick={() => setPage(() => 1)}
-            disabled={isFirst}>
+            size="icon"
+            variant="outline">
             <ChevronsLeftIcon className="size-4" />
           </Button>
         </PaginationItem>
 
         <PaginationItem>
           <Button
-            variant="outline"
-            size="icon"
             className="p-0 !size-8"
+            disabled={isFirst}
             onClick={() => setPage((prev) => prev - 1)}
-            disabled={isFirst}>
+            size="icon"
+            variant="outline">
             <ChevronLeftIcon className="size-4" />
           </Button>
         </PaginationItem>
@@ -147,22 +147,22 @@ export function DuckTablePagination({}: {}) {
 
         <PaginationItem>
           <Button
-            variant="outline"
-            size="icon"
             className="p-0 !size-8"
+            disabled={isLast}
             onClick={() => setPage((prev) => prev + 1)}
-            disabled={isLast}>
+            size="icon"
+            variant="outline">
             <ChevronRightIcon className="size-4" />
           </Button>
         </PaginationItem>
 
         <PaginationItem>
           <Button
-            variant="outline"
-            size="icon"
             className="p-0 !size-8"
+            disabled={isLast}
             onClick={() => setPage(() => totalPages)}
-            disabled={isLast}>
+            size="icon"
+            variant="outline">
             <ChevronsRightIcon className="size-4" />
           </Button>
         </PaginationItem>
@@ -175,7 +175,7 @@ export function DuckTablePagination({}: {}) {
 export function DuckTableShape() {
   return (
     <div className="border rounded-md max- -[300px] overflow-auto">
-      <Table style={{ width: '100%', tableLayout: 'fixed' }}>
+      <Table style={{ tableLayout: 'fixed', width: '100%' }}>
         <DuckTableHeader />
 
         <DuckTableBody />
@@ -198,6 +198,13 @@ export function DuckTableHeader() {
 
     return (
       <Checkbox
+        checked={
+          selectedRows.length < mutatedRows.length && selectedRows.length > 0
+            ? 'indeterminate'
+            : selectedRows.length === mutatedRows.length && mutatedRows.length > 0
+              ? true
+              : false
+        }
         className="border-border"
         disabled={mutatedRows.length === 0}
         onChange={(e) => {
@@ -207,13 +214,6 @@ export function DuckTableHeader() {
             setSelectedRows([])
           }
         }}
-        checked={
-          selectedRows.length < mutatedRows.length && selectedRows.length > 0
-            ? 'indeterminate'
-            : selectedRows.length === mutatedRows.length && mutatedRows.length > 0
-              ? true
-              : false
-        }
       />
     )
   }
@@ -230,7 +230,6 @@ export function DuckTableHeader() {
                 </TableHead>
               )}
               <TableHead
-                key={header.label}
                 className={cn(
                   'whitespace-nowrap text-ellipsis capitalize',
                   key === colCount - 1 && 'text-right pr-3',
@@ -238,9 +237,10 @@ export function DuckTableHeader() {
                   header.sortable && key === 0 && 'pl-4',
                   header.sortable && key !== colCount - 1 && '!px-0',
                 )}
+                key={header.label}
                 style={{
-                  width: cellWidth,
                   maxWidth: cellWidth,
+                  width: cellWidth,
                 }}>
                 {header.sortable ? <DuckTableSortable header={header} /> : header.label}
               </TableHead>
@@ -265,6 +265,7 @@ export function DuckTableBody() {
 
     return (
       <Checkbox
+        checked={selectedRows.includes(id)}
         className="border-border"
         onChange={(e) => {
           if (e.currentTarget.checked) {
@@ -273,7 +274,6 @@ export function DuckTableBody() {
             setSelectedRows((prev) => prev.filter((row) => row !== id))
           }
         }}
-        checked={selectedRows.includes(id)}
       />
     )
   }
@@ -291,16 +291,16 @@ export function DuckTableBody() {
                 return (
                   <React.Fragment key={key}>
                     {key === 0 && (
-                      <TableCell key={key + 'checkbox'} className="pl-3">
+                      <TableCell className="pl-3" key={key + 'checkbox'}>
                         <RowCheckboxSelect id={row.id} />
                       </TableCell>
                     )}
                     <TableCell
-                      key={key}
                       className={cn(
                         key === 0 && 'w-[100px]',
                         key === Object.keys(_row).length - 1 && 'text-right pr-3',
-                      )}>
+                      )}
+                      key={key}>
                       {key !== Object.keys(_row).length - 1 ? (
                         value
                       ) : (
@@ -329,11 +329,11 @@ export function DuckTableRowActions({ id }: { id: string }) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger size={'icon'} icon={<MoreHorizontal />} className="rounded-sm px-1" variant={'ghost'} />
+        <DropdownMenuTrigger className="rounded-sm px-1" icon={<MoreHorizontal />} size={'icon'} variant={'ghost'} />
         <DropdownMenuContent>
           <DropdownMenuLabel className="text-start pb-0">Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem size={'sm'} icon={<Pencil />}>
+          <DropdownMenuItem icon={<Pencil />} size={'sm'}>
             Edit
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -347,9 +347,9 @@ export function DuckTableRowActions({ id }: { id: string }) {
 export function DuckTableActionsDelete() {
   const [open, setOpen] = React.useState(false)
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
+    <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger asChild onClick={() => setOpen(true)}>
-        <DropdownMenuItem size={'sm'} icon={<Trash2 />} variant={'nothing'} className="">
+        <DropdownMenuItem className="" icon={<Trash2 />} size={'sm'} variant={'nothing'}>
           Delete
         </DropdownMenuItem>
       </AlertDialogTrigger>
@@ -376,7 +376,7 @@ export function DuckTableBodyNotFound() {
   const visibleColumns = useAtomValue(duck_table.atoms.visibleColumns)
   return (
     <TableRow>
-      <TableCell colSpan={visibleColumns.length + 1} className="text-center">
+      <TableCell className="text-center" colSpan={visibleColumns.length + 1}>
         No results found
       </TableCell>
     </TableRow>

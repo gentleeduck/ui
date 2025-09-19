@@ -1,17 +1,19 @@
 {
-  "name": "@gentleduck/registry-ui",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "exports": {
-    "./lib": "./lib/",
-    ".": "./main.ts"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "vitest"
+  "dependencies": {
+    "@radix-ui/react-menubar": "^1.1.1",
+    "@testing-library/react": "^16.3.0",
+    "@vitejs/plugin-react-swc": "^3.8.0",
+    "cmdk": "^1.1.1",
+    "embla-carousel-react": "8.0.0-rc15",
+    "input-otp": "^1.2.4",
+    "react-day-picker": "^8.10.1",
+    "react-hook-form": "^7.62.0",
+    "react-icons": "^5.5.0",
+    "react-resizable-panels": "^2.0.23",
+    "recharts": "2.12.7",
+    "vite": "^6.1.6",
+    "vite-bundle-visualizer": "^1.2.1",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "devDependencies": {
     "@ahmedayob/duck-shortcut": "^0.0.2",
@@ -115,20 +117,18 @@
     "vitest": "^3.2.4",
     "zod": "catalog:"
   },
-  "dependencies": {
-    "@radix-ui/react-menubar": "^1.1.1",
-    "@testing-library/react": "^16.3.0",
-    "@vitejs/plugin-react-swc": "^3.8.0",
-    "cmdk": "^1.1.1",
-    "embla-carousel-react": "8.0.0-rc15",
-    "input-otp": "^1.2.4",
-    "react-day-picker": "^8.10.1",
-    "react-hook-form": "^7.62.0",
-    "react-icons": "^5.5.0",
-    "react-resizable-panels": "^2.0.23",
-    "recharts": "2.12.7",
-    "vite": "^6.1.6",
-    "vite-bundle-visualizer": "^1.2.1",
-    "vite-tsconfig-paths": "^4.3.2"
-  }
+  "exports": {
+    ".": "./main.ts",
+    "./lib": "./lib/"
+  },
+  "name": "@gentleduck/registry-ui",
+  "private": true,
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "type": "module",
+  "version": "0.1.0"
 }

@@ -56,29 +56,29 @@ export function CardsStats() {
           <div className="text-2xl font-bold">$15,231.89</div>
           <p className="text-xs text-muted-foreground">+20.1% from last month</p>
           <div className="h-[80px]">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer height="100%" width="100%">
               <LineChart
                 data={data}
                 margin={{
-                  top: 5,
-                  right: 10,
-                  left: 10,
                   bottom: 0,
+                  left: 10,
+                  right: 10,
+                  top: 5,
                 }}>
                 <Line
-                  type="monotone"
-                  strokeWidth={2}
-                  dataKey="revenue"
                   activeDot={{
                     r: 6,
                     style: { fill: 'var(--theme-primary)', opacity: 0.25 },
                   }}
+                  dataKey="revenue"
+                  strokeWidth={2}
                   style={
                     {
-                      stroke: 'var(--theme-primary)',
                       '--theme-primary': `hsl(${theme?.cssVars[mode === 'dark' ? 'dark' : 'light'].primary})`,
+                      stroke: 'var(--theme-primary)',
                     } as React.CSSProperties
                   }
+                  type="monotone"
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -93,15 +93,15 @@ export function CardsStats() {
           <div className="text-2xl font-bold">+2350</div>
           <p className="text-xs text-muted-foreground">+180.1% from last month</p>
           <div className="mt-4 h-[80px]">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer height="100%" width="100%">
               <BarChart data={data}>
                 <Bar
                   dataKey="subscription"
                   style={
                     {
+                      '--theme-primary': `hsl(${theme?.cssVars[mode === 'dark' ? 'dark' : 'light'].primary})`,
                       fill: 'var(--theme-primary)',
                       opacity: 1,
-                      '--theme-primary': `hsl(${theme?.cssVars[mode === 'dark' ? 'dark' : 'light'].primary})`,
                     } as React.CSSProperties
                   }
                 />

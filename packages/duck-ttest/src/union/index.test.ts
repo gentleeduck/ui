@@ -54,3 +54,11 @@ type Test_XOR = AssertTrue<
   Equal<XOR_Result, XOR_Expected>,
   'Expected XOR to return mutually exclusive properties from either type'
 >
+
+/* @__IGNORED__@ */ type _IGNORE = [
+  Test_UnionToIntersection,
+  Test_ExcludeKeys,
+  Test_OverlappingKeys,
+  Test_Only,
+  Test_XOR,
+]

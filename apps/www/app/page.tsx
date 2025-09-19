@@ -4,10 +4,10 @@ export default function Page() {
   // const html = document.documentElement
   // html.setAttribute('dir', 'rtl')
   return (
-    <div data-wrapper="" className="flex items-center place-content-center min-h-screen flex-col gap-8">
+    <div className="flex items-center place-content-center min-h-screen flex-col gap-8" data-wrapper="">
       <Tooltip>
         <TooltipTrigger>
-          <Button aria-label="Inbox button with 23 notifications" type="button" role="button">
+          <Button aria-label="Inbox button with 23 notifications" role="button" type="button">
             Button
           </Button>
         </TooltipTrigger>
@@ -26,7 +26,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@g
 
 export function AccordionDemo() {
   return (
-    <Accordion type="single" collapsible={true} className="w-full" defaultValue="item-1">
+    <Accordion className="w-full" collapsible={true} defaultValue="item-1" type="single">
       <AccordionItem value="item-1">
         <AccordionTrigger>Product Information</AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
@@ -77,7 +77,7 @@ export function CollapsibleDemo() {
   const [isOpen, setIsOpen] = React.useState(true)
 
   return (
-    <Collapsible open={true} onOpenChange={setIsOpen} className="flex w-[350px] flex-col gap-2">
+    <Collapsible className="flex w-[350px] flex-col gap-2" onOpenChange={setIsOpen} open={true}>
       <div className="flex items-center justify-between gap-4 w-full px-2">
         <h4 className="text-sm font-semibold">@peduarte starred 3 repositories</h4>
         <CollapsibleTrigger>
@@ -101,7 +101,7 @@ import { Slider } from '@gentleduck/registry-ui-duckui/slider'
 type SliderProps = React.ComponentProps<typeof Slider>
 
 export function SliderDemo({ className, ...props }: SliderProps) {
-  return <Slider defaultValue={50} max={100} step={1} className={cn('w-[60%]', className)} {...props} />
+  return <Slider className={cn('w-[60%]', className)} defaultValue={50} max={100} step={1} {...props} />
 }
 
 import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
@@ -109,14 +109,14 @@ import { Bold, Italic, Underline } from 'lucide-react'
 
 export function ToggleGroupDemo() {
   return (
-    <ToggleGroup variant="outline" type="single" onValueChange={(value) => console.log(value)}>
-      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+    <ToggleGroup onValueChange={(value) => console.log(value)} type="single" variant="outline">
+      <ToggleGroupItem aria-label="Toggle bold" value="bold">
         <Bold className="h-4 w-4" />
       </ToggleGroupItem>
-      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+      <ToggleGroupItem aria-label="Toggle italic" value="italic">
         <Italic className="h-4 w-4" />
       </ToggleGroupItem>
-      <ToggleGroupItem value="strikethrough" aria-label="Toggle strikethrough">
+      <ToggleGroupItem aria-label="Toggle strikethrough" value="strikethrough">
         <Underline className="h-4 w-4" />
       </ToggleGroupItem>
     </ToggleGroup>
@@ -143,14 +143,14 @@ export function ProgressDemo() {
     return () => clearTimeout(timer)
   }, [])
 
-  return <Progress value={progress} className="w-[60%]" />
+  return <Progress className="w-[60%]" value={progress} />
 }
 
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'
 
 export function InputOTPDemo() {
   return (
-    <InputOTP value={'123456'} onValueChange={(value) => console.log(value)}>
+    <InputOTP onValueChange={(value) => console.log(value)} value={'123456'}>
       <InputOTPGroup>
         <InputOTPSlot />
         <InputOTPSlot />
@@ -416,10 +416,10 @@ export function DropdownMenuCheckboxes() {
 
   return (
     <DropdownMenu
-      open={true}
       onOpenChange={(value) => {
         console.log(value)
-      }}>
+      }}
+      open={true}>
       <DropdownMenuTrigger>Open</DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>
@@ -435,7 +435,7 @@ export function DropdownMenuCheckboxes() {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition} defaultValue={position}>
+        <DropdownMenuRadioGroup defaultValue={position} onValueChange={setPosition} value={position}>
           <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
@@ -459,13 +459,13 @@ export function DropdownMenuCheckboxes() {
         <DropdownMenuGroup>
           <DropdownMenuItem disabled={true}>
             Preferences
-            <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+            <DropdownMenuShortcut keys="⌘" onKeysPressed={() => {}}>
               <Command />P
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             Settings
-            <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+            <DropdownMenuShortcut keys="⌘" onKeysPressed={() => {}}>
               <Command />P
             </DropdownMenuShortcut>
           </DropdownMenuItem>
@@ -517,21 +517,21 @@ export function CommandDemo() {
           <CommandItem>
             <User />
             <span>Profile</span>
-            <CommandShortcut onKeysPressed={() => {}} keys="⌘P">
+            <CommandShortcut keys="⌘P" onKeysPressed={() => {}}>
               ⌘P
             </CommandShortcut>
           </CommandItem>
           <CommandItem>
             <CreditCard />
             <span>Billing</span>
-            <CommandShortcut onKeysPressed={() => {}} keys="⌘B">
+            <CommandShortcut keys="⌘B" onKeysPressed={() => {}}>
               ⌘B
             </CommandShortcut>
           </CommandItem>
           <CommandItem>
             <Settings />
             <span>Settings</span>
-            <CommandShortcut onKeysPressed={() => {}} keys="⌘S">
+            <CommandShortcut keys="⌘S" onKeysPressed={() => {}}>
               ⌘S
             </CommandShortcut>
           </CommandItem>

@@ -16,41 +16,41 @@ import { ChevronDown } from 'lucide-react'
 
 const teamMembers = [
   {
-    name: 'Sofia Davis',
-    email: 'm@example.com',
     avatar: '/avatars/01.png',
+    email: 'm@example.com',
+    name: 'Sofia Davis',
     role: 'Owner',
   },
   {
-    name: 'Jackson Lee',
-    email: 'p@example.com',
     avatar: '/avatars/02.png',
+    email: 'p@example.com',
+    name: 'Jackson Lee',
     role: 'Developer',
   },
   {
-    name: 'Isabella Nguyen',
-    email: 'i@example.com',
     avatar: '/avatars/03.png',
+    email: 'i@example.com',
+    name: 'Isabella Nguyen',
     role: 'Billing',
   },
 ]
 
 const roles = [
   {
-    name: 'Viewer',
     description: 'Can view and comment.',
+    name: 'Viewer',
   },
   {
-    name: 'Developer',
     description: 'Can view, comment and edit.',
+    name: 'Developer',
   },
   {
-    name: 'Billing',
     description: 'Can view, comment and manage billing.',
+    name: 'Billing',
   },
   {
-    name: 'Owner',
     description: 'Admin-level access to all resources.',
+    name: 'Owner',
   },
 ]
 
@@ -63,9 +63,9 @@ export function CardsTeamMembers() {
       </CardHeader>
       <CardContent className="grid gap-6">
         {teamMembers.map((member) => (
-          <div key={member.name} className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-4" key={member.name}>
             <div className="flex items-center gap-4">
-              <Avatar className="border" src={member.avatar} alt={member.name.charAt(0)}></Avatar>
+              <Avatar alt={member.name.charAt(0)} className="border" src={member.avatar}></Avatar>
               <div className="flex flex-col gap-0.5">
                 <p className="text-sm leading-none font-medium">{member.name}</p>
                 <p className="text-muted-foreground text-xs">{member.email}</p>
@@ -73,7 +73,7 @@ export function CardsTeamMembers() {
             </div>
             <Popover placement="bottom-end">
               <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="ml-auto shadow-none">
+                <Button className="ml-auto shadow-none" size="sm" variant="outline">
                   {member.role} <ChevronDown />
                 </Button>
               </PopoverTrigger>

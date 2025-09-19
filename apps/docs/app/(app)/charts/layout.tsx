@@ -13,7 +13,6 @@ const description =
   'A collection of ready-to-use chart components built with Recharts. From basic charts to rich data displays, copy and paste into your apps.'
 
 export const metadata: Metadata = {
-  title,
   description,
   openGraph: {
     images: [
@@ -22,6 +21,7 @@ export const metadata: Metadata = {
       },
     ],
   },
+  title,
   twitter: {
     card: 'summary_large_image',
     images: [
@@ -44,7 +44,7 @@ export default function ChartsLayout({ children }: { children: React.ReactNode }
             <Button asChild size="sm">
               <a href="#charts">Browse Charts</a>
             </Button>
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild size="sm" variant="ghost">
               <Link href="/docs/components/chart">Documentation</Link>
             </Button>
           </PageActions>

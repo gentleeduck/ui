@@ -1,11 +1,7 @@
 'use client'
 
 import { ChevronDownIcon } from '@radix-ui/react-icons'
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/registry/default/ui/'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/registry/default/ui/'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/registry/default/ui/'
-import { Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/'
+import { Avatar, AvatarFallback, AvatarImage, Card, CardContent, CardDescription, CardHeader, CardTitle, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/'
 import { Button } from '@/registry/registry-ui-components'
 
 export function CardsTeamMembers() {
@@ -19,7 +15,7 @@ export function CardsTeamMembers() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-4">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="/avatars/01.png" alt="Image" />
+              <AvatarImage alt="Image" src="/avatars/01.png" />
               <AvatarFallback>OM</AvatarFallback>
             </Avatar>
             <div>
@@ -29,11 +25,11 @@ export function CardsTeamMembers() {
           </div>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="ml-auto">
+              <Button className="ml-auto" size="sm" variant="outline">
                 Owner <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="p-0" align="end">
+            <PopoverContent align="end" className="p-0">
               <Command>
                 <CommandInput placeholder="Select new role..." />
                 <CommandList>
@@ -64,7 +60,7 @@ export function CardsTeamMembers() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-4">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="/avatars/02.png" alt="Image" />
+              <AvatarImage alt="Image" src="/avatars/02.png" />
               <AvatarFallback>JL</AvatarFallback>
             </Avatar>
             <div>
@@ -74,11 +70,11 @@ export function CardsTeamMembers() {
           </div>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="ml-auto">
+              <Button className="ml-auto" size="sm" variant="outline">
                 Member <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="p-0" align="end">
+            <PopoverContent align="end" className="p-0">
               <Command>
                 <CommandInput placeholder="Select new role..." />
                 <CommandList>
@@ -109,7 +105,7 @@ export function CardsTeamMembers() {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-4">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="/avatars/03.png" alt="Image" />
+              <AvatarImage alt="Image" src="/avatars/03.png" />
               <AvatarFallback>IN</AvatarFallback>
             </Avatar>
             <div>
@@ -119,11 +115,11 @@ export function CardsTeamMembers() {
           </div>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="ml-auto">
+              <Button className="ml-auto" size="sm" variant="outline">
                 Member <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="p-0" align="end">
+            <PopoverContent align="end" className="p-0">
               <Command>
                 <CommandInput placeholder="Select new role..." />
                 <CommandList>

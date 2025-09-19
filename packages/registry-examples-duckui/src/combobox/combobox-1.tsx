@@ -16,24 +16,24 @@ import * as React from 'react'
 
 const frameworks = [
   {
-    value: 'next.js',
     label: 'Next.js',
+    value: 'next.js',
   },
   {
-    value: 'sveltekit',
     label: 'SvelteKit',
+    value: 'sveltekit',
   },
   {
-    value: 'nuxt.js',
     label: 'Nuxt.js',
+    value: 'nuxt.js',
   },
   {
-    value: 'remix',
     label: 'Remix',
+    value: 'remix',
   },
   {
-    value: 'astro',
     label: 'Astro',
+    value: 'astro',
   },
 ]
 
@@ -42,27 +42,27 @@ export default function ComboboxDemo() {
   const [value, setValue] = React.useState('')
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover onOpenChange={setOpen} open={open}>
       <PopoverTrigger asChild>
-        <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
+        <Button aria-expanded={open} className="w-[200px] justify-between" role="combobox" variant="outline">
           {value ? frameworks.find((framework) => framework.value === value)?.label : 'Select framework...'}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandInput className="h-9" placeholder="Search framework..." />
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
               {frameworks.map((framework) => (
                 <CommandItem
                   key={framework.value}
-                  value={framework.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue)
                     setOpen(false)
-                  }}>
+                  }}
+                  value={framework.value}>
                   {framework.label}
                   <Check className={cn('ml-auto', value === framework.value ? 'opacity-100' : 'opacity-0')} />
                 </CommandItem>

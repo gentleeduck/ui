@@ -1,55 +1,10 @@
 {
-  "name": "duck-ui",
-  "version": "1.0.7",
-  "description": "Add components to your apps.",
-  "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
-  "license": "MIT",
   "author": "wildduck (https://github.com/wildduck2)",
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "components",
-    "ui",
-    "tailwindcss",
-    "react",
-    "nextjs",
-    "frameworks",
-    "typescript",
-    "duck-ui"
-  ],
-  "type": "module",
-  "exports": "./dist/index.js",
   "bin": {
     "duck-ui": "dist/index.js"
   },
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-ui"
-  },
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
-  },
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-ui#readme",
-  "scripts": {
-    "dev": "tsdown --watch",
-    "start": "node dist/index.js",
-    "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
-    "test": "vitest run",
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "build": "tsdown ./src/index.ts",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
   },
   "dependencies": {
     "@antfu/ni": "^0.21.12",
@@ -71,6 +26,7 @@
     "tsconfig-paths": "^4.2.0",
     "zod": "catalog:"
   },
+  "description": "Add components to your apps.",
   "devDependencies": {
     "@gentleduck/registers": "workspace:*",
     "@types/babel__core": "^7.20.1",
@@ -84,8 +40,52 @@
     "type-fest": "^3.8.0",
     "typescript": "catalog:"
   },
-  "packageManager": "pnpm@10.10.0",
+  "directories": {
+    "test": "test"
+  },
   "engines": {
     "node": ">=22.0.0"
-  }
+  },
+  "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-ui#readme",
+  "keywords": [
+    "components",
+    "ui",
+    "tailwindcss",
+    "react",
+    "nextjs",
+    "frameworks",
+    "typescript",
+    "duck-ui"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "duck-ui",
+  "packageManager": "pnpm@10.10.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-ui"
+  },
+  "scripts": {
+    "build": "tsdown ./src/index.ts",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "dev": "tsdown --watch",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version",
+    "start": "node dist/index.js",
+    "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
+    "test": "vitest run"
+  },
+  "type": "module",
+  "version": "1.0.7"
 }

@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import {
   ArrowUpRight,
   AudioWaveform,
@@ -18,6 +17,7 @@ import {
   Inbox,
   Link,
   LogOut,
+  type LucideIcon,
   MessageCircleQuestion,
   MoreHorizontal,
   Plus,
@@ -26,8 +26,8 @@ import {
   Sparkles,
   StarOff,
   Trash2,
-  type LucideIcon,
 } from "lucide-react"
+import * as React from "react"
 
 import {
   Avatar,
@@ -87,229 +87,229 @@ export const description = "A left and right sidebar."
 
 // This is sample data.
 const sidebarLeftData = {
-  teams: [
+  favorites: [
     {
-      name: "Acme Inc",
-      logo: Command,
-      plan: "Enterprise",
+      emoji: "📊",
+      name: "Project Management & Task Tracking",
+      url: "#",
     },
     {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
+      emoji: "🍳",
+      name: "Family Recipe Collection & Meal Planning",
+      url: "#",
     },
     {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
+      emoji: "💪",
+      name: "Fitness Tracker & Workout Routines",
+      url: "#",
+    },
+    {
+      emoji: "📚",
+      name: "Book Notes & Reading List",
+      url: "#",
+    },
+    {
+      emoji: "🌱",
+      name: "Sustainable Gardening Tips & Plant Care",
+      url: "#",
+    },
+    {
+      emoji: "🗣️",
+      name: "Language Learning Progress & Resources",
+      url: "#",
+    },
+    {
+      emoji: "🏠",
+      name: "Home Renovation Ideas & Budget Tracker",
+      url: "#",
+    },
+    {
+      emoji: "💰",
+      name: "Personal Finance & Investment Portfolio",
+      url: "#",
+    },
+    {
+      emoji: "🎬",
+      name: "Movie & TV Show Watchlist with Reviews",
+      url: "#",
+    },
+    {
+      emoji: "✅",
+      name: "Daily Habit Tracker & Goal Setting",
+      url: "#",
     },
   ],
   navMain: [
     {
+      icon: Search,
       title: "Search",
       url: "#",
-      icon: Search,
     },
     {
+      icon: Sparkles,
       title: "Ask AI",
       url: "#",
-      icon: Sparkles,
     },
     {
-      title: "Home",
-      url: "#",
       icon: Home,
       isActive: true,
+      title: "Home",
+      url: "#",
     },
     {
+      badge: "10",
+      icon: Inbox,
       title: "Inbox",
       url: "#",
-      icon: Inbox,
-      badge: "10",
     },
   ],
   navSecondary: [
     {
+      icon: CalendarIcon,
       title: "Calendar",
       url: "#",
-      icon: CalendarIcon,
     },
     {
+      icon: Settings2,
       title: "Settings",
       url: "#",
-      icon: Settings2,
     },
     {
+      icon: Blocks,
       title: "Templates",
       url: "#",
-      icon: Blocks,
     },
     {
+      icon: Trash2,
       title: "Trash",
       url: "#",
-      icon: Trash2,
     },
     {
+      icon: MessageCircleQuestion,
       title: "Help",
       url: "#",
-      icon: MessageCircleQuestion,
     },
   ],
-  favorites: [
+  teams: [
     {
-      name: "Project Management & Task Tracking",
-      url: "#",
-      emoji: "📊",
+      logo: Command,
+      name: "Acme Inc",
+      plan: "Enterprise",
     },
     {
-      name: "Family Recipe Collection & Meal Planning",
-      url: "#",
-      emoji: "🍳",
+      logo: AudioWaveform,
+      name: "Acme Corp.",
+      plan: "Startup",
     },
     {
-      name: "Fitness Tracker & Workout Routines",
-      url: "#",
-      emoji: "💪",
-    },
-    {
-      name: "Book Notes & Reading List",
-      url: "#",
-      emoji: "📚",
-    },
-    {
-      name: "Sustainable Gardening Tips & Plant Care",
-      url: "#",
-      emoji: "🌱",
-    },
-    {
-      name: "Language Learning Progress & Resources",
-      url: "#",
-      emoji: "🗣️",
-    },
-    {
-      name: "Home Renovation Ideas & Budget Tracker",
-      url: "#",
-      emoji: "🏠",
-    },
-    {
-      name: "Personal Finance & Investment Portfolio",
-      url: "#",
-      emoji: "💰",
-    },
-    {
-      name: "Movie & TV Show Watchlist with Reviews",
-      url: "#",
-      emoji: "🎬",
-    },
-    {
-      name: "Daily Habit Tracker & Goal Setting",
-      url: "#",
-      emoji: "✅",
+      logo: Command,
+      name: "Evil Corp.",
+      plan: "Free",
     },
   ],
   workspaces: [
     {
-      name: "Personal Life Management",
       emoji: "🏠",
+      name: "Personal Life Management",
       pages: [
         {
+          emoji: "📔",
           name: "Daily Journal & Reflection",
           url: "#",
-          emoji: "📔",
         },
         {
+          emoji: "🍏",
           name: "Health & Wellness Tracker",
           url: "#",
-          emoji: "🍏",
         },
         {
+          emoji: "🌟",
           name: "Personal Growth & Learning Goals",
           url: "#",
-          emoji: "🌟",
         },
       ],
     },
     {
-      name: "Professional Development",
       emoji: "💼",
+      name: "Professional Development",
       pages: [
         {
+          emoji: "🎯",
           name: "Career Objectives & Milestones",
           url: "#",
-          emoji: "🎯",
         },
         {
+          emoji: "🧠",
           name: "Skill Acquisition & Training Log",
           url: "#",
-          emoji: "🧠",
         },
         {
+          emoji: "🤝",
           name: "Networking Contacts & Events",
           url: "#",
-          emoji: "🤝",
         },
       ],
     },
     {
-      name: "Creative Projects",
       emoji: "🎨",
+      name: "Creative Projects",
       pages: [
         {
+          emoji: "✍️",
           name: "Writing Ideas & Story Outlines",
           url: "#",
-          emoji: "✍️",
         },
         {
+          emoji: "🖼️",
           name: "Art & Design Portfolio",
           url: "#",
-          emoji: "🖼️",
         },
         {
+          emoji: "🎵",
           name: "Music Composition & Practice Log",
           url: "#",
-          emoji: "🎵",
         },
       ],
     },
     {
-      name: "Home Management",
       emoji: "🏡",
+      name: "Home Management",
       pages: [
         {
+          emoji: "💰",
           name: "Household Budget & Expense Tracking",
           url: "#",
-          emoji: "💰",
         },
         {
+          emoji: "🔧",
           name: "Home Maintenance Schedule & Tasks",
           url: "#",
-          emoji: "🔧",
         },
         {
+          emoji: "📅",
           name: "Family Calendar & Event Planning",
           url: "#",
-          emoji: "📅",
         },
       ],
     },
     {
-      name: "Travel & Adventure",
       emoji: "🧳",
+      name: "Travel & Adventure",
       pages: [
         {
+          emoji: "🗺️",
           name: "Trip Planning & Itineraries",
           url: "#",
-          emoji: "🗺️",
         },
         {
+          emoji: "🌎",
           name: "Travel Bucket List & Inspiration",
           url: "#",
-          emoji: "🌎",
         },
         {
+          emoji: "📸",
           name: "Travel Journal & Photo Gallery",
           url: "#",
-          emoji: "📸",
         },
       ],
     },
@@ -318,25 +318,25 @@ const sidebarLeftData = {
 
 // This is sample data.
 const sidebarRightData = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   calendars: [
     {
-      name: "My Calendars",
       items: ["Personal", "Work", "Family"],
+      name: "My Calendars",
     },
     {
-      name: "Favorites",
       items: ["Holidays", "Birthdays"],
+      name: "Favorites",
     },
     {
-      name: "Other",
       items: ["Travel", "Reminders", "Deadlines"],
+      name: "Other",
     },
   ],
+  user: {
+    avatar: "/avatars/shadcn.jpg",
+    email: "m@example.com",
+    name: "shadcn",
+  },
 }
 
 export default function Page() {
@@ -347,7 +347,7 @@ export default function Page() {
         <header className="sticky top-0 flex h-14 shrink-0 items-center gap-2 bg-background">
           <div className="flex flex-1 items-center gap-2 px-3">
             <SidebarTrigger />
-            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Separator className="mr-2 h-4" orientation="vertical" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
@@ -380,8 +380,8 @@ function SidebarLeft({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavFavorites favorites={sidebarLeftData.favorites} />
         <NavWorkspaces workspaces={sidebarLeftData.workspaces} />
         <NavSecondary
-          items={sidebarLeftData.navSecondary}
           className="mt-auto"
+          items={sidebarLeftData.navSecondary}
         />
       </SidebarContent>
       <SidebarRail />
@@ -392,8 +392,8 @@ function SidebarLeft({ ...props }: React.ComponentProps<typeof Sidebar>) {
 function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar
-      collapsible="none"
       className="sticky top-0 hidden h-svh border-l lg:flex"
+      collapsible="none"
       {...props}
     >
       <SidebarHeader className="h-16 border-b border-sidebar-border">
@@ -430,10 +430,10 @@ function Calendars({
     <>
       {calendars.map((calendar, index) => (
         <React.Fragment key={calendar.name}>
-          <SidebarGroup key={calendar.name} className="py-0">
+          <SidebarGroup className="py-0" key={calendar.name}>
             <Collapsible
-              defaultOpen={index === 0}
               className="group/collapsible"
+              defaultOpen={index === 0}
             >
               <SidebarGroupLabel
                 asChild
@@ -451,8 +451,8 @@ function Calendars({
                       <SidebarMenuItem key={item}>
                         <SidebarMenuButton>
                           <div
-                            data-active={index < 2}
                             className="group/calendar-item flex aspect-square size-4 shrink-0 items-center justify-center rounded-sm border border-sidebar-border text-sidebar-primary-foreground data-[active=true]:border-sidebar-primary data-[active=true]:bg-sidebar-primary"
+                            data-active={index < 2}
                           >
                             <Check className="hidden size-3 group-data-[active=true]/calendar-item:block" />
                           </div>
@@ -513,9 +513,9 @@ function NavFavorites({
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
+                align={isMobile ? "end" : "start"}
                 className="w-56 rounded-lg"
                 side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
               >
                 <DropdownMenuItem>
                   <StarOff className="text-muted-foreground" />
@@ -625,11 +625,11 @@ function NavUser({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
-              size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              size="lg"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage alt={user.name} src={user.avatar} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -640,15 +640,15 @@ function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
+            align="start"
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
-            align="start"
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage alt={user.name} src={user.avatar} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -786,8 +786,8 @@ function TeamSwitcher({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-64 rounded-lg"
             align="start"
+            className="w-64 rounded-lg"
             side="bottom"
             sideOffset={4}
           >
@@ -796,9 +796,9 @@ function TeamSwitcher({
             </DropdownMenuLabel>
             {teams.map((team, index) => (
               <DropdownMenuItem
+                className="gap-2 p-2"
                 key={team.name}
                 onClick={() => setActiveTeam(team)}
-                className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-sm border">
                   <team.logo className="size-4 shrink-0" />

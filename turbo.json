@@ -1,59 +1,39 @@
 {
+  "globalEnv": [
+    "POSTGRES_URL",
+    "AUTH_DISCORD_ID",
+    "AUTH_DISCORD_SECRET",
+    "AUTH_REDIRECT_PROXY_URL",
+    "AUTH_SECRET",
+    "PORT"
+  ],
+  "globalPassThroughEnv": ["NODE_ENV", "CI", "VERCEL", "VERCEL_ENV", "VERCEL_URL", "npm_lifecycle_event"],
   "s$chema": "https://turborepo.org/schema.json",
-  "ui": "tui",
   "tasks": {
-    "topo": {
-      "dependsOn": [
-        "^topo"
-      ]
+    "//#clean": {
+      "cache": false
     },
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
       "cache": true,
-      "persistent": true,
-      "outputs": [
-        ".cache/tsbuildinfo.json",
-        "dist/**"
-      ]
-    },
-    "dev": {
-      "dependsOn": [
-        "^dev"
-      ],
-      "cache": false,
-      "persistent": false
-    },
-    "format": {
-      "outputs": [
-        ".cache/.prettiercache"
-      ],
-      "outputLogs": "new-only"
-    },
-    "lint": {
-      "dependsOn": [
-        "^topo",
-        "^build"
-      ],
-      "outputs": [
-        ".cache/.eslintcache"
-      ]
-    },
-    "typecheck": {
-      "dependsOn": [
-        "^topo",
-        "^build"
-      ],
-      "outputs": [
-        ".cache/tsbuildinfo.json"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": [".cache/tsbuildinfo.json", "dist/**"],
+      "persistent": true
     },
     "clean": {
       "cache": false
     },
-    "//#clean": {
-      "cache": false
+    "dev": {
+      "cache": false,
+      "dependsOn": ["^dev"],
+      "persistent": false
+    },
+    "format": {
+      "outputLogs": "new-only",
+      "outputs": [".cache/.prettiercache"]
+    },
+    "lint": {
+      "dependsOn": ["^topo", "^build"],
+      "outputs": [".cache/.eslintcache"]
     },
     "push": {
       "cache": false,
@@ -63,25 +43,17 @@
       "cache": false,
       "persistent": true
     },
+    "topo": {
+      "dependsOn": ["^topo"]
+    },
+    "typecheck": {
+      "dependsOn": ["^topo", "^build"],
+      "outputs": [".cache/tsbuildinfo.json"]
+    },
     "ui-add": {
       "cache": false,
       "interactive": true
     }
   },
-  "globalEnv": [
-    "POSTGRES_URL",
-    "AUTH_DISCORD_ID",
-    "AUTH_DISCORD_SECRET",
-    "AUTH_REDIRECT_PROXY_URL",
-    "AUTH_SECRET",
-    "PORT"
-  ],
-  "globalPassThroughEnv": [
-    "NODE_ENV",
-    "CI",
-    "VERCEL",
-    "VERCEL_ENV",
-    "VERCEL_URL",
-    "npm_lifecycle_event"
-  ]
+  "ui": "tui"
 }

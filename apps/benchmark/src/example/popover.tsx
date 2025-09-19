@@ -18,7 +18,7 @@ export default function PopoverDemo() {
 
   return (
     <div className="h-[2000px] mt-[400px] flex gap-[400px]">
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger>Open popover</PopoverTrigger>
         <PopoverContent className="w-80">
           <div className="grid gap-4">
@@ -35,19 +35,19 @@ export default function PopoverDemo() {
                   }}>
                   Width
                 </Label>
-                <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
+                <Input className="col-span-2 h-8" defaultValue="100%" id="width" />
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="maxWidth">Max. width</Label>
-                <Input id="maxWidth" defaultValue="300px" className="col-span-2 h-8" />
+                <Input className="col-span-2 h-8" defaultValue="300px" id="maxWidth" />
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="height">Height</Label>
-                <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
+                <Input className="col-span-2 h-8" defaultValue="25px" id="height" />
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="maxHeight">Max. height</Label>
-                <Input id="maxHeight" defaultValue="none" className="col-span-2 h-8" />
+                <Input className="col-span-2 h-8" defaultValue="none" id="maxHeight" />
               </div>
             </div>
           </div>
@@ -59,24 +59,24 @@ export default function PopoverDemo() {
 
 const frameworks = [
   {
-    value: 'next.js',
     label: 'Next.js',
+    value: 'next.js',
   },
   {
-    value: 'sveltekit',
     label: 'SvelteKit',
+    value: 'sveltekit',
   },
   {
-    value: 'nuxt.js',
     label: 'Nuxt.js',
+    value: 'nuxt.js',
   },
   {
-    value: 'remix',
     label: 'Remix',
+    value: 'remix',
   },
   {
-    value: 'astro',
     label: 'Astro',
+    value: 'astro',
   },
 ]
 export function ComboboxDemo() {
@@ -84,25 +84,25 @@ export function ComboboxDemo() {
   const [value, setValue] = React.useState('')
   // console.log(open)
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover onOpenChange={setOpen} open={open}>
       <PopoverTrigger className="w-[200px]">
         {value ? frameworks.find((framework) => framework.value === value)?.label : 'Select framework...'}
         <ChevronsUpDown className="opacity-50" />
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-8 [&_svg]:size-[18px] px-2" />
+          <CommandInput className="h-8 [&_svg]:size-[18px] px-2" placeholder="Search framework..." />
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup heading="Frameworks">
               {frameworks.map((framework) => (
                 <CommandItem
                   key={framework.value}
-                  value={framework.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue)
                     setOpen(false)
-                  }}>
+                  }}
+                  value={framework.value}>
                   {framework.label}
                   <Check className={cn('ml-auto', value === framework.value ? 'opacity-100' : 'opacity-0')} />
                 </CommandItem>

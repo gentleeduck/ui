@@ -20,24 +20,16 @@ function Switch({
   onCheckedChange?: (checked: boolean) => void
 }) {
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
-    indicator,
     checkedIndicator,
+    indicator,
   })
 
   return (
     <>
       <input
-        type="checkbox"
-        role="switch"
-        style={{ ...style, ...inputStyle }}
-        ref={ref}
-        onChange={(e) => {
-          onChange?.(e)
-          onCheckedChange?.(e.target.checked)
-        }}
+        aria-checked={props.checked}
         className={cn(
           checkersStylePattern({
-            type: 'switch',
             indicatorState:
               indicatorReady && checkedIndicatorReady
                 ? 'both'
@@ -46,11 +38,20 @@ function Switch({
                   : checkedIndicatorReady
                     ? 'checkedIndicatorReady'
                     : 'default',
+            type: 'switch',
           }),
           AnimVariants({ pseudo: 'animate' }),
 
           className,
         )}
+        onChange={(e) => {
+          onChange?.(e)
+          onCheckedChange?.(e.target.checked)
+        }}
+        ref={ref}
+        role="switch"
+        style={{ ...style, ...inputStyle }}
+        type="checkbox"
         {...props}
         duck-switch=""
       />

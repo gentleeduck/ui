@@ -37,11 +37,11 @@ export function usePositionFixed({
     // If previousBodyPosition is already set, don't set it again.
     if (previousBodyPosition === null && isOpen && !noBodyStyles) {
       previousBodyPosition = {
-        position: document.body.style.position,
-        top: document.body.style.top,
-        left: document.body.style.left,
         height: document.body.style.height,
+        left: document.body.style.left,
+        position: document.body.style.position,
         right: 'unset',
+        top: document.body.style.top,
       }
 
       // Update the dom inside an animation frame
@@ -49,10 +49,10 @@ export function usePositionFixed({
 
       document.body.style.setProperty('position', 'fixed', 'important')
       Object.assign(document.body.style, {
-        top: `${-scrollPos.current}px`,
+        height: 'auto',
         left: `${-scrollX}px`,
         right: '0px',
-        height: 'auto',
+        top: `${-scrollPos.current}px`,
       })
 
       window.setTimeout(

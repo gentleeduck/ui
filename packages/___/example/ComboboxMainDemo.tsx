@@ -1,38 +1,38 @@
-import { Combobox, CommandListGroupDataType, TooltipProvider } from '@/registry/default/ui'
 import { Circle, CircleAlert, CircleCheck, CircleHelp, CircleMinus, CirclePlus } from 'lucide-react'
 import React from 'react'
+import { Combobox, CommandListGroupDataType, TooltipProvider } from '@/registry/default/ui'
 
 type DistrosType = 'Ubuntu' | 'Debian' | 'Fedora' | 'Arch Linux' | 'CentOS'
 const linuxDistros: CommandListGroupDataType<DistrosType>[] = [
   {
-    label: 'Ubuntu',
     element: {
       children: 'Ubuntu',
     },
+    label: 'Ubuntu',
   },
   {
-    label: 'Debian',
     element: {
       children: 'Debian',
     },
+    label: 'Debian',
   },
   {
-    label: 'Fedora',
     element: {
       children: 'Fedora',
     },
+    label: 'Fedora',
   },
   {
-    label: 'Arch Linux',
     element: {
       children: 'Arch Linux',
     },
+    label: 'Arch Linux',
   },
   {
-    label: 'CentOS',
     element: {
       children: 'CentOS',
     },
+    label: 'CentOS',
   },
 ]
 
@@ -42,33 +42,33 @@ export default function ComboboxMainDemo() {
   return (
     <TooltipProvider>
       <Combobox<string, DistrosType>
-        type={'combobox'}
+        content={{
+          data: linuxDistros,
+          showSearchInput: true,
+        }}
+        onSelect={{
+          setValue: setValue,
+          value: value,
+        }}
         trigger={{
           children: 'Status',
           className: '[&>div>span]:text-xs',
+          command: {
+            key: 'Ctrl+m',
+            label: '⌃+m',
+          },
           icon: {
             children: CirclePlus,
             className: '!size-4 stroke-[1.5]',
           },
           label: {
             children: 'Select one',
+            showCommand: true,
             showLabel: true,
             side: 'top',
-            showCommand: true,
-          },
-          command: {
-            label: '⌃+m',
-            key: 'Ctrl+m',
           },
         }}
-        onSelect={{
-          value: value,
-          setValue: setValue,
-        }}
-        content={{
-          showSearchInput: true,
-          data: linuxDistros,
-        }}
+        type={'combobox'}
       />
     </TooltipProvider>
   )

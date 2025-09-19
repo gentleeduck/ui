@@ -1,8 +1,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import { notFound } from 'next/navigation'
 import * as React from 'react'
-import { charts } from '../charts'
 import { ChartDisplay } from '~/components/charts'
+import { charts } from '../charts'
 
 export const revalidate = false
 export const dynamic = 'force-static'
@@ -42,9 +42,9 @@ export default async function ChartPage({ params }: ChartPageProps) {
           return (
             chart && (
               <ChartDisplay
+                className={cn(chart.fullWidth && 'md:col-span-2 lg:col-span-3')}
                 key={chart.id}
-                name={chart.id}
-                className={cn(chart.fullWidth && 'md:col-span-2 lg:col-span-3')}>
+                name={chart.id}>
                 <chart.component />
               </ChartDisplay>
             )

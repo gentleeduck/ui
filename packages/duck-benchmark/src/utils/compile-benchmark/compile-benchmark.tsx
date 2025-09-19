@@ -16,7 +16,7 @@ export async function compile_benchmark({
 
       // Process files in the current folder
       for (const file of folder.files) {
-        const res = await compile_file({ file, spinner, cwd })
+        const res = await compile_file({ cwd, file, spinner })
         file.compile_time_ms = res.compile_time_ms
         file.bundle_size = res.bundle_size
       }
@@ -24,10 +24,10 @@ export async function compile_benchmark({
       // Recursively process subdirectories
       if (folder.subdirectories.length > 0) {
         await compile_benchmark({
-          folders: folder.subdirectories,
-          visited,
-          spinner,
           cwd,
+          folders: folder.subdirectories,
+          spinner,
+          visited,
         })
       }
     }
@@ -47,17 +47,17 @@ export async function render_benchmark({ folders, visited = new Set<string>(), s
 
       // Process files in the current folder
       for (const file of folder.files) {
-        const res = await render_file({ file, spinner, cwd })
+        const res = await render_file({ cwd, file, spinner })
         file.render_time_ms = res.renderTimeMs
       }
 
       // Recursively process subdirectories
       if (folder.subdirectories.length > 0) {
         await render_benchmark({
-          folders: folder.subdirectories,
-          visited,
-          spinner,
           cwd,
+          folders: folder.subdirectories,
+          spinner,
+          visited,
         })
       }
     }

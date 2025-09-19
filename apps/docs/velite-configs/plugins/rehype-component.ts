@@ -1,6 +1,6 @@
-import { RegistryItemFile } from '@gentleduck/registers'
 import fs from 'node:fs'
 import path from 'node:path'
+import { RegistryItemFile } from '@gentleduck/registers'
 import { UnistNode, UnistTree } from 'types/unist'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'
@@ -54,8 +54,8 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
       source = source.replaceAll('export default', 'export')
       item.push({
         name: files[i]!.path.split('/')?.pop() ?? 'file',
-        type: files[i]!.type,
         src: source,
+        type: files[i]!.type,
       })
     } catch (error) {
       console.error(`Error reading file ${filePath}:`, error)
@@ -79,22 +79,22 @@ export function componentSource({ node }: { node: UnistNode }) {
     node.children?.push(
       ...items.map((item) => {
         return u('element', {
-          tagName: 'pre',
-          properties: {},
           children: [
             u('element', {
-              tagName: 'code',
-              properties: {
-                className: ['language-tsx'],
-              },
               children: [
                 {
                   type: 'text',
                   value: item.src,
                 },
               ],
+              properties: {
+                className: ['language-tsx'],
+              },
+              tagName: 'code',
             }),
           ],
+          properties: {},
+          tagName: 'pre',
         })
       }),
     )
@@ -131,21 +131,21 @@ export function componentPreview({ node }: { node: UnistNode }) {
     // Add code as children so that rehype can take over at build time.
     node.children?.push(
       u('element', {
-        tagName: 'pre',
         children: [
           u('element', {
-            tagName: 'code',
-            properties: {
-              className: ['language-tsx'],
-            },
             children: [
               {
                 type: 'text',
                 value: source,
               },
             ],
+            properties: {
+              className: ['language-tsx'],
+            },
+            tagName: 'code',
           }),
         ],
+        tagName: 'pre',
       }),
     )
   } catch (error) {

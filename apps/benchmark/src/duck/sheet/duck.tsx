@@ -1,15 +1,15 @@
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetClose,
-  SheetFooter,
 } from '@gentleduck/registry-ui-duckui/sheet'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
 
 export default function SheetDemo({ side = 'right' }: { side?: 'left' | 'right' | 'top' | 'bottom' }) {
   return (
@@ -22,16 +22,16 @@ export default function SheetDemo({ side = 'right' }: { side?: 'left' | 'right' 
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label className="text-right" htmlFor="name">
               Name
             </Label>
-            <Input id="name" defaultValue="Pedro Duarte" className="col-span-3" />
+            <Input className="col-span-3" defaultValue="Pedro Duarte" id="name" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
+            <Label className="text-right" htmlFor="username">
               Username
             </Label>
-            <Input id="username" defaultValue="@peduarte" className="col-span-3" />
+            <Input className="col-span-3" defaultValue="@peduarte" id="username" />
           </div>
         </div>
         <SheetFooter>

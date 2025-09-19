@@ -24,7 +24,7 @@ function isValidDate(date: Date | undefined) {
   if (!date) {
     return false
   }
-  return !isNaN(date.getTime())
+  return !Number.isNaN(date.getTime())
 }
 
 export default function CalendarDemo() {
@@ -35,15 +35,13 @@ export default function CalendarDemo() {
 
   return (
     <div className="flex flex-col gap-3">
-      <Label htmlFor="date" className="px-1">
+      <Label className="px-1" htmlFor="date">
         Subscription Date
       </Label>
       <div className="relative flex gap-2">
         <Input
-          id="date"
-          value={value}
-          placeholder="June 01, 2025"
           className="bg-background pr-10"
+          id="date"
           onChange={(e) => {
             const date = new Date(e.currentTarget.value)
             setValue(e.currentTarget.value)
@@ -58,22 +56,23 @@ export default function CalendarDemo() {
               setOpen(true)
             }
           }}
+          placeholder="June 01, 2025"
+          value={value}
         />
-        <Popover open={open} onOpenChange={setOpen} placement="top" sideOffset={10}>
+        <Popover onOpenChange={setOpen} open={open} placement="top" sideOffset={10}>
           <PopoverTrigger asChild>
             <Button
+              className="-translate-y-1/2 absolute top-1/2 right-1 h-fit p-1 px-1.5 [&_svg]:w-4"
               id="date-picker"
-              variant="ghost"
-              className="-translate-y-1/2 absolute top-1/2 right-1 h-fit p-1 px-1.5 [&_svg]:w-4">
+              variant="ghost">
               <CalendarIcon />
               <span className="sr-only">Select date</span>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto overflow-hidden p-0">
             <Calendar
-              mode="single"
-              selected={date}
               captionLayout="dropdown"
+              mode="single"
               month={month}
               onMonthChange={setMonth}
               onSelect={(date) => {
@@ -81,6 +80,7 @@ export default function CalendarDemo() {
                 setValue(formatDate(date))
                 setOpen(false)
               }}
+              selected={date}
             />
           </PopoverContent>
         </Popover>

@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@gentleduck/registry-ui-duckui/select'
-import * as React from 'react'
 
 export default function SelectScrollable() {
   return (

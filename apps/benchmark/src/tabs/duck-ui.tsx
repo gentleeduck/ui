@@ -1,13 +1,13 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 
 export function DuckTabsDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-6">
-      <Tabs defaultValue="account" className="w-[294px]">
+      <Tabs className="w-[294px]" defaultValue="account">
         <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
           <TabsTrigger value="password">Password</TabsTrigger>
@@ -21,11 +21,11 @@ export function DuckTabsDemo() {
             <CardContent className="grid gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="tabs-demo-name">Name</Label>
-                <Input id="tabs-demo-name" defaultValue="Pedro Duarte" />
+                <Input defaultValue="Pedro Duarte" id="tabs-demo-name" />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="tabs-demo-username">Username</Label>
-                <Input id="tabs-demo-username" defaultValue="@peduarte" />
+                <Input defaultValue="@peduarte" id="tabs-demo-username" />
               </div>
             </CardContent>
             <CardFooter>

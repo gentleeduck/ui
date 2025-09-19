@@ -70,19 +70,19 @@ function splitAndWrapMarks(text: string, marks: string[]): UnistNode[] {
 
     // Push the marked element
     nodes.push({
-      type: 'element',
-      tagName: 'mark',
-      properties: { 'data-highlighted-chars': '' },
       children: [
         {
-          type: 'element',
-          tagName: 'span',
+          children: [{ type: 'text', value: match }],
           properties: {
             style: '--shiki-dark: #85E89D; --shiki-light: #116329;',
           },
-          children: [{ type: 'text', value: match }],
+          tagName: 'span',
+          type: 'element',
         },
       ],
+      properties: { 'data-highlighted-chars': '' },
+      tagName: 'mark',
+      type: 'element',
     })
 
     remaining = remaining.slice(index + match.length)

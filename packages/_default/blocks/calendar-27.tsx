@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { CalendarIcon } from "lucide-react"
+import * as React from "react"
 import { DateRange } from "react-day-picker"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
@@ -64,8 +64,8 @@ const total = chartData.reduce((acc, curr) => acc + curr.visitors, 0)
 
 const chartConfig = {
   visitors: {
-    label: "Visitors",
     color: "hsl(var(--primary))",
+    label: "Visitors",
   },
 } satisfies ChartConfig
 
@@ -94,35 +94,35 @@ export default function Calendar27() {
         </CardDescription>
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="absolute right-4 top-4">
+            <Button className="absolute right-4 top-4" variant="outline">
               <CalendarIcon />
               {range?.from && range?.to
                 ? `${range.from.toLocaleDateString()} - ${range.to.toLocaleDateString()}`
                 : "June 2025"}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" align="end">
+          <PopoverContent align="end" className="w-auto overflow-hidden p-0">
             <Calendar
               className="w-full"
-              mode="range"
               defaultMonth={range?.from}
-              selected={range}
-              onSelect={setRange}
-              disableNavigation
-              startMonth={range?.from}
-              fixedWeeks
-              showOutsideDays
               disabled={{
                 after: new Date(2025, 5, 31),
               }}
+              disableNavigation
+              fixedWeeks
+              mode="range"
+              onSelect={setRange}
+              selected={range}
+              showOutsideDays
+              startMonth={range?.from}
             />
           </PopoverContent>
         </Popover>
       </CardHeader>
       <CardContent className="px-4">
         <ChartContainer
-          config={chartConfig}
           className="aspect-auto h-[250px] w-full"
+          config={chartConfig}
         >
           <BarChart
             accessibilityLayer
@@ -134,10 +134,8 @@ export default function Calendar27() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="date"
-              tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              dataKey="date"
               minTickGap={20}
               tickFormatter={(value) => {
                 const date = new Date(value)
@@ -145,19 +143,21 @@ export default function Calendar27() {
                   day: "numeric",
                 })
               }}
+              tickLine={false}
+              tickMargin={8}
             />
             <ChartTooltip
               content={
                 <ChartTooltipContent
                   className="w-[150px]"
-                  nameKey="visitors"
                   labelFormatter={(value) => {
                     return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
                       day: "numeric",
+                      month: "short",
                       year: "numeric",
                     })
                   }}
+                  nameKey="visitors"
                 />
               }
             />

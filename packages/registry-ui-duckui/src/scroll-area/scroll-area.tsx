@@ -30,8 +30,8 @@ const ScrollArea = ({
     if (!viewport) return
     // Vertical
     if (orientation === 'vertical' || orientation === 'both') {
-      const thumb = vThumbRef.current!
-      const track = vTrackRef.current!
+      const thumb = vThumbRef.current as HTMLDivElement
+      const track = vTrackRef.current as HTMLDivElement
       const scrollSize = viewport.scrollHeight
       const clientSize = viewport.clientHeight
       const scrollOffset = viewport.scrollTop
@@ -46,8 +46,8 @@ const ScrollArea = ({
     }
     // Horizontal
     if (orientation === 'horizontal' || orientation === 'both') {
-      const thumb = hThumbRef.current!
-      const track = hTrackRef.current!
+      const thumb = hThumbRef.current as HTMLDivElement
+      const track = hTrackRef.current as HTMLDivElement
       const scrollSize = viewport.scrollWidth
       const clientSize = viewport.clientWidth
       const scrollOffset = viewport.scrollLeft
@@ -63,9 +63,9 @@ const ScrollArea = ({
   }
 
   const startDrag = (isVertical: boolean, clientPos: number) => {
-    const viewport = viewportRef.current!
-    const thumb = isVertical ? vThumbRef.current! : hThumbRef.current!
-    const track = isVertical ? vTrackRef.current! : hTrackRef.current!
+    const viewport = viewportRef.current as HTMLDivElement
+    const thumb = isVertical ? (vThumbRef.current as HTMLDivElement) : (hThumbRef.current as HTMLDivElement)
+    const track = isVertical ? (vTrackRef.current as HTMLDivElement) : (hTrackRef.current as HTMLDivElement)
     const thumbSize = isVertical ? thumb.offsetHeight : thumb.offsetWidth
     const trackSize = isVertical ? track.offsetHeight : track.offsetWidth
     const maxThumbOffset = trackSize - thumbSize
@@ -95,9 +95,9 @@ const ScrollArea = ({
   }
 
   const onClickTrack = (e: React.MouseEvent<HTMLDivElement>, isVertical: boolean) => {
-    const viewport = viewportRef.current!
-    const thumb = isVertical ? vThumbRef.current! : hThumbRef.current!
-    const track = isVertical ? vTrackRef.current! : hTrackRef.current!
+    const viewport = viewportRef.current as HTMLDivElement
+    const thumb = isVertical ? (vThumbRef.current as HTMLDivElement) : (hThumbRef.current as HTMLDivElement)
+    const track = isVertical ? (vTrackRef.current as HTMLDivElement) : (hTrackRef.current as HTMLDivElement)
     if (e.target === thumb) return
     const rect = track.getBoundingClientRect()
     const clickPos = isVertical ? e.clientY - rect.top : e.clientX - rect.left
@@ -113,7 +113,7 @@ const ScrollArea = ({
   }
 
   React.useEffect(() => {
-    const viewport = viewportRef.current!
+    const viewport = viewportRef.current as HTMLDivElement
     updateThumbs()
     viewport.addEventListener('scroll', updateThumbs)
     const obs = new ResizeObserver(updateThumbs)
@@ -127,46 +127,50 @@ const ScrollArea = ({
   // Styles
   const isV = orientation === 'vertical' || orientation === 'both'
   const isH = orientation === 'horizontal' || orientation === 'both'
-  const vTrackStyle: React.CSSProperties = { width: V_THICKNESS, height: '100%', right: 0, top: 0 }
-  const hTrackStyle: React.CSSProperties = { height: H_THICKNESS, width: '100%', bottom: 0, left: 0 }
+  const vTrackStyle: React.CSSProperties = { height: '100%', right: 0, top: 0, width: V_THICKNESS }
+  const hTrackStyle: React.CSSProperties = { bottom: 0, height: H_THICKNESS, left: 0, width: '100%' }
   const paddingStyle: React.CSSProperties = {
-    paddingRight: isV ? V_THICKNESS : 0,
     paddingBottom: isH ? H_THICKNESS : 0,
+    paddingRight: isV ? V_THICKNESS : 0,
   }
 
   return (
-    <div ref={containerRef} className={cn('relative overflow-hidden', className)} style={style} {...props}>
+    <div className={cn('relative overflow-hidden', className)} ref={containerRef} style={style} {...props}>
       <div
-        ref={viewportRef}
         className={cn('scrollbar-none h-full w-full overflow-auto', viewportClassName)}
+        ref={viewportRef}
         style={paddingStyle}>
         {children}
       </div>
 
       {isV && (
         <div
-          ref={vTrackRef}
-          onMouseDown={(e) => onClickTrack(e, true)}
+          aria-hidden="true"
           className="absolute bg-transparent opacity-0 hover:opacity-100"
+          onMouseDown={(e) => onClickTrack(e, true)}
+          ref={vTrackRef}
           style={vTrackStyle}>
           <div
-            ref={vThumbRef}
-            onMouseDown={(e) => onDragThumb(e, true)}
+            aria-hidden="true"
             className="absolute right-0 w-full rounded-full bg-secondary hover:bg-secondary"
+            onMouseDown={(e) => onDragThumb(e, true)}
+            ref={vThumbRef}
           />
         </div>
       )}
 
       {isH && (
         <div
-          ref={hTrackRef}
-          onMouseDown={(e) => onClickTrack(e, false)}
+          aria-hidden="true"
           className="absolute bg-transparent opacity-0 hover:opacity-100"
+          onMouseDown={(e) => onClickTrack(e, false)}
+          ref={hTrackRef}
           style={hTrackStyle}>
           <div
-            ref={hThumbRef}
-            onMouseDown={(e) => onDragThumb(e, false)}
+            aria-hidden="true"
             className="absolute bottom-0 h-full rounded-full bg-secondary hover:bg-secondary"
+            onMouseDown={(e) => onDragThumb(e, false)}
+            ref={hThumbRef}
           />
         </div>
       )}

@@ -19,29 +19,29 @@ import {
 // Menu items.
 const items = [
   {
+    icon: Home,
     title: "Home",
     url: "#",
-    icon: Home,
   },
   {
+    icon: Inbox,
     title: "Inbox",
     url: "#",
-    icon: Inbox,
   },
   {
+    icon: Calendar,
     title: "Calendar",
     url: "#",
-    icon: Calendar,
   },
   {
+    icon: Search,
     title: "Search",
     url: "#",
-    icon: Search,
   },
   {
+    icon: Settings,
     title: "Settings",
     url: "#",
-    icon: Settings,
   },
 ]
 

@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import {
   Check,
   ChevronRight,
@@ -8,6 +7,7 @@ import {
   GalleryVerticalEnd,
   Search,
 } from "lucide-react"
+import * as React from "react"
 
 import {
   Breadcrumb,
@@ -53,11 +53,8 @@ export const description = "A sidebar with collapsible sections."
 
 // This is sample data.
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      title: "Getting Started",
-      url: "#",
       items: [
         {
           title: "Installation",
@@ -68,19 +65,19 @@ const data = {
           url: "#",
         },
       ],
+      title: "Getting Started",
+      url: "#",
     },
     {
-      title: "Building Your Application",
-      url: "#",
       items: [
         {
           title: "Routing",
           url: "#",
         },
         {
+          isActive: true,
           title: "Data Fetching",
           url: "#",
-          isActive: true,
         },
         {
           title: "Rendering",
@@ -123,10 +120,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Building Your Application",
+      url: "#",
     },
     {
-      title: "API Reference",
-      url: "#",
       items: [
         {
           title: "Components",
@@ -153,10 +150,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "API Reference",
+      url: "#",
     },
     {
-      title: "Architecture",
-      url: "#",
       items: [
         {
           title: "Accessibility",
@@ -179,18 +176,21 @@ const data = {
           url: "#",
         },
       ],
+      title: "Architecture",
+      url: "#",
     },
     {
-      title: "Community",
-      url: "#",
       items: [
         {
           title: "Contribution Guide",
           url: "#",
         },
       ],
+      title: "Community",
+      url: "#",
     },
   ],
+  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
 }
 
 export default function Component() {
@@ -205,8 +205,8 @@ export default function Component() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton
-                    size="lg"
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                    size="lg"
                   >
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                       <GalleryVerticalEnd className="size-4" />
@@ -219,8 +219,8 @@ export default function Component() {
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  className="w-[--radix-dropdown-menu-trigger-width]"
                   align="start"
+                  className="w-[--radix-dropdown-menu-trigger-width]"
                 >
                   {data.versions.map((version) => (
                     <DropdownMenuItem
@@ -240,13 +240,13 @@ export default function Component() {
           <form>
             <SidebarGroup className="py-0">
               <SidebarGroupContent className="relative">
-                <Label htmlFor="search" className="sr-only">
+                <Label className="sr-only" htmlFor="search">
                   Search
                 </Label>
                 <SidebarInput
+                  className="pl-8"
                   id="search"
                   placeholder="Search the docs..."
-                  className="pl-8"
                 />
                 <Search className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
               </SidebarGroupContent>
@@ -257,10 +257,10 @@ export default function Component() {
           {/* We create a collapsible SidebarGroup for each parent. */}
           {data.navMain.map((item) => (
             <Collapsible
+              className="group/collapsible"
+              defaultOpen
               key={item.title}
               title={item.title}
-              defaultOpen
-              className="group/collapsible"
             >
               <SidebarGroup>
                 <SidebarGroupLabel
@@ -294,7 +294,7 @@ export default function Component() {
       <SidebarInset>
         <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Separator className="mr-2 h-4" orientation="vertical" />
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
@@ -312,8 +312,8 @@ export default function Component() {
         <div className="flex flex-1 flex-col gap-4 p-4">
           {Array.from({ length: 24 }).map((_, index) => (
             <div
-              key={index}
               className="aspect-video h-12 w-full rounded-lg bg-muted/50"
+              key={index}
             />
           ))}
         </div>

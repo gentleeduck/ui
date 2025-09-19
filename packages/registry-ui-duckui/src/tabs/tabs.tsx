@@ -34,7 +34,7 @@ function Tabs({ value, defaultValue, onValueChange, ...props }: TabsProps) {
 
   return (
     <TabsContext.Provider value={{ activeItem, setActiveItem }}>
-      <div {...props} duck-tabs="" role="tablist" aria-orientation="vertical" />
+      <div {...props} aria-orientation="vertical" duck-tabs="" role="tablist" />
     </TabsContext.Provider>
   )
 }
@@ -42,12 +42,12 @@ function Tabs({ value, defaultValue, onValueChange, ...props }: TabsProps) {
 export interface TabsListProps extends React.HTMLProps<HTMLUListElement> {}
 const TabsList = ({ className, ref, ...props }: TabsListProps) => (
   <ul
-    ref={ref}
     className={cn(
-      'inline-flex w-full items-center justify-center gap-2 rounded-md bg-muted p-1 text-muted-foreground',
+      'inline-flex w-fit items-center justify-center gap-2 rounded-md bg-muted p-1 text-muted-foreground',
 
       className,
     )}
+    ref={ref}
     {...props}
     duck-tabs-list=""
   />
@@ -77,31 +77,30 @@ const TabsTrigger = ({
 
   return (
     <li
-      ref={ref}
-      data-value={value}
-      aria-selected={isActive}
-      role="tab"
-      id={`tab-${value}`}
       className={cn(
-        'relative inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 font-medium text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'relative inline-flex h-[29.04px] items-center justify-center whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         isActive && 'bg-background text-foreground shadow-sm',
         disabled && 'pointer-events-none opacity-50',
         className,
       )}
+      data-selected={isActive}
+      data-value={value}
+      id={`tab-${value}`}
+      ref={ref}
       {...props}
       duck-tabs-trigger="">
       <input
-        id={value}
-        type="radio"
-        name="tab"
-        value={value}
-        disabled={disabled}
-        className="absolute inset-0 appearance-none rounded-md ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        onChange={() => setActiveItem(value)}
         checked={isActive}
+        className="absolute inset-0 appearance-none rounded-md ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         defaultChecked={defaultChecked}
+        disabled={disabled}
+        id={value}
+        name="tab"
+        onChange={() => setActiveItem(value)}
+        type="radio"
+        value={value}
       />
-      <label htmlFor={value} className="font-medium">
+      <label className="flex items-center gap-2 font-medium" htmlFor={value}>
         {children}
       </label>
     </li>
@@ -124,17 +123,17 @@ const TabsContent = ({
 
   return (
     <div
-      ref={localRef}
-      data-value={value}
-      role="tabpanel"
-      tabIndex={-1}
-      hidden={activeItem !== value}
       aria-hidden={activeItem !== value}
       className={cn(
         'mt-2 shrink-0 list-none ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         activeItem === value ? 'h-auto opacity-100' : 'h-0 opacity-0',
         className,
       )}
+      data-value={value}
+      hidden={activeItem !== value}
+      ref={localRef}
+      role="tabpanel"
+      tabIndex={-1}
       {...props}
       duck-tabs-content="">
       <MountMinimal forceMount={forceMount} open={activeItem === value} ref={null}>

@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants } from '@gentleduck/motion/anim'
 import SheetPrimitive, { useSheetContext } from '@gentleduck/primitives/sheet'
-import { VariantProps } from '@gentleduck/variants'
+import type { VariantProps } from '@gentleduck/variants'
 import { X } from 'lucide-react'
 import type React from 'react'
 import { AnimSheetVariants } from './sheet.constants'
@@ -30,14 +30,14 @@ export function SheetCloseX({
   return (
     <button
       {...props}
-      ref={ref}
-      type="button"
       aria-label="close"
       className={cn(
         'absolute end-3 top-3 size-4 cursor-pointer rounded text-accent-foreground opacity-70 transition-all hover:opacity-100',
         className,
       )}
-      onClick={() => setOpen?.(false)}>
+      onClick={() => setOpen?.(false)}
+      ref={ref}
+      type="button">
       {children ?? <X aria-hidden size={size} />}
     </button>
   )
@@ -53,8 +53,8 @@ function SheetContent({
   return (
     <SheetPrimitive.Portal>
       <SheetPrimitive.Content
-        SheetClose={SheetCloseX}
         className={cn(AnimSheetVariants({ side }), className)}
+        SheetClose={SheetCloseX}
         {...props}>
         {children}
       </SheetPrimitive.Content>
@@ -70,15 +70,15 @@ function SheetHeader({
 }: React.ComponentPropsWithRef<typeof SheetPrimitive.Heading>): React.JSX.Element {
   return (
     <SheetPrimitive.Heading
-      ref={ref}
       className={cn('flex flex-col gap-1.5 text-left rtl:text-right', className)}
+      ref={ref}
       {...props}
     />
   )
 }
 
 function SheetFooter({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div ref={ref} className={cn(`flex justify-end gap-2 sm:flex-row sm:justify-end`, className)} {...props} />
+  return <div className={cn(`flex justify-end gap-2 sm:flex-row sm:justify-end`, className)} ref={ref} {...props} />
 }
 
 function SheetTitle({
@@ -88,8 +88,8 @@ function SheetTitle({
 }: React.ComponentPropsWithRef<typeof SheetPrimitive.Title>): React.JSX.Element {
   return (
     <SheetPrimitive.Title
-      ref={ref}
       className={cn('font-semibold text-lg leading-none tracking-tight', className)}
+      ref={ref}
       {...props}
     />
   )
@@ -100,7 +100,7 @@ const SheetDescription = ({
   ref,
   ...props
 }: React.ComponentPropsWithRef<typeof SheetPrimitive.Description>): React.JSX.Element => (
-  <SheetPrimitive.Description ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
+  <SheetPrimitive.Description className={cn('text-muted-foreground text-sm', className)} ref={ref} {...props} />
 )
 
 const SheetClose = SheetPrimitive.Close

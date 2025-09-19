@@ -11,9 +11,9 @@ export function BlocksNav() {
     <div className="relative overflow-hidden">
       <ScrollArea className="max-w-none">
         <div className="flex items-center">
-          <BlocksNavLink category={{ name: 'Featured', slug: '', hidden: false }} isActive={pathname === '/blocks'} />
+          <BlocksNavLink category={{ hidden: false, name: 'Featured', slug: '' }} isActive={pathname === '/blocks'} />
           {registryCategories.map((category) => (
-            <BlocksNavLink key={category.slug} category={category} isActive={pathname === `/blocks/${category.slug}`} />
+            <BlocksNavLink category={category} isActive={pathname === `/blocks/${category.slug}`} key={category.slug} />
           ))}
         </div>
       </ScrollArea>
@@ -28,38 +28,38 @@ function BlocksNavLink({ category, isActive }: { category: (typeof registryCateg
 
   return (
     <Link
-      href={`/blocks/${category.slug}`}
-      key={category.slug}
       className="text-muted-foreground hover:text-primary data-[active=true]:text-primary flex h-7 items-center justify-center px-4 text-center text-base font-medium transition-colors"
-      data-active={isActive}>
+      data-active={isActive}
+      href={`/blocks/${category.slug}`}
+      key={category.slug}>
       {category.name}
     </Link>
   )
 }
 export const registryCategories = [
   {
+    hidden: false,
     name: 'Sidebar',
     slug: 'sidebar',
-    hidden: false,
   },
   {
+    hidden: true,
     name: 'Dashboard',
     slug: 'dashboard',
-    hidden: true,
   },
   {
-    name: 'Authentication',
-    slug: 'authentication',
     hidden: false,
+    name: 'Authentication',
+    slug: 'authentications',
   },
   {
+    hidden: false,
     name: 'Login',
     slug: 'login',
-    hidden: false,
   },
   {
+    hidden: false,
     name: 'Calendar',
     slug: 'calendar',
-    hidden: false,
   },
 ]

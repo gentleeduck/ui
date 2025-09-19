@@ -10,7 +10,6 @@ const title = 'Pick a Color. Make it yours.'
 const description = 'Try our hand-picked themes. Copy and paste them into your project. New theme editor coming soon.'
 
 export const metadata: Metadata = {
-  title,
   description,
   openGraph: {
     images: [
@@ -19,6 +18,7 @@ export const metadata: Metadata = {
       },
     ],
   },
+  title,
   twitter: {
     card: 'summary_large_image',
     images: [
@@ -40,12 +40,12 @@ export default function ThemesLayout({ children }: { children: React.ReactNode }
           <Button size="sm">
             <a href="#themes">Browse Themes</a>
           </Button>
-          <Button variant="ghost" size="sm">
+          <Button size="sm" variant="ghost">
             <Link href="/docs/theming">Documentation</Link>
           </Button>
         </PageActions>
       </PageHeader>
-      <div id="themes" className="scroll-mt-24">
+      <div className="scroll-mt-24" id="themes">
         <div className="container-wrapper">
           <div className="container flex items-center">
             <ThemeCustomizer />
@@ -54,7 +54,7 @@ export default function ThemesLayout({ children }: { children: React.ReactNode }
       </div>
       <div className="container-wrapper">
         <div className="container py-6">
-          <section id="themes" className="scroll-mt-20">
+          <section className="scroll-mt-20" id="themes">
             <ThemeWrapper>{children}</ThemeWrapper>
           </section>
         </div>

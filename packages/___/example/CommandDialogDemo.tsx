@@ -1,6 +1,5 @@
 'use client'
 
-import * as React from 'react'
 import {
   Archive,
   CalendarMinus2,
@@ -11,6 +10,7 @@ import {
   Smile,
   Trash2,
 } from 'lucide-react'
+import * as React from 'react'
 
 import {
   CommandDialog,
@@ -24,7 +24,6 @@ import { Button } from '@/registry/registry-ui-components'
 
 const data: CommandListGroupDataType[] = [
   {
-    label: 'Archive',
     element: {
       children: (
         <>
@@ -34,9 +33,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Archive',
   },
   {
-    label: 'Trash',
     element: {
       children: (
         <>
@@ -46,9 +45,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Trash',
   },
   {
-    label: 'Settings',
     element: {
       children: (
         <>
@@ -58,9 +57,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Settings',
   },
   {
-    label: 'Messages',
     element: {
       children: (
         <>
@@ -70,9 +69,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Messages',
   },
   {
-    label: 'Deals',
     element: {
       children: (
         <>
@@ -82,9 +81,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Deals',
   },
   {
-    label: 'Schaduling',
     element: {
       children: (
         <>
@@ -94,9 +93,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Schaduling',
   },
   {
-    label: 'Credit Card',
     element: {
       children: (
         <>
@@ -106,9 +105,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Credit Card',
   },
   {
-    label: 'Smile',
     element: {
       children: (
         <>
@@ -118,6 +117,7 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Smile',
   },
 ]
 
@@ -128,22 +128,22 @@ export default function CommandDialogDemo() {
     <>
       <TooltipProvider>
         <Button
-          variant="outline"
-          title="Command"
-          onClick={() => setOpen(true)}
           command={{
-            label: '⌘+J',
-            key: 'j',
             action: () => setOpen(true),
+            key: 'j',
+            label: '⌘+J',
             state: { open },
           }}
+          onClick={() => setOpen(true)}
+          title="Command"
+          variant="outline"
         />
-        <CommandDialog open={open} onOpenChange={setOpen}>
+        <CommandDialog onOpenChange={setOpen} open={open}>
           <CommandInput placeholder="Type a command or search..." />
           <CommandListGroup
+            className="h-[300px]"
             data={data}
             group={[3, 3, 2]}
-            className="h-[300px]"
             groupheading={['Suggestions', 'Settings']}
             selected={['']}
           />

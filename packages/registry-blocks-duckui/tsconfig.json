@@ -1,42 +1,28 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.iterable"
-    ],
     "baseUrl": ".",
+    "esModuleInterop": true,
     "incremental": false,
-    "rootDir": "./",
-    "outDir": "./dist",
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "Preserve",
     "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "isolatedModules": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
+    "outDir": "./dist",
     "paths": {
-      "~/old-registry-ui": [
-        "../_oldstuff_refactor/ui/index.ts"
-      ],
-      "~/*": [
-        "./*"
-      ]
+      "~/*": ["./*"],
+      "~/old-registry-ui": ["../_oldstuff_refactor/ui/index.ts"]
     },
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "resolveJsonModule": true,
+    "rootDir": "./"
   },
-  "include": [
-    ".",
-    "../_oldstuff_refactor/default/ui/index.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"],
+  "extends": "@gentleduck/typescript-config/base.json",
+  "include": [".", "../_oldstuff_refactor/default/ui/index.ts"]
 }

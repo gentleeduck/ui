@@ -1,7 +1,14 @@
 
+
+import { cn } from '@gentleduck/libs/cn'
+import {
+  TooltipContent,
+  TooltipTrigger,
+  TooltipTrigger,
+} from '@gentleduck/registry-ui-duckui/tooltip'
+import { Inbox, Mail } from 'lucide-react'
 //@ts-noCheck
 import * as React from 'react'
-
 import {
   Select,
   SelectContent,
@@ -9,14 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ShadcnUI/select'
-import {
-  TooltipTrigger,
-  TooltipContent,
-  TooltipTrigger,
-} from '@gentleduck/registry-ui-duckui/tooltip'
-
-import { cn } from '@gentleduck/libs/cn'
-import { Inbox, Mail } from 'lucide-react'
 
 export interface DuckSwitcherProps {
   isCollapsed: boolean
@@ -49,17 +48,17 @@ export function DuckSwitcher({
       >
         <TooltipTrigger asChild>
           <SelectTrigger
+            aria-label='Select account'
             className={cn(
               'account__switcher flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 w-[250px] h-10 px-4',
               isCollapsed &&
               'flex h-10 w-10 items-center justify-center p-2 [&>span]:w-auto [&>svg]:hidden',
               className
             )}
-            aria-label='Select account'
           >
             <SelectValue
-              placeholder='Select an account'
               className='w-auto'
+              placeholder='Select an account'
             >
               <IconSelected className='!h-[1.15rem] !w-[1.15rem]' />
               <span
@@ -91,8 +90,8 @@ export function DuckSwitcher({
         </SelectContent>
       </Select>
       <TooltipContent
-        side='right'
         className='flex items-center gap-4 z-50'
+        side='right'
       >
         {accounts.find((account) => account.email === selectedAccount)?.label}
       </TooltipContent>

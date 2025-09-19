@@ -1,34 +1,34 @@
 {
-  "version": "7",
   "dialect": "postgresql",
   "entries": [
     {
+      "breakpoints": true,
       "idx": 0,
-      "version": "7",
-      "when": 1737164693378,
       "tag": "0000_orange_famine",
-      "breakpoints": true
+      "version": "7",
+      "when": 1737164693378
     },
     {
+      "breakpoints": true,
       "idx": 1,
-      "version": "7",
-      "when": 1737166990140,
       "tag": "0001_sloppy_expediter",
-      "breakpoints": true
+      "version": "7",
+      "when": 1737166990140
     },
     {
+      "breakpoints": true,
       "idx": 2,
-      "version": "7",
-      "when": 1737759026820,
       "tag": "0002_clean_the_order",
-      "breakpoints": true
+      "version": "7",
+      "when": 1737759026820
     },
     {
+      "breakpoints": true,
       "idx": 3,
-      "version": "7",
-      "when": 1737934442303,
       "tag": "0003_fancy_wallflower",
-      "breakpoints": true
+      "version": "7",
+      "when": 1737934442303
     }
-  ]
+  ],
+  "version": "7"
 }

@@ -1,7 +1,6 @@
-import * as React from 'react'
+import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Dialog,
@@ -23,6 +22,7 @@ import {
 } from '@gentleduck/registry-ui-duckui/drawer'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
+import * as React from 'react'
 
 export default function DrawerDialogDemo() {
   const [open, setOpen] = React.useState(false)
@@ -30,8 +30,10 @@ export default function DrawerDialogDemo() {
 
   if (isDesktop) {
     return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger variant="outline">Edit Profile</DialogTrigger>
+      <Dialog onOpenChange={setOpen} open={open}>
+        <DialogTrigger asChild>
+          <Button variant="outline">Edit Profile</Button>
+        </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
@@ -44,7 +46,7 @@ export default function DrawerDialogDemo() {
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer onOpenChange={setOpen} open={open}>
       <DrawerTrigger asChild>
         <Button variant="outline">Edit Profile</Button>
       </DrawerTrigger>
@@ -69,11 +71,11 @@ function ProfileForm({ className }: React.ComponentProps<'form'>) {
     <form className={cn('grid items-start gap-4', className)}>
       <div className="grid gap-2">
         <Label htmlFor="email">Email</Label>
-        <Input type="email" id="email" defaultValue="shadcn@example.com" />
+        <Input defaultValue="shadcn@example.com" id="email" type="email" />
       </div>
       <div className="grid gap-2">
         <Label htmlFor="username">Username</Label>
-        <Input id="username" defaultValue="@shadcn" />
+        <Input defaultValue="@shadcn" id="username" />
       </div>
       <Button type="submit">Save changes</Button>
     </form>

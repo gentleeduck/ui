@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+import * as React from "react"
 
 import { Button } from "@/registry/default/ui/button"
 import {
@@ -36,8 +36,8 @@ export default function DropdownMenuCheckboxes() {
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={showActivityBar}
-          onCheckedChange={setShowActivityBar}
           disabled
+          onCheckedChange={setShowActivityBar}
         >
           Activity Bar
         </DropdownMenuCheckboxItem>

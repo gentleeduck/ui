@@ -49,7 +49,7 @@ export default function DrawerDemo7Shadcn() {
 
           <DrawerFooter className="flex-row gap-2">
             <DrawerClose asChild>
-              <Button variant="default" className="w-full">
+              <Button className="w-full" variant="default">
                 Close Drawer
               </Button>
             </DrawerClose>
@@ -66,11 +66,11 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
       <div className="p-4 pb-0">
         <div className="flex items-center justify-center space-x-2">
           <Button
-            variant="outline"
-            size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
+            disabled={goal <= 200}
             onClick={() => onClick(-10)}
-            disabled={goal <= 200}>
+            size="icon"
+            variant="outline">
             <Minus className="h-4 w-4" />
             <span className="sr-only">Decrease</span>
           </Button>
@@ -81,26 +81,26 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
           </div>
 
           <Button
-            variant="outline"
-            size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
+            disabled={goal >= 400}
             onClick={() => onClick(10)}
-            disabled={goal >= 400}>
+            size="icon"
+            variant="outline">
             <Plus className="h-4 w-4" />
             <span className="sr-only">Increase</span>
           </Button>
         </div>
 
         <div className="mt-3 h-[120px] w-full">
-          <ResponsiveContainer width="100%" height="100%" className="!w-[368px]">
+          <ResponsiveContainer className="!w-[368px]" height="100%" width="100%">
             <BarChart data={goals}>
               <Bar
                 dataKey="goal"
                 style={
                   {
-                    width: '50px',
                     fill: 'hsl(var(--foreground))',
                     opacity: 0.9,
+                    width: '50px',
                   } as React.CSSProperties
                 }
               />

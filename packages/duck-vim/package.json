@@ -1,53 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck/vim",
-  "version": "0.1.7",
-  "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
-  "license": "MIT",
-  "private": false,
-  "type": "module",
-  "files": [
-    "src",
-    "!src/**/*.test.*",
-    "!src/**/__test__/**",
-    "README.md",
-    "LICENSE",
-    "CHANGELOG.md",
-    "SECURITY.md",
-    "article-about-this.md",
-    "tsconfig.json"
-  ],
-  "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*/index.ts"
-  },
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "author": "wildduck",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleeduck/ui",
-    "directory": "packages/duck-vim"
-  },
   "bugs": {
     "url": "https://github.com/gentleeduck/ui/issues"
   },
-  "homepage": "https://github.com/gentleeduck/ui/tree/master/packages/duck-vim#readme",
-  "scripts": {
-    "ci": "pnpm run lint && pnpm run format",
-    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
-    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
-    "dev": "vitest",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version",
-    "test": "vitest run"
-  },
-  "peerDependencies": {
-    "react": ">=18 || 19",
-    "react-dom": ">=18 || 19"
-  },
+  "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "^6.6.3",
@@ -68,5 +25,48 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "packageManager": "pnpm@10.10.0"
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*/index.ts"
+  },
+  "files": [
+    "src",
+    "!src/**/*.test.*",
+    "!src/**/__test__/**",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "article-about-this.md",
+    "tsconfig.json"
+  ],
+  "homepage": "https://github.com/gentleeduck/ui/tree/master/packages/duck-vim#readme",
+  "license": "MIT",
+  "module": "./dist/index.js",
+  "name": "@gentleduck/vim",
+  "packageManager": "pnpm@10.10.0",
+  "peerDependencies": {
+    "react": ">=18 || 19",
+    "react-dom": ">=18 || 19"
+  },
+  "private": false,
+  "repository": {
+    "directory": "packages/duck-vim",
+    "type": "git",
+    "url": "https://github.com/gentleeduck/ui"
+  },
+  "scripts": {
+    "ci": "pnpm run lint && pnpm run format",
+    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
+    "dev": "vitest",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version",
+    "test": "vitest run"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "0.1.7"
 }

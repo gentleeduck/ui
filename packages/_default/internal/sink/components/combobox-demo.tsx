@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/registry/default/ui/button"
@@ -21,24 +21,24 @@ import {
 
 const frameworks = [
   {
-    value: "next.js",
     label: "Next.js",
+    value: "next.js",
   },
   {
-    value: "sveltekit",
     label: "SvelteKit",
+    value: "sveltekit",
   },
   {
-    value: "nuxt.js",
     label: "Nuxt.js",
+    value: "nuxt.js",
   },
   {
-    value: "remix",
     label: "Remix",
+    value: "remix",
   },
   {
-    value: "astro",
     label: "Astro",
+    value: "astro",
   },
 ]
 
@@ -47,13 +47,13 @@ export function ComboboxDemo() {
   const [value, setValue] = React.useState("")
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover onOpenChange={setOpen} open={open}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
-          role="combobox"
           aria-expanded={open}
           className="w-[200px] justify-between"
+          role="combobox"
+          variant="outline"
         >
           {value
             ? frameworks.find((framework) => framework.value === value)?.label
@@ -63,18 +63,18 @@ export function ComboboxDemo() {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandInput className="h-9" placeholder="Search framework..." />
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
               {frameworks.map((framework) => (
                 <CommandItem
                   key={framework.value}
-                  value={framework.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
                     setOpen(false)
                   }}
+                  value={framework.value}
                 >
                   {framework.label}
                   <Check

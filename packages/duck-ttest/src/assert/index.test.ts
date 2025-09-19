@@ -13,3 +13,5 @@ type TestExpectFalse_Pass = AssertFalse<false, 'Should be false'>
 
 // FIX: Should error: `true` is not assignable to `false`
 // type TestExpectFalse_Fail = ExpectFalse<true>; // ↳ Compile-time error
+
+/* @__IGNORED__@ */ type _IGNORE = [TestExpect_Pass, TestExpectFalse_Pass]

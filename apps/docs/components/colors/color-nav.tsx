@@ -16,12 +16,12 @@ export function ColorsNav({ className, ...props }: React.ComponentProps<'div'>) 
         <div className="flex items-center">
           {colors.map((colorPalette, index) => (
             <Link
-              href={`/colors#${colorPalette.name}`}
-              key={colorPalette.name}
-              data-active={pathname?.startsWith(colorPalette.name) || (index === 0 && pathname === '/colors')}
               className={cn(
                 'text-muted-foreground hover:text-primary data-[active=true]:text-primary flex h-7 items-center justify-center px-4 text-center text-base font-medium capitalize transition-colors',
-              )}>
+              )}
+              data-active={pathname?.startsWith(colorPalette.name) || (index === 0 && pathname === '/colors')}
+              href={`/colors#${colorPalette.name}`}
+              key={colorPalette.name}>
               {colorPalette.name}
             </Link>
           ))}

@@ -1,11 +1,11 @@
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { NavItem, NavItemWithChildren } from 'types/nav'
 import { docsConfig } from '~/config/docs'
 import { Docs } from '../../.velite'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 interface DocsPagerProps {
   doc: Docs
@@ -22,26 +22,26 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
     <div className="flex flex-row items-center justify-between">
       {pager?.prev?.href && (
         <Link
-          href={pager.prev.href}
           className={cn(
             buttonVariants({
-              variant: 'outline',
               className: 'items-center flex ',
+              variant: 'outline',
             }),
-          )}>
+          )}
+          href={pager.prev.href}>
           <ChevronLeftIcon className="mr-2 size-4" />
           <span>{pager.prev.title}</span>
         </Link>
       )}
       {pager?.next?.href && (
         <Link
-          href={pager.next.href}
           className={cn(
             buttonVariants({
-              variant: 'outline',
               className: 'items-center flex ',
+              variant: 'outline',
             }),
-          )}>
+          )}
+          href={pager.next.href}>
           <span>{pager.next.title}</span>
           <ChevronRightIcon className="ml-2 size-4" />
         </Link>
@@ -60,27 +60,27 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
     <div className="flex flex-row items-center justify-between">
       {pager?.prev?.href && (
         <Link
-          href={pager.prev.href}
           className={cn(
             buttonVariants({
+              className: 'items-center [&>svg]:!size-4 size-8',
               size: 'sm',
               variant: 'secondary',
-              className: 'items-center [&>svg]:!size-4 size-8',
             }),
-          )}>
+          )}
+          href={pager.prev.href}>
           <ArrowLeft />
         </Link>
       )}
       {pager?.next?.href && (
         <Link
-          href={pager.next.href}
           className={cn(
             buttonVariants({
-              variant: 'secondary',
-              size: 'sm',
               className: 'items-center [&>svg]:!size-4 size-8 ml-2',
+              size: 'sm',
+              variant: 'secondary',
             }),
-          )}>
+          )}
+          href={pager.next.href}>
           <ArrowRight />
         </Link>
       )}
@@ -95,8 +95,8 @@ export function getPagerForDoc(doc: Docs) {
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
   const next = activeIndex !== flattenedLinks.length - 1 ? flattenedLinks[activeIndex + 1] : null
   return {
-    prev,
     next,
+    prev,
   }
 }
 

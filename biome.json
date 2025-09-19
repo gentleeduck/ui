@@ -4,13 +4,53 @@
     "actions": {
       "source": {
         "organizeImports": "on",
-        "recommended": false
+        "recommended": true,
+        "useSortedAttributes": "on",
+        "useSortedKeys": "on",
+        "useSortedProperties": "on"
       }
     },
     "enabled": true
   },
+  "files": {
+    "experimentalScannerIgnores": [
+      "**/node_modules",
+      "**/dist",
+      "**/build",
+      "**/out",
+      "**/coverage",
+      "**/public",
+      "**/.next",
+      "**/test/**",
+      "**/website/**",
+      "**/.*/**",
+      "**/old_*/**",
+      "**/_*/**"
+    ],
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/build",
+      "!**/out",
+      "!**/coverage",
+      "!**/public",
+      "!**/.next",
+      "!**/apps/docs/.next",
+      "!**/website",
+      "!**/.*",
+      "!**/old_*",
+      "!**/_*",
+      "!packages/___",
+      "./apps/docs/__ui_registry__/**",
+      "!packages/_oldstuff_refactor",
+      "!packages/benchmark",
+      "!packages/duck-orm-skitch"
+    ]
+  },
   "formatter": {
     "attributePosition": "multiline",
+    "bracketSameLine": true,
     "bracketSpacing": true,
     "enabled": true,
     "formatWithErrors": false,
@@ -18,16 +58,21 @@
       "**",
       "!**/node_modules/**",
       "!**/dist/**",
-      "!**/website/**",
       "!**/build/**",
+      "!**/out/**",
+      "!**/coverage/**",
+      "!**/test/**",
       "!**/public/**",
+      "!**/.next/**",
+      "!**/apps/docs/.next/**",
+      "!**/website/**",
       "!**/.*/**",
       "!**/old_*/**",
       "!**/_*/**",
-      "!packages/___/",
+      "!packages/___/**",
       "./apps/docs/__ui_registry__/**",
-      "!packages/_oldstuff_refactor/",
-      "!packages/benchmark/",
+      "!packages/_oldstuff_refactor/**",
+      "!packages/benchmark/**",
       "!packages/duck-orm-skitch/**"
     ],
     "indentStyle": "space",
@@ -47,69 +92,63 @@
       "semicolons": "asNeeded",
       "trailingCommas": "all"
     },
-    "globals": [
-      "Global1"
-    ]
+    "globals": ["Global1"]
   },
   "linter": {
     "enabled": true,
     "includes": [
       "**",
-      "!**/@*",
-      "!**/.*/**",
-      "!**/old_*/**",
-      "!**/_*/**",
-      "./apps/docs/__ui_registry__/**",
       "!**/node_modules/**",
       "!**/dist/**",
       "!**/build/**",
-      "!**/test/**",
+      "!**/out/**",
+      "!**/coverage/**",
       "!**/public/**",
-      "!apps/docs/**",
+      "!**/.next/**",
+      "!**/apps/docs/.next/**",
       "!**/website/**",
+      "!**/.*/**",
+      "!**/old_*/**",
+      "!**/_*/**",
+      "!apps/docs/**",
       "!apps/upload-api/**",
       "!apps/www/**",
+      "!apps/benchmark/**",
       "!packages/___/**",
       "!packages/_oldstuff_refactor/**",
       "!packages/duck-state/**",
       "!packages/duck-benchmark/**",
       "!packages/registry-build-duckui/**",
-      "!**/duck-state/**",
       "!packages/sandbox-server/**",
-      "!apps/benchmark/**",
+      "!**/duck-state/**",
       "!**/upload/**",
       "!**/table/**",
       "!**/combobox.tsx"
     ],
     "rules": {
-      "complexity": {},
+      "complexity": {
+        "noBannedTypes": "off"
+      },
       "nursery": {
+        "noImportCycles": "off",
+        "useImageSize": "warn",
         "useSortedClasses": {
           "fix": "safe",
           "level": "info",
           "options": {
-            "attributes": [
-              "className",
-              "class"
-            ],
-            "functions": [
-              "clsx",
-              "cva",
-              "tw",
-              "twMerge",
-              "cn",
-              "twJoin",
-              "tv"
-            ]
+            "attributes": ["className", "class"],
+            "functions": ["clsx", "cva", "tw", "twMerge", "cn", "twJoin", "tv"]
           }
         }
       },
-      "recommended": false,
+      "recommended": true,
       "style": {},
       "suspicious": {
+        "noDocumentCookie": "off",
         "noDoubleEquals": "error",
         "noExplicitAny": "off",
         "noThenProperty": "error",
+        "noUnknownAtRules": "info",
         "noVar": "error",
         "useGetterReturn": "error",
         "useIsArray": "error"
@@ -121,9 +160,8 @@
       "formatter": {
         "indentWidth": 2
       },
-      "includes": [
-        "**/*.json"
-      ]
+      "includes": ["**/*.json"]
     }
-  ]
+  ],
+  "plugins": []
 }

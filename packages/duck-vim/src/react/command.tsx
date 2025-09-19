@@ -1,7 +1,7 @@
 'use client'
 
 import type React from 'react'
-import { createContext, useContext, useEffect, type ReactNode } from 'react'
+import { createContext, type ReactNode, useContext, useEffect } from 'react'
 import { type Command, KeyHandler, Registry } from '../command'
 import type { KeyContextValue } from './command.types'
 
@@ -43,7 +43,7 @@ export const KeyProvider: React.FC<{ debug?: boolean; timeoutMs?: number; childr
     return () => handler.detach()
   }, [handler])
 
-  return <KeyContext.Provider value={{ registry, handler }}>{children}</KeyContext.Provider>
+  return <KeyContext.Provider value={{ handler, registry }}>{children}</KeyContext.Provider>
 }
 
 /**

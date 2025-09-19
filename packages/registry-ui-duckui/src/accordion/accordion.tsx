@@ -105,9 +105,9 @@ function Accordion({
   return (
     <AccordionContext.Provider
       value={{
-        rerender,
-        onValueChange: onValueChange as never,
         onItemChange: handleAccordionItemChange,
+        onValueChange: onValueChange as never,
+        rerender,
         value: (type === 'single' ? [value ?? defaultValue] : (value ?? defaultValue)) as string[],
         wrapperRef,
       }}>
@@ -146,17 +146,17 @@ function AccordionItem({
         className,
       )}
       id={value}
-      ref={ref}
-      onKeyUp={onKeyUp}
       onClick={(e) => {
         onClick?.(e)
         onItemChange?.(value ?? '', setOpen, e)
       }}
+      onKeyUp={onKeyUp}
+      ref={ref}
       {...props}
       duck-accordion-item="">
       {_children[0]}
       {rerender && (
-        <Mount renderOnce={renderOnce} open={open}>
+        <Mount open={open} renderOnce={renderOnce}>
           {_children[1]}
         </Mount>
       )}

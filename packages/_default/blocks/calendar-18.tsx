@@ -11,11 +11,11 @@ export default function Calendar18() {
 
   return (
     <Calendar
-      mode="single"
-      selected={date}
-      onSelect={setDate}
-      className="rounded-lg border [--cell-size:2.75rem] md:[--cell-size:3rem]"
       buttonVariant="ghost"
+      className="rounded-lg border [--cell-size:2.75rem] md:[--cell-size:3rem]"
+      mode="single"
+      onSelect={setDate}
+      selected={date}
     />
   )
 }

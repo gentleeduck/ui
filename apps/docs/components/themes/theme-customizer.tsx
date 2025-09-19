@@ -41,7 +41,7 @@ export function ThemeCustomizer() {
     <div className="flex items-center gap-2">
       <Drawer>
         <DrawerTrigger asChild>
-          <Button size="sm" className="md:hidden">
+          <Button className="md:hidden" size="sm">
             Customize
           </Button>
         </DrawerTrigger>
@@ -59,7 +59,7 @@ export function ThemeCustomizer() {
           </PopoverContent>
         </Popover>
       </div>
-      <CopyCodeButton variant="ghost" size="sm" className="[&_svg]:hidden" />
+      <CopyCodeButton className="[&_svg]:hidden" size="sm" variant="ghost" />
     </div>
   )
 }
@@ -81,16 +81,16 @@ export function Customizer() {
           <div className="text-xs text-muted-foreground">Pick a style and color for your components.</div>
         </div>
         <Button
-          variant="ghost"
-          size="icon"
           className="ml-auto rounded-[0.5rem]"
           onClick={() => {
             setConfig({
               ...config,
-              theme: 'zinc',
               radius: 0.5,
+              theme: 'zinc',
             })
-          }}>
+          }}
+          size="icon"
+          variant="ghost">
           <ResetIcon />
           <span className="sr-only">Reset</span>
         </Button>
@@ -104,8 +104,7 @@ export function Customizer() {
 
               return mounted ? (
                 <Button
-                  variant={'outline'}
-                  size="sm"
+                  className={cn('justify-start', isActive && 'border-2 border-primary')}
                   key={theme.name}
                   onClick={() => {
                     setConfig({
@@ -113,12 +112,13 @@ export function Customizer() {
                       theme: theme.name,
                     })
                   }}
-                  className={cn('justify-start', isActive && 'border-2 border-primary')}
+                  size="sm"
                   style={
                     {
                       '--theme-primary': `hsl(${theme?.activeColor?.[mode === 'dark' ? 'dark' : 'light']})`,
                     } as React.CSSProperties
-                  }>
+                  }
+                  variant={'outline'}>
                   <span
                     className={cn(
                       'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[var(--theme-primary)]',
@@ -139,8 +139,7 @@ export function Customizer() {
             {['0', '0.3', '0.5', '0.75', '1.0'].map((value) => {
               return (
                 <Button
-                  variant={'outline'}
-                  size="sm"
+                  className={cn(config.radius === parseFloat(value) && 'border-2 border-primary')}
                   key={value}
                   onClick={() => {
                     setConfig({
@@ -148,7 +147,8 @@ export function Customizer() {
                       radius: parseFloat(value),
                     })
                   }}
-                  className={cn(config.radius === parseFloat(value) && 'border-2 border-primary')}>
+                  size="sm"
+                  variant={'outline'}>
                   {value}
                 </Button>
               )
@@ -161,18 +161,18 @@ export function Customizer() {
             {mounted ? (
               <>
                 <Button
-                  variant={'outline'}
-                  size="sm"
+                  className={cn(mode === 'light' && 'border-2 border-primary')}
                   onClick={() => setMode('light')}
-                  className={cn(mode === 'light' && 'border-2 border-primary')}>
+                  size="sm"
+                  variant={'outline'}>
                   <SunIcon className="mr-1 -translate-x-1" />
                   Light
                 </Button>
                 <Button
-                  variant={'outline'}
-                  size="sm"
+                  className={cn(mode === 'dark' && 'border-2 border-primary')}
                   onClick={() => setMode('dark')}
-                  className={cn(mode === 'dark' && 'border-2 border-primary')}>
+                  size="sm"
+                  variant={'outline'}>
                   <MoonIcon className="mr-1 -translate-x-1" />
                   Dark
                 </Button>
@@ -257,18 +257,18 @@ function CustomizerCode() {
   }
 
   return (
-    <Tabs value={themeVersion} onValueChange={setThemeVersion}>
+    <Tabs onValueChange={setThemeVersion} value={themeVersion}>
       <div className="flex items-center justify-between">
         <TabsList className="bg-zinc-950 dark:bg-zinc-900">
-          <TabsTrigger value="v4" className="w-full">
+          <TabsTrigger className="w-full" value="v4">
             Tailwind v4
           </TabsTrigger>
-          <TabsTrigger value="v3" className="w-full">
+          <TabsTrigger className="w-full" value="v3">
             v3
           </TabsTrigger>
         </TabsList>
       </div>
-      <TabsContent value="v4" className="relative">
+      <TabsContent className="relative" value="v4">
         <Button />
         <div data-rehype-pretty-code-fragment="">
           <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
@@ -293,7 +293,7 @@ function CustomizerCode() {
           </pre>
         </div>
       </TabsContent>
-      <TabsContent value="v3" className="relative">
+      <TabsContent className="relative" value="v3">
         <Button />
         <div data-rehype-pretty-code-fragment="">
           <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">

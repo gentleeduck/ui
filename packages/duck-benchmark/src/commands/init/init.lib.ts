@@ -1,10 +1,9 @@
 import path from 'node:path'
-import { init_options_schema, InitOptions } from './init.dto'
 import { get_project_config } from '~/src/utils'
+import { compile_benchmark, render_benchmark } from '~/src/utils/compile-benchmark'
 import { list_files } from '~/src/utils/list-files'
 import { spinner as Spinner } from '~/src/utils/spinner'
-
-import { compile_benchmark, render_benchmark } from '~/src/utils/compile-benchmark'
+import { InitOptions, init_options_schema } from './init.dto'
 
 export async function init_command_action(opt: InitOptions) {
   const spinner = Spinner('Initializing...')
@@ -20,8 +19,8 @@ export async function init_command_action(opt: InitOptions) {
     filter: ['button', 'vite-env.d.ts', 'main.tsx'],
     spinner,
   })
-  await compile_benchmark({ folders: entries_json, spinner, cwd })
-  await render_benchmark({ folders: entries_json, spinner, cwd })
+  await compile_benchmark({ cwd, folders: entries_json, spinner })
+  await render_benchmark({ cwd, folders: entries_json, spinner })
 
   //TODO: make sure to compile each file in these folders.
   //TODO: get compile result and statics regarding each file in the folder.

@@ -1,5 +1,5 @@
-import React from 'react'
 import { useDebounce } from '@gentleduck/libs'
+import React from 'react'
 import { UseDrawerDragProps } from './drawer.types'
 
 export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDrawerDragProps) {
@@ -91,7 +91,6 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
   // INFO: i fucking hate my job any way i will use the GPT to get some inspirations.
 
   // NOTE: i am kinda stuck here have no idea what to do
-  // biome-ignore lint/complexity/noForEach: <explanation>
   // els.forEach((el) => {
   //   const value = el?.attributes.getNamedItem('data-open')?.value
   //   console.log(value, el.id)

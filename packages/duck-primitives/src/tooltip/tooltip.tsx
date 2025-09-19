@@ -4,7 +4,7 @@ import { cleanLockScrollbar, lockScrollbar } from '../dialog'
 import { Presence } from '../presence'
 import { Slot } from '../slot'
 import { useTooltip } from './tooltip.hooks'
-import { TooltipOptions } from './tooltip.types'
+import type { TooltipOptions } from './tooltip.types'
 
 const TooltipContext = React.createContext<ReturnType<typeof useTooltip> | null>(null)
 
@@ -54,7 +54,7 @@ function Trigger({
         ...(children.props as any),
         'data-open': context.open,
         onClick: (e: React.MouseEvent<HTMLElement>) => {
-          // @ts-ignore
+          // @ts-expect-error
           onClick?.(e)
           context.setOpen(!context.open)
         },
@@ -64,15 +64,15 @@ function Trigger({
 
   return (
     <Comp
-      ref={ref}
-      // The user can style the trigger based on the state
       data-open={context.open}
+      // The user can style the trigger based on the state
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
-        // @ts-ignore
+        // @ts-expect-error
         onClick?.(e)
       }}
-      // @ts-ignore
+      ref={ref}
+      // @ts-expect-error
       {...context.getReferenceProps(props)}>
       {children}
     </Comp>
@@ -104,18 +104,18 @@ function Content({
     <Presence present={forceMount || context.open}>
       <FloatingFocusManager context={floatingContext} modal={context.modal}>
         <div
+          data-open={context.open}
+          data-side={context.placement.split('-')[0]}
           ref={ref}
           style={{
             ...{
               ...context.floatingStyles,
-              transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
               '--duck-tooltip-content-transform-origin': context.floatingStyles?.transformOrigin,
+              transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
               transformOrigin: 'var(--duck-tooltip-content-transform-origin)',
             },
             ...style,
           }}
-          data-side={context.placement.split('-')[0]}
-          data-open={context.open}
           {...context.getFloatingProps(props)}>
           {props.children}
         </div>

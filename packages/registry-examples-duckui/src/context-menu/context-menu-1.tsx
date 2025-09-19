@@ -25,17 +25,17 @@ export default function ContextMenuDemo() {
           Back
           <ContextMenuShortcut
             keys={''}
-            onKeysPressed={function (): void {
+            onKeysPressed={(): void => {
               throw new Error('Function not implemented.')
             }}>
             ⌘[
           </ContextMenuShortcut>
         </ContextMenuItem>
-        <ContextMenuItem inset disabled>
+        <ContextMenuItem disabled inset>
           Forward
           <ContextMenuShortcut
             keys={''}
-            onKeysPressed={function (): void {
+            onKeysPressed={(): void => {
               throw new Error('Function not implemented.')
             }}>
             ⌘]
@@ -45,7 +45,7 @@ export default function ContextMenuDemo() {
           Reload
           <ContextMenuShortcut
             keys={''}
-            onKeysPressed={function (): void {
+            onKeysPressed={(): void => {
               throw new Error('Function not implemented.')
             }}>
             ⌘R
@@ -58,7 +58,7 @@ export default function ContextMenuDemo() {
               Save Page As...
               <ContextMenuShortcut
                 keys={''}
-                onKeysPressed={function (): void {
+                onKeysPressed={(): void => {
                   throw new Error('Function not implemented.')
                 }}>
                 ⇧⌘S
@@ -75,7 +75,7 @@ export default function ContextMenuDemo() {
           Show Bookmarks Bar
           <ContextMenuShortcut
             keys={''}
-            onKeysPressed={function (): void {
+            onKeysPressed={(): void => {
               throw new Error('Function not implemented.')
             }}>
             ⌘⇧B

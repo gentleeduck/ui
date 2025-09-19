@@ -6,7 +6,7 @@ import { cleanLockScrollbar, lockScrollbar } from '../dialog'
 import { Mount } from '../mount'
 import { Slot } from '../slot'
 import { useSheet, useSheetContext } from './sheet.hooks'
-import { SheetContextProps, SheetOptions } from './sheet.types'
+import type { SheetContextProps, SheetOptions } from './sheet.types'
 
 const SheetContext = React.createContext<SheetContextProps>(null)
 
@@ -44,7 +44,7 @@ function Trigger({
         ...(children.props as any),
         'data-open': context.open,
         onClick: (e: React.MouseEvent<HTMLElement>) => {
-          // @ts-ignore
+          // @ts-expect-error
           onClick?.(e)
           context.setOpen(!context.open)
         },
@@ -54,15 +54,15 @@ function Trigger({
 
   return (
     <Comp
-      ref={ref}
-      // The user can style the trigger based on the state
       data-open={context.open}
+      // The user can style the trigger based on the state
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
-        // @ts-ignore
+        // @ts-expect-error
         onClick?.(e)
       }}
-      // @ts-ignore
+      ref={ref}
+      // @ts-expect-error
       {...context.getReferenceProps(props)}>
       {children}
     </Comp>
@@ -75,7 +75,7 @@ function Content({
   renderOnce = false,
   forceMount = false,
   side = 'right',
-  SheetClose: SheetClose,
+  SheetClose,
   ...props
 }: React.HTMLProps<HTMLDivElement> & {
   renderOnce?: boolean
@@ -90,9 +90,9 @@ function Content({
     <Mount open={context.open} renderOnce={renderOnce} {...props}>
       <FloatingFocusManager context={floatingContext}>
         <div
-          ref={ref}
           data-open={context.open}
           data-side={side}
+          ref={ref}
           {...context.getFloatingProps(props)}
           style={{
             ...style,
@@ -100,7 +100,7 @@ function Content({
           }}>
           {props.children}
           {context.closeButton && (
-            // @ts-ignore
+            // @ts-expect-error
             <SheetClose />
           )}
         </div>
@@ -124,13 +124,13 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
       data-open={context.open}
       style={
         {
-          pointerEvents: context.open ? 'auto' : 'none',
-          opacity: context.open ? 1 : 0,
-          zIndex: 49,
           '--duck-sheet-overlay-bg': 'oklch(0.12 0 0 / 0.83)',
           backdropFilter: 'blur(1px)',
           background: 'var(--duck-sheet-overlay-bg)',
+          opacity: context.open ? 1 : 0,
           overflow: 'hidden',
+          pointerEvents: context.open ? 'auto' : 'none',
+          zIndex: 49,
         } as React.CSSProperties
       }
       {...props}>
@@ -151,7 +151,7 @@ function Heading({ children, ref, ...props }: React.HTMLProps<HTMLDivElement>) {
   }, [id, setLabelId])
 
   return (
-    <div {...props} ref={ref} id={id}>
+    <div {...props} id={id} ref={ref}>
       {children}
     </div>
   )
@@ -169,7 +169,7 @@ function Title({ children, ref, ...props }: React.HTMLProps<HTMLHeadingElement>)
   }, [id, setTitleId])
 
   return (
-    <h2 {...props} ref={ref} id={id}>
+    <h2 {...props} id={id} ref={ref}>
       {children}
     </h2>
   )
@@ -187,15 +187,59 @@ function Description({ children, ref, ...props }: React.HTMLProps<HTMLParagraphE
   }, [id, setDescriptionId])
 
   return (
-    <p {...props} ref={ref} id={id}>
+    <p {...props} id={id} ref={ref}>
       {children}
     </p>
   )
 }
 
-function Close(props: React.ComponentPropsWithRef<typeof Slot>) {
-  const { setOpen } = useSheetContext()
-  return <Slot {...props} ref={props?.ref} onClick={() => setOpen(false)} />
+function Close({
+  children,
+  asChild = false,
+  ref: propRef,
+  onClick,
+  ...props
+}: React.HTMLProps<typeof HTMLButtonElement> & {
+  asChild?: boolean
+}) {
+  const context = useSheetContext()
+  const childrenRef = (children as any)?.ref
+  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
+  const Comp = asChild ? Slot : 'button'
+
+  // `asChild` allows the user to pass any element as the anchor
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(
+      children,
+      context.getReferenceProps({
+        ref,
+        ...props,
+        ...(children.props as any),
+        'data-open': context.open,
+        onClick: (e: React.MouseEvent<HTMLElement>) => {
+          // @ts-expect-error
+          onClick?.(e)
+          context.setOpen(false)
+        },
+      }),
+    )
+  }
+
+  return (
+    <Comp
+      data-open={context.open}
+      // The user can style the trigger based on the state
+      onClick={(e: React.MouseEvent<HTMLElement>) => {
+        context.setOpen(false)
+        // @ts-expect-error
+        onClick?.(e)
+      }}
+      ref={ref}
+      // @ts-expect-error
+      {...context.getReferenceProps(props)}>
+      {children}
+    </Comp>
+  )
 }
 
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {

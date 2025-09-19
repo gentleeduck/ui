@@ -1,9 +1,9 @@
-import { Agent, detect } from '@antfu/ni'
+import { type Agent, detect } from '@antfu/ni'
 
 export async function get_package_manager(cwd: string): Promise<Exclude<Agent, 'yarn@berry' | 'pnpm@6'>> {
   const packageManager = await detect({
-    programmatic: true,
     cwd,
+    programmatic: true,
   })
 
   if (packageManager === 'yarn@berry') return 'yarn'

@@ -65,7 +65,7 @@ export function useCommandElements(commandRef: React.RefObject<HTMLDivElement | 
     styleItem(itemsRef.current[0] ?? null)
   }, [])
 
-  return { itemsRef, groupsRef, filteredItemsRef, selectedItemRef }
+  return { filteredItemsRef, groupsRef, itemsRef, selectedItemRef }
 }
 
 export function useCommandSearch(
@@ -134,14 +134,7 @@ export function useCommandSearch(
   }, [search])
 }
 
-export function useHandleKeyDown({
-  selectedItem,
-  setSelectedItem,
-  open,
-  itemsRef,
-  originalItemsRef,
-  allowAxisArrowKeys = false,
-}: {
+export function useHandleKeyDown(props: {
   open?: boolean
   itemsRef: React.RefObject<HTMLLIElement[]>
   selectedItem: HTMLLIElement | null
@@ -149,10 +142,11 @@ export function useHandleKeyDown({
   originalItemsRef: React.RefObject<HTMLLIElement[]>
   allowAxisArrowKeys?: boolean
 }) {
+  const { selectedItem, setSelectedItem, open, itemsRef, originalItemsRef, allowAxisArrowKeys = false } = props
   React.useEffect(() => {
     if (!open) return
 
-    const idx = originalItemsRef.current?.findIndex((item) => item === selectedItem)
+    const idx = originalItemsRef.current?.indexOf(selectedItem as HTMLLIElement) ?? 0
     let originalCurrentItem = idx === -1 ? 0 : idx
     let currentItem = idx === -1 ? 0 : idx
     let inSubMenu = false

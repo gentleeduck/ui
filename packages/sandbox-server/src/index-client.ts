@@ -1,7 +1,7 @@
-import WebSocket from 'ws'
 import readline from 'node:readline'
 import chalk from 'chalk'
 import { uuidv7 } from 'uuidv7'
+import WebSocket from 'ws'
 import { Message } from './index.types'
 
 let currentUserId: string | null = uuidv7()
@@ -23,7 +23,7 @@ rl.question('Enter your name: ', (name) => {
   currentUserName = name || 'Anonymous'
 
   // When connected, send init message
-  ws.send(JSON.stringify({ type: 'init', data: { name: currentUserName } }))
+  ws.send(JSON.stringify({ data: { name: currentUserName }, type: 'init' }))
 
   rl.setPrompt(`${chalk.green(currentUserName)} > `)
   rl.prompt()
@@ -43,7 +43,6 @@ ws.on('message', (data) => {
     }
 
     if (msg.type === 'history') {
-      // biome-ignore lint/complexity/noForEach: <explanation>
       ;(msg as never as Message<'history'>).data.forEach((m) => {
         printMessage(m)
       })
@@ -60,12 +59,12 @@ rl.on('line', (line) => {
   if (line.trim()) {
     ws.send(
       JSON.stringify({
-        type: 'message',
         data: {
-          name: currentUserName,
           message: line.trim(),
+          name: currentUserName,
           timestamp: new Date().toISOString(),
         },
+        type: 'message',
       }),
     )
   }

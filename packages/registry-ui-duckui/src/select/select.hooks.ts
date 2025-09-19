@@ -24,7 +24,7 @@ export function useSelectScroll(
       if (currentIndex === -1) return
 
       const nextIndex = Math.min(currentIndex + 1, itemsRef.current.length - 1)
-      selectedItemRef.current = itemsRef.current[nextIndex]!
+      selectedItemRef.current = itemsRef.current[nextIndex] as HTMLLIElement
 
       // Instead of scrollIntoView, scroll only inside the container
       scrollContainer.scrollTop = selectedItemRef.current.offsetTop - scrollContainer.clientHeight / 2
@@ -37,7 +37,7 @@ export function useSelectScroll(
       if (currentIndex === -1) return
 
       const prevIndex = Math.max(currentIndex - 1, 0)
-      selectedItemRef.current = itemsRef.current[prevIndex]!
+      selectedItemRef.current = itemsRef.current[prevIndex] as HTMLLIElement
 
       scrollContainer.scrollTop = selectedItemRef.current.offsetTop - scrollContainer.clientHeight / 2
     }

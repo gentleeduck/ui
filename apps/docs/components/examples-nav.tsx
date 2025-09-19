@@ -7,44 +7,44 @@ import { usePathname } from 'next/navigation'
 
 const examples = [
   {
-    name: 'Mail',
-    href: '/examples/mail',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/mail',
+    href: '/examples/mail',
+    name: 'Mail',
   },
   {
-    name: 'Dashboard',
-    href: '/examples/dashboard',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/dashboard',
+    href: '/examples/dashboard',
+    name: 'Dashboard',
   },
   {
-    name: 'Cards',
-    href: '/examples/cards',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/cards',
+    href: '/examples/cards',
+    name: 'Cards',
   },
   {
-    name: 'Tasks',
-    href: '/examples/tasks',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/tasks',
+    href: '/examples/tasks',
+    name: 'Tasks',
   },
   {
-    name: 'Playground',
-    href: '/examples/playground',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/playground',
+    href: '/examples/playground',
+    name: 'Playground',
   },
   {
-    name: 'Forms',
-    href: '/examples/forms',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/forms',
+    href: '/examples/forms',
+    name: 'Forms',
   },
   {
-    name: 'Music',
-    href: '/examples/music',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/music',
+    href: '/examples/music',
+    name: 'Music',
   },
   {
-    name: 'Authentication',
-    href: '/examples/authentication',
     code: 'https://github.com/shadcn/ui/tree/main/apps/www/app/(app)/examples/authentication',
+    href: '/examples/authentication',
+    name: 'Authentication',
   },
 ]
 
@@ -59,14 +59,14 @@ export function ExamplesNav({ className, ...props }: ExamplesNavProps) {
         <div className={cn('mb-4 flex items-center', className)} {...props}>
           {examples.map((example, index) => (
             <Link
-              href={example.href}
-              key={example.href}
               className={cn(
                 'flex h-7 items-center justify-center rounded-full px-4 text-center text-sm transition-colors hover:text-primary',
                 pathname?.startsWith(example.href) || (index === 0 && pathname === '/')
                   ? 'bg-muted font-medium text-primary'
                   : 'text-muted-foreground',
-              )}>
+              )}
+              href={example.href}
+              key={example.href}>
               {example.name}
             </Link>
           ))}
@@ -89,10 +89,10 @@ export function ExampleCodeLink({ pathname }: ExampleCodeLinkProps) {
 
   return (
     <Link
+      className="absolute right-0 top-0 hidden items-center rounded-[0.5rem] text-sm font-medium md:flex"
       href={example?.code}
-      target="_blank"
       rel="nofollow"
-      className="absolute right-0 top-0 hidden items-center rounded-[0.5rem] text-sm font-medium md:flex">
+      target="_blank">
       View code
       <ArrowRightIcon className="ml-1 h-4 w-4" />
     </Link>

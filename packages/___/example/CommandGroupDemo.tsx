@@ -1,3 +1,4 @@
+import { Archive, CalendarMinus2, Handshake, MessageCircleMore, Settings } from 'lucide-react'
 import {
   Command,
   CommandInput,
@@ -7,11 +8,8 @@ import {
   TooltipProvider,
 } from '@/registry/default/ui'
 
-import { Archive, CalendarMinus2, Handshake, MessageCircleMore, Settings } from 'lucide-react'
-
 const data: CommandListGroupDataType[] = [
   {
-    label: 'Archive',
     element: {
       children: (
         <>
@@ -20,9 +18,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Archive',
   },
   {
-    label: 'Schaduling',
     element: {
       children: (
         <>
@@ -31,9 +29,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Schaduling',
   },
   {
-    label: 'Deals',
     element: {
       children: (
         <>
@@ -42,9 +40,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Deals',
   },
   {
-    label: 'Messages',
     element: {
       children: (
         <>
@@ -54,9 +52,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Messages',
   },
   {
-    label: 'Settings',
     element: {
       children: (
         <>
@@ -66,9 +64,9 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Settings',
   },
   {
-    label: 'Profile',
     element: {
       children: (
         <>
@@ -78,6 +76,7 @@ const data: CommandListGroupDataType[] = [
         </>
       ),
     },
+    label: 'Profile',
   },
 ]
 

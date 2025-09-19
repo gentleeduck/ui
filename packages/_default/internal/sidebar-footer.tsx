@@ -38,8 +38,8 @@ export default function AppSidebar() {
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  side="top"
                   className="w-[--radix-popper-anchor-width]"
+                  side="top"
                 >
                   <DropdownMenuItem>
                     <span>Account</span>

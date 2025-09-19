@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Default",
   "compilerOptions": {
+    "baseUrl": ".",
     "composite": false,
     "declaration": true,
     "declarationMap": true,
@@ -9,19 +9,19 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
-    "moduleResolution": "bundler",
     "jsx": "preserve",
+    "moduleResolution": "bundler",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "preserveWatchOutput": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
     "paths": {
       "~/*": ["./*"]
-    }
+    },
+    "preserveWatchOutput": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true
   },
+  "display": "Default",
   "exclude": ["node_modules"],
   "include": ["src/**/*.ts"]
 }

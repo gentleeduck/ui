@@ -41,8 +41,8 @@ export async function build_registry_themes(spinner: Ora) {
     if (Array.isArray(value)) {
       colorsData[color] = value.map((item) => ({
         ...item,
-        rgbChannel: item.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
         hslChannel: item.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
+        rgbChannel: item.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
       }))
       continue
     }
@@ -50,8 +50,8 @@ export async function build_registry_themes(spinner: Ora) {
     if (typeof value === 'object' && value !== null) {
       colorsData[color] = {
         ...value,
-        rgbChannel: value.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
         hslChannel: value.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
+        rgbChannel: value.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
       }
       continue
     }
@@ -66,8 +66,8 @@ export async function build_registry_themes(spinner: Ora) {
 
   for (const baseColor of baseColorsList) {
     const base: Record<string, any> = {
-      inlineColors: {},
       cssVars: {},
+      inlineColors: {},
     }
 
     for (const [mode, values] of Object.entries(colorMapping)) {
@@ -172,8 +172,8 @@ export async function registry_build_colors_index(
             }
             return {
               ...item,
-              rgbChannel: item.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
               hslChannel: item.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
+              rgbChannel: item.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
             }
           })
           continue
@@ -186,8 +186,8 @@ export async function registry_build_colors_index(
           }
           colors_data[color] = {
             ...value,
-            rgbChannel: value.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
             hslChannel: value.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
+            rgbChannel: value.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
           }
           continue
         }

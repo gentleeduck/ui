@@ -42,8 +42,8 @@ export function useOnOpenChange<const T extends React.RefObject<HTMLElement | nu
   }, [handleOpenChange, open, openProp])
 
   return {
-    ref,
-    open,
     onOpenChange: handleOpenChange,
+    open,
+    ref,
   }
 }

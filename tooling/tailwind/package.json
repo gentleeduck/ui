@@ -1,22 +1,22 @@
 {
-  "name": "@gentleduck/tailwind-config",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
+  "engines": {
+    "node": ">=24.2.0"
+  },
   "exports": {
-    "./web": "./web.css",
     "./base": "./base.css",
-    "./docs": "./docs.css"
+    "./docs": "./docs.css",
+    "./web": "./web.css"
   },
   "license": "MIT",
+  "name": "@gentleduck/tailwind-config",
+  "packageManager": "pnpm@10.11.1",
+  "private": true,
   "scripts": {
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",
     "clean:git": "git clean -xdf .cache .turbo node_modules dist",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./"
   },
-  "engines": {
-    "node": ">=24.2.0"
-  },
-  "packageManager": "pnpm@10.11.1"
+  "type": "module",
+  "version": "0.1.0"
 }

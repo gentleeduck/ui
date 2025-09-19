@@ -42,7 +42,7 @@ export default function DropdownMenuDemo() {
           </DropdownMenuGroup>
 
           <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup value={position} onValueChange={setPosition} defaultValue={position}>
+          <DropdownMenuRadioGroup defaultValue={position} onValueChange={setPosition} value={position}>
             <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
@@ -66,13 +66,13 @@ export default function DropdownMenuDemo() {
           <DropdownMenuGroup>
             <DropdownMenuItem disabled={true}>
               Preferences
-              <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+              <DropdownMenuShortcut keys="⌘" onKeysPressed={() => {}}>
                 <Command />P
               </DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem>
               Settings
-              <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+              <DropdownMenuShortcut keys="⌘" onKeysPressed={() => {}}>
                 <Command />P
               </DropdownMenuShortcut>
             </DropdownMenuItem>

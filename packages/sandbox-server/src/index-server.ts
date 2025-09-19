@@ -1,7 +1,7 @@
-import { WebSocket, WebSocketServer } from 'ws'
-import path from 'node:path'
 import fs from 'node:fs'
+import path from 'node:path'
 import { uuidv7 } from 'uuidv7'
+import { WebSocket, WebSocketServer } from 'ws'
 import { ChatHistory, Message } from './index.types'
 
 const PORT = 8080
@@ -28,23 +28,23 @@ server.on('connection', (ws) => {
       const _raw: Message = JSON.parse(raw.toString())
 
       if (_raw.type === 'init') {
-        clients.set(connection_id, { user_id: _raw.data.user_id, name: _raw.data.name })
+        clients.set(connection_id, { name: _raw.data.name, user_id: _raw.data.user_id })
         ws.send(
           JSON.stringify({
-            type: 'init',
             data: {
               connection_id,
-              user_id: _raw.data.user_id,
               name: _raw.data.name,
+              user_id: _raw.data.user_id,
             },
+            type: 'init',
           }),
         )
 
         // Send history
         ws.send(
           JSON.stringify({
-            type: 'history',
             data: chat_history,
+            type: 'history',
           }),
         )
 
@@ -58,8 +58,8 @@ server.on('connection', (ws) => {
 
         broadcast(
           JSON.stringify({
-            type: 'message',
             data: _raw_msg.data,
+            type: 'message',
           }),
         )
       }

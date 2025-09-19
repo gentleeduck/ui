@@ -13,12 +13,12 @@ export default function Calendar05() {
 
   return (
     <Calendar
-      mode="range"
-      defaultMonth={dateRange?.from}
-      selected={dateRange}
-      onSelect={setDateRange}
-      numberOfMonths={2}
       className="rounded-lg border shadow-sm"
+      defaultMonth={dateRange?.from}
+      mode="range"
+      numberOfMonths={2}
+      onSelect={setDateRange}
+      selected={dateRange}
     />
   )
 }

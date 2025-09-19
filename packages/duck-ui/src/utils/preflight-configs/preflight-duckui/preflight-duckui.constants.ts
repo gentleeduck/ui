@@ -1,6 +1,5 @@
-import { PromptObject } from 'prompts'
+import type { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
-import { DuckuiPrompts } from './preflight-duckui.dto'
 
 export const BASE_COLORS = [
   'zinc',
@@ -21,69 +20,69 @@ export const PROJECT_TYPE = ['NEXT_JS', 'TANSTACK_START', 'VITE', 'UNKNOWN'] as 
 
 export const duckui_prompts: PromptObject<'duckui'>[] = [
   {
-    type: 'confirm',
-    name: 'duckui',
-    message: `Would you like to init ${highlighter.info('duck-ui')}`,
-    initial: false,
     active: 'yes',
     inactive: 'no',
+    initial: false,
+    message: `Would you like to init ${highlighter.info('duck-ui')}`,
+    name: 'duckui',
+    type: 'confirm',
   },
 ]
 
 export const duckui_config_prompts: PromptObject[] = [
   {
-    type: 'select',
-    name: 'project_type',
-    message: `Select your ${highlighter.info('project type')}`,
     choices: PROJECT_TYPE.map((project) => ({
       title: project,
       value: project,
     })),
 
     initial: 0,
+    message: `Select your ${highlighter.info('project type')}`,
+    name: 'project_type',
+    type: 'select',
   },
   {
-    type: 'select',
-    name: 'base_color',
-    message: `Select a ${highlighter.info('base color')} for your project`,
     choices: BASE_COLORS.map((color) => ({
       title: `${color}`,
       value: color,
     })),
     initial: 0,
+    message: `Select a ${highlighter.info('base color')} for your project`,
+    name: 'base_color',
+    type: 'select',
   },
   {
-    type: 'text',
-    name: 'alias',
-    message: `Type your import ${highlighter.info('alias')}`,
     initial: '~',
+    message: `Type your import ${highlighter.info('alias')}`,
+    name: 'alias',
+    type: 'text',
   },
   {
-    type: 'confirm',
-    name: 'monorepo',
-    message: `Do you have a ${highlighter.info('monorepo?')}`,
+    active: 'yes',
+    inactive: 'no',
     initial: false,
-    active: 'yes',
-    inactive: 'no',
-  },
-  {
-    type: 'text',
-    name: 'css',
-    message: `Type where's your ${highlighter.info('CSS')} file?`,
-    initial: './src/styles.css',
-  },
-  {
+    message: `Do you have a ${highlighter.info('monorepo?')}`,
+    name: 'monorepo',
     type: 'confirm',
-    name: 'css_variables',
-    message: `You want to se ${highlighter.info('CSS')} variables?`,
-    initial: true,
-    active: 'yes',
-    inactive: 'no',
   },
   {
+    initial: './src/styles.css',
+    message: `Type where's your ${highlighter.info('CSS')} file?`,
+    name: 'css',
     type: 'text',
-    name: 'prefix',
-    message: `Type your Tailwind ${highlighter.info('prefix?')} (Enter for none)`,
+  },
+  {
+    active: 'yes',
+    inactive: 'no',
+    initial: true,
+    message: `You want to se ${highlighter.info('CSS')} variables?`,
+    name: 'css_variables',
+    type: 'confirm',
+  },
+  {
     initial: '',
+    message: `Type your Tailwind ${highlighter.info('prefix?')} (Enter for none)`,
+    name: 'prefix',
+    type: 'text',
   },
 ]

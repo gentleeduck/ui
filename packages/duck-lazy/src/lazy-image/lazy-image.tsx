@@ -34,23 +34,22 @@ export function DuckLazyImage(props: LazyImageProps): React.JSX.Element {
   })
 
   return (
-    <div ref={imageRef} className="relative overflow-hidden" style={{ transform: 'translate3d(0,0,0)' }}>
+    <div className="relative overflow-hidden" ref={imageRef} style={{ transform: 'translate3d(0,0,0)' }}>
       <PlaceHolder
-        src={isLoaded ? props.src : (props.placeholder ?? '')}
-        className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'} ${props.nextImage && 'opacity-100'}`}
-        alt="Image is loading..." // Provide alt text for the placeholder image
-        aria-hidden={isLoaded ? 'true' : 'false'} // Hide placeholder once image loads
+        alt="Image is loading..."
+        aria-hidden={isLoaded ? 'true' : 'false'}
+        className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'} ${props.nextImage && 'opacity-100'}`} // Provide alt text for the placeholder image
+        src={isLoaded ? props.src : (props.placeholder ?? '')} // Hide placeholder once image loads
         {...props}
       />
 
       {!props.nextImage && (
-        <div
+        <output
+          aria-hidden={isLoaded ? 'true' : 'false'}
+          aria-live="polite" // Let screen readers know this is a loading status
           className={`absolute inset-0 animate-pulse transition-all ${
             isLoaded ? 'bg-transparent opacity-0' : 'bg-muted opacity-100'
-          }`}
-          role="status" // Let screen readers know this is a loading status
-          aria-live="polite" // Announce the loading state
-          aria-hidden={isLoaded ? 'true' : 'false'} // Hide the loading spinner after image loads
+          }`} // Announce the loading state
         />
       )}
     </div>
@@ -79,13 +78,13 @@ function PlaceHolder({
   const Component = nextImage ? Image : 'img'
   return (
     <Component
-      loading={loading ?? 'lazy'}
-      style={{ transform: 'translate3d(0,0,0)' }}
-      decoding={decoding ?? 'async'}
-      width={width}
-      src={src as (string | StaticImport) & string}
-      height={height}
       alt={alt as string}
+      decoding={decoding ?? 'async'}
+      height={height}
+      loading={loading ?? 'lazy'}
+      src={src as (string | StaticImport) & string}
+      style={{ transform: 'translate3d(0,0,0)' }}
+      width={width}
       {...(props as any)}
     />
   )

@@ -1,19 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "gentleduck",
-  "private": true,
-  "version": "1.0.0",
-  "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
-    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
-    "format": "biome format --write ./",
-    "lint:ws": "pnpm dlx sherif@latest",
-    "lint": "biome lint --write ./",
-    "test": "vitest",
-    "release": "changeset version"
-  },
   "devDependencies": {
     "@biomejs/biome": "2.2.3",
     "@changesets/cli": "^2.27.7",
@@ -28,7 +14,16 @@
     "typescript": "catalog:",
     "vitest": "^3.2.4"
   },
+  "engines": {
+    "node": ">=20.18.1",
+    "pnpm": "^10.2.1"
+  },
+  "name": "gentleduck",
+  "packageManager": "pnpm@10.11.1",
   "pnpm": {
+    "ignoredBuiltDependencies": [
+      "rolldown"
+    ],
     "onlyBuiltDependencies": [
       "@biomejs/biome",
       "@ffprobe-installer/linux-x64",
@@ -39,16 +34,20 @@
       "protobufjs",
       "sharp"
     ],
-    "ignoredBuiltDependencies": [
-      "rolldown"
-    ],
     "overrides": {
       "vite": "catalog:"
     }
   },
-  "packageManager": "pnpm@10.11.1",
-  "engines": {
-    "node": ">=20.18.1",
-    "pnpm": "^10.2.1"
-  }
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
+    "dev": "turbo dev",
+    "format": "biome format --write ./ && biome check --write .",
+    "lint": "biome lint --write ./",
+    "lint:ws": "pnpm dlx sherif@latest",
+    "release": "changeset version",
+    "test": "vitest"
+  },
+  "version": "1.0.0"
 }

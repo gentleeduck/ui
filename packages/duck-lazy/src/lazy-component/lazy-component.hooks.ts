@@ -101,5 +101,5 @@ export const useLazyLoad = (options?: IntersectionObserverInit): UseLazyLoadRetu
     }
   }, [options])
 
-  return { isVisible, elementRef }
+  return { elementRef, isVisible }
 }

@@ -1,10 +1,10 @@
-import { Ora } from 'ora'
-import { highlighter } from '../../text-styling'
-import { get_package_manager } from '../../get-package-manager'
-import { execa } from 'execa'
-import { ts_config, typescript_dependencies } from './preflight-typescript.constants'
-import fs from 'fs-extra'
 import path from 'node:path'
+import { execa } from 'execa'
+import fs from 'fs-extra'
+import type { Ora } from 'ora'
+import { get_package_manager } from '../../get-package-manager'
+import { highlighter } from '../../text-styling'
+import { ts_config, typescript_dependencies } from './preflight-typescript.constants'
 
 export async function install_typescript(cwd: string, spinner: Ora) {
   try {

@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { ChevronDownIcon } from "lucide-react"
+import * as React from "react"
 
 import { Button } from "@/registry/default/ui/button"
 import { Calendar } from "@/registry/default/ui/calendar"
@@ -27,15 +27,15 @@ export default function Calendar26() {
     <div className="flex w-full max-w-64 min-w-0 flex-col gap-6">
       <div className="flex gap-4">
         <div className="flex flex-1 flex-col gap-3">
-          <Label htmlFor="date-from" className="px-1">
+          <Label className="px-1" htmlFor="date-from">
             Check-in
           </Label>
-          <Popover open={openFrom} onOpenChange={setOpenFrom}>
+          <Popover onOpenChange={setOpenFrom} open={openFrom}>
             <PopoverTrigger asChild>
               <Button
-                variant="outline"
-                id="date-from"
                 className="w-full justify-between font-normal"
+                id="date-from"
+                variant="outline"
               >
                 {dateFrom
                   ? dateFrom.toLocaleDateString("en-US", {
@@ -48,45 +48,45 @@ export default function Calendar26() {
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto overflow-hidden p-0"
               align="start"
+              className="w-auto overflow-hidden p-0"
             >
               <Calendar
-                mode="single"
-                selected={dateFrom}
                 captionLayout="dropdown"
+                mode="single"
                 onSelect={(date) => {
                   setDateFrom(date)
                   setOpenFrom(false)
                 }}
+                selected={dateFrom}
               />
             </PopoverContent>
           </Popover>
         </div>
         <div className="flex flex-col gap-3">
-          <Label htmlFor="time-from" className="invisible px-1">
+          <Label className="invisible px-1" htmlFor="time-from">
             From
           </Label>
           <Input
-            type="time"
+            className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+            defaultValue="10:30:00"
             id="time-from"
             step="1"
-            defaultValue="10:30:00"
-            className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+            type="time"
           />
         </div>
       </div>
       <div className="flex gap-4">
         <div className="flex flex-1 flex-col gap-3">
-          <Label htmlFor="date-to" className="px-1">
+          <Label className="px-1" htmlFor="date-to">
             Check-out
           </Label>
-          <Popover open={openTo} onOpenChange={setOpenTo}>
+          <Popover onOpenChange={setOpenTo} open={openTo}>
             <PopoverTrigger asChild>
               <Button
-                variant="outline"
-                id="date-to"
                 className="w-full justify-between font-normal"
+                id="date-to"
+                variant="outline"
               >
                 {dateTo
                   ? dateTo.toLocaleDateString("en-US", {
@@ -99,32 +99,32 @@ export default function Calendar26() {
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto overflow-hidden p-0"
               align="start"
+              className="w-auto overflow-hidden p-0"
             >
               <Calendar
-                mode="single"
-                selected={dateTo}
                 captionLayout="dropdown"
+                disabled={dateFrom && { before: dateFrom }}
+                mode="single"
                 onSelect={(date) => {
                   setDateTo(date)
                   setOpenTo(false)
                 }}
-                disabled={dateFrom && { before: dateFrom }}
+                selected={dateTo}
               />
             </PopoverContent>
           </Popover>
         </div>
         <div className="flex flex-col gap-3">
-          <Label htmlFor="time-to" className="invisible px-1">
+          <Label className="invisible px-1" htmlFor="time-to">
             To
           </Label>
           <Input
-            type="time"
+            className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+            defaultValue="12:30:00"
             id="time-to"
             step="1"
-            defaultValue="12:30:00"
-            className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+            type="time"
           />
         </div>
       </div>

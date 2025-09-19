@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { Check, ChevronsUpDown, GalleryVerticalEnd } from "lucide-react"
+import * as React from "react"
 
 import {
   DropdownMenu,
@@ -30,8 +30,8 @@ export function VersionSwitcher({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
-              size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              size="lg"
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                 <GalleryVerticalEnd className="size-4" />
@@ -44,8 +44,8 @@ export function VersionSwitcher({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width]"
             align="start"
+            className="w-[--radix-dropdown-menu-trigger-width]"
           >
             {versions.map((version) => (
               <DropdownMenuItem

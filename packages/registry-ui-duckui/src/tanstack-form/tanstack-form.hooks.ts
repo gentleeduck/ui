@@ -24,11 +24,11 @@ export function useFormField() {
   return {
     error: field.state.meta.errors?.[0] as never as Error,
     errors: field.state.meta.errors as never as Error[],
-    formItemId: `${fieldContext.name}-form-item`,
     formDescriptionId: `${fieldContext.name}-form-item-description`,
+    formItemId: `${fieldContext.name}-form-item`,
     formMessageId: `${fieldContext.name}-form-item-message`,
-    state: field.state,
     handleChange: field.handleChange,
+    state: field.state,
   }
 }
 

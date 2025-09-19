@@ -1,6 +1,17 @@
 'use client'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
+import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui-duckui/dropdown-menu'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@gentleduck/registry-ui-duckui/table'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -15,54 +26,43 @@ import {
 } from '@tanstack/react-table'
 import { MoreHorizontalIcon } from 'lucide-react'
 import * as React from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
-import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@gentleduck/registry-ui-duckui/dropdown-menu'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@gentleduck/registry-ui-duckui/table'
 
 const data: Payment[] = [
   {
-    id: 'm5gr84i9',
     amount: 316,
-    status: 'success',
     email: 'ken99@example.com',
+    id: 'm5gr84i9',
+    status: 'success',
   },
   {
-    id: '3u1reuv4',
     amount: 242,
-    status: 'success',
     email: 'Abe45@example.com',
-  },
-  {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@example.com',
-  },
-  {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@example.com',
-  },
-  {
-    id: 'k9f2m3n4',
-    amount: 450,
-    status: 'pending',
-    email: 'jason78@example.com',
-  },
-  {
-    id: 'p5q6r7s8',
-    amount: 1280,
+    id: '3u1reuv4',
     status: 'success',
+  },
+  {
+    amount: 837,
+    email: 'Monserrat44@example.com',
+    id: 'derv1ws0',
+    status: 'processing',
+  },
+  {
+    amount: 721,
+    email: 'carmella@example.com',
+    id: 'bhqecj4p',
+    status: 'failed',
+  },
+  {
+    amount: 450,
+    email: 'jason78@example.com',
+    id: 'k9f2m3n4',
+    status: 'pending',
+  },
+  {
+    amount: 1280,
     email: 'sarah23@example.com',
+    id: 'p5q6r7s8',
+    status: 'success',
   },
 ]
 
@@ -75,59 +75,57 @@ export type Payment = {
 
 export const columns: ColumnDef<Payment>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
     cell: ({ row }) => (
       <Checkbox
+        aria-label="Select row"
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
       />
     ),
-    enableSorting: false,
     enableHiding: false,
+    enableSorting: false,
+    header: ({ table }) => (
+      <Checkbox
+        aria-label="Select all"
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+      />
+    ),
+    id: 'select',
   },
   {
     accessorKey: 'status',
-    header: 'Status',
     cell: ({ row }) => <div className="capitalize">{row.getValue('status')}</div>,
+    header: 'Status',
   },
   {
     accessorKey: 'email',
-    header: 'Email',
     cell: ({ row }) => <div className="lowercase">{row.getValue('email')}</div>,
+    header: 'Email',
   },
   {
     accessorKey: 'amount',
-    header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('amount'))
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
         currency: 'USD',
+        style: 'currency',
       }).format(amount)
 
       return <div className="text-right font-medium">{formatted}</div>
     },
+    header: () => <div className="text-right">Amount</div>,
   },
   {
-    id: 'actions',
-    enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original
 
       return (
         <DropdownMenu placement="bottom-end">
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="size-8 p-0">
+            <Button className="size-8 p-0" variant="ghost">
               <span className="sr-only">Open menu</span>
               <MoreHorizontalIcon />
             </Button>
@@ -144,6 +142,8 @@ export const columns: ColumnDef<Payment>[] = [
         </DropdownMenu>
       )
     },
+    enableHiding: false,
+    id: 'actions',
   },
 ]
 
@@ -154,21 +154,21 @@ export function CardsPayments() {
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
-    data,
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    data,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
     state: {
-      sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      sorting,
     },
   })
 
@@ -177,7 +177,7 @@ export function CardsPayments() {
       <CardHeader>
         <CardTitle className="text-xl">Payments</CardTitle>
         <CardDescription>Manage your payments.</CardDescription>
-        <Button variant="secondary" size="sm" className="shadow-none">
+        <Button className="shadow-none" size="sm" variant="secondary">
           Add Payment
         </Button>
       </CardHeader>
@@ -190,9 +190,9 @@ export function CardsPayments() {
                   {headerGroup.headers.map((header) => {
                     return (
                       <TableHead
-                        key={header.id}
                         className="data-[name=actions]:w-10 data-[name=amount]:w-24 data-[name=select]:w-10 data-[name=status]:w-24 [&:has([role=checkbox])]:pl-3"
-                        data-name={header.id}>
+                        data-name={header.id}
+                        key={header.id}>
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                       </TableHead>
                     )
@@ -203,12 +203,12 @@ export function CardsPayments() {
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                  <TableRow data-state={row.getIsSelected() && 'selected'} key={row.id}>
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
-                        key={cell.id}
                         className="data-[name=actions]:w-10 data-[name=amount]:w-24 data-[name=select]:w-10 data-[name=status]:w-24 [&:has([role=checkbox])]:pl-3"
-                        data-name={cell.column.id}>
+                        data-name={cell.column.id}
+                        key={cell.id}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
@@ -216,7 +216,7 @@ export function CardsPayments() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                  <TableCell className="h-24 text-center" colSpan={columns.length}>
                     No results.
                   </TableCell>
                 </TableRow>
@@ -231,13 +231,13 @@ export function CardsPayments() {
           </div>
           <div className="flex gap-2">
             <Button
-              variant="outline"
-              size="sm"
+              disabled={!table.getCanPreviousPage()}
               onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}>
+              size="sm"
+              variant="outline">
               Previous
             </Button>
-            <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            <Button disabled={!table.getCanNextPage()} onClick={() => table.nextPage()} size="sm" variant="outline">
               Next
             </Button>
           </div>

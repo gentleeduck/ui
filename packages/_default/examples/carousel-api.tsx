@@ -3,11 +3,11 @@ import * as React from "react"
 import { Card, CardContent } from "@/registry/default/ui/card"
 import {
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from "@/registry/default/ui/carousel"
 
 export default function CarouselDApiDemo() {
@@ -30,7 +30,7 @@ export default function CarouselDApiDemo() {
 
   return (
     <div className="mx-auto max-w-xs">
-      <Carousel setApi={setApi} className="w-full max-w-xs">
+      <Carousel className="w-full max-w-xs" setApi={setApi}>
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index}>

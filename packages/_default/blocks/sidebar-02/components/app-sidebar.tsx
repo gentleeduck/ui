@@ -1,5 +1,5 @@
-import * as React from "react"
 import { ChevronRight } from "lucide-react"
+import * as React from "react"
 
 import { SearchForm } from "@/registry/default/blocks/sidebar-02/components/search-form"
 import { VersionSwitcher } from "@/registry/default/blocks/sidebar-02/components/version-switcher"
@@ -23,11 +23,8 @@ import {
 
 // This is sample data.
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      title: "Getting Started",
-      url: "#",
       items: [
         {
           title: "Installation",
@@ -38,19 +35,19 @@ const data = {
           url: "#",
         },
       ],
+      title: "Getting Started",
+      url: "#",
     },
     {
-      title: "Building Your Application",
-      url: "#",
       items: [
         {
           title: "Routing",
           url: "#",
         },
         {
+          isActive: true,
           title: "Data Fetching",
           url: "#",
-          isActive: true,
         },
         {
           title: "Rendering",
@@ -93,10 +90,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Building Your Application",
+      url: "#",
     },
     {
-      title: "API Reference",
-      url: "#",
       items: [
         {
           title: "Components",
@@ -123,10 +120,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "API Reference",
+      url: "#",
     },
     {
-      title: "Architecture",
-      url: "#",
       items: [
         {
           title: "Accessibility",
@@ -149,18 +146,21 @@ const data = {
           url: "#",
         },
       ],
+      title: "Architecture",
+      url: "#",
     },
     {
-      title: "Community",
-      url: "#",
       items: [
         {
           title: "Contribution Guide",
           url: "#",
         },
       ],
+      title: "Community",
+      url: "#",
     },
   ],
+  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -168,8 +168,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar {...props}>
       <SidebarHeader>
         <VersionSwitcher
-          versions={data.versions}
           defaultVersion={data.versions[0]}
+          versions={data.versions}
         />
         <SearchForm />
       </SidebarHeader>
@@ -177,10 +177,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* We create a collapsible SidebarGroup for each parent. */}
         {data.navMain.map((item) => (
           <Collapsible
+            className="group/collapsible"
+            defaultOpen
             key={item.title}
             title={item.title}
-            defaultOpen
-            className="group/collapsible"
           >
             <SidebarGroup>
               <SidebarGroupLabel

@@ -1,7 +1,7 @@
-import { siteConfig } from '~/config/site'
+import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { HeartIcon } from 'lucide-react'
 import Link from 'next/link'
-import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import { siteConfig } from '~/config/site'
 
 export function SiteFooter() {
   return (
@@ -11,18 +11,18 @@ export function SiteFooter() {
           <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
             Built by{' '}
             <a
+              className="font-medium underline underline-offset-4"
               href={siteConfig.links.twitter}
-              target="_blank"
               rel="noreferrer"
-              className="font-medium underline underline-offset-4">
+              target="_blank">
               Ahmed Ayob
             </a>
             . The source code is available on{' '}
             <a
+              className="font-medium underline underline-offset-4"
               href={siteConfig.links.github}
-              target="_blank"
               rel="noreferrer"
-              className="font-medium underline underline-offset-4">
+              target="_blank">
               GitHub
             </a>
             .
@@ -39,7 +39,7 @@ export function SiteFooter() {
 export function FooterButtons() {
   return (
     <>
-      <Link href="https://github.com/sponsors/wildduck2" className={buttonVariants({ variant: 'outline', size: 'sm' })}>
+      <Link className={buttonVariants({ size: 'sm', variant: 'outline' })} href="https://github.com/sponsors/wildduck2">
         <HeartIcon className="h-4 w-4 mr-2 text-red-600 fill-current" />
         Sponsor
       </Link>

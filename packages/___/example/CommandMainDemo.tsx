@@ -1,3 +1,4 @@
+import { Archive, CalendarMinus2, Handshake, MessageCircleMore, Settings, Trash2 } from 'lucide-react'
 import {
   Command,
   CommandEmpty,
@@ -9,8 +10,6 @@ import {
   CommandShortcut,
   TooltipProvider,
 } from '@/registry/default/ui'
-
-import { Archive, CalendarMinus2, Handshake, MessageCircleMore, Settings, Trash2 } from 'lucide-react'
 
 export default function CommandMaiDemo() {
   return (

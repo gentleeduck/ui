@@ -22,12 +22,12 @@ import {
 
 const localizedStrings = {
   en: {
-    title: "Book an appointment",
     description: "Select the dates for your appointment",
+    title: "Book an appointment",
   },
   es: {
-    title: "Reserva una cita",
     description: "Selecciona las fechas para tu cita",
+    title: "Reserva una cita",
   },
 } as const
 
@@ -47,10 +47,10 @@ export default function Calendar12() {
           {localizedStrings[locale].description}
         </CardDescription>
         <Select
-          value={locale}
           onValueChange={(value) =>
             setLocale(value as keyof typeof localizedStrings)
           }
+          value={locale}
         >
           <SelectTrigger className="absolute right-4 top-4 w-[100px]">
             <SelectValue placeholder="Language" />
@@ -63,14 +63,14 @@ export default function Calendar12() {
       </CardHeader>
       <CardContent className="pt-4">
         <Calendar
-          mode="range"
-          selected={dateRange}
-          onSelect={setDateRange}
-          defaultMonth={dateRange?.from}
-          numberOfMonths={2}
-          locale={locale === "es" ? es : enUS}
-          className="bg-transparent p-0"
           buttonVariant="outline"
+          className="bg-transparent p-0"
+          defaultMonth={dateRange?.from}
+          locale={locale === "es" ? es : enUS}
+          mode="range"
+          numberOfMonths={2}
+          onSelect={setDateRange}
+          selected={dateRange}
         />
       </CardContent>
     </Card>

@@ -6,7 +6,7 @@ export default function Badge8Demo() {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Badge arial-label="Badge" variant={'outline'} size={'icon'} className="rounded-full">
+        <Badge arial-label="Badge" className="rounded-full" size={'icon'} variant={'outline'}>
           <Info />
         </Badge>
       </TooltipTrigger>

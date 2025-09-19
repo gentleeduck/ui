@@ -1,42 +1,42 @@
 'use client'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent } from '@gentleduck/registry-ui-duckui/chart'
+import { type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent } from '@gentleduck/registry-ui-duckui/chart'
 import { Pie, PieChart } from 'recharts'
 
 export const description = 'A pie chart with a legend'
 
 const chartData = [
-  { browser: 'chrome', visitors: 275, fill: 'var(--color-chrome)' },
-  { browser: 'safari', visitors: 200, fill: 'var(--color-safari)' },
-  { browser: 'firefox', visitors: 187, fill: 'var(--color-firefox)' },
-  { browser: 'edge', visitors: 173, fill: 'var(--color-edge)' },
-  { browser: 'other', visitors: 90, fill: 'var(--color-other)' },
+  { browser: 'chrome', fill: 'var(--color-chrome)', visitors: 275 },
+  { browser: 'safari', fill: 'var(--color-safari)', visitors: 200 },
+  { browser: 'firefox', fill: 'var(--color-firefox)', visitors: 187 },
+  { browser: 'edge', fill: 'var(--color-edge)', visitors: 173 },
+  { browser: 'other', fill: 'var(--color-other)', visitors: 90 },
 ]
 
 const chartConfig = {
-  visitors: {
-    label: 'Visitors',
-  },
   chrome: {
-    label: 'Chrome',
     color: 'var(--chart-1)',
-  },
-  safari: {
-    label: 'Safari',
-    color: 'var(--chart-2)',
-  },
-  firefox: {
-    label: 'Firefox',
-    color: 'var(--chart-3)',
+    label: 'Chrome',
   },
   edge: {
-    label: 'Edge',
     color: 'var(--chart-4)',
+    label: 'Edge',
+  },
+  firefox: {
+    color: 'var(--chart-3)',
+    label: 'Firefox',
   },
   other: {
-    label: 'Other',
     color: 'var(--chart-5)',
+    label: 'Other',
+  },
+  safari: {
+    color: 'var(--chart-2)',
+    label: 'Safari',
+  },
+  visitors: {
+    label: 'Visitors',
   },
 } satisfies ChartConfig
 
@@ -48,12 +48,12 @@ export default function Component() {
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[300px]">
+        <ChartContainer className="mx-auto aspect-square max-h-[300px]" config={chartConfig}>
           <PieChart>
             <Pie data={chartData} dataKey="visitors" />
             <ChartLegend
-              content={<ChartLegendContent nameKey="browser" />}
               className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+              content={<ChartLegendContent nameKey="browser" />}
             />
           </PieChart>
         </ChartContainer>

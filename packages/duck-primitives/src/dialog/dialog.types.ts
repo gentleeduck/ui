@@ -1,4 +1,4 @@
-import { useDialog } from './dialog.hooks'
+import type { useDialog } from './dialog.hooks'
 
 export type DialogContextProps =
   | (ReturnType<typeof useDialog> & {

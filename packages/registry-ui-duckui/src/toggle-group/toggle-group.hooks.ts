@@ -31,5 +31,5 @@ export function ToggleGroupInit(type?: 'single' | 'multiple', onValueChange?: (v
       })
     }
   }, [type])
-  return { wrapperRef, itemsRef, selectedItemRef }
+  return { itemsRef, selectedItemRef, wrapperRef }
 }

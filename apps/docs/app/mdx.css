@@ -35,16 +35,15 @@
 }
 
 @layer components {
-
   code,
-  code>*>*,
+  code > * > *,
   kbd,
   samp,
   pre {
     font-family: var(--font-mono);
-    font-optical-sizing: auto;
     font-style: normal;
     font-weight: 600;
+    font-optical-sizing: auto;
   }
 
   [data-theme="light"] {
@@ -67,7 +66,7 @@
     @apply relative bg-muted/40 dark:bg-muted/40 rounded-lg border-border border mb-4 mt-6;
   }
 
-  div[data-value]:not([data-value="cli"])[duck-tabs-content]>[data-rehype-pretty-code-fragment] {
+  div[data-value]:not([data-value="cli"])[duck-tabs-content] > [data-rehype-pretty-code-fragment] {
     @apply bg-transparent m-0 static rounded-none border-0;
   }
 
@@ -84,14 +83,14 @@
     @apply px-2;
   }
 
-  [data-rehype-pretty-code-fragment] [data-line-numbers]>.line::before {
-    @apply text-zinc-50/40 text-xs;
-    counter-increment: line;
-    content: counter(line);
+  [data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
     display: inline-block;
     width: 1.8rem;
     margin-right: 1.4rem;
     text-align: right;
+    content: counter(line);
+    counter-increment: line;
+    @apply text-zinc-50/40 text-xs;
   }
 
   [data-rehype-pretty-code-fragment] .line--highlighted,
@@ -107,11 +106,11 @@
     @apply rounded-md p-1;
   }
 
-  .mdx>.steps:first-child>h3:first-child {
+  .mdx > .steps:first-child > h3:first-child {
     @apply mt-0;
   }
 
-  .steps>h3 {
+  .steps > h3 {
     @apply mt-8 mb-4 text-base font-semibold;
   }
 
@@ -119,7 +118,7 @@
     @apply font-semibold;
   }
 
-  strong>code {
+  strong > code {
     @apply font-bold;
   }
 
@@ -128,30 +127,30 @@
       @apply !mt-0;
     }
 
-    &:first-child>h3:first-child {
+    &:first-child > h3:first-child {
       @apply !mt-0;
     }
 
-    >h3 {
+    > h3 {
       @apply !mt-16;
     }
 
-    >h3+p {
+    > h3 + p {
       @apply !mt-2;
     }
   }
 
   [data-rehype-pretty-code-figure] {
-    background-color: var(--color-code);
-    color: var(--color-code-foreground);
-    border-radius: var(--radius-lg);
-    border-width: 0px;
-    border-color: var(--border);
+    position: relative;
     margin-top: calc(var(--spacing) * 6);
     overflow: hidden;
     font-size: var(--text-base);
+    color: var(--color-code-foreground);
     outline: none;
-    position: relative;
+    background-color: var(--color-code);
+    border-color: var(--border);
+    border-width: 0px;
+    border-radius: var(--radius-lg);
     @apply -mx-1 md:-mx-1;
 
     &:has([data-rehype-pretty-code-title]) [data-slot="copy-button"] {
@@ -160,14 +159,14 @@
   }
 
   [data-rehype-pretty-code-title] {
-    border-bottom: color-mix(in oklab, var(--border) 30%, transparent);
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
     padding-block: calc(var(--spacing) * 2.5);
     padding-inline: calc(var(--spacing) * 4);
-    font-size: var(--text-base);
     font-family: var(--font-mono);
+    font-size: var(--text-base);
     color: var(--color-code-foreground);
+    border-bottom: color-mix(in oklab, var(--border) 30%, transparent);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
   }
 
   [data-line-numbers] {
@@ -182,17 +181,17 @@
   }
 
   [data-line-numbers] [data-line]::before {
-    font-size: var(--text-base);
-    counter-increment: line;
-    content: counter(line);
+    position: sticky;
+    left: 0;
     display: inline-block;
     width: calc(var(--spacing) * 16);
     padding-right: calc(var(--spacing) * 6);
-    text-align: right;
+    font-size: var(--text-base);
     color: var(--color-code-number);
+    text-align: right;
+    content: counter(line);
+    counter-increment: line;
     background-color: var(--color-code);
-    position: sticky;
-    left: 0;
   }
 
   [data-line-numbers] [data-highlighted-line][data-line]::before {
@@ -200,11 +199,11 @@
   }
 
   [data-line] {
+    display: inline-block;
+    width: 100%;
+    min-height: calc(var(--spacing) * 1);
     padding-top: calc(var(--spacing) * 0.5);
     padding-bottom: calc(var(--spacing) * 0.5);
-    min-height: calc(var(--spacing) * 1);
-    width: 100%;
-    display: inline-block;
   }
 
   [data-line] span {
@@ -234,51 +233,53 @@
   }
 
   [data-highlighted-chars] {
-    border-radius: var(--radius-md);
-    padding-inline: 0.3rem;
     padding-block: 0.1rem;
+    padding-inline: 0.3rem;
     font-family: var(--font-mono);
     font-size: 0.8rem;
+    border-radius: var(--radius-md);
   }
 }
 
 /* FIX: the animation bounce it bounces so hard. = ==========================*/
 
 :root {
-  --duck-spring: linear(0,
-      0.001 0.4%,
-      0.007 0.9%,
-      0.016 1.4%,
-      0.028 1.9%,
-      0.065 3%,
-      0.114 4.1%,
-      0.165 5.1%,
-      0.228 6.2%,
-      0.504 10.7%,
-      0.62 12.7%,
-      0.734 14.9%,
-      0.827 17%,
-      0.865 18%,
-      0.902 19.1%,
-      0.934 20.2%,
-      0.963 21.3%,
-      0.987 22.4%,
-      1.009 23.6%,
-      1.026 24.8%,
-      1.04 26%,
-      1.051 27.4%,
-      1.059 28.9%,
-      1.064 30.5%,
-      1.064 32.2%,
-      1.062 34%,
-      1.056 36.1%,
-      1.026 44.1%,
-      1.013 47.9%,
-      1.004 51.8%,
-      0.999 55.9%,
-      0.996 63.9%,
-      1 83.2%,
-      1);
+  --duck-spring: linear(
+    0,
+    0.001 0.4%,
+    0.007 0.9%,
+    0.016 1.4%,
+    0.028 1.9%,
+    0.065 3%,
+    0.114 4.1%,
+    0.165 5.1%,
+    0.228 6.2%,
+    0.504 10.7%,
+    0.62 12.7%,
+    0.734 14.9%,
+    0.827 17%,
+    0.865 18%,
+    0.902 19.1%,
+    0.934 20.2%,
+    0.963 21.3%,
+    0.987 22.4%,
+    1.009 23.6%,
+    1.026 24.8%,
+    1.04 26%,
+    1.051 27.4%,
+    1.059 28.9%,
+    1.064 30.5%,
+    1.064 32.2%,
+    1.062 34%,
+    1.056 36.1%,
+    1.026 44.1%,
+    1.013 47.9%,
+    1.004 51.8%,
+    0.999 55.9%,
+    0.996 63.9%,
+    1 83.2%,
+    1
+  );
   --min-height: 0px;
   --max-height: 320px;
 }
@@ -299,48 +300,48 @@
 .one {
   display: grid;
   gap: 0.5rem;
+  height: calc(var(--max-height) / 1.3);
+  overflow: hidden;
   background-color: hsl(var(--background));
   transition: all 550ms;
-  height: calc(var(--max-height) / 1.3);
+  transition-timing-function: var(--duck-spring);
   transition-duration:
     all 450s,
     opacity 200ms;
   will-change: transform, opacity, grid;
-  transition-timing-function: var(--duck-spring);
-  overflow: hidden;
 }
 
 .one2 {
-  overflow: hidden;
-  opacity: 0;
   height: var(--min-height);
-  transform: translateY(-5rem) scale(0.8);
+  overflow: hidden;
   pointer-events: none;
+  opacity: 0;
+  transform: translateY(-5rem) scale(0.8);
 }
 
 .two {
   display: grid;
   gap: 0.5rem;
-  transition: all 550ms;
-  will-change: transform, opacity, grid;
-  transform: translateY(0);
-  overflow: hidden;
-  background-color: hsl(var(--background));
-  opacity: 0;
   height: var(--min-height);
+  overflow: hidden;
   overflow: hidden;
 
   pointer-events: none;
+  background-color: hsl(var(--background));
+  opacity: 0;
+  transform: translateY(0);
+  transition: all 550ms;
   transition-timing-function: var(--duck-spring);
+  will-change: transform, opacity, grid;
 }
 
 .two2 {
-  animation-delay: 50ms;
-  overflow: auto;
   height: calc(var(--max-height) * 1.5);
-  transform: translateY(0) scale(1);
-  opacity: 1;
+  overflow: auto;
   pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation-delay: 50ms;
 }
 
 /* @layer base { */

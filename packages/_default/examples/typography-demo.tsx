@@ -15,8 +15,8 @@ export default function TypographyDemo() {
       <p className="leading-7 [&:not(:first-child)]:mt-6">
         The king thought long and hard, and finally came up with{" "}
         <a
-          href="#"
           className="font-medium text-primary underline underline-offset-4"
+          href="#"
         >
           a brilliant plan
         </a>

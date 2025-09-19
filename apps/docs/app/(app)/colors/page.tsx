@@ -10,7 +10,7 @@ export default function ColorsPage() {
   return (
     <div className="grid gap-8 lg:gap-16 xl:gap-20">
       {colors.map((colorPalette) => (
-        <ColorPalette key={colorPalette.name} colorPalette={colorPalette} />
+        <ColorPalette colorPalette={colorPalette} key={colorPalette.name} />
       ))}
     </div>
   )

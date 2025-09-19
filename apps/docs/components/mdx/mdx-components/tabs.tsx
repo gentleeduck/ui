@@ -1,5 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@gentleduck/registry-ui-duckui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 
 export function Tab({ className, ...props }: React.ComponentProps<typeof Tabs>) {
   return <Tabs className={cn('relative mt-6 w-full', className)} {...props} />

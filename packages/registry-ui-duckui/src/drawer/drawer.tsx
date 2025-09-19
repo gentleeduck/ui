@@ -22,7 +22,7 @@ const DrawerOverlay = ({
   ref,
   ...props
 }: React.ComponentPropsWithRef<typeof DrawerPrimitive.Overlay>): React.JSX.Element => (
-  <DrawerPrimitive.Overlay ref={ref} className={cn('fixed inset-0 z-50 bg-black/80', className)} {...props} />
+  <DrawerPrimitive.Overlay className={cn('fixed inset-0 z-50 bg-black/80', className)} ref={ref} {...props} />
 )
 
 function DrawerContent({
@@ -38,11 +38,11 @@ function DrawerContent({
     <DrawerPortal>
       <DrawerOverlay {...overlay} />
       <DrawerPrimitive.Content
-        ref={ref}
         className={cn(
           'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
           className,
         )}
+        ref={ref}
         {...props}>
         <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
         {children}
@@ -67,8 +67,8 @@ function DrawerTitle({
 }: React.ComponentPropsWithRef<typeof DrawerPrimitive.Title>): React.JSX.Element {
   return (
     <DrawerPrimitive.Title
-      ref={ref}
       className={cn('font-semibold text-lg leading-none tracking-tight', className)}
+      ref={ref}
       {...props}
     />
   )
@@ -79,7 +79,7 @@ function DrawerDescription({
   ref,
   ...props
 }: React.ComponentPropsWithRef<typeof DrawerPrimitive.Description>): React.JSX.Element {
-  return <DrawerPrimitive.Description ref={ref} className={cn('text-muted-foreground text-sm', className)} {...props} />
+  return <DrawerPrimitive.Description className={cn('text-muted-foreground text-sm', className)} ref={ref} {...props} />
 }
 
 export {

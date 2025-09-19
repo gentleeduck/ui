@@ -226,8 +226,8 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
       <div
         className={cn('flex items-center rounded-lg border p-1', className)}
         {...props}
-        ref={wrapperRef}
-        duck-menubar="">
+        duck-menubar=""
+        ref={wrapperRef}>
         {children}
       </div>
     </menubarContext.Provider>
@@ -246,7 +246,7 @@ function MenubarTrigger({ children, className, ...props }: React.ComponentPropsW
   return (
     <DropdownMenuTrigger
       className={cn(
-        buttonVariants({ variant: 'ghost', size: 'sm' }),
+        buttonVariants({ size: 'sm', variant: 'ghost' }),
         'data-[open="true"]:bg-secondary',
         'focus-visible:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
         className,

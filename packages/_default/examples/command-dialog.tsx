@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import {
   Calculator,
   Calendar,
@@ -9,6 +8,7 @@ import {
   Smile,
   User,
 } from "lucide-react"
+import * as React from "react"
 
 import {
   CommandDialog,
@@ -44,7 +44,7 @@ export default function CommandDialogDemo() {
           <span className="text-xs">⌘</span>J
         </kbd>
       </p>
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandDialog onOpenChange={setOpen} open={open}>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>

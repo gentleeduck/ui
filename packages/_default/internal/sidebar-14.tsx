@@ -34,8 +34,6 @@ export const description = "A sidebar on the right."
 const data = {
   navMain: [
     {
-      title: "Getting Started",
-      url: "#",
       items: [
         {
           title: "Installation",
@@ -46,19 +44,19 @@ const data = {
           url: "#",
         },
       ],
+      title: "Getting Started",
+      url: "#",
     },
     {
-      title: "Building Your Application",
-      url: "#",
       items: [
         {
           title: "Routing",
           url: "#",
         },
         {
+          isActive: true,
           title: "Data Fetching",
           url: "#",
-          isActive: true,
         },
         {
           title: "Rendering",
@@ -101,10 +99,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Building Your Application",
+      url: "#",
     },
     {
-      title: "API Reference",
-      url: "#",
       items: [
         {
           title: "Components",
@@ -131,10 +129,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "API Reference",
+      url: "#",
     },
     {
-      title: "Architecture",
-      url: "#",
       items: [
         {
           title: "Accessibility",
@@ -157,16 +155,18 @@ const data = {
           url: "#",
         },
       ],
+      title: "Architecture",
+      url: "#",
     },
     {
-      title: "Community",
-      url: "#",
       items: [
         {
           title: "Contribution Guide",
           url: "#",
         },
       ],
+      title: "Community",
+      url: "#",
     },
   ],
 }
@@ -216,7 +216,7 @@ function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {data.navMain.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="font-medium">
+                    <a className="font-medium" href={item.url}>
                       {item.title}
                     </a>
                   </SidebarMenuButton>

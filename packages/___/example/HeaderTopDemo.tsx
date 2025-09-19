@@ -1,18 +1,18 @@
 import { LucideProps } from 'lucide-react'
-import { Header, TooltipProvider } from '@/registry/default/ui'
 import { cn } from '@/lib'
+import { Header, TooltipProvider } from '@/registry/default/ui'
 import { Button, ButtonProps } from '@/registry/registry-ui-components'
 
 const data: ButtonProps[] = [
   {
-    title: 'Home',
-    route: '/home',
     children: 'Home',
+    route: '/home',
+    title: 'Home',
   },
   {
-    title: 'Calendar',
-    route: '/calendar',
     children: 'Calendar',
+    route: '/calendar',
+    title: 'Calendar',
   },
 ]
 
@@ -20,28 +20,28 @@ export default function HeaderMainDemo() {
   return (
     <TooltipProvider>
       <Header<false>
-        header={{
-          position: 'top',
-          className: 'justify-between w-full max-w-[90%] place-self-center',
-        }}
-        logo={<Logo width={100} height={100} className="flex place-self-center" />}
-        nav={{
-          navigationKeys: data,
-          nav: {
-            group: [1, 1],
-            router: {}, // use your router instance
-            pathname: '/home',
-          },
-        }}
         footer={{
           buttons: [
             <Button
               className={cn('my-1 mx-2 justify-between rounded-full')}
+              size={'sm'}
               title={'Get started'}
               variant={'default'}
-              size={'sm'}
             />,
           ],
+        }}
+        header={{
+          className: 'justify-between w-full max-w-[90%] place-self-center',
+          position: 'top',
+        }}
+        logo={<Logo className="flex place-self-center" height={100} width={100} />}
+        nav={{
+          nav: {
+            group: [1, 1],
+            pathname: '/home',
+            router: {}, // use your router instance
+          },
+          navigationKeys: data,
         }}
       />
     </TooltipProvider>
@@ -50,12 +50,12 @@ export default function HeaderMainDemo() {
 
 const Logo = ({ className, ...props }: LucideProps) => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="408"
+    className={className}
+    fill="none"
     height="90"
     viewBox="0 0 408 90"
-    fill="none"
-    className={className}
+    width="408"
+    xmlns="http://www.w3.org/2000/svg"
     {...props}>
     <path d="M108.606 18.5293H121.354V68.5339H151.569V79.4944H108.606V18.5293Z" fill="white" />
     <path

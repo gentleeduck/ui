@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import {
   ArrowDown,
   ArrowUp,
@@ -18,6 +17,7 @@ import {
   Trash,
   Trash2,
 } from "lucide-react"
+import * as React from "react"
 
 import { Button } from "@/registry/default/ui/button"
 import {
@@ -38,62 +38,62 @@ import {
 const data = [
   [
     {
-      label: "Customize Page",
       icon: Settings2,
+      label: "Customize Page",
     },
     {
-      label: "Turn into wiki",
       icon: FileText,
+      label: "Turn into wiki",
     },
   ],
   [
     {
-      label: "Copy Link",
       icon: Link,
+      label: "Copy Link",
     },
     {
-      label: "Duplicate",
       icon: Copy,
+      label: "Duplicate",
     },
     {
-      label: "Move to",
       icon: CornerUpRight,
+      label: "Move to",
     },
     {
-      label: "Move to Trash",
       icon: Trash2,
+      label: "Move to Trash",
     },
   ],
   [
     {
-      label: "Undo",
       icon: CornerUpLeft,
+      label: "Undo",
     },
     {
-      label: "View analytics",
       icon: LineChart,
+      label: "View analytics",
     },
     {
-      label: "Version History",
       icon: GalleryVerticalEnd,
+      label: "Version History",
     },
     {
-      label: "Show delete pages",
       icon: Trash,
+      label: "Show delete pages",
     },
     {
-      label: "Notifications",
       icon: Bell,
+      label: "Notifications",
     },
   ],
   [
     {
-      label: "Import",
       icon: ArrowUp,
+      label: "Import",
     },
     {
-      label: "Export",
       icon: ArrowDown,
+      label: "Export",
     },
   ],
 ]
@@ -110,27 +110,27 @@ export function NavActions() {
       <div className="hidden font-medium text-muted-foreground md:inline-block">
         Edit Oct 08
       </div>
-      <Button variant="ghost" size="icon" className="h-7 w-7">
+      <Button className="h-7 w-7" size="icon" variant="ghost">
         <Star />
       </Button>
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <Popover onOpenChange={setIsOpen} open={isOpen}>
         <PopoverTrigger asChild>
           <Button
-            variant="ghost"
-            size="icon"
             className="h-7 w-7 data-[state=open]:bg-accent"
+            size="icon"
+            variant="ghost"
           >
             <MoreHorizontal />
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-56 overflow-hidden rounded-lg p-0"
           align="end"
+          className="w-56 overflow-hidden rounded-lg p-0"
         >
-          <Sidebar collapsible="none" className="bg-transparent">
+          <Sidebar className="bg-transparent" collapsible="none">
             <SidebarContent>
               {data.map((group, index) => (
-                <SidebarGroup key={index} className="border-b last:border-none">
+                <SidebarGroup className="border-b last:border-none" key={index}>
                   <SidebarGroupContent className="gap-0">
                     <SidebarMenu>
                       {group.map((item, index) => (

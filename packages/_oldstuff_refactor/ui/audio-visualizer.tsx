@@ -1,7 +1,8 @@
 // @ts-noCheck
+
+import { useTheme } from 'next-themes'
 import React from 'react'
 import { useAudioDataProvider } from './audio-record'
-import { useTheme } from 'next-themes'
 
 export const new_audio = (url: string) => new Audio(url)
 
@@ -176,17 +177,17 @@ export const process_blob = async ({
   }))
 
   draw_handler({
-    data: defaultBars,
-    canvas: canvasRef.current,
-    barWidth,
-    gap,
+    animationProgress: 1,
     backgroundColor,
     barColor,
     barPlayedColor,
+    barWidth,
+    canvas: canvasRef.current,
     currentTime: 0,
+    data: defaultBars,
     duration: 1,
+    gap,
     minBarHeight: 1,
-    animationProgress: 1,
   })
 
   const audioContext = new AudioContext()
@@ -200,11 +201,11 @@ export const process_blob = async ({
 
     // Calculate the waveform data for the entire audio buffer
     const barsData = calculate_bar_data_handler({
+      barWidth,
       buffer,
+      gap,
       height,
       width,
-      barWidth,
-      gap,
     })
 
     // Set the calculated data for rendering
@@ -224,17 +225,17 @@ export const process_blob = async ({
       setAnimationProgress(progress)
 
       draw_handler({
-        data: barsData,
-        canvas: canvasRef.current,
-        barWidth,
-        gap,
+        animationProgress: progress,
         backgroundColor,
         barColor,
         barPlayedColor,
+        barWidth,
+        canvas: canvasRef.current,
         currentTime: 0,
+        data: barsData,
         duration: buffer.duration,
+        gap,
         minBarHeight,
-        animationProgress: progress,
       })
 
       if (progress < 1) {
@@ -283,9 +284,9 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
   height,
   barWidth = 2,
   gap = 1,
-  backgroundColor = { light: 'transparent', dark: 'transparent' },
-  barColor = { light: 'rgb(184, 184, 184)', dark: '#ffffff69' },
-  barPlayedColor = { light: '#18181b', dark: '#fafafa' },
+  backgroundColor = { dark: 'transparent', light: 'transparent' },
+  barColor = { dark: '#ffffff69', light: 'rgb(184, 184, 184)' },
+  barPlayedColor = { dark: '#fafafa', light: '#18181b' },
   currentTime = 0,
   minBarHeight = 2,
   style,
@@ -303,15 +304,15 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
   }
 
   const colors: Record<string, ThemeColors> = {
-    light: {
-      backgroundColor: backgroundColor.light,
-      barColor: barColor.light,
-      barPlayedColor: barPlayedColor.light,
-    },
     dark: {
       backgroundColor: backgroundColor.dark,
       barColor: barColor.dark,
       barPlayedColor: barPlayedColor.dark,
+    },
+    light: {
+      backgroundColor: backgroundColor.light,
+      barColor: barColor.light,
+      barPlayedColor: barPlayedColor.light,
     },
   }
 
@@ -320,43 +321,43 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
   React.useEffect(() => {
     setLoading(true)
     process_audio({
-      blob,
-      canvasRef,
-      width,
-      height,
-      barWidth,
-      gap,
       backgroundColor: currentColors.backgroundColor,
       barColor: currentColors.barColor,
       barPlayedColor: currentColors.barPlayedColor,
+      barWidth,
+      blob,
+      canvasRef,
+      gap,
+      height,
       minBarHeight,
       setLoading,
+      width,
     })
   }, [blob])
 
   React.useEffect(() => {
     if (!canvasRef.current) return
     draw_handler({
-      data: data.length
-        ? data
-        : Array.from({ length: Math.floor(width / (barWidth + gap)) }, () => ({
-            min: minBarHeight,
-            max: minBarHeight,
-          })),
-      canvas: canvasRef.current,
-      barWidth,
-      gap,
+      animationProgress,
       backgroundColor: currentColors.backgroundColor,
       barColor: currentColors.barColor,
       barPlayedColor: currentColors.barPlayedColor,
+      barWidth,
+      canvas: canvasRef.current,
       currentTime,
+      data: data.length
+        ? data
+        : Array.from({ length: Math.floor(width / (barWidth + gap)) }, () => ({
+            max: minBarHeight,
+            min: minBarHeight,
+          })),
       duration,
+      gap,
       minBarHeight,
-      animationProgress,
     })
   }, [data, width, height, currentTime, duration, animationProgress, theme])
 
-  return <canvas ref={canvasRef} width={width} height={height} style={style} />
+  return <canvas height={height} ref={canvasRef} style={style} width={width} />
 }
 
 export { AudioVisualizer }

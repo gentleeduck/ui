@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { addDays } from "date-fns"
+import * as React from "react"
 
 import { Button } from "@/registry/default/ui/button"
 import { Calendar } from "@/registry/default/ui/calendar"
@@ -16,11 +16,11 @@ export default function Calendar19() {
     <Card className="max-w-[300px] py-4">
       <CardContent className="px-4">
         <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          defaultMonth={date}
           className="bg-transparent p-0 [--cell-size:2.375rem]"
+          defaultMonth={date}
+          mode="single"
+          onSelect={setDate}
+          selected={date}
         />
       </CardContent>
       <CardFooter className="flex flex-wrap gap-2 border-t px-4 pb-0 pt-4">
@@ -32,14 +32,14 @@ export default function Calendar19() {
           { label: "In 2 weeks", value: 14 },
         ].map((preset) => (
           <Button
-            key={preset.value}
-            variant="outline"
-            size="sm"
             className="flex-1"
+            key={preset.value}
             onClick={() => {
               const newDate = addDays(new Date(), preset.value)
               setDate(newDate)
             }}
+            size="sm"
+            variant="outline"
           >
             {preset.label}
           </Button>

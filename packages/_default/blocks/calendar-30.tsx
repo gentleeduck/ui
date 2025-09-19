@@ -1,8 +1,8 @@
 "use client"
 
-import * as React from "react"
 import { formatDateRange } from "little-date"
 import { ChevronDownIcon } from "lucide-react"
+import * as React from "react"
 import { type DateRange } from "react-day-picker"
 
 import { Button } from "@/registry/default/ui/button"
@@ -22,15 +22,15 @@ export default function Calendar30() {
 
   return (
     <div className="flex flex-col gap-3">
-      <Label htmlFor="dates" className="px-1">
+      <Label className="px-1" htmlFor="dates">
         Select your stay
       </Label>
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            variant="outline"
-            id="dates"
             className="w-56 justify-between font-normal"
+            id="dates"
+            variant="outline"
           >
             {range?.from && range?.to
               ? formatDateRange(range.from, range.to, {
@@ -40,14 +40,14 @@ export default function Calendar30() {
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+        <PopoverContent align="start" className="w-auto overflow-hidden p-0">
           <Calendar
-            mode="range"
-            selected={range}
             captionLayout="dropdown"
+            mode="range"
             onSelect={(range) => {
               setRange(range)
             }}
+            selected={range}
           />
         </PopoverContent>
       </Popover>

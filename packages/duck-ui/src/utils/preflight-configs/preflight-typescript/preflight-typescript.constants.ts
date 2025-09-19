@@ -1,14 +1,14 @@
-import { PromptObject } from 'prompts'
+import type { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
 
 export const typescript_prompts: PromptObject<'typescript'>[] = [
   {
-    type: 'confirm',
-    name: 'typescript',
-    message: `Would you like to install ${highlighter.info('TypeScript')} (recommended)`,
-    initial: false,
     active: 'yes',
     inactive: 'no',
+    initial: false,
+    message: `Would you like to install ${highlighter.info('TypeScript')} (recommended)`,
+    name: 'typescript',
+    type: 'confirm',
   },
 ]
 

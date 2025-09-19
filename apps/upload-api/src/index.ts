@@ -14,11 +14,11 @@ type MappedTo<
     : never
 
 const bucketSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string(),
-  more_information: z.string(),
   created_at: z.date(),
+  description: z.string(),
+  id: z.string(),
+  more_information: z.string(),
+  name: z.string(),
   updated_at: z.date(),
   user_id: z.string(),
 })
@@ -57,8 +57,8 @@ function MultiStepDataValidation<
     const keysNeeded = (
       step === 1
         ? {
-            name: true,
             description: true,
+            name: true,
           }
         : step === 2 && {
             more_information: true,
@@ -72,8 +72,8 @@ function MultiStepDataValidation<
 }
 
 const currentStepType = MultiStepDataValidation(1, {
-  name: 'ahmed',
   description: 'The description of this user is wilddcuk!!',
+  name: 'ahmed',
 })
 
 console.log(currentStepType)

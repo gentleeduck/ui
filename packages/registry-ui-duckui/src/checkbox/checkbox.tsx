@@ -5,7 +5,7 @@ import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import * as React from 'react'
 import { Label } from '../label'
-import { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
+import type { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
 
 const Checkbox = ({
   className,
@@ -19,8 +19,8 @@ const Checkbox = ({
   ...props
 }: CheckboxProps) => {
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
-    indicator,
     checkedIndicator,
+    indicator,
   })
   const inputRef = React.useRef<HTMLInputElement>(null)
 
@@ -36,7 +36,7 @@ const Checkbox = ({
       ref.current.indeterminate = true
       changeCheckedState(checked, ref.current)
     }
-    changeCheckedState(checked, inputRef.current!)
+    changeCheckedState(checked, inputRef.current as HTMLInputElement)
   }, [checked, ref])
 
   function changeCheckedState(state: CheckedState, input: HTMLInputElement) {
@@ -48,18 +48,8 @@ const Checkbox = ({
   return (
     <>
       <input
-        ref={ref ?? inputRef}
-        type="checkbox"
-        style={{ ...style, ...inputStyle }}
-        onChange={(e) => {
-          const nextChecked = e.target.checked ? true : e.target.indeterminate ? 'indeterminate' : false
-          e.target.indeterminate = false
-          changeCheckedState(nextChecked, e.target)
-          handleChange(nextChecked)
-        }}
         className={cn(
           checkersStylePattern({
-            type: 'checkbox',
             indicatorState:
               indicatorReady && checkedIndicatorReady
                 ? 'both'
@@ -68,15 +58,25 @@ const Checkbox = ({
                   : checkedIndicatorReady
                     ? 'checkedIndicatorReady'
                     : 'default',
+            type: 'checkbox',
           }),
           AnimVariants({ pseudo: 'animate' }),
           (indicatorReady && checkedIndicatorReady) || indicatorReady
             ? ''
             : 'after:mb-0.5 after:h-[9px] after:w-[4px] after:rotate-45 after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent',
           'data-[checked="indeterminate"]:border-border data-[checked="indeterminate"]:bg-transparent data-[checked="indeterminate"]:text-foreground',
-          'bg-transparent rounded-sm',
+          'rounded-sm bg-transparent',
           className,
         )}
+        onChange={(e) => {
+          const nextChecked = e.target.checked ? true : e.target.indeterminate ? 'indeterminate' : false
+          e.target.indeterminate = false
+          changeCheckedState(nextChecked, e.target)
+          handleChange(nextChecked)
+        }}
+        ref={ref ?? inputRef}
+        style={{ ...style, ...inputStyle }}
+        type="checkbox"
         {...props}
       />
       <SvgIndicator className="sr-only" />
@@ -87,9 +87,9 @@ const Checkbox = ({
 const CheckboxWithLabel = ({ id, _checkbox, _label, className, ref, ...props }: CheckboxWithLabelProps) => {
   const { className: labelClassName, ...labelProps } = _label
   return (
-    <div ref={ref} className={cn('flex items-center justify-start gap-2', className)} {...props}>
+    <div className={cn('flex items-center justify-start gap-2', className)} ref={ref} {...props}>
       <Checkbox id={id} {..._checkbox} />
-      <Label htmlFor={id} className={cn('cursor-pointer', labelClassName)} {...labelProps} />
+      <Label className={cn('cursor-pointer', labelClassName)} htmlFor={id} {...labelProps} />
     </div>
   )
 }
@@ -100,14 +100,14 @@ const CheckboxGroup = ({ subtasks, subtasks_default_values, ref, ...props }: Che
     <div className={cn('mb-3 flex flex-col gap-2')} {...props} ref={ref}>
       {subtasks.map(({ id, title, checked }) => (
         <CheckboxWithLabel
-          key={id}
-          id={id}
           _checkbox={{
             ..._checkbox,
             checked,
             className: 'w-4 h-4 rounded-full border-muted-foreground/80',
           }}
           _label={{ ..._label, children: title }}
+          id={id}
+          key={id}
         />
       ))}
     </div>

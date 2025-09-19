@@ -10,24 +10,24 @@ import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
 const people = [
   {
-    name: 'Olivia Martin',
-    email: 'm@example.com',
     avatar: '/avatars/03.png',
+    email: 'm@example.com',
+    name: 'Olivia Martin',
   },
   {
-    name: 'Isabella Nguyen',
-    email: 'b@example.com',
     avatar: '/avatars/04.png',
+    email: 'b@example.com',
+    name: 'Isabella Nguyen',
   },
   {
-    name: 'Sofia Davis',
-    email: 'p@example.com',
     avatar: '/avatars/05.png',
+    email: 'p@example.com',
+    name: 'Sofia Davis',
   },
   {
-    name: 'Ethan Thompson',
-    email: 'e@example.com',
     avatar: '/avatars/01.png',
+    email: 'e@example.com',
+    name: 'Ethan Thompson',
   },
 ]
 export function CardsShare() {
@@ -39,11 +39,11 @@ export function CardsShare() {
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-2">
-          <Label htmlFor="link" className="sr-only">
+          <Label className="sr-only" htmlFor="link">
             Link
           </Label>
-          <Input id="link" value="http://example.com/link/to/document" className="h-8" readOnly />
-          <Button size="sm" variant="outline" className="shadow-none">
+          <Input className="h-8" id="link" readOnly value="http://example.com/link/to/document" />
+          <Button className="shadow-none" size="sm" variant="outline">
             Copy Link
           </Button>
         </div>
@@ -52,17 +52,17 @@ export function CardsShare() {
           <div className="text-sm font-medium">People with access</div>
           <div className="grid gap-6">
             {people.map((person) => (
-              <div key={person.email} className="flex items-center justify-between gap-4">
+              <div className="flex items-center justify-between gap-4" key={person.email}>
                 <div className="flex items-center gap-4">
-                  <Avatar src={person.avatar} alt={person.name.charAt(0)}></Avatar>
+                  <Avatar alt={person.name.charAt(0)} src={person.avatar}></Avatar>
                   <div>
                     <p className="text-sm leading-none font-medium">{person.name}</p>
                     <p className="text-muted-foreground text-sm">{person.email}</p>
                   </div>
                 </div>
                 <Select defaultValue="edit" placement="bottom-end">
-                  <Button variant="outline" size="sm" asChild>
-                    <SelectTrigger className="ml-auto pr-2" aria-label="Edit">
+                  <Button asChild size="sm" variant="outline">
+                    <SelectTrigger aria-label="Edit" className="ml-auto pr-2">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                   </Button>

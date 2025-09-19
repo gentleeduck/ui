@@ -1,12 +1,11 @@
 //@ts-noCheck
 'use client'
 
-import React from 'react'
-
-import { NavCollabsedType, NavGroup, NavGroupProps, NavType } from './nav-group'
-import { Separator } from './ShadcnUI/separator'
 import { cn } from '@gentleduck/libs/cn'
 import { filteredObject } from '@gentleduck/libs/filtered-object'
+import React from 'react'
+import { NavCollabsedType, NavGroup, NavGroupProps, NavType } from './nav-group'
+import { Separator } from './ShadcnUI/separator'
 
 type HeaderProps<T extends boolean> = {
   header: HeaderType
@@ -41,9 +40,9 @@ const Header = <T extends boolean>({ nav, header, logo, footer }: HeaderProps<T>
       {logo && logo}
       {position === 'side' && <Separator className="my-1" />}
       <NavGroup<T>
-        position={position}
         nav={{ ...nav.nav, isCollabsed: navIsCollabsed } as NavType<true>}
         navigationKeys={nav.navigationKeys}
+        position={position}
       />
 
       {position === 'side' && <Separator className="my-1" />}

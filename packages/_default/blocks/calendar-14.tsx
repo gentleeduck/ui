@@ -15,18 +15,18 @@ export default function Calendar14() {
 
   return (
     <Calendar
-      mode="single"
+      className="rounded-lg border shadow-sm"
       defaultMonth={date}
-      selected={date}
-      onSelect={setDate}
       disabled={bookedDates}
+      mode="single"
       modifiers={{
         booked: bookedDates,
       }}
       modifiersClassNames={{
         booked: "[&>button]:line-through opacity-100",
       }}
-      className="rounded-lg border shadow-sm"
+      onSelect={setDate}
+      selected={date}
     />
   )
 }

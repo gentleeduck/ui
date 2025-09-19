@@ -1,5 +1,5 @@
-import { Ora } from 'ora'
-import { InitOptions } from '~/commands/init'
+import type { Ora } from 'ora'
+import type { InitOptions } from '~/commands/init'
 import { highlighter } from '../text-styling'
 import { preflight_duckui } from './preflight-duckui'
 import { preflight_tailwindcss } from './preflight-tailwindcss'

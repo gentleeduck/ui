@@ -1,12 +1,8 @@
 'use client'
 
 import { Icons } from '@/components/icons'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label, RadioGroup, RadioGroupItem, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/registry/default/ui/'
 import { Button } from '@/registry/registry-ui-components'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/registry/default/ui/'
-import { Input } from '@/registry/default/ui/'
-import { Label } from '@/registry/default/ui/'
-import { RadioGroup, RadioGroupItem } from '@/registry/default/ui/'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/registry/default/ui/'
 
 export function CardsPaymentMethod() {
   return (
@@ -16,22 +12,22 @@ export function CardsPaymentMethod() {
         <CardDescription>Add a new payment method to your account.</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
-        <RadioGroup defaultValue="card" className="grid grid-cols-3 gap-4">
+        <RadioGroup className="grid grid-cols-3 gap-4" defaultValue="card">
           <div>
-            <RadioGroupItem value="card" id="card" className="peer sr-only" aria-label="Card" />
+            <RadioGroupItem aria-label="Card" className="peer sr-only" id="card" value="card" />
             <Label
-              htmlFor="card"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              htmlFor="card">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
+                className="mb-3 h-6 w-6"
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                className="mb-3 h-6 w-6">
-                <rect width="20" height="14" x="2" y="5" rx="2" />
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <rect height="14" rx="2" width="20" x="2" y="5" />
                 <path d="M2 10h20" />
               </svg>
               Card
@@ -39,20 +35,20 @@ export function CardsPaymentMethod() {
           </div>
 
           <div>
-            <RadioGroupItem value="paypal" id="paypal" className="peer sr-only" aria-label="Paypal" />
+            <RadioGroupItem aria-label="Paypal" className="peer sr-only" id="paypal" value="paypal" />
             <Label
-              htmlFor="paypal"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              htmlFor="paypal">
               <Icons.paypal className="mb-3 h-6 w-6" />
               Paypal
             </Label>
           </div>
 
           <div>
-            <RadioGroupItem value="apple" id="apple" className="peer sr-only" aria-label="Apple" />
+            <RadioGroupItem aria-label="Apple" className="peer sr-only" id="apple" value="apple" />
             <Label
-              htmlFor="apple"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              htmlFor="apple">
               <Icons.apple className="mb-3 h-6 w-6" />
               Apple
             </Label>
@@ -74,7 +70,7 @@ export function CardsPaymentMethod() {
           <div className="grid gap-2">
             <Label htmlFor="month">Expires</Label>
             <Select>
-              <SelectTrigger id="month" aria-label="Month">
+              <SelectTrigger aria-label="Month" id="month">
                 <SelectValue placeholder="Month" />
               </SelectTrigger>
               <SelectContent>
@@ -96,7 +92,7 @@ export function CardsPaymentMethod() {
           <div className="grid gap-2">
             <Label htmlFor="year">Year</Label>
             <Select>
-              <SelectTrigger id="year" aria-label="Year">
+              <SelectTrigger aria-label="Year" id="year">
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
               <SelectContent>

@@ -8,14 +8,14 @@ export * from '../dialog/dialog.libs'
 export * from '../dialog/dialog.types'
 
 export default {
-  Root,
-  Trigger,
-  Content,
-  Heading,
-  Description,
   Close,
-  Title,
+  Content,
+  Description,
+  DialogContext,
+  Heading,
   Overlay,
   Portal,
-  DialogContext,
+  Root,
+  Title,
+  Trigger,
 }

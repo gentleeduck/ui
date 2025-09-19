@@ -1,8 +1,8 @@
 import { useClick, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
 
 import * as React from 'react'
-import { SheetOptions } from './sheet.types'
 import { SheetContext } from './sheet'
+import type { SheetOptions } from './sheet.types'
 
 export function useSheet({
   defaultOpen = false,
@@ -19,8 +19,8 @@ export function useSheet({
   const setOpen = setControlledOpen ?? setUncontrolledOpen
 
   const data = useFloating({
-    open,
     onOpenChange: setOpen,
+    open,
   })
 
   const context = data.context
@@ -39,13 +39,13 @@ export function useSheet({
       setOpen,
       ...interactions,
       ...data,
-      labelId,
-      descriptionId,
-      titleId,
-      setLabelId,
-      setDescriptionId,
-      setTitleId,
       closeButton,
+      descriptionId,
+      labelId,
+      setDescriptionId,
+      setLabelId,
+      setTitleId,
+      titleId,
     }),
     [open, setOpen, interactions, data, labelId, descriptionId, setTitleId],
   )

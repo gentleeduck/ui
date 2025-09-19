@@ -1,9 +1,9 @@
-import { Ora } from 'ora'
-import { DuckuiPrompts } from './preflight-duckui.dto'
-import { highlighter } from '~/utils/text-styling'
 import path from 'node:path'
+import type { Theme } from '@gentleduck/registers'
 import fs from 'fs-extra'
-import { Theme } from '@gentleduck/registers'
+import type { Ora } from 'ora'
+import { highlighter } from '~/utils/text-styling'
+import type { DuckuiPrompts } from './preflight-duckui.dto'
 
 export async function init_duckui_config(cwd: string, spinner: Ora, duck_config: DuckuiPrompts) {
   try {

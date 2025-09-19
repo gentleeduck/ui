@@ -10,7 +10,7 @@ type App = Record<string, Handler>
 
 export const app: App = {
   '/users': (req, res) => {
-    return res.json({ users: [{ id: '1', name: 'John', age: 30 }] })
+    return res.json({ users: [{ age: 30, id: '1', name: 'John' }] })
   },
 }
 

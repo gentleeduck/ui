@@ -87,3 +87,5 @@ type Test_Uuid = AssertTrue<
   Equal<typeof uuid, `${string}-${string}-${string}-${string}-${string}`>,
   'UuidString should follow UUID v4 format'
 >
+
+/* @__IGNORED__@ */ type _IGNORE = [Test_Jsonify, Test_JsonifyRecursive, Test_HexColor, Test_RgbColor, Test_Uuid]

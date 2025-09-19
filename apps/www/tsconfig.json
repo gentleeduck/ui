@@ -1,23 +1,23 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
-    "lib": ["ES2022", "dom", "dom.iterable"],
     "baseUrl": ".",
-    "outDir": "./dist",
+    "isolatedModules": true,
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "Preserve",
     "moduleResolution": "bundler",
+    "outDir": "./dist",
     "paths": {
-      "~/old-registry-ui": ["../_oldstuff_refactor/ui/*"],
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "~/old-registry-ui": ["../_oldstuff_refactor/ui/*"]
     },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "isolatedModules": true
+    ]
   },
-  "include": [".", ".next/types/**/*.ts", "../../packages/_oldstuff_refactor/", "../../packages/registry-ui-duckui/"],
-  "exclude": ["dist"]
+  "exclude": ["dist"],
+  "extends": "@gentleduck/typescript-config/base.json",
+  "include": [".", ".next/types/**/*.ts", "../../packages/_oldstuff_refactor/", "../../packages/registry-ui-duckui/"]
 }

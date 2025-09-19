@@ -16,15 +16,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 const plans = [
   {
+    description: 'Perfect for small businesses.',
     id: 'starter',
     name: 'Starter Plan',
-    description: 'Perfect for small businesses.',
     price: '$10',
   },
   {
+    description: 'Advanced features with more storage.',
     id: 'pro',
     name: 'Pro Plan',
-    description: 'Advanced features with more storage.',
     price: '$20',
   },
 ] as const
@@ -44,12 +44,12 @@ export function CardsPaymentMethod() {
         <fieldset className="flex flex-col gap-3">
           <legend className="text-sm font-medium">Plan</legend>
           <p className="text-muted-foreground text-sm">Select the plan that best fits your needs.</p>
-          <RadioGroup defaultValue="starter" className="grid gap-3">
+          <RadioGroup className="grid gap-3" defaultValue="starter">
             {plans.map((plan) => (
               <Label
                 className="has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-primary/5 flex items-start gap-3 rounded-lg border p-3"
                 key={plan.id}>
-                <RadioGroupItem value={plan.id} id={plan.name} className="data-[state=checked]:border-primary" />
+                <RadioGroupItem className="data-[state=checked]:border-primary" id={plan.name} value={plan.id} />
                 <div className="grid gap-1 font-normal">
                   <div className="font-medium">{plan.name}</div>
                   <div className="text-muted-foreground pr-2 text-xs leading-snug text-balance">{plan.description}</div>
@@ -66,7 +66,7 @@ export function CardsPaymentMethod() {
           <div className="flex flex-col gap-3">
             <Label htmlFor="month">Expires</Label>
             <Select>
-              <SelectTrigger id="month" aria-label="Month" className="w-full">
+              <SelectTrigger aria-label="Month" className="w-full" id="month">
                 <SelectValue placeholder="Month" />
               </SelectTrigger>
               <SelectContent>
@@ -88,7 +88,7 @@ export function CardsPaymentMethod() {
           <div className="flex flex-col gap-3">
             <Label htmlFor="year">Year</Label>
             <Select>
-              <SelectTrigger id="year" aria-label="Year" className="w-full">
+              <SelectTrigger aria-label="Year" className="w-full" id="year">
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
               <SelectContent>

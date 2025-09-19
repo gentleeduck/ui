@@ -18,8 +18,8 @@ export function useColors() {
   const mounted = useMounted()
 
   return {
-    isLoading: !mounted,
     format: colors.format,
+    isLoading: !mounted,
     lastCopied: colors.lastCopied,
     setFormat: (format: ColorFormat) => setColors({ ...colors, format }),
     setLastCopied: (lastCopied: string) => setColors({ ...colors, lastCopied }),

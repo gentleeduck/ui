@@ -52,26 +52,26 @@ const FormSchema = z.object({
 
 export default function CheckboxReactHookFormMultiple() {
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
     defaultValues: {
       items: ["recents", "home"],
     },
+    resolver: zodResolver(FormSchema),
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
-      title: "You submitted the following values:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
+      title: "You submitted the following values:",
     })
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="items"
@@ -85,14 +85,14 @@ export default function CheckboxReactHookFormMultiple() {
               </div>
               {items.map((item) => (
                 <FormField
-                  key={item.id}
                   control={form.control}
+                  key={item.id}
                   name="items"
                   render={({ field }) => {
                     return (
                       <FormItem
-                        key={item.id}
                         className="flex flex-row items-start space-x-3 space-y-0"
+                        key={item.id}
                       >
                         <FormControl>
                           <Checkbox

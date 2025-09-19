@@ -1,9 +1,9 @@
 // @sts-nocheck
 import { existsSync, promises as fs, readFileSync } from 'fs'
+import template from 'lodash.template'
 import { tmpdir } from 'os'
 import path from 'path'
 import { cwd } from 'process'
-import template from 'lodash.template'
 import { rimraf } from 'rimraf'
 import { Project, ScriptKind, SyntaxKind } from 'ts-morph'
 import { z } from 'zod'
@@ -112,9 +112,9 @@ export const Index: Record<string, any> = {
           const defaultImport = node.getDefaultImport()
           if (defaultImport) {
             imports.set(defaultImport.getText(), {
+              isDefault: true,
               module,
               text: defaultImport.getText(),
-              isDefault: true,
             })
           }
         })
@@ -138,8 +138,8 @@ export const Index: Record<string, any> = {
 
             // Add a new attribute to the component.
             component.addAttribute({
-              name: 'x-chunk',
               initializer: `"${chunkName}"`,
+              name: 'x-chunk',
             })
 
             // Get the value of x-chunk-container attribute.
@@ -202,13 +202,13 @@ export const Index: Record<string, any> = {
             await fs.writeFile(targetFilePath, code, 'utf8')
 
             return {
-              name: chunkName,
-              description,
               component: `React.lazy(() => import("@/registry/${style.name}/${type}/${chunkName}")),`,
-              file: targetFile,
               container: {
                 className: containerClassName,
               },
+              description,
+              file: targetFile,
+              name: chunkName,
             }
           }),
         )
@@ -218,7 +218,7 @@ export const Index: Record<string, any> = {
 
         if (item.files) {
           const files = item.files.map((file) =>
-            typeof file === 'string' ? { type: 'registry:page', path: file } : file,
+            typeof file === 'string' ? { path: file, type: 'registry:page' } : file,
           )
           if (files?.length) {
             sourceFilename = `__registry__/${style.name}/${files[0].path}`
@@ -238,7 +238,7 @@ export const Index: Record<string, any> = {
 
       if (item.files) {
         const files = item.files.map((file) =>
-          typeof file === 'string' ? { type: 'registry:page', path: file } : file,
+          typeof file === 'string' ? { path: file, type: 'registry:page' } : file,
         )
         if (files?.length) {
           componentPath = `@/registry/${style.name}/${files[0].path}`
@@ -332,10 +332,10 @@ async function buildStyles(registry: Registry) {
             const file =
               typeof _file === 'string'
                 ? {
-                    path: _file,
-                    type: item.type,
                     content: '',
+                    path: _file,
                     target: '',
+                    type: item.type,
                   }
                 : _file
 
@@ -386,10 +386,10 @@ async function buildStyles(registry: Registry) {
             }
 
             return {
-              path: file.path,
-              type: file.type,
               content: sourceFile.getText(),
+              path: file.path,
               target,
+              type: file.type,
             }
           }),
         )
@@ -397,10 +397,10 @@ async function buildStyles(registry: Registry) {
 
       const payload = registryEntrySchema
         .omit({
-          source: true,
           category: true,
-          subcategory: true,
           chunks: true,
+          source: true,
+          subcategory: true,
         })
         .safeParse({
           ...item,
@@ -435,17 +435,17 @@ async function buildStylesIndex() {
     }
 
     const payload: RegistryEntry = {
-      name: style.name,
-      type: 'registry:style',
+      cssVars: {},
       dependencies,
+      files: [],
+      name: style.name,
       registryDependencies: ['utils'],
       tailwind: {
         config: {
           plugins: [`require("tailwindcss-animate")`],
         },
       },
-      cssVars: {},
-      files: [],
+      type: 'registry:style',
     }
 
     await fs.writeFile(path.join(targetPath, 'index.json'), JSON.stringify(payload, null, 2), 'utf8')
@@ -472,8 +472,8 @@ async function buildThemes() {
     if (Array.isArray(value)) {
       colorsData[color] = value.map((item) => ({
         ...item,
-        rgbChannel: item.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
         hslChannel: item.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
+        rgbChannel: item.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
       }))
       continue
     }
@@ -481,8 +481,8 @@ async function buildThemes() {
     if (typeof value === 'object') {
       colorsData[color] = {
         ...value,
-        rgbChannel: value.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
         hslChannel: value.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
+        rgbChannel: value.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
       }
       continue
     }
@@ -570,8 +570,8 @@ async function buildThemes() {
 
   for (const baseColor of ['slate', 'gray', 'zinc', 'neutral', 'stone']) {
     const base: Record<string, any> = {
-      inlineColors: {},
       cssVars: {},
+      inlineColors: {},
     }
     for (const [mode, values] of Object.entries(colorMapping)) {
       base['inlineColors'][mode] = {}
@@ -693,9 +693,9 @@ async function buildThemes() {
     rimraf.sync(path.join(REGISTRY_PATH, 'themes'))
     for (const baseColor of ['slate', 'gray', 'zinc', 'neutral', 'stone']) {
       const payload: Record<string, any> = {
-        name: baseColor,
-        label: baseColor.charAt(0).toUpperCase() + baseColor.slice(1),
         cssVars: {},
+        label: baseColor.charAt(0).toUpperCase() + baseColor.slice(1),
+        name: baseColor,
       }
       for (const [mode, values] of Object.entries(colorMapping)) {
         payload.cssVars[mode] = {}

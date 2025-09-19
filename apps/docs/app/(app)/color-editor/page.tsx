@@ -96,7 +96,7 @@ export default function ColorThemeManager() {
         ) {
           const originalFormat = detectColorFormat(value!)
           const convertedValue = convertColor(value!, originalFormat, outputFormat)
-          light.push({ name: name.replace('--', ''), value: convertedValue, originalFormat: outputFormat })
+          light.push({ name: name.replace('--', ''), originalFormat: outputFormat, value: convertedValue })
         }
       })
     }
@@ -123,12 +123,12 @@ export default function ColorThemeManager() {
         ) {
           const originalFormat = detectColorFormat(value!)
           const convertedValue = convertColor(value!, originalFormat, outputFormat)
-          dark.push({ name: name.replace('--', ''), value: convertedValue, originalFormat: outputFormat })
+          dark.push({ name: name.replace('--', ''), originalFormat: outputFormat, value: convertedValue })
         }
       })
     }
 
-    return { light, dark }
+    return { dark, light }
   }
 
   const detectColorFormat = (value: string): string => {
@@ -274,10 +274,10 @@ export default function ColorThemeManager() {
   const handleParseCss = () => {
     const parsed = parseCSSVariables(cssInput)
     const newTheme: Theme = {
-      id: Date.now().toString(),
-      name: themeName || `Theme ${themes.length + 1}`,
-      lightColors: parsed.light,
       darkColors: parsed.dark,
+      id: Date.now().toString(),
+      lightColors: parsed.light,
+      name: themeName || `Theme ${themes.length + 1}`,
     }
     setCurrentTheme(newTheme)
   }
@@ -444,15 +444,15 @@ export default function ColorThemeManager() {
   const convertThemeFormat = (theme: Theme, newFormat: ColorFormat): Theme => {
     return {
       ...theme,
-      lightColors: theme.lightColors.map((color) => ({
-        ...color,
-        value: convertColor(color.value, color.originalFormat, newFormat),
-        originalFormat: newFormat,
-      })),
       darkColors: theme.darkColors.map((color) => ({
         ...color,
-        value: convertColor(color.value, color.originalFormat, newFormat),
         originalFormat: newFormat,
+        value: convertColor(color.value, color.originalFormat, newFormat),
+      })),
+      lightColors: theme.lightColors.map((color) => ({
+        ...color,
+        originalFormat: newFormat,
+        value: convertColor(color.value, color.originalFormat, newFormat),
       })),
     }
   }
@@ -518,15 +518,15 @@ export default function ColorThemeManager() {
         <div className="relative">
           <div
             className={`w-12 h-12 rounded-lg border-2 cursor-pointer transition-all hover:scale-105 ${!isValid ? 'bg-red-100 border-red-300' : 'border-border'}`}
-            style={{ backgroundColor: isValid ? hexValue : '#f3f4f6' }}
             onClick={openAdvancedPicker}
+            style={{ backgroundColor: isValid ? hexValue : '#f3f4f6' }}
           />
           {showPicker && (
             <input
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              onChange={handleColorPickerChange}
               type="color"
               value={isValid ? hexValue : '#000000'}
-              onChange={handleColorPickerChange}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
           )}
           <Pipette className="absolute -bottom-1 -right-1 w-4 h-4 bg-background border rounded p-0.5" />
@@ -534,11 +534,11 @@ export default function ColorThemeManager() {
         <div className="flex-1 space-y-1">
           <Label className="text-sm font-medium capitalize">{color.name.replace(/-/g, ' ')}</Label>
           <Input
-            value={localValue}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur}
-            onKeyDown={handleInputKeyDown}
             className={`text-xs font-mono h-8 ${!isValid ? 'border-red-300 text-red-600' : ''}`}
+            onBlur={handleInputBlur}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+            value={localValue}
           />
           {!isValid && <p className="text-xs text-red-500">Invalid color format</p>}
         </div>
@@ -556,34 +556,34 @@ export default function ColorThemeManager() {
             <CardTitle className="text-lg flex items-center gap-2">
               {theme.name}
               {isActive && (
-                <Badge variant="default" className="text-xs">
+                <Badge className="text-xs" variant="default">
                   Active
                 </Badge>
               )}
             </CardTitle>
             <div className="flex gap-1">
               <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => applyTheme(theme)}
                 className="text-primary hover:text-primary"
-                title="Apply Theme">
+                onClick={() => applyTheme(theme)}
+                size="sm"
+                title="Apply Theme"
+                variant="ghost">
                 <Palette className="w-4 h-4" />
               </Button>
               <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => openPreviewModal(theme)}
                 className="text-primary hover:text-primary"
-                title="Edit Theme">
+                onClick={() => openPreviewModal(theme)}
+                size="sm"
+                title="Edit Theme"
+                variant="ghost">
                 <Eye className="w-4 h-4" />
               </Button>
               <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => deleteTheme(theme.id)}
                 className="text-destructive hover:text-destructive"
-                title="Delete Theme">
+                onClick={() => deleteTheme(theme.id)}
+                size="sm"
+                title="Delete Theme"
+                variant="ghost">
                 <Trash2 className="w-4 h-4" />
               </Button>
             </div>
@@ -593,8 +593,8 @@ export default function ColorThemeManager() {
           <div className="flex items-center gap-2">
             <Label className="text-xs">Format:</Label>
             <Select
-              value={theme.lightColors[0]?.originalFormat || 'oklch'}
-              onValueChange={((value: ColorFormat) => updateThemeFormat(theme.id, value)) as never}>
+              onValueChange={((value: ColorFormat) => updateThemeFormat(theme.id, value)) as never}
+              value={theme.lightColors[0]?.originalFormat || 'oklch'}>
               <SelectTrigger className="h-7 text-xs">
                 <SelectValue />
               </SelectTrigger>
@@ -613,14 +613,14 @@ export default function ColorThemeManager() {
 
           <div className="space-y-3">
             <div>
-              <Badge variant="secondary" className="mb-2 text-xs">
+              <Badge className="mb-2 text-xs" variant="secondary">
                 Light Mode ({theme.lightColors.length} colors)
               </Badge>
               <div className="grid grid-cols-8 gap-1.5">
                 {theme.lightColors.map((color) => (
                   <div
-                    key={color.name}
                     className="aspect-square rounded-md border-2 border-border/50 hover:border-primary/50 transition-colors cursor-pointer group relative"
+                    key={color.name}
                     style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                     title={`${color.name}: ${color.value}`}>
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-md transition-colors" />
@@ -630,14 +630,14 @@ export default function ColorThemeManager() {
             </div>
 
             <div>
-              <Badge variant="outline" className="mb-2 text-xs">
+              <Badge className="mb-2 text-xs" variant="outline">
                 Dark Mode ({theme.darkColors.length} colors)
               </Badge>
               <div className="grid grid-cols-8 gap-1.5">
                 {theme.darkColors.map((color) => (
                   <div
-                    key={color.name}
                     className="aspect-square rounded-md border-2 border-border/50 hover:border-primary/50 transition-colors cursor-pointer group relative"
+                    key={color.name}
                     style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                     title={`${color.name}: ${color.value}`}>
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-md transition-colors" />
@@ -661,9 +661,9 @@ export default function ColorThemeManager() {
           <div className="space-y-3">
             {theme.lightColors.map((color) => (
               <ColorPreview
-                key={color.name}
                 color={color}
                 isDark={false}
+                key={color.name}
                 onColorChange={(name, value) => handlePreviewColorChange(name, value, false)}
                 showPicker={true}
               />
@@ -678,9 +678,9 @@ export default function ColorThemeManager() {
           <div className="space-y-3">
             {theme.darkColors.map((color) => (
               <ColorPreview
-                key={color.name}
                 color={color}
                 isDark={true}
+                key={color.name}
                 onColorChange={(name, value) => handlePreviewColorChange(name, value, true)}
                 showPicker={true}
               />
@@ -695,8 +695,8 @@ export default function ColorThemeManager() {
     if (!selectedColor) return null
 
     const hexValue = convertColor(tempColorValue, selectedColor.originalFormat, 'hex')
-    const hslColor = converter('hsl')(parse(tempColorValue) || ({ r: 0, g: 0, b: 0 } as never))
-    const rgbColor = converter('rgb')(parse(tempColorValue) || ({ r: 0, g: 0, b: 0 } as never))
+    const hslColor = converter('hsl')(parse(tempColorValue) || ({ b: 0, g: 0, r: 0 } as never))
+    const rgbColor = converter('rgb')(parse(tempColorValue) || ({ b: 0, g: 0, r: 0 } as never))
 
     const updateColorValue = (newValue: string, format: ColorFormat) => {
       const convertedValue = convertColor(newValue, format, selectedColor.originalFormat as never)
@@ -709,7 +709,7 @@ export default function ColorThemeManager() {
     }
 
     return (
-      <Dialog open={advancedPickerOpen} onOpenChange={setAdvancedPickerOpen}>
+      <Dialog onOpenChange={setAdvancedPickerOpen} open={advancedPickerOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -736,10 +736,10 @@ export default function ColorThemeManager() {
               <div>
                 <Label className="text-sm">Color Picker</Label>
                 <input
+                  className="w-full h-12 rounded border cursor-pointer"
+                  onChange={(e) => updateColorValue(e.target.value, 'hex')}
                   type="color"
                   value={hexValue}
-                  onChange={(e) => updateColorValue(e.target.value, 'hex')}
-                  className="w-full h-12 rounded border cursor-pointer"
                 />
               </div>
 
@@ -750,43 +750,43 @@ export default function ColorThemeManager() {
                   <div>
                     <Label className="text-xs">H</Label>
                     <Input
-                      type="number"
-                      min="0"
+                      className="text-xs h-8"
                       max="360"
-                      value={Math.round(hslColor?.h || 0)}
+                      min="0"
                       onChange={(e) => {
                         const newHsl = `hsl(${e.currentTarget.value} ${Math.round((hslColor?.s || 0) * 100)}% ${Math.round((hslColor?.l || 0) * 100)}%)`
                         updateColorValue(newHsl, 'hsl')
                       }}
-                      className="text-xs h-8"
+                      type="number"
+                      value={Math.round(hslColor?.h || 0)}
                     />
                   </div>
                   <div>
                     <Label className="text-xs">S</Label>
                     <Input
-                      type="number"
-                      min="0"
+                      className="text-xs h-8"
                       max="100"
-                      value={Math.round((hslColor?.s || 0) * 100)}
+                      min="0"
                       onChange={(e) => {
                         const newHsl = `hsl(${Math.round(hslColor?.h || 0)} ${e.currentTarget.value}% ${Math.round((hslColor?.l || 0) * 100)}%)`
                         updateColorValue(newHsl, 'hsl')
                       }}
-                      className="text-xs h-8"
+                      type="number"
+                      value={Math.round((hslColor?.s || 0) * 100)}
                     />
                   </div>
                   <div>
                     <Label className="text-xs">L</Label>
                     <Input
-                      type="number"
-                      min="0"
+                      className="text-xs h-8"
                       max="100"
-                      value={Math.round((hslColor?.l || 0) * 100)}
+                      min="0"
                       onChange={(e) => {
                         const newHsl = `hsl(${Math.round(hslColor?.h || 0)} ${Math.round((hslColor?.s || 0) * 100)}% ${e.currentTarget.value}%)`
                         updateColorValue(newHsl, 'hsl')
                       }}
-                      className="text-xs h-8"
+                      type="number"
+                      value={Math.round((hslColor?.l || 0) * 100)}
                     />
                   </div>
                 </div>
@@ -799,43 +799,43 @@ export default function ColorThemeManager() {
                   <div>
                     <Label className="text-xs">R</Label>
                     <Input
-                      type="number"
-                      min="0"
+                      className="text-xs h-8"
                       max="255"
-                      value={Math.round((rgbColor?.r || 0) * 255)}
+                      min="0"
                       onChange={(e) => {
                         const newRgb = `rgb(${e.currentTarget.value} ${Math.round((rgbColor?.g || 0) * 255)} ${Math.round((rgbColor?.b || 0) * 255)})`
                         updateColorValue(newRgb, 'rgb')
                       }}
-                      className="text-xs h-8"
+                      type="number"
+                      value={Math.round((rgbColor?.r || 0) * 255)}
                     />
                   </div>
                   <div>
                     <Label className="text-xs">G</Label>
                     <Input
-                      type="number"
-                      min="0"
+                      className="text-xs h-8"
                       max="255"
-                      value={Math.round((rgbColor?.g || 0) * 255)}
+                      min="0"
                       onChange={(e) => {
                         const newRgb = `rgb(${Math.round((rgbColor?.r || 0) * 255)} ${e.currentTarget.value} ${Math.round((rgbColor?.b || 0) * 255)})`
                         updateColorValue(newRgb, 'rgb')
                       }}
-                      className="text-xs h-8"
+                      type="number"
+                      value={Math.round((rgbColor?.g || 0) * 255)}
                     />
                   </div>
                   <div>
                     <Label className="text-xs">B</Label>
                     <Input
-                      type="number"
-                      min="0"
+                      className="text-xs h-8"
                       max="255"
-                      value={Math.round((rgbColor?.b || 0) * 255)}
+                      min="0"
                       onChange={(e) => {
                         const newRgb = `rgb(${Math.round((rgbColor?.r || 0) * 255)} ${Math.round((rgbColor?.g || 0) * 255)} ${e.currentTarget.value})`
                         updateColorValue(newRgb, 'rgb')
                       }}
-                      className="text-xs h-8"
+                      type="number"
+                      value={Math.round((rgbColor?.b || 0) * 255)}
                     />
                   </div>
                 </div>
@@ -845,19 +845,19 @@ export default function ColorThemeManager() {
               <div>
                 <Label className="text-sm">Direct Value</Label>
                 <Input
-                  value={tempColorValue}
-                  onChange={(e) => setTempColorValue(e.currentTarget.value)}
                   className="font-mono text-xs"
+                  onChange={(e) => setTempColorValue(e.currentTarget.value)}
                   placeholder="Enter color value..."
+                  value={tempColorValue}
                 />
               </div>
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button onClick={applyColorChange} className="flex-1">
+              <Button className="flex-1" onClick={applyColorChange}>
                 Apply Changes
               </Button>
-              <Button variant="outline" onClick={() => setAdvancedPickerOpen(false)}>
+              <Button onClick={() => setAdvancedPickerOpen(false)} variant="outline">
                 Cancel
               </Button>
             </div>
@@ -889,14 +889,14 @@ export default function ColorThemeManager() {
                   <h4 className="font-medium mb-3">Light Mode</h4>
                   <div className="grid grid-cols-4 gap-2">
                     {activeTheme.lightColors.map((color) => (
-                      <div key={color.name} className="text-center relative">
+                      <div className="text-center relative" key={color.name}>
                         <div
                           className="w-full h-16 rounded-lg border mb-2"
                           style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                         />
                         <CopyButton
-                          value={color.value}
                           className="absolute top-1 right-1 h-6 w-6 bg-background/80 hover:bg-background border shadow-sm"
+                          value={color.value}
                         />
                         <p className="text-xs font-mono">{color.name}</p>
                       </div>
@@ -907,14 +907,14 @@ export default function ColorThemeManager() {
                   <h4 className="font-medium mb-3">Dark Mode</h4>
                   <div className="grid grid-cols-4 gap-2">
                     {activeTheme.darkColors.map((color) => (
-                      <div key={color.name} className="text-center relative">
+                      <div className="text-center relative" key={color.name}>
                         <div
                           className="w-full h-16 rounded-lg border mb-2"
                           style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                         />
                         <CopyButton
-                          value={color.value}
                           className="absolute top-1 right-1 h-6 w-6 bg-background/80 hover:bg-background border shadow-sm"
+                          value={color.value}
                         />
                         <p className="text-xs font-mono">{color.name}</p>
                       </div>
@@ -968,10 +968,10 @@ export default function ColorThemeManager() {
           </div>
           <div className="flex items-center gap-2">
             <Button
-              variant="outline"
-              size="sm"
+              className="flex items-center gap-2 bg-transparent"
               onClick={toggleTheme}
-              className="flex items-center gap-2 bg-transparent">
+              size="sm"
+              variant="outline">
               {isDarkMode ? (
                 <>
                   <Sun className="w-4 h-4" />
@@ -984,7 +984,7 @@ export default function ColorThemeManager() {
                 </>
               )}
             </Button>
-            <Button onClick={() => setThemeChangerOpen(true)} className="flex items-center gap-2">
+            <Button className="flex items-center gap-2" onClick={() => setThemeChangerOpen(true)}>
               <Settings className="w-4 h-4" />
               Theme Changer
             </Button>
@@ -999,7 +999,7 @@ export default function ColorThemeManager() {
                   <h3 className="font-semibold text-primary">Active Theme: {activeTheme.name}</h3>
                   <p className="text-sm text-muted-foreground">This theme is currently applied to the page</p>
                 </div>
-                <Button variant="outline" size="sm" onClick={resetTheme}>
+                <Button onClick={resetTheme} size="sm" variant="outline">
                   Reset Theme
                 </Button>
               </div>
@@ -1018,15 +1018,15 @@ export default function ColorThemeManager() {
                 <Label htmlFor="theme-name">Theme Name</Label>
                 <Input
                   id="theme-name"
-                  value={themeName}
                   onChange={(e) => setThemeName(e.currentTarget.value)}
                   placeholder="Enter theme name"
+                  value={themeName}
                 />
               </div>
 
               <div>
                 <Label htmlFor="output-format">Output Format (for parsing)</Label>
-                <Select value={outputFormat} onValueChange={((value: ColorFormat) => setOutputFormat(value)) as never}>
+                <Select onValueChange={((value: ColorFormat) => setOutputFormat(value)) as never} value={outputFormat}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -1045,7 +1045,7 @@ export default function ColorThemeManager() {
 
               <div>
                 <Label htmlFor="color-format">Display Format</Label>
-                <Select value={colorFormat} onValueChange={((value: ColorFormat) => setColorFormat(value)) as never}>
+                <Select onValueChange={((value: ColorFormat) => setColorFormat(value)) as never} value={colorFormat}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -1065,16 +1065,16 @@ export default function ColorThemeManager() {
               <div>
                 <Label htmlFor="css-input">CSS Variables</Label>
                 <Textarea
+                  className="min-h-[200px] font-mono text-sm"
                   id="css-input"
-                  value={cssInput}
                   onChange={(e) => setCssInput(e.currentTarget.value)}
                   placeholder="Paste your CSS variables here..."
-                  className="min-h-[200px] font-mono text-sm"
+                  value={cssInput}
                 />
               </div>
 
               <div className="flex gap-2">
-                <Button onClick={handleParseCss} disabled={!cssInput.trim()}>
+                <Button disabled={!cssInput.trim()} onClick={handleParseCss}>
                   Parse CSS
                 </Button>
                 {currentTheme && (
@@ -1100,9 +1100,9 @@ export default function ColorThemeManager() {
                     <div className="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto">
                       {currentTheme.lightColors.map((color) => (
                         <ColorPreview
-                          key={color.name}
                           color={color}
                           isDark={false}
+                          key={color.name}
                           onColorChange={(name, value) => handleColorChange(name, value, false)}
                         />
                       ))}
@@ -1114,9 +1114,9 @@ export default function ColorThemeManager() {
                     <div className="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto">
                       {currentTheme.darkColors.map((color) => (
                         <ColorPreview
-                          key={color.name}
                           color={color}
                           isDark={true}
+                          key={color.name}
                           onColorChange={(name, value) => handleColorChange(name, value, true)}
                         />
                       ))}
@@ -1146,7 +1146,7 @@ export default function ColorThemeManager() {
           </Card>
         )}
 
-        <Dialog open={themeChangerOpen} onOpenChange={setThemeChangerOpen}>
+        <Dialog onOpenChange={setThemeChangerOpen} open={themeChangerOpen}>
           <DialogContent className="max-w-4xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
@@ -1158,14 +1158,14 @@ export default function ColorThemeManager() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto">
               {themes.map((theme) => (
                 <Card
-                  key={theme.id}
                   className={`cursor-pointer transition-all hover:shadow-md ${activeTheme?.id === theme.id ? 'ring-2 ring-primary' : ''}`}
+                  key={theme.id}
                   onClick={() => applyTheme(theme)}>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center justify-between">
                       {theme.name}
                       {activeTheme?.id === theme.id && (
-                        <Badge variant="default" className="text-xs">
+                        <Badge className="text-xs" variant="default">
                           Active
                         </Badge>
                       )}
@@ -1175,8 +1175,8 @@ export default function ColorThemeManager() {
                     <div className="grid grid-cols-10 gap-1 mb-2">
                       {theme.lightColors.slice(0, 10).map((color) => (
                         <div
-                          key={color.name}
                           className="aspect-square rounded border"
+                          key={color.name}
                           style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                           title={color.name}
                         />
@@ -1185,8 +1185,8 @@ export default function ColorThemeManager() {
                     <div className="grid grid-cols-10 gap-1">
                       {theme.darkColors.slice(0, 10).map((color) => (
                         <div
-                          key={color.name}
                           className="aspect-square rounded border"
+                          key={color.name}
                           style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                           title={color.name}
                         />
@@ -1199,7 +1199,7 @@ export default function ColorThemeManager() {
           </DialogContent>
         </Dialog>
 
-        <Dialog open={previewModalOpen} onOpenChange={setPreviewModalOpen}>
+        <Dialog onOpenChange={setPreviewModalOpen} open={previewModalOpen}>
           <DialogContent className="max-w-6xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">

@@ -4,7 +4,7 @@ function ShadcnButton() {
   return (
     <>
       <div className="grid w-full gap-1.5">
-        <Textarea placeholder="Type your message here." id="message" />
+        <Textarea id="message" placeholder="Type your message here." />
       </div>
     </>
   )

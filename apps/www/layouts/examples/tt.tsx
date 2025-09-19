@@ -16,17 +16,17 @@ export function Upload2Demo() {
         <div className="flex flex-col w-full gap-4">
           <div className="place-self-end">
             <Upload
-              trigger={
-                <UploadTrigger>
-                  Upload
-                  <Button variant="outline" type="button" icon={<UploadIcon />}></Button>
-                </UploadTrigger>
-              }
               content={
                 <div className="flex flex-col h-full gap-4">
                   <UploadInput />
                   <UploadContent />
                 </div>
+              }
+              trigger={
+                <UploadTrigger>
+                  Upload
+                  <Button icon={<UploadIcon />} type="button" variant="outline"></Button>
+                </UploadTrigger>
               }
             />
           </div>

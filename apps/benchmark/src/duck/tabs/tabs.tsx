@@ -4,7 +4,7 @@ function ShadcnButton() {
   return (
     <>
       <div className="grid w-full gap-1.5">
-        <Tabs defaultValue="account" className="w-[400px]">
+        <Tabs className="w-[400px]" defaultValue="account">
           <TabsList>
             <TabsTrigger value="account">Account</TabsTrigger>
             <TabsTrigger value="password">Password</TabsTrigger>

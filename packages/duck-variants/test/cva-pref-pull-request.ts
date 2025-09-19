@@ -48,28 +48,24 @@ export type VariantProps<Component extends (...args: any) => any> = Omit<
 /* compose
   ---------------------------------- */
 
-export interface Compose {
-  <T extends ReturnType<CVA>[]>(
-    ...components: [...T]
-  ): (
-    props?: (
-      | UnionToIntersection<
-          {
-            [K in keyof T]: VariantProps<T[K]>
-          }[number]
-        >
-      | undefined
-    ) &
-      CVAClassProp,
-  ) => string
-}
+export type Compose = <T extends ReturnType<CVA>[]>(
+  ...components: [...T]
+) => (
+  props?: (
+    | UnionToIntersection<
+        {
+          [K in keyof T]: VariantProps<T[K]>
+        }[number]
+      >
+    | undefined
+  ) &
+    CVAClassProp,
+) => string
 
 /* cx
   ---------------------------------- */
 
-export interface CX {
-  (...inputs: ClassValue[]): string
-}
+export type CX = (...inputs: ClassValue[]) => string
 
 export type CXOptions = Parameters<CX>
 export type CXReturn = ReturnType<CX>
@@ -102,21 +98,19 @@ type CVACompoundVariants<V> = (V extends CVAVariantShape
       CVAClassProp
   : CVAClassProp)[]
 
-export interface CVA {
-  <_ extends "cva's generic parameters are restricted to internal use only.", V>(
-    config: V extends CVAVariantShape
-      ? CVAConfigBase & {
-          variants?: V
-          compoundVariants?: CVACompoundVariants<V>
-          defaultVariants?: CVAVariantSchema<V>
-        }
-      : CVAConfigBase & {
-          variants?: never
-          compoundVariants?: never
-          defaultVariants?: never
-        },
-  ): (props?: V extends CVAVariantShape ? CVAVariantSchema<V> & CVAClassProp : CVAClassProp) => string
-}
+export type CVA = <_ extends "cva's generic parameters are restricted to internal use only.", V>(
+  config: V extends CVAVariantShape
+    ? CVAConfigBase & {
+        variants?: V
+        compoundVariants?: CVACompoundVariants<V>
+        defaultVariants?: CVAVariantSchema<V>
+      }
+    : CVAConfigBase & {
+        variants?: never
+        compoundVariants?: never
+        defaultVariants?: never
+      },
+) => (props?: V extends CVAVariantShape ? CVAVariantSchema<V> & CVAClassProp : CVAClassProp) => string
 
 /* defineConfig
   ---------------------------------- */
@@ -134,14 +128,10 @@ export interface DefineConfigOptions {
   }
 }
 
-export interface DefineConfig {
-  (
-    options?: DefineConfigOptions,
-  ): {
-    compose: Compose
-    cx: CX
-    cva: CVA
-  }
+export type DefineConfig = (options?: DefineConfigOptions) => {
+  compose: Compose
+  cx: CX
+  cva: CVA
 }
 /* Internal helper functions 
   ============================================ */
@@ -151,10 +141,7 @@ export interface DefineConfig {
  * Determines whether an object has a property with the specified name.
  * */
 function isKeyOf<R extends Record<PropertyKey, unknown>, V = keyof R>(record: R, key: unknown): key is V {
-  return (
-    (typeof key === 'string' || typeof key === 'number' || typeof key === 'symbol') &&
-    Object.prototype.hasOwnProperty.call(record, key)
-  )
+  return (typeof key === 'string' || typeof key === 'number' || typeof key === 'symbol') && Object.hasOwn(record, key)
 }
 
 /**
@@ -231,8 +218,7 @@ function getCompoundVariantClassNames<V extends CVAVariantShape>(
   return compoundClassNames
 }
 
-const falsyToString = <T extends unknown>(value: T) =>
-  typeof value === 'boolean' ? `${value}` : value === 0 ? '0' : value
+const falsyToString = <T>(value: T) => (typeof value === 'boolean' ? `${value}` : value === 0 ? '0' : value)
 
 /* Exports
   ============================================ */
@@ -265,7 +251,7 @@ export const defineConfig: DefineConfig = (options) => {
   const compose: Compose =
     (...components) =>
     (props) => {
-      const { class: _class, className, ...propsWithoutClass } = props ?? {}
+      const { class: _class, className: _className, ...propsWithoutClass } = props ?? {}
 
       return cx(
         components.map((component) => component(propsWithoutClass)),

@@ -9,24 +9,24 @@ export const error_messages: { [key: number]: string } = {
 export async function get_registry_base_colors() {
   return [
     {
-      name: 'neutral',
       label: 'Neutral',
+      name: 'neutral',
     },
     {
-      name: 'gray',
       label: 'Gray',
+      name: 'gray',
     },
     {
-      name: 'zinc',
       label: 'Zinc',
+      name: 'zinc',
     },
     {
-      name: 'stone',
       label: 'Stone',
+      name: 'stone',
     },
     {
-      name: 'slate',
       label: 'Slate',
+      name: 'slate',
     },
   ]
 }

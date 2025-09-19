@@ -58,8 +58,8 @@ const data = [
 
 const chartConfig = {
   goal: {
-    label: 'Goal',
     color: 'var(--primary)',
+    label: 'Goal',
   },
 } satisfies ChartConfig
 
@@ -79,11 +79,11 @@ export function CardsActivityGoal() {
       <CardContent className="flex flex-1 flex-col">
         <div className="flex items-center justify-center gap-4">
           <Button
-            variant="outline"
-            size="icon"
             className="size-7 rounded-full"
+            disabled={goal <= 200}
             onClick={() => onClick(-10)}
-            disabled={goal <= 200}>
+            size="icon"
+            variant="outline">
             <MinusIcon />
             <span className="sr-only">Decrease</span>
           </Button>
@@ -92,19 +92,19 @@ export function CardsActivityGoal() {
             <div className="text-muted-foreground text-xs uppercase">Calories/day</div>
           </div>
           <Button
-            variant="outline"
-            size="icon"
             className="size-7 rounded-full"
+            disabled={goal >= 400}
             onClick={() => onClick(10)}
-            disabled={goal >= 400}>
+            size="icon"
+            variant="outline">
             <PlusIcon />
             <span className="sr-only">Increase</span>
           </Button>
         </div>
         <div className="flex-1">
-          <ChartContainer config={chartConfig} className="aspect-auto h-[77px] w-full">
+          <ChartContainer className="aspect-auto h-[77px] w-full" config={chartConfig}>
             <BarChart data={data}>
-              <Bar dataKey="goal" radius={4} fill="var(--color-goal)" />
+              <Bar dataKey="goal" fill="var(--color-goal)" radius={4} />
             </BarChart>
           </ChartContainer>
         </div>

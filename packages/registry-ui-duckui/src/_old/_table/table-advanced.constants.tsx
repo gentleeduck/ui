@@ -3,22 +3,22 @@ import { TableColumnSortableType } from './table-advanced.types'
 
 export const dropdownMenuOptions: TableColumnSortableType[] = [
   {
-    icon: <ArrowDownIcon className="mr-2 text-muted-foreground/80" />,
     children: 'ascending',
-    variant: 'ghost',
+    icon: <ArrowDownIcon className="mr-2 text-muted-foreground/80" />,
     size: 'sm',
+    variant: 'ghost',
   },
 
   {
-    icon: <ArrowUpIcon className="mr-2 text-muted-foreground/80" />,
     children: 'descending',
-    variant: 'ghost',
+    icon: <ArrowUpIcon className="mr-2 text-muted-foreground/80" />,
     size: 'sm',
+    variant: 'ghost',
   },
   {
-    icon: <EyeOff className="mr-2 text-muted-foreground/80" />,
     children: 'hide' as 'other',
-    variant: 'ghost',
+    icon: <EyeOff className="mr-2 text-muted-foreground/80" />,
     size: 'sm',
+    variant: 'ghost',
   },
 ]

@@ -39,16 +39,16 @@ export async function main() {
   for (const item of index) {
     // 1- build the components in the public folder.
     await build_registry_components({
-      item,
-      spinner,
-      registry_count: index.length,
       idx: index.indexOf(item),
+      item,
+      registry_count: index.length,
+      spinner,
     })
     // 2- build the __registry__/
     tsx_content += await build_registry_tsx({ item, spinner })
   }
   // 5- write the index.tsx
-  await write_index_tsx({ tsx_content, spinner })
+  await write_index_tsx({ spinner, tsx_content })
 
   // 6- build registry colors
   await registry_build_colors({ spinner })

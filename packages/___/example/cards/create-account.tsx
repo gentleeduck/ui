@@ -1,10 +1,7 @@
 'use client'
 
 import { Icons } from '@/components/icons'
-import { Button } from '@/registry/default/ui/'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/registry/default/ui/'
-import { Input } from '@/registry/default/ui/'
-import { Label } from '@/registry/default/ui/'
+import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from '@/registry/default/ui/'
 
 export function CardsCreateAccount() {
   return (
@@ -34,7 +31,7 @@ export function CardsCreateAccount() {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" />
+          <Input id="email" placeholder="m@example.com" type="email" />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Password</Label>

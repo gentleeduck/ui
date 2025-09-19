@@ -1,6 +1,6 @@
 import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
-import type { Head, Tail, Last, Prepend, Append, Length, Zip } from '.' // or wherever your utilities are
+import type { Append, Head, Last, Length, Prepend, Tail, Zip } from '.' // or wherever your utilities are
 
 // -------------------------------------------
 // Test Data
@@ -8,7 +8,6 @@ import type { Head, Tail, Last, Prepend, Append, Length, Zip } from '.' // or wh
 
 type Tuple1 = [1, 2, 3]
 type Tuple2 = ['a', 'b', 'c']
-type Empty = []
 
 // -------------------------------------------
 // Head<T> Tests
@@ -97,3 +96,24 @@ type Test_Zip_Empty = AssertTrue<
   Equal<Zip<[], []>, []>,
   'Expected Zip to return empty tuple when both inputs are empty'
 >
+
+/* @__IGNORED__@ */ type _IGNORE = [
+  Test_Head_NonEmpty,
+  Test_Head_Empty,
+  Test_Tail_NonEmpty,
+  Test_Tail_Single,
+  Test_Tail_Empty,
+  Test_Last_NonEmpty,
+  Test_Last_Single,
+  Test_Last_Empty,
+  Test_Prepend,
+  Test_Prepend_Empty,
+  Test_Append,
+  Test_Append_Empty,
+  Test_Length_NonEmpty,
+  Test_Length_Empty,
+  Test_Zip_Equal,
+  Test_Zip_ShorterLeft,
+  Test_Zip_ShorterRight,
+  Test_Zip_Empty,
+]

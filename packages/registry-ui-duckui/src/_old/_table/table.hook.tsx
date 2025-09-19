@@ -1,7 +1,7 @@
 // @ts-noCheck
 import React from 'react'
-import { DuckTableContextType } from './table-advanced.types'
 import { DuckTableContext } from './table-advanced'
+import { DuckTableContextType } from './table-advanced.types'
 
 export const useDuckTable = <
   Column extends Record<string, unknown> = Record<string, unknown>,

@@ -1,5 +1,5 @@
-import * as React from "react"
 import { GalleryVerticalEnd, Minus, Plus } from "lucide-react"
+import * as React from "react"
 
 import { SearchForm } from "@/registry/default/blocks/sidebar-05/components/search-form"
 import {
@@ -25,8 +25,6 @@ import {
 const data = {
   navMain: [
     {
-      title: "Getting Started",
-      url: "#",
       items: [
         {
           title: "Installation",
@@ -37,19 +35,19 @@ const data = {
           url: "#",
         },
       ],
+      title: "Getting Started",
+      url: "#",
     },
     {
-      title: "Building Your Application",
-      url: "#",
       items: [
         {
           title: "Routing",
           url: "#",
         },
         {
+          isActive: true,
           title: "Data Fetching",
           url: "#",
-          isActive: true,
         },
         {
           title: "Rendering",
@@ -92,10 +90,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Building Your Application",
+      url: "#",
     },
     {
-      title: "API Reference",
-      url: "#",
       items: [
         {
           title: "Components",
@@ -122,10 +120,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "API Reference",
+      url: "#",
     },
     {
-      title: "Architecture",
-      url: "#",
       items: [
         {
           title: "Accessibility",
@@ -148,16 +146,18 @@ const data = {
           url: "#",
         },
       ],
+      title: "Architecture",
+      url: "#",
     },
     {
-      title: "Community",
-      url: "#",
       items: [
         {
           title: "Contribution Guide",
           url: "#",
         },
       ],
+      title: "Community",
+      url: "#",
     },
   ],
 }
@@ -168,7 +168,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton asChild size="lg">
               <a href="#">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <GalleryVerticalEnd className="size-4" />
@@ -188,9 +188,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             {data.navMain.map((item, index) => (
               <Collapsible
-                key={item.title}
-                defaultOpen={index === 1}
                 className="group/collapsible"
+                defaultOpen={index === 1}
+                key={item.title}
               >
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>

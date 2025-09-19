@@ -3,7 +3,7 @@ import { Inbox } from 'lucide-react'
 
 export default function ButtonDemo() {
   return (
-    <Button loading={true} icon={<Inbox />} aria-label="Loading inbox button" aria-busy="true" type="button">
+    <Button aria-busy="true" aria-label="Loading inbox button" icon={<Inbox />} loading={true} type="button">
       <span>Button</span>
     </Button>
   )

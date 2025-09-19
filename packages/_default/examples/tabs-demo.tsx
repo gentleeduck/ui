@@ -18,7 +18,7 @@ import {
 
 export default function TabsDemo() {
   return (
-    <Tabs defaultValue="account" className="w-[400px]">
+    <Tabs className="w-[400px]" defaultValue="account">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="account">Account</TabsTrigger>
         <TabsTrigger value="password">Password</TabsTrigger>
@@ -34,11 +34,11 @@ export default function TabsDemo() {
           <CardContent className="space-y-2">
             <div className="space-y-1">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" defaultValue="Pedro Duarte" />
+              <Input defaultValue="Pedro Duarte" id="name" />
             </div>
             <div className="space-y-1">
               <Label htmlFor="username">Username</Label>
-              <Input id="username" defaultValue="@peduarte" />
+              <Input defaultValue="@peduarte" id="username" />
             </div>
           </CardContent>
           <CardFooter>

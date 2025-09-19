@@ -1,19 +1,19 @@
 "use client"
 
-import * as React from "react"
 import {
   ColumnDef,
   ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import * as React from "react"
 
 import { Button } from "@/registry/default/ui/button"
 import { Checkbox } from "@/registry/default/ui/checkbox"
@@ -38,34 +38,34 @@ import {
 
 const data: Payment[] = [
   {
-    id: "m5gr84i9",
     amount: 316,
-    status: "success",
     email: "ken99@example.com",
+    id: "m5gr84i9",
+    status: "success",
   },
   {
-    id: "3u1reuv4",
     amount: 242,
-    status: "success",
     email: "Abe45@example.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@example.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
+    id: "3u1reuv4",
     status: "success",
-    email: "Silas22@example.com",
   },
   {
-    id: "bhqecj4p",
+    amount: 837,
+    email: "Monserrat44@example.com",
+    id: "derv1ws0",
+    status: "processing",
+  },
+  {
+    amount: 874,
+    email: "Silas22@example.com",
+    id: "5kma53ae",
+    status: "success",
+  },
+  {
     amount: 721,
-    status: "failed",
     email: "carmella@example.com",
+    id: "bhqecj4p",
+    status: "failed",
   },
 ]
 
@@ -78,74 +78,72 @@ export type Payment = {
 
 export const columns: ColumnDef<Payment>[] = [
   {
-    id: "select",
+    cell: ({ row }) => (
+      <Checkbox
+        aria-label="Select row"
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+      />
+    ),
+    enableHiding: false,
+    enableSorting: false,
     header: ({ table }) => (
       <Checkbox
+        aria-label="Select all"
         checked={
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
       />
     ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    id: "select",
   },
   {
     accessorKey: "status",
-    header: "Status",
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("status")}</div>
     ),
+    header: "Status",
   },
   {
     accessorKey: "email",
+    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
     header: ({ column }) => {
       return (
         <Button
-          variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          variant="ghost"
         >
           Email
           <ArrowUpDown />
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
     accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"))
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
         currency: "USD",
+        style: "currency",
       }).format(amount)
 
       return <div className="text-right font-medium">{formatted}</div>
     },
+    header: () => <div className="text-right">Amount</div>,
   },
   {
-    id: "actions",
-    enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button className="h-8 w-8 p-0" variant="ghost">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal />
             </Button>
@@ -164,6 +162,8 @@ export const columns: ColumnDef<Payment>[] = [
         </DropdownMenu>
       )
     },
+    enableHiding: false,
+    id: "actions",
   },
 ]
 
@@ -177,21 +177,21 @@ export default function DataTableDemo() {
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
-    data,
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    data,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
     state: {
-      sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      sorting,
     },
   })
 
@@ -199,16 +199,16 @@ export default function DataTableDemo() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          className="max-w-sm"
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          placeholder="Filter emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button className="ml-auto" variant="outline">
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -219,9 +219,9 @@ export default function DataTableDemo() {
               .map((column) => {
                 return (
                   <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
                     checked={column.getIsVisible()}
+                    className="capitalize"
+                    key={column.id}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
                     }
@@ -257,8 +257,8 @@ export default function DataTableDemo() {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  key={row.id}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -273,8 +273,8 @@ export default function DataTableDemo() {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
                   className="h-24 text-center"
+                  colSpan={columns.length}
                 >
                   No results.
                 </TableCell>
@@ -290,18 +290,18 @@ export default function DataTableDemo() {
         </div>
         <div className="space-x-2">
           <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            onClick={() => table.previousPage()}
+            size="sm"
+            variant="outline"
           >
             Previous
           </Button>
           <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            onClick={() => table.nextPage()}
+            size="sm"
+            variant="outline"
           >
             Next
           </Button>

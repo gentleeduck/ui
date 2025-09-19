@@ -1,7 +1,7 @@
 import { Nodes } from 'hast'
 import { toString } from 'hast-util-to-string'
-import { UnistNode, UnistTree } from '../uniset'
 import { visit } from 'unist-util-visit'
+import { UnistNode, UnistTree } from '../uniset'
 
 export function rehypePreBlockSource() {
   return (tree: UnistTree) => {

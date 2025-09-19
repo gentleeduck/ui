@@ -62,10 +62,10 @@ function Collapsible({
 
   return (
     <CollapsibleContext.Provider
-      value={{ open, onOpenChange: handleOpenChange, wrapperRef, triggerRef, contentRef, contentId }}>
+      value={{ contentId, contentRef, onOpenChange: handleOpenChange, open, triggerRef, wrapperRef }}>
       <div
-        duck-collapsible=""
         className={cn('flex flex-col gap-2', className)}
+        duck-collapsible=""
         ref={wrapperRef}
         {...props}
         data-open={open}>
@@ -80,16 +80,16 @@ function CollapsibleTrigger({ children, onClick, ...props }: React.ComponentProp
 
   return (
     <Button
-      ref={triggerRef}
-      duck-collapsible-trigger=""
-      variant="ghost"
+      aria-controls={contentId}
       aria-expanded={open}
       data-open={open}
-      aria-controls={contentId}
+      duck-collapsible-trigger=""
       onClick={(e) => {
         onOpenChange?.(!open)
         onClick?.(e)
       }}
+      ref={triggerRef}
+      variant="ghost"
       {...props}>
       {children}
     </Button>
@@ -105,20 +105,18 @@ function CollapsibleContent({
   const { open, contentRef, contentId } = useCollapsible()
 
   return (
-    <div
-      ref={contentRef}
+    <section
+      aria-hidden={!open}
+      className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto', className)}
+      data-open={open}
       duck-collapsible-content=""
       id={contentId}
-      role="region"
-      data-open={open}
-      aria-hidden={!open}
-      aria-expanded={open}
-      className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto', className)}
+      ref={contentRef}
       {...props}>
       <MountMinimal forceMount={forceMount} open={open} ref={contentRef as never}>
         {children}
       </MountMinimal>
-    </div>
+    </section>
   )
 }
 

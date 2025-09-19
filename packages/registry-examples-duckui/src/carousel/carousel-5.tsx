@@ -3,7 +3,7 @@
 import { Card, CardContent } from '@gentleduck/registry-ui-duckui/card'
 import {
   Carousel,
-  CarouselApi,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -31,10 +31,10 @@ export default function CarouselDemo() {
 
   return (
     <div className="mx-auto max-w-xs">
-      <Carousel setApi={setApi} className="w-full max-w-xs">
+      <Carousel className="w-full max-w-xs" setApi={setApi}>
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index}>
+            <CarouselItem key={`item-${index + 1}`}>
               <Card>
                 <CardContent className="flex aspect-square items-center justify-center p-6">
                   <span className="font-semibold text-4xl">{index + 1}</span>

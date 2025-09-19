@@ -35,37 +35,37 @@ export function ComponentExample({
 
   return (
     <div className={cn('group relative my-4 flex flex-col space-y-2', className)} {...props}>
-      <Tabs defaultValue="preview" className="relative mr-auto w-full">
+      <Tabs className="relative mr-auto w-full" defaultValue="preview">
         <div className="flex items-center justify-between pb-3">
           <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-2">
             <TabsTrigger
-              value="preview"
-              className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">
+              className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+              value="preview">
               Preview
             </TabsTrigger>
             <TabsTrigger
-              value="code"
-              className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">
+              className="relative rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+              value="code">
               Code
             </TabsTrigger>
           </TabsList>
           {extractedClassNames ? (
             // @ts-ignore
             <CopyWithClassNames
-              value={codeString}
-              classNames={extractedClassNames}
               className="absolute right-4 top-20"
+              classNames={extractedClassNames}
+              value={codeString}
             />
           ) : (
-            codeString && <CopyButton value={codeString} className="absolute right-4 top-20" />
+            codeString && <CopyButton className="absolute right-4 top-20" value={codeString} />
           )}
         </div>
-        <TabsContent value="preview" className="rounded-md border">
+        <TabsContent className="rounded-md border" value="preview">
           <div
             className={cn('flex min-h-[350px] justify-center p-10', {
               'items-center': align === 'center',
-              'items-start': align === 'start',
               'items-end': align === 'end',
+              'items-start': align === 'start',
             })}>
             {Example}
           </div>

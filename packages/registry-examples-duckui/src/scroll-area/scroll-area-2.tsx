@@ -1,6 +1,5 @@
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 import Image from 'next/image'
-import * as React from 'react'
 
 export interface Artwork {
   artist: string
@@ -9,16 +8,16 @@ export interface Artwork {
 
 export const works: Artwork[] = [
   {
-    artist: 'Lina Escobar',
     art: 'https://images.pexels.com/photos/27309761/pexels-photo-27309761.jpeg',
+    artist: 'Lina Escobar',
   },
   {
-    artist: 'Marco Duvall',
     art: 'https://images.pexels.com/photos/14757972/pexels-photo-14757972.jpeg',
+    artist: 'Marco Duvall',
   },
   {
-    artist: 'Sahana Ramesh',
     art: 'https://images.pexels.com/photos/5046721/pexels-photo-5046721.jpeg',
+    artist: 'Sahana Ramesh',
   },
 ]
 
@@ -27,15 +26,15 @@ export default function ScrollAreaHorizontalDemo() {
     <ScrollArea className="w-96 whitespace-nowrap rounded-md border" orientation="horizontal">
       <div className="flex w-max space-x-4 p-4">
         {works.map((artwork) => (
-          <figure key={artwork.artist} className="shrink-0">
+          <figure className="shrink-0" key={artwork.artist}>
             <div className="overflow-hiddend">
               <Image
-                src={artwork.art}
                 alt={`Photo by ${artwork.artist}`}
-                draggable={false}
                 className="max-h-[300px] select-none rounded-md object-cover"
-                width={230}
+                draggable={false}
                 height={300}
+                src={artwork.art}
+                width={230}
               />
             </div>
             <figcaption className="pt-2 text-muted-foreground text-xs">

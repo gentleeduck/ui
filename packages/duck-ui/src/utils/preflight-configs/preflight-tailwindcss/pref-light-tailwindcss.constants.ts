@@ -1,36 +1,34 @@
-import fs from 'fs-extra'
-import { Ora } from 'ora'
-import { PromptObject } from 'prompts'
+import type { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
 import { PROJECT_TYPE } from '../preflight-duckui'
 
 export const tailwindcss_prompts: PromptObject<string>[] = [
   {
-    type: 'confirm',
-    name: 'tailwind',
-    message: `Would you like to install ${highlighter.info('TailwindCSS')}`,
-    initial: false,
     active: 'yes',
     inactive: 'no',
+    initial: false,
+    message: `Would you like to install ${highlighter.info('TailwindCSS')}`,
+    name: 'tailwind',
+    type: 'confirm',
   },
 ]
 
 export const tailwindcss_install_prompts: PromptObject<string>[] = [
   {
-    type: 'select',
-    name: 'project_type',
-    message: `Select your ${highlighter.info('project type')} to install TailwindCSS correctly`,
     choices: PROJECT_TYPE.map((project) => ({
       title: project,
       value: project,
     })),
     initial: 0,
+    message: `Select your ${highlighter.info('project type')} to install TailwindCSS correctly`,
+    name: 'project_type',
+    type: 'select',
   },
   {
-    type: 'text',
-    name: 'css',
-    message: `Type where's your ${highlighter.info('CSS')} file? (Enter for default)`,
     initial: './src/',
+    message: `Type where's your ${highlighter.info('CSS')} file? (Enter for default)`,
+    name: 'css',
+    type: 'text',
   },
 ]
 

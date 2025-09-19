@@ -24,27 +24,27 @@ function MultiStepFormValidation<
 }
 
 const userSchema = z.object({
+  address: z.string(),
+  age: z.number(),
+  bio: z.string(),
+  created_at: z.date(),
+  email: z.string().email(),
   id: z.string(),
   name: z.string(),
-  email: z.string().email(),
-  bio: z.string(),
-  age: z.number(),
-  address: z.string(),
-  created_at: z.date(),
   updated_at: z.date(),
 })
 
 export const data = MultiStepFormValidation(
   userSchema,
   {
-    name: true,
-    email: true,
     age: true,
+    email: true,
+    name: true,
   },
   {
-    name: 'John Doe',
-    email: 'asdfasdf',
     age: 24,
+    email: 'asdfasdf',
+    name: 'John Doe',
   },
 )
 

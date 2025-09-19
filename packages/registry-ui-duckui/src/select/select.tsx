@@ -63,8 +63,8 @@ function SelectWrapper({
 
   useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
   useHandleKeyDown({
-    open,
     itemsRef,
+    open,
     originalItemsRef: itemsRef,
     selectedItem,
     setSelectedItem: (item) => {
@@ -75,15 +75,15 @@ function SelectWrapper({
   return (
     <SelectContext.Provider
       value={{
-        open,
-        value,
-        wrapperRef,
-        selectedItem,
-        itemsRef,
         contentRef,
         groupsRef,
+        itemsRef,
+        open,
         scrollable,
+        selectedItem,
         triggerRef: triggerRef,
+        value,
+        wrapperRef,
       }}>
       <div {...props} duck-select="" ref={wrapperRef}>
         {children}
@@ -106,8 +106,8 @@ function Select({
   scrollable?: boolean
 }) {
   return (
-    <Popover {...props} matchWidth contextMenu={contextMenu}>
-      <SelectWrapper {...props} onValueChange={onValueChange} value={value} defaultValue={defaultValue}>
+    <Popover {...props} contextMenu={contextMenu} matchWidth>
+      <SelectWrapper {...props} defaultValue={defaultValue} onValueChange={onValueChange} value={value}>
         {children}
       </SelectWrapper>
     </Popover>
@@ -125,8 +125,8 @@ function SelectTrigger({
   return (
     <PopoverTrigger
       {...props}
-      duck-select-trigger=""
       className={cn(buttonVariants({ variant: 'outline' }), 'w-full justify-between text-base', className)}
+      duck-select-trigger=""
       ref={triggerRef as never}>
       {children}
       <span className="[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-muted-foreground [&>svg]:duration-300">
@@ -177,9 +177,9 @@ function SelectValue({ className, children, placeholder, ...props }: React.HTMLP
 function SelectLabel({ htmlFor, children, className, ref, ...props }: React.HTMLProps<HTMLLabelElement>) {
   return (
     <label
+      className={cn('px-2 text-muted-foreground text-sm', className)}
       htmlFor={htmlFor}
       ref={ref}
-      className={cn('px-2 text-muted-foreground text-sm', className)}
       {...props}
       duck-select-label="">
       {children}
@@ -200,21 +200,20 @@ function SelectItem({
 
   return (
     <li
-      ref={ref}
-      role="checkbox"
-      popoverTarget={id}
-      popoverTargetAction="hide"
       aria-haspopup="dialog"
       id={id}
+      popoverTarget={id}
+      popoverTargetAction="hide"
+      ref={ref}
       {...props}
-      duck-select-item=""
       aria-disabled={disabled}
-      data-value={value}
-      value={value}
       className={cn(
         "relative flex flex w-full cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1 text-base outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-secondary",
         disabled && 'pointer-events-none opacity-50',
-      )}>
+      )}
+      data-value={value}
+      duck-select-item=""
+      value={value}>
       <div
         className={cn(
           'relative flex select-none items-center gap-2 truncate rounded-xs text-base outline-hidden',
@@ -234,7 +233,7 @@ function SelectItem({
 }
 
 function SelectSeparator({ children, className, ref, ...props }: React.HTMLProps<HTMLDivElement>) {
-  return <div ref={ref} className={cn('-mx-1 my-1 h-px bg-muted', className)} {...props} duck-select-separator="" />
+  return <div className={cn('-mx-1 my-1 h-px bg-muted', className)} ref={ref} {...props} duck-select-separator="" />
 }
 
 function SelectScrollButton({
@@ -245,13 +244,13 @@ function SelectScrollButton({
 }: React.ComponentPropsWithRef<typeof Button> & { scrollDown?: boolean }) {
   return (
     <Button
-      variant="nothing"
-      size="xs"
       className={cn(
         'sticky z-50 w-full cursor-default cursor-pointer rounded-none bg-background p-0 [&>div]:justify-center',
         scrollDown ? 'bottom-0' : '',
         className,
       )}
+      size="sm"
+      variant="nothing"
       {...props}
       duck-select-scroll-up-button="">
       {scrollDown ? <ChevronDown className="shrink-0" /> : <ChevronUp className="shrink-0" />}

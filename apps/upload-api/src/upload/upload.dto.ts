@@ -19,34 +19,34 @@ export type GetFolderType = z.infer<typeof getFolderSchema>
 
 // NOTE: INSERTERs && UPDATERs
 export const insertBucketSchema = z.object({
+  created_at: z.date().optional(),
   id: z.string(),
   name: z.string(),
-  created_at: z.date().optional(),
   updated_at: z.date().optional(),
   user_id: z.string().uuid(),
 })
 export type InsertBucketType = z.infer<typeof insertBucketSchema>
 
 export const insertFileSchema = getFolderSchema.extend({
-  id: z.string().uuid(),
+  created_at: z.date().optional(),
   file: z.string(),
+  id: z.string().uuid(),
+  name: z.string(),
+  size: z.number(),
+  tree_level: z.number(),
   //TODO: make the function takes the link and get it's binary and
   // store it in the database and upload it to the MINIO.
   // url: z.string().optional().nullable(),
   type: z.string(),
-  name: z.string(),
-  size: z.number(),
-  tree_level: z.number(),
-  created_at: z.date().optional(),
   updated_at: z.date().optional(),
 })
 export type InsertFileType = z.infer<typeof insertFileSchema>
 
 export const insertFolderSchema = getFolderSchema.extend({
+  created_at: z.date().optional(),
   id: z.string().uuid(),
   name: z.string(),
   tree_level: z.number(),
-  created_at: z.date().optional(),
   updated_at: z.date().optional(),
 })
 export type InsertFolderType = z.infer<typeof insertFolderSchema>

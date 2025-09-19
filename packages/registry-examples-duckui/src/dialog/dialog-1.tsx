@@ -11,7 +11,6 @@ import {
 } from '@gentleduck/registry-ui-duckui/dialog'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
-import React from 'react'
 
 export default function DialogDemo() {
   return (
@@ -28,11 +27,11 @@ export default function DialogDemo() {
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+              <Input defaultValue="Pedro Duarte" id="name-1" name="name" />
             </div>
             <div className="grid gap-3">
               <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
+              <Input defaultValue="@peduarte" id="username-1" name="username" />
             </div>
           </div>
           <DialogFooter>

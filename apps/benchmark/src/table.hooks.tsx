@@ -88,19 +88,19 @@ export function createDuckTable<THeaders extends Lowercase<string>[]>(initialDat
   }
 
   return {
-    table,
     atoms: {
-      rows,
-      columns,
-      visibleColumns,
-      mutatedRows,
-      currentPageRows,
-      totalPages,
-      selectedRows,
-      query,
-      pageSize,
-      currentPage,
       columnSort,
+      columns,
+      currentPage,
+      currentPageRows,
+      mutatedRows,
+      pageSize,
+      query,
+      rows,
+      selectedRows,
+      totalPages,
+      visibleColumns,
     },
+    table,
   }
 }

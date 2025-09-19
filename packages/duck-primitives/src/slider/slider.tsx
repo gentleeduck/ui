@@ -76,15 +76,15 @@ function Root({
   return (
     <SliderContext.Provider
       value={{
-        min,
         max,
-        step,
-        values,
+        min,
         orientation,
-        rtl,
-        trackRef,
-        setValueAt,
         positionToValue,
+        rtl,
+        setValueAt,
+        step,
+        trackRef,
+        values,
       }}>
       <div {...props}>{children}</div>
     </SliderContext.Provider>
@@ -96,12 +96,12 @@ function Track({ className, style, children }: React.HTMLAttributes<HTMLDivEleme
 
   return (
     <div
+      className={cn('relative rounded-full bg-muted', className)}
       ref={trackRef}
       style={{
-        ...(orientation === 'horizontal' ? { width: '200px', height: '6px' } : { width: '6px', height: '200px' }),
+        ...(orientation === 'horizontal' ? { height: '6px', width: '200px' } : { height: '200px', width: '6px' }),
         ...style,
-      }}
-      className={cn('relative rounded-full bg-muted', className)}>
+      }}>
       {children}
     </div>
   )
@@ -119,9 +119,9 @@ function Range({ style, className, ...props }: React.HTMLAttributes<HTMLDivEleme
       style={{
         ...(orientation === 'horizontal'
           ? {
+              height: '100%',
               left: `${((startValue - min) / (max - min)) * 100}%`,
               width: `${((endValue - startValue) / (max - min)) * 100}%`,
-              height: '100%',
             }
           : {
               bottom: `${((startValue - min) / (max - min)) * 100}%`,
@@ -192,15 +192,14 @@ function Thumb({ index, style, className }: React.HTMLProps<HTMLDivElement> & { 
 
   return (
     <button
-      role="slider"
-      tabIndex={0}
-      aria-valuemin={min}
-      aria-valuemax={max}
-      aria-valuenow={val}
       aria-orientation={orientation}
-      onPointerDown={handlePointerDown}
-      onKeyDown={handleKeyDown}
+      aria-valuemax={max}
+      aria-valuemin={min}
+      aria-valuenow={val}
       className={cn('absolute size-0 cursor-grab rounded-full border-3 border-foreground bg-background', className)}
+      onKeyDown={handleKeyDown}
+      onPointerDown={handlePointerDown}
+      role="slider"
       style={{
         transform: 'translate(-50%, -50%)',
         ...(orientation === 'horizontal'
@@ -214,9 +213,11 @@ function Thumb({ index, style, className }: React.HTMLProps<HTMLDivElement> & { 
             }),
         ...style,
       }}
+      tabIndex={0}
+      type="button"
     />
   )
 }
 
 export { Root, Range, Track, Thumb, SliderContext, useSliderContext }
-export default { Root, Range, Track, Thumb, SliderContext, useSliderContext }
+export default { Range, Root, SliderContext, Thumb, Track, useSliderContext }

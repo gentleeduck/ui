@@ -13,15 +13,15 @@ import {
   VolumeX,
 } from 'lucide-react'
 import * as React from 'react'
-import { Button } from '@/registry/registry-ui-components'
-import { cn } from '@/lib'
-import { Input } from './input'
-import { AudioVisualizer, dataPoint, new_audio, process_blob, ProcessBlobParams, ThemeColor } from './audio-visualizer'
 import { uuidv7 } from 'uuidv7'
-import { AttachmentType } from './swapy'
+import { cn } from '@/lib'
+import { Button } from '@/registry/registry-ui-components'
+import { AudioVisualizer, dataPoint, new_audio, ProcessBlobParams, process_blob, ThemeColor } from './audio-visualizer'
+import { downloadAttachment } from './comment'
+import { Input } from './input'
 import { PopoverWrapper } from './popover'
 import { Slider } from './ShadcnUI'
-import { downloadAttachment } from './comment'
+import { AttachmentType } from './swapy'
 
 export interface RecordingtType {
   id: string
@@ -107,9 +107,9 @@ export const start_recording_handler = async ({
     setRecordedDuration((_) => 0)
     durationRef.current > 0 &&
       Stop_recording_handler({
-        setRecordings,
-        intervalRef,
         audioChunksRef,
+        intervalRef,
+        setRecordings,
       })
   }
 
@@ -126,12 +126,12 @@ export const Stop_recording_handler = ({ setRecordings, intervalRef, audioChunks
   setRecordings((prev) => [
     ...prev,
     {
-      id: uuidv7(),
       file: audioBlob as File,
-      url: URL.createObjectURL(audioBlob),
-      type: 'audio/wav',
+      id: uuidv7(),
       name: 'recording.wav',
       size: String(audioBlob.size),
+      type: 'audio/wav',
+      url: URL.createObjectURL(audioBlob),
     },
   ])
   clearInterval(intervalRef.current!)
@@ -155,10 +155,10 @@ export const deleteRecordingHandler = ({
   durationRef.current = 0
   audioChunksRef.current = []
   stop_recording_handle({
-    setRecording,
+    durationRef,
     intervalRef,
     mediaRecorderRef,
-    durationRef,
+    setRecording,
   })
 }
 
@@ -204,34 +204,34 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Start recording handler
   const startRecording = () => {
     start_recording_handler({
-      setRecordings,
-      setRecording,
-      setRecordedDuration,
+      audioChunksRef,
       durationRef,
       intervalRef,
-      audioChunksRef,
       mediaRecorderRef,
+      setRecordedDuration,
+      setRecording,
+      setRecordings,
     })
   }
 
   // Stop recording handler
   const stopRecording = () => {
     stop_recording_handle({
-      setRecording,
+      durationRef,
       intervalRef,
       mediaRecorderRef,
-      durationRef,
+      setRecording,
     })
   }
 
   // Delete recording handler
   const deleteRecording = () => {
     deleteRecordingHandler({
+      audioChunksRef,
+      durationRef,
       intervalRef,
       mediaRecorderRef,
       setRecording,
-      durationRef,
-      audioChunksRef,
     })
   }
 
@@ -246,11 +246,11 @@ const Audio: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <AudioContext.Provider
       value={{
-        recording,
+        deleteRecording,
         recordedDuration,
+        recording,
         startRecording,
         stopRecording,
-        deleteRecording,
       }}>
       {children}
     </AudioContext.Provider>
@@ -276,8 +276,8 @@ export const AudioTimer = React.forwardRef<HTMLDivElement, AudioTimerProps>(({ s
       <div>
         {showInput && (
           <Input
-            disabled={recording}
             className={cn('transition fade_animation', recording ? 'w-[179px] !opacity-100' : 'w-[235px]')}
+            disabled={recording}
           />
         )}
       </div>
@@ -292,18 +292,18 @@ export const AudioDelete = React.forwardRef<HTMLButtonElement, AudioDeleteProps>
     const { deleteRecording, recording } = useAudioProvider()
     return (
       <Button
-        size={size ?? 'icon'}
-        type={type ?? 'button'}
-        onClick={(e) => {
-          deleteRecording()
-          onClick && onClick(e)
-        }}
         className={cn(
           'rounded-full relative transition fade_animation',
           recording ? 'scale-1 opacity-1 w-8 h-8' : 'scale-0 opacity-0 pointer-events-none w-0 h-0',
           className,
         )}
+        onClick={(e) => {
+          deleteRecording()
+          onClick && onClick(e)
+        }}
         ref={ref}
+        size={size ?? 'icon'}
+        type={type ?? 'button'}
         {...props}>
         <Trash2 className="size-[1rem] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation" />
       </Button>
@@ -318,14 +318,14 @@ export const AudioStart = React.forwardRef<HTMLButtonElement, AudioStartProps>(
     const { startRecording, stopRecording, recording } = useAudioProvider()
     return (
       <Button
-        size={size ?? 'icon'}
-        type={type ?? 'button'}
+        className={cn('rounded-full transition relative w-8 h-8', recording ? 'ml-2' : 'ml-0', className)}
         onClick={(e) => {
           recording ? stopRecording() : startRecording()
           onClick && onClick(e)
         }}
-        className={cn('rounded-full transition relative w-8 h-8', recording ? 'ml-2' : 'ml-0', className)}
         ref={ref}
+        size={size ?? 'icon'}
+        type={type ?? 'button'}
         {...props}>
         <Mic
           className={cn(
@@ -378,13 +378,13 @@ const AudioItemWrapper = ({
           )}
         />
         <Button
-          onClick={handlePlayPause}
-          size="icon"
           className={cn(
             'rounded-full relative z-10',
             size === 'sm' ? 'w-8 h-8 [&_svg]:size-4' : size === 'md' ? 'w-10 h-10' : 'w-12 h-12',
           )}
-          loading={loading}>
+          loading={loading}
+          onClick={handlePlayPause}
+          size="icon">
           <Play
             className={cn(
               'absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 transition fade_animation',
@@ -427,33 +427,33 @@ const AudioItemWrapper = ({
 export const AudioMoreOptions = ({ attachment }: { attachment: AttachmentType }) => {
   return (
     <PopoverWrapper
+      content={{
+        align: 'center',
+        children: (
+          <div className="flex items-center space-x-2">
+            <Button
+              icon={{ children: Download, className: 'h-4 w-4' }}
+              onClick={() => downloadAttachment({ attachment })}
+              size={'sm'}
+              variant={'ghost'}>
+              Download
+            </Button>
+          </div>
+        ),
+        className: 'w-fit p-2',
+        side: 'top',
+      }}
       trigger={{
         children: (
           <Button
             className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
-            variant={'default'}
-            size={'sm'}
             icon={{
-              className: '!w-3 !h-3',
               children: Ellipsis,
+              className: '!w-3 !h-3',
             }}
+            size={'sm'}
+            variant={'default'}
           />
-        ),
-      }}
-      content={{
-        side: 'top',
-        align: 'center',
-        className: 'w-fit p-2',
-        children: (
-          <div className="flex items-center space-x-2">
-            <Button
-              variant={'ghost'}
-              size={'sm'}
-              icon={{ children: Download, className: 'h-4 w-4' }}
-              onClick={() => downloadAttachment({ attachment })}>
-              Download
-            </Button>
-          </div>
         ),
       }}
     />
@@ -484,33 +484,33 @@ export const AudioVolume = () => {
 
   return (
     <PopoverWrapper
-      trigger={{
-        children: (
-          <Button
-            className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
-            variant={'default'}
-            size={'sm'}
-            icon={{
-              className: '!w-3 !h-3',
-              children: getVolumeIcon(),
-            }}
-          />
-        ),
-      }}
       content={{
-        side: 'top',
         align: 'center',
-        className: 'w-[100px] p-2',
         children: (
           <div className="flex items-center space-x-2">
             <Slider
               className="[&>span]:h-[4px] [&_span[role='slider']]:w-4 [&_span[role='slider']]:h-4 [&_span[role='slider']]:mt-[-6px]"
               defaultValue={[volume * 100]}
               max={100}
-              step={1}
               onValueChange={handleVolumeChange}
+              step={1}
             />
           </div>
+        ),
+        className: 'w-[100px] p-2',
+        side: 'top',
+      }}
+      trigger={{
+        children: (
+          <Button
+            className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
+            icon={{
+              children: getVolumeIcon(),
+              className: '!w-3 !h-3',
+            }}
+            size={'sm'}
+            variant={'default'}
+          />
         ),
       }}
     />
@@ -524,9 +524,9 @@ export const AudioSpeed = () => {
     <>
       <Button
         className={cn('w-8 h-4 rounded-full text-[.6rem] font-semibold')}
-        variant={'default'}
+        onClick={() => setSpeed(speed > 1.5 ? 0.5 : speed + 0.5)}
         size={'sm'}
-        onClick={() => setSpeed(speed > 1.5 ? 0.5 : speed + 0.5)}>
+        variant={'default'}>
         x{speed}
       </Button>
     </>
@@ -632,35 +632,35 @@ const AudioRecordItem = ({
   return (
     <>
       <AudioItemWrapper
-        size={size}
         attachment={{
           ...attachment,
           file: attachment.file ?? audio,
         }}
-        loading={loading}
-        duration={duration}
-        isPlaying={isPlaying}
-        handlePlayPause={handlePlayPause}
-        timeLeft={timeLeft}
         children={
           <div onClick={(event) => visualizer_click_handler({ audioRef, event, setCurrentTime })}>
             <AudioVisualizerMemo
-              setCurrentTime={setCurrentTime}
-              blob={audio}
-              width={barWidth ?? 180}
-              height={barHeight ?? 27}
-              barWidth={barWidth ?? 3}
-              barPlayedColor={barPlayedColor}
-              barColor={barColor}
               backgroundColor={backgroundColor}
-              gap={gap ?? 2}
+              barColor={barColor}
+              barPlayedColor={barPlayedColor}
+              barWidth={barWidth ?? 3}
+              blob={audio}
               currentTime={currentTime / 1000}
+              gap={gap ?? 2}
+              height={barHeight ?? 27}
+              minBarHeight={minBarHeight ?? 1}
+              setCurrentTime={setCurrentTime}
               setLoading={setLoading}
               style={style}
-              minBarHeight={minBarHeight ?? 1}
+              width={barWidth ?? 180}
             />
           </div>
         }
+        duration={duration}
+        handlePlayPause={handlePlayPause}
+        isPlaying={isPlaying}
+        loading={loading}
+        size={size}
+        timeLeft={timeLeft}
       />
     </>
   )
@@ -697,12 +697,12 @@ const AudioItem: React.FC<AudioItemProps> = ({ attachment }) => {
   React.useEffect(() => {
     // if (contentSchema.safeParse(attachment).error) return
     if (!attachment.url || !attachment.url.startsWith('https://')) return
-    fetchAudioBlob({ url: attachment.url, setAudioBlob })
+    fetchAudioBlob({ setAudioBlob, url: attachment.url })
   }, [attachment])
 
   return (
     <AudioDataProvider>
-      <AudioRecordItem loading={audioBlob === null ? true : false} audio={audioBlob} attachment={attachment} />
+      <AudioRecordItem attachment={attachment} audio={audioBlob} loading={audioBlob === null ? true : false} />
     </AudioDataProvider>
   )
 }
@@ -763,20 +763,20 @@ const AudioDataProvider: React.FC<AudioProviderProps> = ({ children }) => {
       height,
     }: Omit<ProcessBlobParams, 'setAnimationProgress' | 'setDuration' | 'setData'>) => {
       await process_blob({
-        canvasRef,
-        blob,
-        barWidth,
-        gap,
         backgroundColor,
         barColor,
         barPlayedColor,
+        barWidth,
+        blob,
+        canvasRef,
+        gap,
+        height,
         minBarHeight,
-        setLoading,
+        setAnimationProgress,
         setData,
         setDuration,
-        setAnimationProgress,
+        setLoading,
         width,
-        height,
       })
     },
     [],
@@ -785,20 +785,20 @@ const AudioDataProvider: React.FC<AudioProviderProps> = ({ children }) => {
   return (
     <AudioDataContext.Provider
       value={{
-        process_audio,
-        recordings,
-        setDuration,
-        setRecordings,
-        setAnimationProgress,
+        animationProgress,
         data,
         duration,
-        animationProgress,
-        speed,
-        setSpeed,
+        process_audio,
         recording,
+        recordings,
+        setAnimationProgress,
+        setDuration,
         setRecording,
-        volume,
+        setRecordings,
+        setSpeed,
         setVolume,
+        speed,
+        volume,
       }}>
       {children}
     </AudioDataContext.Provider>

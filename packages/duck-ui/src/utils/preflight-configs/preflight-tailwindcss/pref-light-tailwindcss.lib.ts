@@ -2,13 +2,13 @@ import path from 'node:path'
 import { execa } from 'execa'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
-import { Ora } from 'ora'
+import type { Ora } from 'ora'
 import prompts from 'prompts'
 import { ZodError } from 'zod'
 import { get_package_manager } from '../../get-package-manager'
 import { IGNORED_DIRECTORIES } from '../../get-project-info'
 import { highlighter } from '../../text-styling'
-import { duckui_prompts_schema, PROJECT_TYPE } from '../preflight-duckui'
+import { duckui_prompts_schema, type PROJECT_TYPE } from '../preflight-duckui'
 import {
   post_css_nextjs,
   tailwindcss_install_prompts,
@@ -32,7 +32,7 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
 
     for (let i = 0; i < styles_files.length; i++) {
       const file = styles_files[i]
-      const content = await fs.readFile(path.join((file.dirent as never)['parentPath'], file.name), 'utf-8')
+      const content = await fs.readFile(path.join((file.dirent as any)?.parentPath, file.name), 'utf-8')
       is_tailwind_installed = content.includes('@import "tailwindcss"')
     }
 
@@ -58,7 +58,7 @@ export async function install_tailwindcss(cwd: string, spinner: Ora) {
   spinner.stop()
   const options = await prompts(tailwindcss_install_prompts)
 
-  const { project_type, css } = duckui_prompts_schema.pick({ project_type: true, css: true }).parse(options)
+  const { project_type, css } = duckui_prompts_schema.pick({ css: true, project_type: true }).parse(options)
   spinner.start()
 
   if (!project_type || !css) {

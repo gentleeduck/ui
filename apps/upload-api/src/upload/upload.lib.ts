@@ -11,10 +11,10 @@ export function nestObjectsByTreeLevelAndFolderId(data: (BucketFilesType | Bucke
       // Store items in the map for potential parents
       if (!idToItemMap.has(item.folder_id)) {
         idToItemMap.set(item.folder_id, {
+          content: [],
           id: item.folder_id,
           name: '',
           tree_level: item.tree_level ?? 1 - 1, // Placeholder for parents if not defined
-          content: [],
         })
       }
       idToItemMap.get(item.folder_id)!.content!.push(item)

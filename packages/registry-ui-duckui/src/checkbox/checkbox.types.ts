@@ -1,5 +1,5 @@
-import { Label } from '../label'
-import { Checkbox } from './checkbox'
+import type { Label } from '../label'
+import type { Checkbox } from './checkbox'
 
 export type CheckedState = boolean | 'indeterminate'
 

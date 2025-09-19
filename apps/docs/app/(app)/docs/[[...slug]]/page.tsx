@@ -6,12 +6,12 @@ import { headers } from 'next/headers'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
-import { Mdx } from '~/components/mdx/mdx'
-import { SLUG_METADATA } from '~/config/metadata'
-import { docs } from '../../../../.velite'
-import { DocCopy } from '~/components/ui/Blocks/doc-copy'
 import { DashboardTableOfContents, DocsCopyPage, DocsPagerBottom, DocsPagerTop } from '~/components/docs'
+import { Mdx } from '~/components/mdx/mdx'
+import { DocCopy } from '~/components/ui/Blocks/doc-copy'
+import { SLUG_METADATA } from '~/config/metadata'
 import { absoluteUrl } from '~/lib/utils'
+import { docs } from '../../../../.velite'
 
 interface DocPageProps {
   params: {
@@ -91,20 +91,20 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
           <div className="flex items-center space-x-2 pt-4">
             {doc.links?.doc && (
               <Link
+                className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}
                 href={doc.links.doc}
-                target="_blank"
                 rel="noreferrer"
-                className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}>
+                target="_blank">
                 Docs
                 <ExternalLinkIcon className="h-3 w-3" />
               </Link>
             )}
             {doc.links?.api && (
               <Link
+                className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}
                 href={doc.links.api}
-                target="_blank"
                 rel="noreferrer"
-                className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}>
+                target="_blank">
                 API Reference
                 <ExternalLinkIcon className="h-3 w-3" />
               </Link>

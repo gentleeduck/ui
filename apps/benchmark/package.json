@@ -1,20 +1,4 @@
 {
-  "name": "benchmark",
-  "private": true,
-  "version": "0.1.10",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview",
-    "serve": "tsc -b && vite build && vite preview",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "bench": "vitest bench",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
   "dependencies": {
     "@floating-ui/core": "^1.7.2",
     "@floating-ui/dom": "^1.7.2",
@@ -85,8 +69,24 @@
     "vite": "catalog:",
     "vite-tsconfig-paths": "catalog:"
   },
-  "packageManager": "pnpm@10.12.2",
   "engines": {
     "node": ">=22.0.0"
-  }
+  },
+  "name": "benchmark",
+  "packageManager": "pnpm@10.12.2",
+  "private": true,
+  "scripts": {
+    "bench": "vitest bench",
+    "build": "tsc -b && vite build",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "dev": "vite",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "preview": "vite preview",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version",
+    "serve": "tsc -b && vite build && vite preview"
+  },
+  "type": "module",
+  "version": "0.1.10"
 }

@@ -15,39 +15,39 @@ export default function CalendarDemo() {
   return (
     <div className="flex gap-4">
       <div className="flex flex-col gap-3">
-        <Label htmlFor="date-picker" className="px-1">
+        <Label className="px-1" htmlFor="date-picker">
           Date
         </Label>
-        <Popover open={open} onOpenChange={setOpen} placement="top-start">
+        <Popover onOpenChange={setOpen} open={open} placement="top-start">
           <PopoverTrigger asChild>
-            <Button variant="outline" id="date-picker" className="w-34 justify-between font-normal">
+            <Button className="w-34 justify-between font-normal" id="date-picker" variant="outline">
               {date ? date.toLocaleDateString() : 'Select date'}
               <ChevronDownIcon />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto overflow-hidden p-0">
             <Calendar
-              mode="single"
-              selected={date}
               captionLayout="dropdown"
+              mode="single"
               onSelect={(date) => {
                 setDate(date)
                 setOpen(false)
               }}
+              selected={date}
             />
           </PopoverContent>
         </Popover>
       </div>
       <div className="flex flex-col gap-3">
-        <Label htmlFor="time-picker" className="px-1">
+        <Label className="px-1" htmlFor="time-picker">
           Time
         </Label>
         <Input
-          type="time"
+          className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+          defaultValue="10:30:00"
           id="time-picker"
           step="1"
-          defaultValue="10:30:00"
-          className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+          type="time"
         />
       </div>
     </div>

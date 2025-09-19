@@ -3,7 +3,7 @@ import { Italic } from 'lucide-react'
 
 export default function Toggle1Demo() {
   return (
-    <Toggle size="lg" aria-label="Toggle italic">
+    <Toggle aria-label="Toggle italic" size="lg">
       <Italic className="h-4 w-4" />
     </Toggle>
   )

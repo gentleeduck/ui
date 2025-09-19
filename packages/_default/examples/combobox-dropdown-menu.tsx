@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { Calendar, MoreHorizontal, Tags, Trash, User } from "lucide-react"
+import * as React from "react"
 
 import { Button } from "@/registry/default/ui/button"
 import {
@@ -48,9 +48,9 @@ export default function ComboboxDropdownMenu() {
         </span>
         <span className="text-muted-foreground">Create a new project</span>
       </p>
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenu onOpenChange={setOpen} open={open}>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm">
+          <Button size="sm" variant="ghost">
             <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
@@ -74,8 +74,8 @@ export default function ComboboxDropdownMenu() {
               <DropdownMenuSubContent className="p-0">
                 <Command>
                   <CommandInput
-                    placeholder="Filter label..."
                     autoFocus={true}
+                    placeholder="Filter label..."
                   />
                   <CommandList>
                     <CommandEmpty>No label found.</CommandEmpty>
@@ -83,11 +83,11 @@ export default function ComboboxDropdownMenu() {
                       {labels.map((label) => (
                         <CommandItem
                           key={label}
-                          value={label}
                           onSelect={(value) => {
                             setLabel(value)
                             setOpen(false)
                           }}
+                          value={label}
                         >
                           {label}
                         </CommandItem>

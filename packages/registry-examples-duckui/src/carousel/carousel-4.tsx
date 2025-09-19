@@ -7,19 +7,18 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@gentleduck/registry-ui-duckui/carousel'
-import * as React from 'react'
 
 export default function CarouselDemo() {
   return (
     <Carousel
+      className="w-full max-w-xs"
       opts={{
         align: 'start',
       }}
-      orientation="vertical"
-      className="w-full max-w-xs">
+      orientation="vertical">
       <CarouselContent className="-mt-1 h-[200px]">
         {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index} className="pt-1 md:basis-1/2">
+          <CarouselItem className="pt-1 md:basis-1/2" key={`item-${index + 1}`}>
             <div className="p-1">
               <Card>
                 <CardContent className="flex items-center justify-center p-6">

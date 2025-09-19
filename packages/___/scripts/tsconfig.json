@@ -1,16 +1,16 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../../../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "incremental": true,
     "isolatedModules": true,
-    "baseUrl": ".",
     "outDir": "./dist",
-    "tsBuildInfoFile": "./.tsbuildinfo",
     "paths": {
       "@/*": ["../*"]
-    }
+    },
+    "tsBuildInfoFile": "./.tsbuildinfo"
   },
-  "include": ["../../ui/**/*"],
-  "exclude": ["node_modules", "build", "dist"]
+  "exclude": ["node_modules", "build", "dist"],
+  "extends": "../../../../tsconfig.json",
+  "include": ["../../ui/**/*"]
 }

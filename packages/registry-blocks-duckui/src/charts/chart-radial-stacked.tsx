@@ -8,27 +8,32 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui-duckui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui-duckui/chart'
 import { TrendingUp } from 'lucide-react'
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts'
 
 export const description = 'A radial chart with stacked sections'
 
-const chartData = [{ month: 'january', desktop: 1260, mobile: 570 }]
+const chartData = [{ desktop: 1260, mobile: 570, month: 'january' }]
 
 const chartConfig = {
   desktop: {
-    label: 'Desktop',
     color: 'var(--chart-1)',
+    label: 'Desktop',
   },
   mobile: {
-    label: 'Mobile',
     color: 'var(--chart-2)',
+    label: 'Mobile',
   },
 } satisfies ChartConfig
 
 export default function Component() {
-  const totalVisitors = chartData[0]!.desktop + chartData[0]!.mobile
+  const totalVisitors = String(chartData[0]?.desktop) + String(chartData[0]?.mobile)
 
   return (
     <Card className="flex flex-col">
@@ -37,19 +42,19 @@ export default function Component() {
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square w-full max-w-[250px]">
+        <ChartContainer className="mx-auto aspect-square w-full max-w-[250px]" config={chartConfig}>
           <RadialBarChart data={chartData} endAngle={180} innerRadius={80} outerRadius={130}>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-            <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+            <PolarRadiusAxis axisLine={false} tick={false} tickLine={false}>
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
                     return (
-                      <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
-                        <tspan x={viewBox.cx} y={(viewBox.cy || 0) - 16} className="fill-foreground text-2xl font-bold">
+                      <text textAnchor="middle" x={viewBox.cx} y={viewBox.cy}>
+                        <tspan className="fill-foreground font-bold text-2xl" x={viewBox.cx} y={(viewBox.cy || 0) - 16}>
                           {totalVisitors.toLocaleString()}
                         </tspan>
-                        <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 4} className="fill-muted-foreground">
+                        <tspan className="fill-muted-foreground" x={viewBox.cx} y={(viewBox.cy || 0) + 4}>
                           Visitors
                         </tspan>
                       </text>
@@ -59,18 +64,18 @@ export default function Component() {
               />
             </PolarRadiusAxis>
             <RadialBar
-              dataKey="desktop"
-              stackId="a"
+              className="stroke-2 stroke-transparent"
               cornerRadius={5}
+              dataKey="desktop"
               fill="var(--color-desktop)"
-              className="stroke-transparent stroke-2"
+              stackId="a"
             />
             <RadialBar
+              className="stroke-2 stroke-transparent"
+              cornerRadius={5}
               dataKey="mobile"
               fill="var(--color-mobile)"
               stackId="a"
-              cornerRadius={5}
-              className="stroke-transparent stroke-2"
             />
           </RadialBarChart>
         </ChartContainer>
@@ -79,7 +84,7 @@ export default function Component() {
         <div className="flex items-center gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">Showing total visitors for the last 6 months</div>
+        <div className="text-muted-foreground leading-none">Showing total visitors for the last 6 months</div>
       </CardFooter>
     </Card>
   )

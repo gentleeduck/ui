@@ -74,7 +74,7 @@ function createSlotClone(ownerName: string) {
 
     // If there is only one child after replacement, return it directly,
     // otherwise return the array (JSX allows arrays of nodes).
-    return finalChildren.length === 1 ? (finalChildren[0] as React.ReactElement) : <>{finalChildren}</>
+    return finalChildren.length === 1 ? (finalChildren[0] as React.ReactElement) : finalChildren
   })
 
   SlotClone.displayName = `${ownerName}.SlotClone`

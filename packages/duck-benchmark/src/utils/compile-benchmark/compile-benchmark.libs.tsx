@@ -1,9 +1,9 @@
+import path from 'node:path'
+import { performance } from 'node:perf_hooks'
+import { execa } from 'execa'
+import fs from 'fs-extra'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { performance } from 'node:perf_hooks'
-import path from 'node:path'
-import fs from 'fs-extra'
-import { execa } from 'execa'
 import { VITE_CONFIG_CONTENT } from './compile-benchmark.constants'
 import { CompileFileParams } from './compile-benchmark.types'
 
@@ -18,8 +18,8 @@ export async function compile_file({ file, spinner, cwd }: CompileFileParams) {
     fs.writeFileSync(temp_config_path, VITE_CONFIG_CONTENT({ fileInfo: file }))
 
     await execa('vite', ['build', '--config', path.resolve(cwd, 'vite.temp.config.ts')], {
-      stdio: 'ignore',
       cwd: cwd,
+      stdio: 'ignore',
     })
 
     // Remove the temporary config after build
@@ -30,14 +30,14 @@ export async function compile_file({ file, spinner, cwd }: CompileFileParams) {
 
     spinner.text = `Compiled ${file.name} in ${compile_time_ms.toFixed(2)}ms (${(bundle_size / 1024).toFixed(2)}kb)`
     return {
-      compile_time_ms,
       bundle_size,
+      compile_time_ms,
     }
   } catch (error) {
     spinner.fail(`Failed to compile ${file.name}`)
     return {
-      compile_time_ms: performance.now() - start,
       bundle_size: 0,
+      compile_time_ms: performance.now() - start,
       errors: [error || error],
     }
   }
@@ -66,8 +66,8 @@ export async function render_file({ file, spinner, cwd }: CompileFileParams) {
   } catch (error) {
     spinner.fail(`Failed to import or render ${file.path}: ${error}`)
     return {
-      renderTimeMs: 0,
       errors: [error || error],
+      renderTimeMs: 0,
     }
   }
 }

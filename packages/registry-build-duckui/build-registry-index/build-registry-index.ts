@@ -24,11 +24,11 @@ export async function build_registry_index({ registry, spinner }: BuildRegistryI
     const uiItems = await Promise.all(
       registry.uis.map((item, idx) =>
         get_component_files({
-          item,
-          type: 'registry:ui',
-          spinner,
           idx,
+          item,
           registry_count: registry.uis.length,
+          spinner,
+          type: 'registry:ui',
         }),
       ),
     )
@@ -38,11 +38,11 @@ export async function build_registry_index({ registry, spinner }: BuildRegistryI
     const exampleItems = await Promise.all(
       registry.examples.map((item) =>
         get_component_files({
-          item,
-          type: 'registry:example',
-          spinner,
           idx: 0,
+          item,
           registry_count: registry.examples.length,
+          spinner,
+          type: 'registry:example',
         }),
       ),
     )
@@ -62,8 +62,8 @@ export async function build_registry_index({ registry, spinner }: BuildRegistryI
 
       return item.files.map((file) => ({
         ...item,
-        name: file.path.split('/').pop()?.split('.')[0] as string, // Extract name from filename
         files: [file],
+        name: file.path.split('/').pop()?.split('.')[0] as string, // Extract name from filename
       }))
     })
 
@@ -72,11 +72,11 @@ export async function build_registry_index({ registry, spinner }: BuildRegistryI
     const blocksItems = await Promise.all(
       registry.blocks.map((item) =>
         get_component_files({
-          item,
-          type: 'registry:block',
-          spinner,
           idx: 0,
+          item,
           registry_count: registry.blocks.length,
+          spinner,
+          type: 'registry:block',
         }),
       ),
     )

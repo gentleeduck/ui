@@ -2,7 +2,7 @@ import { useClick, useDismiss, useFloating, useInteractions, useRole } from '@fl
 
 import * as React from 'react'
 import { DialogContext } from './dialog'
-import { DialogOptions } from './dialog.types'
+import type { DialogOptions } from './dialog.types'
 
 export function useDialog({
   defaultOpen = false,
@@ -20,8 +20,8 @@ export function useDialog({
   const setOpen = setControlledOpen ?? setUncontrolledOpen
 
   const data = useFloating({
-    open,
     onOpenChange: setOpen,
+    open,
   })
 
   const context = data.context
@@ -40,14 +40,14 @@ export function useDialog({
       setOpen,
       ...interactions,
       ...data,
-      labelId,
-      descriptionId,
-      titleId,
-      setLabelId,
-      setDescriptionId,
-      setTitleId,
       closeButton,
+      descriptionId,
+      labelId,
       modal,
+      setDescriptionId,
+      setLabelId,
+      setTitleId,
+      titleId,
     }),
     [open, setOpen, interactions, data, labelId, descriptionId, setTitleId],
   )

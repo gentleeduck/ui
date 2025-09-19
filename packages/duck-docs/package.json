@@ -1,29 +1,4 @@
 {
-  "name": "@gentleduck/duck-docs",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "types": "./dist/index.d.ts",
-  "module": "./dist/index.js",
-  "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*/index.ts"
-  },
-  "scripts": {
-    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
-    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
-    "build": "tsdown",
-    "dev": "vitest",
-    "test": "vitest run",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run test && pnpm run build",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
@@ -43,8 +18,33 @@
     "vite": "catalog:",
     "vitest": "catalog:"
   },
-  "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=22.0.0"
-  }
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*/index.ts"
+  },
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/index.js",
+  "name": "@gentleduck/duck-docs",
+  "packageManager": "pnpm@10.10.0",
+  "private": true,
+  "scripts": {
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run test && pnpm run build",
+    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
+    "dev": "vitest",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version",
+    "test": "vitest run"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "0.1.0"
 }

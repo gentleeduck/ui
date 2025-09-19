@@ -2,7 +2,7 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { CommandShortcut } from '@gentleduck/registry-ui-duckui/command'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { useKeyCommands } from '@gentleduck/vim/react'
-import { ArrowBigUpDash, Command, ShieldAlert } from 'lucide-react'
+import { ArrowBigUpDash, Command } from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'
 
@@ -11,9 +11,9 @@ export default function ButtonDemo() {
 
   useKeyCommands({
     'ctrl+m': {
-      name: 'ctrl+m',
       description: 'a command that will open the advanced button',
       execute: () => {},
+      name: 'ctrl+m',
     },
   })
 
@@ -21,24 +21,24 @@ export default function ButtonDemo() {
     <Tooltip placement="top">
       <TooltipTrigger asChild>
         <Button
-          isCollapsed={open}
-          icon={<ArrowBigUpDash />}
-          aria-label={'advanced button'}
-          size="default"
           aria-expanded={open}
+          aria-label={'advanced button'}
+          icon={<ArrowBigUpDash />}
+          isCollapsed={open}
           loading={false}
-          onClick={() => setOpen((prev) => !prev)}>
+          onClick={() => setOpen((prev) => !prev)}
+          size="default">
           Button
         </Button>
       </TooltipTrigger>
       <TooltipContent className="flex items-center gap-2">
         <CommandShortcut
-          variant="secondary"
           keys="ctrl+m"
           onKeysPressed={() => {
             setOpen((prev) => !prev)
             toast.success('Advanced button')
-          }}>
+          }}
+          variant="secondary">
           <Command />
           +m
         </CommandShortcut>

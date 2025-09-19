@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { KeyHandler, Registry } from '../command'
 
 function createTestKeyboardEvent(key: string, options: Partial<KeyboardEvent> = {}): KeyboardEvent {
   return new KeyboardEvent('keydown', {
-    key,
     bubbles: true,
     cancelable: true,
+    key,
     ...options,
   })
 }
@@ -30,7 +30,7 @@ describe('KeyHandler & Registry', () => {
 
   it('registers and executes a single-key command', () => {
     const fn = vi.fn()
-    registry.register('k', { name: 'test', execute: fn })
+    registry.register('k', { execute: fn, name: 'test' })
 
     target.dispatchEvent(createTestKeyboardEvent('k'))
     expect(fn).toHaveBeenCalled()
@@ -38,7 +38,7 @@ describe('KeyHandler & Registry', () => {
 
   it('registers and executes a multi-key sequence', async () => {
     const fn = vi.fn()
-    registry.register('g+d', { name: 'go', execute: fn })
+    registry.register('g+d', { execute: fn, name: 'go' })
 
     target.dispatchEvent(createTestKeyboardEvent('g'))
     target.dispatchEvent(createTestKeyboardEvent('d'))
@@ -49,7 +49,7 @@ describe('KeyHandler & Registry', () => {
 
   it('handles invalid sequence and retries with final key', async () => {
     const fn = vi.fn()
-    registry.register('d', { name: 'only-d', execute: fn })
+    registry.register('d', { execute: fn, name: 'only-d' })
 
     target.dispatchEvent(createTestKeyboardEvent('x')) // invalid
     target.dispatchEvent(createTestKeyboardEvent('d'))
@@ -60,7 +60,7 @@ describe('KeyHandler & Registry', () => {
 
   it('resets sequence after timeout', async () => {
     const fn = vi.fn()
-    registry.register('g+d', { name: 'go', execute: fn })
+    registry.register('g+d', { execute: fn, name: 'go' })
 
     target.dispatchEvent(createTestKeyboardEvent('g'))
     await new Promise((r) => setTimeout(r, 150)) // longer than timeout
@@ -72,7 +72,7 @@ describe('KeyHandler & Registry', () => {
 
   it('respects prefixes correctly', async () => {
     const fn = vi.fn()
-    registry.register('space+s', { name: 'save', execute: fn })
+    registry.register('space+s', { execute: fn, name: 'save' })
 
     target.dispatchEvent(createTestKeyboardEvent(' ', {}))
     target.dispatchEvent(createTestKeyboardEvent('s'))

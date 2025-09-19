@@ -17,8 +17,8 @@ export async function editInV0({
 }) {
   try {
     await track('edit_in_v0', {
-      name,
       description,
+      name,
       style,
     })
 
@@ -27,13 +27,13 @@ export async function editInV0({
     code = code.replace(`"use client"`, '')
 
     const response = await fetch(`${process.env.V0_URL}/api/edit`, {
-      method: 'POST',
-      body: JSON.stringify({ description, code, source: EDIT_IN_V0_SOURCE }),
+      body: JSON.stringify({ code, description, source: EDIT_IN_V0_SOURCE }),
       headers: {
+        'Content-Type': 'application/json',
         'x-v0-edit-secret': process.env.V0_EDIT_SECRET!,
         'x-vercel-protection-bypass': process.env.DEPLOYMENT_PROTECTION_BYPASS || 'not-set',
-        'Content-Type': 'application/json',
       },
+      method: 'POST',
     })
 
     if (!response.ok) {

@@ -24,28 +24,28 @@ function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProp
     useDropdownMenuInit(open, onOpenChange, false)
 
   useHandleKeyDown({
-    open,
+    allowAxisArrowKeys: true,
     itemsRef,
+    open,
+    originalItemsRef,
     selectedItem: selectedItemRef.current,
     setSelectedItem: (item) => {
       selectedItemRef.current = item
     },
-    originalItemsRef,
-    allowAxisArrowKeys: true,
   })
 
   return (
     <DropdownMenuContext.Provider
       value={{
-        open,
-        onOpenChange,
-        wrapperRef,
-        triggerRef: triggerRef,
         contentRef: contentRef,
         groupsRef,
         itemsRef,
-        selectedItemRef,
+        onOpenChange,
+        open,
         originalItemsRef,
+        selectedItemRef,
+        triggerRef: triggerRef,
+        wrapperRef,
       }}>
       <div className={cn('relative', className)} duck-dropdown-menu="" {...props} ref={wrapperRef}>
         {children}
@@ -72,9 +72,9 @@ function DropdownMenuTrigger({
   const { triggerRef } = useDropdownMenuContext()
   return (
     <PopoverTrigger
-      ref={triggerRef as never}
-      className={cn(className)}
       asChild={asChild}
+      className={cn(className)}
+      ref={triggerRef as never}
       {...props}
       duck-select-trigger="">
       {children}
@@ -93,10 +93,10 @@ function DropdownMenuContent({
   const { contentRef } = useDropdownMenuContext()
   return (
     <PopoverContent
+      className={cn('w-auto min-w-[180px] overflow-visible p-1', className)}
+      duck-dropdown-menu-content=""
       lockScroll
       ref={contentRef}
-      duck-dropdown-menu-content=""
-      className={cn('w-auto min-w-[180px] overflow-visible p-1', className)}
       {...props}>
       {children}
     </PopoverContent>
@@ -106,13 +106,16 @@ function DropdownMenuContent({
 function DropdownMenuLabel({
   className,
   ref,
+  htmlFor,
   inset,
   ...props
 }: React.HTMLProps<HTMLLabelElement> & { inset?: boolean }): React.JSX.Element {
   return (
     <label
-      ref={ref}
+      aria-label="dropdown-menu-label"
       className={cn('px-2 py-1.5 font-semibold text-sm', inset && 'pl-8', className)}
+      htmlFor={htmlFor}
+      ref={ref}
       {...props}
       duck-dropdown-menu-label=""
     />
@@ -128,18 +131,18 @@ function DropdownMenuItem({
 }: React.ComponentPropsWithRef<typeof Button> & { inset?: boolean }): React.JSX.Element {
   return (
     <Button
-      ref={ref}
-      variant={'ghost'}
-      size={'sm'}
-      duck-dropdown-menu-item=""
       aria-disabled={disabled}
-      disabled={disabled}
       className={cn(
-        'h-auto w-full cursor-default justify-start px-2 focus:bg-secondary',
+        'w-full cursor-default justify-start px-2 focus:bg-secondary',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
         inset && 'pl-8',
         className,
       )}
+      disabled={disabled}
+      duck-dropdown-menu-item=""
+      ref={ref}
+      size={'sm'}
+      variant={'ghost'}
       {...props}
     />
   )
@@ -155,9 +158,9 @@ function DropdownMenuShortcut({
 }: DropdownMenuShortcutProps): React.JSX.Element {
   useKeyCommands({
     [keys]: {
-      name: keys,
       description: keys,
       execute: () => onKeysPressed(),
+      name: keys,
     },
   })
 
@@ -177,7 +180,7 @@ function DropdownMenuShortcut({
 
 function DropdownMenuSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
-    <div ref={ref} className={cn('-mx-1 my-1 h-px bg-muted', className)} {...props} duck-dropdown-menu-separator="" />
+    <div className={cn('-mx-1 my-1 h-px bg-muted', className)} ref={ref} {...props} duck-dropdown-menu-separator="" />
   )
 }
 
@@ -200,28 +203,28 @@ function DropdownMenuSubImpritive({ children, className, ...props }: React.HTMLP
     useDropdownMenuInit(open, onOpenChange, true)
 
   useHandleKeyDown({
-    open,
+    allowAxisArrowKeys: true,
     itemsRef,
+    open,
+    originalItemsRef,
     selectedItem: selectedItemRef.current,
     setSelectedItem: (item) => {
       selectedItemRef.current = item
     },
-    originalItemsRef,
-    allowAxisArrowKeys: true,
   })
 
   return (
     <DropdownMenuSubContext.Provider
       value={{
-        open,
-        onOpenChange,
-        wrapperRef,
-        triggerRef: triggerRef as never,
         contentRef: contentRef as never,
         groupsRef,
         itemsRef,
-        selectedItemRef,
+        onOpenChange,
+        open,
         originalItemsRef,
+        selectedItemRef,
+        triggerRef: triggerRef as never,
+        wrapperRef,
       }}>
       <div
         className={cn(
@@ -242,7 +245,7 @@ function DropdownMenuSub({
   ...props
 }: React.ComponentPropsWithoutRef<typeof Popover>): React.JSX.Element {
   return (
-    <Popover {...props} modal enableHover contextMenu={contextMenu} placement="right-start">
+    <Popover {...props} contextMenu={contextMenu} enableHover modal placement="right-start">
       <DropdownMenuSubImpritive {...props}>{children}</DropdownMenuSubImpritive>
     </Popover>
   )
@@ -281,9 +284,9 @@ function DropdownMenuSubContent({
   const { contentRef } = useDropdownMenuSubContext()
   return (
     <PopoverContent
+      className={cn('fixed z-[55] w-auto min-w-[8rem] p-1', className)}
       lockScroll={true}
       ref={contentRef}
-      className={cn('fixed z-[55] w-auto min-w-[8rem] p-1', className)}
       {...props}
       duck-dropdown-menu-sub-content="">
       {children}
@@ -303,15 +306,15 @@ function DropdownMenuCheckboxItem({
   const [checkedState, setCheckedState] = React.useState(checked ?? false)
   return (
     <DropdownMenuItem
+      className={cn(className)}
+      data-checked={checkedState}
+      duck-dropdown-menu-checkbox-item=""
       onClick={(e) => {
         onClick?.(e)
         setCheckedState(!checkedState)
         onCheckedChange?.(!checkedState)
       }}
-      duck-dropdown-menu-checkbox-item=""
-      data-checked={checkedState}
       ref={ref}
-      className={cn(className)}
       {...props}>
       <span className="absolute left-2.5 flex items-center">
         <Check className={cn('!size-4 opacity-0', checkedState && 'opacity-100')} />
@@ -322,7 +325,7 @@ function DropdownMenuCheckboxItem({
 }
 
 function DropdownMenuRadioGroup({ ...props }: React.ComponentPropsWithRef<typeof RadioGroup>) {
-  return <RadioGroup duck-dropdown-menu-radio-group="" duck-dropdown-menu-group="" {...props} />
+  return <RadioGroup duck-dropdown-menu-group="" duck-dropdown-menu-radio-group="" {...props} />
 }
 
 function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof RadioGroupItem>) {

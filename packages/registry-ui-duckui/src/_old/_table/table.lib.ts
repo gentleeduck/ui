@@ -1,7 +1,7 @@
 // @ts-noCheck
 import { DropdownMenuOptionsDataType } from '@/registry/default/ui/dropdown-menu'
-import { ColumnsViewedStateType, TableContentDataType } from './table-advanced.types'
 import { Order, TableHeaderType } from './table.types'
+import { ColumnsViewedStateType, TableContentDataType } from './table-advanced.types'
 
 export function sortArray<T>(columns: TableHeaderType[], array: T[], key?: keyof T, order: Order = 'desc') {
   const toggleSortOrder = (currentOrder: Order): Order => {
@@ -56,10 +56,11 @@ export function get_options_data<T extends Record<string, unknown> = Record<stri
     const { children, className, label, sortable, disabled, currentSort, dropdownMenuOptions, ...props } = column ?? {}
 
     return {
-      key: idx,
-      className: 'capitalize',
       checked: columnsViewed?.some((headerItem) => headerItem?.label === label),
+      children: label ?? children,
+      className: 'capitalize',
       disabled: disabled,
+      key: idx,
       onCheckedChange: () => {
         setColumnsViewed?.((prevHeaders) => {
           const exists = prevHeaders.some((headerItem) => headerItem?.label === label)
@@ -78,7 +79,6 @@ export function get_options_data<T extends Record<string, unknown> = Record<stri
           )
         })
       },
-      children: label ?? children,
       ...props,
     }
   }) as DropdownMenuOptionsDataType<T>[]

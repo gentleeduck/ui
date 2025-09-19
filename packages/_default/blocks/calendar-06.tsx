@@ -14,13 +14,13 @@ export default function Calendar06() {
   return (
     <div className="flex min-w-0 flex-col gap-2">
       <Calendar
-        mode="range"
-        defaultMonth={dateRange?.from}
-        selected={dateRange}
-        onSelect={setDateRange}
-        numberOfMonths={1}
-        min={5}
         className="rounded-lg border shadow-sm"
+        defaultMonth={dateRange?.from}
+        min={5}
+        mode="range"
+        numberOfMonths={1}
+        onSelect={setDateRange}
+        selected={dateRange}
       />
       <div className="text-muted-foreground text-center text-xs">
         A minimum of 5 days is required

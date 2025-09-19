@@ -1,22 +1,22 @@
+import { registry_colors } from '@gentleduck/registers'
 import { z } from 'zod'
 
-import { registry_colors } from '@gentleduck/registers'
 const colorSchema = z.object({
-  name: z.string(),
-  id: z.string(),
-  scale: z.number(),
   className: z.string(),
-  hex: z.string(),
-  rgb: z.string(),
-  hsl: z.string(),
   foreground: z.string(),
+  hex: z.string(),
+  hsl: z.string(),
+  id: z.string(),
+  name: z.string(),
   oklch: z.string(),
+  rgb: z.string(),
+  scale: z.number(),
   var: z.string(),
 })
 
 const colorPaletteSchema = z.object({
-  name: z.string(),
   colors: z.array(colorSchema),
+  name: z.string(),
 })
 
 export type ColorPalette = z.infer<typeof colorPaletteSchema>
@@ -25,9 +25,9 @@ export function getColorFormat(color: Color) {
   return {
     className: `bg-${color.name}-100`,
     hex: color.hex,
-    rgb: color.rgb,
     hsl: color.hsl,
     oklch: color.oklch,
+    rgb: color.rgb,
     var: `--color-${color.name}-${color.scale}`,
   }
 }
@@ -43,22 +43,22 @@ export function getColors() {
         }
 
         return {
-          name,
           colors: color.map((color) => {
             const rgb = color.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3')
 
             return {
               ...color,
-              name,
-              id: `${name}-${color.scale}`,
               className: `${name}-${color.scale}`,
-              var: `--color-${name}-${color.scale}`,
-              rgb,
-              hsl: color.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
-              oklch: `oklch(${color.oklch.replace(/^oklch\(([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\)$/, '$1 $2 $3')})`,
               foreground: getForegroundFromBackground(rgb),
+              hsl: color.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
+              id: `${name}-${color.scale}`,
+              name,
+              oklch: `oklch(${color.oklch.replace(/^oklch\(([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\)$/, '$1 $2 $3')})`,
+              rgb,
+              var: `--color-${name}-${color.scale}`,
             }
           }),
+          name,
         }
       })
       .filter(Boolean),

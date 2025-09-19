@@ -1,4 +1,4 @@
-import { useSheet } from './sheet.hooks'
+import type { useSheet } from './sheet.hooks'
 
 export type SheetContextProps =
   | (ReturnType<typeof useSheet> & {

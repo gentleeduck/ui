@@ -1,30 +1,30 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "lib": ["ES2022", "dom", "dom.iterable"],
-    "incremental": false,
-    "rootDir": "./",
-    "outDir": "./dist",
-    "target": "esnext",
-    "strict": true,
-    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true,
+    "baseUrl": ".",
+    "declaration": true,
     "esModuleInterop": true,
+    "exactOptionalPropertyTypes": true,
+    "incremental": false,
+    "isolatedDeclarations": false,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "esnext",
     "moduleResolution": "bundler",
-    "skipLibCheck": true /* FIXME remove this once vite fixes it */,
-    "allowImportingTsExtensions": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "verbatimModuleSyntax": true,
-    "declaration": true,
-    "isolatedDeclarations": false,
-    "types": ["@testing-library/jest-dom"],
     "noEmit": true,
-    "baseUrl": ".",
+    "noUncheckedIndexedAccess": true,
+    "outDir": "./dist",
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+    "rootDir": "./",
+    "skipLibCheck": true /* FIXME remove this once vite fixes it */,
+    "strict": true,
+    "target": "esnext",
+    "types": ["@testing-library/jest-dom"],
+    "verbatimModuleSyntax": true
   },
-  "include": [".", "./src/index.d.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "include": [".", "./src/index.d.ts"]
 }

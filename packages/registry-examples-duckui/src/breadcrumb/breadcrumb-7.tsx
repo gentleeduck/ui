@@ -45,7 +45,7 @@ export default function BreadcrumbResponsive() {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href={items[0]!.href ?? '/'}>{items[0]?.label}</Link>
+            <Link href={items[0]?.href ?? '/'}>{items[0]?.label}</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -53,20 +53,20 @@ export default function BreadcrumbResponsive() {
           <>
             <BreadcrumbItem>
               {isDesktop ? (
-                <DropdownMenu open={open} onOpenChange={setOpen} placement="top-start">
-                  <DropdownMenuTrigger className="flex items-center gap-1" aria-label="Toggle menu">
+                <DropdownMenu onOpenChange={setOpen} open={open} placement="top-start">
+                  <DropdownMenuTrigger aria-label="Toggle menu" className="flex items-center gap-1">
                     <BreadcrumbEllipsis className="size-4" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     {items.slice(1, -2).map((item, index) => (
-                      <DropdownMenuItem key={index}>
+                      <DropdownMenuItem key={`item-${index}-${item.label}`}>
                         <Link href={item.href ? item.href : '#'}>{item.label}</Link>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Drawer open={open} onOpenChange={setOpen}>
+                <Drawer onOpenChange={setOpen} open={open}>
                   <DrawerTrigger aria-label="Toggle Menu">
                     <BreadcrumbEllipsis className="h-4 w-4" />
                   </DrawerTrigger>
@@ -77,7 +77,10 @@ export default function BreadcrumbResponsive() {
                     </DrawerHeader>
                     <div className="grid gap-1 px-4">
                       {items.slice(1, -2).map((item, index) => (
-                        <Link key={index} href={item.href ? item.href : '#'} className="py-1 text-sm">
+                        <Link
+                          className="py-1 text-sm"
+                          href={item.href ? item.href : '#'}
+                          key={`item-${index}-${item.label}`}>
                           {item.label}
                         </Link>
                       ))}
@@ -95,7 +98,7 @@ export default function BreadcrumbResponsive() {
           </>
         ) : null}
         {items.slice(-ITEMS_TO_DISPLAY + 1).map((item, index) => (
-          <BreadcrumbItem key={index}>
+          <BreadcrumbItem key={`item-${index}-${item.label}`}>
             {item.href ? (
               <>
                 <BreadcrumbLink asChild className="max-w-20 truncate md:max-w-none">

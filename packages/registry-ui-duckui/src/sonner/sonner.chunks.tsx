@@ -39,12 +39,12 @@ const SonnerUpload = ({
           </p>
           <div className="flex items-center gap-2">
             {progress <= 100 && (
-              <p className="font-mono text-foreground-light text-sm">{`${remainingTime && !isNaN(remainingTime) && isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining – ` : ''}`}</p>
+              <p className="font-mono text-foreground-light text-sm">{`${remainingTime && !Number.isNaN(remainingTime) && Number.isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining – ` : ''}`}</p>
             )}
             <p className="font-mono text-foreground-light text-sm">{`${progress}%`}</p>
           </div>
         </div>
-        <Progress value={progress} className="h-1 w-full" />
+        <Progress className="h-1 w-full" value={progress} />
         <div className="flex w-full items-center justify-between gap-2">
           <small className="w-full text-foreground-muted text-xs">
             {progress < 100 ? 'Please do not close the browser until completed' : 'Upload complete'}
@@ -52,20 +52,20 @@ const SonnerUpload = ({
 
           {progress === 100 && (
             <Button
-              variant="default"
-              size="xs"
               border="default"
-              onClick={(_) => onComplete?.(_, (id: string) => toast.dismiss(id))}>
+              onClick={(_) => onComplete?.(_, (id: string) => toast.dismiss(id))}
+              size="sm"
+              variant="default">
               Complete
             </Button>
           )}
 
           {progress < 100 && (
             <Button
-              variant="default"
-              size="xs"
               border="default"
-              onClick={(_) => onCancel?.(_, (id: string) => toast.dismiss(id))}>
+              onClick={(_) => onCancel?.(_, (id: string) => toast.dismiss(id))}
+              size="sm"
+              variant="default">
               Cancel
             </Button>
           )}

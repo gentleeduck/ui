@@ -1,15 +1,15 @@
 import path from 'node:path'
 import { execa } from 'execa'
 import fs from 'fs-extra'
-import { Ora } from 'ora'
+import type { Ora } from 'ora'
 import prompts from 'prompts'
-import { addOptions } from '~/commands/add'
+import type { addOptions } from '~/commands/add'
 import { get_package_manager } from '../get-package-manager'
 import { get_ts_config } from '../get-project-info'
-import { get_registry_item, Registry } from '../get-registry'
-import { DuckUI } from '../preflight-configs/preflight-duckui'
+import { get_registry_item, type Registry } from '../get-registry'
+import type { DuckUI } from '../preflight-configs/preflight-duckui'
 import { highlighter } from '../text-styling'
-import { DependenciesType } from './registry-mutation.types'
+import type { DependenciesType } from './registry-mutation.types'
 
 export async function get_installation_config(duck_config: DuckUI, spinner: Ora, options: addOptions): Promise<string> {
   try {
@@ -28,10 +28,10 @@ export async function get_installation_config(duck_config: DuckUI, spinner: Ora,
     if (!options.yes) {
       spinner.stop()
       const { yes } = await prompts({
-        type: 'confirm',
-        name: 'yes',
-        message: `💡 Do you want to install ${highlighter.info('components')}? at ${highlighter.warn(write_path)}`,
         initial: options.yes,
+        message: `💡 Do you want to install ${highlighter.info('components')}? at ${highlighter.warn(write_path)}`,
+        name: 'yes',
+        type: 'confirm',
       })
       spinner.start()
 
@@ -93,7 +93,7 @@ async function install_component(
 
   spinner.text = `🦆 Installing ${registry ? 'necessary ' : ''}component: ${highlighter.info(`${component.name}`)}`
 
-  const component_ype = component.type.split(':').pop()!
+  const component_ype = component.type.split(':').pop() as string
   const component_path = path.resolve(`${write_path}/${component_ype}/${component.root_folder}`)
 
   if (!fs.existsSync(component_path)) {
@@ -158,7 +158,9 @@ export async function install_registry_dependencies(
 
   // Kick off recursion with initial registry deps
   const initialDeps = new Set(dependencies.registry_dependencies.map((d) => d.toLowerCase()))
-  initialDeps.forEach((d) => visited.add(d))
+  initialDeps.forEach((d) => {
+    visited.add(d)
+  })
   await fetchAndProcess(initialDeps)
 
   // 🔑 Ensure dependencies & devDependencies are unique
@@ -188,15 +190,15 @@ export async function process_component_files(
     if (fs.existsSync(file_path) && fs.readdirSync(file_path).length > 0) {
       spinner.stop()
       const { overwrite } = await prompts({
-        type: 'confirm',
-        name: 'overwrite',
-        message: `💡 Do you want to overwrite ${highlighter.info(component.name)}?`,
         initial: true,
+        message: `💡 Do you want to overwrite ${highlighter.info(component.name)}?`,
+        name: 'overwrite',
+        type: 'confirm',
       })
       spinner.start()
       if (!overwrite) {
         spinner.warn(
-          `🦆 Components already exists: ${highlighter.info(`${component_type}` + component.root_folder)} (skipping)`,
+          `🦆 Components already exists: ${highlighter.info(`${component_type}${component.root_folder}`)} (skipping)`,
         )
         return
       }
@@ -206,7 +208,11 @@ export async function process_component_files(
   for (const file of component.files) {
     try {
       spinner.text = `🦋 Writing file: ${file.target}`
-      await fs.writeFile(path.resolve(`${write_path}/${component_type}`, file.path!), file.content!, 'utf8')
+      await fs.writeFile(
+        path.resolve(`${write_path}/${component_type}`, file.path as string),
+        file.content as string,
+        'utf8',
+      )
       spinner.succeed(`🦋 Successfully wrote: ${file.target}`)
     } catch (error) {
       spinner.fail(`🦆 Failed to write file: ${file.target}`)

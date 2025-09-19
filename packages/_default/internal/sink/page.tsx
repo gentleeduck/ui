@@ -82,7 +82,7 @@ export default function SinkPage() {
         <header className="flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Separator className="mr-2 h-4" orientation="vertical" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
@@ -147,8 +147,8 @@ export default function SinkPage() {
               <CardDemo className="w-full" />
             </ComponentWrapper>
             <ComponentWrapper
-              name="Carousel"
               className="[&_.max-w-xs]:max-w-[70%]"
+              name="Carousel"
             >
               <CarouselDemo />
             </ComponentWrapper>
@@ -162,8 +162,8 @@ export default function SinkPage() {
               <ComboboxDemo />
             </ComponentWrapper>
             <ComponentWrapper
-              name="Command"
               className="[&_[cmdk-root]]:md:min-w-max"
+              name="Command"
             >
               <CommandDemo />
             </ComponentWrapper>
@@ -197,7 +197,7 @@ export default function SinkPage() {
             <ComponentWrapper name="Menubar">
               <MenubarDemo />
             </ComponentWrapper>
-            <ComponentWrapper name="NavigationMenu" className="col-span-2">
+            <ComponentWrapper className="col-span-2" name="NavigationMenu">
               <NavigationMenuDemo />
             </ComponentWrapper>
             <ComponentWrapper name="Pagination">
@@ -212,7 +212,7 @@ export default function SinkPage() {
             <ComponentWrapper name="RadioGroup">
               <RadioGroupDemo />
             </ComponentWrapper>
-            <ComponentWrapper name="Resizable" className="col-span-2">
+            <ComponentWrapper className="col-span-2" name="Resizable">
               <ResizableHandleDemo />
             </ComponentWrapper>
             <ComponentWrapper name="ScrollArea">
@@ -239,7 +239,7 @@ export default function SinkPage() {
             <ComponentWrapper name="Switch">
               <SwitchDemo />
             </ComponentWrapper>
-            <ComponentWrapper name="Table" className="col-span-2">
+            <ComponentWrapper className="col-span-2" name="Table">
               <TableDemo />
             </ComponentWrapper>
             <ComponentWrapper name="Tabs">

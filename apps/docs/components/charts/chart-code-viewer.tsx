@@ -36,9 +36,9 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
 
   const button = (
     <Button
+      className="h-6 rounded-[6px] border bg-transparent px-2 text-xs text-foreground shadow-none hover:bg-muted dark:text-foreground"
       size="sm"
-      variant="outline"
-      className="h-6 rounded-[6px] border bg-transparent px-2 text-xs text-foreground shadow-none hover:bg-muted dark:text-foreground">
+      variant="outline">
       View Code
     </Button>
   )
@@ -49,58 +49,58 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
         {children}
       </div>
       <Tabs
-        defaultValue="code"
         className="relative flex h-full flex-1 flex-col overflow-hidden p-4"
-        value={tab}
-        onValueChange={setTab}>
+        defaultValue="code"
+        onValueChange={setTab}
+        value={tab}>
         <div className="flex w-full items-center">
           <TabsList className="h-7 w-auto rounded-md p-0 px-[calc(theme(spacing.1)_-_2px)] py-[theme(spacing.1)]">
-            <TabsTrigger value="code" className="h-[1.45rem] rounded-sm px-2 text-xs">
+            <TabsTrigger className="h-[1.45rem] rounded-sm px-2 text-xs" value="code">
               Code
             </TabsTrigger>
-            <TabsTrigger value="theme" className="h-[1.45rem] rounded-sm px-2 text-xs">
+            <TabsTrigger className="h-[1.45rem] rounded-sm px-2 text-xs" value="theme">
               Theme
             </TabsTrigger>
           </TabsList>
           {tab === 'code' && (
             <div className="ml-auto flex items-center justify-center gap-2">
-              <BlockCopyButton event="copy_chart_code" name={chart.name} code={chart.code} />
+              <BlockCopyButton code={chart.code} event="copy_chart_code" name={chart.name} />
               <V0Button
-                id={`v0-button-${chart.name}`}
                 block={{
-                  name: chart.name,
-                  description: chart.description || 'Edit in v0',
                   code: chart.code,
+                  description: chart.description || 'Edit in v0',
+                  name: chart.name,
                   style: 'default',
                 }}
                 className="h-7"
+                id={`v0-button-${chart.name}`}
               />
             </div>
           )}
           {tab === 'theme' && (
-            <BlockCopyButton event="copy_chart_theme" name={chart.name} code={themeCode} className="ml-auto" />
+            <BlockCopyButton className="ml-auto" code={themeCode} event="copy_chart_theme" name={chart.name} />
           )}
         </div>
         <TabsContent
-          value="code"
-          className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex rounded-full">
+          className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex rounded-full"
+          value="code">
           <div className="relative overflow-auto rounded-lg">
             <div
-              data-rehype-pretty-code-fragment
+              className="w-full overflow-hidden [&_pre]:overflow-auto [&_pre]:py-2 [&_pre]:!bg-zinc-900 [&_pre]:text-sm [&_pre]:leading-relaxed !my-0 rounded-lg "
               dangerouslySetInnerHTML={{
                 __html: chart.highlightedCode,
               }}
-              className="w-full overflow-hidden [&_pre]:overflow-auto [&_pre]:py-2 [&_pre]:!bg-zinc-900 [&_pre]:text-sm [&_pre]:leading-relaxed !my-0 rounded-lg "
+              data-rehype-pretty-code-fragment
             />
           </div>
         </TabsContent>
-        <TabsContent value="theme" className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex">
-          <div data-rehype-pretty-code-fragment="" className="">
+        <TabsContent className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex" value="theme">
+          <div className="" data-rehype-pretty-code-fragment="">
             <pre className="max-h-[44.5vh] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
               <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">
                 <span className="line text-zinc-700">{`/* ${themesConfig?.activeTheme.name} */`}</span>
                 {themeCode.split('\n').map((line, index) => (
-                  <span key={index} className="line">
+                  <span className="line" key={index}>
                     {line}
                   </span>
                 ))}
@@ -128,11 +128,11 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
     <Sheet>
       <SheetTrigger asChild>{button}</SheetTrigger>
       <SheetContent
-        side="right"
         className={cn(
           'flex flex-col gap-0 border-l-0 p-0 dark:border-l sm:max-w-sm md:w-[700px] md:max-w-[700px]',
           className,
-        )}>
+        )}
+        side="right">
         {content}
       </SheetContent>
     </Sheet>

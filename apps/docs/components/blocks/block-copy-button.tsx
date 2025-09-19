@@ -30,8 +30,6 @@ export function BlockCopyButton({
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          size="icon"
-          variant="outline"
           className={cn('[&_svg]-h-3.5 h-7 w-7 rounded-[6px] [&_svg]:w-3.5 flex place-content-center', className)}
           onClick={() => {
             navigator.clipboard.writeText(code)
@@ -43,6 +41,8 @@ export function BlockCopyButton({
             })
             setHasCopied(true)
           }}
+          size="icon"
+          variant="outline"
           {...props}>
           <span className="sr-only">Copy</span>
           {hasCopied ? <CheckIcon /> : <ClipboardIcon />}

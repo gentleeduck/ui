@@ -35,25 +35,25 @@ export function rehypeComponent() {
           node.children?.push(
             ...items.map((item) =>
               u('element', {
-                tagName: 'pre',
-                properties: {
-                  __src__: item.src,
-                  __rawString__: item.src,
-                },
                 children: [
                   u('element', {
-                    tagName: 'code',
-                    properties: {
-                      className: ['language-tsx'],
-                    },
                     children: [
                       {
                         type: 'text',
                         value: item.src,
                       },
                     ],
+                    properties: {
+                      className: ['language-tsx'],
+                    },
+                    tagName: 'code',
                   }),
                 ],
+                properties: {
+                  __rawString__: item.src,
+                  __src__: item.src,
+                },
+                tagName: 'pre',
               }),
             ),
           )
@@ -90,24 +90,24 @@ export function rehypeComponent() {
           // Add code as children so that rehype can take over at build time.
           node.children?.push(
             u('element', {
-              tagName: 'pre',
-              properties: {
-                __src__: source,
-              },
               children: [
                 u('element', {
-                  tagName: 'code',
-                  properties: {
-                    className: ['language-tsx'],
-                  },
                   children: [
                     {
                       type: 'text',
                       value: source,
                     },
                   ],
+                  properties: {
+                    className: ['language-tsx'],
+                  },
+                  tagName: 'code',
                 }),
               ],
+              properties: {
+                __src__: source,
+              },
+              tagName: 'pre',
             }),
           )
         } catch (error) {
@@ -201,7 +201,6 @@ function getNodeAttributeByName(node: UnistNode, name: string) {
 type ItemType = { name: string; type: string; src: string }
 function get_component_source(files: { type: string; path: string }[]) {
   const item: ItemType[] = []
-  // biome-ignore lint/style/useForOf: <explanation>
   for (let i = 0; i < files.length; i++) {
     // ! NOTE: This is a temporary solution
     const filePath = path.join(process.cwd(), 'registry', files[i]?.path || '')
@@ -219,9 +218,9 @@ function get_component_source(files: { type: string; path: string }[]) {
       source = source.replaceAll('export default', 'export')
       item.push({
         name: files[i]?.path.split('/')?.pop() ?? 'file',
+        src: source,
         // ! NOTE: This is a temporary solution
         type: files[i]?.type ?? 'unknown',
-        src: source,
       })
     } catch (error) {
       console.error(`Error reading file ${filePath}:`, error)

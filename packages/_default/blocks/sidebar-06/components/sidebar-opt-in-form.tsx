@@ -19,7 +19,7 @@ export function SidebarOptInForm() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-2.5 p-4">
-          <SidebarInput type="email" placeholder="Email" />
+          <SidebarInput placeholder="Email" type="email" />
           <Button
             className="w-full bg-sidebar-primary text-sidebar-primary-foreground shadow-none"
             size="sm"

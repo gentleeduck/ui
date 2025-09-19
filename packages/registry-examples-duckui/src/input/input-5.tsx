@@ -3,9 +3,9 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 
 export default function InputWithButton() {
   return (
-    <div className="flex w-full max-w-sm space-y-2 flex-col">
+    <div className="flex w-full max-w-sm flex-col space-y-2">
       <Label htmlFor="email">Email</Label>
-      <Input type="email" placeholder="Email" />
+      <Input placeholder="Email" type="email" />
     </div>
   )
 }

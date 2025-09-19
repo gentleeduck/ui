@@ -22,10 +22,10 @@ const FormSchema = z.object({
 
 export default function SwitchForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
     defaultValues: {
       security_emails: true,
     },
+    resolver: zodResolver(FormSchema),
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -41,7 +41,7 @@ export default function SwitchForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+      <form className="w-full space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <div>
           <h3 className="mb-4 font-medium text-lg">Email Notifications</h3>
           <div className="space-y-4">
@@ -70,7 +70,7 @@ export default function SwitchForm() {
                     <FormDescription>Receive emails about your account security.</FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} disabled aria-readonly />
+                    <Switch aria-readonly checked={field.value} disabled onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItem>
               )}

@@ -24,12 +24,12 @@ const MDXProvider = ({ children }: React.PropsWithChildren) => {
   return (
     <MDXContext.Provider
       value={{
-        mention,
-        setMention,
         editContent,
-        setEditContent,
         mdxContent,
+        mention,
+        setEditContent,
         setMdxContent,
+        setMention,
       }}>
       {children}
     </MDXContext.Provider>

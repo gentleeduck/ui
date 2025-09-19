@@ -28,15 +28,13 @@ export default function CalendarDemo() {
 
   return (
     <div className="flex flex-col gap-3">
-      <Label htmlFor="date" className="px-1">
+      <Label className="px-1" htmlFor="date">
         Schedule Date
       </Label>
       <div className="relative flex gap-2">
         <Input
-          id="date"
-          value={value}
-          placeholder="Tomorrow or next week"
           className="bg-background pr-10"
+          id="date"
           onChange={(e) => {
             setValue(e.currentTarget.value)
             const date = parseDate(e.currentTarget.value)
@@ -51,20 +49,21 @@ export default function CalendarDemo() {
               setOpen(true)
             }
           }}
+          placeholder="Tomorrow or next week"
+          value={value}
         />
-        <Popover open={open} onOpenChange={setOpen} placement="top-end">
+        <Popover onOpenChange={setOpen} open={open} placement="top-end">
           <PopoverTrigger
+            className="-translate-y-1/2 absolute top-1/2 right-1 h-fit p-1 px-1.5 [&_svg]:w-4"
             id="date-picker"
-            variant="ghost"
-            className="-translate-y-1/2 absolute top-1/2 right-1 h-fit p-1 px-1.5 [&_svg]:w-4">
+            variant="ghost">
             <CalendarIcon />
             <span className="sr-only">Select date</span>
           </PopoverTrigger>
           <PopoverContent className="w-auto overflow-hidden p-0">
             <Calendar
-              mode="single"
-              selected={date}
               captionLayout="dropdown"
+              mode="single"
               month={month}
               onMonthChange={setMonth}
               onSelect={(date) => {
@@ -72,6 +71,7 @@ export default function CalendarDemo() {
                 setValue(formatDate(date))
                 setOpen(false)
               }}
+              selected={date}
             />
           </PopoverContent>
         </Popover>

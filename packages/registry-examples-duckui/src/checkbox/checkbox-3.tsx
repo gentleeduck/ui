@@ -1,5 +1,5 @@
 'use client'
-import { Checkbox, CheckedState } from '@gentleduck/registry-ui-duckui/checkbox'
+import { Checkbox, type CheckedState } from '@gentleduck/registry-ui-duckui/checkbox'
 import { useState } from 'react'
 
 export default function Example() {

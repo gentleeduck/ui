@@ -8,10 +8,10 @@ export default function Button17Demo() {
   return (
     <Button
       aria-label="Inbox button with 23 notifications"
-      type="button"
-      isCollapsed={open}
       icon={<Inbox />}
-      onClick={() => setOpen(!open)}>
+      isCollapsed={open}
+      onClick={() => setOpen(!open)}
+      type="button">
       Button
     </Button>
   )

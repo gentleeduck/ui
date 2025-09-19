@@ -29,25 +29,25 @@ export default function DialogDemo() {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Edit Profile</Button>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog onOpenChange={setOpen} open={open}>
         <DialogTrigger variant="outline">Edit Profile</DialogTrigger>
-        <DialogContent renderOnce className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px]" renderOnce>
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
+              <Label className="text-right" htmlFor="name">
                 Name
               </Label>
-              <Input id="name" defaultValue="Pedro Duarte" className="col-span-3" />
+              <Input className="col-span-3" defaultValue="Pedro Duarte" id="name" />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
+              <Label className="text-right" htmlFor="username">
                 Username
               </Label>
-              <Input id="username" defaultValue="@peduarte" className="col-span-3" />
+              <Input className="col-span-3" defaultValue="@peduarte" id="username" />
             </div>
           </div>
           <DialogFooter>

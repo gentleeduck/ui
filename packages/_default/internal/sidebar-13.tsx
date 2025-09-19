@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import {
   Bell,
   Check,
@@ -15,6 +14,7 @@ import {
   Settings,
   Video,
 } from "lucide-react"
+import * as React from "react"
 
 import {
   Breadcrumb,
@@ -49,18 +49,18 @@ export const description = "A sidebar in a dialog."
 
 const data = {
   nav: [
-    { name: "Notifications", icon: Bell },
-    { name: "Navigation", icon: Menu },
-    { name: "Home", icon: Home },
-    { name: "Appearance", icon: Paintbrush },
-    { name: "Messages & media", icon: MessageCircle },
-    { name: "Language & region", icon: Globe },
-    { name: "Accessibility", icon: Keyboard },
-    { name: "Mark as read", icon: Check },
-    { name: "Audio & video", icon: Video },
-    { name: "Connected accounts", icon: Link },
-    { name: "Privacy & visibility", icon: Lock },
-    { name: "Advanced", icon: Settings },
+    { icon: Bell, name: "Notifications" },
+    { icon: Menu, name: "Navigation" },
+    { icon: Home, name: "Home" },
+    { icon: Paintbrush, name: "Appearance" },
+    { icon: MessageCircle, name: "Messages & media" },
+    { icon: Globe, name: "Language & region" },
+    { icon: Keyboard, name: "Accessibility" },
+    { icon: Check, name: "Mark as read" },
+    { icon: Video, name: "Audio & video" },
+    { icon: Link, name: "Connected accounts" },
+    { icon: Lock, name: "Privacy & visibility" },
+    { icon: Settings, name: "Advanced" },
   ],
 }
 
@@ -76,7 +76,7 @@ function SettingsDialog() {
   const [open, setOpen] = React.useState(true)
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
         <Button size="sm">Open Dialog</Button>
       </DialogTrigger>
@@ -86,7 +86,7 @@ function SettingsDialog() {
           Customize your settings here.
         </DialogDescription>
         <SidebarProvider className="items-start">
-          <Sidebar collapsible="none" className="hidden md:flex">
+          <Sidebar className="hidden md:flex" collapsible="none">
             <SidebarContent>
               <SidebarGroup>
                 <SidebarGroupContent>
@@ -128,8 +128,8 @@ function SettingsDialog() {
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
               {Array.from({ length: 10 }).map((_, i) => (
                 <div
-                  key={i}
                   className="aspect-video max-w-3xl rounded-xl bg-muted/50"
+                  key={i}
                 />
               ))}
             </div>

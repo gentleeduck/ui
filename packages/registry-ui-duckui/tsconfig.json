@@ -1,16 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
-    "lib": ["ES2022", "dom", "dom.iterable"],
     "baseUrl": ".",
     "incremental": false,
-    "rootDir": "./",
-    "outDir": "./dist",
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "Preserve",
     "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "isolatedModules": true,
+    "outDir": "./dist",
     "paths": {
       "~/*": ["./*"]
     },
@@ -18,8 +16,10 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "rootDir": "./"
   },
-  "include": ["./**/*.ts", "./**/*.tsx"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "extends": "@gentleduck/typescript-config/base.json",
+  "include": ["./**/*.ts", "./**/*.tsx"]
 }

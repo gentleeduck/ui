@@ -49,12 +49,12 @@ const data = [
 
 const chartConfig = {
   revenue: {
-    label: 'Revenue',
     color: 'var(--primary)',
+    label: 'Revenue',
   },
   subscription: {
-    label: 'Subscriptions',
     color: 'var(--primary)',
+    label: 'Subscriptions',
   },
 } satisfies ChartConfig
 
@@ -68,23 +68,23 @@ export function CardsStats() {
           <CardDescription>+20.1% from last month</CardDescription>
         </CardHeader>
         <CardContent className="pb-0">
-          <ChartContainer config={chartConfig} className="h-[80px] w-full">
+          <ChartContainer className="h-[80px] w-full" config={chartConfig}>
             <LineChart
               data={data}
               margin={{
-                top: 5,
-                right: 10,
-                left: 10,
                 bottom: 0,
+                left: 10,
+                right: 10,
+                top: 5,
               }}>
               <Line
-                type="monotone"
-                strokeWidth={2}
-                dataKey="revenue"
-                stroke="var(--color-revenue)"
                 activeDot={{
                   r: 6,
                 }}
+                dataKey="revenue"
+                stroke="var(--color-revenue)"
+                strokeWidth={2}
+                type="monotone"
               />
             </LineChart>
           </ChartContainer>
@@ -96,13 +96,13 @@ export function CardsStats() {
           <CardTitle className="text-3xl">+2,350</CardTitle>
           <CardDescription>+180.1% from last month</CardDescription>
           <CardAction>
-            <Button variant="ghost" size="sm">
+            <Button size="sm" variant="ghost">
               View More
             </Button>
           </CardAction>
         </CardHeader>
         <CardContent className="mt-auto max-h-[124px] flex-1 p-0">
-          <ChartContainer config={chartConfig} className="size-full">
+          <ChartContainer className="size-full" config={chartConfig}>
             <AreaChart
               data={data}
               margin={{

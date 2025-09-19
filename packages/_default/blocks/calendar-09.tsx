@@ -13,14 +13,14 @@ export default function Calendar09() {
 
   return (
     <Calendar
-      mode="range"
-      defaultMonth={dateRange?.from}
-      selected={dateRange}
-      onSelect={setDateRange}
-      numberOfMonths={2}
-      disabled={{ dayOfWeek: [0, 6] }}
       className="rounded-lg border shadow-sm"
+      defaultMonth={dateRange?.from}
+      disabled={{ dayOfWeek: [0, 6] }}
       excludeDisabled
+      mode="range"
+      numberOfMonths={2}
+      onSelect={setDateRange}
+      selected={dateRange}
     />
   )
 }

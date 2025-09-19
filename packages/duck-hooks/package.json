@@ -1,34 +1,6 @@
 {
-  "name": "@gentleduck/hooks",
-  "version": "0.1.2",
-  "private": false,
-  "type": "module",
-  "files": [
-    "src",
-    "README.md",
-    "LICENSE",
-    "CHANGELOG.md",
-    "SECURITY.md",
-    "article-about-this.md",
-    "tsconfig.json"
-  ],
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*/index.ts"
-  },
-  "scripts": {
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
-  "peerDependencies": {
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19"
+  "bugs": {
+    "url": "https://github.com/gentleduck/ui/issues"
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
@@ -40,17 +12,45 @@
     "typescript": "catalog:",
     "zod": "catalog:"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleduck/ui",
-    "directory": "packages/duck-hooks"
-  },
-  "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
-  },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-hooks#readme",
   "engines": {
     "node": ">=22.0.0"
   },
-  "packageManager": "pnpm@10.10.0"
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*/index.ts"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "article-about-this.md",
+    "tsconfig.json"
+  ],
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-hooks#readme",
+  "module": "./dist/index.js",
+  "name": "@gentleduck/hooks",
+  "packageManager": "pnpm@10.10.0",
+  "peerDependencies": {
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19"
+  },
+  "private": false,
+  "repository": {
+    "directory": "packages/duck-hooks",
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui"
+  },
+  "scripts": {
+    "ci": "pnpm run lint && pnpm run format",
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "0.1.2"
 }

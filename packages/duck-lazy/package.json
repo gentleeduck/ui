@@ -1,10 +1,18 @@
 {
-  "name": "@gentleduck/lazy",
-  "version": "1.2.5",
+  "author": "wilddcuk",
+  "bugs": {
+    "url": "https://github.com/gentleduck/ui/issues"
+  },
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
-  "type": "module",
-  "private": false,
-  "main": "./index.ts",
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@types/react": "^19.0.10",
+    "husky": "^9.1.7",
+    "tsup": "^8.4.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "exports": {
     "./*": "./src/*/index.ts"
   },
@@ -18,13 +26,7 @@
     "article-about-this.md",
     "tsconfig.json"
   ],
-  "scripts": {
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-lazy#readme",
   "keywords": [
     "lazy-loading",
     "react",
@@ -37,22 +39,10 @@
     "accessibility",
     "react-lazy-load"
   ],
-  "author": "wilddcuk",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-lazy"
-  },
-  "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
-  },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-lazy#readme",
-  "devDependencies": {
-    "@changesets/cli": "^2.27.7",
-    "@types/react": "^19.0.10",
-    "husky": "^9.1.7",
-    "tsup": "^8.4.0"
-  },
+  "main": "./index.ts",
+  "name": "@gentleduck/lazy",
+  "packageManager": "pnpm@10.10.0",
   "peerDependencies": {
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
@@ -65,8 +55,18 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@10.10.0",
-  "engines": {
-    "node": ">=22.0.0"
-  }
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-lazy"
+  },
+  "scripts": {
+    "ci": "pnpm run lint && pnpm run format",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version"
+  },
+  "type": "module",
+  "version": "1.2.5"
 }

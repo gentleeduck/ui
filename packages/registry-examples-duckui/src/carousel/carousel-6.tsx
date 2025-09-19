@@ -16,13 +16,13 @@ export default function CarouselDemo() {
 
   return (
     <Carousel
-      plugins={[plugin.current]}
       className="w-full max-w-xs"
       onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}>
+      onMouseLeave={plugin.current.reset}
+      plugins={[plugin.current]}>
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index}>
+          <CarouselItem key={`item-${index + 1}`}>
             <div className="p-1">
               <Card>
                 <CardContent className="flex aspect-square items-center justify-center p-6">

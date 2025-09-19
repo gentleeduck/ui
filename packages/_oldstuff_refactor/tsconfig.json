@@ -1,19 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
-    "lib": ["ES2022", "dom", "dom.iterable"],
-    "jsx": "preserve",
     "baseUrl": ".",
-    "moduleResolution": "bundler",
-    "module": "esnext",
-    "resolveJsonModule": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "skipLibCheck": true,
+    "jsx": "preserve",
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "noErrorTruncation": true,
-    "useDefineForClassFields": true,
-    "strictPropertyInitialization": false,
     "paths": {
       "~/*": ["./*"]
     },
@@ -21,8 +16,13 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "useDefineForClassFields": true
   },
-  "include": ["."],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "extends": "@gentleduck/typescript-config/base.json",
+  "include": ["."]
 }

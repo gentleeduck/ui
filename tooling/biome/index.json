@@ -1,6 +1,47 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "assists": {
+    "enabled": true
+  },
+  "formatter": {
+    "attributePosition": "multiline",
+    "bracketSpacing": true,
+    "enabled": true,
+    "formatWithErrors": false,
+    "ignore": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/public/**",
+      "**/.next/**",
+      "**/.velite/**",
+      "./apps/old_react_docs/",
+      "./packages/___/",
+      "./packages/_oldstuff_refactor/",
+      "./packages/benchmark/",
+      "./**/_*/**"
+    ],
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "always",
+      "attributePosition": "auto",
+      "bracketSameLine": true,
+      "bracketSpacing": true,
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all"
+    },
+    "globals": ["Global1"]
+  },
   "linter": {
+    "enabled": true,
     "ignore": [
       "**/node_modules/**",
       "**/dist/**",
@@ -24,85 +65,44 @@
       "**/combobox.tsx",
       "./**/_*/**"
     ],
-    "enabled": true,
     "rules": {
-      "recommended": false,
       "complexity": {
         "noForEach": "error",
         "noStaticOnlyClass": "error",
         "noUselessSwitchCase": "error",
         "useFlatMap": "error"
       },
+      "recommended": false,
       "style": {
         "noNegationElse": "error",
+        "noNonNullAssertion": "warn",
+        "noVar": "error",
+        "useConst": "error",
+        "useDefaultSwitchClause": "error",
         "useForOf": "error",
         "useNodejsImportProtocol": "error",
         "useNumberNamespace": "error",
-        "noVar": "error",
-        "useConst": "error",
-        "useWhile": "error",
-        "noNonNullAssertion": "warn",
-        "useDefaultSwitchClause": "error"
+        "useWhile": "error"
       },
       "suspicious": {
         "noDoubleEquals": "error",
-        "noThenProperty": "error",
-        "useIsArray": "error",
-        "noImplicitAnyLet": "error",
         "noExplicitAny": "warn",
-        "useGetterReturn": "error"
+        "noImplicitAnyLet": "error",
+        "noThenProperty": "error",
+        "useGetterReturn": "error",
+        "useIsArray": "error"
       }
     }
-  },
-  "formatter": {
-    "ignore": [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/build/**",
-      "**/public/**",
-      "**/.next/**",
-      "**/.velite/**",
-      "./apps/old_react_docs/",
-      "./packages/___/",
-      "./packages/_oldstuff_refactor/",
-      "./packages/benchmark/",
-      "./**/_*/**"
-    ],
-    "enabled": true,
-    "formatWithErrors": false,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineEnding": "lf",
-    "lineWidth": 120,
-    "attributePosition": "multiline",
-    "bracketSpacing": true
   },
   "organizeImports": {
     "enabled": true
   },
-  "assists": {
-    "enabled": true
-  },
-  "javascript": {
-    "globals": ["Global1"],
-    "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "trailingCommas": "all",
-      "semicolons": "asNeeded",
-      "arrowParentheses": "always",
-      "bracketSpacing": true,
-      "bracketSameLine": true,
-      "quoteStyle": "single",
-      "attributePosition": "auto"
-    }
-  },
   "overrides": [
     {
-      "include": ["*.json"],
       "formatter": {
         "indentWidth": 2
-      }
+      },
+      "include": ["*.json"]
     },
     {
       "include": ["tests/**"],

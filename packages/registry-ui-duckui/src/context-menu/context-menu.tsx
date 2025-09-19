@@ -70,11 +70,11 @@ function ContextMenuTrigger(props: React.ComponentPropsWithoutRef<typeof Dropdow
   return (
     <DropdownMenuTrigger
       {...props}
-      duck-context-menu-trigger=""
       className={cn(
         'h-[200px] w-[300px] justify-center border-dashed bg-background p-2 hover:bg-background',
         props.className,
       )}
+      duck-context-menu-trigger=""
     />
   )
 }

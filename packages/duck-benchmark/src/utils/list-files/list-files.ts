@@ -1,8 +1,8 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import { ListFilesOptions } from './list-files.types'
-import { FolderInfo } from './list-files.dto'
 import { highlighter } from '../text-styling'
+import { FolderInfo } from './list-files.dto'
+import { ListFilesOptions } from './list-files.types'
 
 export async function list_files({
   cwds,
@@ -18,11 +18,11 @@ export async function list_files({
     const stats = fs.statSync(cwd)
 
     const folderInfo: FolderInfo = {
+      createdAt: stats.birthtime,
+      files: [],
+      modifiedAt: stats.mtime,
       name: path.basename(cwd),
       path: cwd,
-      createdAt: stats.birthtime,
-      modifiedAt: stats.mtime,
-      files: [],
       subdirectories: [],
     }
 
@@ -42,11 +42,11 @@ export async function list_files({
       } else {
         // Collect file details
         folderInfo.files.push({
+          created_at: entryStats.birthtime,
+          modified_at: entryStats.mtime,
           name: entry.name,
           path: fullPath,
           size: entryStats.size,
-          created_at: entryStats.birthtime,
-          modified_at: entryStats.mtime,
         })
       }
     }

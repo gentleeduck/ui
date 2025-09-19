@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 
@@ -12,7 +10,7 @@ export default function ScrollAreaDemo() {
         <h4 className="mb-4 font-medium text-sm leading-none">Tags</h4>
         {tags.map((tag) => (
           <>
-            <div key={tag} className="text-sm">
+            <div className="text-sm" key={tag}>
               {tag}
             </div>
             <Separator className="my-2" />

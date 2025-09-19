@@ -27,7 +27,7 @@ export default function DropdownMenuCheckboxes() {
         <DropdownMenuCheckboxItem checked={showStatusBar} onCheckedChange={setShowStatusBar}>
           Status Bar
         </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem checked={showActivityBar} onCheckedChange={setShowActivityBar} disabled>
+        <DropdownMenuCheckboxItem checked={showActivityBar} disabled onCheckedChange={setShowActivityBar}>
           Activity Bar
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem checked={showPanel} onCheckedChange={setShowPanel}>

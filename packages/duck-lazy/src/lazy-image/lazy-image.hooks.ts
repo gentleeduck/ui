@@ -63,5 +63,5 @@ export const useLazyImage = (src: string, options?: IntersectionObserverInit): U
     }
   }, [isInView, src])
 
-  return { isLoaded, imageRef }
+  return { imageRef, isLoaded }
 }

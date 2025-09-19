@@ -1,6 +1,6 @@
 import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
-import type { TrimLeft, TrimRight, Trim, CapitalizeWords, SnakeToCamel } from '.'
+import type { CapitalizeWords, SnakeToCamel, Trim, TrimLeft, TrimRight } from '.'
 
 // -------------------------------------------
 // TrimLeft Tests
@@ -132,3 +132,30 @@ type Test_SnakeToCamel_MultipleUnderscores = AssertTrue<
   Equal<SnakeToCamel<'a_b_c_d'>, 'aBCD'>,
   'Expected SnakeToCamel to convert each segment after first to capitalized'
 >
+
+/* @__IGNORED__@ */ type _IGNORE = [
+  Test_TrimLeft_Normal,
+  Test_TrimLeft_Tabs,
+  Test_TrimLeft_Newlines,
+  Test_TrimLeft_Empty,
+  Test_TrimLeft_NoWhitespace,
+  Test_TrimRight_Normal,
+  Test_TrimRight_Tabs,
+  Test_TrimRight_Newlines,
+  Test_TrimRight_Empty,
+  Test_TrimRight_NoWhitespace,
+  Test_Trim_BothEnds,
+  Test_Trim_NewlinesTabs,
+  Test_Trim_Empty,
+  Test_Trim_None,
+  Test_CapitalizeWords_Simple,
+  Test_CapitalizeWords_MixedCase,
+  Test_CapitalizeWords_Single,
+  Test_CapitalizeWords_UpperCase,
+  Test_CapitalizeWords_Empty,
+  Test_SnakeToCamel_Simple,
+  Test_SnakeToCamel_Deep,
+  Test_SnakeToCamel_Single,
+  Test_SnakeToCamel_Empty,
+  Test_SnakeToCamel_MultipleUnderscores,
+]

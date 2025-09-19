@@ -35,9 +35,9 @@ export default function ComboboxDropdownMenu() {
         <span className="mr-2 rounded-lg bg-primary px-2 py-1 text-primary-foreground text-xs">{label}</span>
         <span className="text-muted-foreground">Create a new project</span>
       </p>
-      <DropdownMenu open={open} onOpenChange={setOpen} placement="top-end">
+      <DropdownMenu onOpenChange={setOpen} open={open} placement="top-end">
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm">
+          <Button size="sm" variant="ghost">
             <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
@@ -51,18 +51,18 @@ export default function ComboboxDropdownMenu() {
               <DropdownMenuSubTrigger>Apply label</DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="p-0">
                 <Command>
-                  <CommandInput placeholder="Filter label..." autoFocus={true} className="h-9" />
+                  <CommandInput autoFocus={true} className="h-9" placeholder="Filter label..." />
                   <CommandList>
                     <CommandEmpty>No label found.</CommandEmpty>
                     <CommandGroup>
                       {labels.map((label) => (
                         <CommandItem
                           key={label}
-                          value={label}
                           onSelect={(value) => {
                             setLabel(value)
                             setOpen(false)
-                          }}>
+                          }}
+                          value={label}>
                           {label}
                         </CommandItem>
                       ))}
@@ -76,7 +76,7 @@ export default function ComboboxDropdownMenu() {
               Delete
               <DropdownMenuShortcut
                 keys={''}
-                onKeysPressed={function (): void {
+                onKeysPressed={(): void => {
                   throw new Error('Function not implemented.')
                 }}>
                 ⌘⌫

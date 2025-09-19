@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { Minus, Plus } from "lucide-react"
+import * as React from "react"
 import { Bar, BarChart, ResponsiveContainer } from "recharts"
 
 import { Button } from "@/registry/default/ui/button"
@@ -79,11 +79,11 @@ export default function DrawerDemo() {
           <div className="p-4 pb-0">
             <div className="flex items-center justify-center space-x-2">
               <Button
-                variant="outline"
-                size="icon"
                 className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(-10)}
                 disabled={goal <= 200}
+                onClick={() => onClick(-10)}
+                size="icon"
+                variant="outline"
               >
                 <Minus />
                 <span className="sr-only">Decrease</span>
@@ -97,18 +97,18 @@ export default function DrawerDemo() {
                 </div>
               </div>
               <Button
-                variant="outline"
-                size="icon"
                 className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(10)}
                 disabled={goal >= 400}
+                onClick={() => onClick(10)}
+                size="icon"
+                variant="outline"
               >
                 <Plus />
                 <span className="sr-only">Increase</span>
               </Button>
             </div>
             <div className="mt-3 h-[120px]">
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer height="100%" width="100%">
                 <BarChart data={data}>
                   <Bar
                     dataKey="goal"

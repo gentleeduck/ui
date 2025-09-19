@@ -3,7 +3,7 @@ import { Inbox } from 'lucide-react'
 
 export default function ButtonDemo() {
   return (
-    <Button icon={<Inbox />} aria-label="Inbox button" type="button">
+    <Button aria-label="Inbox button" icon={<Inbox />} type="button">
       Button
     </Button>
   )

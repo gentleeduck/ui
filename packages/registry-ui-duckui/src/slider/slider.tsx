@@ -2,13 +2,13 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as SliderPrimitive from '@gentleduck/primitives/slider'
-import * as React from 'react'
+import type * as React from 'react'
 
 function Slider({ className, ref, ...props }: React.ComponentPropsWithRef<typeof SliderPrimitive.Root>) {
   return (
     <SliderPrimitive.Root
-      ref={ref}
       className={cn('relative flex w-full touch-none select-none items-center', className)}
+      ref={ref}
       {...props}>
       <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
         <SliderPrimitive.Range className="absolute h-full bg-primary" />
@@ -23,8 +23,8 @@ function Slider({ className, ref, ...props }: React.ComponentPropsWithRef<typeof
 function SliderRange({ className, ref, ...props }: React.ComponentPropsWithRef<typeof SliderPrimitive.Root>) {
   return (
     <SliderPrimitive.Root
-      ref={ref}
       className={cn('relative flex w-full touch-none select-none items-center', className)}
+      ref={ref}
       {...props}>
       <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
         <SliderPrimitive.Range className="absolute h-full bg-primary" />

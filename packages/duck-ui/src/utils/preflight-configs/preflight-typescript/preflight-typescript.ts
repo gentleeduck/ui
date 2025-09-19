@@ -1,12 +1,12 @@
-import { Ora } from 'ora'
-import { highlighter } from '../../text-styling'
 import path from 'node:path'
 import fs from 'fs-extra'
+import type { Ora } from 'ora'
 import prompts from 'prompts'
+import type { InitOptions } from '~/commands/init'
+import { highlighter } from '../../text-styling'
 import { typescript_prompts } from './preflight-typescript.constants'
-import { adding_typescript_config, install_typescript } from './preflight-typescript.libs'
 import { preflight_typescript_options_schema } from './preflight-typescript.dto'
-import { InitOptions } from '~/commands/init'
+import { adding_typescript_config, install_typescript } from './preflight-typescript.libs'
 
 export async function preflight_typescript(_options: InitOptions, spinner: Ora) {
   try {

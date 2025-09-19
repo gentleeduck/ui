@@ -9,16 +9,16 @@ const Breadcrumb = ({
 }: React.ComponentPropsWithRef<'nav'> & {
   separator?: React.ReactNode
 }) => {
-  return <nav ref={ref} {...props} duck-breadcrumb="" aria-label="breadcrumb" />
+  return <nav ref={ref} {...props} aria-label="breadcrumb" duck-breadcrumb="" />
 }
 
 const BreadcrumbList = ({ className, ref, ...props }: React.ComponentPropsWithRef<'ol'>) => (
   <ol
-    ref={ref}
     className={cn(
       'flex flex-wrap items-center gap-1.5 break-words text-muted-foreground text-sm sm:gap-2.5',
       className,
     )}
+    ref={ref}
     {...props}
     duck-breadcrumb-list=""
   />
@@ -26,7 +26,7 @@ const BreadcrumbList = ({ className, ref, ...props }: React.ComponentPropsWithRe
 
 const BreadcrumbItem = ({ className, ref, ...props }: React.ComponentPropsWithRef<'li'>) => {
   return (
-    <li ref={ref} className={cn('inline-flex items-center gap-1.5', className)} {...props} duck-breadcrumb-item="" />
+    <li className={cn('inline-flex items-center gap-1.5', className)} ref={ref} {...props} duck-breadcrumb-item="" />
   )
 }
 
@@ -41,23 +41,22 @@ const BreadcrumbLink = ({
   const Comp = (asChild ? Slot : 'a') as React.ElementType
   return (
     <Comp
-      ref={ref}
       className={cn('transition-colors hover:text-foreground', className)}
+      ref={ref}
       {...props}
       duck-breadcrumb-link=""
     />
   )
 }
 
-const BreadcrumbPage = ({ className, ref, ...props }: React.ComponentPropsWithRef<'span'>) => {
+const BreadcrumbPage = ({ className, ref, ...props }: React.ComponentPropsWithRef<'a'>) => {
   return (
-    <span
-      ref={ref}
+    <a
       className={cn('font-normal text-foreground', className)}
+      ref={ref}
       {...props}
-      role="link"
-      aria-disabled="true"
       aria-current="page"
+      aria-disabled="true"
       duck-breadcrumb-page=""
     />
   )
@@ -67,18 +66,18 @@ const BreadcrumbSeparator = ({ children, className, ...props }: React.ComponentP
   <div
     className={cn('[&>svg]:size-3.5', className)}
     {...props}
-    role="presentation"
     aria-hidden="true"
-    duck-breadcrumb-separator="">
+    duck-breadcrumb-separator=""
+    role="presentation">
     {children ?? <ChevronRight />}
   </div>
 )
 
 const BreadcrumbEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => (
   <span
-    role="presentation"
     aria-hidden="true"
     className={cn('flex h-9 w-9 items-center justify-center', className)}
+    role="presentation"
     {...props}
     duck-breadcrumb-ellipsis="">
     <MoreHorizontal className="h-4 w-4" />

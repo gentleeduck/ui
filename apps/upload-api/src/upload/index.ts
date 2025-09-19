@@ -1,5 +1,5 @@
 export * from './upload'
 export * from './upload.controller'
-export * from './upload.service'
 export * from './upload.dto'
+export * from './upload.service'
 export * from './upload.types'

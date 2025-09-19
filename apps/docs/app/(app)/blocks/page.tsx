@@ -5,13 +5,13 @@ import { BlockDisplay } from '~/components/blocks'
 export const dynamic = 'force-static'
 export const revalidate = false
 
-const FEATURED_BLOCKS = ['signup-1']
+const FEATURED_BLOCKS = ['dashboard-1']
 
 export default async function BlocksPage() {
   return (
     <div className="flex flex-col gap-12 md:gap-24">
       {FEATURED_BLOCKS.map((name) => (
-        <BlockDisplay name={name} key={name} />
+        <BlockDisplay key={name} name={name} />
       ))}
       <div className="container-wrapper">
         <div className="container flex justify-center py-6">

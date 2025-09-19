@@ -8,33 +8,38 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui-duckui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui-duckui/chart'
 import { TrendingUp } from 'lucide-react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
 export const description = 'A stacked area chart with expand stacking'
 
 const chartData = [
-  { month: 'January', desktop: 186, mobile: 80, other: 45 },
-  { month: 'February', desktop: 305, mobile: 200, other: 100 },
-  { month: 'March', desktop: 237, mobile: 120, other: 150 },
-  { month: 'April', desktop: 73, mobile: 190, other: 50 },
-  { month: 'May', desktop: 209, mobile: 130, other: 100 },
-  { month: 'June', desktop: 214, mobile: 140, other: 160 },
+  { desktop: 186, mobile: 80, month: 'January', other: 45 },
+  { desktop: 305, mobile: 200, month: 'February', other: 100 },
+  { desktop: 237, mobile: 120, month: 'March', other: 150 },
+  { desktop: 73, mobile: 190, month: 'April', other: 50 },
+  { desktop: 209, mobile: 130, month: 'May', other: 100 },
+  { desktop: 214, mobile: 140, month: 'June', other: 160 },
 ]
 
 const chartConfig = {
   desktop: {
-    label: 'Desktop',
     color: 'var(--chart-1)',
+    label: 'Desktop',
   },
   mobile: {
-    label: 'Mobile',
     color: 'var(--chart-2)',
+    label: 'Mobile',
   },
   other: {
-    label: 'Other',
     color: 'var(--chart-3)',
+    label: 'Other',
   },
 } satisfies ChartConfig
 
@@ -58,36 +63,36 @@ export default function Component() {
             stackOffset="expand">
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
-              tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              dataKey="month"
               tickFormatter={(value) => value.slice(0, 3)}
+              tickLine={false}
+              tickMargin={8}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+            <ChartTooltip content={<ChartTooltipContent indicator="line" />} cursor={false} />
             <Area
               dataKey="other"
-              type="natural"
               fill="var(--color-other)"
               fillOpacity={0.1}
-              stroke="var(--color-other)"
               stackId="a"
+              stroke="var(--color-other)"
+              type="natural"
             />
             <Area
               dataKey="mobile"
-              type="natural"
               fill="var(--color-mobile)"
               fillOpacity={0.4}
-              stroke="var(--color-mobile)"
               stackId="a"
+              stroke="var(--color-mobile)"
+              type="natural"
             />
             <Area
               dataKey="desktop"
-              type="natural"
               fill="var(--color-desktop)"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
               stackId="a"
+              stroke="var(--color-desktop)"
+              type="natural"
             />
           </AreaChart>
         </ChartContainer>
@@ -98,7 +103,7 @@ export default function Component() {
             <div className="flex items-center gap-2 font-medium leading-none">
               Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">January - June 2024</div>
+            <div className="flex items-center gap-2 text-muted-foreground leading-none">January - June 2024</div>
           </div>
         </div>
       </CardFooter>

@@ -1,7 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Slot } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
-import * as React from 'react'
+import type * as React from 'react'
 import { buttonVariants } from './button.constants'
 import type { AnimationIconProps, ButtonProps } from './button.types'
 
@@ -29,17 +29,17 @@ function Button({
   return (
     <Component
       {...props}
-      ref={ref}
       className={cn(
         buttonVariants({
-          variant,
-          size: isCollapsed ? 'icon' : size,
           border,
           className,
+          size: isCollapsed ? 'icon' : size,
+          variant,
         }),
       )}
-      type={type}
-      disabled={loading ?? disabled}>
+      disabled={loading ?? disabled}
+      ref={ref}
+      type={type}>
       {loading ? <Loader className="animate-spin" /> : icon}
       {!isCollapsed && children}
       {!isCollapsed && secondIcon && secondIcon}

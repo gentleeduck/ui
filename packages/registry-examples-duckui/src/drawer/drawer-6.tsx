@@ -53,7 +53,7 @@ export default function DrawerDemo8() {
   return (
     <Drawer fixed={true} shouldScaleBackground={false}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="mt-20">
+        <Button className="mt-20" variant="outline">
           Hard Checklist
         </Button>
       </DrawerTrigger>
@@ -63,9 +63,9 @@ export default function DrawerDemo8() {
             <HI
               barCount={barCount}
               filledBars={filledBars}
-              progress={progress}
               getBadgeColor={getBadgeColor}
               getBarColor={getBarColor}
+              progress={progress}
               setOpen={setOpen}
               setProgress={setProgress}
             />
@@ -119,10 +119,10 @@ export function HI(props: {
       <div className="flex items-center justify-between">
         <DrawerTitle className="text-md">Almost there.</DrawerTitle>
         <Badge
-          variant="destructive"
-          className={`w-[50px] rounded-lg transition-colors duration-300 will-change-auto ${getBadgeColor(progress)}`}>
+          className={`w-[50px] rounded-lg transition-colors duration-300 will-change-auto ${getBadgeColor(progress)}`}
+          variant="destructive">
           <AnimateNumber
-            format={{ style: 'decimal', notation: 'standard' }}
+            format={{ notation: 'standard', style: 'decimal' }}
             prefix="%"
             // animate={{ backgroundClip: 'text' }}
           >
@@ -134,39 +134,39 @@ export function HI(props: {
       <div className="flex w-full justify-between">
         {[...Array(barCount)].map((_, index) => (
           <motion.div
-            key={index}
-            initial={{ height: '1rem' }}
             animate={{
               height: '1.5rem',
               scale: index < filledBars ? [1, 1.1, 1] : 1,
             }}
-            transition={{ duration: 0.5, delay: index * 0.008 }}
             className={`h-[1rem] w-[5px] rounded-full transition-colors duration-300 ${
               index < filledBars ? getBarColor(index) : 'bg-gray-200'
             }`}
+            initial={{ height: '1rem' }}
+            key={`bar-${index + 1}`}
+            transition={{ delay: index * 0.008, duration: 0.5 }}
           />
         ))}
       </div>
 
       <DrawerFooter className="px-0 pb-0">
         <Button
-          variant="secondary"
           onClick={() => {
             console.info('hi, i was clicked!!')
             setOpen((prev) => !prev)
-          }}>
+          }}
+          variant="secondary">
           See checklist
         </Button>
         <DrawerClose asChild>
           <Button
-            variant="secondary"
-            disabled={progress < 100}
             className={cn(progress === 100 && 'bg-green-500 text-white hover:bg-green-500/90')}
+            disabled={progress < 100}
             loading={progress < 100}
             onClick={() => {
               setProgress(0)
               toast.success('Wow duck you are done!')
-            }}>
+            }}
+            variant="secondary">
             {progress === 100 ? 'Complete the checklist' : 'Loading to checklist'}
           </Button>
         </DrawerClose>
@@ -184,30 +184,30 @@ export function HI2(props: { setOpen: React.Dispatch<React.SetStateAction<boolea
       <ul className="flex flex-col gap-3">
         {[
           {
-            title: 'Plan the project',
             description: 'Outline key milestones and deliverables.',
+            title: 'Plan the project',
           },
           {
-            title: 'Gather resources',
             description: 'Collect necessary tools, assets, and information.',
+            title: 'Gather resources',
           },
           {
-            title: 'Start development',
             description: 'Begin coding and implementing core features.',
+            title: 'Start development',
           },
           {
-            title: 'Testing phase',
             description: 'Perform debugging, QA, and performance optimizations.',
+            title: 'Testing phase',
           },
           {
-            title: 'Launch & review',
             description: 'Deploy the project and gather feedback for improvements.',
+            title: 'Launch & review',
           },
         ].map((task, index) => (
-          <li key={index} className="flex items-start gap-3">
-            <input type="checkbox" className="mt-1 h-4 w-4 accent-green-500" id={`todo-${index}`} />
+          <li className="flex items-start gap-3" key={`todo-${index + 1}`}>
+            <input className="mt-1 h-4 w-4 accent-green-500" id={`todo-${index}`} type="checkbox" />
             <div>
-              <label htmlFor={`todo-${index}`} className="block font-semibold text-md">
+              <label className="block font-semibold text-md" htmlFor={`todo-${index}`}>
                 {task.title}
               </label>
               <p className="text-muted-foreground text-sm">{task.description}</p>
@@ -216,10 +216,10 @@ export function HI2(props: { setOpen: React.Dispatch<React.SetStateAction<boolea
         ))}
       </ul>
       <Button
-        variant="secondary"
         onClick={() => {
           setOpen(!open)
-        }}>
+        }}
+        variant="secondary">
         See checklist
       </Button>
     </>

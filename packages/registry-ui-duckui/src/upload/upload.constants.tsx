@@ -1,4 +1,4 @@
-import { FileAudio, FileImage, FileText, FileVideo, File } from 'lucide-react'
+import { File, FileAudio, FileImage, FileText, FileVideo } from 'lucide-react'
 
 export enum FileTypeEnum {
   Audio = 'audio',

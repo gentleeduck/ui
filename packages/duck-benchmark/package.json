@@ -1,52 +1,10 @@
 {
-  "name": "@gentleduck/benchmark",
-  "version": "0.0.2",
-  "description": "this is the benchmark tool for the duck-ui components, it's a black magic tool to let you know weather your code suck or good.",
-  "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
-  "license": "MIT",
   "author": "wildduck (https://github.com/wildduck2)",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-benchmark"
-  },
-  "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
-  },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-benchmark#readme",
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "components",
-    "ui",
-    "tailwind",
-    "radix-ui",
-    "duck-ui"
-  ],
-  "type": "module",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    }
-  },
   "bin": {
     "duck-ui": "dist/index.js"
   },
-  "scripts": {
-    "dev": "tsdown --watch",
-    "start": "node dist/index.js",
-    "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
-    "test": "vitest run",
-    "build": "tsdown",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
+  "bugs": {
+    "url": "https://github.com/gentleduck/ui/issues"
   },
   "dependencies": {
     "@antfu/ni": "^0.21.12",
@@ -69,6 +27,7 @@
     "tsconfig-paths": "^4.2.0",
     "zod": "catalog:"
   },
+  "description": "this is the benchmark tool for the duck-ui components, it's a black magic tool to let you know weather your code suck or good.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@types/babel__core": "^7.20.1",
@@ -83,8 +42,49 @@
     "type-fest": "^3.8.0",
     "typescript": "^5.6.3"
   },
-  "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=22.0.0"
-  }
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-benchmark#readme",
+  "keywords": [
+    "components",
+    "ui",
+    "tailwind",
+    "radix-ui",
+    "duck-ui"
+  ],
+  "license": "MIT",
+  "name": "@gentleduck/benchmark",
+  "packageManager": "pnpm@10.10.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-benchmark"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "dev": "tsdown --watch",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version",
+    "start": "node dist/index.js",
+    "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
+    "test": "vitest run"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "0.0.2"
 }

@@ -1,12 +1,12 @@
 
+import { cn } from '@gentleduck/libs/cn'
+import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
 //@ts-noCheck
 import React from 'react'
 // import { IoHeart } from 'react-icons/io5'
 // import { IoMdHeartEmpty } from 'react-icons/io'
 // import { LucideIcon } from 'lucide-react'
 import { LikedType, TaggedUserType } from './swapy'
-import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
-import { cn } from '@gentleduck/libs/cn'
 
 export interface LikeButtonProps extends Omit<ButtonProps, 'onClick'> {
   user: TaggedUserType
@@ -35,9 +35,9 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   // Initialize state
   const [likeState, setLikeState] = React.useState<LikeState>({
     current: amount,
+    hasLiked: false,
     prev: amount,
     scrollTo: null as 'up' | 'down' | null,
-    hasLiked: false,
   })
 
   // Toggle like status
@@ -46,23 +46,23 @@ const LikeButton: React.FC<LikeButtonProps> = ({
       const newLikes = prevState.hasLiked ? prevState.current - 1 : prevState.current + 1
       return {
         ...prevState,
-        prev: prevState.current,
         current: newLikes,
-        scrollTo: prevState.hasLiked ? 'down' : 'up',
         hasLiked: !prevState.hasLiked,
+        prev: prevState.current,
+        scrollTo: prevState.hasLiked ? 'down' : 'up',
       }
     })
   }, [setLikeState])
 
   return (
     <Button
-      size="icon"
-      variant="nothing"
       className={cn('rounded-full h-auto w-auto', likeState.hasLiked && 'btn-love')}
       onClick={(e) => {
         onClick && onClick({ e, state: likeState })
         handleLikeToggle()
       }}
+      size="icon"
+      variant="nothing"
       // icon={{
       //   children: (likeState.hasLiked ? IoHeart : IoMdHeartEmpty) as LucideIcon,
       //   className: 'text-[#e2264d]',

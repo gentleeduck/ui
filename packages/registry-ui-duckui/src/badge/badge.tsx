@@ -15,7 +15,7 @@ const Badge = ({
 }: Omit<React.HTMLProps<HTMLDivElement>, 'size'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) => {
   const Comp = asChild ? Slot : 'span'
 
-  return <Comp data-slot="badge" className={cn(badgeVariants({ variant, size, border }), className)} {...props} />
+  return <Comp className={cn(badgeVariants({ border, size, variant }), className)} data-slot="badge" {...props} />
 }
 
 export { Badge }

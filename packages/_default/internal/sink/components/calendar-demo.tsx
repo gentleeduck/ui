@@ -9,10 +9,10 @@ export function CalendarDemo() {
 
   return (
     <Calendar
-      mode="single"
-      selected={date}
-      onSelect={setDate}
       className="rounded-md border shadow"
+      mode="single"
+      onSelect={setDate}
+      selected={date}
     />
   )
 }

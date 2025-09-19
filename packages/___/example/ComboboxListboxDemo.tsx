@@ -1,75 +1,75 @@
-import { Combobox, CommandListGroupDataType, TooltipProvider } from '@/registry/default/ui'
 import { Circle, CircleAlert, CircleCheck, CircleHelp, CircleMinus, CirclePlus } from 'lucide-react'
 import React from 'react'
+import { Combobox, CommandListGroupDataType, TooltipProvider } from '@/registry/default/ui'
 
 type DistrosType = 'Ubuntu' | 'Debian' | 'Fedora' | 'Arch Linux' | 'CentOS'
 const linuxDistros: CommandListGroupDataType<DistrosType>[] = [
   {
-    label: 'Ubuntu',
     element: {
-      label: {
-        children: '19',
-      },
+
+      children: 'Ubuntu',
       icon: {
         children: CircleCheck,
         className: 'size-4 stroke-[1.5]',
       },
-
-      children: 'Ubuntu',
+      label: {
+        children: '19',
+      },
     },
+    label: 'Ubuntu',
   },
   {
-    label: 'Debian',
     element: {
-      label: {
-        children: '14',
-      },
+      children: 'Ubuntu',
       icon: {
         children: CircleHelp,
         className: 'size-4 stroke-[1.5]',
       },
-      children: 'Ubuntu',
+      label: {
+        children: '14',
+      },
     },
+    label: 'Debian',
   },
   {
-    label: 'Fedora',
     element: {
-      label: {
-        children: '26',
-      },
+      children: 'Ubuntu',
       icon: {
         children: CircleAlert,
         className: 'size-4 stroke-[1.5]',
       },
-      children: 'Ubuntu',
+      label: {
+        children: '26',
+      },
     },
+    label: 'Fedora',
   },
   {
-    label: 'Arch Linux',
     element: {
-      label: {
-        children: '23',
-      },
+      children: 'Ubuntu',
 
       icon: {
         children: CircleMinus,
         className: 'size-4 stroke-[1.5]',
       },
-      children: 'Ubuntu',
+      label: {
+        children: '23',
+      },
     },
+    label: 'Arch Linux',
   },
   {
-    label: 'CentOS',
     element: {
-      label: {
-        children: '42',
-      },
+      children: 'Ubuntu',
       icon: {
         children: Circle,
         className: 'size-4 stroke-[1.5]',
       },
-      children: 'Ubuntu',
+      label: {
+        children: '42',
+      },
     },
+    label: 'CentOS',
   },
 ]
 
@@ -79,33 +79,33 @@ export default function ComboboxMainDemo() {
   return (
     <TooltipProvider>
       <Combobox<string, DistrosType>
-        type={'listbox'}
+        content={{
+          data: linuxDistros,
+          showSearchInput: true,
+        }}
+        onSelect={{
+          setValue: setValue,
+          value: value,
+        }}
         trigger={{
           children: 'Status',
           className: '[&>div>span]:text-xs',
+          command: {
+            key: 'ctrl+v',
+            label: '⌃+v',
+          },
           icon: {
             children: CirclePlus,
             className: '!size-4 stroke-[1.5]',
           },
           label: {
             children: 'Select one',
+            showCommand: true,
             showLabel: true,
             side: 'top',
-            showCommand: true,
-          },
-          command: {
-            label: '⌃+v',
-            key: 'ctrl+v',
           },
         }}
-        onSelect={{
-          value: value,
-          setValue: setValue,
-        }}
-        content={{
-          showSearchInput: true,
-          data: linuxDistros,
-        }}
+        type={'listbox'}
       />
     </TooltipProvider>
   )

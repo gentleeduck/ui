@@ -70,22 +70,22 @@ export function ComponentPreview({
     <div
       className={cn('group relative my-4 flex flex-col [&_div[data-slot="placeholder"]]:h-[512px]', className)}
       {...props}>
-      <Tabs defaultValue="preview" className="relative mr-auto w-full">
+      <Tabs className="relative mr-auto w-full" defaultValue="preview">
         <div className="flex items-center justify-between">
           {!hideCode && (
             <TabsList className="w-full justify-start border-b bg-transparent p-0 rounded-none overflow-x-auto [&_button]:shadow-none">
               {TABS.map((tab, idx) => (
                 <TabsTrigger
+                  className="border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none [&_input]:focus-visible:ring-transparent [&_input]:focus-visible:shadow-none [&_input]:focus-visible:ring-offset-0"
                   key={idx}
-                  value={tab.value}
-                  className="border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none [&_input]:focus-visible:ring-transparent [&_input]:focus-visible:shadow-none [&_input]:focus-visible:ring-offset-0">
+                  value={tab.value}>
                   {tab.name}
                 </TabsTrigger>
               ))}
             </TabsList>
           )}
         </div>
-        <TabsContent value="preview" className="relative rounded-md border min-w-2/5">
+        <TabsContent className="relative rounded-md border min-w-2/5" value="preview">
           <div className="flex items-center justify-between p-4 absolute w-full">
             <span className="text-sm text-muted-foreground">{}</span>
             <div className="flex items-center gap-2">
@@ -93,12 +93,12 @@ export function ComponentPreview({
             </div>
           </div>
           <div
-            duck-preview=""
             className={cn('preview flex h-[500px] w-full justify-center p-10', {
               'items-center': align === 'center',
-              'items-start': align === 'start',
               'items-end': align === 'end',
-            })}>
+              'items-start': align === 'start',
+            })}
+            duck-preview="">
             <React.Suspense
               fallback={
                 <div className="flex w-full items-center justify-center text-sm text-muted-foreground">
@@ -111,8 +111,8 @@ export function ComponentPreview({
           </div>
         </TabsContent>
         <TabsContent
-          value="code"
-          className="mt-2 [&>div>div]:mb-0 [&_pre]:h-[502px] relative bg-muted/40 rounded-lg border [&>div>div>button]:top-4 [&>div>div>button]:right-4">
+          className="mt-2 [&>div>div]:mb-0 [&_pre]:h-[502px] relative bg-muted/40 rounded-lg border [&>div>div>button]:top-4 [&>div>div>button]:right-4"
+          value="code">
           {Code}
         </TabsContent>
         <BuildTab />
@@ -123,9 +123,9 @@ export function ComponentPreview({
 
 export const BuildTab = () => {
   return (
-    <TabsContent value="build" className="relative overflow-hidden">
+    <TabsContent className="relative overflow-hidden" value="build">
       <div className="h-[500px] overflow-hidden rounded-lg">
-        <img src="/builder.png" alt="build" className="object-cover" />
+        <img alt="build" className="object-cover" src="/builder.png" />
       </div>
 
       <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[500px] top-0 left-0 inset-0">

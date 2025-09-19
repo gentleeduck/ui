@@ -35,51 +35,44 @@ const components = {
   AccordionItem,
   AccordionTrigger,
   Alert,
-  AlertTitle,
   AlertDescription,
+  AlertTitle,
+  AspectRatio,
+  a: A,
+  Button,
+  blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <blockquote className={cn('mt-6 border-l-2 pl-6 italic', className)} {...props} />
+  ),
+  Callout,
+  CodeBlockWrapper,
+  ComponentExample,
+  ComponentPreview,
+  ComponentSource,
+  ComponentsList,
+  code: CodeBlock,
+  figcaption: FigcaptionBlock,
   h1: H1,
   h2: H2,
   h3: H3,
   h4: H4,
   h5: H5,
   h6: H6,
-  a: A,
-  p: P,
+  hr: Hr,
+  // span: SpanBlock,
+  Image,
+  img: ({ className, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    <img alt={alt} className={cn('rounded-md', className)} {...props} />
+  ),
   Link: LinkBlock,
   LinkedCard,
-  Button,
-  ComponentsList,
-  ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className={cn('my-6 ml-6 list-disc', className)} {...props} />
+  li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <li className={cn('mt-2', className)} {...props} />
   ),
   ol: ({ className, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
     <ol className={cn('my-6 ml-6 list-decimal', className)} {...props} />
   ),
-  li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <li className={cn('mt-2', className)} {...props} />
-  ),
-  blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <blockquote className={cn('mt-6 border-l-2 pl-6 italic', className)} {...props} />
-  ),
-  img: ({ className, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    <img className={cn('rounded-md', className)} alt={alt} {...props} />
-  ),
-  hr: Hr,
-  table: Table,
-  tr: TableRow,
-  th: TableHeader,
-  td: TableCell,
+  p: P,
   pre: PreBlock,
-  figcaption: FigcaptionBlock,
-  code: CodeBlock,
-  // span: SpanBlock,
-  Image,
-  Callout,
-  ComponentPreview,
-  ComponentExample,
-  ComponentSource,
-  AspectRatio,
-  CodeBlockWrapper,
   Step: ({ className, ...props }: React.ComponentProps<'h3'>) => (
     <h3
       className={cn('font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight step', className)}
@@ -90,9 +83,16 @@ const components = {
     <div className="[&>h3]:step steps mb-12 ml-4 border-l pl-8 [counter-reset:step]" {...props} />
   ),
   Tabs: Tab,
+  TabsContent: TabContent,
   TabsList: TabList,
   TabsTrigger: TabTrigger,
-  TabsContent: TabContent,
+  table: Table,
+  td: TableCell,
+  th: TableHeader,
+  tr: TableRow,
+  ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul className={cn('my-6 ml-6 list-disc', className)} {...props} />
+  ),
   // FrameworkDocs,
 }
 

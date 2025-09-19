@@ -13,5 +13,5 @@ const configAtom = atomWithStorage<ThemesConfig>('themes:config', {
 export function useThemesConfig() {
   const [themesConfig, setThemesConfig] = useAtom(configAtom)
 
-  return { themesConfig, setThemesConfig }
+  return { setThemesConfig, themesConfig }
 }

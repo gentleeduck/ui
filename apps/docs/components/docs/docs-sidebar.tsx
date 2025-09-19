@@ -19,7 +19,7 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
     items.length && (
       <div className="w-full flex flex-col">
         {items.map((item, index) => (
-          <CategoryItem key={index} item={item} pathname={pathname} />
+          <CategoryItem item={item} key={index} pathname={pathname} />
         ))}
       </div>
     )
@@ -56,7 +56,7 @@ export function DocsSidebarNavItems({ items, pathname }: DocsSidebarNavItemsProp
     items?.length && (
       <ul>
         {items.map((item, index) => (
-          <DocsSidebarNavItem key={index} item={item} pathname={pathname} />
+          <DocsSidebarNavItem item={item} key={index} pathname={pathname} />
         ))}
       </ul>
     )
@@ -68,13 +68,13 @@ export function DocsSidebarNavItem({ item, pathname }: { item: SidebarNavItem; p
     return (
       <li className={cn(pathname === item.href && 'border-l border-primary')}>
         <Link
-          href={item.href}
           className={cn(
             'group flex w-full items-center px-4 py-1 focus-visible:border-l border-primary focus-visible:outline-none font-medium text-sm',
             pathname === item.href ? 'font-medium text-foreground' : 'text-muted-foreground',
           )}
-          target={item.external ? '_blank' : ''}
-          rel={item.external ? 'noreferrer' : ''}>
+          href={item.href}
+          rel={item.external ? 'noreferrer' : ''}
+          target={item.external ? '_blank' : ''}>
           {item.title}
           {item.label && (
             <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 leading-none text-accent no-underline group-hover:no-underline text-xs font-medium">

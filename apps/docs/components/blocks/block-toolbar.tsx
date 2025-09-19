@@ -31,19 +31,19 @@ export function BlockToolbar({
     <div className="flex flex-col items-center gap-4 sm:flex-row">
       <div className="flex items-center gap-2">
         <TabsList className="hidden h-7 rounded-md p-0 px-[calc(theme(spacing.1)_-_2px)] py-[theme(spacing.1)] sm:flex">
-          <TabsTrigger value="preview" className="h-[1.45rem] rounded-xs px-2 text-xs" disabled={isLiftMode}>
+          <TabsTrigger className="h-[1.45rem] rounded-xs px-2 text-xs" disabled={isLiftMode} value="preview">
             Preview
           </TabsTrigger>
-          <TabsTrigger value="code" className="h-[1.45rem] rounded-xs px-2 text-xs" disabled={isLiftMode}>
+          <TabsTrigger className="h-[1.45rem] rounded-xs px-2 text-xs" disabled={isLiftMode} value="code">
             Code
           </TabsTrigger>
         </TabsList>
-        <Separator orientation="vertical" className="mx-2 hidden h-4 md:flex" />
+        <Separator className="mx-2 hidden h-4 md:flex" orientation="vertical" />
         <StyleSwitcher className="h-[calc(theme(spacing.7)_-_1px)] dark:h-7" disabled={isLiftMode} />
-        <Popover sideOffset={20} placement="top">
+        <Popover placement="top" sideOffset={20}>
           <PopoverTrigger
-            disabled={isLiftMode}
-            className="hidden text-muted-foreground hover:text-foreground disabled:opacity-50 sm:flex">
+            className="hidden text-muted-foreground hover:text-foreground disabled:opacity-50 sm:flex"
+            disabled={isLiftMode}>
             <CircleHelp className="h-3.5 w-3.5" />
             <span className="sr-only">Block description</span>
           </PopoverTrigger>
@@ -61,10 +61,10 @@ export function BlockToolbar({
           </PopoverContent>
         </Popover>
         <div className="hidden items-center gap-2 sm:flex">
-          <Separator orientation="vertical" className="mx-2 mr-0 hidden h-4 md:flex" />
+          <Separator className="mx-2 mr-0 hidden h-4 md:flex" orientation="vertical" />
           <div className="flex items-center gap-2">
             <a href={`#${block.name}`}>
-              <Badge variant="secondary" className={cn('bg-transparent', isLiftMode && 'opacity-50')}>
+              <Badge className={cn('bg-transparent', isLiftMode && 'opacity-50')} variant="secondary">
                 {block.name}
               </Badge>
             </a>
@@ -76,12 +76,12 @@ export function BlockToolbar({
           {block.hasLiftMode && (
             <>
               <div className="flex h-7 items-center justify-between gap-2">
-                <Label htmlFor={`lift-mode-${block.name}`} className="text-xs">
+                <Label className="text-xs" htmlFor={`lift-mode-${block.name}`}>
                   Lift Mode
                 </Label>
                 <Switch
-                  id={`lift-mode-${block.name}`}
                   checked={isLiftMode}
+                  id={`lift-mode-${block.name}`}
                   onCheckedChange={(value) => {
                     resizablePanelRef.current?.resize(100)
                     toggleLiftMode(block.name)
@@ -97,41 +97,41 @@ export function BlockToolbar({
                   }}
                 />
               </div>
-              <Separator orientation="vertical" className="mx-2 hidden h-4 lg:inline-flex" />
+              <Separator className="mx-2 hidden h-4 lg:inline-flex" orientation="vertical" />
             </>
           )}
           <div className="hidden h-[28px] items-center gap-1.5 rounded-md border p-[2px] shadow-xs md:flex">
             <ToggleGroup
-              disabled={isLiftMode}
-              type="single"
               defaultValue="100"
+              disabled={isLiftMode}
               onValueChange={(value) => {
                 if (resizablePanelRef.current) {
                   resizablePanelRef.current.resize(Number.parseInt(value))
                 }
-              }}>
-              <ToggleGroupItem value="100" className="h-[22px] w-[22px] rounded-xs p-0">
+              }}
+              type="single">
+              <ToggleGroupItem className="h-[22px] w-[22px] rounded-xs p-0" value="100">
                 <Monitor className="h-3.5 w-3.5" />
               </ToggleGroupItem>
-              <ToggleGroupItem value="60" className="h-[22px] w-[22px] rounded-xs p-0">
+              <ToggleGroupItem className="h-[22px] w-[22px] rounded-xs p-0" value="60">
                 <Tablet className="h-3.5 w-3.5" />
               </ToggleGroupItem>
-              <ToggleGroupItem value="30" className="h-[22px] w-[22px] rounded-xs p-0">
+              <ToggleGroupItem className="h-[22px] w-[22px] rounded-xs p-0" value="30">
                 <Smartphone className="h-3.5 w-3.5" />
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
-          <Separator orientation="vertical" className="mx-2 hidden h-4 md:flex" />
-          <BlockCopyButton event="copy_block_code" name={block.name} code={block.code} disabled={isLiftMode} />
+          <Separator className="mx-2 hidden h-4 md:flex" orientation="vertical" />
+          <BlockCopyButton code={block.code} disabled={isLiftMode} event="copy_block_code" name={block.name} />
           <V0Button
-            id={`v0-button-${block.name}`}
-            disabled={isLiftMode}
             block={{
-              name: block.name,
-              description: block.description || 'Edit in v0',
               code: block.code,
+              description: block.description || 'Edit in v0',
+              name: block.name,
               style: block.style,
             }}
+            disabled={isLiftMode}
+            id={`v0-button-${block.name}`}
           />
         </div>
       )}

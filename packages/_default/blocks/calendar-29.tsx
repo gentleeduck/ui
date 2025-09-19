@@ -1,8 +1,8 @@
 "use client"
 
-import * as React from "react"
 import { parseDate } from "chrono-node"
 import { CalendarIcon } from "lucide-react"
+import * as React from "react"
 
 import { Button } from "@/registry/default/ui/button"
 import { Calendar } from "@/registry/default/ui/calendar"
@@ -36,15 +36,13 @@ export default function Calendar29() {
 
   return (
     <div className="flex flex-col gap-3">
-      <Label htmlFor="date" className="px-1">
+      <Label className="px-1" htmlFor="date">
         Schedule Date
       </Label>
       <div className="relative flex gap-2">
         <Input
-          id="date"
-          value={value}
-          placeholder="Tomorrow or next week"
           className="bg-background pr-10"
+          id="date"
           onChange={(e) => {
             setValue(e.target.value)
             const date = parseDate(e.target.value)
@@ -59,23 +57,24 @@ export default function Calendar29() {
               setOpen(true)
             }
           }}
+          placeholder="Tomorrow or next week"
+          value={value}
         />
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover onOpenChange={setOpen} open={open}>
           <PopoverTrigger asChild>
             <Button
+              className="absolute top-1/2 right-2 size-6 -translate-y-1/2"
               id="date-picker"
               variant="ghost"
-              className="absolute top-1/2 right-2 size-6 -translate-y-1/2"
             >
               <CalendarIcon className="size-3.5" />
               <span className="sr-only">Select date</span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" align="end">
+          <PopoverContent align="end" className="w-auto overflow-hidden p-0">
             <Calendar
-              mode="single"
-              selected={date}
               captionLayout="dropdown"
+              mode="single"
               month={month}
               onMonthChange={setMonth}
               onSelect={(date) => {
@@ -83,6 +82,7 @@ export default function Calendar29() {
                 setValue(formatDate(date))
                 setOpen(false)
               }}
+              selected={date}
             />
           </PopoverContent>
         </Popover>

@@ -4,8 +4,7 @@
 
 import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
-import type { InferSchema, ResolveFields, ResolveRef } from '.'
-import type { PickByValue } from '~/objects'
+import type { InferSchema, ResolveFields } from '.'
 
 // -------------------------------------------
 // Test 1 – Basic SQL Types
@@ -219,3 +218,18 @@ type TestSQL3 = `
 type UserSchema = InferSchema<TestSQL1>
 type PostSchema = InferSchema<TestSQL2>
 type SettingsSchema = InferSchema<TestSQL3>
+
+/* @__IGNORED__@ */ type _IGNORE = [
+  TestSQL1,
+  TestSQL2,
+  TestSQL3,
+  Test_InferSchema_Basic,
+  Test_InferSchema_Extended,
+  Test_InferSchema_Formatted,
+  Test_InferSchema_Unknown,
+  Test_InferSchema_Mixed,
+  ResolvedAnimal,
+  UserSchema,
+  PostSchema,
+  SettingsSchema,
+]

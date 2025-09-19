@@ -17,11 +17,8 @@ import {
 
 // This is sample data.
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      title: "Getting Started",
-      url: "#",
       items: [
         {
           title: "Installation",
@@ -32,19 +29,19 @@ const data = {
           url: "#",
         },
       ],
+      title: "Getting Started",
+      url: "#",
     },
     {
-      title: "Building Your Application",
-      url: "#",
       items: [
         {
           title: "Routing",
           url: "#",
         },
         {
+          isActive: true,
           title: "Data Fetching",
           url: "#",
-          isActive: true,
         },
         {
           title: "Rendering",
@@ -87,10 +84,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "Building Your Application",
+      url: "#",
     },
     {
-      title: "API Reference",
-      url: "#",
       items: [
         {
           title: "Components",
@@ -117,10 +114,10 @@ const data = {
           url: "#",
         },
       ],
+      title: "API Reference",
+      url: "#",
     },
     {
-      title: "Architecture",
-      url: "#",
       items: [
         {
           title: "Accessibility",
@@ -143,8 +140,11 @@ const data = {
           url: "#",
         },
       ],
+      title: "Architecture",
+      url: "#",
     },
   ],
+  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -152,8 +152,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar {...props}>
       <SidebarHeader>
         <VersionSwitcher
-          versions={data.versions}
           defaultVersion={data.versions[0]}
+          versions={data.versions}
         />
         <SearchForm />
       </SidebarHeader>

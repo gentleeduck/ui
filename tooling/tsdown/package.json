@@ -1,31 +1,31 @@
 {
-  "name": "@gentleduck/tsdown-config",
-  "version": "0.0.1",
+  "author": "gentleduck",
+  "dependencies": {
+    "@vitejs/plugin-react-swc": "^3.8.0",
+    "tsdown": "catalog:"
+  },
   "description": "this is a package for `tsdown` build configs",
-  "private": true,
-  "type": "module",
-  "types": "index.ts",
-  "main": "index.ts",
+  "devDependencies": {
+    "@gentleduck/typescript-config": "workspace:*"
+  },
+  "engines": {
+    "node": ">=24.2.0"
+  },
   "keywords": [
     "tsdown",
     "tsdown-config"
   ],
-  "author": "gentleduck",
   "license": "MIT",
+  "main": "index.ts",
+  "name": "@gentleduck/tsdown-config",
+  "packageManager": "pnpm@10.10.0",
+  "private": true,
   "scripts": {
     "clean": "git clean -xdf .cache .turbo node_modules dist",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./"
   },
-  "dependencies": {
-    "@vitejs/plugin-react-swc": "^3.8.0",
-    "tsdown": "catalog:"
-  },
-  "devDependencies": {
-    "@gentleduck/typescript-config": "workspace:*"
-  },
-  "packageManager": "pnpm@10.10.0",
-  "engines": {
-    "node": ">=24.2.0"
-  }
+  "type": "module",
+  "types": "index.ts",
+  "version": "0.0.1"
 }

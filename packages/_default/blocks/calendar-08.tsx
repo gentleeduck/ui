@@ -11,14 +11,14 @@ export default function Calendar08() {
 
   return (
     <Calendar
-      mode="single"
+      className="rounded-lg border shadow-sm"
       defaultMonth={date}
-      selected={date}
-      onSelect={setDate}
       disabled={{
         before: new Date(2025, 5, 12),
       }}
-      className="rounded-lg border shadow-sm"
+      mode="single"
+      onSelect={setDate}
+      selected={date}
     />
   )
 }

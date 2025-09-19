@@ -23,8 +23,8 @@ export function ColorFormatSelector({
   }
 
   return (
-    <Select value={format} onValueChange={setFormat as never} placement="bottom-end">
-      <Button size={'sm'} variant="ghost" asChild>
+    <Select onValueChange={setFormat as never} placement="bottom-end" value={format}>
+      <Button asChild size={'sm'} variant="ghost">
         <SelectTrigger className={cn(className)} {...props}>
           <span className="font-medium text-sm">Format: </span>
           <span className="text-muted-foreground font-mono">{format}</span>
@@ -33,9 +33,9 @@ export function ColorFormatSelector({
       <SelectContent>
         {Object.entries(formats).map(([format, value]) => (
           <SelectItem
+            className="gap-2 rounded-lg [&>span]:flex [&>span]:items-center [&>span]:gap-2"
             key={format}
-            value={format}
-            className="gap-2 rounded-lg [&>span]:flex [&>span]:items-center [&>span]:gap-2">
+            value={format}>
             <span className="font-medium text-sm">{format}</span>
             <span className="text-muted-foreground font-mono text-xs">{value}</span>
           </SelectItem>

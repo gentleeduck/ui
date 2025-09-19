@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
+import { BORDER_RADIUS, TRANSITIONS, WINDOW_TOP_OFFSET } from './constants'
 import { useDrawerContext } from './context'
 import { assignStyle, chain, isVertical, reset } from './helpers'
-import { BORDER_RADIUS, TRANSITIONS, WINDOW_TOP_OFFSET } from './constants'
 
 const noop = () => () => {}
 
@@ -27,8 +27,8 @@ export function useScaleBackground() {
         setBackgroundColorOnScale && !noBodyStyles ? assignStyle(document.body, { background: 'black' }) : noop,
         assignStyle(wrapper, {
           transformOrigin: isVertical(direction) ? 'top' : 'left',
-          transitionProperty: 'transform, border-radius',
           transitionDuration: `${TRANSITIONS.DURATION}s`,
+          transitionProperty: 'transform, border-radius',
           transitionTimingFunction: `cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
         }),
       )

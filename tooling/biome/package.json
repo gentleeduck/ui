@@ -1,17 +1,17 @@
 {
-  "name": "@gentleduck/biome-config",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "exports": {
-    ".": "./config.json"
-  },
-  "scripts": {},
   "devDependencies": {
     "@biomejs/biome": "2.0.6"
   },
-  "packageManager": "pnpm@10.11.1",
   "engines": {
     "node": ">=24.2.0"
-  }
+  },
+  "exports": {
+    ".": "./config.json"
+  },
+  "name": "@gentleduck/biome-config",
+  "packageManager": "pnpm@10.11.1",
+  "private": true,
+  "scripts": {},
+  "type": "module",
+  "version": "0.1.0"
 }

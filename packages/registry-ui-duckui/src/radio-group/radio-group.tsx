@@ -3,19 +3,9 @@
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
-import * as React from 'react'
+import type * as React from 'react'
 import { Label } from '../label'
-import { useHandleRadioClick } from './radio-group.hooks'
-
-export interface RadioGroupContextType {
-  value: string
-  onValueChange: (value: string) => void
-  wrapperRef: React.RefObject<HTMLUListElement | null>
-  itemsRef: React.RefObject<HTMLLIElement[]>
-  selectedItemRef: React.RefObject<HTMLLIElement | null>
-}
-
-export const RadioGroupContext = React.createContext<RadioGroupContextType | null>(null)
+import { RadioGroupContext, useHandleRadioClick } from './radio-group.hooks'
 
 function Radio({
   className,
@@ -26,20 +16,15 @@ function Radio({
   ...props
 }: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement; checkedIndicator?: React.ReactElement }) {
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
-    indicator,
     checkedIndicator,
+    indicator,
   })
 
   return (
     <>
       <input
-        type="radio"
-        ref={ref}
-        duck-radio=""
-        style={{ ...style, ...inputStyle }}
         className={cn(
           checkersStylePattern({
-            type: 'radio',
             indicatorState:
               indicatorReady && checkedIndicatorReady
                 ? 'both'
@@ -48,11 +33,16 @@ function Radio({
                   : checkedIndicatorReady
                     ? 'checkedIndicatorReady'
                     : 'default',
+            type: 'radio',
           }),
           AnimVariants({ pseudo: 'animate' }),
           'rounded-full',
           className,
         )}
+        duck-radio=""
+        ref={ref}
+        style={{ ...style, ...inputStyle }}
+        type="radio"
         {...props}
       />
       <SvgIndicator className="sr-only" />
@@ -77,13 +67,13 @@ function RadioGroup({
   return (
     <RadioGroupContext.Provider
       value={{
-        value: '',
-        onValueChange: () => {},
-        wrapperRef,
         itemsRef,
+        onValueChange: () => {},
         selectedItemRef,
+        value: '',
+        wrapperRef,
       }}>
-      <ul duck-radio-group="" className={cn('flex flex-col', className)} ref={wrapperRef} role="radiogroup" {...props}>
+      <ul className={cn('flex flex-col', className)} duck-radio-group="" ref={wrapperRef} {...props}>
         {children}
       </ul>
     </RadioGroupContext.Provider>
@@ -99,17 +89,17 @@ function RadioGroupItem({
 }: Omit<React.HTMLProps<HTMLLIElement>, 'value'> & { customIndicator?: React.ReactNode; value: string }) {
   return (
     <li
-      id={value}
-      duck-radio-item=""
-      role="presentation"
       className={cn(
         'relative flex items-center gap-2 [&>#radio-indicator]:opacity-0 [&[aria-checked=true]>#radio-indicator]:opacity-100',
         className,
       )}
+      duck-radio-item=""
+      id={value}
+      role="presentation"
       {...props}>
       {customIndicator && <span id="radio-indicator">{customIndicator}</span>}
-      <Radio id={value} className={cn(customIndicator?.toString() && 'hidden')} />
-      <Label duck-radio-label="" className="font-normal text-base" htmlFor={value}>
+      <Radio className={cn(customIndicator?.toString() && 'hidden')} id={value} />
+      <Label className="font-normal text-base" duck-radio-label="" htmlFor={value}>
         {children}
       </Label>
     </li>

@@ -1,27 +1,27 @@
 {
-  "name": "@gentleduck/registers",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "exports": {
-    ".": "./index.ts"
-  },
-  "scripts": {
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "build": "tsdown",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "zod": "catalog:"
   },
-  "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=22.0.0"
-  }
+  },
+  "exports": {
+    ".": "./index.ts"
+  },
+  "name": "@gentleduck/registers",
+  "packageManager": "pnpm@10.10.0",
+  "private": true,
+  "scripts": {
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version"
+  },
+  "type": "module",
+  "version": "0.1.0"
 }

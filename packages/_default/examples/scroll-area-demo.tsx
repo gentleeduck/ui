@@ -14,7 +14,7 @@ export default function ScrollAreaDemo() {
         <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
         {tags.map((tag) => (
           <>
-            <div key={tag} className="text-sm">
+            <div className="text-sm" key={tag}>
               {tag}
             </div>
             <Separator className="my-2" />

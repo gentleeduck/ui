@@ -29,16 +29,16 @@ export default function DialogCloseButton() {
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
+            <Label className="sr-only" htmlFor="link">
               Link
             </Label>
             <Input
-              id="link"
               defaultValue="https://ui.shadcn.com/docs/installation"
+              id="link"
               readOnly
             />
           </div>
-          <Button type="submit" size="sm" className="px-3">
+          <Button className="px-3" size="sm" type="submit">
             <span className="sr-only">Copy</span>
             <Copy />
           </Button>

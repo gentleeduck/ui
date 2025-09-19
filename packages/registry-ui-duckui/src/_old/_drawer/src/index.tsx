@@ -6,26 +6,26 @@ import DialogPrimitive from '@gentleduck/primitives/dialog'
 import React from 'react'
 import { DrawerContext, useDrawerContext } from './context'
 import './style.css'
-import { usePreventScroll, isInput } from './use-prevent-scroll'
-import { useComposedRefs } from './use-composed-refs'
-import { useSnapPoints } from './use-snap-points'
-import { set, getTranslate, dampenValue, isVertical, reset } from './helpers'
+import { DialogClose, DialogDescription, DialogTitle, DialogTrigger } from '../../dialog'
+import { isIOS, isMobileFirefox } from './browser'
 import {
+  BORDER_RADIUS,
+  CLOSE_THRESHOLD,
+  DRAG_CLASS,
+  NESTED_DISPLACEMENT,
+  SCROLL_LOCK_TIMEOUT,
   TRANSITIONS,
   VELOCITY_THRESHOLD,
-  CLOSE_THRESHOLD,
-  SCROLL_LOCK_TIMEOUT,
-  BORDER_RADIUS,
-  NESTED_DISPLACEMENT,
   WINDOW_TOP_OFFSET,
-  DRAG_CLASS,
 } from './constants'
+import { dampenValue, getTranslate, isVertical, reset, set } from './helpers'
 import { DialogProps, DrawerDirection } from './types'
+import { useComposedRefs } from './use-composed-refs'
 import { useControllableState } from './use-controllable-state'
-import { useScaleBackground } from './use-scale-background'
 import { usePositionFixed } from './use-position-fixed'
-import { isIOS, isMobileFirefox } from './browser'
-import { DialogClose, DialogDescription, DialogTitle, DialogTrigger } from '../../dialog'
+import { isInput, usePreventScroll } from './use-prevent-scroll'
+import { useScaleBackground } from './use-scale-background'
+import { useSnapPoints } from './use-snap-points'
 
 export function Root({
   open: openProp,
@@ -60,7 +60,6 @@ export function Root({
 }: DialogProps) {
   const [isOpen = false, setIsOpen] = useControllableState({
     defaultProp: defaultOpen,
-    prop: openProp,
     onChange: (o: boolean) => {
       onOpenChange?.(o)
 
@@ -85,6 +84,7 @@ export function Root({
         document.body.style.pointerEvents = 'auto'
       }
     },
+    prop: openProp,
   })
   const [hasBeenOpened, setHasBeenOpened] = React.useState<boolean>(false)
   const [isDragging, setIsDragging] = React.useState<boolean>(false)
@@ -120,15 +120,15 @@ export function Root({
     shouldFade,
     getPercentageDragged: getSnapPointsPercentageDragged,
   } = useSnapPoints({
-    snapPoints,
     activeSnapPointProp,
-    setActiveSnapPointProp,
+    container,
+    direction,
     drawerRef,
     fadeFromIndex,
-    overlayRef,
     onSnapPointChange,
-    direction,
-    container,
+    overlayRef,
+    setActiveSnapPointProp,
+    snapPoints,
     snapToSequentialPoint,
   })
 
@@ -138,12 +138,12 @@ export function Root({
   })
 
   const { restorePositionSetting } = usePositionFixed({
+    hasBeenOpened,
     isOpen,
     modal,
     nested: nested ?? false,
-    hasBeenOpened,
-    preventScrollRestoration,
     noBodyStyles,
+    preventScrollRestoration,
   })
 
   function getScale() {
@@ -450,8 +450,8 @@ export function Root({
     })
 
     set(overlayRef.current, {
-      transition: `opacity ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
       opacity: '1',
+      transition: `opacity ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
     })
 
     // Don't reset background if swiped upwards
@@ -470,8 +470,8 @@ export function Root({
                 transform: `scale(${getScale()}) translate3d(calc(env(safe-area-inset-top) + 14px), 0, 0)`,
                 transformOrigin: 'left',
               }),
-          transitionProperty: 'transform, border-radius',
           transitionDuration: `${TRANSITIONS.DURATION}s`,
+          transitionProperty: 'transform, border-radius',
           transitionTimingFunction: `cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
         },
         true,
@@ -517,10 +517,10 @@ export function Root({
     if (snapPoints) {
       const directionMultiplier = direction === 'bottom' || direction === 'right' ? 1 : -1
       onReleaseSnapPoints({
-        draggedDistance: distMoved * directionMultiplier,
         closeDrawer,
-        velocity,
         dismissible,
+        draggedDistance: distMoved * directionMultiplier,
+        velocity,
       })
       onReleaseProp?.(event, true)
       return
@@ -578,20 +578,20 @@ export function Root({
     }
 
     set(drawerRef.current, {
-      transition: `transform ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
       transform: isVertical(direction)
         ? `scale(${scale}) translate3d(0, ${initialTranslate}px, 0)`
         : `scale(${scale}) translate3d(${initialTranslate}px, 0, 0)`,
+      transition: `transform ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
     })
 
     if (!o && drawerRef.current) {
       nestedOpenChangeTimer.current = setTimeout(() => {
         const translateValue = getTranslate(drawerRef.current as HTMLElement, direction)
         set(drawerRef.current, {
-          transition: 'none',
           transform: isVertical(direction)
             ? `translate3d(0, ${translateValue}px, 0)`
             : `translate3d(${translateValue}px, 0, 0)`,
+          transition: 'none',
         })
       }, 500)
     }
@@ -619,10 +619,10 @@ export function Root({
 
     if (o) {
       set(drawerRef.current, {
-        transition: `transform ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
         transform: isVertical(direction)
           ? `scale(${scale}) translate3d(0, ${translate}px, 0)`
           : `scale(${scale}) translate3d(${translate}px, 0, 0)`,
+        transition: `transform ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
       })
     }
   }
@@ -653,34 +653,34 @@ export function Root({
       <DrawerContext.Provider
         value={{
           activeSnapPoint,
-          snapPoints,
-          setActiveSnapPoint,
-          drawerRef,
-          overlayRef,
-          onOpenChange,
-          onPress,
-          onRelease,
-          onDrag,
-          dismissible,
-          shouldAnimate,
-          handleOnly,
-          isOpen,
-          isDragging,
-          shouldFade,
+          activeSnapPointIndex,
+          autoFocus,
           closeDrawer,
+          container,
+          direction,
+          dismissible,
+          drawerRef,
+          handleOnly,
+          isDragging,
+          isOpen,
+          keyboardIsOpen,
+          modal,
+          noBodyStyles,
+          onDrag,
           onNestedDrag,
           onNestedOpenChange,
           onNestedRelease,
-          keyboardIsOpen,
-          modal,
-          snapPointsOffset,
-          activeSnapPointIndex,
-          direction,
-          shouldScaleBackground,
+          onOpenChange,
+          onPress,
+          onRelease,
+          overlayRef,
+          setActiveSnapPoint,
           setBackgroundColorOnScale,
-          noBodyStyles,
-          container,
-          autoFocus,
+          shouldAnimate,
+          shouldFade,
+          shouldScaleBackground,
+          snapPoints,
+          snapPointsOffset,
         }}>
         {children}
       </DrawerContext.Provider>
@@ -788,27 +788,24 @@ export const Content = React.forwardRef<HTMLDivElement, ContentProps>(function (
 
   return (
     <DialogPrimitive.Content
-      data-vaul-drawer-direction={direction}
-      data-vaul-drawer=""
-      data-vaul-delayed-snap-points={delayedSnapPoints ? 'true' : 'false'}
-      data-vaul-snap-points={isOpen && hasSnapPoints ? 'true' : 'false'}
-      data-vaul-custom-container={container ? 'true' : 'false'}
       data-vaul-animate={shouldAnimate?.current ? 'true' : 'false'}
+      data-vaul-custom-container={container ? 'true' : 'false'}
+      data-vaul-delayed-snap-points={delayedSnapPoints ? 'true' : 'false'}
+      data-vaul-drawer=""
+      data-vaul-drawer-direction={direction}
+      data-vaul-snap-points={isOpen && hasSnapPoints ? 'true' : 'false'}
       {...rest}
-      ref={composedRef}
-      style={
-        snapPointsOffset && snapPointsOffset.length > 0
-          ? ({
-              '--snap-point-height': `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
-              ...style,
-            } as React.CSSProperties)
-          : style
-      }
-      onPointerDown={(event) => {
-        if (handleOnly) return
-        rest.onPointerDown?.(event)
-        pointerStartRef.current = { x: event.pageX, y: event.pageY }
-        onPress(event)
+      onContextMenu={(event) => {
+        rest.onContextMenu?.(event)
+        if (lastKnownPointerEventRef.current) {
+          handleOnPointerUp(lastKnownPointerEventRef.current)
+        }
+      }}
+      onFocusOutside={(e) => {
+        if (!modal) {
+          e.preventDefault()
+          return
+        }
       }}
       onOpenAutoFocus={(e) => {
         onOpenAutoFocus?.(e)
@@ -816,6 +813,12 @@ export const Content = React.forwardRef<HTMLDivElement, ContentProps>(function (
         if (!autoFocus) {
           e.preventDefault()
         }
+      }}
+      onPointerDown={(event) => {
+        if (handleOnly) return
+        rest.onPointerDown?.(event)
+        pointerStartRef.current = { x: event.pageX, y: event.pageY }
+        onPress(event)
       }}
       onPointerDownOutside={(e) => {
         onPointerDownOutside?.(e)
@@ -827,12 +830,6 @@ export const Content = React.forwardRef<HTMLDivElement, ContentProps>(function (
 
         if (keyboardIsOpen.current) {
           keyboardIsOpen.current = false
-        }
-      }}
-      onFocusOutside={(e) => {
-        if (!modal) {
-          e.preventDefault()
-          return
         }
       }}
       onPointerMove={(event) => {
@@ -852,22 +849,25 @@ export const Content = React.forwardRef<HTMLDivElement, ContentProps>(function (
           pointerStartRef.current = null
         }
       }}
+      onPointerOut={(event) => {
+        rest.onPointerOut?.(event)
+        handleOnPointerUp(lastKnownPointerEventRef.current)
+      }}
       onPointerUp={(event) => {
         rest.onPointerUp?.(event)
         pointerStartRef.current = null
         wasBeyondThePointRef.current = false
         onRelease(event)
       }}
-      onPointerOut={(event) => {
-        rest.onPointerOut?.(event)
-        handleOnPointerUp(lastKnownPointerEventRef.current)
-      }}
-      onContextMenu={(event) => {
-        rest.onContextMenu?.(event)
-        if (lastKnownPointerEventRef.current) {
-          handleOnPointerUp(lastKnownPointerEventRef.current)
-        }
-      }}
+      ref={composedRef}
+      style={
+        snapPointsOffset && snapPointsOffset.length > 0
+          ? ({
+              '--snap-point-height': `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
+              ...style,
+            } as React.CSSProperties)
+          : style
+      }
     />
   )
 })
@@ -957,7 +957,11 @@ export const Handle = React.forwardRef<HTMLDivElement, HandleProps>(function (
 
   return (
     <div
+      aria-hidden="true"
+      data-vaul-drawer-visible={isOpen ? 'true' : 'false'}
+      data-vaul-handle=""
       onClick={handleStartCycle}
+      // onPointerUp is already handled by the content component
       onPointerCancel={handleCancelInteraction}
       onPointerDown={(e) => {
         if (handleOnly) onPress(e)
@@ -966,14 +970,10 @@ export const Handle = React.forwardRef<HTMLDivElement, HandleProps>(function (
       onPointerMove={(e) => {
         if (handleOnly) onDrag(e)
       }}
-      // onPointerUp is already handled by the content component
       ref={ref}
-      data-vaul-drawer-visible={isOpen ? 'true' : 'false'}
-      data-vaul-handle=""
-      aria-hidden="true"
       {...rest}>
       {/* Expand handle's hit area beyond what's visible to ensure a 44x44 tap target for touch devices */}
-      <span data-vaul-handle-hitarea="" aria-hidden="true">
+      <span aria-hidden="true" data-vaul-handle-hitarea="">
         {children}
       </span>
     </div>
@@ -992,7 +992,6 @@ export function NestedRoot({ onDrag, onOpenChange, open: nestedIsOpen, ...rest }
   return (
     <Root
       nested
-      open={nestedIsOpen}
       onClose={() => {
         onNestedOpenChange(false)
       }}
@@ -1007,19 +1006,20 @@ export function NestedRoot({ onDrag, onOpenChange, open: nestedIsOpen, ...rest }
         onOpenChange?.(o)
       }}
       onRelease={onNestedRelease}
+      open={nestedIsOpen}
       {...rest}
     />
   )
 }
 
 export const Drawer = {
-  Root,
-  NestedRoot,
+  Close: DialogClose,
   Content,
+  Description: DialogDescription,
+  Handle,
+  NestedRoot,
+  Root,
+  Title: DialogTitle,
   // Overlay,
   Trigger: DialogTrigger,
-  Handle,
-  Close: DialogClose,
-  Title: DialogTitle,
-  Description: DialogDescription,
 }

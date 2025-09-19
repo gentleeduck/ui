@@ -182,7 +182,7 @@ export class KeyHandler {
 
     if (this.registry.hasCommand(joined)) {
       this.registry.debug && console.log(`[Match] '${joined}'`)
-      this.registry.getCommand(joined)!.execute()
+      this.registry.getCommand(joined)?.execute()
       this.resetSequence()
       return
     }
@@ -201,7 +201,7 @@ export class KeyHandler {
 
     if (this.registry.hasCommand(desc)) {
       this.registry.debug && console.log(`[Match] '${desc}'`)
-      this.registry.getCommand(desc)!.execute()
+      this.registry.getCommand(desc)?.execute()
       this.resetSequence()
     } else if (this.registry.isPrefix(desc)) {
       this.timeoutId = setTimeout(() => this.resetSequence(), this.TIMEOUT_MS)

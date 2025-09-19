@@ -32,8 +32,6 @@ export function CopyButton({ value, className, variant = 'ghost', event, ...prop
 
   return (
     <Button
-      size="icon"
-      variant={variant}
       aria-label="Copy"
       className={cn('w-6.5 h-6.5 [&_svg]:h-3.5 [&_svg]:w-3.5 shadow-none rounded-sm z-50', className)}
       icon={hasCopied ? <CheckIcon /> : <Copy />}
@@ -51,6 +49,8 @@ export function CopyButton({ value, className, variant = 'ghost', event, ...prop
         )
         setHasCopied(true)
       }}
+      size="icon"
+      variant={variant}
       {...props}
     />
   )
@@ -74,10 +74,10 @@ export function CopyWithClassNames({ value, classNames, className, ...props }: C
     <DropdownMenu placement="bottom-end">
       <DropdownMenuTrigger asChild>
         <Button
-          size="icon"
-          variant="outline"
           className={cn('relative z-50 [&_svg]:w-3.5 !size-6.5', className)}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
+          size="icon"
+          variant="outline"
           {...props}></Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -116,10 +116,10 @@ export function CopyNpmCommandButton({
 
   return (
     <Button
-      size="icon"
-      variant="outline"
       className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
       icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
+      size="icon"
+      variant="outline"
       {...props}></Button>
   )
 }

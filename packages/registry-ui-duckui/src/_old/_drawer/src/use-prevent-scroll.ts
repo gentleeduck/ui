@@ -214,9 +214,9 @@ function preventScrollMobileSafari() {
   window.scrollTo(0, 0)
 
   let removeEvents = chain(
-    addEvent(document, 'touchstart', onTouchStart, { passive: false, capture: true }),
-    addEvent(document, 'touchmove', onTouchMove, { passive: false, capture: true }),
-    addEvent(document, 'touchend', onTouchEnd, { passive: false, capture: true }),
+    addEvent(document, 'touchstart', onTouchStart, { capture: true, passive: false }),
+    addEvent(document, 'touchmove', onTouchMove, { capture: true, passive: false }),
+    addEvent(document, 'touchend', onTouchEnd, { capture: true, passive: false }),
     addEvent(document, 'focus', onFocus, true),
     addEvent(window, 'scroll', onWindowScroll),
   )

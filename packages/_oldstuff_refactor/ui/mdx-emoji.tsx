@@ -1,14 +1,15 @@
 //
 // @ts-noCheck
 // @ts-nocheck
-import { escapeForRegEx, Node } from '@tiptap/core'
-import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
-import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'
-import { init, SearchIndex } from 'emoji-mart'
+
 import data from '@emoji-mart/data'
-import { cn } from '@/lib'
-import localFont from 'next/font/local'
+import { escapeForRegEx, Node } from '@tiptap/core'
 import { TextSelection } from '@tiptap/pm/state'
+import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
+import { init, SearchIndex } from 'emoji-mart'
+import localFont from 'next/font/local'
+import { cn } from '@/lib'
+import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'
 
 type SearchEmojiArgs = {
   value: string
@@ -61,19 +62,6 @@ export type EmojiReplacerOptions = {
 }
 
 export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
-  name: 'emojiReplacer',
-
-  group: 'inline',
-  inline: true,
-  atom: true,
-
-  addOptions() {
-    return {
-      ruleConfigs: [],
-      shouldUseExtraLookupSpace: false,
-      shouldUseExtraReplacementSpace: true,
-    }
-  },
 
   addAttributes() {
     return {
@@ -86,32 +74,19 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
     }
   },
 
-  parseHTML() {
-    return [
-      {
-        tag: 'span[data-emoji]',
-      },
-    ]
-  },
-
-  // renderHTML({ HTMLAttributes }) {
-  //   return ['span', { ...HTMLAttributes, 'data-emoji': HTMLAttributes.emoji }]
-  // },
-  //
-  renderHTML({ HTMLAttributes }) {
-    // Ensure HTMLAttributes.emoji is properly formatted or replaced
-    return [
-      'span',
-      {
-        ...HTMLAttributes,
-        'data-emoji': HTMLAttributes.emoji,
-        class: cn('inline-flex text-lg leading-none', EmojiFont.className), // You can add classes for styling
-      },
-      HTMLAttributes.emoji, // Directly output the emoji character or HTML
-    ]
-  },
-  addNodeView() {
-    return ReactNodeViewRenderer(EmojiTooltip)
+  // @ts-ignore
+  addCommands() {
+    return {
+      insertEmoji:
+        (emoji: string, shortcode: string) =>
+        // @ts-ignore
+        ({ commands }) => {
+          return commands.insertContent({
+            attrs: { emoji, shortcode },
+            type: this.name,
+          })
+        },
+    }
   },
   addInputRules() {
     init({ data })
@@ -174,6 +149,41 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
   // @ts-ignore
   addKeyboardShortcuts() {
     return {
+      Backspace: ({ editor }) => {
+        const { state, view } = editor
+        const { selection } = state
+        const { $from } = selection
+        const nodeBefore = $from.nodeBefore
+
+        if (nodeBefore?.type.name === 'text' && nodeBefore.text === ' ') {
+          const pos = $from.pos - nodeBefore.nodeSize
+          const tr = state.tr.delete(pos, $from.pos)
+
+          view.dispatch(tr)
+
+          return true
+        }
+
+        if (nodeBefore?.type.name === 'emojiReplacer') {
+          const pos = $from.pos - nodeBefore.nodeSize
+          const tr = state.tr.delete(pos, $from.pos)
+
+          if (this.options.shouldUseExtraReplacementSpace) {
+            const spaceTextNode = state.schema.text(' ')
+            if (this.options.shouldUseExtraReplacementSpace) {
+              tr.insert($from.pos - nodeBefore.nodeSize, spaceTextNode)
+            } else {
+              tr.insert($from.pos, spaceTextNode)
+            }
+          }
+
+          view.dispatch(tr)
+
+          return true
+        }
+
+        return false
+      },
       Enter: async ({ editor }) => {
         const { state, view } = editor
         const { schema, selection } = state
@@ -261,58 +271,23 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
 
         return true // Return true to indicate that the Enter key action has been handled
       },
-      Backspace: ({ editor }) => {
-        const { state, view } = editor
-        const { selection } = state
-        const { $from } = selection
-        const nodeBefore = $from.nodeBefore
-
-        if (nodeBefore?.type.name === 'text' && nodeBefore.text === ' ') {
-          const pos = $from.pos - nodeBefore.nodeSize
-          const tr = state.tr.delete(pos, $from.pos)
-
-          view.dispatch(tr)
-
-          return true
-        }
-
-        if (nodeBefore?.type.name === 'emojiReplacer') {
-          const pos = $from.pos - nodeBefore.nodeSize
-          const tr = state.tr.delete(pos, $from.pos)
-
-          if (this.options.shouldUseExtraReplacementSpace) {
-            const spaceTextNode = state.schema.text(' ')
-            if (this.options.shouldUseExtraReplacementSpace) {
-              tr.insert($from.pos - nodeBefore.nodeSize, spaceTextNode)
-            } else {
-              tr.insert($from.pos, spaceTextNode)
-            }
-          }
-
-          view.dispatch(tr)
-
-          return true
-        }
-
-        return false
-      },
     }
   },
+  addNodeView() {
+    return ReactNodeViewRenderer(EmojiTooltip)
+  },
 
-  // @ts-ignore
-  addCommands() {
+  addOptions() {
     return {
-      insertEmoji:
-        (emoji: string, shortcode: string) =>
-        // @ts-ignore
-        ({ commands }) => {
-          return commands.insertContent({
-            type: this.name,
-            attrs: { emoji, shortcode },
-          })
-        },
+      ruleConfigs: [],
+      shouldUseExtraLookupSpace: false,
+      shouldUseExtraReplacementSpace: true,
     }
   },
+  atom: true,
+
+  group: 'inline',
+  inline: true,
 
   // New method to allow external emoji insertion
 
@@ -360,5 +335,31 @@ export const EmojiReplacer = Node.create<EmojiReplacerOptions>({
 
     // Scroll to the new position
     view.someProp('handleScrollToSelection', (f) => f(view))
+  },
+  name: 'emojiReplacer',
+
+  parseHTML() {
+    return [
+      {
+        tag: 'span[data-emoji]',
+      },
+    ]
+  },
+
+  // renderHTML({ HTMLAttributes }) {
+  //   return ['span', { ...HTMLAttributes, 'data-emoji': HTMLAttributes.emoji }]
+  // },
+  //
+  renderHTML({ HTMLAttributes }) {
+    // Ensure HTMLAttributes.emoji is properly formatted or replaced
+    return [
+      'span',
+      {
+        ...HTMLAttributes,
+        class: cn('inline-flex text-lg leading-none', EmojiFont.className), // You can add classes for styling
+        'data-emoji': HTMLAttributes.emoji,
+      },
+      HTMLAttributes.emoji, // Directly output the emoji character or HTML
+    ]
   },
 })

@@ -1,15 +1,15 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { mergeAttributes, Node } from '@tiptap/core'
 
 export const SpaceNode = Node.create({
-  name: 'space',
-
-  group: 'inline',
-  inline: true,
-  atom: true,
 
   addAttributes() {
     return {}
   },
+  atom: true,
+
+  group: 'inline',
+  inline: true,
+  name: 'space',
 
   parseHTML() {
     return [

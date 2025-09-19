@@ -20,12 +20,12 @@ export default function CommandDialogDemo() {
 
   useKeyCommands({
     'ctrl+j': {
-      name: '⌘j',
       description: 'Open command menu',
       execute: () => {
         window.event?.preventDefault()
         setOpen(true)
       },
+      name: '⌘j',
     },
   })
 
@@ -37,7 +37,7 @@ export default function CommandDialogDemo() {
           <span className="text-xs">⌘</span>J
         </kbd>
       </p>
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandDialog onOpenChange={setOpen} open={open}>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>

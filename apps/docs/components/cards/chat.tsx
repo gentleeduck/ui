@@ -27,29 +27,29 @@ import * as React from 'react'
 
 const users = [
   {
-    name: 'Olivia Martin',
-    email: 'm@example.com',
     avatar: '/avatars/01.png',
+    email: 'm@example.com',
+    name: 'Olivia Martin',
   },
   {
-    name: 'Isabella Nguyen',
-    email: 'isabella.nguyen@email.com',
     avatar: '/avatars/03.png',
+    email: 'isabella.nguyen@email.com',
+    name: 'Isabella Nguyen',
   },
   {
-    name: 'Emma Wilson',
-    email: 'emma@example.com',
     avatar: '/avatars/05.png',
+    email: 'emma@example.com',
+    name: 'Emma Wilson',
   },
   {
-    name: 'Jackson Lee',
-    email: 'lee@example.com',
     avatar: '/avatars/02.png',
+    email: 'lee@example.com',
+    name: 'Jackson Lee',
   },
   {
-    name: 'William Kim',
-    email: 'will@email.com',
     avatar: '/avatars/04.png',
+    email: 'will@email.com',
+    name: 'William Kim',
   },
 ] as const
 
@@ -61,20 +61,20 @@ export function CardsChat() {
 
   const [messages, setMessages] = React.useState([
     {
-      role: 'agent',
       content: 'Hi, how can I help you today?',
-    },
-    {
-      role: 'user',
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
       role: 'agent',
-      content: 'What seems to be the problem?',
     },
     {
+      content: "Hey, I'm having trouble with my account.",
       role: 'user',
+    },
+    {
+      content: 'What seems to be the problem?',
+      role: 'agent',
+    },
+    {
       content: "I can't log in.",
+      role: 'user',
     },
   ])
   const [input, setInput] = React.useState('')
@@ -85,19 +85,19 @@ export function CardsChat() {
       <Card>
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center gap-4">
-            <Avatar className="border" src="/avatars/01.png" alt="S"></Avatar>
+            <Avatar alt="S" className="border" src="/avatars/01.png"></Avatar>
             <div className="flex flex-col gap-0.5">
               <p className="text-sm leading-none font-medium">Sofia Davis</p>
               <p className="text-muted-foreground text-xs">m@example.com</p>
             </div>
           </div>
-          <Tooltip sideOffset={10} delayDuration={0}>
+          <Tooltip delayDuration={0} sideOffset={10}>
             <TooltipTrigger asChild>
               <Button
-                size="icon"
-                variant="secondary"
                 className="ml-auto size-8 rounded-full"
-                onClick={() => setOpen(true)}>
+                onClick={() => setOpen(true)}
+                size="icon"
+                variant="secondary">
                 <PlusIcon />
                 <span className="sr-only">New message</span>
               </Button>
@@ -109,11 +109,11 @@ export function CardsChat() {
           <div className="flex flex-col gap-4">
             {messages.map((message, index) => (
               <div
-                key={index}
                 className={cn(
                   'flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm',
                   message.role === 'user' ? 'bg-primary text-primary-foreground ml-auto' : 'bg-muted',
-                )}>
+                )}
+                key={index}>
                 {message.content}
               </div>
             ))}
@@ -121,39 +121,39 @@ export function CardsChat() {
         </CardContent>
         <CardFooter>
           <form
+            className="relative w-full"
             onSubmit={(event) => {
               event.preventDefault()
               if (inputLength === 0) return
               setMessages([
                 ...messages,
                 {
-                  role: 'user',
                   content: input,
+                  role: 'user',
                 },
               ])
               setInput('')
-            }}
-            className="relative w-full">
+            }}>
             <Input
-              id="message"
-              placeholder="Type your message..."
-              className="flex-1 pr-10"
               autoComplete="off"
-              value={input}
+              className="flex-1 pr-10"
+              id="message"
               onChange={(event) => setInput(event.currentTarget.value)}
+              placeholder="Type your message..."
+              value={input}
             />
             <Button
-              type="submit"
-              size="icon"
               className="absolute top-1/2 right-2 !size-6 -translate-y-1/2 rounded-full"
-              disabled={inputLength === 0}>
+              disabled={inputLength === 0}
+              size="icon"
+              type="submit">
               <ArrowUpIcon className="!size-3.5" />
               <span className="sr-only">Send</span>
             </Button>
           </form>
         </CardFooter>
       </Card>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog onOpenChange={setOpen} open={open}>
         <DialogContent className="gap-0 p-0 outline-none">
           <DialogHeader className="px-4 pt-5 pb-4">
             <DialogTitle>New message</DialogTitle>
@@ -166,9 +166,9 @@ export function CardsChat() {
               <CommandGroup>
                 {users.map((user) => (
                   <CommandItem
-                    key={user.email}
-                    data-active={selectedUsers.includes(user)}
                     className="data-[active=true]:opacity-50"
+                    data-active={selectedUsers.includes(user)}
+                    key={user.email}
                     onSelect={() => {
                       if (selectedUsers.includes(user)) {
                         return setSelectedUsers(selectedUsers.filter((selectedUser) => selectedUser !== user))
@@ -176,7 +176,7 @@ export function CardsChat() {
 
                       return setSelectedUsers([...users].filter((u) => [...selectedUsers, user].includes(u)))
                     }}>
-                    <Avatar className="border" src={user.avatar} alt={user.name[0]}></Avatar>
+                    <Avatar alt={user.name[0]} className="border" src={user.avatar}></Avatar>
                     <div className="ml-2">
                       <p className="text-sm leading-none font-medium">{user.name}</p>
                       <p className="text-muted-foreground text-sm">{user.email}</p>
@@ -192,10 +192,10 @@ export function CardsChat() {
               <div className="flex -space-x-2 overflow-hidden">
                 {selectedUsers.map((user) => (
                   <Avatar
-                    key={user.email}
+                    alt={user.name[0]}
                     className="inline-block border"
-                    src={user.avatar}
-                    alt={user.name[0]}></Avatar>
+                    key={user.email}
+                    src={user.avatar}></Avatar>
                 ))}
               </div>
             ) : (
@@ -203,10 +203,10 @@ export function CardsChat() {
             )}
             <Button
               disabled={selectedUsers.length < 2}
-              size="sm"
               onClick={() => {
                 setOpen(false)
-              }}>
+              }}
+              size="sm">
               Continue
             </Button>
           </DialogFooter>

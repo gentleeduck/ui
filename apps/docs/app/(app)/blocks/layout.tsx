@@ -11,7 +11,6 @@ const description =
   'Clean, modern building blocks. Copy and paste into your apps. Works with all React frameworks. Open Source. Free forever.'
 
 export const metadata: Metadata = {
-  title,
   description,
   openGraph: {
     images: [
@@ -20,6 +19,7 @@ export const metadata: Metadata = {
       },
     ],
   },
+  title,
   twitter: {
     card: 'summary_large_image',
     images: [
@@ -41,7 +41,7 @@ export default function BlocksLayout({ children }: { children: React.ReactNode }
           <Button asChild size="sm">
             <a href="#blocks">Browse Blocks</a>
           </Button>
-          <Button asChild variant="ghost" size="sm">
+          <Button asChild size="sm" variant="ghost">
             <Link href="/docs/blocks">Add a block</Link>
           </Button>
         </PageActions>
@@ -49,7 +49,7 @@ export default function BlocksLayout({ children }: { children: React.ReactNode }
       <div className={'container-wrapper scroll-mt-24'} id="charts">
         <div className="container flex items-center justify-between gap-4 py-4">
           <BlocksNav />
-          <Button asChild variant="secondary" size="sm" className="mr-7 hidden shadow-none lg:flex">
+          <Button asChild className="mr-7 hidden shadow-none lg:flex" size="sm" variant="secondary">
             <Link href="/blocks/sidebar">Browse all blocks</Link>
           </Button>
         </div>

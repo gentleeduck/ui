@@ -13,20 +13,15 @@ import { Button, buttonVariants } from '../button'
 import type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
 
 const Pagination = ({ className, ...props }: React.HTMLProps<HTMLHeadElement>) => (
-  <nav
-    role="navigation"
-    aria-label="pagination"
-    className={cn('mx-auto flex w-full justify-center', className)}
-    {...props}
-  />
+  <nav aria-label="pagination" className={cn('mx-auto flex w-full justify-center', className)} {...props} />
 )
 
 const PaginationContent = ({ className, ref, ...props }: React.HTMLProps<HTMLUListElement>) => (
-  <ul ref={ref} className={cn('flex flex-row items-center gap-1', className)} {...props} />
+  <ul className={cn('flex flex-row items-center gap-1', className)} ref={ref} {...props} />
 )
 
 const PaginationItem = ({ className, ref, ...props }: React.HTMLProps<HTMLLIElement>) => (
-  <li ref={ref} className={cn('', className)} {...props} />
+  <li className={cn('', className)} ref={ref} {...props} />
 )
 
 const PaginationLink = ({ className, isActive, size = 'icon', ref, ...props }: PaginationLinkProps) => (
@@ -34,8 +29,8 @@ const PaginationLink = ({ className, isActive, size = 'icon', ref, ...props }: P
     aria-current={isActive ? 'page' : undefined}
     className={cn(
       buttonVariants({
-        variant: isActive ? 'outline' : 'ghost',
         size,
+        variant: isActive ? 'outline' : 'ghost',
       }),
       className,
     )}
@@ -46,9 +41,9 @@ const PaginationLink = ({ className, isActive, size = 'icon', ref, ...props }: P
 const PaginationPrevious = ({ className, ref, ...props }: React.ComponentPropsWithRef<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    size="default"
     className={cn('gap-1 pl-2.5', className)}
     ref={ref}
+    size="default"
     {...props}>
     <ChevronLeft className="h-4 w-4" />
     <span>Previous</span>
@@ -58,9 +53,9 @@ const PaginationPrevious = ({ className, ref, ...props }: React.ComponentPropsWi
 const PaginationNext = ({ className, ref, ...props }: React.ComponentPropsWithRef<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
-    size="default"
     className={cn('gap-1 pr-2.5', className)}
     ref={ref}
+    size="default"
     {...props}>
     <span>Next</span>
     <ChevronRight className="h-4 w-4" />
@@ -87,22 +82,22 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
     <Pagination className={cn('justify-end', wrapperClassName)} {...wrapperProps}>
       <PaginationContent className={cn('gap-2', contentClassName)} {...contentProps}>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
-          <Button variant="outline" size="sm" className={cn('w-[32px] p-0', maxLeftClassName)} {...maxLeftProps}>
+          <Button className={cn('w-[32px] p-0', maxLeftClassName)} size="sm" variant="outline" {...maxLeftProps}>
             <ChevronsLeftIcon />
           </Button>
         </PaginationItem>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
-          <Button variant="outline" size="sm" className={cn('w-[32px] p-0', leftClassName)} {...leftProps}>
+          <Button className={cn('w-[32px] p-0', leftClassName)} size="sm" variant="outline" {...leftProps}>
             <ChevronLeftIcon />
           </Button>
         </PaginationItem>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
-          <Button variant="outline" size="sm" className={cn('w-[32px] p-0', rightClassName)} {...rightProps}>
+          <Button className={cn('w-[32px] p-0', rightClassName)} size="sm" variant="outline" {...rightProps}>
             <ChevronRightIcon />
           </Button>
         </PaginationItem>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
-          <Button variant="outline" size="sm" className={cn('w-[32px] p-0', maxRightClassName)} {...maxRightProps}>
+          <Button className={cn('w-[32px] p-0', maxRightClassName)} size="sm" variant="outline" {...maxRightProps}>
             <ChevronsRightIcon />
           </Button>
         </PaginationItem>

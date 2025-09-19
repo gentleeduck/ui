@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import {
   ArrowUpCircle,
   CheckCircle2,
@@ -9,6 +8,7 @@ import {
   LucideIcon,
   XCircle,
 } from "lucide-react"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/registry/default/ui/button"
@@ -34,29 +34,29 @@ type Status = {
 
 const statuses: Status[] = [
   {
-    value: "backlog",
-    label: "Backlog",
     icon: HelpCircle,
+    label: "Backlog",
+    value: "backlog",
   },
   {
-    value: "todo",
-    label: "Todo",
     icon: Circle,
+    label: "Todo",
+    value: "todo",
   },
   {
-    value: "in progress",
-    label: "In Progress",
     icon: ArrowUpCircle,
+    label: "In Progress",
+    value: "in progress",
   },
   {
-    value: "done",
-    label: "Done",
     icon: CheckCircle2,
+    label: "Done",
+    value: "done",
   },
   {
-    value: "canceled",
-    label: "Canceled",
     icon: XCircle,
+    label: "Canceled",
+    value: "canceled",
   },
 ]
 
@@ -69,12 +69,12 @@ export default function ComboboxPopover() {
   return (
     <div className="flex items-center space-x-4">
       <p className="text-sm text-muted-foreground">Status</p>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger asChild>
           <Button
-            variant="outline"
-            size="sm"
             className="w-[150px] justify-start"
+            size="sm"
+            variant="outline"
           >
             {selectedStatus ? (
               <>
@@ -86,7 +86,7 @@ export default function ComboboxPopover() {
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0" side="right" align="start">
+        <PopoverContent align="start" className="p-0" side="right">
           <Command>
             <CommandInput placeholder="Change status..." />
             <CommandList>
@@ -95,7 +95,6 @@ export default function ComboboxPopover() {
                 {statuses.map((status) => (
                   <CommandItem
                     key={status.value}
-                    value={status.value}
                     onSelect={(value) => {
                       setSelectedStatus(
                         statuses.find((priority) => priority.value === value) ||
@@ -103,6 +102,7 @@ export default function ComboboxPopover() {
                       )
                       setOpen(false)
                     }}
+                    value={status.value}
                   >
                     <status.icon
                       className={cn(

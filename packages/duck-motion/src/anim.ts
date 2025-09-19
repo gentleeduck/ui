@@ -1,7 +1,14 @@
 import { cva } from '@gentleduck/variants'
 
 export const AnimVariants = cva('', {
+  defaultVariants: {
+    accelerated: 'default',
+    alive: 'default',
+  },
   variants: {
+    accelerated: {
+      default: 'transform-gpu will-change-[opacity,transform,translate,blur] backdrop:will-change-[opacity,blur]',
+    },
     alive: {
       default: 'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
     },
@@ -10,13 +17,6 @@ export const AnimVariants = cva('', {
         '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
       default: '',
     },
-    accelerated: {
-      default: 'transform-gpu will-change-[opacity,transform,translate,blur] backdrop:will-change-[opacity,blur]',
-    },
-  },
-  defaultVariants: {
-    alive: 'default',
-    accelerated: 'default',
   },
 })
 
@@ -24,12 +24,11 @@ export const AnimPopoverArrowVariants = cva(
   `overflow-visible after:border-background after:w-0 after:h-0 after:absolute after:[position-anchor:var(--position-anchor)] after:[po ition-area:inherit] 
 `,
   {
+    defaultVariants: {
+      side: 'left',
+    },
     variants: {
       side: {
-        top: `
-            after:border-x-8 after:border-x-transparent after:border-t-10
-            after:-bottom-2.5 
-          `,
         bottom: `
             after:border-x-8 after:border-x-transparent after:border-b-10 
             after:-top-2.5 after:left-[50%] after:-translate-x-[50%]
@@ -41,10 +40,11 @@ after:border-y-8 after:border-y-transparent after:border-r-10
             after:-left-2.5 after:top-[50%] after:-translate-y-[50%]
 after:bg-red-600
         `,
+        top: `
+            after:border-x-8 after:border-x-transparent after:border-t-10
+            after:-bottom-2.5 
+          `,
       },
-    },
-    defaultVariants: {
-      side: 'left',
     },
   },
 )
@@ -57,7 +57,17 @@ export const checkersStylePattern = cva(
   after:absolute after:drop-shadow after:bg-current after:size-[1em] after:rounded-[inherit] after:block after:mask-type-alpha after:mask-contain 
   after:opacity-0 checked:after:opacity-100 `,
   {
+    defaultVariants: {
+      indicatorState: 'default',
+      type: 'checkbox',
+    },
     variants: {
+      indicatorState: {
+        both: 'after:mask-[var(--svg-off)] checked:after:mask-[var(--svg-on)]',
+        checkedIndicatorReady: 'checked:after:mask-[var(--svg-on)]',
+        default: '',
+        indicatorReady: 'after:mask-[var(--svg-off)]',
+      },
       type: {
         checkbox: `
           justify-center rounded p-2
@@ -75,16 +85,6 @@ export const checkersStylePattern = cva(
           checked:after:translate-x-full after:opacity-100
             `,
       },
-      indicatorState: {
-        default: '',
-        indicatorReady: 'after:mask-[var(--svg-off)]',
-        checkedIndicatorReady: 'checked:after:mask-[var(--svg-on)]',
-        both: 'after:mask-[var(--svg-off)] checked:after:mask-[var(--svg-on)]',
-      },
-    },
-    defaultVariants: {
-      type: 'checkbox',
-      indicatorState: 'default',
     },
   },
 )

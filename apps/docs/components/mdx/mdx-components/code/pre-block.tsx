@@ -30,21 +30,21 @@ export function PreBlock({
     <div data-theme={(props as any)['data-theme']}>
       {__rawString__ && !__npmCommand__ && (
         <CopyButton
-          value={__rawString__}
-          variant={'outline'}
-          event={__event__}
           className={cn(
             'absolute right-1.5 bg-transparent border-none top-1.5 [&_svg]:size-5 [&_svg]:text-muted-foreground',
             __withMeta__ && 'top-16',
           )}
+          event={__event__}
+          value={__rawString__}
+          variant={'outline'}
         />
       )}
       {__npmCommand__ && __yarnCommand__ && __pnpmCommand__ && __bunCommand__ ? (
         <ShellCommand
-          __npmCommand__={__npmCommand__}
-          __yarnCommand__={__yarnCommand__}
-          __pnpmCommand__={__pnpmCommand__}
           __bunCommand__={__bunCommand__}
+          __npmCommand__={__npmCommand__}
+          __pnpmCommand__={__pnpmCommand__}
+          __yarnCommand__={__yarnCommand__}
           {...props}
         />
       ) : (
@@ -63,10 +63,10 @@ export function PreBlock({
 
 export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__, __bunCommand__ }: NpmCommands) {
   const commands = {
-    __npmCommand__,
-    __yarnCommand__,
-    __pnpmCommand__,
     __bunCommand__,
+    __npmCommand__,
+    __pnpmCommand__,
+    __yarnCommand__,
   }
   return (
     <Tabs className="rounded-md" defaultValue="__npmCommand__">
@@ -76,7 +76,7 @@ export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__,
         </div>
         {Object.keys(commands).map((command, idx) => {
           return (
-            <TabsTrigger value={command} key={idx} className="aria-[selected='true']:bg-muted">
+            <TabsTrigger className="aria-[selected='true']:bg-muted" key={idx} value={command}>
               {command.replace('__', '').replace('Command', '').replace('__', '')}
             </TabsTrigger>
           )
@@ -85,13 +85,13 @@ export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__,
       <Separator />
       {Object.entries(commands).map(([commandKey, command], idx) => {
         return (
-          <TabsContent value={commandKey} key={idx} className="[&_pre]:max-w-[620px] [&_pre]:overflow-auto">
+          <TabsContent className="[&_pre]:max-w-[620px] [&_pre]:overflow-auto" key={idx} value={commandKey}>
             <CopyButton
-              value={command as string}
-              variant={'outline'}
               className={cn(
                 'absolute right-1.5 top-1.5 bg-transparent border-none [&_svg]:size-5 [&_svg]:text-muted-foreground',
               )}
+              value={command as string}
+              variant={'outline'}
             />
             <pre className="p-4 pt-2 text-sm text-muted-foreground focus-visible:outline-none focus-visible:shadow-none">
               {command}

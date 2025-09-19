@@ -46,7 +46,7 @@ export default function TextareaForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="bio"
@@ -54,7 +54,7 @@ export default function TextareaForm() {
             <FormItem>
               <FormLabel>Bio</FormLabel>
               <FormControl>
-                <Textarea placeholder="Tell us a little bit about yourself" className="resize-none" {...field} />
+                <Textarea className="resize-none" placeholder="Tell us a little bit about yourself" {...field} />
               </FormControl>
               <FormDescription>
                 You can <span>@mention</span> other users and organizations.

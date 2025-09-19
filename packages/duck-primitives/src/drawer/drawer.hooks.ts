@@ -58,7 +58,7 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
   const FRAME_TIME = 4
   const SMOOTH_FACTOR = 1
 
-  // @ts-ignore
+  // @ts-expect-error
   const updateTransform = useDebounce<(deltaY: number) => void>((deltaY) => {
     if (!ref?.current) return
     const limitedDeltaY = Math.max(-holdUpThreshold, Math.min(deltaY, window.innerHeight))
@@ -128,10 +128,10 @@ export function useDrawerDrag({ ref, onOpenChange, holdUpThreshold = 10 }: UseDr
   }
 
   return {
-    isDragging,
     handleMouseDown,
-    handleTouchStart,
-    handleTouchMove,
     handleTouchEnd,
+    handleTouchMove,
+    handleTouchStart,
+    isDragging,
   }
 }

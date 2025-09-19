@@ -45,11 +45,11 @@ const useFormField = () => {
   }
   const { id } = itemContext
   return {
+    formDescriptionId: `${id}-form-item-description`,
+    formItemId: `${id}-form-item`,
+    formMessageId: `${id}-form-item-message`,
     id,
     name: fieldContext.name,
-    formItemId: `${id}-form-item`,
-    formDescriptionId: `${id}-form-item-description`,
-    formMessageId: `${id}-form-item-message`,
     ...fieldState,
   }
 }
@@ -61,7 +61,7 @@ function FormItem({ className, ...props }: React.ComponentProps<'div'>) {
   const id = React.useId()
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div duck-form-item="" className={cn('grid gap-2', className)} {...props} />
+      <div className={cn('grid gap-2', className)} duck-form-item="" {...props} />
     </FormItemContext.Provider>
   )
 }
@@ -69,9 +69,9 @@ function FormLabel({ className, ...props }: React.ComponentProps<typeof Label>) 
   const { error, formItemId } = useFormField()
   return (
     <Label
-      duck-form-label=""
-      data-error={!!error}
       className={cn('data-[error=true]:text-destructive', className)}
+      data-error={!!error}
+      duck-form-label=""
       htmlFor={formItemId}
       {...props}
     />
@@ -81,10 +81,10 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
   return (
     <Slot
-      duck-form-control=""
-      id={formItemId}
       aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
       aria-invalid={!!error}
+      duck-form-control=""
+      id={formItemId}
       {...props}
     />
   )
@@ -93,9 +93,9 @@ function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
   const { formDescriptionId } = useFormField()
   return (
     <p
+      className={cn('text-muted-foreground text-sm', className)}
       duck-form-description=""
       id={formDescriptionId}
-      className={cn('text-muted-foreground text-sm', className)}
       {...props}
     />
   )
@@ -107,7 +107,7 @@ function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
     return null
   }
   return (
-    <p duck-form-message="" id={formMessageId} className={cn('text-destructive text-sm', className)} {...props}>
+    <p className={cn('text-destructive text-sm', className)} duck-form-message="" id={formMessageId} {...props}>
       {body}
     </p>
   )

@@ -1,9 +1,9 @@
-import * as Automerge from '@automerge/automerge'
-import WebSocket from 'ws'
 import fs from 'node:fs'
-import readline from 'node:readline'
 import path from 'node:path'
+import readline from 'node:readline'
+import * as Automerge from '@automerge/automerge'
 import chokidar from 'chokidar'
+import WebSocket from 'ws'
 
 const args = process.argv.slice(2)
 if (args.length < 2) {
@@ -18,7 +18,7 @@ let doc = Automerge.init<{ content: string }>()
 const socket = new WebSocket('ws://localhost:3030')
 
 socket.on('open', () => {
-  socket.send(JSON.stringify({ type: 'hello', userName, filePath }))
+  socket.send(JSON.stringify({ filePath, type: 'hello', userName }))
 })
 
 socket.on('message', (data) => {
@@ -53,7 +53,7 @@ chokidar.watch(filePath, { ignoreInitial: true }).on('change', (path) => {
   const changes = Automerge.getChanges(doc, newDoc)
   doc = newDoc
 
-  socket.send(JSON.stringify({ type: 'changes', changes: changes.map((c) => Array.from(c)) }))
+  socket.send(JSON.stringify({ changes: changes.map((c) => Array.from(c)), type: 'changes' }))
 })
 
 // 🧑 CLI prompt
@@ -72,7 +72,7 @@ rl.on('line', (line) => {
   doc = newDoc
 
   fs.writeFileSync(filePath, doc.content)
-  socket.send(JSON.stringify({ type: 'changes', changes: changes.map((c) => Array.from(c)) }))
+  socket.send(JSON.stringify({ changes: changes.map((c) => Array.from(c)), type: 'changes' }))
 
   rl.prompt()
 })

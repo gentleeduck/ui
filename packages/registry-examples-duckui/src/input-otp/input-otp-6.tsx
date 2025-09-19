@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'
 import {
   Form,
   FormControl,
@@ -10,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@gentleduck/registry-ui-duckui/react-hook-form'
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -24,10 +24,10 @@ const FormSchema = z.object({
 
 export default function InputOTPForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
     defaultValues: {
       pin: '',
     },
+    resolver: zodResolver(FormSchema),
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -42,7 +42,7 @@ export default function InputOTPForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="pin"

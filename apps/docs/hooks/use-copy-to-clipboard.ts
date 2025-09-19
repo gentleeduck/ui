@@ -25,5 +25,5 @@ export function useCopyToClipboard({ timeout = 2000, onCopy }: { timeout?: numbe
     }, console.error)
   }
 
-  return { isCopied, copyToClipboard }
+  return { copyToClipboard, isCopied }
 }

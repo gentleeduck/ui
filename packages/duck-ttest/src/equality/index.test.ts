@@ -44,3 +44,21 @@ type Test_HasKeyWithType_False2 = AssertFalse<HasKeyWithType<'z', any, ObjA>, "E
 // HasKey<K, O>
 type Test_HasKey_True = AssertTrue<HasKey<'foo', { foo: string }>, "Expected key 'foo' to exist">
 type Test_HasKey_False = AssertFalse<HasKey<'bar', { foo: string }>, "Expected key 'bar' not to exist">
+
+/* @__IGNORED__@ */ type _IGNORE = [
+  Test_Equal_Prims_Pass,
+  Test_Equal_Prims_Fail,
+  Test_Equal_Obj_Pass,
+  Test_Equal_Obj_Fail,
+  Test_NotEqual_Prims_Pass,
+  Test_NotEqual_Prims_Fail,
+  Test_ShallowEqual_True,
+  Test_ShallowEqual_False,
+  Test_ShallowNotEqual_True,
+  Test_ShallowNotEqual_False,
+  Test_HasKeyWithType_True1,
+  Test_HasKeyWithType_False1,
+  Test_HasKeyWithType_False2,
+  Test_HasKey_True,
+  Test_HasKey_False,
+]

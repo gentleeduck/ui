@@ -1,13 +1,13 @@
 'use client'
 
-import * as React from 'react'
 import { Minus, Plus } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import * as React from 'react'
 import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 
 import { useConfig } from '@/hooks/use-config'
-import { Button } from '@/registry/registry-ui-components'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/registry/default/ui/'
+import { Button } from '@/registry/registry-ui-components'
 import { themes } from '@/registry/themes'
 
 const data = [
@@ -72,11 +72,11 @@ export function CardsActivityGoal() {
       <CardContent className="pb-2">
         <div className="flex items-center justify-center space-x-2">
           <Button
-            variant="outline"
-            size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
+            disabled={goal <= 200}
             onClick={() => onClick(-10)}
-            disabled={goal <= 200}>
+            size="icon"
+            variant="outline">
             <Minus className="h-4 w-4" />
             <span className="sr-only">Decrease</span>
           </Button>
@@ -85,25 +85,25 @@ export function CardsActivityGoal() {
             <div className="text-[0.70rem] uppercase text-muted-foreground">Calories/day</div>
           </div>
           <Button
-            variant="outline"
-            size="icon"
             className="h-8 w-8 shrink-0 rounded-full"
+            disabled={goal >= 400}
             onClick={() => onClick(10)}
-            disabled={goal >= 400}>
+            size="icon"
+            variant="outline">
             <Plus className="h-4 w-4" />
             <span className="sr-only">Increase</span>
           </Button>
         </div>
         <div className="my-3 h-[60px]">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer height="100%" width="100%">
             <BarChart data={data}>
               <Bar
                 dataKey="goal"
                 style={
                   {
+                    '--theme-primary': `hsl(${theme?.cssVars[mode === 'dark' ? 'dark' : 'light'].primary})`,
                     fill: 'var(--theme-primary)',
                     opacity: 0.2,
-                    '--theme-primary': `hsl(${theme?.cssVars[mode === 'dark' ? 'dark' : 'light'].primary})`,
                   } as React.CSSProperties
                 }
               />

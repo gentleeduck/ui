@@ -16,29 +16,29 @@ import {
 
 const projects = [
   {
+    icon: Frame,
     name: "Design Engineering",
     url: "#",
-    icon: Frame,
   },
   {
+    icon: PieChart,
     name: "Sales & Marketing",
     url: "#",
-    icon: PieChart,
   },
   {
+    icon: Map,
     name: "Travel",
     url: "#",
-    icon: Map,
   },
   {
+    icon: LifeBuoy,
     name: "Support",
     url: "#",
-    icon: LifeBuoy,
   },
   {
+    icon: Send,
     name: "Feedback",
     url: "#",
-    icon: Send,
   },
 ]
 

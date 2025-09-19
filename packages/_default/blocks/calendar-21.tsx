@@ -13,18 +13,8 @@ export default function Calendar21() {
 
   return (
     <Calendar
-      mode="range"
-      defaultMonth={range?.from}
-      selected={range}
-      onSelect={setRange}
-      numberOfMonths={1}
       captionLayout="dropdown"
       className="rounded-lg border shadow-sm [--cell-size:2.75rem] md:[--cell-size:3rem]"
-      formatters={{
-        formatMonthDropdown: (date) => {
-          return date.toLocaleString("default", { month: "long" })
-        },
-      }}
       components={{
         DayButton: ({ children, modifiers, day, ...props }) => {
           const isWeekend = day.date.getDay() === 0 || day.date.getDay() === 6
@@ -37,6 +27,16 @@ export default function Calendar21() {
           )
         },
       }}
+      defaultMonth={range?.from}
+      formatters={{
+        formatMonthDropdown: (date) => {
+          return date.toLocaleString("default", { month: "long" })
+        },
+      }}
+      mode="range"
+      numberOfMonths={1}
+      onSelect={setRange}
+      selected={range}
     />
   )
 }

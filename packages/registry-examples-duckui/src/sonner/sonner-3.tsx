@@ -1,7 +1,7 @@
-import React from 'react'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { toast } from 'sonner'
 import { SonnerUpload } from '@gentleduck/registry-ui-duckui/sonner'
+import React from 'react'
+import { toast } from 'sonner'
 
 export default function SonnerDmeo() {
   const controllerRef = React.useRef(new AbortController())
@@ -11,13 +11,13 @@ export default function SonnerDmeo() {
   const updateToast = (progress: number) => {
     toast(
       <SonnerUpload
-        progress={progress}
         attachments={2}
-        remainingTime={Math.max(0, 3000 - progress * 30)}
-        onComplete={handleComplete}
         onCancel={handleCancel}
+        onComplete={handleComplete}
+        progress={progress}
+        remainingTime={Math.max(0, 3000 - progress * 30)}
       />,
-      { id: 'sonner', dismissible: false, duration: 30000 },
+      { dismissible: false, duration: 30000, id: 'sonner' },
     )
   }
 
@@ -57,7 +57,7 @@ export default function SonnerDmeo() {
   }
 
   return (
-    <Button size="sm" border="default" variant="outline" onClick={handleClick}>
+    <Button border="default" onClick={handleClick} size="sm" variant="outline">
       Show Upload Toast
     </Button>
   )

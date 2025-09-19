@@ -50,14 +50,14 @@ export function CardsMetric() {
       </CardHeader>
       <CardContent className="pb-4">
         <div className="h-[200px]">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer height="100%" width="100%">
             <LineChart
               data={data}
               margin={{
-                top: 5,
-                right: 10,
-                left: 10,
                 bottom: 0,
+                left: 10,
+                right: 10,
+                top: 5,
               }}>
               <Tooltip
                 content={({ active, payload }) => {
@@ -82,35 +82,35 @@ export function CardsMetric() {
                 }}
               />
               <Line
-                type="monotone"
-                strokeWidth={2}
-                dataKey="average"
                 activeDot={{
                   r: 6,
                   style: { fill: 'var(--theme-primary)', opacity: 0.25 },
                 }}
+                dataKey="average"
+                strokeWidth={2}
                 style={
                   {
-                    stroke: 'var(--theme-primary)',
-                    opacity: 0.25,
                     '--theme-primary': `hsl(${theme?.cssVars[mode === 'dark' ? 'dark' : 'light'].primary})`,
+                    opacity: 0.25,
+                    stroke: 'var(--theme-primary)',
                   } as React.CSSProperties
                 }
+                type="monotone"
               />
               <Line
-                type="monotone"
-                dataKey="today"
-                strokeWidth={2}
                 activeDot={{
                   r: 8,
                   style: { fill: 'var(--theme-primary)' },
                 }}
+                dataKey="today"
+                strokeWidth={2}
                 style={
                   {
-                    stroke: 'var(--theme-primary)',
                     '--theme-primary': `hsl(${theme?.cssVars[mode === 'dark' ? 'dark' : 'light'].primary})`,
+                    stroke: 'var(--theme-primary)',
                   } as React.CSSProperties
                 }
+                type="monotone"
               />
             </LineChart>
           </ResponsiveContainer>

@@ -26,12 +26,12 @@ export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean)
   }, [open])
 
   return {
-    wrapperRef,
-    triggerRef,
     contentRef,
     groupsRef,
     itemsRef,
     originalItemsRef,
     selectedItemRef,
+    triggerRef,
+    wrapperRef,
   }
 }

@@ -18,17 +18,17 @@ export function ModeSwitcher() {
 
   return (
     <Button
-      variant="ghost"
-      className="group/toggle"
-      onClick={toggleTheme}
       aria-label="toggle theme"
+      className="group/toggle"
       icon={
         <>
           <SunIcon className="hidden [html.dark_&]:block" />
           <MoonIcon className="hidden [html.light_&]:block" />
         </>
       }
+      onClick={toggleTheme}
       size={'icon'}
+      variant="ghost"
     />
   )
 }

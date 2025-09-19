@@ -10,7 +10,7 @@ function Tooltip({
   delayDuration,
   ...props
 }: React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>) {
-  return <TooltipPrimitive.Root skipDelayDuration={skipDelayDuration} delayDuration={delayDuration} {...props} />
+  return <TooltipPrimitive.Root delayDuration={delayDuration} skipDelayDuration={skipDelayDuration} {...props} />
 }
 
 function TooltipTrigger({
@@ -29,13 +29,13 @@ function TooltipContent({
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
-        ref={ref}
-        role="tooltip"
         className={cn(
           AnimVariants(),
           'pointer-events-none relative z-50 h-fit w-fit select-none overflow-hidden text-balance rounded-lg border border-border bg-popover px-3 py-1.5 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
           className,
         )}
+        ref={ref}
+        role="tooltip"
         {...props}>
         {children}
       </TooltipPrimitive.Content>

@@ -9,14 +9,14 @@ export default function ToastWithAction() {
 
   return (
     <Button
-      variant="outline"
       onClick={() => {
         toast({
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
           action: <ToastAction altText="Try again">Try again</ToastAction>,
+          description: "There was a problem with your request.",
+          title: "Uh oh! Something went wrong.",
         })
       }}
+      variant="outline"
     >
       Show Toast
     </Button>

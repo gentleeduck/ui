@@ -1,4 +1,21 @@
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@gentleduck/registry-ui-duckui/dialog'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
+import { Label } from '@gentleduck/registry-ui-duckui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
+import { useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
 import { Plus, ToggleLeft } from 'lucide-react'
+import React from 'react'
+import { duck_table } from './main'
 import {
   DuckTable,
   DuckTablePagination,
@@ -13,23 +30,6 @@ import {
   DuckTableRightSide,
   DuckTableSearch,
 } from './table-advanced.chunks'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@gentleduck/registry-ui-duckui/dialog'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
-import { duck_table } from './main'
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@gentleduck/registry-ui-duckui/select'
-import React from 'react'
 export function TableDemo() {
   // return
   return (
@@ -71,7 +71,7 @@ export function DuckTableAdd() {
   })
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog onOpenChange={setOpen} open={open}>
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -86,7 +86,7 @@ export function DuckTableAdd() {
           })
           setOpen(false)
         }}>
-        <DialogTrigger size={'sm'} variant={'outline'} asChild>
+        <DialogTrigger asChild size={'sm'} variant={'outline'}>
           <Button icon={<Plus />}>Add</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
@@ -97,7 +97,7 @@ export function DuckTableAdd() {
           <div className="grid gap-4 grid-cols-2">
             {Object.entries(columns).map(([key, value]) =>
               value.enum?.length ? (
-                <div key={key} className="grid gap-3">
+                <div className="grid gap-3" key={key}>
                   <Label htmlFor={key}>{key}</Label>
                   <Select
                     id={key}
@@ -116,14 +116,14 @@ export function DuckTableAdd() {
                   </Select>
                 </div>
               ) : (
-                <div key={key} className="grid gap-3">
+                <div className="grid gap-3" key={key}>
                   <Label htmlFor={key}>{key}</Label>
                   <Input
                     id={key}
                     name={key}
+                    onChange={(e) => setState((prev) => ({ ...prev, [key]: e.target.value }))}
                     placeholder={`Enter ${key}...`}
                     value={state[key]}
-                    onChange={(e) => setState((prev) => ({ ...prev, [key]: e.target.value }))}
                   />
                 </div>
               ),

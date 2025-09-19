@@ -5,9 +5,9 @@ export default defineConfig({
   dts: true,
   entry: ['src/index.ts'],
   format: ['esm'],
-  sourcemap: true,
   minify: true,
-  target: 'esnext',
   outDir: 'dist',
+  sourcemap: true,
+  target: 'esnext',
   treeshake: true,
 })

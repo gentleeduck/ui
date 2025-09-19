@@ -1,8 +1,8 @@
 import React from 'react'
-import { set, isVertical } from './helpers'
 import { TRANSITIONS, VELOCITY_THRESHOLD } from './constants'
-import { useControllableState } from './use-controllable-state'
+import { isVertical, set } from './helpers'
 import { DrawerDirection } from './types'
+import { useControllableState } from './use-controllable-state'
 
 export function useSnapPoints({
   activeSnapPointProp,
@@ -28,16 +28,16 @@ export function useSnapPoints({
   snapToSequentialPoint?: boolean
 }) {
   const [activeSnapPoint, setActiveSnapPoint] = useControllableState<string | number | null>({
-    prop: activeSnapPointProp,
     defaultProp: snapPoints?.[0],
     onChange: setActiveSnapPointProp,
+    prop: activeSnapPointProp,
   })
 
   const [windowDimensions, setWindowDimensions] = React.useState(
     typeof window !== 'undefined'
       ? {
-          innerWidth: window.innerWidth,
           innerHeight: window.innerHeight,
+          innerWidth: window.innerWidth,
         }
       : undefined,
   )
@@ -45,8 +45,8 @@ export function useSnapPoints({
   React.useEffect(() => {
     function onResize() {
       setWindowDimensions({
-        innerWidth: window.innerWidth,
         innerHeight: window.innerHeight,
+        innerWidth: window.innerWidth,
       })
     }
     window.addEventListener('resize', onResize)
@@ -74,10 +74,10 @@ export function useSnapPoints({
 
   const snapPointsOffset = React.useMemo(() => {
     const containerSize = container
-      ? { width: container.getBoundingClientRect().width, height: container.getBoundingClientRect().height }
+      ? { height: container.getBoundingClientRect().height, width: container.getBoundingClientRect().width }
       : typeof window !== 'undefined'
-        ? { width: window.innerWidth, height: window.innerHeight }
-        : { width: 0, height: 0 }
+        ? { height: window.innerHeight, width: window.innerWidth }
+        : { height: 0, width: 0 }
 
     return (
       snapPoints?.map((snapPoint) => {
@@ -119,8 +119,8 @@ export function useSnapPoints({
       onSnapPointChange(newSnapPointIndex)
 
       set(drawerRef.current, {
-        transition: `transform ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
         transform: isVertical(direction) ? `translate3d(0, ${dimension}px, 0)` : `translate3d(${dimension}px, 0, 0)`,
+        transition: `transform ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
       })
 
       if (
@@ -131,13 +131,13 @@ export function useSnapPoints({
         newSnapPointIndex < fadeFromIndex
       ) {
         set(overlayRef.current, {
-          transition: `opacity ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
           opacity: '0',
+          transition: `opacity ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
         })
       } else {
         set(overlayRef.current, {
-          transition: `opacity ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
           opacity: '1',
+          transition: `opacity ${TRANSITIONS.DURATION}s cubic-bezier(${TRANSITIONS.EASE.join(',')})`,
         })
       }
 
@@ -278,14 +278,14 @@ export function useSnapPoints({
   }
 
   return {
-    isLastSnapPoint,
     activeSnapPoint,
-    shouldFade,
-    getPercentageDragged,
-    setActiveSnapPoint,
     activeSnapPointIndex,
-    onRelease,
+    getPercentageDragged,
+    isLastSnapPoint,
     onDrag,
+    onRelease,
+    setActiveSnapPoint,
+    shouldFade,
     snapPointsOffset,
   }
 }

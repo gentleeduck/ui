@@ -8,25 +8,30 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui-duckui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui-duckui/chart'
 import { TrendingUp } from 'lucide-react'
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from 'recharts'
 
 export const description = 'A radar chart with a grid filled'
 
 const chartData = [
-  { month: 'January', desktop: 186 },
-  { month: 'February', desktop: 285 },
-  { month: 'March', desktop: 237 },
-  { month: 'April', desktop: 203 },
-  { month: 'May', desktop: 209 },
-  { month: 'June', desktop: 264 },
+  { desktop: 186, month: 'January' },
+  { desktop: 285, month: 'February' },
+  { desktop: 237, month: 'March' },
+  { desktop: 203, month: 'April' },
+  { desktop: 209, month: 'May' },
+  { desktop: 264, month: 'June' },
 ]
 
 const chartConfig = {
   desktop: {
-    label: 'Desktop',
     color: 'var(--chart-1)',
+    label: 'Desktop',
   },
 } satisfies ChartConfig
 
@@ -38,9 +43,9 @@ export default function Component() {
         <CardDescription>Showing total visitors for the last 6 months</CardDescription>
       </CardHeader>
       <CardContent className="pb-0">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
+        <ChartContainer className="mx-auto aspect-square max-h-[250px]" config={chartConfig}>
           <RadarChart data={chartData}>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
             <PolarGrid className="fill-[--color-desktop] opacity-20" />
             <PolarAngleAxis dataKey="month" />
             <Radar dataKey="desktop" fill="var(--color-desktop)" fillOpacity={0.5} />
@@ -51,7 +56,7 @@ export default function Component() {
         <div className="flex items-center gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="flex items-center gap-2 leading-none text-muted-foreground">January - June 2024</div>
+        <div className="flex items-center gap-2 text-muted-foreground leading-none">January - June 2024</div>
       </CardFooter>
     </Card>
   )

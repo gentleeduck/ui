@@ -12,45 +12,45 @@ import {
 const invoices = [
   {
     invoice: "INV001",
+    paymentMethod: "Credit Card",
     paymentStatus: "Paid",
     totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
   },
   {
     invoice: "INV002",
+    paymentMethod: "PayPal",
     paymentStatus: "Pending",
     totalAmount: "$150.00",
-    paymentMethod: "PayPal",
   },
   {
     invoice: "INV003",
+    paymentMethod: "Bank Transfer",
     paymentStatus: "Unpaid",
     totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
   },
   {
     invoice: "INV004",
+    paymentMethod: "Credit Card",
     paymentStatus: "Paid",
     totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
   },
   {
     invoice: "INV005",
+    paymentMethod: "PayPal",
     paymentStatus: "Paid",
     totalAmount: "$550.00",
-    paymentMethod: "PayPal",
   },
   {
     invoice: "INV006",
+    paymentMethod: "Bank Transfer",
     paymentStatus: "Pending",
     totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
   },
   {
     invoice: "INV007",
+    paymentMethod: "Credit Card",
     paymentStatus: "Unpaid",
     totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
   },
 ]
 

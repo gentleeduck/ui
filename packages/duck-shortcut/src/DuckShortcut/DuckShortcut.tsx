@@ -1,8 +1,7 @@
-import * as React from 'react'
 import Mousetrap from 'mousetrap'
-
-import type { DuckShortcutProps } from './'
+import * as React from 'react'
 import { normalizeShortcuts } from '../Getkeys'
+import type { DuckShortcutProps } from './'
 
 export const useDuckShortcut: React.FC<DuckShortcutProps> = ({ keys, onKeysPressed }) => {
   // Normalize the shortcuts in a state

@@ -1,9 +1,8 @@
 'use client'
-import { cn } from '@/lib'
-
-import { Button } from '@/registry/registry-ui-components'
 import { EllipsisVertical, MessageSquare, Paperclip, Plus, Reply, X } from 'lucide-react'
 import React from 'react'
+import { cn } from '@/lib'
+import { Button } from '@/registry/registry-ui-components'
 import {
   AvatarGroup,
   Badge,
@@ -25,109 +24,227 @@ import { MDXProvider } from './mdx-context-provider'
 
 export const users: TaggedUserType[] = [
   {
-    id: 'user-1',
-    name: 'stephany davis',
     avatarUrl:
       'https://images.unsplash.com/photo-1598550880863-4e8aa3d0edb4?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    id: 'user-1',
+    name: 'stephany davis',
   },
   {
-    id: 'user-2',
-    name: 'wildduck',
-    verified: true,
+    avatarUrl:
+      'https://media.licdn.com/dms/image/v2/D4D03AQGLX-Gb_qm3Rw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1725258661460?e=2147483647&v=beta&t=sajP4AdQ68WfKRPPirMnLXbn4J1oIOSDBfGnuwqZ6SQ',
     badge: [
       {
         id: 'badge-1',
-        title: 'duckui',
         imgUrl: 'https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/duckui%20(1).png',
+        title: 'duckui',
       },
     ],
-    avatarUrl:
-      'https://media.licdn.com/dms/image/v2/D4D03AQGLX-Gb_qm3Rw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1725258661460?e=2147483647&v=beta&t=sajP4AdQ68WfKRPPirMnLXbn4J1oIOSDBfGnuwqZ6SQ',
+    id: 'user-2',
+    name: 'wildduck',
+    verified: true,
   },
 ]
 
 export const comments: CommentType[] = [
   {
-    id: 'comment-1',
-    user: users[0],
+    attachments: [],
     content:
       'BTW Ahemd, you have to finished this task today! we are on a deadline.  <span emoji="💀" shortcode=":sunglasses:" data-emoji="💀" class="inline-flex text-lg leading-none __className_aef5f5">💀</span>',
-    attachments: [],
     createdAt: '2021-01-01T00:00:00.000Z',
+    id: 'comment-1',
     likes: {
       amount: 4,
       users: [],
     },
+    user: users[0],
   },
   {
-    id: 'comment-2',
-    user: users[1],
-    content:
-      '<p>Okay Lol. I am going to finish this task. not today. <span emoji="😎" shortcode=":sunglasses:" data-emoji="😎" class="inline-flex text-lg leading-none __className_aef5f5">😎</span>, and I use arch, vim and Rust BTW, forgot to mention Elixir...girl.</p>',
     attachments: [
       {
-        type: 'image',
-        name: 'image.png',
-        url: 'https://cdn.dribbble.com/userupload/15141885/file/original-08488d0f9a87b84a0dcb28fa0f98e660.jpg?resize=1024x768',
+        file: null,
         id: 'attachment-1',
+        name: 'image.png',
         size: '1000000',
-        file: null,
+        type: 'image',
+        url: 'https://cdn.dribbble.com/userupload/15141885/file/original-08488d0f9a87b84a0dcb28fa0f98e660.jpg?resize=1024x768',
       },
       {
-        type: 'image',
+        file: null,
+        id: 'attachment-2',
         name: 'image.png',
+        size: '1000000',
+        type: 'image',
         url: 'https://cdn.dribbble.com/userupload/15141886/file/original-dfa730af1401d31266a4660fd11454a0.jpg?resize=1600x1200',
-        id: 'attachment-2',
-        size: '1000000',
-        file: null,
       },
       {
-        type: 'image',
-        name: 'image.png',
-        url: 'https://cdn.dribbble.com/userupload/13745066/file/original-f80c8b9c204ccaa2b0fa17ab8f516aeb.jpg?resize=1024x768&vertical=center',
+        file: null,
         id: 'attachment-3',
+        name: 'image.png',
         size: '1000000',
-        file: null,
+        type: 'image',
+        url: 'https://cdn.dribbble.com/userupload/13745066/file/original-f80c8b9c204ccaa2b0fa17ab8f516aeb.jpg?resize=1024x768&vertical=center',
       },
       {
-        type: 'image',
-        name: 'image.png',
-        url: 'https://cdn.dribbble.com/userupload/15140812/file/original-39c2a658b21fa340e7eb51e0eca62e15.jpg?resize=1024x768',
+        file: null,
         id: 'attachment-4',
-        size: '1000000',
-        file: null,
-      },
-      {
-        type: 'image',
         name: 'image.png',
-        url: 'https://cdn.dribbble.com/userupload/15140814/file/original-22eddfd50ce84be4acb8bbbd50cf7840.jpg?resize=1600x1200',
-        id: 'attachment-6',
         size: '1000000',
-        file: null,
+        type: 'image',
+        url: 'https://cdn.dribbble.com/userupload/15140812/file/original-39c2a658b21fa340e7eb51e0eca62e15.jpg?resize=1024x768',
       },
       {
+        file: null,
+        id: 'attachment-6',
+        name: 'image.png',
+        size: '1000000',
+        type: 'image',
+        url: 'https://cdn.dribbble.com/userupload/15140814/file/original-22eddfd50ce84be4acb8bbbd50cf7840.jpg?resize=1600x1200',
+      },
+      {
+        file: null,
         id: 'attachment-2',
-        type: 'audio/ogg',
         name: 'audio.ogg',
         size: '1000000',
+        type: 'audio/ogg',
         url: 'https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/Pingtr1p.ogg',
-        file: null,
       },
     ],
+    content:
+      '<p>Okay Lol. I am going to finish this task. not today. <span emoji="😎" shortcode=":sunglasses:" data-emoji="😎" class="inline-flex text-lg leading-none __className_aef5f5">😎</span>, and I use arch, vim and Rust BTW, forgot to mention Elixir...girl.</p>',
     createdAt: '2021-01-01T00:00:00.000Z',
+    id: 'comment-2',
     likes: {
       amount: 4089,
       users: [],
     },
+    user: users[1],
   },
 ]
 
 export const initData: InitDataType = {
+  columnOrder: ['column-1', 'column-2', 'column-3'],
+
+  columns: {
+    'column-1': {
+      id: 'column-1',
+      taskIds: ['task-1'],
+      title: 'To Do',
+    },
+    'column-2': {
+      id: 'column-2',
+      taskIds: [],
+      title: 'In Progress',
+    },
+    'column-3': {
+      id: 'column-3',
+      taskIds: [],
+      title: 'Done',
+    },
+  },
   tasks: {
     'task-1': {
-      id: 'task-1',
-      title: 'Page "About" and "Contact" components',
+      attachments: [
+        {
+          file: null,
+          id: 'attachment-1',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/princess-min.d694ac37.png',
+        },
+        {
+          file: null,
+          id: 'attachment-2',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/jake-min.e1358fa8.png',
+        },
+        {
+          file: null,
+          id: 'attachment-3',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/bmo-min.b4f5c828.png',
+        },
+        {
+          file: null,
+          id: 'attachment-4',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/finn-min.008b490d.png',
+        },
+        {
+          file: null,
+          id: 'attachment-5',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/jake-min.e1358fa8.png',
+        },
+        {
+          file: null,
+          id: 'attachment-6',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/bmo-min.b4f5c828.png',
+        },
+        {
+          file: null,
+          id: 'attachment-7',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/princess-min.d694ac37.png',
+        },
+        {
+          file: null,
+          id: 'attachment-8',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/jake-min.e1358fa8.png',
+        },
+        {
+          file: null,
+          id: 'attachment-9',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/princess-min.d694ac37.png',
+        },
+        {
+          file: null,
+          id: 'attachment-10',
+          name: 'image.png',
+          size: '10KB',
+          type: 'image',
+          url: 'https://dnd.hellopangea.com/static/media/bmo-min.b4f5c828.png',
+        },
+      ],
+      comments: comments,
       description: "Page 'About' and 'Contact' components are not rendered because it is not the main page",
+      id: 'task-1',
+      labels: [
+        {
+          content: 'Design',
+          id: 'label-1',
+        },
+        {
+          content: 'Website',
+          id: 'label-2',
+        },
+      ],
+      links: [
+        {
+          id: 'link-1',
+          title: 'Link 1',
+        },
+      ],
+      options: [{}],
       subtasks: [
         {
           id: 'subtask-1',
@@ -138,128 +255,10 @@ export const initData: InitDataType = {
           title: 'Home data fetching',
         },
       ],
-      attachments: [
-        {
-          id: 'attachment-1',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/princess-min.d694ac37.png',
-          size: '10KB',
-          file: null,
-        },
-        {
-          id: 'attachment-2',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/jake-min.e1358fa8.png',
-          size: '10KB',
-          file: null,
-        },
-        {
-          id: 'attachment-3',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/bmo-min.b4f5c828.png',
-          size: '10KB',
-          file: null,
-        },
-        {
-          id: 'attachment-4',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/finn-min.008b490d.png',
-          size: '10KB',
-          file: null,
-        },
-        {
-          id: 'attachment-5',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/jake-min.e1358fa8.png',
-          size: '10KB',
-          file: null,
-        },
-        {
-          id: 'attachment-6',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/bmo-min.b4f5c828.png',
-          size: '10KB',
-          file: null,
-        },
-        {
-          id: 'attachment-7',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/princess-min.d694ac37.png',
-          size: '10KB',
-          file: null,
-        },
-        {
-          id: 'attachment-8',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/jake-min.e1358fa8.png',
-          size: '10KB',
-          file: null,
-        },
-        {
-          id: 'attachment-9',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/princess-min.d694ac37.png',
-          size: '10KB',
-          file: null,
-        },
-        {
-          id: 'attachment-10',
-          type: 'image',
-          name: 'image.png',
-          url: 'https://dnd.hellopangea.com/static/media/bmo-min.b4f5c828.png',
-          size: '10KB',
-          file: null,
-        },
-      ],
-      links: [
-        {
-          id: 'link-1',
-          title: 'Link 1',
-        },
-      ],
-      comments: comments,
       taggedUsers: users,
-      labels: [
-        {
-          id: 'label-1',
-          content: 'Design',
-        },
-        {
-          id: 'label-2',
-          content: 'Website',
-        },
-      ],
-      options: [{}],
+      title: 'Page "About" and "Contact" components',
     },
   },
-
-  columns: {
-    'column-1': {
-      id: 'column-1',
-      title: 'To Do',
-      taskIds: ['task-1'],
-    },
-    'column-2': {
-      id: 'column-2',
-      title: 'In Progress',
-      taskIds: [],
-    },
-    'column-3': {
-      id: 'column-3',
-      title: 'Done',
-      taskIds: [],
-    },
-  },
-  columnOrder: ['column-1', 'column-2', 'column-3'],
 }
 
 export default function SwapyMainDemo() {
@@ -267,11 +266,11 @@ export default function SwapyMainDemo() {
     <div className="flex items-start gap-4 p-4  select-none">
       <Kanban
         initData={initData}
+        kanbanColumnAddRow={{ children: KanbanColumnAddRowTemplate }}
         kanbanColumnHeader={{
           children: KanbanColumnHeaderTemplate,
           className: 'bg-red-500',
         }}
-        kanbanColumnAddRow={{ children: KanbanColumnAddRowTemplate }}
         kanbanColumnRow={{
           children: KanbanColumnRowTemplate,
           options: {
@@ -293,16 +292,20 @@ export const KanbanColumnAddRowTemplate: React.FC<KanbanColumnAddRowBodyArgs> = 
 
   return (
     <DialogCustom
-      type="sheet"
-      // drawerData={data.length > 0}
-      header={{
-        head: 'Add Task',
-        description: 'Set your daily tasks here.',
+      content={{
+        children: <ContentComponent goal={goal} onClick={onClick} />,
+        className:
+          '[&>div]:flex [&>div]:flex-col [&>div]:place-content-center [&>div]:w-full [&>div]:place-self-center sm:max-w-[450px]',
       }}
+      // drawerData={data.length > 0}
       footer={{
+        cancel: <Button variant="outline">Cancel</Button>,
         className: 'flex w-full justify-between items-end',
         submit: <Button variant="default">Submit</Button>,
-        cancel: <Button variant="outline">Cancel</Button>,
+      }}
+      header={{
+        description: 'Set your daily tasks here.',
+        head: 'Add Task',
       }}
       state={goal}
       trigger={{
@@ -316,11 +319,7 @@ export const KanbanColumnAddRowTemplate: React.FC<KanbanColumnAddRowBodyArgs> = 
           </div>
         ),
       }}
-      content={{
-        className:
-          '[&>div]:flex [&>div]:flex-col [&>div]:place-content-center [&>div]:w-full [&>div]:place-self-center sm:max-w-[450px]',
-        children: <ContentComponent goal={goal} onClick={onClick} />,
-      }}
+      type="sheet"
     />
   )
 }
@@ -338,10 +337,10 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
               <input
                 className="shadow appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline"
                 id="goal"
-                type="number"
-                placeholder="Goal"
-                value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                placeholder="Goal"
+                type="number"
+                value={title}
               />
             </div>
             <div className="mb-4">
@@ -351,10 +350,10 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
               <input
                 className="shadow appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline"
                 id="goal"
-                type="number"
-                placeholder="Goal"
-                value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                placeholder="Goal"
+                type="number"
+                value={title}
               />
             </div>
           </div>
@@ -368,7 +367,7 @@ export const KanbanColumnHeaderTemplate: React.FC<KanbanColumnRowBodyContentArgs
   return (
     <>
       <div className={cn('flex items-center gap-2')}>
-        <Badge size={'icon'} className={cn('size-[9px] bg-red-500')} />
+        <Badge className={cn('size-[9px] bg-red-500')} size={'icon'} />
         <h3>{column.title}</h3>
         <span>{column.taskIds.length}</span>
       </div>
@@ -385,7 +384,7 @@ export const KanbanColumnRowTemplate: React.FC<KanbanColumnRowComponentArgs> = (
       <div className={cn('flex items-center justify-between mb-[1rem]')}>
         <div className={cn('flex items-center gap-2')}>
           {labels.map((label, index) => (
-            <Badge key={label.id} className={cn('', label.className)}>
+            <Badge className={cn('', label.className)} key={label.id}>
               {label.content}
             </Badge>
           ))}
@@ -400,11 +399,11 @@ export const KanbanColumnRowTemplate: React.FC<KanbanColumnRowComponentArgs> = (
         <CheckboxGroup subtasks={subtasks} />
         <Separator className={cn('my-2 h-[1px] bg-muted-foreground/20')} />
         <Button
-          variant="outline"
           className="w-full hover:bg-muted-foreground/20 justify-start"
           icon={{
             children: Plus,
-          }}>
+          }}
+          variant="outline">
           Add subtask
         </Button>
       </div>
@@ -423,24 +422,24 @@ export const KanbanColumnRowTemplate: React.FC<KanbanColumnRowComponentArgs> = (
       <Separator className={cn('my-2 h-[1px]')} />
       <div className={cn('relative overflow flex items-center justify-between')}>
         <div className={cn('flex items-center justify-start gap-2 shrink-0')}>
-          <AvatarGroup users={taggedUsers} max_users={2} />
+          <AvatarGroup max_users={2} users={taggedUsers} />
         </div>
         <div className={cn('flex items-center justify-start gap-1 shrink-0')}>
           <CommentsLayout comments={comments} />
           <Button
             className="p-0"
-            variant={'ghost'}
-            size={'icon'}
             icon={{
               children: Paperclip,
             }}
             label={{
               children: 'Attachment',
-              showLabel: true,
-              showCommand: true,
-              side: 'top',
               className: 'text-xs',
+              showCommand: true,
+              showLabel: true,
+              side: 'top',
             }}
+            size={'icon'}
+            variant={'ghost'}
           />
         </div>
       </div>
@@ -460,34 +459,9 @@ export const CommentsLayout: React.FC<CommentsLayoutProps> = ({ comments }) => {
   return (
     <MDXProvider>
       <PopoverWrapper
-        wrapper={
-          {
-            // open: true,
-          }
-        }
-        trigger={{
-          asChild: true,
-          children: (
-            <Button
-              className="p-0"
-              variant={'ghost'}
-              size={'icon'}
-              icon={{
-                children: MessageSquare,
-              }}
-              label={{
-                children: 'Comments',
-                showLabel: true,
-                showCommand: true,
-                side: 'top',
-                className: 'text-xs',
-              }}
-            />
-          ),
-        }}
         content={{
-          side: 'top',
           className: 'p-0 w-[400px] mb-2',
+          side: 'top',
           // children: (
           //     <Comment>
           //         <CommentContent>
@@ -496,6 +470,31 @@ export const CommentsLayout: React.FC<CommentsLayoutProps> = ({ comments }) => {
           //     </Comment>
           // ),
         }}
+        trigger={{
+          asChild: true,
+          children: (
+            <Button
+              className="p-0"
+              icon={{
+                children: MessageSquare,
+              }}
+              label={{
+                children: 'Comments',
+                className: 'text-xs',
+                showCommand: true,
+                showLabel: true,
+                side: 'top',
+              }}
+              size={'icon'}
+              variant={'ghost'}
+            />
+          ),
+        }}
+        wrapper={
+          {
+            // open: true,
+          }
+        }
       />
     </MDXProvider>
   )
@@ -505,11 +504,11 @@ export const ReplyButton = () => {
   return (
     <Button
       // size={'icon'}
-      variant={'ghost'}
       className="w-5 h-5 p-3"
       icon={{
         children: Reply,
       }}
+      variant={'ghost'}
     />
   )
 }

@@ -23,13 +23,13 @@ export function SiteHeader() {
       <div className="flex h-[--header-height] w-full items-center gap-2 px-4">
         <Button
           className="h-8 w-8"
-          variant="ghost"
-          size="icon"
           onClick={toggleSidebar}
+          size="icon"
+          variant="ghost"
         >
           <SidebarIcon />
         </Button>
-        <Separator orientation="vertical" className="mr-2 h-4" />
+        <Separator className="mr-2 h-4" orientation="vertical" />
         <Breadcrumb className="hidden sm:block">
           <BreadcrumbList>
             <BreadcrumbItem>

@@ -3,9 +3,11 @@
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
 
-export interface AvatarProps extends React.HTMLProps<HTMLImageElement> {}
+export interface AvatarProps extends React.HTMLProps<HTMLImageElement> {
+  fallback?: string
+}
 
-function Avatar({ className, alt, ref, ...props }: AvatarProps) {
+function Avatar({ className, fallback, alt, ref, ...props }: AvatarProps) {
   const [isValid, setIsValid] = React.useState(true)
 
   return (
@@ -13,17 +15,19 @@ function Avatar({ className, alt, ref, ...props }: AvatarProps) {
       <img
         ref={ref}
         {...props}
-        onLoad={() => setIsValid(true)}
-        onError={() => setIsValid(false)}
-        className={'relative flex h-full w-full shrink-0 overflow-hidden object-cover text-transparent'}
         alt={alt}
+        className={'relative flex h-full w-full shrink-0 overflow-hidden object-cover text-transparent'}
+        height={'100%'}
+        onError={() => setIsValid(false)}
+        onLoad={() => setIsValid(true)}
+        width={'100%'}
       />
       {!isValid && (
         <span
           aria-label={alt}
-          role="img"
-          className="absolute inset-0 flex h-full w-full items-center justify-center bg-muted">
-          {alt?.slice(0, 2)}
+          className="absolute inset-0 flex h-full w-full items-center justify-center bg-muted"
+          role="img">
+          {fallback?.slice(0, 2)}
         </span>
       )}
     </picture>
@@ -44,9 +48,9 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
       <div className={cn('-space-x-5 flex items-center', className)} ref={ref} {...props}>
         {visibleImgs.map(({ className, alt, ...props }) => (
           <Avatar
-            key={props.id}
-            className={cn('border-2 border-border', className)}
             alt={alt?.slice(0, 2)}
+            className={cn('border-2 border-border', className)}
+            key={props.id}
             {...props}
           />
         ))}

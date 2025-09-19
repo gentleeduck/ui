@@ -27,7 +27,7 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
             .split('\n')[0]
             ?.replace('//', '') as string
           return (
-            <TabsTrigger value={value} className="aria-[selected='true']:bg-muted" key={idx}>
+            <TabsTrigger className="aria-[selected='true']:bg-muted" key={idx} value={value}>
               {value}
             </TabsTrigger>
           )
@@ -40,8 +40,8 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
           ?.replace('//', '') as string
         return (
           <TabsContent
-            key={idx}
             className="bg-transparent [&>div>div]:m-0 m-0 focus-visible:outline-none focus-visible:shadow-none focus-visible:ring-0 relative"
+            key={idx}
             value={value}>
             <FigcaptionBlock>{value}</FigcaptionBlock>
             {item}

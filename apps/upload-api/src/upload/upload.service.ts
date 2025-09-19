@@ -1,5 +1,8 @@
+import { sql } from 'drizzle-orm'
 import { eq } from 'drizzle-orm/expressions'
 import { buckets, db, files, folders } from '../drizzle/index'
+import { BucketFilesType, BucketFoldersType, GetSchemaType, TRPC_RESPONSE } from '../globals'
+import { MINIO } from '../minio/minio.service'
 import {
   DeleteBucketType,
   DeleteFileType,
@@ -11,10 +14,7 @@ import {
   InsertFileType,
   InsertFolderType,
 } from './upload.dto'
-import { MINIO } from '../minio/minio.service'
-import { BucketFilesType, BucketFoldersType, GetSchemaType, TRPC_RESPONSE } from '../globals'
 import { nestObjectsByTreeLevelAndFolderId } from './upload.lib'
-import { sql } from 'drizzle-orm'
 
 export class UploadService {
   public static async getBuckets({ user_id }: GetBucketsType) {
@@ -25,14 +25,14 @@ export class UploadService {
           return operators.eq(fields.user_id, user_id)
         },
       })
-      if (!_buckets) return { message: 'No buckets found', data: null }
+      if (!_buckets) return { data: null, message: 'No buckets found' }
 
       return { data: _buckets, message: `Buckets found` }
     } catch (_) {
       const error = {
+        _,
         data: null,
         message: `ERROR: failed to query this User .. with id ${user_id}`,
-        _,
       }
       console.log(_)
       return error
@@ -62,7 +62,7 @@ export class UploadService {
           )
         },
       })
-      if (!_files && !_folders) return { message: 'No files or folders found', data: null, _: null }
+      if (!_files && !_folders) return { _: null, data: null, message: 'No files or folders found' }
 
       // Return combined result of folders and files
       return {
@@ -71,9 +71,9 @@ export class UploadService {
       }
     } catch (_) {
       const error = {
+        _,
         data: null,
         message: `ERROR: failed to query this Bucket .. with id ${bucket_id}`,
-        _,
       }
       console.log(error)
       return error
@@ -98,7 +98,7 @@ export class UploadService {
       })
 
       if (!_files && !_folders) {
-        return { message: 'No files or folders found', data: null }
+        return { data: null, message: 'No files or folders found' }
       }
       // Return combined result of folders and files
       return {
@@ -107,9 +107,9 @@ export class UploadService {
       }
     } catch (_) {
       const error = {
+        _,
         data: null,
         message: `ERROR: failed to query this Folder .. with id ${folder_id}`,
-        _,
       }
       console.log(error)
       return error
@@ -127,15 +127,15 @@ export class UploadService {
         })
         .returning()
       if (!_buckets) {
-        return { message: `No buckets uploaded with name ${name}`, data: null }
+        return { data: null, message: `No buckets uploaded with name ${name}` }
       }
 
       return { data: _buckets, message: `Bucket ${name} uploaded` }
     } catch (_) {
       const error = {
+        _,
         data: null,
         message: `ERROR: failed to upload this Bucket .. with name ${name}`,
-        _,
       }
       console.log(error)
       return error
@@ -147,23 +147,23 @@ export class UploadService {
       const _folders = await db
         .insert(folders)
         .values({
+          bucket_id,
+          folder_id,
           name,
           tree_level,
-          folder_id,
-          bucket_id,
         })
         .returning()
       if (!_folders) {
-        return { message: `No folders uploaded with name ${name}`, data: null }
+        return { data: null, message: `No folders uploaded with name ${name}` }
       }
       console.log(_folders)
 
       return { data: _folders[0], message: `Folder ${name} uploaded` }
     } catch (_) {
       const error = {
+        _,
         data: null,
         message: `ERROR: failed to upload this Folder .. with name ${name}`,
-        _,
       }
       console.log(error)
       return error
@@ -182,34 +182,34 @@ export class UploadService {
   }: InsertFileType): Promise<TRPC_RESPONSE<GetSchemaType<typeof files>>> {
     try {
       const _file = await MINIO.insertFile({
+        file,
         id,
         name,
-        file,
       })
       if (!_file.fileUrl) {
-        return { message: `No files uploaded with name ${name}`, data: null, _: null }
+        return { _: null, data: null, message: `No files uploaded with name ${name}` }
       }
 
       const _files = await db
         .insert(files)
         .values({
-          name,
-          url: _file.fileUrl,
-          size,
-          type,
-          folder_id,
           bucket_id,
+          folder_id,
+          name,
+          size,
           tree_level,
+          type,
+          url: _file.fileUrl,
         })
         .returning()
       if (!_files) {
-        return { message: `No files uploaded with name ${name}`, data: null, _: null }
+        return { _: null, data: null, message: `No files uploaded with name ${name}` }
       }
 
       return {
+        _: null,
         data: _files,
         message: `File ${name} uploaded`,
-        _: null,
       }
     } catch (_) {
       const error = {
@@ -225,7 +225,7 @@ export class UploadService {
     try {
       const _bucket = await db.delete(buckets).where(eq(buckets.id, id))
       if (!_bucket) {
-        return { message: `No bucket found with id ${id}`, data: null }
+        return { data: null, message: `No bucket found with id ${id}` }
       }
 
       const _files = await db.delete(files).where(eq(files.bucket_id, id)).returning()
@@ -249,9 +249,9 @@ export class UploadService {
       return { data: _file, message: `File ${id} deleted` }
     } catch (_) {
       const error = {
+        _,
         data: null,
         message: `ERROR: failed to delete this File .. with id ${id}`,
-        _,
       }
       console.log(error)
       return error
@@ -267,10 +267,10 @@ export class UploadService {
       return { data: _folder, message: `Folder ${id} dleted` }
     } catch (_) {
       const error = {
+        _,
         data: null,
 
         message: `ERROR: failed to delete this Folder..with id ${id} `,
-        _,
       }
       console.log(error)
       return error
@@ -288,9 +288,9 @@ export class UploadService {
       return { data: _buckets, message: `Bucket ${id} updated` }
     } catch (_) {
       const error = {
+        _,
         data: null,
         message: `ERROR: failed to update this Bucket..with id ${id} `,
-        _,
       }
       console.log(error)
       return error
@@ -307,9 +307,9 @@ export class UploadService {
       return { data: _folders, message: `Folder ${id} updated` }
     } catch (_) {
       const error = {
+        _,
         data: null,
         message: `ERROR: failed to update this Folder..with id ${id} `,
-        _,
       }
       console.log(error)
       return error
@@ -326,9 +326,9 @@ export class UploadService {
       return { data: _files, message: `File ${id} updated` }
     } catch (_) {
       const error = {
+        _,
         data: null,
         message: `ERROR: failed to update this File..with id ${id} `,
-        _,
       }
       console.log(error)
       return error

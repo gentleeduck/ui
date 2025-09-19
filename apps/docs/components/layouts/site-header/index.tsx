@@ -2,12 +2,12 @@ import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { Github, Twitter } from 'lucide-react'
 import Link from 'next/link'
+import React from 'react'
 import { MainNav } from '~/components/main-nav'
 import { MobileNav } from '~/components/mobile-nav'
 import { ModeSwitcher } from '~/components/mode-toggle'
 import { siteConfig } from '~/config/site'
 import { CommandMenu } from '../command-menu'
-import React from 'react'
 
 export function SiteHeader() {
   return (
@@ -22,12 +22,12 @@ export function SiteHeader() {
             </div>
             <nav className="flex items-center">
               <GitHubStarsButton />
-              <Link href={siteConfig.links.twitter} target="_blank" rel="noreferrer" aria-label="Twitter">
+              <Link aria-label="Twitter" href={siteConfig.links.twitter} rel="noreferrer" target="_blank">
                 <div
                   className={cn(
                     buttonVariants({
-                      variant: 'ghost',
                       size: 'icon',
+                      variant: 'ghost',
                     }),
                   )}>
                   <Twitter />
@@ -59,13 +59,13 @@ export function GitHubStarsButton() {
   }, [])
 
   return (
-    <Link href={siteConfig.links.github} target="_blank" aria-label="GitHub" rel="noopener noreferrer">
+    <Link aria-label="GitHub" href={siteConfig.links.github} rel="noopener noreferrer" target="_blank">
       <div
         className={cn(
           buttonVariants({
-            variant: 'ghost',
-            size: 'icon',
             className: 'size-auto w-16 h-8 text-sm font-medium',
+            size: 'icon',
+            variant: 'ghost',
           }),
         )}>
         <Github />

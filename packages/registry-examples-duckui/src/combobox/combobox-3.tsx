@@ -11,30 +11,31 @@ import {
 } from '@gentleduck/registry-ui-duckui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import * as React from 'react'
+
 type Status = {
   value: string
   label: string
 }
 const statuses: Status[] = [
   {
-    value: 'backlog',
     label: 'Backlog',
+    value: 'backlog',
   },
   {
-    value: 'todo',
     label: 'Todo',
+    value: 'todo',
   },
   {
-    value: 'in progress',
     label: 'In Progress',
+    value: 'in progress',
   },
   {
-    value: 'done',
     label: 'Done',
+    value: 'done',
   },
   {
-    value: 'canceled',
     label: 'Canceled',
+    value: 'canceled',
   },
 ]
 export default function ComboboxPopover() {
@@ -43,10 +44,10 @@ export default function ComboboxPopover() {
   return (
     <div className="flex items-center space-x-4">
       <p className="text-muted-foreground text-sm">Status</p>
-      <Popover open={open} onOpenChange={setOpen} placement="bottom-end">
+      <Popover onOpenChange={setOpen} open={open} placement="bottom-end">
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[150px] justify-start">
-            {selectedStatus ? <>{selectedStatus.label}</> : <>+ Set status</>}
+          <Button className="w-[150px] justify-start" variant="outline">
+            {selectedStatus ? selectedStatus.label : '+ Set status'}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0">
@@ -58,11 +59,11 @@ export default function ComboboxPopover() {
                 {statuses.map((status) => (
                   <CommandItem
                     key={status.value}
-                    value={status.value}
                     onSelect={(value) => {
                       setSelectedStatus(statuses.find((priority) => priority.value === value) || null)
                       setOpen(false)
-                    }}>
+                    }}
+                    value={status.value}>
                     {status.label}
                   </CommandItem>
                 ))}

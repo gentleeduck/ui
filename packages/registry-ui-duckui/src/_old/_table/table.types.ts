@@ -1,12 +1,12 @@
 //@ts-noCheck
 
-import { ScrollArea } from '@/registry/default/ui/scroll-area'
-import { sortArray } from './table.lib'
-import { TableCell, TableFooter, TablePaginationStateType } from './table'
 import { ComboboxType } from '@/registry/default/ui/combobox'
 import { ContextMenuOptionsType } from '@/registry/default/ui/context-menu'
 import { DropdownMenuOptionsDataType, DropdownMenuOptionsType } from '@/registry/default/ui/dropdown-menu'
+import { ScrollArea } from '@/registry/default/ui/scroll-area'
 import { IconType, LabelType } from '../button'
+import { TableCell, TableFooter, TablePaginationStateType } from './table'
+import { sortArray } from './table.lib'
 
 //
 //

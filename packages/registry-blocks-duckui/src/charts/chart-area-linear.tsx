@@ -8,25 +8,30 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui-duckui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui-duckui/chart'
 import { TrendingUp } from 'lucide-react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
 export const description = 'A linear area chart'
 
 const chartData = [
-  { month: 'January', desktop: 186 },
-  { month: 'February', desktop: 305 },
-  { month: 'March', desktop: 237 },
-  { month: 'April', desktop: 73 },
-  { month: 'May', desktop: 209 },
-  { month: 'June', desktop: 214 },
+  { desktop: 186, month: 'January' },
+  { desktop: 305, month: 'February' },
+  { desktop: 237, month: 'March' },
+  { desktop: 73, month: 'April' },
+  { desktop: 209, month: 'May' },
+  { desktop: 214, month: 'June' },
 ]
 
 const chartConfig = {
   desktop: {
-    label: 'Desktop',
     color: 'var(--chart-1)',
+    label: 'Desktop',
   },
 } satisfies ChartConfig
 
@@ -48,19 +53,19 @@ export default function Component() {
             }}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
-              tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              dataKey="month"
               tickFormatter={(value) => value.slice(0, 3)}
+              tickLine={false}
+              tickMargin={8}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" hideLabel />} />
+            <ChartTooltip content={<ChartTooltipContent hideLabel indicator="dot" />} cursor={false} />
             <Area
               dataKey="desktop"
-              type="linear"
               fill="var(--color-desktop)"
               fillOpacity={0.4}
               stroke="var(--color-desktop)"
+              type="linear"
             />
           </AreaChart>
         </ChartContainer>

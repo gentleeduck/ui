@@ -73,8 +73,8 @@ export default function ConverterPage() {
     })
 
     const jsObject = {
-      light: lightTheme,
       dark: darkTheme,
+      light: lightTheme,
     }
 
     return JSON.stringify(jsObject, null, 2)
@@ -167,7 +167,7 @@ export default function ConverterPage() {
             <p className="text-muted-foreground">Convert between JavaScript theme objects and CSS custom properties</p>
           </div>
           <Link href="/color-editor">
-            <Button variant="outline" className="flex items-center gap-2 bg-transparent">
+            <Button className="flex items-center gap-2 bg-transparent" variant="outline">
               <Palette className="h-4 w-4" />
               Theme Manager
             </Button>
@@ -176,7 +176,7 @@ export default function ConverterPage() {
       </div>
 
       <div className="mb-6 flex items-center gap-4">
-        <Button onClick={toggleDirection} variant="outline" className="flex items-center gap-2 bg-transparent">
+        <Button className="flex items-center gap-2 bg-transparent" onClick={toggleDirection} variant="outline">
           <ArrowRightLeft className="h-4 w-4" />
           {isJsToCSS ? 'JS → CSS' : 'CSS → JS'}
         </Button>
@@ -197,16 +197,16 @@ export default function ConverterPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <Textarea
-              value={input}
+              className="min-h-[400px] font-mono text-sm"
               onChange={(e) => setInput(e.currentTarget.value)}
               placeholder={isJsToCSS ? exampleJsInput : exampleCssInput}
-              className="min-h-[400px] font-mono text-sm"
+              value={input}
             />
             <div className="flex gap-2">
-              <Button onClick={handleConvert} className="flex-1">
+              <Button className="flex-1" onClick={handleConvert}>
                 Convert
               </Button>
-              <Button variant="outline" onClick={() => setInput(isJsToCSS ? exampleJsInput : exampleCssInput)}>
+              <Button onClick={() => setInput(isJsToCSS ? exampleJsInput : exampleCssInput)} variant="outline">
                 Load Example
               </Button>
             </div>
@@ -223,25 +223,25 @@ export default function ConverterPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <Textarea
-              value={output}
-              readOnly
               className="min-h-[400px] font-mono text-sm bg-muted"
               placeholder={`Converted ${isJsToCSS ? 'CSS' : 'JavaScript'} will appear here...`}
+              readOnly
+              value={output}
             />
             <div className="flex gap-2">
               <Button
-                onClick={handleCopy}
-                variant="outline"
+                className="flex items-center gap-2 bg-transparent"
                 disabled={!output}
-                className="flex items-center gap-2 bg-transparent">
+                onClick={handleCopy}
+                variant="outline">
                 <Copy className="h-4 w-4" />
                 Copy
               </Button>
               <Button
-                onClick={handleDownload}
-                variant="outline"
+                className="flex items-center gap-2 bg-transparent"
                 disabled={!output}
-                className="flex items-center gap-2 bg-transparent">
+                onClick={handleDownload}
+                variant="outline">
                 <Download className="h-4 w-4" />
                 Download
               </Button>

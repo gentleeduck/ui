@@ -2,7 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@g
 
 export default function AccordionDemo() {
   return (
-    <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
+    <Accordion className="w-full" collapsible defaultValue="item-1" type="single">
       <AccordionItem value="item-1">
         <AccordionTrigger>Product Information</AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">

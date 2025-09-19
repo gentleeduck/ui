@@ -1,70 +1,64 @@
-import NativeButton from './duck/button/native'
-import NativeTextarea from './duck/textarea/native'
-import DuckButton from './duck/button/duck'
-import ShadcnButton from './duck/button/button'
-import DuckTextarea from './duck/textarea/duck'
-import ShadcnTextarea from './duck/textarea/textarea'
-import DuckTabs from './duck/tabs/duck'
-import ShadcnTabs from './duck/tabs/tabs'
-import DuckToggleGroup from './duck/toggle-group/duck'
-import ShadcnToggleGroup from './duck/toggle-group/toggle-group'
-import DuckToggle from './duck/toggle/duck'
-import ShadcnToggle from './duck/toggle/toggle'
-import DuckBadge from './duck/badge/duck'
-import ShadcnBadge from './duck/badge/badge'
-
 import { lazy } from 'react'
-
+import { KeyProvider } from '../../../packages/duck-vim/src/react/command'
+import ShadcnAccordion from './duck/accordion/accordion'
+import DuckAccordion from './duck/accordion/duck'
+import ShadcnBadge from './duck/badge/badge'
+import DuckBadge from './duck/badge/duck'
+import ShadcnButton from './duck/button/button'
+import DuckButton from './duck/button/duck'
+import NativeButton from './duck/button/native'
 import ShadcnCheckbox from './duck/checkbox/checkbox'
-import DuckLabel from './duck/label/duck'
-import ShadcnLabel from './duck/label/label'
 import DuckCheckbox from './duck/checkbox/duck'
-import DuckRadioGroup from './duck/radio-group/duck'
-import ShadcnRadioGroup from './duck/radio-group/radio-group'
-import DuckSwitch from './duck/switch/duck'
-import ShadcnSwitch from './duck/switch/switch'
-import DuckInput from './duck/input/duck'
-import ShadcnInput from './duck/input/input'
-import DuckScrollAreaExp from './duck/scroll-area/experimental'
-import DuckScrollArea from './duck/scroll-area/duck'
-import ShadcnScrollArea from './duck/scroll-area/scroll-area'
 import DuckHoverCard from './duck/hover-card/duck'
 import ShadcnHoverCard from './duck/hover-card/hover-card'
-import DuckSlider from './duck/slider/duck'
-import ShadcnSlider from './duck/slider/slider'
-import DuckAccordion from './duck/accordion/duck'
-import ShadcnAccordion from './duck/accordion/accordion'
+import DuckInput from './duck/input/duck'
+import ShadcnInput from './duck/input/input'
+import DuckLabel from './duck/label/duck'
+import ShadcnLabel from './duck/label/label'
 import DuckProgress from './duck/progress/duck'
 import ShadcnProgress from './duck/progress/progress'
+import DuckRadioGroup from './duck/radio-group/duck'
+import ShadcnRadioGroup from './duck/radio-group/radio-group'
+import DuckScrollArea from './duck/scroll-area/duck'
+import DuckScrollAreaExp from './duck/scroll-area/experimental'
+import ShadcnScrollArea from './duck/scroll-area/scroll-area'
 import DuckSelect from './duck/select/duck'
 import ShadcnSelect from './duck/select/select'
 import DuckSeparator from './duck/separator/duck'
 import DuckSeparatorExp from './duck/separator/experimental'
 import ShadcnSeparator from './duck/separator/separator'
-
-import Sandbox from './sandbox'
-
-import { KeyProvider } from '../../../packages/duck-vim/src/react/command'
-import Dialog from './example/dialog'
-import Dropdown from './example/dropdown'
-import HoverCard from './example/hover-card'
-import Popover from './example/popover'
-import TooltipDemo from './example/tooltip'
-import DropdownMenuDemo from './example/dropdown'
-import Select from './example/select'
-import Tooltip from './example/tooltip'
-import Accordion from './example/accordion'
-
-import Command from './example/command'
-
-import CmdK from './example/command/cmdk'
-import CommandShadcn from './example/command/shadcn'
-import DrawerExample from './example/drawer'
 import DuckSkeleton from './duck/skeleton/duck'
 import ShadcnSkeleton from './duck/skeleton/skeleton'
-
+import DuckSlider from './duck/slider/duck'
+import ShadcnSlider from './duck/slider/slider'
 import DuckSonner from './duck/sonner/duck'
 import ShadcnSonner from './duck/sonner/sonner'
+import DuckSwitch from './duck/switch/duck'
+import ShadcnSwitch from './duck/switch/switch'
+import DuckTabs from './duck/tabs/duck'
+import ShadcnTabs from './duck/tabs/tabs'
+import DuckTextarea from './duck/textarea/duck'
+import NativeTextarea from './duck/textarea/native'
+import ShadcnTextarea from './duck/textarea/textarea'
+import DuckToggle from './duck/toggle/duck'
+import ShadcnToggle from './duck/toggle/toggle'
+import DuckToggleGroup from './duck/toggle-group/duck'
+import ShadcnToggleGroup from './duck/toggle-group/toggle-group'
+import Accordion from './example/accordion'
+import Command from './example/command'
+import CmdK from './example/command/cmdk'
+import CommandShadcn from './example/command/shadcn'
+import Dialog from './example/dialog'
+import DrawerExample from './example/drawer'
+import Dropdown from './example/dropdown'
+import DropdownMenuDemo from './example/dropdown'
+import HoverCard from './example/hover-card'
+import Popover from './example/popover'
+import Select from './example/select'
+import TooltipDemo from './example/tooltip'
+import Tooltip from './example/tooltip'
+import Sandbox from './sandbox'
+
 function Ui() {
   return (
     <>
@@ -133,8 +127,6 @@ function App() {
 
 export default App
 
-import { Calendar, ChevronDown, Home, Inbox, Search, Settings } from 'lucide-react'
-
 import {
   Sidebar,
   SidebarContent,
@@ -147,41 +139,42 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@gentleduck/registry-ui-duckui/sidebar'
+import { Calendar, ChevronDown, Home, Inbox, Search, Settings } from 'lucide-react'
 
 // Menu items.
 const items = [
   {
+    icon: Home,
     title: 'Home',
     url: '#',
-    icon: Home,
   },
   {
+    icon: Inbox,
     title: 'Inbox',
     url: '#',
-    icon: Inbox,
   },
   {
+    icon: Calendar,
     title: 'Calendar',
     url: '#',
-    icon: Calendar,
   },
   {
+    icon: Search,
     title: 'Search',
     url: '#',
-    icon: Search,
   },
   {
+    icon: Settings,
     title: 'Settings',
     url: '#',
-    icon: Settings,
   },
 ]
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
-import PopoverDemo from './example/popover'
 import AccordionDemo from './duck/accordion/duck'
-import { DuckTabsDemo } from './tabs/duck-ui'
 import ScrollAreaDemo from './duck/scroll-area/scroll-area'
+import PopoverDemo from './example/popover'
+import { DuckTabsDemo } from './tabs/duck-ui'
 export function AppSidebar() {
   return (
     <Sidebar>

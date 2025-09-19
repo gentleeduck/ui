@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
@@ -22,24 +22,24 @@ import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 export const description = 'An area chart with icons'
 
 const chartData = [
-  { month: 'January', desktop: 186, mobile: 80 },
-  { month: 'February', desktop: 305, mobile: 200 },
-  { month: 'March', desktop: 237, mobile: 120 },
-  { month: 'April', desktop: 73, mobile: 190 },
-  { month: 'May', desktop: 209, mobile: 130 },
-  { month: 'June', desktop: 214, mobile: 140 },
+  { desktop: 186, mobile: 80, month: 'January' },
+  { desktop: 305, mobile: 200, month: 'February' },
+  { desktop: 237, mobile: 120, month: 'March' },
+  { desktop: 73, mobile: 190, month: 'April' },
+  { desktop: 209, mobile: 130, month: 'May' },
+  { desktop: 214, mobile: 140, month: 'June' },
 ]
 
 const chartConfig = {
   desktop: {
-    label: 'Desktop',
     color: 'var(--chart-1)',
     icon: TrendingDown,
+    label: 'Desktop',
   },
   mobile: {
-    label: 'Mobile',
     color: 'var(--chart-2)',
     icon: TrendingUp,
+    label: 'Mobile',
   },
 } satisfies ChartConfig
 
@@ -61,28 +61,28 @@ export default function Component() {
             }}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
-              tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              dataKey="month"
               tickFormatter={(value) => value.slice(0, 3)}
+              tickLine={false}
+              tickMargin={8}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+            <ChartTooltip content={<ChartTooltipContent indicator="line" />} cursor={false} />
             <Area
               dataKey="mobile"
-              type="natural"
               fill="var(--color-mobile)"
               fillOpacity={0.4}
-              stroke="var(--color-mobile)"
               stackId="a"
+              stroke="var(--color-mobile)"
+              type="natural"
             />
             <Area
               dataKey="desktop"
-              type="natural"
               fill="var(--color-desktop)"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
               stackId="a"
+              stroke="var(--color-desktop)"
+              type="natural"
             />
             <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
@@ -94,7 +94,7 @@ export default function Component() {
             <div className="flex items-center gap-2 font-medium leading-none">
               Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">January - June 2024</div>
+            <div className="flex items-center gap-2 text-muted-foreground leading-none">January - June 2024</div>
           </div>
         </div>
       </CardFooter>

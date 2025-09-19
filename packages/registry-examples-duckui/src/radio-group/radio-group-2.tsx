@@ -1,8 +1,8 @@
 'use client'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Form, FormField, FormItem, FormLabel, FormMessage } from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -32,14 +32,14 @@ export default function RadioGroupDemo() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="type"
           render={({ field }) => (
             <FormItem className="space-y-3">
               <FormLabel>Notify me about...</FormLabel>
-              <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
+              <RadioGroup className="flex flex-col space-y-1" defaultValue={field.value} onValueChange={field.onChange}>
                 <RadioGroupItem value="all">All new messages</RadioGroupItem>
                 <RadioGroupItem value="mentions">Direct messages and mentions</RadioGroupItem>
                 <RadioGroupItem value="none">Nothing</RadioGroupItem>

@@ -33,7 +33,7 @@ export default function SelectForm() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.info(
       <div>
-        <h4 className="text-lg font-medium">You submitted the following values:</h4>
+        <h4 className="font-medium text-lg">You submitted the following values:</h4>
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
@@ -43,14 +43,14 @@ export default function SelectForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select defaultValue={field.value} onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a verified email to display" />

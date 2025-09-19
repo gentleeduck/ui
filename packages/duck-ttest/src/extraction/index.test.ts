@@ -1,6 +1,6 @@
+import type { AssertTrue } from '~/assert'
 import type { Equal } from '~/equality'
 import type { KeysOfType, MutableKeys, OptionalKeys, ReadonlyKeys, RequiredKeys } from '.'
-import type { AssertTrue } from '~/assert'
 
 // 1. KeysOfType<O, T>
 type Test_KeysOfType_Num = AssertTrue<
@@ -35,3 +35,12 @@ type Test_MutableKeys = AssertTrue<
   Equal<MutableKeys<{ readonly x: number; y: string }>, 'y'>,
   'Expected MutableKeys to extract mutable keys'
 >
+
+/* @__IGNORED__@ */ type _IGNORE = [
+  Test_KeysOfType_Num,
+  Test_KeysOfType_Str,
+  Test_OptionalKeys,
+  Test_RequiredKeys,
+  Test_ReadonlyKeys,
+  Test_MutableKeys,
+]

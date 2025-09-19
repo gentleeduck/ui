@@ -1,4 +1,4 @@
-import { generateKeyPairSync, publicEncrypt, privateDecrypt } from 'node:crypto'
+import { generateKeyPairSync, privateDecrypt, publicEncrypt } from 'node:crypto'
 
 // 1. Generate recipient's key pair
 const { publicKey, privateKey } = generateKeyPairSync('rsa', {

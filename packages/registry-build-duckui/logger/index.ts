@@ -5,16 +5,15 @@ import kleur from 'kleur'
  * Provides methods for logging success, warnings, errors, and fatal exceptions.
  */
 
-// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class Logger {
   /**
    * Log levels mapped to console methods for efficient logging.
    */
   private static logLevels = new Map([
-    ['success', { icon: '✅', color: kleur.green, method: console.log }],
-    ['warn', { icon: '!', color: kleur.yellow, method: console.warn }],
-    ['error', { icon: '❌', color: kleur.red, method: console.error }],
-    ['fatal', { icon: '🔥', color: kleur.bgRed().white, method: console.error }],
+    ['success', { color: kleur.green, icon: '✅', method: console.log }],
+    ['warn', { color: kleur.yellow, icon: '!', method: console.warn }],
+    ['error', { color: kleur.red, icon: '❌', method: console.error }],
+    ['fatal', { color: kleur.bgRed().white, icon: '🔥', method: console.error }],
   ])
 
   /**
@@ -43,7 +42,7 @@ export class Logger {
    */
   static success<T>(message: string, data: T): { success: true; message: string; data: T } {
     this.log('success', message)
-    return { success: true, message, data }
+    return { data, message, success: true }
   }
 
   /**
@@ -66,7 +65,7 @@ export class Logger {
     data: null
   } {
     this.log('error', message)
-    return { success: false, message, data: null }
+    return { data: null, message, success: false }
   }
 
   /**

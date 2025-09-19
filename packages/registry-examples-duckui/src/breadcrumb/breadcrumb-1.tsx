@@ -7,7 +7,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@gentleduck/registry-ui-duckui/breadcrumb'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +26,7 @@ export default function BreadcrumbDemo() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <DropdownMenu placement="top-start" onOpenChange={() => {}}>
+          <DropdownMenu onOpenChange={() => {}} placement="top-start">
             <DropdownMenuTrigger className="flex items-center gap-1">
               <BreadcrumbEllipsis className="size-4" />
               <span className="sr-only">Toggle menu</span>

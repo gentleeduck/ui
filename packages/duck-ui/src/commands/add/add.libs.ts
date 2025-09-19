@@ -1,11 +1,11 @@
-import { Registry } from '@gentleduck/registers'
+import type { RegistryEntry } from '@gentleduck/registers'
 import prompts from 'prompts'
 import { highlighter } from '~/utils'
 import { get_duckui_config } from '~/utils/get-project-info'
 import { get_registry_index, get_registry_item } from '~/utils/get-registry'
 import { registry_component_install } from '~/utils/registry-mutation'
 import { spinner as Spinner } from '~/utils/spinner'
-import { add_arguments_schema, add_options_schema, addOptions } from './add.dto'
+import { add_arguments_schema, add_options_schema, type addOptions } from './add.dto'
 
 export async function add_command_action(args: string[], opt: addOptions) {
   const spinner = Spinner('initializing...').start()
@@ -13,14 +13,14 @@ export async function add_command_action(args: string[], opt: addOptions) {
     const options = add_options_schema.parse(opt)
 
     const components_names = add_arguments_schema.parse(args)
-    let components: Registry = []
+    let components: RegistryEntry[] = []
 
     if (components_names.length) {
       components = await Promise.all(
         components_names.map(async (item, idx) => {
           spinner.text = `🦆 Fetching components... ${highlighter.info(`[${idx}/${components_names.length}]`)}`
           return await get_registry_item(item as Lowercase<string>)
-        }) as unknown as Registry,
+        }) as unknown as RegistryEntry[],
       )
     } else {
       const registry = await get_registry_index()
@@ -29,13 +29,13 @@ export async function add_command_action(args: string[], opt: addOptions) {
       spinner.stop()
       const prompt: { component: string[] } = await prompts([
         {
-          type: 'autocompleteMultiselect',
-          name: 'component',
-          message: '💡 Select component to install',
-          choices: filtered_registry!.map((item) => ({
+          choices: filtered_registry?.map((item) => ({
             title: item.name,
             value: item.name,
           })),
+          message: '💡 Select component to install',
+          name: 'component',
+          type: 'autocompleteMultiselect',
         },
       ])
       spinner.start()
@@ -45,7 +45,7 @@ export async function add_command_action(args: string[], opt: addOptions) {
           spinner.text = `🦆 Fetching components... ${highlighter.info(`[${idx}/${prompt.component.length}]`)}`
           return await get_registry_item(item as Lowercase<string>)
         }),
-      )) as Registry
+      )) as RegistryEntry[]
     }
 
     if (!components.length) {
@@ -63,7 +63,7 @@ export async function add_command_action(args: string[], opt: addOptions) {
 
     spinner.succeed('🧑 Done.!, enjoy mr duck!🦆')
     process.exit(0)
-  } catch (error) {
+  } catch (_error) {
     spinner.fail('🦆 Something went wrong')
   }
 }

@@ -29,7 +29,7 @@ export function CardsReportIssue() {
           <div className="flex flex-col gap-3">
             <Label htmlFor={`area-${id}`}>Area</Label>
             <Select defaultValue="billing">
-              <SelectTrigger id={`area-${id}`} aria-label="Area" className="w-full">
+              <SelectTrigger aria-label="Area" className="w-full" id={`area-${id}`}>
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
@@ -45,9 +45,9 @@ export function CardsReportIssue() {
             <Label htmlFor={`security-level-${id}`}>Security Level</Label>
             <Select defaultValue="2">
               <SelectTrigger
-                id={`security-level-${id}`}
+                aria-label="Security Level"
                 className="w-full [&_span]:!block [&_span]:truncate"
-                aria-label="Security Level">
+                id={`security-level-${id}`}>
                 <SelectValue placeholder="Select level" />
               </SelectTrigger>
               <SelectContent>
@@ -66,14 +66,14 @@ export function CardsReportIssue() {
         <div className="flex flex-col gap-3">
           <Label htmlFor={`description-${id}`}>Description</Label>
           <Textarea
+            className="min-h-28"
             id={`description-${id}`}
             placeholder="Please include all information relevant to your issue."
-            className="min-h-28"
           />
         </div>
       </CardContent>
       <CardFooter className="justify-end gap-2">
-        <Button variant="ghost" size="sm">
+        <Button size="sm" variant="ghost">
           Cancel
         </Button>
         <Button size="sm">Submit</Button>

@@ -41,6 +41,14 @@ export function createStore() {
   }
 
   const store = {
+    // For testing/debugging
+    _getRaw<Value>(atom: Atom<Value>): Value | undefined {
+      return atomState.get(atom) as Value | undefined
+    },
+
+    _setRaw<Value>(atom: Atom<Value>, value: Value) {
+      atomState.set(atom, value)
+    },
     get<Value>(atom: Atom<Value>): Value {
       if (currentlyReadingAtom) {
         trackDependency(currentlyReadingAtom, atom)
@@ -113,15 +121,6 @@ export function createStore() {
       return () => {
         atomListeners!.delete(listener)
       }
-    },
-
-    // For testing/debugging
-    _getRaw<Value>(atom: Atom<Value>): Value | undefined {
-      return atomState.get(atom) as Value | undefined
-    },
-
-    _setRaw<Value>(atom: Atom<Value>, value: Value) {
-      atomState.set(atom, value)
     },
   }
 

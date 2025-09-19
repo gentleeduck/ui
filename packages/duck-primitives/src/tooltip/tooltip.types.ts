@@ -1,5 +1,5 @@
-import { Placement } from '@floating-ui/react'
-import { useTooltip } from './tooltip.hooks'
+import type { Placement } from '@floating-ui/react'
+import type { useTooltip } from './tooltip.hooks'
 
 export interface TooltipOptions {
   placement?: Placement

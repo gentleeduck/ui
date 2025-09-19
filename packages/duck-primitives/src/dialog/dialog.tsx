@@ -6,7 +6,7 @@ import { Mount } from '../mount'
 import { Slot } from '../slot'
 import { useDialog, useDialogContext } from './dialog.hooks'
 import { cleanLockScrollbar, lockScrollbar } from './dialog.libs'
-import { DialogContextProps, DialogOptions } from './dialog.types'
+import type { DialogContextProps, DialogOptions } from './dialog.types'
 
 const DialogContext = React.createContext<DialogContextProps>(null)
 
@@ -44,7 +44,7 @@ function Trigger({
         ...(children.props as any),
         'data-open': context.open,
         onClick: (e: React.MouseEvent<HTMLElement>) => {
-          // @ts-ignore
+          // @ts-expect-error
           onClick?.(e)
           context.setOpen(!context.open)
         },
@@ -54,15 +54,15 @@ function Trigger({
 
   return (
     <Comp
-      ref={ref}
-      // The user can style the trigger based on the state
       data-open={context.open}
+      // The user can style the trigger based on the state
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
-        // @ts-ignore
+        // @ts-expect-error
         onClick?.(e)
       }}
-      // @ts-ignore
+      ref={ref}
+      // @ts-expect-error
       {...context.getReferenceProps(props)}>
       {children}
     </Comp>
@@ -87,18 +87,18 @@ function Content({
   return (
     <FloatingFocusManager context={floatingContext} modal={context.modal}>
       <div
+        data-open={context.open}
         ref={ref}
         style={{
           transform: `scale(${context.open ? 1 : 0.9})`,
           ...style,
           position: 'fixed',
         }}
-        data-open={context.open}
         {...context.getFloatingProps(props)}>
         <Mount open={context.open} renderOnce={renderOnce}>
           {props.children}
           {context.closeButton && (
-            // @ts-ignore
+            // @ts-expect-error
             <DialogClose />
           )}
         </Mount>
@@ -121,13 +121,13 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
     <FloatingOverlay
       style={
         {
-          pointerEvents: context.open ? 'auto' : 'none',
-          opacity: context.open ? 1 : 0,
-          zIndex: 49,
           '--duck-dialog-overlay-bg': 'oklch(0.12 0 0 / 0.83)',
           backdropFilter: 'blur(1px)',
           background: 'var(--duck-dialog-overlay-bg)',
+          opacity: context.open ? 1 : 0,
           overflow: 'hidden',
+          pointerEvents: context.open ? 'auto' : 'none',
+          zIndex: 49,
         } as React.CSSProperties
       }
       {...props}>
@@ -148,7 +148,7 @@ function Heading({ children, ref, ...props }: React.HTMLProps<HTMLDivElement>) {
   }, [id, setLabelId])
 
   return (
-    <div {...props} ref={ref} id={id}>
+    <div {...props} id={id} ref={ref}>
       {children}
     </div>
   )
@@ -166,7 +166,7 @@ function Title({ children, ref, ...props }: React.HTMLProps<HTMLHeadingElement>)
   }, [id, setTitleId])
 
   return (
-    <h2 {...props} ref={ref} id={id}>
+    <h2 {...props} id={id} ref={ref}>
       {children}
     </h2>
   )
@@ -184,7 +184,7 @@ function Description({ children, ref, ...props }: React.HTMLProps<HTMLParagraphE
   }, [id, setDescriptionId])
 
   return (
-    <p {...props} ref={ref} id={id}>
+    <p {...props} id={id} ref={ref}>
       {children}
     </p>
   )
@@ -192,7 +192,7 @@ function Description({ children, ref, ...props }: React.HTMLProps<HTMLParagraphE
 
 function Close(props: React.ComponentPropsWithRef<typeof Slot>) {
   const { setOpen } = useDialogContext()
-  return <Slot {...props} ref={props?.ref} onClick={() => setOpen(false)} />
+  return <Slot {...props} onClick={() => setOpen(false)} ref={props?.ref} />
 }
 
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {

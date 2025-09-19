@@ -24,8 +24,6 @@ import {
 
 const items = [
   {
-    title: "Getting Started",
-    url: "#",
     items: [
       {
         title: "Installation",
@@ -36,19 +34,19 @@ const items = [
         url: "#",
       },
     ],
+    title: "Getting Started",
+    url: "#",
   },
   {
-    title: "Building Your Application",
-    url: "#",
     items: [
       {
         title: "Routing",
         url: "#",
       },
       {
+        isActive: true,
         title: "Data Fetching",
         url: "#",
-        isActive: true,
       },
       {
         title: "Rendering",
@@ -91,10 +89,10 @@ const items = [
         url: "#",
       },
     ],
+    title: "Building Your Application",
+    url: "#",
   },
   {
-    title: "API Reference",
-    url: "#",
     items: [
       {
         title: "Components",
@@ -121,10 +119,10 @@ const items = [
         url: "#",
       },
     ],
+    title: "API Reference",
+    url: "#",
   },
   {
-    title: "Architecture",
-    url: "#",
     items: [
       {
         title: "Accessibility",
@@ -147,6 +145,8 @@ const items = [
         url: "#",
       },
     ],
+    title: "Architecture",
+    url: "#",
   },
 ]
 
@@ -160,9 +160,9 @@ export default function AppSidebar() {
               <SidebarMenu>
                 {items.map((item, index) => (
                   <Collapsible
-                    key={index}
                     className="group/collapsible"
                     defaultOpen={index === 0}
+                    key={index}
                   >
                     <SidebarMenuItem>
                       <CollapsibleTrigger asChild>

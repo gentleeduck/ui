@@ -1,34 +1,34 @@
 {
-  "name": "@gentleduck/vitest-config",
-  "version": "0.0.1",
-  "description": "this is a package for `vitest` test configurations",
-  "private": true,
-  "type": "module",
-  "types": "index.ts",
-  "main": "index.ts",
-  "keywords": [
-    "vitest",
-    "vitest-config"
-  ],
   "author": "gentleduck",
-  "license": "MIT",
-  "scripts": {
-    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
-    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./"
-  },
   "dependencies": {
     "@vitejs/plugin-react-swc": "^3.8.0",
     "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
     "vitest": "catalog:"
   },
+  "description": "this is a package for `vitest` test configurations",
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*"
   },
-  "packageManager": "pnpm@10.11.1",
   "engines": {
     "node": ">=24.2.0"
-  }
+  },
+  "keywords": [
+    "vitest",
+    "vitest-config"
+  ],
+  "license": "MIT",
+  "main": "index.ts",
+  "name": "@gentleduck/vitest-config",
+  "packageManager": "pnpm@10.11.1",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./"
+  },
+  "type": "module",
+  "types": "index.ts",
+  "version": "0.0.1"
 }

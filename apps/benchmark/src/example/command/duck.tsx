@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
 
 import {
   Command,
@@ -11,6 +10,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@gentleduck/registry-ui-duckui/command'
+import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
 
 export default function CommandDemo() {
   return (

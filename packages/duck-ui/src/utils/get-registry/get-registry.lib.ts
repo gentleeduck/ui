@@ -1,5 +1,5 @@
-import { REGISTRY_URL } from '~/main'
 import axios from 'axios'
+import { REGISTRY_URL } from '~/main'
 import { highlighter, logger } from '../text-styling'
 import { error_messages } from './get-registry.constants'
 
@@ -7,7 +7,7 @@ export function is_url(path: string) {
   try {
     new URL(path)
     return true
-  } catch (error) {
+  } catch (_error) {
     return false
   }
 }
@@ -43,7 +43,7 @@ export async function fetch_registry_url(paths: string[]) {
     )
 
     return results
-  } catch (error) {
+  } catch (_error) {
     logger.error({
       args: ['\nFailed to fetch from registry.'],
       with_icon: true,

@@ -12,15 +12,14 @@ const Separator = ({
   className?: string
   orientation?: 'horizontal' | 'vertical'
 }) => (
-  <div
-    role="separator"
-    ref={ref}
+  <hr
     aria-orientation={orientation}
     className={cn(
       'shrink-0 bg-border',
       orientation === 'horizontal' ? 'h-[1px] w-full' : 'min-h-full w-[1px]',
       className,
     )}
+    ref={ref}
     {...props}
     duck-separator=""
   />

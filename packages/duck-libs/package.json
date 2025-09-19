@@ -1,27 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@gentleduck/libs",
+  "author": "wilddcuk",
+  "bugs": {
+    "url": "https://github.com/gentleduck/ui/issues"
+  },
+  "dependencies": {},
   "description": "libs is a behavioral component abstraction that makes the aero dynamics of the web",
-  "version": "0.1.5",
-  "private": false,
-  "type": "module",
-  "files": [
-    "src"
-  ],
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "exports": {
-    "./*": "./src/*/index.ts",
-    ".": "./src/index.ts"
-  },
-  "scripts": {
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "lint": "biome lint --write ./",
-    "format": "biome format --write ./",
-    "ci": "pnpm run lint && pnpm run format",
-    "release": "changeset version",
-    "publish": "pnpm run ci && changeset publish"
-  },
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
@@ -29,23 +13,39 @@
     "typescript": "catalog:",
     "zod": "catalog:"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gentleduck/ui",
-    "directory": "packages/duck-libs"
-  },
-  "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
-  },
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-libs#readme",
-  "author": "wilddcuk",
-  "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=22.0.0"
   },
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-libs#readme",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "name": "@gentleduck/libs",
+  "packageManager": "pnpm@10.10.0",
   "peerDependencies": {
     "clsx": "^1.2.1",
     "tailwind-merge": "^1.14.0"
   },
-  "dependencies": {}
+  "private": false,
+  "repository": {
+    "directory": "packages/duck-libs",
+    "type": "git",
+    "url": "https://github.com/gentleduck/ui"
+  },
+  "scripts": {
+    "ci": "pnpm run lint && pnpm run format",
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version"
+  },
+  "type": "module",
+  "version": "0.1.5"
 }

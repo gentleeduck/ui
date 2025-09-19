@@ -51,3 +51,5 @@ type Test_OmitByValue = AssertTrue<
   Equal<OmitByValue<OBV_Input, number>, OBV_Expected>,
   'Expected OmitByValue to remove properties of given value type'
 >
+
+/* @__IGNORED__@ */ type _IGNORE = [Test_Expand, Test_Merge, Test_Diff, Test_PickByValue, Test_OmitByValue]

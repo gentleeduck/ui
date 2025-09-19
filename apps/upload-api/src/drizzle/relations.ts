@@ -10,15 +10,15 @@ export const usersRelations = relations(users, ({ many }) => ({
 
 // Buckets Relations
 export const bucketsRelations = relations(buckets, ({ one, many }) => ({
-  user: one(users, {
-    fields: [buckets.user_id],
-    references: [users.id],
-  }),
   files: many(files, {
     relationName: 'bucket_files',
   }),
   folders: many(folders, {
     relationName: 'bucket_folders',
+  }),
+  user: one(users, {
+    fields: [buckets.user_id],
+    references: [users.id],
   }),
 }))
 
@@ -40,11 +40,11 @@ export const foldersRelations = relations(folders, ({ one, many }) => ({
     fields: [folders.bucket_id],
     references: [buckets.id],
   }),
+  files: many(files, {
+    relationName: 'folder_files',
+  }),
   parentFolder: one(folders, {
     fields: [folders.folder_id],
     references: [folders.id],
-  }),
-  files: many(files, {
-    relationName: 'folder_files',
   }),
 }))

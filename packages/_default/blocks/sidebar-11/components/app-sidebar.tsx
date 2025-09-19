@@ -1,5 +1,5 @@
-import * as React from "react"
 import { ChevronRight, File, Folder } from "lucide-react"
+import * as React from "react"
 
 import {
   Collapsible,
@@ -89,7 +89,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent>
             <SidebarMenu>
               {data.tree.map((item, index) => (
-                <Tree key={index} item={item} />
+                <Tree item={item} key={index} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -106,8 +106,8 @@ function Tree({ item }: { item: string | any[] }) {
   if (!items.length) {
     return (
       <SidebarMenuButton
-        isActive={name === "button.tsx"}
         className="data-[active=true]:bg-transparent"
+        isActive={name === "button.tsx"}
       >
         <File />
         {name}
@@ -131,7 +131,7 @@ function Tree({ item }: { item: string | any[] }) {
         <CollapsibleContent>
           <SidebarMenuSub>
             {items.map((subItem, index) => (
-              <Tree key={index} item={subItem} />
+              <Tree item={subItem} key={index} />
             ))}
           </SidebarMenuSub>
         </CollapsibleContent>

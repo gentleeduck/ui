@@ -8,25 +8,30 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui-duckui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui-duckui/chart'
 import { TrendingUp } from 'lucide-react'
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts'
 
 export const description = 'A bar chart with a label'
 
 const chartData = [
-  { month: 'January', desktop: 186 },
-  { month: 'February', desktop: 305 },
-  { month: 'March', desktop: 237 },
-  { month: 'April', desktop: 73 },
-  { month: 'May', desktop: 209 },
-  { month: 'June', desktop: 214 },
+  { desktop: 186, month: 'January' },
+  { desktop: 305, month: 'February' },
+  { desktop: 237, month: 'March' },
+  { desktop: 73, month: 'April' },
+  { desktop: 209, month: 'May' },
+  { desktop: 214, month: 'June' },
 ]
 
 const chartConfig = {
   desktop: {
-    label: 'Desktop',
     color: 'var(--chart-1)',
+    label: 'Desktop',
   },
 } satisfies ChartConfig
 
@@ -47,15 +52,15 @@ export default function Component() {
             }}>
             <CartesianGrid vertical={false} />
             <XAxis
+              axisLine={false}
               dataKey="month"
+              tickFormatter={(value) => value.slice(0, 3)}
               tickLine={false}
               tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
             <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8}>
-              <LabelList position="top" offset={12} className="fill-foreground" fontSize={12} />
+              <LabelList className="fill-foreground" fontSize={12} offset={12} position="top" />
             </Bar>
           </BarChart>
         </ChartContainer>
@@ -64,7 +69,7 @@ export default function Component() {
         <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">Showing total visitors for the last 6 months</div>
+        <div className="text-muted-foreground leading-none">Showing total visitors for the last 6 months</div>
       </CardFooter>
     </Card>
   )

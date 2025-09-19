@@ -23,9 +23,9 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
 
   return (
     <Tabs
-      id={block.name}
-      defaultValue="preview"
       className="relative grid w-full scroll-m-20 gap-4"
+      defaultValue="preview"
+      id={block.name}
       style={
         {
           '--container-height': block.container?.height,
@@ -37,15 +37,15 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
         value="preview"
         // className="relative after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-lg after:bg-muted"
       >
-        <ResizablePanelGroup direction="horizontal" className="relative z-10">
+        <ResizablePanelGroup className="relative z-10" direction="horizontal">
           <ResizablePanel
-            ref={ref}
             className={cn(
               'relative rounded-lg border bg-background',
               isLiftMode ? 'border-border/50' : 'border-border',
             )}
             defaultSize={100}
-            minSize={30}>
+            minSize={30}
+            ref={ref}>
             {isLoading ? (
               <div className="absolute inset-0 z-10 flex h-[--container-height] w-full items-center justify-center gap-2 bg-background text-sm text-muted-foreground">
                 <Icons.spinner className="h-4 w-4 animate-spin" />
@@ -53,13 +53,13 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
               </div>
             ) : null}
             <iframe
-              src={`/blocks/${block.style}/${block.name}`}
-              height={block.container?.height ?? 450}
+              allowTransparency
               className="chunk-mode relative z-20 w-full bg-background"
+              height={block.container?.height ?? 450}
               onLoad={() => {
                 setIsLoading(false)
               }}
-              allowTransparency
+              src={`/blocks/${block.style}/${block.name}`}
             />
           </ResizablePanel>
           <ResizableHandle
@@ -73,9 +73,9 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
       </TabsContent>
       <TabsContent value="code">
         <div
-          data-rehype-pretty-code-fragment
-          dangerouslySetInnerHTML={{ __html: block.highlightedCode }}
           className="w-full overflow-hidden rounded-md [&_pre]:my-0 [&_pre]:h-[--container-height] [&_pre]:overflow-auto [&_pre]:whitespace-break-spaces [&_pre]:p-6 [&_pre]:font-mono [&_pre]:text-sm [&_pre]:leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: block.highlightedCode }}
+          data-rehype-pretty-code-fragment
         />
       </TabsContent>
     </Tabs>

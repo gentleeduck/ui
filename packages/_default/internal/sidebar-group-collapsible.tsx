@@ -24,7 +24,7 @@ export default function AppSidebar() {
     <SidebarProvider>
       <Sidebar>
         <SidebarContent>
-          <Collapsible defaultOpen className="group/collapsible">
+          <Collapsible className="group/collapsible" defaultOpen>
             <SidebarGroup>
               <SidebarGroupLabel
                 asChild

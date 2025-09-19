@@ -1,10 +1,10 @@
 // @ts-noCheck
-import { Table } from './table'
-import { ScrollArea } from '../scroll-area'
+
 import React from 'react'
 import { Button, LabelType } from '../button'
+import { ScrollArea } from '../scroll-area'
+import { Table, TableBody } from './table'
 import { sortArray } from './table.lib'
-import { TableBody } from './table'
 
 // ------------------------------------------------------------------------------------------------
 // NOTE:  These types are used for the `table-advanced` context.

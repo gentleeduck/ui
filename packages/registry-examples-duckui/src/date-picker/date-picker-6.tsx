@@ -16,7 +16,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -44,7 +43,7 @@ export default function CalendarDemo() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="dob"
@@ -55,11 +54,11 @@ export default function CalendarDemo() {
                 <FormControl>
                   <PopoverTrigger asChild>
                     <Button
-                      variant={'outline'}
                       className={cn(
                         'w-[240px] px-2 text-left font-normal [&_svg]:w-4',
                         !field.value && 'text-muted-foreground',
-                      )}>
+                      )}
+                      variant={'outline'}>
                       {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
                       <CalendarIcon className="ml-auto opacity-50" />
                     </Button>
@@ -67,11 +66,11 @@ export default function CalendarDemo() {
                 </FormControl>
                 <PopoverContent className="w-auto p-0">
                   <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                     captionLayout="dropdown"
+                    disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                    mode="single"
+                    onSelect={field.onChange}
+                    selected={field.value}
                   />
                 </PopoverContent>
               </Popover>

@@ -1,7 +1,12 @@
 'use client'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui-duckui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui-duckui/chart'
 import { Bar, BarChart, XAxis } from 'recharts'
 
 export const description = 'A stacked bar chart with a legend'
@@ -19,12 +24,12 @@ const chartData = [
 
 const chartConfig = {
   running: {
-    label: 'Running',
     color: 'var(--chart-1)',
+    label: 'Running',
   },
   swimming: {
-    label: 'Swimming',
     color: 'var(--chart-2)',
+    label: 'Swimming',
   },
 } satisfies ChartConfig
 
@@ -39,18 +44,18 @@ export default function Component() {
         <ChartContainer config={chartConfig}>
           <BarChart accessibilityLayer data={chartData}>
             <XAxis
-              dataKey="date"
-              tickLine={false}
-              tickMargin={10}
               axisLine={false}
+              dataKey="date"
               tickFormatter={(value) => {
                 return new Date(value).toLocaleDateString('en-US', {
                   weekday: 'short',
                 })
               }}
+              tickLine={false}
+              tickMargin={10}
             />
-            <Bar dataKey="running" stackId="a" fill="var(--color-running)" radius={[0, 0, 4, 4]} />
-            <Bar dataKey="swimming" stackId="a" fill="var(--color-swimming)" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="running" fill="var(--color-running)" radius={[0, 0, 4, 4]} stackId="a" />
+            <Bar dataKey="swimming" fill="var(--color-swimming)" radius={[4, 4, 0, 0]} stackId="a" />
             <ChartTooltip content={<ChartTooltipContent indicator="line" />} cursor={false} defaultIndex={1} />
           </BarChart>
         </ChartContainer>

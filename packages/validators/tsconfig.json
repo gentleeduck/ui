@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "exclude": ["node_modules"],
   "extends": "@gentleduck/typescript-config/internal.json",
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }

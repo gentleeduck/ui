@@ -17,34 +17,34 @@ import {
 
 const projects = [
   {
+    badge: "24",
+    icon: Frame,
     name: "Design Engineering",
     url: "#",
-    icon: Frame,
-    badge: "24",
   },
   {
+    badge: "12",
+    icon: PieChart,
     name: "Sales & Marketing",
     url: "#",
-    icon: PieChart,
-    badge: "12",
   },
   {
+    badge: "3",
+    icon: Map,
     name: "Travel",
     url: "#",
-    icon: Map,
-    badge: "3",
   },
   {
+    badge: "21",
+    icon: LifeBuoy,
     name: "Support",
     url: "#",
-    icon: LifeBuoy,
-    badge: "21",
   },
   {
+    badge: "8",
+    icon: Send,
     name: "Feedback",
     url: "#",
-    icon: Send,
-    badge: "8",
   },
 ]
 
