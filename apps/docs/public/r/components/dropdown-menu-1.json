@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport {\n  DropdownMenu,\n  DropdownMenuContent,\n  DropdownMenuGroup,\n  DropdownMenuItem,\n  DropdownMenuLabel,\n  // DropdownMenuPortal,\n  DropdownMenuSeparator,\n  DropdownMenuShortcut,\n  DropdownMenuSub,\n  DropdownMenuSubContent,\n  DropdownMenuSubTrigger,\n  DropdownMenuTrigger,\n} from '@gentleduck/registry-ui-duckui/dropdown-menu'\n\nexport default function DropdownMenuDemo() {\n  return (\n    <DropdownMenu>\n      <DropdownMenuTrigger asChild>\n        <Button variant=\"outline\">Open</Button>\n      </DropdownMenuTrigger>\n      <DropdownMenuContent className=\"w-56\">\n        <DropdownMenuLabel>My Account</DropdownMenuLabel>\n        <DropdownMenuGroup>\n          <DropdownMenuItem>\n            Profile\n            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>\n              ⇧⌘P\n            </DropdownMenuShortcut>\n          </DropdownMenuItem>\n          <DropdownMenuItem>\n            Billing\n            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>\n              ⌘B\n            </DropdownMenuShortcut>\n          </DropdownMenuItem>\n          <DropdownMenuItem>\n            Settings\n            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>\n              ⌘S\n            </DropdownMenuShortcut>\n          </DropdownMenuItem>\n          <DropdownMenuItem>\n            Keyboard shortcuts\n            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>\n              ⌘K\n            </DropdownMenuShortcut>\n          </DropdownMenuItem>\n        </DropdownMenuGroup>\n        <DropdownMenuSeparator />\n        <DropdownMenuGroup>\n          <DropdownMenuItem>Team</DropdownMenuItem>\n          <DropdownMenuSub>\n            <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>\n            <DropdownMenuSubContent>\n              <DropdownMenuItem>Email</DropdownMenuItem>\n              <DropdownMenuItem>Message</DropdownMenuItem>\n              <DropdownMenuSeparator />\n              <DropdownMenuItem>More...</DropdownMenuItem>\n            </DropdownMenuSubContent>\n          </DropdownMenuSub>\n          <DropdownMenuItem>\n            New Team\n            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>\n              ⌘+T\n            </DropdownMenuShortcut>\n          </DropdownMenuItem>\n        </DropdownMenuGroup>\n        <DropdownMenuSeparator />\n        <DropdownMenuItem>GitHub</DropdownMenuItem>\n        <DropdownMenuItem>Support</DropdownMenuItem>\n        <DropdownMenuItem disabled>API</DropdownMenuItem>\n        <DropdownMenuSeparator />\n        <DropdownMenuItem>\n          Log out\n          <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>\n            ⇧⌘Q\n          </DropdownMenuShortcut>\n        </DropdownMenuItem>\n      </DropdownMenuContent>\n    </DropdownMenu>\n  )\n}\n",
+      "path": "dropdown-menu/dropdown-menu-1.tsx",
+      "target": "components/dropdown-menu-1.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "dropdown-menu-1",
+  "registryDependencies": [
+    "dropdown-menu"
+  ],
+  "root_folder": "dropdown-menu",
+  "source": "/registry-examples-duckui/src/dropdown-menu",
+  "type": "registry:example"
+}

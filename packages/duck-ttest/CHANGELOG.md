@@ -1,5 +1,26 @@
 # @gentleduck/ttest
 
+## 0.4.4
+
+### Patch Changes
+
+- done
+- done
+- fixed tests
+
+## 0.4.3
+
+### Patch Changes
+
+- done
+- fixed tests
+
+## 0.4.2
+
+### Patch Changes
+
+- fixed tests
+
 ## 0.4.1
 
 ### Patch Changes

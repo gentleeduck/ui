@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Badge } from '@gentleduck/registry-ui-duckui/badge'\n\nexport default function Badge2Demo() {\n  return (\n    <Badge arial-label=\"Badge\" variant={'default'}>\n      Badge\n    </Badge>\n  )\n}\n",
+      "path": "badge/badge-2.tsx",
+      "target": "components/badge-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "badge-2",
+  "registryDependencies": [
+    "badge"
+  ],
+  "root_folder": "badge",
+  "source": "/registry-examples-duckui/src/badge",
+  "type": "registry:example"
+}

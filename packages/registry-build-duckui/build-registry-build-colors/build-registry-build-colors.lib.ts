@@ -4,7 +4,7 @@ import path from 'node:path'
 import { baseColors, baseColorsOKLCH, colorMapping, registry_colors, registry_themes } from '@gentleduck/registers'
 import template from 'lodash.template'
 import { Ora } from 'ora'
-import rimraf from 'rimraf'
+import { rimraf } from 'rimraf'
 import { REGISTRY_PATH } from '../main'
 import {
   BASE_STYLES,

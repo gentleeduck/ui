@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'\n\nexport default function Accordion1Demo() {\n  return (\n    <Accordion className=\"w-[350px]\" collapsible type=\"single\">\n      <AccordionItem value=\"item-1\">\n        <AccordionTrigger>Is it accessible?</AccordionTrigger>\n        <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>\n      </AccordionItem>\n      <AccordionItem value=\"item-2\">\n        <AccordionTrigger>Is it styled?</AccordionTrigger>\n        <AccordionContent>\n          Yes. It comes with default styles that matches the other components&apos; aesthetic.\n        </AccordionContent>\n      </AccordionItem>\n      <AccordionItem value=\"item-3\">\n        <AccordionTrigger>Is it animated?</AccordionTrigger>\n        <AccordionContent>Yes. It&apos;s animated by default, but you can disable it if you prefer.</AccordionContent>\n      </AccordionItem>\n    </Accordion>\n  )\n}\n",
+      "path": "accordion/accordion-2.tsx",
+      "target": "components/accordion-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "accordion-2",
+  "registryDependencies": [
+    "accordion"
+  ],
+  "root_folder": "accordion",
+  "source": "/registry-examples-duckui/src/accordion",
+  "type": "registry:example"
+}

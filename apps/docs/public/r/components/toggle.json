@@ -1,0 +1,31 @@
+{
+  "dependencies": [
+    "@gentleduck/variants",
+    "@gentleduck/libs"
+  ],
+  "files": [
+    {
+      "content": "export * from './toggle'\nexport * from './toggle.constants'\n",
+      "path": "toggle/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "import { cva } from '@gentleduck/variants'\n\nexport const toggleVariants = cva(\n  'inline-flex items-center justify-center gap-2 rounded-md font-medium text-sm ring-offset-background transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [&:has(input:checked)]:bg-accent [&:has(input:checked)]:text-accent-foreground [&:has(input:disabled)]:pointer-events-none [&:has(input:disabled)]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',\n  {\n    defaultVariants: {\n      size: 'default',\n      variant: 'default',\n    },\n    variants: {\n      size: {\n        default: 'h-9 px-4 py-2 has-[>svg]:px-3',\n        lg: 'h-10 min-w-11 px-5 px-6 has-[>svg]:px-4',\n        sm: 'h-8 min-w-9 gap-1.5 px-2.5 px-3 has-[>svg]:px-2.5',\n      },\n      variant: {\n        default: 'bg-transparent',\n        outline: 'border border-input bg-transparent hover:bg-accent hover:text-accent-foreground',\n      },\n    },\n  },\n)\n",
+      "path": "toggle/toggle.constants.ts",
+      "target": "components/ui/toggle.constants.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type { VariantProps } from '@gentleduck/variants'\nimport type * as React from 'react'\nimport { toggleVariants } from './toggle.constants'\n\nfunction Toggle({\n  className,\n  value,\n  variant = 'default',\n  size = 'default',\n  ref,\n  disabled = false,\n  children,\n  ...props\n}: Omit<React.HTMLProps<HTMLInputElement>, 'size'> & VariantProps<typeof toggleVariants>) {\n  return (\n    <label className={cn(toggleVariants({ className, size, variant }), '')} data-value={value} duck-toggle=\"\">\n      <input\n        className=\"invisible absolute hidden\"\n        disabled={disabled}\n        ref={ref}\n        type=\"checkbox\"\n        value={value}\n        {...props}\n      />\n\n      {children}\n    </label>\n  )\n}\n\nexport { Toggle }\n",
+      "path": "toggle/toggle.tsx",
+      "target": "components/ui/toggle.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "toggle",
+  "registryDependencies": [],
+  "root_folder": "toggle",
+  "source": "/registry-ui-duckui/src/toggle",
+  "type": "registry:ui"
+}

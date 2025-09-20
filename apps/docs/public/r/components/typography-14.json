@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "export default function TypographyMuted() {\n  return <p className=\"text-muted-foreground text-sm\">Enter your email address.</p>\n}\n",
+      "path": "typography/typography-14.tsx",
+      "target": "components/typography-14.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-14",
+  "registryDependencies": [],
+  "root_folder": "typography",
+  "source": "/registry-examples-duckui/src/typography",
+  "type": "registry:example"
+}

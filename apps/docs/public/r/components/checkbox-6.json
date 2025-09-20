@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "import { CheckboxGroup, type CheckboxGroupSubtasks } from '@gentleduck/registry-ui-duckui/checkbox'\nimport { toast } from 'sonner'\n\nexport default function Example() {\n  const subtasks: CheckboxGroupSubtasks[] = [\n    { id: 'subtask-1', title: 'Design wireframes' },\n    { id: 'subtask-2', title: 'Build UI components' },\n    { id: 'subtask-3', title: 'Write documentation' },\n  ]\n\n  return (\n    <CheckboxGroup\n      subtasks={subtasks}\n      subtasks_default_values={{\n        _checkbox: { onCheckedChange: (state) => toast.info(`Checkbox ${state ? 'checked' : 'unchecked'}`) },\n        _label: { className: 'text-sm text-muted-foreground' },\n      }}\n    />\n  )\n}\n",
+      "path": "checkbox/checkbox-6.tsx",
+      "target": "components/checkbox-6.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "checkbox-6",
+  "registryDependencies": [],
+  "root_folder": "checkbox",
+  "source": "/registry-examples-duckui/src/checkbox",
+  "type": "registry:example"
+}

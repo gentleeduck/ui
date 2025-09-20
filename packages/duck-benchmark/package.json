@@ -73,7 +73,7 @@
     "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-benchmark"
   },
   "scripts": {
-    "build": "tsdown",
+    "buildd": "tsdown",
     "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "dev": "tsdown --watch",
     "format": "biome format --write ./",

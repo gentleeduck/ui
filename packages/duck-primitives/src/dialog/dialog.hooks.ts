@@ -10,7 +10,18 @@ export function useDialog({
   onOpenChange: setControlledOpen,
   closeButton = true,
   modal = false,
-}: DialogOptions) {
+}: DialogOptions): ReturnType<typeof useFloating> & {
+  open: boolean
+  setOpen: (open: boolean) => void
+  closeButton: boolean
+  descriptionId?: string
+  labelId?: string
+  modal?: boolean
+  setDescriptionId: React.Dispatch<React.SetStateAction<string | undefined>>
+  setLabelId: React.Dispatch<React.SetStateAction<string | undefined>>
+  setTitleId: React.Dispatch<React.SetStateAction<string | undefined>>
+  titleId?: string
+} {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
   const [labelId, setLabelId] = React.useState<string | undefined>()
   const [titleId, setTitleId] = React.useState<string | undefined>()
@@ -53,7 +64,7 @@ export function useDialog({
   )
 }
 
-export const useDialogContext = () => {
+export const useDialogContext = (): NonNullable<DialogContextProps> => {
   const context = React.useContext(DialogContext)
 
   if (context == null) {

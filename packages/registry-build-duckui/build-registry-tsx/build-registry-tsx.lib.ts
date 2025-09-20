@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import rimraf from 'rimraf'
+import { rimraf } from 'rimraf'
 import { ENV } from '../main'
 import { WriteIndexTsxParams } from './build-registry-tsx.types'
 

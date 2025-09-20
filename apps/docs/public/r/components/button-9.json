@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\n\nexport default function ButtonDemo() {\n  return (\n    <Button aria-label=\"Inbox button\" type=\"button\" variant={'dashed'}>\n      Button\n    </Button>\n  )\n}\n",
+      "path": "button/button-9.tsx",
+      "target": "components/button-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "button-9",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "button",
+  "source": "/registry-examples-duckui/src/button",
+  "type": "registry:example"
+}

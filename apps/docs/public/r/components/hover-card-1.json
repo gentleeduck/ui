@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'\nimport { HoverCard, HoverCardContent, HoverCardTrigger } from '@gentleduck/registry-ui-duckui/hover-card'\nimport { CalendarIcon } from 'lucide-react'\n\nexport default function HoverCardDemo() {\n  return (\n    <HoverCard>\n      <HoverCardTrigger variant={'link'}>@nextjs</HoverCardTrigger>\n      <HoverCardContent className=\"w-80\">\n        <div className=\"flex justify-between space-x-4\">\n          <Avatar alt=\"VC\" src=\"https://github.com/vercel.png\" />\n          <div className=\"space-y-1\">\n            <h4 className=\"font-semibold text-sm\">@nextjs</h4>\n            <p className=\"text-sm\">The React Framework – created and maintained by @vercel.</p>\n            <div className=\"flex items-center pt-2\">\n              <CalendarIcon className=\"mr-2 h-4 w-4 opacity-70\" />{' '}\n              <span className=\"text-muted-foreground text-xs\">Joined December 2021</span>\n            </div>\n          </div>\n        </div>\n      </HoverCardContent>\n    </HoverCard>\n  )\n}\n",
+      "path": "hover-card/hover-card-1.tsx",
+      "target": "components/hover-card-1.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "hover-card-1",
+  "registryDependencies": [
+    "hover-card"
+  ],
+  "root_folder": "hover-card",
+  "source": "/registry-examples-duckui/src/hover-card",
+  "type": "registry:example"
+}

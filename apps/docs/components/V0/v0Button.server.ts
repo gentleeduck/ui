@@ -4,22 +4,11 @@ import { track } from '@vercel/analytics/server'
 
 const EDIT_IN_V0_SOURCE = 'duckui.org'
 
-export async function editInV0({
-  name,
-  description,
-  style,
-  code,
-}: {
-  name: string
-  description: string
-  style: string
-  code: string
-}) {
+export async function editInV0({ name, description, code }: { name: string; description: string; code: string }) {
   try {
     await track('edit_in_v0', {
       description,
       name,
-      style,
     })
 
     // Replace "use client" in the code.

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import {\n  Pagination,\n  PaginationContent,\n  PaginationEllipsis,\n  PaginationItem,\n  PaginationLink,\n  PaginationNext,\n  PaginationPrevious,\n} from '@gentleduck/registry-ui-duckui/pagination'\n\nexport default function PaginationDemo() {\n  return (\n    <Pagination>\n      <PaginationContent>\n        <PaginationItem>\n          <PaginationPrevious href=\"#\" />\n        </PaginationItem>\n        <PaginationItem>\n          <PaginationLink href=\"#\">1</PaginationLink>\n        </PaginationItem>\n        <PaginationItem>\n          <PaginationLink href=\"#\" isActive>\n            2\n          </PaginationLink>\n        </PaginationItem>\n        <PaginationItem>\n          <PaginationLink href=\"#\">3</PaginationLink>\n        </PaginationItem>\n        <PaginationItem>\n          <PaginationEllipsis />\n        </PaginationItem>\n        <PaginationItem>\n          <PaginationNext href=\"#\" />\n        </PaginationItem>\n      </PaginationContent>\n    </Pagination>\n  )\n}\n",
+      "path": "pagination/pagination-1.tsx",
+      "target": "components/pagination-1.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "pagination-1",
+  "registryDependencies": [
+    "pagination"
+  ],
+  "root_folder": "pagination",
+  "source": "/registry-examples-duckui/src/pagination",
+  "type": "registry:example"
+}

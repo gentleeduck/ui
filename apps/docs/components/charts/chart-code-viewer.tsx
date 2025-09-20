@@ -7,8 +7,8 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-du
 import { Sheet, SheetContent, SheetTrigger } from '@gentleduck/registry-ui-duckui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { ComponentProps, useMemo, useState } from 'react'
-import { BlockCopyButton } from '~/components/ui'
 import { useThemesConfig } from '~/hooks/use-themes-config'
+import { BlockCopyButton } from '../blocks'
 import { V0Button } from '../V0'
 
 export function ChartCodeViewer({ chart, className, children }: { chart: Block } & ComponentProps<'div'>) {
@@ -70,7 +70,6 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
                   code: chart.code,
                   description: chart.description || 'Edit in v0',
                   name: chart.name,
-                  style: 'default',
                 }}
                 className="h-7"
                 id={`v0-button-${chart.name}`}

@@ -132,7 +132,7 @@ function CommandFooter() {
     <div className="flex items-center gap-4 px-2 pt-2 border-t justify-between w-full">
       <div className="flex items-center gap-4 w-full">
         {selectedItem?.innerText && (
-          <Button className={cn('px-2')} size={'xs'} variant={'outline'}>
+          <Button className={cn('px-2')} size={'sm'} variant={'outline'}>
             <CornerDownLeft />
             <Separator className="m-0 p-0 h-4" orientation="vertical" />
             {selectedItem?.innerText}
@@ -140,7 +140,7 @@ function CommandFooter() {
         )}
         {selectedItem?.innerText &&
         docsConfig.sidebarNav[1]!.items.find((item) => item.title === selectedItem?.innerText)?.title.toLowerCase() ? (
-          <Button className={cn('px-2')} size={'xs'} variant={'outline'}>
+          <Button className={cn('px-2')} size={'sm'} variant={'outline'}>
             <div className="flex items-center gap-1">
               <Command className="!size-3" />
               <p className="text-md">C</p>

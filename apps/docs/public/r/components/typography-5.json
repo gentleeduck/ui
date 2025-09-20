@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "export default function TypographyH4() {\n  return <h4 className=\"scroll-m-20 font-semibold text-xl tracking-tight\">People stopped telling jokes</h4>\n}\n",
+      "path": "typography/typography-5.tsx",
+      "target": "components/typography-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-5",
+  "registryDependencies": [],
+  "root_folder": "typography",
+  "source": "/registry-examples-duckui/src/typography",
+  "type": "registry:example"
+}

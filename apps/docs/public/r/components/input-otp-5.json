@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'\nimport { Minus } from 'lucide-react'\n\nexport default function InputOTPDemo() {\n  return (\n    <InputOTP maxLength={6}>\n      <InputOTPGroup>\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n      </InputOTPGroup>\n      <InputOTPSeparator customIndicator={<Minus />} />\n      <InputOTPGroup>\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n      </InputOTPGroup>\n    </InputOTP>\n  )\n}\n",
+      "path": "input-otp/input-otp-5.tsx",
+      "target": "components/input-otp-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-otp-5",
+  "registryDependencies": [
+    "input-otp"
+  ],
+  "root_folder": "input-otp",
+  "source": "/registry-examples-duckui/src/input-otp",
+  "type": "registry:example"
+}

@@ -88,3 +88,6 @@ export const block_schema = registry_entry_schema.extend({
   highlightedCode: z.string(),
   type: z.literal('registry:block'),
 })
+export type Block = z.infer<typeof block_schema>
+
+export type BlockChunk = z.infer<typeof block_chunk_schema>

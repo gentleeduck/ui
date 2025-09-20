@@ -1,10 +1,20 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "base": "./",
+    "allowImportingTsExtensions": true,
+    "baseUrl": ".",
+    "incremental": false,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
     "outDir": "./dist",
-    "paths": {}
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "rootDir": "./"
   },
   "exclude": ["node_modules", "dist"],
-  "extends": "@gentleduck/typescript-config/internal-package.json",
-  "include": [".", "../"]
+  "include": ["."]
 }

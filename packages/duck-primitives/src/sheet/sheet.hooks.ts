@@ -9,7 +9,17 @@ export function useSheet({
   open: controlledOpen,
   onOpenChange: setControlledOpen,
   closeButton = true,
-}: SheetOptions) {
+}: SheetOptions): ReturnType<typeof useFloating> & {
+  open: boolean
+  setOpen: (open: boolean) => void
+  closeButton: boolean
+  descriptionId?: string
+  labelId?: string
+  setDescriptionId: React.Dispatch<React.SetStateAction<string | undefined>>
+  setLabelId: React.Dispatch<React.SetStateAction<string | undefined>>
+  setTitleId: React.Dispatch<React.SetStateAction<string | undefined>>
+  titleId?: string
+} {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
   const [labelId, setLabelId] = React.useState<string | undefined>()
   const [titleId, setTitleId] = React.useState<string | undefined>()
@@ -51,7 +61,7 @@ export function useSheet({
   )
 }
 
-export const useSheetContext = () => {
+export const useSheetContext = (): NonNullable<SheetContextProps> => {
   const context = React.useContext(SheetContext)
 
   if (context == null) {

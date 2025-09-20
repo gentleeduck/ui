@@ -3,6 +3,7 @@ import * as React from 'react'
 import { getRegistryItem } from '~/lib/get-registry-item'
 import { highlightCode } from '~/lib/highlight-code'
 import { ChartToolbar } from './chart-toolbar'
+import { Block } from '@gentleduck/registers'
 
 export async function ChartDisplay({ name, children, className }: { name: string } & React.ComponentProps<'div'>) {
   const chart = await getCachedRegistryItem(name)
@@ -19,10 +20,12 @@ export async function ChartDisplay({ name, children, className }: { name: string
         className,
       )}>
       <ChartToolbar
-        chart={{
-          ...chart,
-          highlightedCode,
-        }}
+        chart={
+          {
+            ...chart,
+            highlightedCode,
+          } as Block
+        }
         className="bg-card text-card-foreground relative z-20 flex justify-end border-b px-3 py-2.5">
         {children}
       </ChartToolbar>

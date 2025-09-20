@@ -1,12 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "baseUrl": ".",
     "incremental": false,
     "jsx": "react-jsx",
     "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "preserve",
     "moduleResolution": "bundler",
+    "noEmit": true,
     "outDir": "./dist",
     "paths": {
       "~/*": ["./src/*"]

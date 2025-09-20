@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { Ora } from 'ora'
-import rimraf from 'rimraf'
+import { rimraf } from 'rimraf'
 import { REGISTRY_PATH } from '../main/main.constants'
 import { build_registry_themes, registry_build_colors_index } from './build-registry-build-colors.lib'
 

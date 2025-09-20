@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Label } from '@gentleduck/registry-ui-duckui/label'\nimport { Textarea } from '@gentleduck/registry-ui-duckui/textarea'\n\nexport default function Textarea4Demo() {\n  return (\n    <div className=\"grid w-full gap-1.5\">\n      <Label htmlFor=\"message\">Your message</Label>\n      <Textarea id=\"message\" placeholder=\"Type your message here.\" />\n    </div>\n  )\n}\n",
+      "path": "textarea/textarea-6.tsx",
+      "target": "components/textarea-6.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "textarea-6",
+  "registryDependencies": [
+    "textarea"
+  ],
+  "root_folder": "textarea",
+  "source": "/registry-examples-duckui/src/textarea",
+  "type": "registry:example"
+}

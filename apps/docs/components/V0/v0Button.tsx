@@ -15,7 +15,7 @@ export function V0Button({
   className,
   ...props
 }: {
-  block: Pick<Block, 'name' | 'description' | 'code' | 'style'>
+  block: Pick<Block, 'code' | 'description' | 'name'>
 } & ButtonProps) {
   return (
     <form
@@ -25,7 +25,6 @@ export function V0Button({
             code: block.code,
             description: block.description || '',
             name: block.name,
-            style: block.style,
           })
           if (result?.error) {
             throw new Error(result.error)

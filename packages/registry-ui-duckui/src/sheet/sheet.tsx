@@ -103,6 +103,6 @@ const SheetDescription = ({
   <SheetPrimitive.Description className={cn('text-muted-foreground text-sm', className)} ref={ref} {...props} />
 )
 
-const SheetClose = SheetPrimitive.Close
+const SheetClose = SheetTrigger
 
 export { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, SheetClose }

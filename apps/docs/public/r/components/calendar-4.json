@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Calendar } from '@gentleduck/registry-ui-duckui/calendar'\nimport { Label } from '@gentleduck/registry-ui-duckui/label'\nimport { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'\nimport * as React from 'react'\n\nexport default function CalendarDemo() {\n  const [dropdown, setDropdown] = React.useState<React.ComponentProps<typeof Calendar>['captionLayout']>()\n  const [date, setDate] = React.useState<Date | undefined>(new Date(2025, 5, 12))\n\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <Calendar\n        captionLayout={dropdown}\n        className=\"rounded-lg border shadow-sm\"\n        defaultMonth={date}\n        mode=\"single\"\n        onSelect={setDate}\n        selected={date}\n      />\n      <div className=\"flex flex-col gap-3\">\n        <Label className=\"px-1\" htmlFor=\"dropdown\">\n          Dropdown\n        </Label>\n        <Select\n          onValueChange={(value) => setDropdown(value as React.ComponentProps<typeof Calendar>['captionLayout'])}\n          placement=\"top-start\"\n          value={dropdown}>\n          <SelectTrigger className=\"w-full bg-background\" id=\"dropdown\">\n            <SelectValue placeholder=\"Month and Year\" />\n          </SelectTrigger>\n          <SelectContent>\n            <SelectItem value=\"dropdown\">Month and Year</SelectItem>\n            <SelectItem value=\"dropdown-months\">Month Only</SelectItem>\n            <SelectItem value=\"dropdown-years\">Year Only</SelectItem>\n          </SelectContent>\n        </Select>\n      </div>\n    </div>\n  )\n}\n",
+      "path": "calendar/calendar-4.tsx",
+      "target": "components/calendar-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "calendar-4",
+  "registryDependencies": [
+    "calendar"
+  ],
+  "root_folder": "calendar",
+  "source": "/registry-examples-duckui/src/calendar",
+  "type": "registry:example"
+}

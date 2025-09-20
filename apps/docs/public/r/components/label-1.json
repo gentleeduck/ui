@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'\nimport { Label } from '@gentleduck/registry-ui-duckui/label'\n\nexport default function LabelDemo() {\n  return (\n    <div>\n      <div className=\"flex items-center gap-2\">\n        <Checkbox id=\"terms\" />\n        <Label htmlFor=\"terms\">Accept terms and conditions</Label>\n      </div>\n    </div>\n  )\n}\n",
+      "path": "label/label-1.tsx",
+      "target": "components/label-1.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "label-1",
+  "registryDependencies": [
+    "label"
+  ],
+  "root_folder": "label",
+  "source": "/registry-examples-duckui/src/label",
+  "type": "registry:example"
+}

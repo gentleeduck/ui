@@ -19,7 +19,6 @@
   "packageManager": "pnpm@10.10.0",
   "private": true,
   "scripts": {
-    "build": "tsc",
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",
     "clean:git": "git clean -xdf .cache .turbo node_modules dist",
     "dev": "tsc",

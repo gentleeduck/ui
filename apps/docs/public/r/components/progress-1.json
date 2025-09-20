@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Progress } from '@gentleduck/registry-ui-duckui/progress'\nimport * as React from 'react'\n\nexport default function ProgressDemo() {\n  const [progress, setProgress] = React.useState(13)\n\n  React.useEffect(() => {\n    const timer = setTimeout(() => setProgress(66), 500)\n    return () => clearTimeout(timer)\n  }, [])\n\n  return <Progress className=\"w-[60%]\" value={progress} />\n}\n",
+      "path": "progress/progress-1.tsx",
+      "target": "components/progress-1.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "progress-1",
+  "registryDependencies": [
+    "progress"
+  ],
+  "root_folder": "progress",
+  "source": "/registry-examples-duckui/src/progress",
+  "type": "registry:example"
+}

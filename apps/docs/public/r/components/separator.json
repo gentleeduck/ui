@@ -1,0 +1,23 @@
+{
+  "dependencies": [
+    "@gentleduck/libs"
+  ],
+  "files": [
+    {
+      "content": "export * from './separator'\n",
+      "path": "separator/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type * as React from 'react'\n\nconst Separator = ({\n  className,\n  orientation = 'horizontal',\n  ref,\n  ...props\n}: React.HTMLProps<HTMLHRElement> & {\n  className?: string\n  orientation?: 'horizontal' | 'vertical'\n}) => (\n  <hr\n    aria-orientation={orientation}\n    className={cn(\n      'shrink-0 bg-border',\n      orientation === 'horizontal' ? 'h-[1px] w-full' : 'min-h-full w-[1px]',\n      className,\n    )}\n    ref={ref}\n    {...props}\n    duck-separator=\"\"\n  />\n)\n\nexport { Separator }\n",
+      "path": "separator/separator.tsx",
+      "target": "components/ui/separator.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "separator",
+  "root_folder": "separator",
+  "source": "/registry-ui-duckui/src/separator",
+  "type": "registry:ui"
+}

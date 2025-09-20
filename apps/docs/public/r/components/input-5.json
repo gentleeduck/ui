@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Input } from '@gentleduck/registry-ui-duckui/input'\nimport { Label } from '@gentleduck/registry-ui-duckui/label'\n\nexport default function InputWithButton() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col space-y-2\">\n      <Label htmlFor=\"email\">Email</Label>\n      <Input placeholder=\"Email\" type=\"email\" />\n    </div>\n  )\n}\n",
+      "path": "input/input-5.tsx",
+      "target": "components/input-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-5",
+  "registryDependencies": [
+    "input"
+  ],
+  "root_folder": "input",
+  "source": "/registry-examples-duckui/src/input",
+  "type": "registry:example"
+}

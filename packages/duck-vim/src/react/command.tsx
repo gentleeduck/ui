@@ -1,7 +1,6 @@
 'use client'
 
-import type React from 'react'
-import { createContext, type ReactNode, useContext, useEffect } from 'react'
+import React from 'react'
 import { type Command, KeyHandler, Registry } from '../command'
 import type { KeyContextValue } from './command.types'
 
@@ -9,7 +8,7 @@ import type { KeyContextValue } from './command.types'
  * A React context that holds the key command registry and handler.
  * Consumers can register commands and interact with the keyboard system.
  */
-export const KeyContext = createContext<KeyContextValue | null>(null)
+export const KeyContext = React.createContext<KeyContextValue | null>(null)
 
 /**
  * Provides a `KeyContext` to its children and attaches a global key handler.
@@ -26,19 +25,19 @@ export const KeyContext = createContext<KeyContextValue | null>(null)
  * </KeyProvider>
  * ```
  */
-export const KeyProvider: React.FC<{ debug?: boolean; timeoutMs?: number; children: ReactNode }> = ({
+export const KeyProvider: React.FC<{ debug?: boolean; timeoutMs?: number; children: React.ReactNode }> = ({
   debug = false,
   timeoutMs = 600,
   children,
 }: {
   debug?: boolean
   timeoutMs?: number
-  children: ReactNode
+  children: React.ReactNode
 }) => {
   const registry = new Registry(debug)
   const handler = new KeyHandler(registry, timeoutMs)
 
-  useEffect(() => {
+  React.useEffect(() => {
     handler.attach()
     return () => handler.detach()
   }, [handler])
@@ -68,8 +67,8 @@ export const KeyProvider: React.FC<{ debug?: boolean; timeoutMs?: number; childr
  * > Note: Must be used within a `KeyProvider`.
  */
 export function useKeyCommands(commands: Record<string, Command>): void {
-  const ctx = useContext(KeyContext)
-  useEffect(() => {
+  const ctx = React.useContext(KeyContext)
+  React.useEffect(() => {
     if (!ctx) {
       console.warn('useKeyCommands must be used within a KeyProvider')
       return

@@ -8,7 +8,7 @@ import type { TooltipOptions } from './tooltip.types'
 
 const TooltipContext = React.createContext<ReturnType<typeof useTooltip> | null>(null)
 
-export function useTooltipContext() {
+export function useTooltipContext(): NonNullable<ReturnType<typeof useTooltip>> {
   const context = React.useContext(TooltipContext)
 
   if (context == null) {
@@ -116,6 +116,8 @@ function Content({
             },
             ...style,
           }}
+          // biome-ignore lint: false positive
+          // @ts-ignore
           {...context.getFloatingProps(props)}>
           {props.children}
         </div>

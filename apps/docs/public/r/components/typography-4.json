@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "export default function TypographyH3() {\n  return <h3 className=\"scroll-m-20 font-semibold text-2xl tracking-tight\">The Joke Tax</h3>\n}\n",
+      "path": "typography/typography-4.tsx",
+      "target": "components/typography-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-4",
+  "registryDependencies": [],
+  "root_folder": "typography",
+  "source": "/registry-examples-duckui/src/typography",
+  "type": "registry:example"
+}

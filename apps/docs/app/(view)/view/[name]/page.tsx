@@ -1,7 +1,9 @@
 import { cn } from '@gentleduck/libs/cn'
+import { registry_entry_schema } from '@gentleduck/registers'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next/types'
 import React from 'react'
+import z from 'zod'
 import { siteConfig } from '~/config/site'
 import { getRegistryComponent, getRegistryItem } from '~/lib/get-registry-item'
 import { absoluteUrl } from '~/lib/utils'
@@ -60,11 +62,15 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   const { Index } = await import('~/__ui_registry__/index')
-  // const index = z.record(registry_entry_schema).parse(Index)
+  const index = z.record(registry_entry_schema).parse(Index)
 
-  return Object.values(Index)
-    .filter((block) =>
-      ['registry:block', 'registry:component', 'registry:example', 'registry:internal'].includes(block.type),
+  return Object.values(index)
+    .filter(
+      (block) =>
+        [
+          'registry:block',
+          // 'registry:example',
+        ].includes(block.type) && block.categories?.includes(''),
     )
     .map((block) => ({
       name: block.name,

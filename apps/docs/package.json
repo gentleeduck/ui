@@ -83,11 +83,11 @@
   "scripts": {
     "build": "next build",
     "build:docs": "pnpm velite",
-    "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/**",
+    "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/index.tsx",
     "dev": "next dev --turbopack",
     "dev:docs": "pnpm velite dev",
     "lint": "next lint",
     "start": "next start"
   },
-  "version": "0.1.23"
+  "version": "0.1.46"
 }

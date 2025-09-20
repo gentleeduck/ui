@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "export default function TypographySmall() {\n  return <small className=\"font-medium text-sm leading-none\">Email address</small>\n}\n",
+      "path": "typography/typography-13.tsx",
+      "target": "components/typography-13.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-13",
+  "registryDependencies": [],
+  "root_folder": "typography",
+  "source": "/registry-examples-duckui/src/typography",
+  "type": "registry:example"
+}

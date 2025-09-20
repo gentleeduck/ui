@@ -6,31 +6,27 @@
   },
   "description": "motion is a behavioral component abstraction that makes the aero dynamics of the web",
   "devDependencies": {
-    "@gentleduck/typescript-config": "workspace:*"
+    "@gentleduck/typescript-config": "workspace:*",
+    "@gentleduck/tsdown-config": "workspace:*",
+    "tsdown": "catalog:"
   },
   "engines": {
     "node": ">=22.0.0"
   },
   "exports": {
-    ".": {
-      "import": "./src/index.ts"
-    },
-    "./anim": {
-      "import": "./src/anim.ts"
-    },
-    "./css": {
-      "import": "./src/index.css"
-    },
-    "./easing": {
-      "import": "./src/easing.ts"
-    }
+    "./*": "./dist/*.js",
+    "./css": "./src/index.css"
   },
   "files": [
-    "src"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "tsconfig.json",
+    "src/index.css"
   ],
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-motion#readme",
   "name": "@gentleduck/motion",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
     "@gentleduck/variants": "workspace:*",
     "typescript": "catalog:"
@@ -42,7 +38,8 @@
     "url": "https://github.com/gentleduck/ui"
   },
   "scripts": {
-    "ci": "pnpm run lint && pnpm run format",
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
     "publish": "pnpm run ci && changeset publish",
@@ -50,5 +47,5 @@
   },
   "type": "module",
   "types": "./index.ts",
-  "version": "0.1.5"
+  "version": "0.1.9"
 }

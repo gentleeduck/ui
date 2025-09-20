@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "export default function TypographyLarge() {\n  return <div className=\"font-semibold text-lg\">Are you absolutely sure?</div>\n}\n",
+      "path": "typography/typography-12.tsx",
+      "target": "components/typography-12.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-12",
+  "registryDependencies": [],
+  "root_folder": "typography",
+  "source": "/registry-examples-duckui/src/typography",
+  "type": "registry:example"
+}

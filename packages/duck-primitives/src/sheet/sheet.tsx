@@ -8,7 +8,7 @@ import { Slot } from '../slot'
 import { useSheet, useSheetContext } from './sheet.hooks'
 import type { SheetContextProps, SheetOptions } from './sheet.types'
 
-const SheetContext = React.createContext<SheetContextProps>(null)
+const SheetContext: React.Context<SheetContextProps> = React.createContext<SheetContextProps>(null)
 
 function Root({
   children,
@@ -99,10 +99,7 @@ function Content({
             position: 'fixed',
           }}>
           {props.children}
-          {context.closeButton && (
-            // @ts-expect-error
-            <SheetClose />
-          )}
+          {context.closeButton && <SheetClose />}
         </div>
       </FloatingFocusManager>
     </Mount>
@@ -193,57 +190,8 @@ function Description({ children, ref, ...props }: React.HTMLProps<HTMLParagraphE
   )
 }
 
-function Close({
-  children,
-  asChild = false,
-  ref: propRef,
-  onClick,
-  ...props
-}: React.HTMLProps<typeof HTMLButtonElement> & {
-  asChild?: boolean
-}) {
-  const context = useSheetContext()
-  const childrenRef = (children as any)?.ref
-  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
-  const Comp = asChild ? Slot : 'button'
-
-  // `asChild` allows the user to pass any element as the anchor
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(
-      children,
-      context.getReferenceProps({
-        ref,
-        ...props,
-        ...(children.props as any),
-        'data-open': context.open,
-        onClick: (e: React.MouseEvent<HTMLElement>) => {
-          // @ts-expect-error
-          onClick?.(e)
-          context.setOpen(false)
-        },
-      }),
-    )
-  }
-
-  return (
-    <Comp
-      data-open={context.open}
-      // The user can style the trigger based on the state
-      onClick={(e: React.MouseEvent<HTMLElement>) => {
-        context.setOpen(false)
-        // @ts-expect-error
-        onClick?.(e)
-      }}
-      ref={ref}
-      // @ts-expect-error
-      {...context.getReferenceProps(props)}>
-      {children}
-    </Comp>
-  )
-}
-
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
   return <FloatingPortal {...props}>{children}</FloatingPortal>
 }
 
-export { Root, Trigger, Content, Heading, Title, Description, Close, Portal, SheetContext, Overlay }
+export { Root, Trigger, Content, Heading, Title, Description, Portal, SheetContext, Overlay }

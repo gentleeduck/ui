@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "export default function TypographyInlineCode() {\n  return (\n    <code className=\"relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono font-semibold text-sm\">\n      @radix-ui/react-alert-dialog\n    </code>\n  )\n}\n",
+      "path": "typography/typography-10.tsx",
+      "target": "components/typography-10.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-10",
+  "registryDependencies": [],
+  "root_folder": "typography",
+  "source": "/registry-examples-duckui/src/typography",
+  "type": "registry:example"
+}

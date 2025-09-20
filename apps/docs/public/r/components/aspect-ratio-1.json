@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'\nimport Image from 'next/image'\n\nexport default function AspectRatioDemo() {\n  return (\n    <AspectRatio className=\"rounded-lg bg-muted\" ratio={'16/9'}>\n      <Image\n        alt=\"Photo by Drew Beamer\"\n        className=\"rounded-lg object-cover dark:grayscale\"\n        height={450}\n        src=\"https://plus.unsplash.com/premium_photo-1672116453000-c31b150f48ef?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\n        width={800}\n      />\n    </AspectRatio>\n  )\n}\n",
+      "path": "aspect-ratio/aspect-ratio-1.tsx",
+      "target": "components/aspect-ratio-1.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "aspect-ratio-1",
+  "registryDependencies": [
+    "aspect-ratio"
+  ],
+  "root_folder": "aspect-ratio",
+  "source": "/registry-examples-duckui/src/aspect-ratio",
+  "type": "registry:example"
+}

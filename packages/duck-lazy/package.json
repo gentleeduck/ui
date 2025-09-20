@@ -5,25 +5,24 @@
   },
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "devDependencies": {
-    "@changesets/cli": "^2.27.7",
-    "@types/react": "^19.0.10",
+    "@gentleduck/tsdown-config": "workspace:*",
+    "tsdown": "catalog:",
+    "@changesets/cli": "^2.29.7",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
     "husky": "^9.1.7",
-    "tsup": "^8.4.0"
+    "tsup": "^8.5.0"
   },
   "engines": {
     "node": ">=22.0.0"
   },
   "exports": {
-    "./*": "./src/*/index.ts"
+    "./*": "./dist/*/index.js"
   },
   "files": [
-    "src",
-    "!src/**/__tests__",
+    "dist",
     "README.md",
     "LICENSE",
-    "CHANGELOG.md",
-    "SECURITY.md",
-    "article-about-this.md",
     "tsconfig.json"
   ],
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-lazy#readme",
@@ -42,10 +41,8 @@
   "license": "MIT",
   "main": "./index.ts",
   "name": "@gentleduck/lazy",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
-    "@types/node": "catalog:",
-    "@types/react": "catalog:react19",
     "next": "catalog:",
     "react": "catalog:react19",
     "typescript": "catalog:"
@@ -61,12 +58,13 @@
     "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-lazy"
   },
   "scripts": {
-    "ci": "pnpm run lint && pnpm run format",
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
     "publish": "pnpm run ci && changeset publish",
     "release": "changeset version"
   },
   "type": "module",
-  "version": "1.2.5"
+  "version": "1.2.8"
 }

@@ -26,7 +26,11 @@ export function usePopover({
   enableHover = false,
   mainAxis = true,
   contextMenu = false,
-}: PopoverOptions) {
+}: PopoverOptions): ReturnType<typeof useFloating> & {
+  open: boolean
+  setOpen: (open: boolean) => void
+  modal?: boolean
+} {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
 
   const open = controlledOpen ?? uncontrolledOpen
@@ -37,7 +41,8 @@ export function usePopover({
     flip({
       crossAxis: placement.includes('-'),
       fallbackAxisSideDirection: 'end',
-      // @ts-expect-error
+      // biome-ignore lint: false positive
+      // @ts-ignore
       fallbackPlacements: contextMenu ? ['left-start'] : null,
       mainAxis,
       padding: 4,

@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useKeyCommands } from '@gentleduck/vim/react'
 import { Search } from 'lucide-react'
 import React from 'react'
 import { Dialog, DialogContent } from '../dialog'
@@ -191,8 +192,6 @@ function CommandItem({
     />
   )
 }
-
-import { useKeyCommands } from '@gentleduck/vim/react'
 
 function CommandShortcut({
   className,

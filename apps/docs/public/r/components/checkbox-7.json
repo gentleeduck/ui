@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'\nimport { Gem, Minus } from 'lucide-react'\n\nexport default function Example() {\n  return <Checkbox checkedIndicator={<Gem className=\"h-3 w-3\" />} indicator={<Minus className=\"h-3 w-3\" />} />\n}\n",
+      "path": "checkbox/checkbox-7.tsx",
+      "target": "components/checkbox-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "checkbox-7",
+  "registryDependencies": [],
+  "root_folder": "checkbox",
+  "source": "/registry-examples-duckui/src/checkbox",
+  "type": "registry:example"
+}

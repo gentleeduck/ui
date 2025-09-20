@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\nimport { InputOTP, InputOTPGroup, InputOTPSlot, REGEXP_ONLY_DIGITS } from '@gentleduck/registry-ui-duckui/input-otp'\n\nexport default function InputOTPPattern() {\n  return (\n    <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>\n      <InputOTPGroup>\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n      </InputOTPGroup>\n    </InputOTP>\n  )\n}\n",
+      "path": "input-otp/input-otp-2.tsx",
+      "target": "components/input-otp-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-otp-2",
+  "registryDependencies": [
+    "input-otp"
+  ],
+  "root_folder": "input-otp",
+  "source": "/registry-examples-duckui/src/input-otp",
+  "type": "registry:example"
+}

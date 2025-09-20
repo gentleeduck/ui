@@ -8,18 +8,12 @@ import React from 'react'
 import { ImperativePanelHandle } from 'react-resizable-panels'
 import { BlockToolbar } from '~/components/blocks'
 import { Icons } from '~/components/icons'
-import { useConfig } from '~/hooks/use-config'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 
 export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean } }) {
-  const [config] = useConfig()
   const { isLiftMode } = useLiftMode(block.name)
   const [isLoading, setIsLoading] = React.useState(true)
   const ref = React.useRef<ImperativePanelHandle>(null)
-
-  if (config.style !== block.style) {
-    return null
-  }
 
   return (
     <Tabs
@@ -59,7 +53,7 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
               onLoad={() => {
                 setIsLoading(false)
               }}
-              src={`/blocks/${block.style}/${block.name}`}
+              src={`/blocks/${block.name}`}
             />
           </ResizablePanel>
           <ResizableHandle

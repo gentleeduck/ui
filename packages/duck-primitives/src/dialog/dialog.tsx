@@ -8,7 +8,7 @@ import { useDialog, useDialogContext } from './dialog.hooks'
 import { cleanLockScrollbar, lockScrollbar } from './dialog.libs'
 import type { DialogContextProps, DialogOptions } from './dialog.types'
 
-const DialogContext = React.createContext<DialogContextProps>(null)
+const DialogContext: React.Context<DialogContextProps> = React.createContext<DialogContextProps>(null)
 
 function Root({
   children,
@@ -97,10 +97,7 @@ function Content({
         {...context.getFloatingProps(props)}>
         <Mount open={context.open} renderOnce={renderOnce}>
           {props.children}
-          {context.closeButton && (
-            // @ts-expect-error
-            <DialogClose />
-          )}
+          {context.closeButton && <DialogClose />}
         </Mount>
       </div>
     </FloatingFocusManager>
@@ -190,13 +187,8 @@ function Description({ children, ref, ...props }: React.HTMLProps<HTMLParagraphE
   )
 }
 
-function Close(props: React.ComponentPropsWithRef<typeof Slot>) {
-  const { setOpen } = useDialogContext()
-  return <Slot {...props} onClick={() => setOpen(false)} ref={props?.ref} />
-}
-
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
   return <FloatingPortal {...props}>{children}</FloatingPortal>
 }
 
-export { Root, Trigger, Content, Heading, Title, Description, Close, Portal, DialogContext, Overlay }
+export { Root, Trigger, Content, Heading, Title, Description, Portal, DialogContext, Overlay }

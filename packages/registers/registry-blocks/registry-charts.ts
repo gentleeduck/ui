@@ -59,7 +59,7 @@ export const registry_charts: RegistryEntry[] = [
     files: [
       {
         path: 'charts/chart-area-interactive.tsx',
-        type: 'registry:component',
+        type: 'registry:block',
       },
     ],
     name: 'chart-area-interactive',

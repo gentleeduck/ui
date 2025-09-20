@@ -1,0 +1,34 @@
+{
+  "dependencies": [
+    "@gentleduck/primitives",
+    "@gentleduck/libs",
+    "@gentleduck/motion"
+  ],
+  "files": [
+    {
+      "content": "export * from './radio-group'\nexport * from './radio-group.hooks'\n",
+      "path": "radio-group/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "import React from 'react'\n\nexport interface RadioGroupContextType {\n  value: string\n  onValueChange: (value: string) => void\n  wrapperRef: React.RefObject<HTMLUListElement | null>\n  itemsRef: React.RefObject<HTMLLIElement[]>\n  selectedItemRef: React.RefObject<HTMLLIElement | null>\n}\n\nexport const RadioGroupContext = React.createContext<RadioGroupContextType | null>(null)\n\nexport function useRadioGroupContext() {\n  const context = React.useContext(RadioGroupContext)\n  if (!context) {\n    throw new Error('useRadioGroupContext must be used within a RadioGroup')\n  }\n  return context\n}\n\nexport function useHandleRadioClick(defaultValue?: string, value?: string, onValueChange?: (value: string) => void) {\n  const wrapperRef = React.useRef<HTMLUListElement>(null)\n  const selectedItemRef = React.useRef<HTMLLIElement | null>(null)\n  const itemsRef = React.useRef<HTMLLIElement[]>([])\n\n  React.useEffect(() => {\n    itemsRef.current = Array.from(wrapperRef.current?.querySelectorAll('[duck-radio-item]') ?? []) as HTMLLIElement[]\n\n    // Handle click on each item\n    function handleItemClick(itemInput: HTMLInputElement, item: HTMLLIElement) {\n      for (let i = 0; i < itemsRef.current.length; i++) {\n        const item = itemsRef.current[i] as HTMLLIElement\n        const itemInput = item.querySelector('input') as HTMLInputElement\n        item.removeAttribute('aria-checked')\n        onValueChange?.(item.id)\n        if (itemInput) {\n          itemInput.removeAttribute('aria-checked')\n          itemInput.checked = false\n        }\n      }\n\n      handleItem(itemInput, item)\n    }\n\n    // Handle item styles\n    function handleItem(itemInput: HTMLInputElement, item: HTMLLIElement) {\n      if (itemInput) {\n        item.setAttribute('aria-checked', 'true')\n        itemInput?.setAttribute('aria-checked', 'true')\n        itemInput.checked = true\n      }\n    }\n\n    // Handle all the items\n    for (let i = 0; i < itemsRef.current.length; i++) {\n      const item = itemsRef.current[i] as HTMLLIElement\n      const itemInput = item.querySelector('input') as HTMLInputElement\n      const itemLabel = item.querySelector('label') as HTMLLabelElement\n\n      // Handle default value\n      if (defaultValue === item.id || value === item.id) {\n        handleItem(itemInput, item)\n      }\n\n      itemInput?.addEventListener('click', () => handleItemClick(itemInput, item))\n      itemLabel.addEventListener('click', () => handleItemClick(itemInput, item))\n    }\n  }, [wrapperRef])\n\n  return {\n    itemsRef,\n    selectedItemRef,\n    wrapperRef,\n  }\n}\n",
+      "path": "radio-group/radio-group.hooks.ts",
+      "target": "components/ui/radio-group.hooks.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'\nimport { useSvgIndicator } from '@gentleduck/primitives/checkers'\nimport type * as React from 'react'\nimport { Label } from '../label'\nimport { RadioGroupContext, useHandleRadioClick } from './radio-group.hooks'\n\nfunction Radio({\n  className,\n  indicator,\n  checkedIndicator,\n  ref,\n  style,\n  ...props\n}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement; checkedIndicator?: React.ReactElement }) {\n  const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({\n    checkedIndicator,\n    indicator,\n  })\n\n  return (\n    <>\n      <input\n        className={cn(\n          checkersStylePattern({\n            indicatorState:\n              indicatorReady && checkedIndicatorReady\n                ? 'both'\n                : indicatorReady\n                  ? 'indicatorReady'\n                  : checkedIndicatorReady\n                    ? 'checkedIndicatorReady'\n                    : 'default',\n            type: 'radio',\n          }),\n          AnimVariants({ pseudo: 'animate' }),\n          'rounded-full',\n          className,\n        )}\n        duck-radio=\"\"\n        ref={ref}\n        style={{ ...style, ...inputStyle }}\n        type=\"radio\"\n        {...props}\n      />\n      <SvgIndicator className=\"sr-only\" />\n    </>\n  )\n}\n\nfunction RadioGroup({\n  className,\n  children,\n  value,\n  onValueChange,\n  defaultValue,\n  ...props\n}: React.HTMLProps<HTMLUListElement> & {\n  value?: string\n  onValueChange?: (value: string) => void\n  defaultValue?: string\n}) {\n  const { selectedItemRef, itemsRef, wrapperRef } = useHandleRadioClick(defaultValue, value, onValueChange)\n\n  return (\n    <RadioGroupContext.Provider\n      value={{\n        itemsRef,\n        onValueChange: () => {},\n        selectedItemRef,\n        value: '',\n        wrapperRef,\n      }}>\n      <ul className={cn('flex flex-col', className)} duck-radio-group=\"\" ref={wrapperRef} {...props}>\n        {children}\n      </ul>\n    </RadioGroupContext.Provider>\n  )\n}\n\nfunction RadioGroupItem({\n  className,\n  children,\n  customIndicator,\n  value,\n  ...props\n}: Omit<React.HTMLProps<HTMLLIElement>, 'value'> & { customIndicator?: React.ReactNode; value: string }) {\n  return (\n    <li\n      className={cn(\n        'relative flex items-center gap-2 [&>#radio-indicator]:opacity-0 [&[aria-checked=true]>#radio-indicator]:opacity-100',\n        className,\n      )}\n      duck-radio-item=\"\"\n      id={value}\n      role=\"presentation\"\n      {...props}>\n      {customIndicator && <span id=\"radio-indicator\">{customIndicator}</span>}\n      <Radio className={cn(customIndicator?.toString() && 'hidden')} id={value} />\n      <Label className=\"font-normal text-base\" duck-radio-label=\"\" htmlFor={value}>\n        {children}\n      </Label>\n    </li>\n  )\n}\n\nexport { Radio, RadioGroup, RadioGroupItem }\n",
+      "path": "radio-group/radio-group.tsx",
+      "target": "components/ui/radio-group.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "radio-group",
+  "registryDependencies": [
+    "label"
+  ],
+  "root_folder": "radio-group",
+  "source": "/registry-ui-duckui/src/radio-group",
+  "type": "registry:ui"
+}

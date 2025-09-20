@@ -1,0 +1,25 @@
+{
+  "dependencies": [
+    "@gentleduck/libs",
+    "@gentleduck/motion",
+    "@gentleduck/primitives"
+  ],
+  "files": [
+    {
+      "content": "export * from './tooltip'\n",
+      "path": "tooltip/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport { AnimVariants } from '@gentleduck/motion/anim'\nimport * as TooltipPrimitive from '@gentleduck/primitives/tooltip'\nimport type React from 'react'\n\nfunction Tooltip({\n  skipDelayDuration,\n  delayDuration,\n  ...props\n}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>) {\n  return <TooltipPrimitive.Root delayDuration={delayDuration} skipDelayDuration={skipDelayDuration} {...props} />\n}\n\nfunction TooltipTrigger({\n  children,\n  ...props\n}: Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>) {\n  return <TooltipPrimitive.Trigger {...props}>{children}</TooltipPrimitive.Trigger>\n}\n\nfunction TooltipContent({\n  className,\n  children,\n  ref,\n  ...props\n}: React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>): React.JSX.Element {\n  return (\n    <TooltipPrimitive.Portal>\n      <TooltipPrimitive.Content\n        className={cn(\n          AnimVariants(),\n          'pointer-events-none relative z-50 h-fit w-fit select-none overflow-hidden text-balance rounded-lg border border-border bg-popover px-3 py-1.5 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',\n          className,\n        )}\n        ref={ref}\n        role=\"tooltip\"\n        {...props}>\n        {children}\n      </TooltipPrimitive.Content>\n    </TooltipPrimitive.Portal>\n  )\n}\n\nconst TooltipPortal = TooltipPrimitive.Portal\n\nexport { Tooltip, TooltipTrigger, TooltipContent, TooltipPortal }\n",
+      "path": "tooltip/tooltip.tsx",
+      "target": "components/ui/tooltip.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "tooltip",
+  "root_folder": "tooltip",
+  "source": "/registry-ui-duckui/src/tooltip",
+  "type": "registry:ui"
+}

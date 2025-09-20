@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Toggle } from '@gentleduck/registry-ui-duckui/toggle'\nimport { Italic } from 'lucide-react'\n\nexport default function Toggle1Demo() {\n  return (\n    <Toggle aria-label=\"Toggle italic\" className=\"flex items-center\">\n      <Italic />\n      Italic\n    </Toggle>\n  )\n}\n",
+      "path": "toggle/toggle-4.tsx",
+      "target": "components/toggle-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "toggle-4",
+  "registryDependencies": [
+    "toggle"
+  ],
+  "root_folder": "toggle",
+  "source": "/registry-examples-duckui/src/toggle",
+  "type": "registry:example"
+}

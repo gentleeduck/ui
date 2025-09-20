@@ -88,5 +88,5 @@
     "serve": "tsc -b && vite build && vite preview"
   },
   "type": "module",
-  "version": "0.1.10"
+  "version": "0.1.14"
 }

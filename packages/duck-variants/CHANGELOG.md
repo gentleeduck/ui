@@ -1,5 +1,29 @@
 # @gentleduck/variants
 
+## 0.1.15
+
+### Patch Changes
+
+- fixed types
+- done
+- done
+- done
+
+## 0.1.14
+
+### Patch Changes
+
+- fixed types
+- done
+- done
+
+## 0.1.13
+
+### Patch Changes
+
+- fixed types
+- done
+
 ## 0.1.12
 
 ### Patch Changes

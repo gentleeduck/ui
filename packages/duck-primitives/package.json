@@ -8,27 +8,25 @@
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "devDependencies": {
     "@changesets/cli": "catalog:",
+    "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
-    "husky": "catalog:"
+    "husky": "catalog:",
+    "tsdown": "catalog:"
   },
   "engines": {
     "node": ">=22.0.0"
   },
   "exports": {
-    "./*": "./src/*/index.ts"
+    "./*": "./dist/*/index.js"
   },
   "files": [
-    "src",
-    "!src/**/__tests__",
+    "dist",
     "README.md",
-    "LICENSE",
-    "CHANGELOG.md",
-    "SECURITY.md",
-    "article-about-this.md",
-    "tsconfig.json"
+    "TAILWIND_SETUP.md",
+    "LICENSE"
   ],
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives#readme",
   "keywords": [
@@ -46,7 +44,7 @@
   "license": "MIT",
   "module": "./index.ts",
   "name": "@gentleduck/primitives",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
     "@floating-ui/react": "^0.27.13",
     "@gentleduck/hooks": "workspace:*",
@@ -62,12 +60,13 @@
     "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives"
   },
   "scripts": {
-    "ci": "pnpm run lint && pnpm run format",
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
     "publish": "pnpm run ci && changeset publish",
     "release": "changeset version"
   },
   "type": "module",
-  "version": "0.1.20"
+  "version": "0.1.32"
 }

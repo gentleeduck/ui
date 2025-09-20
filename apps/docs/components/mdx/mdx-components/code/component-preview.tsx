@@ -130,7 +130,7 @@ export const BuildTab = () => {
 
       <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[500px] top-0 left-0 inset-0">
         <div className="flex items-center gap-4">
-          <Button className="font-bold rounded-sm" size={'xs'}>
+          <Button className="font-bold rounded-sm" size={'sm'}>
             <Crown />
             <span>Coming soon</span>
           </Button>

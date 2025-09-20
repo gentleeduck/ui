@@ -220,4 +220,3 @@ function Thumb({ index, style, className }: React.HTMLProps<HTMLDivElement> & { 
 }
 
 export { Root, Range, Track, Thumb, SliderContext, useSliderContext }
-export default { Range, Root, SliderContext, Thumb, Track, useSliderContext }

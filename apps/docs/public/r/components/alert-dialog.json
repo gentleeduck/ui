@@ -1,0 +1,27 @@
+{
+  "dependencies": [
+    "@gentleduck/primitives",
+    "@gentleduck/libs"
+  ],
+  "files": [
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport DialogPrimitive from '@gentleduck/primitives/dialog'\nimport type React from 'react'\nimport { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../dialog'\n\nconst AlertDialog = DialogPrimitive.Root\n\nconst AlertDialogTrigger = DialogTrigger\n\nfunction AlertDialogContent({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<typeof DialogContent>): React.JSX.Element {\n  return (\n    <DialogContent className={cn('w-full max-w-[500px]', className)} {...props}>\n      {children}\n    </DialogContent>\n  )\n}\n\nconst AlertDialogHeader = DialogHeader\n\nconst AlertDialogFooter = DialogFooter\n\nconst AlertDialogTitle = DialogTitle\n\nconst AlertDialogDescription = DialogDescription\n\nconst AlertDialogAction = AlertDialogTrigger\n\nconst AlertDialogCancel = AlertDialogTrigger\n\nexport {\n  AlertDialog,\n  AlertDialogContent,\n  AlertDialogHeader,\n  AlertDialogFooter,\n  AlertDialogTitle,\n  AlertDialogAction,\n  AlertDialogCancel,\n  AlertDialogTrigger,\n  AlertDialogDescription,\n}\n",
+      "path": "alert-dialog/alert-dialog.tsx",
+      "target": "components/ui/alert-dialog.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "content": "export * from './alert-dialog'\n",
+      "path": "alert-dialog/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "alert-dialog",
+  "registryDependencies": [
+    "dialog"
+  ],
+  "root_folder": "alert-dialog",
+  "source": "/registry-ui-duckui/src/alert-dialog",
+  "type": "registry:ui"
+}

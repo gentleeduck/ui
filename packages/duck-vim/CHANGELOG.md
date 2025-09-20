@@ -1,5 +1,33 @@
 # @gentleduck/vim
 
+## 0.1.11
+
+### Patch Changes
+
+- done
+- done
+- done
+
+## 0.1.10
+
+### Patch Changes
+
+- done
+- done
+
+## 0.1.9
+
+### Patch Changes
+
+- done
+- done
+
+## 0.1.8
+
+### Patch Changes
+
+- done
+
 ## 0.1.7
 
 ### Patch Changes

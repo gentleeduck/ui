@@ -3,12 +3,14 @@
     "url": "https://github.com/gentleduck/ui/issues"
   },
   "devDependencies": {
+    "@gentleduck/tsdown-config": "workspace:*",
+    "tsdown": "catalog:",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
-    "clsx": "^1.2.1",
-    "tailwind-merge": "^1.14.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1",
     "typescript": "catalog:",
     "zod": "catalog:"
   },
@@ -16,22 +18,18 @@
     "node": ">=22.0.0"
   },
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*/index.ts"
+    "./*": "./dist/*/index.js"
   },
   "files": [
-    "src",
+    "dist",
     "README.md",
     "LICENSE",
-    "CHANGELOG.md",
-    "SECURITY.md",
-    "article-about-this.md",
     "tsconfig.json"
   ],
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-hooks#readme",
   "module": "./dist/index.js",
   "name": "@gentleduck/hooks",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
     "react": "catalog:react19",
     "react-dom": "catalog:react19"
@@ -43,7 +41,8 @@
     "url": "https://github.com/gentleduck/ui"
   },
   "scripts": {
-    "ci": "pnpm run lint && pnpm run format",
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "clean": "git clean -xdf .cache .turbo node_modules dist",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
@@ -52,5 +51,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "0.1.2"
+  "version": "0.1.6"
 }

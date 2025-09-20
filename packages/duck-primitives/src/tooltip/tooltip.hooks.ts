@@ -24,7 +24,11 @@ export function useTooltip({
   mainAxis = true,
   delayDuration = 150,
   skipDelayDuration = 150,
-}: TooltipOptions) {
+}: TooltipOptions): ReturnType<typeof useFloating> & {
+  open: boolean
+  setOpen: (open: boolean) => void
+  modal?: boolean
+} {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
 
   const open = controlledOpen ?? uncontrolledOpen

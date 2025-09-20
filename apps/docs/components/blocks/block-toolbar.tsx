@@ -128,7 +128,6 @@ export function BlockToolbar({
               code: block.code,
               description: block.description || 'Edit in v0',
               name: block.name,
-              style: block.style,
             }}
             disabled={isLiftMode}
             id={`v0-button-${block.name}`}

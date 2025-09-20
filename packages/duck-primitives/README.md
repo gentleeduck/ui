@@ -10,6 +10,10 @@
 npm install @gentleduck/primitives
 ```
 
+### Tailwind CSS Setup
+
+This package uses Tailwind CSS classes that require proper configuration. See [TAILWIND_SETUP.md](./TAILWIND_SETUP.md) for detailed setup instructions.
+
 ---
 
 ## 🔧 Usage

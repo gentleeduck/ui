@@ -5,10 +5,11 @@
   },
   "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
   "devDependencies": {
-    "@changesets/cli": "^2.27.7",
+    "@changesets/cli": "^2.29.7",
+    "typescript": "catalog:",
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "clsx": "^1.2.1",
+    "clsx": "^2.1.1",
     "cva": "1.0.0-beta.3",
     "husky": "^9.1.7",
     "tsdown": "catalog:"
@@ -20,7 +21,10 @@
     ".": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "tsconfig.json"
   ],
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-variants#readme",
   "keywords": [
@@ -44,10 +48,8 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "name": "@gentleduck/variants",
-  "packageManager": "pnpm@10.10.0",
-  "peerDependencies": {
-    "typescript": "catalog:"
-  },
+  "packageManager": "pnpm@10.17.0",
+  "peerDependencies": {},
   "private": false,
   "repository": {
     "type": "git",
@@ -65,5 +67,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "0.1.12"
+  "version": "0.1.15"
 }

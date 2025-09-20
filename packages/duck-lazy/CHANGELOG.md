@@ -1,5 +1,29 @@
 # @gentleduck/lazy
 
+## 1.2.8
+
+### Patch Changes
+
+- done
+- new docs and integration in duck-ui
+- fixed tyes
+- done
+
+## 1.2.7
+
+### Patch Changes
+
+- done
+- new docs and integration in duck-ui
+- fixed tyes
+
+## 1.2.6
+
+### Patch Changes
+
+- new docs and integration in duck-ui
+- fixed tyes
+
 ## 1.2.5
 
 ### Patch Changes

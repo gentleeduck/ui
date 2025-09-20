@@ -8,7 +8,7 @@ import type { PopoverOptions } from './popover.types'
 
 const PopoverContext = React.createContext<ReturnType<typeof usePopover> | null>(null)
 
-export function usePopoverContext() {
+export function usePopoverContext(): NonNullable<ReturnType<typeof usePopover>> {
   const context = React.useContext(PopoverContext)
 
   if (context == null) {
@@ -49,13 +49,16 @@ function Trigger({
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(
       children,
+      // biome-ignore lint: false positive
+      // @ts-ignore
       context.getReferenceProps({
         ref,
         ...props,
         ...(children.props as any),
         'data-open': context.open,
         onClick: (e: React.MouseEvent<HTMLElement>) => {
-          // @ts-expect-error
+          // biome-ignore lint: false positive
+          // @ts-ignore
           onClick?.(e)
           context.setOpen(!context.open)
         },
@@ -118,6 +121,8 @@ function Content({
             },
             ...style,
           }}
+          // biome-ignore lint: false positive
+          //@ts-ignore
           {...context.getFloatingProps(props)}>
           {props.children}
         </div>

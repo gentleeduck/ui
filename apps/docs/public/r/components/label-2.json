@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "",
+      "path": "label/label-2.tsx",
+      "target": "components/label-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "label-2",
+  "registryDependencies": [
+    "label"
+  ],
+  "root_folder": "label",
+  "source": "/registry-examples-duckui/src/label",
+  "type": "registry:example"
+}

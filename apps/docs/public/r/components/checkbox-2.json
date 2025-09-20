@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'\n\nexport default function Example() {\n  return <Checkbox defaultChecked={false} />\n}\n",
+      "path": "checkbox/checkbox-2.tsx",
+      "target": "components/checkbox-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "checkbox-2",
+  "registryDependencies": [],
+  "root_folder": "checkbox",
+  "source": "/registry-examples-duckui/src/checkbox",
+  "type": "registry:example"
+}

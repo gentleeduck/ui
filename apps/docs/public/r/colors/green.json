@@ -53,7 +53,50 @@
       "secondary-foreground": "143.8 61.2% 20.2%"
     }
   },
-  "cssVarsTemplate": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n@layer base {\n  :root {\n    --background: 0 0% 100%;\n    --foreground: 144.9 80.4% 10%;\n    --card: 0 0% 100%;\n    --card-foreground: 144.9 80.4% 10%;\n    --popover: 0 0% 100%;\n    --popover-foreground: 144.9 80.4% 10%;\n    --primary: 143.8 61.2% 20.2%;\n    --primary-foreground: 138.5 76.5% 96.7%;\n    --secondary: 140.6 84.2% 92.5%;\n    --secondary-foreground: 143.8 61.2% 20.2%;\n    --muted: 140.6 84.2% 92.5%;\n    --muted-foreground: 142.1 70.6% 45.3%;\n    --accent: 140.6 84.2% 92.5%;\n    --accent-foreground: 143.8 61.2% 20.2%;\n    --destructive: 0 84.2% 60.2%;\n    --destructive-foreground: 138.5 76.5% 96.7%;\n    --border: 141 78.9% 85.1%;\n    --input: 141 78.9% 85.1%;\n    --ring: 144.9 80.4% 10%;\n    --radius: 0.5rem;\n    --chart-1: 12 76% 61%;\n    --chart-2: 173 58% 39%;\n    --chart-3: 197 37% 24%;\n    --chart-4: 43 74% 66%;\n    --chart-5: 27 87% 67%;\n  }\n\n  .dark {\n    --background: 144.9 80.4% 10%;\n    --foreground: 138.5 76.5% 96.7%;\n    --card: 144.9 80.4% 10%;\n    --card-foreground: 138.5 76.5% 96.7%;\n    --popover: 144.9 80.4% 10%;\n    --popover-foreground: 138.5 76.5% 96.7%;\n    --primary: 138.5 76.5% 96.7%;\n    --primary-foreground: 143.8 61.2% 20.2%;\n    --secondary: 142.8 64.2% 24.1%;\n    --secondary-foreground: 138.5 76.5% 96.7%;\n    --muted: 142.8 64.2% 24.1%;\n    --muted-foreground: 141.9 69.2% 58%;\n    --accent: 142.8 64.2% 24.1%;\n    --accent-foreground: 138.5 76.5% 96.7%;\n    --destructive: 0 62.8% 30.6%;\n    --destructive-foreground: 138.5 76.5% 96.7%;\n    --border: 142.8 64.2% 24.1%;\n    --input: 142.8 64.2% 24.1%;\n    --ring: 141.7 76.6% 73.1%;\n    --chart-1: 220 70% 50%;\n    --chart-2: 160 60% 45%;\n    --chart-3: 30 80% 55%;\n    --chart-4: 280 65% 60%;\n    --chart-5: 340 75% 55%;\n  }\n}\n\n@layer base {\n  * {\n    @apply border-border;\n  }\n  body {\n    @apply bg-background text-foreground;\n  }\n}",
+  "inlineColors": {
+    "dark": {
+      "accent": "green-800",
+      "accent-foreground": "green-50",
+      "background": "green-950",
+      "border": "green-800",
+      "card": "green-950",
+      "card-foreground": "green-50",
+      "destructive": "red-900",
+      "destructive-foreground": "green-50",
+      "foreground": "green-50",
+      "input": "green-800",
+      "muted": "green-800",
+      "muted-foreground": "green-400",
+      "popover": "green-950",
+      "popover-foreground": "green-50",
+      "primary": "green-50",
+      "primary-foreground": "green-900",
+      "ring": "green-300",
+      "secondary": "green-800",
+      "secondary-foreground": "green-50"
+    },
+    "light": {
+      "accent": "green-100",
+      "accent-foreground": "green-900",
+      "background": "white",
+      "border": "green-200",
+      "card": "white",
+      "card-foreground": "green-950",
+      "destructive": "red-500",
+      "destructive-foreground": "green-50",
+      "foreground": "green-950",
+      "input": "green-200",
+      "muted": "green-100",
+      "muted-foreground": "green-500",
+      "popover": "white",
+      "popover-foreground": "green-950",
+      "primary": "green-900",
+      "primary-foreground": "green-50",
+      "ring": "green-950",
+      "secondary": "green-100",
+      "secondary-foreground": "green-900"
+    }
+  },
   "cssVarsV4": {
     "dark": {
       "accent": "oklch(0.274 0.006 286.033)",
@@ -128,49 +171,6 @@
       "warning-foreground": "oklch(0.98 0 0)"
     }
   },
-  "inlineColors": {
-    "dark": {
-      "accent": "green-800",
-      "accent-foreground": "green-50",
-      "background": "green-950",
-      "border": "green-800",
-      "card": "green-950",
-      "card-foreground": "green-50",
-      "destructive": "red-900",
-      "destructive-foreground": "green-50",
-      "foreground": "green-50",
-      "input": "green-800",
-      "muted": "green-800",
-      "muted-foreground": "green-400",
-      "popover": "green-950",
-      "popover-foreground": "green-50",
-      "primary": "green-50",
-      "primary-foreground": "green-900",
-      "ring": "green-300",
-      "secondary": "green-800",
-      "secondary-foreground": "green-50"
-    },
-    "light": {
-      "accent": "green-100",
-      "accent-foreground": "green-900",
-      "background": "white",
-      "border": "green-200",
-      "card": "white",
-      "card-foreground": "green-950",
-      "destructive": "red-500",
-      "destructive-foreground": "green-50",
-      "foreground": "green-950",
-      "input": "green-200",
-      "muted": "green-100",
-      "muted-foreground": "green-500",
-      "popover": "white",
-      "popover-foreground": "green-950",
-      "primary": "green-900",
-      "primary-foreground": "green-50",
-      "ring": "green-950",
-      "secondary": "green-100",
-      "secondary-foreground": "green-900"
-    }
-  },
-  "inlineColorsTemplate": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n  "
+  "inlineColorsTemplate": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n  ",
+  "cssVarsTemplate": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n@layer base {\n  :root {\n    --background: 0 0% 100%;\n    --foreground: 144.9 80.4% 10%;\n    --card: 0 0% 100%;\n    --card-foreground: 144.9 80.4% 10%;\n    --popover: 0 0% 100%;\n    --popover-foreground: 144.9 80.4% 10%;\n    --primary: 143.8 61.2% 20.2%;\n    --primary-foreground: 138.5 76.5% 96.7%;\n    --secondary: 140.6 84.2% 92.5%;\n    --secondary-foreground: 143.8 61.2% 20.2%;\n    --muted: 140.6 84.2% 92.5%;\n    --muted-foreground: 142.1 70.6% 45.3%;\n    --accent: 140.6 84.2% 92.5%;\n    --accent-foreground: 143.8 61.2% 20.2%;\n    --destructive: 0 84.2% 60.2%;\n    --destructive-foreground: 138.5 76.5% 96.7%;\n    --border: 141 78.9% 85.1%;\n    --input: 141 78.9% 85.1%;\n    --ring: 144.9 80.4% 10%;\n    --radius: 0.5rem;\n    --chart-1: 12 76% 61%;\n    --chart-2: 173 58% 39%;\n    --chart-3: 197 37% 24%;\n    --chart-4: 43 74% 66%;\n    --chart-5: 27 87% 67%;\n  }\n\n  .dark {\n    --background: 144.9 80.4% 10%;\n    --foreground: 138.5 76.5% 96.7%;\n    --card: 144.9 80.4% 10%;\n    --card-foreground: 138.5 76.5% 96.7%;\n    --popover: 144.9 80.4% 10%;\n    --popover-foreground: 138.5 76.5% 96.7%;\n    --primary: 138.5 76.5% 96.7%;\n    --primary-foreground: 143.8 61.2% 20.2%;\n    --secondary: 142.8 64.2% 24.1%;\n    --secondary-foreground: 138.5 76.5% 96.7%;\n    --muted: 142.8 64.2% 24.1%;\n    --muted-foreground: 141.9 69.2% 58%;\n    --accent: 142.8 64.2% 24.1%;\n    --accent-foreground: 138.5 76.5% 96.7%;\n    --destructive: 0 62.8% 30.6%;\n    --destructive-foreground: 138.5 76.5% 96.7%;\n    --border: 142.8 64.2% 24.1%;\n    --input: 142.8 64.2% 24.1%;\n    --ring: 141.7 76.6% 73.1%;\n    --chart-1: 220 70% 50%;\n    --chart-2: 160 60% 45%;\n    --chart-3: 30 80% 55%;\n    --chart-4: 280 65% 60%;\n    --chart-5: 340 75% 55%;\n  }\n}\n\n@layer base {\n  * {\n    @apply border-border;\n  }\n  body {\n    @apply bg-background text-foreground;\n  }\n}"
 }

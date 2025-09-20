@@ -7,16 +7,18 @@
   "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
-    "@testing-library/jest-dom": "^6.6.3",
+    "@gentleduck/tsdown-config": "workspace:*",
+    "tsdown": "catalog:",
+    "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/jsdom": "^21.1.7",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
-    "clsx": "^1.2.1",
-    "jsdom": "^20.0.3",
-    "rimraf": "^4.4.1",
-    "tailwind-merge": "^1.14.0",
+    "clsx": "^2.1.1",
+    "jsdom": "^27.0.0",
+    "rimraf": "^6.0.1",
+    "tailwind-merge": "^3.3.1",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
@@ -26,25 +28,19 @@
     "node": ">=22.0.0"
   },
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*/index.ts"
+    "./*": "./dist/*/index.js"
   },
   "files": [
-    "src",
-    "!src/**/*.test.*",
-    "!src/**/__test__/**",
+    "dist",
     "README.md",
     "LICENSE",
-    "CHANGELOG.md",
-    "SECURITY.md",
-    "article-about-this.md",
     "tsconfig.json"
   ],
   "homepage": "https://github.com/gentleeduck/ui/tree/master/packages/duck-vim#readme",
   "license": "MIT",
   "module": "./dist/index.js",
   "name": "@gentleduck/vim",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
     "react": ">=18 || 19",
     "react-dom": ">=18 || 19"
@@ -56,7 +52,8 @@
     "url": "https://github.com/gentleeduck/ui"
   },
   "scripts": {
-    "ci": "pnpm run lint && pnpm run format",
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",
     "clean:git": "git clean -xdf .cache .turbo node_modules dist",
     "dev": "vitest",
@@ -68,5 +65,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "0.1.7"
+  "version": "0.1.11"
 }

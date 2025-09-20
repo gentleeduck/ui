@@ -1,5 +1,115 @@
 # @gentleduck/primitives
 
+## 0.1.32
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/hooks@0.1.6
+
+## 0.1.31
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/libs@0.1.8
+
+## 0.1.30
+
+### Patch Changes
+
+- fixed bugs
+- fixed the exports
+- fixed the package.json
+- fixed the types
+- fixed the positioning
+- done
+- fixed the build
+
+## 0.1.29
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/hooks@0.1.5
+
+## 0.1.28
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/hooks@0.1.4
+
+## 0.1.27
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/libs@0.1.7
+
+## 0.1.26
+
+### Patch Changes
+
+- fixed bugs
+- fixed the exports
+- fixed the package.json
+- fixed the types
+- fixed the positioning
+- done
+- fixed the build
+
+## 0.1.25
+
+### Patch Changes
+
+- fixed bugs
+- fixed the exports
+- fixed the package.json
+- fixed the types
+- fixed the positioning
+- fixed the build
+
+## 0.1.24
+
+### Patch Changes
+
+- fixed bugs
+- fixed the package.json
+- fixed the types
+- fixed the positioning
+- fixed the build
+
+## 0.1.23
+
+### Patch Changes
+
+- Updated dependencies
+  - @gentleduck/hooks@0.1.3
+
+## 0.1.22
+
+### Patch Changes
+
+- Updated dependencies
+  - @gentleduck/libs@0.1.6
+
+## 0.1.21
+
+### Patch Changes
+
+- fixed bugs
+- fixed the package.json
+- fixed the types
+- fixed the positioning
+
 ## 0.1.20
 
 ### Patch Changes

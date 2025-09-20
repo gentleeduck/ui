@@ -42,7 +42,6 @@ export function BlockChunk({
                     code: chunk.code,
                     description: chunk.description || '',
                     name: chunk.name,
-                    style: block.style,
                   }}
                   size="icon"
                 />

@@ -7,27 +7,30 @@
   "dependencies": {},
   "description": "libs is a behavioral component abstraction that makes the aero dynamics of the web",
   "devDependencies": {
-    "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "@gentleduck/tsdown-config": "workspace:*",
+    "tsdown": "catalog:"
   },
   "engines": {
     "node": ">=22.0.0"
   },
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*/index.ts"
+    "./*": "./dist/*/index.js"
   },
   "files": [
-    "src"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "tsconfig.json"
   ],
   "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-libs#readme",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "name": "@gentleduck/libs",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
     "clsx": "^1.2.1",
     "tailwind-merge": "^1.14.0"
@@ -39,7 +42,8 @@
     "url": "https://github.com/gentleduck/ui"
   },
   "scripts": {
-    "ci": "pnpm run lint && pnpm run format",
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "clean": "git clean -xdf .cache .turbo node_modules dist",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
@@ -47,5 +51,5 @@
     "release": "changeset version"
   },
   "type": "module",
-  "version": "0.1.5"
+  "version": "0.1.8"
 }

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'\nimport { Bold, Italic, Underline } from 'lucide-react'\n\nexport default function ToggleGroup1Demo() {\n  return (\n    <ToggleGroup type=\"single\">\n      <ToggleGroupItem aria-label=\"Toggle bold\" value=\"bold\">\n        <Bold className=\"h-4 w-4\" />\n      </ToggleGroupItem>\n      <ToggleGroupItem aria-label=\"Toggle italic\" value=\"italic\">\n        <Italic className=\"h-4 w-4\" />\n      </ToggleGroupItem>\n      <ToggleGroupItem aria-label=\"Toggle underline\" value=\"underline\">\n        <Underline className=\"h-4 w-4\" />\n      </ToggleGroupItem>\n    </ToggleGroup>\n  )\n}\n",
+      "path": "toggle-group/toggle-group-1.tsx",
+      "target": "components/toggle-group-1.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "toggle-group-1",
+  "registryDependencies": [
+    "toggle-group"
+  ],
+  "root_folder": "toggle-group",
+  "source": "/registry-examples-duckui/src/toggle-group",
+  "type": "registry:example"
+}

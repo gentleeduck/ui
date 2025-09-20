@@ -18,7 +18,7 @@ export const config: TsdownConfig = {
   platform: 'neutral',
   plugins: [react() as never],
   shims: true,
-  sourcemap: true,
+  sourcemap: false,
   target: 'esnext',
   treeshake: true,
 }

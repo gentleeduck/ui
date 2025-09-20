@@ -1,5 +1,26 @@
 # @gentleduck/libs
 
+## 0.1.8
+
+### Patch Changes
+
+- done
+- fixed types
+- done
+
+## 0.1.7
+
+### Patch Changes
+
+- done
+- fixed types
+
+## 0.1.6
+
+### Patch Changes
+
+- fixed types
+
 ## 0.1.5
 
 ### Patch Changes
