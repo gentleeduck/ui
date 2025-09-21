@@ -35,7 +35,6 @@ export async function generateMetadata({
 
   return {
     description,
-    // metadataBase: new URL('https://gentleduck.com'),
     openGraph: {
       description,
       images: [
@@ -66,12 +65,11 @@ export async function generateStaticParams() {
   const index = z.record(registry_entry_schema).parse(Index)
 
   return Object.values(index)
-    .filter(
-      (block) =>
-        [
-          'registry:block',
-          // 'registry:example',
-        ].includes(block.type) && block.categories?.includes(''),
+    .filter((block) =>
+      [
+        'registry:block',
+        // 'registry:example',
+      ].includes(block.type),
     )
     .map((block) => ({
       name: block.name,
