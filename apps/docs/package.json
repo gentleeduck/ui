@@ -81,7 +81,7 @@
   "name": "@gentleduck/docs",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "pnpm -w run build && next build",
     "build:docs": "pnpm velite",
     "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/index.tsx",
     "dev": "next dev --turbopack",
