@@ -126,8 +126,7 @@
   "packageManager": "pnpm@10.10.0",
   "private": true,
   "scripts": {
-    "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "ci": "pnpm run lint && pnpm run format",
     "clean": "git clean -xdf .cache .turbo node_modules dist",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
