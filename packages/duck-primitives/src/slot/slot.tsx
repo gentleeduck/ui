@@ -6,10 +6,10 @@ interface SlotProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode
 }
 
-export function createSlot(ownerName: string) {
-  const SlotClone = createSlotClone(ownerName)
+export function createSlot<T = HTMLElement>(ownerName: string) {
+  const SlotClone = createSlotClone<T>(ownerName)
 
-  const Slot = React.forwardRef<HTMLElement, SlotProps>((props, forwardedRef) => {
+  const Slot = React.forwardRef<T, SlotProps>((props, forwardedRef) => {
     const { children, ...slotProps } = props
     const childrenArray = React.Children.toArray(children)
     const slottable = childrenArray.find(isSlottable)
@@ -44,8 +44,8 @@ interface SlotCloneProps {
   children: React.ReactNode
 }
 
-function createSlotClone(ownerName: string) {
-  const SlotClone = React.forwardRef<any, SlotCloneProps>((props, forwardedRef) => {
+function createSlotClone<T = HTMLElement>(ownerName: string) {
+  const SlotClone = React.forwardRef<T, SlotCloneProps>((props, forwardedRef) => {
     const { children, ...slotProps } = props
     const childrenArray = React.Children.toArray(children)
 
