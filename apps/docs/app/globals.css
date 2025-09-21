@@ -7,9 +7,9 @@
 @source "../../../packages/_oldstuff_refactor/ui/";
 @source "../node_modules/@gentleduck/motion/src/";
 
-@import "./mdx.css";
-@import "./themes.css";
 @import "./base.css";
+@import "./themes.css";
+@import "./mdx.css";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));

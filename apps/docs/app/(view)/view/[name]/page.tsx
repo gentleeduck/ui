@@ -35,6 +35,7 @@ export async function generateMetadata({
 
   return {
     description,
+    // metadataBase: new URL('https://gentleduck.com'),
     openGraph: {
       description,
       images: [
