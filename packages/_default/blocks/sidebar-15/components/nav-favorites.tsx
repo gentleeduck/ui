@@ -1,12 +1,6 @@
-"use client"
+'use client'
 
-import {
-  ArrowUpRight,
-  Link,
-  MoreHorizontal,
-  StarOff,
-  Trash2,
-} from "lucide-react"
+import { ArrowUpRight, Link, MoreHorizontal, StarOff, Trash2 } from 'lucide-react'
 
 import {
   DropdownMenu,
@@ -14,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
+} from '@/registry/default/ui/dropdown-menu'
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -23,7 +17,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 export function NavFavorites({
   favorites,
@@ -56,10 +50,9 @@ export function NavFavorites({
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                align={isMobile ? "end" : "start"}
+                align={isMobile ? 'end' : 'start'}
                 className="w-56 rounded-lg"
-                side={isMobile ? "bottom" : "right"}
-              >
+                side={isMobile ? 'bottom' : 'right'}>
                 <DropdownMenuItem>
                   <StarOff className="text-muted-foreground" />
                   <span>Remove from Favorites</span>

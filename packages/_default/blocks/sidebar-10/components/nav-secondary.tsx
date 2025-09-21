@@ -1,5 +1,5 @@
-import { type LucideIcon } from "lucide-react"
-import React from "react"
+import { type LucideIcon } from 'lucide-react'
+import React from 'react'
 
 import {
   SidebarGroup,
@@ -8,7 +8,7 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 export function NavSecondary({
   items,

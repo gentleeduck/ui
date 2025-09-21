@@ -1,20 +1,13 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { toast } from "@/registry/default/hooks/use-toast"
-import { Button } from "@/registry/default/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/registry/default/ui/form"
-import { Switch } from "@/registry/default/ui/switch"
+import { toast } from '@/registry/default/hooks/use-toast'
+import { Button } from '@/registry/default/ui/button'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/registry/default/ui/form'
+import { Switch } from '@/registry/default/ui/switch'
 
 const FormSchema = z.object({
   marketing_emails: z.boolean().default(false).optional(),
@@ -36,7 +29,7 @@ export default function SwitchForm() {
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-      title: "You submitted the following values:",
+      title: 'You submitted the following values:',
     })
   }
 
@@ -52,18 +45,11 @@ export default function SwitchForm() {
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base">
-                      Marketing emails
-                    </FormLabel>
-                    <FormDescription>
-                      Receive emails about new products, features, and more.
-                    </FormDescription>
+                    <FormLabel className="text-base">Marketing emails</FormLabel>
+                    <FormDescription>Receive emails about new products, features, and more.</FormDescription>
                   </div>
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItem>
               )}
@@ -75,17 +61,10 @@ export default function SwitchForm() {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
                     <FormLabel className="text-base">Security emails</FormLabel>
-                    <FormDescription>
-                      Receive emails about your account security.
-                    </FormDescription>
+                    <FormDescription>Receive emails about your account security.</FormDescription>
                   </div>
                   <FormControl>
-                    <Switch
-                      aria-readonly
-                      checked={field.value}
-                      disabled
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch aria-readonly checked={field.value} disabled onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItem>
               )}

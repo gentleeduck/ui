@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/registry/default/blocks/sidebar-02/components/app-sidebar"
+import { AppSidebar } from '@/registry/default/blocks/sidebar-02/components/app-sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,13 +6,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import { Separator } from "@/registry/default/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/breadcrumb'
+import { Separator } from '@/registry/default/ui/separator'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/registry/default/ui/sidebar'
 
 export default function Page() {
   return (
@@ -25,9 +21,7 @@ export default function Page() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Building Your Application
-                </BreadcrumbLink>
+                <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
@@ -38,10 +32,7 @@ export default function Page() {
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           {Array.from({ length: 24 }).map((_, index) => (
-            <div
-              className="aspect-video h-12 w-full rounded-lg bg-muted/50"
-              key={index}
-            />
+            <div className="aspect-video h-12 w-full rounded-lg bg-muted/50" key={index} />
           ))}
         </div>
       </SidebarInset>

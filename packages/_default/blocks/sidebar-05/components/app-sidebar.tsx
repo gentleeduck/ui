@@ -1,12 +1,8 @@
-import { GalleryVerticalEnd, Minus, Plus } from "lucide-react"
-import * as React from "react"
+import { GalleryVerticalEnd, Minus, Plus } from 'lucide-react'
+import * as React from 'react'
 
-import { SearchForm } from "@/registry/default/blocks/sidebar-05/components/search-form"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/registry/default/ui/collapsible"
+import { SearchForm } from '@/registry/default/blocks/sidebar-05/components/search-form'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/collapsible'
 import {
   Sidebar,
   SidebarContent,
@@ -19,7 +15,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 // This is sample data.
 const data = {
@@ -27,137 +23,137 @@ const data = {
     {
       items: [
         {
-          title: "Installation",
-          url: "#",
+          title: 'Installation',
+          url: '#',
         },
         {
-          title: "Project Structure",
-          url: "#",
+          title: 'Project Structure',
+          url: '#',
         },
       ],
-      title: "Getting Started",
-      url: "#",
+      title: 'Getting Started',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Routing",
-          url: "#",
+          title: 'Routing',
+          url: '#',
         },
         {
           isActive: true,
-          title: "Data Fetching",
-          url: "#",
+          title: 'Data Fetching',
+          url: '#',
         },
         {
-          title: "Rendering",
-          url: "#",
+          title: 'Rendering',
+          url: '#',
         },
         {
-          title: "Caching",
-          url: "#",
+          title: 'Caching',
+          url: '#',
         },
         {
-          title: "Styling",
-          url: "#",
+          title: 'Styling',
+          url: '#',
         },
         {
-          title: "Optimizing",
-          url: "#",
+          title: 'Optimizing',
+          url: '#',
         },
         {
-          title: "Configuring",
-          url: "#",
+          title: 'Configuring',
+          url: '#',
         },
         {
-          title: "Testing",
-          url: "#",
+          title: 'Testing',
+          url: '#',
         },
         {
-          title: "Authentication",
-          url: "#",
+          title: 'Authentication',
+          url: '#',
         },
         {
-          title: "Deploying",
-          url: "#",
+          title: 'Deploying',
+          url: '#',
         },
         {
-          title: "Upgrading",
-          url: "#",
+          title: 'Upgrading',
+          url: '#',
         },
         {
-          title: "Examples",
-          url: "#",
+          title: 'Examples',
+          url: '#',
         },
       ],
-      title: "Building Your Application",
-      url: "#",
+      title: 'Building Your Application',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Components",
-          url: "#",
+          title: 'Components',
+          url: '#',
         },
         {
-          title: "File Conventions",
-          url: "#",
+          title: 'File Conventions',
+          url: '#',
         },
         {
-          title: "Functions",
-          url: "#",
+          title: 'Functions',
+          url: '#',
         },
         {
-          title: "next.config.js Options",
-          url: "#",
+          title: 'next.config.js Options',
+          url: '#',
         },
         {
-          title: "CLI",
-          url: "#",
+          title: 'CLI',
+          url: '#',
         },
         {
-          title: "Edge Runtime",
-          url: "#",
+          title: 'Edge Runtime',
+          url: '#',
         },
       ],
-      title: "API Reference",
-      url: "#",
+      title: 'API Reference',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Accessibility",
-          url: "#",
+          title: 'Accessibility',
+          url: '#',
         },
         {
-          title: "Fast Refresh",
-          url: "#",
+          title: 'Fast Refresh',
+          url: '#',
         },
         {
-          title: "Next.js Compiler",
-          url: "#",
+          title: 'Next.js Compiler',
+          url: '#',
         },
         {
-          title: "Supported Browsers",
-          url: "#",
+          title: 'Supported Browsers',
+          url: '#',
         },
         {
-          title: "Turbopack",
-          url: "#",
+          title: 'Turbopack',
+          url: '#',
         },
       ],
-      title: "Architecture",
-      url: "#",
+      title: 'Architecture',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Contribution Guide",
-          url: "#",
+          title: 'Contribution Guide',
+          url: '#',
         },
       ],
-      title: "Community",
-      url: "#",
+      title: 'Community',
+      url: '#',
     },
   ],
 }
@@ -187,16 +183,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarMenu>
             {data.navMain.map((item, index) => (
-              <Collapsible
-                className="group/collapsible"
-                defaultOpen={index === 1}
-                key={item.title}
-              >
+              <Collapsible className="group/collapsible" defaultOpen={index === 1} key={item.title}>
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton>
-                      {item.title}{" "}
-                      <Plus className="ml-auto group-data-[state=open]/collapsible:hidden" />
+                      {item.title} <Plus className="ml-auto group-data-[state=open]/collapsible:hidden" />
                       <Minus className="ml-auto group-data-[state=closed]/collapsible:hidden" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
@@ -205,10 +196,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <SidebarMenuSub>
                         {item.items.map((item) => (
                           <SidebarMenuSubItem key={item.title}>
-                            <SidebarMenuSubButton
-                              asChild
-                              isActive={item.isActive}
-                            >
+                            <SidebarMenuSubButton asChild isActive={item.isActive}>
                               <a href={item.url}>{item.title}</a>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>

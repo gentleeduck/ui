@@ -1,12 +1,8 @@
-"use client"
+'use client'
 
-import { ChevronDown, LifeBuoy, Send } from "lucide-react"
+import { ChevronDown, LifeBuoy, Send } from 'lucide-react'
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/registry/default/ui/collapsible"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/collapsible'
 import {
   Sidebar,
   SidebarContent,
@@ -17,7 +13,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 export default function AppSidebar() {
   return (
@@ -28,8 +24,7 @@ export default function AppSidebar() {
             <SidebarGroup>
               <SidebarGroupLabel
                 asChild
-                className="text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              >
+                className="text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                 <CollapsibleTrigger>
                   Help
                   <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />

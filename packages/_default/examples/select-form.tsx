@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { toast } from "@/registry/default/hooks/use-toast"
-import { Button } from "@/registry/default/ui/button"
+import { toast } from '@/registry/default/hooks/use-toast'
+import { Button } from '@/registry/default/ui/button'
 import {
   Form,
   FormControl,
@@ -15,19 +15,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/registry/default/ui/form"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/registry/default/ui/select"
+} from '@/registry/default/ui/form'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/registry/default/ui/select'
 
 const FormSchema = z.object({
   email: z
     .string({
-      required_error: "Please select an email to display.",
+      required_error: 'Please select an email to display.',
     })
     .email(),
 })
@@ -44,7 +38,7 @@ export default function SelectForm() {
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-      title: "You submitted the following values:",
+      title: 'You submitted the following values:',
     })
   }
 
@@ -70,8 +64,7 @@ export default function SelectForm() {
                 </SelectContent>
               </Select>
               <FormDescription>
-                You can manage email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
+                You can manage email addresses in your <Link href="/examples/forms">email settings</Link>.
               </FormDescription>
               <FormMessage />
             </FormItem>

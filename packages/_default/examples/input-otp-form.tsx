@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { toast } from "@/registry/default/hooks/use-toast"
-import { Button } from "@/registry/default/ui/button"
+import { toast } from '@/registry/default/hooks/use-toast'
+import { Button } from '@/registry/default/ui/button'
 import {
   Form,
   FormControl,
@@ -14,23 +14,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/registry/default/ui/form"
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/registry/default/ui/input-otp"
+} from '@/registry/default/ui/form'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/registry/default/ui/input-otp'
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
-    message: "Your one-time password must be 6 characters.",
+    message: 'Your one-time password must be 6 characters.',
   }),
 })
 
 export default function InputOTPForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
-      pin: "",
+      pin: '',
     },
     resolver: zodResolver(FormSchema),
   })
@@ -42,7 +38,7 @@ export default function InputOTPForm() {
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-      title: "You submitted the following values:",
+      title: 'You submitted the following values:',
     })
   }
 
@@ -67,9 +63,7 @@ export default function InputOTPForm() {
                   </InputOTPGroup>
                 </InputOTP>
               </FormControl>
-              <FormDescription>
-                Please enter the one-time password sent to your phone.
-              </FormDescription>
+              <FormDescription>Please enter the one-time password sent to your phone.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   ArrowUpRight,
@@ -26,26 +26,13 @@ import {
   Sparkles,
   StarOff,
   Trash2,
-} from "lucide-react"
-import * as React from "react"
+} from 'lucide-react'
+import * as React from 'react'
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/registry/default/ui/avatar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "@/registry/default/ui/breadcrumb"
-import { Calendar } from "@/registry/default/ui/calendar"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/registry/default/ui/collapsible"
+import { Avatar, AvatarFallback, AvatarImage } from '@/registry/default/ui/avatar'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@/registry/default/ui/breadcrumb'
+import { Calendar } from '@/registry/default/ui/calendar'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/collapsible'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,8 +42,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
-import { Separator } from "@/registry/default/ui/separator"
+} from '@/registry/default/ui/dropdown-menu'
+import { Separator } from '@/registry/default/ui/separator'
 import {
   Sidebar,
   SidebarContent,
@@ -79,237 +66,237 @@ import {
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
-export const iframeHeight = "800px"
+export const iframeHeight = '800px'
 
-export const description = "A left and right sidebar."
+export const description = 'A left and right sidebar.'
 
 // This is sample data.
 const sidebarLeftData = {
   favorites: [
     {
-      emoji: "📊",
-      name: "Project Management & Task Tracking",
-      url: "#",
+      emoji: '📊',
+      name: 'Project Management & Task Tracking',
+      url: '#',
     },
     {
-      emoji: "🍳",
-      name: "Family Recipe Collection & Meal Planning",
-      url: "#",
+      emoji: '🍳',
+      name: 'Family Recipe Collection & Meal Planning',
+      url: '#',
     },
     {
-      emoji: "💪",
-      name: "Fitness Tracker & Workout Routines",
-      url: "#",
+      emoji: '💪',
+      name: 'Fitness Tracker & Workout Routines',
+      url: '#',
     },
     {
-      emoji: "📚",
-      name: "Book Notes & Reading List",
-      url: "#",
+      emoji: '📚',
+      name: 'Book Notes & Reading List',
+      url: '#',
     },
     {
-      emoji: "🌱",
-      name: "Sustainable Gardening Tips & Plant Care",
-      url: "#",
+      emoji: '🌱',
+      name: 'Sustainable Gardening Tips & Plant Care',
+      url: '#',
     },
     {
-      emoji: "🗣️",
-      name: "Language Learning Progress & Resources",
-      url: "#",
+      emoji: '🗣️',
+      name: 'Language Learning Progress & Resources',
+      url: '#',
     },
     {
-      emoji: "🏠",
-      name: "Home Renovation Ideas & Budget Tracker",
-      url: "#",
+      emoji: '🏠',
+      name: 'Home Renovation Ideas & Budget Tracker',
+      url: '#',
     },
     {
-      emoji: "💰",
-      name: "Personal Finance & Investment Portfolio",
-      url: "#",
+      emoji: '💰',
+      name: 'Personal Finance & Investment Portfolio',
+      url: '#',
     },
     {
-      emoji: "🎬",
-      name: "Movie & TV Show Watchlist with Reviews",
-      url: "#",
+      emoji: '🎬',
+      name: 'Movie & TV Show Watchlist with Reviews',
+      url: '#',
     },
     {
-      emoji: "✅",
-      name: "Daily Habit Tracker & Goal Setting",
-      url: "#",
+      emoji: '✅',
+      name: 'Daily Habit Tracker & Goal Setting',
+      url: '#',
     },
   ],
   navMain: [
     {
       icon: Search,
-      title: "Search",
-      url: "#",
+      title: 'Search',
+      url: '#',
     },
     {
       icon: Sparkles,
-      title: "Ask AI",
-      url: "#",
+      title: 'Ask AI',
+      url: '#',
     },
     {
       icon: Home,
       isActive: true,
-      title: "Home",
-      url: "#",
+      title: 'Home',
+      url: '#',
     },
     {
-      badge: "10",
+      badge: '10',
       icon: Inbox,
-      title: "Inbox",
-      url: "#",
+      title: 'Inbox',
+      url: '#',
     },
   ],
   navSecondary: [
     {
       icon: CalendarIcon,
-      title: "Calendar",
-      url: "#",
+      title: 'Calendar',
+      url: '#',
     },
     {
       icon: Settings2,
-      title: "Settings",
-      url: "#",
+      title: 'Settings',
+      url: '#',
     },
     {
       icon: Blocks,
-      title: "Templates",
-      url: "#",
+      title: 'Templates',
+      url: '#',
     },
     {
       icon: Trash2,
-      title: "Trash",
-      url: "#",
+      title: 'Trash',
+      url: '#',
     },
     {
       icon: MessageCircleQuestion,
-      title: "Help",
-      url: "#",
+      title: 'Help',
+      url: '#',
     },
   ],
   teams: [
     {
       logo: Command,
-      name: "Acme Inc",
-      plan: "Enterprise",
+      name: 'Acme Inc',
+      plan: 'Enterprise',
     },
     {
       logo: AudioWaveform,
-      name: "Acme Corp.",
-      plan: "Startup",
+      name: 'Acme Corp.',
+      plan: 'Startup',
     },
     {
       logo: Command,
-      name: "Evil Corp.",
-      plan: "Free",
+      name: 'Evil Corp.',
+      plan: 'Free',
     },
   ],
   workspaces: [
     {
-      emoji: "🏠",
-      name: "Personal Life Management",
+      emoji: '🏠',
+      name: 'Personal Life Management',
       pages: [
         {
-          emoji: "📔",
-          name: "Daily Journal & Reflection",
-          url: "#",
+          emoji: '📔',
+          name: 'Daily Journal & Reflection',
+          url: '#',
         },
         {
-          emoji: "🍏",
-          name: "Health & Wellness Tracker",
-          url: "#",
+          emoji: '🍏',
+          name: 'Health & Wellness Tracker',
+          url: '#',
         },
         {
-          emoji: "🌟",
-          name: "Personal Growth & Learning Goals",
-          url: "#",
+          emoji: '🌟',
+          name: 'Personal Growth & Learning Goals',
+          url: '#',
         },
       ],
     },
     {
-      emoji: "💼",
-      name: "Professional Development",
+      emoji: '💼',
+      name: 'Professional Development',
       pages: [
         {
-          emoji: "🎯",
-          name: "Career Objectives & Milestones",
-          url: "#",
+          emoji: '🎯',
+          name: 'Career Objectives & Milestones',
+          url: '#',
         },
         {
-          emoji: "🧠",
-          name: "Skill Acquisition & Training Log",
-          url: "#",
+          emoji: '🧠',
+          name: 'Skill Acquisition & Training Log',
+          url: '#',
         },
         {
-          emoji: "🤝",
-          name: "Networking Contacts & Events",
-          url: "#",
+          emoji: '🤝',
+          name: 'Networking Contacts & Events',
+          url: '#',
         },
       ],
     },
     {
-      emoji: "🎨",
-      name: "Creative Projects",
+      emoji: '🎨',
+      name: 'Creative Projects',
       pages: [
         {
-          emoji: "✍️",
-          name: "Writing Ideas & Story Outlines",
-          url: "#",
+          emoji: '✍️',
+          name: 'Writing Ideas & Story Outlines',
+          url: '#',
         },
         {
-          emoji: "🖼️",
-          name: "Art & Design Portfolio",
-          url: "#",
+          emoji: '🖼️',
+          name: 'Art & Design Portfolio',
+          url: '#',
         },
         {
-          emoji: "🎵",
-          name: "Music Composition & Practice Log",
-          url: "#",
+          emoji: '🎵',
+          name: 'Music Composition & Practice Log',
+          url: '#',
         },
       ],
     },
     {
-      emoji: "🏡",
-      name: "Home Management",
+      emoji: '🏡',
+      name: 'Home Management',
       pages: [
         {
-          emoji: "💰",
-          name: "Household Budget & Expense Tracking",
-          url: "#",
+          emoji: '💰',
+          name: 'Household Budget & Expense Tracking',
+          url: '#',
         },
         {
-          emoji: "🔧",
-          name: "Home Maintenance Schedule & Tasks",
-          url: "#",
+          emoji: '🔧',
+          name: 'Home Maintenance Schedule & Tasks',
+          url: '#',
         },
         {
-          emoji: "📅",
-          name: "Family Calendar & Event Planning",
-          url: "#",
+          emoji: '📅',
+          name: 'Family Calendar & Event Planning',
+          url: '#',
         },
       ],
     },
     {
-      emoji: "🧳",
-      name: "Travel & Adventure",
+      emoji: '🧳',
+      name: 'Travel & Adventure',
       pages: [
         {
-          emoji: "🗺️",
-          name: "Trip Planning & Itineraries",
-          url: "#",
+          emoji: '🗺️',
+          name: 'Trip Planning & Itineraries',
+          url: '#',
         },
         {
-          emoji: "🌎",
-          name: "Travel Bucket List & Inspiration",
-          url: "#",
+          emoji: '🌎',
+          name: 'Travel Bucket List & Inspiration',
+          url: '#',
         },
         {
-          emoji: "📸",
-          name: "Travel Journal & Photo Gallery",
-          url: "#",
+          emoji: '📸',
+          name: 'Travel Journal & Photo Gallery',
+          url: '#',
         },
       ],
     },
@@ -320,22 +307,22 @@ const sidebarLeftData = {
 const sidebarRightData = {
   calendars: [
     {
-      items: ["Personal", "Work", "Family"],
-      name: "My Calendars",
+      items: ['Personal', 'Work', 'Family'],
+      name: 'My Calendars',
     },
     {
-      items: ["Holidays", "Birthdays"],
-      name: "Favorites",
+      items: ['Holidays', 'Birthdays'],
+      name: 'Favorites',
     },
     {
-      items: ["Travel", "Reminders", "Deadlines"],
-      name: "Other",
+      items: ['Travel', 'Reminders', 'Deadlines'],
+      name: 'Other',
     },
   ],
   user: {
-    avatar: "/avatars/shadcn.jpg",
-    email: "m@example.com",
-    name: "shadcn",
+    avatar: '/avatars/shadcn.jpg',
+    email: 'm@example.com',
+    name: 'shadcn',
   },
 }
 
@@ -351,9 +338,7 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="line-clamp-1">
-                    Project Management & Task Tracking
-                  </BreadcrumbPage>
+                  <BreadcrumbPage className="line-clamp-1">Project Management & Task Tracking</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -379,10 +364,7 @@ function SidebarLeft({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavFavorites favorites={sidebarLeftData.favorites} />
         <NavWorkspaces workspaces={sidebarLeftData.workspaces} />
-        <NavSecondary
-          className="mt-auto"
-          items={sidebarLeftData.navSecondary}
-        />
+        <NavSecondary className="mt-auto" items={sidebarLeftData.navSecondary} />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
@@ -391,11 +373,7 @@ function SidebarLeft({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
 function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar
-      className="sticky top-0 hidden h-svh border-l lg:flex"
-      collapsible="none"
-      {...props}
-    >
+    <Sidebar className="sticky top-0 hidden h-svh border-l lg:flex" collapsible="none" {...props}>
       <SidebarHeader className="h-16 border-b border-sidebar-border">
         <NavUser user={sidebarRightData.user} />
       </SidebarHeader>
@@ -431,16 +409,12 @@ function Calendars({
       {calendars.map((calendar, index) => (
         <React.Fragment key={calendar.name}>
           <SidebarGroup className="py-0" key={calendar.name}>
-            <Collapsible
-              className="group/collapsible"
-              defaultOpen={index === 0}
-            >
+            <Collapsible className="group/collapsible" defaultOpen={index === 0}>
               <SidebarGroupLabel
                 asChild
-                className="group/label w-full text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              >
+                className="group/label w-full text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                 <CollapsibleTrigger>
-                  {calendar.name}{" "}
+                  {calendar.name}{' '}
                   <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
@@ -452,8 +426,7 @@ function Calendars({
                         <SidebarMenuButton>
                           <div
                             className="group/calendar-item flex aspect-square size-4 shrink-0 items-center justify-center rounded-sm border border-sidebar-border text-sidebar-primary-foreground data-[active=true]:border-sidebar-primary data-[active=true]:bg-sidebar-primary"
-                            data-active={index < 2}
-                          >
+                            data-active={index < 2}>
                             <Check className="hidden size-3 group-data-[active=true]/calendar-item:block" />
                           </div>
                           {item}
@@ -513,10 +486,9 @@ function NavFavorites({
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                align={isMobile ? "end" : "start"}
+                align={isMobile ? 'end' : 'start'}
                 className="w-56 rounded-lg"
-                side={isMobile ? "bottom" : "right"}
-              >
+                side={isMobile ? 'bottom' : 'right'}>
                 <DropdownMenuItem>
                   <StarOff className="text-muted-foreground" />
                   <span>Remove from Favorites</span>
@@ -626,8 +598,7 @@ function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-              size="lg"
-            >
+              size="lg">
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage alt={user.name} src={user.avatar} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
@@ -642,9 +613,8 @@ function NavUser({
           <DropdownMenuContent
             align="start"
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
-            sideOffset={4}
-          >
+            side={isMobile ? 'bottom' : 'right'}
+            sideOffset={4}>
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
@@ -720,8 +690,7 @@ function NavWorkspaces({
                 <CollapsibleTrigger asChild>
                   <SidebarMenuAction
                     className="left-2 bg-sidebar-accent text-sidebar-accent-foreground data-[state=open]:rotate-90"
-                    showOnHover
-                  >
+                    showOnHover>
                     <ChevronRight />
                   </SidebarMenuAction>
                 </CollapsibleTrigger>
@@ -785,21 +754,10 @@ function TeamSwitcher({
               <ChevronDown className="opacity-50" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            className="w-64 rounded-lg"
-            side="bottom"
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Teams
-            </DropdownMenuLabel>
+          <DropdownMenuContent align="start" className="w-64 rounded-lg" side="bottom" sideOffset={4}>
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Teams</DropdownMenuLabel>
             {teams.map((team, index) => (
-              <DropdownMenuItem
-                className="gap-2 p-2"
-                key={team.name}
-                onClick={() => setActiveTeam(team)}
-              >
+              <DropdownMenuItem className="gap-2 p-2" key={team.name} onClick={() => setActiveTeam(team)}>
                 <div className="flex size-6 items-center justify-center rounded-sm border">
                   <team.logo className="size-4 shrink-0" />
                 </div>

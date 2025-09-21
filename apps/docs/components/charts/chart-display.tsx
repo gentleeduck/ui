@@ -1,9 +1,9 @@
 import { cn } from '@gentleduck/libs/cn'
+import { Block } from '@gentleduck/registers'
 import * as React from 'react'
 import { getRegistryItem } from '~/lib/get-registry-item'
 import { highlightCode } from '~/lib/highlight-code'
 import { ChartToolbar } from './chart-toolbar'
-import { Block } from '@gentleduck/registers'
 
 export async function ChartDisplay({ name, children, className }: { name: string } & React.ComponentProps<'div'>) {
   const chart = await getCachedRegistryItem(name)

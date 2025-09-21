@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/registry/default/blocks/sidebar-09/components/app-sidebar"
+import { AppSidebar } from '@/registry/default/blocks/sidebar-09/components/app-sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,23 +6,18 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import { Separator } from "@/registry/default/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/breadcrumb'
+import { Separator } from '@/registry/default/ui/separator'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/registry/default/ui/sidebar'
 
 export default function Page() {
   return (
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "350px",
+          '--sidebar-width': '350px',
         } as React.CSSProperties
-      }
-    >
+      }>
       <AppSidebar />
       <SidebarInset>
         <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-4">
@@ -42,10 +37,7 @@ export default function Page() {
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           {Array.from({ length: 24 }).map((_, index) => (
-            <div
-              className="aspect-video h-12 w-full rounded-lg bg-muted/50"
-              key={index}
-            />
+            <div className="aspect-video h-12 w-full rounded-lg bg-muted/50" key={index} />
           ))}
         </div>
       </SidebarInset>

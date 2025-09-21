@@ -1,14 +1,11 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { Calendar } from "@/registry/default/ui/calendar"
+import { Calendar } from '@/registry/default/ui/calendar'
 
 export default function Calendar03() {
-  const [dates, setDates] = React.useState<Date[]>([
-    new Date(2025, 5, 12),
-    new Date(2025, 6, 24),
-  ])
+  const [dates, setDates] = React.useState<Date[]>([new Date(2025, 5, 12), new Date(2025, 6, 24)])
 
   return (
     <Calendar

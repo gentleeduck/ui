@@ -49,10 +49,11 @@
     "@floating-ui/react": "^0.27.13",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
-    "clsx": "^1.2.1",
+    "clsx": "^2.1.1",
     "mini-svg-data-uri": "^1.4.4",
     "react": "catalog:react19",
-    "react-dom": "catalog:react19"
+    "react-dom": "catalog:react19",
+    "tailwind-merge": "^3.3.1"
   },
   "private": false,
   "repository": {

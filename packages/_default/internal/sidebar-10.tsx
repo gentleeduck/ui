@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   ArrowDown,
@@ -31,21 +31,12 @@ import {
   StarOff,
   Trash,
   Trash2,
-} from "lucide-react"
-import * as React from "react"
+} from 'lucide-react'
+import * as React from 'react'
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "@/registry/default/ui/breadcrumb"
-import { Button } from "@/registry/default/ui/button"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/registry/default/ui/collapsible"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@/registry/default/ui/breadcrumb'
+import { Button } from '@/registry/default/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/collapsible'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,13 +45,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/registry/default/ui/popover"
-import { Separator } from "@/registry/default/ui/separator"
+} from '@/registry/default/ui/dropdown-menu'
+import { Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/popover'
+import { Separator } from '@/registry/default/ui/separator'
 import {
   Sidebar,
   SidebarContent,
@@ -81,11 +68,11 @@ import {
   SidebarRail,
   SidebarTrigger,
   useSidebar,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
-export const iframeHeight = "800px"
+export const iframeHeight = '800px'
 
-export const description = "A sidebar in a popover."
+export const description = 'A sidebar in a popover.'
 
 // This is sample data.
 const data = {
@@ -93,287 +80,287 @@ const data = {
     [
       {
         icon: Settings2,
-        label: "Customize Page",
+        label: 'Customize Page',
       },
       {
         icon: FileText,
-        label: "Turn into wiki",
+        label: 'Turn into wiki',
       },
     ],
     [
       {
         icon: Link,
-        label: "Copy Link",
+        label: 'Copy Link',
       },
       {
         icon: Copy,
-        label: "Duplicate",
+        label: 'Duplicate',
       },
       {
         icon: CornerUpRight,
-        label: "Move to",
+        label: 'Move to',
       },
       {
         icon: Trash2,
-        label: "Move to Trash",
+        label: 'Move to Trash',
       },
     ],
     [
       {
         icon: CornerUpLeft,
-        label: "Undo",
+        label: 'Undo',
       },
       {
         icon: LineChart,
-        label: "View analytics",
+        label: 'View analytics',
       },
       {
         icon: GalleryVerticalEnd,
-        label: "Version History",
+        label: 'Version History',
       },
       {
         icon: Trash,
-        label: "Show delete pages",
+        label: 'Show delete pages',
       },
       {
         icon: Bell,
-        label: "Notifications",
+        label: 'Notifications',
       },
     ],
     [
       {
         icon: ArrowUp,
-        label: "Import",
+        label: 'Import',
       },
       {
         icon: ArrowDown,
-        label: "Export",
+        label: 'Export',
       },
     ],
   ],
   favorites: [
     {
-      emoji: "📊",
-      name: "Project Management & Task Tracking",
-      url: "#",
+      emoji: '📊',
+      name: 'Project Management & Task Tracking',
+      url: '#',
     },
     {
-      emoji: "🍳",
-      name: "Family Recipe Collection & Meal Planning",
-      url: "#",
+      emoji: '🍳',
+      name: 'Family Recipe Collection & Meal Planning',
+      url: '#',
     },
     {
-      emoji: "💪",
-      name: "Fitness Tracker & Workout Routines",
-      url: "#",
+      emoji: '💪',
+      name: 'Fitness Tracker & Workout Routines',
+      url: '#',
     },
     {
-      emoji: "📚",
-      name: "Book Notes & Reading List",
-      url: "#",
+      emoji: '📚',
+      name: 'Book Notes & Reading List',
+      url: '#',
     },
     {
-      emoji: "🌱",
-      name: "Sustainable Gardening Tips & Plant Care",
-      url: "#",
+      emoji: '🌱',
+      name: 'Sustainable Gardening Tips & Plant Care',
+      url: '#',
     },
     {
-      emoji: "🗣️",
-      name: "Language Learning Progress & Resources",
-      url: "#",
+      emoji: '🗣️',
+      name: 'Language Learning Progress & Resources',
+      url: '#',
     },
     {
-      emoji: "🏠",
-      name: "Home Renovation Ideas & Budget Tracker",
-      url: "#",
+      emoji: '🏠',
+      name: 'Home Renovation Ideas & Budget Tracker',
+      url: '#',
     },
     {
-      emoji: "💰",
-      name: "Personal Finance & Investment Portfolio",
-      url: "#",
+      emoji: '💰',
+      name: 'Personal Finance & Investment Portfolio',
+      url: '#',
     },
     {
-      emoji: "🎬",
-      name: "Movie & TV Show Watchlist with Reviews",
-      url: "#",
+      emoji: '🎬',
+      name: 'Movie & TV Show Watchlist with Reviews',
+      url: '#',
     },
     {
-      emoji: "✅",
-      name: "Daily Habit Tracker & Goal Setting",
-      url: "#",
+      emoji: '✅',
+      name: 'Daily Habit Tracker & Goal Setting',
+      url: '#',
     },
   ],
   navMain: [
     {
       icon: Search,
-      title: "Search",
-      url: "#",
+      title: 'Search',
+      url: '#',
     },
     {
       icon: Sparkles,
-      title: "Ask AI",
-      url: "#",
+      title: 'Ask AI',
+      url: '#',
     },
     {
       icon: Home,
       isActive: true,
-      title: "Home",
-      url: "#",
+      title: 'Home',
+      url: '#',
     },
     {
-      badge: "10",
+      badge: '10',
       icon: Inbox,
-      title: "Inbox",
-      url: "#",
+      title: 'Inbox',
+      url: '#',
     },
   ],
   navSecondary: [
     {
       icon: Calendar,
-      title: "Calendar",
-      url: "#",
+      title: 'Calendar',
+      url: '#',
     },
     {
       icon: Settings2,
-      title: "Settings",
-      url: "#",
+      title: 'Settings',
+      url: '#',
     },
     {
       icon: Blocks,
-      title: "Templates",
-      url: "#",
+      title: 'Templates',
+      url: '#',
     },
     {
       icon: Trash2,
-      title: "Trash",
-      url: "#",
+      title: 'Trash',
+      url: '#',
     },
     {
       icon: MessageCircleQuestion,
-      title: "Help",
-      url: "#",
+      title: 'Help',
+      url: '#',
     },
   ],
   teams: [
     {
       logo: Command,
-      name: "Acme Inc",
-      plan: "Enterprise",
+      name: 'Acme Inc',
+      plan: 'Enterprise',
     },
     {
       logo: AudioWaveform,
-      name: "Acme Corp.",
-      plan: "Startup",
+      name: 'Acme Corp.',
+      plan: 'Startup',
     },
     {
       logo: Command,
-      name: "Evil Corp.",
-      plan: "Free",
+      name: 'Evil Corp.',
+      plan: 'Free',
     },
   ],
   workspaces: [
     {
-      emoji: "🏠",
-      name: "Personal Life Management",
+      emoji: '🏠',
+      name: 'Personal Life Management',
       pages: [
         {
-          emoji: "📔",
-          name: "Daily Journal & Reflection",
-          url: "#",
+          emoji: '📔',
+          name: 'Daily Journal & Reflection',
+          url: '#',
         },
         {
-          emoji: "🍏",
-          name: "Health & Wellness Tracker",
-          url: "#",
+          emoji: '🍏',
+          name: 'Health & Wellness Tracker',
+          url: '#',
         },
         {
-          emoji: "🌟",
-          name: "Personal Growth & Learning Goals",
-          url: "#",
+          emoji: '🌟',
+          name: 'Personal Growth & Learning Goals',
+          url: '#',
         },
       ],
     },
     {
-      emoji: "💼",
-      name: "Professional Development",
+      emoji: '💼',
+      name: 'Professional Development',
       pages: [
         {
-          emoji: "🎯",
-          name: "Career Objectives & Milestones",
-          url: "#",
+          emoji: '🎯',
+          name: 'Career Objectives & Milestones',
+          url: '#',
         },
         {
-          emoji: "🧠",
-          name: "Skill Acquisition & Training Log",
-          url: "#",
+          emoji: '🧠',
+          name: 'Skill Acquisition & Training Log',
+          url: '#',
         },
         {
-          emoji: "🤝",
-          name: "Networking Contacts & Events",
-          url: "#",
+          emoji: '🤝',
+          name: 'Networking Contacts & Events',
+          url: '#',
         },
       ],
     },
     {
-      emoji: "🎨",
-      name: "Creative Projects",
+      emoji: '🎨',
+      name: 'Creative Projects',
       pages: [
         {
-          emoji: "✍️",
-          name: "Writing Ideas & Story Outlines",
-          url: "#",
+          emoji: '✍️',
+          name: 'Writing Ideas & Story Outlines',
+          url: '#',
         },
         {
-          emoji: "🖼️",
-          name: "Art & Design Portfolio",
-          url: "#",
+          emoji: '🖼️',
+          name: 'Art & Design Portfolio',
+          url: '#',
         },
         {
-          emoji: "🎵",
-          name: "Music Composition & Practice Log",
-          url: "#",
+          emoji: '🎵',
+          name: 'Music Composition & Practice Log',
+          url: '#',
         },
       ],
     },
     {
-      emoji: "🏡",
-      name: "Home Management",
+      emoji: '🏡',
+      name: 'Home Management',
       pages: [
         {
-          emoji: "💰",
-          name: "Household Budget & Expense Tracking",
-          url: "#",
+          emoji: '💰',
+          name: 'Household Budget & Expense Tracking',
+          url: '#',
         },
         {
-          emoji: "🔧",
-          name: "Home Maintenance Schedule & Tasks",
-          url: "#",
+          emoji: '🔧',
+          name: 'Home Maintenance Schedule & Tasks',
+          url: '#',
         },
         {
-          emoji: "📅",
-          name: "Family Calendar & Event Planning",
-          url: "#",
+          emoji: '📅',
+          name: 'Family Calendar & Event Planning',
+          url: '#',
         },
       ],
     },
     {
-      emoji: "🧳",
-      name: "Travel & Adventure",
+      emoji: '🧳',
+      name: 'Travel & Adventure',
       pages: [
         {
-          emoji: "🗺️",
-          name: "Trip Planning & Itineraries",
-          url: "#",
+          emoji: '🗺️',
+          name: 'Trip Planning & Itineraries',
+          url: '#',
         },
         {
-          emoji: "🌎",
-          name: "Travel Bucket List & Inspiration",
-          url: "#",
+          emoji: '🌎',
+          name: 'Travel Bucket List & Inspiration',
+          url: '#',
         },
         {
-          emoji: "📸",
-          name: "Travel Journal & Photo Gallery",
-          url: "#",
+          emoji: '📸',
+          name: 'Travel Journal & Photo Gallery',
+          url: '#',
         },
       ],
     },
@@ -392,9 +379,7 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="line-clamp-1">
-                    Project Management & Task Tracking
-                  </BreadcrumbPage>
+                  <BreadcrumbPage className="line-clamp-1">Project Management & Task Tracking</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -445,26 +430,17 @@ function NavActions({
 
   return (
     <div className="flex items-center gap-2 text-sm">
-      <div className="hidden font-medium text-muted-foreground md:inline-block">
-        Edit Oct 08
-      </div>
+      <div className="hidden font-medium text-muted-foreground md:inline-block">Edit Oct 08</div>
       <Button className="h-7 w-7" size="icon" variant="ghost">
         <Star />
       </Button>
       <Popover onOpenChange={setIsOpen} open={isOpen}>
         <PopoverTrigger asChild>
-          <Button
-            className="h-7 w-7 data-[state=open]:bg-accent"
-            size="icon"
-            variant="ghost"
-          >
+          <Button className="h-7 w-7 data-[state=open]:bg-accent" size="icon" variant="ghost">
             <MoreHorizontal />
           </Button>
         </PopoverTrigger>
-        <PopoverContent
-          align="end"
-          className="w-56 overflow-hidden rounded-lg p-0"
-        >
+        <PopoverContent align="end" className="w-56 overflow-hidden rounded-lg p-0">
           <Sidebar className="bg-transparent" collapsible="none">
             <SidebarContent>
               {actions.map((group, index) => (
@@ -521,10 +497,9 @@ function NavFavorites({
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                align={isMobile ? "end" : "start"}
+                align={isMobile ? 'end' : 'start'}
                 className="w-56 rounded-lg"
-                side={isMobile ? "bottom" : "right"}
-              >
+                side={isMobile ? 'bottom' : 'right'}>
                 <DropdownMenuItem>
                   <StarOff className="text-muted-foreground" />
                   <span>Remove from Favorites</span>
@@ -645,8 +620,7 @@ function NavWorkspaces({
                 <CollapsibleTrigger asChild>
                   <SidebarMenuAction
                     className="left-2 bg-sidebar-accent text-sidebar-accent-foreground data-[state=open]:rotate-90"
-                    showOnHover
-                  >
+                    showOnHover>
                     <ChevronRight />
                   </SidebarMenuAction>
                 </CollapsibleTrigger>
@@ -710,21 +684,10 @@ function TeamSwitcher({
               <ChevronDown className="opacity-50" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            className="w-64 rounded-lg"
-            side="bottom"
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Teams
-            </DropdownMenuLabel>
+          <DropdownMenuContent align="start" className="w-64 rounded-lg" side="bottom" sideOffset={4}>
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Teams</DropdownMenuLabel>
             {teams.map((team, index) => (
-              <DropdownMenuItem
-                className="gap-2 p-2"
-                key={team.name}
-                onClick={() => setActiveTeam(team)}
-              >
+              <DropdownMenuItem className="gap-2 p-2" key={team.name} onClick={() => setActiveTeam(team)}>
                 <div className="flex size-6 items-center justify-center rounded-sm border">
                   <team.logo className="size-4 shrink-0" />
                 </div>

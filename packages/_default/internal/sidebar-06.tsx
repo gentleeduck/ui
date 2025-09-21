@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { GalleryVerticalEnd, MoreHorizontal } from "lucide-react"
+import { GalleryVerticalEnd, MoreHorizontal } from 'lucide-react'
 
 import {
   Breadcrumb,
@@ -9,22 +9,16 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import { Button } from "@/registry/default/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/registry/default/ui/card"
+} from '@/registry/default/ui/breadcrumb'
+import { Button } from '@/registry/default/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/registry/default/ui/card'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
-import { Separator } from "@/registry/default/ui/separator"
+} from '@/registry/default/ui/dropdown-menu'
+import { Separator } from '@/registry/default/ui/separator'
 import {
   Sidebar,
   SidebarContent,
@@ -40,11 +34,11 @@ import {
   SidebarRail,
   SidebarTrigger,
   useSidebar,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
-export const iframeHeight = "800px"
+export const iframeHeight = '800px'
 
-export const description = "A sidebar with submenus as dropdowns."
+export const description = 'A sidebar with submenus as dropdowns.'
 
 // This is sample data.
 const data = {
@@ -52,127 +46,127 @@ const data = {
     {
       items: [
         {
-          title: "Installation",
-          url: "#",
+          title: 'Installation',
+          url: '#',
         },
         {
-          title: "Project Structure",
-          url: "#",
+          title: 'Project Structure',
+          url: '#',
         },
       ],
-      title: "Getting Started",
-      url: "#",
+      title: 'Getting Started',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Routing",
-          url: "#",
+          title: 'Routing',
+          url: '#',
         },
         {
           isActive: true,
-          title: "Data Fetching",
-          url: "#",
+          title: 'Data Fetching',
+          url: '#',
         },
         {
-          title: "Rendering",
-          url: "#",
+          title: 'Rendering',
+          url: '#',
         },
         {
-          title: "Caching",
-          url: "#",
+          title: 'Caching',
+          url: '#',
         },
         {
-          title: "Styling",
-          url: "#",
+          title: 'Styling',
+          url: '#',
         },
         {
-          title: "Optimizing",
-          url: "#",
+          title: 'Optimizing',
+          url: '#',
         },
         {
-          title: "Configuring",
-          url: "#",
+          title: 'Configuring',
+          url: '#',
         },
         {
-          title: "Testing",
-          url: "#",
+          title: 'Testing',
+          url: '#',
         },
         {
-          title: "Authentication",
-          url: "#",
+          title: 'Authentication',
+          url: '#',
         },
         {
-          title: "Deploying",
-          url: "#",
+          title: 'Deploying',
+          url: '#',
         },
         {
-          title: "Upgrading",
-          url: "#",
+          title: 'Upgrading',
+          url: '#',
         },
         {
-          title: "Examples",
-          url: "#",
+          title: 'Examples',
+          url: '#',
         },
       ],
-      title: "Building Your Application",
-      url: "#",
+      title: 'Building Your Application',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Components",
-          url: "#",
+          title: 'Components',
+          url: '#',
         },
         {
-          title: "File Conventions",
-          url: "#",
+          title: 'File Conventions',
+          url: '#',
         },
         {
-          title: "Functions",
-          url: "#",
+          title: 'Functions',
+          url: '#',
         },
         {
-          title: "next.config.js Options",
-          url: "#",
+          title: 'next.config.js Options',
+          url: '#',
         },
         {
-          title: "CLI",
-          url: "#",
+          title: 'CLI',
+          url: '#',
         },
         {
-          title: "Edge Runtime",
-          url: "#",
+          title: 'Edge Runtime',
+          url: '#',
         },
       ],
-      title: "API Reference",
-      url: "#",
+      title: 'API Reference',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Accessibility",
-          url: "#",
+          title: 'Accessibility',
+          url: '#',
         },
         {
-          title: "Fast Refresh",
-          url: "#",
+          title: 'Fast Refresh',
+          url: '#',
         },
         {
-          title: "Next.js Compiler",
-          url: "#",
+          title: 'Next.js Compiler',
+          url: '#',
         },
         {
-          title: "Supported Browsers",
-          url: "#",
+          title: 'Supported Browsers',
+          url: '#',
         },
         {
-          title: "Turbopack",
-          url: "#",
+          title: 'Turbopack',
+          url: '#',
         },
       ],
-      title: "Architecture",
-      url: "#",
+      title: 'Architecture',
+      url: '#',
     },
   ],
 }
@@ -210,11 +204,7 @@ export default function Page() {
                       </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     {item.items?.length ? (
-                      <DropdownMenuContent
-                        align="end"
-                        className="min-w-56 rounded-lg"
-                        side="bottom"
-                      >
+                      <DropdownMenuContent align="end" className="min-w-56 rounded-lg" side="bottom">
                         {item.items.map((item) => (
                           <DropdownMenuItem asChild key={item.title}>
                             <a href={item.url}>{item.title}</a>
@@ -233,19 +223,12 @@ export default function Page() {
             <Card className="shadow-none">
               <form>
                 <CardHeader className="p-4 pb-0">
-                  <CardTitle className="text-sm">
-                    Subscribe to our newsletter
-                  </CardTitle>
-                  <CardDescription>
-                    Opt-in to receive updates and news about the sidebar.
-                  </CardDescription>
+                  <CardTitle className="text-sm">Subscribe to our newsletter</CardTitle>
+                  <CardDescription>Opt-in to receive updates and news about the sidebar.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-2.5 p-4">
                   <SidebarInput placeholder="Email" type="email" />
-                  <Button
-                    className="w-full bg-sidebar-primary text-sidebar-primary-foreground shadow-none"
-                    size="sm"
-                  >
+                  <Button className="w-full bg-sidebar-primary text-sidebar-primary-foreground shadow-none" size="sm">
                     Subscribe
                   </Button>
                 </CardContent>
@@ -262,9 +245,7 @@ export default function Page() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Building Your Application
-                </BreadcrumbLink>
+                <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>

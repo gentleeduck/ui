@@ -1,6 +1,5 @@
 'use client'
 
-
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants } from '@gentleduck/motion/anim'
 import { ChevronDown } from 'lucide-react'

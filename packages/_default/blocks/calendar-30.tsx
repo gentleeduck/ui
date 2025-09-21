@@ -1,18 +1,14 @@
-"use client"
+'use client'
 
-import { formatDateRange } from "little-date"
-import { ChevronDownIcon } from "lucide-react"
-import * as React from "react"
-import { type DateRange } from "react-day-picker"
+import { formatDateRange } from 'little-date'
+import { ChevronDownIcon } from 'lucide-react'
+import * as React from 'react'
+import { type DateRange } from 'react-day-picker'
 
-import { Button } from "@/registry/default/ui/button"
-import { Calendar } from "@/registry/default/ui/calendar"
-import { Label } from "@/registry/default/ui/label"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/registry/default/ui/popover"
+import { Button } from '@/registry/default/ui/button'
+import { Calendar } from '@/registry/default/ui/calendar'
+import { Label } from '@/registry/default/ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/popover'
 
 export default function Calendar30() {
   const [range, setRange] = React.useState<DateRange | undefined>({
@@ -27,16 +23,12 @@ export default function Calendar30() {
       </Label>
       <Popover>
         <PopoverTrigger asChild>
-          <Button
-            className="w-56 justify-between font-normal"
-            id="dates"
-            variant="outline"
-          >
+          <Button className="w-56 justify-between font-normal" id="dates" variant="outline">
             {range?.from && range?.to
               ? formatDateRange(range.from, range.to, {
                   includeTime: false,
                 })
-              : "Select date"}
+              : 'Select date'}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>

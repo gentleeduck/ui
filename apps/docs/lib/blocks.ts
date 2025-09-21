@@ -25,7 +25,7 @@ export async function getAllBlocks(
     if (categories && categories.length > 0) {
       return (block.categories ?? []).some((category) => categories.includes(category))
     }
-      //     &&
+    //     &&
     // (categories.length === 0 || block.categories?.some((category) => categories.includes(category))) &&
     // !block.name.startsWith('chart-'),
     return true

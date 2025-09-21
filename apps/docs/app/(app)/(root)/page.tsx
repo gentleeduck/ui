@@ -2,11 +2,12 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
-import { CardsDemo } from '~/components/cards'
+import { EcosystemSection } from '~/components/layouts/core-packages'
+import { FeaturesSection } from '~/components/layouts/features'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
 import { ThemeWrapper } from '~/components/themes'
 
-const title = 'Build Beautiful UIs with Simplicity and Power.'
+const title = 'Primitives that Scale, Components that Perform.'
 const description = 'Bring life to your own website with a pack full of ideas made specially for magical websites.'
 
 export const dynamic = 'force-static'
@@ -33,11 +34,33 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
+  // <PageHeaderHeading className="text-center w-full">{title}</PageHeaderHeading>
   return (
     <>
-      <PageHeader className="flex flex-col justify-center justify-self-center text-center">
+      <PageHeader className="flex flex-col justify-start justify-self-center text-center relative">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none"></div>
+        <div
+          aria-hidden="true"
+          className="absolute top-0 right-0 z-0 h-16 w-16 rounded-full bg-yellow-400/20 blur-2xl md:h-72 md:w-72"></div>
+        <div
+          aria-hidden="true"
+          className="bg-primary/20 absolute bottom-16 left-0 z-0 h-36 w-36 rounded-full blur-3xl"></div>
         <Announcement />
-        <PageHeaderHeading className="text-center w-full">{title}</PageHeaderHeading>
+        <div className="relative">
+          <h1 className="inline-block max-w-6xl leading-none font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+            <div className="relative mb-3 text-center text-4xl sm:text-5xl md:mb-5 md:text-6xl">
+              <span className="inline-block">TURN TINY PRIMITIVES TO</span>
+            </div>
+            <div className="mt-1 block text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+              <span className="bg-primary text-primary-foreground relative inline-block px-4 py-1 -rotate-3">
+                INFINITE
+              </span>
+              <span className="text-foreground ml-2 inline-block uppercase">Design</span>
+            </div>
+          </h1>
+        </div>
         <PageHeaderDescription>{description}</PageHeaderDescription>
         <PageActions className="justify-center mx-auto w-full">
           <Button size="sm">
@@ -49,12 +72,16 @@ export default function Page() {
         </PageActions>
       </PageHeader>
       <div className="container-wrapper">
-        <div className="container py-6">
+        <div className="">
           <section className="scroll-mt-20" id="themes">
             <ThemeWrapper>
-              <CardsDemo />
+              {
+                // <CardsDemo />
+              }
             </ThemeWrapper>
           </section>
+          <FeaturesSection />
+          <EcosystemSection />
         </div>
       </div>
     </>

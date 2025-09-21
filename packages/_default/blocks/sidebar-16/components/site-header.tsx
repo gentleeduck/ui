@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { SidebarIcon } from "lucide-react"
+import { SidebarIcon } from 'lucide-react'
 
-import { SearchForm } from "@/registry/default/blocks/sidebar-16/components/search-form"
+import { SearchForm } from '@/registry/default/blocks/sidebar-16/components/search-form'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,10 +10,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import { Button } from "@/registry/default/ui/button"
-import { Separator } from "@/registry/default/ui/separator"
-import { useSidebar } from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/breadcrumb'
+import { Button } from '@/registry/default/ui/button'
+import { Separator } from '@/registry/default/ui/separator'
+import { useSidebar } from '@/registry/default/ui/sidebar'
 
 export function SiteHeader() {
   const { toggleSidebar } = useSidebar()
@@ -21,21 +21,14 @@ export function SiteHeader() {
   return (
     <header className="flex sticky top-0 z-50 w-full items-center border-b bg-background">
       <div className="flex h-[--header-height] w-full items-center gap-2 px-4">
-        <Button
-          className="h-8 w-8"
-          onClick={toggleSidebar}
-          size="icon"
-          variant="ghost"
-        >
+        <Button className="h-8 w-8" onClick={toggleSidebar} size="icon" variant="ghost">
           <SidebarIcon />
         </Button>
         <Separator className="mr-2 h-4" orientation="vertical" />
         <Breadcrumb className="hidden sm:block">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="#">
-                Building Your Application
-              </BreadcrumbLink>
+              <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

@@ -1,21 +1,13 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { Button } from "@/registry/default/ui/button"
-import { Calendar } from "@/registry/default/ui/calendar"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/registry/default/ui/card"
+import { Button } from '@/registry/default/ui/button'
+import { Calendar } from '@/registry/default/ui/calendar'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/registry/default/ui/card'
 
 export default function Calendar10() {
-  const [date, setDate] = React.useState<Date | undefined>(
-    new Date(2025, 5, 12)
-  )
+  const [date, setDate] = React.useState<Date | undefined>(new Date(2025, 5, 12))
   const [month, setMonth] = React.useState<Date | undefined>(new Date())
 
   return (
@@ -30,8 +22,7 @@ export default function Calendar10() {
             setDate(new Date())
           }}
           size="sm"
-          variant="outline"
-        >
+          variant="outline">
           Today
         </Button>
       </CardHeader>

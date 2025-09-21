@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from 'next/link'
 
 import {
   Breadcrumb,
@@ -7,7 +7,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
+} from '@/registry/default/ui/breadcrumb'
 
 export default function BreadcrumbWithCustomSeparator() {
   return (

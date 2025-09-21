@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { type DateRange } from "react-day-picker"
+import * as React from 'react'
+import { type DateRange } from 'react-day-picker'
 
-import { Calendar } from "@/registry/default/ui/calendar"
+import { Calendar } from '@/registry/default/ui/calendar'
 
 export default function Calendar07() {
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
@@ -23,9 +23,7 @@ export default function Calendar07() {
         onSelect={setDateRange}
         selected={dateRange}
       />
-      <div className="text-muted-foreground text-center text-xs">
-        Your stay must be between 2 and 20 nights
-      </div>
+      <div className="text-muted-foreground text-center text-xs">Your stay must be between 2 and 20 nights</div>
     </div>
   )
 }

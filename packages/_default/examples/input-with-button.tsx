@@ -1,5 +1,5 @@
-import { Button } from "@/registry/default/ui/button"
-import { Input } from "@/registry/default/ui/input"
+import { Button } from '@/registry/default/ui/button'
+import { Input } from '@/registry/default/ui/input'
 
 export default function InputWithButton() {
   return (

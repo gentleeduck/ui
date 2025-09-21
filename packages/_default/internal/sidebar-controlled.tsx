@@ -1,17 +1,9 @@
-"use client"
+'use client'
 
-import {
-  Frame,
-  LifeBuoy,
-  Map,
-  PanelLeftClose,
-  PanelLeftOpen,
-  PieChart,
-  Send,
-} from "lucide-react"
-import * as React from "react"
+import { Frame, LifeBuoy, Map, PanelLeftClose, PanelLeftOpen, PieChart, Send } from 'lucide-react'
+import * as React from 'react'
 
-import { Button } from "@/registry/default/ui/button"
+import { Button } from '@/registry/default/ui/button'
 import {
   Sidebar,
   SidebarContent,
@@ -23,33 +15,33 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 const projects = [
   {
     icon: Frame,
-    name: "Design Engineering",
-    url: "#",
+    name: 'Design Engineering',
+    url: '#',
   },
   {
     icon: PieChart,
-    name: "Sales & Marketing",
-    url: "#",
+    name: 'Sales & Marketing',
+    url: '#',
   },
   {
     icon: Map,
-    name: "Travel",
-    url: "#",
+    name: 'Travel',
+    url: '#',
   },
   {
     icon: LifeBuoy,
-    name: "Support",
-    url: "#",
+    name: 'Support',
+    url: '#',
   },
   {
     icon: Send,
-    name: "Feedback",
-    url: "#",
+    name: 'Feedback',
+    url: '#',
   },
 ]
 
@@ -81,13 +73,9 @@ export default function AppSidebar() {
       </Sidebar>
       <SidebarInset>
         <header className="flex items-center h-12 px-4 justify-between">
-          <Button
-            onClick={() => setOpen((open) => !open)}
-            size="sm"
-            variant="ghost"
-          >
+          <Button onClick={() => setOpen((open) => !open)} size="sm" variant="ghost">
             {open ? <PanelLeftClose /> : <PanelLeftOpen />}
-            <span>{open ? "Close" : "Open"} Sidebar</span>
+            <span>{open ? 'Close' : 'Open'} Sidebar</span>
           </Button>
         </header>
       </SidebarInset>

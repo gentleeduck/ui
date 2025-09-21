@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { DateRange } from "react-day-picker"
+import * as React from 'react'
+import { DateRange } from 'react-day-picker'
 
-import { Calendar, CalendarDayButton } from "@/registry/default/ui/calendar"
+import { Calendar, CalendarDayButton } from '@/registry/default/ui/calendar'
 
 export default function Calendar21() {
   const [range, setRange] = React.useState<DateRange | undefined>({
@@ -22,7 +22,7 @@ export default function Calendar21() {
           return (
             <CalendarDayButton day={day} modifiers={modifiers} {...props}>
               {children}
-              {!modifiers.outside && <span>{isWeekend ? "$220" : "$100"}</span>}
+              {!modifiers.outside && <span>{isWeekend ? '$220' : '$100'}</span>}
             </CalendarDayButton>
           )
         },
@@ -30,7 +30,7 @@ export default function Calendar21() {
       defaultMonth={range?.from}
       formatters={{
         formatMonthDropdown: (date) => {
-          return date.toLocaleString("default", { month: "long" })
+          return date.toLocaleString('default', { month: 'long' })
         },
       }}
       mode="range"

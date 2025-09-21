@@ -1,20 +1,20 @@
-"use client"
+'use client'
 
-import { type LucideIcon, MoreHorizontal } from "lucide-react"
+import { type LucideIcon, MoreHorizontal } from 'lucide-react'
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
+} from '@/registry/default/ui/dropdown-menu'
 import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 export function NavMain({
   items,
@@ -45,10 +45,9 @@ export function NavMain({
               </DropdownMenuTrigger>
               {item.items?.length ? (
                 <DropdownMenuContent
-                  align={isMobile ? "end" : "start"}
+                  align={isMobile ? 'end' : 'start'}
                   className="min-w-56 rounded-lg"
-                  side={isMobile ? "bottom" : "right"}
-                >
+                  side={isMobile ? 'bottom' : 'right'}>
                   {item.items.map((item) => (
                     <DropdownMenuItem asChild key={item.title}>
                       <a href={item.url}>{item.title}</a>

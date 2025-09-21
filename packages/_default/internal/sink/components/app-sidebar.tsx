@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   AudioWaveform,
@@ -11,20 +11,14 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
-} from "lucide-react"
-import * as React from "react"
+} from 'lucide-react'
+import * as React from 'react'
 
-import { NavMain } from "@/registry/default/blocks/sidebar-07/components/nav-main"
-import { NavProjects } from "@/registry/default/blocks/sidebar-07/components/nav-projects"
-import { NavUser } from "@/registry/default/blocks/sidebar-07/components/nav-user"
-import { TeamSwitcher } from "@/registry/default/blocks/sidebar-07/components/team-switcher"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from "@/registry/default/ui/sidebar"
+import { NavMain } from '@/registry/default/blocks/sidebar-07/components/nav-main'
+import { NavProjects } from '@/registry/default/blocks/sidebar-07/components/nav-projects'
+import { NavUser } from '@/registry/default/blocks/sidebar-07/components/nav-user'
+import { TeamSwitcher } from '@/registry/default/blocks/sidebar-07/components/team-switcher'
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/registry/default/ui/sidebar'
 
 // This is sample data.
 const data = {
@@ -34,125 +28,125 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: 'History',
+          url: '#',
         },
         {
-          title: "Starred",
-          url: "#",
+          title: 'Starred',
+          url: '#',
         },
         {
-          title: "Settings",
-          url: "#",
+          title: 'Settings',
+          url: '#',
         },
       ],
-      title: "Playground",
-      url: "#",
+      title: 'Playground',
+      url: '#',
     },
     {
       icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: 'Genesis',
+          url: '#',
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: 'Explorer',
+          url: '#',
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: 'Quantum',
+          url: '#',
         },
       ],
-      title: "Models",
-      url: "#",
+      title: 'Models',
+      url: '#',
     },
     {
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: 'Introduction',
+          url: '#',
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: 'Get Started',
+          url: '#',
         },
         {
-          title: "Tutorials",
-          url: "#",
+          title: 'Tutorials',
+          url: '#',
         },
         {
-          title: "Changelog",
-          url: "#",
+          title: 'Changelog',
+          url: '#',
         },
       ],
-      title: "Documentation",
-      url: "#",
+      title: 'Documentation',
+      url: '#',
     },
     {
       icon: Settings2,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: 'General',
+          url: '#',
         },
         {
-          title: "Team",
-          url: "#",
+          title: 'Team',
+          url: '#',
         },
         {
-          title: "Billing",
-          url: "#",
+          title: 'Billing',
+          url: '#',
         },
         {
-          title: "Limits",
-          url: "#",
+          title: 'Limits',
+          url: '#',
         },
       ],
-      title: "Settings",
-      url: "#",
+      title: 'Settings',
+      url: '#',
     },
   ],
   projects: [
     {
       icon: Frame,
-      name: "Design Engineering",
-      url: "#",
+      name: 'Design Engineering',
+      url: '#',
     },
     {
       icon: PieChart,
-      name: "Sales & Marketing",
-      url: "#",
+      name: 'Sales & Marketing',
+      url: '#',
     },
     {
       icon: Map,
-      name: "Travel",
-      url: "#",
+      name: 'Travel',
+      url: '#',
     },
   ],
   teams: [
     {
       logo: GalleryVerticalEnd,
-      name: "Acme Inc",
-      plan: "Enterprise",
+      name: 'Acme Inc',
+      plan: 'Enterprise',
     },
     {
       logo: AudioWaveform,
-      name: "Acme Corp.",
-      plan: "Startup",
+      name: 'Acme Corp.',
+      plan: 'Startup',
     },
     {
       logo: Command,
-      name: "Evil Corp.",
-      plan: "Free",
+      name: 'Evil Corp.',
+      plan: 'Free',
     },
   ],
   user: {
-    avatar: "/avatars/shadcn.jpg",
-    email: "m@example.com",
-    name: "shadcn",
+    avatar: '/avatars/shadcn.jpg',
+    email: 'm@example.com',
+    name: 'shadcn',
   },
 }
 

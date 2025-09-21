@@ -6,8 +6,8 @@ import 'public/r/themes.css'
 import { Block } from '@gentleduck/registers'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { AreaChart, BarChartBig, Hexagon, LineChart, MousePointer2, PieChart, Radar } from 'lucide-react'
-import { ChartCodeViewer } from './chart-code-viewer'
 import { BlockCopyButton } from '../blocks'
+import { ChartCodeViewer } from './chart-code-viewer'
 
 export function ChartToolbar({ chart, className, children }: { chart: Block } & React.ComponentProps<'div'>) {
   return (

@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 
 import {
   ChartConfig,
@@ -9,25 +9,25 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/registry/default/ui/chart"
+} from '@/registry/default/ui/chart'
 
 const chartData = [
-  { desktop: 186, mobile: 80, month: "January" },
-  { desktop: 305, mobile: 200, month: "February" },
-  { desktop: 237, mobile: 120, month: "March" },
-  { desktop: 73, mobile: 190, month: "April" },
-  { desktop: 209, mobile: 130, month: "May" },
-  { desktop: 214, mobile: 140, month: "June" },
+  { desktop: 186, mobile: 80, month: 'January' },
+  { desktop: 305, mobile: 200, month: 'February' },
+  { desktop: 237, mobile: 120, month: 'March' },
+  { desktop: 73, mobile: 190, month: 'April' },
+  { desktop: 209, mobile: 130, month: 'May' },
+  { desktop: 214, mobile: 140, month: 'June' },
 ]
 
 const chartConfig = {
   desktop: {
-    color: "#2563eb",
-    label: "Desktop",
+    color: '#2563eb',
+    label: 'Desktop',
   },
   mobile: {
-    color: "#60a5fa",
-    label: "Mobile",
+    color: '#60a5fa',
+    label: 'Mobile',
   },
 } satisfies ChartConfig
 

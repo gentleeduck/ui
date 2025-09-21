@@ -1,24 +1,17 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { toast } from "@/registry/default/hooks/use-toast"
-import { Button } from "@/registry/default/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/registry/default/ui/form"
-import { RadioGroup, RadioGroupItem } from "@/registry/default/ui/radio-group"
+import { toast } from '@/registry/default/hooks/use-toast'
+import { Button } from '@/registry/default/ui/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/registry/default/ui/form'
+import { RadioGroup, RadioGroupItem } from '@/registry/default/ui/radio-group'
 
 const FormSchema = z.object({
-  type: z.enum(["all", "mentions", "none"], {
-    required_error: "You need to select a notification type.",
+  type: z.enum(['all', 'mentions', 'none'], {
+    required_error: 'You need to select a notification type.',
   }),
 })
 
@@ -34,7 +27,7 @@ export default function RadioGroupForm() {
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-      title: "You submitted the following values:",
+      title: 'You submitted the following values:',
     })
   }
 
@@ -51,23 +44,18 @@ export default function RadioGroupForm() {
                 <RadioGroup
                   className="flex flex-col space-y-1"
                   defaultValue={field.value}
-                  onValueChange={field.onChange}
-                >
+                  onValueChange={field.onChange}>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
                       <RadioGroupItem value="all" />
                     </FormControl>
-                    <FormLabel className="font-normal">
-                      All new messages
-                    </FormLabel>
+                    <FormLabel className="font-normal">All new messages</FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
                       <RadioGroupItem value="mentions" />
                     </FormControl>
-                    <FormLabel className="font-normal">
-                      Direct messages and mentions
-                    </FormLabel>
+                    <FormLabel className="font-normal">Direct messages and mentions</FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>

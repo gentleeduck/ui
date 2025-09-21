@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   AudioWaveform,
@@ -23,14 +23,10 @@ import {
   Sparkles,
   SquareTerminal,
   Trash2,
-} from "lucide-react"
-import * as React from "react"
+} from 'lucide-react'
+import * as React from 'react'
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/registry/default/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from '@/registry/default/ui/avatar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -38,12 +34,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/registry/default/ui/collapsible"
+} from '@/registry/default/ui/breadcrumb'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/collapsible'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,8 +45,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
-import { Separator } from "@/registry/default/ui/separator"
+} from '@/registry/default/ui/dropdown-menu'
+import { Separator } from '@/registry/default/ui/separator'
 import {
   Sidebar,
   SidebarContent,
@@ -73,11 +65,11 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
-export const iframeHeight = "800px"
+export const iframeHeight = '800px'
 
-export const description = "A sidebar that collapses to icons."
+export const description = 'A sidebar that collapses to icons.'
 
 // This is sample data.
 const data = {
@@ -87,125 +79,125 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: 'History',
+          url: '#',
         },
         {
-          title: "Starred",
-          url: "#",
+          title: 'Starred',
+          url: '#',
         },
         {
-          title: "Settings",
-          url: "#",
+          title: 'Settings',
+          url: '#',
         },
       ],
-      title: "Playground",
-      url: "#",
+      title: 'Playground',
+      url: '#',
     },
     {
       icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: 'Genesis',
+          url: '#',
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: 'Explorer',
+          url: '#',
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: 'Quantum',
+          url: '#',
         },
       ],
-      title: "Models",
-      url: "#",
+      title: 'Models',
+      url: '#',
     },
     {
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: 'Introduction',
+          url: '#',
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: 'Get Started',
+          url: '#',
         },
         {
-          title: "Tutorials",
-          url: "#",
+          title: 'Tutorials',
+          url: '#',
         },
         {
-          title: "Changelog",
-          url: "#",
+          title: 'Changelog',
+          url: '#',
         },
       ],
-      title: "Documentation",
-      url: "#",
+      title: 'Documentation',
+      url: '#',
     },
     {
       icon: Settings2,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: 'General',
+          url: '#',
         },
         {
-          title: "Team",
-          url: "#",
+          title: 'Team',
+          url: '#',
         },
         {
-          title: "Billing",
-          url: "#",
+          title: 'Billing',
+          url: '#',
         },
         {
-          title: "Limits",
-          url: "#",
+          title: 'Limits',
+          url: '#',
         },
       ],
-      title: "Settings",
-      url: "#",
+      title: 'Settings',
+      url: '#',
     },
   ],
   projects: [
     {
       icon: Frame,
-      name: "Design Engineering",
-      url: "#",
+      name: 'Design Engineering',
+      url: '#',
     },
     {
       icon: PieChart,
-      name: "Sales & Marketing",
-      url: "#",
+      name: 'Sales & Marketing',
+      url: '#',
     },
     {
       icon: Map,
-      name: "Travel",
-      url: "#",
+      name: 'Travel',
+      url: '#',
     },
   ],
   teams: [
     {
       logo: GalleryVerticalEnd,
-      name: "Acme Inc",
-      plan: "Enterprise",
+      name: 'Acme Inc',
+      plan: 'Enterprise',
     },
     {
       logo: AudioWaveform,
-      name: "Acme Corp.",
-      plan: "Startup",
+      name: 'Acme Corp.',
+      plan: 'Startup',
     },
     {
       logo: Command,
-      name: "Evil Corp.",
-      plan: "Free",
+      name: 'Evil Corp.',
+      plan: 'Free',
     },
   ],
   user: {
-    avatar: "/avatars/shadcn.jpg",
-    email: "m@example.com",
-    name: "shadcn",
+    avatar: '/avatars/shadcn.jpg',
+    email: 'm@example.com',
+    name: 'shadcn',
   },
 }
 
@@ -226,18 +218,13 @@ export default function Page() {
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                    size="lg"
-                  >
+                    size="lg">
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                       <activeTeam.logo className="size-4" />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
-                        {activeTeam.name}
-                      </span>
-                      <span className="truncate text-xs">
-                        {activeTeam.plan}
-                      </span>
+                      <span className="truncate font-semibold">{activeTeam.name}</span>
+                      <span className="truncate text-xs">{activeTeam.plan}</span>
                     </div>
                     <ChevronsUpDown className="ml-auto" />
                   </SidebarMenuButton>
@@ -246,17 +233,10 @@ export default function Page() {
                   align="start"
                   className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                   side="bottom"
-                  sideOffset={4}
-                >
-                  <DropdownMenuLabel className="text-xs text-muted-foreground">
-                    Teams
-                  </DropdownMenuLabel>
+                  sideOffset={4}>
+                  <DropdownMenuLabel className="text-xs text-muted-foreground">Teams</DropdownMenuLabel>
                   {data.teams.map((team, index) => (
-                    <DropdownMenuItem
-                      className="gap-2 p-2"
-                      key={team.name}
-                      onClick={() => setActiveTeam(team)}
-                    >
+                    <DropdownMenuItem className="gap-2 p-2" key={team.name} onClick={() => setActiveTeam(team)}>
                       <div className="flex size-6 items-center justify-center rounded-sm border">
                         <team.logo className="size-4 shrink-0" />
                       </div>
@@ -269,9 +249,7 @@ export default function Page() {
                     <div className="flex size-6 items-center justify-center rounded-md border bg-background">
                       <Plus className="size-4" />
                     </div>
-                    <div className="font-medium text-muted-foreground">
-                      Add team
-                    </div>
+                    <div className="font-medium text-muted-foreground">Add team</div>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -283,12 +261,7 @@ export default function Page() {
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
               {data.navMain.map((item) => (
-                <Collapsible
-                  asChild
-                  className="group/collapsible"
-                  defaultOpen={item.isActive}
-                  key={item.title}
-                >
+                <Collapsible asChild className="group/collapsible" defaultOpen={item.isActive} key={item.title}>
                   <SidebarMenuItem>
                     <CollapsibleTrigger asChild>
                       <SidebarMenuButton tooltip={item.title}>
@@ -333,11 +306,7 @@ export default function Page() {
                         <span className="sr-only">More</span>
                       </SidebarMenuAction>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      align="end"
-                      className="w-48 rounded-lg"
-                      side="bottom"
-                    >
+                    <DropdownMenuContent align="end" className="w-48 rounded-lg" side="bottom">
                       <DropdownMenuItem>
                         <Folder className="text-muted-foreground" />
                         <span>View Project</span>
@@ -371,22 +340,14 @@ export default function Page() {
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                    size="lg"
-                  >
+                    size="lg">
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage
-                        alt={data.user.name}
-                        src={data.user.avatar}
-                      />
+                      <AvatarImage alt={data.user.name} src={data.user.avatar} />
                       <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
-                        {data.user.name}
-                      </span>
-                      <span className="truncate text-xs">
-                        {data.user.email}
-                      </span>
+                      <span className="truncate font-semibold">{data.user.name}</span>
+                      <span className="truncate text-xs">{data.user.email}</span>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4" />
                   </SidebarMenuButton>
@@ -395,26 +356,16 @@ export default function Page() {
                   align="end"
                   className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                   side="bottom"
-                  sideOffset={4}
-                >
+                  sideOffset={4}>
                   <DropdownMenuLabel className="p-0 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                       <Avatar className="h-8 w-8 rounded-lg">
-                        <AvatarImage
-                          alt={data.user.name}
-                          src={data.user.avatar}
-                        />
-                        <AvatarFallback className="rounded-lg">
-                          CN
-                        </AvatarFallback>
+                        <AvatarImage alt={data.user.name} src={data.user.avatar} />
+                        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">
-                          {data.user.name}
-                        </span>
-                        <span className="truncate text-xs">
-                          {data.user.email}
-                        </span>
+                        <span className="truncate font-semibold">{data.user.name}</span>
+                        <span className="truncate text-xs">{data.user.email}</span>
                       </div>
                     </div>
                   </DropdownMenuLabel>
@@ -460,9 +411,7 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>

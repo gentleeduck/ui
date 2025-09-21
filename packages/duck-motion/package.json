@@ -6,8 +6,8 @@
   },
   "description": "motion is a behavioral component abstraction that makes the aero dynamics of the web",
   "devDependencies": {
-    "@gentleduck/typescript-config": "workspace:*",
     "@gentleduck/tsdown-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "tsdown": "catalog:"
   },
   "engines": {

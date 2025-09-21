@@ -115,6 +115,12 @@ export const docsConfig: DocsConfig = {
           label: 'new',
           title: 'Gentleduck Ttest',
         },
+        {
+          href: '/docs/packages/duck-template',
+          items: [],
+          label: 'new',
+          title: 'Gentleduck Template',
+        },
       ],
       title: 'Core Packages',
     },

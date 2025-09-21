@@ -1,5 +1,5 @@
-import { Label } from "@/registry/default/ui/label"
-import { Textarea } from "@/registry/default/ui/textarea"
+import { Label } from '@/registry/default/ui/label'
+import { Textarea } from '@/registry/default/ui/textarea'
 
 export default function TextareaWithLabel() {
   return (

@@ -1,64 +1,64 @@
-import { AccordionDemo } from "@/registry/default/internal/sink/components/accordion-demo"
-import { AlertDemo } from "@/registry/default/internal/sink/components/alert-demo"
-import { AlertDialogDemo } from "@/registry/default/internal/sink/components/alert-dialog-demo"
-import { AppSidebar } from "@/registry/default/internal/sink/components/app-sidebar"
-import { AspectRatioDemo } from "@/registry/default/internal/sink/components/aspect-ratio-demo"
-import { AvatarDemo } from "@/registry/default/internal/sink/components/avatar-demo"
-import { BadgeDemo } from "@/registry/default/internal/sink/components/badge-demo"
-import { BadgeDestructive } from "@/registry/default/internal/sink/components/badge-destructive"
-import { BadgeOutline } from "@/registry/default/internal/sink/components/badge-outline"
-import { BadgeSecondary } from "@/registry/default/internal/sink/components/badge-secondary"
-import { BreadcrumbDemo } from "@/registry/default/internal/sink/components/breadcrumb-demo"
-import { ButtonDemo } from "@/registry/default/internal/sink/components/button-demo"
-import { ButtonDestructive } from "@/registry/default/internal/sink/components/button-destructive"
-import { ButtonGhost } from "@/registry/default/internal/sink/components/button-ghost"
-import { ButtonLink } from "@/registry/default/internal/sink/components/button-link"
-import { ButtonLoading } from "@/registry/default/internal/sink/components/button-loading"
-import { ButtonOutline } from "@/registry/default/internal/sink/components/button-outline"
-import { ButtonSecondary } from "@/registry/default/internal/sink/components/button-secondary"
-import { ButtonWithIcon } from "@/registry/default/internal/sink/components/button-with-icon"
-import { CalendarDemo } from "@/registry/default/internal/sink/components/calendar-demo"
-import { CardDemo } from "@/registry/default/internal/sink/components/card-demo"
-import { CarouselDemo } from "@/registry/default/internal/sink/components/carousel-demo"
-import { CheckboxDemo } from "@/registry/default/internal/sink/components/checkbox-demo"
-import { CollapsibleDemo } from "@/registry/default/internal/sink/components/collapsible-demo"
-import { ComboboxDemo } from "@/registry/default/internal/sink/components/combobox-demo"
-import { CommandDemo } from "@/registry/default/internal/sink/components/command-demo"
-import { ComponentWrapper } from "@/registry/default/internal/sink/components/component-wrapper"
-import { ContextMenuDemo } from "@/registry/default/internal/sink/components/context-menu-demo"
-import { DatePickerDemo } from "@/registry/default/internal/sink/components/date-picker-demo"
-import { DialogDemo } from "@/registry/default/internal/sink/components/dialog-demo"
-import { DrawerDemo } from "@/registry/default/internal/sink/components/drawer-demo"
-import { DropdownMenuDemo } from "@/registry/default/internal/sink/components/dropdown-menu-demo"
-import { HoverCardDemo } from "@/registry/default/internal/sink/components/hover-card-demo"
-import { InputDemo } from "@/registry/default/internal/sink/components/input-demo"
-import { InputOTPDemo } from "@/registry/default/internal/sink/components/input-otp-demo"
-import { LabelDemo } from "@/registry/default/internal/sink/components/label-demo"
-import { MenubarDemo } from "@/registry/default/internal/sink/components/menubar-demo"
-import { NavigationMenuDemo } from "@/registry/default/internal/sink/components/navigation-menu-demo"
-import { PaginationDemo } from "@/registry/default/internal/sink/components/pagination-demo"
-import { PopoverDemo } from "@/registry/default/internal/sink/components/popover-demo"
-import { ProgressDemo } from "@/registry/default/internal/sink/components/progress-demo"
-import { RadioGroupDemo } from "@/registry/default/internal/sink/components/radio-group-demo"
-import { ResizableHandleDemo } from "@/registry/default/internal/sink/components/resizable-handle"
-import { ScrollAreaDemo } from "@/registry/default/internal/sink/components/scroll-area-demo"
-import { SelectDemo } from "@/registry/default/internal/sink/components/select-demo"
-import { SeparatorDemo } from "@/registry/default/internal/sink/components/separator-demo"
-import { SheetDemo } from "@/registry/default/internal/sink/components/sheet-demo"
-import { SkeletonDemo } from "@/registry/default/internal/sink/components/skeleton-demo"
-import { SliderDemo } from "@/registry/default/internal/sink/components/slider-demo"
-import { SonnerDemo } from "@/registry/default/internal/sink/components/sonner-demo"
-import { SwitchDemo } from "@/registry/default/internal/sink/components/switch-demo"
-import { TableDemo } from "@/registry/default/internal/sink/components/table-demo"
-import { TabsDemo } from "@/registry/default/internal/sink/components/tabs-demo"
-import { TextareaDemo } from "@/registry/default/internal/sink/components/textarea-demo"
-import { ToastDemo } from "@/registry/default/internal/sink/components/toast-demo"
-import { ToggleDemo } from "@/registry/default/internal/sink/components/toggle-demo"
-import { ToggleDisabled } from "@/registry/default/internal/sink/components/toggle-disabled"
-import { ToggleGroupDemo } from "@/registry/default/internal/sink/components/toggle-group-demo"
-import { ToggleOutline } from "@/registry/default/internal/sink/components/toggle-outline"
-import { ToggleWithText } from "@/registry/default/internal/sink/components/toggle-with-text"
-import { TooltipDemo } from "@/registry/default/internal/sink/components/tooltip-demo"
+import { AccordionDemo } from '@/registry/default/internal/sink/components/accordion-demo'
+import { AlertDemo } from '@/registry/default/internal/sink/components/alert-demo'
+import { AlertDialogDemo } from '@/registry/default/internal/sink/components/alert-dialog-demo'
+import { AppSidebar } from '@/registry/default/internal/sink/components/app-sidebar'
+import { AspectRatioDemo } from '@/registry/default/internal/sink/components/aspect-ratio-demo'
+import { AvatarDemo } from '@/registry/default/internal/sink/components/avatar-demo'
+import { BadgeDemo } from '@/registry/default/internal/sink/components/badge-demo'
+import { BadgeDestructive } from '@/registry/default/internal/sink/components/badge-destructive'
+import { BadgeOutline } from '@/registry/default/internal/sink/components/badge-outline'
+import { BadgeSecondary } from '@/registry/default/internal/sink/components/badge-secondary'
+import { BreadcrumbDemo } from '@/registry/default/internal/sink/components/breadcrumb-demo'
+import { ButtonDemo } from '@/registry/default/internal/sink/components/button-demo'
+import { ButtonDestructive } from '@/registry/default/internal/sink/components/button-destructive'
+import { ButtonGhost } from '@/registry/default/internal/sink/components/button-ghost'
+import { ButtonLink } from '@/registry/default/internal/sink/components/button-link'
+import { ButtonLoading } from '@/registry/default/internal/sink/components/button-loading'
+import { ButtonOutline } from '@/registry/default/internal/sink/components/button-outline'
+import { ButtonSecondary } from '@/registry/default/internal/sink/components/button-secondary'
+import { ButtonWithIcon } from '@/registry/default/internal/sink/components/button-with-icon'
+import { CalendarDemo } from '@/registry/default/internal/sink/components/calendar-demo'
+import { CardDemo } from '@/registry/default/internal/sink/components/card-demo'
+import { CarouselDemo } from '@/registry/default/internal/sink/components/carousel-demo'
+import { CheckboxDemo } from '@/registry/default/internal/sink/components/checkbox-demo'
+import { CollapsibleDemo } from '@/registry/default/internal/sink/components/collapsible-demo'
+import { ComboboxDemo } from '@/registry/default/internal/sink/components/combobox-demo'
+import { CommandDemo } from '@/registry/default/internal/sink/components/command-demo'
+import { ComponentWrapper } from '@/registry/default/internal/sink/components/component-wrapper'
+import { ContextMenuDemo } from '@/registry/default/internal/sink/components/context-menu-demo'
+import { DatePickerDemo } from '@/registry/default/internal/sink/components/date-picker-demo'
+import { DialogDemo } from '@/registry/default/internal/sink/components/dialog-demo'
+import { DrawerDemo } from '@/registry/default/internal/sink/components/drawer-demo'
+import { DropdownMenuDemo } from '@/registry/default/internal/sink/components/dropdown-menu-demo'
+import { HoverCardDemo } from '@/registry/default/internal/sink/components/hover-card-demo'
+import { InputDemo } from '@/registry/default/internal/sink/components/input-demo'
+import { InputOTPDemo } from '@/registry/default/internal/sink/components/input-otp-demo'
+import { LabelDemo } from '@/registry/default/internal/sink/components/label-demo'
+import { MenubarDemo } from '@/registry/default/internal/sink/components/menubar-demo'
+import { NavigationMenuDemo } from '@/registry/default/internal/sink/components/navigation-menu-demo'
+import { PaginationDemo } from '@/registry/default/internal/sink/components/pagination-demo'
+import { PopoverDemo } from '@/registry/default/internal/sink/components/popover-demo'
+import { ProgressDemo } from '@/registry/default/internal/sink/components/progress-demo'
+import { RadioGroupDemo } from '@/registry/default/internal/sink/components/radio-group-demo'
+import { ResizableHandleDemo } from '@/registry/default/internal/sink/components/resizable-handle'
+import { ScrollAreaDemo } from '@/registry/default/internal/sink/components/scroll-area-demo'
+import { SelectDemo } from '@/registry/default/internal/sink/components/select-demo'
+import { SeparatorDemo } from '@/registry/default/internal/sink/components/separator-demo'
+import { SheetDemo } from '@/registry/default/internal/sink/components/sheet-demo'
+import { SkeletonDemo } from '@/registry/default/internal/sink/components/skeleton-demo'
+import { SliderDemo } from '@/registry/default/internal/sink/components/slider-demo'
+import { SonnerDemo } from '@/registry/default/internal/sink/components/sonner-demo'
+import { SwitchDemo } from '@/registry/default/internal/sink/components/switch-demo'
+import { TableDemo } from '@/registry/default/internal/sink/components/table-demo'
+import { TabsDemo } from '@/registry/default/internal/sink/components/tabs-demo'
+import { TextareaDemo } from '@/registry/default/internal/sink/components/textarea-demo'
+import { ToastDemo } from '@/registry/default/internal/sink/components/toast-demo'
+import { ToggleDemo } from '@/registry/default/internal/sink/components/toggle-demo'
+import { ToggleDisabled } from '@/registry/default/internal/sink/components/toggle-disabled'
+import { ToggleGroupDemo } from '@/registry/default/internal/sink/components/toggle-group-demo'
+import { ToggleOutline } from '@/registry/default/internal/sink/components/toggle-outline'
+import { ToggleWithText } from '@/registry/default/internal/sink/components/toggle-with-text'
+import { TooltipDemo } from '@/registry/default/internal/sink/components/tooltip-demo'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -66,13 +66,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import { Separator } from "@/registry/default/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/breadcrumb'
+import { Separator } from '@/registry/default/ui/separator'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/registry/default/ui/sidebar'
 
 export default function SinkPage() {
   return (
@@ -86,9 +82,7 @@ export default function SinkPage() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
@@ -146,10 +140,7 @@ export default function SinkPage() {
             <ComponentWrapper name="Card">
               <CardDemo className="w-full" />
             </ComponentWrapper>
-            <ComponentWrapper
-              className="[&_.max-w-xs]:max-w-[70%]"
-              name="Carousel"
-            >
+            <ComponentWrapper className="[&_.max-w-xs]:max-w-[70%]" name="Carousel">
               <CarouselDemo />
             </ComponentWrapper>
             <ComponentWrapper name="Checkbox">
@@ -161,10 +152,7 @@ export default function SinkPage() {
             <ComponentWrapper name="Combobox">
               <ComboboxDemo />
             </ComponentWrapper>
-            <ComponentWrapper
-              className="[&_[cmdk-root]]:md:min-w-max"
-              name="Command"
-            >
+            <ComponentWrapper className="[&_[cmdk-root]]:md:min-w-max" name="Command">
               <CommandDemo />
             </ComponentWrapper>
             <ComponentWrapper name="ContextMenu">

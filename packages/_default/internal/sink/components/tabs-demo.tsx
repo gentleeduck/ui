@@ -1,20 +1,8 @@
-import { Button } from "@/registry/default/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/registry/default/ui/card"
-import { Input } from "@/registry/default/ui/input"
-import { Label } from "@/registry/default/ui/label"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/registry/default/ui/tabs"
+import { Button } from '@/registry/default/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/registry/default/ui/card'
+import { Input } from '@/registry/default/ui/input'
+import { Label } from '@/registry/default/ui/label'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/registry/default/ui/tabs'
 
 export function TabsDemo() {
   return (
@@ -27,9 +15,7 @@ export function TabsDemo() {
         <Card>
           <CardHeader>
             <CardTitle>Account</CardTitle>
-            <CardDescription>
-              Make changes to your account here. Click save when you're done.
-            </CardDescription>
+            <CardDescription>Make changes to your account here. Click save when you're done.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">
@@ -50,9 +36,7 @@ export function TabsDemo() {
         <Card>
           <CardHeader>
             <CardTitle>Password</CardTitle>
-            <CardDescription>
-              Change your password here. After saving, you'll be logged out.
-            </CardDescription>
+            <CardDescription>Change your password here. After saving, you'll be logged out.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">

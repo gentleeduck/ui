@@ -1,16 +1,14 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { Calendar } from "@/registry/default/ui/calendar"
-import { Card, CardContent, CardFooter } from "@/registry/default/ui/card"
-import { Input } from "@/registry/default/ui/input"
-import { Label } from "@/registry/default/ui/label"
+import { Calendar } from '@/registry/default/ui/calendar'
+import { Card, CardContent, CardFooter } from '@/registry/default/ui/card'
+import { Input } from '@/registry/default/ui/input'
+import { Label } from '@/registry/default/ui/label'
 
 export default function Calendar17() {
-  const [date, setDate] = React.useState<Date | undefined>(
-    new Date(2025, 5, 12)
-  )
+  const [date, setDate] = React.useState<Date | undefined>(new Date(2025, 5, 12))
 
   return (
     <Card className="w-fit py-4">

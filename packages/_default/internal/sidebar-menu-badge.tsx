@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Frame, LifeBuoy, Map, PieChart, Send } from "lucide-react"
+import { Frame, LifeBuoy, Map, PieChart, Send } from 'lucide-react'
 
 import {
   Sidebar,
@@ -13,38 +13,38 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 const projects = [
   {
-    badge: "24",
+    badge: '24',
     icon: Frame,
-    name: "Design Engineering",
-    url: "#",
+    name: 'Design Engineering',
+    url: '#',
   },
   {
-    badge: "12",
+    badge: '12',
     icon: PieChart,
-    name: "Sales & Marketing",
-    url: "#",
+    name: 'Sales & Marketing',
+    url: '#',
   },
   {
-    badge: "3",
+    badge: '3',
     icon: Map,
-    name: "Travel",
-    url: "#",
+    name: 'Travel',
+    url: '#',
   },
   {
-    badge: "21",
+    badge: '21',
     icon: LifeBuoy,
-    name: "Support",
-    url: "#",
+    name: 'Support',
+    url: '#',
   },
   {
-    badge: "8",
+    badge: '8',
     icon: Send,
-    name: "Feedback",
-    url: "#",
+    name: 'Feedback',
+    url: '#',
   },
 ]
 
@@ -59,10 +59,7 @@ export default function AppSidebar() {
               <SidebarMenu>
                 {projects.map((project) => (
                   <SidebarMenuItem key={project.name}>
-                    <SidebarMenuButton
-                      asChild
-                      className="group-has-[[data-state=open]]/menu-item:bg-sidebar-accent"
-                    >
+                    <SidebarMenuButton asChild className="group-has-[[data-state=open]]/menu-item:bg-sidebar-accent">
                       <a href={project.url}>
                         <project.icon />
                         <span>{project.name}</span>

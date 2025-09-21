@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { CalendarPlusIcon } from "lucide-react"
-import * as React from "react"
+import { CalendarPlusIcon } from 'lucide-react'
+import * as React from 'react'
 
-import { Button } from "@/registry/default/ui/button"
-import { Calendar } from "@/registry/default/ui/calendar"
+import { Button } from '@/registry/default/ui/button'
+import { Calendar } from '@/registry/default/ui/calendar'
 import {
   Drawer,
   DrawerContent,
@@ -12,8 +12,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/registry/default/ui/drawer"
-import { Label } from "@/registry/default/ui/label"
+} from '@/registry/default/ui/drawer'
+import { Label } from '@/registry/default/ui/label'
 
 export default function Calendar32() {
   const [open, setOpen] = React.useState(false)
@@ -26,12 +26,8 @@ export default function Calendar32() {
       </Label>
       <Drawer onOpenChange={setOpen} open={open}>
         <DrawerTrigger asChild>
-          <Button
-            className="w-48 justify-between font-normal"
-            id="date"
-            variant="outline"
-          >
-            {date ? date.toLocaleDateString() : "Select date"}
+          <Button className="w-48 justify-between font-normal" id="date" variant="outline">
+            {date ? date.toLocaleDateString() : 'Select date'}
             <CalendarPlusIcon />
           </Button>
         </DrawerTrigger>
@@ -52,9 +48,7 @@ export default function Calendar32() {
           />
         </DrawerContent>
       </Drawer>
-      <div className="text-muted-foreground px-1 text-sm">
-        This example works best on mobile.
-      </div>
+      <div className="text-muted-foreground px-1 text-sm">This example works best on mobile.</div>
     </div>
   )
 }

@@ -1,13 +1,7 @@
-"use client"
+'use client'
 
-import {
-  Check,
-  ChevronRight,
-  ChevronsUpDown,
-  GalleryVerticalEnd,
-  Search,
-} from "lucide-react"
-import * as React from "react"
+import { Check, ChevronRight, ChevronsUpDown, GalleryVerticalEnd, Search } from 'lucide-react'
+import * as React from 'react'
 
 import {
   Breadcrumb,
@@ -16,20 +10,16 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/registry/default/ui/collapsible"
+} from '@/registry/default/ui/breadcrumb'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/collapsible'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
-import { Label } from "@/registry/default/ui/label"
-import { Separator } from "@/registry/default/ui/separator"
+} from '@/registry/default/ui/dropdown-menu'
+import { Label } from '@/registry/default/ui/label'
+import { Separator } from '@/registry/default/ui/separator'
 import {
   Sidebar,
   SidebarContent,
@@ -45,11 +35,11 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
-export const iframeHeight = "800px"
+export const iframeHeight = '800px'
 
-export const description = "A sidebar with collapsible sections."
+export const description = 'A sidebar with collapsible sections.'
 
 // This is sample data.
 const data = {
@@ -57,140 +47,140 @@ const data = {
     {
       items: [
         {
-          title: "Installation",
-          url: "#",
+          title: 'Installation',
+          url: '#',
         },
         {
-          title: "Project Structure",
-          url: "#",
+          title: 'Project Structure',
+          url: '#',
         },
       ],
-      title: "Getting Started",
-      url: "#",
+      title: 'Getting Started',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Routing",
-          url: "#",
+          title: 'Routing',
+          url: '#',
         },
         {
           isActive: true,
-          title: "Data Fetching",
-          url: "#",
+          title: 'Data Fetching',
+          url: '#',
         },
         {
-          title: "Rendering",
-          url: "#",
+          title: 'Rendering',
+          url: '#',
         },
         {
-          title: "Caching",
-          url: "#",
+          title: 'Caching',
+          url: '#',
         },
         {
-          title: "Styling",
-          url: "#",
+          title: 'Styling',
+          url: '#',
         },
         {
-          title: "Optimizing",
-          url: "#",
+          title: 'Optimizing',
+          url: '#',
         },
         {
-          title: "Configuring",
-          url: "#",
+          title: 'Configuring',
+          url: '#',
         },
         {
-          title: "Testing",
-          url: "#",
+          title: 'Testing',
+          url: '#',
         },
         {
-          title: "Authentication",
-          url: "#",
+          title: 'Authentication',
+          url: '#',
         },
         {
-          title: "Deploying",
-          url: "#",
+          title: 'Deploying',
+          url: '#',
         },
         {
-          title: "Upgrading",
-          url: "#",
+          title: 'Upgrading',
+          url: '#',
         },
         {
-          title: "Examples",
-          url: "#",
+          title: 'Examples',
+          url: '#',
         },
       ],
-      title: "Building Your Application",
-      url: "#",
+      title: 'Building Your Application',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Components",
-          url: "#",
+          title: 'Components',
+          url: '#',
         },
         {
-          title: "File Conventions",
-          url: "#",
+          title: 'File Conventions',
+          url: '#',
         },
         {
-          title: "Functions",
-          url: "#",
+          title: 'Functions',
+          url: '#',
         },
         {
-          title: "next.config.js Options",
-          url: "#",
+          title: 'next.config.js Options',
+          url: '#',
         },
         {
-          title: "CLI",
-          url: "#",
+          title: 'CLI',
+          url: '#',
         },
         {
-          title: "Edge Runtime",
-          url: "#",
+          title: 'Edge Runtime',
+          url: '#',
         },
       ],
-      title: "API Reference",
-      url: "#",
+      title: 'API Reference',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Accessibility",
-          url: "#",
+          title: 'Accessibility',
+          url: '#',
         },
         {
-          title: "Fast Refresh",
-          url: "#",
+          title: 'Fast Refresh',
+          url: '#',
         },
         {
-          title: "Next.js Compiler",
-          url: "#",
+          title: 'Next.js Compiler',
+          url: '#',
         },
         {
-          title: "Supported Browsers",
-          url: "#",
+          title: 'Supported Browsers',
+          url: '#',
         },
         {
-          title: "Turbopack",
-          url: "#",
+          title: 'Turbopack',
+          url: '#',
         },
       ],
-      title: "Architecture",
-      url: "#",
+      title: 'Architecture',
+      url: '#',
     },
     {
       items: [
         {
-          title: "Contribution Guide",
-          url: "#",
+          title: 'Contribution Guide',
+          url: '#',
         },
       ],
-      title: "Community",
-      url: "#",
+      title: 'Community',
+      url: '#',
     },
   ],
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
+  versions: ['1.0.1', '1.1.0-alpha', '2.0.0-beta1'],
 }
 
 export default function Component() {
@@ -206,8 +196,7 @@ export default function Component() {
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                    size="lg"
-                  >
+                    size="lg">
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                       <GalleryVerticalEnd className="size-4" />
                     </div>
@@ -218,19 +207,10 @@ export default function Component() {
                     <ChevronsUpDown className="ml-auto" />
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="start"
-                  className="w-[--radix-dropdown-menu-trigger-width]"
-                >
+                <DropdownMenuContent align="start" className="w-[--radix-dropdown-menu-trigger-width]">
                   {data.versions.map((version) => (
-                    <DropdownMenuItem
-                      key={version}
-                      onSelect={() => setSelectedVersion(version)}
-                    >
-                      v{version}{" "}
-                      {version === selectedVersion && (
-                        <Check className="ml-auto" />
-                      )}
+                    <DropdownMenuItem key={version} onSelect={() => setSelectedVersion(version)}>
+                      v{version} {version === selectedVersion && <Check className="ml-auto" />}
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
@@ -243,11 +223,7 @@ export default function Component() {
                 <Label className="sr-only" htmlFor="search">
                   Search
                 </Label>
-                <SidebarInput
-                  className="pl-8"
-                  id="search"
-                  placeholder="Search the docs..."
-                />
+                <SidebarInput className="pl-8" id="search" placeholder="Search the docs..." />
                 <Search className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
               </SidebarGroupContent>
             </SidebarGroup>
@@ -256,19 +232,13 @@ export default function Component() {
         <SidebarContent className="gap-0">
           {/* We create a collapsible SidebarGroup for each parent. */}
           {data.navMain.map((item) => (
-            <Collapsible
-              className="group/collapsible"
-              defaultOpen
-              key={item.title}
-              title={item.title}
-            >
+            <Collapsible className="group/collapsible" defaultOpen key={item.title} title={item.title}>
               <SidebarGroup>
                 <SidebarGroupLabel
                   asChild
-                  className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                >
+                  className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                   <CollapsibleTrigger>
-                    {item.title}{" "}
+                    {item.title}{' '}
                     <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                   </CollapsibleTrigger>
                 </SidebarGroupLabel>
@@ -298,9 +268,7 @@ export default function Component() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Building Your Application
-                </BreadcrumbLink>
+                <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
@@ -311,10 +279,7 @@ export default function Component() {
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           {Array.from({ length: 24 }).map((_, index) => (
-            <div
-              className="aspect-video h-12 w-full rounded-lg bg-muted/50"
-              key={index}
-            />
+            <div className="aspect-video h-12 w-full rounded-lg bg-muted/50" key={index} />
           ))}
         </div>
       </SidebarInset>

@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { toast } from "@/registry/default/hooks/use-toast"
-import { Button } from "@/registry/default/ui/button"
+import { toast } from '@/registry/default/hooks/use-toast'
+import { Button } from '@/registry/default/ui/button'
 import {
   Form,
   FormControl,
@@ -14,19 +14,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/registry/default/ui/form"
-import { Input } from "@/registry/default/ui/input"
+} from '@/registry/default/ui/form'
+import { Input } from '@/registry/default/ui/input'
 
 const FormSchema = z.object({
   username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: 'Username must be at least 2 characters.',
   }),
 })
 
 export default function InputForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
-      username: "",
+      username: '',
     },
     resolver: zodResolver(FormSchema),
   })
@@ -38,7 +38,7 @@ export default function InputForm() {
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-      title: "You submitted the following values:",
+      title: 'You submitted the following values:',
     })
   }
 
@@ -54,9 +54,7 @@ export default function InputForm() {
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
+              <FormDescription>This is your public display name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

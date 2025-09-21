@@ -1,12 +1,8 @@
-"use client"
+'use client'
 
-import { type LucideIcon } from "lucide-react"
+import { type LucideIcon } from 'lucide-react'
 
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/registry/default/ui/sidebar"
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/registry/default/ui/sidebar'
 
 export function NavMain({
   items,

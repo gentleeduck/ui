@@ -1,35 +1,12 @@
-"use client"
+'use client'
 
-import {
-  BadgeCheck,
-  Bell,
-  Check,
-  ChevronRight,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Plus,
-  Sparkles,
-} from "lucide-react"
-import * as React from "react"
+import { BadgeCheck, Bell, Check, ChevronRight, ChevronsUpDown, CreditCard, LogOut, Plus, Sparkles } from 'lucide-react'
+import * as React from 'react'
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/registry/default/ui/avatar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "@/registry/default/ui/breadcrumb"
-import { Calendar } from "@/registry/default/ui/calendar"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/registry/default/ui/collapsible"
+import { Avatar, AvatarFallback, AvatarImage } from '@/registry/default/ui/avatar'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@/registry/default/ui/breadcrumb'
+import { Calendar } from '@/registry/default/ui/calendar'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/collapsible'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,8 +15,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
-import { Separator } from "@/registry/default/ui/separator"
+} from '@/registry/default/ui/dropdown-menu'
+import { Separator } from '@/registry/default/ui/separator'
 import {
   Sidebar,
   SidebarContent,
@@ -57,34 +34,34 @@ import {
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 // This is sample data.
 const data = {
   calendars: [
     {
-      items: ["Personal", "Work", "Family"],
-      name: "My Calendars",
+      items: ['Personal', 'Work', 'Family'],
+      name: 'My Calendars',
     },
     {
-      items: ["Holidays", "Birthdays"],
-      name: "Favorites",
+      items: ['Holidays', 'Birthdays'],
+      name: 'Favorites',
     },
     {
-      items: ["Travel", "Reminders", "Deadlines"],
-      name: "Other",
+      items: ['Travel', 'Reminders', 'Deadlines'],
+      name: 'Other',
     },
   ],
   user: {
-    avatar: "/avatars/shadcn.jpg",
-    email: "m@example.com",
-    name: "shadcn",
+    avatar: '/avatars/shadcn.jpg',
+    email: 'm@example.com',
+    name: 'shadcn',
   },
 }
 
-export const iframeHeight = "800px"
+export const iframeHeight = '800px'
 
-export const description = "A sidebar with a calendar."
+export const description = 'A sidebar with a calendar.'
 
 export default function Page() {
   return (
@@ -153,16 +130,12 @@ function Calendars({
       {calendars.map((calendar, index) => (
         <React.Fragment key={calendar.name}>
           <SidebarGroup className="py-0" key={calendar.name}>
-            <Collapsible
-              className="group/collapsible"
-              defaultOpen={index === 0}
-            >
+            <Collapsible className="group/collapsible" defaultOpen={index === 0}>
               <SidebarGroupLabel
                 asChild
-                className="group/label w-full text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              >
+                className="group/label w-full text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                 <CollapsibleTrigger>
-                  {calendar.name}{" "}
+                  {calendar.name}{' '}
                   <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
@@ -174,8 +147,7 @@ function Calendars({
                         <SidebarMenuButton>
                           <div
                             className="group/calendar-item flex aspect-square size-4 shrink-0 items-center justify-center rounded-sm border border-sidebar-border text-sidebar-primary-foreground data-[active=true]:border-sidebar-primary data-[active=true]:bg-sidebar-primary"
-                            data-active={index < 2}
-                          >
+                            data-active={index < 2}>
                             <Check className="hidden size-3 group-data-[active=true]/calendar-item:block" />
                           </div>
                           {item}
@@ -222,8 +194,7 @@ function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-              size="lg"
-            >
+              size="lg">
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage alt={user.name} src={user.avatar} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
@@ -238,9 +209,8 @@ function NavUser({
           <DropdownMenuContent
             align="start"
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
-            sideOffset={4}
-          >
+            side={isMobile ? 'bottom' : 'right'}
+            sideOffset={4}>
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">

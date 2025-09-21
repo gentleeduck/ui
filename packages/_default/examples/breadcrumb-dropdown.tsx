@@ -1,4 +1,4 @@
-import { ChevronDown, Slash } from "lucide-react"
+import { ChevronDown, Slash } from 'lucide-react'
 
 import {
   Breadcrumb,
@@ -7,13 +7,13 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
+} from '@/registry/default/ui/breadcrumb'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
+} from '@/registry/default/ui/dropdown-menu'
 
 export default function BreadcrumbWithDropdown() {
   return (

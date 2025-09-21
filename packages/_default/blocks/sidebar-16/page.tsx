@@ -1,10 +1,10 @@
-import { AppSidebar } from "@/registry/default/blocks/sidebar-16/components/app-sidebar"
-import { SiteHeader } from "@/registry/default/blocks/sidebar-16/components/site-header"
-import { SidebarInset, SidebarProvider } from "@/registry/default/ui/sidebar"
+import { AppSidebar } from '@/registry/default/blocks/sidebar-16/components/app-sidebar'
+import { SiteHeader } from '@/registry/default/blocks/sidebar-16/components/site-header'
+import { SidebarInset, SidebarProvider } from '@/registry/default/ui/sidebar'
 
-export const iframeHeight = "800px"
+export const iframeHeight = '800px'
 
-export const description = "A sidebar with a header and a search form."
+export const description = 'A sidebar with a header and a search form.'
 
 export default function Page() {
   return (

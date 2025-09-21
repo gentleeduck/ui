@@ -1,7 +1,7 @@
-import * as React from "react"
-import { useMediaQuery } from "@/hooks/use-media-query"
-import { cn } from "@/lib/utils"
-import { Button } from "@/registry/default/ui/button"
+import * as React from 'react'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { cn } from '@/lib/utils'
+import { Button } from '@/registry/default/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/registry/default/ui/dialog"
+} from '@/registry/default/ui/dialog'
 import {
   Drawer,
   DrawerClose,
@@ -19,13 +19,13 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/registry/default/ui/drawer"
-import { Input } from "@/registry/default/ui/input"
-import { Label } from "@/registry/default/ui/label"
+} from '@/registry/default/ui/drawer'
+import { Input } from '@/registry/default/ui/input'
+import { Label } from '@/registry/default/ui/label'
 
 export default function DrawerDialogDemo() {
   const [open, setOpen] = React.useState(false)
-  const isDesktop = useMediaQuery("(min-width: 768px)")
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
     return (
@@ -36,9 +36,7 @@ export default function DrawerDialogDemo() {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
+            <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
           </DialogHeader>
           <ProfileForm />
         </DialogContent>
@@ -54,9 +52,7 @@ export default function DrawerDialogDemo() {
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>Edit profile</DrawerTitle>
-          <DrawerDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DrawerDescription>
+          <DrawerDescription>Make changes to your profile here. Click save when you're done.</DrawerDescription>
         </DrawerHeader>
         <ProfileForm className="px-4" />
         <DrawerFooter className="pt-2">
@@ -69,9 +65,9 @@ export default function DrawerDialogDemo() {
   )
 }
 
-function ProfileForm({ className }: React.ComponentProps<"form">) {
+function ProfileForm({ className }: React.ComponentProps<'form'>) {
   return (
-    <form className={cn("grid items-start gap-4", className)}>
+    <form className={cn('grid items-start gap-4', className)}>
       <div className="grid gap-2">
         <Label htmlFor="email">Email</Label>
         <Input defaultValue="shadcn@example.com" id="email" type="email" />

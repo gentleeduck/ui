@@ -1,0 +1,225 @@
+---
+title: duck-template 
+description: Fast, customizable Rust-powered project scaffolding — because smart devs don’t start from scratch.
+---
+
+<Callout>
+
+`duck-template` helps you scaffold and manage projects using structured JSON configurations and flexible CLI commands. With **variant** support, **remote configs**, and **dynamic flag injection**, it gives you complete control over how projects and files are created.
+
+</Callout>
+
+## Features
+
+* **Template-based scaffolding** using JSON
+* **Variants** for different project layouts (`api`, `web`, `cli`, etc.)
+* **Local or remote configs** (URL or file path)
+* **Unified flag parsing** with dynamic injection into templates
+* **Blazing fast** — written in Rust
+* **Modular commands**: `init`, `create`, and `create-variant`
+
+---
+
+## Installation
+
+```bash
+cargo install duck-template
+```
+
+---
+
+## Quick Start
+
+### Initialize a New Project
+
+```bash
+duck-template init --name my-app
+```
+
+This will:
+
+* Create a directory `my-app/`
+* Inject the project name into template files
+* Use your local `duck-template.json`
+
+---
+
+### Create From a Variant
+
+```bash
+duck-template create --variant api --config ./duck-template.json
+```
+
+With a **remote config**:
+
+```bash
+duck-template create --variant api --config https://example.com/template.json
+```
+
+With extra arguments:
+
+```bash
+duck-template create \
+  --variant cli \
+  --config ./template.json \
+  --outdir ./output \
+  --args author=Ahmed,year=2025
+```
+
+---
+
+### Create a New Variant
+
+```bash
+duck-template create-variant \
+  --source ./template-source \
+  --name cli \
+  --description "Command-line app setup" \
+  --config ./duck-template.json
+```
+
+This will:
+
+* Package the folder into a new variant
+* Append it to the config (if valid and writable)
+
+---
+
+## Configuration Format
+
+Templates are defined in a `duck-template.json` file:
+
+```json
+{
+  "$schema": "https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/json/duck-template-schema.json",
+  "name": "my-template",
+  "version": "1.0.0",
+  "description": "Reusable project setup",
+  "outdir": "./output",
+  "args": {
+    "author": "Anonymous",
+    "license": "MIT"
+  },
+  "variants": [
+    {
+      "name": "api",
+      "description": "Express API starter",
+      "files": [
+        { "path": "src/index.ts", "content": "console.log('API ready');" },
+        { "path": "tsconfig.json", "template": "tsconfig-template.json" }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## Command Reference
+
+### **`init`** — Create a New Project Directory
+
+```bash
+duck-template init --name my-app
+```
+
+| Flag           | Description                                               |
+| -------------- | --------------------------------------------------------- |
+| `-n`, `--name` | Project name (used for folder name and inside templates). |
+
+---
+
+### **`create`** — Generate Files from a Variant
+
+```bash
+duck-template create --variant api --config ./config.json
+```
+
+| Flag              | Description                                                 |
+| ----------------- | ----------------------------------------------------------- |
+| `-v`, `--variant` | Name of the variant to generate                             |
+| `-d`, `--outdir`  | Output directory (defaults to `./`)                         |
+| `-c`, `--config`  | Local or remote JSON config                                 |
+| `-a`, `--args`    | Key=value overrides for template variables (`author=Ahmed`) |
+
+---
+
+### **`create-variant`** — Package a Folder into a Variant
+
+```bash
+duck-template create-variant \
+  --source ./starter \
+  --name basic \
+  --description "Basic setup" \
+  --config ./duck-template.json
+```
+
+| Flag                  | Description                                   |
+| --------------------- | --------------------------------------------- |
+| `-s`, `--source`      | Source directory or file                      |
+| `-n`, `--name`        | Unique name for the variant                   |
+| `-d`, `--description` | Short description of the variant              |
+| `-c`, `--config`      | Optional path to an existing config to update |
+
+---
+
+## Output Example
+
+Given:
+
+```bash
+duck-template init --name wiseman
+```
+
+With config:
+
+```json
+{
+  "name": "wiseman",
+  "outdir": "./output",
+  "variants": [
+    {
+      "name": "wiseman",
+      "files": [
+        { "path": "src/main.ts", "content": "console.log('{{name}} is wise');" }
+      ]
+    }
+  ]
+}
+```
+
+Result:
+
+```
+output/
+└── src/
+    └── main.ts   // console.log("wiseman is wise");
+```
+
+---
+
+## Help & Version
+
+```bash
+duck-template --help
+duck-template --version
+```
+
+Also works with subcommands:
+
+```bash
+duck-template init --help
+duck-template create-variant --help
+```
+
+---
+
+## Contributions
+
+Pull requests, issues, and suggestions are welcome!
+Fork, tweak, and share your own templates.
+
+---
+
+**🦆 duck-template** — *smart scaffolding for smart developers.*
+

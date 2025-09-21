@@ -1,17 +1,8 @@
-import { AppSidebar } from "@/registry/default/blocks/sidebar-10/components/app-sidebar"
-import { NavActions } from "@/registry/default/blocks/sidebar-10/components/nav-actions"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "@/registry/default/ui/breadcrumb"
-import { Separator } from "@/registry/default/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/registry/default/ui/sidebar"
+import { AppSidebar } from '@/registry/default/blocks/sidebar-10/components/app-sidebar'
+import { NavActions } from '@/registry/default/blocks/sidebar-10/components/nav-actions'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@/registry/default/ui/breadcrumb'
+import { Separator } from '@/registry/default/ui/separator'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/registry/default/ui/sidebar'
 
 export default function Page() {
   return (
@@ -25,9 +16,7 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="line-clamp-1">
-                    Project Management & Task Tracking
-                  </BreadcrumbPage>
+                  <BreadcrumbPage className="line-clamp-1">Project Management & Task Tracking</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

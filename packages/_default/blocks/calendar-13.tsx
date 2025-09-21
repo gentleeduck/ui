@@ -1,25 +1,14 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { Calendar } from "@/registry/default/ui/calendar"
-import { Label } from "@/registry/default/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/registry/default/ui/select"
+import { Calendar } from '@/registry/default/ui/calendar'
+import { Label } from '@/registry/default/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/registry/default/ui/select'
 
 export default function Calendar13() {
-  const [dropdown, setDropdown] =
-    React.useState<React.ComponentProps<typeof Calendar>["captionLayout"]>(
-      "dropdown"
-    )
-  const [date, setDate] = React.useState<Date | undefined>(
-    new Date(2025, 5, 12)
-  )
+  const [dropdown, setDropdown] = React.useState<React.ComponentProps<typeof Calendar>['captionLayout']>('dropdown')
+  const [date, setDate] = React.useState<Date | undefined>(new Date(2025, 5, 12))
 
   return (
     <div className="flex flex-col gap-4">
@@ -36,13 +25,8 @@ export default function Calendar13() {
           Dropdown
         </Label>
         <Select
-          onValueChange={(value) =>
-            setDropdown(
-              value as React.ComponentProps<typeof Calendar>["captionLayout"]
-            )
-          }
-          value={dropdown}
-        >
+          onValueChange={(value) => setDropdown(value as React.ComponentProps<typeof Calendar>['captionLayout'])}
+          value={dropdown}>
           <SelectTrigger className="bg-background w-full" id="dropdown">
             <SelectValue placeholder="Dropdown" />
           </SelectTrigger>

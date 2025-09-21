@@ -5,6 +5,11 @@
     "url": "https://github.com/gentleeduck/ui/issues"
   },
   "description": "Compile-time type testing utilities for TypeScript",
+  "devDependencies": {
+    "@gentleduck/tsdown-config": "workspace:*",
+    "@types/node": "catalog:",
+    "tsdown": "catalog:"
+  },
   "engines": {
     "node": ">=24.2.0"
   },
@@ -34,11 +39,6 @@
   "license": "MIT",
   "name": "@gentleduck/ttest",
   "packageManager": "pnpm@10.17.0",
-  "devDependencies": {
-    "@types/node": "catalog:",
-    "@gentleduck/tsdown-config": "workspace:*",
-    "tsdown": "catalog:"
-  },
   "repository": {
     "directory": "packages/duck-ttest",
     "type": "git",

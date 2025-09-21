@@ -1,20 +1,13 @@
-"use client"
+'use client'
 
-import {
-  Frame,
-  LifeBuoy,
-  Map,
-  MoreHorizontal,
-  PieChart,
-  Send,
-} from "lucide-react"
+import { Frame, LifeBuoy, Map, MoreHorizontal, PieChart, Send } from 'lucide-react'
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
+} from '@/registry/default/ui/dropdown-menu'
 import {
   Sidebar,
   SidebarContent,
@@ -26,33 +19,33 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 const projects = [
   {
     icon: Frame,
-    name: "Design Engineering",
-    url: "#",
+    name: 'Design Engineering',
+    url: '#',
   },
   {
     icon: PieChart,
-    name: "Sales & Marketing",
-    url: "#",
+    name: 'Sales & Marketing',
+    url: '#',
   },
   {
     icon: Map,
-    name: "Travel",
-    url: "#",
+    name: 'Travel',
+    url: '#',
   },
   {
     icon: LifeBuoy,
-    name: "Support",
-    url: "#",
+    name: 'Support',
+    url: '#',
   },
   {
     icon: Send,
-    name: "Feedback",
-    url: "#",
+    name: 'Feedback',
+    url: '#',
   },
 ]
 
@@ -67,10 +60,7 @@ export default function AppSidebar() {
               <SidebarMenu>
                 {projects.map((project, index) => (
                   <SidebarMenuItem key={project.name}>
-                    <SidebarMenuButton
-                      asChild
-                      className="group-has-[[data-state=open]]/menu-item:bg-sidebar-accent"
-                    >
+                    <SidebarMenuButton asChild className="group-has-[[data-state=open]]/menu-item:bg-sidebar-accent">
                       <a href={project.url}>
                         <project.icon />
                         <span>{project.name}</span>

@@ -1,4 +1,7 @@
 :root {
+  --font-sans-geist: "Geist", "Adjusted Arial Fallback";
+  --font-mono-geist: "Geist Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -98,7 +101,7 @@
   --breakpoint-3xl: 1600px;
   --breakpoint-4xl: 2000px;
   --font-sans: "Geist", "Adjusted Arial Fallback";
-  --font-mono: "JetBrains Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
+  --font-mono: "Geist Mono", "JetBrains Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
   --radius: 0.5rem;
 
   --color-background: var(--background);

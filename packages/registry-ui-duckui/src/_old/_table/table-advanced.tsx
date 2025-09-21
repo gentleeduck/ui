@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '../dropdown-menu'
 import { Input } from '../input'
-import { ScrollArea,  } from '../scroll-area/'
+import { ScrollArea } from '../scroll-area/'
 import { TableHead, TableHeader, TableRow } from '../table'
 import { Table, TableBody } from './table'
 import { dropdownMenuOptions } from './table-advanced.constants'

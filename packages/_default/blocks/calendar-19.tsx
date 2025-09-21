@@ -1,16 +1,14 @@
-"use client"
+'use client'
 
-import { addDays } from "date-fns"
-import * as React from "react"
+import { addDays } from 'date-fns'
+import * as React from 'react'
 
-import { Button } from "@/registry/default/ui/button"
-import { Calendar } from "@/registry/default/ui/calendar"
-import { Card, CardContent, CardFooter } from "@/registry/default/ui/card"
+import { Button } from '@/registry/default/ui/button'
+import { Calendar } from '@/registry/default/ui/calendar'
+import { Card, CardContent, CardFooter } from '@/registry/default/ui/card'
 
 export default function Calendar19() {
-  const [date, setDate] = React.useState<Date | undefined>(
-    new Date(2025, 5, 12)
-  )
+  const [date, setDate] = React.useState<Date | undefined>(new Date(2025, 5, 12))
 
   return (
     <Card className="max-w-[300px] py-4">
@@ -25,11 +23,11 @@ export default function Calendar19() {
       </CardContent>
       <CardFooter className="flex flex-wrap gap-2 border-t px-4 pb-0 pt-4">
         {[
-          { label: "Today", value: 0 },
-          { label: "Tomorrow", value: 1 },
-          { label: "In 3 days", value: 3 },
-          { label: "In a week", value: 7 },
-          { label: "In 2 weeks", value: 14 },
+          { label: 'Today', value: 0 },
+          { label: 'Tomorrow', value: 1 },
+          { label: 'In 3 days', value: 3 },
+          { label: 'In a week', value: 7 },
+          { label: 'In 2 weeks', value: 14 },
         ].map((preset) => (
           <Button
             className="flex-1"
@@ -39,8 +37,7 @@ export default function Calendar19() {
               setDate(newDate)
             }}
             size="sm"
-            variant="outline"
-          >
+            variant="outline">
             {preset.label}
           </Button>
         ))}

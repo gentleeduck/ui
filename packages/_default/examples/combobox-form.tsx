@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Check, ChevronsUpDown } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Check, ChevronsUpDown } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { cn } from "@/lib/utils"
-import { toast } from "@/registry/default/hooks/use-toast"
-import { Button } from "@/registry/default/ui/button"
+import { cn } from '@/lib/utils'
+import { toast } from '@/registry/default/hooks/use-toast'
+import { Button } from '@/registry/default/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -15,7 +15,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/registry/default/ui/command"
+} from '@/registry/default/ui/command'
 import {
   Form,
   FormControl,
@@ -24,28 +24,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/registry/default/ui/form"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/registry/default/ui/popover"
+} from '@/registry/default/ui/form'
+import { Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/popover'
 
 const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
+  { label: 'English', value: 'en' },
+  { label: 'French', value: 'fr' },
+  { label: 'German', value: 'de' },
+  { label: 'Spanish', value: 'es' },
+  { label: 'Portuguese', value: 'pt' },
+  { label: 'Russian', value: 'ru' },
+  { label: 'Japanese', value: 'ja' },
+  { label: 'Korean', value: 'ko' },
+  { label: 'Chinese', value: 'zh' },
 ] as const
 
 const FormSchema = z.object({
   language: z.string({
-    required_error: "Please select a language.",
+    required_error: 'Please select a language.',
   }),
 })
 
@@ -61,7 +57,7 @@ export default function ComboboxForm() {
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-      title: "You submitted the following values:",
+      title: 'You submitted the following values:',
     })
   }
 
@@ -78,18 +74,12 @@ export default function ComboboxForm() {
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
-                      className={cn(
-                        "w-[200px] justify-between",
-                        !field.value && "text-muted-foreground"
-                      )}
+                      className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}
                       role="combobox"
-                      variant="outline"
-                    >
+                      variant="outline">
                       {field.value
-                        ? languages.find(
-                            (language) => language.value === field.value
-                          )?.label
-                        : "Select language"}
+                        ? languages.find((language) => language.value === field.value)?.label
+                        : 'Select language'}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
@@ -104,18 +94,12 @@ export default function ComboboxForm() {
                           <CommandItem
                             key={language.value}
                             onSelect={() => {
-                              form.setValue("language", language.value)
+                              form.setValue('language', language.value)
                             }}
-                            value={language.label}
-                          >
+                            value={language.label}>
                             {language.label}
                             <Check
-                              className={cn(
-                                "ml-auto",
-                                language.value === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
+                              className={cn('ml-auto', language.value === field.value ? 'opacity-100' : 'opacity-0')}
                             />
                           </CommandItem>
                         ))}
@@ -124,9 +108,7 @@ export default function ComboboxForm() {
                   </Command>
                 </PopoverContent>
               </Popover>
-              <FormDescription>
-                This is the language that will be used in the dashboard.
-              </FormDescription>
+              <FormDescription>This is the language that will be used in the dashboard.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

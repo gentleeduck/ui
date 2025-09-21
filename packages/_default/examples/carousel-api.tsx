@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from 'react'
 
-import { Card, CardContent } from "@/registry/default/ui/card"
+import { Card, CardContent } from '@/registry/default/ui/card'
 import {
   Carousel,
   type CarouselApi,
@@ -8,7 +8,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/registry/default/ui/carousel"
+} from '@/registry/default/ui/carousel'
 
 export default function CarouselDApiDemo() {
   const [api, setApi] = React.useState<CarouselApi>()
@@ -23,7 +23,7 @@ export default function CarouselDApiDemo() {
     setCount(api.scrollSnapList().length)
     setCurrent(api.selectedScrollSnap() + 1)
 
-    api.on("select", () => {
+    api.on('select', () => {
       setCurrent(api.selectedScrollSnap() + 1)
     })
   }, [api])

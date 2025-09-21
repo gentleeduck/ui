@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Frame, LifeBuoy, Map, PieChart, Send } from "lucide-react"
+import { Frame, LifeBuoy, Map, PieChart, Send } from 'lucide-react'
 
 import {
   Sidebar,
@@ -12,33 +12,33 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 const projects = [
   {
     icon: Frame,
-    name: "Design Engineering",
-    url: "#",
+    name: 'Design Engineering',
+    url: '#',
   },
   {
     icon: PieChart,
-    name: "Sales & Marketing",
-    url: "#",
+    name: 'Sales & Marketing',
+    url: '#',
   },
   {
     icon: Map,
-    name: "Travel",
-    url: "#",
+    name: 'Travel',
+    url: '#',
   },
   {
     icon: LifeBuoy,
-    name: "Support",
-    url: "#",
+    name: 'Support',
+    url: '#',
   },
   {
     icon: Send,
-    name: "Feedback",
-    url: "#",
+    name: 'Feedback',
+    url: '#',
   },
 ]
 

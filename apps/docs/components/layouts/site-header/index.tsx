@@ -1,6 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
-import { Github, Twitter } from 'lucide-react'
+import { CaseUpper, Github, Twitter, Type } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { MainNav } from '~/components/main-nav'
@@ -22,6 +22,7 @@ export function SiteHeader() {
             </div>
             <nav className="flex items-center">
               <GitHubStarsButton />
+              <FontStyleButton />
               <Link aria-label="Twitter" href={siteConfig.links.twitter} rel="noreferrer" target="_blank">
                 <div
                   className={cn(
@@ -42,7 +43,7 @@ export function SiteHeader() {
   )
 }
 
-export function GitHubStarsButton() {
+function GitHubStarsButton() {
   const [stars, setStars] = React.useState<number | null>(null)
 
   React.useEffect(() => {
@@ -72,5 +73,26 @@ export function GitHubStarsButton() {
         {stars !== null ? stars.toLocaleString() : '...'}
       </div>
     </Link>
+  )
+}
+
+function FontStyleButton() {
+  const [fontType, setFontType] = React.useState<'sans' | 'mono'>('mono')
+
+  React.useEffect(() => {
+    document.body.style.fontFamily = fontType === 'mono' ? 'var(--font-mono-geist)' : 'var(--font-sans-geist)'
+  }, [fontType])
+
+  return (
+    <div
+      className={cn(
+        buttonVariants({
+          size: 'icon',
+          variant: 'ghost',
+        }),
+      )}
+      onClick={() => setFontType(fontType === 'mono' ? 'sans' : 'mono')}>
+      {fontType === 'mono' ? <Type /> : <CaseUpper />}
+    </div>
   )
 }

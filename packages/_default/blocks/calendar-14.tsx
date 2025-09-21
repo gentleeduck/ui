@@ -1,17 +1,12 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { Calendar } from "@/registry/default/ui/calendar"
+import { Calendar } from '@/registry/default/ui/calendar'
 
 export default function Calendar14() {
-  const [date, setDate] = React.useState<Date | undefined>(
-    new Date(2025, 5, 12)
-  )
-  const bookedDates = Array.from(
-    { length: 12 },
-    (_, i) => new Date(2025, 5, 15 + i)
-  )
+  const [date, setDate] = React.useState<Date | undefined>(new Date(2025, 5, 12))
+  const bookedDates = Array.from({ length: 12 }, (_, i) => new Date(2025, 5, 15 + i))
 
   return (
     <Calendar
@@ -23,7 +18,7 @@ export default function Calendar14() {
         booked: bookedDates,
       }}
       modifiersClassNames={{
-        booked: "[&>button]:line-through opacity-100",
+        booked: '[&>button]:line-through opacity-100',
       }}
       onSelect={setDate}
       selected={date}

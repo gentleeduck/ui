@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { ChevronDown, Plus } from "lucide-react"
-import * as React from "react"
+import { ChevronDown, Plus } from 'lucide-react'
+import * as React from 'react'
 
 import {
   DropdownMenu,
@@ -11,12 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/dropdown-menu'
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/registry/default/ui/sidebar'
 
 export function TeamSwitcher({
   teams,
@@ -46,21 +42,10 @@ export function TeamSwitcher({
               <ChevronDown className="opacity-50" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            className="w-64 rounded-lg"
-            side="bottom"
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Teams
-            </DropdownMenuLabel>
+          <DropdownMenuContent align="start" className="w-64 rounded-lg" side="bottom" sideOffset={4}>
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Teams</DropdownMenuLabel>
             {teams.map((team, index) => (
-              <DropdownMenuItem
-                className="gap-2 p-2"
-                key={team.name}
-                onClick={() => setActiveTeam(team)}
-              >
+              <DropdownMenuItem className="gap-2 p-2" key={team.name} onClick={() => setActiveTeam(team)}>
                 <div className="flex size-6 items-center justify-center rounded-sm border">
                   <team.logo className="size-4 shrink-0" />
                 </div>

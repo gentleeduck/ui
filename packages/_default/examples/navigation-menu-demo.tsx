@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import Link from "next/link"
-import * as React from "react"
-import { Icons } from "@/components/icons"
-import { cn } from "@/lib/utils"
+import Link from 'next/link'
+import * as React from 'react'
+import { Icons } from '@/components/icons'
+import { cn } from '@/lib/utils'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,43 +12,40 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/registry/default/ui/navigation-menu"
+} from '@/registry/default/ui/navigation-menu'
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-    href: "/docs/primitives/alert-dialog",
-    title: "Alert Dialog",
+    description: 'A modal dialog that interrupts the user with important content and expects a response.',
+    href: '/docs/primitives/alert-dialog',
+    title: 'Alert Dialog',
+  },
+  {
+    description: 'For sighted users to preview content available behind a link.',
+    href: '/docs/primitives/hover-card',
+    title: 'Hover Card',
   },
   {
     description:
-      "For sighted users to preview content available behind a link.",
-    href: "/docs/primitives/hover-card",
-    title: "Hover Card",
+      'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
+    href: '/docs/primitives/progress',
+    title: 'Progress',
+  },
+  {
+    description: 'Visually or semantically separates content.',
+    href: '/docs/primitives/scroll-area',
+    title: 'Scroll-area',
+  },
+  {
+    description: 'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
+    href: '/docs/primitives/tabs',
+    title: 'Tabs',
   },
   {
     description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    href: "/docs/primitives/progress",
-    title: "Progress",
-  },
-  {
-    description: "Visually or semantically separates content.",
-    href: "/docs/primitives/scroll-area",
-    title: "Scroll-area",
-  },
-  {
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    href: "/docs/primitives/tabs",
-    title: "Tabs",
-  },
-  {
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    href: "/docs/primitives/tooltip",
-    title: "Tooltip",
+      'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
+    href: '/docs/primitives/tooltip',
+    title: 'Tooltip',
   },
 ]
 
@@ -64,16 +61,12 @@ export default function NavigationMenuDemo() {
                 <NavigationMenuLink asChild>
                   <a
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/"
-                  >
+                    href="/">
                     <Icons.logo className="h-6 w-6" />
-                    <div className="mb-2 mt-4 text-lg font-medium">
-                      shadcn/ui
-                    </div>
+                    <div className="mb-2 mt-4 text-lg font-medium">shadcn/ui</div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      Beautifully designed components that you can copy and
-                      paste into your apps. Accessible. Customizable. Open
-                      Source.
+                      Beautifully designed components that you can copy and paste into your apps. Accessible.
+                      Customizable. Open Source.
                     </p>
                   </a>
                 </NavigationMenuLink>
@@ -95,11 +88,7 @@ export default function NavigationMenuDemo() {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map((component) => (
-                <ListItem
-                  href={component.href}
-                  key={component.title}
-                  title={component.title}
-                >
+                <ListItem href={component.href} key={component.title} title={component.title}>
                   {component.description}
                 </ListItem>
               ))}
@@ -108,9 +97,7 @@ export default function NavigationMenuDemo() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/docs" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
-            </NavigationMenuLink>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>Documentation</NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
@@ -118,28 +105,24 @@ export default function NavigationMenuDemo() {
   )
 }
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          ref={ref}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  )
-})
-ListItem.displayName = "ListItem"
+const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
+  ({ className, title, children, ...props }, ref) => {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            className={cn(
+              'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+              className,
+            )}
+            ref={ref}
+            {...props}>
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    )
+  },
+)
+ListItem.displayName = 'ListItem'

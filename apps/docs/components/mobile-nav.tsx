@@ -8,9 +8,7 @@ import { PanelsTopLeft } from 'lucide-react'
 import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
-import { Icons } from '~/components/icons'
 import { docsConfig } from '~/config/docs'
-import { siteConfig } from '~/config/site'
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)

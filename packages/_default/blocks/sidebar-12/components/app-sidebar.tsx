@@ -1,9 +1,9 @@
-import { Plus } from "lucide-react"
-import * as React from "react"
+import { Plus } from 'lucide-react'
+import * as React from 'react'
 
-import { Calendars } from "@/registry/default/blocks/sidebar-12/components/calendars"
-import { DatePicker } from "@/registry/default/blocks/sidebar-12/components/date-picker"
-import { NavUser } from "@/registry/default/blocks/sidebar-12/components/nav-user"
+import { Calendars } from '@/registry/default/blocks/sidebar-12/components/calendars'
+import { DatePicker } from '@/registry/default/blocks/sidebar-12/components/date-picker'
+import { NavUser } from '@/registry/default/blocks/sidebar-12/components/nav-user'
 import {
   Sidebar,
   SidebarContent,
@@ -14,28 +14,28 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarSeparator,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 // This is sample data.
 const data = {
   calendars: [
     {
-      items: ["Personal", "Work", "Family"],
-      name: "My Calendars",
+      items: ['Personal', 'Work', 'Family'],
+      name: 'My Calendars',
     },
     {
-      items: ["Holidays", "Birthdays"],
-      name: "Favorites",
+      items: ['Holidays', 'Birthdays'],
+      name: 'Favorites',
     },
     {
-      items: ["Travel", "Reminders", "Deadlines"],
-      name: "Other",
+      items: ['Travel', 'Reminders', 'Deadlines'],
+      name: 'Other',
     },
   ],
   user: {
-    avatar: "/avatars/shadcn.jpg",
-    email: "m@example.com",
-    name: "shadcn",
+    avatar: '/avatars/shadcn.jpg',
+    email: 'm@example.com',
+    name: 'shadcn',
   },
 }
 

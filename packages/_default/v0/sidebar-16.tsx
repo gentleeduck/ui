@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   BadgeCheck,
@@ -22,16 +22,12 @@ import {
   Sparkles,
   SquareTerminal,
   Trash2,
-} from "lucide-react"
-import Link from "next/link"
-import * as React from "react"
-import { Icons } from "@/components/icons"
-import { cn } from "@/lib/utils"
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/registry/default/ui/avatar"
+} from 'lucide-react'
+import Link from 'next/link'
+import * as React from 'react'
+import { Icons } from '@/components/icons'
+import { cn } from '@/lib/utils'
+import { Avatar, AvatarFallback, AvatarImage } from '@/registry/default/ui/avatar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -39,13 +35,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import { Button } from "@/registry/default/ui/button"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/registry/default/ui/collapsible"
+} from '@/registry/default/ui/breadcrumb'
+import { Button } from '@/registry/default/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/collapsible'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,7 +46,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
+} from '@/registry/default/ui/dropdown-menu'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -63,8 +55,8 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/registry/default/ui/navigation-menu"
-import { Separator } from "@/registry/default/ui/separator"
+} from '@/registry/default/ui/navigation-menu'
+import { Separator } from '@/registry/default/ui/separator'
 import {
   Sidebar,
   SidebarContent,
@@ -84,13 +76,13 @@ import {
   SidebarProvider,
   SidebarTrigger,
   useSidebar,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
-export const iframeHeight = "800px"
+export const iframeHeight = '800px'
 
-export const description = "An inset sidebar with site header navigation."
+export const description = 'An inset sidebar with site header navigation.'
 
-const HEADER_HEIGHT = "4rem"
+const HEADER_HEIGHT = '4rem'
 
 const data = {
   navMain: [
@@ -99,158 +91,155 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: 'History',
+          url: '#',
         },
         {
-          title: "Starred",
-          url: "#",
+          title: 'Starred',
+          url: '#',
         },
         {
-          title: "Settings",
-          url: "#",
+          title: 'Settings',
+          url: '#',
         },
       ],
-      title: "Playground",
-      url: "#",
+      title: 'Playground',
+      url: '#',
     },
     {
       icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: 'Genesis',
+          url: '#',
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: 'Explorer',
+          url: '#',
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: 'Quantum',
+          url: '#',
         },
       ],
-      title: "Models",
-      url: "#",
+      title: 'Models',
+      url: '#',
     },
     {
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: 'Introduction',
+          url: '#',
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: 'Get Started',
+          url: '#',
         },
         {
-          title: "Tutorials",
-          url: "#",
+          title: 'Tutorials',
+          url: '#',
         },
         {
-          title: "Changelog",
-          url: "#",
+          title: 'Changelog',
+          url: '#',
         },
       ],
-      title: "Documentation",
-      url: "#",
+      title: 'Documentation',
+      url: '#',
     },
     {
       icon: Settings2,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: 'General',
+          url: '#',
         },
         {
-          title: "Team",
-          url: "#",
+          title: 'Team',
+          url: '#',
         },
         {
-          title: "Billing",
-          url: "#",
+          title: 'Billing',
+          url: '#',
         },
         {
-          title: "Limits",
-          url: "#",
+          title: 'Limits',
+          url: '#',
         },
       ],
-      title: "Settings",
-      url: "#",
+      title: 'Settings',
+      url: '#',
     },
   ],
   navSecondary: [
     {
       icon: LifeBuoy,
-      title: "Support",
-      url: "#",
+      title: 'Support',
+      url: '#',
     },
     {
       icon: Send,
-      title: "Feedback",
-      url: "#",
+      title: 'Feedback',
+      url: '#',
     },
   ],
   projects: [
     {
       icon: Frame,
-      name: "Design Engineering",
-      url: "#",
+      name: 'Design Engineering',
+      url: '#',
     },
     {
       icon: PieChart,
-      name: "Sales & Marketing",
-      url: "#",
+      name: 'Sales & Marketing',
+      url: '#',
     },
     {
       icon: Map,
-      name: "Travel",
-      url: "#",
+      name: 'Travel',
+      url: '#',
     },
   ],
   user: {
-    avatar: "/avatars/shadcn.jpg",
-    email: "m@example.com",
-    name: "shadcn",
+    avatar: '/avatars/shadcn.jpg',
+    email: 'm@example.com',
+    name: 'shadcn',
   },
 }
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-    href: "/docs/primitives/alert-dialog",
-    title: "Alert Dialog",
+    description: 'A modal dialog that interrupts the user with important content and expects a response.',
+    href: '/docs/primitives/alert-dialog',
+    title: 'Alert Dialog',
+  },
+  {
+    description: 'For sighted users to preview content available behind a link.',
+    href: '/docs/primitives/hover-card',
+    title: 'Hover Card',
   },
   {
     description:
-      "For sighted users to preview content available behind a link.",
-    href: "/docs/primitives/hover-card",
-    title: "Hover Card",
+      'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
+    href: '/docs/primitives/progress',
+    title: 'Progress',
+  },
+  {
+    description: 'Visually or semantically separates content.',
+    href: '/docs/primitives/scroll-area',
+    title: 'Scroll-area',
+  },
+  {
+    description: 'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
+    href: '/docs/primitives/tabs',
+    title: 'Tabs',
   },
   {
     description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    href: "/docs/primitives/progress",
-    title: "Progress",
-  },
-  {
-    description: "Visually or semantically separates content.",
-    href: "/docs/primitives/scroll-area",
-    title: "Scroll-area",
-  },
-  {
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    href: "/docs/primitives/tabs",
-    title: "Tabs",
-  },
-  {
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    href: "/docs/primitives/tooltip",
-    title: "Tooltip",
+      'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
+    href: '/docs/primitives/tooltip',
+    title: 'Tooltip',
   },
 ]
 
@@ -262,18 +251,12 @@ export default function Page() {
     <div
       style={
         {
-          "--header-height": HEADER_HEIGHT,
+          '--header-height': HEADER_HEIGHT,
         } as React.CSSProperties
-      }
-    >
+      }>
       <header className="sticky top-0 bg-sidebar flex h-[--header-height] shrink-0 items-center gap-2 border-b px-4 isolate z-20">
         <div className="flex items-center gap-2 w-full">
-          <Button
-            className="hidden md:flex"
-            onClick={() => setOpen(!open)}
-            size="icon"
-            variant="ghost"
-          >
+          <Button className="hidden md:flex" onClick={() => setOpen(!open)} size="icon" variant="ghost">
             <Sidebar />
           </Button>
 
@@ -285,24 +268,18 @@ export default function Page() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-sidebar">
-                    Getting started
-                  </NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="bg-sidebar">Getting started</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       <li className="row-span-3">
                         <NavigationMenuLink asChild>
                           <a
                             className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                            href="/"
-                          >
+                            href="/">
                             <Icons.logo className="h-6 w-6" />
-                            <div className="mb-2 mt-4 text-lg font-medium">
-                              shadcn/ui
-                            </div>
+                            <div className="mb-2 mt-4 text-lg font-medium">shadcn/ui</div>
                             <p className="text-sm leading-tight text-muted-foreground">
-                              Beautifully designed components built with Radix
-                              UI and Tailwind CSS.
+                              Beautifully designed components built with Radix UI and Tailwind CSS.
                             </p>
                           </a>
                         </NavigationMenuLink>
@@ -311,12 +288,9 @@ export default function Page() {
                       <li>
                         <NavigationMenuLink asChild>
                           <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                            <div className="text-sm font-medium leading-none">
-                              Introduction
-                            </div>
+                            <div className="text-sm font-medium leading-none">Introduction</div>
                             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Re-usable components built using Radix UI and
-                              Tailwind CSS.
+                              Re-usable components built using Radix UI and Tailwind CSS.
                             </p>
                           </a>
                         </NavigationMenuLink>
@@ -325,12 +299,9 @@ export default function Page() {
                       <li>
                         <NavigationMenuLink asChild>
                           <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                            <div className="text-sm font-medium leading-none">
-                              Installation
-                            </div>
+                            <div className="text-sm font-medium leading-none">Installation</div>
                             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              How to install dependencies and structure your
-                              app.
+                              How to install dependencies and structure your app.
                             </p>
                           </a>
                         </NavigationMenuLink>
@@ -339,9 +310,7 @@ export default function Page() {
                       <li>
                         <NavigationMenuLink asChild>
                           <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                            <div className="text-sm font-medium leading-none">
-                              Typography
-                            </div>
+                            <div className="text-sm font-medium leading-none">Typography</div>
                             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                               Styles for headings, paragraphs, lists...etc
                             </p>
@@ -352,18 +321,14 @@ export default function Page() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-sidebar">
-                    Components
-                  </NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="bg-sidebar">Components</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                       {components.map((component) => (
                         <li>
                           <NavigationMenuLink asChild key={component.title}>
                             <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                              <div className="text-sm font-medium leading-none">
-                                {component.title}
-                              </div>
+                              <div className="text-sm font-medium leading-none">{component.title}</div>
                               <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                                 {component.description}
                               </p>
@@ -376,9 +341,7 @@ export default function Page() {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link href="/docs" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={cn(navigationMenuTriggerStyle(), "bg-sidebar")}
-                    >
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'bg-sidebar')}>
                       Documentation
                     </NavigationMenuLink>
                   </Link>
@@ -389,10 +352,7 @@ export default function Page() {
         </div>
       </header>
       <SidebarProvider onOpenChange={setOpen} open={open}>
-        <Sidebar
-          className="top-[--header-height] pb-[--header-height]"
-          variant="inset"
-        >
+        <Sidebar className="top-[--header-height] pb-[--header-height]" variant="inset">
           <SidebarHeader>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -415,11 +375,7 @@ export default function Page() {
               <SidebarGroupLabel>Platform</SidebarGroupLabel>
               <SidebarMenu>
                 {data.navMain.map((item) => (
-                  <Collapsible
-                    asChild
-                    defaultOpen={item.isActive}
-                    key={item.title}
-                  >
+                  <Collapsible asChild defaultOpen={item.isActive} key={item.title}>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild tooltip={item.title}>
                         <a href={item.url}>
@@ -474,10 +430,9 @@ export default function Page() {
                         </SidebarMenuAction>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent
-                        align={isMobile ? "end" : "start"}
+                        align={isMobile ? 'end' : 'start'}
                         className="w-48"
-                        side={isMobile ? "bottom" : "right"}
-                      >
+                        side={isMobile ? 'bottom' : 'right'}>
                         <DropdownMenuItem>
                           <Folder className="text-muted-foreground" />
                           <span>View Project</span>
@@ -527,24 +482,14 @@ export default function Page() {
                   <DropdownMenuTrigger asChild>
                     <SidebarMenuButton
                       className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                      size="lg"
-                    >
+                      size="lg">
                       <Avatar className="h-8 w-8 rounded-lg">
-                        <AvatarImage
-                          alt={data.user.name}
-                          src={data.user.avatar}
-                        />
-                        <AvatarFallback className="rounded-lg">
-                          CN
-                        </AvatarFallback>
+                        <AvatarImage alt={data.user.name} src={data.user.avatar} />
+                        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">
-                          {data.user.name}
-                        </span>
-                        <span className="truncate text-xs">
-                          {data.user.email}
-                        </span>
+                        <span className="truncate font-semibold">{data.user.name}</span>
+                        <span className="truncate text-xs">{data.user.email}</span>
                       </div>
                       <ChevronsUpDown className="ml-auto size-4" />
                     </SidebarMenuButton>
@@ -552,27 +497,17 @@ export default function Page() {
                   <DropdownMenuContent
                     align="end"
                     className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                    side={isMobile ? "bottom" : "right"}
-                    sideOffset={4}
-                  >
+                    side={isMobile ? 'bottom' : 'right'}
+                    sideOffset={4}>
                     <DropdownMenuLabel className="p-0 font-normal">
                       <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                         <Avatar className="h-8 w-8 rounded-lg">
-                          <AvatarImage
-                            alt={data.user.name}
-                            src={data.user.avatar}
-                          />
-                          <AvatarFallback className="rounded-lg">
-                            CN
-                          </AvatarFallback>
+                          <AvatarImage alt={data.user.name} src={data.user.avatar} />
+                          <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                         </Avatar>
                         <div className="grid flex-1 text-left text-sm leading-tight">
-                          <span className="truncate font-semibold">
-                            {data.user.name}
-                          </span>
-                          <span className="truncate text-xs">
-                            {data.user.email}
-                          </span>
+                          <span className="truncate font-semibold">{data.user.name}</span>
+                          <span className="truncate text-xs">{data.user.email}</span>
                         </div>
                       </div>
                     </DropdownMenuLabel>
@@ -620,9 +555,7 @@ export default function Page() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Building Your Application
-                    </BreadcrumbLink>
+                    <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>

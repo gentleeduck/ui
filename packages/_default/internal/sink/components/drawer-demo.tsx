@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { Minus, Plus } from "lucide-react"
-import * as React from "react"
-import { Bar, BarChart, ResponsiveContainer } from "recharts"
+import { Minus, Plus } from 'lucide-react'
+import * as React from 'react'
+import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 
-import { Button } from "@/registry/default/ui/button"
+import { Button } from '@/registry/default/ui/button'
 import {
   Drawer,
   DrawerClose,
@@ -14,7 +14,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/registry/default/ui/drawer"
+} from '@/registry/default/ui/drawer'
 
 const data = [
   {
@@ -83,26 +83,20 @@ export function DrawerDemo() {
                 disabled={goal <= 200}
                 onClick={() => onClick(-10)}
                 size="icon"
-                variant="outline"
-              >
+                variant="outline">
                 <Minus />
                 <span className="sr-only">Decrease</span>
               </Button>
               <div className="flex-1 text-center">
-                <div className="text-7xl font-bold tracking-tighter">
-                  {goal}
-                </div>
-                <div className="text-[0.70rem] uppercase text-muted-foreground">
-                  Calories/day
-                </div>
+                <div className="text-7xl font-bold tracking-tighter">{goal}</div>
+                <div className="text-[0.70rem] uppercase text-muted-foreground">Calories/day</div>
               </div>
               <Button
                 className="h-8 w-8 shrink-0 rounded-full"
                 disabled={goal >= 400}
                 onClick={() => onClick(10)}
                 size="icon"
-                variant="outline"
-              >
+                variant="outline">
                 <Plus />
                 <span className="sr-only">Increase</span>
               </Button>
@@ -114,7 +108,7 @@ export function DrawerDemo() {
                     dataKey="goal"
                     style={
                       {
-                        fill: "hsl(var(--foreground))",
+                        fill: 'hsl(var(--foreground))',
                         opacity: 0.9,
                       } as React.CSSProperties
                     }

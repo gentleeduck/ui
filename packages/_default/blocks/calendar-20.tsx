@@ -1,29 +1,22 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { Button } from "@/registry/default/ui/button"
-import { Calendar } from "@/registry/default/ui/calendar"
-import { Card, CardContent, CardFooter } from "@/registry/default/ui/card"
+import { Button } from '@/registry/default/ui/button'
+import { Calendar } from '@/registry/default/ui/calendar'
+import { Card, CardContent, CardFooter } from '@/registry/default/ui/card'
 
 export default function Calendar20() {
-  const [date, setDate] = React.useState<Date | undefined>(
-    new Date(2025, 5, 12)
-  )
-  const [selectedTime, setSelectedTime] = React.useState<string | null>("10:00")
+  const [date, setDate] = React.useState<Date | undefined>(new Date(2025, 5, 12))
+  const [selectedTime, setSelectedTime] = React.useState<string | null>('10:00')
   const timeSlots = Array.from({ length: 37 }, (_, i) => {
     const totalMinutes = i * 15
     const hour = Math.floor(totalMinutes / 60) + 9
     const minute = totalMinutes % 60
-    return `${hour.toString().padStart(2, "0")}:${minute
-      .toString()
-      .padStart(2, "0")}`
+    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
   })
 
-  const bookedDates = Array.from(
-    { length: 3 },
-    (_, i) => new Date(2025, 5, 17 + i)
-  )
+  const bookedDates = Array.from({ length: 3 }, (_, i) => new Date(2025, 5, 17 + i))
 
   return (
     <Card className="gap-0 p-0">
@@ -35,7 +28,7 @@ export default function Calendar20() {
             disabled={bookedDates}
             formatters={{
               formatWeekdayName: (date) => {
-                return date.toLocaleString("en-US", { weekday: "short" })
+                return date.toLocaleString('en-US', { weekday: 'short' })
               },
             }}
             mode="single"
@@ -43,7 +36,7 @@ export default function Calendar20() {
               booked: bookedDates,
             }}
             modifiersClassNames={{
-              booked: "[&>button]:line-through opacity-100",
+              booked: '[&>button]:line-through opacity-100',
             }}
             onSelect={setDate}
             selected={date}
@@ -57,8 +50,7 @@ export default function Calendar20() {
                 className="w-full shadow-none"
                 key={time}
                 onClick={() => setSelectedTime(time)}
-                variant={selectedTime === time ? "default" : "outline"}
-              >
+                variant={selectedTime === time ? 'default' : 'outline'}>
                 {time}
               </Button>
             ))}
@@ -69,14 +61,14 @@ export default function Calendar20() {
         <div className="text-sm">
           {date && selectedTime ? (
             <>
-              Your meeting is booked for{" "}
+              Your meeting is booked for{' '}
               <span className="font-medium">
-                {" "}
-                {date?.toLocaleDateString("en-US", {
-                  day: "numeric",
-                  month: "long",
-                  weekday: "long",
-                })}{" "}
+                {' '}
+                {date?.toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  month: 'long',
+                  weekday: 'long',
+                })}{' '}
               </span>
               at <span className="font-medium">{selectedTime}</span>.
             </>
@@ -84,11 +76,7 @@ export default function Calendar20() {
             <>Select a date and time for your meeting.</>
           )}
         </div>
-        <Button
-          className="w-full md:ml-auto md:w-auto"
-          disabled={!date || !selectedTime}
-          variant="outline"
-        >
+        <Button className="w-full md:ml-auto md:w-auto" disabled={!date || !selectedTime} variant="outline">
           Continue
         </Button>
       </CardFooter>

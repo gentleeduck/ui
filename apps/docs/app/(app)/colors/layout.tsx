@@ -33,8 +33,17 @@ export const metadata: Metadata = {
 
 export default function ColorsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
-      <PageHeader>
+    <div className="relative">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none"></div>
+      <PageHeader className="relative">
+        <div
+          aria-hidden="true"
+          className="absolute top-0 right-0 z-0 h-16 w-16 rounded-full bg-gray-400/20 blur-2xl md:h-72 md:w-72"></div>
+        <div
+          aria-hidden="true"
+          className="bg-orange-400/20 absolute bottom-16 left-0 z-0 h-36 w-36 rounded-full blur-3xl"></div>
         <Announcement />
         <PageHeaderHeading>{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>

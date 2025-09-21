@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Checkbox } from "@/registry/default/ui/checkbox"
+import { Checkbox } from '@/registry/default/ui/checkbox'
 
 export default function CheckboxWithText() {
   return (
@@ -9,13 +9,10 @@ export default function CheckboxWithText() {
       <div className="grid gap-1.5 leading-none">
         <label
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          htmlFor="terms1"
-        >
+          htmlFor="terms1">
           Accept terms and conditions
         </label>
-        <p className="text-sm text-muted-foreground">
-          You agree to our Terms of Service and Privacy Policy.
-        </p>
+        <p className="text-sm text-muted-foreground">You agree to our Terms of Service and Privacy Policy.</p>
       </div>
     </div>
   )

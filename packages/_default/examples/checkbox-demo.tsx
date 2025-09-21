@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Checkbox } from "@/registry/default/ui/checkbox"
+import { Checkbox } from '@/registry/default/ui/checkbox'
 
 export default function CheckboxDemo() {
   return (
@@ -8,8 +8,7 @@ export default function CheckboxDemo() {
       <Checkbox id="terms" />
       <label
         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        htmlFor="terms"
-      >
+        htmlFor="terms">
         Accept terms and conditions
       </label>
     </div>

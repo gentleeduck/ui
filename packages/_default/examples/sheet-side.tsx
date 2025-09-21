@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { Button } from "@/registry/default/ui/button"
-import { Input } from "@/registry/default/ui/input"
-import { Label } from "@/registry/default/ui/label"
+import { Button } from '@/registry/default/ui/button'
+import { Input } from '@/registry/default/ui/input'
+import { Label } from '@/registry/default/ui/label'
 import {
   Sheet,
   SheetClose,
@@ -12,9 +12,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/registry/default/ui/sheet"
+} from '@/registry/default/ui/sheet'
 
-const SHEET_SIDES = ["top", "right", "bottom", "left"] as const
+const SHEET_SIDES = ['top', 'right', 'bottom', 'left'] as const
 
 type SheetSide = (typeof SHEET_SIDES)[number]
 
@@ -29,9 +29,7 @@ export default function SheetSide() {
           <SheetContent side={side}>
             <SheetHeader>
               <SheetTitle>Edit profile</SheetTitle>
-              <SheetDescription>
-                Make changes to your profile here. Click save when you're done.
-              </SheetDescription>
+              <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>
             </SheetHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">

@@ -1,10 +1,6 @@
-import { ChevronRight, MoreHorizontal, Plus } from "lucide-react"
+import { ChevronRight, MoreHorizontal, Plus } from 'lucide-react'
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/registry/default/ui/collapsible"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/registry/default/ui/collapsible'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -16,7 +12,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 export function NavWorkspaces({
   workspaces,
@@ -47,8 +43,7 @@ export function NavWorkspaces({
                 <CollapsibleTrigger asChild>
                   <SidebarMenuAction
                     className="left-2 bg-sidebar-accent text-sidebar-accent-foreground data-[state=open]:rotate-90"
-                    showOnHover
-                  >
+                    showOnHover>
                     <ChevronRight />
                   </SidebarMenuAction>
                 </CollapsibleTrigger>

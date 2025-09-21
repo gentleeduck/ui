@@ -1,6 +1,5 @@
 'use client'
 
-
 import { cn } from '@gentleduck/libs/cn'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { ChevronDown } from 'lucide-react'

@@ -1,23 +1,16 @@
-import * as React from "react"
+import * as React from 'react'
 
-import { Card, CardContent } from "@/registry/default/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/registry/default/ui/carousel"
+import { Card, CardContent } from '@/registry/default/ui/card'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/registry/default/ui/carousel'
 
 export default function CarouselOrientation() {
   return (
     <Carousel
       className="w-full max-w-xs"
       opts={{
-        align: "start",
+        align: 'start',
       }}
-      orientation="vertical"
-    >
+      orientation="vertical">
       <CarouselContent className="-mt-1 h-[200px]">
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem className="pt-1 md:basis-1/2" key={index}>

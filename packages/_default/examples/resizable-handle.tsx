@@ -1,15 +1,8 @@
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/registry/default/ui/resizable"
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/registry/default/ui/resizable'
 
 export default function ResizableDemo() {
   return (
-    <ResizablePanelGroup
-      className="min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]"
-      direction="horizontal"
-    >
+    <ResizablePanelGroup className="min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]" direction="horizontal">
       <ResizablePanel defaultSize={25}>
         <div className="flex h-full items-center justify-center p-6">
           <span className="font-semibold">Sidebar</span>

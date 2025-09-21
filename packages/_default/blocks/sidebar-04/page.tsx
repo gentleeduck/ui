@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/registry/default/blocks/sidebar-04/components/app-sidebar"
+import { AppSidebar } from '@/registry/default/blocks/sidebar-04/components/app-sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,23 +6,18 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import { Separator } from "@/registry/default/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/breadcrumb'
+import { Separator } from '@/registry/default/ui/separator'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/registry/default/ui/sidebar'
 
 export default function Page() {
   return (
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "19rem",
+          '--sidebar-width': '19rem',
         } as React.CSSProperties
-      }
-    >
+      }>
       <AppSidebar />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 px-4">
@@ -31,9 +26,7 @@ export default function Page() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Building Your Application
-                </BreadcrumbLink>
+                <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>

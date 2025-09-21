@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { toast } from "@/registry/default/hooks/use-toast"
-import { Button } from "@/registry/default/ui/button"
+import { toast } from '@/registry/default/hooks/use-toast'
+import { Button } from '@/registry/default/ui/button'
 import {
   Form,
   FormControl,
@@ -14,17 +14,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/registry/default/ui/form"
-import { Textarea } from "@/registry/default/ui/textarea"
+} from '@/registry/default/ui/form'
+import { Textarea } from '@/registry/default/ui/textarea'
 
 const FormSchema = z.object({
   bio: z
     .string()
     .min(10, {
-      message: "Bio must be at least 10 characters.",
+      message: 'Bio must be at least 10 characters.',
     })
     .max(160, {
-      message: "Bio must not be longer than 30 characters.",
+      message: 'Bio must not be longer than 30 characters.',
     }),
 })
 
@@ -40,7 +40,7 @@ export default function TextareaForm() {
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-      title: "You submitted the following values:",
+      title: 'You submitted the following values:',
     })
   }
 
@@ -54,11 +54,7 @@ export default function TextareaForm() {
             <FormItem>
               <FormLabel>Bio</FormLabel>
               <FormControl>
-                <Textarea
-                  className="resize-none"
-                  placeholder="Tell us a little bit about yourself"
-                  {...field}
-                />
+                <Textarea className="resize-none" placeholder="Tell us a little bit about yourself" {...field} />
               </FormControl>
               <FormDescription>
                 You can <span>@mention</span> other users and organizations.

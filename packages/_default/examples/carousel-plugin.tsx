@@ -1,27 +1,18 @@
-import Autoplay from "embla-carousel-autoplay"
-import * as React from "react"
+import Autoplay from 'embla-carousel-autoplay'
+import * as React from 'react'
 
-import { Card, CardContent } from "@/registry/default/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/registry/default/ui/carousel"
+import { Card, CardContent } from '@/registry/default/ui/card'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/registry/default/ui/carousel'
 
 export default function CarouselPlugin() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
-  )
+  const plugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: true }))
 
   return (
     <Carousel
       className="w-full max-w-xs"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
-      plugins={[plugin.current]}
-    >
+      plugins={[plugin.current]}>
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={index}>

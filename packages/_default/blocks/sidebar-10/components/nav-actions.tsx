@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   ArrowDown,
@@ -16,15 +16,11 @@ import {
   Star,
   Trash,
   Trash2,
-} from "lucide-react"
-import * as React from "react"
+} from 'lucide-react'
+import * as React from 'react'
 
-import { Button } from "@/registry/default/ui/button"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/registry/default/ui/popover"
+import { Button } from '@/registry/default/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/popover'
 import {
   Sidebar,
   SidebarContent,
@@ -33,67 +29,67 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 const data = [
   [
     {
       icon: Settings2,
-      label: "Customize Page",
+      label: 'Customize Page',
     },
     {
       icon: FileText,
-      label: "Turn into wiki",
+      label: 'Turn into wiki',
     },
   ],
   [
     {
       icon: Link,
-      label: "Copy Link",
+      label: 'Copy Link',
     },
     {
       icon: Copy,
-      label: "Duplicate",
+      label: 'Duplicate',
     },
     {
       icon: CornerUpRight,
-      label: "Move to",
+      label: 'Move to',
     },
     {
       icon: Trash2,
-      label: "Move to Trash",
+      label: 'Move to Trash',
     },
   ],
   [
     {
       icon: CornerUpLeft,
-      label: "Undo",
+      label: 'Undo',
     },
     {
       icon: LineChart,
-      label: "View analytics",
+      label: 'View analytics',
     },
     {
       icon: GalleryVerticalEnd,
-      label: "Version History",
+      label: 'Version History',
     },
     {
       icon: Trash,
-      label: "Show delete pages",
+      label: 'Show delete pages',
     },
     {
       icon: Bell,
-      label: "Notifications",
+      label: 'Notifications',
     },
   ],
   [
     {
       icon: ArrowUp,
-      label: "Import",
+      label: 'Import',
     },
     {
       icon: ArrowDown,
-      label: "Export",
+      label: 'Export',
     },
   ],
 ]
@@ -107,26 +103,17 @@ export function NavActions() {
 
   return (
     <div className="flex items-center gap-2 text-sm">
-      <div className="hidden font-medium text-muted-foreground md:inline-block">
-        Edit Oct 08
-      </div>
+      <div className="hidden font-medium text-muted-foreground md:inline-block">Edit Oct 08</div>
       <Button className="h-7 w-7" size="icon" variant="ghost">
         <Star />
       </Button>
       <Popover onOpenChange={setIsOpen} open={isOpen}>
         <PopoverTrigger asChild>
-          <Button
-            className="h-7 w-7 data-[state=open]:bg-accent"
-            size="icon"
-            variant="ghost"
-          >
+          <Button className="h-7 w-7 data-[state=open]:bg-accent" size="icon" variant="ghost">
             <MoreHorizontal />
           </Button>
         </PopoverTrigger>
-        <PopoverContent
-          align="end"
-          className="w-56 overflow-hidden rounded-lg p-0"
-        >
+        <PopoverContent align="end" className="w-56 overflow-hidden rounded-lg p-0">
           <Sidebar className="bg-transparent" collapsible="none">
             <SidebarContent>
               {data.map((group, index) => (

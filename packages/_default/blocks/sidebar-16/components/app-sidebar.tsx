@@ -1,23 +1,12 @@
-"use client"
+'use client'
 
-import {
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
-import * as React from "react"
+import { BookOpen, Bot, Command, Frame, LifeBuoy, Map, PieChart, Send, Settings2, SquareTerminal } from 'lucide-react'
+import * as React from 'react'
 
-import { NavMain } from "@/registry/default/blocks/sidebar-16/components/nav-main"
-import { NavProjects } from "@/registry/default/blocks/sidebar-16/components/nav-projects"
-import { NavSecondary } from "@/registry/default/blocks/sidebar-16/components/nav-secondary"
-import { NavUser } from "@/registry/default/blocks/sidebar-16/components/nav-user"
+import { NavMain } from '@/registry/default/blocks/sidebar-16/components/nav-main'
+import { NavProjects } from '@/registry/default/blocks/sidebar-16/components/nav-projects'
+import { NavSecondary } from '@/registry/default/blocks/sidebar-16/components/nav-secondary'
+import { NavUser } from '@/registry/default/blocks/sidebar-16/components/nav-user'
 import {
   Sidebar,
   SidebarContent,
@@ -26,7 +15,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 const data = {
   navMain: [
@@ -35,129 +24,126 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: 'History',
+          url: '#',
         },
         {
-          title: "Starred",
-          url: "#",
+          title: 'Starred',
+          url: '#',
         },
         {
-          title: "Settings",
-          url: "#",
+          title: 'Settings',
+          url: '#',
         },
       ],
-      title: "Playground",
-      url: "#",
+      title: 'Playground',
+      url: '#',
     },
     {
       icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: 'Genesis',
+          url: '#',
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: 'Explorer',
+          url: '#',
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: 'Quantum',
+          url: '#',
         },
       ],
-      title: "Models",
-      url: "#",
+      title: 'Models',
+      url: '#',
     },
     {
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: 'Introduction',
+          url: '#',
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: 'Get Started',
+          url: '#',
         },
         {
-          title: "Tutorials",
-          url: "#",
+          title: 'Tutorials',
+          url: '#',
         },
         {
-          title: "Changelog",
-          url: "#",
+          title: 'Changelog',
+          url: '#',
         },
       ],
-      title: "Documentation",
-      url: "#",
+      title: 'Documentation',
+      url: '#',
     },
     {
       icon: Settings2,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: 'General',
+          url: '#',
         },
         {
-          title: "Team",
-          url: "#",
+          title: 'Team',
+          url: '#',
         },
         {
-          title: "Billing",
-          url: "#",
+          title: 'Billing',
+          url: '#',
         },
         {
-          title: "Limits",
-          url: "#",
+          title: 'Limits',
+          url: '#',
         },
       ],
-      title: "Settings",
-      url: "#",
+      title: 'Settings',
+      url: '#',
     },
   ],
   navSecondary: [
     {
       icon: LifeBuoy,
-      title: "Support",
-      url: "#",
+      title: 'Support',
+      url: '#',
     },
     {
       icon: Send,
-      title: "Feedback",
-      url: "#",
+      title: 'Feedback',
+      url: '#',
     },
   ],
   projects: [
     {
       icon: Frame,
-      name: "Design Engineering",
-      url: "#",
+      name: 'Design Engineering',
+      url: '#',
     },
     {
       icon: PieChart,
-      name: "Sales & Marketing",
-      url: "#",
+      name: 'Sales & Marketing',
+      url: '#',
     },
     {
       icon: Map,
-      name: "Travel",
-      url: "#",
+      name: 'Travel',
+      url: '#',
     },
   ],
   user: {
-    avatar: "/avatars/shadcn.jpg",
-    email: "m@example.com",
-    name: "shadcn",
+    avatar: '/avatars/shadcn.jpg',
+    email: 'm@example.com',
+    name: 'shadcn',
   },
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar
-      className="top-[--header-height] !h-[calc(100svh-var(--header-height))]"
-      {...props}
-    >
+    <Sidebar className="top-[--header-height] !h-[calc(100svh-var(--header-height))]" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>

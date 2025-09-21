@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   Bell,
@@ -13,8 +13,8 @@ import {
   Paintbrush,
   Settings,
   Video,
-} from "lucide-react"
-import * as React from "react"
+} from 'lucide-react'
+import * as React from 'react'
 
 import {
   Breadcrumb,
@@ -23,15 +23,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/registry/default/ui/breadcrumb"
-import { Button } from "@/registry/default/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/registry/default/ui/dialog"
+} from '@/registry/default/ui/breadcrumb'
+import { Button } from '@/registry/default/ui/button'
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/registry/default/ui/dialog'
 import {
   Sidebar,
   SidebarContent,
@@ -41,22 +35,22 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 const data = {
   nav: [
-    { icon: Bell, name: "Notifications" },
-    { icon: Menu, name: "Navigation" },
-    { icon: Home, name: "Home" },
-    { icon: Paintbrush, name: "Appearance" },
-    { icon: MessageCircle, name: "Messages & media" },
-    { icon: Globe, name: "Language & region" },
-    { icon: Keyboard, name: "Accessibility" },
-    { icon: Check, name: "Mark as read" },
-    { icon: Video, name: "Audio & video" },
-    { icon: Link, name: "Connected accounts" },
-    { icon: Lock, name: "Privacy & visibility" },
-    { icon: Settings, name: "Advanced" },
+    { icon: Bell, name: 'Notifications' },
+    { icon: Menu, name: 'Navigation' },
+    { icon: Home, name: 'Home' },
+    { icon: Paintbrush, name: 'Appearance' },
+    { icon: MessageCircle, name: 'Messages & media' },
+    { icon: Globe, name: 'Language & region' },
+    { icon: Keyboard, name: 'Accessibility' },
+    { icon: Check, name: 'Mark as read' },
+    { icon: Video, name: 'Audio & video' },
+    { icon: Link, name: 'Connected accounts' },
+    { icon: Lock, name: 'Privacy & visibility' },
+    { icon: Settings, name: 'Advanced' },
   ],
 }
 
@@ -70,9 +64,7 @@ export function SettingsDialog() {
       </DialogTrigger>
       <DialogContent className="overflow-hidden p-0 md:max-h-[500px] md:max-w-[700px] lg:max-w-[800px]">
         <DialogTitle className="sr-only">Settings</DialogTitle>
-        <DialogDescription className="sr-only">
-          Customize your settings here.
-        </DialogDescription>
+        <DialogDescription className="sr-only">Customize your settings here.</DialogDescription>
         <SidebarProvider className="items-start">
           <Sidebar className="hidden md:flex" collapsible="none">
             <SidebarContent>
@@ -81,10 +73,7 @@ export function SettingsDialog() {
                   <SidebarMenu>
                     {data.nav.map((item) => (
                       <SidebarMenuItem key={item.name}>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={item.name === "Messages & media"}
-                        >
+                        <SidebarMenuButton asChild isActive={item.name === 'Messages & media'}>
                           <a href="#">
                             <item.icon />
                             <span>{item.name}</span>
@@ -115,10 +104,7 @@ export function SettingsDialog() {
             </header>
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
               {Array.from({ length: 10 }).map((_, i) => (
-                <div
-                  className="aspect-video max-w-3xl rounded-xl bg-muted/50"
-                  key={i}
-                />
+                <div className="aspect-video max-w-3xl rounded-xl bg-muted/50" key={i} />
               ))}
             </div>
           </main>

@@ -1,16 +1,12 @@
-"use client"
+'use client'
 
-import { ChevronDownIcon } from "lucide-react"
-import * as React from "react"
+import { ChevronDownIcon } from 'lucide-react'
+import * as React from 'react'
 
-import { Button } from "@/registry/default/ui/button"
-import { Calendar } from "@/registry/default/ui/calendar"
-import { Label } from "@/registry/default/ui/label"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/registry/default/ui/popover"
+import { Button } from '@/registry/default/ui/button'
+import { Calendar } from '@/registry/default/ui/calendar'
+import { Label } from '@/registry/default/ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/popover'
 
 export default function Calendar22() {
   const [open, setOpen] = React.useState(false)
@@ -23,12 +19,8 @@ export default function Calendar22() {
       </Label>
       <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger asChild>
-          <Button
-            className="w-48 justify-between font-normal"
-            id="date"
-            variant="outline"
-          >
-            {date ? date.toLocaleDateString() : "Select date"}
+          <Button className="w-48 justify-between font-normal" id="date" variant="outline">
+            {date ? date.toLocaleDateString() : 'Select date'}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>

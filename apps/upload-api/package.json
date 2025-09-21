@@ -34,8 +34,8 @@
   "name": "upload-api",
   "private": true,
   "scripts": {
-    "dev": "nodemon --exec tsx ./src/main.ts && npm run format && npm run lint",
     "build": "",
+    "dev": "nodemon --exec tsx ./src/main.ts && npm run format && npm run lint",
     "drizzle:check": "drizzle-kit check",
     "drizzle:generate": "drizzle-kit generate",
     "drizzle:migrate": "drizzle-kit migrate",

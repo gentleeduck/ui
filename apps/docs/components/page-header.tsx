@@ -16,7 +16,7 @@ function PageHeaderHeading({ className, ...props }: React.ComponentProps<'h1'>) 
   return (
     <h1
       className={cn(
-        'text-primary leading-tighter max-w-2xl text-4xl font-semibold tracking-tight text-balance lg:leading-[1.1] lg:font-semibold xl:text-5xl xl:tracking-tighter',
+        'text-primary leading-tighter max-w-4xl text-4xl uppercase font-semibold tracking-tight text-balance lg:leading-[1.1] lg:font-semibold xl:text-5xl xl:tracking-tighter',
         className,
       )}
       {...props}
@@ -25,7 +25,9 @@ function PageHeaderHeading({ className, ...props }: React.ComponentProps<'h1'>) 
 }
 
 function PageHeaderDescription({ className, ...props }: React.ComponentProps<'p'>) {
-  return <p className={cn('text-foreground max-w-3xl text-base text-balance sm:text-lg', className)} {...props} />
+  return (
+    <p className={cn('text-accent-foreground/80 max-w-3xl text-base text-balance sm:text-lg', className)} {...props} />
+  )
 }
 
 function PageActions({ className, ...props }: React.ComponentProps<'div'>) {

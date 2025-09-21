@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { Calendar, MoreHorizontal, Tags, Trash, User } from "lucide-react"
-import * as React from "react"
+import { Calendar, MoreHorizontal, Tags, Trash, User } from 'lucide-react'
+import * as React from 'react'
 
-import { Button } from "@/registry/default/ui/button"
+import { Button } from '@/registry/default/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -11,7 +11,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/registry/default/ui/command"
+} from '@/registry/default/ui/command'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,28 +24,18 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
+} from '@/registry/default/ui/dropdown-menu'
 
-const labels = [
-  "feature",
-  "bug",
-  "enhancement",
-  "documentation",
-  "design",
-  "question",
-  "maintenance",
-]
+const labels = ['feature', 'bug', 'enhancement', 'documentation', 'design', 'question', 'maintenance']
 
 export default function ComboboxDropdownMenu() {
-  const [label, setLabel] = React.useState("feature")
+  const [label, setLabel] = React.useState('feature')
   const [open, setOpen] = React.useState(false)
 
   return (
     <div className="flex w-full flex-col items-start justify-between rounded-md border px-4 py-3 sm:flex-row sm:items-center">
       <p className="text-sm font-medium leading-none">
-        <span className="mr-2 rounded-lg bg-primary px-2 py-1 text-xs text-primary-foreground">
-          {label}
-        </span>
+        <span className="mr-2 rounded-lg bg-primary px-2 py-1 text-xs text-primary-foreground">{label}</span>
         <span className="text-muted-foreground">Create a new project</span>
       </p>
       <DropdownMenu onOpenChange={setOpen} open={open}>
@@ -73,10 +63,7 @@ export default function ComboboxDropdownMenu() {
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="p-0">
                 <Command>
-                  <CommandInput
-                    autoFocus={true}
-                    placeholder="Filter label..."
-                  />
+                  <CommandInput autoFocus={true} placeholder="Filter label..." />
                   <CommandList>
                     <CommandEmpty>No label found.</CommandEmpty>
                     <CommandGroup>
@@ -87,8 +74,7 @@ export default function ComboboxDropdownMenu() {
                             setLabel(value)
                             setOpen(false)
                           }}
-                          value={label}
-                        >
+                          value={label}>
                           {label}
                         </CommandItem>
                       ))}

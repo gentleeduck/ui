@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { type DateRange } from "react-day-picker"
+import * as React from 'react'
+import { type DateRange } from 'react-day-picker'
 
-import { Calendar } from "@/registry/default/ui/calendar"
+import { Calendar } from '@/registry/default/ui/calendar'
 
 export default function Calendar09() {
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>({

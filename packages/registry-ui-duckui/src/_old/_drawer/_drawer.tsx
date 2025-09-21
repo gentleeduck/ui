@@ -126,7 +126,7 @@ const DrawerContent = ({
         AnimVariants(),
         AnimSheetVariants({ side: side }),
         className,
-        "p-0 select-none touch-none"
+        'p-0 select-none touch-none',
       )}>
       <div
         onPointerCancel={onPointerUp}

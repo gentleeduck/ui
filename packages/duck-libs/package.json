@@ -7,12 +7,12 @@
   "dependencies": {},
   "description": "libs is a behavioral component abstraction that makes the aero dynamics of the web",
   "devDependencies": {
+    "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
-    "zod": "catalog:",
-    "@gentleduck/tsdown-config": "workspace:*",
-    "tsdown": "catalog:"
+    "zod": "catalog:"
   },
   "engines": {
     "node": ">=22.0.0"
@@ -32,8 +32,8 @@
   "name": "@gentleduck/libs",
   "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
-    "clsx": "^1.2.1",
-    "tailwind-merge": "^1.14.0"
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1"
   },
   "private": false,
   "repository": {

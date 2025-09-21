@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { useMediaQuery } from "@/hooks/use-media-query"
-import { Button } from "@/registry/default/ui/button"
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { Button } from '@/registry/default/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -11,17 +11,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/registry/default/ui/command"
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-} from "@/registry/default/ui/drawer"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/registry/default/ui/popover"
+} from '@/registry/default/ui/command'
+import { Drawer, DrawerContent, DrawerTrigger } from '@/registry/default/ui/drawer'
+import { Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/popover'
 
 type Status = {
   value: string
@@ -30,33 +22,31 @@ type Status = {
 
 const statuses: Status[] = [
   {
-    label: "Backlog",
-    value: "backlog",
+    label: 'Backlog',
+    value: 'backlog',
   },
   {
-    label: "Todo",
-    value: "todo",
+    label: 'Todo',
+    value: 'todo',
   },
   {
-    label: "In Progress",
-    value: "in progress",
+    label: 'In Progress',
+    value: 'in progress',
   },
   {
-    label: "Done",
-    value: "done",
+    label: 'Done',
+    value: 'done',
   },
   {
-    label: "Canceled",
-    value: "canceled",
+    label: 'Canceled',
+    value: 'canceled',
   },
 ]
 
 export default function ComboBoxResponsive() {
   const [open, setOpen] = React.useState(false)
-  const isDesktop = useMediaQuery("(min-width: 768px)")
-  const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
-    null
-  )
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(null)
 
   if (isDesktop) {
     return (
@@ -106,13 +96,10 @@ function StatusList({
             <CommandItem
               key={status.value}
               onSelect={(value) => {
-                setSelectedStatus(
-                  statuses.find((priority) => priority.value === value) || null
-                )
+                setSelectedStatus(statuses.find((priority) => priority.value === value) || null)
                 setOpen(false)
               }}
-              value={status.value}
-            >
+              value={status.value}>
               {status.label}
             </CommandItem>
           ))}

@@ -1,22 +1,15 @@
-import * as React from "react"
+import * as React from 'react'
 
-import { Card, CardContent } from "@/registry/default/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/registry/default/ui/carousel"
+import { Card, CardContent } from '@/registry/default/ui/card'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/registry/default/ui/carousel'
 
 export default function CarouselSize() {
   return (
     <Carousel
       className="w-full max-w-sm"
       opts={{
-        align: "start",
-      }}
-    >
+        align: 'start',
+      }}>
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={index}>

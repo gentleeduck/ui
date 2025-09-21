@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react'
 
 import {
   Sidebar,
@@ -14,34 +14,34 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 // Menu items.
 const items = [
   {
     icon: Home,
-    title: "Home",
-    url: "#",
+    title: 'Home',
+    url: '#',
   },
   {
     icon: Inbox,
-    title: "Inbox",
-    url: "#",
+    title: 'Inbox',
+    url: '#',
   },
   {
     icon: Calendar,
-    title: "Calendar",
-    url: "#",
+    title: 'Calendar',
+    url: '#',
   },
   {
     icon: Search,
-    title: "Search",
-    url: "#",
+    title: 'Search',
+    url: '#',
   },
   {
     icon: Settings,
-    title: "Settings",
-    url: "#",
+    title: 'Settings',
+    url: '#',
   },
 ]
 

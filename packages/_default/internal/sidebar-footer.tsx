@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import { ChevronDown, ChevronUp, User2 } from "lucide-react"
+import { ChevronDown, ChevronUp, User2 } from 'lucide-react'
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/registry/default/ui/dropdown-menu"
+} from '@/registry/default/ui/dropdown-menu'
 import {
   Sidebar,
   SidebarContent,
@@ -19,7 +19,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/registry/default/ui/sidebar"
+} from '@/registry/default/ui/sidebar'
 
 export default function AppSidebar() {
   return (
@@ -37,10 +37,7 @@ export default function AppSidebar() {
                     <ChevronUp className="ml-auto" />
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-[--radix-popper-anchor-width]"
-                  side="top"
-                >
+                <DropdownMenuContent className="w-[--radix-popper-anchor-width]" side="top">
                   <DropdownMenuItem>
                     <span>Account</span>
                   </DropdownMenuItem>
