@@ -4,6 +4,7 @@ import '@gentleduck/motion/css'
 import './mdx.css'
 import { cn } from '@gentleduck/libs/cn'
 import 'public/r/themes.css'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
@@ -40,6 +41,7 @@ export default function RootLayout({
                 </div>
               }
 
+              <SpeedInsights />
               <VercelAnalytics />
               <Toaster />
               {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
