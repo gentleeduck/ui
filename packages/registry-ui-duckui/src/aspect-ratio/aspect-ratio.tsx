@@ -9,7 +9,7 @@ function AspectRatio({
   ratio,
   ref,
   ...props
-}: React.HTMLProps<HTMLDivElement> & {
+}: React.ComponentPropsWithRef<typeof Slot> & {
   ratio: string
 }) {
   return (
