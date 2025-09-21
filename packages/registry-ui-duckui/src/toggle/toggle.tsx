@@ -14,17 +14,15 @@ function Toggle({
   disabled = false,
   children,
   ...props
-}: Omit<React.HTMLProps<HTMLInputElement>, 'size'> & VariantProps<typeof toggleVariants>) {
+}: Omit<React.HTMLProps<HTMLLabelElement>, 'size'> & VariantProps<typeof toggleVariants>) {
   return (
-    <label className={cn(toggleVariants({ className, size, variant }), '')} data-value={value} duck-toggle="">
-      <input
-        className="invisible absolute hidden"
-        disabled={disabled}
-        ref={ref}
-        type="checkbox"
-        value={value}
-        {...props}
-      />
+    <label
+      className={cn(toggleVariants({ className, size, variant }), '')}
+      data-value={value}
+      duck-toggle=""
+      {...props}
+      ref={ref}>
+      <input className="invisible absolute hidden" disabled={disabled} type="checkbox" value={value} />
 
       {children}
     </label>

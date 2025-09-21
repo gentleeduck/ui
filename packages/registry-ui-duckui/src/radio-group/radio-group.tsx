@@ -73,7 +73,8 @@ function RadioGroup({
         value: '',
         wrapperRef,
       }}>
-      <ul className={cn('flex flex-col', className)} duck-radio-group="" ref={wrapperRef} {...props}>
+      {/* biome-ignore lint: false positive */}
+      <ul className={cn('flex flex-col', className)} duck-radio-group="" ref={wrapperRef} role="radiogroup" {...props}>
         {children}
       </ul>
     </RadioGroupContext.Provider>

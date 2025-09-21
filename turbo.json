@@ -8,34 +8,19 @@
     "AUTH_SECRET",
     "PORT"
   ],
-  "globalPassThroughEnv": [
-    "NODE_ENV",
-    "CI",
-    "VERCEL",
-    "VERCEL_ENV",
-    "VERCEL_URL",
-    "npm_lifecycle_event"
-  ],
+  "globalPassThroughEnv": ["NODE_ENV", "CI", "VERCEL", "VERCEL_ENV", "VERCEL_URL", "npm_lifecycle_event"],
   "tasks": {
     "build": {
       "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        ".next/**",
-        "dist/**",
-        ".cache/tsbuildinfo.json"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "dist/**", ".cache/tsbuildinfo.json"]
     },
     "clean": {
       "cache": false
     },
     "dev": {
       "cache": false,
-      "dependsOn": [
-        "^dev"
-      ],
+      "dependsOn": ["^dev"],
       "persistent": true
     },
     "devBuild": {
@@ -44,18 +29,11 @@
     },
     "format": {
       "outputLogs": "new-only",
-      "outputs": [
-        ".cache/.prettiercache"
-      ]
+      "outputs": [".cache/.prettiercache"]
     },
     "lint": {
-      "dependsOn": [
-        "^topo",
-        "^build"
-      ],
-      "outputs": [
-        ".cache/.eslintcache"
-      ]
+      "dependsOn": ["^topo", "^build"],
+      "outputs": [".cache/.eslintcache"]
     },
     "push": {
       "cache": false,
@@ -66,18 +44,11 @@
       "persistent": true
     },
     "topo": {
-      "dependsOn": [
-        "^topo"
-      ]
+      "dependsOn": ["^topo"]
     },
     "typecheck": {
-      "dependsOn": [
-        "^topo",
-        "^build"
-      ],
-      "outputs": [
-        ".cache/tsbuildinfo.json"
-      ]
+      "dependsOn": ["^topo", "^build"],
+      "outputs": [".cache/tsbuildinfo.json"]
     },
     "ui-add": {
       "cache": false,

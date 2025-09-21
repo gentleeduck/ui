@@ -199,12 +199,15 @@ function SelectItem({
   const id = React.useId()
 
   return (
+    // biome-ignore lint: false positive
     <li
       aria-haspopup="dialog"
       id={id}
       popoverTarget={id}
       popoverTargetAction="hide"
       ref={ref}
+      // biome-ignore lint: false positive
+      role="checkbox"
       {...props}
       aria-disabled={disabled}
       className={cn(
