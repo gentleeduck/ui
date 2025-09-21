@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "author": "ahmed ayob",
   "dependencies": {
     "esbuild": "^0.25.10",
@@ -71,6 +72,7 @@
     "release": "changeset version",
     "test": "vitest run"
   },
+  "type": "module",
   "types": "dist/index.d.ts",
   "version": "0.0.2"
 }
