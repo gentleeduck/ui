@@ -15,7 +15,7 @@
     "vitest": "^3.2.4"
   },
   "engines": {
-    "node": ">=20.18.1",
+    "node": ">=24.7.0",
     "pnpm": "^10.2.1"
   },
   "name": "gentleduck",

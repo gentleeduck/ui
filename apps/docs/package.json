@@ -34,6 +34,7 @@
     "mdast-util-toc": "^6.1.1",
     "motion": "^12.4.3",
     "next": "15.3.4",
+    "next-sitemap": "^4.2.3",
     "next-themes": "^0.2.1",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
@@ -83,6 +84,7 @@
     "dev": "next dev --turbopack",
     "dev:docs": "pnpm velite dev",
     "lint": "next lint",
+    "postbuild": "next-sitemap",
     "start": "next start"
   },
   "version": "0.1.46"
