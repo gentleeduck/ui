@@ -1,7 +1,7 @@
 {
   "author": "wildduck (https://github.com/wildduck2)",
   "bin": {
-    "duck-ui": "dist/index.js"
+    "duck-benchmark": "dist/index.js"
   },
   "bugs": {
     "url": "https://github.com/gentleduck/ui/issues"
@@ -27,7 +27,7 @@
     "tsconfig-paths": "^4.2.0",
     "zod": "catalog:"
   },
-  "description": "this is the benchmark tool for the duck-ui components, it's a black magic tool to let you know weather your code suck or good.",
+  "description": "this is the benchmark tool for the @gentleduck/ui components, it's a black magic tool to let you know weather your code suck or good.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@types/babel__core": "^7.20.1",

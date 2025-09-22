@@ -1,11 +1,11 @@
 ---
 title: astro
-description: Install and configure duck-ui/ui for Astro
+description: Install and configure @gentleduck/ui for Astro
 ---
 
 <Steps>
 
-### Create project
+<Step>Create project</Step>
 
 Start by creating a new Astro project:
 
@@ -13,7 +13,7 @@ Start by creating a new Astro project:
 npx create-astro@latest astro-app  --template with-tailwindcss --install --add react --git
 ```
 
-### Edit tsconfig.json file
+<Step>Edit tsconfig.json file</Step>
 
 Add the following code to the `tsconfig.json` file to resolve paths:
 
@@ -32,20 +32,20 @@ Add the following code to the `tsconfig.json` file to resolve paths:
 }
 ```
 
-### Run the CLI
+<Step>Run the CLI</Step>
 
-Run the `duck-ui` init command to setup your project:
+Run the `@gentleduck/cli` init command to setup your project:
 
 ```bash
-npx duck-ui@latest init
+npx @gentleduck/cli init
 ```
 
-### Add Components
+<Step>Add Components</Step>
 
 You can now start adding components to your project.
 
 ```bash
-npx duck-ui@latest add button
+npx @gentleduck/cli add button
 ```
 
 The command above will add the `Button` component to your project. You can then import it like this:

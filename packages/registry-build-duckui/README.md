@@ -1,8 +1,8 @@
-# Duck-UI Registry Builder
+# @gentleduck/ui Registry Builder
 
 ## Overview
 
-This script builds the **Duck-UI Registry**, a centralized collection of components and utilities for the Duck-UI package. It automates the process of compiling and organizing the registry, ensuring consistency and efficiency.
+This script builds the @gentleduck/ui Registry**, a centralized collection of components and utilities for the @gentleduck/ui package. It automates the process of compiling and organizing the registry, ensuring consistency and efficiency.
 
 ---
 
@@ -61,6 +61,6 @@ The registry will be generated in the `apps/docs/public/registry/` directory wit
 ## Notes
 
 - This script is designed to work within a monorepo.
-- No additional setup is required for Duck-UI; the script handles everything.
+- No additional setup is required for @gentleduck/ui; the script handles everything.
 
 Build your registry with ease! 🚀

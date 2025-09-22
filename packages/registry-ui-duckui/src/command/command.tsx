@@ -235,7 +235,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
 function CommandDialog({ children, ...props }: React.ComponentPropsWithRef<typeof Dialog>): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="p-0 lg:w-[500px] [&>div]:max-w-full">
+      <DialogContent className="p-0 lg:w-[650px] h-[500px] [&>div]:max-w-full">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>

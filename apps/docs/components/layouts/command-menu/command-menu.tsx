@@ -83,7 +83,7 @@ export function CommandMenu() {
       <CommandDialog onOpenChange={setOpen} open={open}>
         <CommandInput autoFocus placeholder="Search..." />
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandList className="max-h-[350px]">
+        <CommandList className="max-h-[450px]">
           {items.map((group, idx) => (
             <React.Fragment key={group.title}>
               <CommandGroup heading={group.title}>
@@ -119,18 +119,18 @@ export function CommandMenu() {
 function CommandFooter() {
   const { selectedItem } = useCommandRefsContext()
   useKeyCommands({
-    'ctrl+c': {
+    'ctrl+shift+c': {
       description: 'Copy command',
       execute: () =>
         navigator.clipboard.writeText(
-          ('pnpm dlx @duck-ui add ' + selectedItem?.innerText.toLowerCase().replace(/ /g, '-')) as string,
+          ('pnpm dlx @gentleduck/cli add ' + selectedItem?.innerText.toLowerCase().replace(/ /g, '-')) as string,
         ),
-      name: 'ctrl+c',
+      name: 'ctrl+shift+c',
     },
   })
   return (
     <div className="flex items-center gap-4 px-2 pt-2 border-t justify-between w-full">
-      <div className="flex items-center gap-4 w-full">
+      <div className="flex items-center justify-between gap-4 w-full">
         {selectedItem?.innerText && (
           <Button className={cn('px-2')} size={'sm'} variant={'outline'}>
             <CornerDownLeft />
@@ -139,7 +139,7 @@ function CommandFooter() {
           </Button>
         )}
         {selectedItem?.innerText &&
-        docsConfig.sidebarNav[1]!.items.find((item) => item.title === selectedItem?.innerText)?.title.toLowerCase() ? (
+        docsConfig.sidebarNav[2]!.items.find((item) => item.title === selectedItem?.innerText)?.title.toLowerCase() ? (
           <Button className={cn('px-2')} size={'sm'} variant={'outline'}>
             <div className="flex items-center gap-1">
               <Command className="!size-3" />
@@ -147,17 +147,18 @@ function CommandFooter() {
             </div>
             <Separator className="m-0 p-0 h-4" orientation="vertical" />
             <div className="flex items-center gap-1">
-              <span>pnpm dlx @duck-ui add</span>
+              <span>pnpm dlx @gentleduck/cli add</span>
               <span className="text-blue-400">
-                {docsConfig.sidebarNav[1]!.items.find(
+                {docsConfig.sidebarNav[2]!.items.find(
                   (item) => item.title === selectedItem?.innerText,
                 )?.title.toLowerCase()}
               </span>
             </div>
           </Button>
         ) : (
-          <p className="text-sm text-muted-foreground my-auto h-fit text-right w-full">
-            <span className="font-medium text-sm">Command palette</span> for the documentation content.
+          <p className="text-sm text-muted-foreground my-auto h-fit text-right w-full whitespace-nowrap">
+            <span className="font-medium text-sm whitespace-nowrap">Command palette</span> for the documentation
+            content.
           </p>
         )}
       </div>

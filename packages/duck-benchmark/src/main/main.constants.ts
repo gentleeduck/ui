@@ -1,6 +1,6 @@
 export const config = {
-  description: 'This is the main file of the duck-ui CLI application written with TypeScript',
-  name: 'duck-ui',
+  description: 'This is the main file of the @gentleduck/cli application written with TypeScript',
+  name: '@gentleduck/ui',
   version: '1.0.0',
 }
 

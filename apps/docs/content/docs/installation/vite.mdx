@@ -1,11 +1,11 @@
 ---
 title: vite
-description: Install and configure duck-ui/ui for Vite.
+description: Install and configure @gentleduck/ui for Vite.
 ---
 
 <Steps>
 
-### Create project
+<Step>qCreate project</Step>
 
 Start by creating a new React project using `vite`. Select the **React + TypeScript** template:
 
@@ -13,7 +13,7 @@ Start by creating a new React project using `vite`. Select the **React + TypeScr
 npm create vite@latest
 ```
 
-### Add Tailwind CSS
+<Step>Add Tailwind CSS</Step>
 
 ```bash
 npm install tailwindcss @tailwindcss/vite
@@ -25,7 +25,7 @@ Replace everything in `src/index.css` with the following:
 @import "tailwindcss";
 ```
 
-### Edit tsconfig.json file
+<Step>Edit tsconfig.json file</Step>
 
 The current version of Vite splits TypeScript configuration into three files, two of which need to be edited.
 Add the `baseUrl` and `paths` properties to the `compilerOptions` section of the `tsconfig.json` and
@@ -51,7 +51,7 @@ Add the `baseUrl` and `paths` properties to the `compilerOptions` section of the
 }
 ```
 
-### Edit tsconfig.app.json file
+<Step>Edit tsconfig.app.json file</Step>
 
 Add the following code to the `tsconfig.app.json` file to resolve paths, for your IDE:
 
@@ -70,7 +70,7 @@ Add the following code to the `tsconfig.app.json` file to resolve paths, for you
 }
 ```
 
-### Update vite.config.ts
+<Step>Update vite.config.ts</Step>
 
 Add the following code to the vite.config.ts so your app can resolve paths without error:
 
@@ -95,12 +95,12 @@ export default defineConfig({
 })
 ```
 
-### Run the CLI
+<Step>Run the CLI</Step>
 
-Run the `duck-ui` init command to setup your project:
+Run the `@gentleduck/ui` init command to setup your project:
 
 ```bash
-npx duck-ui@latest init
+npx @gentleduck/cli init
 ```
 
 You will be asked a few questions to configure `components.json`.
@@ -109,12 +109,12 @@ You will be asked a few questions to configure `components.json`.
 Which color would you like to use as base color? › Neutral
 ```
 
-### Add Components
+<Step>Add Components</Step>
 
 You can now start adding components to your project.
 
 ```bash
-npx duck-ui@latest add button
+npx @gentleduck/cli add button
 ```
 
 The command above will add the `Button` component to your project. You can then import it like this:

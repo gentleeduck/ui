@@ -1,17 +1,17 @@
 ---
 title: tanstack-start
-description: Install and configure duck-ui/ui for TanStack Start.
+description: Install and configure @gentleduck/ui for TanStack Start.
 ---
 
 <Steps>
 
-### Create project
+<Step>Create project</Step>
 
 Start by creating a new TanStack Start project by following the [Build a Project from Scratch](https://tanstack.com/start/latest/docs/framework/react/build-from-scratch) guide on the TanStack Start website.
 
 **Do not add Tailwind yet. We'll install Tailwind v4 in the next step.**
 
-### Add Tailwind
+<Step>Add Tailwind</Step>
 
 Install `tailwindcss` and its dependencies.
 
@@ -19,7 +19,7 @@ Install `tailwindcss` and its dependencies.
 npm install tailwindcss @tailwindcss/postcss postcss
 ```
 
-### Create postcss.config.ts
+<Step>Create postcss.config.ts</Step>
 
 Create a `postcss.config.ts` file at the root of your project.
 
@@ -31,7 +31,7 @@ export default {
 }
 ```
 
-### Create `app/styles/app.css`
+<Step>Create `app/styles/app.css`</Step>
 
 Create an `app.css` file in the `app/styles` directory and import `tailwindcss`
 
@@ -39,7 +39,7 @@ Create an `app.css` file in the `app/styles` directory and import `tailwindcss`
 @import "tailwindcss" source("../");
 ```
 
-### Import `app.css`
+<Step>Import `app.css`</Step>
 
 ```tsx title="app/routes/__root.tsx" showLineNumbers {5,21-26} showLineNumbers
 import type { ReactNode } from "react"
@@ -73,7 +73,7 @@ export const Route = createRootRoute({
 })
 ```
 
-### Edit tsconfig.json file
+<Step>Edit tsconfig.json file</Step>
 
 Add the following code to the `tsconfig.json` file to resolve paths.
 
@@ -94,22 +94,22 @@ Add the following code to the `tsconfig.json` file to resolve paths.
 }
 ```
 
-### Run the CLI
+<Step>Run the CLI</Step>
 
-Run the `duck-ui` init command to setup your project:
+Run the `@gentleduck/ui` init command to setup your project:
 
 ```bash
-npx duck-ui@canary init
+npx @gentleduck/cli init
 ```
 
 This will create a `components.json` file in the root of your project and configure CSS variables inside `app/styles/app.css`.
 
-### That's it
+<Step>That's it</Step>
 
 You can now start adding components to your project.
 
 ```bash
-npx duck-ui@canary add button
+npx @gentleduck/cli add button
 ```
 
 The command above will add the `Button` component to your project. You can then import it like this:

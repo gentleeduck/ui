@@ -67,6 +67,12 @@ export const docsConfig: DocsConfig = {
           label: 'new',
           title: 'JavaScript',
         },
+        {
+          href: '/docs/dark-theme',
+          items: [],
+          label: '',
+          title: 'Dark Theme',
+        },
       ],
       title: 'Getting Started',
     },

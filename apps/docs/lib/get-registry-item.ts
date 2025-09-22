@@ -80,7 +80,7 @@ async function getFileContent(file: { path: string; type: string }) {
 
   // Some registry items uses default export.
   // We want to use named export instead.
-  // TODO: do we really need this? - @shadcn.
+  // TODO: do we really need this?
   if (file.type !== 'registry:page') {
     code = code.replaceAll('export default', 'export')
   }
@@ -143,7 +143,7 @@ function getFileTarget(file: z.infer<typeof registry_item_file_schema>) {
 }
 
 async function createTempSourceFile(filename: string) {
-  const dir = await fs.mkdtemp(path.join(tmpdir(), 'shadcn-'))
+  const dir = await fs.mkdtemp(path.join(tmpdir(), 'wildduck-'))
   return path.join(dir, filename)
 }
 

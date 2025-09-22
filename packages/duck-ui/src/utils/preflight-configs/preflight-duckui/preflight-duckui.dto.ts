@@ -4,7 +4,7 @@ import { BASE_COLORS, PROJECT_TYPE } from './preflight-duckui.constants'
 export const preflight_duckui_options_schema = z.object({
   duckui: z
     .boolean({
-      description: 'Would you like to use duck-ui? (yes/no) -default: no',
+      description: 'Would you like to use @gentleduck/ui? (yes/no) -default: no',
       message: 'You have to pick one option',
     })
     .default(false),

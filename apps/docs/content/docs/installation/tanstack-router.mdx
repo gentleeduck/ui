@@ -1,40 +1,49 @@
 ---
 title: tanstack-router 
-description: Install and configure duck-ui/ui for TanStack Router.
+description: Install and configure @gentleduck/ui for TanStack Router.
 ---
 
 <Steps>
 
-### Create project
-
-Start by creating a new TanStack Router project:
+<Step>Create project</Step>
 
 ```bash
-npx create-tsrouter-app@latest my-app --template file-router --tailwind --add-ons duck-ui
+npx create-react-router@latest my-app
 ```
 
-### Add Components
+<Step>Run the CLI</Step>
+
+Run the `@gentleduck/cli` init command to setup your project:
+
+```bash
+npx @gentleduck/cli init
+```
+
+<Step>Add Components</Step>
 
 You can now start adding components to your project.
 
 ```bash
-npx duck-ui@canary add button
+npx @gentleduck/cli add button
 ```
 
 The command above will add the `Button` component to your project. You can then import it like this:
 
-```tsx title="src/routes/index.tsx" showLineNumbers {3,12}
-import { createFileRoute } from "@tanstack/react-router"
+```tsx showLineNumbers title="app/routes/home.tsx"
+import { Button } from "~/components/ui/button"
 
-import { Button } from "@/components/ui/button"
+import type { Route } from "./+types/home"
 
-export const Route = createFileRoute("/")({
-  component: App,
-})
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "New React Router App" },
+    { name: "description", content: "Welcome to React Router!" },
+  ]
+}
 
-function App() {
+export default function Home() {
   return (
-    <div>
+    <div className="flex min-h-svh flex-col items-center justify-center">
       <Button>Click me</Button>
     </div>
   )

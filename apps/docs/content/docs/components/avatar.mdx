@@ -21,7 +21,7 @@ component: true
 <TabsContent value="cli">
 
 ```bash
-npx duck-ui@latest add avatar
+npx @gentleduck/cli add avatar
 ```
 
 </TabsContent>
@@ -55,10 +55,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 ```
 
 ```tsx showLineNumbers
-<Avatar>
-  <AvatarImage src="https://github.com/shadcn.png" />
-  <AvatarFallback>CN</AvatarFallback>
-</Avatar>
+<Avatar src="https://github.com/wildduck2.png" fallback="WD" alt="wildduck" />
 ```
 
 ## API Reference

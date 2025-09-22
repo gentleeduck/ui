@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// This is the main file of the duck-ui CLI application written with TypeScript
+// This is the main file of the @gentleduck/cli application written with TypeScript
 
 import { init } from './src/main'
 

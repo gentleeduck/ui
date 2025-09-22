@@ -52,7 +52,7 @@ export async function generateMetadata({
     title: item.description,
     twitter: {
       card: 'summary_large_image',
-      creator: '@shadcn',
+      creator: '@wildduck2',
       description,
       images: [siteConfig.ogImage],
       title,

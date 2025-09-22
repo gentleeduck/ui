@@ -1,5 +1,5 @@
 {
-  "$schema": "https://ui.shadcn.com/schema.json",
+  "$schema": "https://ui.gentleduck.org/schema.json",
   "aliases": {
     "components": "~/components",
     "hooks": "~/hooks",

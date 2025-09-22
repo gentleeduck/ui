@@ -60,7 +60,7 @@ const packages = [
   },
   {
     description:
-      'Reusable React hooks designed for the duck-ui ecosystem. Covers state, effects, and UI interactions to accelerate component development and consistency.',
+      'Reusable React hooks designed for the @gentleduck/ui ecosystem. Covers state, effects, and UI interactions to accelerate component development and consistency.',
     href: '/docs/packages/duck-hooks',
     icon: Code2,
     name: 'Gentleduck Hooks',

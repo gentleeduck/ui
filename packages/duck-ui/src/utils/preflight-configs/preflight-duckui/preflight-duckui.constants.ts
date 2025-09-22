@@ -23,7 +23,7 @@ export const duckui_prompts: PromptObject<'duckui'>[] = [
     active: 'yes',
     inactive: 'no',
     initial: false,
-    message: `Would you like to init ${highlighter.info('duck-ui')}`,
+    message: `Would you like to init ${highlighter.info('@gentleduck/cli')}`,
     name: 'duckui',
     type: 'confirm',
   },

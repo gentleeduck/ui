@@ -1,4 +1,4 @@
-# @gentleduck/duck-ui
+# @gentleduck/@gentleduck/cli
 
 ## 1.0.7
 
