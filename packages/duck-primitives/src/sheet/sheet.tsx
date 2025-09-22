@@ -127,7 +127,7 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
           opacity: context.open ? 1 : 0,
           overflow: 'hidden',
           pointerEvents: context.open ? 'auto' : 'none',
-          zIndex: 49,
+          zIndex: 999,
         } as React.CSSProperties
       }
       {...props}>

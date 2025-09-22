@@ -48,6 +48,7 @@ function Trigger({
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(
       children,
+      // @ts-expect-error
       context.getReferenceProps({
         ref,
         ...props,
@@ -68,11 +69,13 @@ function Trigger({
       // The user can style the trigger based on the state
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
-        // @ts-expect-error
+        // biome-ignore lint: false positive
+        // @ts-ignore
         onClick?.(e)
       }}
       ref={ref}
-      // @ts-expect-error
+      // biome-ignore lint: false positive
+      // @ts-ignore
       {...context.getReferenceProps(props)}>
       {children}
     </Comp>

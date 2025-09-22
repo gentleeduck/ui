@@ -65,24 +65,24 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
           {tab === 'code' && (
             <div className="ml-auto flex items-center justify-center gap-2">
               <BlockCopyButton code={chart.code} event="copy_chart_code" name={chart.name} />
-              <V0Button
-                block={{
-                  code: chart.code,
-                  description: chart.description || 'Edit in v0',
-                  name: chart.name,
-                }}
-                className="h-7"
-                id={`v0-button-${chart.name}`}
-              />
+              {
+                // <V0Button
+                //   block={{
+                //     code: chart.code,
+                //     description: chart.description || 'Edit in v0',
+                //     name: chart.name,
+                //   }}
+                //   className="h-7"
+                //   id={`v0-button-${chart.name}`}
+                // />
+              }
             </div>
           )}
           {tab === 'theme' && (
             <BlockCopyButton className="ml-auto" code={themeCode} event="copy_chart_theme" name={chart.name} />
           )}
         </div>
-        <TabsContent
-          className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex rounded-full"
-          value="code">
+        <TabsContent className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex" value="code">
           <div className="relative overflow-auto rounded-lg">
             <div
               className="w-full overflow-hidden [&_pre]:overflow-auto [&_pre]:py-2 [&_pre]:!bg-zinc-900 [&_pre]:text-sm [&_pre]:leading-relaxed !my-0 rounded-lg "
