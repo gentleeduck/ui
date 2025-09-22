@@ -93,6 +93,7 @@ function Content({
           transform: `scale(${context.open ? 1 : 0.9})`,
           ...style,
           position: 'fixed',
+          zIndex: 999,
         }}
         {...context.getFloatingProps(props)}>
         <Mount open={context.open} renderOnce={renderOnce}>
@@ -124,7 +125,7 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
           opacity: context.open ? 1 : 0,
           overflow: 'hidden',
           pointerEvents: context.open ? 'auto' : 'none',
-          zIndex: 999,
+          zIndex: 998,
         } as React.CSSProperties
       }
       {...props}>
