@@ -6,9 +6,9 @@ import { Announcement } from '~/components/announcement'
 import { BlocksNav } from '~/components/blocks/block-nav'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
 
-const title = 'Building Blocks for the Web'
+const title = 'Reusable Blocks for the Web'
 const description =
-  'Clean, modern building blocks. Copy and paste into your apps. Works with all React frameworks. Open Source. Free forever.'
+  'A collection of sleek, customizable blocks to speed up your workflow. Drop them into any React app and ship faster.'
 
 export const metadata: Metadata = {
   description,
@@ -59,7 +59,7 @@ export default function BlocksLayout({ children }: { children: React.ReactNode }
         <div className="container flex items-center justify-between gap-4 py-4">
           <BlocksNav />
           <Button asChild className="mr-7 hidden shadow-none lg:flex" size="sm" variant="secondary">
-            <Link href="/blocks/sidebar">Browse all blocks</Link>
+            <Link href="/blocks">Browse all blocks</Link>
           </Button>
         </div>
       </div>

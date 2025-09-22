@@ -5,7 +5,7 @@ import { BlockDisplay } from '~/components/blocks'
 export const dynamic = 'force-static'
 export const revalidate = false
 
-const FEATURED_BLOCKS = ['dashboard-1']
+const FEATURED_BLOCKS = ['signup-1', 'dashboard-1']
 
 export default async function BlocksPage() {
   return (

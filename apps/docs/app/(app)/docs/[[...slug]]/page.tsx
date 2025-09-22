@@ -30,12 +30,10 @@ async function getDocFromParams({ params }: DocPageProps) {
   return doc
 }
 
-type Props = {
+export async function generateMetadata(props: {
   params: Promise<{ slug: string[] }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-
-export async function generateMetadata(props: Props): Promise<Metadata> {
+}): Promise<Metadata> {
   const params = await props.params
   const doc = await getDocFromParams({ params })
 

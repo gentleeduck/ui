@@ -1,3 +1,5 @@
+// @ts-ignore
+import Login from '@gentleduck/registry-blocks-duckui/authentications/signup-1/signup-1'
 import { CardsActivityGoal } from './activity-goal'
 import { CardsCalendar } from './calendar'
 import { CardsChat } from './chat'
@@ -15,10 +17,11 @@ import { CardsTeamMembers } from './team-members'
 export function CardsDemo() {
   return (
     <div className="md:grids-col-2 grid **:data-[slot=card]:shadow-none md:gap-4 lg:grid-cols-10 xl:grid-cols-11">
+      <div className="flex gap-4 lg:col-span-4 xl:col-span-11 h-fit relative">
+        <OrderForm />
+        <Login className="[&_#right-side]:hidden [&_#left-side]:border-r-0 [&_#left-side]:col-span-4 !m-0 [&_#left-side]:px-18 [&_#left-side]:py-12 w-full" />
+      </div>
       <div className="grid gap-4 lg:col-span-4 xl:col-span-6 h-fit">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-4 h-fit">
-          <OrderForm />
-        </div>
         <CardsStats />
         <div className="grid gap-1 sm:grid-cols-[auto_1fr] md:hidden">
           <CardsCalendar />

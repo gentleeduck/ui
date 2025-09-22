@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { cn } from '@gentleduck/libs/cn'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

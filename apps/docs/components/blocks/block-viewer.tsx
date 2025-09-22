@@ -196,12 +196,13 @@ function BlockViewerToolbar() {
           onClick={() => {
             copyToClipboard(`npx @gentleduck/duck-ui@latest add ${item.name}`)
           }}
+          className="mr-2"
           variant="secondary">
           {isCopied ? <Check /> : <Terminal />}
           <span className="font-medium">npx @gentleduck/duck-ui add {item.name}</span>
         </Button>
-        <Separator className="mx-1 !h-4" orientation="vertical" />
         {
+          // <Separator className="mx-1 !h-4" orientation="vertical" />
           // <OpenInV0Button name={item.name} />
         }
       </div>

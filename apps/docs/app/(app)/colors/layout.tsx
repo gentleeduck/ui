@@ -7,9 +7,9 @@ import { ColorsNav } from '~/components/colors'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
 import { ThemeWrapper } from '~/components/themes'
 
-const title = 'Tailwind Colors in Every Format'
+const title = 'Tailwind Colors, Simplified'
 const description =
-  'The complete Tailwind color palette in HEX, RGB, HSL, CSS variables, and classes. Ready to copy and paste into your project.'
+  'Browse the full Tailwind palette in HEX, RGB, HSL, and CSS formats. Copy and paste what you need in seconds.'
 
 export const metadata: Metadata = {
   description,

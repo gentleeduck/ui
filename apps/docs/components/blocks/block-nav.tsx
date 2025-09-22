@@ -38,7 +38,7 @@ function BlocksNavLink({ category, isActive }: { category: (typeof registryCateg
 }
 export const registryCategories = [
   {
-    hidden: false,
+    hidden: true,
     name: 'Sidebar',
     slug: 'sidebar',
   },
@@ -54,11 +54,11 @@ export const registryCategories = [
   },
   {
     hidden: false,
-    name: 'Login',
-    slug: 'login',
+    name: 'Dashboards',
+    slug: 'dashboard',
   },
   {
-    hidden: false,
+    hidden: true,
     name: 'Calendar',
     slug: 'calendar',
   },

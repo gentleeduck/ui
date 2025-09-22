@@ -11,7 +11,7 @@ import { CommandMenu } from '../command-menu'
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-[45] w-full bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-[99] w-full bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
       <div className="container-wrapper">
         <div className="container flex h-16 items-center gap-2 md:gap-4">
           <MainNav />

@@ -6,8 +6,8 @@ import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } fro
 
 import { ThemeCustomizer, ThemeWrapper } from '~/components/themes'
 
-const title = 'Pick a Color. Make it yours.'
-const description = 'Try our hand-picked themes. Copy and paste them into your project. New theme editor coming soon.'
+const title = 'Find Your Color. Make It Yours.'
+const description = 'Browse hand-crafted themes you can use right away. Just copy and paste. Theme editor coming soon!'
 
 export const metadata: Metadata = {
   description,

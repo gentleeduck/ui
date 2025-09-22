@@ -11,10 +11,13 @@ import Image from 'next/image'
 import type React from 'react'
 import { icons } from './signup-1.constants'
 
-export default function signup_1() {
+export default function signup_1({ className }: { className?: string }) {
   return (
     <div
-      className="grid grid-cols-1 overflow-auto rounded-2xl border border-border bg-card lg:grid-cols-2"
+      className={cn(
+        'grid grid-cols-1 overflow-auto rounded-2xl border border-border bg-card lg:grid-cols-2 w-full',
+        className,
+      )}
       style={
         {
           '--color-accent': '#535353',
@@ -30,7 +33,7 @@ export default function signup_1() {
       }>
       <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');</style>
       {/* Left Side */}
-      <div className="flex flex-col gap-4 p-5 sm:p-12 lg:border-border lg:border-r xl:p-18 xl:px-22">
+      <div className="flex flex-col gap-4 p-5 sm:p-12 lg:border-border lg:border-r xl:p-18 xl:px-22" id="left-side">
         {/* Title */}
         <h2 className="font-semibold text-2xl">Signup</h2>
 
@@ -132,7 +135,9 @@ export default function signup_1() {
       </div>
 
       {/* Right Side */}
-      <div className="hidden h-full flex-col gap-4 overflow-hidden px-16 pt-16 pr-0 lg:flex xl:pt-18 xl:pl-22">
+      <div
+        className="hidden h-full flex-col gap-4 overflow-hidden px-16 pt-16 pr-0 lg:flex xl:pt-18 xl:pl-22"
+        id="right-side">
         <div className="relative h-full w-full">
           <Image alt="WD" className="hidden object-cover object-left-top dark:block" fill src="/login.jpg" />
           <Image alt="WD" className="block object-cover object-left-top dark:hidden" fill src="/login-light.jpg" />

@@ -1,7 +1,9 @@
 import { cn } from '@gentleduck/libs/cn'
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next/types'
 import * as React from 'react'
 import { ChartDisplay } from '~/components/charts'
+import { SLUG_METADATA } from '~/config/metadata'
 import { charts } from '../charts'
 
 export const revalidate = false

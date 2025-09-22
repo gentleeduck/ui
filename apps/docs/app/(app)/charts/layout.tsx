@@ -8,9 +8,9 @@ import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } fro
 import { ThemesStyle } from '~/components/themes'
 import { ThemesSwitcher } from '~/components/themes/themes-selector'
 
-const title = 'Beautiful Charts & Graphs'
+const title = 'Ready-to-Use Chart Components'
 const description =
-  'A collection of ready-to-use chart components built with Recharts. From basic charts to rich data displays, copy and paste into your apps.'
+  'From bar and line charts to advanced visualizations, explore a collection of Recharts components you can drop straight into your projects.'
 
 export const metadata: Metadata = {
   description,

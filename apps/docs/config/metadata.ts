@@ -13,11 +13,40 @@ export const METADATA: Metadata = {
   creator: 'wilddcuk2',
   description: siteConfig.description,
   icons: {
-    apple: '/apple-touch-icon.png',
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
+    apple: '/icons/apple-touch-icon.png',
+    icon: '/icons/favicon.ico',
+    shortcut: '/icons/favicon-16x16.png',
   },
-  keywords: ['Next.js', 'React', 'Tailwind CSS', 'Server Components', 'Radix UI'],
+  keywords: [
+    // Brand
+    'Duck UI',
+    'Gentleduck',
+    'Gentleduck Duck UI',
+
+    // Core tech stack
+    'React UI library',
+    'Tailwind CSS components',
+    'Next.js UI components',
+    'React Server Components',
+    'TypeScript UI library',
+
+    // Feature-driven
+    'Accessible React components',
+    'Headless UI alternative',
+    'Customizable UI components',
+    'Lightweight React UI kit',
+    'Type-safe React components',
+    'React motion components',
+    'React table library',
+    'React form components',
+
+    // Developer intent / search intent
+    'Open source React UI library',
+    'Best React UI frameworks',
+    'Tailwind React component library',
+    'Design system for React',
+    'UI toolkit for developers',
+  ],
   manifest: `${siteConfig.url}/site.webmanifest`,
   metadataBase: new URL(siteConfig.url),
   openGraph: {
@@ -56,7 +85,7 @@ export const VIEWPORT: Viewport = {
   ],
 }
 
-export const SLUG_METADATA = (doc: Docs) => ({
+export const SLUG_METADATA = (doc: { title: string; description: string; slug: string }): Metadata => ({
   description: doc.description,
   openGraph: {
     description: doc.description,

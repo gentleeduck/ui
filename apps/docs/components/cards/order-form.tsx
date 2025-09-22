@@ -53,7 +53,7 @@ export function OrderForm() {
   }
 
   return (
-    <div className="col-span-4">
+    <div className="col-span-4 w-full">
       <Card className="py-6">
         <CardHeader className="sr-only">
           <CardTitle className="sr-only">Place Your Order</CardTitle>
