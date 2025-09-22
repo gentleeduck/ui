@@ -4,4 +4,4 @@ export const config = {
   version: '1.0.0',
 }
 
-export const REGISTRY_URL = 'https://duckui.vercel.app/duck-ui'
+export const REGISTRY_URL = 'https://ui.gentleduck.org/r'

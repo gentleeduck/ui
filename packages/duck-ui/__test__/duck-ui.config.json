@@ -8,7 +8,7 @@
   },
   "monorepo": false,
   "rsc": true,
-  "schema": "https://duckui.vercel.app/schema.json",
+  "schema": "https://ui.gentleduck.org/schema.json",
   "tailwind": {
     "baseColor": "zinc",
     "css": "./src/styles.css",

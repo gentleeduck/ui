@@ -69,7 +69,7 @@ export const default_duckui_config = ({
   css_variables,
 }: DuckuiPrompts) => {
   return `{
-  "schema": "https://duckui.vercel.app/schema.json",
+  "schema": "https://ui.gentleduck.org/schema.json",
   "rsc": ${['NEXT_JS'].includes(project_type)},
   "monorepo": ${monorepo},
   "tailwind": {
