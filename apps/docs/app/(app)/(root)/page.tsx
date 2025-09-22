@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { EcosystemSection } from '~/components/layouts/core-packages'
 import { FeaturesSection } from '~/components/layouts/features'
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
+import { PageActions, PageHeader, PageHeaderDescription } from '~/components/page-header'
 import { ThemeWrapper } from '~/components/themes'
 
 const title = 'Primitives that Scale, Components that Perform.'
@@ -34,7 +34,6 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  // <PageHeaderHeading className="text-center w-full">{title}</PageHeaderHeading>
   return (
     <>
       <PageHeader className="flex flex-col justify-start justify-self-center text-center relative">

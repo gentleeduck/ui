@@ -1,4 +1,19 @@
-import { Code2, Keyboard, Layers, Library, Move3d, Package, Puzzle, Table, Terminal, TestTube } from 'lucide-react'
+import {
+  BookOpenText,
+  Code2,
+  FileText,
+  Keyboard,
+  Layers,
+  Library,
+  Move3d,
+  Package,
+  Puzzle,
+  Server,
+  Table,
+  Terminal,
+  TestTube,
+  Workflow,
+} from 'lucide-react'
 import Link from 'next/link'
 import { SectionTitle } from '../features'
 
@@ -81,6 +96,38 @@ const packages = [
     href: '',
     icon: Table,
     name: 'Gentleduck Table',
+    status: 'coming soon',
+  },
+  {
+    description:
+      'A fast and flexible framework for docs. Generate beautiful, organized documentation in seconds with zero hassle.',
+    href: '',
+    icon: BookOpenText,
+    name: 'Gentleduck Docs',
+    status: 'coming soon',
+  },
+  {
+    description:
+      'Lightweight state management made simple. Manage global and local state with ease, built for speed and clarity.',
+    href: '',
+    icon: Workflow,
+    name: 'Duck State',
+    status: 'coming soon',
+  },
+  {
+    description:
+      'A minimal and powerful server framework. Build APIs and full-stack apps in seconds with zero configuration.',
+    href: '',
+    icon: Server,
+    name: 'Duck Server',
+    status: 'coming soon',
+  },
+  {
+    description:
+      'Structured logging made effortless. Track, debug, and analyze your apps with a lightweight, developer-friendly logger.',
+    href: '',
+    icon: FileText,
+    name: 'Duck TTLog',
     status: 'coming soon',
   },
   {
