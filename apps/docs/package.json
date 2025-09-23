@@ -74,7 +74,7 @@
     "velite": "^0.2.4"
   },
   "engines": {
-    "node": "^24.7.0"
+    "node": "^22.7.0"
   },
   "name": "@gentleduck/docs",
   "private": true,
@@ -88,5 +88,5 @@
     "postbuild": "next-sitemap",
     "start": "next start"
   },
-  "version": "0.1.46"
+  "version": "3.0.3"
 }
