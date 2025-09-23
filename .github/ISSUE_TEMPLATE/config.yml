@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://ui.gentleduck.org
+    about: Check the docs before opening an issue.
+  - name: 💬 Community Discussions
+    url: https://github.com/gentleduck/duck-ui/discussions
+    about: Ask questions, share ideas, or start a conversation.
+  - name: 🛡️ Security Reports
+    url: https://github.com/gentleduck/duck-ui/security/policy
+    about: Report security vulnerabilities responsibly.

@@ -1,0 +1,144 @@
+# Contributing to Gentleduck 🦆✨
+
+First off, thank you for considering contributing to **Gentleduck**!
+We welcome all kinds of contributions — from bug reports and documentation improvements to feature requests and new packages.
+
+This document provides guidelines to help you get started.
+
+---
+
+## Code of Conduct
+
+By participating in this project, you agree to uphold our [Code of Conduct](CODE_OF_CONDUCT.md) (coming soon).
+Please treat everyone with respect and kindness.
+
+---
+
+## 🛠 Getting Started
+
+### 1. Fork & Clone
+
+```bash
+git clone https://github.com/your-username/duck-ui.git
+cd duck-ui
+```
+
+### 2. Install Dependencies
+
+We use **pnpm** with workspaces:
+
+```bash
+pnpm install
+```
+
+### 3. Build All Packages
+
+```bash
+pnpm build
+```
+
+### 4. Run in Development
+
+```bash
+pnpm dev
+```
+
+This will spin up local development environments for the packages and docs.
+
+---
+
+## Working with Packages
+
+* All code lives under the `packages/` directory.
+* Each package has its own `package.json` and may depend on other internal packages.
+* Use [Turborepo](https://turbo.build/) commands to build, test, and lint efficiently.
+
+---
+
+## Development Workflow
+
+1. **Branching**
+
+   * Create a new branch from `main`.
+   * Use a descriptive name, e.g. `fix/button-hover`, `feat/new-dialog`, `docs/readme-update`.
+
+   ```bash
+   git checkout -b feat/new-component
+   ```
+
+2. **Coding Standards**
+
+   * Use **TypeScript**.
+   * Follow existing **ESLint + Prettier** rules.
+   * Write clear, self-documenting code.
+
+3. **Commit Messages**
+   Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+   ```
+   feat: add new dropdown menu component
+   fix: resolve button focus issue in Safari
+   docs: update contributing guide
+   ```
+
+4. **Testing**
+
+   * Write unit tests for new functionality.
+   * Run all tests before pushing:
+
+     ```bash
+     pnpm test
+     ```
+
+---
+
+## Submitting a Pull Request
+
+1. Push your branch:
+
+   ```bash
+   git push origin feat/new-component
+   ```
+
+2. Open a Pull Request (PR) against the `main` branch.
+
+3. Fill out the PR template with:
+
+   * A clear description of your changes
+   * Any related issues (`Closes #123`)
+   * Screenshots or code samples (if UI related)
+
+---
+
+## Reporting Issues
+
+If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui/issues) with:
+
+* Steps to reproduce
+* Expected behavior
+* Actual behavior
+* Screenshots (if applicable)
+
+---
+
+## Ways to Contribute
+
+* **Code**: Bug fixes, features, optimizations
+* **Docs**: Tutorials, guides, API references
+* **Design**: Improving UX, accessibility, component design
+* **Community**: Helping others in discussions, writing blog posts, or sharing Gentleduck
+
+---
+
+## Tips
+
+* Start small — even fixing a typo helps!
+* Look at the ["good first issue"](https://github.com/gentleeduck/duck-ui/labels/good%20first%20issue) label for beginner-friendly contributions.
+* Ask questions! We’re happy to guide you.
+
+---
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the project’s [MIT License](LICENSE).
+

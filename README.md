@@ -1,41 +1,75 @@
-# Duck UI
+
 
 <p align="center">
-  <img src="./apps/docs/public/logo.png" alt="Duck UI Logo" width="200"/>
+  <img src="./apps/docs/public/og/root.png" alt="Duck UI Logo" width="800"/>
 </p>
 
-Welcome to **Duck UI**, a modern UI component library designed for flexibility and ease of use. This library provides a set of high-quality React components, styled with a clean and responsive design, perfect for building user interfaces in web applications.
+# Gentleduck Ui
 
-## 🚀 Features
+This repository is part of the [Gentleduck](https://ui.gentleduck.org) project — a collection of modern, flexible, and developer-friendly software components designed to solve real-world problems in computer science and web development.
 
-- **Modern Design**: Elegant and customizable components that adhere to modern UI/UX principles.
-- **Flexible**: Easily integrate and customize components to fit your design needs.
-- **Themed Styling**: Built with a palette that includes black and white, and customizable color options for various themes.
-- **Well-documented**: Comprehensive documentation to help you get started and make the most of Duck UI.
-
-## 📄 Contributing
-
-We welcome contributions to Duck UI! To contribute, please follow these guidelines:
-
-1. Fork the repository.
-2. Create a new branch for your changes.
-3. Make your changes and commit them with clear messages.
-4. Open a pull request with a description of your changes.
-
-## 📝 License
-
-Duck UI is licensed under the [MIT License](LICENSE).
-
-## 📧 Contact
-
-For any questions or support, please contact us at [duckui@gentleduck.com](mailto:duckui@gentleduck.com).
+Gentleduck goes beyond just UI components: this monorepo includes **packages and tools** that cover multiple aspects of building high-quality applications.
 
 ---
 
-Thank you for using Duck UI! We hope it helps you build beautiful and functional user interfaces.
+## Documentation
 
-Happy coding!
+Comprehensive documentation, guides, and examples can be found here:
 
-//
+* Website: [ui.gentleduck.org](https://ui.gentleduck.org)
+* GitHub Source: [github.com/gentleeduck/duck-ui](https://github.com/gentleeduck/duck-ui)
 
-<!-- git filter-repo --path node_modules --invert-paths -->
+---
+
+## Getting Started
+
+Clone the repo:
+
+```bash
+git clone https://github.com/gentleeduck/duck-ui.git
+cd duck-ui
+```
+
+Install dependencies (using [pnpm](https://pnpm.io) recommended):
+
+```bash
+pnpm install
+```
+
+Build all packages:
+
+```bash
+pnpm build
+```
+
+Run the local dev environment:
+
+```bash
+pnpm dev
+```
+
+---
+
+## Contributing
+
+We welcome contributions! Whether it’s fixing bugs, adding new features, or improving documentation — your help is appreciated.
+
+1. Fork the repo
+2. Create a feature branch
+3. Commit changes
+4. Open a Pull Request
+
+Please read our [contributing guide](CONTRIBUTING.md) (coming soon) for details.
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.
+See [LICENSE](LICENSE) for more information.
+
+---
+
+## Acknowledgments
+
+Gentleduck is built with love to make development smoother, faster, and more enjoyable. 🦆💛
