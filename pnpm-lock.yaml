@@ -177,6 +177,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      geist:
+        specifier: ^1.5.1
+        version: 1.5.1(next@15.3.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.92.0))
       hast-util-has-property:
         specifier: ^3.0.0
         version: 3.0.0
@@ -6887,6 +6890,11 @@ packages:
 
   fzf@0.5.2:
     resolution: {integrity: sha512-Tt4kuxLXFKHy8KT40zwsUPUkg1CrsgY25FxA2U/j/0WgEDCk3ddc/zLTCCcbSHX9FcKtLuVaDGtGE/STWC+j3Q==}
+
+  geist@1.5.1:
+    resolution: {integrity: sha512-mAHZxIsL2o3ZITFaBVFBnwyDOw+zNLYum6A6nIjpzCGIO8QtC3V76XF2RnZTyLx1wlDTmMDy8jg3Ib52MIjGvQ==}
+    peerDependencies:
+      next: '>=13.2.0'
 
   gel@2.1.1:
     resolution: {integrity: sha512-Newg9X7mRYskoBjSw70l1YnJ/ZGbq64VPyR821H5WVkTGpHG2O0mQILxCeUhxdYERLFY9B4tUyKLyf3uMTjtKw==}
@@ -15856,6 +15864,10 @@ snapshots:
   fuzzysort@2.0.4: {}
 
   fzf@0.5.2: {}
+
+  geist@1.5.1(next@15.3.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.92.0)):
+    dependencies:
+      next: 15.3.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.92.0)
 
   gel@2.1.1:
     dependencies:

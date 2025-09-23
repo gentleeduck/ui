@@ -34,7 +34,7 @@ function Tabs({ value, defaultValue, onValueChange, ...props }: TabsProps) {
 
   return (
     <TabsContext.Provider value={{ activeItem, setActiveItem }}>
-      <div {...props} aria-orientation="vertical" duck-tabs="" role="tablist" />
+      <div {...props} aria-orientation="vertical" data-slot="tabs" role="tablist" />
     </TabsContext.Provider>
   )
 }
@@ -49,7 +49,7 @@ const TabsList = ({ className, ref, ...props }: TabsListProps) => (
     )}
     ref={ref}
     {...props}
-    duck-tabs-list=""
+    data-slot="tabs-list"
   />
 )
 
@@ -89,7 +89,7 @@ const TabsTrigger = ({
       id={`tab-${value}`}
       ref={ref}
       {...props}
-      duck-tabs-trigger="">
+      data-slot="tabs-trigger">
       <input
         checked={isActive}
         className="absolute inset-0 appearance-none rounded-md ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -136,7 +136,7 @@ const TabsContent = ({
       role="tabpanel"
       tabIndex={-1}
       {...props}
-      duck-tabs-content="">
+      data-slot="tabs-content">
       <MountMinimal forceMount={forceMount} open={activeItem === value} ref={null}>
         {children}
       </MountMinimal>

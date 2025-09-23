@@ -111,7 +111,11 @@ function Accordion({
         value: (type === 'single' ? [value ?? defaultValue] : (value ?? defaultValue)) as string[],
         wrapperRef,
       }}>
-      <div className={cn('min-w-[400px] [interpolate-size:allow-keywords]', className)} {...props} ref={wrapperRef}>
+      <div
+        className={cn('min-w-[400px] [interpolate-size:allow-keywords]', className)}
+        {...props}
+        ref={wrapperRef}
+        data-slot="accordion">
         {children}
       </div>
     </AccordionContext.Provider>
@@ -153,6 +157,7 @@ function AccordionItem({
       onKeyUp={onKeyUp}
       ref={ref}
       {...props}
+      data-slot="accordion-item"
       duck-accordion-item="">
       {_children[0]}
       {rerender && (
@@ -187,12 +192,14 @@ function AccordionTrigger({
       id={value}
       ref={ref}
       {...props}
+      data-slot="accordion-trigger"
       duck-accordion-trigger="">
       {children}
       <span
         className={cn(
           '[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200 group-open:[&>svg]:rotate-180',
         )}
+        data-slot="accordion-icon"
         duck-accordion-icon="">
         {icon ? icon : <ChevronDown id="arrow" />}
       </span>
@@ -210,6 +217,7 @@ const AccordionContent = ({
   return (
     <div
       className={cn('select-none overflow-hidden pt-0 pb-4 text-base', className)}
+      data-slot="accordion-content"
       duck-accordion-content=""
       ref={ref}
       {...props}>

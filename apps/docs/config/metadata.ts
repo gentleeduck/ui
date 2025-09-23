@@ -1,7 +1,14 @@
 import { Metadata, Viewport } from 'next'
-import { Docs } from '~/.velite'
 import { absoluteUrl } from '~/lib/utils'
 import { siteConfig } from './site'
+import { allTitles } from './docs'
+
+export const VIEWPORT: Viewport = {
+  themeColor: [
+    { color: 'white', media: '(prefers-color-scheme: light)' },
+    { color: 'black', media: '(prefers-color-scheme: dark)' },
+  ],
+}
 
 export const METADATA: Metadata = {
   authors: [
@@ -19,7 +26,14 @@ export const METADATA: Metadata = {
   },
   keywords: [
     // Brand
+    'gentleduck',
+    'gentleduck duck ui',
+    'gentleduck button',
     'Duck UI',
+    ...allTitles.flatMap((title) => {
+      const lower = title.toLowerCase()
+      return [lower, `duck ${lower}`, `gentleduck ${lower}`, `${lower} component`]
+    }),
     'Gentleduck',
     'Gentleduck Duck UI',
 
@@ -76,37 +90,34 @@ export const METADATA: Metadata = {
     images: [siteConfig.ogImage],
     title: siteConfig.name,
   },
+  alternates: {
+    canonical: siteConfig.url,
+  },
 }
 
-export const VIEWPORT: Viewport = {
-  themeColor: [
-    { color: 'white', media: '(prefers-color-scheme: light)' },
-    { color: 'black', media: '(prefers-color-scheme: dark)' },
-  ],
+const ogImage = {
+  url: siteConfig.ogImage,
+  width: 1200,
+  height: 630,
+  alt: siteConfig.name,
 }
 
 export const SLUG_METADATA = (doc: { title: string; description: string; slug: string }): Metadata => ({
+  ...METADATA,
   description: doc.description,
   openGraph: {
-    description: doc.description,
-    images: [
-      {
-        alt: siteConfig.name,
-        height: 630,
-        url: siteConfig.ogImage,
-        width: 1200,
-      },
-    ],
+    ...METADATA.openGraph,
     title: doc.title,
+    description: doc.description,
     type: 'article',
     url: absoluteUrl(doc.slug),
+    images: [ogImage],
   },
   title: doc.title,
   twitter: {
-    card: 'summary_large_image',
-    creator: '@wildduck',
+    ...METADATA.twitter,
+    title: doc.title,
     description: doc.description,
     images: [siteConfig.ogImage],
-    title: doc.title,
   },
 })

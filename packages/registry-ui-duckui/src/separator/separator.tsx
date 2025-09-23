@@ -21,7 +21,7 @@ const Separator = ({
     )}
     ref={ref}
     {...props}
-    duck-separator=""
+    data-slot="separator"
   />
 )
 

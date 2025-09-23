@@ -39,9 +39,10 @@ function Radio({
           'rounded-full',
           className,
         )}
-        duck-radio=""
         ref={ref}
         style={{ ...style, ...inputStyle }}
+        duck-radio=""
+        data-slot="radio"
         type="radio"
         {...props}
       />
@@ -73,8 +74,14 @@ function RadioGroup({
         value: '',
         wrapperRef,
       }}>
-      {/* biome-ignore lint: false positive */}
-      <ul className={cn('flex flex-col', className)} duck-radio-group="" ref={wrapperRef} role="radiogroup" {...props}>
+      <ul
+        className={cn('flex flex-col', className)}
+        duck-radio-group=""
+        data-slot="radio-group"
+        ref={wrapperRef}
+        //biome-ignore lint: false positive
+        role="radiogroup"
+        {...props}>
         {children}
       </ul>
     </RadioGroupContext.Provider>
@@ -95,12 +102,13 @@ function RadioGroupItem({
         className,
       )}
       duck-radio-item=""
+      data-slot="radio-item"
       id={value}
       role="presentation"
       {...props}>
       {customIndicator && <span id="radio-indicator">{customIndicator}</span>}
       <Radio className={cn(customIndicator?.toString() && 'hidden')} id={value} />
-      <Label className="font-normal text-base" duck-radio-label="" htmlFor={value}>
+      <Label className="font-normal text-base" data-slot="radio-label" duck-radio-label="" htmlFor={value}>
         {children}
       </Label>
     </li>

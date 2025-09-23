@@ -48,6 +48,7 @@ const Checkbox = ({
   return (
     <>
       <input
+        data-slot="checkbox"
         className={cn(
           checkersStylePattern({
             indicatorState:
@@ -87,7 +88,11 @@ const Checkbox = ({
 const CheckboxWithLabel = ({ id, _checkbox, _label, className, ref, ...props }: CheckboxWithLabelProps) => {
   const { className: labelClassName, ...labelProps } = _label
   return (
-    <div className={cn('flex items-center justify-start gap-2', className)} ref={ref} {...props}>
+    <div
+      className={cn('flex items-center justify-start gap-2', className)}
+      ref={ref}
+      {...props}
+      data-slot="checkbox-with-label">
       <Checkbox id={id} {..._checkbox} />
       <Label className={cn('cursor-pointer', labelClassName)} htmlFor={id} {...labelProps} />
     </div>
@@ -97,9 +102,10 @@ const CheckboxWithLabel = ({ id, _checkbox, _label, className, ref, ...props }: 
 const CheckboxGroup = ({ subtasks, subtasks_default_values, ref, ...props }: CheckboxGroupProps) => {
   const { _checkbox, _label } = subtasks_default_values || {}
   return (
-    <div className={cn('mb-3 flex flex-col gap-2')} {...props} ref={ref}>
+    <div className={cn('mb-3 flex flex-col gap-2')} {...props} ref={ref} data-slot="checkbox-group">
       {subtasks.map(({ id, title, checked }) => (
         <CheckboxWithLabel
+          data-slot="checkbox-with-label"
           _checkbox={{
             ..._checkbox,
             checked,

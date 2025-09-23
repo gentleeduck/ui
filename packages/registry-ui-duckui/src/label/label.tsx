@@ -14,6 +14,7 @@ function Label({ className, htmlFor, ref, ...props }: LabelProps) {
         className,
       )}
       htmlFor={htmlFor}
+      data-slot="label"
       ref={ref}
       {...props}
     />

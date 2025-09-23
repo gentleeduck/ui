@@ -11,12 +11,13 @@ function Avatar({ className, fallback, alt, ref, ...props }: AvatarProps) {
   const [isValid, setIsValid] = React.useState(true)
 
   return (
-    <picture className={cn('relative size-10 shrink-0 overflow-hidden rounded-full', className)}>
+    <picture className={cn('relative size-10 shrink-0 overflow-hidden rounded-full', className)} data-slot="avatar">
       <img
         ref={ref}
         {...props}
         alt={alt}
         className={'relative flex h-full w-full shrink-0 overflow-hidden object-cover text-transparent'}
+        data-slot="avatar-img"
         height={'100%'}
         onError={() => setIsValid(false)}
         onLoad={() => setIsValid(true)}
@@ -26,6 +27,7 @@ function Avatar({ className, fallback, alt, ref, ...props }: AvatarProps) {
         <span
           aria-label={alt}
           className="absolute inset-0 flex h-full w-full items-center justify-center bg-muted"
+          data-slot="avatar-fallback"
           role="img">
           {fallback?.slice(0, 2)}
         </span>

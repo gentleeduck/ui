@@ -13,20 +13,31 @@ import { Button, buttonVariants } from '../button'
 import type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
 
 const Pagination = ({ className, ...props }: React.HTMLProps<HTMLHeadElement>) => (
-  <nav aria-label="pagination" className={cn('mx-auto flex w-full justify-center', className)} {...props} />
+  <nav
+    aria-label="pagination"
+    className={cn('mx-auto flex w-full justify-center', className)}
+    {...props}
+    data-slot="pagination"
+  />
 )
 
 const PaginationContent = ({ className, ref, ...props }: React.HTMLProps<HTMLUListElement>) => (
-  <ul className={cn('flex flex-row items-center gap-1', className)} ref={ref} {...props} />
+  <ul
+    className={cn('flex flex-row items-center gap-1', className)}
+    ref={ref}
+    {...props}
+    data-slot="pagination-content"
+  />
 )
 
 const PaginationItem = ({ className, ref, ...props }: React.HTMLProps<HTMLLIElement>) => (
-  <li className={cn('', className)} ref={ref} {...props} />
+  <li className={cn('', className)} ref={ref} {...props} data-slot="pagination-item" />
 )
 
 const PaginationLink = ({ className, isActive, size = 'icon', ref, ...props }: PaginationLinkProps) => (
   <a
     aria-current={isActive ? 'page' : undefined}
+    data-slot="pagination-link"
     className={cn(
       buttonVariants({
         size,
@@ -41,6 +52,7 @@ const PaginationLink = ({ className, isActive, size = 'icon', ref, ...props }: P
 const PaginationPrevious = ({ className, ref, ...props }: React.ComponentPropsWithRef<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
+    data-slot="pagination-previous"
     className={cn('gap-1 pl-2.5', className)}
     ref={ref}
     size="default"
@@ -54,6 +66,7 @@ const PaginationNext = ({ className, ref, ...props }: React.ComponentPropsWithRe
   <PaginationLink
     aria-label="Go to next page"
     className={cn('gap-1 pr-2.5', className)}
+    data-slot="pagination-next"
     ref={ref}
     size="default"
     {...props}>
@@ -63,7 +76,12 @@ const PaginationNext = ({ className, ref, ...props }: React.ComponentPropsWithRe
 )
 
 const PaginationEllipsis = ({ className, ref, ...props }: React.HTMLProps<HTMLSpanElement>) => (
-  <span aria-hidden className={cn('flex h-9 w-9 items-center justify-center', className)} ref={ref} {...props}>
+  <span
+    aria-hidden
+    data-slot="pagination-ellipsis"
+    className={cn('flex h-9 w-9 items-center justify-center', className)}
+    ref={ref}
+    {...props}>
     <MoreHorizontal className="h-4 w-4" />
     <span className="sr-only">More pages</span>
   </span>

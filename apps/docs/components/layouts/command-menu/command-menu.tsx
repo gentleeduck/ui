@@ -83,7 +83,7 @@ export function CommandMenu() {
       <CommandDialog onOpenChange={setOpen} open={open}>
         <CommandInput autoFocus placeholder="Search..." />
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandList className="max-h-[450px]">
+        <CommandList className="max-h-[450px] h-full">
           {items.map((group, idx) => (
             <React.Fragment key={group.title}>
               <CommandGroup heading={group.title}>

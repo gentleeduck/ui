@@ -29,7 +29,7 @@ const FormField = <
   ...props
 }: ControllerProps<TFieldValues, TName>) => {
   return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
+    <FormFieldContext.Provider value={{ name: props.name }} data-slot="form-field">
       <Controller {...props} />
     </FormFieldContext.Provider>
   )
@@ -60,8 +60,8 @@ const FormItemContext = React.createContext<FormItemContextValue>({} as FormItem
 function FormItem({ className, ...props }: React.ComponentProps<'div'>) {
   const id = React.useId()
   return (
-    <FormItemContext.Provider value={{ id }}>
-      <div className={cn('grid gap-2', className)} duck-form-item="" {...props} />
+    <FormItemContext.Provider value={{ id }} data-slot="form-item">
+      <div className={cn('grid gap-2', className)} data-slot="form-item" {...props} />
     </FormItemContext.Provider>
   )
 }
@@ -71,7 +71,7 @@ function FormLabel({ className, ...props }: React.ComponentProps<typeof Label>) 
     <Label
       className={cn('data-[error=true]:text-destructive', className)}
       data-error={!!error}
-      duck-form-label=""
+      data-slot="form-label"
       htmlFor={formItemId}
       {...props}
     />
@@ -83,7 +83,7 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
     <Slot
       aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
       aria-invalid={!!error}
-      duck-form-control=""
+      data-slot="form-control"
       id={formItemId}
       {...props}
     />
@@ -94,7 +94,7 @@ function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
   return (
     <p
       className={cn('text-muted-foreground text-sm', className)}
-      duck-form-description=""
+      data-slot="form-description"
       id={formDescriptionId}
       {...props}
     />
@@ -107,7 +107,7 @@ function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
     return null
   }
   return (
-    <p className={cn('text-destructive text-sm', className)} duck-form-message="" id={formMessageId} {...props}>
+    <p className={cn('text-destructive text-sm', className)} data-slot="form-message" id={formMessageId} {...props}>
       {body}
     </p>
   )

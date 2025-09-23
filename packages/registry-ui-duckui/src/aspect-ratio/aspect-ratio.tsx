@@ -21,6 +21,7 @@ function AspectRatio({
         ...style,
       }}
       {...props}
+      data-slot="aspect-ratio"
     />
   )
 }

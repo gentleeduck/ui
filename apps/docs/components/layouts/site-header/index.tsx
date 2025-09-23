@@ -8,6 +8,8 @@ import { MobileNav } from '~/components/mobile-nav'
 import { ModeSwitcher } from '~/components/mode-toggle'
 import { siteConfig } from '~/config/site'
 import { CommandMenu } from '../command-menu'
+import { atomWithStorage } from 'jotai/utils'
+import { useAtom } from 'jotai'
 
 export function SiteHeader() {
   return (
@@ -75,22 +77,26 @@ function GitHubStarsButton() {
     </Link>
   )
 }
+const fontAtom = atomWithStorage('fontType', 'mono')
 
 function FontStyleButton() {
-  const [fontType, setFontType] = React.useState<'sans' | 'mono'>('mono')
+  const [fontType, setFontType] = useAtom(fontAtom)
+  const firstRender = React.useRef(true)
 
   React.useEffect(() => {
-    document.body.style.fontFamily = fontType === 'mono' ? 'var(--font-mono-geist)' : 'var(--font-sans-geist)'
+    if (firstRender.current) {
+      firstRender.current = false
+      return
+    }
+
+    const family = fontType === 'sans' ? 'var(--font-sans-geist)' : 'var(--font-mono-geist)'
+
+    document.documentElement.style.setProperty('font-family', family, 'important')
   }, [fontType])
 
   return (
     <div
-      className={cn(
-        buttonVariants({
-          size: 'icon',
-          variant: 'ghost',
-        }),
-      )}
+      className={cn(buttonVariants({ size: 'icon', variant: 'ghost' }))}
       onClick={() => setFontType(fontType === 'mono' ? 'sans' : 'mono')}>
       {fontType === 'mono' ? <Type /> : <CaseUpper />}
     </div>

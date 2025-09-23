@@ -17,6 +17,7 @@ function Progress({
       aria-valuemax={100}
       aria-valuemin={0}
       aria-valuenow={value}
+      data-slot="progress"
       role="progressbar">
       <div
         className="h-full w-full flex-1 bg-primary transition-all"

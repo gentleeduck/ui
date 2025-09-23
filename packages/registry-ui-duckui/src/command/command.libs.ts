@@ -1,5 +1,3 @@
-'use client'
-
 /**
  * Function to style the selected item
  * @function styleItem
@@ -8,9 +6,9 @@
  */
 export function styleItem(item: HTMLLIElement | null): void {
   if (!item) return
-  // if (item.hasAttribute('duck-select-item') || item.hasAttribute('duck-command-item')) {
-  //   item.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
-  // }
+  if (item.hasAttribute('duck-select-item') || item.hasAttribute('duck-command-item')) {
+    item.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+  }
   item.setAttribute('aria-selected', '')
   item.focus()
 }

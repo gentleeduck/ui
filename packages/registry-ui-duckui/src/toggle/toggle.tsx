@@ -19,7 +19,7 @@ function Toggle({
     <label
       className={cn(toggleVariants({ className, size, variant }), '')}
       data-value={value}
-      duck-toggle=""
+      data-slot="toggle"
       {...props}
       ref={ref}>
       <input className="invisible absolute hidden" disabled={disabled} type="checkbox" value={value} />

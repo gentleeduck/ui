@@ -53,7 +53,7 @@ function Switch({
         style={{ ...style, ...inputStyle }}
         type="checkbox"
         {...props}
-        duck-switch=""
+        data-slot="switch"
       />
       <SvgIndicator className="sr-only" />
     </>

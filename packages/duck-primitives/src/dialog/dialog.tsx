@@ -62,7 +62,8 @@ function Trigger({
         onClick?.(e)
       }}
       ref={ref}
-      // @ts-expect-error
+      // biome-ignore lint: false positive
+      //@ts-ignore
       {...context.getReferenceProps(props)}>
       {children}
     </Comp>
@@ -95,7 +96,10 @@ function Content({
           position: 'fixed',
           zIndex: 999,
         }}
-        {...context.getFloatingProps(props)}>
+        {...context.getFloatingProps(props)}
+        role="dialog"
+        aria-label="dialog"
+        aria-labelledby={context.labelId}>
         <Mount open={context.open} renderOnce={renderOnce}>
           {props.children}
           {context.closeButton && <DialogClose />}
@@ -189,7 +193,11 @@ function Description({ children, ref, ...props }: React.HTMLProps<HTMLParagraphE
 }
 
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
-  return <FloatingPortal {...props}>{children}</FloatingPortal>
+  return (
+    <FloatingPortal {...props} data-duck-dialog>
+      {children}
+    </FloatingPortal>
+  )
 }
 
 export { Root, Trigger, Content, Heading, Title, Description, Portal, DialogContext, Overlay }

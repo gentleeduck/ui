@@ -62,12 +62,22 @@
 
 @layer base {
   * {
-    @apply border-border font-normal;
+    @apply border-border font-medium;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
   }
 
   html {
     @apply scroll-smooth;
+  }
+
+  .font-sans {
+    font-family: var(--font-sans-geist) !important;
+  }
+
+  .font-mono {
+    font-family: var(--font-mono-geist) !important;
   }
 
   ::-webkit-scrollbar {
@@ -88,6 +98,11 @@
     border-radius: 5px;
   }
 
+  ::selection {
+    color: var(--selection-foreground);
+    background-color: var(--selection);
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings:
@@ -97,23 +112,14 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* ::selection { */
-  /*   @apply bg-selection text-selection-foreground; */
-  /* } */
-
-  html {
-    @apply scroll-smooth;
-  }
-
-  body {
-    font-synthesis-weight: none;
-    text-rendering: optimizeLegibility;
-  }
-
   @supports (font: -apple-system-body) and (-webkit-appearance: none) {
     [data-wrapper] {
       @apply min-[1800px]:border-t;
     }
+  }
+
+  image {
+    user-select: none;
   }
 
   a:active,

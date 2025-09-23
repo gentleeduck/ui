@@ -14,6 +14,7 @@ function HoverCard({
 }: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Root>) {
   return (
     <HoverCardPrimitive.Root
+      data-slot="hover-card"
       delayDuration={delayDuration}
       placement={placement}
       skipDelayDuration={skipDelayDuration}
@@ -29,7 +30,7 @@ function HoverCardTrigger({
   ...props
 }: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithRef<typeof Button>) {
   return (
-    <HoverCardPrimitive.Trigger asChild>
+    <HoverCardPrimitive.Trigger asChild data-slot="hover-card-trigger">
       <Button {...props} asChild={asChild} variant={variant}>
         {children}
       </Button>
@@ -45,6 +46,7 @@ function HoverCardContent({
   return (
     <HoverCardPrimitive.Content
       aria-modal="false"
+      data-slot="hover-card-content"
       className={cn(
         AnimVariants(),
         'relative z-50 h-fit w-fit overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',

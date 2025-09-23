@@ -103,7 +103,12 @@ const Carousel = ({
         scrollNext,
         scrollPrev,
       }}>
-      <section className={cn('relative', className)} onKeyDownCapture={handleKeyDown} ref={ref} {...props}>
+      <section
+        className={cn('relative', className)}
+        onKeyDownCapture={handleKeyDown}
+        ref={ref}
+        data-slot="carousel"
+        {...props}>
         {children}
       </section>
     </CarouselContext.Provider>
@@ -114,7 +119,7 @@ const CarouselContent = ({ className, ref, ...props }: React.HTMLProps<HTMLDivEl
   const { carouselRef, orientation } = useCarousel()
 
   return (
-    <div className="overflow-hidden" ref={carouselRef}>
+    <div className="overflow-hidden" ref={carouselRef} data-slot="carousel-content">
       <div
         className={cn('flex', orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col', className)}
         ref={ref}
@@ -130,6 +135,7 @@ const CarouselItem = ({ className, ref, ...props }: React.HTMLProps<HTMLLIElemen
   return (
     <li
       className={cn('min-w-0 shrink-0 grow-0 basis-full', orientation === 'horizontal' ? 'pl-4' : 'pt-4', className)}
+      data-slot="carousel-item"
       ref={ref}
       {...props}
       aria-roledescription="slide"
@@ -160,6 +166,7 @@ const CarouselPrevious = ({
       ref={ref}
       size={size}
       variant={variant}
+      data-slot="carousel-previous"
       {...props}>
       <ArrowLeft className="h-4 w-4" />
       <span className="sr-only">Previous slide</span>
@@ -190,6 +197,7 @@ const CarouselNext = ({
       ref={ref}
       size={size}
       variant={variant}
+      data-slot="carousel-next"
       {...props}>
       <ArrowRight className="h-4 w-4" />
       <span className="sr-only">Next slide</span>

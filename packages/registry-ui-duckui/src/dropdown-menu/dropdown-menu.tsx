@@ -47,7 +47,12 @@ function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProp
         triggerRef: triggerRef,
         wrapperRef,
       }}>
-      <div className={cn('relative', className)} duck-dropdown-menu="" {...props} ref={wrapperRef}>
+      <div
+        className={cn('relative', className)}
+        duck-dropdown-menu=""
+        data-slot="dropdown-menu"
+        {...props}
+        ref={wrapperRef}>
         {children}
       </div>
     </DropdownMenuContext.Provider>
@@ -76,7 +81,8 @@ function DropdownMenuTrigger({
       className={cn(className)}
       ref={triggerRef as never}
       {...props}
-      duck-select-trigger="">
+      duck-select-trigger=""
+      data-slot="select-trigger">
       {children}
     </PopoverTrigger>
   )
@@ -95,6 +101,7 @@ function DropdownMenuContent({
     <PopoverContent
       className={cn('w-auto min-w-[180px] overflow-visible p-1', className)}
       duck-dropdown-menu-content=""
+      data-slot="dropdown-menu-content"
       lockScroll
       ref={contentRef}
       {...props}>
@@ -118,6 +125,7 @@ function DropdownMenuLabel({
       ref={ref}
       {...props}
       duck-dropdown-menu-label=""
+      data-slot="dropdown-menu-label"
     />
   )
 }
@@ -140,6 +148,7 @@ function DropdownMenuItem({
       )}
       disabled={disabled}
       duck-dropdown-menu-item=""
+      data-slot="dropdown-menu-item"
       ref={ref}
       size={'sm'}
       variant={'ghost'}
@@ -171,7 +180,8 @@ function DropdownMenuShortcut({
         colored ? 'bg-muted' : 'ltr:-mr-2 rtl:-ml-2',
         className,
       )}
-      duck-data-dropdown-menu-shortcut=""
+      duck-dropdown-menu-shortcut=""
+      data-slot="data-dropdown-menu-shortcut"
       ref={ref}
       {...props}
     />
@@ -180,12 +190,18 @@ function DropdownMenuShortcut({
 
 function DropdownMenuSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
-    <div className={cn('-mx-1 my-1 h-px bg-muted', className)} ref={ref} {...props} duck-dropdown-menu-separator="" />
+    <div
+      className={cn('-mx-1 my-1 h-px bg-muted', className)}
+      ref={ref}
+      {...props}
+      duck-dropdown-menu-separator=""
+      data-slot="dropdown-menu-separator"
+    />
   )
 }
 
 function DropdownMenuGroup({ className, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
-  return <div className={cn(className)} {...props} duck-dropdown-menu-group="" />
+  return <div className={cn(className)} {...props} duck-dropdown-menu-group="" data-slot="dropdown-menu-group" />
 }
 
 export const DropdownMenuSubContext = React.createContext<DropdownMenuSubContextType | null>(null)
@@ -232,6 +248,7 @@ function DropdownMenuSubImpritive({ children, className, ...props }: React.HTMLP
         )}
         {...props}
         duck-dropdown-menu-sub=""
+        data-slot="dropdown-menu-sub"
         ref={wrapperRef}>
         {children}
       </div>
@@ -269,7 +286,8 @@ function DropdownMenuSubTrigger({
         className,
       )}
       {...props}
-      duck-dropdown-menu-sub-trigger="">
+      duck-dropdown-menu-sub-trigger=""
+      data-slot="dropdown-menu-sub-trigger">
       {children}
       {<ChevronRight className="rtl:-ml-2 ltr:-mr-1 ltr:rotate-0 rtl:rotate-180" />}
     </PopoverTrigger>
@@ -288,7 +306,8 @@ function DropdownMenuSubContent({
       lockScroll={true}
       ref={contentRef}
       {...props}
-      duck-dropdown-menu-sub-content="">
+      duck-dropdown-menu-sub-content=""
+      data-slot="dropdown-menu-sub-content">
       {children}
     </PopoverContent>
   )
@@ -309,6 +328,7 @@ function DropdownMenuCheckboxItem({
       className={cn(className)}
       data-checked={checkedState}
       duck-dropdown-menu-checkbox-item=""
+      data-slot="dropdown-menu-checkbox-item"
       onClick={(e) => {
         onClick?.(e)
         setCheckedState(!checkedState)
@@ -325,7 +345,7 @@ function DropdownMenuCheckboxItem({
 }
 
 function DropdownMenuRadioGroup({ ...props }: React.ComponentPropsWithRef<typeof RadioGroup>) {
-  return <RadioGroup duck-dropdown-menu-group="" duck-dropdown-menu-radio-group="" {...props} />
+  return <RadioGroup duck-dropdown-menu-radio-group="" data-slot="dropdown-menu-radio-group" {...props} />
 }
 
 function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof RadioGroupItem>) {
@@ -333,8 +353,8 @@ function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof 
 
   return (
     <DropdownMenuItem
-      duck-dropdown-menu-item=""
       duck-dropdown-menu-radio-item=""
+      data-slot="dropdown-menu-radio-item"
       onClick={() => {
         groupItemRef.current?.querySelector('label')?.click()
       }}>

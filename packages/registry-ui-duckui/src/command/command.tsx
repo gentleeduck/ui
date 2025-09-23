@@ -76,6 +76,7 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
           'flex h-full w-full max-w-96 flex-col overflow-hidden rounded-md bg-popover p-2 text-popover-foreground shadow-sm',
           className,
         )}
+        data-slot="command"
         duck-command-wrapper=""
         ref={commandRef}
         {...props}
@@ -103,7 +104,10 @@ function CommandInput({
   const context = useCommandRefsContext()
 
   return (
-    <div className={cn('mb-2 flex items-center gap-2 border-b px-1', className)} cmdk-input-wrapper="">
+    <div
+      className={cn('mb-2 flex items-center gap-2 border-b px-1', className)}
+      data-slot="command-input"
+      duck-command-input="">
       <Search className="size-[20px] shrink-0 opacity-50" />
       <input
         // biome-ignore lint: false positive
@@ -126,13 +130,21 @@ function CommandInput({
 
 function CommandEmpty({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>): React.JSX.Element {
   const context = useCommandRefsContext()
-  return <h6 className="hidden py-6 text-center text-sm" ref={context.emptyRef} {...props} duck-command-empty="" />
+  return (
+    <h6
+      className="hidden py-6 text-center text-sm"
+      ref={context.emptyRef}
+      {...props}
+      data-slot="command-empty"
+      duck-command-empty=""
+    />
+  )
 }
 
 function CommandList({ className, ...props }: React.HTMLAttributes<HTMLUListElement>): React.JSX.Element {
   const context = useCommandRefsContext()
   return (
-    <ScrollArea className="overflow-y-auto overflow-x-hidden">
+    <ScrollArea className="overflow-y-auto overflow-x-hidden" data-slot="command-list" duck-command-list="">
       <ul className={cn('max-h-[300px] focus:outline-none', className)} ref={context.listRef} {...props} />
     </ScrollArea>
   )
@@ -156,6 +168,7 @@ function CommandGroup({
       )}
       ref={ref}
       {...props}
+      data-slot="command-group"
       duck-command-group="">
       {heading && <h3 className="pb-1 pl-1 text-muted-foreground text-sm">{heading}</h3>}
       {children}
@@ -181,6 +194,7 @@ function CommandItem({
         "data-[selected= data-[disabled=true]:pointer-events-none'true']:bg-accent relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&[aria-selected]]:bg-secondary [&_svg]:size-4",
         className,
       )}
+      data-slot="command-item"
       duck-command-item=""
       onClick={(e) => {
         onSelect?.(value as string)
@@ -215,6 +229,8 @@ function CommandShortcut({
 
   return (
     <kbd
+      data-slot="command-badge"
+      duck-command-badge=""
       className={cn(
         'focus:offset-2 [&_svg]:!size-3 !font-sans pointer-events-none inline-flex cursor-none select-none items-center gap-[2px] rounded-[4px] px-2 py-[.12rem] text-secondary-foreground text-sm tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring ltr:ml-auto rtl:mr-auto',
         variant === 'secondary' && 'bg-secondary',
@@ -228,7 +244,13 @@ function CommandShortcut({
 
 function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
-    <div className={cn('-mx-1 my-2 h-px bg-secondary', className)} ref={ref} {...props} duck-command-separator="" />
+    <div
+      className={cn('-mx-1 my-2 h-px bg-secondary', className)}
+      ref={ref}
+      {...props}
+      data-slot="command-separator"
+      duck-command-separator=""
+    />
   )
 }
 

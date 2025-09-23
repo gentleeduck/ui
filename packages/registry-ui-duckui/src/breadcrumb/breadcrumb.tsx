@@ -20,13 +20,18 @@ const BreadcrumbList = ({ className, ref, ...props }: React.ComponentPropsWithRe
     )}
     ref={ref}
     {...props}
-    duck-breadcrumb-list=""
+    data-slot="breadcrumb-list"
   />
 )
 
 const BreadcrumbItem = ({ className, ref, ...props }: React.ComponentPropsWithRef<'li'>) => {
   return (
-    <li className={cn('inline-flex items-center gap-1.5', className)} ref={ref} {...props} duck-breadcrumb-item="" />
+    <li
+      className={cn('inline-flex items-center gap-1.5', className)}
+      ref={ref}
+      {...props}
+      data-slot="breadcrumb-item"
+    />
   )
 }
 
@@ -44,7 +49,7 @@ const BreadcrumbLink = ({
       className={cn('transition-colors hover:text-foreground', className)}
       ref={ref}
       {...props}
-      duck-breadcrumb-link=""
+      data-slot="breadcrumb-link"
     />
   )
 }
@@ -57,7 +62,7 @@ const BreadcrumbPage = ({ className, ref, ...props }: React.ComponentPropsWithRe
       {...props}
       aria-current="page"
       aria-disabled="true"
-      duck-breadcrumb-page=""
+      data-slot="breadcrumb-page"
     />
   )
 }
@@ -67,7 +72,7 @@ const BreadcrumbSeparator = ({ children, className, ...props }: React.ComponentP
     className={cn('[&>svg]:size-3.5', className)}
     {...props}
     aria-hidden="true"
-    duck-breadcrumb-separator=""
+    data-slot="breadcrumb-separator"
     role="presentation">
     {children ?? <ChevronRight />}
   </div>
@@ -79,7 +84,7 @@ const BreadcrumbEllipsis = ({ className, ...props }: React.ComponentProps<'span'
     className={cn('flex h-9 w-9 items-center justify-center', className)}
     role="presentation"
     {...props}
-    duck-breadcrumb-ellipsis="">
+    data-slot="breadcrumb-ellipsis">
     <MoreHorizontal className="h-4 w-4" />
     <span className="sr-only">More</span>
   </span>

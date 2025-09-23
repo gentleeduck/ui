@@ -37,6 +37,7 @@ function Button({
           variant,
         }),
       )}
+      data-slot="button"
       disabled={loading ?? disabled}
       ref={ref}
       type={type}>

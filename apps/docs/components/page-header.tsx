@@ -4,7 +4,7 @@ function PageHeader({ className, children, ...props }: React.ComponentProps<'sec
   return (
     <section className={cn('border-grid', className)} {...props}>
       <div className="container-wrapper">
-        <div className="container flex flex-col items-center gap-2 py-8 text-center md:py-16 lg:py-20 xl:gap-4">
+        <div className="container flex flex-col items-center text-center gap-2 xl:gap-4 py-[clamp(2rem,5vw,5rem)]">
           {children}
         </div>
       </div>

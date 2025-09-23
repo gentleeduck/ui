@@ -10,14 +10,25 @@ function Tooltip({
   delayDuration,
   ...props
 }: React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>) {
-  return <TooltipPrimitive.Root delayDuration={delayDuration} skipDelayDuration={skipDelayDuration} {...props} />
+  return (
+    <TooltipPrimitive.Root
+      delayDuration={delayDuration}
+      skipDelayDuration={skipDelayDuration}
+      {...props}
+      data-slot="tooltip"
+    />
+  )
 }
 
 function TooltipTrigger({
   children,
   ...props
 }: Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>) {
-  return <TooltipPrimitive.Trigger {...props}>{children}</TooltipPrimitive.Trigger>
+  return (
+    <TooltipPrimitive.Trigger {...props} data-slot="tooltip-trigger">
+      {children}
+    </TooltipPrimitive.Trigger>
+  )
 }
 
 function TooltipContent({
@@ -27,8 +38,9 @@ function TooltipContent({
   ...props
 }: React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>): React.JSX.Element {
   return (
-    <TooltipPrimitive.Portal>
+    <TooltipPrimitive.Portal data-slot="tooltip-portal">
       <TooltipPrimitive.Content
+        data-slot="tooltip-content"
         className={cn(
           AnimVariants(),
           'pointer-events-none relative z-50 h-fit w-fit select-none overflow-hidden text-balance rounded-lg border border-border bg-popover px-3 py-1.5 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
@@ -43,6 +55,8 @@ function TooltipContent({
   )
 }
 
-const TooltipPortal = TooltipPrimitive.Portal
+const TooltipPortal = ({ children }: { children: React.ReactNode }) => {
+  return <TooltipPrimitive.Portal data-slot="tooltip-portal">{children}</TooltipPrimitive.Portal>
+}
 
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipPortal }

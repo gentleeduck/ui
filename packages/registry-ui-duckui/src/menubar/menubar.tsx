@@ -226,6 +226,7 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
       <div
         className={cn('flex items-center rounded-lg border p-1', className)}
         {...props}
+        duck-slot="duck-menubar"
         duck-menubar=""
         ref={wrapperRef}>
         {children}
@@ -236,7 +237,7 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
 
 function MenubarMenu({ children, ...props }: Omit<React.HTMLProps<HTMLDivElement>, 'contextMenu'>) {
   return (
-    <DropdownMenu {...props} duck-menubar-menu="">
+    <DropdownMenu {...props} duck-menubar-menu="" duck-slot="duck-menubar-menu">
       <div {...props}>{children}</div>
     </DropdownMenu>
   )
@@ -252,6 +253,7 @@ function MenubarTrigger({ children, className, ...props }: React.ComponentPropsW
         className,
       )}
       {...props}
+      duck-slot="duck-menubar-trigger"
       duck-menubar-trigger="">
       {children}
     </DropdownMenuTrigger>
@@ -259,51 +261,51 @@ function MenubarTrigger({ children, className, ...props }: React.ComponentPropsW
 }
 
 function MenubarContent({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuContent>) {
-  return <DropdownMenuContent {...props} duck-menubar-content="" />
+  return <DropdownMenuContent {...props} duck-menubar-content="" duck-slot="duck-menubar-content" />
 }
 
 function MenubarItem({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuItem>) {
-  return <DropdownMenuItem {...props} duck-menubar-item="" />
+  return <DropdownMenuItem {...props} duck-menubar-item="" duck-slot="duck-menubar-item" />
 }
 
 function MenubarSeparator({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuSeparator>) {
-  return <DropdownMenuSeparator {...props} duck-menubar-separator="" />
+  return <DropdownMenuSeparator {...props} duck-menubar-separator="" duck-slot="duck-menubar-separator" />
 }
 
 function MenubarLabel({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuLabel>) {
-  return <DropdownMenuLabel {...props} duck-menubar-label="" />
+  return <DropdownMenuLabel {...props} duck-menubar-label="" duck-slot="duck-menubar-label" />
 }
 
 function MenubarCheckboxItem({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuCheckboxItem>) {
-  return <DropdownMenuCheckboxItem {...props} duck-menubar-checkbox-item="" />
+  return <DropdownMenuCheckboxItem {...props} duck-menubar-checkbox-item="" duck-slot="duck-menubar-checkbox-item" />
 }
 
 function MenubarRadioGroup({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuRadioGroup>) {
-  return <DropdownMenuRadioGroup {...props} duck-menubar-radio-group="" />
+  return <DropdownMenuRadioGroup {...props} duck-menubar-radio-group="" duck-slot="duck-menubar-radio-group" />
 }
 
 function MenubarRadioItem({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuRadioItem>) {
-  return <DropdownMenuRadioItem {...props} duck-menubar-radio-item="" />
+  return <DropdownMenuRadioItem {...props} duck-menubar-radio-item="" duck-slot="duck-menubar-radio-item" />
 }
 
 function MenubarSubContent({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuSubContent>) {
-  return <DropdownMenuSubContent {...props} duck-menubar-sub-content="" />
+  return <DropdownMenuSubContent {...props} duck-menubar-sub-content="" duck-slot="duck-menubar-sub-content" />
 }
 
 function MenubarSubTrigger({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuSubTrigger>) {
-  return <DropdownMenuSubTrigger {...props} duck-menubar-sub-trigger="" />
+  return <DropdownMenuSubTrigger {...props} duck-menubar-sub-trigger="" duck-slot="duck-menubar-sub-trigger" />
 }
 
 function MenubarGroup({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuGroup>) {
-  return <DropdownMenuGroup {...props} duck-menubar-group="" />
+  return <DropdownMenuGroup {...props} duck-menubar-group="" duck-slot="duck-menubar-group" />
 }
 
 function MenubarSub({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuSub>) {
-  return <DropdownMenuSub {...props} duck-menubar-sub="" />
+  return <DropdownMenuSub {...props} duck-menubar-sub="" duck-slot="duck-menubar-sub" />
 }
 
 function MenubarShortcut({ ...props }: React.ComponentPropsWithRef<typeof DropdownMenuShortcut>) {
-  return <DropdownMenuShortcut {...props} duck-menubar-shortcut="" />
+  return <DropdownMenuShortcut {...props} duck-menubar-shortcut="" duck-slot="duck-menubar-shortcut" />
 }
 
 export {

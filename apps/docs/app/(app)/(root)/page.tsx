@@ -5,7 +5,7 @@ import { Announcement } from '~/components/announcement'
 import { EcosystemSection } from '~/components/layouts/core-packages'
 import { FeaturesSection } from '~/components/layouts/features'
 import { PageActions, PageHeader, PageHeaderDescription } from '~/components/page-header'
-import { ThemeWrapper } from '~/components/themes'
+import { DuckLazyComponent } from '@gentleduck/lazy/lazy-component'
 
 const title = 'Primitives that Scale, Components that Perform.'
 const description = 'Bring life to your own website with a pack full of ideas made specially for magical websites.'
@@ -72,15 +72,13 @@ export default function Page() {
       </PageHeader>
       <div className="container-wrapper">
         <div className="">
-          <section className="scroll-mt-20" id="themes">
-            <ThemeWrapper>
-              {
-                // <CardsDemo />
-              }
-            </ThemeWrapper>
-          </section>
-          <FeaturesSection />
-          <EcosystemSection />
+          <DuckLazyComponent options={{ rootMargin: '-50px 0px 0px 0px', threshold: 0 }}>
+            <FeaturesSection />
+          </DuckLazyComponent>
+
+          <DuckLazyComponent options={{ rootMargin: '-50px 0px 0px 0px', threshold: 0 }}>
+            <EcosystemSection />
+          </DuckLazyComponent>
         </div>
       </div>
     </>

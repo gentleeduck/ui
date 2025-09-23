@@ -9,7 +9,7 @@ const Input = ({ className, type, ref, ...props }: React.HTMLProps<HTMLInputElem
 
         className,
       )}
-      // aria-invalid="true"
+      data-slot="input"
       ref={ref}
       type={type}
       {...props}

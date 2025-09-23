@@ -15,7 +15,7 @@ const SonnerUpload = ({
   onComplete,
 }: UploadSonnerProps): React.JSX.Element => {
   return (
-    <div className="flex w-full gap-3">
+    <div className="flex w-full gap-3" data-slot="content">
       <CircleCheck
         className={cn(
           '!size-[18px] mt-2 hidden fill-primary [&_path]:stroke-primary-foreground',

@@ -9,8 +9,7 @@ export const siteConfig = {
   },
   name: 'gentleduck/ui',
   ogImage: absoluteUrl('/og/root.png'),
-
-  title: '@gentleduck/ui – Modern React & Tailwind CSS Component Library',
+  title: 'turn tiny primitives to infinite design',
   url: absoluteUrl('/'),
 }
 
