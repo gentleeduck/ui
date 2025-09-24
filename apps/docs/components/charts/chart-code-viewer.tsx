@@ -9,7 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-u
 import { ComponentProps, useMemo, useState } from 'react'
 import { useThemesConfig } from '~/hooks/use-themes-config'
 import { BlockCopyButton } from '../blocks'
-import { V0Button } from '../V0'
 
 export function ChartCodeViewer({ chart, className, children }: { chart: Block } & ComponentProps<'div'>) {
   const [tab, setTab] = useState('code')
@@ -83,9 +82,9 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
           )}
         </div>
         <TabsContent className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex" value="code">
-          <div className="relative overflow-auto rounded-lg">
+          <div className="relative overflow-auto rounded-lg max-h-[44.5vh] bg-zinc-900 ">
             <div
-              className="w-full overflow-hidden [&_pre]:overflow-auto [&_pre]:py-2 [&_pre]:!bg-zinc-900 [&_pre]:text-sm [&_pre]:leading-relaxed !my-0 rounded-lg "
+              className="w-full overflow-hidden [&_pre]:overflow-auto px-2 [&_pre]:!bg-transparent bg-transparent border-none [&_pre]:text-sm [&_pre]:leading-relaxed !my-0 rounded-lg "
               dangerouslySetInnerHTML={{
                 __html: chart.highlightedCode,
               }}
@@ -93,7 +92,9 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
             />
           </div>
         </TabsContent>
-        <TabsContent className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex" value="theme">
+        <TabsContent
+          className="h-full flex-1 flex-col overflow-hidden data-[state=active]:flex [&_[data-rehype-pretty-code-fragment]]:my-0"
+          value="theme">
           <div className="" data-rehype-pretty-code-fragment="">
             <pre className="max-h-[44.5vh] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
               <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">

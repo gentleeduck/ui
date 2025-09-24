@@ -33,7 +33,7 @@ export function CopyButton({ value, className, variant = 'ghost', event, ...prop
   return (
     <Button
       aria-label="Copy"
-      className={cn('w-6.5 h-6.5 [&_svg]:h-3.5 [&_svg]:w-3.5 shadow-none rounded-sm z-50', className)}
+      className={cn('size-7 [&_svg]:!size-3.5 shadow-none rounded-sm z-50', className)}
       icon={hasCopied ? <CheckIcon /> : <Copy />}
       onClick={() => {
         copyToClipboardWithMeta(

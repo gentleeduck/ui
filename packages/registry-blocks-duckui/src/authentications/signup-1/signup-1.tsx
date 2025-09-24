@@ -15,7 +15,7 @@ export default function signup_1({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'grid grid-cols-1 overflow-auto rounded-2xl border border-border bg-card lg:grid-cols-2 w-full',
+        'grid grid-cols-1 overflow-auto rounded-2xl border border-border bg-card lg:grid-cols-2',
         className,
       )}
       style={

@@ -39,14 +39,13 @@ import {
   TableHeader,
   TableRow,
 } from '@gentleduck/registry-ui-duckui/table'
-import { useAtom, useAtomValue } from '@gentleduck/state/primitive'
+import { useAtom, useAtomValue } from '@gentleduck/state/react'
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronsLeftIcon,
   ChevronsRightIcon,
   MoreHorizontal,
-  MoreVertical,
   Pencil,
   Trash2,
 } from 'lucide-react'
@@ -72,7 +71,6 @@ export function DuckTableRowPerPage({ className, ...props }: React.HTMLAttribute
     <div className={cn('flex items-center gap-2', className)} duck-table-row-per-page="" {...props}>
       <Label className="text-nowrap text-sm">Rows per page</Label>
       <Select
-        id="select"
         onValueChange={(value) => {
           setPageSize(Number(value))
         }}
@@ -207,8 +205,8 @@ export function DuckTableHeader() {
         }
         className="border-border"
         disabled={mutatedRows.length === 0}
-        onChange={(e) => {
-          if (e.currentTarget.checked) {
+        onCheckedChange={(value) => {
+          if (value) {
             setSelectedRows(mutatedRows.map((row) => row.id))
           } else {
             setSelectedRows([])
@@ -267,8 +265,8 @@ export function DuckTableBody() {
       <Checkbox
         checked={selectedRows.includes(id)}
         className="border-border"
-        onChange={(e) => {
-          if (e.currentTarget.checked) {
+        onCheckedChange={(value) => {
+          if (value) {
             setSelectedRows((prev) => [...prev, id])
           } else {
             setSelectedRows((prev) => prev.filter((row) => row !== id))
@@ -324,12 +322,14 @@ export function DuckTableBody() {
 }
 
 export function DuckTableRowActions({ id }: { id: string }) {
-  const [rows, setRows] = useAtom(duck_table.atoms.rows)
+  // const [rows, setRows] = useAtom(duck_table.atoms.rows)
 
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="rounded-sm px-1" icon={<MoreHorizontal />} size={'icon'} variant={'ghost'} />
+        <DropdownMenuTrigger asChild>
+          <Button className="rounded-sm px-1" icon={<MoreHorizontal />} size={'icon'} variant={'ghost'}></Button>
+        </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel className="text-start pb-0">Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -363,7 +363,9 @@ export function DuckTableActionsDelete() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex items-center gap-2 justify-end">
-            <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
+            <AlertDialogCancel asChild>
+              <Button variant="outline">Cancel</Button>
+            </AlertDialogCancel>
             <AlertDialogAction>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -97,7 +97,7 @@ function Content({
           style={{
             ...style,
             position: 'fixed',
-            zIndex: 999,
+            zIndex: 99,
           }}>
           {props.children}
           {context.closeButton && <SheetClose />}
@@ -128,7 +128,7 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
           opacity: context.open ? 1 : 0,
           overflow: 'hidden',
           pointerEvents: context.open ? 'auto' : 'none',
-          zIndex: 998,
+          zIndex: 98,
         } as React.CSSProperties
       }
       {...props}>

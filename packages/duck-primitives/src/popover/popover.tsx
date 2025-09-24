@@ -118,6 +118,7 @@ function Content({
               '--duck-sheet-content-transform-origin': context.floatingStyles?.transformOrigin,
               transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
               transformOrigin: 'var(--duck-sheet-content-transform-origin)',
+              zIndex: 100,
             },
             ...style,
           }}

@@ -94,7 +94,7 @@ function Content({
           transform: `scale(${context.open ? 1 : 0.9})`,
           ...style,
           position: 'fixed',
-          zIndex: 999,
+          zIndex: 99,
         }}
         {...context.getFloatingProps(props)}
         role="dialog"
@@ -129,7 +129,7 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
           opacity: context.open ? 1 : 0,
           overflow: 'hidden',
           pointerEvents: context.open ? 'auto' : 'none',
-          zIndex: 998,
+          zIndex: 98,
         } as React.CSSProperties
       }
       {...props}>

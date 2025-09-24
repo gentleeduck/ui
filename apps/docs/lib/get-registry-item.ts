@@ -42,7 +42,7 @@ export async function getRegistryItem(name: string) {
   // Get meta.
   // Assume the first file is the main file.
   // TODO: Get meta from registry.
-  // const meta = await getFileMeta(files[0]?.path as string)
+  const meta = await getFileMeta(files[0]?.path as string)
 
   // Fix file paths.
   files = fixFilePaths(files)
@@ -50,7 +50,7 @@ export async function getRegistryItem(name: string) {
   const parsed = registry_entry_schema.safeParse({
     ...result.data,
     files,
-    // meta,
+    meta,
   })
 
   if (!parsed.success) {
@@ -110,11 +110,13 @@ async function getFileMeta(filePath: string) {
   // const containerClassName = extractVariable(sourceFile, 'containerClassName')
   // const description = extractVariable(sourceFile, 'description')
 
-  // return {
-  //   iframeHeight,
-  //   containerClassName,
-  //   description,
-  // }
+  console.log(process.cwd().replace('apps/docs', 'packages/registry-blocks-duckui/src/') + filePath)
+  return {
+    // sourceFile,
+    // iframeHeight,
+    // containerClassName,
+    // description,
+  }
 }
 
 function getFileTarget(file: z.infer<typeof registry_item_file_schema>) {

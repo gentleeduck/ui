@@ -12,8 +12,8 @@ import {
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
-import { useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
-import { Plus, ToggleLeft } from 'lucide-react'
+import { useAtomValue, useSetAtom } from '@gentleduck/state/react'
+import { Plus } from 'lucide-react'
 import React from 'react'
 import { duck_table } from './main'
 import {
@@ -86,8 +86,10 @@ export function DuckTableAdd() {
           })
           setOpen(false)
         }}>
-        <DialogTrigger asChild size={'sm'} variant={'outline'}>
-          <Button icon={<Plus />}>Add</Button>
+        <DialogTrigger asChild>
+          <Button icon={<Plus />} size={'sm'} variant={'outline'}>
+            Add
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -100,13 +102,13 @@ export function DuckTableAdd() {
                 <div className="grid gap-3" key={key}>
                   <Label htmlFor={key}>{key}</Label>
                   <Select
-                    id={key}
+                    // id={key}
                     onValueChange={(e) => setState((prev) => ({ ...prev, [key]: e }))}
                     value={state[key]}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a value" />
                     </SelectTrigger>
-                    <SelectContent className="z-50 w-[179.7px]">
+                    <SelectContent className="w-[179.7px]" style={{ zIndex: 100 }}>
                       {value.enum.map((option) => (
                         <SelectItem key={option} value={option}>
                           {option}
@@ -121,7 +123,7 @@ export function DuckTableAdd() {
                   <Input
                     id={key}
                     name={key}
-                    onChange={(e) => setState((prev) => ({ ...prev, [key]: e.target.value }))}
+                    onChange={(e) => setState((prev) => ({ ...prev, [key]: e.currentTarget.value }))}
                     placeholder={`Enter ${key}...`}
                     value={state[key]}
                   />
@@ -130,7 +132,9 @@ export function DuckTableAdd() {
             )}
           </div>
           <DialogFooter className="[&_button]:w-[120px]">
-            <DialogClose variant={'outline'}>Cancel</DialogClose>
+            <DialogClose asChild>
+              <Button variant={'outline'}>Cancel</Button>
+            </DialogClose>
             <Button type="submit">Add Row</Button>
           </DialogFooter>
         </DialogContent>

@@ -1,45 +1,45 @@
 packages:
-  - "apps/*"
-  - "packages/*"
-  - "tooling/*"
-  - "!./apps/upload-api/"
-  - "!./apps/www/"
-  - "!./apps/benchmark/"
-  - "!packages/duck-docs/"
+  - apps/*
+  - packages/*
+  - tooling/*
+  - '!./apps/upload-api/'
+  - '!./apps/www/'
+  - '!./apps/benchmark/'
+  - '!packages/duck-docs/'
 
 catalog:
-  "lucide-react": 0.525.0
-  vite: "npm:rolldown-vite@latest"
-  vitest: "^3.2.4"
-  tsdown: "^0.11"
+  '@changesets/cli': ^2.29.3
+  '@tanstack/react-query': ^5.59.15
+  '@trpc/client': ^11.0.0-rc.477
+  '@trpc/react-query': ^11.0.0-rc.477
+  '@trpc/server': ^11.0.0-rc.477
+  '@types/node': 22.18.0
+  '@vitejs/plugin-react-swc': ^3.11.0
+  '@vitest/coverage-v8': ^3.2.4
+  '@vitest/ui': ^3.2.4
+  husky: ^9.1.7
+  lucide-react: 0.525.0
+  next: ^15.3.1
+  react-day-picker: ^9.8.1
+  tailwindcss: ^4
+  tsdown: ^0.11
   tsx: ^4.19.4
   typescript: ^5.8.3
-  "husky": "^9.1.7"
-  "@vitest/ui": "^3.2.4"
-  "@vitest/coverage-v8": "^3.2.4"
-  "@types/node": ^22.15.14
-  "@vitejs/plugin-react-swc": ^3.9.0
-  "vite-tsconfig-paths": ^5.1.4
-  "@changesets/cli": ^2.29.3
-  "vite-bundle-analyzer": ^0.20.1
-  "vite-plugin-inspect": ^11.0.1
-  next: ^15.3.1
-  tailwindcss: ^4
-  "@tanstack/react-query": ^5.59.15
-  "@trpc/client": ^11.0.0-rc.477
-  "@trpc/react-query": ^11.0.0-rc.477
-  "@trpc/server": ^11.0.0-rc.477
+  vite: npm:rolldown-vite@^7.1.13
+  vite-bundle-analyzer: ^0.20.1
+  vite-plugin-inspect: ^11.0.1
+  vite-tsconfig-paths: ^5.1.4
+  vitest: ^3.2.4
   zod: ^3.23.8
-  "react-day-picker": "^9.8.1"
 
 catalogs:
-  react19:
-    react: ^19.0.0
-    react-dom: ^19.0.0
-    "@types/react": ^19
-    "@types/react-dom": ^19
   react18:
+    '@types/react': ^18.3.11
+    '@types/react-dom': ^18.3.1
     react: 18.3.1
     react-dom: 18.3.1
-    "@types/react": ^18.3.11
-    "@types/react-dom": ^18.3.1
+  react19:
+    '@types/react': ^19
+    '@types/react-dom': ^19
+    react: ^19.0.0
+    react-dom: ^19.0.0

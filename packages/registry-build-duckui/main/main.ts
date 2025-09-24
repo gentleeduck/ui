@@ -31,6 +31,7 @@ export async function main() {
     spinner,
   })
   if (!index) return
+  console.dir(index, { depth: null })
 
   // 4- build components and registry and styles
   let tsx_content: string

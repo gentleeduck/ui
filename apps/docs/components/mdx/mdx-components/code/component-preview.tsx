@@ -93,7 +93,7 @@ export function ComponentPreview({
             </div>
           </div>
           <div
-            className={cn('preview flex h-[500px] w-full justify-center p-10', {
+            className={cn('preview flex h-[500px] w-full justify-center overflow-auto p-10', {
               'items-center': align === 'center',
               'items-end': align === 'end',
               'items-start': align === 'start',
@@ -111,7 +111,7 @@ export function ComponentPreview({
           </div>
         </TabsContent>
         <TabsContent
-          className="mt-2 [&>div>div]:mb-0 [&_pre]:h-[502px] relative bg-muted/40 rounded-lg border [&>div>div>button]:top-4 [&>div>div>button]:right-4"
+          className="mt-2 [&_[data-rehype-pretty-code-fragment]]:!m-0 [&>div>div]:mb-0 [&_pre]:h-[502px] relative [&>div>div>button]:top-3 [&>div>div>button]:right-3"
           value="code">
           {Code}
         </TabsContent>

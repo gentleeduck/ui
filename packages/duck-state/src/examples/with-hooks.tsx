@@ -1,5 +1,5 @@
-import { atom } from '~/atom'
-import { useAtomValue, useSetAtom } from '../atom/hooks'
+import { atom } from '~/primitive'
+import { useAtomValue, useSetAtom } from '~/react'
 
 const countAtom = atom(0)
 export function Counter() {

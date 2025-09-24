@@ -5,6 +5,7 @@ import { Terminal } from 'lucide-react'
 import { CopyButton } from '~/components/copy-button'
 import { Event } from '~/lib/events'
 import { NpmCommands } from '~/types/unist'
+import { FigcaptionBlock } from './figcaption-block'
 
 export type CodeBlockProps = React.HTMLAttributes<HTMLPreElement> & {
   __rawString__?: string
@@ -28,17 +29,6 @@ export function PreBlock({
 }: CodeBlockProps) {
   return (
     <div data-theme={(props as any)['data-theme']}>
-      {__rawString__ && !__npmCommand__ && (
-        <CopyButton
-          className={cn(
-            'absolute right-1.5 bg-transparent border-none top-1.5 [&_svg]:size-5 [&_svg]:text-muted-foreground',
-            __withMeta__ && 'top-16',
-          )}
-          event={__event__}
-          value={__rawString__}
-          variant={'outline'}
-        />
-      )}
       {__npmCommand__ && __yarnCommand__ && __pnpmCommand__ && __bunCommand__ ? (
         <ShellCommand
           __bunCommand__={__bunCommand__}
@@ -48,14 +38,24 @@ export function PreBlock({
           {...props}
         />
       ) : (
-        <pre
-          className={cn(
-            'max-h-[650px] overflow-auto rounded-lg py-4 focus-visible:outline-none focus-visible:shadow-none',
-            className,
+        <>
+          {__rawString__ && !__npmCommand__ && (
+            <CopyButton
+              className={cn('absolute right-2 bg-muted top-2 [&_svg]:text-muted-foreground', __withMeta__ && 'top-16')}
+              event={__event__}
+              value={__rawString__}
+              variant={'outline'}
+            />
           )}
-          {...props}>
-          {children}
-        </pre>
+          <pre
+            className={cn(
+              'max-h-[650px] overflow-auto rounded-lg py-4 focus-visible:outline-none focus-visible:shadow-none',
+              className,
+            )}
+            {...props}>
+            {children}
+          </pre>
+        </>
       )}
     </div>
   )

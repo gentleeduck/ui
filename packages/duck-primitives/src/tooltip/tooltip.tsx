@@ -116,6 +116,7 @@ function Content({
               '--duck-tooltip-content-transform-origin': context.floatingStyles?.transformOrigin,
               transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
               transformOrigin: 'var(--duck-tooltip-content-transform-origin)',
+              zIndex: 100,
             },
             ...style,
           }}

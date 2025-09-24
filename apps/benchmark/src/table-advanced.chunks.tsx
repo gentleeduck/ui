@@ -6,7 +6,7 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
-import { useAtom, useAtomValue, useSetAtom } from '@gentleduck/state/primitive'
+import { useAtom, useAtomValue, useSetAtom } from '@gentleduck/state/react'
 import { ArrowDown01, ArrowUp10, Command, Minus, ToggleLeft } from 'lucide-react'
 import React from 'react'
 import { cn } from './lib/utils'
@@ -35,7 +35,7 @@ export function DuckTableSearch({
     return (
       <Input
         className="max-w-[200px] h-8"
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => setQuery(e.currentTarget.value)}
         placeholder={placeholder}
         value={query as string}
         {...props}
@@ -129,7 +129,12 @@ export function DuckTableFilter<T extends readonly string[] | string[]>({
 export function DuckTableColumnView() {
   const columns = useAtomValue(duck_table.atoms.columns)
   const setVisibleColumns = useSetAtom(duck_table.atoms.visibleColumns)
-  const _columns = Object.keys(columns)
+  const _columns = Object.keys(columns).map((key) => {
+    return {
+      label: key,
+      value: key,
+    }
+  })
 
   return (
     <Combobox<typeof _columns, 'multiple'>
@@ -159,13 +164,14 @@ export function DuckTableColumnView() {
                 return (
                   <ComboboxItem<typeof item>
                     checked={
-                      (columns[item as keyof typeof columns].visible === true ? 'indeterminate' : false) as boolean
+                      (columns[item.label as keyof typeof columns].visible === true
+                        ? 'indeterminate'
+                        : false) as boolean
                     }
                     className="[&_input]:border-none capitalize"
-                    key={item}
-                    onSelect={() => setVisibleColumns(item as keyof typeof columns)}
-                    value={item}>
-                    {item}
+                    onSelect={() => setVisibleColumns(item.label as keyof typeof columns)}
+                    value={item.label}>
+                    {item.label}
                   </ComboboxItem>
                 )
               })}
@@ -184,54 +190,59 @@ export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
   const sort = columns.find((column) => column.label === header.label)?.direction
   return (
     <Popover onOpenChange={setOpen} open={open}>
-      <PopoverTrigger
-        className="-ml-1 capitalize w-fit"
-        icon={sort === 'asc' ? <ArrowUp10 /> : sort === 'desc' ? <ArrowDown01 /> : ''}
-        size={'sm'}
-        variant={'ghost'}>
-        {header.label}
+      <PopoverTrigger asChild>
+        <Button
+          className="-ml-1 capitalize w-fit"
+          icon={sort === 'asc' ? <ArrowUp10 /> : sort === 'desc' ? <ArrowDown01 /> : ''}
+          size={'sm'}
+          variant={'ghost'}>
+          {header.label}
+        </Button>
       </PopoverTrigger>
-      <PopoverContent
-        align={'center'}
-        className="w-fit flex flex-col p-1 gap-1 [&_button]:w-[130px] [&_button]:justify-start"
-        side="bottom">
+      <PopoverContent className="w-fit flex flex-col p-1 gap-1 [&_button]:w-[130px] [&_button]:justify-start">
         <Label className="font-medium text-start text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 p-2 pb-1">
           Column sort
         </Label>
         <Separator />
-        <PopoverClose
-          icon={<ArrowUp10 />}
-          onClick={() => {
-            setColumns((prev) => {
-              return prev.map((column) => (column.label === header.label ? { ...column, direction: 'asc' } : column))
-            })
-          }}
-          size={'sm'}
-          variant={'ghost'}>
-          Ascending
+        <PopoverClose asChild>
+          <Button
+            icon={<ArrowUp10 />}
+            onClick={() => {
+              setColumns((prev) => {
+                return prev.map((column) => (column.label === header.label ? { ...column, direction: 'asc' } : column))
+              })
+            }}
+            size={'sm'}
+            variant={'ghost'}>
+            Ascending
+          </Button>
         </PopoverClose>
-        <PopoverClose
-          icon={<ArrowDown01 />}
-          onClick={() => {
-            setColumns((prev) => {
-              return prev.map((column) => (column.label === header.label ? { ...column, direction: 'desc' } : column))
-            })
-          }}
-          size={'sm'}
-          variant={'ghost'}>
-          Descending
+        <PopoverClose asChild>
+          <Button
+            icon={<ArrowDown01 />}
+            onClick={() => {
+              setColumns((prev) => {
+                return prev.map((column) => (column.label === header.label ? { ...column, direction: 'desc' } : column))
+              })
+            }}
+            size={'sm'}
+            variant={'ghost'}>
+            Descending
+          </Button>
         </PopoverClose>
         <Separator />
-        <PopoverClose
-          icon={<Minus />}
-          onClick={() => {
-            setColumns((prev) => {
-              return prev.map((column) => (column.label === header.label ? { ...column, direction: 'none' } : column))
-            })
-          }}
-          size={'sm'}
-          variant={'ghost'}>
-          None
+        <PopoverClose asChild>
+          <Button
+            icon={<Minus />}
+            onClick={() => {
+              setColumns((prev) => {
+                return prev.map((column) => (column.label === header.label ? { ...column, direction: 'none' } : column))
+              })
+            }}
+            size={'sm'}
+            variant={'ghost'}>
+            None
+          </Button>
         </PopoverClose>
       </PopoverContent>
     </Popover>
