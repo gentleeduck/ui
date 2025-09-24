@@ -15,14 +15,15 @@ export function V0Button({
   className,
   ...props
 }: {
-  block: Pick<Block, 'code' | 'description' | 'name'>
+  block: Pick<Block, 'description' | 'name'>
 } & ButtonProps) {
   return (
     <form
       action={async () => {
         try {
           const result = await editInV0({
-            code: block.code,
+            //FIX:
+            code: '', // block.code,
             description: block.description || '',
             name: block.name,
           })

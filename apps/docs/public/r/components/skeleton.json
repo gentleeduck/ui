@@ -10,7 +10,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "import { cn } from '@gentleduck/libs/cn'\nimport type * as React from 'react'\n\nfunction Skeleton({ className, ...props }: React.ComponentProps<'div'>) {\n  return (\n    <div\n      aria-hidden=\"true\"\n      className={cn('animate-pulse rounded-md bg-muted', className)}\n      {...props}\n      duck-skeleton=\"\"\n    />\n  )\n}\n\nexport { Skeleton }\n",
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport type * as React from 'react'\n\nfunction Skeleton({ className, ...props }: React.ComponentProps<'div'>) {\n  return (\n    <div\n      aria-hidden=\"true\"\n      className={cn('animate-pulse rounded-md bg-muted', className)}\n      {...props}\n      data-slot=\"skeleton\"\n    />\n  )\n}\n\nexport { Skeleton }\n",
       "path": "skeleton/skeleton.tsx",
       "target": "components/ui/skeleton.tsx",
       "type": "registry:ui"

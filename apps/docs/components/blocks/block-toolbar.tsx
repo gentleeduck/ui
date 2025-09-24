@@ -128,15 +128,17 @@ export function BlockToolbar({
             event="copy_block_code"
             name={block.name}
           />
-          <V0Button
-            block={{
-              code: block.code,
-              description: block.description || 'Edit in v0',
-              name: block.name,
-            }}
-            disabled={isLiftMode}
-            id={`v0-button-${block.name}`}
-          />
+          {
+            // <V0Button
+            //   block={{
+            //     // code: '', //block.code,
+            //     description: block.description || 'Edit in v0',
+            //     name: block.name,
+            //   }}
+            //   disabled={isLiftMode}
+            //   id={`v0-button-${block.name}`}
+            // />
+          }
         </div>
       )}
     </div>

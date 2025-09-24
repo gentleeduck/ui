@@ -25,12 +25,10 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
           '--container-height': block.container?.height,
         } as React.CSSProperties
       }>
-      {/* @ts-ignore */}
-      <BlockToolbar block={block} resizablePanelRef={ref} />
+      <BlockToolbar block={block} resizablePanelRef={ref as never} />
       <TabsContent
-        value="preview"
-        // className="relative after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-lg after:bg-muted"
-      >
+        className="relative after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-lg after:bg-muted"
+        value="preview">
         <ResizablePanelGroup className="relative z-10" direction="horizontal">
           <ResizablePanel
             className={cn(

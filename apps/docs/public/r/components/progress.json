@@ -10,7 +10,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type * as React from 'react'\n\nfunction Progress({\n  className,\n  ref,\n  value,\n  ...props\n}: Omit<React.HTMLProps<HTMLDivElement>, 'value'> & { value: number }) {\n  return (\n    <div\n      className={cn('relative h-4 w-full overflow-hidden rounded-full bg-secondary', className)}\n      ref={ref}\n      {...props}\n      aria-valuemax={100}\n      aria-valuemin={0}\n      aria-valuenow={value}\n      role=\"progressbar\">\n      <div\n        className=\"h-full w-full flex-1 bg-primary transition-all\"\n        style={{ transform: `translateX(-${100 - (value ?? 0)}%)` }}\n      />\n    </div>\n  )\n}\n\nexport { Progress }\n",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type * as React from 'react'\n\nfunction Progress({\n  className,\n  ref,\n  value,\n  ...props\n}: Omit<React.HTMLProps<HTMLDivElement>, 'value'> & { value: number }) {\n  return (\n    <div\n      className={cn('relative h-4 w-full overflow-hidden rounded-full bg-secondary', className)}\n      ref={ref}\n      {...props}\n      aria-valuemax={100}\n      aria-valuemin={0}\n      aria-valuenow={value}\n      data-slot=\"progress\"\n      role=\"progressbar\">\n      <div\n        className=\"h-full w-full flex-1 bg-primary transition-all\"\n        style={{ transform: `translateX(-${100 - (value ?? 0)}%)` }}\n      />\n    </div>\n  )\n}\n\nexport { Progress }\n",
       "path": "progress/progress.tsx",
       "target": "components/ui/progress.tsx",
       "type": "registry:ui"
