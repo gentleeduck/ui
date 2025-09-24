@@ -34,24 +34,6 @@ function Trigger({
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
   const Comp = asChild ? Slot : 'button'
 
-  // `asChild` allows the user to pass any element as the anchor
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(
-      children,
-      context.getReferenceProps({
-        ref,
-        ...props,
-        ...(children.props as any),
-        'data-open': context.open,
-        onClick: (e: React.MouseEvent<HTMLElement>) => {
-          // @ts-expect-error
-          onClick?.(e)
-          context.setOpen(!context.open)
-        },
-      }),
-    )
-  }
-
   return (
     <Comp
       data-open={context.open}
@@ -62,7 +44,8 @@ function Trigger({
         onClick?.(e)
       }}
       ref={ref}
-      // @ts-expect-error
+      // biome-ignore lint: false positive
+      // @ts-ignore
       {...context.getReferenceProps(props)}>
       {children}
     </Comp>

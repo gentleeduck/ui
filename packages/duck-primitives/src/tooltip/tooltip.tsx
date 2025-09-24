@@ -45,23 +45,23 @@ function Trigger({
   const Comp = asChild ? Slot : 'button'
 
   // `asChild` allows the user to pass any element as the anchor
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(
-      children,
-      // @ts-expect-error
-      context.getReferenceProps({
-        ref,
-        ...props,
-        ...(children.props as any),
-        'data-open': context.open,
-        onClick: (e: React.MouseEvent<HTMLElement>) => {
-          // @ts-expect-error
-          onClick?.(e)
-          context.setOpen(!context.open)
-        },
-      }),
-    )
-  }
+  // if (asChild && React.isValidElement(children)) {
+  //   return React.cloneElement(
+  //     children,
+  //     // @ts-expect-error
+  //     context.getReferenceProps({
+  //       ref,
+  //       ...props,
+  //       ...(children.props as any),
+  //       'data-open': context.open,
+  //       onClick: (e: React.MouseEvent<HTMLElement>) => {
+  //         // @ts-expect-error
+  //         onClick?.(e)
+  //         context.setOpen(!context.open)
+  //       },
+  //     }),
+  //   )
+  // }
 
   return (
     <Comp

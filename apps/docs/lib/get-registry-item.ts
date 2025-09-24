@@ -110,8 +110,8 @@ async function getFileMeta(filePath: string) {
   // const containerClassName = extractVariable(sourceFile, 'containerClassName')
   // const description = extractVariable(sourceFile, 'description')
 
-  console.log(process.cwd().replace('apps/docs', 'packages/registry-blocks-duckui/src/') + filePath)
   return {
+    code: sourceFile.getFullText(),
     // sourceFile,
     // iframeHeight,
     // containerClassName,

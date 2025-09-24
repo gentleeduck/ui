@@ -122,7 +122,12 @@ export function BlockToolbar({
             </ToggleGroup>
           </div>
           <Separator className="mx-2 hidden h-4 md:flex" orientation="vertical" />
-          <BlockCopyButton code={block.code} disabled={isLiftMode} event="copy_block_code" name={block.name} />
+          <BlockCopyButton
+            code={block.files?.[0]?.content as string}
+            disabled={isLiftMode}
+            event="copy_block_code"
+            name={block.name}
+          />
           <V0Button
             block={{
               code: block.code,
