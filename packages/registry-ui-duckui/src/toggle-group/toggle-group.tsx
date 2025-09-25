@@ -43,8 +43,8 @@ function ToggleGroup({
         ref={wrapperRef}
         {...props}
         data-type={type}
-        duck-toggle-group=""
-        data-slot="toggle-group">
+        data-slot="toggle-group"
+        duck-toggle-group="">
         {children}
       </ul>
     </ToggleGroupContext.Provider>
@@ -70,8 +70,8 @@ function ToggleGroupItem({
       value={value}
       variant={context?.variant || variant}
       {...props}
-      duck-toggle-group-item=""
-      data-slot="toggle-group-item">
+      data-slot="toggle-group-item"
+      duck-toggle-group-item="">
       {children}
     </Toggle.Toggle>
   )

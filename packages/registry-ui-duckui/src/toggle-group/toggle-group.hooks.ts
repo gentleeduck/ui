@@ -6,7 +6,9 @@ export function ToggleGroupInit(type?: 'single' | 'multiple', onValueChange?: (v
   const selectedItemRef = React.useRef<HTMLDivElement[]>([])
 
   React.useEffect(() => {
-    const items = Array.from(wrapperRef.current?.querySelectorAll('[toggle-group-item]') as never as HTMLDivElement[])
+    const items = Array.from(
+      wrapperRef.current?.querySelectorAll('[duck-toggle-group-item]') as never as HTMLDivElement[],
+    )
     itemsRef.current = items
 
     for (let i = 0; i < items.length; i++) {
@@ -29,5 +31,5 @@ export function ToggleGroupInit(type?: 'single' | 'multiple', onValueChange?: (v
       })
     }
   }, [type])
-  return { itemsRef, selectedItemRef, wrapperRef }
+  return { wrapperRef, itemsRef, selectedItemRef }
 }
