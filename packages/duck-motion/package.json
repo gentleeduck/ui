@@ -24,7 +24,7 @@
     "tsconfig.json",
     "src/index.css"
   ],
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-motion#readme",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-motion#readme",
   "name": "@gentleduck/motion",
   "packageManager": "pnpm@10.17.0",
   "peerDependencies": {

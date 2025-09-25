@@ -26,7 +26,7 @@
     "LICENSE",
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-hooks#readme",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-hooks#readme",
   "module": "./dist/index.js",
   "name": "@gentleduck/hooks",
   "packageManager": "pnpm@10.17.0",

@@ -28,7 +28,7 @@
     "TAILWIND_SETUP.md",
     "LICENSE"
   ],
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives#readme",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-primitives#readme",
   "keywords": [
     "aria",
     "gentleduck",
@@ -58,7 +58,7 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleduck/ui/tree/master/packages/duck-primitives"
+    "url": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-primitives"
   },
   "scripts": {
     "build": "tsdown",

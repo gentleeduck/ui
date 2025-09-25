@@ -26,7 +26,7 @@
     "LICENSE",
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/gentleduck/ui/tree/master/packages/duck-libs#readme",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-libs#readme",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "name": "@gentleduck/libs",
