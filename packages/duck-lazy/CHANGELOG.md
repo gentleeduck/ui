@@ -1,5 +1,15 @@
 # @gentleduck/lazy
 
+## 1.2.9
+
+### Patch Changes
+
+- done
+- new docs and integration in duck-ui
+- some issues with the image
+- fixed tyes
+- done
+
 ## 1.2.8
 
 ### Patch Changes

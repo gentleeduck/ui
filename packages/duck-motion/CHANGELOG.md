@@ -1,5 +1,16 @@
 # @gentleduck/motion
 
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/variants@0.1.16
+
 ## 0.1.9
 
 ### Patch Changes

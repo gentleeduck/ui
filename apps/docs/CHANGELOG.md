@@ -1,5 +1,55 @@
 # @gentleduck/docs
 
+## 3.0.7
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/lazy@1.2.9
+  - @gentleduck/registry-ui-duckui@0.1.4
+
+## 3.0.6
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/primitives@0.1.33
+  - @gentleduck/registry-examples-duckui@0.1.0
+  - @gentleduck/registry-ui-duckui@0.1.4
+
+## 3.0.5
+
+### Patch Changes
+
+- @gentleduck/motion@0.1.10
+- @gentleduck/registry-blocks-duckui@0.1.0
+- @gentleduck/registry-examples-duckui@0.1.0
+- @gentleduck/registry-ui-duckui@0.1.4
+
+## 3.0.4
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/vim@0.1.12
+  - @gentleduck/registry-blocks-duckui@0.1.0
+  - @gentleduck/registry-examples-duckui@0.1.0
+  - @gentleduck/registry-ui-duckui@0.1.3
+
 ## 0.1.46
 
 ### Patch Changes

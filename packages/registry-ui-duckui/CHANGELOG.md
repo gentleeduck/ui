@@ -1,5 +1,16 @@
 # @gentleduck/registry-ui-duckui
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/variants@0.1.16
+
 ## 0.1.3
 
 ### Patch Changes

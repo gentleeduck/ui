@@ -1,5 +1,18 @@
 # @gentleduck/primitives
 
+## 0.1.33
+
+### Patch Changes
+
+- fixed bugs
+- fixed the exports
+- fixed the package.json
+- fixed the types
+- fixed the positioning
+- some button and slot issues
+- done
+- fixed the build
+
 ## 0.1.32
 
 ### Patch Changes

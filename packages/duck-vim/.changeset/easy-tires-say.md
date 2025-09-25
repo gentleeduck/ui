@@ -1,5 +1,0 @@
----
-"@gentleduck/vim": patch
----
-
-done

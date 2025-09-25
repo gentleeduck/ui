@@ -1,5 +1,15 @@
 # @gentleduck/variants
 
+## 0.1.16
+
+### Patch Changes
+
+- done with some tyeps
+- fixed types
+- done
+- done
+- done
+
 ## 0.1.15
 
 ### Patch Changes
