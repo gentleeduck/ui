@@ -14,8 +14,6 @@ export function returnMessage<T extends AuthMessagesType, U extends unknown = nu
   return { data, message, status }
 }
 
-export type AuthMessagesType = (typeof AuthMessages)[number]
-
 const errorMessage = <T extends AuthMessagesType>(message: T) => ({ message })
 
 /////////////////////////
@@ -31,6 +29,8 @@ export const AuthMessages = [
   //ZOD
   'ZOD_EXPECTED_STRING',
 ] as const
+
+export type AuthMessagesType = (typeof AuthMessages)[number]
 
 // dto.ts file
 const signinSchema = z.object({

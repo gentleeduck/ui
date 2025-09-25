@@ -38,6 +38,7 @@ function Trigger({
     <Comp
       data-open={context.open}
       // The user can style the trigger based on the state
+      type="button"
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
         // @ts-expect-error
