@@ -1,6 +1,6 @@
 {
   "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",

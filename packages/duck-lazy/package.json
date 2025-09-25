@@ -1,7 +1,7 @@
 {
   "author": "wilddcuk",
   "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "devDependencies": {

@@ -4,7 +4,7 @@
     "duck-benchmark": "dist/index.js"
   },
   "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "dependencies": {
     "@antfu/ni": "^0.21.12",

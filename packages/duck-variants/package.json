@@ -1,7 +1,7 @@
 {
   "author": "wilddcuk",
   "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
   "devDependencies": {

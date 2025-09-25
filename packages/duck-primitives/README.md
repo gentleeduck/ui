@@ -64,7 +64,7 @@ export function ExampleDialog() {
 ## 🔒 Security
 
 See [`SECURITY.md`](./SECURITY.md).
-Report issues at [github.com/gentleduck/ui/issues](https://github.com/gentleduck/ui/issues).
+Report issues at [github.com/gentleduck/ui/issues](https://github.com/gentleeduck/duck-ui/issues).
 
 ---
 
