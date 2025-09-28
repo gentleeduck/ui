@@ -1,21 +1,50 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
-    "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "incremental": true,
-    "module": "commonjs",
-    "noFallthroughCasesInSwitch": false,
-    "noImplicitAny": false,
-    "outDir": "./dist",
-    "removeComments": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": [
+      "ES2022",
+      "dom",
+      "dom.iterable"
+    ],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noErrorTruncation": true,
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+      "~/old-registry-ui": [
+        "../_oldstuff_refactor/ui/*"
+      ],
+      "~/velite": [
+        "./.velite/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "sourceMap": true,
-    "strictBindCallApply": false,
-    "strictNullChecks": true,
-    "target": "ES2023"
-  }
+    "strictPropertyInitialization": false,
+    "useDefineForClassFields": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "extends": "@gentleduck/typescript-config/base.json",
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".velite",
+    "../../packages/_oldstuff_refactor/ui"
+  ]
 }

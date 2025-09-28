@@ -1,9 +1,7 @@
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { CTX, GetRes } from './index.ctx'
-import { ApiRoutes } from './index.d'
 import { toast } from 'sonner'
-import { AuthMessagesType } from './index-server'
+import { I18AuthMessages, GetRes } from '../index.d'
 
 function Signin() {
   const { register, handleSubmit } = useForm({
@@ -27,7 +25,7 @@ function Signin() {
 
 async function signin({ email, password }: any) {
   try {
-    const { data } = await axios.post<GetRes<'/api/auth/signup'>>(
+    const { data } = await axios.post<GetRes<'/api/auth/signin'>>(
       '/api/auth/signin',
       {
         email,
@@ -38,14 +36,14 @@ async function signin({ email, password }: any) {
         withXSRFToken: true,
       },
     )
-    data
 
-    if ((data.status = 'error')) {
-      toast.error(i18n.en[data.message as never])
+    if (data.state === 'error') {
+      toast.error(i18n.en[data.message])
+      return
       /// handle error to the user
     }
 
-    toast.success(i18n.en[data.message as never])
+    toast.success(i18n.en[data.message])
     return data
   } catch (error) {
     /// handle error to the user
@@ -57,12 +55,16 @@ const i18n: I18n = {
     AUTH_SIGNIN_ERROR: 'خطا في تسجيل الدخول',
     AUTH_SIGNIN_SUCCESS: 'تم تسجيل الدخول بنجاح',
     ZOD_EXPECTED_STRING: 'متوقع نص',
+    AUTH_SIGNUP_SUCCESS: 'تم التسجيل بنجاح',
+    AUTH_SIGNOUT_SUCCESS: 'تم تسجيل الخروج بنجاح',
   },
   en: {
     AUTH_SIGNIN_ERROR: 'Signin error',
     AUTH_SIGNIN_SUCCESS: 'Signin success',
     ZOD_EXPECTED_STRING: 'Expected string',
+    AUTH_SIGNOUT_SUCCESS: 'Signout success',
+    AUTH_SIGNUP_SUCCESS: 'Signup success',
   },
 }
 
-type I18n = Record<'ar' | 'en', Record<AuthMessagesType, string>>
+type I18n = Record<'ar' | 'en', I18AuthMessages>
