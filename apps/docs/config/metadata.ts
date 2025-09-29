@@ -20,9 +20,18 @@ export const METADATA: Metadata = {
   creator: 'wilddcuk2',
   description: siteConfig.description,
   icons: {
-    apple: '/icons/apple-touch-icon.png',
-    icon: '/icons/favicon.ico',
-    shortcut: '/icons/favicon-16x16.png',
+    shortcut: [
+      { url: '/icons/light/favicon.ico', media: '(prefers-color-scheme: light)' },
+      { url: '/icons/dark/favicon.ico', media: '(prefers-color-scheme: dark)' },
+    ],
+    icon: [
+      { url: '/icons/light/favicon-32x32.png', media: '(prefers-color-scheme: light)' },
+      { url: '/icons/dark/favicon-32x32.png', media: '(prefers-color-scheme: dark)' },
+    ],
+    apple: [
+      { url: '/icons/light/apple-touch-icon.png', media: '(prefers-color-scheme: light)' },
+      { url: '/icons/dark/apple-touch-icon.png', media: '(prefers-color-scheme: dark)' },
+    ],
   },
   keywords: [
     // Brand

@@ -1,7 +1,7 @@
 {
-  "name": "Duck UI – React + Tailwind UI Library by Gentleduck",
-  "short_name": "Duck UI",
-  "description": "Duck UI is a lightweight, type-safe, and accessible React UI library built with Tailwind CSS and Next.js. Designed for speed, customization, and modern design systems.",
+  "name": "gentleduck/ui – React + Tailwind UI Library by Gentleduck",
+  "short_name": "gentleduck/ui",
+  "description": "gentleduck/ui is a lightweight, type-safe, and accessible React UI library built with Tailwind CSS and Next.js. Designed for speed, customization, and modern design systems.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -24,7 +24,9 @@
     "productivity",
     "react",
     "ui-components",
-    "tailwindcss"
+    "tailwindcss",
+    "typescript",
+    "nextjs"
   ],
   "lang": "en",
   "dir": "ltr"

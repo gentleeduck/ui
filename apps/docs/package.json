@@ -86,6 +86,7 @@
     "dev": "next dev --turbopack",
     "dev:docs": "pnpm velite dev",
     "lint": "next lint",
+    "postbuild": "next-sitemap",
     "start": "next start"
   },
   "version": "3.0.7"
