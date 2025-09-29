@@ -7,4 +7,4 @@ export const signinSchema = z.object({
   email: z.string().email({ ...errorMessage('ZOD_EXPECTED_STRING') }),
   password: z.string().min(6, { ...errorMessage('ZOD_EXPECTED_STRING') }),
 })
-export type SigninSchema = z.infer<typeof signinSchema>
+export type SigninSchemaDto = z.infer<typeof signinSchema>

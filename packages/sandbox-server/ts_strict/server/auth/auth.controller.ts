@@ -1,4 +1,4 @@
-import { SigninSchema, signinSchema } from './auth.dto'
+import { SigninSchemaDto, signinSchema } from './auth.dto'
 import { singin } from './auth.service'
 import { ResponseType } from '../libs/response'
 import { AuthMessages } from './auth.constants'
@@ -6,7 +6,7 @@ import { AuthMessages } from './auth.constants'
 export async function auth_signin({
   data,
 }: {
-  data: SigninSchema
+  data: SigninSchemaDto
 }): Promise<ResponseType<Awaited<ReturnType<typeof singin>>, typeof AuthMessages>> {
   try {
     const user_data = signinSchema.parse(data)

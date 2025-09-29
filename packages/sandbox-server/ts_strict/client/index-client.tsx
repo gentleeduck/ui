@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { I18AuthMessages, GetRes } from '../index.d'
+import { I18AuthMessages, GetRes, GetReq, ApiRoutes } from '../index.d'
 
 function Signin() {
   const { register, handleSubmit } = useForm({
@@ -25,12 +25,13 @@ function Signin() {
 
 async function signin({ email, password }: any) {
   try {
-    const { data } = await axios.post<GetRes<'/api/auth/signin'>>(
+    const { data } = await axios.post<GetRes<'/api/auth/signout'>>(
       '/api/auth/signin',
       {
-        email,
-        password,
-      },
+        data: {
+          email,
+        },
+      } as GetReq<'/api/auth/signin'>,
       {
         withCredentials: true,
         withXSRFToken: true,
@@ -48,6 +49,40 @@ async function signin({ email, password }: any) {
   } catch (error) {
     /// handle error to the user
   }
+}
+
+const duck_fetch = {
+  async post<Path extends keyof ApiRoutes>(
+    url: Path,
+    data: GetReq<Path>,
+    config?: AxiosRequestConfig<GetReq<Path>>,
+  ): Promise<AxiosResponse<GetRes<Path>>> {
+    return await axios.post(url, data, config)
+  },
+}
+
+async function signin_with_duck(lang: 'ar' | 'en') {
+  const { data } = await duck_fetch.post(
+    '/api/auth/signin',
+    {
+      data: {
+        email: 'email',
+        password: 'password',
+      },
+    },
+    {
+      withCredentials: true,
+    },
+  )
+
+  if (data.state === 'error') {
+    toast.error(i18n[lang][data.message])
+    return
+    /// handle error to the user
+  }
+
+  toast.success(i18n[lang][data.message])
+  return data
 }
 
 const i18n: I18n = {

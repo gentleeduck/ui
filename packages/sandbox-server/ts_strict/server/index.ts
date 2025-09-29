@@ -27,8 +27,6 @@ app.use(auth_router)
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
   console.log(`Registered ${routeMetadata.length} routes`)
-  console.log(`Health check: http://localhost:${PORT}/health`)
-  console.log(`API docs: http://localhost:${PORT}/api/docs`)
 })
 
 // Graceful shutdown
