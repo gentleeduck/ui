@@ -34,12 +34,12 @@ const ChartContainer = ({ id, className, children, config, ref, ...props }: Char
   return (
     <ChartContext.Provider value={{ config }}>
       <div
-        data-slot="chart-container"
         className={cn(
           "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-hidden [&_.recharts-surface]:outline-hidden",
           className,
         )}
         data-chart={chartId}
+        data-slot="chart-container"
         ref={ref}
         {...props}>
         <ChartStyle config={config} id={chartId} />
@@ -112,7 +112,7 @@ const ChartTooltipContent = ({
 
     if (labelFormatter) {
       return (
-        <div data-slot="tooltip-label" className={cn('font-medium', labelClassName)}>
+        <div className={cn('font-medium', labelClassName)} data-slot="tooltip-label">
           {labelFormatter(value, payload)}
         </div>
       )
@@ -123,7 +123,7 @@ const ChartTooltipContent = ({
     }
 
     return (
-      <div data-slot="tooltip-label" className={cn('font-medium', labelClassName)}>
+      <div className={cn('font-medium', labelClassName)} data-slot="tooltip-label">
         {value}
       </div>
     )
@@ -137,11 +137,11 @@ const ChartTooltipContent = ({
 
   return (
     <div
-      data-slot="tooltip-content"
       className={cn(
         'grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl',
         className,
       )}
+      data-slot="tooltip-content"
       ref={ref}>
       {nestLabel ? null : tooltipLabel}
       <div className="grid gap-1.5" data-slot="tooltip-items">
@@ -152,11 +152,11 @@ const ChartTooltipContent = ({
 
           return (
             <div
-              data-slot="tooltip-item"
               className={cn(
                 'flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground',
                 indicator === 'dot' && 'items-center',
               )}
+              data-slot="tooltip-item"
               key={item.dataKey}>
               {formatter && item?.value !== undefined && item.name ? (
                 formatter(item.value, item.name, item, index, item.payload)
@@ -225,8 +225,8 @@ const ChartLegendContent = ({
 
   return (
     <div
-      data-slot="legend-content"
       className={cn('flex items-center justify-center gap-4', verticalAlign === 'top' ? 'pb-3' : 'pt-3', className)}
+      data-slot="legend-content"
       ref={ref}>
       {payload.map((item) => {
         const key = `${nameKey || item.dataKey || 'value'}`
@@ -234,8 +234,8 @@ const ChartLegendContent = ({
 
         return (
           <div
-            data-slot="legend-item"
             className={cn('flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground')}
+            data-slot="legend-item"
             key={item.value}>
             {itemConfig?.icon && !hideIcon ? (
               <itemConfig.icon />

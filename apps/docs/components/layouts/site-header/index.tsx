@@ -1,5 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import { useAtom } from 'jotai'
+import { atomWithStorage } from 'jotai/utils'
 import { CaseUpper, Github, Twitter, Type } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -8,8 +10,6 @@ import { MobileNav } from '~/components/mobile-nav'
 import { ModeSwitcher } from '~/components/mode-toggle'
 import { siteConfig } from '~/config/site'
 import { CommandMenu } from '../command-menu'
-import { atomWithStorage } from 'jotai/utils'
-import { useAtom } from 'jotai'
 
 export function SiteHeader() {
   return (

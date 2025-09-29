@@ -60,12 +60,12 @@ function AlertDialogContent({
   return (
     <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal">
       <AlertDialogPrimitive.Content
-        data-slot="alert-dialog-content"
         className={cn(
           AnimVariants(),
           '-translate-x-1/2 -translate-y-1/2 pointer-events-none relative top-1/2 left-1/2 z-50 flex h-fit w-full w-full max-w-[500px] flex-col gap-4 overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
           className,
         )}
+        data-slot="alert-dialog-content"
         dialogClose={AlertDialogCloseX}
         {...props}>
         {children}

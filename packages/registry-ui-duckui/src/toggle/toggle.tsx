@@ -18,9 +18,9 @@ function Toggle({
   return (
     <label
       className={cn(toggleVariants({ className, size, variant }), '')}
+      data-slot="toggle"
       data-value={value}
-      duck-toggle=""
-      data-slot="toggle">
+      duck-toggle="">
       <input
         className="invisible absolute hidden"
         disabled={disabled}

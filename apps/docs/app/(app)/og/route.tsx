@@ -1,13 +1,5 @@
 import { ImageResponse } from 'next/og'
 
-// declare module 'react' {
-//   interface HTMLAttributes<T> {
-//     tw?: string
-//   }
-// }
-
-import { Icons } from '~/components/icons'
-
 async function loadAssets(): Promise<{ name: string; data: Buffer; weight: 400 | 600; style: 'normal' }[]> {
   const [{ base64Font: normal }, { base64Font: mono }, { base64Font: semibold }] = await Promise.all([
     import('./geist-regular-otf.json').then((mod) => mod.default || mod),
@@ -17,22 +9,22 @@ async function loadAssets(): Promise<{ name: string; data: Buffer; weight: 400 |
 
   return [
     {
-      name: 'Geist',
       data: Buffer.from(normal, 'base64'),
-      weight: 400 as const,
-      style: 'normal' as const,
-    },
-    {
-      name: 'Geist Mono',
-      data: Buffer.from(mono, 'base64'),
-      weight: 400 as const,
-      style: 'normal' as const,
-    },
-    {
       name: 'Geist',
-      data: Buffer.from(semibold, 'base64'),
-      weight: 600 as const,
       style: 'normal' as const,
+      weight: 400 as const,
+    },
+    {
+      data: Buffer.from(mono, 'base64'),
+      name: 'Geist Mono',
+      style: 'normal' as const,
+      weight: 400 as const,
+    },
+    {
+      data: Buffer.from(semibold, 'base64'),
+      name: 'Geist',
+      style: 'normal' as const,
+      weight: 600 as const,
     },
   ]
 }
@@ -45,7 +37,7 @@ export async function GET(request: Request) {
   const [fonts] = await Promise.all([loadAssets()])
 
   return new ImageResponse(
-    <div tw="flex h-full w-full bg-black text-white" style={{ fontFamily: 'Geist Mono' }}>
+    <div style={{ fontFamily: 'Geist Mono' }} tw="flex h-full w-full bg-black text-white">
       <div tw="flex border absolute border-stone-700 border-dashed inset-y-0 left-16 w-[1px]" />
       <div tw="flex border absolute border-stone-700 border-dashed inset-y-0 right-16 w-[1px]" />
       <div tw="flex border absolute border-stone-700 inset-x-0 h-[1px] top-16" />
@@ -289,29 +281,29 @@ export async function GET(request: Request) {
       </div>
       <div tw="flex flex-col absolute w-[1040px] justify-center inset-32">
         <div
-          tw="tracking-tight flex-grow-1 flex flex-col justify-center leading-[1.1]"
           style={{
+            fontSize: title && title.length > 20 ? 64 : 80,
             // textWrap: 'balance',
             fontWeight: 600,
-            fontSize: title && title.length > 20 ? 64 : 80,
             letterSpacing: '-0.04em',
-          }}>
+          }}
+          tw="tracking-tight flex-grow-1 flex flex-col justify-center leading-[1.1]">
           {title}
         </div>
         <div
-          tw="text-[40px] leading-[1.5] flex-grow-1 text-stone-400"
           style={{
             fontWeight: 500,
             textWrap: 'balance',
-          }}>
+          }}
+          tw="text-[40px] leading-[1.5] flex-grow-1 text-stone-400">
           {description}
         </div>
       </div>
     </div>,
     {
-      width: 1400,
-      height: 628,
       fonts,
+      height: 628,
+      width: 1400,
     },
   )
 }

@@ -1,7 +1,7 @@
 import { Metadata, Viewport } from 'next'
 import { absoluteUrl } from '~/lib/utils'
-import { siteConfig } from './site'
 import { allTitles } from './docs'
+import { siteConfig } from './site'
 
 export const VIEWPORT: Viewport = {
   themeColor: [
@@ -11,6 +11,9 @@ export const VIEWPORT: Viewport = {
 }
 
 export const METADATA: Metadata = {
+  alternates: {
+    canonical: siteConfig.url,
+  },
   authors: [
     {
       name: 'wilddcuk2',
@@ -20,17 +23,17 @@ export const METADATA: Metadata = {
   creator: 'wilddcuk2',
   description: siteConfig.description,
   icons: {
-    shortcut: [
-      { url: '/icons/light/favicon.ico', media: '(prefers-color-scheme: light)' },
-      { url: '/icons/dark/favicon.ico', media: '(prefers-color-scheme: dark)' },
+    apple: [
+      { media: '(prefers-color-scheme: light)', url: '/icons/light/apple-touch-icon.png' },
+      { media: '(prefers-color-scheme: dark)', url: '/icons/dark/apple-touch-icon.png' },
     ],
     icon: [
-      { url: '/icons/light/favicon-32x32.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icons/dark/favicon-32x32.png', media: '(prefers-color-scheme: dark)' },
+      { media: '(prefers-color-scheme: light)', url: '/icons/light/favicon-32x32.png' },
+      { media: '(prefers-color-scheme: dark)', url: '/icons/dark/favicon-32x32.png' },
     ],
-    apple: [
-      { url: '/icons/light/apple-touch-icon.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icons/dark/apple-touch-icon.png', media: '(prefers-color-scheme: dark)' },
+    shortcut: [
+      { media: '(prefers-color-scheme: light)', url: '/icons/light/favicon.ico' },
+      { media: '(prefers-color-scheme: dark)', url: '/icons/dark/favicon.ico' },
     ],
   },
   keywords: [
@@ -99,16 +102,13 @@ export const METADATA: Metadata = {
     images: [siteConfig.ogImage],
     title: siteConfig.name,
   },
-  alternates: {
-    canonical: siteConfig.url,
-  },
 }
 
 const ogImage = {
+  alt: siteConfig.name,
+  height: 630,
   url: siteConfig.ogImage,
   width: 1200,
-  height: 630,
-  alt: siteConfig.name,
 }
 
 export const SLUG_METADATA = (doc: { title: string; description: string; slug: string }): Metadata => ({
@@ -116,17 +116,17 @@ export const SLUG_METADATA = (doc: { title: string; description: string; slug: s
   description: doc.description,
   openGraph: {
     ...METADATA.openGraph,
-    title: doc.title,
     description: doc.description,
+    images: [ogImage],
+    title: doc.title,
     type: 'article',
     url: absoluteUrl(doc.slug),
-    images: [ogImage],
   },
   title: doc.title,
   twitter: {
     ...METADATA.twitter,
-    title: doc.title,
     description: doc.description,
     images: [siteConfig.ogImage],
+    title: doc.title,
   },
 })

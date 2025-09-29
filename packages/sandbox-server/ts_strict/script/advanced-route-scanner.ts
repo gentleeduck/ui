@@ -1,6 +1,6 @@
 import fs from 'node:fs'
-import path from 'path'
 import { fileURLToPath } from 'node:url'
+import path from 'path'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -109,7 +109,9 @@ class AdvancedRouteScanner {
       await this.scanRouterFile(routerFile)
     }
 
-    console.log(`Found ${this.routes.length} routes, ${this.controllers.length} controllers, and ${this.messageConstants.length} message constants`)
+    console.log(
+      `Found ${this.routes.length} routes, ${this.controllers.length} controllers, and ${this.messageConstants.length} message constants`,
+    )
   }
 
   private async scanControllerFile(controllerFile: string): Promise<void> {
@@ -129,18 +131,18 @@ class AdvancedRouteScanner {
       const parameters = this.parseParameters(params)
 
       functions.push({
+        isAsync,
         name,
         parameters,
         returnType: returnType?.trim() || 'any',
-        isAsync,
       })
     }
 
     if (functions.length > 0) {
       this.controllers.push({
-        name: path.basename(controllerFile, '.controller.ts'),
         file: controllerFile,
         functions,
+        name: path.basename(controllerFile, '.controller.ts'),
       })
     }
   }
@@ -157,8 +159,8 @@ class AdvancedRouteScanner {
         if (match) {
           return {
             name: match[1],
-            type: match[2],
             required: true,
+            type: match[2],
           }
         }
       }
@@ -168,8 +170,8 @@ class AdvancedRouteScanner {
 
       return {
         name: name || 'unknown',
-        type: type || 'any',
         required: !name?.includes('?'),
+        type: type || 'any',
       }
     })
   }
@@ -187,10 +189,10 @@ class AdvancedRouteScanner {
       const [, method, route, handler] = match
 
       this.routes.push({
-        route,
-        method: method.toUpperCase(),
-        handler: handler.trim(),
         file: routerFile,
+        handler: handler.trim(),
+        method: method.toUpperCase(),
+        route,
       })
     }
   }
@@ -205,13 +207,13 @@ class AdvancedRouteScanner {
 
     while ((match = constantsRegex.exec(content)) !== null) {
       const [, constantName, arrayContent] = match
-      
+
       // Extract string values from the array
       const stringValues = arrayContent
         .split('\n')
-        .map(line => line.trim())
-        .filter(line => line && !line.startsWith('//') && !line.startsWith('/*'))
-        .map(line => {
+        .map((line) => line.trim())
+        .filter((line) => line && !line.startsWith('//') && !line.startsWith('/*'))
+        .map((line) => {
           // Extract string values, handling both 'value' and "value" formats
           const stringMatch = line.match(/['"`]([^'"`]+)['"`]/)
           return stringMatch ? stringMatch[1] : null
@@ -221,11 +223,11 @@ class AdvancedRouteScanner {
       if (stringValues.length > 0) {
         // Generate type name (e.g., AuthMessages -> AuthMessagesType)
         const typeName = `${constantName}Type`
-        
+
         this.messageConstants.push({
+          file: constantsFile,
           name: constantName,
           type: typeName,
-          file: constantsFile,
           values: stringValues,
         })
       }
@@ -274,10 +276,10 @@ class AdvancedRouteScanner {
       const handlerFunc = this.findControllerFunction(route.handler)
       const reqType = handlerFunc ? `Parameters<typeof ${route.handler}>[0]` : 'any'
       const resType = handlerFunc ? `Awaited<ReturnType<typeof ${route.handler}>>` : 'any'
-      
+
       // Extract router name from file path (e.g., 'server/auth/auth.router.ts' -> 'auth')
       const routerName = route.file.split('/').pop()?.replace('.router.ts', '') || 'unknown'
-      
+
       output += `  '${route.route}': { req: ${reqType}; res: ${resType}; method: '${route.method}'; router: '${routerName}' }\n`
     }
 

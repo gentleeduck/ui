@@ -46,16 +46,16 @@ function Trigger({
 
   return (
     <Comp
-      type="button"
       data-open={context.open}
-      // The user can style the trigger based on the state
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
         // biome-ignore lint: false positive
         // @ts-ignore
         onClick?.(e)
       }}
+      // The user can style the trigger based on the state
       ref={ref}
+      type="button"
       // biome-ignore lint: false positive
       // @ts-ignore
       {...context.getReferenceProps(props)}>

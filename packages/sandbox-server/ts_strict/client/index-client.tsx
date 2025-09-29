@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { I18AuthMessages, GetRes, GetReq, ApiRoutes } from '../index.d'
+import { ApiRoutes, GetReq, GetRes, I18AuthMessages } from '../index.d'
 
 function Signin() {
   const { register, handleSubmit } = useForm({
@@ -89,16 +89,16 @@ const i18n: I18n = {
   ar: {
     AUTH_SIGNIN_ERROR: 'خطا في تسجيل الدخول',
     AUTH_SIGNIN_SUCCESS: 'تم تسجيل الدخول بنجاح',
-    ZOD_EXPECTED_STRING: 'متوقع نص',
-    AUTH_SIGNUP_SUCCESS: 'تم التسجيل بنجاح',
     AUTH_SIGNOUT_SUCCESS: 'تم تسجيل الخروج بنجاح',
+    AUTH_SIGNUP_SUCCESS: 'تم التسجيل بنجاح',
+    ZOD_EXPECTED_STRING: 'متوقع نص',
   },
   en: {
     AUTH_SIGNIN_ERROR: 'Signin error',
     AUTH_SIGNIN_SUCCESS: 'Signin success',
-    ZOD_EXPECTED_STRING: 'Expected string',
     AUTH_SIGNOUT_SUCCESS: 'Signout success',
     AUTH_SIGNUP_SUCCESS: 'Signup success',
+    ZOD_EXPECTED_STRING: 'Expected string',
   },
 }
 

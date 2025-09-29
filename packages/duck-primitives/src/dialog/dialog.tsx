@@ -38,13 +38,13 @@ function Trigger({
     <Comp
       data-open={context.open}
       // The user can style the trigger based on the state
-      type="button"
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
         // @ts-expect-error
         onClick?.(e)
       }}
       ref={ref}
+      type="button"
       // biome-ignore lint: false positive
       //@ts-ignore
       {...context.getReferenceProps(props)}>
@@ -80,9 +80,9 @@ function Content({
           zIndex: 99,
         }}
         {...context.getFloatingProps(props)}
-        role="dialog"
         aria-label="dialog"
-        aria-labelledby={context.labelId}>
+        aria-labelledby={context.labelId}
+        role="dialog">
         <Mount open={context.open} renderOnce={renderOnce}>
           {props.children}
           {context.closeButton && <DialogClose />}

@@ -51,11 +51,11 @@ function DrawerContent({
     <DrawerPortal data-slot="drawer-portal">
       <DrawerOverlay {...overlay} data-slot="drawer-overlay" />
       <DrawerPrimitive.Content
-        data-slot="drawer-content"
         className={cn(
           'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
           className,
         )}
+        data-slot="drawer-content"
         ref={ref}
         {...props}>
         <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />

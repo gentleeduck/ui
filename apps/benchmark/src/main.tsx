@@ -33,103 +33,103 @@ type Invoices = {
 
 const invoices: DuckTableOptions<Headers>['rows'] = [
   {
+    amount: '$250.00',
     id: 'INV001',
     invoice: 'INV001',
     method: 'Credit Card',
     status: 'Paid',
-    amount: '$250.00',
   },
   {
+    amount: '$150.00',
     id: 'INV002',
     invoice: 'INV002',
     method: 'PayPal',
     status: 'Pending',
-    amount: '$150.00',
   },
   {
+    amount: '$350.00',
     id: 'INV003',
     invoice: 'INV003',
     method: 'Bank Transfer',
     status: 'Unpaid',
-    amount: '$350.00',
   },
   {
+    amount: '$450.00',
     id: 'INV004',
     invoice: 'INV004',
     method: 'Credit Card',
     status: 'Paid',
-    amount: '$450.00',
   },
   {
+    amount: '$550.00',
     id: 'INV005',
     invoice: 'INV005',
     method: 'PayPal',
     status: 'Paid',
-    amount: '$550.00',
   },
   {
+    amount: '$200.00',
     id: 'INV006',
     invoice: 'INV006',
     method: 'Bank Transfer',
     status: 'Pending',
-    amount: '$200.00',
   },
   {
+    amount: '$300.00',
     id: 'INV007',
     invoice: 'INV007',
     method: 'Credit Card',
     status: 'Unpaid',
-    amount: '$300.00',
   },
   {
+    amount: '$400.00',
     id: 'INV008',
     invoice: 'INV008',
     method: 'PayPal',
     status: 'Paid',
-    amount: '$400.00',
   },
   {
+    amount: '$500.00',
     id: 'INV009',
     invoice: 'INV009',
     method: 'Bank Transfer',
     status: 'Pending',
-    amount: '$500.00',
   },
   {
+    amount: '$600.00',
     id: 'INV010',
     invoice: 'INV010',
     method: 'Credit Card',
     status: 'Unpaid',
-    amount: '$600.00',
   },
 ]
 
 const headers: DuckTableOptions<Headers>['columns'] = {
-  invoice: { label: 'invoice', visible: true, sortable: true, direction: 'none' },
+  amount: { direction: 'none', label: 'amount', sortable: true, visible: true },
+  invoice: { direction: 'none', label: 'invoice', sortable: true, visible: true },
   method: {
-    label: 'method',
-    enum: ['Credit Card', 'PayPal', 'Bank Transfer'] as const,
-    visible: true,
-    sortable: true,
     direction: 'none',
+    enum: ['Credit Card', 'PayPal', 'Bank Transfer'] as const,
+    label: 'method',
+    sortable: true,
+    visible: true,
   },
   status: {
-    label: 'status',
-    enum: ['Paid', 'Pending', 'Unpaid'] as const,
-    visible: true,
-    sortable: true,
     direction: 'none',
+    enum: ['Paid', 'Pending', 'Unpaid'] as const,
+    label: 'status',
+    sortable: true,
+    visible: true,
   },
-  amount: { label: 'amount', visible: true, sortable: true, direction: 'none' },
 }
 
 type Headers = ['invoice', 'status', 'method', 'amount']
 
 const table_data: DuckTableOptions<Headers> = {
   columns: headers,
-  rows: invoices,
   pageSize: 5,
   query: '',
+  rows: invoices,
 
   sortConfig: [],
 }

@@ -67,12 +67,12 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
                   <Separator orientation="vertical" />
                   <div className="flex gap-1">
                     {_value.length > MAX_SELECTION ? (
-                      <Badge variant={'secondary'} className="px-2 py-[3px] rounded-sm font-normal">
+                      <Badge className="px-2 py-[3px] rounded-sm font-normal" variant={'secondary'}>
                         +{_value.length} Selected
                       </Badge>
                     ) : (
                       _value.map((item) => (
-                        <Badge key={item} variant={'secondary'} className="px-2 py-[2px] rounded-[3px] capitalize">
+                        <Badge className="px-2 py-[2px] rounded-[3px] capitalize" key={item} variant={'secondary'}>
                           {item}
                         </Badge>
                       ))
@@ -122,7 +122,7 @@ export function ComboboxItem<T extends ComboboxItemType>({
         onSelect?.(item.value)
       }}
       {...props}>
-      <Checkbox checked={checked} id={item?.value} className="border-foreground/50 pointer-events-none" />
+      <Checkbox checked={checked} className="border-foreground/50 pointer-events-none" id={item?.value} />
       {item?.label}
     </CommandItem>
   )

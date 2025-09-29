@@ -37,7 +37,6 @@ const PaginationItem = ({ className, ref, ...props }: React.HTMLProps<HTMLLIElem
 const PaginationLink = ({ className, isActive, size = 'icon', ref, ...props }: PaginationLinkProps) => (
   <a
     aria-current={isActive ? 'page' : undefined}
-    data-slot="pagination-link"
     className={cn(
       buttonVariants({
         size,
@@ -45,6 +44,7 @@ const PaginationLink = ({ className, isActive, size = 'icon', ref, ...props }: P
       }),
       className,
     )}
+    data-slot="pagination-link"
     {...props}
   />
 )
@@ -52,8 +52,8 @@ const PaginationLink = ({ className, isActive, size = 'icon', ref, ...props }: P
 const PaginationPrevious = ({ className, ref, ...props }: React.ComponentPropsWithRef<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    data-slot="pagination-previous"
     className={cn('gap-1 pl-2.5', className)}
+    data-slot="pagination-previous"
     ref={ref}
     size="default"
     {...props}>
@@ -78,8 +78,8 @@ const PaginationNext = ({ className, ref, ...props }: React.ComponentPropsWithRe
 const PaginationEllipsis = ({ className, ref, ...props }: React.HTMLProps<HTMLSpanElement>) => (
   <span
     aria-hidden
-    data-slot="pagination-ellipsis"
     className={cn('flex h-9 w-9 items-center justify-center', className)}
+    data-slot="pagination-ellipsis"
     ref={ref}
     {...props}>
     <MoreHorizontal className="h-4 w-4" />

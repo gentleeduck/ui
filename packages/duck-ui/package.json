@@ -1,8 +1,8 @@
 {
   "author": "wildduck (https://github.com/wildduck2)",
   "bin": {
-    "duck-ui": "dist/index.js",
-    "@gentleduck/ui": "dist/index.js"
+    "@gentleduck/ui": "dist/index.js",
+    "duck-ui": "dist/index.js"
   },
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"

@@ -42,8 +42,8 @@ function ToggleGroup({
         )}
         ref={wrapperRef}
         {...props}
-        data-type={type}
         data-slot="toggle-group"
+        data-type={type}
         duck-toggle-group="">
         {children}
       </ul>

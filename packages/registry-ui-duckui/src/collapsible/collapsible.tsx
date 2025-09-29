@@ -65,8 +65,8 @@ function Collapsible({
       value={{ contentId, contentRef, onOpenChange: handleOpenChange, open, triggerRef, wrapperRef }}>
       <div
         className={cn('flex flex-col gap-2', className)}
-        duck-collapsible=""
         data-slot="collapsible"
+        duck-collapsible=""
         ref={wrapperRef}
         {...props}
         data-open={open}>
@@ -111,8 +111,8 @@ function CollapsibleContent({
       aria-hidden={!open}
       className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto', className)}
       data-open={open}
-      duck-collapsible-content=""
       data-slot="collapsible-content"
+      duck-collapsible-content=""
       id={contentId}
       ref={contentRef}
       {...props}>

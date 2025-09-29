@@ -229,13 +229,13 @@ function CommandShortcut({
 
   return (
     <kbd
-      data-slot="command-badge"
-      duck-command-badge=""
       className={cn(
         'focus:offset-2 [&_svg]:!size-3 !font-sans pointer-events-none inline-flex cursor-none select-none items-center gap-[2px] rounded-[4px] px-2 py-[.12rem] text-secondary-foreground text-sm tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring ltr:ml-auto rtl:mr-auto',
         variant === 'secondary' && 'bg-secondary',
         className,
       )}
+      data-slot="command-badge"
+      duck-command-badge=""
       ref={ref}
       {...props}
     />
@@ -257,7 +257,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
 function CommandDialog({ children, ...props }: React.ComponentPropsWithRef<typeof Dialog>): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="p-0 lg:w-[650px] h-[500px] [&>div]:max-w-full">
+      <DialogContent className="h-[500px] p-0 lg:w-[650px] [&>div]:max-w-full">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>

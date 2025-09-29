@@ -48,14 +48,14 @@ function Trigger({
   return (
     <Comp
       data-open={context.open}
-      type="button"
-      // The user can style the trigger based on the state
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
         // @ts-expect-error
         onClick?.(e)
       }}
+      // The user can style the trigger based on the state
       ref={ref}
+      type="button"
       // @ts-expect-error
       {...context.getReferenceProps(props)}>
       {children}

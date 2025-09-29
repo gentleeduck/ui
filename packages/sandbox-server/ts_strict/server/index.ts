@@ -1,10 +1,9 @@
-import express from 'express'
 import cors from 'cors'
+import express from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
-
-import { routeMetadata } from './libs/routes'
 import { auth_router } from './auth/auth.router'
+import { routeMetadata } from './libs/routes'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -13,8 +12,8 @@ const PORT = process.env.PORT || 3000
 app.use(helmet())
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
     credentials: true,
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
   }),
 )
 app.use(morgan('combined'))

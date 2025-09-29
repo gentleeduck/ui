@@ -7,7 +7,7 @@
 export function styleItem(item: HTMLLIElement | null): void {
   if (!item) return
   if (item.hasAttribute('duck-select-item') || item.hasAttribute('duck-command-item')) {
-    item.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }
   item.setAttribute('aria-selected', '')
   item.focus()

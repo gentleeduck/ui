@@ -1,26 +1,15 @@
 {
-  "name": "advanced-express-server",
-  "version": "1.0.0",
-  "description": "Auto-generated Express server with advanced route registration",
-  "main": "server/index.ts",
-  "scripts": {
-    "dev": "tsx watch server/index.ts",
-    "build": "tsc",
-    "start": "node dist/server/index.js",
-    "generate-types": "tsx script/advanced-route-scanner.ts",
-    "scan-routes": "tsx script/advanced-route-scanner.ts",
-    "test": "echo \"No tests specified\" && exit 0"
-  },
   "dependencies": {
-    "express": "^4.18.2",
     "cors": "^2.8.5",
+    "express": "^4.18.2",
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
     "zod": "^3.22.4"
   },
+  "description": "Auto-generated Express server with advanced route registration",
   "devDependencies": {
-    "@types/express": "^4.17.21",
     "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.10.0",
     "tsx": "^4.6.0",
@@ -28,5 +17,16 @@
   },
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+  "main": "server/index.ts",
+  "name": "advanced-express-server",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch server/index.ts",
+    "generate-types": "tsx script/advanced-route-scanner.ts",
+    "scan-routes": "tsx script/advanced-route-scanner.ts",
+    "start": "node dist/server/index.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "version": "1.0.0"
 }

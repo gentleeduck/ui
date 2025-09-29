@@ -226,8 +226,8 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
       <div
         className={cn('flex items-center rounded-lg border p-1', className)}
         {...props}
-        duck-slot="duck-menubar"
         duck-menubar=""
+        duck-slot="duck-menubar"
         ref={wrapperRef}>
         {children}
       </div>
@@ -253,8 +253,8 @@ function MenubarTrigger({ children, className, ...props }: React.ComponentPropsW
         className,
       )}
       {...props}
-      duck-slot="duck-menubar-trigger"
-      duck-menubar-trigger="">
+      duck-menubar-trigger=""
+      duck-slot="duck-menubar-trigger">
       {children}
     </DropdownMenuTrigger>
   )

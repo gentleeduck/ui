@@ -48,7 +48,6 @@ const Checkbox = ({
   return (
     <>
       <input
-        data-slot="checkbox"
         className={cn(
           checkersStylePattern({
             indicatorState:
@@ -69,6 +68,7 @@ const Checkbox = ({
           'rounded-sm bg-transparent',
           className,
         )}
+        data-slot="checkbox"
         onChange={(e) => {
           const nextChecked = e.target.checked ? true : e.target.indeterminate ? 'indeterminate' : false
           e.target.indeterminate = false
@@ -102,16 +102,16 @@ const CheckboxWithLabel = ({ id, _checkbox, _label, className, ref, ...props }: 
 const CheckboxGroup = ({ subtasks, subtasks_default_values, ref, ...props }: CheckboxGroupProps) => {
   const { _checkbox, _label } = subtasks_default_values || {}
   return (
-    <div className={cn('mb-3 flex flex-col gap-2')} {...props} ref={ref} data-slot="checkbox-group">
+    <div className={cn('mb-3 flex flex-col gap-2')} {...props} data-slot="checkbox-group" ref={ref}>
       {subtasks.map(({ id, title, checked }) => (
         <CheckboxWithLabel
-          data-slot="checkbox-with-label"
           _checkbox={{
             ..._checkbox,
             checked,
             className: 'w-4 h-4 rounded-full border-muted-foreground/80',
           }}
           _label={{ ..._label, children: title }}
+          data-slot="checkbox-with-label"
           id={id}
           key={id}
         />

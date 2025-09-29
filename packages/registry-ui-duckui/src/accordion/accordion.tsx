@@ -114,8 +114,8 @@ function Accordion({
       <div
         className={cn('min-w-[400px] [interpolate-size:allow-keywords]', className)}
         {...props}
-        ref={wrapperRef}
-        data-slot="accordion">
+        data-slot="accordion"
+        ref={wrapperRef}>
         {children}
       </div>
     </AccordionContext.Provider>

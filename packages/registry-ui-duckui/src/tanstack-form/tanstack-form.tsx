@@ -1,14 +1,12 @@
 'use client'
 
-import * as React from 'react'
-
-import { Field, type useForm } from '@tanstack/react-form'
-import type { ReactFormExtendedApi } from '@tanstack/react-form'
-
 import { cn } from '@gentleduck/libs/cn'
+import type { ReactFormExtendedApi } from '@tanstack/react-form'
+import { Field, type useForm } from '@tanstack/react-form'
+import { Circle } from 'lucide-react'
+import * as React from 'react'
 import { Label } from '../label'
 import { useFormField } from './tanstack-form.hooks'
-import { Circle } from 'lucide-react'
 
 export const FormItemContext = React.createContext<{
   id: string
@@ -26,7 +24,7 @@ function Form<TForm extends ReactFormExtendedApi<any, any, any, any, any, any, a
 }: React.ComponentProps<'form'> & { form: TForm }) {
   return (
     <FormContext.Provider value={{ form }}>
-      <form {...props} ref={ref} data-slot="form" />
+      <form {...props} data-slot="form" ref={ref} />
     </FormContext.Provider>
   )
 }
@@ -52,17 +50,17 @@ const FormField = <
 }
 
 const FormItem = ({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>) => {
-  return <div ref={ref} className={cn('flex flex-col gap-2', className)} {...props} data-slot="form-item" />
+  return <div className={cn('flex flex-col gap-2', className)} ref={ref} {...props} data-slot="form-item" />
 }
 
 const FormLabel = ({ className, htmlFor, ref, ...props }: React.ComponentPropsWithRef<typeof Label>) => {
   const { formItemId, error } = useFormField()
   return (
     <Label
-      data-slot="form-label"
-      ref={ref}
-      htmlFor={htmlFor ?? formItemId}
       className={cn(error && 'text-destructive', className)}
+      data-slot="form-label"
+      htmlFor={htmlFor ?? formItemId}
+      ref={ref}
       {...props}
     />
   )
@@ -73,9 +71,9 @@ const FormDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParag
 
   return (
     <p
-      ref={ref}
-      id={formDescriptionId}
       className={cn('text-muted-foreground text-sm', className)}
+      id={formDescriptionId}
+      ref={ref}
       {...props}
       data-slot="form-description"
     />
@@ -92,9 +90,9 @@ const FormMessage = ({ className, children, ref, ...props }: React.HTMLProps<HTM
 
   return (
     <p
-      ref={ref}
-      id={formMessageId}
       className={cn('font-medium text-destructive text-sm', className)}
+      id={formMessageId}
+      ref={ref}
       {...props}
       data-slot="form-message">
       {body}
@@ -114,18 +112,18 @@ function FormMultiMessage({
 
   return (
     <div
-      ref={ref}
-      id={formMessageId}
-      data-slot="form-message"
       className={cn(
         'overflow-hidden transition-all duration-300 ease-in-out',
         errors.length ? 'my-1 max-h-[960px] opacity-100' : 'my-0 max-h-0 opacity-0',
         className,
       )}
+      data-slot="form-message"
+      id={formMessageId}
+      ref={ref}
       {...props}>
       <ul className="flex flex-col items-start gap-1">
         {errors_keys.map((rule) => (
-          <li key={rule} className="flex items-center gap-2 text-nowrap">
+          <li className="flex items-center gap-2 text-nowrap" key={rule}>
             <Circle
               className={cn(
                 'size-3 transition-all duration-300 ease-in-out',

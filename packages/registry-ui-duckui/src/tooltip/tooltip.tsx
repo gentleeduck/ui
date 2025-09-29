@@ -40,12 +40,12 @@ function TooltipContent({
   return (
     <TooltipPrimitive.Portal data-slot="tooltip-portal">
       <TooltipPrimitive.Content
-        data-slot="tooltip-content"
         className={cn(
           AnimVariants(),
           'pointer-events-none relative z-50 h-fit w-fit select-none overflow-hidden text-balance rounded-lg border border-border bg-popover px-3 py-1.5 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
           className,
         )}
+        data-slot="tooltip-content"
         ref={ref}
         role="tooltip"
         {...props}>

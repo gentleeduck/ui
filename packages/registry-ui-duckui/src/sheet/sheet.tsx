@@ -58,8 +58,8 @@ function SheetContent({
   return (
     <SheetPrimitive.Portal data-slot="sheet-content">
       <SheetPrimitive.Content
-        data-slot="sheet-content"
         className={cn(AnimSheetVariants({ side }), className)}
+        data-slot="sheet-content"
         SheetClose={SheetCloseX}
         {...props}>
         {children}
@@ -76,8 +76,8 @@ function SheetHeader({
 }: React.ComponentPropsWithRef<typeof SheetPrimitive.Heading>): React.JSX.Element {
   return (
     <SheetPrimitive.Heading
-      data-slot="sheet-header"
       className={cn('flex flex-col gap-1.5 text-left rtl:text-right', className)}
+      data-slot="sheet-header"
       ref={ref}
       {...props}
     />
@@ -102,8 +102,8 @@ function SheetTitle({
 }: React.ComponentPropsWithRef<typeof SheetPrimitive.Title>): React.JSX.Element {
   return (
     <SheetPrimitive.Title
-      data-slot="sheet-title"
       className={cn('font-semibold text-lg leading-none tracking-tight', className)}
+      data-slot="sheet-title"
       ref={ref}
       {...props}
     />

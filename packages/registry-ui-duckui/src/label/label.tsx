@@ -13,8 +13,8 @@ function Label({ className, htmlFor, ref, ...props }: LabelProps) {
         'text-balance font-medium font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
         className,
       )}
-      htmlFor={htmlFor}
       data-slot="label"
+      htmlFor={htmlFor}
       ref={ref}
       {...props}
     />

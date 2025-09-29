@@ -29,7 +29,7 @@ const FormField = <
   ...props
 }: ControllerProps<TFieldValues, TName>) => {
   return (
-    <FormFieldContext.Provider value={{ name: props.name }} data-slot="form-field">
+    <FormFieldContext.Provider data-slot="form-field" value={{ name: props.name }}>
       <Controller {...props} />
     </FormFieldContext.Provider>
   )
@@ -60,7 +60,7 @@ const FormItemContext = React.createContext<FormItemContextValue>({} as FormItem
 function FormItem({ className, ...props }: React.ComponentProps<'div'>) {
   const id = React.useId()
   return (
-    <FormItemContext.Provider value={{ id }} data-slot="form-item">
+    <FormItemContext.Provider data-slot="form-item" value={{ id }}>
       <div className={cn('grid gap-2', className)} data-slot="form-item" {...props} />
     </FormItemContext.Provider>
   )

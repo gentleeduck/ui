@@ -39,10 +39,10 @@ function Radio({
           'rounded-full',
           className,
         )}
+        data-slot="radio"
+        duck-radio=""
         ref={ref}
         style={{ ...style, ...inputStyle }}
-        duck-radio=""
-        data-slot="radio"
         type="radio"
         {...props}
       />
@@ -76,8 +76,8 @@ function RadioGroup({
       }}>
       <ul
         className={cn('flex flex-col', className)}
-        duck-radio-group=""
         data-slot="radio-group"
+        duck-radio-group=""
         ref={wrapperRef}
         //biome-ignore lint: false positive
         role="radiogroup"
@@ -101,8 +101,8 @@ function RadioGroupItem({
         'relative flex items-center gap-2 [&>#radio-indicator]:opacity-0 [&[aria-checked=true]>#radio-indicator]:opacity-100',
         className,
       )}
-      duck-radio-item=""
       data-slot="radio-item"
+      duck-radio-item=""
       id={value}
       role="presentation"
       {...props}>

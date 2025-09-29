@@ -154,10 +154,10 @@ const ScrollArea = ({
         <div
           aria-hidden="true"
           className="absolute bg-transparent opacity-0 hover:opacity-100"
+          data-slot="scroll-area-track"
           onMouseDown={(e) => onClickTrack(e, true)}
           ref={vTrackRef}
-          style={vTrackStyle}
-          data-slot="scroll-area-track">
+          style={vTrackStyle}>
           <div
             aria-hidden="true"
             className="absolute right-0 w-full rounded-full bg-secondary hover:bg-secondary"
@@ -171,10 +171,10 @@ const ScrollArea = ({
         <div
           aria-hidden="true"
           className="absolute bg-transparent opacity-0 hover:opacity-100"
+          data-slot="scroll-area-track"
           onMouseDown={(e) => onClickTrack(e, false)}
           ref={hTrackRef}
-          style={hTrackStyle}
-          data-slot="scroll-area-track">
+          style={hTrackStyle}>
           <div
             aria-hidden="true"
             className="absolute bottom-0 h-full rounded-full bg-secondary hover:bg-secondary"

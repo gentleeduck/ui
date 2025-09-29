@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { cn } from '@gentleduck/libs/cn'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Icons } from '~/components/icons'
