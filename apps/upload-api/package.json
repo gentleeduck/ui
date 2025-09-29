@@ -4,7 +4,7 @@
     "@hono/node-server": "^1.13.7",
     "@hono/trpc-server": "^0.3.4",
     "@trpc/server": "11.0.0-rc.700",
-    "axios": "^1.7.9",
+    "axios": "^1.12.0",
     "chalk": "5.2.0",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.4",
