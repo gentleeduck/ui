@@ -1,4 +1,11 @@
 import { ImageResponse } from 'next/og'
+
+// declare module 'react' {
+//   interface HTMLAttributes<T> {
+//     tw?: string
+//   }
+// }
+
 import { Icons } from '~/components/icons'
 
 async function loadAssets(): Promise<{ name: string; data: Buffer; weight: 400 | 600; style: 'normal' }[]> {
