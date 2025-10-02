@@ -1,5 +1,14 @@
 # @gentleduck/libs
 
+## 0.1.9
+
+### Patch Changes
+
+- done
+- peerdeps error resolved
+- fixed types
+- done
+
 ## 0.1.8
 
 ### Patch Changes

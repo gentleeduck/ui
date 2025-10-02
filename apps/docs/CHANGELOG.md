@@ -1,5 +1,36 @@
 # @gentleduck/docs
 
+## 3.0.9
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/primitives@0.1.35
+  - @gentleduck/registry-examples-duckui@0.1.0
+  - @gentleduck/registry-ui-duckui@0.1.4
+
+## 3.0.8
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @gentleduck/libs@0.1.9
+  - @gentleduck/primitives@0.1.34
+  - @gentleduck/registry-blocks-duckui@0.1.0
+  - @gentleduck/registry-examples-duckui@0.1.0
+  - @gentleduck/registry-ui-duckui@0.1.4
+
 ## 3.0.7
 
 ### Patch Changes

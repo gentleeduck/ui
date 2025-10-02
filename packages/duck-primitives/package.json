@@ -8,12 +8,16 @@
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "devDependencies": {
     "@changesets/cli": "catalog:",
+    "@floating-ui/react": "^0.27.13",
+    "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "husky": "catalog:",
+    "mini-svg-data-uri": "^1.4.4",
     "tsdown": "catalog:"
   },
   "engines": {
@@ -46,14 +50,8 @@
   "name": "@gentleduck/primitives",
   "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
-    "@floating-ui/react": "^0.27.13",
-    "@gentleduck/hooks": "workspace:*",
-    "@gentleduck/libs": "workspace:*",
-    "clsx": "^2.1.1",
-    "mini-svg-data-uri": "^1.4.4",
     "react": "catalog:react19",
-    "react-dom": "catalog:react19",
-    "tailwind-merge": "^3.3.1"
+    "react-dom": "catalog:react19"
   },
   "private": false,
   "repository": {
@@ -69,5 +67,5 @@
     "release": "changeset version"
   },
   "type": "module",
-  "version": "0.1.33"
+  "version": "0.1.35"
 }

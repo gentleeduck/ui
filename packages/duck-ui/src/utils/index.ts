@@ -1,5 +1,0 @@
-export * from './get-package-manager'
-export * from './get-project-info'
-export * from './get-registry'
-export * from './registry-mutation'
-export * from './text-styling'
