@@ -1,0 +1,17 @@
+{
+  "author": "",
+  "description": "",
+  "devDependencies": {
+    "typescript": "catalog:"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "test",
+  "scripts": {
+    "dev": "sudo cp ../dist/* ./ && node ./index.js init -c ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}
