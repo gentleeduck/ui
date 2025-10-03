@@ -26,6 +26,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta content={siteConfig.name} property="og:site_name" />
         <meta content={siteConfig.url} property="og:url" />
+        <link rel="icon" href="/icons/light/favicon-48x48.png" type="image/png" sizes="48x48" />
+
+        <link rel="icon" href="/icons/light/favicon-32x32.png" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/icons/light/favicon-16x16.png" type="image/png" sizes="16x16" />
+
+        <link rel="icon" href="/icons/light/favicon-32x32.png" media="(prefers-color-scheme: light)" type="image/png" />
+        <link rel="icon" href="/icons/dark/favicon-32x32.png" media="(prefers-color-scheme: dark)" type="image/png" />
+
+        <link rel="apple-touch-icon" href="/icons/light/apple-touch-icon.png" />
 
         {/* Preload critical fonts */}
         <link as="font" crossOrigin="anonymous" href="/fonts/Geist-VF.woff2" rel="preload" type="font/woff2" />
