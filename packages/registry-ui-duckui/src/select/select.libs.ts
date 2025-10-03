@@ -16,10 +16,8 @@ export function initRefs(
   const items = contentRef.current?.querySelectorAll('[duck-select-item]') as never as HTMLLIElement[]
   const groups = contentRef.current?.querySelectorAll('[duck-select-group]') as never as HTMLUListElement[]
 
-  if (items || groups) {
-    itemsRef.current = Array.from(items)
-    groupsRef.current = Array.from(groups)
-  }
+  itemsRef.current = Array.from(items ?? [])
+  groupsRef.current = Array.from(groups ?? [])
 
   itemsRef.current = itemsRef.current.filter(
     (item) => !(item.hasAttribute('aria-disabled') || item.getAttribute('aria-disabled') === 'true'),
@@ -74,9 +72,8 @@ export function initRefs(
     item.addEventListener('click', () => {
       selectedItemRef.current = item
       setSelectedItem(item)
-      onValueChange((item.getAttribute('value') as string) ?? '')
+      onValueChange(item.getAttribute('value') as string)
       onOpenChange(false)
-      wrapperRef.current?.querySelector('[duck-select-value]')?.setHTMLUnsafe(item.children[0]?.getHTML() ?? '')
     })
   }
 }

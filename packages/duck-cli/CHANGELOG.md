@@ -1,5 +1,22 @@
 # @gentleduck/@gentleduck/cli
 
+## 1.0.9
+
+### Patch Changes
+
+- fixed binaries
+- fixed some bugs
+- done
+- done with binaries
+
+## 1.0.8
+
+### Patch Changes
+
+- fixed binaries
+- fixed some bugs
+- done with binaries
+
 ## 1.0.8
 
 ### Patch Changes

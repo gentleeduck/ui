@@ -28,3 +28,4 @@ export type AuthMessagesType = (typeof AuthMessages)[number]
 export type I18AuthMessages = Record<AuthMessagesType, string>
 
 export type GetRes<T extends keyof ApiRoutes> = ApiRoutes[T]['res']
+export type GetReq<T extends keyof ApiRoutes> = ApiRoutes[T]['req']

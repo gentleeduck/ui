@@ -14,11 +14,7 @@
     "incremental": false,
     "inlineSources": false,
     "jsx": "preserve",
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.iterable"
-    ],
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "Preserve",
     "moduleDetection": "force",
     "moduleResolution": "bundler",
@@ -28,9 +24,7 @@
     "noUnusedParameters": false,
     "outDir": "./dist",
     "paths": {
-      "~/*": [
-        "./*"
-      ]
+      "~/*": ["./*"]
     },
     "plugins": [
       {
@@ -44,15 +38,6 @@
     "strict": true,
     "target": "ESNext"
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "node_modules",
-    "build",
-    "dist"
-  ],
-  "include": [
-    "./**/*.ts",
-    "./**/*.tsx"
-  ]
+  "exclude": ["node_modules", "dist", "node_modules", "build", "dist"],
+  "include": ["./**/*.ts", "./**/*.tsx"]
 }
