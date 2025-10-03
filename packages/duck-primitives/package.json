@@ -4,11 +4,11 @@
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
-  "dependencies": {},
+  "version": "0.1.35",
   "description": "primitives is a behavioral component abstraction that makes the aero dynamics of the web",
   "devDependencies": {
     "@changesets/cli": "catalog:",
-    "@floating-ui/react": "^0.27.13",
+    "@floating-ui/react": "^0.27.16",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/tsdown-config": "workspace:*",
@@ -66,6 +66,5 @@
     "publish": "pnpm run ci && changeset publish",
     "release": "changeset version"
   },
-  "type": "module",
-  "version": "0.1.35"
+  "type": "module"
 }

@@ -1,7 +1,7 @@
 {
   "author": "gentleduck",
   "dependencies": {
-    "@vitejs/plugin-react-swc": "^3.8.0",
+    "@vitejs/plugin-react-swc": "^4.1.0",
     "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
     "vitest": "catalog:"

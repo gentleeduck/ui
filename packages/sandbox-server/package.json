@@ -5,8 +5,6 @@
     "@hono/node-server": "^1.19.4",
     "@hono/trpc-server": "^0.4.0",
     "@trpc/server": "11.6.0",
-    "@types/bcryptjs": "^3.0.0",
-    "@types/express": "^5.0.3",
     "axios": "^1.12.2",
     "bcryptjs": "^3.0.2",
     "body-parse": "^0.1.0",
@@ -42,6 +40,7 @@
   },
   "description": "Your project description",
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "@types/express": "^5.0.3",
     "@types/express-mysql-session": "^3.0.6",
     "@types/express-session": "^1.18.2",

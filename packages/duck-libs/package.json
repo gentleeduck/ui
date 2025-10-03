@@ -4,7 +4,7 @@
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
-  "dependencies": {},
+  "version": "0.1.9",
   "description": "libs is a behavioral component abstraction that makes the aero dynamics of the web",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
@@ -50,6 +50,5 @@
     "publish": "pnpm run ci && changeset publish",
     "release": "changeset version"
   },
-  "type": "module",
-  "version": "0.1.9"
+  "type": "module"
 }

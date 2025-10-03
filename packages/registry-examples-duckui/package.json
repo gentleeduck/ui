@@ -10,7 +10,7 @@
     "date-fns": "^4.1.0",
     "embla-carousel-autoplay": "8.6.0",
     "embla-carousel-react": "8.6.0",
-    "lucide-react": "0.544.0",
+    "lucide-react": "catalog:",
     "motion": "^12.23.16",
     "motion-number": "^1.0.0",
     "next": "catalog:",
