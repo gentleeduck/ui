@@ -22,22 +22,25 @@ function ToggleGroup({
   type,
   children,
   onValueChange,
+  value,
+  defaultValue,
   ref,
   ...props
 }: Omit<React.HTMLProps<HTMLUListElement>, 'size'> &
   VariantProps<typeof Toggle.toggleVariants> & {
     type?: 'single' | 'multiple'
     onValueChange?: (value: string) => void
+    value?: string | string[]
+    defaultValue?: string | string[]
   }) {
-  const { selectedItemRef, wrapperRef, itemsRef } = ToggleGroupInit(type, onValueChange)
+  const { selectedItemRef, wrapperRef, itemsRef } = ToggleGroupInit(type, onValueChange, value, defaultValue)
 
   return (
     <ToggleGroupContext.Provider value={{ itemsRef, selectedItemRef, size, type, variant, wrapperRef }}>
       <ul
         className={cn(
-          'flex items-center justify-center overflow-hidden rounded-md [&>:first-child>input]:rounded-l-md [&>:last-child>input]:rounded-r-md',
-          variant === 'outline' &&
-            '[&>*:first-child>input]:border-r-0 [&>*:not(:first-child):not(:last-child)>input]:border-r-0',
+          'flex items-center justify-center overflow-hidden rounded-md [&>:first-child]:rounded-l-md [&>:last-child]:rounded-r-md',
+          variant === 'outline' && '[&>*:first-child]:border-r-0 [&>*:not(:first-child):not(:last-child)]:border-r-0',
           className,
         )}
         ref={wrapperRef}

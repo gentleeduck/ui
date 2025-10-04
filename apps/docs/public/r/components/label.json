@@ -10,7 +10,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type * as React from 'react'\n\nexport interface LabelProps extends React.HTMLProps<HTMLLabelElement> {}\n\nfunction Label({ className, htmlFor, ref, ...props }: LabelProps) {\n  return (\n    <label\n      aria-label=\"label\"\n      className={cn(\n        'text-balance font-medium font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',\n        className,\n      )}\n      htmlFor={htmlFor}\n      data-slot=\"label\"\n      ref={ref}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type * as React from 'react'\n\nexport interface LabelProps extends React.HTMLProps<HTMLLabelElement> {}\n\nfunction Label({ className, htmlFor, ref, ...props }: LabelProps) {\n  return (\n    <label\n      aria-label=\"label\"\n      className={cn(\n        'text-balance font-medium font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',\n        className,\n      )}\n      data-slot=\"label\"\n      htmlFor={htmlFor}\n      ref={ref}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n",
       "path": "label/label.tsx",
       "target": "components/ui/label.tsx",
       "type": "registry:ui"

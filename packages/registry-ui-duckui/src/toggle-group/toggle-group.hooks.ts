@@ -1,6 +1,11 @@
 import React from 'react'
 
-export function ToggleGroupInit(type?: 'single' | 'multiple', onValueChange?: (value: string) => void) {
+export function ToggleGroupInit(
+  type?: 'single' | 'multiple',
+  onValueChange?: (value: string) => void,
+  value?: string | string[],
+  defaultValue?: string | string[],
+) {
   const wrapperRef = React.useRef<HTMLUListElement>(null)
   const itemsRef = React.useRef<HTMLDivElement[]>([])
   const selectedItemRef = React.useRef<HTMLDivElement[]>([])
@@ -31,5 +36,28 @@ export function ToggleGroupInit(type?: 'single' | 'multiple', onValueChange?: (v
       })
     }
   }, [type])
+  React.useEffect(() => {
+    const initial = value ?? defaultValue
+    if (!initial) return
+
+    const values = Array.isArray(initial) ? initial : [initial]
+
+    itemsRef.current.forEach((item) => {
+      const input = item as HTMLInputElement
+      if (values.includes(input.value)) {
+        input.setAttribute('aria-checked', 'true')
+        input.setAttribute('aria-selected', 'true')
+        input.checked = true
+        if (!selectedItemRef.current.includes(input)) {
+          selectedItemRef.current.push(input)
+        }
+      } else if (type === 'single') {
+        input.setAttribute('aria-checked', 'false')
+        input.setAttribute('aria-selected', 'false')
+        input.checked = false
+      }
+    })
+  }, [])
+
   return { itemsRef, selectedItemRef, wrapperRef }
 }

@@ -17,7 +17,7 @@ function Toggle({
 }: Omit<React.HTMLProps<HTMLInputElement>, 'size'> & VariantProps<typeof toggleVariants>) {
   return (
     <label
-      className={cn(toggleVariants({ className, size, variant }), '')}
+      className={cn(toggleVariants({ className, size, variant }))}
       data-slot="toggle"
       data-value={value}
       duck-toggle="">
