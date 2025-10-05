@@ -8,7 +8,9 @@
     }
   ],
   "name": "carousel-2",
-  "registryDependencies": [],
+  "registryDependencies": [
+    "carousel"
+  ],
   "root_folder": "carousel",
   "source": "/registry-examples-duckui/src/carousel",
   "type": "registry:example"

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { ButtonGroup } from '@gentleduck/registry-ui-duckui/button-group'\nimport { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'\nimport * as React from 'react'\n\nexport function ButtonGroupNested() {\n  return (\n    <ButtonGroup>\n      <ButtonGroup>\n        <Button size=\"sm\" variant=\"outline\">\n          1\n        </Button>\n        <Button size=\"sm\" variant=\"outline\">\n          2\n        </Button>\n        <Button size=\"sm\" variant=\"outline\">\n          3\n        </Button>\n        <Button size=\"sm\" variant=\"outline\">\n          4\n        </Button>\n        <Button size=\"sm\" variant=\"outline\">\n          5\n        </Button>\n      </ButtonGroup>\n      <ButtonGroup>\n        <Button aria-label=\"Previous\" size=\"icon-sm\" variant=\"outline\">\n          <ArrowLeftIcon />\n        </Button>\n        <Button aria-label=\"Next\" size=\"icon-sm\" variant=\"outline\">\n          <ArrowRightIcon />\n        </Button>\n      </ButtonGroup>\n    </ButtonGroup>\n  )\n}\n",
+      "path": "button-group/button-group-4.tsx",
+      "target": "components/button-group-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "button-group-4",
+  "registryDependencies": [
+    "button-group"
+  ],
+  "root_folder": "button-group",
+  "source": "/registry-examples-duckui/src/button-group",
+  "type": "registry:example"
+}

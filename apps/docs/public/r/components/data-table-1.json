@@ -8,7 +8,10 @@
     }
   ],
   "name": "data-table-1",
-  "registryDependencies": [],
+  "registryDependencies": [
+    "data-table",
+    "table"
+  ],
   "root_folder": "data-table",
   "source": "/registry-examples-duckui/src/data-table",
   "type": "registry:example"

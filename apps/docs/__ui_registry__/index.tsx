@@ -1057,6 +1057,31 @@ export const Index: Record<string, any> = {
     root_folder: 'tooltip',
     chunks: [],
   },
+  'button-group': {
+    name: 'button-group',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['button'],
+    files: [
+      {
+        path: 'button-group/button-group.constants.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'button-group/button-group.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'button-group/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/button-group')),
+    source: '/registry-ui-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
   'accordion-1': {
     name: 'accordion-1',
     description: '',
@@ -3543,7 +3568,7 @@ export const Index: Record<string, any> = {
     name: 'carousel-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['carousel'],
     files: [
       {
         path: 'carousel/carousel-1.tsx',
@@ -3560,7 +3585,7 @@ export const Index: Record<string, any> = {
     name: 'carousel-2',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['carousel'],
     files: [
       {
         path: 'carousel/carousel-2.tsx',
@@ -3577,7 +3602,7 @@ export const Index: Record<string, any> = {
     name: 'carousel-3',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['carousel'],
     files: [
       {
         path: 'carousel/carousel-3.tsx',
@@ -3594,7 +3619,7 @@ export const Index: Record<string, any> = {
     name: 'carousel-4',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['carousel'],
     files: [
       {
         path: 'carousel/carousel-4.tsx',
@@ -3611,7 +3636,7 @@ export const Index: Record<string, any> = {
     name: 'carousel-5',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['carousel'],
     files: [
       {
         path: 'carousel/carousel-5.tsx',
@@ -3628,7 +3653,7 @@ export const Index: Record<string, any> = {
     name: 'carousel-6',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['carousel'],
     files: [
       {
         path: 'carousel/carousel-6.tsx',
@@ -3645,7 +3670,7 @@ export const Index: Record<string, any> = {
     name: 'date-picker-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['calendar', 'popover', 'button'],
     files: [
       {
         path: 'date-picker/date-picker-1.tsx',
@@ -3662,7 +3687,7 @@ export const Index: Record<string, any> = {
     name: 'date-picker-2',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['calendar', 'popover', 'button'],
     files: [
       {
         path: 'date-picker/date-picker-2.tsx',
@@ -3679,7 +3704,7 @@ export const Index: Record<string, any> = {
     name: 'date-picker-3',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['calendar', 'popover', 'button'],
     files: [
       {
         path: 'date-picker/date-picker-3.tsx',
@@ -3696,7 +3721,7 @@ export const Index: Record<string, any> = {
     name: 'date-picker-4',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['calendar', 'popover', 'button'],
     files: [
       {
         path: 'date-picker/date-picker-4.tsx',
@@ -3713,7 +3738,7 @@ export const Index: Record<string, any> = {
     name: 'date-picker-5',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['calendar', 'popover', 'button'],
     files: [
       {
         path: 'date-picker/date-picker-5.tsx',
@@ -3730,7 +3755,7 @@ export const Index: Record<string, any> = {
     name: 'date-picker-6',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['calendar', 'popover', 'button'],
     files: [
       {
         path: 'date-picker/date-picker-6.tsx',
@@ -4223,7 +4248,7 @@ export const Index: Record<string, any> = {
     name: 'data-table-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['data-table', 'table'],
     files: [
       {
         path: 'data-table/data-table-1.tsx',
@@ -4251,6 +4276,193 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/cva',
     categories: [],
     root_folder: 'cva',
+    chunks: [],
+  },
+  'button-group-1': {
+    name: 'button-group-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-1')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-10': {
+    name: 'button-group-10',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-10.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-10')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-11': {
+    name: 'button-group-11',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-11.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-11')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-2': {
+    name: 'button-group-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-2')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-3': {
+    name: 'button-group-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-3')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-4': {
+    name: 'button-group-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-4')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-5': {
+    name: 'button-group-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-5')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-6': {
+    name: 'button-group-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-6')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-7': {
+    name: 'button-group-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-7')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-8': {
+    name: 'button-group-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-8')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+    chunks: [],
+  },
+  'button-group-9': {
+    name: 'button-group-9',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-9.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-9')),
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
     chunks: [],
   },
   'signup-1': {

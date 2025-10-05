@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { ButtonGroup } from '@gentleduck/registry-ui-duckui/button-group'\nimport { Input } from '@gentleduck/registry-ui-duckui/input'\n\nimport { SearchIcon } from 'lucide-react'\nimport * as React from 'react'\n\nexport function ButtonGroupInput() {\n  return (\n    <ButtonGroup>\n      <Input placeholder=\"Search...\" />\n      <Button aria-label=\"Search\" variant=\"outline\">\n        <SearchIcon />\n      </Button>\n    </ButtonGroup>\n  )\n}\n",
+      "path": "button-group/button-group-7.tsx",
+      "target": "components/button-group-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "button-group-7",
+  "registryDependencies": [
+    "button-group"
+  ],
+  "root_folder": "button-group",
+  "source": "/registry-examples-duckui/src/button-group",
+  "type": "registry:example"
+}

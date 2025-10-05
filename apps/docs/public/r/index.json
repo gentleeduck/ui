@@ -1746,6 +1746,50 @@
     ]
   },
   {
+    "dependencies": [
+      "@gentleduck/libs",
+      "@gentleduck/variants"
+    ],
+    "files": [
+      {
+        "path": "button-group/button-group.constants.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "button-group/button-group.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "button-group/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "button-group",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group.constants.ts",
+        "path": "button-group/button-group.constants.ts",
+        "type": "file"
+      },
+      {
+        "name": "button-group.tsx",
+        "path": "button-group/button-group.tsx",
+        "type": "file"
+      },
+      {
+        "name": "index.ts",
+        "path": "button-group/index.ts",
+        "type": "file"
+      }
+    ]
+  },
+  {
     "files": [
       {
         "path": "accordion/accordion-1.tsx",
@@ -9941,7 +9985,9 @@
       }
     ],
     "name": "carousel-1",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "carousel"
+    ],
     "root_folder": "carousel",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/carousel",
@@ -9986,7 +10032,9 @@
       }
     ],
     "name": "carousel-2",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "carousel"
+    ],
     "root_folder": "carousel",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/carousel",
@@ -10031,7 +10079,9 @@
       }
     ],
     "name": "carousel-3",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "carousel"
+    ],
     "root_folder": "carousel",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/carousel",
@@ -10076,7 +10126,9 @@
       }
     ],
     "name": "carousel-4",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "carousel"
+    ],
     "root_folder": "carousel",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/carousel",
@@ -10121,7 +10173,9 @@
       }
     ],
     "name": "carousel-5",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "carousel"
+    ],
     "root_folder": "carousel",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/carousel",
@@ -10166,7 +10220,9 @@
       }
     ],
     "name": "carousel-6",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "carousel"
+    ],
     "root_folder": "carousel",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/carousel",
@@ -10211,7 +10267,11 @@
       }
     ],
     "name": "date-picker-1",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "calendar",
+      "popover",
+      "button"
+    ],
     "root_folder": "date-picker",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/date-picker",
@@ -10256,7 +10316,11 @@
       }
     ],
     "name": "date-picker-2",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "calendar",
+      "popover",
+      "button"
+    ],
     "root_folder": "date-picker",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/date-picker",
@@ -10301,7 +10365,11 @@
       }
     ],
     "name": "date-picker-3",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "calendar",
+      "popover",
+      "button"
+    ],
     "root_folder": "date-picker",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/date-picker",
@@ -10346,7 +10414,11 @@
       }
     ],
     "name": "date-picker-4",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "calendar",
+      "popover",
+      "button"
+    ],
     "root_folder": "date-picker",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/date-picker",
@@ -10391,7 +10463,11 @@
       }
     ],
     "name": "date-picker-5",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "calendar",
+      "popover",
+      "button"
+    ],
     "root_folder": "date-picker",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/date-picker",
@@ -10436,7 +10512,11 @@
       }
     ],
     "name": "date-picker-6",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "calendar",
+      "popover",
+      "button"
+    ],
     "root_folder": "date-picker",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/date-picker",
@@ -11653,7 +11733,10 @@
       }
     ],
     "name": "data-table-1",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "data-table",
+      "table"
+    ],
     "root_folder": "data-table",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/data-table",
@@ -11681,6 +11764,798 @@
       {
         "name": "cva-1.tsx",
         "path": "cva/cva-1.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-1",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-10",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-11.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-11",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-2",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-3",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-4",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-5",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-6",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-7",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-8",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-9",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
         "type": "file"
       }
     ]

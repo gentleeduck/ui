@@ -1,0 +1,33 @@
+{
+  "dependencies": [
+    "@gentleduck/libs",
+    "@gentleduck/variants"
+  ],
+  "files": [
+    {
+      "content": "import { cva } from '@gentleduck/variants'\n\nexport const buttonGroupVariants = cva(\n  \"flex w-fit items-stretch has-[>[data-slot=button-group]]:gap-2 [&>*]:focus-visible:relative [&>*]:focus-visible:z-10 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-md [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1\",\n  {\n    defaultVariants: {\n      orientation: 'horizontal',\n    },\n    variants: {\n      orientation: {\n        horizontal:\n          '[&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none',\n        vertical:\n          'flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none',\n      },\n    },\n  },\n)\n",
+      "path": "button-group/button-group.constants.ts",
+      "target": "components/ui/button-group.constants.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport { cva, type VariantProps } from '@gentleduck/variants'\nimport { Slot } from '@radix-ui/react-slot'\nimport { Separator } from '../separator'\nimport { buttonGroupVariants } from './button-group.constants'\n\nfunction ButtonGroup({\n  className,\n  orientation,\n  ...props\n}: React.ComponentProps<'div'> & VariantProps<typeof buttonGroupVariants>) {\n  return (\n    <div\n      className={cn(buttonGroupVariants({ orientation }), className)}\n      data-orientation={orientation}\n      data-slot=\"button-group\"\n      role=\"group\"\n      {...props}\n    />\n  )\n}\n\nfunction ButtonGroupText({\n  className,\n  asChild = false,\n  ...props\n}: React.ComponentProps<'div'> & {\n  asChild?: boolean\n}) {\n  const Comp = asChild ? Slot : 'div'\n\n  return (\n    <Comp\n      className={cn(\n        // \"bg-muted flex items-center gap-2 rounded-md border px-4 text-sm font-medium shadow-xs [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4\",\n        className,\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction ButtonGroupSeparator({\n  className,\n  orientation = 'vertical',\n  ...props\n}: React.ComponentProps<typeof Separator>) {\n  return (\n    <Separator\n      className={cn('!m-0 relative self-stretch bg-input data-[orientation=vertical]:h-auto', className)}\n      data-slot=\"button-group-separator\"\n      orientation={orientation}\n      {...props}\n    />\n  )\n}\n\nexport { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, buttonGroupVariants }\n",
+      "path": "button-group/button-group.tsx",
+      "target": "components/ui/button-group.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "content": "export * from './button-group'\nexport * from './button-group.constants'\n",
+      "path": "button-group/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "button-group",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "button-group",
+  "source": "/registry-ui-duckui/src/button-group",
+  "type": "registry:ui"
+}

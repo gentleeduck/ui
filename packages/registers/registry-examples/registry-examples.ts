@@ -258,14 +258,14 @@ export const registry_examples: RegistryEntry[] = [
   {
     files: [],
     name: 'carousel-examples',
-    registryDependencies: [],
+    registryDependencies: ['carousel'],
     root_folder: 'carousel',
     type: 'registry:example',
   },
   {
     files: [],
     name: 'date-picker-examples',
-    registryDependencies: [],
+    registryDependencies: ['calendar', 'popover', 'button'],
     root_folder: 'date-picker',
     type: 'registry:example',
   },
@@ -335,7 +335,7 @@ export const registry_examples: RegistryEntry[] = [
   {
     files: [],
     name: 'data-table-examples',
-    registryDependencies: [],
+    registryDependencies: ['data-table', 'table'],
     root_folder: 'data-table',
     type: 'registry:example',
   },
@@ -344,6 +344,13 @@ export const registry_examples: RegistryEntry[] = [
     name: 'cva-examples',
     registryDependencies: [],
     root_folder: 'cva',
+    type: 'registry:example',
+  },
+  {
+    files: [],
+    name: 'button-group',
+    registryDependencies: ['button-group'],
+    root_folder: 'button-group',
     type: 'registry:example',
   },
 ]

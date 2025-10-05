@@ -8,7 +8,11 @@
     }
   ],
   "name": "date-picker-5",
-  "registryDependencies": [],
+  "registryDependencies": [
+    "calendar",
+    "popover",
+    "button"
+  ],
   "root_folder": "date-picker",
   "source": "/registry-examples-duckui/src/date-picker",
   "type": "registry:example"
