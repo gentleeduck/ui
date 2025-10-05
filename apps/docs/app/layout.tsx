@@ -24,18 +24,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html dir="ltr" lang="en" suppressHydrationWarning>
       <head>
-        <meta content={siteConfig.name} property="og:site_name" />
-        <meta content={siteConfig.url} property="og:url" />
-        <link href="/icons/light/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png" />
-
-        <link href="/icons/light/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
-        <link href="/icons/light/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
-
-        <link href="/icons/light/favicon-32x32.png" media="(prefers-color-scheme: light)" rel="icon" type="image/png" />
-        <link href="/icons/dark/favicon-32x32.png" media="(prefers-color-scheme: dark)" rel="icon" type="image/png" />
-
-        <link href="/icons/light/apple-touch-icon.png" rel="apple-touch-icon" />
-
         {/* Preload critical fonts */}
         <link as="font" crossOrigin="anonymous" href="/fonts/Geist-VF.woff2" rel="preload" type="font/woff2" />
         <link as="font" crossOrigin="anonymous" href="/fonts/GeistMono-VF.woff2" rel="preload" type="font/woff2" />

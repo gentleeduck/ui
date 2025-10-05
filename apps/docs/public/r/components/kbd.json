@@ -10,7 +10,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "import { cn } from '@gentleduck/libs/cn'\n\nfunction Kbd({ className, ...props }: React.ComponentProps<'kbd'>) {\n  return (\n    <kbd\n      data-slot=\"kbd\"\n      className={cn(\n        'bg-muted text-muted-foreground pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-sm px-1 font-sans text-xs font-medium select-none',\n        \"[&_svg:not([class*='size-'])]:size-3\",\n        '[[data-slot=tooltip-content]_&]:bg-background/20 [[data-slot=tooltip-content]_&]:text-background dark:[[data-slot=tooltip-content]_&]:bg-background/10',\n        className,\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction KbdGroup({ className, ...props }: React.ComponentProps<'div'>) {\n  return <kbd data-slot=\"kbd-group\" className={cn('inline-flex items-center gap-1', className)} {...props} />\n}\n\nexport { Kbd, KbdGroup }\n",
+      "content": "import { cn } from '@gentleduck/libs/cn'\n\nfunction Kbd({ className, ...props }: React.ComponentProps<'kbd'>) {\n  return (\n    <kbd\n      className={cn(\n        'pointer-events-none inline-flex h-5 w-fit min-w-5 select-none items-center justify-center gap-1 rounded-sm bg-muted px-1 font-medium font-sans text-muted-foreground text-xs',\n        \"[&_svg:not([class*='size-'])]:size-3\",\n        className,\n      )}\n      data-slot=\"kbd\"\n      {...props}\n    />\n  )\n}\n\nfunction KbdGroup({ className, ...props }: React.ComponentProps<'div'>) {\n  return <kbd className={cn('inline-flex items-center gap-1', className)} data-slot=\"kbd-group\" {...props} />\n}\n\nexport { Kbd, KbdGroup }\n",
       "path": "kbd/kbd.tsx",
       "target": "components/ui/kbd.tsx",
       "type": "registry:ui"

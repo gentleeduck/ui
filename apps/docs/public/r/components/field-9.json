@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Field, FieldContent, FieldDescription, FieldLabel } from '@gentleduck/registry-ui-duckui/field'\nimport { Switch } from '@gentleduck/registry-ui-duckui/switch'\n\nexport default function FieldSwitch() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <Field orientation=\"horizontal\">\n        <FieldContent>\n          <FieldLabel htmlFor=\"2fa\">Multi-factor authentication</FieldLabel>\n          <FieldDescription>\n            Enable multi-factor authentication. If you do not have a two-factor device, you can use a one-time code sent\n            to your email.\n          </FieldDescription>\n        </FieldContent>\n        <Switch id=\"2fa\" />\n      </Field>\n    </div>\n  )\n}\n",
+      "path": "field/field-9.tsx",
+      "target": "components/field-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "field-9",
+  "registryDependencies": [
+    "field"
+  ],
+  "root_folder": "field",
+  "source": "/registry-examples-duckui/src/field",
+  "type": "registry:example"
+}

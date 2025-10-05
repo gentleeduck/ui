@@ -58,3 +58,4 @@ __registry__
 certificates
 
 tailwind.config.ts
+**/.fuse_*

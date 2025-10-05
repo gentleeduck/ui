@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport {\n  Field,\n  FieldContent,\n  FieldDescription,\n  FieldGroup,\n  FieldLabel,\n  FieldLegend,\n  FieldSeparator,\n  FieldSet,\n} from '@gentleduck/registry-ui-duckui/field'\nimport { Input } from '@gentleduck/registry-ui-duckui/input'\nimport { Textarea } from '@gentleduck/registry-ui-duckui/textarea'\n\nexport default function FieldResponsive() {\n  return (\n    <div className=\"w-full max-w-4xl\">\n      <form>\n        <FieldSet>\n          <FieldLegend>Profile</FieldLegend>\n          <FieldDescription>Fill in your profile information.</FieldDescription>\n          <FieldSeparator />\n          <FieldGroup>\n            <Field orientation=\"responsive\">\n              <FieldContent>\n                <FieldLabel htmlFor=\"name\">Name</FieldLabel>\n                <FieldDescription>Provide your full name for identification</FieldDescription>\n              </FieldContent>\n              <Input id=\"name\" placeholder=\"Evil Rabbit\" required />\n            </Field>\n            <FieldSeparator />\n            <Field orientation=\"responsive\">\n              <FieldContent>\n                <FieldLabel htmlFor=\"lastName\">Message</FieldLabel>\n                <FieldDescription>\n                  You can write your message here. Keep it short, preferably under 100 characters.\n                </FieldDescription>\n              </FieldContent>\n              <Textarea\n                id=\"message\"\n                placeholder=\"Hello, world!\"\n                required\n                className=\"min-h-[100px] resize-none sm:min-w-[300px]\"\n              />\n            </Field>\n            <FieldSeparator />\n            <Field orientation=\"responsive\">\n              <Button type=\"submit\">Submit</Button>\n              <Button type=\"button\" variant=\"outline\">\n                Cancel\n              </Button>\n            </Field>\n          </FieldGroup>\n        </FieldSet>\n      </form>\n    </div>\n  )\n}\n",
+      "path": "field/field-12.tsx",
+      "target": "components/field-12.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "field-12",
+  "registryDependencies": [
+    "field"
+  ],
+  "root_folder": "field",
+  "source": "/registry-examples-duckui/src/field",
+  "type": "registry:example"
+}

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { CheckIcon, CreditCardIcon, InfoIcon, MailIcon, SearchIcon, StarIcon } from 'lucide-react'\n\nimport { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'\n\nexport default function InputGroupIcon() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-6\">\n      <InputGroup>\n        <InputGroupInput placeholder=\"Search...\" />\n        <InputGroupAddon>\n          <SearchIcon />\n        </InputGroupAddon>\n      </InputGroup>\n      <InputGroup>\n        <InputGroupInput type=\"email\" placeholder=\"Enter your email\" />\n        <InputGroupAddon>\n          <MailIcon />\n        </InputGroupAddon>\n      </InputGroup>\n      <InputGroup>\n        <InputGroupInput placeholder=\"Card number\" />\n        <InputGroupAddon>\n          <CreditCardIcon />\n        </InputGroupAddon>\n        <InputGroupAddon align=\"inline-end\">\n          <CheckIcon />\n        </InputGroupAddon>\n      </InputGroup>\n      <InputGroup>\n        <InputGroupInput placeholder=\"Card number\" />\n        <InputGroupAddon align=\"inline-end\">\n          <StarIcon />\n          <InfoIcon />\n        </InputGroupAddon>\n      </InputGroup>\n    </div>\n  )\n}\n",
+      "path": "input-group/input-group-2.tsx",
+      "target": "components/input-group-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-group-2",
+  "registryDependencies": [
+    "input-group"
+  ],
+  "root_folder": "input-group",
+  "source": "/registry-examples-duckui/src/input-group",
+  "type": "registry:example"
+}

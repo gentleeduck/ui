@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Link2Icon } from 'lucide-react'\n\nimport { ButtonGroup, ButtonGroupText } from '@gentleduck/registry-ui-duckui/button-group'\nimport { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'\nimport { Label } from '@gentleduck/registry-ui-duckui/label'\n\nexport default function InputGroupButtonGroup() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-6\">\n      <ButtonGroup>\n        <ButtonGroupText asChild>\n          <Label htmlFor=\"url\">https://</Label>\n        </ButtonGroupText>\n        <InputGroup>\n          <InputGroupInput id=\"url\" />\n          <InputGroupAddon align=\"inline-end\">\n            <Link2Icon />\n          </InputGroupAddon>\n        </InputGroup>\n        <ButtonGroupText>.com</ButtonGroupText>\n      </ButtonGroup>\n    </div>\n  )\n}\n",
+      "path": "input-group/input-group-10.tsx",
+      "target": "components/input-group-10.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-group-10",
+  "registryDependencies": [
+    "input-group"
+  ],
+  "root_folder": "input-group",
+  "source": "/registry-examples-duckui/src/input-group",
+  "type": "registry:example"
+}

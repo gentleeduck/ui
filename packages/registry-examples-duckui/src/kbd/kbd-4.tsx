@@ -3,7 +3,7 @@ import { ButtonGroup } from '@gentleduck/registry-ui-duckui/button-group'
 import { Kbd, KbdGroup } from '@gentleduck/registry-ui-duckui/kbd'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 
-export function KbdTooltip() {
+export default function KbdDemo() {
   return (
     <div className="flex flex-wrap gap-4">
       <ButtonGroup>

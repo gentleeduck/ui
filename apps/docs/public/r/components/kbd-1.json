@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Kbd, KbdGroup } from '@gentleduck/registry-ui-duckui/kbd'\n\nexport function KbdDemo() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <KbdGroup>\n        <Kbd>⌘</Kbd>\n        <Kbd>⇧</Kbd>\n        <Kbd>⌥</Kbd>\n        <Kbd>⌃</Kbd>\n      </KbdGroup>\n      <KbdGroup>\n        <Kbd>Ctrl</Kbd>\n        <span>+</span>\n        <Kbd>B</Kbd>\n      </KbdGroup>\n    </div>\n  )\n}\n",
+      "content": "import { Kbd, KbdGroup } from '@gentleduck/registry-ui-duckui/kbd'\n\nexport default function KbdDemo() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <KbdGroup>\n        <Kbd>⌘</Kbd>\n        <Kbd>⇧</Kbd>\n        <Kbd>⌥</Kbd>\n        <Kbd>⌃</Kbd>\n      </KbdGroup>\n      <KbdGroup>\n        <Kbd>Ctrl</Kbd>\n        <span>+</span>\n        <Kbd>B</Kbd>\n      </KbdGroup>\n    </div>\n  )\n}\n",
       "path": "kbd/kbd-1.tsx",
       "target": "components/kbd-1.tsx",
       "type": "registry:example"

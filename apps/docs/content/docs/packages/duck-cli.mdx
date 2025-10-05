@@ -1,0 +1,56 @@
+---
+title: gentleduck/cli
+description: Use the gentleduck/cli package to add components and dependencies to your project.
+---
+
+## init
+
+Use the `init` command to initialize configuration and dependencies for a new project.
+
+```bash
+npx @gentleduck/cli init [components...]
+````
+
+**Options**
+
+```bash
+Usage: @gentleduck/cli init [options] [components...]
+
+init the project
+
+Arguments:
+  [components...]   names, url or local path to component to install. When not provided, you’ll be directed to a list to select from.
+
+Options:
+  -y, --yes           skip confirmation prompt. (default: false)
+  -c, --cwd <cwd>     the working directory. defaults to the current directory. (default: process.cwd())
+  -f, --force         overwrite existing components. (default: false)
+```
+
+---
+
+## add
+
+Use the `add` command to add components and dependencies to your project.
+
+```bash
+npx @gentleduck/cli add [components...]
+```
+
+**Options**
+
+```bash
+Usage: @gentleduck/cli add [options] [components...]
+
+add components to your project
+
+Arguments:
+  [components...]   names, url or local path to component to install. When not provided, you’ll be directed to a list to select from.
+
+Options:
+  -y, --yes           skip confirmation prompt. (default: false)
+  -f, --force         overwrite existing components. (default: false)
+```
+
+```
+

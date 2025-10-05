@@ -4,6 +4,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/colors": "^3.0.0",
     "@radix-ui/react-hover-card": "^1.1.15",
+    "@tabler/icons-react": "catalog:",
     "@tanstack/react-table": "^8.21.3",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",

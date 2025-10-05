@@ -1,5 +1,6 @@
 import { FloatingFocusManager, FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import * as React from 'react'
+import { Portal as PPortal } from '../portal'
 import { cleanLockScrollbar, lockScrollbar } from '../dialog'
 import { Presence } from '../presence'
 import { Slot } from '../slot'
@@ -104,7 +105,7 @@ function Content({
           }}
           //@ts-ignore
           {...context.getFloatingProps(props)}>
-          {props.children}
+          <>{props.children}</>
         </div>
       </FloatingFocusManager>
     </Presence>
@@ -112,7 +113,7 @@ function Content({
 }
 
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
-  return <FloatingPortal {...props}>{children}</FloatingPortal>
+  return <FloatingPortal>{children}</FloatingPortal>
 }
 
 export { Root, Trigger, Content, Portal }

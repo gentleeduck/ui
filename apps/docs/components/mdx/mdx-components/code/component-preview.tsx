@@ -111,7 +111,7 @@ export function ComponentPreview({
           </div>
         </TabsContent>
         <TabsContent
-          className="mt-2 [&_[data-rehype-pretty-code-fragment]]:!m-0 [&>div>div]:mb-0 [&_pre]:h-[502px] relative [&>div>div>button]:top-3 [&>div>div>button]:right-3"
+          className="mt-2 [&_[data-rehype-pretty-code-fragment]]:!m-0 [&>div>div]:mb-0 [&_pre]:h-[502px] relative [&>div>div>button]:top-3 [&>div>div>button]:right-3 [&>div]:bg-muted/40 [&>div]:rounded-lg [&>div]:border"
           value="code">
           {Code}
         </TabsContent>

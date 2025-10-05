@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import {\n  Field,\n  FieldContent,\n  FieldDescription,\n  FieldGroup,\n  FieldLabel,\n  FieldSet,\n  FieldTitle,\n} from '@gentleduck/registry-ui-duckui/field'\nimport { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'\n\nexport default function FieldChoiceCard() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <FieldGroup>\n        <FieldSet>\n          <FieldLabel htmlFor=\"compute-environment-p8w\">Compute Environment</FieldLabel>\n          <FieldDescription>Select the compute environment for your cluster.</FieldDescription>\n          <RadioGroup defaultValue=\"kubernetes\">\n            <FieldLabel htmlFor=\"kubernetes-r2h\">\n              <Field orientation=\"horizontal\">\n                <FieldContent>\n                  <FieldTitle>Kubernetes</FieldTitle>\n                  <FieldDescription>Run GPU workloads on a K8s configured cluster.</FieldDescription>\n                </FieldContent>\n                <RadioGroupItem value=\"kubernetes\" id=\"kubernetes-r2h\" />\n              </Field>\n            </FieldLabel>\n            <FieldLabel htmlFor=\"vm-z4k\">\n              <Field orientation=\"horizontal\">\n                <FieldContent>\n                  <FieldTitle>Virtual Machine</FieldTitle>\n                  <FieldDescription>Access a VM configured cluster to run GPU workloads.</FieldDescription>\n                </FieldContent>\n                <RadioGroupItem value=\"vm\" id=\"vm-z4k\" />\n              </Field>\n            </FieldLabel>\n          </RadioGroup>\n        </FieldSet>\n      </FieldGroup>\n    </div>\n  )\n}\n",
+      "path": "field/field-10.tsx",
+      "target": "components/field-10.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "field-10",
+  "registryDependencies": [
+    "field"
+  ],
+  "root_folder": "field",
+  "source": "/registry-examples-duckui/src/field",
+  "type": "registry:example"
+}

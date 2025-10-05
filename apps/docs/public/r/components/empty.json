@@ -1,0 +1,30 @@
+{
+  "dependencies": [
+    "@gentleduck/libs",
+    "@gentleduck/variants"
+  ],
+  "files": [
+    {
+      "content": "import { cva, type VariantProps } from '@gentleduck/variants'\nexport const emptyMediaVariants = cva(\n  'flex shrink-0 items-center justify-center mb-2 [&_svg]:pointer-events-none [&_svg]:shrink-0',\n  {\n    variants: {\n      variant: {\n        default: 'bg-transparent',\n        icon: \"bg-muted text-foreground flex size-10 shrink-0 items-center justify-center rounded-lg [&_svg:not([class*='size-'])]:size-6\",\n      },\n    },\n    defaultVariants: {\n      variant: 'default',\n    },\n  },\n)\n",
+      "path": "empty/empty.constants.ts",
+      "target": "components/ui/empty.constants.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "import { cva, type VariantProps } from '@gentleduck/variants'\nimport { cn } from '@gentleduck/libs/cn'\nimport { emptyMediaVariants } from './empty.constants'\n\nfunction Empty({ className, ...props }: React.ComponentProps<'div'>) {\n  return (\n    <div\n      data-slot=\"empty\"\n      className={cn(\n        'flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12',\n        className,\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction EmptyHeader({ className, ...props }: React.ComponentProps<'div'>) {\n  return (\n    <div\n      data-slot=\"empty-header\"\n      className={cn('flex max-w-sm flex-col items-center gap-2 text-center', className)}\n      {...props}\n    />\n  )\n}\n\nfunction EmptyMedia({\n  className,\n  variant = 'default',\n  ...props\n}: React.ComponentProps<'div'> & VariantProps<typeof emptyMediaVariants>) {\n  return (\n    <div\n      data-slot=\"empty-icon\"\n      data-variant={variant}\n      className={cn(emptyMediaVariants({ variant, className }))}\n      {...props}\n    />\n  )\n}\n\nfunction EmptyTitle({ className, ...props }: React.ComponentProps<'div'>) {\n  return <div data-slot=\"empty-title\" className={cn('text-lg font-medium tracking-tight', className)} {...props} />\n}\n\nfunction EmptyDescription({ className, ...props }: React.ComponentProps<'p'>) {\n  return (\n    <div\n      data-slot=\"empty-description\"\n      className={cn(\n        'text-muted-foreground [&>a:hover]:text-primary text-sm/relaxed [&>a]:underline [&>a]:underline-offset-4',\n        className,\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction EmptyContent({ className, ...props }: React.ComponentProps<'div'>) {\n  return (\n    <div\n      data-slot=\"empty-content\"\n      className={cn('flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance', className)}\n      {...props}\n    />\n  )\n}\n\nexport { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent, EmptyMedia }\n",
+      "path": "empty/empty.tsx",
+      "target": "components/ui/empty.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "content": "export * from './empty'\nexport * from './empty.constants'\n",
+      "path": "empty/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "empty",
+  "root_folder": "empty",
+  "source": "/registry-ui-duckui/src/empty",
+  "type": "registry:ui"
+}

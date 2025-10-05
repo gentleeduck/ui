@@ -1821,6 +1821,173 @@
     ]
   },
   {
+    "dependencies": [
+      "@gentleduck/libs",
+      "@gentleduck/variants"
+    ],
+    "files": [
+      {
+        "path": "empty/empty.constants.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "empty/empty.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "empty/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "empty",
+    "root_folder": "empty",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/empty",
+    "tree": [
+      {
+        "name": "empty.constants.ts",
+        "path": "empty/empty.constants.ts",
+        "type": "file"
+      },
+      {
+        "name": "empty.tsx",
+        "path": "empty/empty.tsx",
+        "type": "file"
+      },
+      {
+        "name": "index.ts",
+        "path": "empty/index.ts",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "dependencies": [
+      "@gentleduck/libs",
+      "@gentleduck/variants"
+    ],
+    "files": [
+      {
+        "path": "field/field.constants.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "field/field.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "field/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "field",
+    "registryDependencies": [
+      "label",
+      "separator"
+    ],
+    "root_folder": "field",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/field",
+    "tree": [
+      {
+        "name": "field.constants.ts",
+        "path": "field/field.constants.ts",
+        "type": "file"
+      },
+      {
+        "name": "field.tsx",
+        "path": "field/field.tsx",
+        "type": "file"
+      },
+      {
+        "name": "index.ts",
+        "path": "field/index.ts",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "dependencies": [
+      "@gentleduck/libs",
+      "@gentleduck/variants"
+    ],
+    "files": [
+      {
+        "path": "item/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "item/item.constants.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "item/item.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "item",
+    "registryDependencies": [
+      "separator"
+    ],
+    "root_folder": "item",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/item",
+    "tree": [
+      {
+        "name": "index.ts",
+        "path": "item/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "item.constants.ts",
+        "path": "item/item.constants.ts",
+        "type": "file"
+      },
+      {
+        "name": "item.tsx",
+        "path": "item/item.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "dependencies": [
+      "@gentleduck/libs",
+      "@gentleduck/variants"
+    ],
+    "files": [
+      {
+        "path": "input-group/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "input-group/input-group.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "input-group",
+    "registryDependencies": [
+      "button",
+      "input",
+      "textarea"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "index.ts",
+        "path": "input-group/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "input-group.tsx",
+        "path": "input-group/input-group.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
     "files": [
       {
         "path": "accordion/accordion-1.tsx",
@@ -12797,6 +12964,2674 @@
       {
         "name": "kbd-5.tsx",
         "path": "kbd/kbd-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "empty/empty-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "empty-1",
+    "registryDependencies": [
+      "empty"
+    ],
+    "root_folder": "empty",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/empty",
+    "tree": [
+      {
+        "name": "empty-1.tsx",
+        "path": "empty/empty-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-2.tsx",
+        "path": "empty/empty-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-3.tsx",
+        "path": "empty/empty-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-4.tsx",
+        "path": "empty/empty-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-5.tsx",
+        "path": "empty/empty-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-6.tsx",
+        "path": "empty/empty-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "empty/empty-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "empty-2",
+    "registryDependencies": [
+      "empty"
+    ],
+    "root_folder": "empty",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/empty",
+    "tree": [
+      {
+        "name": "empty-1.tsx",
+        "path": "empty/empty-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-2.tsx",
+        "path": "empty/empty-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-3.tsx",
+        "path": "empty/empty-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-4.tsx",
+        "path": "empty/empty-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-5.tsx",
+        "path": "empty/empty-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-6.tsx",
+        "path": "empty/empty-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "empty/empty-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "empty-3",
+    "registryDependencies": [
+      "empty"
+    ],
+    "root_folder": "empty",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/empty",
+    "tree": [
+      {
+        "name": "empty-1.tsx",
+        "path": "empty/empty-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-2.tsx",
+        "path": "empty/empty-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-3.tsx",
+        "path": "empty/empty-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-4.tsx",
+        "path": "empty/empty-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-5.tsx",
+        "path": "empty/empty-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-6.tsx",
+        "path": "empty/empty-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "empty/empty-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "empty-4",
+    "registryDependencies": [
+      "empty"
+    ],
+    "root_folder": "empty",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/empty",
+    "tree": [
+      {
+        "name": "empty-1.tsx",
+        "path": "empty/empty-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-2.tsx",
+        "path": "empty/empty-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-3.tsx",
+        "path": "empty/empty-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-4.tsx",
+        "path": "empty/empty-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-5.tsx",
+        "path": "empty/empty-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-6.tsx",
+        "path": "empty/empty-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "empty/empty-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "empty-5",
+    "registryDependencies": [
+      "empty"
+    ],
+    "root_folder": "empty",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/empty",
+    "tree": [
+      {
+        "name": "empty-1.tsx",
+        "path": "empty/empty-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-2.tsx",
+        "path": "empty/empty-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-3.tsx",
+        "path": "empty/empty-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-4.tsx",
+        "path": "empty/empty-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-5.tsx",
+        "path": "empty/empty-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-6.tsx",
+        "path": "empty/empty-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "empty/empty-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "empty-6",
+    "registryDependencies": [
+      "empty"
+    ],
+    "root_folder": "empty",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/empty",
+    "tree": [
+      {
+        "name": "empty-1.tsx",
+        "path": "empty/empty-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-2.tsx",
+        "path": "empty/empty-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-3.tsx",
+        "path": "empty/empty-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-4.tsx",
+        "path": "empty/empty-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-5.tsx",
+        "path": "empty/empty-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-6.tsx",
+        "path": "empty/empty-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-1",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-10",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-11.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-11",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-12.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-12",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-2",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-3",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-4",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-5",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-6",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-7",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-8",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "field/field-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "field-9",
+    "registryDependencies": [
+      "field"
+    ],
+    "root_folder": "field",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/field",
+    "tree": [
+      {
+        "name": "field-1.tsx",
+        "path": "field/field-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-10.tsx",
+        "path": "field/field-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-11.tsx",
+        "path": "field/field-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-12.tsx",
+        "path": "field/field-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-2.tsx",
+        "path": "field/field-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-3.tsx",
+        "path": "field/field-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-4.tsx",
+        "path": "field/field-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-5.tsx",
+        "path": "field/field-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-6.tsx",
+        "path": "field/field-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-7.tsx",
+        "path": "field/field-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-8.tsx",
+        "path": "field/field-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "field-9.tsx",
+        "path": "field/field-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-1",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-10",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-2",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-3",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-4",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-5",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-6",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-7",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-8",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "item/item-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "item-9",
+    "registryDependencies": [
+      "item"
+    ],
+    "root_folder": "item",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/item",
+    "tree": [
+      {
+        "name": "item-1.tsx",
+        "path": "item/item-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-10.tsx",
+        "path": "item/item-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-2.tsx",
+        "path": "item/item-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-3.tsx",
+        "path": "item/item-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-4.tsx",
+        "path": "item/item-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-5.tsx",
+        "path": "item/item-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-6.tsx",
+        "path": "item/item-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-7.tsx",
+        "path": "item/item-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-8.tsx",
+        "path": "item/item-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "item-9.tsx",
+        "path": "item/item-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-1",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-10",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-11.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-11",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-2",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-3",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-4",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-5",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-6",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-7",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-8",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "input-group/input-group-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "input-group-9",
+    "registryDependencies": [
+      "input-group"
+    ],
+    "root_folder": "input-group",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/input-group",
+    "tree": [
+      {
+        "name": "input-group-1.tsx",
+        "path": "input-group/input-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-10.tsx",
+        "path": "input-group/input-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-11.tsx",
+        "path": "input-group/input-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-2.tsx",
+        "path": "input-group/input-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-3.tsx",
+        "path": "input-group/input-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-4.tsx",
+        "path": "input-group/input-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-5.tsx",
+        "path": "input-group/input-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-6.tsx",
+        "path": "input-group/input-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-7.tsx",
+        "path": "input-group/input-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-8.tsx",
+        "path": "input-group/input-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "input-group-9.tsx",
+        "path": "input-group/input-group-9.tsx",
         "type": "file"
       }
     ]

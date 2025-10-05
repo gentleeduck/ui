@@ -9,7 +9,7 @@ import {
 } from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Check, ChevronDown, Copy } from 'lucide-react'
-import { useCopyToClipboard } from '~/hooks/use-copy-to-clipboard'
+import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 
 function getPromptUrl(baseURL: string, url: string) {
   return `${baseURL}?q=${encodeURIComponent(

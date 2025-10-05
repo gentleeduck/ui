@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { SearchIcon } from 'lucide-react'\n\nimport { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'\nimport { Kbd } from '@gentleduck/registry-ui-duckui/kbd'\n\nexport function KbdInputGroup() {\n  return (\n    <div className=\"flex w-full max-w-xs flex-col gap-6\">\n      <InputGroup>\n        <InputGroupInput placeholder=\"Search...\" />\n        <InputGroupAddon>\n          <SearchIcon />\n        </InputGroupAddon>\n        <InputGroupAddon align=\"inline-end\">\n          <Kbd>⌘</Kbd>\n          <Kbd>K</Kbd>\n        </InputGroupAddon>\n      </InputGroup>\n    </div>\n  )\n}\n",
+      "content": "import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'\nimport { Kbd } from '@gentleduck/registry-ui-duckui/kbd'\nimport { SearchIcon } from 'lucide-react'\n\nexport default function KbdDemo() {\n  return (\n    <div className=\"flex w-full max-w-xs flex-col gap-6\">\n      <InputGroup>\n        <InputGroupInput placeholder=\"Search...\" />\n        <InputGroupAddon>\n          <SearchIcon />\n        </InputGroupAddon>\n        <InputGroupAddon align=\"inline-end\">\n          <Kbd>⌘</Kbd>\n          <Kbd>K</Kbd>\n        </InputGroupAddon>\n      </InputGroup>\n    </div>\n  )\n}\n",
       "path": "kbd/kbd-5.tsx",
       "target": "components/kbd-5.tsx",
       "type": "registry:example"

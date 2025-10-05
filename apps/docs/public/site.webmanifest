@@ -3,22 +3,7 @@
   "short_name": "gentleduck/ui",
   "description": "gentleduck/ui is a lightweight, type-safe, and accessible React UI library built with Tailwind CSS and Next.js. Designed for speed, customization, and modern design systems.",
   "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0f172a",
   "orientation": "any",
-  "icons": [
-    {
-      "sizes": "192x192",
-      "src": "/icons/android-chrome-192x192.png",
-      "type": "image/png"
-    },
-    {
-      "sizes": "512x512",
-      "src": "/icons/android-chrome-512x512.png",
-      "type": "image/png"
-    }
-  ],
   "categories": [
     "developer-tools",
     "productivity",
@@ -29,5 +14,22 @@
     "nextjs"
   ],
   "lang": "en",
-  "dir": "ltr"
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
 }

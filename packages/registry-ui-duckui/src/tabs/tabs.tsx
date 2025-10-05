@@ -34,7 +34,7 @@ function Tabs({ value, defaultValue, onValueChange, ...props }: TabsProps) {
 
   return (
     <TabsContext.Provider value={{ activeItem, setActiveItem }}>
-      <div {...props} aria-orientation="vertical" data-slot="tabs" role="tablist" duck-tabs="" />
+      <div {...props} aria-orientation="vertical" data-slot="tabs" duck-tabs="" role="tablist" />
     </TabsContext.Provider>
   )
 }
@@ -48,8 +48,8 @@ const TabsList = ({ className, ref, ...props }: TabsListProps) => (
     )}
     ref={ref}
     {...props}
-    duck-tabs-list=""
     data-slot="tabs-list"
+    duck-tabs-list=""
   />
 )
 

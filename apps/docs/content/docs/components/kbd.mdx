@@ -6,8 +6,12 @@ component: true
 
 <Callout>
 
-NOTE: this component was previously named `CommandShortcut` So it's not new but it's been renamed.
-and moved to a new component, to be more consistent with the other components.
+**Rewritten version:**
+
+**Note:** You might wonder why we don’t use the `CommandShortcut` component from the `command` module.
+The reason is that we want to give you the flexibility to use the `kbd` component in any context, not just within a command.
+Additionally, the `CommandShortcut` component is specifically designed to represent a keyboard shortcut associated with a command, not a plain HTML element.
+As a result, it has a different API and does not require certain props like `keys` or `onKeyPress`.
 
 </Callout>
 
@@ -32,6 +36,12 @@ npx @gentleduck/cli add kbd
 <TabsContent value="manual">
 
 <Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs
+```
 
 <Step>Copy and paste the following code into your project.</Step>
 

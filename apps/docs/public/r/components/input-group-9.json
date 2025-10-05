@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { ChevronDownIcon, MoreHorizontal } from 'lucide-react'\n\nimport {\n  DropdownMenu,\n  DropdownMenuContent,\n  DropdownMenuItem,\n  DropdownMenuTrigger,\n} from '@gentleduck/registry-ui-duckui/dropdown-menu'\nimport {\n  InputGroup,\n  InputGroupAddon,\n  InputGroupButton,\n  InputGroupInput,\n} from '@gentleduck/registry-ui-duckui/input-group'\n\nexport default function InputGroupDropdown() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-4\">\n      <InputGroup>\n        <InputGroupInput placeholder=\"Enter file name\" />\n        <InputGroupAddon align=\"inline-end\">\n          <DropdownMenu>\n            <DropdownMenuTrigger asChild>\n              <InputGroupButton variant=\"ghost\" aria-label=\"More\" size=\"icon-xs\">\n                <MoreHorizontal />\n              </InputGroupButton>\n            </DropdownMenuTrigger>\n            <DropdownMenuContent align=\"end\">\n              <DropdownMenuItem>Settings</DropdownMenuItem>\n              <DropdownMenuItem>Copy path</DropdownMenuItem>\n              <DropdownMenuItem>Open location</DropdownMenuItem>\n            </DropdownMenuContent>\n          </DropdownMenu>\n        </InputGroupAddon>\n      </InputGroup>\n      <InputGroup className=\"[--radius:1rem]\">\n        <InputGroupInput placeholder=\"Enter search query\" />\n        <InputGroupAddon align=\"inline-end\">\n          <DropdownMenu>\n            <DropdownMenuTrigger asChild>\n              <InputGroupButton variant=\"ghost\" className=\"!pr-1.5 text-xs\">\n                Search In... <ChevronDownIcon className=\"size-3\" />\n              </InputGroupButton>\n            </DropdownMenuTrigger>\n            <DropdownMenuContent align=\"end\" className=\"[--radius:0.95rem]\">\n              <DropdownMenuItem>Documentation</DropdownMenuItem>\n              <DropdownMenuItem>Blog Posts</DropdownMenuItem>\n              <DropdownMenuItem>Changelog</DropdownMenuItem>\n            </DropdownMenuContent>\n          </DropdownMenu>\n        </InputGroupAddon>\n      </InputGroup>\n    </div>\n  )\n}\n",
+      "path": "input-group/input-group-9.tsx",
+      "target": "components/input-group-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-group-9",
+  "registryDependencies": [
+    "input-group"
+  ],
+  "root_folder": "input-group",
+  "source": "/registry-examples-duckui/src/input-group",
+  "type": "registry:example"
+}

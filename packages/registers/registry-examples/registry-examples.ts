@@ -360,4 +360,32 @@ export const registry_examples: RegistryEntry[] = [
     root_folder: 'kbd',
     type: 'registry:example',
   },
+  {
+    files: [],
+    name: 'empty',
+    registryDependencies: ['empty'],
+    root_folder: 'empty',
+    type: 'registry:example',
+  },
+  {
+    files: [],
+    name: 'field-1',
+    registryDependencies: ['field'],
+    root_folder: 'field',
+    type: 'registry:example',
+  },
+  {
+    files: [],
+    name: 'item-1',
+    registryDependencies: ['item'],
+    root_folder: 'item',
+    type: 'registry:example',
+  },
+  {
+    files: [],
+    name: 'input-group-1',
+    registryDependencies: ['input-group'],
+    root_folder: 'input-group',
+    type: 'registry:example',
+  },
 ]

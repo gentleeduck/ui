@@ -1,4 +1,5 @@
 import { FloatingFocusManager, FloatingPortal, useMergeRefs } from '@floating-ui/react'
+import { Portal as PPortal } from '../portal'
 import * as React from 'react'
 import { cleanLockScrollbar, lockScrollbar } from '../dialog'
 import { Presence } from '../presence'
@@ -49,14 +50,12 @@ function Trigger({
       data-open={context.open}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         context.setOpen(!context.open)
-        // biome-ignore lint: false positive
         // @ts-ignore
         onClick?.(e)
       }}
       // The user can style the trigger based on the state
       ref={ref}
       type="button"
-      // biome-ignore lint: false positive
       // @ts-ignore
       {...context.getReferenceProps(props)}>
       {children}
@@ -102,7 +101,6 @@ function Content({
             },
             ...style,
           }}
-          // biome-ignore lint: false positive
           // @ts-ignore
           {...context.getFloatingProps(props)}>
           {props.children}
@@ -113,7 +111,7 @@ function Content({
 }
 
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
-  return <FloatingPortal {...props}>{children}</FloatingPortal>
+  return <PPortal {...props}>{children}</PPortal>
 }
 
 export { Root, Trigger, Content, Portal }

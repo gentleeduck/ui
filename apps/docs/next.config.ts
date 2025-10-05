@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        hostname: 'avatar.vercel.sh',
+        protocol: 'https',
+      },
+      {
         hostname: 'zpgqhogoevbgpxustvmo.supabase.co',
         protocol: 'https',
       },
@@ -94,11 +98,6 @@ const nextConfig: NextConfig = {
     '@gentleduck/registry-ui-duckui',
     '@gentleduck/registry-examples-duckui',
     '@gentleduck/registry-blocks-duckui',
-    '@gentleduck/variants',
-    '@gentleduck/motion',
-    '@gentleduck/primitives',
-    '@gentleduck/libs',
-    '@gentleduck/hooks',
   ],
   typescript: {
     ignoreBuildErrors: true,

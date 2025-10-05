@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@gentleduck/registry-ui-duckui/empty'\nimport { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'\nimport { Kbd } from '@gentleduck/registry-ui-duckui/kbd'\nimport { SearchIcon } from 'lucide-react'\n\nexport default function EmptyInputGroup() {\n  return (\n    <Empty>\n      <EmptyHeader>\n        <EmptyTitle>404 - Not Found</EmptyTitle>\n        <EmptyDescription>\n          The page you&apos;re looking for doesn&apos;t exist. Try searching for what you need below.\n        </EmptyDescription>\n      </EmptyHeader>\n      <EmptyContent>\n        <InputGroup className=\"sm:w-3/4\">\n          <InputGroupInput placeholder=\"Try searching for pages...\" />\n          <InputGroupAddon>\n            <SearchIcon />\n          </InputGroupAddon>\n          <InputGroupAddon align=\"inline-end\">\n            <Kbd>/</Kbd>\n          </InputGroupAddon>\n        </InputGroup>\n        <EmptyDescription>\n          Need help? <a href=\"#\">Contact support</a>\n        </EmptyDescription>\n      </EmptyContent>\n    </Empty>\n  )\n}\n",
+      "path": "empty/empty-6.tsx",
+      "target": "components/empty-6.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "empty-6",
+  "registryDependencies": [
+    "empty"
+  ],
+  "root_folder": "empty",
+  "source": "/registry-examples-duckui/src/empty",
+  "type": "registry:example"
+}

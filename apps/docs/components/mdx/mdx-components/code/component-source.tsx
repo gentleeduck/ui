@@ -40,7 +40,7 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
           ?.replace('//', '') as string
         return (
           <TabsContent
-            className="bg-transparent [&>div>div]:m-0 m-0 focus-visible:outline-none focus-visible:shadow-none focus-visible:ring-0 relative"
+            className="bg-transparent [&>div>div]:m-0 m-0 focus-visible:outline-none focus-visible:shadow-none focus-visible:ring-0 relative [&>div>div>button]:top-1 [&>div>div>button]:right-1"
             key={idx}
             value={value}>
             <FigcaptionBlock>{value}</FigcaptionBlock>

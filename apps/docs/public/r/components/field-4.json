@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Field, FieldDescription, FieldLabel } from '@gentleduck/registry-ui-duckui/field'\nimport { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'\n\nexport default function FieldSelect() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <Field>\n        <FieldLabel>Department</FieldLabel>\n        <Select>\n          <SelectTrigger>\n            <SelectValue placeholder=\"Choose department\" />\n          </SelectTrigger>\n          <SelectContent>\n            <SelectItem value=\"engineering\">Engineering</SelectItem>\n            <SelectItem value=\"design\">Design</SelectItem>\n            <SelectItem value=\"marketing\">Marketing</SelectItem>\n            <SelectItem value=\"sales\">Sales</SelectItem>\n            <SelectItem value=\"support\">Customer Support</SelectItem>\n            <SelectItem value=\"hr\">Human Resources</SelectItem>\n            <SelectItem value=\"finance\">Finance</SelectItem>\n            <SelectItem value=\"operations\">Operations</SelectItem>\n          </SelectContent>\n        </Select>\n        <FieldDescription>Select your department or area of work.</FieldDescription>\n      </Field>\n    </div>\n  )\n}\n",
+      "path": "field/field-4.tsx",
+      "target": "components/field-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "field-4",
+  "registryDependencies": [
+    "field"
+  ],
+  "root_folder": "field",
+  "source": "/registry-examples-duckui/src/field",
+  "type": "registry:example"
+}

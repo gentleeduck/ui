@@ -34,7 +34,7 @@ function Root({
   rtl = false,
   children,
   ...props
-}: Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue'> & {
+}: Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue' | 'value'> & {
   min?: number
   max?: number
   step?: number

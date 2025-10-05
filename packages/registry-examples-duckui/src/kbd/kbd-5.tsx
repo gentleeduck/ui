@@ -1,9 +1,8 @@
-import { SearchIcon } from 'lucide-react'
-
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'
 import { Kbd } from '@gentleduck/registry-ui-duckui/kbd'
+import { SearchIcon } from 'lucide-react'
 
-export function KbdInputGroup() {
+export default function KbdDemo() {
   return (
     <div className="flex w-full max-w-xs flex-col gap-6">
       <InputGroup>

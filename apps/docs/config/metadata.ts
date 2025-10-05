@@ -23,18 +23,9 @@ export const METADATA: Metadata = {
   creator: 'wilddcuk2',
   description: siteConfig.description,
   icons: {
-    apple: [
-      { media: '(prefers-color-scheme: light)', url: '/icons/light/apple-touch-icon.png' },
-      { media: '(prefers-color-scheme: dark)', url: '/icons/dark/apple-touch-icon.png' },
-    ],
-    icon: [
-      { media: '(prefers-color-scheme: light)', url: '/icons/light/favicon-32x32.png' },
-      { media: '(prefers-color-scheme: dark)', url: '/icons/dark/favicon-32x32.png' },
-    ],
-    shortcut: [
-      { media: '(prefers-color-scheme: light)', url: '/icons/light/favicon.ico' },
-      { media: '(prefers-color-scheme: dark)', url: '/icons/dark/favicon.ico' },
-    ],
+    apple: '/apple-touch-icon.png',
+    icon: '/favicon.ico',
+    shortcut: '/favicon-96x96.png',
   },
   keywords: [
     // Brand
@@ -42,10 +33,7 @@ export const METADATA: Metadata = {
     'gentleduck duck ui',
     'gentleduck button',
     'Duck UI',
-    ...allTitles.flatMap((title) => {
-      const lower = title.toLowerCase()
-      return [lower, `duck ${lower}`, `gentleduck ${lower}`, `${lower} component`]
-    }),
+
     'Gentleduck',
     'Gentleduck Duck UI',
 
@@ -97,7 +85,7 @@ export const METADATA: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    creator: '@wild_ducka',
+    creator: '@gentleduck',
     description: siteConfig.description,
     images: [siteConfig.ogImage],
     title: siteConfig.name,

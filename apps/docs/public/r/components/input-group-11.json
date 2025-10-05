@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport TextareaAutosize from 'react-textarea-autosize'\n\nimport { InputGroup, InputGroupAddon, InputGroupButton } from '@gentleduck/registry-ui-duckui/input-group'\n\nexport default function InputGroupCustom() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-6\">\n      <InputGroup>\n        <TextareaAutosize\n          data-slot=\"input-group-control\"\n          className=\"flex field-sizing-content min-h-16 w-full resize-none rounded-md bg-transparent px-3 py-2.5 text-base transition-[color,box-shadow] outline-none md:text-sm\"\n          placeholder=\"Autoresize textarea...\"\n        />\n        <InputGroupAddon align=\"block-end\">\n          <InputGroupButton className=\"ml-auto\" size=\"sm\" variant=\"default\">\n            Submit\n          </InputGroupButton>\n        </InputGroupAddon>\n      </InputGroup>\n    </div>\n  )\n}\n",
+      "path": "input-group/input-group-11.tsx",
+      "target": "components/input-group-11.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-group-11",
+  "registryDependencies": [
+    "input-group"
+  ],
+  "root_folder": "input-group",
+  "source": "/registry-examples-duckui/src/input-group",
+  "type": "registry:example"
+}

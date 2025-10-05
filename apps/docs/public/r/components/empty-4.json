@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport {\n  Empty,\n  EmptyContent,\n  EmptyDescription,\n  EmptyHeader,\n  EmptyMedia,\n  EmptyTitle,\n} from '@gentleduck/registry-ui-duckui/empty'\n\nexport default function EmptyAvatar() {\n  return (\n    <Empty>\n      <EmptyHeader>\n        <EmptyMedia variant=\"default\">\n          <Avatar\n            className=\"size-12\"\n            src=\"https://github.com/wildduck2.png\"\n            alt=\"a profile picture for wildduck2\"\n            fallback=\"WD\"\n          />\n        </EmptyMedia>\n        <EmptyTitle>User Offline</EmptyTitle>\n        <EmptyDescription>\n          This user is currently offline. You can leave a message to notify them or try again later.\n        </EmptyDescription>\n      </EmptyHeader>\n      <EmptyContent>\n        <Button size=\"sm\">Leave Message</Button>\n      </EmptyContent>\n    </Empty>\n  )\n}\n",
+      "path": "empty/empty-4.tsx",
+      "target": "components/empty-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "empty-4",
+  "registryDependencies": [
+    "empty"
+  ],
+  "root_folder": "empty",
+  "source": "/registry-examples-duckui/src/empty",
+  "type": "registry:example"
+}

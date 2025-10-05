@@ -80,6 +80,12 @@ export const docsConfig: DocsConfig = {
       collapsible: false,
       items: [
         {
+          href: '/docs/packages/duck-cli',
+          items: [],
+          label: 'new',
+          title: 'Gentleduck Cli',
+        },
+        {
           href: '/docs/packages/duck-lazy',
           items: [],
           label: 'new',
@@ -272,6 +278,18 @@ export const docsConfig: DocsConfig = {
           title: 'Dropdown Menu',
         },
         {
+          href: '/docs/components/empty',
+          items: [],
+          label: 'new',
+          title: 'Empty',
+        },
+        {
+          href: '/docs/components/field',
+          items: [],
+          label: 'new',
+          title: 'Field',
+        },
+        {
           href: '/docs/components/navigation-menu',
           items: [],
           label: 'new',
@@ -290,10 +308,22 @@ export const docsConfig: DocsConfig = {
           title: 'Hover Card',
         },
         {
+          href: '/docs/components/item',
+          items: [],
+          label: 'new',
+          title: 'Item',
+        },
+        {
           href: '/docs/components/input',
           items: [],
           label: 'new',
           title: 'Input',
+        },
+        {
+          href: '/docs/components/input-group',
+          items: [],
+          label: 'new',
+          title: 'Input Group',
         },
         {
           href: '/docs/components/input-otp',

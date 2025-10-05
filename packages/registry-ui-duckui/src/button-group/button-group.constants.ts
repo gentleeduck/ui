@@ -8,17 +8,19 @@ export const buttonGroupVariants = cva(
     },
     variants: {
       orientation: {
-        // [&>*:not(span):not(:first-of-type)]:rounded-l-none
-        //   [&>*:not(span):not(:last-of-type)]:rounded-r-none
-        //   [&>*:not(span):not(:first-of-type)]:border-l-0
         horizontal: `
-
-[&>*:not(:first-child)]:rounded-l-none
-[&>*:not(:last-child)]:rounded-r-none
-[&>*:not(:first-child)]:border-l-0
+[&>:is(button,input):not(:first-child)]:rounded-l-none
+[&>:is(button,input)]:rounded-r-none
+[&>:is(button,input):nth-last-child(2):has(+span[aria-hidden])]:!rounded-r-md
+[&>:is(button,input):last-child]:!rounded-r-md
+[&>:is(button,input):not(:first-child)]:border-l-0
 `,
-        vertical:
-          'flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none',
+        vertical: `
+flex-col
+[&>*:not(:first-child)]:rounded-t-none
+[&>*:not(:last-child)]:rounded-b-none
+[&>*:not(:first-child)]:border-t-0
+`,
       },
     },
   },
