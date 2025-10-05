@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'\n\nimport { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@gentleduck/registry-ui-duckui/item'\n\nexport default function ItemLink() {\n  return (\n    <div className=\"flex w-full max-w-md flex-col gap-4\">\n      <Item asChild>\n        <a href=\"#\">\n          <ItemContent>\n            <ItemTitle>Visit our documentation</ItemTitle>\n            <ItemDescription>Learn how to get started with our components.</ItemDescription>\n          </ItemContent>\n          <ItemActions>\n            <ChevronRightIcon className=\"size-4\" />\n          </ItemActions>\n        </a>\n      </Item>\n      <Item variant=\"outline\" asChild>\n        <a href=\"#\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <ItemContent>\n            <ItemTitle>External resource</ItemTitle>\n            <ItemDescription>Opens in a new tab with security attributes.</ItemDescription>\n          </ItemContent>\n          <ItemActions>\n            <ExternalLinkIcon className=\"size-4\" />\n          </ItemActions>\n        </a>\n      </Item>\n    </div>\n  )\n}\n",
+      "path": "item/item-9.tsx",
+      "target": "components/item-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-9",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples-duckui/src/item",
+  "type": "registry:example"
+}

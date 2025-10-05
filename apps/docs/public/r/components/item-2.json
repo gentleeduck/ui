@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@gentleduck/registry-ui-duckui/item'\n\nexport default function ItemVariant() {\n  return (\n    <div className=\"flex flex-col gap-6\">\n      <Item>\n        <ItemContent>\n          <ItemTitle>Default Variant</ItemTitle>\n          <ItemDescription>Standard styling with subtle background and borders.</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button variant=\"outline\" size=\"sm\">\n            Open\n          </Button>\n        </ItemActions>\n      </Item>\n      <Item variant=\"outline\">\n        <ItemContent>\n          <ItemTitle>Outline Variant</ItemTitle>\n          <ItemDescription>Outlined style with clear borders and transparent background.</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button variant=\"outline\" size=\"sm\">\n            Open\n          </Button>\n        </ItemActions>\n      </Item>\n      <Item variant=\"muted\">\n        <ItemContent>\n          <ItemTitle>Muted Variant</ItemTitle>\n          <ItemDescription>Subdued appearance with muted colors for secondary content.</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button variant=\"outline\" size=\"sm\">\n            Open\n          </Button>\n        </ItemActions>\n      </Item>\n    </div>\n  )\n}\n",
+      "path": "item/item-2.tsx",
+      "target": "components/item-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-2",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples-duckui/src/item",
+  "type": "registry:example"
+}

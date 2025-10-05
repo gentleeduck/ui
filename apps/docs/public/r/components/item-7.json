@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import * as React from 'react'\nimport { PlusIcon } from 'lucide-react'\n\nimport { Avatar } from '@gentleduck/registry-ui-duckui/avatar'\nimport { Button } from '@gentleduck/registry-ui-duckui/button'\nimport {\n  Item,\n  ItemActions,\n  ItemContent,\n  ItemDescription,\n  ItemGroup,\n  ItemMedia,\n  ItemSeparator,\n  ItemTitle,\n} from '@gentleduck/registry-ui-duckui/item'\n\nconst people = [\n  {\n    username: 'shadcn',\n    avatar: 'https://github.com/shadcn.png',\n    email: 'shadcn@vercel.com',\n  },\n  {\n    username: 'maxleiter',\n    avatar: 'https://github.com/maxleiter.png',\n    email: 'maxleiter@vercel.com',\n  },\n  {\n    username: 'evilrabbit',\n    avatar: 'https://github.com/evilrabbit.png',\n    email: 'evilrabbit@vercel.com',\n  },\n]\n\nexport default function ItemGroupExample() {\n  return (\n    <div className=\"flex w-full max-w-md flex-col gap-6\">\n      <ItemGroup>\n        {people.map((person, index) => (\n          <React.Fragment key={person.username}>\n            <Item>\n              <ItemMedia>\n                <Avatar src={person.avatar} alt={person.username} fallback={person.username.charAt(0)} />\n              </ItemMedia>\n              <ItemContent className=\"gap-1\">\n                <ItemTitle>{person.username}</ItemTitle>\n                <ItemDescription>{person.email}</ItemDescription>\n              </ItemContent>\n              <ItemActions>\n                <Button variant=\"ghost\" size=\"icon\" className=\"rounded-full\">\n                  <PlusIcon />\n                </Button>\n              </ItemActions>\n            </Item>\n            {index !== people.length - 1 && <ItemSeparator />}\n          </React.Fragment>\n        ))}\n      </ItemGroup>\n    </div>\n  )\n}\n",
+      "path": "item/item-7.tsx",
+      "target": "components/item-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-7",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples-duckui/src/item",
+  "type": "registry:example"
+}
