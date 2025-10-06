@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 
-export function ButtonGroupDropdown() {
+export default function ButtonGroupDropdown() {
   return (
     <ButtonGroup>
       <Button variant="outline">Follow</Button>

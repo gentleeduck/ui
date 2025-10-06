@@ -26,8 +26,8 @@ function SelectWrapper({
   value = '',
   onValueChange = () => {},
   defaultValue,
-  ...props
-}: Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'defaultValue'> & {
+}: {
+  children: React.ReactNode
   scrollable?: boolean
   value?: string
   onValueChange?: (value: string) => void
@@ -35,7 +35,6 @@ function SelectWrapper({
 }) {
   const { open, setOpen: onOpenChange } = usePopoverContext()
 
-  const wrapperRef = React.useRef<HTMLDivElement | null>(null)
   const triggerRef = React.useRef<HTMLButtonElement | null>(null)
   const contentRef = React.useRef<HTMLDivElement | null>(null)
   const groupsRef = React.useRef<HTMLUListElement[]>([])
@@ -48,7 +47,6 @@ function SelectWrapper({
       initRefs(
         open,
         groupsRef,
-        wrapperRef,
         contentRef,
         selectedItemRef,
         itemsRef,
@@ -83,11 +81,8 @@ function SelectWrapper({
         selectedItem,
         triggerRef: triggerRef,
         value,
-        wrapperRef,
       }}>
-      <div {...props} data-slot="select" duck-select="" ref={wrapperRef}>
-        {children}
-      </div>
+      {children}
     </SelectContext.Provider>
   )
 }
@@ -204,14 +199,12 @@ function SelectItem({
   const id = React.useId()
 
   return (
-    // biome-ignore lint: false positive
     <li
       aria-haspopup="dialog"
       id={id}
       popoverTarget={id}
       popoverTargetAction="hide"
       ref={ref}
-      // biome-ignore lint: false positive
       role="checkbox"
       {...props}
       aria-disabled={disabled}

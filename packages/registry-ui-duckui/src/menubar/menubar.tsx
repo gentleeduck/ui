@@ -20,8 +20,24 @@ import {
   DropdownMenuTrigger,
 } from '../dropdown-menu'
 
-export type MenubarContextType = {}
+export type MenubarContextType = {
+  open: boolean
+  setOpen: (open: boolean) => void
+  wrapperRef: React.RefObject<HTMLDivElement | null>
+  triggersRef: React.RefObject<HTMLButtonElement[]>
+  contentsRef: React.RefObject<HTMLDialogElement[]>
+  selectedItemRef: React.RefObject<HTMLButtonElement | null>
+  clickedItemRef: React.RefObject<HTMLButtonElement | null>
+}
 const menubarContext = React.createContext<MenubarContextType | null>(null)
+
+function useMenubarContext() {
+  const context = React.useContext(menubarContext)
+  if (!context) {
+    throw new Error('useMenubarContext must be used within a Menubar')
+  }
+  return context
+}
 
 function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivElement>) {
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
@@ -222,7 +238,13 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
   }, [])
 
   return (
-    <menubarContext.Provider value={{}}>
+    <menubarContext.Provider
+      value={{
+        contentsRef,
+        selectedItemRef,
+        triggersRef,
+        wrapperRef,
+      }}>
       <div
         className={cn('flex items-center rounded-lg border p-1', className)}
         {...props}

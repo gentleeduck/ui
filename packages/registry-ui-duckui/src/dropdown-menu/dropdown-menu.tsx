@@ -20,8 +20,11 @@ export const DropdownMenuContext = React.createContext<DropdownMenuContextType |
 
 function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProps<HTMLDivElement>) {
   const { open = false, setOpen: onOpenChange = () => {} } = usePopoverContext()
-  const { wrapperRef, contentRef, triggerRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } =
-    useDropdownMenuInit(open, onOpenChange, false)
+  const { contentRef, triggerRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } = useDropdownMenuInit(
+    open,
+    onOpenChange,
+    false,
+  )
 
   useHandleKeyDown({
     allowAxisArrowKeys: true,
@@ -45,16 +48,8 @@ function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProp
         originalItemsRef,
         selectedItemRef,
         triggerRef: triggerRef,
-        wrapperRef,
       }}>
-      <div
-        className={cn('relative', className)}
-        data-slot="dropdown-menu"
-        duck-dropdown-menu=""
-        {...props}
-        ref={wrapperRef}>
-        {children}
-      </div>
+      {children}
     </DropdownMenuContext.Provider>
   )
 }
@@ -215,8 +210,11 @@ export function useDropdownMenuSubContext() {
 
 function DropdownMenuSubImpritive({ children, className, ...props }: React.HTMLProps<HTMLDivElement>) {
   const { open = false, setOpen: onOpenChange = () => {} } = usePopoverContext()
-  const { wrapperRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef, triggerRef, contentRef } =
-    useDropdownMenuInit(open, onOpenChange, true)
+  const { groupsRef, itemsRef, selectedItemRef, originalItemsRef, triggerRef, contentRef } = useDropdownMenuInit(
+    open,
+    onOpenChange,
+    true,
+  )
 
   useHandleKeyDown({
     allowAxisArrowKeys: true,
@@ -240,18 +238,8 @@ function DropdownMenuSubImpritive({ children, className, ...props }: React.HTMLP
         originalItemsRef,
         selectedItemRef,
         triggerRef: triggerRef as never,
-        wrapperRef,
       }}>
-      <div
-        className={cn(
-          'relative focus:bg-secondary [&>button]:focus:bg-secondary [&[aria-selected]:focus-visible>button]:bg-secondary [&[aria-selected]>button]:bg-secondary',
-        )}
-        {...props}
-        data-slot="dropdown-menu-sub"
-        duck-dropdown-menu-sub=""
-        ref={wrapperRef}>
-        {children}
-      </div>
+      {children}
     </DropdownMenuSubContext.Provider>
   )
 }

@@ -7,7 +7,7 @@ import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { SearchIcon } from 'lucide-react'
 import * as React from 'react'
 
-export function ButtonGroupInput() {
+export default function ButtonGroupInput() {
   return (
     <ButtonGroup>
       <Input placeholder="Search..." />

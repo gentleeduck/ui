@@ -11,8 +11,6 @@ export interface DropdownMenuShortcutProps extends React.HTMLProps<HTMLElement> 
 }
 
 export interface DropdownMenuContextType {
-  /** Ref to the dropdown wrapper element */
-  wrapperRef: React.RefObject<HTMLDivElement | null>
   /** Ref to the button that opens the menu */
   triggerRef: React.RefObject<HTMLButtonElement | null>
   /** Ref to the menu content container */

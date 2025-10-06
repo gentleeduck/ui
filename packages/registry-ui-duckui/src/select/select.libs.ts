@@ -3,7 +3,6 @@ import { dstyleItem, styleItem } from '../command'
 export function initRefs(
   open: boolean,
   groupsRef: React.RefObject<HTMLUListElement[] | null>,
-  wrapperRef: React.RefObject<HTMLDivElement | null>,
   contentRef: React.RefObject<HTMLDivElement | null>,
   selectedItemRef: React.RefObject<HTMLLIElement | null>,
   itemsRef: React.RefObject<HTMLLIElement[]>,

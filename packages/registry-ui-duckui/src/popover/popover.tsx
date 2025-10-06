@@ -4,6 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants } from '@gentleduck/motion/anim'
 import * as PopoverPrimitive from '@gentleduck/primitives/popover'
 import type * as React from 'react'
+import { Portal } from '../portal'
 
 const Popover = ({ children, ...props }: React.ComponentPropsWithRef<typeof PopoverPrimitive.Root>) => {
   return (
@@ -28,7 +29,7 @@ function PopoverContent({
   ...props
 }: React.ComponentPropsWithRef<typeof PopoverPrimitive.Content>): React.JSX.Element {
   return (
-    <PopoverPrimitive.Portal data-slot="popover-portal">
+    <Portal data-slot="popover-portal">
       <PopoverPrimitive.Content
         className={cn(
           AnimVariants(),
@@ -40,7 +41,7 @@ function PopoverContent({
         {...props}>
         {children}
       </PopoverPrimitive.Content>
-    </PopoverPrimitive.Portal>
+    </Portal>
   )
 }
 
