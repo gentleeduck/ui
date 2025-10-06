@@ -102,7 +102,6 @@ function Content({
             },
             ...style,
           }}
-          // biome-ignore lint: false positive
           //@ts-ignore
           {...context.getFloatingProps(props)}>
           {props.children}

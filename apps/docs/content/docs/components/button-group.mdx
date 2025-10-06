@@ -1,130 +1,14 @@
 ---
-title: button-group
-description: A container that groups related buttons together with consistent styling.
+title: button-group 
+description: A container that groups related button like elements together with consistent styling.
 component: true
 ---
 
-```tsx
-"use client"
-
-import * as React from "react"
-import {
-  ArchiveIcon,
-  ArrowLeftIcon,
-  CalendarPlusIcon,
-  ClockIcon,
-  ListFilterPlusIcon,
-  MailCheckIcon,
-  MoreHorizontalIcon,
-  TagIcon,
-  Trash2Icon,
-} from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
-export function ButtonGroupDemo() {
-  const [label, setLabel] = React.useState("personal")
-
-  return (
-    <ButtonGroup>
-      <ButtonGroup className="hidden sm:flex">
-        <Button variant="outline" size="icon" aria-label="Go Back">
-          <ArrowLeftIcon />
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button variant="outline">Archive</Button>
-        <Button variant="outline">Report</Button>
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button variant="outline">Snooze</Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" aria-label="More Options">
-              <MoreHorizontalIcon />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-52">
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <MailCheckIcon />
-                Mark as Read
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <ArchiveIcon />
-                Archive
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <ClockIcon />
-                Snooze
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CalendarPlusIcon />
-                Add to Calendar
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <ListFilterPlusIcon />
-                Add to List
-              </DropdownMenuItem>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <TagIcon />
-                  Label As...
-                </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
-                  <DropdownMenuRadioGroup
-                    value={label}
-                    onValueChange={setLabel}
-                  >
-                    <DropdownMenuRadioItem value="personal">
-                      Personal
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="work">
-                      Work
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="other">
-                      Other
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem variant="destructive">
-                <Trash2Icon />
-                Trash
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </ButtonGroup>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-1" />
 
 ## Installation
 
-<CodeTabs>
+<Tabs>
 
 <TabsList>
   <TabsTrigger value="cli">CLI</TabsTrigger>
@@ -133,7 +17,7 @@ export function ButtonGroupDemo() {
 <TabsContent value="cli">
 
 ```bash
-npx shadcn@latest add button-group
+npx @gentleduck/cli add button-group
 ```
 
 </TabsContent>
@@ -145,7 +29,7 @@ npx shadcn@latest add button-group
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @radix-ui/react-slot
+npm install @gentleduck/primitives
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -158,7 +42,7 @@ npm install @radix-ui/react-slot
 
 </TabsContent>
 
-</CodeTabs>
+</Tabs>
 
 ## Usage
 
@@ -201,131 +85,19 @@ import {
 
 Set the `orientation` prop to change the button group layout.
 
-```tsx
-import { MinusIcon, PlusIcon } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-
-export function ButtonGroupOrientation() {
-  return (
-    <ButtonGroup
-      orientation="vertical"
-      aria-label="Media controls"
-      className="h-fit"
-    >
-      <Button variant="outline" size="icon">
-        <PlusIcon />
-      </Button>
-      <Button variant="outline" size="icon">
-        <MinusIcon />
-      </Button>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-2" />
 
 ### Size
 
 Control the size of buttons using the `size` prop on individual buttons.
 
-```tsx
-import { PlusIcon } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-
-export function ButtonGroupSize() {
-  return (
-    <div className="flex flex-col items-start gap-8">
-      <ButtonGroup>
-        <Button variant="outline" size="sm">
-          Small
-        </Button>
-        <Button variant="outline" size="sm">
-          Button
-        </Button>
-        <Button variant="outline" size="sm">
-          Group
-        </Button>
-        <Button variant="outline" size="icon-sm">
-          <PlusIcon />
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button variant="outline">Default</Button>
-        <Button variant="outline">Button</Button>
-        <Button variant="outline">Group</Button>
-        <Button variant="outline" size="icon">
-          <PlusIcon />
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button variant="outline" size="lg">
-          Large
-        </Button>
-        <Button variant="outline" size="lg">
-          Button
-        </Button>
-        <Button variant="outline" size="lg">
-          Group
-        </Button>
-        <Button variant="outline" size="icon-lg">
-          <PlusIcon />
-        </Button>
-      </ButtonGroup>
-    </div>
-  )
-}
-
-```
+<ComponentPreview name="button-group-3" />
 
 ### Nested
 
 Nest `<ButtonGroup>` components to create button groups with spacing.
 
-```tsx
-"use client"
-
-import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-
-export function ButtonGroupNested() {
-  return (
-    <ButtonGroup>
-      <ButtonGroup>
-        <Button variant="outline" size="sm">
-          1
-        </Button>
-        <Button variant="outline" size="sm">
-          2
-        </Button>
-        <Button variant="outline" size="sm">
-          3
-        </Button>
-        <Button variant="outline" size="sm">
-          4
-        </Button>
-        <Button variant="outline" size="sm">
-          5
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button variant="outline" size="icon-sm" aria-label="Previous">
-          <ArrowLeftIcon />
-        </Button>
-        <Button variant="outline" size="icon-sm" aria-label="Next">
-          <ArrowRightIcon />
-        </Button>
-      </ButtonGroup>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-4" />
 
 ### Separator
 
@@ -333,344 +105,43 @@ The `ButtonGroupSeparator` component visually divides buttons within a group.
 
 Buttons with variant `outline` do not need a separator since they have a border. For other variants, a separator is recommended to improve the visual hierarchy.
 
-```tsx
-import { Button } from "@/components/ui/button"
-import {
-  ButtonGroup,
-  ButtonGroupSeparator,
-} from "@/components/ui/button-group"
-
-export function ButtonGroupSeparatorDemo() {
-  return (
-    <ButtonGroup>
-      <Button variant="secondary" size="sm">
-        Copy
-      </Button>
-      <ButtonGroupSeparator />
-      <Button variant="secondary" size="sm">
-        Paste
-      </Button>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-5" />
 
 ### Split
 
 Create a split button group by adding two buttons separated by a `ButtonGroupSeparator`.
 
-```tsx
-import { IconPlus } from "@tabler/icons-react"
-
-import { Button } from "@/components/ui/button"
-import {
-  ButtonGroup,
-  ButtonGroupSeparator,
-} from "@/components/ui/button-group"
-
-export function ButtonGroupSplit() {
-  return (
-    <ButtonGroup>
-      <Button variant="secondary">Button</Button>
-      <ButtonGroupSeparator />
-      <Button size="icon" variant="secondary">
-        <IconPlus />
-      </Button>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-6" />
 
 ### Input
 
 Wrap an `Input` component with buttons.
 
-```tsx
-import { SearchIcon } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import { Input } from "@/components/ui/input"
-
-export function ButtonGroupInput() {
-  return (
-    <ButtonGroup>
-      <Input placeholder="Search..." />
-      <Button variant="outline" aria-label="Search">
-        <SearchIcon />
-      </Button>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-7" />
 
 ### Input Group
 
 Wrap an `InputGroup` component to create complex input layouts.
 
-```tsx
-"use client"
-
-import * as React from "react"
-import { AudioLinesIcon, PlusIcon } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/ui/input-group"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-
-export function ButtonGroupInputGroup() {
-  const [voiceEnabled, setVoiceEnabled] = React.useState(false)
-
-  return (
-    <ButtonGroup className="[--radius:9999rem]">
-      <ButtonGroup>
-        <Button variant="outline" size="icon">
-          <PlusIcon />
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup>
-        <InputGroup>
-          <InputGroupInput
-            placeholder={
-              voiceEnabled ? "Record and send audio..." : "Send a message..."
-            }
-            disabled={voiceEnabled}
-          />
-          <InputGroupAddon align="inline-end">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <InputGroupButton
-                  onClick={() => setVoiceEnabled(!voiceEnabled)}
-                  size="icon-xs"
-                  data-active={voiceEnabled}
-                  className="data-[active=true]:bg-orange-100 data-[active=true]:text-orange-700 dark:data-[active=true]:bg-orange-800 dark:data-[active=true]:text-orange-100"
-                  aria-pressed={voiceEnabled}
-                >
-                  <AudioLinesIcon />
-                </InputGroupButton>
-              </TooltipTrigger>
-              <TooltipContent>Voice Mode</TooltipContent>
-            </Tooltip>
-          </InputGroupAddon>
-        </InputGroup>
-      </ButtonGroup>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-8" />
 
 ### Dropdown Menu
 
 Create a split button group with a `DropdownMenu` component.
 
-```tsx
-"use client"
-
-import {
-  AlertTriangleIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  CopyIcon,
-  ShareIcon,
-  TrashIcon,
-  UserRoundXIcon,
-  VolumeOffIcon,
-} from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
-export function ButtonGroupDropdown() {
-  return (
-    <ButtonGroup>
-      <Button variant="outline">Follow</Button>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="!pl-2">
-            <ChevronDownIcon />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="[--radius:1rem]">
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <VolumeOffIcon />
-              Mute Conversation
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <CheckIcon />
-              Mark as Read
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <AlertTriangleIcon />
-              Report Conversation
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <UserRoundXIcon />
-              Block User
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <ShareIcon />
-              Share Conversation
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <CopyIcon />
-              Copy Conversation
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem variant="destructive">
-              <TrashIcon />
-              Delete Conversation
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-9" />
 
 ### Select
 
 Pair with a `Select` component.
 
-```tsx
-"use client"
-
-import * as React from "react"
-import { ArrowRightIcon } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select"
-
-const CURRENCIES = [
-  {
-    value: "$",
-    label: "US Dollar",
-  },
-  {
-    value: "€",
-    label: "Euro",
-  },
-  {
-    value: "£",
-    label: "British Pound",
-  },
-]
-
-export function ButtonGroupSelect() {
-  const [currency, setCurrency] = React.useState("$")
-
-  return (
-    <ButtonGroup>
-      <ButtonGroup>
-        <Select value={currency} onValueChange={setCurrency}>
-          <SelectTrigger className="font-mono">{currency}</SelectTrigger>
-          <SelectContent className="min-w-24">
-            {CURRENCIES.map((currency) => (
-              <SelectItem key={currency.value} value={currency.value}>
-                {currency.value}{" "}
-                <span className="text-muted-foreground">{currency.label}</span>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Input placeholder="10.00" pattern="[0-9]*" />
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button aria-label="Send" size="icon" variant="outline">
-          <ArrowRightIcon />
-        </Button>
-      </ButtonGroup>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-10" />
 
 ### Popover
 
 Use with a `Popover` component.
 
-```tsx
-import { BotIcon, ChevronDownIcon } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Separator } from "@/components/ui/separator"
-import { Textarea } from "@/components/ui/textarea"
-
-export function ButtonGroupPopover() {
-  return (
-    <ButtonGroup>
-      <Button variant="outline">
-        <BotIcon /> Copilot
-      </Button>
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" size="icon" aria-label="Open Popover">
-            <ChevronDownIcon />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent align="end" className="rounded-xl p-0 text-sm">
-          <div className="px-4 py-3">
-            <div className="text-sm font-medium">Agent Tasks</div>
-          </div>
-          <Separator />
-          <div className="p-4 text-sm *:[p:not(:last-child)]:mb-2">
-            <Textarea
-              placeholder="Describe your task in natural language."
-              className="mb-4 resize-none"
-            />
-            <p className="font-medium">Start a new task with Copilot</p>
-            <p className="text-muted-foreground">
-              Describe your task in natural language. Copilot will work in the
-              background and open a pull request for your review.
-            </p>
-          </div>
-        </PopoverContent>
-      </Popover>
-    </ButtonGroup>
-  )
-}
-
-```
+<ComponentPreview name="button-group-11" />
 
 ## API Reference
 
@@ -678,9 +149,8 @@ export function ButtonGroupPopover() {
 
 The `ButtonGroup` component is a container that groups related buttons together with consistent styling.
 
-| Prop          | Type                         | Default        |
-| ------------- | ---------------------------- | -------------- |
-| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` |
+
+* **`orientation`** (`"horizontal" | "vertical"`, optional): The orientation of the button group. Defaults to `"horizontal"`.
 
 ```tsx
 <ButtonGroup>
@@ -702,9 +172,9 @@ Nest multiple button groups to create complex layouts with spacing. See the [nes
 
 The `ButtonGroupSeparator` component visually divides buttons within a group.
 
-| Prop          | Type                         | Default      |
-| ------------- | ---------------------------- | ------------ |
-| `orientation` | `"horizontal" \| "vertical"` | `"vertical"` |
+
+* **`orientation`** (`"horizontal" | "vertical"`, optional): The orientation of the separator. Defaults to `"vertical"`.
+
 
 ```tsx
 <ButtonGroup>
@@ -718,9 +188,8 @@ The `ButtonGroupSeparator` component visually divides buttons within a group.
 
 Use this component to display text within a button group.
 
-| Prop      | Type      | Default |
-| --------- | --------- | ------- |
-| `asChild` | `boolean` | `false` |
+* **`asChild`** (`boolean`, optional): If `true`, uses the `Slot` component instead of rendering an `<a>` directly.
+
 
 ```tsx
 <ButtonGroup>

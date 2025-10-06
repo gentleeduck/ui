@@ -28,7 +28,7 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 
-export function ButtonGroupDemo() {
+export default function ButtonGroupDemo() {
   const [label, setLabel] = React.useState('personal')
 
   return (

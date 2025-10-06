@@ -5,6 +5,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@g
 import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui-duckui/alert'
 import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Kbd } from '@gentleduck/registry-ui-duckui/kbd'
 import Image from 'next/image'
 import * as React from 'react'
 import runtime from 'react/jsx-runtime'
@@ -63,6 +64,7 @@ const components = {
   img: ({ className, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
     <img alt={alt} className={cn('rounded-md', className)} {...props} />
   ),
+  Kbd: Kbd,
   Link: LinkBlock,
   LinkedCard,
   li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (

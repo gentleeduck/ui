@@ -5,7 +5,7 @@ import { ButtonGroup } from '@gentleduck/registry-ui-duckui/button-group'
 import { MinusIcon, PlusIcon } from 'lucide-react'
 import * as React from 'react'
 
-export function ButtonGroupOrientation() {
+export default function ButtonGroupOrientation() {
   return (
     <ButtonGroup aria-label="Media controls" className="h-fit" orientation="vertical">
       <Button size="icon" variant="outline">

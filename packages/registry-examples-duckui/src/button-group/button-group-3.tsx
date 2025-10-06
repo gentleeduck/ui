@@ -5,7 +5,7 @@ import { ButtonGroup } from '@gentleduck/registry-ui-duckui/button-group'
 import { PlusIcon } from 'lucide-react'
 import * as React from 'react'
 
-export function ButtonGroupSize() {
+export default function ButtonGroupSize() {
   return (
     <div className="flex flex-col items-start gap-8">
       <ButtonGroup>

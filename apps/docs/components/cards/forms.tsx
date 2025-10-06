@@ -59,7 +59,7 @@ export function CardsForms() {
               <Input id="card-number-cvc" placeholder="CVC" />
             </div>
           </div>
-          <fieldset className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3">
             <legend className="text-sm font-medium">Plan</legend>
             <p className="text-muted-foreground text-sm">Select the plan that best fits your needs.</p>
             <RadioGroup className="grid gap-3 md:grid-cols-2" defaultValue="starter">
@@ -75,7 +75,7 @@ export function CardsForms() {
                 </Label>
               ))}
             </RadioGroup>
-          </fieldset>
+          </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="notes">Notes</Label>
             <Textarea id="notes" placeholder="Enter notes" />

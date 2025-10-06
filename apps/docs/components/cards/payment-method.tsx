@@ -41,7 +41,7 @@ export function CardsPaymentMethod() {
           <Label htmlFor="name">Name</Label>
           <Input id="name" placeholder="First Last" />
         </div>
-        <fieldset className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3">
           <legend className="text-sm font-medium">Plan</legend>
           <p className="text-muted-foreground text-sm">Select the plan that best fits your needs.</p>
           <RadioGroup className="grid gap-3" defaultValue="starter">
@@ -57,7 +57,7 @@ export function CardsPaymentMethod() {
               </Label>
             ))}
           </RadioGroup>
-        </fieldset>
+        </div>
         <div className="flex flex-col gap-3">
           <Label htmlFor="number">Card number</Label>
           <Input id="number" placeholder="" />

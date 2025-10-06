@@ -8,7 +8,7 @@ import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
 import { BotIcon, ChevronDownIcon } from 'lucide-react'
 import * as React from 'react'
 
-export function ButtonGroupPopover() {
+export default function ButtonGroupPopover() {
   return (
     <ButtonGroup>
       <Button variant="outline">
