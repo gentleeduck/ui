@@ -1790,6 +1790,37 @@
     ]
   },
   {
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
+    "files": [
+      {
+        "path": "kbd/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "kbd/kbd.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "kbd",
+    "root_folder": "kbd",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/kbd",
+    "tree": [
+      {
+        "name": "index.ts",
+        "path": "kbd/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "kbd.tsx",
+        "path": "kbd/kbd.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
     "files": [
       {
         "path": "accordion/accordion-1.tsx",
@@ -12556,6 +12587,216 @@
       {
         "name": "button-group-9.tsx",
         "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "kbd/kbd-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "kbd-1",
+    "registryDependencies": [
+      "kbd"
+    ],
+    "root_folder": "kbd",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/kbd",
+    "tree": [
+      {
+        "name": "kbd-1.tsx",
+        "path": "kbd/kbd-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-2.tsx",
+        "path": "kbd/kbd-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-3.tsx",
+        "path": "kbd/kbd-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-4.tsx",
+        "path": "kbd/kbd-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-5.tsx",
+        "path": "kbd/kbd-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "kbd/kbd-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "kbd-2",
+    "registryDependencies": [
+      "kbd"
+    ],
+    "root_folder": "kbd",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/kbd",
+    "tree": [
+      {
+        "name": "kbd-1.tsx",
+        "path": "kbd/kbd-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-2.tsx",
+        "path": "kbd/kbd-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-3.tsx",
+        "path": "kbd/kbd-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-4.tsx",
+        "path": "kbd/kbd-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-5.tsx",
+        "path": "kbd/kbd-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "kbd/kbd-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "kbd-3",
+    "registryDependencies": [
+      "kbd"
+    ],
+    "root_folder": "kbd",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/kbd",
+    "tree": [
+      {
+        "name": "kbd-1.tsx",
+        "path": "kbd/kbd-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-2.tsx",
+        "path": "kbd/kbd-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-3.tsx",
+        "path": "kbd/kbd-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-4.tsx",
+        "path": "kbd/kbd-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-5.tsx",
+        "path": "kbd/kbd-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "kbd/kbd-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "kbd-4",
+    "registryDependencies": [
+      "kbd"
+    ],
+    "root_folder": "kbd",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/kbd",
+    "tree": [
+      {
+        "name": "kbd-1.tsx",
+        "path": "kbd/kbd-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-2.tsx",
+        "path": "kbd/kbd-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-3.tsx",
+        "path": "kbd/kbd-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-4.tsx",
+        "path": "kbd/kbd-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-5.tsx",
+        "path": "kbd/kbd-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "kbd/kbd-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "kbd-5",
+    "registryDependencies": [
+      "kbd"
+    ],
+    "root_folder": "kbd",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/kbd",
+    "tree": [
+      {
+        "name": "kbd-1.tsx",
+        "path": "kbd/kbd-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-2.tsx",
+        "path": "kbd/kbd-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-3.tsx",
+        "path": "kbd/kbd-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-4.tsx",
+        "path": "kbd/kbd-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "kbd-5.tsx",
+        "path": "kbd/kbd-5.tsx",
         "type": "file"
       }
     ]

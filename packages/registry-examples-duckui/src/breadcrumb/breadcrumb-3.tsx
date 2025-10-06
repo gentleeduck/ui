@@ -29,7 +29,9 @@ export default function BreadcrumbDemo() {
         </BreadcrumbSeparator>
         <BreadcrumbItem>
           <DropdownMenu placement="top-start">
-            <DropdownMenuTrigger className="flex items-center gap-1 [&_svg:not([class*='size-'])]:size-3.5 [&_svg]:pointer-events-none [&_svg]:shrink-0">
+            <DropdownMenuTrigger
+              // className="flex items-center gap-1 [&_svg:not([class*='size-'])]:size-3.5 [&_svg]:pointer-events-none [&_svg]:shrink-0"
+              className="">
               Components
               <ChevronDownIcon />
             </DropdownMenuTrigger>

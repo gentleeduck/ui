@@ -344,4 +344,11 @@ export const registry_ui: RegistryEntry[] = [
     root_folder: 'button-group',
     type: 'registry:ui',
   },
+  {
+    dependencies: ['@gentleduck/libs'],
+    files: [],
+    name: 'kbd',
+    root_folder: 'kbd',
+    type: 'registry:ui',
+  },
 ]

@@ -20,7 +20,7 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
     ?.replace('//', '') as string
 
   return (
-    <Tabs className="bg-muted/40 rounded-md border border-border" defaultValue={'cli'}>
+    <Tabs className="bg-muted/40 rounded-md border border-border" defaultValue={defaultValue}>
       <TabsList className="justify-start w-[622px] bg-transparent py-2 px-2 overflow-x-auto ">
         {children.map((item, idx) => {
           const value = String((item as any).props.children[0].props.__rawString__)

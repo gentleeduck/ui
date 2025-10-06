@@ -353,4 +353,11 @@ export const registry_examples: RegistryEntry[] = [
     root_folder: 'button-group',
     type: 'registry:example',
   },
+  {
+    files: [],
+    name: 'kbd',
+    registryDependencies: ['kbd'],
+    root_folder: 'kbd',
+    type: 'registry:example',
+  },
 ]

@@ -302,6 +302,12 @@ export const docsConfig: DocsConfig = {
           title: 'Input OTP',
         },
         {
+          href: '/docs/components/kbd',
+          items: [],
+          label: 'new',
+          title: 'Kbd',
+        },
+        {
           href: '/docs/components/label',
           items: [],
           label: 'new',
