@@ -1,5 +1,11 @@
 # @gentleduck/libs
 
+## 0.1.10
+
+### Patch Changes
+
+- new util
+
 ## 0.1.9
 
 ### Patch Changes

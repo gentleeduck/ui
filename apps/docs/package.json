@@ -93,5 +93,5 @@
     "start": "next start"
   },
   "type": "module",
-  "version": "3.0.7"
+  "version": "3.0.9"
 }

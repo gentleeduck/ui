@@ -1,5 +1,20 @@
 # @gentleduck/primitives
 
+## 0.1.36
+
+### Patch Changes
+
+- fixed bugs
+- some improvements
+- fixed the exports
+- fixed the package.json
+- fixed the types
+- fixed the positioning
+- some button and slot issues
+- done
+- removed the peer deps
+- fixed the build
+
 ## 0.1.35
 
 ### Patch Changes

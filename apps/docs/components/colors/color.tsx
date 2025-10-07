@@ -4,7 +4,7 @@ import { Check, Clipboard } from 'lucide-react'
 import { toast } from 'sonner'
 import { copyToClipboardWithMeta } from '~/components/copy-button'
 import { useColors } from '~/hooks/use-colors'
-import { useCopyToClipboard } from '~/hooks/use-copy-to-clipboard'
+import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { type Color } from '~/lib/colors'
 import { trackEvent } from '~/lib/events'
 
