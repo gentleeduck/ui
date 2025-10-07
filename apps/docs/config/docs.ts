@@ -73,6 +73,18 @@ export const docsConfig: DocsConfig = {
           label: '',
           title: 'Dark Theme',
         },
+        {
+          href: '/docs/faqs',
+          items: [],
+          label: '',
+          title: 'FAQs',
+        },
+        {
+          href: '/docs/whoiam',
+          items: [],
+          label: '',
+          title: 'Who am I?',
+        },
       ],
       title: 'Getting Started',
     },
