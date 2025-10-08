@@ -1,5 +1,15 @@
 # @gentleduck/@gentleduck/cli
 
+## 1.0.10
+
+### Patch Changes
+
+- fixed binaries
+- fixed some bugs
+- fix the ts config check
+- done
+- done with binaries
+
 ## 1.0.9
 
 ### Patch Changes

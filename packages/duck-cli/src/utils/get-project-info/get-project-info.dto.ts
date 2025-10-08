@@ -46,7 +46,7 @@ const CompilerOptions = z
     inlineSources: BooleanOrNull,
     isolatedDeclarations: BooleanOrNull,
     isolatedModules: BooleanOrNull,
-    jsx: z.enum(['preserve', 'react', 'react-jsx', 'react-jsxdev', 'react-native']).optional(),
+    jsx: z.string().optional(),
     jsxFactory: StringOrNull,
     jsxFragmentFactory: StringOrNull,
     jsxImportSource: StringOrNull,
@@ -56,26 +56,9 @@ const CompilerOptions = z
     listFiles: BooleanOrNull,
     mapRoot: StringOrNull,
     maxNodeModuleJsDepth: z.number().optional(),
-    module: z
-      .enum([
-        'CommonJS',
-        'AMD',
-        'System',
-        'UMD',
-        'ES6',
-        'ES2015',
-        'ES2020',
-        'ESNext',
-        'None',
-        'ES2022',
-        'Node16',
-        'Node18',
-        'NodeNext',
-        'Preserve',
-      ])
-      .optional(),
-    moduleResolution: z.enum(['classic', 'node', 'node10', 'node16', 'nodenext', 'bundler']).optional(),
-    newLine: z.enum(['crlf', 'lf']).optional(),
+    module: z.string().optional(),
+    moduleResolution: z.string().optional(),
+    newLine: z.string().optional(),
     noCheck: BooleanOrNull,
     noEmit: BooleanOrNull,
     noEmitHelpers: BooleanOrNull,
@@ -124,24 +107,7 @@ const CompilerOptions = z
     stripInternal: BooleanOrNull,
     suppressExcessPropertyErrors: BooleanOrNull,
     suppressImplicitAnyIndexErrors: BooleanOrNull,
-    target: z
-      .enum([
-        'ES3',
-        'ES5',
-        'ES6',
-        'ES2015',
-        'ES2016',
-        'ES2017',
-        'ES2018',
-        'ES2019',
-        'ES2020',
-        'ES2021',
-        'ES2022',
-        'ES2023',
-        'ES2024',
-        'ESNext',
-      ])
-      .optional(),
+    target: z.string().optional(),
     tsBuildInfoFile: StringOrNull,
     typeRoots: ArrayOfStringsOrNull,
     types: ArrayOfStringsOrNull,
@@ -158,31 +124,10 @@ const WatchOptions = z
   .object({
     excludeDirectories: ArrayOfStringsOrNull,
     excludeFiles: ArrayOfStringsOrNull,
-    fallbackPolling: z
-      .enum([
-        'fixedPollingInterval',
-        'priorityPollingInterval',
-        'dynamicPriorityPolling',
-        'fixedInterval',
-        'priorityInterval',
-        'dynamicPriority',
-        'fixedChunkSize',
-      ])
-      .optional(),
+    fallbackPolling: z.string().optional(),
     synchronousWatchDirectory: BooleanOrNull,
-    watchDirectory: z
-      .enum(['useFsEvents', 'fixedPollingInterval', 'dynamicPriorityPolling', 'fixedChunkSizePolling'])
-      .optional(),
-    watchFile: z
-      .enum([
-        'fixedPollingInterval',
-        'priorityPollingInterval',
-        'dynamicPriorityPolling',
-        'useFsEvents',
-        'useFsEventsOnParentDirectory',
-        'fixedChunkSizePolling',
-      ])
-      .optional(),
+    watchDirectory: z.string().optional(),
+    watchFile: z.string().optional(),
   })
   .partial()
   .nullable()
@@ -228,12 +173,12 @@ const TsNodeOptions = z
     esm: z.boolean().optional(),
     experimentalReplAwait: z.boolean().optional(),
     experimentalResolver: z.boolean().optional(),
-    experimentalSpecifierResolution: z.enum(['explicit', 'node']).optional(),
+    experimentalSpecifierResolution: z.string().optional(),
     files: z.boolean().optional(),
     ignore: z.array(z.string()).optional(),
     ignoreDiagnostics: z.array(z.union([z.string(), z.number()])).optional(),
     logError: z.boolean().optional(),
-    moduleTypes: z.record(z.enum(['cjs', 'esm', 'package'])).optional(),
+    moduleTypes: z.record(z.string()).optional(),
     preferTsExts: z.boolean().optional(),
     pretty: z.boolean().optional(),
     require: z.array(z.string()).optional(),
