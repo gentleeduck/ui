@@ -1,5 +1,3 @@
-import { IconCloud } from '@tabler/icons-react'
-
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Empty,
@@ -9,6 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@gentleduck/registry-ui-duckui/empty'
+import { IconCloud } from '@tabler/icons-react'
 
 export default function EmptyOutline() {
   return (
@@ -21,7 +20,7 @@ export default function EmptyOutline() {
         <EmptyDescription>Upload files to your cloud storage to access them anywhere.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button variant="outline" size="sm">
+        <Button size="sm" variant="outline">
           Upload Files
         </Button>
       </EmptyContent>

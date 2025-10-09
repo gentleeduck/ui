@@ -15,10 +15,10 @@ export default function EmptyAvatar() {
       <EmptyHeader>
         <EmptyMedia variant="default">
           <Avatar
-            className="size-12"
-            src="https://github.com/wildduck2.png"
             alt="a profile picture for wildduck2"
+            className="size-12"
             fallback="WD"
+            src="https://github.com/wildduck2.png"
           />
         </EmptyMedia>
         <EmptyTitle>User Offline</EmptyTitle>

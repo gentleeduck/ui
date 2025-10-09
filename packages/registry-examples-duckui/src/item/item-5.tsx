@@ -1,5 +1,3 @@
-import { Plus } from 'lucide-react'
-
 import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
@@ -10,6 +8,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from '@gentleduck/registry-ui-duckui/item'
+import { Plus } from 'lucide-react'
 
 export default function ItemAvatar() {
   return (
@@ -17,10 +16,10 @@ export default function ItemAvatar() {
       <Item variant="outline">
         <ItemMedia>
           <Avatar
-            className="size-10"
-            src="https://github.com/wildduck2.png"
             alt="a profile picture for wildduck2"
+            className="size-10"
             fallback="WD"
+            src="https://github.com/wildduck2.png"
           />
         </ItemMedia>
         <ItemContent>
@@ -28,17 +27,17 @@ export default function ItemAvatar() {
           <ItemDescription>Last seen 5 months ago</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <Button size="icon-sm" variant="outline" className="rounded-full" aria-label="Invite">
+          <Button aria-label="Invite" className="rounded-full" size="icon-sm" variant="outline">
             <Plus />
           </Button>
         </ItemActions>
       </Item>
       <Item variant="outline">
         <ItemMedia>
-          <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale">
-            <Avatar className="hidden sm:flex" src="https://github.com/shadcn.png" alt="@shadcn" fallback="CN" />
-            <Avatar className="hidden sm:flex" src="https://github.com/shadcn.png" alt="@shadcn" fallback="CN" />
-            <Avatar className="hidden sm:flex" src="https://github.com/shadcn.png" alt="@shadcn" fallback="CN" />
+          <div className="-space-x-2 flex *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
+            <Avatar alt="@shadcn" className="hidden sm:flex" fallback="CN" src="https://github.com/shadcn.png" />
+            <Avatar alt="@shadcn" className="hidden sm:flex" fallback="CN" src="https://github.com/shadcn.png" />
+            <Avatar alt="@shadcn" className="hidden sm:flex" fallback="CN" src="https://github.com/shadcn.png" />
           </div>
         </ItemMedia>
         <ItemContent>

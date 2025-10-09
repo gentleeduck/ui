@@ -6,9 +6,8 @@
 }
 
 @layer components {
-
   code,
-  code>*>*,
+  code > * > *,
   kbd,
   samp,
   pre {
@@ -38,7 +37,7 @@
     @apply relative bg-muted/40 dark:bg-muted/40 rounded-lg border-border border mb-4 mt-6;
   }
 
-  div[data-value]:not([data-value="cli"])[duck-tabs-content]>[data-rehype-pretty-code-fragment] {
+  div[data-value]:not([data-value="cli"])[duck-tabs-content] > [data-rehype-pretty-code-fragment] {
     @apply bg-transparent m-0 static rounded-none border-0;
   }
 
@@ -55,7 +54,7 @@
     @apply px-2;
   }
 
-  [data-rehype-pretty-code-fragment] [data-line-numbers]>.line::before {
+  [data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
     display: inline-block;
     width: 1.8rem;
     margin-right: 1.4rem;
@@ -82,7 +81,7 @@
     @apply font-semibold;
   }
 
-  strong>code {
+  strong > code {
     @apply font-bold;
   }
 
@@ -91,15 +90,15 @@
       @apply !mt-6;
     }
 
-    &:first-child>h3:first-child {
+    &:first-child > h3:first-child {
       @apply !mt-6;
     }
 
-    >h3 {
+    > h3 {
       @apply mt-8 mb-4 text-base font-semibold;
     }
 
-    >h3+p {
+    > h3 + p {
       @apply !mt-2;
     }
   }

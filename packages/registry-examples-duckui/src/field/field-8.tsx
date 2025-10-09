@@ -9,20 +9,20 @@ export default function FieldRadio() {
         <FieldDescription>Yearly and lifetime plans offer significant savings.</FieldDescription>
         <RadioGroup defaultValue="monthly">
           <Field orientation="horizontal">
-            <RadioGroupItem value="monthly" id="plan-monthly" />
-            <FieldLabel htmlFor="plan-monthly" className="font-normal">
+            <RadioGroupItem id="plan-monthly" value="monthly" />
+            <FieldLabel className="font-normal" htmlFor="plan-monthly">
               Monthly ($9.99/month)
             </FieldLabel>
           </Field>
           <Field orientation="horizontal">
-            <RadioGroupItem value="yearly" id="plan-yearly" />
-            <FieldLabel htmlFor="plan-yearly" className="font-normal">
+            <RadioGroupItem id="plan-yearly" value="yearly" />
+            <FieldLabel className="font-normal" htmlFor="plan-yearly">
               Yearly ($99.99/year)
             </FieldLabel>
           </Field>
           <Field orientation="horizontal">
-            <RadioGroupItem value="lifetime" id="plan-lifetime" />
-            <FieldLabel htmlFor="plan-lifetime" className="font-normal">
+            <RadioGroupItem id="plan-lifetime" value="lifetime" />
+            <FieldLabel className="font-normal" htmlFor="plan-lifetime">
               Lifetime ($299.99)
             </FieldLabel>
           </Field>

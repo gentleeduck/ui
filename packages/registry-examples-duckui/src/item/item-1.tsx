@@ -1,5 +1,3 @@
-import { BadgeCheckIcon, ChevronRightIcon } from 'lucide-react'
-
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Item,
@@ -9,6 +7,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from '@gentleduck/registry-ui-duckui/item'
+import { BadgeCheckIcon, ChevronRightIcon } from 'lucide-react'
 
 export default function ItemDemo() {
   return (
@@ -19,12 +18,12 @@ export default function ItemDemo() {
           <ItemDescription>A simple item with title and description.</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <Button variant="outline" size="sm">
+          <Button size="sm" variant="outline">
             Action
           </Button>
         </ItemActions>
       </Item>
-      <Item variant="outline" size="sm" asChild>
+      <Item asChild size="sm" variant="outline">
         <a href="#">
           <ItemMedia>
             <BadgeCheckIcon className="size-5" />

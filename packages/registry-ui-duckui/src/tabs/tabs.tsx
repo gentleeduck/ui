@@ -76,7 +76,6 @@ const TabsTrigger = ({
   }, [defaultChecked])
 
   return (
-    // biome-ignore lint: false positive
     <li
       aria-selected={isActive}
       className={cn(

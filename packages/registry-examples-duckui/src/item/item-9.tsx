@@ -1,6 +1,5 @@
-import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'
-
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@gentleduck/registry-ui-duckui/item'
+import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'
 
 export default function ItemLink() {
   return (
@@ -16,8 +15,8 @@ export default function ItemLink() {
           </ItemActions>
         </a>
       </Item>
-      <Item variant="outline" asChild>
-        <a href="#" target="_blank" rel="noopener noreferrer">
+      <Item asChild variant="outline">
+        <a href="#" rel="noopener noreferrer" target="_blank">
           <ItemContent>
             <ItemTitle>External resource</ItemTitle>
             <ItemDescription>Opens in a new tab with security attributes.</ItemDescription>

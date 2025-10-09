@@ -28,7 +28,7 @@ export default function EmptyDemo() {
           <Button variant="outline">Import Project</Button>
         </div>
       </EmptyContent>
-      <Button variant="link" asChild className="text-muted-foreground" size="sm">
+      <Button asChild className="text-muted-foreground" size="sm" variant="link">
         <a href="#">
           Learn More <ArrowUpRightIcon />
         </a>

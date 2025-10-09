@@ -1,8 +1,7 @@
-import { Link2Icon } from 'lucide-react'
-
 import { ButtonGroup, ButtonGroupText } from '@gentleduck/registry-ui-duckui/button-group'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
+import { Link2Icon } from 'lucide-react'
 
 export default function InputGroupButtonGroup() {
   return (

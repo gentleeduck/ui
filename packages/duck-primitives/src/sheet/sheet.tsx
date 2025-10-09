@@ -45,7 +45,6 @@ function Trigger({
       // The user can style the trigger based on the state
       ref={ref}
       type="button"
-      // biome-ignore lint: false positive
       // @ts-ignore
       {...context.getReferenceProps(props)}>
       {children}

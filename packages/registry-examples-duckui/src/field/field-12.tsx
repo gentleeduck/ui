@@ -37,10 +37,10 @@ export default function FieldResponsive() {
                 </FieldDescription>
               </FieldContent>
               <Textarea
+                className="min-h-[100px] resize-none sm:min-w-[300px]"
                 id="message"
                 placeholder="Hello, world!"
                 required
-                className="min-h-[100px] resize-none sm:min-w-[300px]"
               />
             </Field>
             <FieldSeparator />

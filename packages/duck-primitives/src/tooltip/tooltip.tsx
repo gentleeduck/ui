@@ -1,7 +1,7 @@
 import { FloatingFocusManager, FloatingPortal, useMergeRefs } from '@floating-ui/react'
-import { Portal as PPortal } from '../portal'
 import * as React from 'react'
 import { cleanLockScrollbar, lockScrollbar } from '../dialog'
+import { Portal as PPortal } from '../portal'
 import { Presence } from '../presence'
 import { Slot } from '../slot'
 import { useTooltip } from './tooltip.hooks'

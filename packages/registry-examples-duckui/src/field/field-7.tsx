@@ -20,25 +20,25 @@ export default function FieldCheckbox() {
           <FieldGroup className="gap-3">
             <Field orientation="horizontal">
               <Checkbox id="finder-pref-9k2-hard-disks-ljj" />
-              <FieldLabel htmlFor="finder-pref-9k2-hard-disks-ljj" className="font-normal" defaultChecked>
+              <FieldLabel className="font-normal" defaultChecked htmlFor="finder-pref-9k2-hard-disks-ljj">
                 Hard disks
               </FieldLabel>
             </Field>
             <Field orientation="horizontal">
               <Checkbox id="finder-pref-9k2-external-disks-1yg" />
-              <FieldLabel htmlFor="finder-pref-9k2-external-disks-1yg" className="font-normal">
+              <FieldLabel className="font-normal" htmlFor="finder-pref-9k2-external-disks-1yg">
                 External disks
               </FieldLabel>
             </Field>
             <Field orientation="horizontal">
               <Checkbox id="finder-pref-9k2-cds-dvds-fzt" />
-              <FieldLabel htmlFor="finder-pref-9k2-cds-dvds-fzt" className="font-normal">
+              <FieldLabel className="font-normal" htmlFor="finder-pref-9k2-cds-dvds-fzt">
                 CDs, DVDs, and iPods
               </FieldLabel>
             </Field>
             <Field orientation="horizontal">
               <Checkbox id="finder-pref-9k2-connected-servers-6l2" />
-              <FieldLabel htmlFor="finder-pref-9k2-connected-servers-6l2" className="font-normal">
+              <FieldLabel className="font-normal" htmlFor="finder-pref-9k2-connected-servers-6l2">
                 Connected servers
               </FieldLabel>
             </Field>
@@ -46,7 +46,7 @@ export default function FieldCheckbox() {
         </FieldSet>
         <FieldSeparator />
         <Field orientation="horizontal">
-          <Checkbox id="finder-pref-9k2-sync-folders-nep" defaultChecked />
+          <Checkbox defaultChecked id="finder-pref-9k2-sync-folders-nep" />
           <FieldContent>
             <FieldLabel htmlFor="finder-pref-9k2-sync-folders-nep">Sync Desktop & Documents folders</FieldLabel>
             <FieldDescription>

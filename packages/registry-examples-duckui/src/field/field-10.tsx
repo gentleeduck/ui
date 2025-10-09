@@ -23,7 +23,7 @@ export default function FieldChoiceCard() {
                   <FieldTitle>Kubernetes</FieldTitle>
                   <FieldDescription>Run GPU workloads on a K8s configured cluster.</FieldDescription>
                 </FieldContent>
-                <RadioGroupItem value="kubernetes" id="kubernetes-r2h" />
+                <RadioGroupItem id="kubernetes-r2h" value="kubernetes" />
               </Field>
             </FieldLabel>
             <FieldLabel htmlFor="vm-z4k">
@@ -32,7 +32,7 @@ export default function FieldChoiceCard() {
                   <FieldTitle>Virtual Machine</FieldTitle>
                   <FieldDescription>Access a VM configured cluster to run GPU workloads.</FieldDescription>
                 </FieldContent>
-                <RadioGroupItem value="vm" id="vm-z4k" />
+                <RadioGroupItem id="vm-z4k" value="vm" />
               </Field>
             </FieldLabel>
           </RadioGroup>
