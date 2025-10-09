@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import {
   Item,
   ItemContent,
@@ -8,25 +6,26 @@ import {
   ItemMedia,
   ItemTitle,
 } from '@gentleduck/registry-ui-duckui/item'
+import Image from 'next/image'
 
 const music = [
   {
-    title: 'Midnight City Lights',
-    artist: 'Neon Dreams',
     album: 'Electric Nights',
+    artist: 'Neon Dreams',
     duration: '3:45',
+    title: 'Midnight City Lights',
   },
   {
-    title: 'Coffee Shop Conversations',
-    artist: 'The Morning Brew',
     album: 'Urban Stories',
+    artist: 'The Morning Brew',
     duration: '4:05',
+    title: 'Coffee Shop Conversations',
   },
   {
-    title: 'Digital Rain',
-    artist: 'Cyber Symphony',
     album: 'Binary Beats',
+    artist: 'Cyber Symphony',
     duration: '3:30',
+    title: 'Digital Rain',
   },
 ]
 
@@ -35,15 +34,15 @@ export default function ItemImage() {
     <div className="flex w-full max-w-md flex-col gap-6">
       <ItemGroup className="gap-4">
         {music.map((song) => (
-          <Item key={song.title} variant="outline" asChild role="listitem">
+          <Item asChild key={song.title} role="listitem" variant="outline">
             <a href="#">
               <ItemMedia variant="image">
                 <Image
-                  src={`https://avatar.vercel.sh/${song.title}`}
                   alt={song.title}
-                  width={32}
-                  height={32}
                   className="object-cover grayscale"
+                  height={32}
+                  src={`https://avatar.vercel.sh/${song.title}`}
+                  width={32}
                 />
               </ItemMedia>
               <ItemContent>

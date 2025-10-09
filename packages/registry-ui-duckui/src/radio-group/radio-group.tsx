@@ -79,7 +79,6 @@ function RadioGroup({
         data-slot="radio-group"
         duck-radio-group=""
         ref={wrapperRef}
-        //biome-ignore lint: false positive
         role="radiogroup"
         {...props}>
         {children}

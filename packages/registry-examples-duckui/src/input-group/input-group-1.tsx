@@ -1,6 +1,3 @@
-import { IconCheck, IconInfoCircle, IconPlus } from '@tabler/icons-react'
-import { ArrowUpIcon, Search } from 'lucide-react'
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +14,8 @@ import {
 } from '@gentleduck/registry-ui-duckui/input-group'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import { IconCheck, IconInfoCircle, IconPlus } from '@tabler/icons-react'
+import { ArrowUpIcon, Search } from 'lucide-react'
 
 export default function InputGroupDemo() {
   return (
@@ -29,7 +28,7 @@ export default function InputGroupDemo() {
         <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupInput placeholder="example.com" className="!pl-1" />
+        <InputGroupInput className="!pl-1" placeholder="example.com" />
         <InputGroupAddon>
           <InputGroupText>https://</InputGroupText>
         </InputGroupAddon>
@@ -47,22 +46,22 @@ export default function InputGroupDemo() {
       <InputGroup>
         <InputGroupTextarea placeholder="Ask, Search or Chat..." />
         <InputGroupAddon align="block-end">
-          <InputGroupButton variant="outline" className="rounded-full" size="icon-xs">
+          <InputGroupButton className="rounded-full" size="icon-xs" variant="outline">
             <IconPlus />
           </InputGroupButton>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <InputGroupButton variant="ghost">Auto</InputGroupButton>
             </DropdownMenuTrigger>
-            <DropdownMenuContent side="top" align="start" className="[--radius:0.95rem]">
+            <DropdownMenuContent align="start" className="[--radius:0.95rem]" side="top">
               <DropdownMenuItem>Auto</DropdownMenuItem>
               <DropdownMenuItem>Agent</DropdownMenuItem>
               <DropdownMenuItem>Manual</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <InputGroupText className="ml-auto">52% used</InputGroupText>
-          <Separator orientation="vertical" className="!h-4" />
-          <InputGroupButton variant="default" className="rounded-full" size="icon-xs" disabled>
+          <Separator className="!h-4" orientation="vertical" />
+          <InputGroupButton className="rounded-full" disabled size="icon-xs" variant="default">
             <ArrowUpIcon />
             <span className="sr-only">Send</span>
           </InputGroupButton>
@@ -71,7 +70,7 @@ export default function InputGroupDemo() {
       <InputGroup>
         <InputGroupInput placeholder="@shadcn" />
         <InputGroupAddon align="inline-end">
-          <div className="bg-primary text-primary-foreground flex size-4 items-center justify-center rounded-full">
+          <div className="flex size-4 items-center justify-center rounded-full bg-primary text-primary-foreground">
             <IconCheck className="size-3" />
           </div>
         </InputGroupAddon>

@@ -1,6 +1,5 @@
-import { CheckIcon, CreditCardIcon, InfoIcon, MailIcon, SearchIcon, StarIcon } from 'lucide-react'
-
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'
+import { CheckIcon, CreditCardIcon, InfoIcon, MailIcon, SearchIcon, StarIcon } from 'lucide-react'
 
 export default function InputGroupIcon() {
   return (
@@ -12,7 +11,7 @@ export default function InputGroupIcon() {
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupInput type="email" placeholder="Enter your email" />
+        <InputGroupInput placeholder="Enter your email" type="email" />
         <InputGroupAddon>
           <MailIcon />
         </InputGroupAddon>

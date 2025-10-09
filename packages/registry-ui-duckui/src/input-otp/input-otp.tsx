@@ -36,7 +36,6 @@ function InputOTP({
         value,
         wrapperRef,
       }}>
-      {/** biome-ignore lint: false positive */}
       <div
         aria-label={ariaLabel}
         className={cn('flex items-center gap-2 disabled:cursor-not-allowed has-[:disabled]:opacity-50', className)}
@@ -53,7 +52,6 @@ function InputOTP({
 
 const InputOTPGroup = ({ className, ref, ...props }: React.ComponentPropsWithRef<'div'>) => {
   return (
-    // biome-ignore lint: false positive
     <div
       aria-label="otp-group"
       className={cn('flex items-center', className)}

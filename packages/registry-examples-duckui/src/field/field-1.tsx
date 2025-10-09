@@ -83,8 +83,8 @@ export default function FieldDemo() {
             <FieldDescription>The billing address associated with your payment method</FieldDescription>
             <FieldGroup>
               <Field orientation="horizontal">
-                <Checkbox id="checkout-7j9-same-as-shipping-wgm" defaultChecked />
-                <FieldLabel htmlFor="checkout-7j9-same-as-shipping-wgm" className="font-normal">
+                <Checkbox defaultChecked id="checkout-7j9-same-as-shipping-wgm" />
+                <FieldLabel className="font-normal" htmlFor="checkout-7j9-same-as-shipping-wgm">
                   Same as shipping address
                 </FieldLabel>
               </Field>
@@ -95,16 +95,16 @@ export default function FieldDemo() {
               <Field>
                 <FieldLabel htmlFor="checkout-7j9-optional-comments">Comments</FieldLabel>
                 <Textarea
+                  className="resize-none"
                   id="checkout-7j9-optional-comments"
                   placeholder="Add any additional comments"
-                  className="resize-none"
                 />
               </Field>
             </FieldGroup>
           </FieldSet>
           <Field orientation="horizontal">
             <Button type="submit">Submit</Button>
-            <Button variant="outline" type="button">
+            <Button type="button" variant="outline">
               Cancel
             </Button>
           </Field>

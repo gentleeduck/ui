@@ -1,6 +1,3 @@
-import * as React from 'react'
-import { PlusIcon } from 'lucide-react'
-
 import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
@@ -13,22 +10,24 @@ import {
   ItemSeparator,
   ItemTitle,
 } from '@gentleduck/registry-ui-duckui/item'
+import { PlusIcon } from 'lucide-react'
+import * as React from 'react'
 
 const people = [
   {
-    username: 'shadcn',
     avatar: 'https://github.com/shadcn.png',
     email: 'shadcn@vercel.com',
+    username: 'shadcn',
   },
   {
-    username: 'maxleiter',
     avatar: 'https://github.com/maxleiter.png',
     email: 'maxleiter@vercel.com',
+    username: 'maxleiter',
   },
   {
-    username: 'evilrabbit',
     avatar: 'https://github.com/evilrabbit.png',
     email: 'evilrabbit@vercel.com',
+    username: 'evilrabbit',
   },
 ]
 
@@ -40,14 +39,14 @@ export default function ItemGroupExample() {
           <React.Fragment key={person.username}>
             <Item>
               <ItemMedia>
-                <Avatar src={person.avatar} alt={person.username} fallback={person.username.charAt(0)} />
+                <Avatar alt={person.username} fallback={person.username.charAt(0)} src={person.avatar} />
               </ItemMedia>
               <ItemContent className="gap-1">
                 <ItemTitle>{person.username}</ItemTitle>
                 <ItemDescription>{person.email}</ItemDescription>
               </ItemContent>
               <ItemActions>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button className="rounded-full" size="icon" variant="ghost">
                   <PlusIcon />
                 </Button>
               </ItemActions>

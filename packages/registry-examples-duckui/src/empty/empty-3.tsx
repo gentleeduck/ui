@@ -1,6 +1,3 @@
-import { IconBell } from '@tabler/icons-react'
-import { RefreshCcwIcon } from 'lucide-react'
-
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Empty,
@@ -10,10 +7,12 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@gentleduck/registry-ui-duckui/empty'
+import { IconBell } from '@tabler/icons-react'
+import { RefreshCcwIcon } from 'lucide-react'
 
 export default function EmptyMuted() {
   return (
-    <Empty className="from-muted/50 to-background h-full bg-gradient-to-b from-30%">
+    <Empty className="h-full bg-gradient-to-b from-30% from-muted/50 to-background">
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <IconBell />
@@ -22,7 +21,7 @@ export default function EmptyMuted() {
         <EmptyDescription>You&apos;re all caught up. New notifications will appear here.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button variant="outline" size="sm">
+        <Button size="sm" variant="outline">
           <RefreshCcwIcon />
           Refresh
         </Button>

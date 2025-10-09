@@ -41,7 +41,6 @@ export function usePopover({
     flip({
       crossAxis: placement.includes('-'),
       fallbackAxisSideDirection: 'end',
-      // biome-ignore lint: false positive
       // @ts-ignore
       fallbackPlacements: contextMenu ? ['left-start'] : null,
       mainAxis,

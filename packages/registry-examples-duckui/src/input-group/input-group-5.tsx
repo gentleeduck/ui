@@ -1,5 +1,3 @@
-import { HelpCircle, InfoIcon } from 'lucide-react'
-
 import {
   InputGroup,
   InputGroupAddon,
@@ -7,6 +5,7 @@ import {
   InputGroupInput,
 } from '@gentleduck/registry-ui-duckui/input-group'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import { HelpCircle, InfoIcon } from 'lucide-react'
 
 export default function InputGroupTooltip() {
   return (
@@ -16,7 +15,7 @@ export default function InputGroupTooltip() {
         <InputGroupAddon align="inline-end">
           <Tooltip>
             <TooltipTrigger asChild>
-              <InputGroupButton variant="ghost" aria-label="Info" size="icon-xs">
+              <InputGroupButton aria-label="Info" size="icon-xs" variant="ghost">
                 <InfoIcon />
               </InputGroupButton>
             </TooltipTrigger>
@@ -31,7 +30,7 @@ export default function InputGroupTooltip() {
         <InputGroupAddon align="inline-end">
           <Tooltip>
             <TooltipTrigger asChild>
-              <InputGroupButton variant="ghost" aria-label="Help" size="icon-xs">
+              <InputGroupButton aria-label="Help" size="icon-xs" variant="ghost">
                 <HelpCircle />
               </InputGroupButton>
             </TooltipTrigger>
@@ -46,7 +45,7 @@ export default function InputGroupTooltip() {
         <Tooltip>
           <TooltipTrigger asChild>
             <InputGroupAddon>
-              <InputGroupButton variant="ghost" aria-label="Help" size="icon-xs">
+              <InputGroupButton aria-label="Help" size="icon-xs" variant="ghost">
                 <HelpCircle />
               </InputGroupButton>
             </InputGroupAddon>

@@ -1,5 +1,3 @@
-import { ShieldAlertIcon } from 'lucide-react'
-
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Item,
@@ -9,6 +7,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from '@gentleduck/registry-ui-duckui/item'
+import { ShieldAlertIcon } from 'lucide-react'
 
 export default function ItemIcon() {
   return (

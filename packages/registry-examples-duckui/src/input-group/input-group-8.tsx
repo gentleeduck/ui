@@ -1,5 +1,3 @@
-import { InfoIcon } from 'lucide-react'
-
 import {
   InputGroup,
   InputGroupAddon,
@@ -8,6 +6,7 @@ import {
 } from '@gentleduck/registry-ui-duckui/input-group'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import { InfoIcon } from 'lucide-react'
 
 export default function InputGroupLabel() {
   return (
@@ -21,12 +20,12 @@ export default function InputGroupLabel() {
       <InputGroup>
         <InputGroupInput id="email-2" placeholder="shadcn@vercel.com" />
         <InputGroupAddon align="block-start">
-          <Label htmlFor="email-2" className="text-foreground">
+          <Label className="text-foreground" htmlFor="email-2">
             Email
           </Label>
           <Tooltip>
             <TooltipTrigger asChild>
-              <InputGroupButton variant="ghost" aria-label="Help" className="ml-auto rounded-full" size="icon-xs">
+              <InputGroupButton aria-label="Help" className="ml-auto rounded-full" size="icon-xs" variant="ghost">
                 <InfoIcon />
               </InputGroupButton>
             </TooltipTrigger>

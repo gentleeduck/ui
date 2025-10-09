@@ -45,7 +45,6 @@ function Trigger({
       }}
       ref={ref}
       type="button"
-      // biome-ignore lint: false positive
       //@ts-ignore
       {...context.getReferenceProps(props)}>
       {children}

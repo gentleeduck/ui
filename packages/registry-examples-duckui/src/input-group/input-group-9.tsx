@@ -1,5 +1,3 @@
-import { ChevronDownIcon, MoreHorizontal } from 'lucide-react'
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +10,7 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from '@gentleduck/registry-ui-duckui/input-group'
+import { ChevronDownIcon, MoreHorizontal } from 'lucide-react'
 
 export default function InputGroupDropdown() {
   return (
@@ -21,7 +20,7 @@ export default function InputGroupDropdown() {
         <InputGroupAddon align="inline-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <InputGroupButton variant="ghost" aria-label="More" size="icon-xs">
+              <InputGroupButton aria-label="More" size="icon-xs" variant="ghost">
                 <MoreHorizontal />
               </InputGroupButton>
             </DropdownMenuTrigger>
@@ -38,7 +37,7 @@ export default function InputGroupDropdown() {
         <InputGroupAddon align="inline-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <InputGroupButton variant="ghost" className="!pr-1.5 text-xs">
+              <InputGroupButton className="!pr-1.5 text-xs" variant="ghost">
                 Search In... <ChevronDownIcon className="size-3" />
               </InputGroupButton>
             </DropdownMenuTrigger>

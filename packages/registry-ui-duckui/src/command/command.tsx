@@ -110,7 +110,6 @@ function CommandInput({
       duck-command-input="">
       <Search className="size-[20px] shrink-0 opacity-50" />
       <input
-        // biome-ignore lint: false positive
         autoFocus={autoFocus}
         className={cn(
           'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
