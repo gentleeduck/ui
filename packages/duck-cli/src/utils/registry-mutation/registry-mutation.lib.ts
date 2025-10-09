@@ -27,7 +27,13 @@ export async function get_installation_config(duck_config: DuckUI, spinner: Ora,
 
     const write_path_key = Object.keys(ts_config.compilerOptions.paths).find((path) => path.includes(alias))
 
-    const write_path = ts_config.compilerOptions.paths[write_path_key as string][0].split('/').slice(0, -1).join('/')
+    const write_path = ts_config.compilerOptions.paths[write_path_key as string]?.[0]?.split('/').slice(0, -1).join('/')
+
+    if (!write_path) {
+      spinner.fail(`🦆 Alias "${alias}" not found in tsconfig paths.
+Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info('tsconfig.json')} aliases match.`)
+      process.exit(1)
+    }
 
     if (!options.yes) {
       spinner.stop()
@@ -54,6 +60,7 @@ export async function get_installation_config(duck_config: DuckUI, spinner: Ora,
     return write_path
   } catch (error) {
     spinner.fail(`🦆 Oops: ${highlighter.error(error as string)}`)
+
     process.exit(1)
   }
 }
