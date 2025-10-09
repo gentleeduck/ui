@@ -1,5 +1,16 @@
 # @gentleduck/@gentleduck/cli
 
+## 1.0.11
+
+### Patch Changes
+
+- fixed binaries
+- fixed some bugs
+- handle mismatched alias betrween duck ui and the ts config
+- fix the ts config check
+- done
+- done with binaries
+
 ## 1.0.10
 
 ### Patch Changes
