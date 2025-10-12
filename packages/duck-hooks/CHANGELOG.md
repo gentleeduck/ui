@@ -1,5 +1,14 @@
 # @gentleduck/libs
 
+## 0.1.8
+
+### Patch Changes
+
+- done
+- done
+- done
+- new copy
+
 ## 0.1.7
 
 ### Patch Changes
