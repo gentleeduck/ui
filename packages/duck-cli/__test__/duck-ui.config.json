@@ -1,0 +1,19 @@
+{
+  "schema": "https://ui.gentleduck.org/schema.json",
+  "rsc": true,
+  "monorepo": false,
+  "tailwind": {
+    "baseColor": "zinc",
+    "css": "./src/styles.css",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "ui": "~/components",
+    "libs": "~/libs",
+    "hooks": "~/hooks",
+    "pages": "~/pages",
+    "layouts": "~/layouts"
+  }
+}
+

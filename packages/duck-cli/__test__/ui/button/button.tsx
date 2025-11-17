@@ -28,6 +28,7 @@ function Button({
 
   return (
     <Component
+      data-slot="button"
       {...props}
       className={cn(
         buttonVariants({
@@ -37,7 +38,6 @@ function Button({
           variant,
         }),
       )}
-      data-slot="button"
       disabled={loading ?? disabled}
       ref={ref}
       type={type}>
