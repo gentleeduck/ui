@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
 /* zinc theme */
 :root {
   --accent: oklch(0.967 0.001 286.375);
@@ -25,7 +26,8 @@
   --popover-foreground: oklch(0.141 0.005 285.823);
   --primary: oklch(0.21 0.006 285.885);
   --primary-foreground: oklch(0.985 0 0);
-  --radius: .5rem;
+
+  --radius: 0.5rem;
   --ring: oklch(0.705 0.015 286.067);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);

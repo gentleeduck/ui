@@ -18,7 +18,9 @@ export async function get_installation_config(duck_config: DuckUI, spinner: Ora,
 
     if (!ts_config.compilerOptions?.paths || !alias) {
       spinner.fail(
-        `No ${highlighter.info('TypeScript')} configs found \r\n(NOTE: chekck your tsconfig.json, and add the paths because we need them) \r\nAs an example \r\n${highlighter.warn(
+        `No ${highlighter.info(
+          'TypeScript',
+        )} configs found \r\n(NOTE: chekck your tsconfig.json, and add the paths because we need them) \r\nAs an example \r\n${highlighter.warn(
           `paths: {\r\n  "~/*": ["./*"]\r\n}`,
         )}\r\n`,
       )
@@ -48,7 +50,9 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
       if (!yes) {
         spinner.fail('🥺 Why you cannot install components?, goodbye!')
         spinner.info(
-          `🦆 Having issues you can report them here: ${highlighter.info('https://github.com/gentleeduck/duck-ui/issues')}`,
+          `🦆 Having issues you can report them here: ${highlighter.info(
+            'https://github.com/gentleeduck/duck-ui/issues',
+          )}`,
         )
         spinner.info(
           `🦆 If you do not know how to write a professional issue,\n     you can find more info here: https://ui.gentleduck.com/docs/cli`,
@@ -65,7 +69,13 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
   }
 }
 
-export async function process_components(components: Registry, write_path: string, spinner: Ora, options: addOptions) {
+export async function process_components(
+  duck_config: DuckUI,
+  components: Registry,
+  write_path: string,
+  spinner: Ora,
+  options: addOptions,
+) {
   try {
     const dependencies = {
       dependencies: [],
@@ -76,11 +86,21 @@ export async function process_components(components: Registry, write_path: strin
     await Promise.all(
       components.map(
         async (component, idx) =>
-          await install_component(dependencies, idx, component, false, components, write_path, spinner, options.force),
+          await install_component(
+            duck_config,
+            dependencies,
+            idx,
+            component,
+            false,
+            components,
+            write_path,
+            spinner,
+            options.force,
+          ),
       ),
     )
 
-    await install_registry_dependencies(dependencies, spinner, write_path, options.force)
+    await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config)
     await process_component_dependencies(dependencies, spinner)
   } catch (error) {
     spinner.fail(`🦆 Failed to install components, ${highlighter.error(error as string)}`)
@@ -89,6 +109,7 @@ export async function process_components(components: Registry, write_path: strin
 }
 
 async function install_component(
+  duck_config: DuckUI,
   dependencies: DependenciesType,
   idx: number,
   component: Registry[number],
@@ -96,7 +117,7 @@ async function install_component(
   components: Registry,
   write_path: string,
   spinner: Ora,
-  foce: boolean,
+  force: boolean,
 ) {
   dependencies.dependencies.push(...(component.dependencies ?? []))
   dependencies.dev_dependencies.push(...(component.devDependencies ?? []))
@@ -104,20 +125,30 @@ async function install_component(
 
   spinner.text = `🦆 Installing ${registry ? 'necessary ' : ''}component: ${highlighter.info(`${component.name}`)}`
 
-  const component_ype = component.type.split(':').pop() as string
-  const component_path = path.resolve(`${write_path}/${component_ype}/${component.root_folder}`)
+  const component_type = component.type.split(':').pop() as string
+  const duckui_write_path = duck_config.aliases.ui.split('/').slice(1).join('/')
+  const write_type_path = path.resolve(`${write_path}/${duckui_write_path}`)
 
-  if (!fs.existsSync(component_path)) {
-    spinner.text = `Creating directory: ${component_ype}/${component.root_folder}`
-    await fs.mkdir(component_path, { recursive: true })
-    spinner.succeed(`⚡ Created directory: ${component_ype}/${component.root_folder}`)
+  if (!fs.existsSync(write_type_path)) {
+    spinner.text = `Creating directory: ${component_type}`
+    await fs.mkdir(write_type_path, { recursive: true })
+    spinner.succeed(`⚡ Created directory: ${component_type}`)
   }
-  await process_component_files(component, write_path, component_ype, spinner, foce)
+
+  const write_component_path = `${write_type_path}/${component.root_folder}`
+
+  if (!fs.existsSync(write_component_path)) {
+    spinner.text = `Creating directory: ${component.root_folder}`
+    await fs.mkdir(write_component_path, { recursive: true })
+    spinner.succeed(`⚡ Created directory: ${component.root_folder}`)
+  }
+
+  await process_component_files(component, write_type_path, `${write_path}/${duckui_write_path}`, spinner, force)
 
   spinner.succeed(
-    `🦋 Installed ${registry ? 'necessary ' : ''}component${components.length > 1 ? 's' : ''}: ${highlighter.info(
-      `[${idx + 1}/${components.length}]`,
-    )}\x1b[0K`,
+    `🦋 Installed ${registry ? 'necessary ' : ''}component${
+      components.length > 1 ? 's' : ''
+    }: ${highlighter.info(`[${idx + 1}/${components.length}]`)}\x1b[0K`,
   )
 }
 
@@ -126,6 +157,7 @@ export async function install_registry_dependencies(
   spinner: Ora,
   write_path: string,
   foce: boolean,
+  duck_config: DuckUI,
 ) {
   const visited = new Set<string>() // avoid infinite loops
   const allComponents: Registry = []
@@ -180,25 +212,34 @@ export async function install_registry_dependencies(
 
   // Install all collected components
   for (let i = 0; i < allComponents.length; i++) {
-    await install_component(dependencies, i, allComponents[i], true, allComponents, write_path, spinner, foce)
+    await install_component(
+      duck_config,
+      dependencies,
+      i,
+      allComponents[i],
+      true,
+      allComponents,
+      write_path,
+      spinner,
+      foce,
+    )
   }
 }
 
 export async function process_component_files(
   component: Registry[0],
   write_path: string,
-  component_type: string,
+  from_root_write_path: string,
   spinner: Ora,
   force: boolean,
 ) {
   if (!component.files?.length) {
-    spinner.warn(`🦆 No files found for component: ${component_type}`)
+    spinner.warn(`🦆 No files found for component: ${from_root_write_path}`)
     return
   }
 
-  const file_path = path.resolve(`${write_path}/${component_type}`, component.root_folder)
   if (!force) {
-    if (fs.existsSync(file_path) && fs.readdirSync(file_path).length > 0) {
+    if (fs.readdirSync(`${write_path}/${component.root_folder}`).length > 0) {
       spinner.stop()
       const { overwrite } = await prompts({
         initial: true,
@@ -209,7 +250,7 @@ export async function process_component_files(
       spinner.start()
       if (!overwrite) {
         spinner.warn(
-          `🦆 Components already exists: ${highlighter.info(`${component_type}${component.root_folder}`)} (skipping)`,
+          `🦆 Components already exists: ${highlighter.info(`${from_root_write_path}${component.root_folder}`)} (skipping)`,
         )
         return
       }
@@ -219,12 +260,8 @@ export async function process_component_files(
   for (const file of component.files) {
     try {
       spinner.text = `🦋 Writing file: ${file.target}`
-      await fs.writeFile(
-        path.resolve(`${write_path}/${component_type}`, file.path as string),
-        file.content as string,
-        'utf8',
-      )
-      spinner.succeed(`🦋 Successfully wrote: ${file.target}`)
+      await fs.writeFile(path.resolve(`${write_path}`, file.path as string), file.content as string, 'utf8')
+      spinner.succeed(`🦋 Successfully wrote: ${from_root_write_path}/${file.path}`)
     } catch (error) {
       spinner.fail(`🦆 Failed to write file: ${file.target}`)
       throw error
