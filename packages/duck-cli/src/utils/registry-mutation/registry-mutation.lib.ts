@@ -18,7 +18,9 @@ export async function get_installation_config(duck_config: DuckUI, spinner: Ora,
 
     if (!ts_config.compilerOptions?.paths || !alias) {
       spinner.fail(
-        `No ${highlighter.info('TypeScript')} configs found \r\n(NOTE: chekck your tsconfig.json, and add the paths because we need them) \r\nAs an example \r\n${highlighter.warn(
+        `No ${highlighter.info(
+          'TypeScript',
+        )} configs found \r\n(NOTE: chekck your tsconfig.json, and add the paths because we need them) \r\nAs an example \r\n${highlighter.warn(
           `paths: {\r\n  "~/*": ["./*"]\r\n}`,
         )}\r\n`,
       )
@@ -48,7 +50,9 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
       if (!yes) {
         spinner.fail('🥺 Why you cannot install components?, goodbye!')
         spinner.info(
-          `🦆 Having issues you can report them here: ${highlighter.info('https://github.com/gentleeduck/duck-ui/issues')}`,
+          `🦆 Having issues you can report them here: ${highlighter.info(
+            'https://github.com/gentleeduck/duck-ui/issues',
+          )}`,
         )
         spinner.info(
           `🦆 If you do not know how to write a professional issue,\n     you can find more info here: https://ui.gentleduck.com/docs/cli`,
@@ -65,7 +69,13 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
   }
 }
 
-export async function process_components(components: Registry, write_path: string, spinner: Ora, options: addOptions) {
+export async function process_components(
+  duck_config: DuckUI,
+  components: Registry,
+  write_path: string,
+  spinner: Ora,
+  options: addOptions,
+) {
   try {
     const dependencies = {
       dependencies: [],
@@ -76,11 +86,21 @@ export async function process_components(components: Registry, write_path: strin
     await Promise.all(
       components.map(
         async (component, idx) =>
-          await install_component(dependencies, idx, component, false, components, write_path, spinner, options.force),
+          await install_component(
+            duck_config,
+            dependencies,
+            idx,
+            component,
+            false,
+            components,
+            write_path,
+            spinner,
+            options.force,
+          ),
       ),
     )
 
-    await install_registry_dependencies(dependencies, spinner, write_path, options.force)
+    await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config)
     await process_component_dependencies(dependencies, spinner)
   } catch (error) {
     spinner.fail(`🦆 Failed to install components, ${highlighter.error(error as string)}`)
@@ -89,6 +109,7 @@ export async function process_components(components: Registry, write_path: strin
 }
 
 async function install_component(
+  duck_config: DuckUI,
   dependencies: DependenciesType,
   idx: number,
   component: Registry[number],
@@ -105,19 +126,26 @@ async function install_component(
   spinner.text = `🦆 Installing ${registry ? 'necessary ' : ''}component: ${highlighter.info(`${component.name}`)}`
 
   const component_ype = component.type.split(':').pop() as string
-  const component_path = path.resolve(`${write_path}/${component_ype}/${component.root_folder}`)
+  const ui_path = duck_config.aliases.ui.split('/').slice(1).join('/')
+  const component_path = path.resolve(`${write_path}/${ui_path}/${component_ype}/${component.root_folder}`)
+
+  if (!fs.existsSync(ui_path)) {
+    spinner.text = `Creating directory: ${ui_path}`
+    await fs.mkdir(ui_path, { recursive: true })
+    spinner.succeed(`⚡ Created directory: ${ui_path}`)
+  }
 
   if (!fs.existsSync(component_path)) {
     spinner.text = `Creating directory: ${component_ype}/${component.root_folder}`
     await fs.mkdir(component_path, { recursive: true })
     spinner.succeed(`⚡ Created directory: ${component_ype}/${component.root_folder}`)
   }
-  await process_component_files(component, write_path, component_ype, spinner, foce)
+  await process_component_files(component, write_path, ui_path, component_ype, spinner, foce)
 
   spinner.succeed(
-    `🦋 Installed ${registry ? 'necessary ' : ''}component${components.length > 1 ? 's' : ''}: ${highlighter.info(
-      `[${idx + 1}/${components.length}]`,
-    )}\x1b[0K`,
+    `🦋 Installed ${registry ? 'necessary ' : ''}component${
+      components.length > 1 ? 's' : ''
+    }: ${highlighter.info(`[${idx + 1}/${components.length}]`)}\x1b[0K`,
   )
 }
 
@@ -126,6 +154,7 @@ export async function install_registry_dependencies(
   spinner: Ora,
   write_path: string,
   foce: boolean,
+  duck_config: DuckUI,
 ) {
   const visited = new Set<string>() // avoid infinite loops
   const allComponents: Registry = []
@@ -180,13 +209,24 @@ export async function install_registry_dependencies(
 
   // Install all collected components
   for (let i = 0; i < allComponents.length; i++) {
-    await install_component(dependencies, i, allComponents[i], true, allComponents, write_path, spinner, foce)
+    await install_component(
+      duck_config,
+      dependencies,
+      i,
+      allComponents[i],
+      true,
+      allComponents,
+      write_path,
+      spinner,
+      foce,
+    )
   }
 }
 
 export async function process_component_files(
   component: Registry[0],
   write_path: string,
+  ui_path: string,
   component_type: string,
   spinner: Ora,
   force: boolean,
@@ -196,7 +236,7 @@ export async function process_component_files(
     return
   }
 
-  const file_path = path.resolve(`${write_path}/${component_type}`, component.root_folder)
+  const file_path = path.resolve(`${write_path}/${ui_path}/${component_type}`, component.root_folder)
   if (!force) {
     if (fs.existsSync(file_path) && fs.readdirSync(file_path).length > 0) {
       spinner.stop()
@@ -220,7 +260,7 @@ export async function process_component_files(
     try {
       spinner.text = `🦋 Writing file: ${file.target}`
       await fs.writeFile(
-        path.resolve(`${write_path}/${component_type}`, file.path as string),
+        path.resolve(`${write_path}/${ui_path}/${component_type}`, file.path as string),
         file.content as string,
         'utf8',
       )

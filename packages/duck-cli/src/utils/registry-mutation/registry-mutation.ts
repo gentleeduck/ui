@@ -16,7 +16,7 @@ export async function registry_component_install(
 
     const write_path = await get_installation_config(duck_config, spinner, options)
 
-    await process_components(components, write_path, spinner, options)
+    await process_components(duck_config, components, write_path, spinner, options)
   } catch (_error) {
     spinner.fail('🦆 Failed to install components')
     process.exit(1)
