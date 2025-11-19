@@ -24,7 +24,7 @@
     "noUnusedParameters": false,
     "outDir": "./dist",
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./src/hello/*"]
     },
     "plugins": [
       {

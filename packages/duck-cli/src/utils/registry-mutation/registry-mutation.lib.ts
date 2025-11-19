@@ -117,7 +117,7 @@ async function install_component(
   components: Registry,
   write_path: string,
   spinner: Ora,
-  foce: boolean,
+  force: boolean,
 ) {
   dependencies.dependencies.push(...(component.dependencies ?? []))
   dependencies.dev_dependencies.push(...(component.devDependencies ?? []))
@@ -125,22 +125,25 @@ async function install_component(
 
   spinner.text = `🦆 Installing ${registry ? 'necessary ' : ''}component: ${highlighter.info(`${component.name}`)}`
 
-  const component_ype = component.type.split(':').pop() as string
-  const ui_path = duck_config.aliases.ui.split('/').slice(1).join('/')
-  const component_path = path.resolve(`${write_path}/${ui_path}/${component_ype}/${component.root_folder}`)
+  const component_type = component.type.split(':').pop() as string
+  const duckui_write_path = duck_config.aliases.ui.split('/').slice(1).join('/')
+  const write_type_path = path.resolve(`${write_path}/${duckui_write_path}`)
 
-  if (!fs.existsSync(ui_path)) {
-    spinner.text = `Creating directory: ${ui_path}`
-    await fs.mkdir(ui_path, { recursive: true })
-    spinner.succeed(`⚡ Created directory: ${ui_path}`)
+  if (!fs.existsSync(write_type_path)) {
+    spinner.text = `Creating directory: ${component_type}`
+    await fs.mkdir(write_type_path, { recursive: true })
+    spinner.succeed(`⚡ Created directory: ${component_type}`)
   }
 
-  if (!fs.existsSync(component_path)) {
-    spinner.text = `Creating directory: ${component_ype}/${component.root_folder}`
-    await fs.mkdir(component_path, { recursive: true })
-    spinner.succeed(`⚡ Created directory: ${component_ype}/${component.root_folder}`)
+  const write_component_path = `${write_type_path}/${component.root_folder}`
+
+  if (!fs.existsSync(write_component_path)) {
+    spinner.text = `Creating directory: ${component.root_folder}`
+    await fs.mkdir(write_component_path, { recursive: true })
+    spinner.succeed(`⚡ Created directory: ${component.root_folder}`)
   }
-  await process_component_files(component, write_path, ui_path, component_ype, spinner, foce)
+
+  await process_component_files(component, write_type_path, `${write_path}/${duckui_write_path}`, spinner, force)
 
   spinner.succeed(
     `🦋 Installed ${registry ? 'necessary ' : ''}component${
@@ -226,19 +229,17 @@ export async function install_registry_dependencies(
 export async function process_component_files(
   component: Registry[0],
   write_path: string,
-  ui_path: string,
-  component_type: string,
+  from_root_write_path: string,
   spinner: Ora,
   force: boolean,
 ) {
   if (!component.files?.length) {
-    spinner.warn(`🦆 No files found for component: ${component_type}`)
+    spinner.warn(`🦆 No files found for component: ${from_root_write_path}`)
     return
   }
 
-  const file_path = path.resolve(`${write_path}/${ui_path}/${component_type}`, component.root_folder)
   if (!force) {
-    if (fs.existsSync(file_path) && fs.readdirSync(file_path).length > 0) {
+    if (fs.readdirSync(`${write_path}/${component.root_folder}`).length > 0) {
       spinner.stop()
       const { overwrite } = await prompts({
         initial: true,
@@ -249,7 +250,7 @@ export async function process_component_files(
       spinner.start()
       if (!overwrite) {
         spinner.warn(
-          `🦆 Components already exists: ${highlighter.info(`${component_type}${component.root_folder}`)} (skipping)`,
+          `🦆 Components already exists: ${highlighter.info(`${from_root_write_path}${component.root_folder}`)} (skipping)`,
         )
         return
       }
@@ -259,12 +260,8 @@ export async function process_component_files(
   for (const file of component.files) {
     try {
       spinner.text = `🦋 Writing file: ${file.target}`
-      await fs.writeFile(
-        path.resolve(`${write_path}/${ui_path}/${component_type}`, file.path as string),
-        file.content as string,
-        'utf8',
-      )
-      spinner.succeed(`🦋 Successfully wrote: ${file.target}`)
+      await fs.writeFile(path.resolve(`${write_path}`, file.path as string), file.content as string, 'utf8')
+      spinner.succeed(`🦋 Successfully wrote: ${from_root_write_path}/${file.path}`)
     } catch (error) {
       spinner.fail(`🦆 Failed to write file: ${file.target}`)
       throw error
