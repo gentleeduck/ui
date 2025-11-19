@@ -72,9 +72,7 @@ export default function Page() {
       </PageHeader>
       <div className="container-wrapper">
         <div className="">
-          <DuckLazyComponent options={{ rootMargin: '-50px 0px 0px 0px', threshold: 0 }}>
-            <FeaturesSection />
-          </DuckLazyComponent>
+          <FeaturesSection />
 
           <DuckLazyComponent options={{ rootMargin: '-50px 0px 0px 0px', threshold: 0 }}>
             <EcosystemSection />

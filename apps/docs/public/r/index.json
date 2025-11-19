@@ -15637,6 +15637,28 @@
     ]
   },
   {
+    "files": [
+      {
+        "path": "theme-toggle/theme-toggle-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "theme-toggle-1",
+    "registryDependencies": [
+      ""
+    ],
+    "root_folder": "theme-toggle",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/theme-toggle",
+    "tree": [
+      {
+        "name": "theme-toggle-1.tsx",
+        "path": "theme-toggle/theme-toggle-1.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
     "categories": [
       "authentications",
       "signup"
