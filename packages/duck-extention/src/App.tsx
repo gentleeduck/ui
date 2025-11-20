@@ -97,6 +97,13 @@ figcaption {
   background: var(--background) !important;
 }
 
+/* CODE BLOCKS */
+code,
+pre {
+  background-color: transparent !important;
+  border: 1px solid var(--border) !important;
+}
+
 /* LINKS */
 a {
   color: var(--primary) !important;
@@ -186,6 +193,29 @@ mark {
   background-color: var(--destructive) !important;
   color: var(--destructive-foreground) !important;
   border: 1px solid var(--destructive-border) !important;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 5px;
+}
+
+::selection {
+  color: var(--selection-foreground);
+  background-color: var(--selection);
 }
 `
 
