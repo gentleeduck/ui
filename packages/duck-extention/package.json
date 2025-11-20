@@ -16,6 +16,7 @@
     "@gentleduck/registry-ui-duckui": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.17",
+    "@types/chrome": "^0.1.31",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
@@ -72,15 +73,16 @@
   },
   "scripts": {
     "build": "tsc -b && vite build",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build && pnpm run zip",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build && pnpm run package",
     "dev": "vite",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
+    "package": "zip -r ./releases/duck-extention-v1.zip dist",
     "preview": "vite preview",
     "publish": "pnpm run ci && changeset publish",
     "release": "changeset version",
     "zip": "zip -r ./releases/duck-extention-v1.zip dist"
   },
   "type": "module",
-  "version": "0.0.0"
+  "version": "1.0.0"
 }

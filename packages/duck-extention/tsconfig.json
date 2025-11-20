@@ -8,11 +8,7 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [
-      "ES2021.String",
-      "ES2022",
-      "DOM"
-    ],
+    "lib": ["ES2021.String", "ES2022", "DOM"],
     "module": "ESNext",
     "moduleDetection": "force",
     /* Bundler mode */
@@ -24,9 +20,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "~/*": [
-        "./*"
-      ]
+      "~/*": ["./*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -35,16 +29,10 @@
     "strictPropertyInitialization": false,
     "target": "esnext",
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "types": [
-      "vite/client",
-      "@types/react",
-      "node"
-    ],
+    "types": ["vite/client", "@types/react", "./src/index.d.ts", "node"],
     "useDefineForClassFields": true,
     "verbatimModuleSyntax": true
   },
   "extends": "@gentleduck/typescript-config/base.json",
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

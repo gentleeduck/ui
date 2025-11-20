@@ -13,7 +13,10 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     webExtension({
+      disableAutoLaunch: true,
       manifest: 'manifest.json',
+      watchFilePaths: ['src/**/*.{ts,tsx}'],
+      browser: 'chrome',
     }),
     react({
       babel: {
@@ -21,4 +24,7 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    open: false, // prevent automatic browser opening
+  },
 })
