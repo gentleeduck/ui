@@ -18,7 +18,7 @@ Below you’ll find **all official releases**, **download links**, and a **compl
 > Download the packaged extension ZIP:
 
 <p align="center">
-  <a href="./releases/duck-extention-v1.zip" download>
+  <a href="./duck-extension-v1.zip" download>
     <img src="https://img.shields.io/badge/⬇️ Download%20ZIP-v1.0.0-blue?style=for-the-badge"/>
   </a>
 </p>

@@ -77,7 +77,7 @@
     "dev": "vite",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
-    "package": "zip -r ./releases/duck-extention-v1.zip dist",
+    "package": "zip -r ./releases/duck-extension-v1.zip dist",
     "preview": "vite preview",
     "publish": "pnpm run ci && changeset publish",
     "release": "changeset version",
