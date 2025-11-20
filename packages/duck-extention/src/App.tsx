@@ -85,7 +85,6 @@ svg,
 }
 
 p,
-span,
 strong,
 em,
 small,
@@ -167,13 +166,6 @@ ol {
   color: var(--foreground) !important;
 }
 
-/* CODE BLOCKS */
-code,
-pre {
-  background-color: var(--surface, var(--background)) !important;
-  color: var(--surface-foreground, var(--foreground)) !important;
-  border: 1px solid var(--border) !important;
-}
 
 /* IMAGES + MEDIA WRAPPERS */
 figure,
@@ -537,24 +529,26 @@ export function WhiteListInput() {
     if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs: any) => {
         const url = tabs[0]?.url
-        if (url) {
-          let doesExist = whiteList.find((item) => url.includes(item.url))
-          if (doesExist) return
+        if (!url) return
 
-          setInputValue(url)
-        }
+        // Extract domain
+        const hostname = new URL(url).hostname
+
+        // Check whitelist using domain only
+        const doesExist = whiteList.find((item) => {
+          const itemHost = new URL(item.url).hostname
+          return hostname === itemHost
+        })
+
+        if (doesExist) return
+
+        setInputValue(hostname) // set default input to domain
       })
     }
   }, [])
 
   const addToWhiteList = () => {
     if (!inputValue.trim()) return
-
-    try {
-      new URL(inputValue) // Validate URL
-    } catch {
-      return alert('Invalid URL')
-    }
 
     let value = [
       ...whiteList,
@@ -564,23 +558,55 @@ export function WhiteListInput() {
         url: inputValue.trim(),
       },
     ]
-    localStorage.setItem('selectedWhiteList', JSON.stringify(value))
 
+    localStorage.setItem('selectedWhiteList', JSON.stringify(value))
     setWhiteList(value)
+
+    chrome.storage.sync.get('gentleduck_font', (data: any) => {
+      if (!data.gentleduck_font) return
+      chrome.storage.sync.set({
+        gentleduck_font: {
+          ...data.gentleduck_font,
+          whiteList: value,
+        },
+      })
+    })
 
     setInputValue('')
   }
 
   const toggleDisable = (id: string) => {
     let value = whiteList.map((item) => (item.id === id ? { ...item, disabled: !item.disabled } : item))
+
     localStorage.setItem('selectedWhiteList', JSON.stringify(value))
     setWhiteList(value)
+
+    chrome.storage.sync.get('gentleduck_font', (data: any) => {
+      if (!data.gentleduck_font) return
+      chrome.storage.sync.set({
+        gentleduck_font: {
+          ...data.gentleduck_font,
+          whiteList: value,
+        },
+      })
+    })
   }
 
   const removeItem = (id: string) => {
     let value = whiteList.filter((item) => item.id !== id)
+
     localStorage.setItem('selectedWhiteList', JSON.stringify(value))
     setWhiteList(value)
+
+    chrome.storage.sync.get('gentleduck_font', (data: any) => {
+      if (!data.gentleduck_font) return
+      chrome.storage.sync.set({
+        gentleduck_font: {
+          ...data.gentleduck_font,
+          whiteList: value,
+        },
+      })
+    })
   }
 
   return (

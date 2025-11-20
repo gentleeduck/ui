@@ -1,13 +1,10 @@
 function applyGentleduck(config) {
-  let href = document.location.href
+  const hostname = window.location.hostname
 
-  // Find matching whitelist entry
-  const match = config.whiteList.find((item) => href.includes(item.url))
-
-  // CASES:
-  // 1. No match → NOT whitelisted
-  // 2. Match but disabled → NOT whitelisted
-  // 3. Match and NOT disabled → whitelisted (return early)
+  const match = config.whiteList.find((item) => {
+    const itemHost = item.url
+    return hostname === itemHost
+  })
 
   const isWhitelisted = match && !match.disabled
 

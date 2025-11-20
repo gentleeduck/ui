@@ -19,6 +19,7 @@
         "input": "oklch(1 0 0 / 15%)",
         "muted": "oklch(0.274 0.006 286.033)",
         "muted-foreground": "oklch(0.705 0.015 286.067)",
+        "radius": "0.5rem",
         "popover": "oklch(0.21 0.006 285.885)",
         "popover-foreground": "oklch(0.985 0 0)",
         "primary": "oklch(0.92 0.004 286.32)",

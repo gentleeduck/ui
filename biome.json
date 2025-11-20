@@ -90,9 +90,7 @@
       "semicolons": "asNeeded",
       "trailingCommas": "all"
     },
-    "globals": [
-      "Global1"
-    ]
+    "globals": ["Global1"]
   },
   "linter": {
     "enabled": true,
@@ -136,19 +134,8 @@
           "fix": "safe",
           "level": "info",
           "options": {
-            "attributes": [
-              "className",
-              "class"
-            ],
-            "functions": [
-              "clsx",
-              "cva",
-              "tw",
-              "twMerge",
-              "cn",
-              "twJoin",
-              "tv"
-            ]
+            "attributes": ["className", "class"],
+            "functions": ["clsx", "cva", "tw", "twMerge", "cn", "twJoin", "tv"]
           }
         }
       },
@@ -173,9 +160,7 @@
       "formatter": {
         "indentWidth": 2
       },
-      "includes": [
-        "**/*.json"
-      ]
+      "includes": ["**/*.json"]
     }
   ],
   "plugins": []
