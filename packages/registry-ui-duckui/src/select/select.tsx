@@ -80,7 +80,7 @@ function SelectWrapper({
         scrollable,
         selectedItem,
         triggerRef: triggerRef,
-        value,
+        value: selectedItem?.getAttribute('value') ?? value,
       }}>
       {children}
     </SelectContext.Provider>
@@ -159,6 +159,7 @@ function SelectGroup({ children, ...props }: React.HTMLProps<HTMLUListElement>) 
 
 function SelectValue({ className, children, placeholder, ...props }: React.HTMLProps<HTMLDivElement>) {
   const { value } = useSelectContext()
+
   return (
     <div
       className={cn(

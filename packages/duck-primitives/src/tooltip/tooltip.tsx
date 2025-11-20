@@ -1,4 +1,4 @@
-import { FloatingFocusManager, FloatingPortal, useMergeRefs } from '@floating-ui/react'
+import { FloatingFocusManager, type FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import * as React from 'react'
 import { cleanLockScrollbar, lockScrollbar } from '../dialog'
 import { Portal as PPortal } from '../portal'

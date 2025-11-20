@@ -1,7 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { cva, type VariantProps } from '@gentleduck/variants'
 import { Slot } from '@radix-ui/react-slot'
-import * as React from 'react'
+import type * as React from 'react'
 import { Separator } from '../separator'
 import { itemVariants } from './item.constants'
 

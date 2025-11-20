@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type VariantProps } from '@gentleduck/variants'
+import type { VariantProps } from '@gentleduck/variants'
 import { useMemo } from 'react'
 import { Label } from '../label'
 import { Separator } from '../separator'

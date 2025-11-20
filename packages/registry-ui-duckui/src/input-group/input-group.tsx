@@ -2,7 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { cva, type VariantProps } from '@gentleduck/variants'
-import * as React from 'react'
+import type * as React from 'react'
 import { Button } from '../button'
 import { Input } from '../input'
 import { Textarea } from '../textarea'

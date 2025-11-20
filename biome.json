@@ -139,7 +139,9 @@
         }
       },
       "recommended": false,
-      "style": {},
+      "style": {
+        "useImportType": "on"
+      },
       "suspicious": {
         "noDocumentCookie": "off",
         "noDoubleEquals": "error",

@@ -1,18 +1,18 @@
 {
-  "schema": "https://ui.gentleduck.org/schema.json",
-  "rsc": true,
+  "aliases": {
+    "hooks": "~/hooks",
+    "layouts": "~/layouts",
+    "libs": "~/libs",
+    "pages": "~/pages",
+    "ui": "~/components"
+  },
   "monorepo": false,
+  "rsc": true,
+  "schema": "https://ui.gentleduck.org/schema.json",
   "tailwind": {
     "baseColor": "zinc",
     "css": "./src/styles.css",
     "cssVariables": true,
     "prefix": ""
-  },
-  "aliases": {
-    "ui": "~/components",
-    "libs": "~/libs",
-    "hooks": "~/hooks",
-    "pages": "~/pages",
-    "layouts": "~/layouts"
   }
 }

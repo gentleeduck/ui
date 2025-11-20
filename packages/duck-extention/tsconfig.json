@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "erasableSyntaxOnly": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": [
+      "ES2021.String",
+      "ES2022",
+      "DOM"
+    ],
+    "module": "ESNext",
+    "moduleDetection": "force",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "paths": {
+      "~/*": [
+        "./*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    /* Linting */
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "target": "esnext",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "types": [
+      "vite/client",
+      "@types/react",
+      "node"
+    ],
+    "useDefineForClassFields": true,
+    "verbatimModuleSyntax": true
+  },
+  "extends": "@gentleduck/typescript-config/base.json",
+  "include": [
+    "src"
+  ]
+}
