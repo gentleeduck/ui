@@ -4,13 +4,8 @@
   },
   "content_scripts": [
     {
-      "js": [
-        "content.js"
-      ],
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
+      "js": ["content.js"],
+      "matches": ["http://*/*", "https://*/*"],
       "run_at": "document_start"
     }
   ],
@@ -18,19 +13,12 @@
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "description": "Browser extensions by gentleduck",
-  "host_permissions": [
-    "http://*/*",
-    "https://*/*"
-  ],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "icons": {
     "128": "./dark.png"
   },
   "manifest_version": 3,
   "name": "Gentleduck Extensions",
-  "permissions": [
-    "tabs",
-    "scripting",
-    "storage"
-  ],
+  "permissions": ["tabs", "scripting", "storage"],
   "version": "1.0.0"
 }

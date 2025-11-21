@@ -5,16 +5,8 @@ an issue for a long time and i finally made a solution for it.
 
 ## Usage
 
-Just download the extension from the [releases](./releases) and
+Just download the extension from the [RELEASES](./releases) and
 install it on your browser.
-
-## **Release Directory Structure**
-
-```
-releases/
-├── duck-extension-v1.zip   # downloadable extension
-└── release.md              # changelog details
-```
 
 ---
 

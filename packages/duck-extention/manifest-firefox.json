@@ -4,13 +4,8 @@
   },
   "content_scripts": [
     {
-      "js": [
-        "content.js"
-      ],
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
+      "js": ["content.js"],
+      "matches": ["http://*/*", "https://*/*"],
       "run_at": "document_start"
     }
   ],
@@ -20,10 +15,6 @@
   },
   "manifest_version": 2,
   "name": "Gentleduck Extensions",
-  "permissions": [
-    "tabs",
-    "storage",
-    "<all_urls>"
-  ],
+  "permissions": ["tabs", "storage", "<all_urls>"],
   "version": "1.0.0"
 }
