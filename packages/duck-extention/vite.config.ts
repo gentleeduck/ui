@@ -20,7 +20,9 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     webExtension({
+      disableAutoLaunch: true,
       manifest: 'manifest-chrome.json',
+      watchFilePaths: ['src/**/*.{ts,tsx}'],
     }),
     react({
       babel: {

@@ -7,54 +7,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
-  font-family: "Adjusted Lucida Sans Typewriter Fallback";
-  src: local("Lucida Sans Typewriter");
-  size-adjust: 119%;
-  ascent-override: 86%;
-  descent-override: 16%;
-  line-gap-override: 30%;
-}
-
-@font-face {
-  font-family: "Adjusted Arial Fallback";
-  src: local("Arial");
-  size-adjust: 99%;
-  ascent-override: 101%;
-  descent-override: 26%;
-  line-gap-override: 0%;
-}
-
-@font-face {
-  font-family: "Geist";
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(/fonts/Geist-VF.woff2) format("woff2");
-}
-
-@font-face {
   font-family: "Geist Mono";
   font-weight: 100 900;
   font-display: swap;
   src: url(/fonts/GeistMono-VF.woff2) format("woff2");
 }
 
-@theme {
-  --animate-shine: shine 8s ease-in-out infinite;
-
-  @keyframes shine {
-    from {
-      background-position: 200% 0;
-    }
-
-    to {
-      background-position: -200% 0;
-    }
-  }
-}
-
 @layer base {
   * {
-    @apply border-border font-medium;
+    @apply border-border font-medium font-mono;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
@@ -62,14 +23,6 @@
 
   html {
     @apply scroll-smooth;
-  }
-
-  .font-sans {
-    font-family: var(--font-sans-geist) !important;
-  }
-
-  .font-mono {
-    font-family: var(--font-mono-geist) !important;
   }
 
   ::-webkit-scrollbar {
@@ -109,96 +62,10 @@
       @apply min-[1800px]:border-t;
     }
   }
-
-  image {
-    user-select: none;
-  }
-
-  a:active,
-  button:active {
-    @apply opacity-60 md:opacity-100;
-  }
 }
 
 @utility duck-truncate {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
-}
-
-@layer utilities {
-  .step {
-    counter-increment: step;
-  }
-
-  .step::before {
-    content: counter(step);
-    @apply absolute w-9 h-9 bg-muted rounded-full font-mono font-medium text-center text-base inline-flex items-center justify-center -indent-px border-4 border-background;
-    @apply ml-[-50px] mt-[-4px];
-  }
-
-  .chunk-container {
-    @apply shadow-none;
-  }
-
-  .chunk-container::after {
-    content: "";
-    @apply absolute -inset-4 shadow-xl rounded-xl border;
-  }
-
-  .border-grid {
-    @apply border-border/30 dark:border-border border-dashed;
-  }
-
-  /* .container { */
-  /*   @apply px-4 xl:px-6 mx-auto max-w-[1950px]; */
-  /* } */
-
-  .container {
-    @apply 3xl:max-w-screen-2xl mx-auto max-w-[1400px] px-4 lg:px-8;
-  }
-}
-
-/* @utility container-wrapper { */
-/*   @apply 3xl:fixed:max-w-[calc(var(--breakpoint-2xl)+2rem)] mx-auto w-full px-2; */
-/* } */
-/**/
-/* @utility container { */
-/*   @apply 3xl:max-w-screen-2xl mx-auto max-w-[1400px] px-4 lg:px-8; */
-/* } */
-
-@media (max-width: 640px) {
-  .container {
-    @apply px-4;
-  }
-
-  [duck-abc] {
-    @apply w-600;
-  }
-}
-
-@layer utilities {
-  .ellipsis {
-    /* font-size: 0.75rem; */
-    /* line-height: 1rem; */
-    display: grid;
-    -webkit-box-orient: vertical;
-    grid-template-columns: 1fr 1fr;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    /* font-size: 0.75rem; */
-    /* line-height: 1rem; */
-    font-weight: 500;
-    white-space: nowrap;
-  }
-}
-
-@utility no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }

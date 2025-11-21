@@ -496,8 +496,6 @@ export function App() {
 }
 
 function AppShell() {
-  const { cssCode } = useFontStore()
-
   return (
     <main className="flex h-screen select-none items-center justify-center font-mono">
       <Card className="w-[500px] justify-self-center py-6">
@@ -547,9 +545,10 @@ function AppShell() {
                   <Button
                     className="flex-1"
                     onClick={() => {
-                      if (navigator.clipboard?.writeText) {
-                        navigator.clipboard.writeText(cssCode).catch(() => {})
-                      }
+                      // if (navigator.clipboard?.writeText) {
+                      // const { cssCode } = useFontStore()
+                      //                       navigator.clipboard.writeText(cssCode).catch(() => {})
+                      // }
                     }}
                     type="button"
                     variant="default">
@@ -725,6 +724,7 @@ export function WhiteListInput() {
 
 function FontSelector() {
   const { font, setFont } = useFontStore()
+  console.log(font, 'font')
 
   return (
     <Popover>
@@ -767,6 +767,7 @@ function ThemeSelector() {
   const { themeKey, setThemeKey } = useFontStore()
 
   const entries = React.useMemo(() => Object.entries(themes) as [string, Theme][], [])
+  // console.log(entries, 'entries')
 
   return (
     <Popover>
@@ -793,7 +794,7 @@ function ThemeSelector() {
                   }}>
                   <div className="flex items-center gap-2">
                     <Check className={`h-4 w-4 ${themeKey === key ? 'opacity-100' : 'opacity-0'}`} />
-                    <span className="text-sm">{themes[key]?.name}</span>
+                    <span className="font-medium text-sm">{themes[key]?.name}</span>
                   </div>
                 </CommandItem>
               ))}
