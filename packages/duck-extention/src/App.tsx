@@ -22,7 +22,7 @@ import {
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
-import { Ban, Check, ChevronsUpDown, Plus, X } from 'lucide-react'
+import { Ban, Check, ChevronsUpDown, Github, Plus, X } from 'lucide-react'
 import React from 'react'
 import fontsMetadata from './assets/fonts.json'
 import themesJson from './assets/themes.json'
@@ -482,7 +482,7 @@ type Extension = {
 
 const extension: Extension = {
   description: 'A set of fonts & themes for gentleduck',
-  name: 'gentleduck/fonts',
+  name: 'gentleduck/extention',
 }
 
 // ---------- Root App ----------
@@ -498,7 +498,14 @@ export function App() {
 function AppShell() {
   return (
     <main className="flex h-screen select-none items-center justify-center font-mono">
-      <Card className="w-[500px] justify-self-center py-6">
+      <Card className="relative w-[500px] justify-self-center py-6">
+        <a
+          className="absolute top-2 right-2 z-10"
+          href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extention"
+          rel="noreferrer"
+          target="_blank">
+          <Button icon={<Github />} size="icon" variant="outline" />
+        </a>
         <ScrollArea className="px-6">
           <form>
             <FieldSet>
