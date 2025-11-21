@@ -582,6 +582,29 @@ type WhiteListItem = {
   url: string
   disabled: boolean
 }
+function getDomain(input: string): string | null {
+  if (!input || typeof input !== 'string') return null
+
+  // Ignore browser-internal pages
+  const forbidden = ['chrome://', 'edge://', 'about:', 'moz-extension://', 'chrome-extension://']
+  if (forbidden.some((p) => input.startsWith(p))) {
+    return null
+  }
+
+  let url = input.trim()
+
+  // If no protocol, prepend https://
+  if (!/^https?:\/\//i.test(url)) {
+    url = 'https://' + url
+  }
+
+  try {
+    const parsed = new URL(url)
+    return parsed.hostname.replace(/^www\./, '')
+  } catch {
+    return null // invalid URL
+  }
+}
 
 export function WhiteListInput() {
   const { whiteList, setWhiteList } = useFontStore()
@@ -590,24 +613,17 @@ export function WhiteListInput() {
   React.useEffect(() => {
     if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs: any) => {
-        const url = tabs[0]?.url
-        if (!url) return
+        const rawUrl = tabs[0]?.url
+        const domain = getDomain(rawUrl)
 
-        // Extract domain
-        const hostname = new URL(url).hostname
+        if (domain) {
+          if (whiteList.find((item) => item.url === domain)) return
 
-        // Check whitelist using domain only
-        const doesExist = whiteList.find((item) => {
-          const itemHost = new URL(item.url).hostname
-          return hostname === itemHost
-        })
-
-        if (doesExist) return
-
-        setInputValue(hostname) // set default input to domain
+          setInputValue(domain)
+        }
       })
     }
-  }, [])
+  }, [whiteList])
 
   const addToWhiteList = () => {
     if (!inputValue.trim()) return
@@ -724,7 +740,6 @@ export function WhiteListInput() {
 
 function FontSelector() {
   const { font, setFont } = useFontStore()
-  console.log(font, 'font')
 
   return (
     <Popover>
@@ -767,7 +782,6 @@ function ThemeSelector() {
   const { themeKey, setThemeKey } = useFontStore()
 
   const entries = React.useMemo(() => Object.entries(themes) as [string, Theme][], [])
-  // console.log(entries, 'entries')
 
   return (
     <Popover>

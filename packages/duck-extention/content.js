@@ -1,9 +1,31 @@
+function getDomain(input) {
+  if (!input || typeof input !== 'string') return null
+
+  // Strip browser-internal pages
+  const forbidden = ['chrome://', 'edge://', 'about:', 'moz-extension://', 'chrome-extension://']
+  if (forbidden.some((p) => input.startsWith(p))) return null
+
+  let url = input.trim()
+
+  // Add protocol if missing
+  if (!/^https?:\/\//i.test(url)) {
+    url = 'https://' + url
+  }
+
+  try {
+    const parsed = new URL(url)
+    return parsed.hostname.replace(/^www\./, '')
+  } catch {
+    return null
+  }
+}
+
 function applyGentleduck(config) {
-  const hostname = window.location.hostname
+  const domain = getDomain(window.location.href)
 
   const match = config.whiteList.find((item) => {
-    const itemHost = item.url
-    return hostname === itemHost
+    const itemHost = getDomain(item.url)
+    return itemHost === domain
   })
 
   const isWhitelisted = match && !match.disabled
