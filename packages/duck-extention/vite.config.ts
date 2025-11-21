@@ -7,16 +7,20 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   build: {
+    cssCodeSplit: true,
     emptyOutDir: true,
+    minify: 'esbuild',
     outDir: 'dist',
+    rollupOptions: {
+      output: {},
+    },
+    sourcemap: false,
+    target: 'esnext',
   },
   plugins: [
     tailwindcss(),
     webExtension({
-      disableAutoLaunch: true,
-      manifest: 'manifest.json',
-      watchFilePaths: ['src/**/*.{ts,tsx}'],
-      browser: 'chrome',
+      manifest: 'manifest-chrome.json',
     }),
     react({
       babel: {

@@ -73,15 +73,18 @@
   },
   "scripts": {
     "build": "tsc -b && vite build",
+    "build:chrome": "rm -rf dist && pnpm run build && cp manifest-chrome.json dist/manifest.json",
+    "build:firefox": "rm -rf dist && pnpm run build && cp manifest-firefox.json dist/manifest.json",
     "ci": "pnpm run lint && pnpm run format && pnpm run build && pnpm run package",
     "dev": "vite",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
-    "package": "zip -r ./releases/duck-extension-v1.zip dist",
+    "package": "pnpm run build:chrome && pnpm run zip:chrome && pnpm run build:firefox && pnpm run zip:firefox && rm -rf dist",
     "preview": "vite preview",
     "publish": "pnpm run ci && changeset publish",
     "release": "changeset version",
-    "zip": "zip -r ./releases/duck-extention-v1.zip dist"
+    "zip:chrome": "cd ./dist && zip -r ../releases/duck-chrome-v1.zip ./* && cd ..",
+    "zip:firefox": "cd ./dist && zip -r ../releases/duck-firefox-v1.zip ./* && cd .."
   },
   "type": "module",
   "version": "1.0.0"

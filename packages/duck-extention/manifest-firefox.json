@@ -1,0 +1,29 @@
+{
+  "browser_action": {
+    "default_popup": "index.html"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "content.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "description": "Browser extensions by gentleduck",
+  "icons": {
+    "128": "dark.png"
+  },
+  "manifest_version": 2,
+  "name": "Gentleduck Extensions",
+  "permissions": [
+    "tabs",
+    "storage",
+    "<all_urls>"
+  ],
+  "version": "1.0.0"
+}

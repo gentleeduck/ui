@@ -1,7 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Card } from '@gentleduck/registry-ui-duckui/card'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
 import {
   Command,
   CommandEmpty,
@@ -20,6 +19,7 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@gentleduck/registry-ui-duckui/field'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 import { Ban, Check, ChevronsUpDown, Plus, X } from 'lucide-react'
@@ -37,9 +37,9 @@ const cssStyles = `
 *,
 *::before,
 *::after {
-  color: var(--foreground));
-  border-color: var(--border));
-  background-color: var(--background));
+  color: var(--foreground)) !important;
+  border-color: var(--border)) !important;
+  background-color: var(--background)) !important;
 }
 
 /* BASIC STRUCTURE */
@@ -97,12 +97,23 @@ figcaption {
   background: var(--background) !important;
 }
 
-/* CODE BLOCKS */
-code,
-pre {
+form {
   background-color: transparent !important;
-  border: 1px solid var(--border) !important;
+  border: none !important;
 }
+
+/* CODE BLOCKS */
+pre {
+  background-color:  color-mix(in oklab,var(--muted)40%,transparent) !important;
+  border-color: var(--border) !important;
+}
+
+pre *:is(div,span),
+code {
+  background-color: transparent !important;
+  border: none !important;
+}
+
 
 /* LINKS */
 a {
@@ -121,6 +132,13 @@ a * {
   background: transparent !important;
 }
 
+a * {
+  background: transparent !important;
+  border: none !important;
+  color: var(--foreground) !important;
+  box-shadow: none !important;
+}
+
 /* BUTTONS */
 button,
 [role="button"],
@@ -131,16 +149,21 @@ input[type="reset"]
 {
   background-color: transparent !important;
   color: var(--primary) !important;
-  border: 1px solid var(--border) !important;
+  border-color: var(--border) !important;
   border-radius: var(--radius) !important;
 }
 
 button * {
   background-color: transparent !important;
+  color: var(--foreground) !important;
 }
 
 button:hover {
   background-color: var(--muted) !important;
+}
+
+* > *:is(span) {
+  color: var(--foreground) !important;
 }
 
 /* INPUTS */
@@ -150,6 +173,11 @@ textarea {
   background-color: transparent !important;
   color: var(--primary) !important;
   border: 1px solid var(--input) !important;
+}
+
+*::placeholder {
+  color: var(--foreground) !important;
+  opacity: .8 !important;
 }
 
 /* TABLES */
@@ -163,7 +191,17 @@ th {
   color: var(--foreground) !important;
 }
 
-td {
+colgroup,
+col,
+tr, 
+td
+tbody {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+tr {
   border: 1px solid var(--border) !important;
 }
 
@@ -196,26 +234,21 @@ mark {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 5px !important;
+  height: 5px !important;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: transparent !important;
 }
 
 ::-webkit-scrollbar-corner {
-  background: transparent;
+  background: transparent !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--border) !important;
   border-radius: 5px;
-}
-
-::selection {
-  color: var(--selection-foreground);
-  background-color: var(--selection);
 }
 `
 
@@ -669,7 +702,7 @@ export function WhiteListInput() {
                 item.disabled && 'line-through opacity-50',
               )}
               key={item.id}>
-              <span className="duck-truncate duck-truncate">{item.url}</span>
+              <span className="duck-truncate">{item.url}</span>
 
               <div className="flex items-center gap-2">
                 {/* disable */}
