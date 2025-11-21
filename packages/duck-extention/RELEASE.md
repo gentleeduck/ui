@@ -5,10 +5,10 @@
 ### Downloads
 
 * **Chrome / Chromium Browsers**
-  [Download duck-chrome-v1.zip](./releases/duck-chrome-v1.zip)
+  [Download duck-chrome-v1.zip](https://github.com/gentleeduck/duck-ui/raw/refs/heads/master/packages/duck-extention/releases/duck-chrome-v1.zip)
 
 * **Firefox**
-  [Download duck-firefox-v1.zip](./releases/duck-firefox-v1.zip)
+  [Download duck-firefox-v1.zip](https://github.com/gentleeduck/duck-ui/raw/refs/heads/master/packages/duck-extention/releases/duck-firefox-v1.zip)
 
 ### Changelog
 
