@@ -1,7 +1,6 @@
 import { FloatingFocusManager, FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import * as React from 'react'
 import { cleanLockScrollbar, lockScrollbar } from '../dialog'
-import { Portal as PPortal } from '../portal'
 import { Presence } from '../presence'
 import { Slot } from '../slot'
 import { usePopover } from './popover.hooks'
@@ -88,32 +87,34 @@ function Content({
 
   return (
     <Presence present={forceMount || context.open}>
-      <FloatingFocusManager context={floatingContext} modal={context.modal}>
-        <div
-          data-open={context.open}
-          data-side={context.placement.split('-')[0]}
-          ref={ref}
-          style={{
-            ...{
-              ...context.floatingStyles,
-              '--duck-sheet-content-transform-origin': context.floatingStyles?.transformOrigin,
-              transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
-              transformOrigin: 'var(--duck-sheet-content-transform-origin)',
-              zIndex: 100,
-            },
-            ...style,
-          }}
-          //@ts-ignore
-          {...context.getFloatingProps(props)}>
-          <>{props.children}</>
-        </div>
-      </FloatingFocusManager>
+      <FloatingPortal>
+        <FloatingFocusManager context={floatingContext} modal={context.modal}>
+          <div
+            data-open={context.open}
+            data-side={context.placement.split('-')[0]}
+            ref={ref}
+            style={{
+              ...{
+                ...context.floatingStyles,
+                '--duck-sheet-content-transform-origin': context.floatingStyles?.transformOrigin,
+                transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
+                transformOrigin: 'var(--duck-sheet-content-transform-origin)',
+                zIndex: 100,
+              },
+              ...style,
+            }}
+            //@ts-ignore
+            {...context.getFloatingProps(props)}>
+            <>{props.children}</>
+          </div>
+        </FloatingFocusManager>
+      </FloatingPortal>
     </Presence>
   )
 }
 
 function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
-  return <FloatingPortal>{children}</FloatingPortal>
+  return <FloatingPortal {...props}>{children}</FloatingPortal>
 }
 
 export { Root, Trigger, Content, Portal }

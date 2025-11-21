@@ -103,6 +103,8 @@ export function useCommandSearch(
       setSelectedItem(itemsRef.current[0] as HTMLLIElement)
     }
 
+    console.log(filteredItems)
+
     // Setting filteredItems to the items that are not hidden
     filteredItems.current = Array.from(commandRef.current.querySelectorAll('li[duck-command-item]:not(.hidden)'))
     // Clearing all the classes from the items
@@ -135,6 +137,7 @@ export function useCommandSearch(
 }
 
 export function useHandleKeyDown(props: {
+  commandRef: React.RefObject<HTMLDivElement | null>
   open?: boolean
   itemsRef: React.RefObject<HTMLLIElement[]>
   selectedItem: HTMLLIElement | null
@@ -165,6 +168,7 @@ export function useHandleKeyDown(props: {
         currentItem = itemIndex
         originalCurrentItem = itemIndex
       } else if (e.key === 'Enter') {
+        console.log(itemsRef.current[currentItem])
         if (
           itemsRef.current[currentItem]?.hasAttribute('duck-select-item') ||
           itemsRef.current[currentItem]?.hasAttribute('duck-command-item')
@@ -196,7 +200,7 @@ export function useHandleKeyDown(props: {
       handleItemsSelection(currentItem, itemsRef, setSelectedItem)
     }
 
-    document?.addEventListener('keydown', handleKeyDown)
-    return () => document?.removeEventListener('keydown', handleKeyDown)
+    props.commandRef.current?.addEventListener('keydown', handleKeyDown)
+    return () => props.commandRef.current?.removeEventListener('keydown', handleKeyDown)
   }, [open])
 }
