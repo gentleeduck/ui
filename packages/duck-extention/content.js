@@ -113,68 +113,78 @@ function injectToggleButton() {
   const domain = getDomain(window.location.href)
   if (!domain) return
 
-  // Create button
-  const button = document.createElement('button')
-  button.id = 'gentleduck-toggle-btn'
-  button.innerHTML = '🔤'
-  button.title = 'Toggle Gentleduck Extension'
-  button.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #000;
-    color: #fff;
-    border: 2px solid #fff;
-    cursor: pointer;
-    z-index: 999999;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: all 0.2s;
-    user-select: none;
-    -webkit-user-select: none;
-    padding: 0;
-    margin: 0;
-  `
+  // Only show button if domain is in the list
+  chrome.storage.sync.get(['gentleduck_domainFonts'], (data) => {
+    const domainFonts = data.gentleduck_domainFonts || {}
+    
+    // Only inject button if this domain has a font configured
+    if (!domainFonts[domain]) {
+      return
+    }
 
-  // Check initial state
-  chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
-    const disabledDomains = data.gentleduck_disabledDomains || []
-    const isDisabled = disabledDomains.includes(domain)
-    updateButtonState(button, isDisabled)
-  })
+    // Create button
+    const button = document.createElement('button')
+    button.id = 'gentleduck-toggle-btn'
+    button.innerHTML = '🔤'
+    button.title = 'Toggle Gentleduck Extension'
+    button.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #000;
+      color: #fff;
+      border: 2px solid #fff;
+      cursor: pointer;
+      z-index: 999999;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s;
+      user-select: none;
+      -webkit-user-select: none;
+      padding: 0;
+      margin: 0;
+    `
 
-  // Add hover effects
-  button.addEventListener('mouseenter', () => {
-    button.style.transform = 'scale(1.1)'
-    button.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.4)'
-  })
-
-  button.addEventListener('mouseleave', () => {
-    button.style.transform = 'scale(1)'
-    button.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)'
-  })
-
-  // Toggle on click
-  button.addEventListener('click', () => {
+    // Check initial state
     chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
       const disabledDomains = data.gentleduck_disabledDomains || []
       const isDisabled = disabledDomains.includes(domain)
-      const newDisabledDomains = isDisabled ? disabledDomains.filter((d) => d !== domain) : [...disabledDomains, domain]
+      updateButtonState(button, isDisabled)
+    })
 
-      chrome.storage.sync.set({ gentleduck_disabledDomains: newDisabledDomains }, () => {
-        updateButtonState(button, !isDisabled)
-        applyGentleduck()
+    // Add hover effects
+    button.addEventListener('mouseenter', () => {
+      button.style.transform = 'scale(1.1)'
+      button.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.4)'
+    })
+
+    button.addEventListener('mouseleave', () => {
+      button.style.transform = 'scale(1)'
+      button.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)'
+    })
+
+    // Toggle on click
+    button.addEventListener('click', () => {
+      chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
+        const disabledDomains = data.gentleduck_disabledDomains || []
+        const isDisabled = disabledDomains.includes(domain)
+        const newDisabledDomains = isDisabled ? disabledDomains.filter((d) => d !== domain) : [...disabledDomains, domain]
+
+        chrome.storage.sync.set({ gentleduck_disabledDomains: newDisabledDomains }, () => {
+          updateButtonState(button, !isDisabled)
+          applyGentleduck()
+        })
       })
     })
-  })
 
-  document.body.appendChild(button)
+    document.body.appendChild(button)
+  })
 }
 
 function updateButtonState(button, isDisabled) {
@@ -219,17 +229,31 @@ chrome.storage.onChanged.addListener((changes, area) => {
   if (changes.gentleduck_domainFonts || changes.gentleduck_disabledDomains) {
     applyGentleduck()
 
-    // Update button state
-    const button = document.getElementById('gentleduck-toggle-btn')
-    if (button) {
-      const domain = getDomain(window.location.href)
-      if (domain) {
-        chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
-          const disabledDomains = data.gentleduck_disabledDomains || []
-          updateButtonState(button, disabledDomains.includes(domain))
-        })
+    const domain = getDomain(window.location.href)
+    if (!domain) return
+
+    // Check if domain is still in the list
+    chrome.storage.sync.get(['gentleduck_domainFonts'], (data) => {
+      const domainFonts = data.gentleduck_domainFonts || {}
+      const button = document.getElementById('gentleduck-toggle-btn')
+      
+      if (domainFonts[domain]) {
+        // Domain is in list - show/update button
+        if (!button) {
+          injectToggleButton()
+        } else {
+          chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
+            const disabledDomains = data.gentleduck_disabledDomains || []
+            updateButtonState(button, disabledDomains.includes(domain))
+          })
+        }
+      } else {
+        // Domain removed from list - remove button
+        if (button) {
+          button.remove()
+        }
       }
-    }
+    })
   }
 })
 
@@ -238,16 +262,30 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'UPDATE_FONT') {
     applyGentleduck()
 
-    // Update button state
-    const button = document.getElementById('gentleduck-toggle-btn')
-    if (button) {
-      const domain = getDomain(window.location.href)
-      if (domain) {
-        chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
-          const disabledDomains = data.gentleduck_disabledDomains || []
-          updateButtonState(button, disabledDomains.includes(domain))
-        })
+    const domain = getDomain(window.location.href)
+    if (!domain) return
+
+    // Check if domain is in the list
+    chrome.storage.sync.get(['gentleduck_domainFonts'], (data) => {
+      const domainFonts = data.gentleduck_domainFonts || {}
+      const button = document.getElementById('gentleduck-toggle-btn')
+      
+      if (domainFonts[domain]) {
+        // Domain is in list - show/update button
+        if (!button) {
+          injectToggleButton()
+        } else {
+          chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
+            const disabledDomains = data.gentleduck_disabledDomains || []
+            updateButtonState(button, disabledDomains.includes(domain))
+          })
+        }
+      } else {
+        // Domain not in list - remove button
+        if (button) {
+          button.remove()
+        }
       }
-    }
+    })
   }
 })

@@ -82,13 +82,30 @@ function getDomain(input: string): string | null {
 
 // ---------- Provider / Store ----------
 
+// Cache for storage operations
+let storageCache: {
+  domainFonts?: Record<string, Font>
+  disabledDomains?: string[]
+  timestamp?: number
+} = {}
+
+const CACHE_TTL = 1000 // 1 second cache
+
 function FontProvider({ children }: { children: React.ReactNode }) {
   const [currentDomain, setCurrentDomain] = React.useState<string | null>(null)
   const [domainFonts, setDomainFonts] = React.useState<Record<string, Font>>({})
   const [disabledDomains, setDisabledDomains] = React.useState<string[]>([])
 
-  // Load from storage on mount
+  // Load from storage on mount with cache
   React.useEffect(() => {
+    const now = Date.now()
+    const useCache = storageCache.timestamp && now - storageCache.timestamp < CACHE_TTL
+
+    if (useCache && storageCache.domainFonts && storageCache.disabledDomains) {
+      setDomainFonts(storageCache.domainFonts)
+      setDisabledDomains(storageCache.disabledDomains)
+    }
+
     if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
       // Get current tab domain
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs: any) => {
@@ -98,118 +115,150 @@ function FontProvider({ children }: { children: React.ReactNode }) {
 
         // Load domain fonts and disabled domains
         chrome.storage.sync.get(['gentleduck_domainFonts', 'gentleduck_disabledDomains'], (data: any) => {
-          if (data.gentleduck_domainFonts) {
-            setDomainFonts(data.gentleduck_domainFonts)
+          const fonts = data.gentleduck_domainFonts || {}
+          const disabled = data.gentleduck_disabledDomains || []
+          
+          // Update cache
+          storageCache = {
+            domainFonts: fonts,
+            disabledDomains: disabled,
+            timestamp: Date.now(),
           }
-          if (data.gentleduck_disabledDomains) {
-            setDisabledDomains(data.gentleduck_disabledDomains)
-          }
+          
+          setDomainFonts(fonts)
+          setDisabledDomains(disabled)
         })
       })
     } else {
       // Fallback to localStorage for development
       const saved = localStorage.getItem('gentleduck_domainFonts')
       if (saved) {
-        setDomainFonts(JSON.parse(saved))
+        const fonts = JSON.parse(saved)
+        setDomainFonts(fonts)
+        storageCache.domainFonts = fonts
       }
       const savedDisabled = localStorage.getItem('gentleduck_disabledDomains')
       if (savedDisabled) {
-        setDisabledDomains(JSON.parse(savedDisabled))
+        const disabled = JSON.parse(savedDisabled)
+        setDisabledDomains(disabled)
+        storageCache.disabledDomains = disabled
       }
+      storageCache.timestamp = Date.now()
     }
   }, [])
 
-  const setFontForDomain = (domain: string, font: Font | null) => {
+  const setFontForDomain = React.useCallback((domain: string, font: Font | null) => {
     if (!domain) return
 
-    const newDomainFonts = { ...domainFonts }
-    if (font) {
-      newDomainFonts[domain] = font
-    } else {
+    setDomainFonts((prev) => {
+      const newDomainFonts = { ...prev }
+      if (font) {
+        newDomainFonts[domain] = font
+      } else {
+        delete newDomainFonts[domain]
+      }
+
+      // Update cache
+      storageCache.domainFonts = newDomainFonts
+      storageCache.timestamp = Date.now()
+
+      // Save to storage (async, don't block)
+      if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+        chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts }, () => {
+          // Update all tabs
+          chrome.tabs.query({}, (tabs: any[]) => {
+            tabs.forEach((tab) => {
+              if (tab.url) {
+                chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
+              }
+            })
+          })
+        })
+      } else {
+        localStorage.setItem('gentleduck_domainFonts', JSON.stringify(newDomainFonts))
+      }
+
+      return newDomainFonts
+    })
+  }, [])
+
+  const toggleDomain = React.useCallback((domain: string) => {
+    if (!domain) return
+
+    setDisabledDomains((prev) => {
+      const newDisabledDomains = prev.includes(domain)
+        ? prev.filter((d) => d !== domain)
+        : [...prev, domain]
+
+      // Update cache
+      storageCache.disabledDomains = newDisabledDomains
+      storageCache.timestamp = Date.now()
+
+      // Save to storage (async, don't block)
+      if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+        chrome.storage.sync.set({ gentleduck_disabledDomains: newDisabledDomains }, () => {
+          // Update all tabs
+          chrome.tabs.query({}, (tabs: any[]) => {
+            tabs.forEach((tab) => {
+              if (tab.url) {
+                chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
+              }
+            })
+          })
+        })
+      } else {
+        localStorage.setItem('gentleduck_disabledDomains', JSON.stringify(newDisabledDomains))
+      }
+
+      return newDisabledDomains
+    })
+  }, [])
+
+  const removeDomainFont = React.useCallback((domain: string) => {
+    if (!domain) return
+
+    setDomainFonts((prev) => {
+      const newDomainFonts = { ...prev }
       delete newDomainFonts[domain]
-    }
 
-    setDomainFonts(newDomainFonts)
+      // Update cache
+      storageCache.domainFonts = newDomainFonts
+      storageCache.timestamp = Date.now()
 
-    // Save to storage
-    if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
-      chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts })
-
-      // Update all tabs
-      chrome.tabs.query({}, (tabs: any[]) => {
-        tabs.forEach((tab) => {
-          if (tab.url) {
-            chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
-          }
+      // Save to storage (async, don't block)
+      if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+        chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts }, () => {
+          // Update all tabs
+          chrome.tabs.query({}, (tabs: any[]) => {
+            tabs.forEach((tab) => {
+              if (tab.url) {
+                chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
+              }
+            })
+          })
         })
-      })
-    } else {
-      localStorage.setItem('gentleduck_domainFonts', JSON.stringify(newDomainFonts))
-    }
-  }
+      } else {
+        localStorage.setItem('gentleduck_domainFonts', JSON.stringify(newDomainFonts))
+      }
 
-  const toggleDomain = (domain: string) => {
-    if (!domain) return
+      return newDomainFonts
+    })
+  }, [])
 
-    const newDisabledDomains = disabledDomains.includes(domain)
-      ? disabledDomains.filter((d) => d !== domain)
-      : [...disabledDomains, domain]
-
-    setDisabledDomains(newDisabledDomains)
-
-    if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
-      chrome.storage.sync.set({ gentleduck_disabledDomains: newDisabledDomains })
-
-      // Update all tabs
-      chrome.tabs.query({}, (tabs: any[]) => {
-        tabs.forEach((tab) => {
-          if (tab.url) {
-            chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
-          }
-        })
-      })
-    } else {
-      localStorage.setItem('gentleduck_disabledDomains', JSON.stringify(newDisabledDomains))
-    }
-  }
-
-  const removeDomainFont = (domain: string) => {
-    if (!domain) return
-
-    const newDomainFonts = { ...domainFonts }
-    delete newDomainFonts[domain]
-
-    setDomainFonts(newDomainFonts)
-
-    if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
-      chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts })
-
-      // Update all tabs
-      chrome.tabs.query({}, (tabs: any[]) => {
-        tabs.forEach((tab) => {
-          if (tab.url) {
-            chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
-          }
-        })
-      })
-    } else {
-      localStorage.setItem('gentleduck_domainFonts', JSON.stringify(newDomainFonts))
-    }
-  }
-
-  return (
-    <FontContext.Provider
-      value={{
-        currentDomain,
-        disabledDomains,
-        domainFonts,
-        removeDomainFont,
-        setFontForDomain,
-        toggleDomain,
-      }}>
-      {children}
-    </FontContext.Provider>
+  // Memoize context value to prevent unnecessary re-renders
+  const contextValue = React.useMemo(
+    () => ({
+      currentDomain,
+      disabledDomains,
+      domainFonts,
+      removeDomainFont,
+      setFontForDomain,
+      toggleDomain,
+    }),
+    [currentDomain, disabledDomains, domainFonts, removeDomainFont, setFontForDomain, toggleDomain],
   )
+
+  return <FontContext.Provider value={contextValue}>{children}</FontContext.Provider>
 }
 
 function useFontStore() {
@@ -240,8 +289,17 @@ export function App() {
   )
 }
 
-function AppShell() {
+const AppShell = React.memo(function AppShell() {
   const { currentDomain, domainFonts, disabledDomains } = useFontStore()
+
+  // Memoize description to avoid re-computation
+  const description = React.useMemo(
+    () => (currentDomain ? `Select a font for ${currentDomain}` : 'Select a font for the current website'),
+    [currentDomain],
+  )
+
+  // Memoize domain count
+  const domainCount = React.useMemo(() => Object.keys(domainFonts).length, [domainFonts])
 
   return (
     <main className="flex h-screen select-none items-center justify-center font-mono">
@@ -257,9 +315,7 @@ function AppShell() {
           <form>
             <FieldSet>
               <FieldLegend>{extension.name}</FieldLegend>
-              <FieldDescription>
-                {currentDomain ? `Select a font for ${currentDomain}` : 'Select a font for the current website'}
-              </FieldDescription>
+              <FieldDescription>{description}</FieldDescription>
               <FieldSeparator />
 
               <FieldGroup className="gap-4">
@@ -287,7 +343,7 @@ function AppShell() {
                 {/* ALL DOMAINS LIST */}
                 <Field className="flex flex-col! @md/field-group:*:w-full">
                   <FieldContent>
-                    <FieldLabel>All Websites ({Object.keys(domainFonts).length})</FieldLabel>
+                    <FieldLabel>All Websites ({domainCount})</FieldLabel>
                     <FieldDescription>Manage fonts for all websites</FieldDescription>
                   </FieldContent>
                   <DomainFontsList />
@@ -320,14 +376,23 @@ function AppShell() {
       </Card>
     </main>
   )
-}
+})
 
 // ---------- Components ----------
 
-function FontSelector({ domain }: { domain: string }) {
+const FontSelector = React.memo(function FontSelector({ domain }: { domain: string }) {
   const { domainFonts, setFontForDomain, disabledDomains } = useFontStore()
-  const currentFont = domainFonts[domain] || null
-  const isDisabled = disabledDomains.includes(domain)
+  
+  // Memoize derived values
+  const currentFont = React.useMemo(() => domainFonts[domain] || null, [domainFonts, domain])
+  const isDisabled = React.useMemo(() => disabledDomains.includes(domain), [disabledDomains, domain])
+  
+  const handleSelect = React.useCallback(
+    (font: Font) => {
+      setFontForDomain(domain, font)
+    },
+    [domain, setFontForDomain],
+  )
 
   return (
     <Popover>
@@ -347,11 +412,7 @@ function FontSelector({ domain }: { domain: string }) {
 
             <CommandGroup heading="Fonts">
               {fontsMetadata.map((f: Font) => (
-                <CommandItem
-                  key={f.id}
-                  onSelect={() => {
-                    setFontForDomain(domain, f)
-                  }}>
+                <CommandItem key={f.id} onSelect={() => handleSelect(f)}>
                   <div className="flex items-center gap-2">
                     <Check className={`h-4 w-4 ${currentFont?.id === f.id ? 'opacity-100' : 'opacity-0'}`} />
                     <span className="text-sm">{f.family}</span>
@@ -364,12 +425,21 @@ function FontSelector({ domain }: { domain: string }) {
       </PopoverContent>
     </Popover>
   )
-}
+})
 
-function DomainFontsList() {
+const DomainFontsList = React.memo(function DomainFontsList() {
   const { domainFonts, disabledDomains, removeDomainFont, toggleDomain, currentDomain } = useFontStore()
 
-  const domains = Object.keys(domainFonts).sort()
+  // Memoize sorted domains: current domain first, then alphabetically
+  const domains = React.useMemo(
+    () =>
+      Object.keys(domainFonts).sort((a, b) => {
+        if (a === currentDomain) return -1
+        if (b === currentDomain) return 1
+        return a.localeCompare(b)
+      }),
+    [domainFonts, currentDomain],
+  )
 
   if (domains.length === 0) {
     return (
@@ -380,7 +450,7 @@ function DomainFontsList() {
   }
 
   return (
-    <div className="max-h-60 space-y-2 overflow-y-auto">
+    <div className="max-h-[186px] space-y-2 overflow-y-auto">
       {domains.map((domain) => {
         const font = domainFonts[domain]
         const isDisabled = disabledDomains.includes(domain)
@@ -436,4 +506,4 @@ function DomainFontsList() {
       })}
     </div>
   )
-}
+})
