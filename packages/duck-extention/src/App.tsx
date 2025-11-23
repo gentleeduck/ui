@@ -397,10 +397,10 @@ function DomainFontsList() {
             {/* Corner border for current domain */}
             {isCurrent && (
               <div className="pointer-events-none absolute inset-0 rounded-md">
-                <div className="absolute top-0 left-0 h-2 w-2 rounded-tl-md border-l-2 border-t-2 border-primary" />
-                <div className="absolute top-0 right-0 h-2 w-2 rounded-tr-md border-r-2 border-t-2 border-primary" />
-                <div className="absolute bottom-0 left-0 h-2 w-2 rounded-bl-md border-b-2 border-l-2 border-primary" />
-                <div className="absolute bottom-0 right-0 h-2 w-2 rounded-br-md border-b-2 border-r-2 border-primary" />
+                <div className="absolute top-0 left-0 h-2 w-2 rounded-tl-md border-primary border-t-2 border-l-2" />
+                <div className="absolute top-0 right-0 h-2 w-2 rounded-tr-md border-primary border-t-2 border-r-2" />
+                <div className="absolute bottom-0 left-0 h-2 w-2 rounded-bl-md border-primary border-b-2 border-l-2" />
+                <div className="absolute right-0 bottom-0 h-2 w-2 rounded-br-md border-primary border-r-2 border-b-2" />
               </div>
             )}
             <div className="min-w-0 flex-1">
