@@ -20,69 +20,234 @@ function getDomain(input) {
   }
 }
 
-function applyGentleduck(config) {
-  const domain = getDomain(window.location.href)
+function generateFontCSS(font, importUrl) {
+  if (!font || !importUrl) return ''
 
-  const match = config.whiteList.find((item) => {
-    const itemHost = getDomain(item.url)
-    return itemHost === domain
-  })
+  return [
+    `@import url('${importUrl}');`,
+    `*, *::before, *::after {`,
+    `  font-family: '${font.family}', sans-serif !important;`,
+    `}`,
+  ].join('\n')
+}
 
-  const isWhitelisted = match && !match.disabled
-
-  if (isWhitelisted) {
-    const style = document.getElementById('gentleduck-font-style')
-    if (style) style.remove()
-
-    return
-  }
-
-  // Continue if NOT whitelisted…
-
-  if (!config) return
-
-  const { font, themeKey, url, css } = config
-
-  // 1) Google Fonts <link>
+function applyFont(font, importUrl) {
+  // Remove existing font link
   let link = document.getElementById('gentleduck-font-link')
   if (link) link.remove()
 
-  if (url) {
+  // Add Google Fonts link
+  if (importUrl) {
     link = document.createElement('link')
     link.id = 'gentleduck-font-link'
     link.rel = 'stylesheet'
-    link.href = url
+    link.href = importUrl
     document.head.appendChild(link)
   }
 
-  // 2) <style> with CSS (font + theme)
+  // Remove existing style
   let style = document.getElementById('gentleduck-font-style')
   if (style) style.remove()
 
-  style = document.createElement('style')
-  style.id = 'gentleduck-font-style'
-  style.textContent = css || ''
-  document.head.appendChild(style)
-
-  // 3) Make sure the theme class exists on <html> (e.g. .dark)
-  if (themeKey) {
-    document.documentElement.classList.add(themeKey)
+  // Add font CSS
+  const css = generateFontCSS(font, importUrl)
+  if (css) {
+    style = document.createElement('style')
+    style.id = 'gentleduck-font-style'
+    style.textContent = css
+    document.head.appendChild(style)
   }
 
   if (font?.family) {
-    console.log('🔥 Gentleduck font applied:', font.family, 'theme:', themeKey)
+    console.log('🔥 Gentleduck font applied:', font.family)
+  }
+}
+
+function removeFont() {
+  const link = document.getElementById('gentleduck-font-link')
+  if (link) link.remove()
+
+  const style = document.getElementById('gentleduck-font-style')
+  if (style) style.remove()
+}
+
+function applyGentleduck() {
+  const domain = getDomain(window.location.href)
+  if (!domain) {
+    removeFont()
+    return
+  }
+
+  chrome.storage.sync.get(['gentleduck_domainFonts', 'gentleduck_disabledDomains'], (data) => {
+    const domainFonts = data.gentleduck_domainFonts || {}
+    const disabledDomains = data.gentleduck_disabledDomains || []
+
+    // Check if domain is disabled
+    if (disabledDomains.includes(domain)) {
+      removeFont()
+      return
+    }
+
+    // Get font for this domain
+    const font = domainFonts[domain]
+    if (!font) {
+      removeFont()
+      return
+    }
+
+    // Generate import URL
+    const importUrl = `https://fonts.googleapis.com/css2?family=${font.family.replaceAll(
+      ' ',
+      '+',
+    )}:wght@${font.variants.join(';')}&display=swap`
+
+    applyFont(font, importUrl)
+  })
+}
+
+// Inject toggle button
+function injectToggleButton() {
+  // Check if button already exists
+  if (document.getElementById('gentleduck-toggle-btn')) return
+
+  const domain = getDomain(window.location.href)
+  if (!domain) return
+
+  // Create button
+  const button = document.createElement('button')
+  button.id = 'gentleduck-toggle-btn'
+  button.innerHTML = '🔤'
+  button.title = 'Toggle Gentleduck Extension'
+  button.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+    border: 2px solid #fff;
+    cursor: pointer;
+    z-index: 999999;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    user-select: none;
+    -webkit-user-select: none;
+    padding: 0;
+    margin: 0;
+  `
+
+  // Check initial state
+  chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
+    const disabledDomains = data.gentleduck_disabledDomains || []
+    const isDisabled = disabledDomains.includes(domain)
+    updateButtonState(button, isDisabled)
+  })
+
+  // Add hover effects
+  button.addEventListener('mouseenter', () => {
+    button.style.transform = 'scale(1.1)'
+    button.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.4)'
+  })
+
+  button.addEventListener('mouseleave', () => {
+    button.style.transform = 'scale(1)'
+    button.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)'
+  })
+
+  // Toggle on click
+  button.addEventListener('click', () => {
+    chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
+      const disabledDomains = data.gentleduck_disabledDomains || []
+      const isDisabled = disabledDomains.includes(domain)
+      const newDisabledDomains = isDisabled ? disabledDomains.filter((d) => d !== domain) : [...disabledDomains, domain]
+
+      chrome.storage.sync.set({ gentleduck_disabledDomains: newDisabledDomains }, () => {
+        updateButtonState(button, !isDisabled)
+        applyGentleduck()
+      })
+    })
+  })
+
+  document.body.appendChild(button)
+}
+
+function updateButtonState(button, isDisabled) {
+  if (isDisabled) {
+    button.style.opacity = '0.5'
+    button.style.background = '#666'
+    button.title = 'Enable Gentleduck Extension'
+  } else {
+    button.style.opacity = '1'
+    button.style.background = '#000'
+    button.title = 'Disable Gentleduck Extension'
   }
 }
 
 // Run on page load
-chrome.storage.sync.get('gentleduck_font', (data) => {
-  applyGentleduck(data.gentleduck_font)
-})
+function init() {
+  applyGentleduck()
 
-// Run LIVE when popup updates storage (no reload needed)
+  // Wait a bit for body to be ready, then inject button
+  if (document.body) {
+    injectToggleButton()
+  } else {
+    const observer = new MutationObserver(() => {
+      if (document.body) {
+        injectToggleButton()
+        observer.disconnect()
+      }
+    })
+    observer.observe(document.documentElement, { childList: true, subtree: true })
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init)
+} else {
+  init()
+}
+
+// Listen for storage changes
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== 'sync') return
-  if (changes.gentleduck_font) {
-    applyGentleduck(changes.gentleduck_font.newValue)
+  if (changes.gentleduck_domainFonts || changes.gentleduck_disabledDomains) {
+    applyGentleduck()
+
+    // Update button state
+    const button = document.getElementById('gentleduck-toggle-btn')
+    if (button) {
+      const domain = getDomain(window.location.href)
+      if (domain) {
+        chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
+          const disabledDomains = data.gentleduck_disabledDomains || []
+          updateButtonState(button, disabledDomains.includes(domain))
+        })
+      }
+    }
+  }
+})
+
+// Listen for messages from popup
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'UPDATE_FONT') {
+    applyGentleduck()
+
+    // Update button state
+    const button = document.getElementById('gentleduck-toggle-btn')
+    if (button) {
+      const domain = getDomain(window.location.href)
+      if (domain) {
+        chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
+          const disabledDomains = data.gentleduck_disabledDomains || []
+          updateButtonState(button, disabledDomains.includes(domain))
+        })
+      }
+    }
   }
 })

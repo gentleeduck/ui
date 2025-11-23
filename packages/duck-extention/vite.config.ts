@@ -1,8 +1,7 @@
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import webExtension from 'vite-plugin-web-extension'
-
 import { defineConfig } from 'vite'
+import webExtension from 'vite-plugin-web-extension'
 
 // https://vite.dev/config/
 export default defineConfig({

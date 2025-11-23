@@ -19,238 +19,11 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@gentleduck/registry-ui-duckui/field'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
-import { Ban, Check, ChevronsUpDown, Github, Plus, X } from 'lucide-react'
+import { Ban, Check, ChevronsUpDown, Github, Power, Trash2 } from 'lucide-react'
 import React from 'react'
 import fontsMetadata from './assets/fonts.json'
-import themesJson from './assets/themes.json'
-
-const cssStyles = `
-/* --------------------------------------------------
-   UNIVERSAL THEME APPLICATOR
-   Applies theme variables to all visual elements
--------------------------------------------------- */
-
-/* Base */
-*,
-*::before,
-*::after {
-  color: var(--foreground)) !important;
-  border-color: var(--border)) !important;
-  background-color: var(--background)) !important;
-}
-
-/* BASIC STRUCTURE */
-html,
-body {
-  background-color: var(--background) !important;
-  color: var(--foreground) !important;
-  border-color: var(--border) !important;
-}
-
-/* BLOCK ELEMENTS */
-div:not(button *),
-section,
-article,
-main,
-aside,
-nav,
-header,
-footer {
-  background-color: var(--background) !important;
-  color: var(--foreground) !important;
-  border-color: var(--border) !important;
-}
-
-.artdeco-card {
-  background-color: transparent !important;
-}
-
-/* HEADINGS */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--foreground) !important;
-}
-
-svg,
-*>svg {
-  color: var(--foreground) !important;
-  stroke-color: var(--foreground) !important;
-}
-
-p,
-strong,
-em,
-small,
-label,
-li,
-dt,
-dd,
-figcaption {
-  color: var(--accent-foreground) !important;
-  background: var(--background) !important;
-}
-
-form {
-  background-color: transparent !important;
-  border: none !important;
-}
-
-/* CODE BLOCKS */
-pre {
-  background-color:  color-mix(in oklab,var(--muted)40%,transparent) !important;
-  border-color: var(--border) !important;
-}
-
-pre *:is(div,span),
-code {
-  background-color: transparent !important;
-  border: none !important;
-}
-
-
-/* LINKS */
-a {
-  color: var(--primary) !important;
-  background-color: var(--background) !important;
-  border-color: var(--border) !important;
-  box-shadow: none !important;
-}
-
-a:hover,
-a:hover * {
-  color: var(--primary) !important;
-}
-
-a * {
-  background: transparent !important;
-}
-
-a * {
-  background: transparent !important;
-  border: none !important;
-  color: var(--foreground) !important;
-  box-shadow: none !important;
-}
-
-/* BUTTONS */
-button,
-[role="button"],
-input[type="button"],
-input[type="submit"],
-input[type="reset"]
-
-{
-  background-color: transparent !important;
-  color: var(--primary) !important;
-  border-color: var(--border) !important;
-  border-radius: var(--radius) !important;
-}
-
-button * {
-  background-color: transparent !important;
-  color: var(--foreground) !important;
-}
-
-button:hover {
-  background-color: var(--muted) !important;
-}
-
-* > *:is(span) {
-  color: var(--foreground) !important;
-}
-
-/* INPUTS */
-input,
-select,
-textarea {
-  background-color: transparent !important;
-  color: var(--primary) !important;
-  border: 1px solid var(--input) !important;
-}
-
-*::placeholder {
-  color: var(--foreground) !important;
-  opacity: .8 !important;
-}
-
-/* TABLES */
-table {
-  background-color: var(--background) !important;
-  border: 1px solid var(--border) !important;
-}
-
-th {
-  background-color: var(--muted) !important;
-  color: var(--foreground) !important;
-}
-
-colgroup,
-col,
-tr, 
-td
-tbody {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-tr {
-  border: 1px solid var(--border) !important;
-}
-
-/* LISTS */
-ul,
-ol {
-  color: var(--foreground) !important;
-}
-
-
-/* IMAGES + MEDIA WRAPPERS */
-figure,
-picture {
-  background-color: var(--background) !important;
-  border: 1px solid var(--border) !important;
-}
-
-/* ACCENTS */
-mark {
-  background-color: var(--warning) !important;
-  color: var(--warning-foreground) !important;
-}
-
-/* DESTRUCTIVE ELEMENTS */
-[data-destructive],
-.destructive {
-  background-color: var(--destructive) !important;
-  color: var(--destructive-foreground) !important;
-  border: 1px solid var(--destructive-border) !important;
-}
-
-::-webkit-scrollbar {
-  width: 5px !important;
-  height: 5px !important;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent !important;
-}
-
-::-webkit-scrollbar-corner {
-  background: transparent !important;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border) !important;
-  border-radius: 5px;
-}
-`
 
 // If you don't have @types/chrome, this keeps TS happy:
 declare const chrome: any
@@ -270,325 +43,19 @@ type Font = {
   defVariant: string
 }
 
-// Theme is just "CSS variable name -> value"
-export interface CSSVars {
-  accent: string
-  'accent-foreground': string
-  background: string
-  border: string
-  card: string
-  'card-foreground': string
-  'chart-1': string
-  'chart-2': string
-  'chart-3': string
-  'chart-4': string
-  'chart-5': string
-  destructive: string
-  'destructive-foreground': string
-  foreground: string
-  input: string
-  muted: string
-  'muted-foreground': string
-  popover: string
-  'popover-foreground': string
-  primary: string
-  'primary-foreground': string
-  radius: string
-  ring: string
-  secondary: string
-  'secondary-foreground': string
-  warning: string
-  'warning-foreground': string
-
-  // catch-all from .catchall(z.string())
-  [key: string]: string
-}
-
-export interface CSSVarsWithoutRadius extends Omit<CSSVars, 'radius'> {}
-
-export interface Theme {
-  name: string
-  label?: string
-
-  activeColor?: {
-    dark: string
-    light: string
-  }
-
-  css?: {
-    '@layer base': Record<string, never>
-  }
-
-  cssVars: {
-    dark: CSSVarsWithoutRadius
-    light: CSSVars
-    theme?: Record<string, unknown>
-  }
-}
-
-// Assuming themes.json is { [key: string]: Theme }
-const themes = themesJson as unknown as Record<string, Theme>
-
 type FontContextType = {
-  font: Font | null
-  setFont: (font: Font) => void
-  cssCode: string
-  themeKey: string | null
-  setThemeKey: (themeKey: string | null) => void
-  whiteList: WhiteListItem[]
-  setWhiteList: (whiteList: WhiteListItem[]) => void
+  currentDomain: string | null
+  domainFonts: Record<string, Font>
+  disabledDomains: string[]
+  setFontForDomain: (domain: string, font: Font | null) => void
+  toggleDomain: (domain: string) => void
+  removeDomainFont: (domain: string) => void
 }
 
 const FontContext = React.createContext<FontContextType | null>(null)
 
-// ---------- Provider / Store ----------
+// ---------- Helper Functions ----------
 
-function FontProvider({ children }: { children: React.ReactNode }) {
-  const [font, setFontState] = React.useState<Font | null>(() => {
-    const saved = localStorage.getItem('selectedFont')
-    return saved ? JSON.parse(saved) : null
-  })
-
-  const [themeKey, setThemeKeyState] = React.useState<string | null>(() => {
-    return localStorage.getItem('selectedTheme') ?? null
-  })
-
-  const [cssCode, setCssCode] = React.useState('')
-
-  const [whiteList, setWhiteList] = React.useState<WhiteListItem[]>(
-    () => JSON.parse(localStorage.getItem('selectedWhiteList') ?? '[]') as WhiteListItem[],
-  )
-
-  const setFont = (font: Font) => {
-    setFontState(font)
-    localStorage.setItem('selectedFont', JSON.stringify(font))
-  }
-
-  const setThemeKey = (key: string | null) => {
-    setThemeKeyState(key)
-    if (key) {
-      localStorage.setItem('selectedTheme', key)
-    } else {
-      localStorage.removeItem('selectedTheme')
-    }
-  }
-
-  React.useEffect(() => {
-    const parts: string[] = []
-    let importUrl: string | null = null
-    let theme: Theme | null = null
-
-    // 1) Font import + global font
-    if (font) {
-      importUrl = `https://fonts.googleapis.com/css2?family=${font.family.replaceAll(
-        ' ',
-        '+',
-      )}:wght@${font.variants.join(';')}&display=swap`
-
-      parts.push(
-        [
-          `@import url('${importUrl}');`,
-          `*, *::before, *::after {`,
-          `  font-family: '${font.family}', sans-serif !important;`,
-          `}`,
-        ].join('\n'),
-      )
-    }
-
-    // 2) Theme -> CSS vars & @layer base
-    if (themeKey && themes[themeKey]) {
-      const themeObj = themes[themeKey]
-
-      const darkVars = themeObj.cssVars?.dark ?? {}
-      // const lightVars = themeObj.cssVars?.light ?? {}
-      const extraVars = themeObj.cssVars?.theme ?? {}
-      // const baseLayer = themeObj.css?.['@layer base'] ?? {}
-
-      /** Convert a dictionary of CSS vars into CSS text */
-      const buildVars = (vars: Record<string, string>) =>
-        Object.entries(vars)
-          .map(([key, value]) => `  --${key}: ${value};`)
-          .join('\n')
-
-      // DARK THEME CLASS
-      parts.push(
-        [
-          `:root {`,
-          buildVars(darkVars),
-          ...Object.entries(extraVars).map(([key, val]) => `  --${key}: ${val};`),
-          `}`,
-        ].join('\n'),
-      )
-
-      // LIGHT THEME CLASS
-      // parts.push(
-      //   [
-      //     `:root {`,
-      //     buildVars(lightVars),
-      //     ...Object.entries(extraVars).map(([key, val]) => `  --${key}: ${val};`),
-      //     `}`,
-      //   ].join('\n'),
-      // )
-      // INFO: the baseCss is missing
-      parts.push(cssStyles)
-    }
-
-    const css = parts.join('\n\n')
-    setCssCode(css)
-
-    // 3) Send structured data + css to current tab via chrome.storage
-    if (typeof chrome !== 'undefined' && chrome.storage?.sync && font && importUrl) {
-      chrome.storage.sync.set({
-        gentleduck_font: {
-          css,
-          font,
-          theme,
-          themeKey,
-          url: importUrl,
-          whiteList,
-        },
-      })
-    }
-  }, [font, themeKey, whiteList])
-
-  return (
-    <FontContext.Provider
-      value={{
-        cssCode,
-        font,
-        setFont,
-        setThemeKey,
-        setWhiteList,
-        themeKey,
-        whiteList,
-      }}>
-      {children}
-    </FontContext.Provider>
-  )
-}
-
-function useFontStore() {
-  const ctx = React.useContext(FontContext)
-  if (!ctx) throw new Error('useFontStore must be inside FontProvider')
-  return ctx
-}
-
-// ---------- UI Types ----------
-
-type Extension = {
-  name: string
-  description: string
-}
-
-const extension: Extension = {
-  description: 'A set of fonts & themes for gentleduck',
-  name: 'gentleduck/extention',
-}
-
-// ---------- Root App ----------
-
-export function App() {
-  return (
-    <FontProvider>
-      <AppShell />
-    </FontProvider>
-  )
-}
-
-function AppShell() {
-  return (
-    <main className="flex h-screen select-none items-center justify-center font-mono">
-      <Card className="relative w-[500px] justify-self-center py-6">
-        <a
-          className="absolute top-2 right-2 z-10"
-          href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extention"
-          rel="noreferrer"
-          target="_blank">
-          <Button icon={<Github />} size="icon" variant="outline" />
-        </a>
-        <ScrollArea className="px-6">
-          <form>
-            <FieldSet>
-              <FieldLegend>{extension.name}</FieldLegend>
-              <FieldDescription>Select a font and theme, then copy the generated CSS.</FieldDescription>
-              <FieldSeparator />
-
-              <FieldGroup className="gap-4">
-                {/* FONT PICKER */}
-                <Field className="flex flex-col! @md/field-group:*:w-full">
-                  <FieldContent>
-                    <FieldLabel>Font Name</FieldLabel>
-                    <FieldDescription>Select a font from the list</FieldDescription>
-                  </FieldContent>
-                  <FontSelector />
-                </Field>
-
-                <FieldSeparator />
-
-                {/* THEME PICKER */}
-                <Field className="flex flex-col! @md/field-group:*:w-full">
-                  <FieldContent>
-                    <FieldLabel>Theme</FieldLabel>
-                    <FieldDescription>Select a theme from the list</FieldDescription>
-                  </FieldContent>
-                  <ThemeSelector />
-                </Field>
-
-                <FieldSeparator />
-
-                {/* WHITE LIST */}
-                <Field className="flex flex-col! @md/field-group:*:w-full">
-                  <FieldContent>
-                    <FieldLabel>White List</FieldLabel>
-                    <FieldDescription>Enter a list of domains to whitelist</FieldDescription>
-                  </FieldContent>
-
-                  <WhiteListInput />
-                </Field>
-
-                <FieldSeparator />
-
-                <Field className="justify-between gap-2" orientation="responsive">
-                  <Button
-                    className="flex-1"
-                    onClick={() => {
-                      // if (navigator.clipboard?.writeText) {
-                      // const { cssCode } = useFontStore()
-                      //                       navigator.clipboard.writeText(cssCode).catch(() => {})
-                      // }
-                    }}
-                    type="button"
-                    variant="default">
-                    Copy CSS
-                  </Button>
-                  <Button
-                    className="flex-1"
-                    onClick={() => {
-                      localStorage.removeItem('selectedFont')
-                      localStorage.removeItem('selectedTheme')
-                      window.location.reload()
-                    }}
-                    type="button"
-                    variant="outline">
-                    Reset
-                  </Button>
-                </Field>
-              </FieldGroup>
-            </FieldSet>
-          </form>
-        </ScrollArea>
-      </Card>
-    </main>
-  )
-}
-
-// ---------- Components ----------
-
-type WhiteListItem = {
-  id: string
-  url: string
-  disabled: boolean
-}
 function getDomain(input: string): string | null {
   if (!input || typeof input !== 'string') return null
 
@@ -613,146 +80,260 @@ function getDomain(input: string): string | null {
   }
 }
 
-export function WhiteListInput() {
-  const { whiteList, setWhiteList } = useFontStore()
-  const [inputValue, setInputValue] = React.useState('')
+// ---------- Provider / Store ----------
 
+function FontProvider({ children }: { children: React.ReactNode }) {
+  const [currentDomain, setCurrentDomain] = React.useState<string | null>(null)
+  const [domainFonts, setDomainFonts] = React.useState<Record<string, Font>>({})
+  const [disabledDomains, setDisabledDomains] = React.useState<string[]>([])
+
+  // Load from storage on mount
   React.useEffect(() => {
     if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+      // Get current tab domain
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs: any) => {
         const rawUrl = tabs[0]?.url
         const domain = getDomain(rawUrl)
+        setCurrentDomain(domain)
 
-        if (domain) {
-          if (whiteList.find((item) => item.url === domain)) return
-
-          setInputValue(domain)
-        }
+        // Load domain fonts and disabled domains
+        chrome.storage.sync.get(['gentleduck_domainFonts', 'gentleduck_disabledDomains'], (data: any) => {
+          if (data.gentleduck_domainFonts) {
+            setDomainFonts(data.gentleduck_domainFonts)
+          }
+          if (data.gentleduck_disabledDomains) {
+            setDisabledDomains(data.gentleduck_disabledDomains)
+          }
+        })
       })
+    } else {
+      // Fallback to localStorage for development
+      const saved = localStorage.getItem('gentleduck_domainFonts')
+      if (saved) {
+        setDomainFonts(JSON.parse(saved))
+      }
+      const savedDisabled = localStorage.getItem('gentleduck_disabledDomains')
+      if (savedDisabled) {
+        setDisabledDomains(JSON.parse(savedDisabled))
+      }
     }
-  }, [whiteList])
+  }, [])
 
-  const addToWhiteList = () => {
-    if (!inputValue.trim()) return
+  const setFontForDomain = (domain: string, font: Font | null) => {
+    if (!domain) return
 
-    let value = [
-      ...whiteList,
-      {
-        disabled: false,
-        id: crypto.randomUUID(),
-        url: inputValue.trim(),
-      },
-    ]
+    const newDomainFonts = { ...domainFonts }
+    if (font) {
+      newDomainFonts[domain] = font
+    } else {
+      delete newDomainFonts[domain]
+    }
 
-    localStorage.setItem('selectedWhiteList', JSON.stringify(value))
-    setWhiteList(value)
+    setDomainFonts(newDomainFonts)
 
-    chrome.storage.sync.get('gentleduck_font', (data: any) => {
-      if (!data.gentleduck_font) return
-      chrome.storage.sync.set({
-        gentleduck_font: {
-          ...data.gentleduck_font,
-          whiteList: value,
-        },
+    // Save to storage
+    if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+      chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts })
+
+      // Update all tabs
+      chrome.tabs.query({}, (tabs: any[]) => {
+        tabs.forEach((tab) => {
+          if (tab.url) {
+            chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
+          }
+        })
       })
-    })
-
-    setInputValue('')
+    } else {
+      localStorage.setItem('gentleduck_domainFonts', JSON.stringify(newDomainFonts))
+    }
   }
 
-  const toggleDisable = (id: string) => {
-    let value = whiteList.map((item) => (item.id === id ? { ...item, disabled: !item.disabled } : item))
+  const toggleDomain = (domain: string) => {
+    if (!domain) return
 
-    localStorage.setItem('selectedWhiteList', JSON.stringify(value))
-    setWhiteList(value)
+    const newDisabledDomains = disabledDomains.includes(domain)
+      ? disabledDomains.filter((d) => d !== domain)
+      : [...disabledDomains, domain]
 
-    chrome.storage.sync.get('gentleduck_font', (data: any) => {
-      if (!data.gentleduck_font) return
-      chrome.storage.sync.set({
-        gentleduck_font: {
-          ...data.gentleduck_font,
-          whiteList: value,
-        },
+    setDisabledDomains(newDisabledDomains)
+
+    if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+      chrome.storage.sync.set({ gentleduck_disabledDomains: newDisabledDomains })
+
+      // Update all tabs
+      chrome.tabs.query({}, (tabs: any[]) => {
+        tabs.forEach((tab) => {
+          if (tab.url) {
+            chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
+          }
+        })
       })
-    })
+    } else {
+      localStorage.setItem('gentleduck_disabledDomains', JSON.stringify(newDisabledDomains))
+    }
   }
 
-  const removeItem = (id: string) => {
-    let value = whiteList.filter((item) => item.id !== id)
+  const removeDomainFont = (domain: string) => {
+    if (!domain) return
 
-    localStorage.setItem('selectedWhiteList', JSON.stringify(value))
-    setWhiteList(value)
+    const newDomainFonts = { ...domainFonts }
+    delete newDomainFonts[domain]
 
-    chrome.storage.sync.get('gentleduck_font', (data: any) => {
-      if (!data.gentleduck_font) return
-      chrome.storage.sync.set({
-        gentleduck_font: {
-          ...data.gentleduck_font,
-          whiteList: value,
-        },
+    setDomainFonts(newDomainFonts)
+
+    if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+      chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts })
+
+      // Update all tabs
+      chrome.tabs.query({}, (tabs: any[]) => {
+        tabs.forEach((tab) => {
+          if (tab.url) {
+            chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
+          }
+        })
       })
-    })
+    } else {
+      localStorage.setItem('gentleduck_domainFonts', JSON.stringify(newDomainFonts))
+    }
   }
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button className="w-full justify-between" variant="outline">
-          {whiteList.length} white-list items
-          <ChevronsUpDown className="h-4 w-4 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-
-      <PopoverContent className="size-80 overflow-auto p-3">
-        {/* Input */}
-        <div className="flex gap-2">
-          <Input
-            className="felx-2 rounded-md border px-3 py-2 text-sm"
-            onChange={(e) => setInputValue(e.currentTarget.value)}
-            placeholder="Enter URL & press Enter"
-            value={inputValue}
-          />
-          <Button className="flex-1 px-2.25" icon={<Plus />} onClick={addToWhiteList} size="icon"></Button>
-        </div>
-
-        {/* Inline Preview */}
-        <div className="mt-3 flex flex-wrap gap-2">
-          {whiteList.map((item) => (
-            <div
-              className={cn(
-                'inline-flex w-full items-center justify-between gap-2 rounded-md border px-2 py-1 text-sm',
-                item.disabled && 'line-through opacity-50',
-              )}
-              key={item.id}>
-              <span className="duck-truncate">{item.url}</span>
-
-              <div className="flex items-center gap-2">
-                {/* disable */}
-                <button className="text-muted-foreground hover:text-foreground" onClick={() => toggleDisable(item.id)}>
-                  <Ban className="h-4 w-4" />
-                </button>
-
-                {/* remove */}
-                <button className="text-muted-foreground hover:text-foreground" onClick={() => removeItem(item.id)}>
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </PopoverContent>
-    </Popover>
+    <FontContext.Provider
+      value={{
+        currentDomain,
+        disabledDomains,
+        domainFonts,
+        removeDomainFont,
+        setFontForDomain,
+        toggleDomain,
+      }}>
+      {children}
+    </FontContext.Provider>
   )
 }
 
-function FontSelector() {
-  const { font, setFont } = useFontStore()
+function useFontStore() {
+  const ctx = React.useContext(FontContext)
+  if (!ctx) throw new Error('useFontStore must be inside FontProvider')
+  return ctx
+}
+
+// ---------- UI Types ----------
+
+type Extension = {
+  name: string
+  description: string
+}
+
+const extension: Extension = {
+  description: 'Custom fonts per website',
+  name: 'gentleduck/extention',
+}
+
+// ---------- Root App ----------
+
+export function App() {
+  return (
+    <FontProvider>
+      <AppShell />
+    </FontProvider>
+  )
+}
+
+function AppShell() {
+  const { currentDomain, domainFonts, disabledDomains } = useFontStore()
+
+  return (
+    <main className="flex h-screen select-none items-center justify-center font-mono">
+      <Card className="relative w-[500px] justify-self-center rounded-none py-6">
+        <a
+          className="absolute top-2 right-2 z-10"
+          href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extention"
+          rel="noreferrer"
+          target="_blank">
+          <Button icon={<Github />} size="icon" variant="outline" />
+        </a>
+        <ScrollArea className="px-6">
+          <form>
+            <FieldSet>
+              <FieldLegend>{extension.name}</FieldLegend>
+              <FieldDescription>
+                {currentDomain ? `Select a font for ${currentDomain}` : 'Select a font for the current website'}
+              </FieldDescription>
+              <FieldSeparator />
+
+              <FieldGroup className="gap-4">
+                {/* CURRENT DOMAIN FONT PICKER */}
+                {currentDomain && (
+                  <>
+                    <Field className="flex flex-col! @md/field-group:*:w-full">
+                      <FieldContent>
+                        <FieldLabel>Font for {currentDomain}</FieldLabel>
+                        <FieldDescription>
+                          {disabledDomains.includes(currentDomain)
+                            ? 'Extension is disabled for this domain'
+                            : domainFonts[currentDomain]
+                              ? `Current: ${domainFonts[currentDomain].family}`
+                              : 'No font selected'}
+                        </FieldDescription>
+                      </FieldContent>
+                      <FontSelector domain={currentDomain} />
+                    </Field>
+
+                    <FieldSeparator />
+                  </>
+                )}
+
+                {/* ALL DOMAINS LIST */}
+                <Field className="flex flex-col! @md/field-group:*:w-full">
+                  <FieldContent>
+                    <FieldLabel>All Websites ({Object.keys(domainFonts).length})</FieldLabel>
+                    <FieldDescription>Manage fonts for all websites</FieldDescription>
+                  </FieldContent>
+                  <DomainFontsList />
+                </Field>
+
+                <FieldSeparator />
+
+                <Field className="justify-center">
+                  <Button
+                    onClick={() => {
+                      if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+                        chrome.storage.sync.clear(() => {
+                          localStorage.clear()
+                          window.location.reload()
+                        })
+                      } else {
+                        localStorage.clear()
+                        window.location.reload()
+                      }
+                    }}
+                    type="button"
+                    variant="outline">
+                    Reset All
+                  </Button>
+                </Field>
+              </FieldGroup>
+            </FieldSet>
+          </form>
+        </ScrollArea>
+      </Card>
+    </main>
+  )
+}
+
+// ---------- Components ----------
+
+function FontSelector({ domain }: { domain: string }) {
+  const { domainFonts, setFontForDomain, disabledDomains } = useFontStore()
+  const currentFont = domainFonts[domain] || null
+  const isDisabled = disabledDomains.includes(domain)
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="w-full justify-between" variant="outline">
-          {font ? font.family : 'Select font...'}
+        <Button className="w-full justify-between" disabled={isDisabled} variant="outline">
+          {currentFont ? currentFont.family : 'Select font...'}
           <ChevronsUpDown className="h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -769,10 +350,10 @@ function FontSelector() {
                 <CommandItem
                   key={f.id}
                   onSelect={() => {
-                    setFont(f)
+                    setFontForDomain(domain, f)
                   }}>
                   <div className="flex items-center gap-2">
-                    <Check className={`h-4 w-4 ${font?.id === f.id ? 'opacity-100' : 'opacity-0'}`} />
+                    <Check className={`h-4 w-4 ${currentFont?.id === f.id ? 'opacity-100' : 'opacity-0'}`} />
                     <span className="text-sm">{f.family}</span>
                   </div>
                 </CommandItem>
@@ -785,44 +366,74 @@ function FontSelector() {
   )
 }
 
-function ThemeSelector() {
-  const { themeKey, setThemeKey } = useFontStore()
+function DomainFontsList() {
+  const { domainFonts, disabledDomains, removeDomainFont, toggleDomain, currentDomain } = useFontStore()
 
-  const entries = React.useMemo(() => Object.entries(themes) as [string, Theme][], [])
+  const domains = Object.keys(domainFonts).sort()
+
+  if (domains.length === 0) {
+    return (
+      <div className="rounded-md border p-4 text-center text-muted-foreground text-sm">
+        No fonts configured yet. Select a font for the current website to get started.
+      </div>
+    )
+  }
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button className="w-full justify-between" variant="outline">
-          {themes[themeKey!]?.name ?? 'Select theme...'}
-          <ChevronsUpDown className="h-4 w-4 opacity-50" />
-        </Button>
-      </PopoverTrigger>
+    <div className="max-h-60 space-y-2 overflow-y-auto">
+      {domains.map((domain) => {
+        const font = domainFonts[domain]
+        const isDisabled = disabledDomains.includes(domain)
+        const isCurrent = domain === currentDomain
 
-      <PopoverContent className="w-[260px] p-0">
-        <Command>
-          <CommandInput className="h-9" placeholder="Search themes..." />
-
-          <CommandList className="max-h-60 overflow-y-auto">
-            <CommandEmpty>No themes found.</CommandEmpty>
-
-            <CommandGroup heading="Themes">
-              {entries.map(([key]) => (
-                <CommandItem
-                  key={key}
-                  onSelect={() => {
-                    setThemeKey(key)
-                  }}>
-                  <div className="flex items-center gap-2">
-                    <Check className={`h-4 w-4 ${themeKey === key ? 'opacity-100' : 'opacity-0'}`} />
-                    <span className="font-medium text-sm">{themes[key]?.name}</span>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+        return (
+          <div
+            className={cn(
+              'relative flex items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm',
+              isDisabled && 'opacity-50',
+              isCurrent && 'border-border',
+            )}
+            key={domain}>
+            {/* Corner border for current domain */}
+            {isCurrent && (
+              <div className="pointer-events-none absolute inset-0 rounded-md">
+                <div className="absolute top-0 left-0 h-2 w-2 rounded-tl-md border-l-2 border-t-2 border-primary" />
+                <div className="absolute top-0 right-0 h-2 w-2 rounded-tr-md border-r-2 border-t-2 border-primary" />
+                <div className="absolute bottom-0 left-0 h-2 w-2 rounded-bl-md border-b-2 border-l-2 border-primary" />
+                <div className="absolute bottom-0 right-0 h-2 w-2 rounded-br-md border-b-2 border-r-2 border-primary" />
+              </div>
+            )}
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <span className="truncate font-medium">{domain}</span>
+                {isCurrent && <span className="rounded bg-primary/10 px-1.5 py-0.5 text-primary text-xs">Current</span>}
+                {isDisabled && (
+                  <span className="rounded bg-muted px-1.5 py-0.5 text-muted-foreground text-xs">Disabled</span>
+                )}
+              </div>
+              <div className="truncate text-muted-foreground text-xs">{font?.family}</div>
+            </div>
+            <div className="flex items-center gap-1">
+              <Button
+                className="h-8 w-8 shrink-0"
+                icon={isDisabled ? <Power /> : <Ban />}
+                onClick={() => toggleDomain(domain)}
+                size="icon"
+                variant="ghost"
+                title={isDisabled ? 'Enable extension' : 'Disable extension'}
+              />
+              <Button
+                className="h-8 w-8 shrink-0"
+                icon={<Trash2 />}
+                onClick={() => removeDomainFont(domain)}
+                size="icon"
+                variant="ghost"
+                title="Remove font"
+              />
+            </div>
+          </div>
+        )
+      })}
+    </div>
   )
 }
