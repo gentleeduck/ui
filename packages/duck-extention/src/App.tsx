@@ -117,14 +117,14 @@ function FontProvider({ children }: { children: React.ReactNode }) {
         chrome.storage.sync.get(['gentleduck_domainFonts', 'gentleduck_disabledDomains'], (data: any) => {
           const fonts = data.gentleduck_domainFonts || {}
           const disabled = data.gentleduck_disabledDomains || []
-          
+
           // Update cache
           storageCache = {
             domainFonts: fonts,
             disabledDomains: disabled,
             timestamp: Date.now(),
           }
-          
+
           setDomainFonts(fonts)
           setDisabledDomains(disabled)
         })
@@ -186,9 +186,7 @@ function FontProvider({ children }: { children: React.ReactNode }) {
     if (!domain) return
 
     setDisabledDomains((prev) => {
-      const newDisabledDomains = prev.includes(domain)
-        ? prev.filter((d) => d !== domain)
-        : [...prev, domain]
+      const newDisabledDomains = prev.includes(domain) ? prev.filter((d) => d !== domain) : [...prev, domain]
 
       // Update cache
       storageCache.disabledDomains = newDisabledDomains
@@ -382,11 +380,11 @@ const AppShell = React.memo(function AppShell() {
 
 const FontSelector = React.memo(function FontSelector({ domain }: { domain: string }) {
   const { domainFonts, setFontForDomain, disabledDomains } = useFontStore()
-  
+
   // Memoize derived values
   const currentFont = React.useMemo(() => domainFonts[domain] || null, [domainFonts, domain])
   const isDisabled = React.useMemo(() => disabledDomains.includes(domain), [disabledDomains, domain])
-  
+
   const handleSelect = React.useCallback(
     (font: Font) => {
       setFontForDomain(domain, font)

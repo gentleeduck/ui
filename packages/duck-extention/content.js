@@ -116,7 +116,7 @@ function injectToggleButton() {
   // Only show button if domain is in the list
   chrome.storage.sync.get(['gentleduck_domainFonts'], (data) => {
     const domainFonts = data.gentleduck_domainFonts || {}
-    
+
     // Only inject button if this domain has a font configured
     if (!domainFonts[domain]) {
       return
@@ -174,7 +174,9 @@ function injectToggleButton() {
       chrome.storage.sync.get(['gentleduck_disabledDomains'], (data) => {
         const disabledDomains = data.gentleduck_disabledDomains || []
         const isDisabled = disabledDomains.includes(domain)
-        const newDisabledDomains = isDisabled ? disabledDomains.filter((d) => d !== domain) : [...disabledDomains, domain]
+        const newDisabledDomains = isDisabled
+          ? disabledDomains.filter((d) => d !== domain)
+          : [...disabledDomains, domain]
 
         chrome.storage.sync.set({ gentleduck_disabledDomains: newDisabledDomains }, () => {
           updateButtonState(button, !isDisabled)
@@ -236,7 +238,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
     chrome.storage.sync.get(['gentleduck_domainFonts'], (data) => {
       const domainFonts = data.gentleduck_domainFonts || {}
       const button = document.getElementById('gentleduck-toggle-btn')
-      
+
       if (domainFonts[domain]) {
         // Domain is in list - show/update button
         if (!button) {
@@ -269,7 +271,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     chrome.storage.sync.get(['gentleduck_domainFonts'], (data) => {
       const domainFonts = data.gentleduck_domainFonts || {}
       const button = document.getElementById('gentleduck-toggle-btn')
-      
+
       if (domainFonts[domain]) {
         // Domain is in list - show/update button
         if (!button) {
