@@ -17,7 +17,7 @@ export function ChartToolbar({ chart, className, children }: { chart: Block } & 
       </div>
       <div className="ml-auto flex items-center gap-2 [&>form]:flex">
         <BlockCopyButton
-          className="[&_svg]-h-3 h-6 w-6 rounded-[6px] bg-transparent text-foreground shadow-none hover:bg-muted dark:text-foreground [&_svg]:w-3"
+          className="[&_svg]-h-3 h-6 w-6 rounded-md bg-transparent text-foreground shadow-none hover:bg-muted dark:text-foreground [&_svg]:w-3"
           code={chart.files?.[0]?.content ?? ''}
           event="copy_chart_code"
           name={chart.name}

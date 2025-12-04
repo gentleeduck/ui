@@ -4,7 +4,6 @@
   },
   "devDependencies": {
     "@gentleduck/registers": "workspace:*",
-    "@gentleduck/types": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/figlet": "^1.7.0",
     "@types/lodash.template": "^4.5.3",

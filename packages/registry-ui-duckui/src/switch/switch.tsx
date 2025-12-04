@@ -23,6 +23,7 @@ function Switch({
     checkedIndicator,
     indicator,
   })
+  console.log(inputStyle)
 
   return (
     <>

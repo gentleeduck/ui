@@ -1,5 +1,45 @@
 # @gentleduck/motion
 
+## 0.1.12
+
+### Patch Changes
+
+- done
+- done
+- enhanced the animations
+
+## 0.1.13
+
+### Patch Changes
+
+- done
+- done
+- enhanced the animations
+
+## 0.1.12
+
+### Patch Changes
+
+- done
+- done
+- enhanced the animations
+
+## 0.1.12
+
+### Patch Changes
+
+- done
+- done
+- enhanced the animations
+
+## 0.1.11
+
+### Patch Changes
+
+- done
+- done
+- enhanced the animations
+
 ## 0.1.10
 
 ### Patch Changes

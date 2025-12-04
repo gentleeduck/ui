@@ -1,7 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
-import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { NavItem, NavItemWithChildren } from 'types/nav'
 import { docsConfig } from '~/config/docs'
@@ -29,7 +28,7 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
             }),
           )}
           href={pager.prev.href}>
-          <ChevronLeftIcon className="mr-2 size-4" />
+          <ChevronLeft className="mr-2 size-4" />
           <span>{pager.prev.title}</span>
         </Link>
       )}
@@ -43,7 +42,7 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
           )}
           href={pager.next.href}>
           <span>{pager.next.title}</span>
-          <ChevronRightIcon className="ml-2 size-4" />
+          <ChevronRight className="ml-2 size-4" />
         </Link>
       )}
     </div>

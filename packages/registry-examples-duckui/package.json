@@ -1,13 +1,8 @@
 {
   "dependencies": {
-    "@floating-ui/react": "^0.27.16",
     "@hookform/resolvers": "^5.2.2",
-    "@radix-ui/colors": "^3.0.0",
-    "@radix-ui/react-hover-card": "^1.1.15",
     "@tabler/icons-react": "catalog:",
     "@tanstack/react-table": "^8.21.3",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19",
     "date-fns": "^4.1.0",
     "embla-carousel-autoplay": "8.6.0",
     "embla-carousel-react": "8.6.0",
@@ -16,7 +11,6 @@
     "motion-number": "^1.0.0",
     "next": "catalog:",
     "next-themes": "^0.4.6",
-    "radix-ui": "^1.4.3",
     "react": "catalog:react19",
     "react-day-picker": "catalog:",
     "react-dom": "catalog:react19",
@@ -29,13 +23,11 @@
   "devDependencies": {
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
-    "@gentleduck/primitives": "workspace:*",
-    "@gentleduck/registry-ui": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@gentleduck/variants": "workspace:*",
     "@gentleduck/vim": "workspace:*",
-    "tsx": "catalog:"
+    "@types/react": "catalog:react19"
   },
   "engines": {
     "node": ">=22.0.0"

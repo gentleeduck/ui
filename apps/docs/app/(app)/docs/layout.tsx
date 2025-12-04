@@ -1,5 +1,4 @@
 import { docsConfig } from '~/config/docs'
-import '../../mdx.css'
 import { DocsSidebarNav } from '~/components/docs'
 
 interface DocsLayoutProps {
@@ -14,7 +13,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
           // @ts-ignore
           <aside
             aria-hidden="undefined"
-            className="border-grid fixed top-[4rem] z-30 hidden h-[calc(100vh-4rem)] w-full shrink-0 border-r md:sticky md:block">
+            className="border-grid fixed top-16 z-30 hidden h-[calc(100vh-4rem)] w-full shrink-0 border-r md:sticky md:block">
             <div className="h-full overflow-auto py-8">
               <DocsSidebarNav config={docsConfig} />
             </div>

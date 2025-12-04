@@ -1,17 +1,12 @@
-import { defineConfig, s, ZodMeta } from 'velite'
-// import { docs } from '~/velite-configs'
-
-import { getHighlighter, loadTheme } from '@shikijs/compat'
+import { getHighlighter } from '@shikijs/compat'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-// @ts-ignore
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import { codeImport } from 'remark-code-import'
 import remarkGfm from 'remark-gfm'
-import { Pluggable, PluggableList, Plugin } from 'unified'
-import { visit } from 'unist-util-visit'
+import { defineConfig, s, ZodMeta } from 'velite'
 import { rehypeNpmCommand } from './lib/rehype-npm-command'
-import { UnistNode, UnistTree } from './types/unist'
+import { UnistNode } from './types/unist'
 import { rehypeComponent, rehypePreBlockSource, rhypeMetadataPlugin } from './velite-configs/plugins'
 import { rehypeTitle } from './velite-configs/plugins/regype-title'
 

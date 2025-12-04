@@ -12,7 +12,8 @@
     "cva": "1.0.0-beta.3",
     "husky": "^9.1.7",
     "tsdown": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=22.0.0"
