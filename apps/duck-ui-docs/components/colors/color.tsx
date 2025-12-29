@@ -5,7 +5,7 @@ import { Check, Clipboard } from 'lucide-react'
 import { toast } from 'sonner'
 import { copyToClipboardWithMeta } from '~/components/copy-button'
 import { useColors } from '~/hooks/use-colors'
-import { type Color } from '~/lib/colors'
+import type { Color } from '~/lib/colors'
 import { trackEvent } from '~/lib/events'
 
 export function Color({ color }: { color: Color }) {
@@ -41,12 +41,12 @@ export function Color({ color }: { color: Color }) {
       ) : (
         <Clipboard className="group-hover:opacity-100" />
       )}
-      <div className="border after:border-input w-full flex-1 rounded-md bg-(--bg) after:rounded-lg md:rounded-lg" />
+      <div className="w-full flex-1 rounded-md border bg-(--bg) after:rounded-lg after:border-input md:rounded-lg" />
       <div className="flex w-full flex-col items-center justify-center gap-1">
-        <span className="text-muted-foreground group-hover:text-foreground group-data-[last-copied=true]:text-primary font-mono text-xs tabular-nums transition-colors sm:hidden xl:flex">
+        <span className="font-mono text-muted-foreground text-xs tabular-nums transition-colors group-hover:text-foreground group-data-[last-copied=true]:text-primary sm:hidden xl:flex">
           {color.className}
         </span>
-        <span className="text-muted-foreground group-hover:text-foreground group-data-[last-copied=true]:text-primary hidden font-mono text-xs tabular-nums transition-colors sm:flex xl:hidden">
+        <span className="hidden font-mono text-muted-foreground text-xs tabular-nums transition-colors group-hover:text-foreground group-data-[last-copied=true]:text-primary sm:flex xl:hidden">
           {color.scale}
         </span>
       </div>

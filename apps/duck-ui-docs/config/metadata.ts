@@ -1,4 +1,4 @@
-import { Metadata, Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { absoluteUrl } from '~/lib/utils'
 import { allTitles } from './docs'
 import { siteConfig } from './site'

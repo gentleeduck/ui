@@ -8,7 +8,7 @@ const start = new Date(2023, 5, 5)
 
 export function CardsCalendar() {
   return (
-    <Card className="max-w-[260px] py-0 h-fit">
+    <Card className="h-fit max-w-[260px] py-0">
       <CardContent className="p-1">
         <Calendar
           defaultMonth={start}

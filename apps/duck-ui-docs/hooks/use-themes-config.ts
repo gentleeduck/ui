@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-import { THEMES, Theme } from '~/lib/themes'
+import { THEMES, type Theme } from '~/lib/themes'
 
 type ThemesConfig = {
   activeTheme: Theme

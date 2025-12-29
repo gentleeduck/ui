@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={cn('min-h-svh bg-background antialiased duck')}>
+      <body className={cn('duck min-h-svh bg-background antialiased')}>
         <KeyProvider timeoutMs={100}>
           <ThemeProvider
             attribute="class"

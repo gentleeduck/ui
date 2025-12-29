@@ -17,7 +17,7 @@ export function ColorsNav({ className, ...props }: React.ComponentProps<'div'>) 
           {colors.map((colorPalette, index) => (
             <Link
               className={cn(
-                'text-muted-foreground hover:text-primary data-[active=true]:text-primary flex h-7 items-center justify-center px-4 text-center text-base font-medium capitalize transition-colors',
+                'flex h-7 items-center justify-center px-4 text-center font-medium text-base text-muted-foreground capitalize transition-colors hover:text-primary data-[active=true]:text-primary',
               )}
               data-active={pathname?.startsWith(colorPalette.name) || (index === 0 && pathname === '/colors')}
               href={`/colors#${colorPalette.name}`}

@@ -27,7 +27,7 @@ export function ColorFormatSelector({
       <Button asChild size={'sm'} variant="ghost">
         <SelectTrigger className={cn(className)} {...props}>
           <span className="font-medium text-sm">Format: </span>
-          <span className="text-muted-foreground font-mono">{format}</span>
+          <span className="font-mono text-muted-foreground">{format}</span>
         </SelectTrigger>
       </Button>
       <SelectContent>
@@ -37,7 +37,7 @@ export function ColorFormatSelector({
             key={format}
             value={format}>
             <span className="font-medium text-sm">{format}</span>
-            <span className="text-muted-foreground font-mono text-xs">{value}</span>
+            <span className="font-mono text-muted-foreground text-xs">{value}</span>
           </SelectItem>
         ))}
       </SelectContent>

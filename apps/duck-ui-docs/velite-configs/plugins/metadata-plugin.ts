@@ -1,5 +1,5 @@
 import { visit } from 'unist-util-visit'
-import { UnistNode, UnistTree } from '../uniset'
+import type { UnistNode, UnistTree } from '../uniset'
 
 export function rhypeMetadataPlugin() {
   return (tree: UnistTree): UnistTree => {

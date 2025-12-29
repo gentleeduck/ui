@@ -87,7 +87,7 @@ export function CardsChat() {
           <div className="flex items-center gap-4">
             <Avatar alt="S" className="border" src="/avatars/01.png"></Avatar>
             <div className="flex flex-col gap-0.5">
-              <p className="text-sm leading-none font-medium">Sofia Davis</p>
+              <p className="font-medium text-sm leading-none">Sofia Davis</p>
               <p className="text-muted-foreground text-xs">m@example.com</p>
             </div>
           </div>
@@ -111,7 +111,7 @@ export function CardsChat() {
               <div
                 className={cn(
                   'flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm',
-                  message.role === 'user' ? 'bg-primary text-primary-foreground ml-auto' : 'bg-muted',
+                  message.role === 'user' ? 'ml-auto bg-primary text-primary-foreground' : 'bg-muted',
                 )}
                 key={index}>
                 {message.content}
@@ -143,7 +143,7 @@ export function CardsChat() {
               value={input}
             />
             <Button
-              className="absolute top-1/2 right-2 !size-6 -translate-y-1/2 rounded-full"
+              className="!size-6 -translate-y-1/2 absolute top-1/2 right-2 rounded-full"
               disabled={inputLength === 0}
               size="icon"
               type="submit">
@@ -159,7 +159,7 @@ export function CardsChat() {
             <DialogTitle>New message</DialogTitle>
             <DialogDescription>Invite a user to this thread. This will create a new group message.</DialogDescription>
           </DialogHeader>
-          <Command className="overflow-hidden rounded-t-none border-t bg-transparent max-w-full">
+          <Command className="max-w-full overflow-hidden rounded-t-none border-t bg-transparent">
             <CommandInput placeholder="Search user..." />
             <CommandList>
               <CommandEmpty>No users found.</CommandEmpty>
@@ -178,10 +178,10 @@ export function CardsChat() {
                     }}>
                     <Avatar alt={user.name[0]} className="border" src={user.avatar}></Avatar>
                     <div className="ml-2">
-                      <p className="text-sm leading-none font-medium">{user.name}</p>
+                      <p className="font-medium text-sm leading-none">{user.name}</p>
                       <p className="text-muted-foreground text-sm">{user.email}</p>
                     </div>
-                    {selectedUsers.includes(user) ? <CheckIcon className="text-primary ml-auto flex size-4" /> : null}
+                    {selectedUsers.includes(user) ? <CheckIcon className="ml-auto flex size-4 text-primary" /> : null}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -189,7 +189,7 @@ export function CardsChat() {
           </Command>
           <DialogFooter className="flex items-center border-t p-4 sm:justify-between">
             {selectedUsers.length > 0 ? (
-              <div className="flex -space-x-2 overflow-hidden">
+              <div className="-space-x-2 flex overflow-hidden">
                 {selectedUsers.map((user) => (
                   <Avatar
                     alt={user.name[0]}

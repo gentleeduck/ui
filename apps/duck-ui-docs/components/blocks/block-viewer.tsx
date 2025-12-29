@@ -2,7 +2,7 @@
 
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { cn } from '@gentleduck/libs/cn'
-import { registry_entry_schema, registry_item_file_schema } from '@gentleduck/registers'
+import type { registry_entry_schema, registry_item_file_schema } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui-duckui/resizable'
@@ -37,10 +37,10 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import * as React from 'react'
-import { ImperativePanelHandle } from 'react-resizable-panels'
-import { z } from 'zod'
+import type { ImperativePanelHandle } from 'react-resizable-panels'
+import type { z } from 'zod'
 import { trackEvent } from '~/lib/events'
-import { createFileTreeForRegistryItemFiles, FileTree } from '~/lib/get-registry-item'
+import type { createFileTreeForRegistryItemFiles, FileTree } from '~/lib/get-registry-item'
 import { getIconForLanguageExtension } from '../icons'
 
 type BlockViewerContext = {
@@ -122,18 +122,18 @@ function BlockViewerToolbar() {
   return (
     <div className="hidden w-full items-center gap-2 lg:flex">
       <Tabs onValueChange={(value) => setView(value as 'preview' | 'code')} value={view}>
-        <TabsList className="grid grid-cols-2 items-center rounded-md p-0 border">
+        <TabsList className="grid grid-cols-2 items-center rounded-md border p-0">
           <TabsTrigger value="preview">Preview</TabsTrigger>
           <TabsTrigger value="code">Code</TabsTrigger>
         </TabsList>
       </Tabs>
       <a
-        className="flex-1 text-center text-base font-medium underline-offset-2 hover:underline md:flex-auto md:text-left"
+        className="flex-1 text-center font-medium text-base underline-offset-2 hover:underline md:flex-auto md:text-left"
         href={`#${item.name}`}>
         {item.description?.replace(/\.$/, '')}
       </a>
       <div className="ml-auto flex items-center gap-2">
-        <div className="items-center gap-1.5 rounded-md border flex">
+        <div className="flex items-center gap-1.5 rounded-md border">
           <ToggleGroup
             defaultValue="100"
             onValueChange={(value) => {
@@ -155,7 +155,7 @@ function BlockViewerToolbar() {
 
             <Separator className="!h-6" orientation="vertical" />
 
-            <Button className="rounded-none size-9" size="icon" title="Open in New Tab" variant="ghost">
+            <Button className="size-9 rounded-none" size="icon" title="Open in New Tab" variant="ghost">
               <Link href={`/view/${item.name}`} target="_blank">
                 <span className="sr-only">Open in New Tab</span>
                 <ExternalLink />
@@ -164,7 +164,7 @@ function BlockViewerToolbar() {
             <Separator className="!h-6" orientation="vertical" />
 
             <Button
-              className="p-0 rounded-none size-9"
+              className="size-9 rounded-none p-0"
               onClick={() => {
                 if (setIframeKey) {
                   setIframeKey((k) => k + 1)
@@ -179,7 +179,7 @@ function BlockViewerToolbar() {
 
             <Separator className="!h-6" orientation="vertical" />
             <Button
-              className="p-0 rounded-none size-9"
+              className="size-9 rounded-none p-0"
               onClick={() => {
                 copyToClipboardLink(`${window.location.origin}/view/${item.name}`)
               }}
@@ -191,7 +191,7 @@ function BlockViewerToolbar() {
             </Button>
           </ToggleGroup>
         </div>
-        <Separator className="mx-1 !h-6" orientation="vertical" />
+        <Separator className="!h-6 mx-1" orientation="vertical" />
         <Button
           className="mr-2"
           onClick={() => {
@@ -215,7 +215,7 @@ function BlockViewerIframe({ className }: { className?: string }) {
 
   return (
     <iframe
-      className={cn('bg-background no-scrollbar relative z-20 w-full', className)}
+      className={cn('no-scrollbar relative z-20 w-full bg-background', className)}
       height={930}
       key={iframeKey}
       loading="lazy"
@@ -232,16 +232,16 @@ function BlockViewerView() {
       <div className="relative grid w-full gap-4">
         <div className="absolute inset-0 right-4 [background-image:radial-gradient(#d4d4d4_1px,transparent_1px)] [background-size:20px_20px] dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]"></div>
         <ResizablePanelGroup
-          className="after:bg-surface/50 relative z-10 after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-xl"
+          className="relative z-10 after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-xl after:bg-surface/50"
           direction="horizontal">
           <ResizablePanel
-            className="bg-background relative aspect-[4/2.5] overflow-hidden rounded-lg border md:aspect-auto md:rounded-xl"
+            className="relative aspect-[4/2.5] overflow-hidden rounded-lg border bg-background md:aspect-auto md:rounded-xl"
             defaultSize={100}
             minSize={30}
             ref={resizablePanelRef}>
             <BlockViewerIframe />
           </ResizablePanel>
-          <ResizableHandle className="after:bg-border relative hidden w-3 bg-transparent p-0 after:absolute after:top-1/2 after:right-0 after:h-8 after:w-[6px] after:translate-x-[-1px] after:-translate-y-1/2 after:rounded-full after:transition-all after:hover:h-10 md:block" />
+          <ResizableHandle className="after:-translate-y-1/2 relative hidden w-3 bg-transparent p-0 after:absolute after:top-1/2 after:right-0 after:h-8 after:w-[6px] after:translate-x-[-1px] after:rounded-full after:bg-border after:transition-all after:hover:h-10 md:block" />
           <ResizablePanel defaultSize={0} minSize={0} />
         </ResizablePanelGroup>
       </div>
@@ -255,8 +255,8 @@ function BlockViewerMobile({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-2 lg:hidden">
       <div className="flex items-center gap-2 px-2">
-        <div className="line-clamp-1 text-base font-medium">{item.description}</div>
-        <div className="text-muted-foreground ml-auto shrink-0 font-mono text-xs">{item.name}</div>
+        <div className="line-clamp-1 font-medium text-base">{item.description}</div>
+        <div className="ml-auto shrink-0 font-mono text-muted-foreground text-xs">{item.name}</div>
       </div>
       {
         // item.meta?.mobile === 'component' ? (
@@ -300,7 +300,7 @@ function BlockViewerCode() {
   const language = file.path.split('.').pop() ?? 'tsx'
 
   return (
-    <div className="bg-code text-code-foreground mr-[14px] flex overflow-hidden rounded-xl border group-data-[view=preview]/block-view-wrapper:hidden md:h-(--height)">
+    <div className="mr-[14px] flex overflow-hidden rounded-xl border bg-code text-code-foreground group-data-[view=preview]/block-view-wrapper:hidden md:h-(--height)">
       <div className="w-72">
         <BlockViewerFileTree />
       </div>
@@ -308,7 +308,7 @@ function BlockViewerCode() {
         className="!mx-0 mt-0 flex min-w-0 flex-1 flex-col rounded-xl border-none"
         data-rehype-pretty-code-figure="">
         <figcaption
-          className="text-code-foreground [&_svg]:text-code-foreground flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 [&_svg]:size-4 [&_svg]:opacity-70 !text-base !font-medium"
+          className="!text-base !font-medium flex h-12 shrink-0 items-center gap-2 border-b px-4 py-2 text-code-foreground [&_svg]:size-4 [&_svg]:text-code-foreground [&_svg]:opacity-70"
           data-language={language}>
           {getIconForLanguageExtension(language)}
           {file.target}
@@ -334,7 +334,7 @@ export function BlockViewerFileTree() {
   }
 
   return (
-    <SidebarProvider className="flex !min-h-full flex-col border-r">
+    <SidebarProvider className="!min-h-full flex flex-col border-r">
       <Sidebar className="w-full flex-1" collapsible="none">
         <SidebarGroupLabel className="h-12 rounded-none border-b px-4 text-base">Files</SidebarGroupLabel>
         <SidebarGroup className="p-0">
@@ -358,7 +358,7 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
     return (
       <SidebarMenuItem>
         <SidebarMenuButton
-          className="hover:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15 rounded-none pl-(--index) whitespace-nowrap text-base font-medium"
+          className="whitespace-nowrap rounded-none pl-(--index) font-medium text-base hover:bg-muted-foreground/15 data-[active=true]:bg-muted-foreground/15"
           data-index={index}
           isActive={item.path === activeFile}
           onClick={() => item.path && setActiveFile(item.path)}
@@ -377,11 +377,11 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
   return (
     <SidebarMenuItem>
       <Collapsible
-        className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90 gap-0"
+        className="group/collapsible gap-0 [&[data-state=open]>button>svg:first-child]:rotate-90"
         defaultOpen>
         <CollapsibleTrigger asChild>
           <SidebarMenuButton
-            className="hover:bg-muted-foreground/15 active:bg-muted-foreground/15 rounded-none !pl-(--index) whitespace-nowrap [&[data-open='true']_svg:first-child]:rotate-90 justify-start text-base"
+            className="!pl-(--index) justify-start whitespace-nowrap rounded-none text-base hover:bg-muted-foreground/15 active:bg-muted-foreground/15 [&[data-open='true']_svg:first-child]:rotate-90"
             style={
               {
                 '--index': `${index}rem`,
@@ -393,7 +393,7 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
           </SidebarMenuButton>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <SidebarMenuSub className="m-0 w-full translate-x-0 border-none p-0 gap-0">
+          <SidebarMenuSub className="m-0 w-full translate-x-0 gap-0 border-none p-0">
             {item.children.map((subItem, key) => (
               <Tree index={index + 1} item={subItem} key={key} />
             ))}

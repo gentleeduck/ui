@@ -145,30 +145,30 @@ function EcosystemCard({ pkg, index }: { pkg: (typeof packages)[number]; index: 
   const Content = () => (
     <>
       <div className="flex items-center gap-4">
-        <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-lg">
-          <Icon className="text-primary h-6 w-6" />
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+          <Icon className="h-6 w-6 text-primary" />
         </div>
         <div>
           <h3 className="font-semibold text-lg">{pkg.name}</h3>
           <span
-            className={`ml-2 rounded-full px-2 py-0.5 text-xs font-medium ${
+            className={`ml-2 rounded-full px-2 py-0.5 font-medium text-xs ${
               pkg.status === 'new' ? 'bg-green-500/10 text-green-600' : 'bg-yellow-500/10 text-yellow-600'
             }`}>
             {pkg.status}
           </span>
         </div>
       </div>
-      <p className="text-muted-foreground mt-4 text-sm leading-relaxed">{pkg.description}</p>
+      <p className="mt-4 text-muted-foreground text-sm leading-relaxed">{pkg.description}</p>
     </>
   )
   return pkg.href.length > 0 ? (
     <Link
-      className="border-border/50 bg-background/60 hover:bg-background/80 transition-colors rounded-xl border p-6 shadow-sm"
+      className="rounded-xl border border-border/50 bg-background/60 p-6 shadow-sm transition-colors hover:bg-background/80"
       href={pkg.href}>
       <Content />
     </Link>
   ) : (
-    <div className="border-border/50 bg-background/60 hover:bg-background/80 transition-colors rounded-xl border p-6 shadow-sm">
+    <div className="rounded-xl border border-border/50 bg-background/60 p-6 shadow-sm transition-colors hover:bg-background/80">
       <Content />
     </div>
   )
@@ -188,7 +188,7 @@ export function EcosystemSection() {
         aria-hidden="true"
         className="absolute right-1/4 bottom-1/4 z-0 h-72 w-72 rounded-full bg-rose-500/20 blur-3xl"></div>
 
-      <div className="relative mx-auto py-24 sm:py-32 lg:py-40 container">
+      <div className="container relative mx-auto py-24 sm:py-32 lg:py-40">
         <SectionTitle
           subtitle="A growing ecosystem of tools, primitives, and utilities for modern development."
           title="The Gentleduck Ecosystem"

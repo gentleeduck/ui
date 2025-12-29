@@ -4,7 +4,7 @@ function PageHeader({ className, children, ...props }: React.ComponentProps<'sec
   return (
     <section className={cn('border-grid', className)} {...props}>
       <div className="container-wrapper">
-        <div className="container flex flex-col items-center text-center gap-2 xl:gap-4 py-[clamp(2rem,5vw,5rem)]">
+        <div className="container flex flex-col items-center gap-2 py-[clamp(2rem,5vw,5rem)] text-center xl:gap-4">
           {children}
         </div>
       </div>
@@ -16,7 +16,7 @@ function PageHeaderHeading({ className, ...props }: React.ComponentProps<'h1'>) 
   return (
     <h1
       className={cn(
-        'text-primary leading-tighter max-w-4xl text-4xl uppercase font-semibold tracking-tight text-balance lg:leading-[1.1] lg:font-semibold xl:text-5xl xl:tracking-tighter',
+        'max-w-4xl text-balance font-semibold text-4xl text-primary uppercase leading-tighter tracking-tight lg:font-semibold lg:leading-[1.1] xl:text-5xl xl:tracking-tighter',
         className,
       )}
       {...props}
@@ -26,7 +26,7 @@ function PageHeaderHeading({ className, ...props }: React.ComponentProps<'h1'>) 
 
 function PageHeaderDescription({ className, ...props }: React.ComponentProps<'p'>) {
   return (
-    <p className={cn('text-accent-foreground/80 max-w-3xl text-base text-balance sm:text-lg', className)} {...props} />
+    <p className={cn('max-w-3xl text-balance text-accent-foreground/80 text-base sm:text-lg', className)} {...props} />
   )
 }
 

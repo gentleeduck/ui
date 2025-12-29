@@ -2,7 +2,7 @@
 
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
-import React from 'react'
+import type React from 'react'
 import { FigcaptionBlock } from './figcaption-block'
 
 interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -20,8 +20,8 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
     ?.replace('//', '') as string
 
   return (
-    <Tabs className="bg-muted/40 rounded-md border border-border" defaultValue={defaultValue}>
-      <TabsList className="justify-start w-[622px] bg-transparent py-2 px-2 overflow-x-auto ">
+    <Tabs className="rounded-md border border-border bg-muted/40" defaultValue={defaultValue}>
+      <TabsList className="w-[622px] justify-start overflow-x-auto bg-transparent px-2 py-2">
         {children.map((item, idx) => {
           const value = String((item as any).props.children[0].props.__rawString__)
             .split('\n')[0]
@@ -40,7 +40,7 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
           ?.replace('//', '') as string
         return (
           <TabsContent
-            className="bg-transparent [&>div>div]:m-0 m-0 focus-visible:outline-none focus-visible:shadow-none focus-visible:ring-0 relative [&>div>div>button]:top-1 [&>div>div>button]:right-1"
+            className="relative m-0 bg-transparent focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-0 [&>div>div>button]:top-1 [&>div>div>button]:right-1 [&>div>div]:m-0"
             key={idx}
             value={value}>
             <FigcaptionBlock>{value}</FigcaptionBlock>

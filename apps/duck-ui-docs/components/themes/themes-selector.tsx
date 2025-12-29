@@ -8,7 +8,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 import { useThemesConfig } from '~/hooks/use-themes-config'
-import { THEMES, Theme } from '~/lib/themes'
+import { THEMES, type Theme } from '~/lib/themes'
 
 export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentProps<'div'> & { themes?: Theme[] }) {
   const { theme: mode } = useTheme()
@@ -78,7 +78,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
                 <div className="h-6 w-6 overflow-hidden rounded-sm">
                   <div
                     className={cn(
-                      'grid h-12 w-12 -translate-x-1/4 -translate-y-1/4 grid-cols-2 overflow-hidden rounded-md transition-all ease-in-out group-hover:rotate-45',
+                      '-translate-x-1/4 -translate-y-1/4 grid h-12 w-12 grid-cols-2 overflow-hidden rounded-md transition-all ease-in-out group-hover:rotate-45',
                       isActive ? 'rotate-45 group-hover:rotate-0' : 'rotate-0',
                     )}>
                     <span className="flex h-6 w-6 bg-[var(--color-1)]" />

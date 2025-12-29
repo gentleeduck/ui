@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { BaseColor, baseColors, baseColorsOKLCH } from '@gentleduck/registers'
+import { type BaseColor, baseColors, baseColorsOKLCH } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Dialog,
@@ -54,7 +54,7 @@ export function ThemeCustomizer() {
           <PopoverTrigger asChild>
             <Button size="sm">Customize</Button>
           </PopoverTrigger>
-          <PopoverContent className="z-40 max-w-[375px] w-auto rounded-[12px] bg-white p-6 dark:bg-zinc-950">
+          <PopoverContent className="z-40 w-auto max-w-[375px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
             <Customizer />
           </PopoverContent>
         </Popover>
@@ -78,7 +78,7 @@ export function Customizer() {
       <div className="flex items-start pt-4 md:pt-0">
         <div className="space-y-1 pr-2">
           <div className="font-semibold leading-none tracking-tight">Customize</div>
-          <div className="text-xs text-muted-foreground">Pick a style and color for your components.</div>
+          <div className="text-muted-foreground text-xs">Pick a style and color for your components.</div>
         </div>
         <Button
           className="ml-auto rounded-[0.5rem]"
@@ -121,7 +121,7 @@ export function Customizer() {
                   variant={'outline'}>
                   <span
                     className={cn(
-                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[var(--theme-primary)]',
+                      '-translate-x-1 mr-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--theme-primary)]',
                     )}>
                     {isActive && <CheckIcon className="!size-3 text-white" />}
                   </span>
@@ -165,7 +165,7 @@ export function Customizer() {
                   onClick={() => setMode('light')}
                   size="sm"
                   variant={'outline'}>
-                  <SunIcon className="mr-1 -translate-x-1" />
+                  <SunIcon className="-translate-x-1 mr-1" />
                   Light
                 </Button>
                 <Button
@@ -173,7 +173,7 @@ export function Customizer() {
                   onClick={() => setMode('dark')}
                   size="sm"
                   variant={'outline'}>
-                  <MoonIcon className="mr-1 -translate-x-1" />
+                  <MoonIcon className="-translate-x-1 mr-1" />
                   Dark
                 </Button>
               </>
@@ -213,7 +213,7 @@ export function CopyCodeButton({ className, ...props }: React.ComponentProps<typ
             Copy code
           </Button>
         </DialogTrigger>
-        <DialogContent className="w-[300px] md:w-[500px] lg:w-[600px] outline-none">
+        <DialogContent className="w-[300px] outline-none md:w-[500px] lg:w-[600px]">
           <DialogHeader>
             <DialogTitle>Theme</DialogTitle>
             <DialogDescription>Copy and paste the following code into your CSS file.</DialogDescription>
@@ -246,7 +246,7 @@ function CustomizerCode() {
   const Button = () => {
     return (
       <CopyButton
-        className="top-4 right-4 absolute"
+        className="absolute top-4 right-4"
         value={
           themeVersion === 'v3'
             ? getThemeCode(activeTheme, config.radius)
@@ -271,8 +271,8 @@ function CustomizerCode() {
       <TabsContent className="relative" value="v4">
         <Button />
         <div data-rehype-pretty-code-fragment="">
-          <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
-            <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">
+          <pre className="relative max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
+            <code className="relative flex flex-col rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
               <span className="line text-white">&nbsp;:root &#123;</span>
               <span className="line text-white">&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;</span>
               {Object.entries(activeThemeOKLCH?.light)?.map(([key, value]) => (
@@ -296,8 +296,8 @@ function CustomizerCode() {
       <TabsContent className="relative" value="v3">
         <Button />
         <div data-rehype-pretty-code-fragment="">
-          <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 relative">
-            <code className="relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm flex flex-col">
+          <pre className="relative max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
+            <code className="relative flex flex-col rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
               <span className="line text-white">@layer base &#123;</span>
               <span className="line text-white">&nbsp;&nbsp;:root &#123;</span>
               <span className="line text-white">

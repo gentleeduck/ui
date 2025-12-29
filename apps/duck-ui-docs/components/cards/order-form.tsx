@@ -58,9 +58,9 @@ export function OrderForm() {
         <CardHeader className="sr-only">
           <CardTitle className="sr-only">Place Your Order</CardTitle>
         </CardHeader>
-        <CardContent className="px-6 space-y-6">
+        <CardContent className="space-y-6 px-6">
           {/* Email Address */}
-          <div className="space-y-2 flex flex-col">
+          <div className="flex flex-col space-y-2">
             <Label htmlFor="email2">Email address</Label>
             <div className="relative">
               <Input
@@ -71,13 +71,13 @@ export function OrderForm() {
                 type="email"
                 value={formData.email}
               />
-              {errors.email && <AlertTriangle className="absolute right-3 top-3 h-4 w-4 text-red-500" />}
+              {errors.email && <AlertTriangle className="absolute top-3 right-3 h-4 w-4 text-red-500" />}
             </div>
-            {errors.email && <p className="text-sm text-red-500 flex items-center gap-1">INVALID EMAIL ADDRESS</p>}
+            {errors.email && <p className="flex items-center gap-1 text-red-500 text-sm">INVALID EMAIL ADDRESS</p>}
           </div>
 
           {/* Full Name */}
-          <div className="space-y-2 flex flex-col">
+          <div className="flex flex-col space-y-2">
             <Label>Full name</Label>
             <div className="grid grid-cols-2 gap-4">
               <Input
@@ -94,7 +94,7 @@ export function OrderForm() {
           </div>
 
           {/* Address */}
-          <div className="space-y-2 flex flex-col">
+          <div className="flex flex-col space-y-2">
             <Label>Address</Label>
             <Input
               onChange={(e) => handleInputChange('streetAddress', e.currentTarget.value)}
@@ -147,10 +147,10 @@ export function OrderForm() {
           </div>
 
           {/* Payment Details */}
-          <div className="space-y-2 flex flex-col">
+          <div className="flex flex-col space-y-2">
             <Label>Payment details</Label>
             <div className="relative">
-              <div className="flex items-center gap-2 px-3 border rounded-md">
+              <div className="flex items-center gap-2 rounded-md border px-3">
                 <Lock className="size-8" />
                 <Input
                   className="border-0 bg-transparent p-0 focus-visible:ring-0"
@@ -160,7 +160,7 @@ export function OrderForm() {
                 />
                 <div className="flex items-center gap-8">
                   <Input
-                    className="border-0 bg-transparent p-0 w-16 focus-visible:ring-0"
+                    className="w-16 border-0 bg-transparent p-0 focus-visible:ring-0"
                     onChange={(e) => {
                       const [month, year] = e.currentTarget.value.split('/')
                       handleInputChange('expiryMonth', month || '')
@@ -170,28 +170,28 @@ export function OrderForm() {
                     value={`${formData.expiryMonth}/${formData.expiryYear}`}
                   />
                   <Input
-                    className="border-0 bg-transparent p-0 w-12 focus-visible:ring-0"
+                    className="w-12 border-0 bg-transparent p-0 focus-visible:ring-0"
                     onChange={(e) => handleInputChange('cvv', e.currentTarget.value)}
                     placeholder="CVV"
                     value={formData.cvv}
                   />
                   <Input
-                    className="border-0 bg-transparent p-0 w-16 focus-visible:ring-0"
+                    className="w-16 border-0 bg-transparent p-0 focus-visible:ring-0"
                     onChange={(e) => handleInputChange('zipCode', e.currentTarget.value)}
                     placeholder="ZIP"
                     value={formData.zipCode}
                   />
                 </div>
               </div>
-              <p className="text-xs mt-1">ENCRYPTED AND SECURED</p>
+              <p className="mt-1 text-xs">ENCRYPTED AND SECURED</p>
             </div>
           </div>
 
           {/* Radio Technologies */}
-          <div className="space-y-2 flex flex-col">
+          <div className="flex flex-col space-y-2">
             <Label>What radio technologies are you using?</Label>
             <RadioGroup
-              className="flex gap-6 flex-row"
+              className="flex flex-row gap-6"
               onValueChange={(value) => handleInputChange('radioTech', value)}
               value={formData.radioTech}>
               <RadioGroupItem value="2g">2G</RadioGroupItem>
@@ -202,7 +202,7 @@ export function OrderForm() {
           </div>
 
           {/* Data Usage */}
-          <div className="space-y-2 flex flex-col">
+          <div className="flex flex-col space-y-2">
             <Label>How much data do you expect to use each month?</Label>
             <RadioGroup
               className="flex flex-row gap-6"
@@ -216,7 +216,7 @@ export function OrderForm() {
           </div>
 
           {/* Promo Code */}
-          <div className="space-y-2 flex flex-col">
+          <div className="flex flex-col space-y-2">
             <Label htmlFor="promo">Promo code</Label>
             <div className="relative">
               <Input
@@ -225,11 +225,11 @@ export function OrderForm() {
                 onChange={(e) => handleInputChange('promoCode', e.currentTarget.value)}
                 value={formData.promoCode}
               />
-              {promoValid && <Check className="absolute right-3 top-3 h-4 w-4" />}
+              {promoValid && <Check className="absolute top-3 right-3 h-4 w-4" />}
             </div>
           </div>
 
-          <div className="flex items-center gap-2 justify-between">
+          <div className="flex items-center justify-between gap-2">
             {/* Sign up checkbox */}
             <div className="flex items-center space-x-2">
               <Checkbox

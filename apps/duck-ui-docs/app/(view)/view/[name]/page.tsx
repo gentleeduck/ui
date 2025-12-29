@@ -1,7 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { registry_entry_schema } from '@gentleduck/registers'
 import { notFound } from 'next/navigation'
-import { Metadata } from 'next/types'
+import type { Metadata } from 'next/types'
 import React from 'react'
 import z from 'zod'
 import { siteConfig } from '~/config/site'
@@ -93,7 +93,7 @@ export default async function BlockPage({
 
   return (
     <>
-      <div className={cn('h-screen flex flex-col items-center justify-center')}>
+      <div className={cn('flex h-screen flex-col items-center justify-center')}>
         <Component />
       </div>
     </>

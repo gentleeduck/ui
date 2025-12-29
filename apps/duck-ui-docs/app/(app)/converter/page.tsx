@@ -159,11 +159,11 @@ export default function ConverterPage() {
 }`
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
+    <div className="container mx-auto max-w-6xl p-6">
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
+        <div className="mb-4 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Theme Format Converter</h1>
+            <h1 className="mb-2 font-bold text-3xl">Theme Format Converter</h1>
             <p className="text-muted-foreground">Convert between JavaScript theme objects and CSS custom properties</p>
           </div>
           <Link href="/color-editor">
@@ -180,13 +180,13 @@ export default function ConverterPage() {
           <ArrowRightLeft className="h-4 w-4" />
           {isJsToCSS ? 'JS → CSS' : 'CSS → JS'}
         </Button>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-muted-foreground text-sm">
           Currently converting from {isJsToCSS ? 'JavaScript Object' : 'CSS'} to{' '}
           {isJsToCSS ? 'CSS' : 'JavaScript Object'}
         </span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Input Section */}
         <Card>
           <CardHeader>
@@ -223,7 +223,7 @@ export default function ConverterPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <Textarea
-              className="min-h-[400px] font-mono text-sm bg-muted"
+              className="min-h-[400px] bg-muted font-mono text-sm"
               placeholder={`Converted ${isJsToCSS ? 'CSS' : 'JavaScript'} will appear here...`}
               readOnly
               value={output}
@@ -257,11 +257,11 @@ export default function ConverterPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <h4 className="font-semibold mb-2">JavaScript Object Format:</h4>
-            <p className="text-sm text-muted-foreground mb-2">
+            <h4 className="mb-2 font-semibold">JavaScript Object Format:</h4>
+            <p className="mb-2 text-muted-foreground text-sm">
               Should contain `light` and `dark` objects with color properties:
             </p>
-            <pre className="bg-muted p-3 rounded text-xs overflow-x-auto">
+            <pre className="overflow-x-auto rounded bg-muted p-3 text-xs">
               {`{
   light: {
     background: 'oklch(1 0 0)',
@@ -278,11 +278,11 @@ export default function ConverterPage() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-2">CSS Format:</h4>
-            <p className="text-sm text-muted-foreground mb-2">
+            <h4 className="mb-2 font-semibold">CSS Format:</h4>
+            <p className="mb-2 text-muted-foreground text-sm">
               Uses `:root` for light theme and `.dark` for dark theme:
             </p>
-            <pre className="bg-muted p-3 rounded text-xs overflow-x-auto">
+            <pre className="overflow-x-auto rounded bg-muted p-3 text-xs">
               {`:root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);

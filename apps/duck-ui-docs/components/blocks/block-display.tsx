@@ -1,8 +1,8 @@
 'use server'
 
-import { registry_item_file_schema } from '@gentleduck/registers'
+import type { registry_item_file_schema } from '@gentleduck/registers'
 import * as React from 'react'
-import { z } from 'zod'
+import type { z } from 'zod'
 import { createFileTreeForRegistryItemFiles, getRegistryItem } from '~/lib/get-registry-item'
 import { highlightCode } from '~/lib/highlight-code'
 import { ComponentPreview } from '../mdx/mdx-components'

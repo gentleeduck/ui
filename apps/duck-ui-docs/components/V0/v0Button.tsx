@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { Block } from '@gentleduck/registers'
-import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
-import * as React from 'react'
+import type { Block } from '@gentleduck/registers'
+import { Button, type ButtonProps } from '@gentleduck/registry-ui-duckui/button'
+import type * as React from 'react'
 import { useFormStatus } from 'react-dom'
 import { toast } from 'sonner'
 import { editInV0 } from './v0Button.server'
@@ -58,7 +58,7 @@ function Form({ disabled, className, ...props }: Omit<React.ComponentProps<typeo
     <Button
       aria-label="Edit in v0"
       className={cn(
-        'z-50 h-[calc(theme(spacing.7)_-_1px)] gap-1 rounded-[6px] bg-black px-3 text-xs text-white hover:bg-black hover:text-white dark:bg-white dark:text-black',
+        'z-50 h-[calc(theme(spacing.7)_-_1px)] gap-1 rounded-[6px] bg-black px-3 text-white text-xs hover:bg-black hover:text-white dark:bg-white dark:text-black',
         className,
       )}
       disabled={disabled || pending}

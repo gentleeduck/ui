@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer } from '@gentleduck/registry-ui-duckui/chart'
+import { type ChartConfig, ChartContainer } from '@gentleduck/registry-ui-duckui/chart'
 import { MinusIcon, PlusIcon } from 'lucide-react'
 import * as React from 'react'
 import { Bar, BarChart } from 'recharts'
@@ -88,7 +88,7 @@ export function CardsActivityGoal() {
             <span className="sr-only">Decrease</span>
           </Button>
           <div className="text-center">
-            <div className="text-4xl font-bold tracking-tighter tabular-nums">{goal}</div>
+            <div className="font-bold text-4xl tabular-nums tracking-tighter">{goal}</div>
             <div className="text-muted-foreground text-xs uppercase">Calories/day</div>
           </div>
           <Button

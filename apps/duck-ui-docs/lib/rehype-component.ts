@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { UnistNode, UnistTree } from 'types/unist'
+import type { UnistNode, UnistTree } from 'types/unist'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'
 

@@ -1,4 +1,4 @@
-import { BaseColor, Style } from '@gentleduck/registers'
+import type { BaseColor, Style } from '@gentleduck/registers'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 

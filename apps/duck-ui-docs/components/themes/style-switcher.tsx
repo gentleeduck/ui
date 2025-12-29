@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { Style, styles } from '@gentleduck/registers'
+import { type Style, styles } from '@gentleduck/registers'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
-import * as React from 'react'
+import type * as React from 'react'
 import { useConfig } from '~/hooks/use-config'
 
 export function StyleSwitcher({ className, ...props }: React.ComponentPropsWithoutRef<typeof SelectTrigger>) {

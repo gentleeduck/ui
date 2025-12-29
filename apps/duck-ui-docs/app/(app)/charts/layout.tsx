@@ -1,5 +1,5 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { ChartsNav } from '~/components/charts'
@@ -37,7 +37,7 @@ export default function ChartsLayout({ children }: { children: React.ReactNode }
     <div className="relative">
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none"></div>
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
       <ActiveThemeProvider>
         <PageHeader className="relative">
           <div
@@ -45,7 +45,7 @@ export default function ChartsLayout({ children }: { children: React.ReactNode }
             className="absolute top-0 right-0 z-0 h-16 w-16 rounded-full bg-blue-400/20 blur-2xl md:h-72 md:w-72"></div>
           <div
             aria-hidden="true"
-            className="bg-blue-400/20 absolute bottom-16 left-0 z-0 h-36 w-36 rounded-full blur-3xl"></div>
+            className="absolute bottom-16 left-0 z-0 h-36 w-36 rounded-full bg-blue-400/20 blur-3xl"></div>
           <Announcement />
           <PageHeaderHeading>{title}</PageHeaderHeading>
           <PageHeaderDescription>{description}</PageHeaderDescription>
@@ -63,9 +63,9 @@ export default function ChartsLayout({ children }: { children: React.ReactNode }
             <ChartsNav />
           </div>
         </div>
-        <div className="container-wrapper container section-soft flex-1">
+        <div className="container-wrapper section-soft container flex-1">
           <div className="gap-6 md:flex md:flex-row-reverse md:items-start">
-            <ThemesSwitcher className="fixed inset-x-0 bottom-0 z-40 flex bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:sticky lg:bottom-auto lg:top-20" />
+            <ThemesSwitcher className="fixed inset-x-0 bottom-0 z-40 flex bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:sticky lg:top-20 lg:bottom-auto" />
             <section className="theme-container w-full">
               <ThemesStyle />
               {children}

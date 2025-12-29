@@ -49,14 +49,14 @@ export function CardsShare() {
         </div>
         <Separator className="my-4" />
         <div className="flex flex-col gap-4">
-          <div className="text-sm font-medium">People with access</div>
+          <div className="font-medium text-sm">People with access</div>
           <div className="grid gap-6">
             {people.map((person) => (
               <div className="flex items-center justify-between gap-4" key={person.email}>
                 <div className="flex items-center gap-4">
                   <Avatar alt={person.name.charAt(0)} src={person.avatar}></Avatar>
                   <div>
-                    <p className="text-sm leading-none font-medium">{person.name}</p>
+                    <p className="font-medium text-sm leading-none">{person.name}</p>
                     <p className="text-muted-foreground text-sm">{person.email}</p>
                   </div>
                 </div>

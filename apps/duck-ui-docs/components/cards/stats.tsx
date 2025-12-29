@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
-import { ChartConfig, ChartContainer } from '@gentleduck/registry-ui-duckui/chart'
+import { type ChartConfig, ChartContainer } from '@gentleduck/registry-ui-duckui/chart'
 import { Area, AreaChart, Line, LineChart } from 'recharts'
 
 const data = [
@@ -60,7 +60,7 @@ const chartConfig = {
 
 export function CardsStats() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 h-fit">
+    <div className="grid h-fit gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
       <Card className="h-[265px]">
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
@@ -90,7 +90,7 @@ export function CardsStats() {
           </ChartContainer>
         </CardContent>
       </Card>
-      <Card className="pb-0 lg:hidden xl:flex h-[265px]">
+      <Card className="h-[265px] pb-0 lg:hidden xl:flex">
         <CardHeader>
           <CardDescription>Subscriptions</CardDescription>
           <CardTitle className="text-3xl">+2,350</CardTitle>

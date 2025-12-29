@@ -39,7 +39,7 @@ export function ChartsNav({ className, ...props }: React.ComponentProps<'div'>) 
   const pathname = usePathname()
 
   return (
-    <div className={cn('flex items-center max-w-[600px] lg:max-w-none hide-scroll', className)} {...props}>
+    <div className={cn('hide-scroll flex max-w-[600px] items-center lg:max-w-none', className)} {...props}>
       {links.map((example, index) => (
         <Link
           className={cn(

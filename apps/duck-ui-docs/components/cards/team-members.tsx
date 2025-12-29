@@ -67,7 +67,7 @@ export function CardsTeamMembers() {
             <div className="flex items-center gap-4">
               <Avatar alt={member.name.charAt(0)} className="border" src={member.avatar}></Avatar>
               <div className="flex flex-col gap-0.5">
-                <p className="text-sm leading-none font-medium">{member.name}</p>
+                <p className="font-medium text-sm leading-none">{member.name}</p>
                 <p className="text-muted-foreground text-xs">{member.email}</p>
               </div>
             </div>
@@ -86,7 +86,7 @@ export function CardsTeamMembers() {
                       {roles.map((role) => (
                         <CommandItem key={role.name}>
                           <div className="flex flex-col">
-                            <p className="text-sm font-medium">{role.name}</p>
+                            <p className="font-medium text-sm">{role.name}</p>
                             <p className="text-muted-foreground">{role.description}</p>
                           </div>
                         </CommandItem>

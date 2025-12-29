@@ -514,33 +514,33 @@ export default function ColorThemeManager() {
     }
 
     return (
-      <div className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+      <div className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50">
         <div className="relative">
           <div
-            className={`w-12 h-12 rounded-lg border-2 cursor-pointer transition-all hover:scale-105 ${!isValid ? 'bg-red-100 border-red-300' : 'border-border'}`}
+            className={`h-12 w-12 cursor-pointer rounded-lg border-2 transition-all hover:scale-105 ${!isValid ? 'border-red-300 bg-red-100' : 'border-border'}`}
             onClick={openAdvancedPicker}
             style={{ backgroundColor: isValid ? hexValue : '#f3f4f6' }}
           />
           {showPicker && (
             <input
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
               onChange={handleColorPickerChange}
               type="color"
               value={isValid ? hexValue : '#000000'}
             />
           )}
-          <Pipette className="absolute -bottom-1 -right-1 w-4 h-4 bg-background border rounded p-0.5" />
+          <Pipette className="-bottom-1 -right-1 absolute h-4 w-4 rounded border bg-background p-0.5" />
         </div>
         <div className="flex-1 space-y-1">
-          <Label className="text-sm font-medium capitalize">{color.name.replace(/-/g, ' ')}</Label>
+          <Label className="font-medium text-sm capitalize">{color.name.replace(/-/g, ' ')}</Label>
           <Input
-            className={`text-xs font-mono h-8 ${!isValid ? 'border-red-300 text-red-600' : ''}`}
+            className={`h-8 font-mono text-xs ${!isValid ? 'border-red-300 text-red-600' : ''}`}
             onBlur={handleInputBlur}
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
             value={localValue}
           />
-          {!isValid && <p className="text-xs text-red-500">Invalid color format</p>}
+          {!isValid && <p className="text-red-500 text-xs">Invalid color format</p>}
         </div>
       </div>
     )
@@ -553,7 +553,7 @@ export default function ColorThemeManager() {
       <Card className={`relative transition-all hover:shadow-lg ${isActive ? 'ring-2 ring-primary' : ''}`}>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
               {theme.name}
               {isActive && (
                 <Badge className="text-xs" variant="default">
@@ -568,7 +568,7 @@ export default function ColorThemeManager() {
                 size="sm"
                 title="Apply Theme"
                 variant="ghost">
-                <Palette className="w-4 h-4" />
+                <Palette className="h-4 w-4" />
               </Button>
               <Button
                 className="text-primary hover:text-primary"
@@ -576,7 +576,7 @@ export default function ColorThemeManager() {
                 size="sm"
                 title="Edit Theme"
                 variant="ghost">
-                <Eye className="w-4 h-4" />
+                <Eye className="h-4 w-4" />
               </Button>
               <Button
                 className="text-destructive hover:text-destructive"
@@ -584,7 +584,7 @@ export default function ColorThemeManager() {
                 size="sm"
                 title="Delete Theme"
                 variant="ghost">
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -619,11 +619,11 @@ export default function ColorThemeManager() {
               <div className="grid grid-cols-8 gap-1.5">
                 {theme.lightColors.map((color) => (
                   <div
-                    className="aspect-square rounded-md border-2 border-border/50 hover:border-primary/50 transition-colors cursor-pointer group relative"
+                    className="group relative aspect-square cursor-pointer rounded-md border-2 border-border/50 transition-colors hover:border-primary/50"
                     key={color.name}
                     style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                     title={`${color.name}: ${color.value}`}>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-md transition-colors" />
+                    <div className="absolute inset-0 rounded-md bg-black/0 transition-colors group-hover:bg-black/10" />
                   </div>
                 ))}
               </div>
@@ -636,11 +636,11 @@ export default function ColorThemeManager() {
               <div className="grid grid-cols-8 gap-1.5">
                 {theme.darkColors.map((color) => (
                   <div
-                    className="aspect-square rounded-md border-2 border-border/50 hover:border-primary/50 transition-colors cursor-pointer group relative"
+                    className="group relative aspect-square cursor-pointer rounded-md border-2 border-border/50 transition-colors hover:border-primary/50"
                     key={color.name}
                     style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                     title={`${color.name}: ${color.value}`}>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-md transition-colors" />
+                    <div className="absolute inset-0 rounded-md bg-black/0 transition-colors group-hover:bg-black/10" />
                   </div>
                 ))}
               </div>
@@ -653,7 +653,7 @@ export default function ColorThemeManager() {
 
   const PreviewModalContent = ({ theme }: { theme: Theme }) => {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-[70vh] overflow-y-auto">
+      <div className="grid max-h-[70vh] grid-cols-1 gap-6 overflow-y-auto lg:grid-cols-2">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <Badge variant="secondary">Light Mode</Badge>
@@ -713,7 +713,7 @@ export default function ColorThemeManager() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Palette className="w-5 h-5" />
+              <Palette className="h-5 w-5" />
               Advanced Color Picker
             </DialogTitle>
             <DialogDescription>
@@ -724,10 +724,10 @@ export default function ColorThemeManager() {
           <div className="space-y-4">
             {/* Color Preview */}
             <div className="flex items-center gap-4">
-              <div className="w-20 h-20 rounded-lg border-2 border-border" style={{ backgroundColor: hexValue }} />
+              <div className="h-20 w-20 rounded-lg border-2 border-border" style={{ backgroundColor: hexValue }} />
               <div className="flex-1">
-                <Label className="text-sm font-medium">Preview</Label>
-                <p className="text-xs text-muted-foreground">{hexValue}</p>
+                <Label className="font-medium text-sm">Preview</Label>
+                <p className="text-muted-foreground text-xs">{hexValue}</p>
               </div>
             </div>
 
@@ -736,7 +736,7 @@ export default function ColorThemeManager() {
               <div>
                 <Label className="text-sm">Color Picker</Label>
                 <input
-                  className="w-full h-12 rounded border cursor-pointer"
+                  className="h-12 w-full cursor-pointer rounded border"
                   onChange={(e) => updateColorValue(e.target.value, 'hex')}
                   type="color"
                   value={hexValue}
@@ -750,7 +750,7 @@ export default function ColorThemeManager() {
                   <div>
                     <Label className="text-xs">H</Label>
                     <Input
-                      className="text-xs h-8"
+                      className="h-8 text-xs"
                       max="360"
                       min="0"
                       onChange={(e) => {
@@ -764,7 +764,7 @@ export default function ColorThemeManager() {
                   <div>
                     <Label className="text-xs">S</Label>
                     <Input
-                      className="text-xs h-8"
+                      className="h-8 text-xs"
                       max="100"
                       min="0"
                       onChange={(e) => {
@@ -778,7 +778,7 @@ export default function ColorThemeManager() {
                   <div>
                     <Label className="text-xs">L</Label>
                     <Input
-                      className="text-xs h-8"
+                      className="h-8 text-xs"
                       max="100"
                       min="0"
                       onChange={(e) => {
@@ -799,7 +799,7 @@ export default function ColorThemeManager() {
                   <div>
                     <Label className="text-xs">R</Label>
                     <Input
-                      className="text-xs h-8"
+                      className="h-8 text-xs"
                       max="255"
                       min="0"
                       onChange={(e) => {
@@ -813,7 +813,7 @@ export default function ColorThemeManager() {
                   <div>
                     <Label className="text-xs">G</Label>
                     <Input
-                      className="text-xs h-8"
+                      className="h-8 text-xs"
                       max="255"
                       min="0"
                       onChange={(e) => {
@@ -827,7 +827,7 @@ export default function ColorThemeManager() {
                   <div>
                     <Label className="text-xs">B</Label>
                     <Input
-                      className="text-xs h-8"
+                      className="h-8 text-xs"
                       max="255"
                       min="0"
                       onChange={(e) => {
@@ -871,7 +871,7 @@ export default function ColorThemeManager() {
     return (
       <div className="space-y-8">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">Theme Preview</h2>
+          <h2 className="mb-2 font-bold text-2xl">Theme Preview</h2>
           <p className="text-muted-foreground">See how your active theme looks on various UI components</p>
         </div>
         <CardsDemo />
@@ -886,37 +886,37 @@ export default function ColorThemeManager() {
             <CardContent>
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-medium mb-3">Light Mode</h4>
+                  <h4 className="mb-3 font-medium">Light Mode</h4>
                   <div className="grid grid-cols-4 gap-2">
                     {activeTheme.lightColors.map((color) => (
-                      <div className="text-center relative" key={color.name}>
+                      <div className="relative text-center" key={color.name}>
                         <div
-                          className="w-full h-16 rounded-lg border mb-2"
+                          className="mb-2 h-16 w-full rounded-lg border"
                           style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                         />
                         <CopyButton
-                          className="absolute top-1 right-1 h-6 w-6 bg-background/80 hover:bg-background border shadow-sm"
+                          className="absolute top-1 right-1 h-6 w-6 border bg-background/80 shadow-sm hover:bg-background"
                           value={color.value}
                         />
-                        <p className="text-xs font-mono">{color.name}</p>
+                        <p className="font-mono text-xs">{color.name}</p>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-medium mb-3">Dark Mode</h4>
+                  <h4 className="mb-3 font-medium">Dark Mode</h4>
                   <div className="grid grid-cols-4 gap-2">
                     {activeTheme.darkColors.map((color) => (
-                      <div className="text-center relative" key={color.name}>
+                      <div className="relative text-center" key={color.name}>
                         <div
-                          className="w-full h-16 rounded-lg border mb-2"
+                          className="mb-2 h-16 w-full rounded-lg border"
                           style={{ backgroundColor: convertColor(color.value, color.originalFormat, 'hex') }}
                         />
                         <CopyButton
-                          className="absolute top-1 right-1 h-6 w-6 bg-background/80 hover:bg-background border shadow-sm"
+                          className="absolute top-1 right-1 h-6 w-6 border bg-background/80 shadow-sm hover:bg-background"
                           value={color.value}
                         />
-                        <p className="text-xs font-mono">{color.name}</p>
+                        <p className="font-mono text-xs">{color.name}</p>
                       </div>
                     ))}
                   </div>
@@ -959,11 +959,11 @@ export default function ColorThemeManager() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-6">
+    <div className="min-h-screen bg-background p-6 text-foreground">
       <div className="container mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Color Theme Manager</h1>
+            <h1 className="font-bold text-3xl">Color Theme Manager</h1>
             <p className="text-muted-foreground">Create, edit, and manage your color themes</p>
           </div>
           <div className="flex items-center gap-2">
@@ -974,30 +974,30 @@ export default function ColorThemeManager() {
               variant="outline">
               {isDarkMode ? (
                 <>
-                  <Sun className="w-4 h-4" />
+                  <Sun className="h-4 w-4" />
                   Light
                 </>
               ) : (
                 <>
-                  <Moon className="w-4 h-4" />
+                  <Moon className="h-4 w-4" />
                   Dark
                 </>
               )}
             </Button>
             <Button className="flex items-center gap-2" onClick={() => setThemeChangerOpen(true)}>
-              <Settings className="w-4 h-4" />
+              <Settings className="h-4 w-4" />
               Theme Changer
             </Button>
           </div>
         </div>
 
         {activeTheme && (
-          <Card className="mb-6 bg-primary/5 border-primary/20">
+          <Card className="mb-6 border-primary/20 bg-primary/5">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-semibold text-primary">Active Theme: {activeTheme.name}</h3>
-                  <p className="text-sm text-muted-foreground">This theme is currently applied to the page</p>
+                  <p className="text-muted-foreground text-sm">This theme is currently applied to the page</p>
                 </div>
                 <Button onClick={resetTheme} size="sm" variant="outline">
                   Reset Theme
@@ -1007,7 +1007,7 @@ export default function ColorThemeManager() {
           </Card>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>CSS Input</CardTitle>
@@ -1079,7 +1079,7 @@ export default function ColorThemeManager() {
                 </Button>
                 {currentTheme && (
                   <Button onClick={handleSaveTheme} variant="outline">
-                    <Plus className="w-4 h-4 mr-2" />
+                    <Plus className="mr-2 h-4 w-4" />
                     Save Theme
                   </Button>
                 )}
@@ -1096,8 +1096,8 @@ export default function ColorThemeManager() {
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="font-semibold mb-2">Light Mode</h3>
-                    <div className="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto">
+                    <h3 className="mb-2 font-semibold">Light Mode</h3>
+                    <div className="grid max-h-[200px] grid-cols-1 gap-2 overflow-y-auto">
                       {currentTheme.lightColors.map((color) => (
                         <ColorPreview
                           color={color}
@@ -1110,8 +1110,8 @@ export default function ColorThemeManager() {
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-2">Dark Mode</h3>
-                    <div className="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto">
+                    <h3 className="mb-2 font-semibold">Dark Mode</h3>
+                    <div className="grid max-h-[200px] grid-cols-1 gap-2 overflow-y-auto">
                       {currentTheme.darkColors.map((color) => (
                         <ColorPreview
                           color={color}
@@ -1137,7 +1137,7 @@ export default function ColorThemeManager() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {themes.map((theme) => (
                   <ThemePreviewCard key={theme.id} theme={theme} />
                 ))}
@@ -1150,19 +1150,19 @@ export default function ColorThemeManager() {
           <DialogContent className="max-w-4xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Settings className="w-5 h-5" />
+                <Settings className="h-5 w-5" />
                 Theme Changer
               </DialogTitle>
               <DialogDescription>Select and apply themes to see them in action</DialogDescription>
             </DialogHeader>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto">
+            <div className="grid max-h-[60vh] grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2">
               {themes.map((theme) => (
                 <Card
                   className={`cursor-pointer transition-all hover:shadow-md ${activeTheme?.id === theme.id ? 'ring-2 ring-primary' : ''}`}
                   key={theme.id}
                   onClick={() => applyTheme(theme)}>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-base flex items-center justify-between">
+                    <CardTitle className="flex items-center justify-between text-base">
                       {theme.name}
                       {activeTheme?.id === theme.id && (
                         <Badge className="text-xs" variant="default">
@@ -1172,7 +1172,7 @@ export default function ColorThemeManager() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-10 gap-1 mb-2">
+                    <div className="mb-2 grid grid-cols-10 gap-1">
                       {theme.lightColors.slice(0, 10).map((color) => (
                         <div
                           className="aspect-square rounded border"
@@ -1203,7 +1203,7 @@ export default function ColorThemeManager() {
           <DialogContent className="max-w-6xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Palette className="w-5 h-5" />
+                <Palette className="h-5 w-5" />
                 {previewTheme?.name} - Theme Preview & Editor
               </DialogTitle>
               <DialogDescription>Preview and edit both light and dark mode colors side by side</DialogDescription>

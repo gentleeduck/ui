@@ -66,7 +66,7 @@ function GitHubStarsButton() {
       <div
         className={cn(
           buttonVariants({
-            className: 'size-auto w-16 h-8 text-sm font-medium',
+            className: 'size-auto h-8 w-16 font-medium text-sm',
             size: 'icon',
             variant: 'ghost',
           }),

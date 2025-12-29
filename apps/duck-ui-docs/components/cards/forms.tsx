@@ -60,17 +60,17 @@ export function CardsForms() {
             </div>
           </div>
           <div className="flex flex-col gap-3">
-            <legend className="text-sm font-medium">Plan</legend>
+            <legend className="font-medium text-sm">Plan</legend>
             <p className="text-muted-foreground text-sm">Select the plan that best fits your needs.</p>
             <RadioGroup className="grid gap-3 md:grid-cols-2" defaultValue="starter">
               {plans.map((plan) => (
                 <Label
-                  className="has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-input/20 flex items-start gap-3 rounded-lg border p-3"
+                  className="flex items-start gap-3 rounded-lg border p-3 has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-input/20"
                   key={plan.id}>
                   <RadioGroupItem className="data-[state=checked]:border-primary" id={plan.name} value={plan.id} />
                   <div className="grid gap-1 font-normal">
                     <div className="font-medium">{plan.name}</div>
-                    <div className="text-muted-foreground text-xs leading-snug text-balance">{plan.description}</div>
+                    <div className="text-balance text-muted-foreground text-xs leading-snug">{plan.description}</div>
                   </div>
                 </Label>
               ))}

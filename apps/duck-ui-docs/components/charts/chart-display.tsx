@@ -1,5 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
-import { Block } from '@gentleduck/registers'
+import type { Block } from '@gentleduck/registers'
 import * as React from 'react'
 import { getRegistryItem } from '~/lib/get-registry-item'
 import { highlightCode } from '~/lib/highlight-code'
@@ -26,7 +26,7 @@ export async function ChartDisplay({ name, children, className }: { name: string
             highlightedCode,
           } as Block
         }
-        className="bg-card text-card-foreground relative z-20 flex justify-end border-b px-3 py-2.5">
+        className="relative z-20 flex justify-end border-b bg-card px-3 py-2.5 text-card-foreground">
         {children}
       </ChartToolbar>
       <div className="relative z-10 [&>div]:rounded-none [&>div]:border-none [&>div]:shadow-none">{children}</div>

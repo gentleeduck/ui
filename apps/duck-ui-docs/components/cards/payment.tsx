@@ -13,16 +13,16 @@ import {
 } from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@gentleduck/registry-ui-duckui/table'
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from '@tanstack/react-table'
 import { MoreHorizontalIcon } from 'lucide-react'
 import * as React from 'react'
@@ -225,7 +225,7 @@ export function CardsPayments() {
           </Table>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <div className="text-muted-foreground flex-1 text-sm">
+          <div className="flex-1 text-muted-foreground text-sm">
             {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
             selected.
           </div>

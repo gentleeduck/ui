@@ -28,7 +28,7 @@ function BlocksNavLink({ category, isActive }: { category: (typeof registryCateg
 
   return (
     <Link
-      className="text-muted-foreground hover:text-primary data-[active=true]:text-primary flex h-7 items-center justify-center px-4 text-center text-base font-medium transition-colors"
+      className="flex h-7 items-center justify-center px-4 text-center font-medium text-base text-muted-foreground transition-colors hover:text-primary data-[active=true]:text-primary"
       data-active={isActive}
       href={`/blocks/${category.slug}`}
       key={category.slug}>

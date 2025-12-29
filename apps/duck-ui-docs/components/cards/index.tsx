@@ -17,11 +17,11 @@ import { CardsTeamMembers } from './team-members'
 export function CardsDemo() {
   return (
     <div className="md:grids-col-2 grid **:data-[slot=card]:shadow-none md:gap-4 lg:grid-cols-10 xl:grid-cols-11">
-      <div className="flex gap-4 lg:col-span-4 xl:col-span-11 h-fit relative">
+      <div className="relative flex h-fit gap-4 lg:col-span-4 xl:col-span-11">
         <OrderForm />
-        <Login className="[&_#right-side]:hidden [&_#left-side]:border-r-0 [&_#left-side]:col-span-4 !m-0 [&_#left-side]:px-18 [&_#left-side]:py-12 w-full" />
+        <Login className="!m-0 w-full [&_#left-side]:col-span-4 [&_#left-side]:border-r-0 [&_#left-side]:px-18 [&_#left-side]:py-12 [&_#right-side]:hidden" />
       </div>
-      <div className="grid gap-4 lg:col-span-4 xl:col-span-6 h-fit">
+      <div className="grid h-fit gap-4 lg:col-span-4 xl:col-span-6">
         <CardsStats />
         <div className="grid gap-1 sm:grid-cols-[auto_1fr] md:hidden">
           <CardsCalendar />
@@ -32,16 +32,16 @@ export function CardsDemo() {
             <CardsExerciseMinutes />
           </div>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 justify-start h-fit">
-          <div className="flex flex-col gap-4 h-fit">
+        <div className="grid h-fit justify-start gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          <div className="flex h-fit flex-col gap-4">
             <CardsForms />
             <CardsTeamMembers />
             <CardsCookieSettings />
           </div>
-          <div className="flex flex-col gap-4 h-fit">
+          <div className="flex h-fit flex-col gap-4">
             <CardsCreateAccount />
             <CardsChat />
-            <div className="hidden xl:block h-fit">
+            <div className="hidden h-fit xl:block">
               <CardsReportIssue />
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Announcement } from '~/components/announcement'
@@ -36,14 +36,14 @@ export default function ColorsLayout({ children }: { children: React.ReactNode }
     <div className="relative">
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none"></div>
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
       <PageHeader className="relative">
         <div
           aria-hidden="true"
           className="absolute top-0 right-0 z-0 h-16 w-16 rounded-full bg-gray-400/20 blur-2xl md:h-72 md:w-72"></div>
         <div
           aria-hidden="true"
-          className="bg-orange-400/20 absolute bottom-16 left-0 z-0 h-36 w-36 rounded-full blur-3xl"></div>
+          className="absolute bottom-16 left-0 z-0 h-36 w-36 rounded-full bg-orange-400/20 blur-3xl"></div>
         <Announcement />
         <PageHeaderHeading>{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>
@@ -59,7 +59,7 @@ export default function ColorsLayout({ children }: { children: React.ReactNode }
       <div className="hidden">
         <div className="container-wrapper">
           <div className="container flex items-center justify-between gap-8 py-4">
-            <ColorsNav className="[&>a:first-child]:text-primary flex-1 overflow-hidden" />
+            <ColorsNav className="flex-1 overflow-hidden [&>a:first-child]:text-primary" />
           </div>
         </div>
       </div>

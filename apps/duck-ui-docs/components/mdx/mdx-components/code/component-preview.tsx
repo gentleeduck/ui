@@ -39,7 +39,7 @@ export function ComponentPreview({
 
     if (!Component) {
       return (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Component <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">{name}</code>{' '}
           not found in registry.
         </p>
@@ -73,10 +73,10 @@ export function ComponentPreview({
       <Tabs className="relative mr-auto w-full" defaultValue="preview">
         <div className="flex items-center justify-between">
           {!hideCode && (
-            <TabsList className="w-full justify-start border-b bg-transparent p-0 rounded-none overflow-x-auto [&_button]:shadow-none">
+            <TabsList className="w-full justify-start overflow-x-auto rounded-none border-b bg-transparent p-0 [&_button]:shadow-none">
               {TABS.map((tab, idx) => (
                 <TabsTrigger
-                  className="border-b-transparent rounded-none [&[aria-selected='true']]:border-b-primary px-12 py-2 border-b-[2px] cursor-pointer [&[aria-selected='true']]:shadow-none [&_input]:focus-visible:ring-transparent [&_input]:focus-visible:shadow-none [&_input]:focus-visible:ring-offset-0"
+                  className="cursor-pointer rounded-none border-b-[2px] border-b-transparent px-12 py-2 [&[aria-selected='true']]:border-b-primary [&[aria-selected='true']]:shadow-none [&_input]:focus-visible:shadow-none [&_input]:focus-visible:ring-transparent [&_input]:focus-visible:ring-offset-0"
                   key={idx}
                   value={tab.value}>
                   {tab.name}
@@ -85,9 +85,9 @@ export function ComponentPreview({
             </TabsList>
           )}
         </div>
-        <TabsContent className="relative rounded-md border min-w-2/5" value="preview">
-          <div className="flex items-center justify-between p-4 absolute w-full">
-            <span className="text-sm text-muted-foreground">{}</span>
+        <TabsContent className="relative min-w-2/5 rounded-md border" value="preview">
+          <div className="absolute flex w-full items-center justify-between p-4">
+            <span className="text-muted-foreground text-sm">{}</span>
             <div className="flex items-center gap-2">
               <CopyButton value={codeString} variant="outline" />
             </div>
@@ -101,7 +101,7 @@ export function ComponentPreview({
             duck-preview="">
             <React.Suspense
               fallback={
-                <div className="flex w-full items-center justify-center text-sm text-muted-foreground">
+                <div className="flex w-full items-center justify-center text-muted-foreground text-sm">
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                   Loading...
                 </div>
@@ -111,7 +111,7 @@ export function ComponentPreview({
           </div>
         </TabsContent>
         <TabsContent
-          className="mt-2 [&_[data-rehype-pretty-code-fragment]]:!m-0 [&>div>div]:mb-0 [&_pre]:h-[502px] relative [&>div>div>button]:top-3 [&>div>div>button]:right-3 [&>div]:bg-muted/40 [&>div]:rounded-lg [&>div]:border"
+          className="[&_[data-rehype-pretty-code-fragment]]:!m-0 relative mt-2 [&>div>div>button]:top-3 [&>div>div>button]:right-3 [&>div>div]:mb-0 [&>div]:rounded-lg [&>div]:border [&>div]:bg-muted/40 [&_pre]:h-[502px]"
           value="code">
           {Code}
         </TabsContent>
@@ -128,9 +128,9 @@ export const BuildTab = () => {
         <img alt="build" className="object-cover" src="/builder.png" />
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 bg-zinc-700/10 dark:bg-zinc-700/50 rounded-md px-4 py-2 backdrop-blur-sm absolute h-[500px] top-0 left-0 inset-0">
+      <div className="absolute inset-0 top-0 left-0 flex h-[500px] flex-col items-center justify-center gap-4 rounded-md bg-zinc-700/10 px-4 py-2 backdrop-blur-sm dark:bg-zinc-700/50">
         <div className="flex items-center gap-4">
-          <Button className="font-bold rounded-sm" size={'sm'}>
+          <Button className="rounded-sm font-bold" size={'sm'}>
             <Crown />
             <span>Coming soon</span>
           </Button>
