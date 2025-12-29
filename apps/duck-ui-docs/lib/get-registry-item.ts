@@ -63,7 +63,7 @@ export async function getRegistryItem(name: string) {
 
 async function getFileContent(file: { path: string; type: string }) {
   const raw = await fs.readFile(
-    process.cwd().replace('apps/docs', 'packages/registry-blocks-duckui/src/') + file.path,
+    process.cwd().replace('apps/duck-ui-docs', 'packages/registry-blocks-duckui/src/') + file.path,
     'utf-8',
   )
 
@@ -93,7 +93,7 @@ async function getFileContent(file: { path: string; type: string }) {
 
 async function getFileMeta(filePath: string) {
   const raw = await fs.readFile(
-    process.cwd().replace('apps/docs', 'packages/registry-blocks-duckui/src/') + filePath,
+    process.cwd().replace('apps/duck-ui-docs', 'packages/registry-blocks-duckui/src/') + filePath,
     'utf-8',
   )
 
