@@ -1,11 +1,15 @@
+import { DuckLazyComponent } from '@gentleduck/lazy/lazy-component'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
+import { EcosystemSection } from '~/components/layouts/core-packages'
+import { FeaturesSection } from '~/components/layouts/features'
 import { PageActions, PageHeader, PageHeaderDescription } from '~/components/page-header'
 
-const title = 'Type-safe NestJS contracts, generated.'
-const description = 'Duck Gen scans controllers and message tags to keep your API and i18n types aligned.'
+const title = 'Type-safe contracts, generated.'
+const description =
+  'Duck Gen is a general-purpose compiler extension that scans controllers and message tags to keep your API and i18n types aligned. It is currently being tested with NestJS.'
 
 export const dynamic = 'force-static'
 export const revalidate = false
@@ -67,6 +71,14 @@ export default function Page() {
           </Button>
         </PageActions>
       </PageHeader>
+      <div className="container-wrapper">
+        <div>
+          <FeaturesSection />
+          <DuckLazyComponent options={{ rootMargin: '-50px 0px 0px 0px', threshold: 0 }}>
+            <EcosystemSection />
+          </DuckLazyComponent>
+        </div>
+      </div>
     </>
   )
 }

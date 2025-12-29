@@ -1,18 +1,16 @@
 ---
 title: duck gen
-description: Core setup and usage for Duck Gen.
+description: Core setup and usage for the Duck Gen compiler extension, currently tested with NestJS.
 ---
 
 ## Core
 
 ### What is Duck Gen?
 
-Duck Gen is the type generation tool in the @gentleduck ecosystem. It scans
-NestJS server code and emits TypeScript definitions that describe API routes
-and message keys. The goal is simple: keep server contracts and client types
-aligned without manual sync work.
-
-Duck Gen currently supports NestJS only.
+Duck Gen is a general-purpose compiler extension in the @gentleduck ecosystem. It scans
+server code and emits TypeScript definitions that describe API routes and message keys.
+It is designed for multiple frameworks and is currently being tested with NestJS. The goal
+is simple: keep server contracts and client types aligned without manual sync work.
 
 ### What it generates
 
@@ -24,7 +22,7 @@ Duck Gen currently supports NestJS only.
 
 1. Reads `duck-gen.toml` from your project root (or uses defaults).
 2. Builds a TypeScript project using `tsconfigPath` and `sourceGlobs`.
-3. Scans NestJS controllers and `@duckgen` message arrays.
+3. Scans framework controllers and `@duckgen` message arrays (currently tested with NestJS).
 4. Emits `.d.ts` files under `@gentleduck/gen/generated/<framework>`.
 5. Prints warnings for edge cases like duplicate message groups or `any` types.
 
@@ -36,7 +34,7 @@ Duck Gen currently supports NestJS only.
 
 - Node 22 or newer.
 - A TypeScript project with a valid `tsconfig.json`.
-- NestJS (the only supported framework today).
+- NestJS (current testing target).
 
 <Step>Install the package</Step>
 
@@ -117,8 +115,10 @@ enabled = true
 
 **Root**
 
-- `framework` (string, default: `nestjs`): The server framework. Unsupported
-  values emit a warning and fall back to `nestjs`.
+- `framework` (string, default: `nestjs`): The target framework. Duck Gen is
+  designed for multiple frameworks; current testing uses `nestjs` and other
+  adapters are in progress. Unsupported values emit a warning and fall back to
+  `nestjs`.
 
 **extensions.shared**
 

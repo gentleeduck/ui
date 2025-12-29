@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardTitle } from '@gentleduck/registry-ui-duckui/card'
-import { Accessibility, Code2, Layers, Package, Paintbrush, Puzzle, Rocket, Table, Zap } from 'lucide-react'
+import { FileText, Layers, Package, Puzzle, Rocket, Server, Terminal, Zap } from 'lucide-react'
 
 /**
  * SectionTitle component for consistent headings across sections
@@ -43,50 +43,45 @@ function FeatureCard({ feature, index }: { feature: any; index: number }) {
 const features = [
   {
     bgColor: 'rgba(59, 130, 246, 0.1)',
-    description:
-      'Lightweight, fast, and scalable React UI primitives designed with performance and accessibility in mind.',
+    description: 'Generate API contracts from framework controllers so clients stay aligned (tested with NestJS).',
     icon: <Zap aria-hidden="true" className="h-7 w-7" />,
     textColor: 'rgb(59, 130, 246)',
-    title: 'High Performance',
+    title: 'Contract-First Generation',
   },
   {
     bgColor: 'rgba(234, 179, 8, 0.1)',
-    description:
-      'Fully typed with TypeScript, offering rock-solid type safety, autocompletion, and zero room for runtime surprises.',
-    icon: <Code2 aria-hidden="true" className="h-7 w-7" />,
+    description: 'Create request and response types for every route without manual duplication.',
+    icon: <Server aria-hidden="true" className="h-7 w-7" />,
     textColor: 'rgb(234, 179, 8)',
-    title: 'Type-Safe by Design',
+    title: 'Typed Routes & DTOs',
   },
   {
     bgColor: 'rgba(168, 85, 247, 0.1)',
-    description:
-      'Low-level, composable building blocks for creating complex UI components without being locked into rigid patterns.',
-    icon: <Layers aria-hidden="true" className="h-7 w-7" />,
+    description: 'Extract message tags into typed keys for predictable i18n workflows.',
+    icon: <FileText aria-hidden="true" className="h-7 w-7" />,
     textColor: 'rgb(168, 85, 247)',
-    title: 'Composable Primitives',
+    title: 'Message Tag Safety',
   },
   {
     bgColor: 'rgba(34, 197, 94, 0.1)',
-    description:
-      'Optimized data components like DuckTable with virtual scrolling, advanced filtering, sorting, and undo/redo support. (coming soon)',
-    icon: <Table aria-hidden="true" className="h-7 w-7" />,
+    description: 'Produce structured outputs that plug into clients, SDKs, and docs.',
+    icon: <Layers aria-hidden="true" className="h-7 w-7" />,
     textColor: 'rgb(34, 197, 94)',
-    title: 'Data-Heavy UI',
+    title: 'Composable Output',
   },
   {
     bgColor: 'rgba(249, 115, 22, 0.1)',
-    description: 'Built-in accessibility and keyboard navigation for dropdowns, modals, and menus — no hacks required.',
-    icon: <Accessibility aria-hidden="true" className="h-7 w-7" />,
+    description: 'Generate once or stay in sync during development with watch mode.',
+    icon: <Terminal aria-hidden="true" className="h-7 w-7" />,
     textColor: 'rgb(249, 115, 22)',
-    title: 'Accessible by Default',
+    title: 'CLI + Watch Mode',
   },
   {
     bgColor: 'rgba(14, 165, 233, 0.1)',
-    description:
-      'Tailwind CSS v4 plugin ecosystem with utilities, configs, and design tokens to power consistent theming.',
-    icon: <Paintbrush aria-hidden="true" className="h-7 w-7" />,
+    description: 'Built for multiple frameworks, currently being tested with NestJS.',
+    icon: <Puzzle aria-hidden="true" className="h-7 w-7" />,
     textColor: 'rgb(14, 165, 233)',
-    title: 'Theming & Styling',
+    title: 'Framework Friendly',
   },
 ]
 
@@ -109,8 +104,8 @@ export function FeaturesSection() {
 
       <div className="container relative mx-auto py-24 sm:py-32 lg:py-40">
         <SectionTitle
-          subtitle="Everything you need to build fast, accessible UI primitives and scalable design systems."
-          title="Powerful Features"
+          subtitle="General-purpose compiler extension that generates type-safe API contracts and message tags, currently tested with NestJS."
+          title="Built for Duck Gen"
         />
 
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

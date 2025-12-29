@@ -95,7 +95,7 @@ const packages = [
   {
     description:
       'General-purpose compiler extension for API routes and message tags across frameworks, currently tested with NestJS.',
-    href: 'https://gen.gentleduck.org',
+    href: '/docs/installation',
     icon: Sparkles,
     name: 'Gentleduck Gen',
     status: 'new',

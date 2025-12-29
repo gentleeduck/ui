@@ -1,14 +1,14 @@
 ---
 title: introduction
-description: Type-safe generation for NestJS routes and message keys.
+description: General-purpose compiler extension for type-safe routes and message keys, currently tested with NestJS.
 ---
 
 ## What is Duck Gen?
 
-Duck Gen is the type generation tool in the @gentleduck ecosystem. It scans
-NestJS server code and emits TypeScript definitions that describe API routes
-and message keys. The goal is simple: keep server contracts and client types
-aligned without manual sync work.
+Duck Gen is a general-purpose compiler extension in the @gentleduck ecosystem. It scans
+server code and emits TypeScript definitions that describe API routes and message keys.
+It is designed for multiple frameworks and is currently being tested with NestJS. The goal
+is simple: keep server contracts and client types aligned without manual sync work.
 
 If you have ever shipped a client without matching route types or drifted i18n
 keys, Duck Gen removes that pain.
@@ -31,13 +31,13 @@ faster?"
 
 ## Why Duck Gen Exists
 
-Typed routes and message keys should not be a manual chore. Duck Gen automates
-the contract layer so you can focus on building features.
+Typed routes and message keys should not be a manual chore. As a general-purpose compiler
+extension, Duck Gen automates the contract layer so you can focus on building features.
 
 **What you actually get:**
 
 - **Typed routes, end to end**: Generate request and response types directly
-  from NestJS controllers.
+  from framework controllers (currently tested with NestJS).
 - **Message key safety**: Keep i18n dictionaries aligned with the constants you
   declare in code.
 - **Configurable scanning**: Fine tune `sourceGlobs` and `tsconfigPath` so the
