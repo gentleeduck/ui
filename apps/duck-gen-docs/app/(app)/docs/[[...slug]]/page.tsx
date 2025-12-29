@@ -1,7 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
 import { ExternalLinkIcon } from 'lucide-react'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -78,7 +78,7 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
             <DocsPagerTop doc={doc} />
           </div>
           <div className="space-y-2">
-            <h1 className={cn('scroll-m-20 text-3xl font-bold tracking-tight capitalize')}>
+            <h1 className={cn('scroll-m-20 font-bold text-3xl capitalize tracking-tight')}>
               {doc.title.split('-').join(' ')}
             </h1>
             {doc.description && <p className="text-base text-muted-foreground">{doc.description}</p>}
@@ -108,15 +108,15 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
             )}
           </div>
         ) : null}
-        <div className="pb-12 pt-8">
+        <div className="pt-8 pb-12">
           <Mdx code={doc.body} />
         </div>
         {<DocsPagerBottom doc={doc} />}
       </div>
       {doc.toc && (
         <div className="hidden text-sm xl:block">
-          <div className="sticky top-16 -mt-10 pt-4">
-            <div className="show-scroll-hover overflow-y-auto pb-10 sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] py-12">
+          <div className="-mt-10 sticky top-16 pt-4">
+            <div className="show-scroll-hover -mt-10 sticky top-16 h-[calc(100vh-3.5rem)] overflow-y-auto py-12 pb-10">
               <DashboardTableOfContents toc={doc.toc} />
             </div>
           </div>

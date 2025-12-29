@@ -31,7 +31,7 @@ export function CommandMenu() {
     ...docsConfig.sidebarNav.map((group) => ({
       items: group.items.map((navItem) => ({
         action: () => router.push(navItem.href as string),
-        icon: <Circle className="h-3 w-3 mr-2" />,
+        icon: <Circle className="mr-2 h-3 w-3" />,
         name: navItem.title,
       })),
       title: group.title,
@@ -62,7 +62,7 @@ export function CommandMenu() {
     <>
       <Button
         className={cn(
-          'relative w-full h-8 bg-muted/50 text-sm text-muted-foreground shadow-none [&>div]:w-full [&>div]:justify-between ltr:pr-2 rtl:pl-2 md:w-40 lg:w-64',
+          'relative h-8 w-full bg-muted/50 text-muted-foreground text-sm shadow-none md:w-40 lg:w-64 ltr:pr-2 rtl:pl-2 [&>div]:w-full [&>div]:justify-between',
         )}
         onClick={() => setOpen(true)}
         size={'sm'}
@@ -129,12 +129,12 @@ function CommandFooter() {
     },
   })
   return (
-    <div className="flex items-center gap-4 px-2 pt-2 border-t justify-between w-full">
-      <div className="flex items-center justify-between gap-4 w-full">
+    <div className="flex w-full items-center justify-between gap-4 border-t px-2 pt-2">
+      <div className="flex w-full items-center justify-between gap-4">
         {selectedItem?.innerText && (
           <Button className={cn('px-2')} size={'sm'} variant={'outline'}>
             <CornerDownLeft />
-            <Separator className="m-0 p-0 h-4" orientation="vertical" />
+            <Separator className="m-0 h-4 p-0" orientation="vertical" />
             {selectedItem?.innerText}
           </Button>
         )}
@@ -145,7 +145,7 @@ function CommandFooter() {
               <Command className="!size-3" />
               <p className="text-md">C</p>
             </div>
-            <Separator className="m-0 p-0 h-4" orientation="vertical" />
+            <Separator className="m-0 h-4 p-0" orientation="vertical" />
             <div className="flex items-center gap-1">
               <span>pnpm dlx @gentleduck/cli add</span>
               <span className="text-blue-400">
@@ -156,8 +156,8 @@ function CommandFooter() {
             </div>
           </Button>
         ) : (
-          <p className="text-sm text-muted-foreground my-auto h-fit text-right w-full whitespace-nowrap">
-            <span className="font-medium text-sm whitespace-nowrap">Command palette</span> for the documentation
+          <p className="my-auto h-fit w-full whitespace-nowrap text-right text-muted-foreground text-sm">
+            <span className="whitespace-nowrap font-medium text-sm">Command palette</span> for the documentation
             content.
           </p>
         )}

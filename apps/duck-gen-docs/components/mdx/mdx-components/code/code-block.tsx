@@ -9,7 +9,7 @@ export function CodeBlock({ className, __rawString__, ...props }: CodeProps) {
     return (
       <code
         className={cn(
-          'relative rounded-sm bg-muted dark:bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm',
+          'relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm dark:bg-muted',
           className,
         )}
         {...props}

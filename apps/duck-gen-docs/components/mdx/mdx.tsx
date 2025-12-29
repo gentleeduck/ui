@@ -7,7 +7,7 @@ import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Kbd } from '@gentleduck/registry-ui-duckui/kbd'
 import Image from 'next/image'
-import * as React from 'react'
+import type * as React from 'react'
 import runtime from 'react/jsx-runtime'
 import { Callout } from './mdx-components/callout'
 import {
@@ -76,7 +76,7 @@ const components = {
   p: P,
   pre: PreBlock,
   Step: ({ className, ...props }: React.ComponentProps<'h3'>) => (
-    <h3 className={cn('font-heading scroll-m-20 text-xl font-semibold tracking-tight step', className)} {...props} />
+    <h3 className={cn('step scroll-m-20 font-heading font-semibold text-xl tracking-tight', className)} {...props} />
   ),
   Steps: ({ ...props }) => (
     <div className="[&>h3]:step steps mb-12 ml-4 border-l pl-8 [counter-reset:step]" {...props} />

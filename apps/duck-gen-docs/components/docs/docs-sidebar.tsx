@@ -3,8 +3,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { SidebarNavItem } from 'types/nav'
-import { type DocsConfig } from '~/config/docs'
+import type { SidebarNavItem } from 'types/nav'
+import type { DocsConfig } from '~/config/docs'
 
 export interface DocsSidebarNavProps {
   config: DocsConfig
@@ -17,7 +17,7 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
 
   return (
     items.length && (
-      <div className="w-full flex flex-col">
+      <div className="flex w-full flex-col">
         {items.map((item, index) => (
           <CategoryItem item={item} key={index} pathname={pathname} />
         ))}
@@ -29,11 +29,11 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
 // Memoized category component to prevent unnecessary re-renders
 const CategoryItem = ({ item, pathname }: { item: SidebarNavItem; pathname: string | null }) => {
   return (
-    <div className="flex flex-col gap-1 mb-2">
-      <div className="flex items-center justify-between w-full text-start text-sm font-semibold [&>div]:justify-between [&>div]:w-full h-[36px]">
+    <div className="mb-2 flex flex-col gap-1">
+      <div className="flex h-[36px] w-full items-center justify-between text-start font-semibold text-sm [&>div]:w-full [&>div]:justify-between">
         {item.title}
         {item.label && (
-          <span className="ml-2 rounded-md bg- px-1.5 py-0.5 text-sm font-normal leading-none text-[#000000] no-underline group-hover:no-underline">
+          <span className="bg- ml-2 rounded-md px-1.5 py-0.5 font-normal text-[#000000] text-sm leading-none no-underline group-hover:no-underline">
             {item.label}
           </span>
         )}
@@ -66,10 +66,10 @@ export function DocsSidebarNavItems({ items, pathname }: DocsSidebarNavItemsProp
 export function DocsSidebarNavItem({ item, pathname }: { item: SidebarNavItem; pathname: string | null }) {
   if (item.href && !item.disabled) {
     return (
-      <li className={cn(pathname === item.href && 'border-l border-primary')}>
+      <li className={cn(pathname === item.href && 'border-primary border-l')}>
         <Link
           className={cn(
-            'group flex w-full items-center px-4 py-1 focus-visible:border-l border-primary focus-visible:outline-none font-medium text-sm',
+            'group flex w-full items-center border-primary px-4 py-1 font-medium text-sm focus-visible:border-l focus-visible:outline-none',
             pathname === item.href ? 'font-medium text-foreground' : 'text-muted-foreground',
           )}
           href={item.href}
@@ -77,7 +77,7 @@ export function DocsSidebarNavItem({ item, pathname }: { item: SidebarNavItem; p
           target={item.external ? '_blank' : ''}>
           {item.title}
           {item.label && (
-            <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 leading-none text-accent no-underline group-hover:no-underline text-xs font-medium">
+            <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 font-medium text-accent text-xs leading-none no-underline group-hover:no-underline">
               {item.label}
             </span>
           )}
@@ -93,7 +93,7 @@ export function DocsSidebarNavItem({ item, pathname }: { item: SidebarNavItem; p
       )}>
       {item.title}
       {item.label && (
-        <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 leading-none text-muted-foreground no-underline group-hover:no-underline text-sm">
+        <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-muted-foreground text-sm leading-none no-underline group-hover:no-underline">
           {item.label}
         </span>
       )}

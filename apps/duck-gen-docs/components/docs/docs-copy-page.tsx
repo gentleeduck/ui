@@ -58,7 +58,7 @@ const menuItems = {
   v0: (url: string) => (
     <a href={getPromptUrl('https://v0.dev', url)} rel="noopener noreferrer" target="_blank">
       <svg
-        className="size-4.5 -translate-x-px"
+        className="-translate-x-px size-4.5"
         fill="currentColor"
         viewBox="0 0 147 70"
         xmlns="http://www.w3.org/2000/svg">
@@ -73,13 +73,13 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
   const { copyToClipboard, isCopied } = useCopyToClipboard()
 
   const trigger = (
-    <Button className="peer shadow-none [&>svg]:!size-4 size-8" size="sm" variant="secondary">
+    <Button className="peer [&>svg]:!size-4 size-8 shadow-none" size="sm" variant="secondary">
       <ChevronDown />
     </Button>
   )
 
   return (
-    <div className="bg-secondary group/buttons relative flex rounded-lg *:[[data-slot=button]]:focus-visible:relative *:[[data-slot=button]]:focus-visible:z-10">
+    <div className="group/buttons relative flex rounded-lg bg-secondary *:[[data-slot=button]]:focus-visible:relative *:[[data-slot=button]]:focus-visible:z-10">
       <Button className="[&_svg]:!size-3.5" onClick={() => copyToClipboard(page)} size="sm" variant="secondary">
         {isCopied ? <Check /> : <Copy />}
         Copy Page
@@ -89,7 +89,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
         <DropdownMenuTrigger asChild className="hidden sm:flex">
           {trigger}
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="shadow-none bg-muted">
+        <DropdownMenuContent className="bg-muted shadow-none">
           {Object.entries(menuItems).map(([key, value]) => (
             <DropdownMenuItem
               className="flex [&>a]:flex [&>a]:items-center [&>a]:gap-2 [&[aria-selected]]:bg-zinc-600/40"

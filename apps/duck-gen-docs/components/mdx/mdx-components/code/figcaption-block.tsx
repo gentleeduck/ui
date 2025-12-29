@@ -9,11 +9,11 @@ export function FigcaptionBlock({ children, className, ...props }: React.HTMLAtt
 
   return (
     <>
-      <figcaption {...props} className="p-2 rounded-lg">
+      <figcaption {...props} className="rounded-lg p-2">
         <div
           className={cn(
             className,
-            'flex items-center gap-2 text-muted-foreground [&_svg]:h-4 [&_svg]:w-4 ltr:pl-1.5 rtl:pr-1.5 font-mono text-sm',
+            'flex items-center gap-2 font-mono text-muted-foreground text-sm ltr:pl-1.5 rtl:pr-1.5 [&_svg]:h-4 [&_svg]:w-4',
           )}>
           {Icon}
           {children}

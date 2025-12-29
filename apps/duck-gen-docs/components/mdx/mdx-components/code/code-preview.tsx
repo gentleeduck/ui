@@ -1,11 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { Block } from '@gentleduck/registers'
+import type { Block } from '@gentleduck/registers'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui-duckui/resizable'
 import { Tabs, TabsContent } from '@gentleduck/registry-ui-duckui/tabs'
 import React from 'react'
-import { ImperativePanelHandle } from 'react-resizable-panels'
+import type { ImperativePanelHandle } from 'react-resizable-panels'
 import { Icons } from '~/components/icons'
 import { useLiftMode } from '~/hooks/use-lift-mode'
 
@@ -37,7 +37,7 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
             minSize={30}
             ref={ref}>
             {isLoading ? (
-              <div className="absolute inset-0 z-10 flex h-[--container-height] w-full items-center justify-center gap-2 bg-background text-sm text-muted-foreground">
+              <div className="absolute inset-0 z-10 flex h-[--container-height] w-full items-center justify-center gap-2 bg-background text-muted-foreground text-sm">
                 <Icons.spinner className="h-4 w-4 animate-spin" />
                 Loading...
               </div>
@@ -54,7 +54,7 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
           </ResizablePanel>
           <ResizableHandle
             className={cn(
-              'relative hidden w-3 bg-transparent p-0 after:absolute after:right-0 after:top-1/2 after:h-8 after:w-[6px] after:-translate-y-1/2 after:translate-x-[-1px] after:rounded-full after:bg-border after:transition-all after:hover:h-10 sm:block',
+              'after:-translate-y-1/2 relative hidden w-3 bg-transparent p-0 after:absolute after:top-1/2 after:right-0 after:h-8 after:w-[6px] after:translate-x-[-1px] after:rounded-full after:bg-border after:transition-all after:hover:h-10 sm:block',
               isLiftMode && 'invisible',
             )}
           />

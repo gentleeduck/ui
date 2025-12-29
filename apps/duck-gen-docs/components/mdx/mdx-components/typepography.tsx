@@ -1,20 +1,20 @@
 import { cn } from '@gentleduck/libs/cn'
 import Link from 'next/link'
-import React from 'react'
+import type React from 'react'
 
 interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 interface AnchorProps extends React.HTMLAttributes<HTMLAnchorElement> {}
 interface ParagraphProps extends React.HTMLAttributes<HTMLParagraphElement> {}
 
 export function H1({ className, ...props }: HeadingProps) {
-  return <h1 className={cn('font-heading mt-2 scroll-m-20 text-4xl font-bold', className)} {...props} />
+  return <h1 className={cn('mt-2 scroll-m-20 font-bold font-heading text-4xl', className)} {...props} />
 }
 
 export function H2({ className, ...props }: HeadingProps) {
   return (
     <h2
       className={cn(
-        'font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0',
+        'mt-12 scroll-m-20 border-b pb-2 font-heading font-semibold text-2xl tracking-tight first:mt-0',
         className,
       )}
       {...props}
@@ -24,22 +24,22 @@ export function H2({ className, ...props }: HeadingProps) {
 
 export function H3({ className, ...props }: HeadingProps) {
   return (
-    <h3 className={cn('font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight', className)} {...props} />
+    <h3 className={cn('mt-8 scroll-m-20 font-heading font-semibold text-xl tracking-tight', className)} {...props} />
   )
 }
 
 export function H4({ className, ...props }: HeadingProps) {
   return (
-    <h4 className={cn('font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight', className)} {...props} />
+    <h4 className={cn('mt-8 scroll-m-20 font-heading font-semibold text-lg tracking-tight', className)} {...props} />
   )
 }
 
 export function H5({ className, ...props }: HeadingProps) {
-  return <h5 className={cn('mt-8 scroll-m-20 text-lg font-semibold tracking-tight', className)} {...props} />
+  return <h5 className={cn('mt-8 scroll-m-20 font-semibold text-lg tracking-tight', className)} {...props} />
 }
 
 export function H6({ className, ...props }: HeadingProps) {
-  return <h6 className={cn('mt-8 scroll-m-20 text-base font-semibold tracking-tight', className)} {...props} />
+  return <h6 className={cn('mt-8 scroll-m-20 font-semibold text-base tracking-tight', className)} {...props} />
 }
 
 export function A({ className, ...props }: AnchorProps) {

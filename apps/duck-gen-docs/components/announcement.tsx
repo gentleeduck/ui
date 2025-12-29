@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export function Announcement() {
   return (
-    <Badge asChild className="rounded-full mx-auto" variant="secondary">
+    <Badge asChild className="mx-auto rounded-full" variant="secondary">
       <Link href="/docs/duck-gen">
         Duck Gen docs are live <span className="underline">Start here</span>
         <ArrowRightIcon />

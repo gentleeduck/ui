@@ -1,9 +1,9 @@
-import { registry_entry_schema, registry_item_file_schema } from '@gentleduck/registers'
+import { registry_entry_schema, type registry_item_file_schema } from '@gentleduck/registers'
 import fs from 'fs/promises'
 import { tmpdir } from 'os'
 import path from 'path'
 import { Project, ScriptKind, SourceFile } from 'ts-morph'
-import { z } from 'zod'
+import type { z } from 'zod'
 import { Index } from '~/__ui_registry__'
 
 const memoizedIndex: typeof Index = Object.fromEntries(

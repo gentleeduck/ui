@@ -4,7 +4,7 @@ import { Excalidraw } from '@excalidraw/excalidraw'
 export function Exalidraw() {
   return (
     <>
-      <div className="w-full h-[500px]">
+      <div className="h-[500px] w-full">
         <Excalidraw />
       </div>
     </>

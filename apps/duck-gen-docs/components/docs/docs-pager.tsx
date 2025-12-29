@@ -2,9 +2,9 @@ import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import { NavItem, NavItemWithChildren } from 'types/nav'
+import type { NavItem, NavItemWithChildren } from 'types/nav'
 import { docsConfig } from '~/config/docs'
-import { Docs } from '../../.velite'
+import type { Docs } from '../../.velite'
 
 interface DocsPagerProps {
   doc: Docs
@@ -23,7 +23,7 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
         <Link
           className={cn(
             buttonVariants({
-              className: 'items-center flex ',
+              className: 'flex items-center',
               variant: 'outline',
             }),
           )}
@@ -36,7 +36,7 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
         <Link
           className={cn(
             buttonVariants({
-              className: 'items-center flex ',
+              className: 'flex items-center',
               variant: 'outline',
             }),
           )}
@@ -61,7 +61,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
         <Link
           className={cn(
             buttonVariants({
-              className: 'items-center [&>svg]:!size-4 size-8',
+              className: '[&>svg]:!size-4 size-8 items-center',
               size: 'sm',
               variant: 'secondary',
             }),
@@ -74,7 +74,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
         <Link
           className={cn(
             buttonVariants({
-              className: 'items-center [&>svg]:!size-4 size-8 ml-2',
+              className: '[&>svg]:!size-4 ml-2 size-8 items-center',
               size: 'sm',
               variant: 'secondary',
             }),

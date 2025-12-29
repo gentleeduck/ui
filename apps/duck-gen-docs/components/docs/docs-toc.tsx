@@ -3,7 +3,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
-import { Docs } from '~/.velite'
+import type { Docs } from '~/.velite'
 import { useMounted } from '~/hooks/use-mounted'
 import { TableOfContents } from '~/lib/toc'
 
@@ -92,7 +92,7 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
             <a
               className={cn(
                 'inline-block no-underline',
-                item.url === `#${activeItem}` ? 'text-primary font-medium' : 'text-muted-foreground text-sm',
+                item.url === `#${activeItem}` ? 'font-medium text-primary' : 'text-muted-foreground text-sm',
               )}
               href={item.url}>
               {item.title}

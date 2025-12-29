@@ -10,9 +10,9 @@ import {
 } from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import { CheckIcon, ClipboardIcon, Copy } from 'lucide-react'
 import * as React from 'react'
-import { Event, trackEvent } from '~/lib/events'
-import { NpmCommands } from '~/types/unist'
-import { CopyButtonProps, CopyWithClassNamesProps } from './copy-button.types'
+import { type Event, trackEvent } from '~/lib/events'
+import type { NpmCommands } from '~/types/unist'
+import type { CopyButtonProps, CopyWithClassNamesProps } from './copy-button.types'
 
 export async function copyToClipboardWithMeta(value: string, event?: Event) {
   navigator.clipboard.writeText(value)
@@ -33,7 +33,7 @@ export function CopyButton({ value, className, variant = 'ghost', event, ...prop
   return (
     <Button
       aria-label="Copy"
-      className={cn('size-7 [&_svg]:!size-3.5 shadow-none rounded-sm z-50', className)}
+      className={cn('[&_svg]:!size-3.5 z-50 size-7 rounded-sm shadow-none', className)}
       icon={hasCopied ? <CheckIcon /> : <Copy />}
       onClick={() => {
         copyToClipboardWithMeta(
@@ -74,7 +74,7 @@ export function CopyWithClassNames({ value, classNames, className, ...props }: C
     <DropdownMenu placement="bottom-end">
       <DropdownMenuTrigger asChild>
         <Button
-          className={cn('relative z-50 [&_svg]:w-3.5 !size-6.5', className)}
+          className={cn('!size-6.5 relative z-50 [&_svg]:w-3.5', className)}
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           size="icon"
           variant="outline"
@@ -116,7 +116,7 @@ export function CopyNpmCommandButton({
 
   return (
     <Button
-      className={cn('relative z-10 [&_svg]:w-3.5 !size-6.5', className)}
+      className={cn('!size-6.5 relative z-10 [&_svg]:w-3.5', className)}
       icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
       size="icon"
       variant="outline"

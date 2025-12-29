@@ -5,10 +5,10 @@ import { siteConfig } from '~/config/site'
 
 export function SiteFooter() {
   return (
-    <footer className="py-6 md:px-8 md:py-0 border-t w-full">
-      <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row mx-auto">
+    <footer className="w-full border-t py-6 md:px-8 md:py-0">
+      <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
         <div className="flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
+          <p className="text-balance text-center text-muted-foreground text-sm leading-loose md:text-left">
             Built by{' '}
             <a
               className="font-medium underline underline-offset-4"
@@ -28,7 +28,7 @@ export function SiteFooter() {
             .
           </p>
         </div>
-        <div className="gap-4 items-center hidden md:flex">
+        <div className="hidden items-center gap-4 md:flex">
           <FooterButtons />
         </div>
       </div>

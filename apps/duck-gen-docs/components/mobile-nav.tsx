@@ -5,7 +5,7 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 import { PanelsTopLeft } from 'lucide-react'
-import Link, { LinkProps } from 'next/link'
+import Link, { type LinkProps } from 'next/link'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { docsConfig } from '~/config/docs'
@@ -24,7 +24,7 @@ export function MobileNav() {
       </DrawerTrigger>
       <DrawerContent className="pr-0 pb-4">
         <ScrollArea>
-          <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6 hide-scroll">
+          <div className="hide-scroll my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
             <div className="flex flex-col space-y-3">
               {docsConfig.mainNav?.map(
                 (item) =>
@@ -47,7 +47,7 @@ export function MobileNav() {
                             <MobileLink className="text-muted-foreground" href={item.href} onOpenChange={setOpen}>
                               {item.title}
                               {item.label && (
-                                <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 text-xs leading-none text-accent no-underline group-hover:no-underline">
+                                <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 text-accent text-xs leading-none no-underline group-hover:no-underline">
                                   {item.label}
                                 </span>
                               )}
