@@ -1,0 +1,205 @@
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/fonts/JetBrainsMono-VF.woff2) format("woff2");
+}
+
+@layer components {
+  code,
+  code > * > *,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-weight: 600;
+    font-optical-sizing: auto;
+  }
+
+  [data-theme="light"] {
+    display: block;
+  }
+
+  [data-theme="dark"] {
+    display: none;
+  }
+
+  .dark [data-theme="light"] {
+    display: none;
+  }
+
+  .dark [data-theme="dark"] {
+    display: block;
+  }
+
+  [data-rehype-pretty-code-fragment] {
+    @apply relative bg-muted/40 dark:bg-muted/40 rounded-lg border-border border mb-4 mt-6;
+  }
+
+  div[data-value]:not([data-value="cli"])[duck-tabs-content] > [data-rehype-pretty-code-fragment] {
+    @apply bg-transparent m-0 static rounded-none border-0;
+  }
+
+  [data-rehype-pretty-code-fragment] code {
+    counter-reset: line;
+    box-decoration-break: clone;
+  }
+
+  [data-rehype-pretty-code-fragment] .line {
+    @apply px-4 min-h-[1rem] py-0.5 w-full inline-block;
+  }
+
+  [data-rehype-pretty-code-fragment] [data-line-numbers] .line {
+    @apply px-2;
+  }
+
+  [data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
+    display: inline-block;
+    width: 1.8rem;
+    margin-right: 1.4rem;
+    text-align: right;
+    content: counter(line);
+    counter-increment: line;
+    @apply text-zinc-50/40 text-xs;
+  }
+
+  [data-rehype-pretty-code-fragment] .line--highlighted,
+  [data-rehype-pretty-code-fragment] .word--highlighted {
+    @apply bg-foreground/4 dark:bg-foreground/5;
+  }
+
+  [data-rehype-pretty-code-fragment] .line-highlighted span {
+    @apply relative;
+  }
+
+  [data-rehype-pretty-code-fragment] .word--highlighted {
+    @apply rounded-md p-1;
+  }
+
+  strong {
+    @apply font-semibold;
+  }
+
+  strong > code {
+    @apply font-bold;
+  }
+
+  .steps {
+    &:first-child {
+      @apply !mt-6;
+    }
+
+    &:first-child > h3:first-child {
+      @apply !mt-6;
+    }
+
+    > h3 {
+      @apply mt-8 mb-4 text-base font-semibold;
+    }
+
+    > h3 + p {
+      @apply !mt-2;
+    }
+  }
+
+  [data-rehype-pretty-code-figure] {
+    position: relative;
+    margin-top: calc(var(--spacing) * 6);
+    overflow: hidden;
+    font-size: var(--text-base);
+    color: var(--color-code-foreground);
+    outline: none;
+    background-color: var(--color-code);
+    border-color: var(--border);
+    border-width: 0px;
+    border-radius: var(--radius-lg);
+    @apply -mx-1 md:-mx-1;
+
+    &:has([data-rehype-pretty-code-title]) [data-slot="copy-button"] {
+      top: calc(var(--spacing) * 1.5) !important;
+    }
+  }
+
+  [data-rehype-pretty-code-title] {
+    padding-block: calc(var(--spacing) * 2.5);
+    padding-inline: calc(var(--spacing) * 4);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    color: var(--color-code-foreground);
+    border-bottom: color-mix(in oklab, var(--border) 30%, transparent);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
+
+  [data-line-numbers] {
+    display: grid;
+    min-width: 100%;
+    white-space: pre;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    counter-reset: line;
+    box-decoration-break: clone;
+  }
+
+  [data-line-numbers] [data-line]::before {
+    position: sticky;
+    left: 0;
+    display: inline-block;
+    width: calc(var(--spacing) * 16);
+    padding-right: calc(var(--spacing) * 6);
+    font-size: var(--text-base);
+    color: var(--color-code-number);
+    text-align: right;
+    content: counter(line);
+    counter-increment: line;
+    background-color: var(--color-code);
+  }
+
+  [data-line-numbers] [data-highlighted-line][data-line]::before {
+    background-color: var(--color-code-highlight);
+  }
+
+  [data-line] {
+    display: inline-block;
+    width: 100%;
+    min-height: calc(var(--spacing) * 1);
+    padding-top: calc(var(--spacing) * 0.5);
+    padding-bottom: calc(var(--spacing) * 0.5);
+  }
+
+  [data-line] span {
+    color: var(--shiki-light);
+
+    @variant dark {
+      color: var(--shiki-dark) !important;
+    }
+  }
+
+  [data-highlighted-line],
+  [data-highlighted-chars] {
+    position: relative;
+    background-color: var(--color-code-highlight);
+  }
+
+  [data-highlighted-line] {
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 100%;
+      content: "";
+      background-color: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
+    }
+  }
+
+  [data-highlighted-chars] {
+    padding-block: 0.1rem;
+    padding-inline: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    border-radius: var(--radius-md);
+  }
+}
