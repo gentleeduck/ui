@@ -1,0 +1,50 @@
+---
+title: installation
+description: Install Duck Gen and generate your first types.
+---
+
+<Steps>
+
+<Step>Prerequisites</Step>
+
+- Node 22 or newer.
+- A TypeScript project with a valid `tsconfig.json`.
+- NestJS (the only supported framework today).
+
+<Step>Install the package</Step>
+
+```bash
+pnpm add -D @gentleduck/gen
+```
+
+<Step>Create duck-gen.toml</Step>
+
+```toml title="duck-gen.toml"
+framework = "nestjs"
+
+[extensions.shared]
+sourceGlobs = ["src/**/*.ts", "src/**/*.tsx"]
+tsconfigPath = "./tsconfig.json"
+includeNodeModules = false
+
+[extensions.apiRoutes]
+enabled = true
+globalPrefix = "/api"
+normalizeAnyToUnknown = true
+
+[extensions.messages]
+enabled = true
+```
+
+<Step>Run the generator</Step>
+
+```bash
+pnpm exec duck-gen
+```
+
+<Step>Read the core guide</Step>
+
+Head to [Duck Gen core](/docs/duck-gen) for configuration details, output
+paths, and troubleshooting.
+
+</Steps>

@@ -228,28 +228,34 @@ export function CommandMenu() {
 
 ### **CommandContextType**
 
-* **`search`** (`string`): Current search query value.
-* **`setSearch`** (`React.Dispatch<React.SetStateAction<string>>`): Setter for search query.
+| Property | Type | Description |
+| --- | --- | --- |
+| `search` | `string` | Current search query value. |
+| `setSearch` | `React.Dispatch<React.SetStateAction<string>>` | Setter for search query. |
 
 ---
 
 ### **CommandRefsContextType**
 
-* **`commandRef`** (`React.RefObject<HTMLDivElement | null>`): Root command container reference.
-* **`listRef`** (`React.RefObject<HTMLUListElement | null>`): UL element holding items.
-* **`emptyRef`** (`React.RefObject<HTMLHeadingElement | null>`): Empty state heading ref.
-* **`inputRef`** (`React.RefObject<HTMLInputElement | null>`): Search input field reference.
-* **`selectedItem`** (`HTMLLIElement \| null`): Currently selected item.
-* **`setSelectedItem`** (`React.Dispatch<React.SetStateAction<HTMLLIElement | null>>`): Setter for selected item.
-* **`items`** (`React.RefObject<HTMLLIElement[]>`): All command items.
-* **`filteredItems`** (`React.RefObject<HTMLLIElement[]>`): Filtered items after search.
-* **`groups`** (`React.RefObject<HTMLDivElement[]>`): Groups of command items.
+| Property | Type | Description |
+| --- | --- | --- |
+| `commandRef` | `React.RefObject<HTMLDivElement \| null>` | Root command container reference. |
+| `listRef` | `React.RefObject<HTMLUListElement \| null>` | UL element holding items. |
+| `emptyRef` | `React.RefObject<HTMLHeadingElement \| null>` | Empty state heading ref. |
+| `inputRef` | `React.RefObject<HTMLInputElement \| null>` | Search input field reference. |
+| `selectedItem` | `HTMLLIElement \| null` | Currently selected item. |
+| `setSelectedItem` | `React.Dispatch<React.SetStateAction<HTMLLIElement \| null>>` | Setter for selected item. |
+| `items` | `React.RefObject<HTMLLIElement[]>` | All command items. |
+| `filteredItems` | `React.RefObject<HTMLLIElement[]>` | Filtered items after search. |
+| `groups` | `React.RefObject<HTMLDivElement[]>` | Groups of command items. |
 
 ---
 
 ### **CommandBadgeProps (CommandShortcut)**
 
-* **`keys`** (`string`, optional): Keyboard shortcut string (e.g. `'ctrl+K'`).
-* **`onKeysPressed`** (`() => void`, optional): Called when the shortcut is triggered.
-* **`variant`** (`'default' | 'secondary'`, optional): Visual style.
-* **`...props`** (`React.HTMLProps<HTMLElement>`): Native `kbd` element props.
+| Property | Type | Description |
+| --- | --- | --- |
+| `keys` | `string` (optional) | Keyboard shortcut string (e.g. `'ctrl+K'`). |
+| `onKeysPressed` | `() => void` (optional) | Called when the shortcut is triggered. |
+| `variant` | `'default' \| 'secondary'` (optional) | Visual style. |
+| `...props` | `React.HTMLProps<HTMLElement>` | Native `kbd` element props. |

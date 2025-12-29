@@ -1,3 +1,9 @@
-# https://www.robotstxt.org/robotstxt.html
+# *
 User-agent: *
-Disallow:
+Allow: /
+
+# Host
+Host: https://ui.gentleduck.org
+
+# Sitemaps
+Sitemap: https://ui.gentleduck.org/sitemap.xml

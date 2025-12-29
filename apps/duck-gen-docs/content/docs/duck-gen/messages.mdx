@@ -1,0 +1,58 @@
+---
+title: messages
+description: Generate typed i18n dictionaries from @duckgen tags.
+---
+
+## What it scans
+
+Exported const arrays with JSDoc `@duckgen` tags.
+
+## Tag formats
+
+- `@duckgen`
+- `@duckgen messages`
+- `@duckgen messages auth`
+- `@duckgen auth`
+
+If a group key is provided, it becomes the message group name. If not, the
+const name is used as the group key.
+
+## Group key rules
+
+- Each group key must be unique.
+- Duplicate group keys produce warnings and are skipped.
+- Use `as const` on arrays to preserve literal message keys.
+
+## Generated types
+
+`duck-gen-messages.d.ts` exports:
+
+| Type | Purpose |
+| --- | --- |
+| `DuckgenMessageSources` | Registry of group keys to const message arrays. |
+| `DuckgenMessageGroup` | Union of group keys. |
+| `DuckgenMessageKey` | Union of message keys for a group (or all groups). |
+| `DuckgenMessageDictionary` | Record of message key to string for a group. |
+| `DuckgenMessageDictionaryByGroup` | Map of groups to their dictionaries. |
+| `DuckgenI18n` | Language to dictionary for a group or groups. |
+| `DuckgenI18nByGroup` | Language to all group dictionaries. |
+| `DuckgenScopedI18nByGroup` | Language to scoped group dictionaries. |
+
+## Example
+
+```ts
+/**
+ * @duckgen messages auth
+ */
+export const AuthMessages = [
+  'auth.invalid_credentials',
+  'auth.locked',
+] as const
+```
+
+```ts
+import type { DuckgenMessageDictionary, DuckgenMessageKey } from '@gentleduck/gen/nestjs'
+
+type AuthKey = DuckgenMessageKey<'auth'>
+type AuthDictionary = DuckgenMessageDictionary<'auth'>
+```

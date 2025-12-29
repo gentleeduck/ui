@@ -105,6 +105,7 @@ const config = defineConfig({
     remarkPlugins: [remarkGfm, codeImport],
   },
 }) as any
+
 function cleanTocItems(items: any[]): any[] {
   return items.map((item) => {
     return {

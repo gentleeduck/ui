@@ -1,0 +1,78 @@
+---
+title: api routes
+description: Generate typed route maps from NestJS controllers.
+---
+
+## What it scans
+
+- Classes decorated with `@Controller()`.
+- Methods decorated with HTTP method decorators.
+- Parameter decorators that influence request types.
+
+## Supported decorators
+
+- Controller: `@Controller()`.
+- Methods: `@Get`, `@Post`, `@Put`, `@Patch`, `@Delete`, `@Options`, `@Head`,
+  `@All`.
+- Parameters: `@Body`, `@Query`, `@Param`, `@Headers`.
+
+Only string literal paths are supported. If a decorator path is dynamic, it is
+skipped.
+
+## Path rules
+
+Duck Gen combines the `globalPrefix`, controller path, and method path using
+clean URL joins. Empty segments are removed and slashes are normalized.
+
+## Request shape rules
+
+- `@Body()` uses the parameter type for `body`.
+- `@Body('user')` becomes `body: { user?: Type }`.
+- `@Query('page')` becomes `query: { page?: Type }`.
+- `@Param('id')` becomes `params: { id: Type }` (params are required).
+- `@Headers('x-token')` becomes `headers: { 'x-token'?: Type }`.
+- Multiple decorators of the same kind are merged with intersection types.
+
+## Generated types
+
+`duck-gen-api-routes.d.ts` exports:
+
+| Type | Purpose |
+| --- | --- |
+| `ApiRoutes` | Route map: path to typed route metadata. |
+| `RoutePath` | Union of all route paths. |
+| `RouteReq` | Request shape for a path (`body`, `query`, `params`, `headers`). |
+| `RouteRes` | Response type for a path. |
+| `RouteMethod` | HTTP method for a path. |
+| `DuckFetcher` | Typed fetcher signature. |
+| `DuckClient` | Typed client helper with `request` and `byMethod`. |
+| `GetBody` | Body type for a path. |
+| `GetQuery` | Query type for a path. |
+| `GetParams` | Params type for a path. |
+| `GetHeaders` | Headers type for a path. |
+| `GetRes` | Response type for a path. |
+| `GetReq` | Request type for a path (alias of `RouteReq`). |
+
+## Example
+
+```ts
+@Controller('auth')
+export class AuthController {
+  @Post('signin')
+  signin(@Body() body: SigninDto): Promise<AuthSession> {
+    return this.authService.signin(body)
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<UserDto> {
+    return this.usersService.findOne(id)
+  }
+}
+```
+
+```ts
+import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+
+type SigninReq = RouteReq<'/api/auth/signin'>
+type SigninRes = RouteRes<'/api/auth/signin'>
+```

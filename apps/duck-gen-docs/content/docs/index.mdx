@@ -1,0 +1,94 @@
+---
+title: introduction
+description: Type-safe generation for NestJS routes and message keys.
+---
+
+## What is Duck Gen?
+
+Duck Gen is the type generation tool in the @gentleduck ecosystem. It scans
+NestJS server code and emits TypeScript definitions that describe API routes
+and message keys. The goal is simple: keep server contracts and client types
+aligned without manual sync work.
+
+If you have ever shipped a client without matching route types or drifted i18n
+keys, Duck Gen removes that pain.
+
+## The Human Behind the Duck
+
+[@wildduck2](https://github.com/wildduck2) is the architect behind [@gentleduck](https://github.com/gentleeduck).
+He's not interested in building another abandoned open-source graveyard. He's obsessed with
+creating tools that developers actually want to use performant, maintainable, and battle-tested in
+production environments.
+
+He's also criminally responsive to community feedback. Got a bug? It gets fixed. Got a feature
+request that makes sense? It gets seriously considered. No corporate bureaucracy, no waiting three
+quarters for a minor patch. Just direct, honest development.
+
+The entire [@gentleduck](https://github.com/gentleeduck) organization exists because modern web
+development shouldn't feel like assembling IKEA furniture in the dark. Every library, every tool,
+every decision is made with one question: "Does this actually help developers ship better products
+faster?"
+
+## Why Duck Gen Exists
+
+Typed routes and message keys should not be a manual chore. Duck Gen automates
+the contract layer so you can focus on building features.
+
+**What you actually get:**
+
+- **Typed routes, end to end**: Generate request and response types directly
+  from NestJS controllers.
+- **Message key safety**: Keep i18n dictionaries aligned with the constants you
+  declare in code.
+- **Configurable scanning**: Fine tune `sourceGlobs` and `tsconfigPath` so the
+  generator only touches what you want.
+- **Warnings with intent**: Duck Gen surfaces duplicate groups and `any`
+  returns so you can fix contracts early.
+- **Built for automation**: Run it locally or in CI. Generated files are safe
+  to overwrite.
+
+## Contributing
+
+We want your contributions. Bug reports, feature requests, code, documentation improvements,
+hot takes on generator ergonomics bring it all to our
+[GitHub repository](https://github.com/gentleeduck/duck-ui).
+
+Unlike projects run by committees, we move fast. Good ideas get implemented. Bad ideas get
+respectfully declined with actual reasoning. Contributions get reviewed by humans who remember
+what it's like to be on the other side of a pull request.
+
+The [@gentleduck](https://github.com/gentleeduck) community is built on mutual respect and the
+shared understanding that we're all just trying to build cool stuff without losing our minds.
+
+## Getting Started (The Fast Version)
+
+```bash
+pnpm add -D @gentleduck/gen
+```
+
+```toml title="duck-gen.toml"
+framework = "nestjs"
+
+[extensions.shared]
+sourceGlobs = ["src/**/*.ts", "src/**/*.tsx"]
+tsconfigPath = "./tsconfig.json"
+includeNodeModules = false
+
+[extensions.apiRoutes]
+enabled = true
+globalPrefix = "/api"
+normalizeAnyToUnknown = true
+
+[extensions.messages]
+enabled = true
+```
+
+```bash
+pnpm exec duck-gen
+```
+
+```ts
+import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+```
+
+See the [Duck Gen core guide](/docs/duck-gen) for full configuration and usage.

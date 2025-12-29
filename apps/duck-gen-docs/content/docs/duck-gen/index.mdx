@@ -1,0 +1,187 @@
+---
+title: duck gen
+description: Core setup and usage for Duck Gen.
+---
+
+## Core
+
+### What is Duck Gen?
+
+Duck Gen is the type generation tool in the @gentleduck ecosystem. It scans
+NestJS server code and emits TypeScript definitions that describe API routes
+and message keys. The goal is simple: keep server contracts and client types
+aligned without manual sync work.
+
+Duck Gen currently supports NestJS only.
+
+### What it generates
+
+- **API route types**: A map of routes with request and response types.
+- **Message registry types**: Strongly typed i18n dictionaries based on
+  `@duckgen` message tags.
+
+### How it works
+
+1. Reads `duck-gen.toml` from your project root (or uses defaults).
+2. Builds a TypeScript project using `tsconfigPath` and `sourceGlobs`.
+3. Scans NestJS controllers and `@duckgen` message arrays.
+4. Emits `.d.ts` files under `@gentleduck/gen/generated/<framework>`.
+5. Prints warnings for edge cases like duplicate message groups or `any` types.
+
+### Installation
+
+<Steps>
+
+<Step>Prerequisites</Step>
+
+- Node 22 or newer.
+- A TypeScript project with a valid `tsconfig.json`.
+- NestJS (the only supported framework today).
+
+<Step>Install the package</Step>
+
+```bash
+pnpm add -D @gentleduck/gen
+```
+
+<Step>Add a script (optional)</Step>
+
+```json title="package.json"
+{
+  "scripts": {
+    "duck-gen": "duck-gen"
+  }
+}
+```
+
+</Steps>
+
+### Quick start
+
+<Steps>
+
+<Step>Create duck-gen.toml</Step>
+
+```toml title="duck-gen.toml"
+framework = "nestjs"
+
+[extensions.shared]
+sourceGlobs = ["src/**/*.ts", "src/**/*.tsx"]
+tsconfigPath = "./tsconfig.json"
+includeNodeModules = false
+
+[extensions.apiRoutes]
+enabled = true
+globalPrefix = "/api"
+normalizeAnyToUnknown = true
+
+[extensions.messages]
+enabled = true
+```
+
+<Step>Run the generator</Step>
+
+```bash
+pnpm exec duck-gen
+```
+
+<Step>Import generated types</Step>
+
+```ts
+import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+```
+
+</Steps>
+
+### Configuration
+
+Duck Gen reads `duck-gen.toml` from your project root. Paths are resolved
+relative to the config file.
+
+```toml title="duck-gen.toml"
+framework = "nestjs"
+
+[extensions.shared]
+sourceGlobs = ["src/**/*.ts", "src/**/*.tsx"]
+tsconfigPath = "./tsconfig.json"
+includeNodeModules = false
+
+[extensions.apiRoutes]
+enabled = true
+globalPrefix = "/api"
+normalizeAnyToUnknown = true
+
+[extensions.messages]
+enabled = true
+```
+
+**Root**
+
+- `framework` (string, default: `nestjs`): The server framework. Unsupported
+  values emit a warning and fall back to `nestjs`.
+
+**extensions.shared**
+
+- `sourceGlobs` (string[], default: `["src/**/*.ts", "src/**/*.tsx"]`): Files
+  to scan.
+- `tsconfigPath` (string, default: `./tsconfig.json`): TypeScript config used
+  by ts-morph.
+- `includeNodeModules` (boolean, default: `false`): Include `node_modules` in
+  scanning.
+
+**extensions.apiRoutes**
+
+- `enabled` (boolean, default: `true`): Enable API route generation.
+- `globalPrefix` (string, default: `/api`): Prefix applied to all routes.
+- `normalizeAnyToUnknown` (boolean, default: `true`): Converts `any` request
+  types to `unknown`.
+- `sourceGlobs` (string[]): Overrides `extensions.shared.sourceGlobs`.
+- `tsconfigPath` (string): Overrides `extensions.shared.tsconfigPath`.
+- `includeNodeModules` (boolean): Overrides `extensions.shared.includeNodeModules`.
+
+**extensions.messages**
+
+- `enabled` (boolean, default: `true`): Enable message generation.
+- `sourceGlobs` (string[]): Overrides `extensions.shared.sourceGlobs`.
+- `tsconfigPath` (string): Overrides `extensions.shared.tsconfigPath`.
+- `includeNodeModules` (boolean): Overrides `extensions.shared.includeNodeModules`.
+
+### Output and CLI
+
+Duck Gen writes generated files inside the package:
+
+- `@gentleduck/gen/generated/nestjs/duck-gen-api-routes.d.ts`
+- `@gentleduck/gen/generated/nestjs/duck-gen-messages.d.ts`
+- `@gentleduck/gen/generated/nestjs/index.d.ts`
+
+Import the public entrypoint:
+
+```ts
+import type { ApiRoutes, DuckgenMessageGroup } from '@gentleduck/gen/nestjs'
+```
+
+CLI notes:
+
+- If `duck-gen.toml` is missing, defaults are used.
+- Warnings are printed for duplicate message groups or `any` return types.
+- Running the generator multiple times is safe; it overwrites the same files.
+
+### Troubleshooting
+
+- **No routes generated**: Make sure your decorators use string literal paths.
+  Dynamic values are skipped.
+- **Missing types**: Check `sourceGlobs` and `tsconfigPath` in `duck-gen.toml`.
+- **Message keys are just `string`**: Add `as const` to message arrays.
+- **Duplicate group warnings**: Ensure each `@duckgen` group key is unique.
+- **Any return warnings**: Add explicit return types or update the controller
+  methods to avoid `any`.
+
+### Extensions
+
+- **API Routes**: [Read the API routes guide](/docs/duck-gen/api-routes).
+- **Messages**: [Read the messages guide](/docs/duck-gen/messages).
+
+### Contributing
+
+Duck Gen lives in the Gentleduck monorepo. Issues, fixes, and documentation
+improvements are welcome at `https://github.com/gentleeduck/duck-ui`.

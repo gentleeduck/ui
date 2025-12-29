@@ -217,9 +217,11 @@ export type VariantParams<
 
 Defines how to configure a **CVA function**, including:
 
-* `variants`: The base mapping of variants → classes
-* `defaultVariants`: Defaults applied when no value is passed
-* `compoundVariants`: Conditional styles that apply when multiple variants match
+| Field | Description |
+| --- | --- |
+| `variants` | Base mapping of variants → classes. |
+| `defaultVariants` | Defaults applied when no value is passed. |
+| `compoundVariants` | Conditional styles that apply when multiple variants match. |
 
 <CodeBlockWrapper>
 
@@ -284,9 +286,11 @@ export type VariantProps<T> = T extends (props?: infer P) => string
 
 Helper types that define the **shape of class names**:
 
-* `ClassDictionary`: conditional `{ 'class': boolean }`
-* `ClassArray`: nested arrays of class values
-* `ClassValue`: union of everything accepted as a class
+| Type | Purpose |
+| --- | --- |
+| `ClassDictionary` | Conditional `{ 'class': boolean }`. |
+| `ClassArray` | Nested arrays of class values. |
+| `ClassValue` | Union of everything accepted as a class. |
 
 <CodeBlockWrapper>
 
@@ -304,4 +308,3 @@ export type ClassValue =
 ```
 
 </CodeBlockWrapper>
-
