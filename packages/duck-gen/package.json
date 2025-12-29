@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@gentleduck/gen",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "duck-gen": "./bin/duck-gen.js"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./duck-gen.schema.json",
+    "./generated": "./generated/index.d.ts",
+    "./generated/*": "./generated/*",
+    "./nestjs": "./generated/nestjs/index.d.ts",
+    "./nestjs/*": "./generated/nestjs/*"
+  },
+  "files": [
+    "bin",
+    "generated",
+    "src",
+    "duck-gen.schema.json"
+  ],
+  "dependencies": {
+    "@iarna/toml": "^3.0.0",
+    "chalk": "^5.4.1",
+    "ora": "^9.0.0",
+    "ts-morph": "^22.0.0",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  },
+  "devDependencies": {
+    "@gentleduck/typescript-config": "workspace:*",
+    "@types/node": "catalog:"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "tsx ./src/index.ts"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/duck-gen.schema.json",
+  "title": "Duck Gen Config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "framework": {
+      "type": "string",
+      "enum": ["nestjs"],
+      "description": "Server framework used by the generator."
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "shared": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "includeNodeModules": {
+              "type": "boolean",
+              "default": false,
+              "description": "Shared default: scan files inside node_modules."
+            },
+            "sourceGlobs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Shared default: glob patterns for files to scan."
+            },
+            "tsconfigPath": {
+              "type": "string",
+              "description": "Shared default: path to the tsconfig.json used by ts-morph."
+            }
+          }
+        },
+        "apiRoutes": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable API routes generation."
+            },
+            "globalPrefix": {
+              "type": "string",
+              "default": "/api",
+              "description": "Global prefix applied to all API routes."
+            },
+            "includeNodeModules": {
+              "type": "boolean",
+              "default": false,
+              "description": "Scan files inside node_modules (overrides extensions.shared)."
+            },
+            "normalizeAnyToUnknown": {
+              "type": "boolean",
+              "default": true,
+              "description": "Normalize any to unknown in generated route types."
+            },
+            "sourceGlobs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Glob patterns for files to scan (overrides extensions.shared)."
+            },
+            "tsconfigPath": {
+              "type": "string",
+              "description": "Path to the tsconfig.json used by ts-morph (overrides extensions.shared)."
+            }
+          }
+        },
+        "messages": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable @duckgen messages generation."
+            },
+            "includeNodeModules": {
+              "type": "boolean",
+              "default": false,
+              "description": "Scan files inside node_modules (overrides extensions.shared)."
+            },
+            "sourceGlobs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Glob patterns for files to scan (overrides extensions.shared)."
+            },
+            "tsconfigPath": {
+              "type": "string",
+              "description": "Path to the tsconfig.json used by ts-morph (overrides extensions.shared)."
+            }
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "framework": "nestjs",
+      "extensions": {
+        "shared": {
+          "includeNodeModules": false,
+          "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"],
+          "tsconfigPath": "./tsconfig.json"
+        },
+        "apiRoutes": {
+          "enabled": true,
+          "globalPrefix": "/api",
+          "normalizeAnyToUnknown": true
+        },
+        "messages": {
+          "enabled": true
+        }
+      }
+    }
+  ]
+}
