@@ -145,7 +145,6 @@ const AnimalSQL = `
   )
 `
 
-
 const EnclosureSQL = `
   CREATE TABLE enclosures (
     enclosure_id UUID PRIMARY KEY,
