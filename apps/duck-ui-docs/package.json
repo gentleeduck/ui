@@ -60,7 +60,7 @@
   "engines": {
     "node": "^22.7.0"
   },
-  "name": "@gentleduck/docs",
+  "name": "@gentleduck/ui-docs",
   "private": true,
   "scripts": {
     "build": "next build",
