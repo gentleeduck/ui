@@ -27,14 +27,5 @@ pnpm --filter @gentleduck/ui-docs dev
 - `pnpm --filter @gentleduck/ui-docs build:reg` – rebuild the UI registry and format output
 - `pnpm --filter @gentleduck/ui-docs lint` – lint
 
-## Content
-- `apps/duck-ui-docs/content/docs/**` – MDX sources
-- `apps/duck-ui-docs/.velite/` – generated content (do not edit)
-- `apps/duck-ui-docs/__ui_registry__/` – generated registry data
-- `apps/duck-ui-docs/public/r/` – registry exports used in docs
-
-## Registry Previews
-- `apps/duck-ui-docs/velite-configs/plugins/rehype-component.ts` injects registry source and previews into MDX.
-
 ## Environment
 - `.env` is optional; see `.env.example` for defaults.

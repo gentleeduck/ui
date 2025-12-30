@@ -32,6 +32,13 @@
       "protobufjs",
       "sharp"
     ],
+    "packageExtensions": {
+      "@hookform/resolvers@*": {
+        "dependencies": {
+          "zod": "^4.2.1"
+        }
+      }
+    },
     "overrides": {
       "vite": "npm:rolldown-vite@^7.3.0"
     }

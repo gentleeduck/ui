@@ -19,10 +19,5 @@ pnpm --filter @gentleduck/gen-docs dev
 - `pnpm --filter @gentleduck/gen-docs build:docs` – one-time MDX build
 - `pnpm --filter @gentleduck/gen-docs lint` – lint
 
-## Content
-- `apps/duck-gen-docs/content/docs/**` – MDX sources
-- `apps/duck-gen-docs/.velite/` – generated content (do not edit)
-- `apps/duck-gen-docs/velite.config.ts` – Velite config (shared via `@gentleduck/duck-docs/velite`)
-
 ## Environment
 - `.env` is optional; see `.env.example` for defaults.
