@@ -1,4 +1,3 @@
-import '../../mdx.css'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
