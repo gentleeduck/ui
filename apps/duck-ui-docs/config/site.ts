@@ -4,6 +4,7 @@ export const siteConfig = {
   author: {
     name: 'Ahmed Ayob',
     url: 'https://x.com/wild_ducka',
+    email: 'support@gentleduck.org',
   },
   description:
     '@gentleduck/ui is a modern, open-source React component library built with Tailwind CSS. It offers accessible, customizable, and type-safe UI components to help developers build faster and more consistent interfaces.',

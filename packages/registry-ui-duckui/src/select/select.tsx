@@ -61,6 +61,7 @@ function SelectWrapper({
 
   useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
   useHandleKeyDown({
+    containerRef: contentRef,
     itemsRef,
     open,
     originalItemsRef: itemsRef,

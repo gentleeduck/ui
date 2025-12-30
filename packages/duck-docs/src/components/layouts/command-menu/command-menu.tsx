@@ -84,7 +84,7 @@ export function CommandMenu() {
       <CommandDialog onOpenChange={setOpen} open={open}>
         <CommandInput autoFocus placeholder="Search..." />
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandList className="h-[550px] max-h-full">
+        <CommandList className="w-90 md:w-full h-[550px] max-h-full">
           {items.map((group, idx) => (
             <React.Fragment key={group.title}>
               <CommandGroup heading={group.title}>
@@ -133,7 +133,7 @@ function CommandFooter() {
     },
   })
   return (
-    <div className="flex w-full items-center justify-between gap-4 border-t px-2 pt-2">
+    <div className="hidden w-full items-center justify-between gap-4 border-t px-2 pt-2 lg:flex">
       <div className="flex w-full items-center justify-between gap-4">
         {selectedItem?.innerText && (
           <Button className={cn('px-2')} size={'sm'} variant={'outline'}>

@@ -118,52 +118,6 @@ export function FeaturesSection() {
             <FeatureCard feature={feature} index={i} key={i} />
           ))}
         </div>
-
-        {/* Feature highlight */}
-        <div className="mt-24 rounded-xl border border-border/50 bg-background/50 p-8 lg:p-10">
-          <div className="flex flex-col gap-8 md:flex-row md:items-center md:gap-12">
-            <div
-              aria-hidden="true"
-              className="flex h-20 w-20 items-center justify-center rounded-lg bg-primary/10 md:h-24 md:w-24">
-              <Layers className="h-10 w-10 text-primary md:h-12 md:w-12" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-2xl tracking-tight">OUR ECOSYSTEM</h3>
-              <p className="mt-4 text-lg text-muted-foreground">
-                We've built our own ecosystem from the ground up, continuously refining and expanding our core packages.
-                Every component is designed to work seamlessly together, giving developers the tools they need to build
-                faster, scale with confidence, and stay focused on creating value.
-              </p>
-
-              <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div className="flex items-center gap-2">
-                  <span
-                    aria-hidden="true"
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-                    <Package className="h-4 w-4 text-primary" />
-                  </span>
-                  <span className="font-medium text-sm">Core packages</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span
-                    aria-hidden="true"
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-                    <Puzzle className="h-4 w-4 text-primary" />
-                  </span>
-                  <span className="font-medium text-sm">Seamless integrations</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span
-                    aria-hidden="true"
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-                    <Rocket className="h-4 w-4 text-primary" />
-                  </span>
-                  <span className="font-medium text-sm">Continuous innovation</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   )

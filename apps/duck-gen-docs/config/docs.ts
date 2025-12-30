@@ -14,13 +14,23 @@ export const docsConfig = {
       items: [
         {
           href: '/docs',
-          items: [],
           title: 'Introduction',
         },
         {
           href: '/docs/installation',
-          items: [],
           title: 'Installation',
+        },
+        {
+          href: '/docs/templates',
+          title: 'Templates',
+        },
+        {
+          href: '/docs/faqs',
+          title: 'FAQs',
+        },
+        {
+          href: '/docs/whoiam',
+          title: 'whoiam',
         },
       ],
       title: 'Getting Started',
@@ -30,27 +40,23 @@ export const docsConfig = {
       items: [
         {
           href: '/docs/duck-gen',
-          items: [],
           title: 'Core',
         },
         {
           href: '/docs/duck-gen/api-routes',
-          items: [],
           title: 'API Routes',
         },
         {
           href: '/docs/duck-gen/messages',
-          items: [],
           title: 'Messages',
         },
+        {
+          href: '/docs/duck-query',
+          title: 'Duck Query',
+        },
       ],
-      title: 'Duck Gen',
+      title: 'Overview',
     },
-    // {
-    //   collapsible: false,
-    //   items: [],
-    //   title: '',
-    // },
   ],
 } satisfies DocsConfig
 

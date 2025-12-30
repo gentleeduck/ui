@@ -56,7 +56,7 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
   useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
   useHandleKeyDown({
     allowAxisArrowKeys: false,
-    commandRef,
+    containerRef: commandRef,
     itemsRef: filteredItems,
     open: true,
     originalItemsRef: items,
@@ -256,7 +256,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
 function CommandDialog({ children, ...props }: React.ComponentPropsWithRef<typeof Dialog>): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="h-[500px] p-0 lg:w-[650px] [&>div]:max-w-full">
+      <DialogContent className="h-[500px] p-0 w-95 lg:w-[650px] [&>div]:max-w-full">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>

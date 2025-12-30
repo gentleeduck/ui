@@ -28,7 +28,7 @@ export function HeaderRoot({ className, ...props }: HeaderRootProps) {
 export function HeaderContainer({ className, children, ...props }: HeaderContainerProps) {
   return (
     <div className="container-wrapper">
-      <div className={cn('container flex h-16 items-center gap-2 md:gap-4', className)} {...props}>
+      <div className={cn('container flex h-16 items-center gap-2 md:gap-4 justify-between', className)} {...props}>
         {children}
       </div>
     </div>

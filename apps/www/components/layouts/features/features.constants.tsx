@@ -1,4 +1,6 @@
 import { Code2, Layers, LayoutGrid, Rocket, Sparkles, Terminal } from 'lucide-react'
+import { FeatureItem } from './features.types'
+
 export const features: FeatureItem[] = [
   {
     bgColor: 'rgba(16, 185, 129, 0.12)',

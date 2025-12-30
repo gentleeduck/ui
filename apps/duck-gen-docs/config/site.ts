@@ -6,6 +6,7 @@ export const siteConfig = {
   links: {
     github: 'https://github.com/gentleeduck/duck-ui',
     twitter: 'https://x.com/wild_ducka',
+    email: 'support@gentleduck.org',
   },
   name: 'gentleduck/gen',
   ogImage: absoluteUrl('/og/root.png'),

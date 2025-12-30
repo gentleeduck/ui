@@ -28,6 +28,7 @@ function DropdownMenuImpritive({ children, className, ...props }: React.HTMLProp
 
   useHandleKeyDown({
     allowAxisArrowKeys: true,
+    containerRef: contentRef,
     itemsRef,
     open,
     originalItemsRef,
@@ -218,6 +219,7 @@ function DropdownMenuSubImpritive({ children, className, ...props }: React.HTMLP
 
   useHandleKeyDown({
     allowAxisArrowKeys: true,
+    containerRef: contentRef,
     itemsRef,
     open,
     originalItemsRef,

@@ -50,12 +50,12 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "postbuild": "next-sitemap",
     "build:docs": "pnpm velite",
     "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/index.tsx",
     "dev": "next dev --webpack",
     "dev:docs": "pnpm velite dev",
     "lint": "next lint",
+    "postbuild": "next-sitemap",
     "start": "next start"
   },
   "version": "3.0.17"

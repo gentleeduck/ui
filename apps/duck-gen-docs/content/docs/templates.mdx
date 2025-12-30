@@ -1,0 +1,334 @@
+---
+title: templates
+description: Full Duck Gen + Duck Query + NestJS example with DTOs, constants, and a controller.
+---
+
+This is a complete, minimal example showing Duck Gen with NestJS and Duck Query. It links the backend contract to a
+type-safe client, includes a DTO file, a constants file for messages, and a controller file, plus the minimum wiring to
+make it realistic.
+
+## Client to server flow
+
+1. Define messages and DTOs in the backend.
+2. Annotate message tags for Duck Gen scanning.
+3. Run Duck Gen to generate `ApiRoutes` and i18n message types.
+4. Use Duck Query on the client to call routes with full type safety.
+5. Use generated i18n types to keep server messages and client translations in sync.
+
+## File layout
+
+```text
+.
+├── duck-gen.toml
+├── backend
+│   ├── src
+│   │   ├── common
+│   │   │   ├── constants.ts
+│   │   │   └── types
+│   │   │       └── api.types.ts
+│   │   └── modules
+│   │       └── auth
+│   │           ├── auth.constants.ts
+│   │           ├── auth.controller.ts
+│   │           ├── auth.dto.ts
+│   │           ├── auth.filters.ts
+│   │           ├── auth.module.ts
+│   │           ├── auth.service.ts
+│   │           ├── auth.types.ts
+│   │           └── index.ts
+└── client
+    └── auth.query.ts
+````
+
+## duck-gen.toml
+
+```toml title="duck-gen.toml"
+framework = "nestjs"
+
+[extensions.shared]
+sourceGlobs = ["src/**/*.ts"]
+tsconfigPath = "./tsconfig.json"
+includeNodeModules = false
+
+[extensions.apiRoutes]
+enabled = true
+globalPrefix = "/api"
+normalizeAnyToUnknown = true
+
+[extensions.messages]
+enabled = true
+```
+
+## Link the client to the backend
+
+Duck Gen reads your NestJS controllers + DTOs (via `duck-gen.toml`) and generates `ApiRoutes`. Duck Query then uses
+`ApiRoutes` to make calls like `/api/auth/signin` fully type-safe. Keep the controller paths and `globalPrefix` aligned
+with the client routes so the contract stays accurate.
+
+## Server-side (NestJS)
+
+```ts title="src/common/constants.ts"
+export const ZodMessages = {
+  ZOD_EXPECTED_STRING: 'ZOD_EXPECTED_STRING',
+  ZOD_TOO_LONG: 'ZOD_TOO_LONG',
+  ZOD_TOO_SHORT: 'ZOD_TOO_SHORT',
+} as const
+```
+
+```ts title="src/common/types/api.types.ts"
+export type Response<M extends string, T> =
+  | {
+      state: 'success'
+      message: M
+      data: T
+    }
+  | {
+      state: 'error'
+      message: M
+      data: null
+    }
+
+export type ResponseType<TFn extends (...args: any[]) => any, M extends string> =
+  Awaited<ReturnType<TFn>> extends infer TData ? Response<M, TData> : never
+```
+
+```ts title="src/modules/auth/auth.constants.ts"
+import { ZodMessages } from '~/common/constants'
+
+/**
+ * @duckgen messages
+ */
+export const AuthMessages = [
+  'AUTH_SIGNIN_SUCCESS',
+  'AUTH_USERNAME_INVALID',
+  'AUTH_PASSWORD_INVALID',
+  'AUTH_SIGNIN_FAILED',
+
+  // include shared zod messages
+  ...Object.values(ZodMessages),
+] as const
+```
+
+```ts title="src/modules/auth/auth.types.ts"
+import { AuthMessages } from './auth.constants'
+
+export type AuthMessage = (typeof AuthMessages)[number]
+```
+
+```ts title="src/modules/auth/auth.dto.ts"
+import { z } from 'zod'
+import type { AuthMessage } from './auth.types'
+
+const errorMessage = <T extends AuthMessage>(message: T) => ({ message })
+
+const string = z
+  .string({ ...errorMessage('ZOD_EXPECTED_STRING') })
+  .max(30, { ...errorMessage('ZOD_TOO_LONG') })
+
+export const signinSchema = z.object({
+  password: string.min(8, { ...errorMessage('ZOD_TOO_SHORT') }),
+  username: string.min(3, { ...errorMessage('ZOD_TOO_SHORT') }),
+})
+
+export type SigninDto = z.infer<typeof signinSchema>
+```
+
+```ts title="src/modules/auth/auth.utils.ts"
+import { HttpException, HttpStatus } from '@nestjs/common'
+
+export function throwError<M extends string>(message: M, statusCode: number): never {
+  throw new HttpException({ message }, statusCode as HttpStatus)
+}
+
+export class PasswordHasher {
+  static async comparePassword(_plain: string, _hash: string) {
+    // Replace with your real hashing, bcrypt/argon2, etc.
+    return _plain === '123456' && _hash === 'hashed'
+  }
+}
+```
+
+```ts title="src/modules/auth/auth.filters.ts"
+import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common'
+import { Catch, HttpException } from '@nestjs/common'
+
+@Catch(HttpException)
+export class ErrorExceptionFilter implements ExceptionFilter {
+  catch(exception: HttpException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp()
+    const res = ctx.getResponse()
+
+    const status = exception.getStatus()
+    const body = exception.getResponse() as any
+
+    // Normalize to a simple shape for the client
+    res.status(status).json({
+      state: 'error',
+      message: body?.message ?? 'UNKNOWN_ERROR',
+      data: null,
+    })
+  }
+}
+```
+
+```ts title="src/modules/auth/auth.service.ts"
+import { Injectable } from '@nestjs/common'
+import type { AuthMessage } from './auth.types'
+import type { SigninDto } from './auth.dto'
+import { PasswordHasher, throwError } from './auth.utils'
+
+type User = { id: string; username: string }
+
+@Injectable()
+export class AuthService {
+  // Replace with your DB implementation
+  private fakeUser = { id: '1', username: 'duck', password_hash: 'hashed' }
+
+  async signin(data: SigninDto): Promise<User> {
+    try {
+      const user = data.username === this.fakeUser.username ? this.fakeUser : null
+
+      if (!user) {
+        throwError<AuthMessage>('AUTH_USERNAME_INVALID', 401)
+      }
+
+      const passwordMatch = await PasswordHasher.comparePassword(data.password, user.password_hash)
+      if (!passwordMatch) {
+        throwError<AuthMessage>('AUTH_PASSWORD_INVALID', 401)
+      }
+
+      return { id: user.id, username: user.username }
+    } catch {
+      // if it was already a typed error filter will handle it
+      throwError<AuthMessage>('AUTH_SIGNIN_FAILED', 500)
+    }
+  }
+}
+```
+
+```ts title="src/modules/auth/auth.controller.ts"
+import { Body, Controller, Post, Session, UseFilters } from '@nestjs/common'
+import { ZodValidationPipe } from '@nestjs/zod'
+import { signinSchema, type SigninDto } from './auth.dto'
+import { AuthService } from './auth.service'
+import { ErrorExceptionFilter } from './auth.filters'
+import type { AuthMessage } from './auth.types'
+import type { ResponseType } from '~/common/types/api.types'
+
+type SessionData = { user?: unknown }
+
+class EmailService {
+  // placeholder to show realistic dependency wiring
+}
+
+@Controller('auth')
+@UseFilters(ErrorExceptionFilter)
+export class AuthController {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly emailService: EmailService,
+  ) {}
+
+  @Post('signin')
+  async signin(
+    @Body(new ZodValidationPipe(signinSchema)) body: SigninDto,
+    @Session() session: SessionData,
+  ): Promise<ResponseType<typeof this.authService.signin, AuthMessage>> {
+    const data = await this.authService.signin(body)
+    session.user = data as never
+
+    return {
+      data,
+      message: 'AUTH_SIGNIN_SUCCESS',
+      state: 'success',
+    }
+  }
+}
+```
+
+```ts title="src/modules/auth/auth.module.ts"
+import { Module } from '@nestjs/common'
+import { AuthController } from './auth.controller'
+import { AuthService } from './auth.service'
+
+class EmailService {}
+
+@Module({
+  controllers: [AuthController],
+  providers: [AuthService, EmailService],
+})
+export class AuthModule {}
+```
+
+## Client-side (Duck Query)
+
+You can see the full query docs [here](/docs/duck-query).
+
+```ts title="client/auth.query.ts"
+import { toast } from 'sonner'
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes, DuckGenI18nMessages, DuckgenScopedI18nByGroup } from '@gentleduck/gen/nestjs'
+
+const D = createDuckQueryClient<ApiRoutes>()
+
+export async function signinWithDuck(lang: 'ar' | 'en') {
+  const { data } = await D.post(
+    '/api/auth/signin',
+    {
+      body: {
+        password: '123456',
+        username: 'duck',
+      },
+    },
+    { withCredentials: true },
+  )
+
+  if (data.state === 'error') {
+    toast.error(i18n[lang].server.AuthMessages[data.message])
+    return null
+  }
+
+  return data.data
+}
+
+type I18n = DuckgenScopedI18nByGroup<'ar' | 'en', DuckGenI18nMessages>
+
+const i18n: I18n = {
+  ar: {
+    server: {
+      AuthMessages: {
+        AUTH_SIGNIN_SUCCESS: 'تم تسجيل الدخول بنجاح',
+        AUTH_USERNAME_INVALID: 'اسم المستخدم غير صحيح',
+        AUTH_PASSWORD_INVALID: 'كلمة المرور غير صحيحة',
+        AUTH_SIGNIN_FAILED: 'فشل تسجيل الدخول',
+
+        ZOD_EXPECTED_STRING: 'القيمة يجب أن تكون نصًا',
+        ZOD_TOO_LONG: 'القيمة طويلة جدًا',
+        ZOD_TOO_SHORT: 'القيمة قصيرة جدًا',
+      },
+    },
+  },
+  en: {
+    server: {
+      AuthMessages: {
+        AUTH_SIGNIN_SUCCESS: 'Signed in successfully',
+        AUTH_USERNAME_INVALID: 'Invalid username',
+        AUTH_PASSWORD_INVALID: 'Invalid password',
+        AUTH_SIGNIN_FAILED: 'Signin failed',
+
+        ZOD_EXPECTED_STRING: 'Expected a string',
+        ZOD_TOO_LONG: 'Too long',
+        ZOD_TOO_SHORT: 'Too short',
+      },
+    },
+  },
+}
+```
+
+## Run the generator
+
+```bash
+pnpm exec duck-gen
+```
+
+This will generate `ApiRoutes`, `DuckGenI18nMessages`, and the scoped i18n types used above.

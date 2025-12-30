@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 import { CommandContext, CommandRefsContext } from './command'
 import { dstyleItem, handleItemsSelection, styleItem } from './command.libs'
@@ -135,7 +133,7 @@ export function useCommandSearch(
 }
 
 export function useHandleKeyDown(props: {
-  commandRef: React.RefObject<HTMLDivElement | null>
+  containerRef: React.RefObject<HTMLDivElement | null>
   open?: boolean
   itemsRef: React.RefObject<HTMLLIElement[]>
   selectedItem: HTMLLIElement | null
@@ -197,7 +195,7 @@ export function useHandleKeyDown(props: {
       handleItemsSelection(currentItem, itemsRef, setSelectedItem)
     }
 
-    props.commandRef.current?.addEventListener('keydown', handleKeyDown)
-    return () => props.commandRef.current?.removeEventListener('keydown', handleKeyDown)
+    props.containerRef.current?.addEventListener('keydown', handleKeyDown)
+    return () => props.containerRef.current?.removeEventListener('keydown', handleKeyDown)
   }, [open])
 }

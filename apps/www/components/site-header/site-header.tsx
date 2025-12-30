@@ -6,6 +6,7 @@ import {
   HeaderBrand,
   HeaderContainer,
   HeaderRoot,
+  MobileNav,
   ModeSwitcher,
   useSiteConfig,
 } from '@gentleduck/duck-docs'
@@ -19,7 +20,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@gentleduck/registry-ui-duckui/navigation-menu'
-import { Github, TerminalSquare } from 'lucide-react'
+import { Github, TerminalSquare, Twitter } from 'lucide-react'
 import Link from 'next/link'
 import type { ComponentType } from 'react'
 import {
@@ -40,7 +41,8 @@ export function SiteHeader() {
     <HeaderRoot className="border-b border-border/50 bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/70">
       <HeaderContainer className="justify-between gap-4">
         <div className="flex items-center gap-8">
-          <HeaderBrand className="shrink-0" />
+          <HeaderBrand className="shrink-0 hidden md:flex" />
+          <MobileNav />
 
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuList className="gap-2">
@@ -60,35 +62,41 @@ export function SiteHeader() {
           </NavigationMenu>
         </div>
 
-        <div className="flex items-center gap-2">
-          <CommandMenu />
-          <FontStyleButton />
-          <Link
-            aria-label="GitHub"
-            className={cn(
-              buttonVariants({
-                size: 'icon',
-                variant: 'ghost',
-              }),
-            )}
-            href={github}
-            rel="noreferrer"
-            target="_blank">
-            <Github className="size-4" />
-          </Link>
-          <ModeSwitcher />
-          <Link
-            aria-label="Documentation"
-            className={cn(
-              buttonVariants({
-                size: 'icon',
-                variant: 'ghost',
-              }),
-              'md:hidden',
-            )}
-            href="/docs">
-            <TerminalSquare className="size-4" />
-          </Link>
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          <div className="w-full flex-1 md:w-auto md:flex-none">
+            <CommandMenu />
+          </div>
+          <nav className="flex items-center">
+            <FontStyleButton />
+            {siteConfig.links?.twitter ? (
+              <Link aria-label="Twitter" href={siteConfig.links.twitter} rel="noreferrer" target="_blank">
+                <div
+                  className={cn(
+                    buttonVariants({
+                      size: 'icon',
+                      variant: 'ghost',
+                    }),
+                  )}>
+                  <Twitter />
+                </div>
+              </Link>
+            ) : null}
+
+            <Link
+              aria-label="GitHub"
+              className={cn(
+                buttonVariants({
+                  size: 'icon',
+                  variant: 'ghost',
+                }),
+              )}
+              href={github}
+              rel="noreferrer"
+              target="_blank">
+              <Github className="size-4" />
+            </Link>
+            <ModeSwitcher />
+          </nav>
         </div>
       </HeaderContainer>
     </HeaderRoot>

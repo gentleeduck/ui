@@ -1,5 +1,5 @@
 export const siteConfig = {
-  description: 'GentleDuck builds fast, reliable, open source developer tooling for production use.',
+  description: 'Gentleduck builds fast, reliable, open source developer tooling for production use.',
   links: {
     email: 'support@gentleduck.org',
     github: 'https://github.com/gentleeduck',
@@ -7,7 +7,7 @@ export const siteConfig = {
   },
   name: 'GentleDuck',
   ogImage: 'https://gentleduck.org/og/root.png',
-  title: 'GentleDuck · Open source developer tooling',
+  title: 'Gentleduck · Open source developer tooling',
   url: 'https://gentleduck.org',
 }
 

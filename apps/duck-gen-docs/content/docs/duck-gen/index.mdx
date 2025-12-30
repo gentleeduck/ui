@@ -3,22 +3,20 @@ title: duck gen
 description: Core setup and usage for the Duck Gen compiler extension, currently tested with NestJS.
 ---
 
-## Core
-
-### What is Duck Gen?
+## What is Duck Gen?
 
 Duck Gen is a general-purpose compiler extension in the @gentleduck ecosystem. It scans
 server code and emits TypeScript definitions that describe API routes and message keys.
 It is designed for multiple frameworks and is currently being tested with NestJS. The goal
 is simple: keep server contracts and client types aligned without manual sync work.
 
-### What it generates
+## What it generates
 
 - **API route types**: A map of routes with request and response types.
 - **Message registry types**: Strongly typed i18n dictionaries based on
   `@duckgen` message tags.
 
-### How it works
+## How it works
 
 1. Reads `duck-gen.toml` from your project root (or uses defaults).
 2. Builds a TypeScript project using `tsconfigPath` and `sourceGlobs`.
@@ -26,7 +24,7 @@ is simple: keep server contracts and client types aligned without manual sync wo
 4. Emits `.d.ts` files under `@gentleduck/gen/generated/<framework>`.
 5. Prints warnings for edge cases like duplicate message groups or `any` types.
 
-### Installation
+## Installation
 
 <Steps>
 
@@ -54,7 +52,7 @@ pnpm add -D @gentleduck/gen
 
 </Steps>
 
-### Quick start
+## Quick start
 
 <Steps>
 
@@ -91,7 +89,7 @@ import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 
 </Steps>
 
-### Configuration
+## Configuration
 
 Duck Gen reads `duck-gen.toml` from your project root. Paths are resolved
 relative to the config file.
@@ -146,7 +144,7 @@ enabled = true
 - `tsconfigPath` (string): Overrides `extensions.shared.tsconfigPath`.
 - `includeNodeModules` (boolean): Overrides `extensions.shared.includeNodeModules`.
 
-### Output and CLI
+## Output and CLI
 
 Duck Gen writes generated files inside the package:
 
@@ -166,7 +164,7 @@ CLI notes:
 - Warnings are printed for duplicate message groups or `any` return types.
 - Running the generator multiple times is safe; it overwrites the same files.
 
-### Troubleshooting
+## Troubleshooting
 
 - **No routes generated**: Make sure your decorators use string literal paths.
   Dynamic values are skipped.
@@ -176,12 +174,12 @@ CLI notes:
 - **Any return warnings**: Add explicit return types or update the controller
   methods to avoid `any`.
 
-### Extensions
+## Extensions
 
 - **API Routes**: [Read the API routes guide](/docs/duck-gen/api-routes).
 - **Messages**: [Read the messages guide](/docs/duck-gen/messages).
 
-### Contributing
+## Contributing
 
 Duck Gen lives in the Gentleduck monorepo. Issues, fixes, and documentation
-improvements are welcome at `https://github.com/gentleeduck/duck-ui`.
+improvements are welcome at [`@gentleduck`](https://github.com/gentleeduck/duck-ui.)

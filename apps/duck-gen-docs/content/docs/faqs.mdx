@@ -1,0 +1,185 @@
+---
+title: faqs
+description: Frequently asked questions about Duck Gen, its config, and generated output.
+---
+
+This FAQ focuses on Duck Gen usage, configuration, and generated output.
+If you cannot find what you need, open an issue or discussion on GitHub:
+https://github.com/gentleeduck/duck-ui
+
+<br />
+<br />
+<br />
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="what-is-duck-gen">
+    <AccordionTrigger>What is Duck Gen?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Duck Gen is a general-purpose compiler extension that scans server code and generates TypeScript definitions for
+      API routes and message keys. It keeps server contracts and client types aligned without manual sync work.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="what-does-it-generate">
+    <AccordionTrigger>What does Duck Gen generate?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      It generates:
+      <ul className="mt-2 list-disc pl-5">
+        <li>API route types (request/response shapes per route).</li>
+        <li>Message registry types from <code className="rounded bg-muted px-2 py-1">@duckgen</code> message tags.</li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="framework-support">
+    <AccordionTrigger>Which frameworks are supported?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Duck Gen is designed for multiple frameworks and is currently tested with NestJS. Other adapters are in progress,
+      and unsupported values fall back to the NestJS adapter with a warning.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="requirements">
+    <AccordionTrigger>What are the requirements?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      You need:
+      <ul className="mt-2 list-disc pl-5">
+        <li>Node 22 or newer.</li>
+        <li>A TypeScript project with a valid <code className="rounded bg-muted px-2 py-1">tsconfig.json</code>.</li>
+        <li>NestJS if you are using the current tested adapter.</li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="install-run">
+    <AccordionTrigger>How do I install and run Duck Gen?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Install the package and run the CLI:
+      <div className="mt-3">
+        <code className="rounded bg-muted px-2 py-1">pnpm add -D @gentleduck/gen</code>
+      </div>
+      <div className="mt-3">
+        <code className="rounded bg-muted px-2 py-1">pnpm exec duck-gen</code>
+      </div>
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="config-location">
+    <AccordionTrigger>Where does the configuration live?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Duck Gen reads <code className="rounded bg-muted px-2 py-1">duck-gen.toml</code> from your project root. All paths
+      inside the config are resolved relative to that file.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="config-required">
+    <AccordionTrigger>Do I need a config file?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      No. If <code className="rounded bg-muted px-2 py-1">duck-gen.toml</code> is missing, Duck Gen uses defaults.
+      You only need the file when you want to customize globs, paths, or extensions.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="output-location">
+    <AccordionTrigger>Where do the generated types go?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Duck Gen writes generated files inside the package:
+      <ul className="mt-2 list-disc pl-5">
+        <li><code className="rounded bg-muted px-2 py-1">@gentleduck/gen/generated/nestjs/duck-gen-api-routes.d.ts</code></li>
+        <li><code className="rounded bg-muted px-2 py-1">@gentleduck/gen/generated/nestjs/duck-gen-messages.d.ts</code></li>
+        <li><code className="rounded bg-muted px-2 py-1">@gentleduck/gen/generated/nestjs/index.d.ts</code></li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="import-types">
+    <AccordionTrigger>How do I import the generated types?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Import from the framework entrypoint:
+      <div className="mt-3">
+        <code className="rounded bg-muted px-2 py-1">import type &#123; RouteReq, RouteRes, ApiRoutes, DuckgenMessageGroup &#125; from '@gentleduck/gen/nestjs'</code>
+      </div>
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="scan-control">
+    <AccordionTrigger>How do I control what Duck Gen scans?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Use <code className="rounded bg-muted px-2 py-1">sourceGlobs</code>,
+      <code className="ml-2 rounded bg-muted px-2 py-1">tsconfigPath</code>, and
+      <code className="ml-2 rounded bg-muted px-2 py-1">includeNodeModules</code> under
+      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.shared</code> (or override per extension).
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="disable-extensions">
+    <AccordionTrigger>Can I disable API routes or messages generation?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. Set <code className="rounded bg-muted px-2 py-1">extensions.apiRoutes.enabled</code> or
+      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.messages.enabled</code> to
+      <code className="ml-2 rounded bg-muted px-2 py-1">false</code> in <code className="rounded bg-muted px-2 py-1">duck-gen.toml</code>.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="global-prefix">
+    <AccordionTrigger>What does globalPrefix do?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      It prepends a shared base path (like <code className="rounded bg-muted px-2 py-1">/api</code>) to all generated
+      routes so your client types match your server prefix.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="missing-routes">
+    <AccordionTrigger>Why are no routes generated?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Common causes:
+      <ul className="mt-2 list-disc pl-5">
+        <li>Your route decorators use dynamic values instead of string literals.</li>
+        <li>Your <code className="rounded bg-muted px-2 py-1">sourceGlobs</code> do not include the files.</li>
+        <li>Your <code className="rounded bg-muted px-2 py-1">tsconfigPath</code> is incorrect.</li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="messages-string">
+    <AccordionTrigger>Why are message keys just string?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Add <code className="rounded bg-muted px-2 py-1">as const</code> to your message arrays so Duck Gen can infer
+      literal types.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="any-warnings">
+    <AccordionTrigger>How do I deal with any warnings?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Add explicit return types to your controller methods, or enable
+      <code className="rounded bg-muted px-2 py-1">normalizeAnyToUnknown</code> so generated types avoid <code className="rounded bg-muted px-2 py-1">any</code>.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="safe-to-run">
+    <AccordionTrigger>Is it safe to run Duck Gen in CI?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. The generator overwrites the same output files every run, so it is safe to run repeatedly in CI or as part of
+      your build.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="source-changes">
+    <AccordionTrigger>Does Duck Gen modify my source code?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      No. It reads your source and writes generated <code className="rounded bg-muted px-2 py-1">.d.ts</code> files to the
+      package output location.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="troubleshooting">
+    <AccordionTrigger>I still have issues. Where should I ask for help?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Open an issue or discussion with your environment details and a small reproduction:
+      <div className="mt-3">
+        <code className="rounded bg-muted px-2 py-1">https://github.com/gentleeduck/duck-ui</code>
+      </div>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>

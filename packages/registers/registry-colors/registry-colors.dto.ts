@@ -48,14 +48,14 @@ export const color_scheme = z.object({
   // This will be used for themes not base_colors
   css: z
     .object({
-      '@layer base': z.object({}),
+      '@layer base': z.record(z.string(), z.record(z.string(), z.string())).optional(),
     })
     .optional(),
   cssVars: z.object({
     dark: css_vars_schema.omit({ radius: true }),
     light: css_vars_schema,
     // This will be used for themes not base_colors
-    theme: z.object({}).optional(),
+    theme: z.record(z.string(), z.string()).optional(),
   }),
   label: z.string().optional(),
   name: z.string(),
