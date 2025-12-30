@@ -7,10 +7,10 @@ import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { docs } from '../.velite'
 import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
 import { META_THEME_COLORS, siteConfig } from '~/config/site'
+import { docs } from '../.velite'
 
 const docsEntries = docs.map((doc) => {
   const slug = doc.slug.startsWith('/') ? doc.slug : `/${doc.slug}`

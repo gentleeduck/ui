@@ -1,5 +1,5 @@
-import { DuckLazyComponent } from '@gentleduck/lazy/lazy-component'
 import { PageActions, PageHeader, PageHeaderDescription } from '@gentleduck/duck-docs'
+import { DuckLazyComponent } from '@gentleduck/lazy/lazy-component'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -9,7 +9,7 @@ import { FeaturesSection } from '~/components/layouts/features'
 
 const title = 'Duck Gen — Contracts that compile, APIs that stay in sync.'
 const description =
-  'Duck Gen is a general-purpose compiler extension that scans controllers and message tags to keep your API and i18n types aligned. It is currently being tested with NestJS.'
+  'Duck Gen is a general-purpose compiler extension that scans controllers and message tags to keep your API and i18n types aligned'
 
 export const dynamic = 'force-static'
 export const revalidate = false
