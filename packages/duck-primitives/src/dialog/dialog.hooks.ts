@@ -2,7 +2,7 @@ import { useClick, useDismiss, useFloating, useInteractions, useRole } from '@fl
 
 import * as React from 'react'
 import { DialogContext } from './dialog'
-import type { DialogOptions } from './dialog.types'
+import type { DialogContextProps, DialogOptions } from './dialog.types'
 
 export function useDialog({
   defaultOpen = false,
@@ -49,8 +49,8 @@ export function useDialog({
     () => ({
       open,
       setOpen,
-      ...interactions,
       ...data,
+      ...interactions,
       closeButton,
       descriptionId,
       labelId,

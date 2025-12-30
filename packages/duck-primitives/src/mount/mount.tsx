@@ -13,7 +13,7 @@ function Mount({ open, renderOnce = false, children, animationDuration = 400 }: 
   const [mounted, setMounted] = React.useState(open)
 
   React.useEffect(() => {
-    // @ts-expect-error
+    // @ts-ignore
     let timeout: NodeJS.Timeout
 
     if (open) {
@@ -83,7 +83,7 @@ function MountMinimal({
         setIsVisible(false)
         timeoutRef.current = null
       } else {
-        // @ts-expect-error
+        // @ts-ignore
         timeoutRef.current = useComputedTimeoutTransition(element, () => {
           setIsVisible(false)
           timeoutRef.current = null
