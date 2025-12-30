@@ -151,9 +151,7 @@ function CommandFooter() {
             <Separator className="m-0 h-4 p-0" orientation="vertical" />
             <div className="flex items-center gap-1">
               <span>pnpm dlx @gentleduck/cli add</span>
-              <span className="text-blue-400">
-                {selectedNavItem.title.toLowerCase()}
-              </span>
+              <span className="text-blue-400">{selectedNavItem.title.toLowerCase()}</span>
             </div>
           </Button>
         ) : (

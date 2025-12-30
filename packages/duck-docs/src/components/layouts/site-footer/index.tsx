@@ -27,7 +27,11 @@ export function SiteFooter() {
             {githubUrl ? (
               <>
                 . The source code is available on{' '}
-                <a className="font-medium underline underline-offset-4" href={githubUrl} rel="noreferrer" target="_blank">
+                <a
+                  className="font-medium underline underline-offset-4"
+                  href={githubUrl}
+                  rel="noreferrer"
+                  target="_blank">
                   GitHub
                 </a>
                 .
