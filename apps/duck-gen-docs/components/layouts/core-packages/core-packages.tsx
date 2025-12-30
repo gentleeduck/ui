@@ -19,11 +19,13 @@ import {
 import Link from 'next/link'
 import { SectionTitle } from '../features'
 
+const uiDocsBaseUrl = 'https://ui.gentleduck.org'
+
 const packages = [
   {
     description:
       'Lightweight and accessible React library for lazy-loading images and components. Uses IntersectionObserver to load content only when visible, ensuring smooth performance and accessibility.',
-    href: '/docs/packages/duck-lazy',
+    href: `${uiDocsBaseUrl}/docs/packages/duck-lazy`,
     icon: Package,
     name: 'Gentleduck Lazy',
     status: 'new',
@@ -31,7 +33,7 @@ const packages = [
   {
     description:
       'Type-safe utility for generating class names from variant configs. Designed to be fast, ergonomic, and easy to use in both small components and large-scale design systems.',
-    href: '/docs/packages/duck-variants',
+    href: `${uiDocsBaseUrl}/docs/packages/duck-variants`,
     icon: Puzzle,
     name: 'Gentleduck Variants',
     status: 'new',
@@ -39,7 +41,7 @@ const packages = [
   {
     description:
       'Tiny, framework-agnostic keyboard command engine with optional React bindings. Enables powerful keymaps and shortcuts for building fast, efficient workflows.',
-    href: '/docs/packages/duck-vim',
+    href: `${uiDocsBaseUrl}/docs/packages/duck-vim`,
     icon: Keyboard,
     name: 'Gentleduck Vim',
     status: 'new',
@@ -47,7 +49,7 @@ const packages = [
   {
     description:
       'Foundational set of UI primitives for building consistent, accessible components. Provides low-level building blocks for design systems and custom interfaces.',
-    href: '/docs/packages/duck-primitives',
+    href: `${uiDocsBaseUrl}/docs/packages/duck-primitives`,
     icon: Layers,
     name: 'Gentleduck Primitives',
     status: 'new',
@@ -63,7 +65,7 @@ const packages = [
   {
     description:
       'Collection of tiny, framework-agnostic React libraries. Each utility can be imported individually or bundled together, giving flexibility and modularity.',
-    href: '/docs/packages/duck-libs',
+    href: `${uiDocsBaseUrl}/docs/packages/duck-libs`,
     icon: Library,
     name: 'Gentleduck Libs',
     status: 'new',
@@ -71,7 +73,7 @@ const packages = [
   {
     description:
       'Reusable React hooks designed for the @gentleduck/ui ecosystem. Covers state, effects, and UI interactions to accelerate component development and consistency.',
-    href: '/docs/packages/duck-hooks',
+    href: `${uiDocsBaseUrl}/docs/packages/duck-hooks`,
     icon: Code2,
     name: 'Gentleduck Hooks',
     status: 'new',
@@ -79,7 +81,7 @@ const packages = [
   {
     description:
       'TypeScript type-level testing framework. Lets you assert and validate types at compile time, ensuring safety and reliability in complex codebases.',
-    href: '/docs/packages/duck-ttest',
+    href: `${uiDocsBaseUrl}/docs/packages/duck-ttest`,
     icon: TestTube,
     name: 'Gentleduck Ttest',
     status: 'new',
@@ -87,7 +89,7 @@ const packages = [
   {
     description:
       'CLI tool for installing, managing, and generating components, blocks, and utilities from the ecosystem. Streamlines setup and speeds up workflow.',
-    href: '/docs/packages/duck-cli',
+    href: `${uiDocsBaseUrl}/docs/packages/duck-cli`,
     icon: Terminal,
     name: 'Gentleduck UI CLI',
     status: 'new',
@@ -103,7 +105,7 @@ const packages = [
   {
     description:
       'Rust-powered project scaffolding tool for starting apps quickly. Provides customizable templates so developers never have to begin from scratch.',
-    href: '/docs/packages/duck-template',
+    href: `${uiDocsBaseUrl}/docs/packages/duck-template`,
     icon: Terminal,
     name: 'Gentleduck Template',
     status: 'new',
