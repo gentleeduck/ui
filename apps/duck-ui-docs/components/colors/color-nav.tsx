@@ -4,7 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { getColors } from '~/lib/colors'
+import { getColors } from '@gentleduck/duck-docs/lib'
 
 export function ColorsNav({ className, ...props }: React.ComponentProps<'div'>) {
   const pathname = usePathname()

@@ -5,7 +5,6 @@ packages:
   - '!./apps/upload-api/'
   - '!./apps/www/'
   - '!./apps/benchmark/'
-  - '!packages/duck-docs/'
 
 catalog:
   '@changesets/cli': ^2.29.3

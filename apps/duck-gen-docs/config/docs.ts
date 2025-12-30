@@ -1,12 +1,6 @@
-import type { MainNavItem, SidebarNavItem } from '~/types/nav'
+import type { DocsConfig } from '@gentleduck/duck-docs/context'
 
-export interface DocsConfig {
-  mainNav: MainNavItem[]
-  sidebarNav: SidebarNavItem[]
-  chartsNav: SidebarNavItem[]
-}
-
-export const docsConfig: DocsConfig = {
+export const docsConfig = {
   chartsNav: [],
   mainNav: [
     {
@@ -58,7 +52,7 @@ export const docsConfig: DocsConfig = {
     //   title: '',
     // },
   ],
-}
+} satisfies DocsConfig
 
 type NavItem = {
   title: string

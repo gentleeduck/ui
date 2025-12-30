@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import '@gentleduck/motion/css'
 import { cn } from '@gentleduck/libs/cn'
+import { DocsProvider, TailwindIndicator, ThemeProvider } from '@gentleduck/duck-docs'
 import 'public/r/themes.css'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
@@ -9,11 +10,28 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
-import { TailwindIndicator } from '~/components/layouts'
-import { ThemeProvider } from '~/components/providers'
 import { ThemeWrapper } from '~/components/themes'
+import { docs } from '../.velite'
+import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
-import { siteConfig } from '~/config/site'
+import { META_THEME_COLORS, siteConfig } from '~/config/site'
+
+const docsEntries = docs.map((doc) => {
+  const slug = doc.slug.startsWith('/') ? doc.slug : `/${doc.slug}`
+  return {
+    component: doc.component,
+    content: doc.body,
+    permalink: slug,
+    slug,
+    title: doc.title,
+    toc: doc.toc,
+  }
+})
+
+const docsSiteConfig = {
+  ...siteConfig,
+  metaThemeColors: META_THEME_COLORS,
+}
 
 export const metadata: Metadata = {
   ...METADATA,
@@ -53,17 +71,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             disableTransitionOnChange
             enableColorScheme
             enableSystem>
-            <ThemeWrapper>
-              <div vaul-drawer-wrapper="">
-                <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
-              </div>
+            <DocsProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={docsSiteConfig}>
+              <ThemeWrapper>
+                <div vaul-drawer-wrapper="">
+                  <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
+                </div>
 
-              {/* non-critical scripts */}
-              <SpeedInsights />
-              <VercelAnalytics />
-              <Toaster />
-              {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
-            </ThemeWrapper>
+                {/* non-critical scripts */}
+                <SpeedInsights />
+                <VercelAnalytics />
+                <Toaster />
+                {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
+              </ThemeWrapper>
+            </DocsProvider>
           </ThemeProvider>
         </KeyProvider>
       </body>

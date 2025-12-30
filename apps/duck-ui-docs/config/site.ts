@@ -1,9 +1,14 @@
-import { absoluteUrl } from '~/lib/utils'
+import { absoluteUrl } from '@gentleduck/duck-docs/lib'
 
 export const siteConfig = {
+  author: {
+    name: 'Ahmed Ayob',
+    url: 'https://x.com/wild_ducka',
+  },
   description:
     '@gentleduck/ui is a modern, open-source React component library built with Tailwind CSS. It offers accessible, customizable, and type-safe UI components to help developers build faster and more consistent interfaces.',
   links: {
+    email: 'duckui@duck.com',
     github: 'https://github.com/gentleeduck/ui',
     twitter: 'https://x.com/wild_ducka',
   },

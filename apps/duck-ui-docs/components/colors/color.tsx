@@ -1,12 +1,11 @@
 'use client'
 
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
+import { useColors } from '@gentleduck/duck-docs'
+import type { Color } from '@gentleduck/duck-docs/lib'
+import { trackEvent } from '@gentleduck/duck-docs/lib'
 import { Check, Clipboard } from 'lucide-react'
 import { toast } from 'sonner'
-import { copyToClipboardWithMeta } from '~/components/copy-button'
-import { useColors } from '~/hooks/use-colors'
-import type { Color } from '~/lib/colors'
-import { trackEvent } from '~/lib/events'
 
 export function Color({ color }: { color: Color }) {
   const { format, setLastCopied, lastCopied } = useColors()

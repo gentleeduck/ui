@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { EcosystemSection } from '~/components/layouts/core-packages'
 import { FeaturesSection } from '~/components/layouts/features'
-import { PageActions, PageHeader, PageHeaderDescription } from '~/components/page-header'
+import { PageActions, PageHeader, PageHeaderDescription } from '@gentleduck/duck-docs'
 
 const title = 'Primitives that Scale, Components that Perform.'
 const description = 'Bring life to your own website with a pack full of ideas made specially for magical websites.'

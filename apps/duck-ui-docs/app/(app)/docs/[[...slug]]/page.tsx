@@ -6,11 +6,9 @@ import { headers } from 'next/headers'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
-import { DashboardTableOfContents, DocsCopyPage, DocsPagerBottom, DocsPagerTop } from '~/components/docs'
-import { Mdx } from '~/components/mdx/mdx'
+import { DashboardTableOfContents, DocsPagerBottom, DocsPagerTop, Mdx } from '@gentleduck/duck-docs'
 // import { DocCopy } from '~/components/ui/Blocks/doc-copy'
 import { SLUG_METADATA } from '~/config/metadata'
-import { absoluteUrl } from '~/lib/utils'
 import { docs } from '../../../../.velite'
 
 interface DocPageProps {

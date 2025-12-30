@@ -28,8 +28,7 @@ import template from 'lodash.template'
 import { CheckIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import { CopyButton } from '~/components/copy-button'
-import { useConfig } from '~/hooks/use-config'
+import { CopyButton, useConfig } from '@gentleduck/duck-docs'
 
 interface BaseColorOKLCH {
   light: Record<string, string>

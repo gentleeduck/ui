@@ -1,6 +1,6 @@
 'use client'
 
-import { useThemesConfig } from '~/hooks/use-themes-config'
+import { useThemesConfig } from '@gentleduck/duck-docs'
 
 export function ThemesStyle() {
   const { themesConfig } = useThemesConfig()

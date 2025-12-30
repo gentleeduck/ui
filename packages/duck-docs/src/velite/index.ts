@@ -1,0 +1,5 @@
+export { createDocsVeliteConfig, docsVeliteConfig } from './config'
+export type { DocsVeliteConfigOptions } from './config'
+export { rehypeNpmCommand } from './rehype-npm-command'
+export { cleanTocItems } from './utils'
+export * from './plugins'

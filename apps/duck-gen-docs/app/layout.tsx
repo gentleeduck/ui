@@ -1,14 +1,32 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import '@gentleduck/motion/css'
+import { DocsProvider, TailwindIndicator, ThemeProvider } from '@gentleduck/duck-docs'
 import { cn } from '@gentleduck/libs/cn'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { TailwindIndicator } from '~/components/layouts'
-import { ThemeProvider } from '~/components/providers'
+import { docs } from '../.velite'
+import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
+import { META_THEME_COLORS, siteConfig } from '~/config/site'
+
+const docsEntries = docs.map((doc) => {
+  const slug = doc.slug.startsWith('/') ? doc.slug : `/${doc.slug}`
+  return {
+    component: doc.component,
+    content: doc.body,
+    permalink: slug,
+    slug,
+    title: doc.title,
+  }
+})
+
+const docsSiteConfig = {
+  ...siteConfig,
+  metaThemeColors: META_THEME_COLORS,
+}
 
 export const metadata: Metadata = {
   ...METADATA,
@@ -48,9 +66,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             disableTransitionOnChange
             enableColorScheme
             enableSystem>
-            <div vaul-drawer-wrapper="">
-              <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
-            </div>
+            <DocsProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={docsSiteConfig}>
+              <div vaul-drawer-wrapper="">
+                <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
+              </div>
+            </DocsProvider>
 
             {/* non-critical scripts */}
             <SpeedInsights />

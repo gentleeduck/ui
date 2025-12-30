@@ -1,5 +1,4 @@
-import { docsConfig } from '~/config/docs'
-import { DocsSidebarNav } from '~/components/docs'
+import { DocsSidebarNav } from '@gentleduck/duck-docs'
 
 interface DocsLayoutProps {
   children: React.ReactNode
@@ -15,7 +14,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
             aria-hidden="undefined"
             className="fixed top-16 z-30 hidden h-[calc(100vh-4rem)] w-full shrink-0 border-grid border-r md:sticky md:block">
             <div className="h-full overflow-auto py-8">
-              <DocsSidebarNav config={docsConfig} />
+              <DocsSidebarNav />
             </div>
           </aside>
         }

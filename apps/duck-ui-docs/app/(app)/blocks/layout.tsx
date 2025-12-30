@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { BlocksNav } from '~/components/blocks/block-nav'
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/page-header'
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/duck-docs'
 
 const title = 'Reusable Blocks for the Web'
 const description =

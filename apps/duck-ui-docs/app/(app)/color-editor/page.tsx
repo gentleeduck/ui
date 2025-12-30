@@ -35,7 +35,7 @@ import {
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { CardsDemo } from '~/components/cards'
-import { CopyButton } from '~/components/copy-button'
+import { CopyButton } from '@gentleduck/duck-docs'
 
 interface ColorVariable {
   name: string

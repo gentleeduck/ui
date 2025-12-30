@@ -1,4 +1,4 @@
-import type { ColorPalette } from '~/lib/colors'
+import type { ColorPalette } from '@gentleduck/duck-docs/lib'
 import { Color } from './color'
 import { ColorFormatSelector } from './color-format-selector'
 
