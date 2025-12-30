@@ -7,47 +7,46 @@ import { atomWithStorage } from 'jotai/utils'
 import { CaseUpper, Github, Twitter, Type } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
-import { useSiteConfig } from '../../../context/docs-context'
-import { MainNav } from '../../main-nav'
-import { MobileNav } from '../../mobile-nav'
-import { ModeSwitcher } from '../../mode-toggle'
-import { CommandMenu } from '../command-menu'
+import { useSiteConfig } from '@duck-docs/context'
+import { MainNav } from '@duck-docs/components/main-nav'
+import { MobileNav } from '@duck-docs/components/mobile-nav'
+import { ModeSwitcher } from '@duck-docs/components/mode-toggle'
+import { CommandMenu } from '@duck-docs/components/layouts/command-menu'
+import { HeaderContainer, HeaderRoot } from './header-shell'
 
 export function SiteHeader() {
   const siteConfig = useSiteConfig()
 
   return (
-    <header className="sticky top-0 z-[47] w-full bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
-      <div className="container-wrapper">
-        <div className="container flex h-16 items-center gap-2 md:gap-4">
-          <MainNav />
-          <MobileNav />
-          <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-            <div className="w-full flex-1 md:w-auto md:flex-none">
-              <CommandMenu />
-            </div>
-            <nav className="flex items-center">
-              <GitHubStarsButton />
-              <FontStyleButton />
-              {siteConfig.links?.twitter ? (
-                <Link aria-label="Twitter" href={siteConfig.links.twitter} rel="noreferrer" target="_blank">
-                  <div
-                    className={cn(
-                      buttonVariants({
-                        size: 'icon',
-                        variant: 'ghost',
-                      }),
-                    )}>
-                    <Twitter />
-                  </div>
-                </Link>
-              ) : null}
-              <ModeSwitcher />
-            </nav>
+    <HeaderRoot className="border-b border-border/50 bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/70">
+      <HeaderContainer>
+        <MainNav />
+        <MobileNav />
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          <div className="w-full flex-1 md:w-auto md:flex-none">
+            <CommandMenu />
           </div>
+          <nav className="flex items-center">
+            <GitHubStarsButton />
+            <FontStyleButton />
+            {siteConfig.links?.twitter ? (
+              <Link aria-label="Twitter" href={siteConfig.links.twitter} rel="noreferrer" target="_blank">
+                <div
+                  className={cn(
+                    buttonVariants({
+                      size: 'icon',
+                      variant: 'ghost',
+                    }),
+                  )}>
+                  <Twitter />
+                </div>
+              </Link>
+            ) : null}
+            <ModeSwitcher />
+          </nav>
         </div>
-      </div>
-    </header>
+      </HeaderContainer>
+    </HeaderRoot>
   )
 }
 
@@ -118,3 +117,5 @@ function FontStyleButton() {
     </div>
   )
 }
+
+export { HeaderBrand, HeaderContainer, HeaderRoot, HeaderSection } from './header-shell'

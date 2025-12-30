@@ -10,7 +10,7 @@ import {
 } from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Check, ChevronDown, Copy } from 'lucide-react'
-import { useSiteConfig } from '../../context/docs-context'
+import { useSiteConfig } from '../../context'
 
 function getPromptUrl(baseURL: string, url: string, siteName: string) {
   return `${baseURL}?q=${encodeURIComponent(

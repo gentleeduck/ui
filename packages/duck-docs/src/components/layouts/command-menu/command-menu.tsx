@@ -19,7 +19,7 @@ import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-rea
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import { useDocsConfig } from '../../../context/docs-context'
+import { useDocsConfig } from '@duck-docs/context'
 
 export function CommandMenu() {
   const router = useRouter()

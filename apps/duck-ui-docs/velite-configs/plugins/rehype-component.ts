@@ -8,6 +8,7 @@ import { Index } from '~/__ui_registry__'
 
 export function rehypeComponent() {
   return async (tree: UnistTree) => {
+    // @ts-ignore
     visit(tree, (node: UnistNode) => {
       if (node.name === 'ComponentSource') {
         componentSource({

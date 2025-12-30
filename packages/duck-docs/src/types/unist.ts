@@ -1,4 +1,10 @@
-import type { Node } from 'unist-builder'
+import type { Node } from 'unist'
+
+declare module 'unist' {
+  interface Data {
+    meta?: string
+  }
+}
 
 export interface UnistNode extends Node {
   type: string

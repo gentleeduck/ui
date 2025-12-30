@@ -8,7 +8,7 @@ import { PanelsTopLeft } from 'lucide-react'
 import Link, { type LinkProps } from 'next/link'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
-import { useDocsConfig } from '../context/docs-context'
+import { useDocsConfig } from '@duck-docs/context'
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)

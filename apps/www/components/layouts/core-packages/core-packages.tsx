@@ -3,14 +3,14 @@ import {
   Code2,
   FileText,
   Keyboard,
-  LayoutGrid,
   Layers,
+  LayoutGrid,
   Library,
   Move3d,
   Package,
   Puzzle,
-  Sparkles,
   Server,
+  Sparkles,
   Table,
   Terminal,
   TestTube,
@@ -164,8 +164,8 @@ function EcosystemCard({ pkg, index }: { pkg: (typeof packages)[number]; index: 
   const Icon = pkg.icon
   const statusStyles: Record<string, string> = {
     new: 'border border-green-500/20 bg-green-500/10 text-green-600',
-    'under development': 'border border-zinc-400/20 bg-zinc-500/5 text-zinc-500',
     planned: 'border border-orange-500/20 bg-orange-500/10 text-orange-600',
+    'under development': 'border border-zinc-400/20 bg-zinc-500/5 text-zinc-500',
     'waiting for docs': 'border border-orange-500/20 bg-orange-500/10 text-orange-600',
   }
   const Content = () => (
@@ -208,7 +208,7 @@ export function EcosystemSection() {
       {/* Background elements */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+        className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]"></div>
       <div
         aria-hidden="true"
         className="absolute top-1/4 left-1/4 z-0 h-64 w-64 rounded-full bg-orange-500/20 blur-3xl"></div>

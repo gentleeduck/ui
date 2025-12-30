@@ -5,10 +5,9 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Crown } from 'lucide-react'
 import * as React from 'react'
-// import { Index } from '~/__ui_registry__'
-import { CopyButton } from '../../../copy-button'
-import { Icons } from '../../../icons'
-const Index = {}
+import { CopyButton } from '@duck-docs/components/copy-button'
+import { Icons } from '@duck-docs/components/icons'
+import { useRegistryIndex } from '@duck-docs/context'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
@@ -34,9 +33,14 @@ export function ComponentPreview({
 }: ComponentPreviewProps) {
   const Codes = React.Children.toArray(children) as React.ReactElement[]
   const Code = Codes[0]
+  const registryIndex = useRegistryIndex()
 
   const Preview = React.useMemo(() => {
-    const Component = Index[name]?.component
+    if (!registryIndex) {
+      return <p className="text-muted-foreground text-sm">Registry index is not configured for this docs app.</p>
+    }
+
+    const Component = registryIndex[name]?.component
 
     if (!Component) {
       return (
@@ -48,7 +52,7 @@ export function ComponentPreview({
     }
 
     return <Component />
-  }, [name])
+  }, [name, registryIndex])
 
   const codeString = React.useMemo(() => {
     if (

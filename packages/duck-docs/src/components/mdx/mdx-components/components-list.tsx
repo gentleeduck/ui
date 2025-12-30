@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useDocsEntries, type DocsEntry } from '../../../context/docs-context'
+import { useDocsEntries, type DocsEntry } from '@duck-docs/context'
 
 export function ComponentsList({ components }: { components?: DocsEntry[] }) {
   const docs = useDocsEntries()

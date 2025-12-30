@@ -1,6 +1,1 @@
-export * from './collections'
-
-/**
- * data-table
- * context-menu
- */
+export * from './plugins/rehype-component'

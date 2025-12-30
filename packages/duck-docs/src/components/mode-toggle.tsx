@@ -4,8 +4,8 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import { useSiteConfig } from '../context/docs-context'
-import { useMetaColor } from '../hooks/use-meta-colors'
+import { useSiteConfig } from '@duck-docs/context'
+import { useMetaColor } from '@duck-docs/hooks/use-meta-colors'
 
 const DEFAULT_META_THEME_COLORS = {
   dark: '#000000',

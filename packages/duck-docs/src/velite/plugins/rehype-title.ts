@@ -1,5 +1,5 @@
 import { visit } from 'unist-util-visit'
-import type { UnistNode, UnistTree } from '../../types'
+import type { UnistNode, UnistTree } from '@duck-docs/types'
 
 export function rehypeTitle() {
   return (tree: UnistTree) => {

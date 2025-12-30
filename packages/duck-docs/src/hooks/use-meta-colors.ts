@@ -1,6 +1,6 @@
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import { useSiteConfig } from '../context/docs-context'
+import { useSiteConfig } from '@duck-docs/context'
 
 const DEFAULT_META_THEME_COLORS = {
   dark: '#000000',

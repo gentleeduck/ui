@@ -1,8 +1,12 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "base": "./",
+    "baseUrl": ".",
     "outDir": "./dist",
-    "paths": {}
+    "paths": {
+      "@duck-docs/*": ["./src/*"]
+    }
   },
   "exclude": ["node_modules", "dist"],
   "extends": "@gentleduck/typescript-config/internal-package.json",

@@ -2,8 +2,8 @@
 
 import type * as React from 'react'
 
-import { useDocsEntries } from '../../../context/docs-context'
-import { Mdx } from '../mdx'
+import { useDocsEntries } from '@duck-docs/context'
+import { Mdx } from '@duck-docs/components/mdx/mdx'
 
 interface FrameworkDocsProps extends React.HTMLAttributes<HTMLDivElement> {
   data: string

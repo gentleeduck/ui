@@ -4,18 +4,19 @@ import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import { codeImport } from 'remark-code-import'
 import remarkGfm from 'remark-gfm'
+import type { Pluggable } from 'unified'
 import { defineConfig, s, type ZodMeta } from 'velite'
-import type { UnistNode } from '../types'
-import { rhypeMetadataPlugin, rehypePreBlockSource, rehypeTitle } from './plugins'
+import type { UnistNode } from '@duck-docs/types'
+import { rehypePreBlockSource, rehypeTitle, rhypeMetadataPlugin } from './plugins'
 import { rehypeNpmCommand } from './rehype-npm-command'
 import { cleanTocItems } from './utils'
 
 export type DocsVeliteConfigOptions = {
   docsPattern?: string
-  rehypePlugins?: unknown[]
-  rehypePluginsBefore?: unknown[]
-  remarkPlugins?: unknown[]
-  remarkPluginsBefore?: unknown[]
+  rehypePlugins?: Pluggable[]
+  rehypePluginsBefore?: Pluggable[]
+  remarkPlugins?: Pluggable[]
+  remarkPluginsBefore?: Pluggable[]
 }
 
 export function createDocsVeliteConfig({

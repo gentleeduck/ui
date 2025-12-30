@@ -1,1 +1,2 @@
-export * from './docs-context'
+export * from './context'
+export * from './context.types'

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import '@gentleduck/motion/css'
 import { cn } from '@gentleduck/libs/cn'
-import { DocsProvider, TailwindIndicator, ThemeProvider } from '@gentleduck/duck-docs'
+import { TailwindIndicator, ThemeProvider } from '@gentleduck/duck-docs'
 import 'public/r/themes.css'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
@@ -10,6 +10,7 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
+import { DocsAppProvider } from '~/components/docs-provider'
 import { ThemeWrapper } from '~/components/themes'
 import { docs } from '../.velite'
 import { docsConfig } from '~/config/docs'
@@ -71,7 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             disableTransitionOnChange
             enableColorScheme
             enableSystem>
-            <DocsProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={docsSiteConfig}>
+            <DocsAppProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={docsSiteConfig}>
               <ThemeWrapper>
                 <div vaul-drawer-wrapper="">
                   <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
@@ -83,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Toaster />
                 {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
               </ThemeWrapper>
-            </DocsProvider>
+            </DocsAppProvider>
           </ThemeProvider>
         </KeyProvider>
       </body>

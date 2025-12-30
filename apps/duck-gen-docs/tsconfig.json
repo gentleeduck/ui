@@ -10,6 +10,7 @@
     "moduleResolution": "bundler",
     "noErrorTruncation": true,
     "paths": {
+      "@duck-docs/*": ["../../packages/duck-docs/src/*"],
       "~/*": ["./*"],
       "~/old-registry-ui": ["../_oldstuff_refactor/ui/*"],
       "~/velite": ["./.velite/*"]

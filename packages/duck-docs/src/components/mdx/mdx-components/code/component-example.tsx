@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import * as React from 'react'
-import { CopyButton, CopyWithClassNames } from '../../../copy-button'
+import { CopyButton, CopyWithClassNames } from '@duck-docs/components/copy-button'
 
 interface ComponentExampleProps extends React.HTMLAttributes<HTMLDivElement> {
   extractClassname?: boolean

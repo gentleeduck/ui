@@ -1,5 +1,5 @@
 import { visit } from 'unist-util-visit'
-import type { UnistNode, UnistTree } from '../../types'
+import type { UnistNode, UnistTree } from '@duck-docs/types'
 
 export function rhypeMetadataPlugin() {
   return (tree: UnistTree): UnistTree => {
@@ -9,14 +9,10 @@ export function rhypeMetadataPlugin() {
 
         if (node.data?.meta) {
           const meta = node.data?.meta as string
-
           match.__title__ = (meta?.match(/title="([^"]*)"/) ?? [])[1]
-
           match.__marks__ = [...meta?.matchAll(/\/([^/]+)\//g)].map((m) => m[1])
         }
 
-        // @ts-ignore
-        // node.data.meta = node.data.meta?.replace(/\/([^/]+)\//g, '')
         node.properties = {
           ...node.properties,
           __rawString__: node.children?.[0]?.value,

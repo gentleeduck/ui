@@ -3,8 +3,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { SidebarNavItem } from '../../types/nav'
-import { useDocsConfig, type DocsConfig } from '../../context/docs-context'
+import { type DocsConfig, useDocsConfig } from '@duck-docs/context'
+import type { SidebarNavItem } from '@duck-docs/types/nav'
 
 export interface DocsSidebarNavProps {
   config?: DocsConfig

@@ -1,25 +1,18 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useDocsConfig, useSiteConfig } from '../context/docs-context'
+import { useDocsConfig } from '@duck-docs/context'
+import { HeaderBrand } from './layouts/site-header/header-shell'
 
 export function MainNav() {
   const pathname = usePathname()
   const { mainNav } = useDocsConfig()
-  const siteConfig = useSiteConfig()
-  const logoDark = siteConfig.branding?.logoDark ?? '/icons/dark.png'
-  const logoLight = siteConfig.branding?.logoLight ?? '/icons/light.png'
 
   return (
     <div className="mr-4 hidden md:flex">
-      <Link className="mr-4 flex items-center gap-2 lg:mr-6" href="/">
-        <Image alt="Logo" className="hidden h-6 w-6 dark:block" height={512} src={logoDark} width={512} />
-        <Image alt="Logo" className="block h-6 w-6 dark:hidden" height={512} src={logoLight} width={512} />
-        <span className="hidden font-bold lg:inline-block">{siteConfig.name}</span>
-      </Link>
+      <HeaderBrand className="mr-4 lg:mr-6" />
       {mainNav?.length ? (
         <nav className="flex items-center gap-4 text-sm xl:gap-6">
           {mainNav.map((item) => (

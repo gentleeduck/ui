@@ -3,8 +3,8 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
-import type { TocEntry } from '../../context/docs-context'
-import { useMounted } from '../../hooks/use-mounted'
+import type { TocEntry } from '@duck-docs/context'
+import { useMounted } from '@duck-docs/hooks/use-mounted'
 
 interface TocProps {
   toc: TocEntry[]
