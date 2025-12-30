@@ -55,7 +55,7 @@ export function FooterButtons() {
         className={buttonVariants({ size: 'sm', variant: 'outline' })}
         href="https://github.com/sponsors/wildduck2"
         target="_blank">
-        <HeartIcon className="h-4 w-4 mr-2 text-red-600 fill-current" />
+        <HeartIcon className="mr-2 h-4 w-4 fill-current text-red-600" />
         Sponsor
       </Link>
       <Link
