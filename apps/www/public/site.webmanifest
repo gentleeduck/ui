@@ -1,0 +1,33 @@
+{
+  "name": "gentleduck/gen - General-purpose type-safe generator by Gentleduck",
+  "short_name": "gentleduck/gen",
+  "description": "gentleduck/gen is a general-purpose compiler extension for type-safe API routes and message keys across frameworks, currently tested with NestJS.",
+  "start_url": "/",
+  "orientation": "any",
+  "categories": [
+    "developer-tools",
+    "productivity",
+    "code-generation",
+    "typescript",
+    "nestjs"
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

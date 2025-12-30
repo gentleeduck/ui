@@ -2,22 +2,38 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
+    "esModuleInterop": true,
     "isolatedModules": true,
+    "jsx": "preserve",
     "lib": ["ES2022", "dom", "dom.iterable"],
-    "module": "Preserve",
+    "module": "esnext",
     "moduleResolution": "bundler",
-    "outDir": "./dist",
+    "noErrorTruncation": true,
     "paths": {
       "~/*": ["./*"],
-      "~/old-registry-ui": ["../_oldstuff_refactor/ui/*"]
+      "~/old-registry-ui": ["../_oldstuff_refactor/ui/*"],
+      "~/velite": ["./.velite/*"]
     },
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "types": ["@types/react", "node"],
+    "useDefineForClassFields": true
   },
-  "exclude": ["dist"],
+  "exclude": ["node_modules", "dist"],
   "extends": "@gentleduck/typescript-config/base.json",
-  "include": [".", ".next/types/**/*.ts", "../../packages/_oldstuff_refactor/", "../../packages/registry-ui-duckui/"]
+  "include": [
+    "node_modules",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".velite",
+    "../../packages/_oldstuff_refactor/ui"
+  ]
 }
