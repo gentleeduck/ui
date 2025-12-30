@@ -1,6 +1,0 @@
-- [ ] Add the new components from shacn to duck-ui and update the documentation.
-- [ ] Fix the colors and test them.
-- [ ] test out some complex app with duck-ui.
-- [ ] update the charts and test them.
-- [ ] add the changelog.
-- [ ] add the missing documentations.

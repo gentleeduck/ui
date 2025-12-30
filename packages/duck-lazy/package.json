@@ -11,7 +11,7 @@
     "@types/react": "catalog:react19",
     "husky": "^9.1.7",
     "tsdown": "catalog:",
-    "tsup": "^8.5.0"
+    "tsup": "^8.5.1"
   },
   "engines": {
     "node": ">=22.0.0"

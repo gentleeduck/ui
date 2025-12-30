@@ -16,7 +16,7 @@
     "execa": "^9.6.0",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.2",
-    "globals": "^16.4.0",
+    "globals": "^16.5.0",
     "https-proxy-agent": "^7.0.6",
     "kleur": "^4.1.5",
     "log-symbols": "^7.0.1",

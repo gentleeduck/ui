@@ -9,7 +9,7 @@ This document provides guidelines to help you get started.
 
 ## Code of Conduct
 
-By participating in this project, you agree to uphold our [Code of Conduct](CODE_OF_CONDUCT.md) (coming soon).
+By participating in this project, you agree to uphold our [Code of Conduct](./CODE_OF_CONDUCT.md) (coming soon).
 Please treat everyone with respect and kindness.
 
 ---
@@ -19,7 +19,7 @@ Please treat everyone with respect and kindness.
 ### 1. Fork & Clone
 
 ```bash
-git clone https://github.com/your-username/duck-ui.git
+git clone https://github.com/gentleeduck/duck-ui.git
 cd duck-ui
 ```
 
@@ -69,11 +69,12 @@ This will spin up local development environments for the packages and docs.
 2. **Coding Standards**
 
    * Use **TypeScript**.
-   * Follow existing **ESLint + Prettier** rules.
+   * Follow existing **Biome** rules.
    * Write clear, self-documenting code.
 
 3. **Commit Messages**
    Follow [Conventional Commits](https://www.conventionalcommits.org/):
+   Also make sure that you pass the `Husky` checks.
 
    ```
    feat: add new dropdown menu component
@@ -132,7 +133,7 @@ If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui
 
 ## Tips
 
-* Start small — even fixing a typo helps!
+* Start small - even fixing a typo helps!
 * Look at the ["good first issue"](https://github.com/gentleeduck/duck-ui/labels/good%20first%20issue) label for beginner-friendly contributions.
 * Ask questions! We’re happy to guide you.
 
@@ -140,5 +141,5 @@ If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the project’s [MIT License](LICENSE).
+By contributing, you agree that your contributions will be licensed under the project’s [MIT License](./LICENSE).
 

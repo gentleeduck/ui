@@ -1,75 +1,48 @@
-
-
 <p align="center">
-  <img src="./apps/docs/public/og/root.png" alt="Duck UI Logo" width="800"/>
+  <img src="./apps/duck-ui-docs/public/og/root.png" alt="Duck UI Logo" width="800"/>
 </p>
 
-# Gentleduck Ui
+# @gentleduck/ui
 
-This repository is part of the [Gentleduck](https://ui.gentleduck.org) project — a collection of modern, flexible, and developer-friendly software components designed to solve real-world problems in computer science and web development.
-
-Gentleduck goes beyond just UI components: this monorepo includes **packages and tools** that cover multiple aspects of building high-quality applications.
-
----
-
+Gentleduck UI is the core monorepo for the Gentleduck ecosystem that serves only the front-end
+developers to shipt their applications more quickly and with less effort.
+ 
 ## Documentation
+- Website: https://www.gentleduck.org
+- GitHub: https://github.com/gentleeduck/duck-ui
 
-Comprehensive documentation, guides, and examples can be found here:
+## What's in the Repo
+### Apps
+- `apps/duck-ui-docs` – UI docs site (components, blocks, charts, themes)
+- `apps/duck-gen-docs` – Duck Gen docs site
 
-* Website: [ui.gentleduck.org](https://ui.gentleduck.org)
-* GitHub Source: [github.com/gentleeduck/duck-ui](https://github.com/gentleeduck/duck-ui)
-
----
+### Packages (Selected)
+- `packages/duck-docs` – shared docs app kit used by the docs apps
+- `packages/registry-ui-duckui` – UI components
+- `packages/registry-blocks-duckui` – blocks and layouts
+- `packages/registry-examples-duckui` – examples used in docs
+- `packages/duck-libs` – utilities
+- `packages/duck-hooks` – React hooks
+- `packages/duck-motion` – motion primitives
+- `packages/duck-variants` – class/variant helpers
+- `packages/duck-vim` – keybinding engine
+- `packages/duck-lazy` – lazy-loading utilities
 
 ## Getting Started
-
-Clone the repo:
-
 ```bash
 git clone https://github.com/gentleeduck/duck-ui.git
 cd duck-ui
-```
-
-Install dependencies (using [pnpm](https://pnpm.io) recommended):
-
-```bash
 pnpm install
 ```
 
-Build all packages:
-
+## Run a Single App
 ```bash
-pnpm build
+pnpm --filter @gentleduck/ui-docs dev
+pnpm --filter @gentleduck/gen-docs dev
 ```
-
-Run the local dev environment:
-
-```bash
-pnpm dev
-```
-
----
 
 ## Contributing
-
-We welcome contributions! Whether it’s fixing bugs, adding new features, or improving documentation — your help is appreciated.
-
-1. Fork the repo
-2. Create a feature branch
-3. Commit changes
-4. Open a Pull Request
-
-Please read our [contributing guide](CONTRIBUTING.md) (coming soon) for details.
-
----
+We welcome contributions. Please read [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md).
 
 ## License
-
-This project is licensed under the **MIT License**.
-See [LICENSE](LICENSE) for more information.
-
----
-
-## Acknowledgments
-
-Gentleduck is built with love to make development smoother, faster, and more enjoyable. 🦆💛
+MIT. See [`LICENSE`](./LICENSE) for more information.

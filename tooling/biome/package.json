@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@biomejs/biome": "2.2.4"
+    "@biomejs/biome": "2.2.5"
   },
   "engines": {
     "node": ">=24.2.0"
