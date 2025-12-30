@@ -2,15 +2,15 @@
   "$schema": "https://json.schemastore.org/package.json",
   "devDependencies": {
     "@biomejs/biome": "2.2.5",
-    "@changesets/cli": "^2.29.7",
+    "@changesets/cli": "catalog:",
     "@turbo/gen": "^2.5.6",
-    "@vitest/coverage-v8": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
-    "husky": "^9.1.7",
+    "@vitest/coverage-v8": "catalog:",
+    "@vitest/ui": "catalog:",
+    "husky": "catalog:",
     "rimraf": "^6.0.1",
     "turbo": "^2.5.8",
     "typescript": "catalog:",
-    "vitest": "^3.2.4"
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=22.7.0",
@@ -33,7 +33,7 @@
       "sharp"
     ],
     "overrides": {
-      "vite": "catalog:"
+      "vite": "npm:rolldown-vite@^7.3.0"
     }
   },
   "private": true,

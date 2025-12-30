@@ -17,7 +17,7 @@ export async function getAllBlocks(
   types: z.infer<typeof registry_entry_schema>['type'][] = ['registry:block'],
   categories: string[] = [],
 ) {
-  const index = z.record(registry_entry_schema).parse(Index)
+  const index = z.record(z.string(), registry_entry_schema).parse(Index)
 
   return Object.values(index).filter((block) => {
     if (!types.includes(block.type)) return false

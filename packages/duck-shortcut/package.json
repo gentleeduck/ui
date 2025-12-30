@@ -46,7 +46,7 @@
   "module": "dist/index.mjs",
   "name": "@gentleduck/shortcut",
   "peerDependencies": {
-    "@changesets/cli": "^2.29.7",
+    "@changesets/cli": "catalog:",
     "date-fns": "^4.1.0",
     "jsdom": "^27.0.0",
     "mousetrap": "^1.6.5",

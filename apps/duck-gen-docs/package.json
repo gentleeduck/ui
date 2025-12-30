@@ -11,17 +11,18 @@
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "lucide-react": "catalog:",
-    "next": "16.1.1",
+    "next": "catalog:",
+    "next-sitemap": "^4.2.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
-    "@types/node": "^25.0.3",
+    "@types/node": "catalog:",
     "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
-    "tailwindcss": "^4.1.18",
+    "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "velite": "^0.3.1"
   },
@@ -33,8 +34,8 @@
     "dev": "next dev --webpack",
     "dev:docs": "pnpm velite dev",
     "lint": "next lint",
+    "postbuild": "next-sitemap",
     "start": "next start"
   },
-  "type": "module",
   "version": "0.0.17"
 }

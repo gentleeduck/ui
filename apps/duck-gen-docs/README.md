@@ -1,12 +1,10 @@
+<p align="center">
+  <img src="./public/og/root.png" alt="duck gen root" width="800"/>
+</p>
+
 # @gentleduck/duck-gen-docs
 
 Next.js documentation site for Duck Gen, the compiler extension that keeps API routes and message tags aligned across frameworks.
-
-## Stack
-- Next.js App Router
-- `@gentleduck/duck-docs` (shared docs kit)
-- Velite (MDX pipeline)
-
 ## Quick Start
 ```bash
 pnpm --filter @gentleduck/gen-docs dev:docs

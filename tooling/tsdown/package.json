@@ -1,7 +1,7 @@
 {
   "author": "gentleduck",
   "dependencies": {
-    "@vitejs/plugin-react-swc": "^4.1.0",
+    "@vitejs/plugin-react-swc": "catalog:",
     "tsdown": "catalog:"
   },
   "description": "this is a package for `tsdown` build configs",

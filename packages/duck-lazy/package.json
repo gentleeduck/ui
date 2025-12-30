@@ -5,11 +5,11 @@
   },
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "devDependencies": {
-    "@changesets/cli": "^2.29.7",
+    "@changesets/cli": "catalog:",
     "@gentleduck/tsdown-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
-    "husky": "^9.1.7",
+    "husky": "catalog:",
     "tsdown": "catalog:",
     "tsup": "^8.5.1"
   },

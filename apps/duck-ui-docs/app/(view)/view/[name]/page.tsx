@@ -62,7 +62,7 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   const { Index } = await import('~/__ui_registry__/index')
-  const index = z.record(registry_entry_schema).parse(Index)
+  const index = z.record(z.string(), registry_entry_schema).parse(Index)
 
   return Object.values(index)
     .filter((block) =>
