@@ -1,13 +1,7 @@
-import path from 'node:path'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   devIndicators: false,
-  turbopack: {
-    resolveAlias: {
-      'zod/v4/core': path.resolve(__dirname, 'node_modules/zod/v4/core'),
-    },
-  },
   images: {
     remotePatterns: [
       {
