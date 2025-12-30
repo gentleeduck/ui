@@ -49,8 +49,11 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "build:docs": "pnpm velite",
     "dev": "next dev",
+    "dev:docs": "pnpm velite build --watch",
     "lint": "next lint",
+    "postbuild": "next-sitemap",
     "start": "next start"
   },
   "version": "0.1.18"

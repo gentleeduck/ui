@@ -20,10 +20,10 @@ import {
 } from './mdx-components/code'
 import { FigcaptionBlock } from './mdx-components/code/figcaption-block'
 import { ComponentsList } from './mdx-components/components-list'
-// import { FrameworkDocs } from './mdx-components/framework-docs'
 import { Table, TableCell, TableHeader, TableRow } from './mdx-components/table'
 import { Tab, TabContent, TabList, TabTrigger } from './mdx-components/tabs'
 import { A, H1, H2, H3, H4, H5, H6, Hr, LinkBlock, LinkedCard, P } from './mdx-components/typepography'
+import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -40,6 +40,7 @@ const components = {
   AlertTitle,
   AspectRatio,
   a: A,
+  Badge,
   Button,
   blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <blockquote className={cn('mt-6 border-l-2 pl-6 italic', className)} {...props} />

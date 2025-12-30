@@ -1,0 +1,296 @@
+---
+title: faqs
+description: Frequently asked questions about the GentleDuck organization and ecosystem.
+---
+
+Any question that might be related to GentleDuck, our ecosystem, or how the tools fit together can live here.
+If you cannot find what you need, open an issue or discussion on our GitHub org:
+https://github.com/gentleeduck
+
+<br />
+<br />
+<br />
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="what-is-gentleduck">
+    <AccordionTrigger>What is GentleDuck?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      GentleDuck is an open source organization building production-grade developer tooling. The ecosystem spans UI and
+      interaction libraries, TypeScript utilities, CLIs, compiler and codegen tooling, testing frameworks, and systems
+      utilities.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="what-do-you-build">
+    <AccordionTrigger>What kinds of tools do you build?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      We build a connected set of libraries across the stack: design systems and registries (duck-ui, registry-*), UI
+      foundations (duck-primitives), utilities (duck-libs, duck-variants, duck-lazy), developer workflows (duck-cli,
+      duck-template), compiler and codegen tooling (duck-gen), testing (duck-ttest), and systems and performance tools
+      (TTLog, duck-benchmark, editor and Linux utilities).
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="why-an-ecosystem">
+    <AccordionTrigger>Why build an ecosystem instead of a single library?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Because real products are not one dependency. UI, docs, codegen, installs, testing, and performance tooling all
+      interact. We aim for shared conventions and composable pieces so teams can adopt one tool at a time, or get more
+      leverage by using multiple tools together.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="where-to-start">
+    <AccordionTrigger>Where should I start?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Start with what you need most:
+      <ul className="mt-2 list-disc pl-5">
+        <li>Building UI: start with duck-ui and duck-primitives.</li>
+        <li>Shipping faster: start with duck-cli and templates.</li>
+        <li>Reducing boilerplate: start with duck-gen.</li>
+        <li>Type safety and reliability: start with duck-ttest, and then add query and state tooling as needed.</li>
+        <li>Performance and debugging: start with TTLog and benchmarking tools.</li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="are-you-only-ui">
+    <AccordionTrigger>Is GentleDuck mainly a UI project?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      No. UI is one part of the ecosystem. We also ship compiler and codegen tooling, CLIs, testing frameworks, state and
+      data tooling, and systems utilities. The goal is end-to-end developer tooling that stays coherent.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="is-duck-ui-a-shadcn-clone">
+    <AccordionTrigger>Is duck-ui just another shadcn clone?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      duck-ui is inspired by good patterns across the ecosystem, but it is designed as part of a broader platform with
+      its own primitives, registries, utilities, and automation. The focus is cohesive workflows and production use, not
+      copying a single library.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="primitives-vs-ui">
+    <AccordionTrigger>What is the difference between primitives and duck-ui?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Primitives are the accessibility-first, unstyled building blocks. duck-ui is the production-ready component layer
+      and registry that builds on top of primitives with styling, variants, blocks, examples, and higher-level patterns.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="what-is-registry">
+    <AccordionTrigger>What does “registry” mean in your ecosystem?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Registries are how components, blocks, examples, and build outputs are organized and distributed across apps. They
+      make it easier to install, sync, and keep product surfaces consistent across teams and repos.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="cli-what-for">
+    <AccordionTrigger>What does the CLI do?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The CLI is the workflow layer: initializing projects, installing packages, adding components or blocks, syncing
+      registries, and automating repetitive setup. It is designed to keep installs predictable and reduce “copy paste”
+      drift across projects.
+      <div className="mt-3">
+        Example:
+        <code className="ml-2 rounded bg-muted px-2 py-1">npx @gentleduck/cli init</code>
+      </div>
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="what-is-duck-gen">
+    <AccordionTrigger>What is duck-gen and what problem does it solve?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      duck-gen is compiler-style tooling for generating type-safe routes, message tags, and integrations. The goal is to
+      reduce boilerplate and enforce contracts so teams can iterate faster without losing correctness.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="query-lib">
+    <AccordionTrigger>Do you have a query library?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. Query tooling is part of the ecosystem roadmap and package set, alongside state and other reliability tools.
+      The goal is to provide predictable data access patterns that fit cleanly with the rest of the ecosystem.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="testing-ttest">
+    <AccordionTrigger>What is duck-ttest?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      duck-ttest is a TypeScript type-level testing framework. It lets you assert expected types at compile time, which
+      is especially useful for utilities, variant systems, and any library where type guarantees are part of the API.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="systems-tools">
+    <AccordionTrigger>What systems or performance tools do you ship?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The ecosystem includes systems-grade utilities like TTLog (high-throughput logging), benchmarking tools
+      (duck-benchmark), and workflow helpers such as Linux and editor tooling. These tools focus on observability,
+      debugging, and runtime efficiency.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="docs-and-content">
+    <AccordionTrigger>Do you have documentation tooling too?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. Documentation and content workflows are a first-class part of the ecosystem. The goal is to keep product docs,
+      references, and integration guides consistent and easy to maintain as the toolset grows.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="framework-support">
+    <AccordionTrigger>What frameworks are supported?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      React-based frameworks are a primary target for the UI ecosystem (Next.js, Remix, Vite, and similar). Many tools
+      are framework-agnostic by design, especially compiler and codegen tooling, CLIs, utilities, and systems libraries.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="typescript-support">
+    <AccordionTrigger>Is TypeScript a requirement?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      TypeScript is strongly supported across the ecosystem. Many libraries are designed with type safety as part of the
+      API. If you are using plain JavaScript, some packages will still work, but you will get the best experience with
+      TypeScript.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="accessibility">
+    <AccordionTrigger>How do you approach accessibility?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Accessibility is a core requirement for primitives and UI components. Keyboard navigation, focus management, and
+      sensible ARIA patterns are treated as default expectations, not optional extras.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="customization">
+    <AccordionTrigger>How customizable are the UI tools?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The ecosystem is built around composition. You can use primitives to build your own components, use variants to
+      define consistent styling APIs, and use registries and blocks as starting points. You can adopt the pieces you want
+      without being locked into a single opinion.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="production-ready">
+    <AccordionTrigger>Are your tools production ready?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Many packages are designed specifically for production use, with an emphasis on performance, stability, and
+      predictable APIs. Some packages are marked as under development or planned, and those should be treated as evolving.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="versioning-breaking">
+    <AccordionTrigger>How do you handle breaking changes and versioning?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      We aim for clear changelogs and predictable releases. When breaking changes happen, we try to provide migration
+      notes and keep changes scoped. If you adopt incrementally, you can upgrade one surface at a time.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="monorepo">
+    <AccordionTrigger>Do you maintain everything in one monorepo?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      A monorepo approach makes it easier to keep shared conventions aligned across packages, registries, docs, and apps.
+      It also improves release consistency and cross-package refactors.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="security">
+    <AccordionTrigger>How do I report a security issue?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Please use responsible disclosure. If your report is sensitive, email the security contact listed by the org
+      (for example: <code className="rounded bg-muted px-2 py-1">security@gentleduck.org</code>) or use the GitHub
+      security advisory flow when available for a repo.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="license">
+    <AccordionTrigger>What license are the projects under?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Most projects are MIT-licensed. Always check the specific repository for the authoritative license text.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="contributing">
+    <AccordionTrigger>How can I contribute?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Contributions are welcome: bug reports, docs fixes, feature requests, and PRs. Start by opening an issue describing
+      what you want to change and why. If you want to add a new package, we usually prefer aligning on scope and naming
+      first to keep the ecosystem cohesive.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="roadmap">
+    <AccordionTrigger>Do you have a roadmap?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes, the ecosystem is intentionally expanding: UI, docs, codegen, testing, state, query, and systems tools. The
+      best place to track what is shipping next is the GitHub org issues, PRs, and release notes.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="migration">
+    <AccordionTrigger>Can I migrate from other tools or libraries?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Usually yes. We try to keep APIs familiar where it makes sense, and we design for incremental adoption. You can
+      replace one piece at a time: start with variants, or primitives, or a single UI component, then expand as needed.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="enterprise-support">
+    <AccordionTrigger>Do you offer support or consulting?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The projects are open source and community-driven. If you need dedicated help for migration, integrations, or
+      internal tooling, open a GitHub discussion to start the conversation.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="telemetry">
+    <AccordionTrigger>Do your tools collect telemetry?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The default expectation is no hidden telemetry. If any tool ever needs optional diagnostics, it should be clearly
+      documented, opt-in, and easy to disable.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="compatibility">
+    <AccordionTrigger>Do you support ESM, CJS, and tree-shaking?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      We aim for modern builds that work well with current bundlers and support tree-shaking where applicable. If you hit
+      a bundler or module format issue, open an issue with your reproduction and environment details.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="where-are-the-docs">
+    <AccordionTrigger>Where are the docs?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Docs are distributed per product site and repo. In general:
+      <ul className="mt-2 list-disc pl-5">
+        <li>Main org site: [gentleduck.org](https://gentleduck.org)</li>
+        <li>UI docs: [ui.gentleduck.org](https://ui.gentleduck.org)</li>
+        <li>Codegen docs: [gen.gentleduck.org](https://gen.gentleduck.org)</li>
+        <li>Source of truth and issues: GitHub org repositories</li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="package-names">
+    <AccordionTrigger>Why do some packages use “duck-*” names?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The naming reflects ecosystem grouping and makes it easier to discover related tooling. For example: duck-ui,
+      duck-primitives, duck-variants, duck-gen, duck-cli, duck-benchmark, duck-ttest, and registry packages.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="i-need-help">
+    <AccordionTrigger>I have a question that is not listed here. What should I do?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Open a GitHub issue or discussion in the most relevant repository, include your goal, your environment, and a small
+      reproduction if it is a bug. If you are not sure which repo fits, start at the org level and we will route it.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+

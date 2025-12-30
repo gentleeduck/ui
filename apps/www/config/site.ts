@@ -1,16 +1,14 @@
-import { absoluteUrl } from '@gentleduck/duck-docs/lib'
-
 export const siteConfig = {
-  description:
-    '@gentleduck/gen is a general-purpose compiler extension that generates type-safe API routes and message keys across frameworks. It is currently being tested with NestJS to validate the workflow.',
+  description: 'GentleDuck builds fast, reliable, open source developer tooling for production use.',
   links: {
-    github: 'https://github.com/gentleeduck/duck-ui',
+    email: 'support@gentleduck.org',
+    github: 'https://github.com/gentleeduck',
     twitter: 'https://x.com/wild_ducka',
   },
-  name: 'gentleduck/gen',
-  ogImage: absoluteUrl('/og/root.png'),
-  title: 'duck gen — general-purpose compiler extension',
-  url: absoluteUrl('/'),
+  name: 'GentleDuck',
+  ogImage: 'https://gentleduck.org/og/root.png',
+  title: 'GentleDuck · Open source developer tooling',
+  url: 'https://gentleduck.org',
 }
 
 export type SiteConfig = typeof siteConfig

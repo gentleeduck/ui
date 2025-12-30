@@ -1,7 +1,7 @@
 'use client'
 
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
-import { Mail } from 'lucide-react'
+import { HeartIcon, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { useSiteConfig } from '@duck-docs/context'
 
@@ -51,16 +51,16 @@ export function FooterButtons() {
   const siteConfig = useSiteConfig()
   return (
     <>
-      {/* <Link */}
-      {/*   className={buttonVariants({ size: 'sm', variant: 'outline' })} */}
-      {/*   href="https://github.com/sponsors/wildduck2" */}
-      {/*   target="_blank"> */}
-      {/*   <HeartIcon className="h-4 w-4 mr-2 text-red-600 fill-current" /> */}
-      {/*   Sponsor */}
-      {/* </Link> */}
       <Link
         className={buttonVariants({ size: 'sm', variant: 'outline' })}
-        href={siteConfig.links?.email ? `mailto:${siteConfig.links.email}` : 'mailto:hello@gentleduck.org'}
+        href="https://github.com/sponsors/wildduck2"
+        target="_blank">
+        <HeartIcon className="h-4 w-4 mr-2 text-red-600 fill-current" />
+        Sponsor
+      </Link>
+      <Link
+        className={buttonVariants({ size: 'sm', variant: 'outline' })}
+        href={siteConfig.links?.email ? `mailto:${siteConfig.links.email}` : 'mailto:support@gentleduck.org'}
         target="_blank">
         <Mail />
         <span className="">Email</span>

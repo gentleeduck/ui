@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://gen.gentleduck.org
+Host: https://gentleduck.org
 
 # Sitemaps
-Sitemap: https://gen.gentleduck.org/sitemap.xml
+Sitemap: https://gentleduck.org/sitemap.xml

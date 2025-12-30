@@ -1,5 +1,6 @@
 'use client'
 
+import { useDocsConfig } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
@@ -8,7 +9,6 @@ import { PanelsTopLeft } from 'lucide-react'
 import Link, { type LinkProps } from 'next/link'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
-import { useDocsConfig } from '@duck-docs/context'
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)

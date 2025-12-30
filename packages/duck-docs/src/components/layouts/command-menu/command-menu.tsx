@@ -30,7 +30,7 @@ export function CommandMenu() {
   const groupRef = React.useRef<HTMLUListElement>(null)
   const items = [
     ...docsConfig.sidebarNav.map((group) => ({
-      items: group.items.map((navItem) => ({
+      items: group.items?.map((navItem) => ({
         action: () => router.push(navItem.href as string),
         icon: <Circle className="mr-2 h-3 w-3" />,
         name: navItem.title,
@@ -88,7 +88,7 @@ export function CommandMenu() {
           {items.map((group, idx) => (
             <React.Fragment key={group.title}>
               <CommandGroup heading={group.title}>
-                {group.items.map((item) => (
+                {group.items?.map((item) => (
                   <CommandItem
                     id={item.name}
                     key={item.name}

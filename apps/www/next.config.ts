@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        hostname: 'github.com',
+        protocol: 'https',
+      },
+      {
         hostname: 'drive.google.com',
         protocol: 'https',
       },

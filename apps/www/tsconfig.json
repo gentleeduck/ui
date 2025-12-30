@@ -5,27 +5,15 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.iterable"
-    ],
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noErrorTruncation": true,
     "paths": {
-      "@duck-docs/*": [
-        "../../packages/duck-docs/src/*"
-      ],
-      "~/*": [
-        "./*"
-      ],
-      "~/old-registry-ui": [
-        "../_oldstuff_refactor/ui/*"
-      ],
-      "~/velite": [
-        "./.velite/*"
-      ]
+      "@duck-docs/*": ["../../packages/duck-docs/src/*"],
+      "~/*": ["./*"],
+      "~/old-registry-ui": ["../_oldstuff_refactor/ui/*"],
+      "~/velite": ["./.velite/*"]
     },
     "plugins": [
       {
@@ -35,16 +23,10 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
-    "types": [
-      "@types/react",
-      "node"
-    ],
+    "types": ["@types/react", "node"],
     "useDefineForClassFields": true
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
+  "exclude": ["node_modules", "dist"],
   "extends": "@gentleduck/typescript-config/base.json",
   "include": [
     "node_modules",

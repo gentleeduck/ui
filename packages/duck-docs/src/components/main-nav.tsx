@@ -1,9 +1,9 @@
 'use client'
 
+import { useDocsConfig } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useDocsConfig } from '@duck-docs/context'
 import { HeaderBrand } from './layouts/site-header/header-shell'
 
 export function MainNav() {

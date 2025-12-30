@@ -18,7 +18,7 @@ export function SiteHeader() {
   const siteConfig = useSiteConfig()
 
   return (
-    <HeaderRoot className="border-b border-border/50 bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/70">
+    <HeaderRoot className="border-border/50 border-b bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/70">
       <HeaderContainer>
         <MainNav />
         <MobileNav />
@@ -94,7 +94,7 @@ function GitHubStarsButton() {
 }
 const fontAtom = atomWithStorage('fontType', 'mono')
 
-function FontStyleButton() {
+export function FontStyleButton() {
   const [fontType, setFontType] = useAtom(fontAtom)
   const firstRender = React.useRef(true)
 

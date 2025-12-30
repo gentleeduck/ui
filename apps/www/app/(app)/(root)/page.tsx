@@ -6,10 +6,10 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { EcosystemSection } from '~/components/layouts/core-packages'
 import { FeaturesSection } from '~/components/layouts/features'
+import { siteConfig } from '~/config/site'
 
-const title = 'Duck Gen — Contracts that compile, APIs that stay in sync.'
-const description =
-  'Duck Gen is a general-purpose compiler extension that scans controllers and message tags to keep your API and i18n types aligned'
+const title = siteConfig.title
+const description = siteConfig.description
 
 export const dynamic = 'force-static'
 export const revalidate = false
@@ -51,23 +51,23 @@ export default function Page() {
         <div className="relative">
           <h1 className="inline-block max-w-6xl font-bold leading-none tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             <div className="relative mb-3 text-center text-4xl sm:text-5xl md:mb-5 md:text-6xl">
-              <span className="inline-block">DUCK GEN</span>
+              <span className="inline-block">GENTLEDUCK STACK FOR</span>
             </div>
             <div className="mt-1 block text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
               <span className="-rotate-3 relative inline-block bg-primary px-4 py-1 text-primary-foreground">
-                COMPILE-TIME
+                PRODUCTION
               </span>
-              <span className="ml-2 inline-block text-foreground uppercase">CONTRACTS</span>
+              <span className="ml-2 inline-block text-foreground uppercase">TEAMS</span>
             </div>
           </h1>
         </div>
         <PageHeaderDescription>{description}</PageHeaderDescription>
         <PageActions className="mx-auto w-full justify-center">
           <Button size="sm">
-            <Link href="/docs/duck-gen">Get Started</Link>
+            <Link href="/docs">Get Started</Link>
           </Button>
-          <Button size="sm" variant="ghost">
-            <Link href="/docs/duck-gen/api-routes">API Routes</Link>
+          <Button size="sm" variant="outline">
+            <Link href="/docs/whoiam">Who is behind?</Link>
           </Button>
         </PageActions>
       </PageHeader>

@@ -1,10 +1,10 @@
 'use client'
 
+import { type DocsConfig, useDocsConfig } from '@duck-docs/context'
+import type { SidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { type DocsConfig, useDocsConfig } from '@duck-docs/context'
-import type { SidebarNavItem } from '@duck-docs/types/nav'
 
 export interface DocsSidebarNavProps {
   config?: DocsConfig
@@ -18,7 +18,7 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
   const items = pathname?.startsWith('/charts') ? resolvedConfig.chartsNav : resolvedConfig.sidebarNav
 
   return (
-    items.length && (
+    items?.length && (
       <div className="flex w-full flex-col">
         {items.map((item, index) => (
           <CategoryItem item={item} key={index} pathname={pathname} />

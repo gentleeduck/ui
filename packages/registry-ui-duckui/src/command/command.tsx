@@ -244,7 +244,7 @@ function CommandShortcut({
 function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
     <div
-      className={cn('-mx-1 my-2 h-px bg-secondary', className)}
+      className={cn('my-2 h-px bg-secondary', className)}
       ref={ref}
       {...props}
       data-slot="command-separator"

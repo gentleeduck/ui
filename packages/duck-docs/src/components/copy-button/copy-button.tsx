@@ -1,5 +1,7 @@
 'use client'
 
+import { type Event, trackEvent } from '@duck-docs/lib/events'
+import type { NpmCommands } from '@duck-docs/types/unist'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
@@ -10,8 +12,6 @@ import {
 } from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import { CheckIcon, ClipboardIcon, Copy } from 'lucide-react'
 import * as React from 'react'
-import { type Event, trackEvent } from '@duck-docs/lib/events'
-import type { NpmCommands } from '@duck-docs/types/unist'
 import type { CopyButtonProps, CopyWithClassNamesProps } from './copy-button.types'
 
 export async function copyToClipboardWithMeta(value: string, event?: Event) {

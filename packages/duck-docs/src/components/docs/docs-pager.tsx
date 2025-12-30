@@ -95,7 +95,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
 
 export function getPagerForDoc(doc: DocsPagerProps['doc'], docsConfig: DocsConfig) {
   const nav = doc.title.startsWith('/docs/charts') ? docsConfig.chartsNav : docsConfig.sidebarNav
-  const flattenedLinks = [null, ...flatten(nav), null]
+  const flattenedLinks = [null, ...flatten(nav ?? []), null]
   const activeIndex = flattenedLinks.findIndex((link) => link?.href?.includes(doc.slug ?? doc.title))
   const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
   const next = activeIndex !== flattenedLinks.length - 1 ? flattenedLinks[activeIndex + 1] : null

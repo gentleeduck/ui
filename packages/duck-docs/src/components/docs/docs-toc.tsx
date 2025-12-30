@@ -1,10 +1,9 @@
-// @ts-nocheck
 'use client'
 
-import { cn } from '@gentleduck/libs/cn'
-import * as React from 'react'
 import type { TocEntry } from '@duck-docs/context'
 import { useMounted } from '@duck-docs/hooks/use-mounted'
+import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 
 interface TocProps {
   toc: TocEntry[]

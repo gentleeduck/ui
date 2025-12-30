@@ -1,6 +1,14 @@
 'use client'
 
-import { HeaderBrand, HeaderContainer, HeaderRoot, ModeSwitcher, useSiteConfig } from '@gentleduck/duck-docs'
+import {
+  CommandMenu,
+  FontStyleButton,
+  HeaderBrand,
+  HeaderContainer,
+  HeaderRoot,
+  ModeSwitcher,
+  useSiteConfig,
+} from '@gentleduck/duck-docs'
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import {
@@ -11,133 +19,22 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@gentleduck/registry-ui-duckui/navigation-menu'
-import { BookOpen, Boxes, Building2, Github, TerminalSquare } from 'lucide-react'
+import { Github, TerminalSquare } from 'lucide-react'
 import Link from 'next/link'
 import type { ComponentType } from 'react'
-
-type MenuItem = {
-  description: string
-  external?: boolean
-  href: string
-  title: string
-}
-
-type MenuCard = {
-  className?: string
-  description: string
-  external?: boolean
-  href: string
-  icon: ComponentType<{ className?: string }>
-  label: string
-  title: string
-}
-
-const productCard: MenuCard = {
-  className: 'from-zinc-950 via-zinc-900 to-amber-700/70',
-  description: 'Core packages that ship together and scale with your app.',
-  href: '/docs',
-  icon: Boxes,
-  label: 'GentleDuck Stack',
-  title: 'Build with the full toolkit',
-}
-
-const documentationCard: MenuCard = {
-  className: 'from-slate-950 via-slate-900 to-sky-700/70',
-  description: 'Guides, references, and install steps for every package.',
-  href: '/docs',
-  icon: BookOpen,
-  label: 'Documentation',
-  title: 'Start with the essentials',
-}
-
-const companyCard: MenuCard = {
-  className: 'from-emerald-950 via-emerald-900 to-emerald-700/70',
-  description: 'Open source, transparent roadmap, and community support.',
-  external: true,
-  href: 'https://github.com/gentleeduck/duck-ui',
-  icon: Building2,
-  label: 'Company',
-  title: 'Built in public',
-}
-
-const productItems: MenuItem[] = [
-  {
-    description: 'General-purpose compiler extension for type-safe contracts.',
-    href: '/docs/duck-gen',
-    title: 'Duck Gen',
-  },
-  {
-    description: 'Component library and registry for production UI.',
-    external: true,
-    href: 'https://ui.gentleduck.org',
-    title: 'Duck UI',
-  },
-  {
-    description: 'Docs app kit for Next.js, MDX, and product guides.',
-    href: '/docs',
-    title: 'Duck Docs',
-  },
-  {
-    description: 'CLI tooling for scaffolding, registry sync, and setup.',
-    external: true,
-    href: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-cli',
-    title: 'Duck CLI',
-  },
-]
-
-const documentationItems: MenuItem[] = [
-  {
-    description: 'How the stack fits together and where to start.',
-    href: '/docs',
-    title: 'Overview',
-  },
-  {
-    description: 'Install and configure the GentleDuck toolchain.',
-    href: '/docs/installation',
-    title: 'Installation',
-  },
-  {
-    description: 'Compiler extension fundamentals and workflows.',
-    href: '/docs/duck-gen',
-    title: 'Duck Gen Docs',
-  },
-  {
-    description: 'API route contracts, inputs, and shared types.',
-    href: '/docs/duck-gen/api-routes',
-    title: 'API Routes',
-  },
-]
-
-const companyItems = (github: string, twitter?: string): MenuItem[] => [
-  {
-    description: 'Source, releases, and issue tracking.',
-    external: true,
-    href: github,
-    title: 'GitHub',
-  },
-  {
-    description: 'Roadmap ideas and community support.',
-    external: true,
-    href: 'https://github.com/gentleeduck/duck-ui/discussions',
-    title: 'Discussions',
-  },
-  {
-    description: 'Release notes for the full monorepo.',
-    external: true,
-    href: 'https://github.com/gentleeduck/duck-ui/releases',
-    title: 'Changelog',
-  },
-  {
-    description: 'Updates and build notes from the team.',
-    external: true,
-    href: twitter ?? 'https://x.com/wild_ducka',
-    title: 'X / Twitter',
-  },
-]
+import {
+  companyCard,
+  companyItems,
+  documentationCard,
+  documentationItems,
+  productCard,
+  productItems,
+} from './site-header.constants'
+import type { MenuCard, MenuItem } from './site-header.types'
 
 export function SiteHeader() {
   const siteConfig = useSiteConfig()
-  const github = siteConfig.links?.github ?? 'https://github.com/gentleeduck/duck-ui'
+  const github = siteConfig.links?.github ?? 'https://github.com/gentleeduck'
 
   return (
     <HeaderRoot className="border-b border-border/50 bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/70">
@@ -148,15 +45,15 @@ export function SiteHeader() {
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuList className="gap-2">
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-sm">Products</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-sm bg-transparent">Products</NavigationMenuTrigger>
                 <MenuPanel card={productCard} items={productItems} />
               </NavigationMenuItem>
+              {/* <NavigationMenuItem> */}
+              {/*   <NavigationMenuTrigger className="text-sm bg-transparent">Documentation</NavigationMenuTrigger> */}
+              {/*   <MenuPanel card={documentationCard} items={documentationItems} /> */}
+              {/* </NavigationMenuItem> */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-sm">Documentation</NavigationMenuTrigger>
-                <MenuPanel card={documentationCard} items={documentationItems} />
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-sm">Company</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-sm bg-transparent">Company</NavigationMenuTrigger>
                 <MenuPanel card={companyCard} items={companyItems(github, siteConfig.links?.twitter)} />
               </NavigationMenuItem>
             </NavigationMenuList>
@@ -164,17 +61,8 @@ export function SiteHeader() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link
-            className={cn(
-              buttonVariants({
-                size: 'sm',
-                variant: 'outline',
-              }),
-              'hidden md:inline-flex',
-            )}
-            href="/docs/duck-gen">
-            Get Started
-          </Link>
+          <CommandMenu />
+          <FontStyleButton />
           <Link
             aria-label="GitHub"
             className={cn(
@@ -209,10 +97,10 @@ export function SiteHeader() {
 
 function MenuPanel({ card, items }: { card: MenuCard; items: MenuItem[] }) {
   return (
-    <NavigationMenuContent className="md:w-140">
-      <div className="grid gap-4 p-4 md:grid-cols-[220px_1fr]">
+    <NavigationMenuContent className={cn('md:w-150', items.length > 6 && 'md:w-230')}>
+      <div className="grid gap-4 p-4 md:grid-cols-[280px_1fr]">
         <MenuCard {...card} />
-        <ul className="grid gap-2">
+        <ul className={cn('grid gap-2', items.length > 6 && 'grid-cols-[300px_1fr]')}>
           {items.map((item) => (
             <MenuListItem key={item.title} {...item} />
           ))}
@@ -228,7 +116,7 @@ function MenuCard({ className, description, external, href, icon: Icon, label, t
       {external ? (
         <a
           className={cn(
-            'group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-linear-to-br p-4 text-white shadow-sm',
+            'group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-xl border bg-linear-to-br p-4 text-white shadow-sm',
             className,
           )}
           href={href}
@@ -239,7 +127,7 @@ function MenuCard({ className, description, external, href, icon: Icon, label, t
       ) : (
         <Link
           className={cn(
-            'group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-linear-to-br p-4 text-white shadow-sm',
+            'group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-xl border bg-linear-to-br p-4 text-white shadow-sm',
             className,
           )}
           href={href}>

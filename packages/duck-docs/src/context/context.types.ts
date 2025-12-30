@@ -1,6 +1,6 @@
 import type { MainNavItem, SidebarNavItem } from '@duck-docs/types/nav'
 export type DocsConfig = {
-  chartsNav: SidebarNavItem[]
+  chartsNav?: SidebarNavItem[]
   mainNav: MainNavItem[]
   sidebarNav: SidebarNavItem[]
 }
