@@ -1,5 +1,39 @@
 # @gentleduck/primitives
 
+## 0.1.41
+
+### Patch Changes
+
+- fixed bugs
+- some improvements
+- fixed the exports
+- ignore
+- fixed the package.json
+- fixed the types
+- new api change
+- fixed the positioning
+- some button and slot issues
+- done
+- removed the peer deps
+- fixed the build
+
+## 0.1.40
+
+### Patch Changes
+
+- fixed bugs
+- some improvements
+- fixed the exports
+- ignore
+- fixed the package.json
+- fixed the types
+- new api change
+- fixed the positioning
+- some button and slot issues
+- done
+- removed the peer deps
+- fixed the build
+
 ## 0.1.39
 
 ### Patch Changes

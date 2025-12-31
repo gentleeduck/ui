@@ -1,0 +1,5 @@
+---
+"@gentleduck/query": patch
+---
+
+batman

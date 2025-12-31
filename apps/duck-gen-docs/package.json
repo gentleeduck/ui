@@ -37,5 +37,5 @@
     "postbuild": "next-sitemap",
     "start": "next start"
   },
-  "version": "0.0.17"
+  "version": "0.0.19"
 }

@@ -67,5 +67,5 @@
     "release": "changeset version"
   },
   "type": "module",
-  "version": "0.1.39"
+  "version": "0.1.41"
 }

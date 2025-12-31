@@ -1,8 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "author": "gentleduck",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "description": "Type-safe API and message generator for TypeScript projects (NestJS-tested).",
   "name": "@gentleduck/gen",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.3",
+  "private": false,
   "type": "module",
   "bin": {
     "duck-gen": "./bin/duck-gen.js"
@@ -19,8 +24,28 @@
     "bin",
     "generated",
     "src",
-    "duck-gen.schema.json"
+    "duck-gen.schema.json",
+    "README.md",
+    "LICENSE"
   ],
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-gen#readme",
+  "keywords": [
+    "gentleduck",
+    "duck-gen",
+    "codegen",
+    "api",
+    "routes",
+    "nestjs",
+    "typescript",
+    "i18n"
+  ],
+  "license": "MIT",
+  "packageManager": "pnpm@10.17.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentleeduck/duck-ui",
+    "directory": "packages/duck-gen"
+  },
   "dependencies": {
     "@iarna/toml": "^3.0.0",
     "chalk": "^5.6.2",
@@ -37,6 +62,11 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "tsx ./src/index.ts"
+    "dev": "tsx ./src/index.ts",
+    "publish": "pnpm run ci && changeset publish",
+    "release": "changeset version"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

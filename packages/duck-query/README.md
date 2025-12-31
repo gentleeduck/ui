@@ -1,7 +1,7 @@
 # @gentleduck/query
 
-Duck Query is a type-safe Axios client that pairs with Duck Gen or custom route maps.
-It gives you typed request bodies, params, query strings, and responses.
+Duck Query is a type-safe Axios client that pairs with Duck Gen or custom route
+maps. It gives you typed request bodies, params, query strings, and responses.
 
 ## Install
 
@@ -30,7 +30,7 @@ const { data } = await client.post('/api/auth/signin', {
 
 ## Request shape
 
-Each request can include `body`, `query`, `params`, and `headers`.
+Each request can include `body`, `query`, `params`, and `headers`:
 
 ```ts
 await client.get('/api/users/:id', {
@@ -38,6 +38,25 @@ await client.get('/api/users/:id', {
   query: { with: 'profile' },
   headers: { authorization: 'Bearer token' },
 })
+```
+
+## Client methods
+
+- `get(path, req?, config?)`
+- `post(path, req, config?)`
+- `put(path, req, config?)`
+- `patch(path, req, config?)`
+- `del(path, req?, config?)`
+- `request(path, req?, config?)`
+- `byMethod(method, path, req?, config?)`
+- `axios` (the underlying Axios instance)
+
+## Types
+
+Duck Query exports helper types if you want to define routes yourself:
+
+```ts
+import type { DuckApiRoutes, DuckRouteMeta, RouteReq, RouteRes } from '@gentleduck/query'
 ```
 
 ## Docs

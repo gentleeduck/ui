@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./apps/duck-ui-docs/public/og/root.png" alt="Duck UI Logo" width="800"/>
+  <img src="./apps/www/public/og/root.png" alt="Duck UI Logo" width="800"/>
 </p>
 
 # @gentleduck/ui
