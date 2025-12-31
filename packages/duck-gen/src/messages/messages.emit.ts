@@ -1,19 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import type { DuckgenMessageSource } from './types'
-import { formatPropKey, relImport } from '../shared/utils'
-
-function sortMap<T>(m: Map<string, Set<T>>) {
-  return Array.from(m.entries()).sort((a, b) => a[0].localeCompare(b[0]))
-}
-
-/** 🦆
- * 🦆 Builds a compact JSDoc block (kept short on purpose).
- * 🦆 Use this for hover docs without spamming repetitive examples.
- */
-function doc(lines: string[]): string {
-  return ['/** 🦆', ...lines.map((l) => ` * 🦆 ${l}`), ' */', ''].join('\n')
-}
+import { doc, formatPropKey, relImport, sortMap } from '../shared/utils'
+import type { DuckgenMessageSource } from './messages.types'
 
 export function emitDuckgenMessagesFile(outFile: string, messages: DuckgenMessageSource[]) {
   let out = `// 🦆 THIS FILE IS AUTO-GENERATED. DO NOT EDIT.\n\n`

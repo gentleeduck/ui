@@ -1,14 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import type { ImportMaps, Route } from './types'
-
-function sortMap<T>(m: Map<string, Set<T>>) {
-  return Array.from(m.entries()).sort((a, b) => a[0].localeCompare(b[0]))
-}
-
-function doc(lines: string[]): string[] {
-  return ['/** 🦆', ...lines.map((l) => ` * 🦆 ${l}`), ' */']
-}
+import { doc, sortMap } from '../../../shared/utils'
+import type { ImportMaps, Route } from './api-routes.types'
 
 // 🦆 Emit the generated API routes type map.
 export function emitApiRoutesFile(outFile: string, routes: Route[], imports: ImportMaps) {

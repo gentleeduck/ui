@@ -2,10 +2,11 @@
   <img src="./apps/www/public/og/root.png" alt="Duck UI Logo" width="800"/>
 </p>
 
-# @gentleduck/ui
+# @gentleduck
 
-Gentleduck UI is the core monorepo for the Gentleduck ecosystem that serves only the front-end
-developers to shipt their applications more quickly and with less effort.
+GentleDuck is an open source organization building production-grade developer tooling. We exist to 
+reduce friction across the entire development lifecycle, from UI and interaction design to 
+documentation, automation, testing, and systems performance.
  
 ## Documentation
 - Website: https://www.gentleduck.org
@@ -27,6 +28,20 @@ developers to shipt their applications more quickly and with less effort.
 - `packages/duck-variants` – class/variant helpers
 - `packages/duck-vim` – keybinding engine
 - `packages/duck-lazy` – lazy-loading utilities
+
+### Published packages (npm)
+- `@gentleduck/benchmark` – benchmarking tool for Duck UI components
+- `@gentleduck/cli` – CLI to add components and bootstrap integrations
+- `@gentleduck/gen` – type-safe API and message generator (NestJS-tested)
+- `@gentleduck/hooks` – React hooks
+- `@gentleduck/lazy` – lazy-loading utilities
+- `@gentleduck/libs` – utilities and helpers
+- `@gentleduck/motion` – motion primitives
+- `@gentleduck/primitives` – headless UI primitives
+- `@gentleduck/query` – type-safe Axios client
+- `@gentleduck/shortcut` – keyboard shortcut utilities
+- `@gentleduck/variants` – class/variant helpers
+- `@gentleduck/vim` – keybinding engine
 
 ## Getting Started
 ```bash

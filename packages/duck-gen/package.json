@@ -1,24 +1,35 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "author": "gentleduck",
-  "bugs": {
-    "url": "https://github.com/gentleeduck/duck-ui/issues"
-  },
-  "description": "Type-safe API and message generator for TypeScript projects (NestJS-tested).",
-  "name": "@gentleduck/gen",
-  "version": "0.1.3",
-  "private": false,
-  "type": "module",
   "bin": {
     "duck-gen": "./bin/duck-gen.js"
   },
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "dependencies": {
+    "@iarna/toml": "^3.0.0",
+    "chalk": "^5.6.2",
+    "ora": "^9.0.0",
+    "ts-morph": "^27.0.2",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  },
+  "description": "Type-safe API and message generator for TypeScript projects (NestJS-tested).",
+  "devDependencies": {
+    "@gentleduck/typescript-config": "workspace:*",
+    "@types/node": "catalog:"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "exports": {
     ".": "./src/index.ts",
-    "./schema": "./duck-gen.schema.json",
     "./generated": "./generated/index.d.ts",
     "./generated/*": "./generated/*",
     "./nestjs": "./generated/nestjs/index.d.ts",
-    "./nestjs/*": "./generated/nestjs/*"
+    "./nestjs/*": "./generated/nestjs/*",
+    "./schema": "./duck-gen.schema.json"
   },
   "files": [
     "bin",
@@ -40,33 +51,27 @@
     "i18n"
   ],
   "license": "MIT",
+  "name": "@gentleduck/gen",
   "packageManager": "pnpm@10.17.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
+    "directory": "packages/duck-gen",
     "type": "git",
-    "url": "https://github.com/gentleeduck/duck-ui",
-    "directory": "packages/duck-gen"
-  },
-  "dependencies": {
-    "@iarna/toml": "^3.0.0",
-    "chalk": "^5.6.2",
-    "ora": "^9.0.0",
-    "ts-morph": "^27.0.2",
-    "tsx": "catalog:",
-    "typescript": "catalog:"
-  },
-  "devDependencies": {
-    "@gentleduck/typescript-config": "workspace:*",
-    "@types/node": "catalog:"
-  },
-  "engines": {
-    "node": ">=22.0.0"
+    "url": "https://github.com/gentleeduck/duck-ui"
   },
   "scripts": {
+    "build": "tsdown",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
     "dev": "tsx ./src/index.ts",
+    "format": "biome format --write ./",
+    "lint": "biome lint --write ./",
     "publish": "pnpm run ci && changeset publish",
     "release": "changeset version"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "type": "module",
+  "version": "0.1.5"
 }

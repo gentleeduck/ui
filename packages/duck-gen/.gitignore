@@ -1,0 +1,4 @@
+.vercel
+generated
+node_modules
+.changeset

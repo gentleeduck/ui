@@ -21,7 +21,7 @@ export function parseDuckgenMessagesTag(node: JSDocableNode): DuckgenMessagesTag
       const parts = comment.split(/\s+/).filter(Boolean)
       if (parts.length === 0) return {}
 
-      const first = parts[0].toLowerCase()
+      const first = parts[0]?.toLowerCase()
       if (first === 'messages' || first === 'message') {
         const groupKey = parts[1]
         return groupKey ? { groupKey } : {}

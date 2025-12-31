@@ -1,72 +1,45 @@
-import type { ts } from 'ts-morph'
-import { getDefaultApiRoutesConfig } from '../core/config'
-import type { ApiRoutesConfig } from '../core/types'
-import { addTypeImport, collectTypeSymbols, shouldSkipSelfTypeImport, symbolToImportInfo } from './type-collect'
-import type { ImportMaps, Route } from './types'
+import type { Project, SourceFile, ts } from 'ts-morph'
+import { spinner } from '../../..'
+import type { DuckGenConfig } from '../../../config/config.dto'
+import { isNodeModulesFile } from '../../../shared/utils'
+import { emitApiRoutesFile } from './api-routes.emit'
 import {
+  addTypeImport,
   buildKeyedObjectType,
+  collectTypeSymbols,
   getDecoratorFirstStringArg,
   getParamDecoratorKey,
   getTypeText,
   joinUrl,
   mergeTypes,
   pickHttpMethodDecoratorName,
+  pushPart,
+  shouldSkipFile,
+  shouldSkipSelfTypeImport,
+  symbolToImportInfo,
   toHttpMethod,
-} from './utils'
-import { isNodeModulesFile } from '../shared/utils'
-import { getProject } from '../shared/project'
+} from './api-routes.libs'
+import type { Route } from './api-routes.types'
 
-type ScanResult = {
-  routes: Route[]
-  imports: ImportMaps
-  warnings: string[]
-}
-
-const YIELD_EVERY = 10
-
-function pushPart(acc: string[], part: string) {
-  if (!part) return
-  acc.push(part)
-}
-
-function shouldSkipFile(sfPath: string): boolean {
-  if (sfPath.endsWith('.d.ts')) return true
-  if (sfPath.includes('.generated.')) return true
-  return false
-}
-
-async function yieldToSpinner(counter: { i: number }): Promise<void> {
-  counter.i += 1
-  if (counter.i % YIELD_EVERY !== 0) return
-  await new Promise<void>((resolve) => setImmediate(resolve))
-}
-
-// 🦆 Scan the project for NestJS controllers and build the route map.
-export async function scanApiRoutes(
-  config: ApiRoutesConfig = getDefaultApiRoutesConfig(process.cwd()),
+export async function processNestJsApiRoutes(
+  project: Project,
+  { shared, apiRoutes: apiRoutes }: DuckGenConfig['extensions'],
   outFile: string,
-): Promise<ScanResult> {
-  const resolvedOutFile = outFile
-  const project = getProject(config.tsconfigPath, config.sourceGlobs)
-
+) {
   const routes: Route[] = []
   const typeImports = new Map<string, Set<string>>()
-  const warnings: string[] = []
-  const yieldCounter = { i: 0 }
 
   const sourceFiles = project.getSourceFiles()
   for (let i = 0; i < sourceFiles.length; i++) {
-    await yieldToSpinner(yieldCounter)
-    const sf = sourceFiles[i]
+    const sf = sourceFiles[i] as SourceFile
     const sfPath = sf.getFilePath()
-    if (!config.includeNodeModules && isNodeModulesFile(sfPath)) continue
+    if (!shared.includeNodeModules && isNodeModulesFile(sfPath)) continue
     if (shouldSkipFile(sfPath)) continue
 
     const sfText = sf.getFullText()
     if (!sfText.includes('@Controller')) continue
 
     for (const cls of sf.getClasses()) {
-      await yieldToSpinner(yieldCounter)
       const controllerDec = cls.getDecorator('Controller')
       if (!controllerDec) continue
 
@@ -76,10 +49,9 @@ export async function scanApiRoutes(
       const controllerName = cls.getName()
       if (!controllerName) continue
 
-      addTypeImport(typeImports, resolvedOutFile, { name: controllerName, filePath: sfPath })
+      addTypeImport(typeImports, outFile, { filePath: sfPath, name: controllerName })
 
       for (const m of cls.getMethods()) {
-        await yieldToSpinner(yieldCounter)
         const httpDecName = pickHttpMethodDecoratorName(m)
         if (!httpDecName) continue
 
@@ -89,7 +61,7 @@ export async function scanApiRoutes(
         const methodPath = getDecoratorFirstStringArg(httpDec)
         if (methodPath === undefined) continue // 🦆 non-literal, skip
 
-        const fullPath = joinUrl(config.globalPrefix, controllerPrefix, methodPath)
+        const fullPath = joinUrl(apiRoutes.globalPrefix, controllerPrefix, methodPath)
         const httpMethod = toHttpMethod(httpDecName)
 
         const bodyParts: string[] = []
@@ -100,8 +72,7 @@ export async function scanApiRoutes(
         const symbolsToImport = new Set<ts.Symbol>()
 
         for (const p of m.getParameters()) {
-          await yieldToSpinner(yieldCounter)
-          const pTypeText = getTypeText(p, config.normalizeAnyToUnknown)
+          const pTypeText = getTypeText(p, apiRoutes.normalizeAnyToUnknown)
 
           for (const d of p.getDecorators()) {
             const decName = d.getName()
@@ -137,8 +108,8 @@ export async function scanApiRoutes(
         }
 
         const returnType = m.getReturnType()
-        if (config.normalizeAnyToUnknown && returnType.isAny()) {
-          warnings.push(
+        if (apiRoutes.normalizeAnyToUnknown && returnType.isAny()) {
+          spinner.warn(
             `[any-return] ${controllerName}.${m.getName()} at ${sfPath} has return type any. Consider typing the return.`,
           )
         }
@@ -148,7 +119,7 @@ export async function scanApiRoutes(
           const info = symbolToImportInfo(sym)
           if (!info) continue
           if (shouldSkipSelfTypeImport(info, controllerName, sfPath)) continue
-          addTypeImport(typeImports, resolvedOutFile, info)
+          addTypeImport(typeImports, outFile, info)
         }
 
         const bodyType = mergeTypes(bodyParts)
@@ -171,9 +142,5 @@ export async function scanApiRoutes(
     }
   }
 
-  return {
-    imports: { typeImports },
-    routes,
-    warnings,
-  }
+  emitApiRoutesFile(outFile, routes, { typeImports })
 }

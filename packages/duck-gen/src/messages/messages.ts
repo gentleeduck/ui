@@ -1,48 +1,28 @@
-import { Node, VariableDeclarationKind } from 'ts-morph'
-import { getDefaultMessagesConfig } from '../core/config'
-import type { MessagesConfig } from '../core/types'
-import type { DuckgenMessageSource } from './types'
+import { Node, type Project, type SourceFile, VariableDeclarationKind } from 'ts-morph'
+import { spinner } from '..'
+import type { DuckGenConfig } from '../config/config.dto'
 import { isNodeModulesFile } from '../shared/utils'
-import { parseDuckgenMessagesTag } from './tag'
-import { getProject } from '../shared/project'
+import { emitDuckgenMessagesFile } from './messages.emit'
+import { parseDuckgenMessagesTag } from './messages.libs'
+import type { DuckgenMessageSource } from './messages.types'
 
-export type ScanMessagesResult = {
-  messages: DuckgenMessageSource[]
-  warnings: string[]
-}
-
-const YIELD_EVERY = 10
-
-async function yieldToSpinner(counter: { i: number }): Promise<void> {
-  counter.i += 1
-  if (counter.i % YIELD_EVERY !== 0) return
-  await new Promise<void>((resolve) => setImmediate(resolve))
-}
-
-// 🦆 Scan all source files for exported const arrays tagged with @duckgen.
-export async function scanDuckgenMessages(
-  config: MessagesConfig = getDefaultMessagesConfig(process.cwd()),
-): Promise<ScanMessagesResult> {
-  const project = getProject(config.tsconfigPath, config.sourceGlobs)
+export async function scanDuckgenMessages(project: Project, { shared }: DuckGenConfig['extensions'], outFile: string) {
   const messages: DuckgenMessageSource[] = []
   const warnings: string[] = []
   const seenConstName = new Map<string, string>()
   const seenGroupKey = new Map<string, string>()
-  const yieldCounter = { i: 0 }
 
   const sourceFiles = project.getSourceFiles()
   for (let i = 0; i < sourceFiles.length; i++) {
-    await yieldToSpinner(yieldCounter)
-    const sf = sourceFiles[i]
+    const sf = sourceFiles[i] as SourceFile
     const sfPath = sf.getFilePath()
-    if (!config.includeNodeModules && isNodeModulesFile(sfPath)) continue
+    if (!shared.includeNodeModules && isNodeModulesFile(sfPath)) continue
     if (sfPath.endsWith('.d.ts') || sfPath.includes('.generated.')) continue
 
     const sfText = sf.getFullText()
     if (!sfText.includes('@duckgen')) continue
 
     for (const stmt of sf.getVariableStatements()) {
-      await yieldToSpinner(yieldCounter)
       if (!stmt.isExported()) continue
       const tag = parseDuckgenMessagesTag(stmt)
       if (!tag) continue
@@ -54,14 +34,14 @@ export async function scanDuckgenMessages(
       for (const decl of stmt.getDeclarations()) {
         const nameNode = decl.getNameNode()
         if (!Node.isIdentifier(nameNode)) {
-          warnings.push(`[duckgen] ${sfPath} has @duckgen messages on a non-identifier declaration.`)
+          spinner.warn(`[duckgen] ${sfPath} has @duckgen messages on a non-identifier declaration.`)
           continue
         }
 
         const constName = nameNode.getText()
         const existingConst = seenConstName.get(constName)
         if (existingConst) {
-          warnings.push(
+          spinner.warn(
             `[duckgen] ${sfPath} has duplicate @duckgen message name "${constName}" (already in ${existingConst}). Skipping.`,
           )
           continue
@@ -84,5 +64,5 @@ export async function scanDuckgenMessages(
     }
   }
 
-  return { messages, warnings }
+  emitDuckgenMessagesFile(outFile, messages)
 }

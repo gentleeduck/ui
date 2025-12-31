@@ -18,8 +18,8 @@ export function getProject(tsconfigPath: string, sourceGlobs: string[] = []): Pr
 
   if (!cached) {
     cached = {
-      project: new Project({ tsConfigFilePath: key, skipAddingFilesFromTsConfig: true }),
       globs: new Set<string>(),
+      project: new Project({ skipAddingFilesFromTsConfig: true, tsConfigFilePath: key }),
     }
     PROJECT_CACHE.set(key, cached)
   }
