@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useConfig } from '@gentleduck/duck-docs'
+import { useConfig } from '@gentleduck/docs'
 
 interface ThemeWrapperProps extends React.ComponentProps<'div'> {
   defaultTheme?: string

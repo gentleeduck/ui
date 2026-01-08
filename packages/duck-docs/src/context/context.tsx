@@ -35,7 +35,7 @@ export function useDocsContext() {
   const context = React.useContext(DocsContext)
   if (!context) {
     throw new Error(
-      'DocsProvider is missing. Wrap your app with <DocsProvider> from @gentleduck/duck-docs and pass docsConfig and siteConfig.',
+      'DocsProvider is missing. Wrap your app with <DocsProvider> from @gentleduck/docs and pass docsConfig and siteConfig.',
     )
   }
   return context

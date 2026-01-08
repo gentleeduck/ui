@@ -5,7 +5,7 @@ import { Button, type ButtonProps } from '@gentleduck/registry-ui-duckui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { CheckIcon, ClipboardIcon, Copy } from 'lucide-react'
 import * as React from 'react'
-import { type Event, trackEvent } from '@gentleduck/duck-docs/lib'
+import { type Event, trackEvent } from '@gentleduck/docs/lib'
 
 export function BlockCopyButton({
   event,

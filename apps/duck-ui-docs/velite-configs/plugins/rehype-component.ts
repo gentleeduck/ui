@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import type { UnistNode, UnistTree } from '@gentleduck/duck-docs/types'
+import type { UnistNode, UnistTree } from '@gentleduck/docs/types'
 import type { RegistryItemFile } from '@gentleduck/registers'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'

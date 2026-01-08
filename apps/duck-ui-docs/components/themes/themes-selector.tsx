@@ -7,8 +7,8 @@ import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/tog
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import { useThemesConfig } from '@gentleduck/duck-docs'
-import { THEMES, type Theme } from '@gentleduck/duck-docs/lib'
+import { useThemesConfig } from '@gentleduck/docs'
+import { THEMES, type Theme } from '@gentleduck/docs/lib'
 
 export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentProps<'div'> & { themes?: Theme[] }) {
   const { theme: mode } = useTheme()

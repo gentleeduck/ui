@@ -1,4 +1,4 @@
-import { absoluteUrl } from '@gentleduck/duck-docs/lib'
+import { absoluteUrl } from '@gentleduck/docs/lib'
 
 export const siteConfig = {
   description:

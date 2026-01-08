@@ -5,8 +5,8 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@gentleduck/registry-ui-duckui/select'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 import * as React from 'react'
-import { useColors } from '@gentleduck/duck-docs'
-import { type Color, getColorFormat } from '@gentleduck/duck-docs/lib'
+import { useColors } from '@gentleduck/docs'
+import { type Color, getColorFormat } from '@gentleduck/docs/lib'
 
 export function ColorFormatSelector({
   color,

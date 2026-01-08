@@ -6,7 +6,7 @@ import React from 'react'
 import z from 'zod'
 import { siteConfig } from '~/config/site'
 import { getRegistryComponent, getRegistryItem } from '~/lib/get-registry-item'
-import { absoluteUrl } from '@gentleduck/duck-docs/lib'
+import { absoluteUrl } from '@gentleduck/docs/lib'
 
 export const revalidate = false
 export const dynamic = 'force-static'

@@ -8,7 +8,7 @@ Next.js documentation site for Gentleduck UI. Covers components, blocks, charts,
 
 ## Stack
 - Next.js App Router
-- `@gentleduck/duck-docs` (shared docs kit)
+- `@gentleduck/docs` (shared docs kit)
 - Velite (MDX pipeline)
 - Registry tooling for component previews
 

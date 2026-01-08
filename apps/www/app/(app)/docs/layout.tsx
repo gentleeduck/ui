@@ -1,4 +1,4 @@
-import { DocsSidebarNav } from '@gentleduck/duck-docs'
+import { DocsSidebarNav } from '@gentleduck/docs'
 
 interface DocsLayoutProps {
   children: React.ReactNode

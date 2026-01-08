@@ -1,5 +1,5 @@
 const serverOnly = () => {
-  throw new Error('@gentleduck/duck-docs/velite is server-only.')
+  throw new Error('@gentleduck/docs/velite is server-only.')
 }
 
 export const docsVeliteConfig = {} as never

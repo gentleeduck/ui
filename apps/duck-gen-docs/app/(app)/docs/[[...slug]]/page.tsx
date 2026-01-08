@@ -1,4 +1,4 @@
-import { DashboardTableOfContents, DocsCopyPage, DocsPagerBottom, DocsPagerTop, Mdx } from '@gentleduck/duck-docs'
+import { DashboardTableOfContents, DocsCopyPage, DocsPagerBottom, DocsPagerTop, Mdx } from '@gentleduck/docs'
 import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
 import { ExternalLinkIcon } from 'lucide-react'

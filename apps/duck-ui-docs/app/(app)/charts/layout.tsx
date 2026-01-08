@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { ChartsNav } from '~/components/charts'
 import { ActiveThemeProvider } from '~/components/colors'
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/duck-docs'
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs'
 import { ThemesStyle } from '~/components/themes'
 import { ThemesSwitcher } from '~/components/themes/themes-selector'
 

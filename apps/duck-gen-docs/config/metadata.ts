@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { absoluteUrl } from '@gentleduck/duck-docs/lib'
+import { absoluteUrl } from '@gentleduck/docs/lib'
 import { siteConfig } from './site'
 
 export const VIEWPORT: Viewport = {

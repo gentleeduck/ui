@@ -1,7 +1,7 @@
 'use client'
 
-import type { DocsConfig, DocsEntry, DocsSiteConfig } from '@gentleduck/duck-docs'
-import { DocsProvider } from '@gentleduck/duck-docs'
+import type { DocsConfig, DocsEntry, DocsSiteConfig } from '@gentleduck/docs'
+import { DocsProvider } from '@gentleduck/docs'
 import type React from 'react'
 import { Index } from '~/__ui_registry__'
 

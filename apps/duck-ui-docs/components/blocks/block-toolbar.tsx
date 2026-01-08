@@ -15,8 +15,8 @@ import type { ImperativePanelHandle } from 'react-resizable-panels'
 import { BlockCopyButton } from '~/components/blocks'
 import { StyleSwitcher } from '~/components/themes'
 import { V0Button } from '~/components/V0'
-import { useLiftMode } from '@gentleduck/duck-docs'
-import { trackEvent } from '@gentleduck/duck-docs/lib'
+import { useLiftMode } from '@gentleduck/docs'
+import { trackEvent } from '@gentleduck/docs/lib'
 
 export function BlockToolbar({
   block,

@@ -2,7 +2,7 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/duck-docs'
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs'
 
 import { ThemeCustomizer, ThemeWrapper } from '~/components/themes'
 

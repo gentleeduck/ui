@@ -5,7 +5,7 @@ import * as React from 'react'
 import type { z } from 'zod'
 import { createFileTreeForRegistryItemFiles, getRegistryItem } from '~/lib/get-registry-item'
 import { highlightCode } from '~/lib/highlight-code'
-import { ComponentPreview } from '@gentleduck/duck-docs'
+import { ComponentPreview } from '@gentleduck/docs'
 import { BlockViewer } from './block-viewer'
 
 export async function BlockDisplay({ name }: { name: string }) {

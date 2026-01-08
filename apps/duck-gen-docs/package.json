@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@gentleduck/duck-docs": "workspace:*",
+    "@gentleduck/docs": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/motion": "workspace:*",

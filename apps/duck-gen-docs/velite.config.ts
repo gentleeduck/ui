@@ -1,3 +1,3 @@
-import { docsVeliteConfig } from '@gentleduck/duck-docs/velite'
+import { docsVeliteConfig } from '@gentleduck/docs/velite'
 
 export default docsVeliteConfig

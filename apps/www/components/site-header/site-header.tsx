@@ -9,7 +9,7 @@ import {
   MobileNav,
   ModeSwitcher,
   useSiteConfig,
-} from '@gentleduck/duck-docs'
+} from '@gentleduck/docs'
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import {

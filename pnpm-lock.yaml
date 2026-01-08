@@ -116,7 +116,7 @@ importers:
 
   apps/duck-gen-docs:
     dependencies:
-      '@gentleduck/duck-docs':
+      '@gentleduck/docs':
         specifier: workspace:*
         version: link:../../packages/duck-docs
       '@gentleduck/lazy':
@@ -189,7 +189,7 @@ importers:
 
   apps/duck-ui-docs:
     dependencies:
-      '@gentleduck/duck-docs':
+      '@gentleduck/docs':
         specifier: workspace:*
         version: link:../../packages/duck-docs
       '@gentleduck/hooks':
@@ -322,7 +322,7 @@ importers:
 
   apps/www:
     dependencies:
-      '@gentleduck/duck-docs':
+      '@gentleduck/docs':
         specifier: workspace:*
         version: link:../../packages/duck-docs
       '@gentleduck/hooks':

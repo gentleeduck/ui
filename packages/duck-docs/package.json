@@ -70,7 +70,7 @@
     "dist"
   ],
   "module": "./dist/index.js",
-  "name": "@gentleduck/duck-docs",
+  "name": "@gentleduck/docs",
   "packageManager": "pnpm@10.10.0",
   "private": true,
   "scripts": {
@@ -85,5 +85,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "0.1.3"
+  "version": "0.0.1"
 }

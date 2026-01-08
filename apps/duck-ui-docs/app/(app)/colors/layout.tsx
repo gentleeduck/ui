@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import { Announcement } from '~/components/announcement'
 import { ColorsNav } from '~/components/colors'
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/duck-docs'
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs'
 import { ThemeWrapper } from '~/components/themes'
 
 const title = 'Tailwind Colors, Simplified'

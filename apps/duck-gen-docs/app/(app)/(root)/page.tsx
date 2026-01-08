@@ -1,4 +1,4 @@
-import { PageActions, PageHeader, PageHeaderDescription } from '@gentleduck/duck-docs'
+import { PageActions, PageHeader, PageHeaderDescription } from '@gentleduck/docs'
 import { DuckLazyComponent } from '@gentleduck/lazy/lazy-component'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
