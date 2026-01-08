@@ -33,7 +33,7 @@ jobs:
         run: pnpm i
 
       - name: Build
-        run: NEXT_PUBLIC_SITE_URL="https:gentleduck.org" pnpm build
+        run: export NEXT_PUBLIC_APP_URL="https://gentleduck.org" pnpm build
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
