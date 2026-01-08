@@ -5,5 +5,3 @@ pnpm -s check-types
 # pnpm -s test
 
 echo "[husky] pre-push checks passed"
-
-
