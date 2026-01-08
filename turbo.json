@@ -26,18 +26,6 @@
     "lint": {
       "dependsOn": ["^topo", "^build"],
       "outputs": [".cache/.eslintcache"]
-    },
-    "studio": {
-      "cache": false,
-      "persistent": true
-    },
-    "typecheck": {
-      "dependsOn": ["^topo", "^build"],
-      "outputs": [".cache/tsbuildinfo.json"]
-    },
-    "ui-add": {
-      "cache": false,
-      "interactive": true
     }
   }
 }
