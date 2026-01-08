@@ -47,6 +47,17 @@
     "velite": "^0.3.1"
   },
   "name": "@gentleduck/www",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "homepage": "https://www.gentleduck.org",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "apps/www"
+  },
   "private": true,
   "scripts": {
     "build": "next build",

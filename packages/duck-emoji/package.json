@@ -1,76 +1,19 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "author": "gentleduck",
-  "bin": {
-    "duck-gen": "./bin/duck-gen.js"
-  },
+  "name": "@gentleduck/emoji",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Emoji assets and utilities for GentleDuck.",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-emoji#readme",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
-  "dependencies": {
-    "chalk": "^5.6.2",
-    "ora": "^9.0.0",
-    "ts-morph": "^27.0.2",
-    "tsx": "catalog:",
-    "typescript": "catalog:"
-  },
-  "description": "Type-safe API and message generator for TypeScript projects (NestJS-tested).",
-  "devDependencies": {
-    "@gentleduck/typescript-config": "workspace:*",
-    "@types/node": "catalog:"
-  },
-  "engines": {
-    "node": ">=22.0.0"
-  },
-  "exports": {
-    ".": "./src/index.ts",
-    "./generated": "./generated/index.d.ts",
-    "./generated/*": "./generated/*",
-    "./nestjs": "./generated/nestjs/index.d.ts",
-    "./nestjs/*": "./generated/nestjs/*",
-    "./schema": "./duck-gen.schema.json"
-  },
-  "files": [
-    "bin",
-    "generated",
-    "src",
-    "duck-gen.schema.json",
-    "README.md",
-    "LICENSE"
-  ],
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-gen#readme",
-  "keywords": [
-    "gentleduck",
-    "duck-gen",
-    "codegen",
-    "api",
-    "routes",
-    "nestjs",
-    "typescript",
-    "i18n"
-  ],
-  "license": "MIT",
-  "name": "@gentleduck/gen",
-  "packageManager": "pnpm@10.17.0",
-  "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
   "repository": {
-    "directory": "packages/duck-gen",
     "type": "git",
-    "url": "https://github.com/gentleeduck/duck-ui"
-  },
-  "scripts": {
-    "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "dev": "tsx ./src/index.ts",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version"
-  },
-  "type": "module",
-  "version": "0.1.5"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/duck-emoji"
+  }
 }

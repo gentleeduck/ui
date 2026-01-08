@@ -20,14 +20,19 @@
   "license": "MIT",
   "main": "index.ts",
   "name": "@gentleduck/types",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/types#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/types"
+  },
   "packageManager": "pnpm@10.10.0",
   "peelDependencies": {},
   "private": true,
   "scripts": {
-    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
-    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
     "start:env": "tsx ./index.ts"
   },
   "type": "module",

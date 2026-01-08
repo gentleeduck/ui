@@ -26,15 +26,20 @@
     ".": "./index.ts"
   },
   "name": "@gentleduck/registry-build-duckui",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registry-build-duckui#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/registry-build-duckui"
+  },
   "packageManager": "pnpm@10.17.0",
   "private": true,
   "scripts": {
-    "ci": "pnpm run lint && pnpm run format",
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version",
     "start": "tsx ./index.ts"
   },
   "type": "module",

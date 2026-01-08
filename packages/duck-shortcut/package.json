@@ -18,8 +18,10 @@
   "files": [
     "/dist"
   ],
-  "github": "https://github.com/TheDuckUI/shortcut",
-  "homepage": "https://github.com/TheDuckUI/shortcut",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-shortcut#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
   "keywords": [
     "react",
     "react-component",
@@ -58,18 +60,17 @@
     "zod": "catalog:"
   },
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TheDuckUI/shortcut"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/duck-shortcut"
   },
   "scripts": {
     "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "dev": "vite",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version",
     "test": "vitest run"
   },
   "type": "module",

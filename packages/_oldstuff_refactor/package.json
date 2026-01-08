@@ -126,12 +126,19 @@
     "./lib": "./lib/"
   },
   "name": "@gentleduck/registry-ui",
-  "private": true,
-  "scripts": {
-    "dev": "vite",
-    "preview": "vite preview",
-    "test": "vitest"
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/_oldstuff_refactor#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/_oldstuff_refactor"
+  },
+  "private": true,
+  "scripts": {},
   "type": "module",
   "version": "0.1.0"
 }

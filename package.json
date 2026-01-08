@@ -1,23 +1,34 @@
 {
-  "$schema": "https://json.schemastore.org/package.json",
   "devDependencies": {
-    "@biomejs/biome": "2.2.5",
-    "@changesets/cli": "catalog:",
-    "@turbo/gen": "^2.5.6",
-    "@vitest/coverage-v8": "catalog:",
-    "@vitest/ui": "catalog:",
-    "husky": "catalog:",
-    "rimraf": "^6.0.1",
-    "turbo": "^2.5.8",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "@biomejs/biome": "2.3.11",
+    "@changesets/cli": "^2.29.8",
+    "husky": "^9.1.7",
+    "turbo": "^2.7.3",
+    "typescript": "5.9.3"
   },
   "engines": {
-    "node": ">=22.7.0",
-    "pnpm": "^10.2.1"
+    "node": ">=18"
   },
-  "name": "gentleduck",
-  "packageManager": "pnpm@10.17.0",
+  "name": "@gentleduck",
+  "description": "GentleDuck monorepo for Duck UI, Duck Gen, and related tooling.",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "homepage": "https://www.gentleduck.org",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "keywords": [
+    "gentleduck",
+    "duck-ui",
+    "developer-tools",
+    "ui",
+    "react"
+  ],
+  "packageManager": "pnpm@10.12.4",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "rolldown"
@@ -45,15 +56,22 @@
   },
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo test",
+    "check-types": "turbo run check-types",
+    "check": "biome check .",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "fix": "biome check --write .",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "ci": "pnpm run lint && pnpm run format && pnpm run build",
+    "release": "pnpm run ci && changeset publish",
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",
-    "create-folder-index": "./tooling/bash/create-files-auto-indexed.sh",
-    "dev": "turbo dev",
-    "format": "biome format --write ./ && biome check --write .",
-    "lint": "biome lint --write ./",
+    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
     "lint:ws": "pnpm dlx sherif@latest",
-    "release": "changeset publish",
-    "test": "vitest"
-  },
-  "version": "1.0.0"
+    "postinstall": "pnpm run lint:ws -f",
+    "prepare": "husky"
+  }
 }

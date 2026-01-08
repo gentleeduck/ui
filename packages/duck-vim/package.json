@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package.json",
   "author": "wildduck",
   "bugs": {
-    "url": "https://github.com/gentleeduck/ui/issues"
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
   "devDependencies": {
@@ -27,7 +27,15 @@
     "LICENSE",
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/gentleeduck/ui/tree/master/packages/duck-vim#readme",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-vim#readme",
+  "keywords": [
+    "gentleduck",
+    "duck-ui",
+    "vim",
+    "keybindings",
+    "keyboard",
+    "react"
+  ],
   "license": "MIT",
   "module": "./dist/index.js",
   "name": "@gentleduck/vim",
@@ -37,21 +45,17 @@
     "react-dom": ">=18 || 19"
   },
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "directory": "packages/duck-vim",
     "type": "git",
-    "url": "https://github.com/gentleeduck/ui"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git"
   },
   "scripts": {
     "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
-    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
     "dev": "vitest",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version",
     "test": "vitest run"
   },
   "type": "module",

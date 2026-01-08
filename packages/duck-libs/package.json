@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "author": "wilddcuk",
+  "author": "wildduck (https://github.com/wildduck2)",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
@@ -26,6 +26,14 @@
     "tsconfig.json"
   ],
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-libs#readme",
+  "keywords": [
+    "gentleduck",
+    "duck-ui",
+    "utilities",
+    "helpers",
+    "typescript"
+  ],
+  "license": "MIT",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "name": "@gentleduck/libs",
@@ -35,10 +43,13 @@
     "tailwind-merge": "^3.4.0"
   },
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "directory": "packages/duck-libs",
     "type": "git",
-    "url": "https://github.com/gentleduck/ui"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git"
   },
   "scripts": {
     "build": "tsdown",

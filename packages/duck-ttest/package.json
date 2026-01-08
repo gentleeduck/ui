@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package.json",
   "author": "wildduck",
   "bugs": {
-    "url": "https://github.com/gentleeduck/ui/issues"
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "description": "Compile-time type testing utilities for TypeScript",
   "devDependencies": {
@@ -28,7 +28,7 @@
     "!**/*.test.*",
     "!**/*.spec.*"
   ],
-  "homepage": "https://github.com/gentleeduck/ui/tree/master/packages/duck-ttest#readme",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-ttest#readme",
   "keywords": [
     "type",
     "testing",
@@ -39,10 +39,14 @@
   "license": "MIT",
   "name": "@gentleduck/ttest",
   "packageManager": "pnpm@10.17.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "directory": "packages/duck-ttest",
     "type": "git",
-    "url": "https://github.com/gentleeduck/ui"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git"
   },
   "scripts": {
     "build": "tsdown",

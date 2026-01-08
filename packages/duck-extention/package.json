@@ -1,5 +1,5 @@
 {
-  "author": "wilddcuk",
+  "author": "wildduck (https://github.com/wildduck2)",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
@@ -51,7 +51,13 @@
     "tsconfig.node.json"
   ],
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extention#readme",
-  "keywords": [],
+  "keywords": [
+    "gentleduck",
+    "duck-ui",
+    "browser-extension",
+    "fonts",
+    "typography"
+  ],
   "license": "MIT",
   "main": "./index.ts",
   "name": "@gentleduck/duck-extention",
@@ -69,20 +75,16 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-lazy"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/duck-extention"
   },
   "scripts": {
     "build": "tsc -b && vite build",
     "build:chrome": "rm -rf dist && pnpm run build && cp manifest-chrome.json dist/manifest.json",
     "build:firefox": "rm -rf dist && pnpm run build && cp manifest-firefox.json dist/manifest.json",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build && pnpm run package",
     "dev": "vite",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
     "package": "pnpm run build:chrome && pnpm run zip:chrome && pnpm run build:firefox && pnpm run zip:firefox && rm -rf dist",
     "preview": "vite preview",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version",
     "zip:chrome": "cd ./dist && zip -r ../releases/duck-chrome-v1.zip ./* && cd ..",
     "zip:firefox": "cd ./dist && zip -r ../releases/duck-firefox-v1.zip ./* && cd .."
   },

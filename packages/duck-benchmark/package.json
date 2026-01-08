@@ -70,16 +70,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-benchmark"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/duck-benchmark"
   },
   "scripts": {
     "buildd": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
     "dev": "tsdown --watch",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version",
     "start": "node dist/index.js",
     "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
     "test": "vitest run"

@@ -1,12 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "author": "wilddcuk",
+  "author": "wildduck (https://github.com/wildduck2)",
   "bugs": {
-    "url": "https://github.com/gentleduck/ui/issues"
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "description": "A package for state management",
   "devDependencies": {
-    "@changesets/cli": "catalog:",
     "@gentleduck/tsdown-config": "workspace:*",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
@@ -26,14 +25,21 @@
   ],
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-state#readme",
   "keywords": [
+    "gentleduck",
+    "duck-ui",
     "react",
     "components",
-    "performance"
+    "performance",
+    "state-management"
   ],
   "license": "MIT",
   "main": "./dist/index.js",
   "name": "@gentleduck/state",
   "packageManager": "pnpm@10.10.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@types/node": "catalog:",
     "react": "catalog:react19",
@@ -42,15 +48,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-state"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/duck-state"
   },
   "scripts": {
-    "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version"
+    "build": "tsdown"
   },
   "type": "module",
   "types": "./dist/index-jiSPvUlD.d.ts",

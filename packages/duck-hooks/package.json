@@ -27,6 +27,15 @@
     "tsconfig.json"
   ],
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-hooks#readme",
+  "description": "React hooks for Duck UI.",
+  "keywords": [
+    "gentleduck",
+    "duck-ui",
+    "react",
+    "hooks"
+  ],
+  "license": "MIT",
+  "author": "GentleDuck (https://www.gentleduck.org)",
   "module": "./dist/index.js",
   "name": "@gentleduck/hooks",
   "packageManager": "pnpm@10.17.0",
@@ -35,19 +44,16 @@
     "react-dom": "catalog:react19"
   },
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "directory": "packages/duck-hooks",
     "type": "git",
-    "url": "https://github.com/gentleduck/ui"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git"
   },
   "scripts": {
-    "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version"
+    "build": "tsdown"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

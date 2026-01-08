@@ -20,6 +20,15 @@
   "license": "MIT",
   "main": "index.ts",
   "name": "@gentleduck/vitest-config",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/tooling/vitest#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "tooling/vitest"
+  },
   "packageManager": "pnpm@10.11.1",
   "private": true,
   "scripts": {

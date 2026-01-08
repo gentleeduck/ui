@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "author": "wilddcuk",
+  "author": "wildduck (https://github.com/wildduck2)",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
@@ -25,6 +25,14 @@
     "src/index.css"
   ],
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-motion#readme",
+  "keywords": [
+    "gentleduck",
+    "duck-ui",
+    "motion",
+    "animation",
+    "ui"
+  ],
+  "license": "MIT",
   "name": "@gentleduck/motion",
   "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
@@ -32,10 +40,13 @@
     "typescript": "catalog:"
   },
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "directory": "packages/duck-motion",
     "type": "git",
-    "url": "https://github.com/gentleduck/ui"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git"
   },
   "scripts": {
     "build": "tsdown",

@@ -73,14 +73,32 @@
   "name": "@gentleduck/docs",
   "packageManager": "pnpm@10.10.0",
   "private": false,
+  "description": "Shared docs app kit used by the GentleDuck docs apps.",
+  "keywords": [
+    "gentleduck",
+    "duck-ui",
+    "docs",
+    "documentation",
+    "mdx",
+    "nextjs"
+  ],
+  "license": "MIT",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-docs#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/duck-docs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run test && pnpm run build",
-    "clean": "rimraf dist .cache .turbo node_modules .next .velite",
-    "clean:git": "git clean -xdf .cache .turbo node_modules dist",
     "dev": "vitest",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
     "test": "vitest run"
   },
   "type": "module",

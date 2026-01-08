@@ -1,11 +1,10 @@
 {
-  "author": "wilddcuk",
+  "author": "wildduck (https://github.com/wildduck2)",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "devDependencies": {
-    "@changesets/cli": "catalog:",
     "@gentleduck/tsdown-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
@@ -53,17 +52,16 @@
     }
   },
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-lazy"
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/duck-lazy"
   },
   "scripts": {
-    "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version"
+    "build": "tsdown"
   },
   "type": "module",
   "version": "1.2.9"

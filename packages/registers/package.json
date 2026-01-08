@@ -11,16 +11,20 @@
     ".": "./index.ts"
   },
   "name": "@gentleduck/registers",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registers#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/registers"
+  },
   "packageManager": "pnpm@10.17.0",
   "private": true,
-  "scripts": {
-    "ci": "pnpm run lint && pnpm run format",
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version"
-  },
+  "scripts": {},
   "type": "module",
   "version": "0.1.0"
 }

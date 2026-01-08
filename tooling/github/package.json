@@ -2,7 +2,18 @@
   "engines": {
     "node": ">=24.2.0"
   },
-  "name": "@gentel/github",
+  "name": "@gentleduck/github",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/tooling/github#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "tooling/github"
+  },
   "packageManager": "pnpm@10.11.1",
   "private": true,
   "version": "0.1.0"

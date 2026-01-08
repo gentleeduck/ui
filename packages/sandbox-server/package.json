@@ -21,7 +21,6 @@
     "hono": "^4.9.9",
     "minio": "^8.0.6",
     "mysql2": "^3.15.1",
-    "nodemon": "^3.1.10",
     "pg": "^8.16.3",
     "pug": "^3.0.3",
     "react-hook-form": "^7.63.0",
@@ -66,7 +65,18 @@
     "typescript": "catalog:"
   },
   "main": "src/main.ts",
-  "name": "upload-api",
+  "name": "@gentleduck/sandbox-server",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/sandbox-server#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/sandbox-server"
+  },
   "private": true,
   "scripts": {
     "dev": "nodemon --exec tsx ./src/main.ts && npm run format && npm run lint",

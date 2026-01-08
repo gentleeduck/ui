@@ -36,7 +36,7 @@
   "packageManager": "pnpm@10.17.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gentleeduck/duck-ui",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
     "directory": "packages/duck-query"
   },
   "dependencies": {
@@ -50,9 +50,7 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "tsx ./src/index.ts",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version"
+    "dev": "tsx ./src/index.ts"
   },
   "publishConfig": {
     "access": "public"

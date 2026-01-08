@@ -32,6 +32,17 @@
   },
   "main": "src/main.ts",
   "name": "upload-api",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/apps/upload-api#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "apps/upload-api"
+  },
   "private": true,
   "scripts": {
     "build": "",
