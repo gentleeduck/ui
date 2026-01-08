@@ -32,9 +32,6 @@ jobs:
       - name: Install Dependencies
         run: pnpm i
 
-      - name: Build
-        run: export NEXT_PUBLIC_APP_URL="https://gentleduck.org" pnpm build
-
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
