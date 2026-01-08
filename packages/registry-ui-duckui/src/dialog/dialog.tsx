@@ -56,7 +56,7 @@ function DialogContent({
       <DialogPrimitive.Content
         className={cn(
           AnimVariants(),
-          '-translate-x-1/2 -translate-y-1/2 pointer-events-none relative top-1/2 left-1/2 z-50 flex h-fit w-full flex-col gap-4 overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
+          'pointer-events-none relative top-1/2 left-1/2 z-50 flex h-fit w-full -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
           className,
         )}
         data-slot="dialog-content"

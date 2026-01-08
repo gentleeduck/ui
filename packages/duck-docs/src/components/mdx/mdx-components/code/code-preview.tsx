@@ -54,7 +54,7 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
           </ResizablePanel>
           <ResizableHandle
             className={cn(
-              'after:-translate-y-1/2 relative hidden w-3 bg-transparent p-0 after:absolute after:top-1/2 after:right-0 after:h-8 after:w-[6px] after:translate-x-[-1px] after:rounded-full after:bg-border after:transition-all after:hover:h-10 sm:block',
+              'relative hidden w-3 bg-transparent p-0 after:absolute after:top-1/2 after:right-0 after:h-8 after:w-[6px] after:translate-x-[-1px] after:-translate-y-1/2 after:rounded-full after:bg-border after:transition-all after:hover:h-10 sm:block',
               isLiftMode && 'invisible',
             )}
           />

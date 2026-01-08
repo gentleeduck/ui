@@ -1,5 +1,7 @@
 'use client'
 
+import { useLiftMode } from '@gentleduck/docs'
+import { trackEvent } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import type { Block } from '@gentleduck/registers'
 import { Badge } from '@gentleduck/registry-ui-duckui/badge'
@@ -15,8 +17,6 @@ import type { ImperativePanelHandle } from 'react-resizable-panels'
 import { BlockCopyButton } from '~/components/blocks'
 import { StyleSwitcher } from '~/components/themes'
 import { V0Button } from '~/components/V0'
-import { useLiftMode } from '@gentleduck/docs'
-import { trackEvent } from '@gentleduck/docs/lib'
 
 export function BlockToolbar({
   block,

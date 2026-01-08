@@ -1,4 +1,4 @@
-# 🛡️ Security Policy
+# Security Policy
 
 ## Supported Versions
 We provide security updates for the latest major release of Gentleduck.  

@@ -1,6 +1,6 @@
+import type { Event } from '@duck-docs/lib/events'
 import type * as button from '@gentleduck/registry-ui-duckui/button'
 import type { DropdownMenuTrigger } from '@gentleduck/registry-ui-duckui/dropdown-menu'
-import type { Event } from '@duck-docs/lib/events'
 
 export type DropdownMenuTriggerProps = typeof DropdownMenuTrigger
 

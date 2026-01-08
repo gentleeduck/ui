@@ -58,7 +58,7 @@ const menuItems = {
   v0: (url: string, siteName: string) => (
     <a href={getPromptUrl('https://v0.dev', url, siteName)} rel="noopener noreferrer" target="_blank">
       <svg
-        className="-translate-x-px size-4.5"
+        className="size-4.5 -translate-x-px"
         fill="currentColor"
         viewBox="0 0 147 70"
         xmlns="http://www.w3.org/2000/svg">

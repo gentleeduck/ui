@@ -1,5 +1,7 @@
 'use client'
 
+import { getIconForLanguageExtension } from '@gentleduck/docs'
+import { trackEvent } from '@gentleduck/docs/lib'
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { cn } from '@gentleduck/libs/cn'
 import type { registry_entry_schema, registry_item_file_schema } from '@gentleduck/registers'
@@ -39,9 +41,7 @@ import Link from 'next/link'
 import * as React from 'react'
 import type { ImperativePanelHandle } from 'react-resizable-panels'
 import type { z } from 'zod'
-import { trackEvent } from '@gentleduck/docs/lib'
 import type { createFileTreeForRegistryItemFiles, FileTree } from '~/lib/get-registry-item'
-import { getIconForLanguageExtension } from '@gentleduck/docs'
 
 type BlockViewerContext = {
   item: z.infer<typeof registry_entry_schema>
@@ -241,7 +241,7 @@ function BlockViewerView() {
             ref={resizablePanelRef}>
             <BlockViewerIframe />
           </ResizablePanel>
-          <ResizableHandle className="after:-translate-y-1/2 relative hidden w-3 bg-transparent p-0 after:absolute after:top-1/2 after:right-0 after:h-8 after:w-[6px] after:translate-x-[-1px] after:rounded-full after:bg-border after:transition-all after:hover:h-10 md:block" />
+          <ResizableHandle className="relative hidden w-3 bg-transparent p-0 after:absolute after:top-1/2 after:right-0 after:h-8 after:w-[6px] after:translate-x-[-1px] after:-translate-y-1/2 after:rounded-full after:bg-border after:transition-all after:hover:h-10 md:block" />
           <ResizablePanel defaultSize={0} minSize={0} />
         </ResizablePanelGroup>
       </div>

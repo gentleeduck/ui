@@ -1,6 +1,6 @@
+import type { ColorFormat } from '@duck-docs/lib/colors'
 import * as jotai from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-import type { ColorFormat } from '@duck-docs/lib/colors'
 import { useMounted } from './use-mounted'
 
 type Config = {

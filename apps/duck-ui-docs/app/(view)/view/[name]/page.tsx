@@ -1,3 +1,4 @@
+import { absoluteUrl } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { registry_entry_schema } from '@gentleduck/registers'
 import { notFound } from 'next/navigation'
@@ -6,7 +7,6 @@ import React from 'react'
 import z from 'zod'
 import { siteConfig } from '~/config/site'
 import { getRegistryComponent, getRegistryItem } from '~/lib/get-registry-item'
-import { absoluteUrl } from '@gentleduck/docs/lib'
 
 export const revalidate = false
 export const dynamic = 'force-static'

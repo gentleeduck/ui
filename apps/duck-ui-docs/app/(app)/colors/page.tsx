@@ -1,5 +1,5 @@
-import { ColorPalette } from '~/components/colors'
 import { getColors } from '@gentleduck/docs/lib'
+import { ColorPalette } from '~/components/colors'
 
 export const dynamic = 'force-static'
 export const revalidate = false

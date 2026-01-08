@@ -1,10 +1,10 @@
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { ChartsNav } from '~/components/charts'
 import { ActiveThemeProvider } from '~/components/colors'
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs'
 import { ThemesStyle } from '~/components/themes'
 import { ThemesSwitcher } from '~/components/themes/themes-selector'
 

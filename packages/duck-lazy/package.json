@@ -8,7 +8,6 @@
     "@gentleduck/tsdown-config": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
-    "husky": "catalog:",
     "tsdown": "catalog:",
     "tsup": "^8.5.1"
   },

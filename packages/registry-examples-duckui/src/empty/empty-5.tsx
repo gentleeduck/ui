@@ -15,7 +15,7 @@ export default function EmptyAvatarGroup() {
     <Empty>
       <EmptyHeader>
         <EmptyMedia>
-          <div className="-space-x-2 flex *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
+          <div className="flex -space-x-2 *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
             <Avatar alt="a profile picture for wildduck2" fallback="WD" src="https://github.com/wildduck2.png" />
             <Avatar alt="a profile picture for wildduck2" fallback="WD" src="https://github.com/wildduck2.png" />
             <Avatar alt="a profile picture for wildduck2" fallback="WD" src="https://github.com/wildduck2.png" />

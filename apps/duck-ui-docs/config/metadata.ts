@@ -1,5 +1,5 @@
-import type { Metadata, Viewport } from 'next'
 import { absoluteUrl } from '@gentleduck/docs/lib'
+import type { Metadata, Viewport } from 'next'
 import { allTitles } from './docs'
 import { siteConfig } from './site'
 

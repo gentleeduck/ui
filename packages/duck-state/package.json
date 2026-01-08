@@ -9,7 +9,6 @@
     "@gentleduck/tsdown-config": "workspace:*",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
-    "husky": "catalog:",
     "tsdown": "catalog:"
   },
   "engines": {

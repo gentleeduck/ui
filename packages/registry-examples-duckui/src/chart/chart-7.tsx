@@ -40,7 +40,7 @@ export default function ChartDemo() {
       <div className="items-end">
         <div className="absolute top-[0px] left-[122px] z-10 font-medium text-sm">Name</div>
         <svg
-          className="-scale-x-100 absolute top-[10px] left-[85px] z-10"
+          className="absolute top-[10px] left-[85px] z-10 -scale-x-100"
           fill="none"
           height="42"
           viewBox="0 0 122 148"
@@ -143,7 +143,7 @@ function TooltipDemo({
   return (
     <div
       className={cn(
-        'hover:-translate-y-0.5 grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl transition-all ease-in-out',
+        'grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl transition-all ease-in-out hover:-translate-y-0.5',
         className,
       )}>
       {!nestLabel ? tooltipLabel : null}

@@ -279,7 +279,7 @@ function DropdownMenuSubTrigger({
       data-slot="dropdown-menu-sub-trigger"
       duck-dropdown-menu-sub-trigger="">
       {children}
-      {<ChevronRight className="rtl:-ml-2 ltr:-mr-1 ltr:rotate-0 rtl:rotate-180" />}
+      {<ChevronRight className="ltr:-mr-1 ltr:rotate-0 rtl:-ml-2 rtl:rotate-180" />}
     </PopoverTrigger>
   )
 }
@@ -353,7 +353,7 @@ function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof 
         {...props}
         className="ltr:pl-[1.25rem] rtl:pr-[1.25rem]"
         customIndicator={
-          <span className="-translate-y-1/2 absolute top-1/2 flex size-2 rounded-full bg-foreground transition-all duration-150 ease-in-out ltr:left-1 rtl:right-1" />
+          <span className="absolute top-1/2 flex size-2 -translate-y-1/2 rounded-full bg-foreground transition-all duration-150 ease-in-out ltr:left-1 rtl:right-1" />
         }
       />
     </DropdownMenuItem>

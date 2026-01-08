@@ -143,7 +143,7 @@ export function CardsChat() {
               value={input}
             />
             <Button
-              className="!size-6 -translate-y-1/2 absolute top-1/2 right-2 rounded-full"
+              className="!size-6 absolute top-1/2 right-2 -translate-y-1/2 rounded-full"
               disabled={inputLength === 0}
               size="icon"
               type="submit">
@@ -189,7 +189,7 @@ export function CardsChat() {
           </Command>
           <DialogFooter className="flex items-center border-t p-4 sm:justify-between">
             {selectedUsers.length > 0 ? (
-              <div className="-space-x-2 flex overflow-hidden">
+              <div className="flex -space-x-2 overflow-hidden">
                 {selectedUsers.map((user) => (
                   <Avatar
                     alt={user.name[0]}

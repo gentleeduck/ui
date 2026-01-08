@@ -34,7 +34,7 @@ export default function ItemAvatar() {
       </Item>
       <Item variant="outline">
         <ItemMedia>
-          <div className="-space-x-2 flex *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
+          <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
             <Avatar alt="@shadcn" className="hidden sm:flex" fallback="CN" src="https://github.com/shadcn.png" />
             <Avatar alt="@shadcn" className="hidden sm:flex" fallback="CN" src="https://github.com/shadcn.png" />
             <Avatar alt="@shadcn" className="hidden sm:flex" fallback="CN" src="https://github.com/shadcn.png" />

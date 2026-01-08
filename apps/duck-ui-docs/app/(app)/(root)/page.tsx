@@ -1,3 +1,4 @@
+import { PageActions, PageHeader, PageHeaderDescription } from '@gentleduck/docs'
 import { DuckLazyComponent } from '@gentleduck/lazy/lazy-component'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
@@ -5,7 +6,6 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { EcosystemSection } from '~/components/layouts/core-packages'
 import { FeaturesSection } from '~/components/layouts/features'
-import { PageActions, PageHeader, PageHeaderDescription } from '@gentleduck/docs'
 
 const title = 'Primitives that Scale, Components that Perform.'
 const description = 'Bring life to your own website with a pack full of ideas made specially for magical websites.'
@@ -53,7 +53,7 @@ export default function Page() {
               <span className="inline-block">TURN TINY PRIMITIVES TO</span>
             </div>
             <div className="mt-1 block text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-              <span className="-rotate-3 relative inline-block bg-primary px-4 py-1 text-primary-foreground">
+              <span className="relative inline-block -rotate-3 bg-primary px-4 py-1 text-primary-foreground">
                 INFINITE
               </span>
               <span className="ml-2 inline-block text-foreground uppercase">Design</span>

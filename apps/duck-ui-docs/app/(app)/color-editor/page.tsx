@@ -1,5 +1,6 @@
 'use client'
 
+import { CopyButton } from '@gentleduck/docs'
 import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
@@ -35,7 +36,6 @@ import {
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { CardsDemo } from '~/components/cards'
-import { CopyButton } from '@gentleduck/docs'
 
 interface ColorVariable {
   name: string
@@ -529,7 +529,7 @@ export default function ColorThemeManager() {
               value={isValid ? hexValue : '#000000'}
             />
           )}
-          <Pipette className="-bottom-1 -right-1 absolute h-4 w-4 rounded border bg-background p-0.5" />
+          <Pipette className="absolute -right-1 -bottom-1 h-4 w-4 rounded border bg-background p-0.5" />
         </div>
         <div className="flex-1 space-y-1">
           <Label className="font-medium text-sm capitalize">{color.name.replace(/-/g, ' ')}</Label>

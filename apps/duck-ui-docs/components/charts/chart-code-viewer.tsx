@@ -1,4 +1,5 @@
 'use client'
+import { useThemesConfig } from '@gentleduck/docs'
 import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 import { cn } from '@gentleduck/libs/cn'
 import type { Block } from '@gentleduck/registers'
@@ -7,7 +8,6 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-du
 import { Sheet, SheetContent, SheetTrigger } from '@gentleduck/registry-ui-duckui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { type ComponentProps, useMemo, useState } from 'react'
-import { useThemesConfig } from '@gentleduck/docs'
 import { BlockCopyButton } from '../blocks'
 
 export function ChartCodeViewer({ chart, className, children }: { chart: Block } & ComponentProps<'div'>) {

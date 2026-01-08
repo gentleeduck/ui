@@ -1,9 +1,9 @@
 'use client'
 
-import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { useColors } from '@gentleduck/docs'
 import type { Color } from '@gentleduck/docs/lib'
 import { trackEvent } from '@gentleduck/docs/lib'
+import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { Check, Clipboard } from 'lucide-react'
 import { toast } from 'sonner'
 

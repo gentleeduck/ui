@@ -62,7 +62,7 @@ export default function CalendarDemo() {
         <Popover onOpenChange={setOpen} open={open} placement="top" sideOffset={10}>
           <PopoverTrigger asChild>
             <Button
-              className="-translate-y-1/2 absolute top-1/2 right-1 h-fit p-1 px-1.5 [&_svg]:w-4"
+              className="absolute top-1/2 right-1 h-fit -translate-y-1/2 p-1 px-1.5 [&_svg]:w-4"
               id="date-picker"
               variant="ghost">
               <CalendarIcon />

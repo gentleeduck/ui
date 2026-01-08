@@ -1,10 +1,9 @@
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-
 import { Announcement } from '~/components/announcement'
 import { ColorsNav } from '~/components/colors'
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs'
 import { ThemeWrapper } from '~/components/themes'
 
 const title = 'Tailwind Colors, Simplified'

@@ -54,7 +54,7 @@ export default function Page() {
               <span className="inline-block">DUCK GEN</span>
             </div>
             <div className="mt-1 block text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-              <span className="-rotate-3 relative inline-block bg-primary px-4 py-1 text-primary-foreground">
+              <span className="relative inline-block -rotate-3 bg-primary px-4 py-1 text-primary-foreground">
                 COMPILE-TIME
               </span>
               <span className="ml-2 inline-block text-foreground uppercase">CONTRACTS</span>

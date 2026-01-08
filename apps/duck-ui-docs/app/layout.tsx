@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import '@gentleduck/motion/css'
-import { cn } from '@gentleduck/libs/cn'
 import { TailwindIndicator, ThemeProvider } from '@gentleduck/docs'
+import { cn } from '@gentleduck/libs/cn'
 import 'public/r/themes.css'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
@@ -12,10 +12,10 @@ import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import { DocsAppProvider } from '~/components/docs-provider'
 import { ThemeWrapper } from '~/components/themes'
-import { docs } from '../.velite'
 import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
 import { META_THEME_COLORS, siteConfig } from '~/config/site'
+import { docs } from '../.velite'
 
 const docsEntries = docs.map((doc) => {
   const slug = doc.slug.startsWith('/') ? doc.slug : `/${doc.slug}`

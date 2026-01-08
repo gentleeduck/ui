@@ -1,32 +1,14 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.5/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
   "assist": {
     "actions": {
       "source": {
-        "organizeImports": "on",
-        "recommended": true,
-        "useSortedAttributes": "on",
-        "useSortedKeys": "on",
-        "useSortedProperties": "on"
+        "recommended": true
       }
     },
     "enabled": true
   },
   "files": {
-    "experimentalScannerIgnores": [
-      "*.css",
-      "**/node_modules",
-      "**/dist",
-      "**/build",
-      "**/out",
-      "**/coverage",
-      "**/public",
-      "**/.next",
-      "**/test/**",
-      "**/website/**",
-      "**/.*/**",
-      "**/old_*/**"
-    ],
     "includes": [
       "**",
       "!**/node_modules",
@@ -129,7 +111,6 @@
       },
       "nursery": {
         "noImportCycles": "off",
-        "useImageSize": "warn",
         "useSortedClasses": {
           "fix": "safe",
           "level": "info",
@@ -153,6 +134,11 @@
         "useGetterReturn": "error",
         "useIsArray": "error"
       }
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
     }
   },
   "overrides": [

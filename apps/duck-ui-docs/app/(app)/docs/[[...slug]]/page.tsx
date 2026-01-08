@@ -1,3 +1,4 @@
+import { DashboardTableOfContents, DocsPagerBottom, DocsPagerTop, Mdx } from '@gentleduck/docs'
 import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
 import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'
@@ -6,7 +7,6 @@ import { headers } from 'next/headers'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
-import { DashboardTableOfContents, DocsPagerBottom, DocsPagerTop, Mdx } from '@gentleduck/docs'
 // import { DocCopy } from '~/components/ui/Blocks/doc-copy'
 import { SLUG_METADATA } from '~/config/metadata'
 import { docs } from '../../../../.velite'
@@ -114,8 +114,8 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
       </div>
       {doc.toc && (
         <div className="hidden text-sm xl:block">
-          <div className="-mt-10 sticky top-16 pt-4">
-            <div className="show-scroll-hover -mt-10 sticky top-16 h-[calc(100vh-3.5rem)] overflow-y-auto py-12 pb-10">
+          <div className="sticky top-16 -mt-10 pt-4">
+            <div className="show-scroll-hover sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] overflow-y-auto py-12 pb-10">
               <DashboardTableOfContents toc={doc.toc} />
             </div>
           </div>

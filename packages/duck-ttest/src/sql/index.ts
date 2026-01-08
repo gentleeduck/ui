@@ -124,35 +124,38 @@ export type SplitColumns<
           : never
 
 // --- Determine if field should be nullable ---
-export type IsNullable<S extends string> = HasDefault<S> extends true // DEFAULT ⇒ non-nullable
-  ? false
-  : IsAutoIncrement<S> extends true // AUTO_INCREMENT ⇒ non-nullable
+export type IsNullable<S extends string> =
+  HasDefault<S> extends true // DEFAULT ⇒ non-nullable
     ? false
-    : IsNotNull<S> extends true // NOT NULL ⇒ non-nullable
+    : IsAutoIncrement<S> extends true // AUTO_INCREMENT ⇒ non-nullable
       ? false
-      : IsPrimaryKey<S> extends true // PRIMARY KEY ⇒ non-nullable
+      : IsNotNull<S> extends true // NOT NULL ⇒ non-nullable
         ? false
-        : true // otherwise nullable
+        : IsPrimaryKey<S> extends true // PRIMARY KEY ⇒ non-nullable
+          ? false
+          : true // otherwise nullable
 
 // --- Determine if field should be optional ---
-export type IsOptional<S extends string> = HasDefault<S> extends true // DEFAULT ⇒ optional
-  ? true
-  : IsPrimaryKey<S> extends true // PK ⇒ optional if auto-inc only
-    ? IsAutoIncrement<S> extends true
-      ? true
-      : false
-    : IsNotNull<S> extends true // NOT NULL without default ⇒ required
-      ? false
-      : true // otherwise optional
+export type IsOptional<S extends string> =
+  HasDefault<S> extends true // DEFAULT ⇒ optional
+    ? true
+    : IsPrimaryKey<S> extends true // PK ⇒ optional if auto-inc only
+      ? IsAutoIncrement<S> extends true
+        ? true
+        : false
+      : IsNotNull<S> extends true // NOT NULL without default ⇒ required
+        ? false
+        : true // otherwise optional
 
 // --- Base type resolution ---
-export type GetBaseType<S extends string> = ExtractReferences<S> extends Ref<infer T, infer C>
-  ? Ref<T, C>
-  : ExtractEnum<S> extends never
-    ? CleanSQLType<S> extends keyof SQLTypeMap
-      ? SQLTypeMap[CleanSQLType<S>]
-      : unknown
-    : ExtractEnum<S>
+export type GetBaseType<S extends string> =
+  ExtractReferences<S> extends Ref<infer T, infer C>
+    ? Ref<T, C>
+    : ExtractEnum<S> extends never
+      ? CleanSQLType<S> extends keyof SQLTypeMap
+        ? SQLTypeMap[CleanSQLType<S>]
+        : unknown
+      : ExtractEnum<S>
 
 // --- Apply nullability ---
 export type ApplyNullability<Base, S extends string> = IsNullable<S> extends true ? Base | null : Base
@@ -163,9 +166,8 @@ export type ParseColumnDef<S extends string> = S extends `${infer Name} ${infer 
   : never
 
 // --- Extract columns and build schema ---
-export type ExtractColumns<SQL extends string> = NormalizeSQL<SQL> extends `CREATE TABLE ${infer _} (${infer C})`
-  ? SplitColumns<C>
-  : never
+export type ExtractColumns<SQL extends string> =
+  NormalizeSQL<SQL> extends `CREATE TABLE ${infer _} (${infer C})` ? SplitColumns<C> : never
 
 export type UnionToIntersection<U> = (U extends any ? (x: U) => void : never) extends (x: infer I) => void ? I : never
 
@@ -179,9 +181,10 @@ export type BuildSchemaType<Cols extends readonly string[]> = UnionToIntersectio
   }[number]
 >
 
-export type InferSchema<S extends string> = ExtractColumns<S> extends infer Cols extends readonly string[]
-  ? { [K in keyof BuildSchemaType<Cols>]: BuildSchemaType<Cols>[K] }
-  : never
+export type InferSchema<S extends string> =
+  ExtractColumns<S> extends infer Cols extends readonly string[]
+    ? { [K in keyof BuildSchemaType<Cols>]: BuildSchemaType<Cols>[K] }
+    : never
 
 // --- Reference resolution ---
 export type ResolveRef<T, Schemas extends Record<string, any>> = T extends Ref<infer Tbl, infer Col>

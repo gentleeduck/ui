@@ -47,7 +47,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     const overflowCount = imgs.length > maxVisible ? imgs.length - maxVisible : 0
 
     return (
-      <div className={cn('-space-x-5 flex items-center', className)} ref={ref} {...props}>
+      <div className={cn('flex items-center -space-x-5', className)} ref={ref} {...props}>
         {visibleImgs.map(({ className, alt, ...props }) => (
           <Avatar
             alt={alt?.slice(0, 2)}

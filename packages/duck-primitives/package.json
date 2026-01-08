@@ -15,7 +15,6 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
-    "husky": "catalog:",
     "mini-svg-data-uri": "^1.4.4",
     "tabbable": "6.2.0",
     "tsdown": "catalog:"

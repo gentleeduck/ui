@@ -1,5 +1,6 @@
 'use client'
 
+import { CopyButton, useConfig } from '@gentleduck/docs'
 import { cn } from '@gentleduck/libs/cn'
 import { type BaseColor, baseColors, baseColorsOKLCH } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
@@ -28,7 +29,6 @@ import template from 'lodash.template'
 import { CheckIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import { CopyButton, useConfig } from '@gentleduck/docs'
 
 interface BaseColorOKLCH {
   light: Record<string, string>
@@ -120,7 +120,7 @@ export function Customizer() {
                   variant={'outline'}>
                   <span
                     className={cn(
-                      '-translate-x-1 mr-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--theme-primary)]',
+                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[var(--theme-primary)]',
                     )}>
                     {isActive && <CheckIcon className="!size-3 text-white" />}
                   </span>
@@ -164,7 +164,7 @@ export function Customizer() {
                   onClick={() => setMode('light')}
                   size="sm"
                   variant={'outline'}>
-                  <SunIcon className="-translate-x-1 mr-1" />
+                  <SunIcon className="mr-1 -translate-x-1" />
                   Light
                 </Button>
                 <Button
@@ -172,7 +172,7 @@ export function Customizer() {
                   onClick={() => setMode('dark')}
                   size="sm"
                   variant={'outline'}>
-                  <MoonIcon className="-translate-x-1 mr-1" />
+                  <MoonIcon className="mr-1 -translate-x-1" />
                   Dark
                 </Button>
               </>

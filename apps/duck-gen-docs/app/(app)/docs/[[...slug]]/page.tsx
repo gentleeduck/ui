@@ -114,8 +114,8 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
       </div>
       {doc.toc && (
         <div className="hidden text-sm xl:block">
-          <div className="-mt-10 sticky top-16 pt-4">
-            <div className="show-scroll-hover -mt-10 sticky top-16 h-[calc(100vh-3.5rem)] overflow-y-auto py-12 pb-10">
+          <div className="sticky top-16 -mt-10 pt-4">
+            <div className="show-scroll-hover sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] overflow-y-auto py-12 pb-10">
               <DashboardTableOfContents toc={doc.toc} />
             </div>
           </div>
