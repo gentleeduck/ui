@@ -2,8 +2,8 @@
 
 import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
 import { cn } from '@gentleduck/libs/cn'
+import { Slot } from '@gentleduck/primitives/slot'
 import type { VariantProps } from '@gentleduck/variants'
-import { Slot } from '@radix-ui/react-slot'
 import { PanelLeftIcon } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'

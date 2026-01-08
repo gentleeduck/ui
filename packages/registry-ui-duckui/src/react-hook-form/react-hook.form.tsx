@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { Slot } from '@radix-ui/react-slot'
+import { Slot } from '@gentleduck/primitives/slot'
 import * as React from 'react'
 import {
   Controller,
