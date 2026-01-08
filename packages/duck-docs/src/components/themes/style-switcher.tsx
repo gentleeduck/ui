@@ -1,10 +1,10 @@
 'use client'
 
+import { useConfig } from '@duck-docs/hooks/use-config'
 import { cn } from '@gentleduck/libs/cn'
 import { type Style, styles } from '@gentleduck/registers'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 import type * as React from 'react'
-import { useConfig } from '@duck-docs/hooks/use-config'
 
 export function StyleSwitcher({ className, ...props }: React.ComponentPropsWithoutRef<typeof SelectTrigger>) {
   const [config, setConfig] = useConfig()

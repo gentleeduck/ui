@@ -1,11 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import type { FC } from 'react'
 
-interface TableProps extends React.HTMLAttributes<HTMLTableElement> {}
-interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {}
-interface TableCellProps extends React.HTMLAttributes<HTMLTableCellElement> {}
-
-export const Table: FC<TableProps> = ({ className, ...props }) => (
+export const Table: FC<React.HTMLAttributes<HTMLTableElement>> = ({ className, ...props }) => (
   <div className="my-6 w-full rounded-lg border">
     <table
       className={cn(
@@ -17,18 +13,18 @@ export const Table: FC<TableProps> = ({ className, ...props }) => (
   </div>
 )
 
-export const TableRow: FC<TableRowProps> = ({ className, ...props }) => (
+export const TableRow: FC<React.HTMLAttributes<HTMLTableRowElement>> = ({ className, ...props }) => (
   <tr className={cn('m-0 border-b', className)} {...props} />
 )
 
-export const TableHeader: FC<TableCellProps> = ({ className, ...props }) => (
+export const TableHeader: FC<React.HTMLAttributes<HTMLTableCellElement>> = ({ className, ...props }) => (
   <th
     className={cn('px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right', className)}
     {...props}
   />
 )
 
-export const TableCell: FC<TableCellProps> = ({ className, ...props }) => (
+export const TableCell: FC<React.HTMLAttributes<HTMLTableCellElement>> = ({ className, ...props }) => (
   <td
     className={cn(
       'whitespace-nowrap px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right',

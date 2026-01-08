@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import * as jotai from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import type { ColorFormat } from '@duck-docs/lib/colors'
 import { useMounted } from './use-mounted'
@@ -14,7 +14,7 @@ const colorsAtom = atomWithStorage<Config>('colors', {
 })
 
 export function useColors() {
-  const [colors, setColors] = useAtom(colorsAtom)
+  const [colors, setColors] = jotai.useAtom(colorsAtom)
   const mounted = useMounted()
 
   return {

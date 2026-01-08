@@ -1145,6 +1145,31 @@ importers:
         specifier: 'catalog:'
         version: 4.0.16(@types/node@22.19.3)(@vitest/ui@3.2.4(vitest@4.0.16))(esbuild@0.27.2)(jiti@2.6.1)(jsdom@27.4.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 
+  packages/duck-emoji:
+    dependencies:
+      chalk:
+        specifier: ^5.6.2
+        version: 5.6.2
+      ora:
+        specifier: ^9.0.0
+        version: 9.0.0
+      ts-morph:
+        specifier: ^27.0.2
+        version: 27.0.2
+      tsx:
+        specifier: 'catalog:'
+        version: 4.21.0
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+    devDependencies:
+      '@gentleduck/typescript-config':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.19.3
+
   packages/duck-extention:
     dependencies:
       '@tailwindcss/vite':
@@ -15452,7 +15477,7 @@ snapshots:
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
 
   '@types/chai@5.2.3':
     dependencies:
@@ -15466,7 +15491,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
 
   '@types/d3-array@3.2.2': {}
 
@@ -15515,7 +15540,7 @@ snapshots:
 
   '@types/express-serve-static-core@5.1.0':
     dependencies:
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
       '@types/qs': 6.14.0
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -15571,7 +15596,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
 
   '@types/linkify-it@5.0.0': {}
 
@@ -15621,7 +15646,7 @@ snapshots:
   '@types/nodemailer@7.0.4':
     dependencies:
       '@aws-sdk/client-sesv2': 3.958.0
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
     transitivePeerDependencies:
       - aws-crt
 
@@ -15629,7 +15654,7 @@ snapshots:
 
   '@types/pg@8.16.0':
     dependencies:
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
       pg-protocol: 1.10.3
       pg-types: 2.2.0
 
@@ -15658,12 +15683,12 @@ snapshots:
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
 
   '@types/serve-static@2.2.0':
     dependencies:
       '@types/http-errors': 2.0.5
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
 
   '@types/through@0.0.33':
     dependencies:
@@ -15688,7 +15713,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
 
   '@typescript-eslint/eslint-plugin@8.51.0(@typescript-eslint/parser@8.51.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
@@ -16503,7 +16528,7 @@ snapshots:
 
   chrome-launcher@1.2.0:
     dependencies:
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 2.0.2
@@ -20110,7 +20135,7 @@ snapshots:
 
   parse5@3.0.3:
     dependencies:
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
 
   parse5@7.3.0:
     dependencies:
@@ -22719,7 +22744,7 @@ snapshots:
 
   wkx@0.5.0:
     dependencies:
-      '@types/node': 22.19.3
+      '@types/node': 25.0.3
 
   word-wrap@1.2.5: {}
 

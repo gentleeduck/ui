@@ -1,9 +1,8 @@
 'use client'
 
-import type * as React from 'react'
-
-import { useDocsEntries } from '@duck-docs/context'
 import { Mdx } from '@duck-docs/components/mdx/mdx'
+import { useDocsEntries } from '@duck-docs/context'
+import type * as React from 'react'
 
 interface FrameworkDocsProps extends React.HTMLAttributes<HTMLDivElement> {
   data: string

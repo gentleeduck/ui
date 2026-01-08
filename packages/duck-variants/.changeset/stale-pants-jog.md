@@ -1,5 +1,0 @@
----
-"@gentleduck/variants": patch
----
-
-done

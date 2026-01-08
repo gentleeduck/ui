@@ -4,26 +4,19 @@ import { cn } from '@gentleduck/libs/cn'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
 import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui-duckui/alert'
 import { AspectRatio } from '@gentleduck/registry-ui-duckui/aspect-ratio'
+import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Kbd } from '@gentleduck/registry-ui-duckui/kbd'
 import Image from 'next/image'
 import type * as React from 'react'
 import runtime from 'react/jsx-runtime'
 import { Callout } from './mdx-components/callout'
-import {
-  CodeBlock,
-  CodeBlockWrapper,
-  ComponentExample,
-  ComponentPreview,
-  ComponentSource,
-  PreBlock,
-} from './mdx-components/code'
+import { CodeBlock, CodeBlockWrapper, ComponentPreview, ComponentSource, PreBlock } from './mdx-components/code'
 import { FigcaptionBlock } from './mdx-components/code/figcaption-block'
 import { ComponentsList } from './mdx-components/components-list'
 import { Table, TableCell, TableHeader, TableRow } from './mdx-components/table'
 import { Tab, TabContent, TabList, TabTrigger } from './mdx-components/tabs'
 import { A, H1, H2, H3, H4, H5, H6, Hr, LinkBlock, LinkedCard, P } from './mdx-components/typepography'
-import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -47,7 +40,6 @@ const components = {
   ),
   Callout,
   CodeBlockWrapper,
-  ComponentExample,
   ComponentPreview,
   ComponentSource,
   ComponentsList,

@@ -1,0 +1,19 @@
+# Exclude tests and configs
+__tests__/
+*.config.js
+*.config.ts
+*.test.ts
+*.test.tsx
+./test/
+./todo.md
+
+# Exclude logs and caches
+*.log
+.cache/
+
+
+.vercel
+generated
+node_modules
+.changeset
+examples

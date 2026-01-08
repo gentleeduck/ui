@@ -1,7 +1,6 @@
 export * from './code-block'
 export * from './code-block-wrapper'
 export * from './code-preview'
-export * from './component-example'
 export * from './component-preview'
 export * from './component-source'
 export * from './figcaption-block'

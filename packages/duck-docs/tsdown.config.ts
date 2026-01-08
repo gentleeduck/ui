@@ -3,8 +3,8 @@ import { defineConfig } from 'tsdown'
 
 export default defineConfig({
   ...config,
-  entry: ['src/**/*.{ts,tsx}', '!src/**/__test__/**'],
   alias: {
     '@duck-docs': './src',
   },
+  entry: ['src/**/*.{ts,tsx}', '!src/**/__test__/**'],
 })

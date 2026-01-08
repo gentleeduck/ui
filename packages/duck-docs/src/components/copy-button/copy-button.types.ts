@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@gentleduck/registry-ui-duckui/button'
+import type * as button from '@gentleduck/registry-ui-duckui/button'
 import type { DropdownMenuTrigger } from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import type { Event } from '@duck-docs/lib/events'
 
@@ -10,7 +10,7 @@ export interface CopyWithClassNamesProps extends DropdownMenuTriggerProps {
   className?: string
 }
 
-export interface CopyButtonProps extends ButtonProps {
+export interface CopyButtonProps extends button.ButtonProps {
   value: string
   event?: Event['name']
 }

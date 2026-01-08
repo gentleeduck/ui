@@ -1,7 +1,6 @@
 'use client'
 
 import { type Event, trackEvent } from '@duck-docs/lib/events'
-import type { NpmCommands } from '@duck-docs/types/unist'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
@@ -85,41 +84,5 @@ export function CopyWithClassNames({ value, classNames, className, ...props }: C
         <DropdownMenuItem onClick={() => copyToClipboard(classNames)}>Classname</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
-
-export function CopyNpmCommandButton({
-  commands,
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<typeof Button> & {
-  commands: Required<NpmCommands>
-}) {
-  const [hasCopied, setHasCopied] = React.useState(false)
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      setHasCopied(false)
-    }, 2000)
-  }, [hasCopied])
-
-  const copyCommand = React.useCallback((value: string, pm: 'npm' | 'pnpm' | 'yarn' | 'bun') => {
-    copyToClipboardWithMeta(value, {
-      name: 'copy_npm_command',
-      properties: {
-        command: value,
-        pm,
-      },
-    })
-    setHasCopied(true)
-  }, [])
-
-  return (
-    <Button
-      className={cn('!size-6.5 relative z-10 [&_svg]:w-3.5', className)}
-      icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
-      size="icon"
-      variant="outline"
-      {...props}></Button>
   )
 }

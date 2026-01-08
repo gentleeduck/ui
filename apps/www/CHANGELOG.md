@@ -1,5 +1,12 @@
 # @gentleduck/www
 
+## 0.1.21
+
+### Patch Changes
+
+- Updated dependencies
+  - @gentleduck/duck-docs@0.1.3
+
 ## 0.1.20
 
 ### Patch Changes

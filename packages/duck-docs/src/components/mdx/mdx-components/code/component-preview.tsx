@@ -1,13 +1,13 @@
 'use client'
 
+import { CopyButton } from '@duck-docs/components/copy-button'
+import { Icons } from '@duck-docs/components/icons'
+import { useRegistryIndex } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Crown } from 'lucide-react'
 import * as React from 'react'
-import { CopyButton } from '@duck-docs/components/copy-button'
-import { Icons } from '@duck-docs/components/icons'
-import { useRegistryIndex } from '@duck-docs/context'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string

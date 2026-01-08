@@ -1,5 +1,0 @@
----
-"@gentleduck/lazy": patch
----
-
-done

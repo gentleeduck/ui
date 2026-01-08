@@ -1,13 +1,13 @@
 'use client'
 
+import { Icons } from '@duck-docs/components/icons'
+import { useLiftMode } from '@duck-docs/hooks/use-lift-mode'
 import { cn } from '@gentleduck/libs/cn'
 import type { Block } from '@gentleduck/registers'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui-duckui/resizable'
 import { Tabs, TabsContent } from '@gentleduck/registry-ui-duckui/tabs'
 import React from 'react'
 import type { ImperativePanelHandle } from 'react-resizable-panels'
-import { useLiftMode } from '@duck-docs/hooks/use-lift-mode'
-import { Icons } from '@duck-docs/components/icons'
 
 export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean } }) {
   const { isLiftMode } = useLiftMode(block.name)

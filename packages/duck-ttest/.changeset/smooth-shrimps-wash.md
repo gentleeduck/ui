@@ -1,5 +1,0 @@
----
-"@gentleduck/ttest": patch
----
-
-done

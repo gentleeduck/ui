@@ -1,7 +1,7 @@
+import type { UnistNode, UnistTree } from '@duck-docs/types'
 import type { Nodes } from 'hast'
 import { toString } from 'hast-util-to-string'
 import { visit } from 'unist-util-visit'
-import type { UnistNode, UnistTree } from '@duck-docs/types'
 
 export function rehypePreBlockSource() {
   return (tree: UnistTree) => {

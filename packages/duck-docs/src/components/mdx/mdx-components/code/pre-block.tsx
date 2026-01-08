@@ -1,11 +1,10 @@
+import { CopyButton } from '@duck-docs/components/copy-button'
+import type { Event } from '@duck-docs/lib/events'
+import type { NpmCommands } from '@duck-docs/types/unist'
 import { cn } from '@gentleduck/libs/cn'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { Terminal } from 'lucide-react'
-import { CopyButton } from '@duck-docs/components/copy-button'
-import type { Event } from '@duck-docs/lib/events'
-import type { NpmCommands } from '@duck-docs/types/unist'
-import { FigcaptionBlock } from './figcaption-block'
 
 export type CodeBlockProps = React.HTMLAttributes<HTMLPreElement> & {
   __rawString__?: string

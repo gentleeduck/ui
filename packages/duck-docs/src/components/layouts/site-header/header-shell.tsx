@@ -1,10 +1,10 @@
 'use client'
 
+import { useSiteConfig } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import Image from 'next/image'
 import Link from 'next/link'
 import type React from 'react'
-import { useSiteConfig } from '@duck-docs/context'
 
 type HeaderRootProps = React.HTMLAttributes<HTMLElement>
 

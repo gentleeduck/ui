@@ -10,6 +10,7 @@ interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
   src: string
 }
 
+/** NOTE: the props are not used */
 export function ComponentSource({ children, className, ...props }: ComponentSourceProps) {
   if (!children.length) {
     return children

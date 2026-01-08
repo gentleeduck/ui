@@ -81,11 +81,9 @@
     "dev": "vitest",
     "format": "biome format --write ./",
     "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version",
     "test": "vitest run"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "0.1.2"
+  "version": "0.1.3"
 }

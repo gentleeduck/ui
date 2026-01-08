@@ -1,5 +1,6 @@
 'use client'
 
+import { useDocsConfig } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
@@ -19,7 +20,6 @@ import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-rea
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import { useDocsConfig } from '@duck-docs/context'
 
 export function CommandMenu() {
   const router = useRouter()

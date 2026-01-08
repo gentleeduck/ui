@@ -1,9 +1,9 @@
 'use client'
 
+import { useSiteConfig } from '@duck-docs/context'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { HeartIcon, Mail } from 'lucide-react'
 import Link from 'next/link'
-import { useSiteConfig } from '@duck-docs/context'
 
 export function SiteFooter() {
   const siteConfig = useSiteConfig()

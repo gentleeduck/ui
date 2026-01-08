@@ -1,5 +1,0 @@
----
-"@gentleduck/hooks": patch
----
-
-done

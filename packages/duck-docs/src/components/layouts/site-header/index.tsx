@@ -1,5 +1,10 @@
 'use client'
 
+import { CommandMenu } from '@duck-docs/components/layouts/command-menu'
+import { MainNav } from '@duck-docs/components/main-nav'
+import { MobileNav } from '@duck-docs/components/mobile-nav'
+import { ModeSwitcher } from '@duck-docs/components/mode-toggle'
+import { useSiteConfig } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
 import { useAtom } from 'jotai'
@@ -7,11 +12,6 @@ import { atomWithStorage } from 'jotai/utils'
 import { CaseUpper, Github, Twitter, Type } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
-import { useSiteConfig } from '@duck-docs/context'
-import { MainNav } from '@duck-docs/components/main-nav'
-import { MobileNav } from '@duck-docs/components/mobile-nav'
-import { ModeSwitcher } from '@duck-docs/components/mode-toggle'
-import { CommandMenu } from '@duck-docs/components/layouts/command-menu'
 import { HeaderContainer, HeaderRoot } from './header-shell'
 
 export function SiteHeader() {

@@ -1,5 +1,0 @@
----
-"@gentleduck/gen": patch
----
-
-batman

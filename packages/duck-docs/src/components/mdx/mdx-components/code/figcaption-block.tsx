@@ -1,6 +1,6 @@
+import { getIconForLanguageExtension } from '@duck-docs/components/icons'
 import { cn } from '@gentleduck/libs/cn'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { getIconForLanguageExtension } from '@duck-docs/components/icons'
 
 export function FigcaptionBlock({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const language = children?.toString().split('.').pop() ?? 'terminal'
