@@ -1,7 +1,7 @@
 echo "[husky] pre-push checks starting..."
 
-pnpm -s check
-pnpm -s check-types
+pnpm run check
+pnpm run check-types
 # pnpm -s test
 
 echo "[husky] pre-push checks passed"
