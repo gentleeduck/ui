@@ -19,7 +19,8 @@
   "description": "Type-safe API and message generator for TypeScript projects (NestJS-tested).",
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "tsdown": "catalog:"
   },
   "engines": {
     "node": ">=22.0.0"
