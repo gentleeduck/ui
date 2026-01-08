@@ -1,6 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
+import { Slot } from '@gentleduck/primitives/slot'
 import type { VariantProps } from '@gentleduck/variants'
-import { Slot } from '@radix-ui/react-slot'
 import { Separator } from '../separator'
 import { buttonGroupVariants } from './button-group.constants'
 
