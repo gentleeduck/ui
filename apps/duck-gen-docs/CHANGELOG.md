@@ -1,5 +1,12 @@
 # @gentleduck/gen-docs
 
+## 0.0.21
+
+### Patch Changes
+
+- Updated dependencies [0898791]
+  - @gentleduck/docs@0.0.2
+
 ## 0.0.20
 
 ### Patch Changes

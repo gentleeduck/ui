@@ -1,5 +1,12 @@
 # @gentleduck/www
 
+## 0.1.22
+
+### Patch Changes
+
+- Updated dependencies [0898791]
+  - @gentleduck/docs@0.0.2
+
 ## 0.1.21
 
 ### Patch Changes
