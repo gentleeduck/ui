@@ -4,7 +4,8 @@
     "@changesets/cli": "^2.29.8",
     "husky": "^9.1.7",
     "turbo": "^2.7.3",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vercel": "^50.1.6"
   },
   "engines": {
     "node": ">=18"

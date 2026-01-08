@@ -13,6 +13,7 @@ export async function compile_benchmark({
 
     for (const folder of folders) {
       if (visited.has(folder.path)) continue // Prevent infinite loops
+      visited.add(folder.path)
 
       // Process files in the current folder
       for (const file of folder.files) {
@@ -44,6 +45,7 @@ export async function render_benchmark({ folders, visited = new Set<string>(), s
 
     for (const folder of folders) {
       if (visited.has(folder.path)) continue // Prevent infinite loops
+      visited.add(folder.path)
 
       // Process files in the current folder
       for (const file of folder.files) {
