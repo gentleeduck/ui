@@ -72,7 +72,7 @@
   "module": "./dist/index.js",
   "name": "@gentleduck/docs",
   "packageManager": "pnpm@10.10.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "tsdown",
     "ci": "pnpm run lint && pnpm run format && pnpm run test && pnpm run build",
