@@ -5,11 +5,9 @@
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/motion": "workspace:*",
     "@gentleduck/primitives": "workspace:*",
-    "@gentleduck/typescript-config": "workspace:*",
     "@gentleduck/variants": "workspace:*",
     "@gentleduck/vim": "workspace:*",
     "@radix-ui/react-navigation-menu": "^1.2.14",
-    "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-form": "^1.23.0",
     "embla-carousel-autoplay": "8.6.0",
     "embla-carousel-react": "8.6.0",
@@ -27,6 +25,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@gentleduck/typescript-config": "workspace:*",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "typescript": "catalog:"
