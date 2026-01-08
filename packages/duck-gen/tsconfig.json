@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "base": "./",
     "outDir": "./dist",
     "paths": {}
   },

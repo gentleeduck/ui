@@ -50,11 +50,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version"
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
   "types": "./index.ts",

@@ -40,7 +40,7 @@ const languages = [
 
 const FormSchema = z.object({
   language: z.string({
-    required_error: 'Please select a language.',
+    error: 'Please select a language.',
   }),
 })
 

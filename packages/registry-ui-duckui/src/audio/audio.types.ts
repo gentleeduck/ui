@@ -6,6 +6,7 @@ export interface RecordingParams {
 
 export interface StopRecordingHandlerParam {
   setRecording: React.Dispatch<React.SetStateAction<boolean>>
+  // @ts-ignore
   intervalRef: React.RefObject<NodeJS.Timeout | null>
   mediaRecorderRef: React.RefObject<MediaRecorder | null>
   durationRef: React.RefObject<number>

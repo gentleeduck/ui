@@ -30,7 +30,6 @@
   "devDependencies": {
     "@gentleduck/registers": "workspace:*",
     "@types/babel__core": "^7.20.5",
-    "@types/diff": "^8.0.0",
     "@types/figlet": "^1.7.0",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash.template": "^4.5.3",
@@ -79,6 +78,7 @@
     "dev": "tsdown --watch",
     "start": "node dist/index.js",
     "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "test": "vitest run"
   },
   "type": "module",

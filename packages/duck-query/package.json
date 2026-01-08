@@ -50,7 +50,8 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "tsx ./src/index.ts"
+    "dev": "tsx ./src/index.ts",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "publishConfig": {
     "access": "public"

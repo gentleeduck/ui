@@ -513,5 +513,5 @@ function extractTitles(navItems: NavItem[]): string[] {
 export const allTitles = [
   ...extractTitles(docsConfig.mainNav),
   ...extractTitles(docsConfig.sidebarNav),
-  ...extractTitles(docsConfig.chartsNav),
+  ...extractTitles(docsConfig.chartsNav ?? []),
 ]

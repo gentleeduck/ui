@@ -6,7 +6,7 @@
     "incremental": false,
     "jsx": "react-jsx",
     "lib": ["ES2022", "dom", "dom.iterable"],
-    "module": "esnext",
+    "module": "preserve",
     "moduleResolution": "bundler",
     "noEmit": true,
     "outDir": "./dist",
@@ -16,5 +16,5 @@
     "rootDir": "./"
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+  "include": ["."]
 }

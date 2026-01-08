@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 
 export default function SonnerDmeo() {
   const controllerRef = React.useRef(new AbortController())
+  // @ts-ignore
   const intervalRef = React.useRef<NodeJS.Timeout | null>(null)
   const progressRef = React.useRef(0)
 

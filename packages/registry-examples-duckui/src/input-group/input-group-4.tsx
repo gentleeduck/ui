@@ -32,7 +32,7 @@ export default function InputGroupButtonExample() {
         </InputGroupAddon>
       </InputGroup>
       <InputGroup className="[--radius:9999px]">
-        <Popover>
+        <Popover placement="bottom-start">
           <PopoverTrigger asChild>
             <InputGroupAddon>
               <InputGroupButton size="icon-xs" variant="secondary">
@@ -40,7 +40,7 @@ export default function InputGroupButtonExample() {
               </InputGroupButton>
             </InputGroupAddon>
           </PopoverTrigger>
-          <PopoverContent align="start" className="flex flex-col gap-1 rounded-xl text-sm">
+          <PopoverContent className="flex flex-col gap-1 rounded-xl text-sm">
             <p className="font-medium">Your connection is not secure.</p>
             <p>You should not enter any sensitive information on this site.</p>
           </PopoverContent>

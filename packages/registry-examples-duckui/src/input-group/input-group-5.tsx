@@ -42,7 +42,7 @@ export default function InputGroupTooltip() {
       </InputGroup>
       <InputGroup>
         <InputGroupInput placeholder="Enter API key" />
-        <Tooltip>
+        <Tooltip placement="top-end">
           <TooltipTrigger asChild>
             <InputGroupAddon>
               <InputGroupButton aria-label="Help" size="icon-xs" variant="ghost">
@@ -50,7 +50,7 @@ export default function InputGroupTooltip() {
               </InputGroupButton>
             </InputGroupAddon>
           </TooltipTrigger>
-          <TooltipContent side="left">
+          <TooltipContent>
             <p>Click for help with API keys</p>
           </TooltipContent>
         </Tooltip>

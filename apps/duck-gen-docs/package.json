@@ -46,6 +46,7 @@
     "dev:docs": "pnpm velite dev",
     "lint": "next lint",
     "postbuild": "next-sitemap",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "start": "next start"
   },
   "version": "0.0.21"

@@ -64,10 +64,7 @@ function TableCell({ className, ref, ...props }: React.HTMLProps<HTMLTableCellEl
   )
 }
 
-function TableCaption(
-  { className, ...props }: React.HTMLProps<HTMLTableCaptionElement>,
-  ref: React.Ref<HTMLTableCaptionElement>,
-) {
+function TableCaption({ className, ref, ...props }: React.HTMLProps<HTMLTableCaptionElement>) {
   return (
     <caption
       className={cn('mt-4 text-sm text-muted-foreground', className)}

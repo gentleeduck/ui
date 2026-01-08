@@ -13,7 +13,8 @@
     "ora": "^9.0.0",
     "ts-morph": "^27.0.2",
     "tsx": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "zod": "catalog:"
   },
   "description": "Type-safe API and message generator for TypeScript projects (NestJS-tested).",
   "devDependencies": {
@@ -64,6 +65,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "dev": "tsx ./src/index.ts"
   },
   "type": "module",

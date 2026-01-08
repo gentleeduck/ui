@@ -1,6 +1,7 @@
 'use client'
 
 import { parseDate } from '@gentleduck/libs/parse-date'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Calendar } from '@gentleduck/registry-ui-duckui/calendar'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
@@ -55,10 +56,11 @@ export default function CalendarDemo() {
         <Popover onOpenChange={setOpen} open={open} placement="top-end">
           <PopoverTrigger
             className="absolute top-1/2 right-1 h-fit -translate-y-1/2 p-1 px-1.5 [&_svg]:w-4"
-            id="date-picker"
-            variant="ghost">
-            <CalendarIcon />
-            <span className="sr-only">Select date</span>
+            id="date-picker">
+            <Button variant="ghost">
+              <CalendarIcon />
+              <span className="sr-only">Select date</span>
+            </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto overflow-hidden p-0">
             <Calendar

@@ -2,7 +2,7 @@ import { useClick, useDismiss, useFloating, useInteractions, useRole } from '@fl
 
 import * as React from 'react'
 import { SheetContext } from './sheet'
-import type { SheetOptions } from './sheet.types'
+import type { SheetContextProps, SheetOptions } from './sheet.types'
 
 export function useSheet({
   defaultOpen = false,

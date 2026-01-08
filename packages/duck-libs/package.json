@@ -53,12 +53,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "clean": "git clean -xdf .cache .turbo node_modules dist",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version"
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
   "version": "0.1.11"

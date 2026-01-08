@@ -32,13 +32,13 @@ const people = [
 export default function ItemDropdown() {
   return (
     <div className="flex min-h-64 w-full max-w-md flex-col items-center gap-6">
-      <DropdownMenu>
+      <DropdownMenu placement="bottom-end">
         <DropdownMenuTrigger asChild>
           <Button className="w-fit" size="sm" variant="outline">
             Select <ChevronDownIcon />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-72 [--radius:0.65rem]">
+        <DropdownMenuContent className="w-72 [--radius:0.65rem]">
           {people.map((person) => (
             <DropdownMenuItem className="p-0" key={person.username}>
               <Item className="w-full p-2" size="sm">

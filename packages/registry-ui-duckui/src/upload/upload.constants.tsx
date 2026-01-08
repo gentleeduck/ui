@@ -9,7 +9,7 @@ export enum FileTypeEnum {
   Unknown = 'unknown',
 }
 
-export const FILE_TYPE_ICONS: Record<FileTypeEnum, JSX.Element> = {
+export const FILE_TYPE_ICONS: Record<FileTypeEnum, React.JSX.Element> = {
   [FileTypeEnum.Audio]: <FileAudio className="w-8 h-8" />,
   [FileTypeEnum.Text]: <FileText className="w-8 h-8" />,
   [FileTypeEnum.Image]: <FileImage className="w-8 h-8" />,

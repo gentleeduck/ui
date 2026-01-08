@@ -53,6 +53,7 @@
     "url": "git+https://github.com/gentleeduck/duck-ui.git"
   },
   "scripts": {
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "build": "tsdown"
   },
   "type": "module",

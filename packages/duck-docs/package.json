@@ -99,6 +99,7 @@
   "scripts": {
     "build": "tsdown",
     "dev": "vitest",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "test": "vitest run"
   },
   "type": "module",

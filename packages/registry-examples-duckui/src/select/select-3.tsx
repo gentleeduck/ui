@@ -18,11 +18,9 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 const FormSchema = z.object({
-  email: z
-    .string({
-      required_error: 'Please select an email to display.',
-    })
-    .email(),
+  email: z.email({
+    error: 'Please select an email to display.',
+  }),
 })
 
 export default function SelectForm() {

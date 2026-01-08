@@ -16,24 +16,7 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
 import { converter, formatHex, parse } from 'culori'
-import {
-  ArrowRightLeft,
-  Copy,
-  CreditCard,
-  Eye,
-  Mail,
-  MapPin,
-  Moon,
-  Palette,
-  Phone,
-  Pipette,
-  Plus,
-  Settings,
-  Sun,
-  Trash2,
-  User,
-} from 'lucide-react'
-import Link from 'next/link'
+import { Eye, Moon, Palette, Pipette, Plus, Settings, Sun, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { CardsDemo } from '~/components/cards'
 

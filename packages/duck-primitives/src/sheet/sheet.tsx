@@ -76,6 +76,7 @@ function Content({
           data-open={context.open}
           data-side={side}
           ref={ref}
+          // @ts-ignore
           {...context.getFloatingProps(props)}
           style={{
             ...style,

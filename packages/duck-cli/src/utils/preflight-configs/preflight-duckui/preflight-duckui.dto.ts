@@ -4,49 +4,51 @@ import { BASE_COLORS, PROJECT_TYPE } from './preflight-duckui.constants'
 export const preflight_duckui_options_schema = z.object({
   duckui: z
     .boolean({
-      description: 'Would you like to use @gentleduck/ui? (yes/no) -default: no',
-      message: 'You have to pick one option',
+      error: 'You have to pick one option',
     })
-    .default(false),
+    .default(false)
+    .describe('Would you like to use @gentleduck/ui? (yes/no) -default: no'),
 })
 
 export const duckui_prompts_schema = z.object({
   alias: z
-    .string({
-      description: 'Defines the alias used for importing modules.',
-    })
+    .string()
     .min(1, {
-      message: 'Import alias cannot be empty.',
+      error: 'Import alias cannot be empty.',
     })
-    .default('~'),
-  base_color: z.enum(['zinc', 'slate', 'gray', 'neutral', 'red', 'rose', 'orange', 'green', 'blue'], {
-    description: 'The primary color theme for your project.',
-    errorMap: () => ({ message: 'Please select a valid base color.' }),
-  }),
+    .default('~')
+    .describe('Defines the alias used for importing modules.'),
+  base_color: z
+    .enum(['zinc', 'slate', 'gray', 'neutral', 'red', 'rose', 'orange', 'green', 'blue'], {
+      error: 'Please select a valid base color.',
+    })
+    .describe('The primary color theme for your project.'),
 
   css: z
-    .string({
-      description: 'Specifies the location of your global CSS file.',
-    })
+    .string()
     .min(1, {
       message: 'CSS file path cannot be empty.',
-    }),
+    })
+    .describe('Specifies the location of your global CSS file.'),
 
-  css_variables: z.boolean({
-    description: 'Determines whether CSS variables will be used.',
-    errorMap: () => ({ message: 'Invalid value for cssVariables.' }),
-  }),
+  css_variables: z
+    .boolean({
+      error: 'Invalid value for cssVariables.',
+    })
+    .describe('Determines whether CSS variables will be used.'),
 
-  monorepo: z.boolean({
-    description: 'Indicates if your project is inside a monorepo.',
-    errorMap: () => ({ message: 'Invalid value for monorepo.' }),
-  }),
+  monorepo: z
+    .boolean({
+      error: 'Invalid value for monorepo.',
+    })
+    .describe('Indicates if your project is inside a monorepo.'),
 
   prefix: z.string().optional().default('').describe('A custom prefix for component class names or variables.'),
-  project_type: z.enum(PROJECT_TYPE, {
-    description: 'Please select a valid project type.',
-    message: 'Invalid value for projectType.',
-  }),
+  project_type: z
+    .enum(PROJECT_TYPE, {
+      error: 'Invalid value for projectType.',
+    })
+    .describe('Please select a valid project type.'),
 })
 
 export type DuckuiPrompts = z.infer<typeof duckui_prompts_schema>
@@ -61,7 +63,7 @@ export const duck_ui_schema = z.object({
   }),
   monorepo: z.boolean(),
   rsc: z.boolean(),
-  schema: z.string().url(),
+  schema: z.url(),
   tailwind: z.object({
     baseColor: z.enum(BASE_COLORS),
     css: z.string(),

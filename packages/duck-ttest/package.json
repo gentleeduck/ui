@@ -50,12 +50,8 @@
   },
   "scripts": {
     "build": "tsdown",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "format": "biome format --write ./",
-    "lint": "biome lint --write ./",
-    "publish": "pnpm run ci && changeset publish",
-    "release": "changeset version",
-    "test": "tsc --noEmit"
+    "test": "tsc --noEmit",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
   "version": "0.4.4"

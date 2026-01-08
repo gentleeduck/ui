@@ -10,6 +10,7 @@
     "inlineSources": false,
     "isolatedModules": true,
     "jsx": "preserve",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
@@ -19,9 +20,10 @@
     "preserveWatchOutput": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "types": ["node"]
   },
   "display": "Default",
   "exclude": ["node_modules"],
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*"]
 }

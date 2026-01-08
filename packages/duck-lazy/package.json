@@ -60,6 +60,7 @@
     "directory": "packages/duck-lazy"
   },
   "scripts": {
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "build": "tsdown"
   },
   "type": "module",

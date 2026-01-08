@@ -78,6 +78,7 @@ function Content({
           position: 'fixed',
           zIndex: 99,
         }}
+        // @ts-ignore
         {...context.getFloatingProps(props)}
         aria-label="dialog"
         aria-labelledby={context.labelId}

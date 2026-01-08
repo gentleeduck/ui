@@ -42,7 +42,9 @@
   },
   "packageManager": "pnpm@10.17.0",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+  },
   "type": "module",
   "version": "0.1.0"
 }

@@ -85,7 +85,8 @@
     "package": "pnpm run build:chrome && pnpm run zip:chrome && pnpm run build:firefox && pnpm run zip:firefox && rm -rf dist",
     "preview": "vite preview",
     "zip:chrome": "cd ./dist && zip -r ../releases/duck-chrome-v1.zip ./* && cd ..",
-    "zip:firefox": "cd ./dist && zip -r ../releases/duck-firefox-v1.zip ./* && cd .."
+    "zip:firefox": "cd ./dist && zip -r ../releases/duck-firefox-v1.zip ./* && cd ..",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
   "version": "1.0.0"

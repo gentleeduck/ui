@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 // The arguments required to fetch component files.
 export type GetComponentFilesArgs = {
-  item: z.infer<typeof registry_schema>[number]
+  item: z.infer<typeof registry_schema>['uis'][number]
   spinner: Ora
 }
 

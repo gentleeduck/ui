@@ -29,10 +29,10 @@ export type MenubarContextType = {
   selectedItemRef: React.RefObject<HTMLButtonElement | null>
   clickedItemRef: React.RefObject<HTMLButtonElement | null>
 }
-const menubarContext = React.createContext<MenubarContextType | null>(null)
+const MenubarContext = React.createContext<MenubarContextType | null>(null)
 
 function useMenubarContext() {
-  const context = React.useContext(menubarContext)
+  const context = React.useContext(MenubarContext)
   if (!context) {
     throw new Error('useMenubarContext must be used within a Menubar')
   }
@@ -45,6 +45,15 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
   const contentsRef = React.useRef<HTMLDialogElement[]>([])
   const selectedItemRef = React.useRef<HTMLButtonElement | null>(null)
   const clickedItemRef = React.useRef<HTMLButtonElement | null>(null)
+
+  // state
+  const [open, setOpen] = React.useState(false)
+
+  // keep a ref in sync for event handlers (avoid stale closures)
+  const openRef = React.useRef(open)
+  React.useEffect(() => {
+    openRef.current = open
+  }, [open])
 
   const triggerHandlersRef = React.useRef(
     new WeakMap<
@@ -91,6 +100,12 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
       selectedItemRef.current = list[nextIndex] as HTMLButtonElement
     }
 
+    const syncOpenFromDom = () => {
+      // "open" means any trigger is open
+      const anyOpen = triggersRef.current.some((t) => t.dataset.open === 'true')
+      if (openRef.current !== anyOpen) setOpen(anyOpen)
+    }
+
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         e.preventDefault()
@@ -105,17 +120,14 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
 
     const handleContentKeydownFactory = (content: HTMLDialogElement) => {
       const handler = (e: KeyboardEvent) => {
-        // collect actionable items inside the content
         const items = Array.from(
           content.querySelectorAll('[duck-dropdown-menu-item]:not([aria-disabled]), [duck-dropdown-menu-sub-trigger]'),
         ) as HTMLElement[]
 
-        // UP / DOWN: navigate items inside the dropdown content and prevent page scroll
         if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
           if (items.length === 0) return
-          e.preventDefault() // <- prevents page scrolling
+          e.preventDefault()
 
-          // find current selected item (aria-selected) or activeElement fallback
           let currentIndex = items.findIndex((it) => it.getAttribute('aria-selected') !== null)
           if (currentIndex === -1) {
             const active = document?.activeElement
@@ -136,7 +148,6 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
           if (prev) prev.removeAttribute('aria-selected')
           if (next) {
             next.setAttribute('aria-selected', 'true')
-            // focus the item on next animation frame
             requestAnimationFrame(() => {
               ;(next as HTMLElement).focus()
             })
@@ -144,7 +155,6 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
           return
         }
 
-        // LEFT / RIGHT: keep the existing menubar logic (switch menubar items)
         if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
           const selected = items.find((it) => it.getAttribute('aria-selected') !== null)
 
@@ -162,12 +172,14 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
 
     wrapper.addEventListener('keydown', handleKeydown)
 
-    // attach handlers to triggers (only once each)
     const triggers = triggersRef.current
     triggers.forEach((trigger) => {
       if (triggerHandlersRef.current.has(trigger)) return
 
       const onClick = () => {
+        // after click toggles dataset.open externally, sync our state from DOM
+        requestAnimationFrame(syncOpenFromDom)
+
         const contents = Array.from(document?.querySelectorAll('[duck-menubar-content]')) as HTMLDialogElement[]
         contentsRef.current = contents
 
@@ -185,21 +197,20 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
           }
         })
       }
+
       const onFocus = () => {
         selectedItemRef.current = trigger
       }
 
       const onMouseOver = () => {
-        // if any trigger is currently open, hovering should switch the open menu
         const anyOpen = triggersRef.current.some((t) => t.dataset.open === 'true')
 
-        // always update the visual selection for keyboard/mouse interplay
         selectedItemRef.current = trigger
 
         if (anyOpen) {
-          // only trigger a click if this hovered trigger isn't already open
           if (trigger.dataset.open !== 'true') {
             trigger.click()
+            requestAnimationFrame(syncOpenFromDom)
           }
         }
       }
@@ -211,7 +222,6 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
       triggerHandlersRef.current.set(trigger, { click: onClick, focus: onFocus, mouseover: onMouseOver })
     })
 
-    // attach any existing contents at mount
     const initialContents = Array.from(document?.querySelectorAll('[duck-menubar-content]')) as HTMLDialogElement[]
     contentsRef.current = initialContents
     initialContents.forEach((content) => {
@@ -222,7 +232,9 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
       }
     })
 
-    // cleanup
+    // initial state sync
+    syncOpenFromDom()
+
     return () => {
       wrapper.removeEventListener('keydown', handleKeydown)
 
@@ -238,8 +250,11 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
   }, [])
 
   return (
-    <menubarContext.Provider
+    <MenubarContext.Provider
       value={{
+        open,
+        setOpen,
+        clickedItemRef,
         contentsRef,
         selectedItemRef,
         triggersRef,
@@ -253,7 +268,7 @@ function Menubar({ children, className, ...props }: React.HTMLProps<HTMLDivEleme
         ref={wrapperRef}>
         {children}
       </div>
-    </menubarContext.Provider>
+    </MenubarContext.Provider>
   )
 }
 
@@ -346,4 +361,5 @@ export {
   MenubarGroup,
   MenubarSub,
   MenubarShortcut,
+  useMenubarContext,
 }

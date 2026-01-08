@@ -49,11 +49,11 @@ export default function InputGroupDemo() {
           <InputGroupButton className="rounded-full" size="icon-xs" variant="outline">
             <IconPlus />
           </InputGroupButton>
-          <DropdownMenu>
+          <DropdownMenu placement="top-start">
             <DropdownMenuTrigger asChild>
               <InputGroupButton variant="ghost">Auto</InputGroupButton>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="[--radius:0.95rem]" side="top">
+            <DropdownMenuContent className="[--radius:0.95rem]">
               <DropdownMenuItem>Auto</DropdownMenuItem>
               <DropdownMenuItem>Agent</DropdownMenuItem>
               <DropdownMenuItem>Manual</DropdownMenuItem>

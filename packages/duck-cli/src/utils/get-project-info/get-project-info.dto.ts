@@ -80,7 +80,7 @@ const CompilerOptions = z
     noUnusedParameters: BooleanOrNull,
     outDir: StringOrNull,
     outFile: StringOrNull,
-    paths: z.record(z.array(z.string())).optional(),
+    paths: z.record(z.string(), z.array(z.string())).optional(),
     plugins: z.array(z.object({ name: z.string() })).optional(),
     preserveConstEnums: BooleanOrNull,
     preserveSymlinks: BooleanOrNull,
@@ -178,7 +178,7 @@ const TsNodeOptions = z
     ignore: z.array(z.string()).optional(),
     ignoreDiagnostics: z.array(z.union([z.string(), z.number()])).optional(),
     logError: z.boolean().optional(),
-    moduleTypes: z.record(z.string()).optional(),
+    moduleTypes: z.record(z.string(), z.string()).optional(),
     preferTsExts: z.boolean().optional(),
     pretty: z.boolean().optional(),
     require: z.array(z.string()).optional(),
@@ -187,7 +187,7 @@ const TsNodeOptions = z
     skipIgnore: z.boolean().optional(),
     swc: z.boolean().optional(),
     transpileOnly: z.boolean().optional(),
-    transpiler: z.union([z.string(), z.tuple([z.string(), z.record(z.any())])]).optional(),
+    transpiler: z.union([z.string(), z.tuple([z.string(), z.record(z.string(), z.any())])]).optional(),
     typeCheck: z.boolean().optional(),
   })
   .partial()
@@ -195,7 +195,7 @@ const TsNodeOptions = z
 
 // Main tsconfig schema
 export const ts_config_schema = z
-  .object({
+  .looseObject({
     buildOptions: BuildOptions,
     compileOnSave: BooleanOrNull,
     compilerOptions: CompilerOptions,
@@ -209,5 +209,4 @@ export const ts_config_schema = z
     watchOptions: WatchOptions,
   })
   .partial()
-  .passthrough()
 export type TsConfig = z.infer<typeof ts_config_schema>

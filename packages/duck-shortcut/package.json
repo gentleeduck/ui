@@ -71,7 +71,8 @@
   "scripts": {
     "build": "tsdown",
     "dev": "vite",
-    "test": "vitest run"
+    "test": "vitest run",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
   "types": "dist/index.d.ts",

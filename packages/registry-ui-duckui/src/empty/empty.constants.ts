@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from '@gentleduck/variants'
+import { cva } from '@gentleduck/variants'
 export const emptyMediaVariants = cva(
   'mb-2 flex shrink-0 items-center justify-center [&_svg]:pointer-events-none [&_svg]:shrink-0',
   {

@@ -38,6 +38,7 @@
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
+    "@types/culori": "^4.0.1",
     "@types/lodash.template": "^4.5.3",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
@@ -67,6 +68,7 @@
     "dev:docs": "pnpm velite dev",
     "lint": "next lint",
     "postbuild": "next-sitemap",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "start": "next start"
   },
   "version": "3.0.21"

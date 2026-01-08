@@ -23,7 +23,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/accordion',
     categories: [],
     root_folder: 'accordion',
-    chunks: [],
   },
   alert: {
     name: 'alert',
@@ -48,7 +47,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/alert',
     categories: [],
     root_folder: 'alert',
-    chunks: [],
   },
   'alert-dialog': {
     name: 'alert-dialog',
@@ -69,7 +67,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/alert-dialog',
     categories: [],
     root_folder: 'alert-dialog',
-    chunks: [],
   },
   'aspect-ratio': {
     name: 'aspect-ratio',
@@ -90,7 +87,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/aspect-ratio',
     categories: [],
     root_folder: 'aspect-ratio',
-    chunks: [],
   },
   avatar: {
     name: 'avatar',
@@ -111,7 +107,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/avatar',
     categories: [],
     root_folder: 'avatar',
-    chunks: [],
   },
   badge: {
     name: 'badge',
@@ -136,7 +131,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
-    chunks: [],
   },
   breadcrumb: {
     name: 'breadcrumb',
@@ -157,7 +151,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
-    chunks: [],
   },
   button: {
     name: 'button',
@@ -186,7 +179,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   calendar: {
     name: 'calendar',
@@ -207,7 +199,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/calendar',
     categories: [],
     root_folder: 'calendar',
-    chunks: [],
   },
   card: {
     name: 'card',
@@ -228,7 +219,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/card',
     categories: [],
     root_folder: 'card',
-    chunks: [],
   },
   carousel: {
     name: 'carousel',
@@ -253,7 +243,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/carousel',
     categories: [],
     root_folder: 'carousel',
-    chunks: [],
   },
   chart: {
     name: 'chart',
@@ -282,7 +271,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/chart',
     categories: [],
     root_folder: 'chart',
-    chunks: [],
   },
   checkbox: {
     name: 'checkbox',
@@ -307,7 +295,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
-    chunks: [],
   },
   collapsible: {
     name: 'collapsible',
@@ -328,7 +315,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/collapsible',
     categories: [],
     root_folder: 'collapsible',
-    chunks: [],
   },
   command: {
     name: 'command',
@@ -361,7 +347,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/command',
     categories: [],
     root_folder: 'command',
-    chunks: [],
   },
   'context-menu': {
     name: 'context-menu',
@@ -382,7 +367,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/context-menu',
     categories: [],
     root_folder: 'context-menu',
-    chunks: [],
   },
   dialog: {
     name: 'dialog',
@@ -407,7 +391,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/dialog',
     categories: [],
     root_folder: 'dialog',
-    chunks: [],
   },
   drawer: {
     name: 'drawer',
@@ -428,7 +411,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/drawer',
     categories: [],
     root_folder: 'drawer',
-    chunks: [],
   },
   'dropdown-menu': {
     name: 'dropdown-menu',
@@ -461,7 +443,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/dropdown-menu',
     categories: [],
     root_folder: 'dropdown-menu',
-    chunks: [],
   },
   'navigation-menu': {
     name: 'navigation-menu',
@@ -482,7 +463,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/navigation-menu',
     categories: [],
     root_folder: 'navigation-menu',
-    chunks: [],
   },
   'react-hook-form': {
     name: 'react-hook-form',
@@ -503,7 +483,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/react-hook-form',
     categories: [],
     root_folder: 'react-hook-form',
-    chunks: [],
   },
   'hover-card': {
     name: 'hover-card',
@@ -524,7 +503,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/hover-card',
     categories: [],
     root_folder: 'hover-card',
-    chunks: [],
   },
   input: {
     name: 'input',
@@ -545,7 +523,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/input',
     categories: [],
     root_folder: 'input',
-    chunks: [],
   },
   'input-otp': {
     name: 'input-otp',
@@ -570,7 +547,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/input-otp',
     categories: [],
     root_folder: 'input-otp',
-    chunks: [],
   },
   label: {
     name: 'label',
@@ -591,7 +567,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/label',
     categories: [],
     root_folder: 'label',
-    chunks: [],
   },
   menubar: {
     name: 'menubar',
@@ -612,7 +587,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/menubar',
     categories: [],
     root_folder: 'menubar',
-    chunks: [],
   },
   pagination: {
     name: 'pagination',
@@ -637,7 +611,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/pagination',
     categories: [],
     root_folder: 'pagination',
-    chunks: [],
   },
   popover: {
     name: 'popover',
@@ -658,7 +631,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/popover',
     categories: [],
     root_folder: 'popover',
-    chunks: [],
   },
   progress: {
     name: 'progress',
@@ -679,7 +651,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/progress',
     categories: [],
     root_folder: 'progress',
-    chunks: [],
   },
   'radio-group': {
     name: 'radio-group',
@@ -704,7 +675,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/radio-group',
     categories: [],
     root_folder: 'radio-group',
-    chunks: [],
   },
   resizable: {
     name: 'resizable',
@@ -725,7 +695,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/resizable',
     categories: [],
     root_folder: 'resizable',
-    chunks: [],
   },
   'scroll-area': {
     name: 'scroll-area',
@@ -746,7 +715,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/scroll-area',
     categories: [],
     root_folder: 'scroll-area',
-    chunks: [],
   },
   select: {
     name: 'select',
@@ -779,7 +747,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/select',
     categories: [],
     root_folder: 'select',
-    chunks: [],
   },
   separator: {
     name: 'separator',
@@ -800,7 +767,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/separator',
     categories: [],
     root_folder: 'separator',
-    chunks: [],
   },
   sheet: {
     name: 'sheet',
@@ -825,7 +791,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/sheet',
     categories: [],
     root_folder: 'sheet',
-    chunks: [],
   },
   skeleton: {
     name: 'skeleton',
@@ -846,7 +811,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/skeleton',
     categories: [],
     root_folder: 'skeleton',
-    chunks: [],
   },
   slider: {
     name: 'slider',
@@ -867,7 +831,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/slider',
     categories: [],
     root_folder: 'slider',
-    chunks: [],
   },
   sonner: {
     name: 'sonner',
@@ -900,7 +863,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/sonner',
     categories: [],
     root_folder: 'sonner',
-    chunks: [],
   },
   switch: {
     name: 'switch',
@@ -921,7 +883,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/switch',
     categories: [],
     root_folder: 'switch',
-    chunks: [],
   },
   table: {
     name: 'table',
@@ -942,7 +903,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/table',
     categories: [],
     root_folder: 'table',
-    chunks: [],
   },
   tabs: {
     name: 'tabs',
@@ -963,7 +923,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/tabs',
     categories: [],
     root_folder: 'tabs',
-    chunks: [],
   },
   textarea: {
     name: 'textarea',
@@ -984,7 +943,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/textarea',
     categories: [],
     root_folder: 'textarea',
-    chunks: [],
   },
   toggle: {
     name: 'toggle',
@@ -1009,7 +967,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/toggle',
     categories: [],
     root_folder: 'toggle',
-    chunks: [],
   },
   'toggle-group': {
     name: 'toggle-group',
@@ -1034,7 +991,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/toggle-group',
     categories: [],
     root_folder: 'toggle-group',
-    chunks: [],
   },
   tooltip: {
     name: 'tooltip',
@@ -1055,7 +1011,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/tooltip',
     categories: [],
     root_folder: 'tooltip',
-    chunks: [],
   },
   'button-group': {
     name: 'button-group',
@@ -1080,7 +1035,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   kbd: {
     name: 'kbd',
@@ -1101,7 +1055,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/kbd',
     categories: [],
     root_folder: 'kbd',
-    chunks: [],
   },
   empty: {
     name: 'empty',
@@ -1126,7 +1079,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/empty',
     categories: [],
     root_folder: 'empty',
-    chunks: [],
   },
   field: {
     name: 'field',
@@ -1151,7 +1103,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   item: {
     name: 'item',
@@ -1176,7 +1127,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'input-group': {
     name: 'input-group',
@@ -1197,7 +1147,6 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'accordion-1': {
     name: 'accordion-1',
@@ -1214,7 +1163,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/accordion',
     categories: [],
     root_folder: 'accordion',
-    chunks: [],
   },
   'accordion-2': {
     name: 'accordion-2',
@@ -1231,7 +1179,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/accordion',
     categories: [],
     root_folder: 'accordion',
-    chunks: [],
   },
   'accordion-3': {
     name: 'accordion-3',
@@ -1248,7 +1195,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/accordion',
     categories: [],
     root_folder: 'accordion',
-    chunks: [],
   },
   'accordion-4': {
     name: 'accordion-4',
@@ -1265,7 +1211,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/accordion',
     categories: [],
     root_folder: 'accordion',
-    chunks: [],
   },
   'alert-1': {
     name: 'alert-1',
@@ -1282,7 +1227,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/alert',
     categories: [],
     root_folder: 'alert',
-    chunks: [],
   },
   'alert-2': {
     name: 'alert-2',
@@ -1299,7 +1243,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/alert',
     categories: [],
     root_folder: 'alert',
-    chunks: [],
   },
   'alert-3': {
     name: 'alert-3',
@@ -1316,7 +1259,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/alert',
     categories: [],
     root_folder: 'alert',
-    chunks: [],
   },
   'alert-dialog-1': {
     name: 'alert-dialog-1',
@@ -1333,7 +1275,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/alert-dialog',
     categories: [],
     root_folder: 'alert-dialog',
-    chunks: [],
   },
   'avatar-1': {
     name: 'avatar-1',
@@ -1350,7 +1291,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/avatar',
     categories: [],
     root_folder: 'avatar',
-    chunks: [],
   },
   'badge-1': {
     name: 'badge-1',
@@ -1367,7 +1307,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
-    chunks: [],
   },
   'badge-2': {
     name: 'badge-2',
@@ -1384,7 +1323,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
-    chunks: [],
   },
   'badge-3': {
     name: 'badge-3',
@@ -1401,7 +1339,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
-    chunks: [],
   },
   'badge-4': {
     name: 'badge-4',
@@ -1418,7 +1355,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
-    chunks: [],
   },
   'badge-5': {
     name: 'badge-5',
@@ -1435,7 +1371,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
-    chunks: [],
   },
   'badge-6': {
     name: 'badge-6',
@@ -1452,7 +1387,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
-    chunks: [],
   },
   'badge-7': {
     name: 'badge-7',
@@ -1469,7 +1403,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
-    chunks: [],
   },
   'badge-8': {
     name: 'badge-8',
@@ -1486,7 +1419,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
-    chunks: [],
   },
   'button-1': {
     name: 'button-1',
@@ -1503,7 +1435,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-10': {
     name: 'button-10',
@@ -1520,7 +1451,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-11': {
     name: 'button-11',
@@ -1537,7 +1467,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-12': {
     name: 'button-12',
@@ -1554,7 +1483,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-13': {
     name: 'button-13',
@@ -1571,7 +1499,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-14': {
     name: 'button-14',
@@ -1588,7 +1515,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-15': {
     name: 'button-15',
@@ -1605,7 +1531,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-16': {
     name: 'button-16',
@@ -1622,7 +1547,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-17': {
     name: 'button-17',
@@ -1639,7 +1563,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-18': {
     name: 'button-18',
@@ -1656,7 +1579,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-19': {
     name: 'button-19',
@@ -1673,7 +1595,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-2': {
     name: 'button-2',
@@ -1690,7 +1611,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-3': {
     name: 'button-3',
@@ -1707,7 +1627,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-4': {
     name: 'button-4',
@@ -1724,7 +1643,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-5': {
     name: 'button-5',
@@ -1741,7 +1659,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-6': {
     name: 'button-6',
@@ -1758,7 +1675,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-7': {
     name: 'button-7',
@@ -1775,7 +1691,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-8': {
     name: 'button-8',
@@ -1792,7 +1707,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'button-9': {
     name: 'button-9',
@@ -1809,7 +1723,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
-    chunks: [],
   },
   'breadcrumb-1': {
     name: 'breadcrumb-1',
@@ -1826,7 +1739,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
-    chunks: [],
   },
   'breadcrumb-2': {
     name: 'breadcrumb-2',
@@ -1843,7 +1755,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
-    chunks: [],
   },
   'breadcrumb-3': {
     name: 'breadcrumb-3',
@@ -1860,7 +1771,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
-    chunks: [],
   },
   'breadcrumb-4': {
     name: 'breadcrumb-4',
@@ -1877,7 +1787,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
-    chunks: [],
   },
   'breadcrumb-5': {
     name: 'breadcrumb-5',
@@ -1894,7 +1803,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
-    chunks: [],
   },
   'breadcrumb-6': {
     name: 'breadcrumb-6',
@@ -1911,7 +1819,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
-    chunks: [],
   },
   'breadcrumb-7': {
     name: 'breadcrumb-7',
@@ -1928,7 +1835,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
-    chunks: [],
   },
   'breadcrumb-8': {
     name: 'breadcrumb-8',
@@ -1945,7 +1851,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
-    chunks: [],
   },
   'dialog-1': {
     name: 'dialog-1',
@@ -1962,7 +1867,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/dialog',
     categories: [],
     root_folder: 'dialog',
-    chunks: [],
   },
   'dialog-2': {
     name: 'dialog-2',
@@ -1979,7 +1883,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/dialog',
     categories: [],
     root_folder: 'dialog',
-    chunks: [],
   },
   'command-1': {
     name: 'command-1',
@@ -1996,7 +1899,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/command',
     categories: [],
     root_folder: 'command',
-    chunks: [],
   },
   'command-2': {
     name: 'command-2',
@@ -2013,7 +1915,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/command',
     categories: [],
     root_folder: 'command',
-    chunks: [],
   },
   'card-1': {
     name: 'card-1',
@@ -2030,7 +1931,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/card',
     categories: [],
     root_folder: 'card',
-    chunks: [],
   },
   'card-2': {
     name: 'card-2',
@@ -2047,7 +1947,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/card',
     categories: [],
     root_folder: 'card',
-    chunks: [],
   },
   'calendar-1': {
     name: 'calendar-1',
@@ -2064,7 +1963,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/calendar',
     categories: [],
     root_folder: 'calendar',
-    chunks: [],
   },
   'calendar-2': {
     name: 'calendar-2',
@@ -2081,7 +1979,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/calendar',
     categories: [],
     root_folder: 'calendar',
-    chunks: [],
   },
   'calendar-3': {
     name: 'calendar-3',
@@ -2098,7 +1995,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/calendar',
     categories: [],
     root_folder: 'calendar',
-    chunks: [],
   },
   'calendar-4': {
     name: 'calendar-4',
@@ -2115,7 +2011,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/calendar',
     categories: [],
     root_folder: 'calendar',
-    chunks: [],
   },
   'calendar-5': {
     name: 'calendar-5',
@@ -2132,7 +2027,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/calendar',
     categories: [],
     root_folder: 'calendar',
-    chunks: [],
   },
   'calendar-6': {
     name: 'calendar-6',
@@ -2149,7 +2043,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/calendar',
     categories: [],
     root_folder: 'calendar',
-    chunks: [],
   },
   'calendar-7': {
     name: 'calendar-7',
@@ -2166,7 +2059,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/calendar',
     categories: [],
     root_folder: 'calendar',
-    chunks: [],
   },
   'calendar-8': {
     name: 'calendar-8',
@@ -2183,7 +2075,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/calendar',
     categories: [],
     root_folder: 'calendar',
-    chunks: [],
   },
   'drawer-1': {
     name: 'drawer-1',
@@ -2200,7 +2091,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/drawer',
     categories: [],
     root_folder: 'drawer',
-    chunks: [],
   },
   'drawer-2': {
     name: 'drawer-2',
@@ -2217,7 +2107,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/drawer',
     categories: [],
     root_folder: 'drawer',
-    chunks: [],
   },
   'drawer-3': {
     name: 'drawer-3',
@@ -2234,7 +2123,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/drawer',
     categories: [],
     root_folder: 'drawer',
-    chunks: [],
   },
   'drawer-4': {
     name: 'drawer-4',
@@ -2251,7 +2139,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/drawer',
     categories: [],
     root_folder: 'drawer',
-    chunks: [],
   },
   'drawer-5': {
     name: 'drawer-5',
@@ -2268,7 +2155,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/drawer',
     categories: [],
     root_folder: 'drawer',
-    chunks: [],
   },
   'drawer-6': {
     name: 'drawer-6',
@@ -2285,7 +2171,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/drawer',
     categories: [],
     root_folder: 'drawer',
-    chunks: [],
   },
   'hover-card-1': {
     name: 'hover-card-1',
@@ -2302,7 +2187,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/hover-card',
     categories: [],
     root_folder: 'hover-card',
-    chunks: [],
   },
   'input-1': {
     name: 'input-1',
@@ -2319,7 +2203,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input',
     categories: [],
     root_folder: 'input',
-    chunks: [],
   },
   'input-2': {
     name: 'input-2',
@@ -2336,7 +2219,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input',
     categories: [],
     root_folder: 'input',
-    chunks: [],
   },
   'input-3': {
     name: 'input-3',
@@ -2353,7 +2235,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input',
     categories: [],
     root_folder: 'input',
-    chunks: [],
   },
   'input-4': {
     name: 'input-4',
@@ -2370,7 +2251,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input',
     categories: [],
     root_folder: 'input',
-    chunks: [],
   },
   'input-5': {
     name: 'input-5',
@@ -2387,7 +2267,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input',
     categories: [],
     root_folder: 'input',
-    chunks: [],
   },
   'input-6': {
     name: 'input-6',
@@ -2404,7 +2283,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input',
     categories: [],
     root_folder: 'input',
-    chunks: [],
   },
   'input-7': {
     name: 'input-7',
@@ -2421,7 +2299,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input',
     categories: [],
     root_folder: 'input',
-    chunks: [],
   },
   'label-1': {
     name: 'label-1',
@@ -2438,7 +2315,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/label',
     categories: [],
     root_folder: 'label',
-    chunks: [],
   },
   'label-2': {
     name: 'label-2',
@@ -2455,7 +2331,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/label',
     categories: [],
     root_folder: 'label',
-    chunks: [],
   },
   'progress-1': {
     name: 'progress-1',
@@ -2472,7 +2347,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/progress',
     categories: [],
     root_folder: 'progress',
-    chunks: [],
   },
   'radio-group-1': {
     name: 'radio-group-1',
@@ -2489,7 +2363,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/radio-group',
     categories: [],
     root_folder: 'radio-group',
-    chunks: [],
   },
   'radio-group-2': {
     name: 'radio-group-2',
@@ -2506,7 +2379,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/radio-group',
     categories: [],
     root_folder: 'radio-group',
-    chunks: [],
   },
   'scroll-area-1': {
     name: 'scroll-area-1',
@@ -2523,7 +2395,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/scroll-area',
     categories: [],
     root_folder: 'scroll-area',
-    chunks: [],
   },
   'scroll-area-2': {
     name: 'scroll-area-2',
@@ -2540,7 +2411,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/scroll-area',
     categories: [],
     root_folder: 'scroll-area',
-    chunks: [],
   },
   'select-1': {
     name: 'select-1',
@@ -2557,7 +2427,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/select',
     categories: [],
     root_folder: 'select',
-    chunks: [],
   },
   'select-2': {
     name: 'select-2',
@@ -2574,7 +2443,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/select',
     categories: [],
     root_folder: 'select',
-    chunks: [],
   },
   'select-3': {
     name: 'select-3',
@@ -2591,7 +2459,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/select',
     categories: [],
     root_folder: 'select',
-    chunks: [],
   },
   'separator-1': {
     name: 'separator-1',
@@ -2608,7 +2475,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/separator',
     categories: [],
     root_folder: 'separator',
-    chunks: [],
   },
   'sheet-1': {
     name: 'sheet-1',
@@ -2625,7 +2491,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/sheet',
     categories: [],
     root_folder: 'sheet',
-    chunks: [],
   },
   'sheet-2': {
     name: 'sheet-2',
@@ -2642,7 +2507,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/sheet',
     categories: [],
     root_folder: 'sheet',
-    chunks: [],
   },
   'skeleton-1': {
     name: 'skeleton-1',
@@ -2659,7 +2523,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/skeleton',
     categories: [],
     root_folder: 'skeleton',
-    chunks: [],
   },
   'skeleton-2': {
     name: 'skeleton-2',
@@ -2676,7 +2539,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/skeleton',
     categories: [],
     root_folder: 'skeleton',
-    chunks: [],
   },
   'slider-1': {
     name: 'slider-1',
@@ -2693,7 +2555,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/slider',
     categories: [],
     root_folder: 'slider',
-    chunks: [],
   },
   'slider-2': {
     name: 'slider-2',
@@ -2710,7 +2571,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/slider',
     categories: [],
     root_folder: 'slider',
-    chunks: [],
   },
   'switch-1': {
     name: 'switch-1',
@@ -2727,7 +2587,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/switch',
     categories: [],
     root_folder: 'switch',
-    chunks: [],
   },
   'switch-2': {
     name: 'switch-2',
@@ -2744,7 +2603,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/switch',
     categories: [],
     root_folder: 'switch',
-    chunks: [],
   },
   'sonner-1': {
     name: 'sonner-1',
@@ -2761,7 +2619,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/sonner',
     categories: [],
     root_folder: 'sonner',
-    chunks: [],
   },
   'sonner-2': {
     name: 'sonner-2',
@@ -2778,7 +2635,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/sonner',
     categories: [],
     root_folder: 'sonner',
-    chunks: [],
   },
   'sonner-3': {
     name: 'sonner-3',
@@ -2795,7 +2651,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/sonner',
     categories: [],
     root_folder: 'sonner',
-    chunks: [],
   },
   'tabs-1': {
     name: 'tabs-1',
@@ -2812,7 +2667,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/tabs',
     categories: [],
     root_folder: 'tabs',
-    chunks: [],
   },
   'textarea-1': {
     name: 'textarea-1',
@@ -2829,7 +2683,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/textarea',
     categories: [],
     root_folder: 'textarea',
-    chunks: [],
   },
   'textarea-2': {
     name: 'textarea-2',
@@ -2846,7 +2699,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/textarea',
     categories: [],
     root_folder: 'textarea',
-    chunks: [],
   },
   'textarea-3': {
     name: 'textarea-3',
@@ -2863,7 +2715,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/textarea',
     categories: [],
     root_folder: 'textarea',
-    chunks: [],
   },
   'textarea-4': {
     name: 'textarea-4',
@@ -2880,7 +2731,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/textarea',
     categories: [],
     root_folder: 'textarea',
-    chunks: [],
   },
   'textarea-5': {
     name: 'textarea-5',
@@ -2897,7 +2747,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/textarea',
     categories: [],
     root_folder: 'textarea',
-    chunks: [],
   },
   'textarea-6': {
     name: 'textarea-6',
@@ -2914,7 +2763,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/textarea',
     categories: [],
     root_folder: 'textarea',
-    chunks: [],
   },
   'textarea-7': {
     name: 'textarea-7',
@@ -2931,7 +2779,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/textarea',
     categories: [],
     root_folder: 'textarea',
-    chunks: [],
   },
   'toggle-1': {
     name: 'toggle-1',
@@ -2948,7 +2795,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle',
     categories: [],
     root_folder: 'toggle',
-    chunks: [],
   },
   'toggle-2': {
     name: 'toggle-2',
@@ -2965,7 +2811,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle',
     categories: [],
     root_folder: 'toggle',
-    chunks: [],
   },
   'toggle-3': {
     name: 'toggle-3',
@@ -2982,7 +2827,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle',
     categories: [],
     root_folder: 'toggle',
-    chunks: [],
   },
   'toggle-4': {
     name: 'toggle-4',
@@ -2999,7 +2843,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle',
     categories: [],
     root_folder: 'toggle',
-    chunks: [],
   },
   'toggle-5': {
     name: 'toggle-5',
@@ -3016,7 +2859,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle',
     categories: [],
     root_folder: 'toggle',
-    chunks: [],
   },
   'toggle-6': {
     name: 'toggle-6',
@@ -3033,7 +2875,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle',
     categories: [],
     root_folder: 'toggle',
-    chunks: [],
   },
   'toggle-7': {
     name: 'toggle-7',
@@ -3050,7 +2891,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle',
     categories: [],
     root_folder: 'toggle',
-    chunks: [],
   },
   'toggle-group-1': {
     name: 'toggle-group-1',
@@ -3067,7 +2907,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle-group',
     categories: [],
     root_folder: 'toggle-group',
-    chunks: [],
   },
   'toggle-group-2': {
     name: 'toggle-group-2',
@@ -3084,7 +2923,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle-group',
     categories: [],
     root_folder: 'toggle-group',
-    chunks: [],
   },
   'toggle-group-3': {
     name: 'toggle-group-3',
@@ -3101,7 +2939,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle-group',
     categories: [],
     root_folder: 'toggle-group',
-    chunks: [],
   },
   'toggle-group-4': {
     name: 'toggle-group-4',
@@ -3118,7 +2955,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle-group',
     categories: [],
     root_folder: 'toggle-group',
-    chunks: [],
   },
   'toggle-group-5': {
     name: 'toggle-group-5',
@@ -3135,7 +2971,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle-group',
     categories: [],
     root_folder: 'toggle-group',
-    chunks: [],
   },
   'toggle-group-6': {
     name: 'toggle-group-6',
@@ -3152,7 +2987,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle-group',
     categories: [],
     root_folder: 'toggle-group',
-    chunks: [],
   },
   'toggle-group-7': {
     name: 'toggle-group-7',
@@ -3169,7 +3003,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/toggle-group',
     categories: [],
     root_folder: 'toggle-group',
-    chunks: [],
   },
   'tooltip-1': {
     name: 'tooltip-1',
@@ -3186,7 +3019,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/tooltip',
     categories: [],
     root_folder: 'tooltip',
-    chunks: [],
   },
   'tooltip-2': {
     name: 'tooltip-2',
@@ -3203,7 +3035,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/tooltip',
     categories: [],
     root_folder: 'tooltip',
-    chunks: [],
   },
   'aspect-ratio-1': {
     name: 'aspect-ratio-1',
@@ -3220,7 +3051,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/aspect-ratio',
     categories: [],
     root_folder: 'aspect-ratio',
-    chunks: [],
   },
   'typography-1': {
     name: 'typography-1',
@@ -3237,7 +3067,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-10': {
     name: 'typography-10',
@@ -3254,7 +3083,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-11': {
     name: 'typography-11',
@@ -3271,7 +3099,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-12': {
     name: 'typography-12',
@@ -3288,7 +3115,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-13': {
     name: 'typography-13',
@@ -3305,7 +3131,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-14': {
     name: 'typography-14',
@@ -3322,7 +3147,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-2': {
     name: 'typography-2',
@@ -3339,7 +3163,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-3': {
     name: 'typography-3',
@@ -3356,7 +3179,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-4': {
     name: 'typography-4',
@@ -3373,7 +3195,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-5': {
     name: 'typography-5',
@@ -3390,7 +3211,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-6': {
     name: 'typography-6',
@@ -3407,7 +3227,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-7': {
     name: 'typography-7',
@@ -3424,7 +3243,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-8': {
     name: 'typography-8',
@@ -3441,7 +3259,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'typography-9': {
     name: 'typography-9',
@@ -3458,7 +3275,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
-    chunks: [],
   },
   'table-1': {
     name: 'table-1',
@@ -3475,7 +3291,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/table',
     categories: [],
     root_folder: 'table',
-    chunks: [],
   },
   'resizable-1': {
     name: 'resizable-1',
@@ -3492,7 +3307,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/resizable',
     categories: [],
     root_folder: 'resizable',
-    chunks: [],
   },
   'resizable-2': {
     name: 'resizable-2',
@@ -3509,7 +3323,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/resizable',
     categories: [],
     root_folder: 'resizable',
-    chunks: [],
   },
   'resizable-3': {
     name: 'resizable-3',
@@ -3526,7 +3339,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/resizable',
     categories: [],
     root_folder: 'resizable',
-    chunks: [],
   },
   'pagination-1': {
     name: 'pagination-1',
@@ -3543,7 +3355,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/pagination',
     categories: [],
     root_folder: 'pagination',
-    chunks: [],
   },
   'checkbox-1': {
     name: 'checkbox-1',
@@ -3560,7 +3371,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
-    chunks: [],
   },
   'checkbox-2': {
     name: 'checkbox-2',
@@ -3577,7 +3387,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
-    chunks: [],
   },
   'checkbox-3': {
     name: 'checkbox-3',
@@ -3594,7 +3403,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
-    chunks: [],
   },
   'checkbox-4': {
     name: 'checkbox-4',
@@ -3611,7 +3419,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
-    chunks: [],
   },
   'checkbox-5': {
     name: 'checkbox-5',
@@ -3628,7 +3435,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
-    chunks: [],
   },
   'checkbox-6': {
     name: 'checkbox-6',
@@ -3645,7 +3451,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
-    chunks: [],
   },
   'checkbox-7': {
     name: 'checkbox-7',
@@ -3662,7 +3467,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
-    chunks: [],
   },
   'checkbox-8': {
     name: 'checkbox-8',
@@ -3679,7 +3483,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
-    chunks: [],
   },
   'carousel-1': {
     name: 'carousel-1',
@@ -3696,7 +3499,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/carousel',
     categories: [],
     root_folder: 'carousel',
-    chunks: [],
   },
   'carousel-2': {
     name: 'carousel-2',
@@ -3713,7 +3515,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/carousel',
     categories: [],
     root_folder: 'carousel',
-    chunks: [],
   },
   'carousel-3': {
     name: 'carousel-3',
@@ -3730,7 +3531,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/carousel',
     categories: [],
     root_folder: 'carousel',
-    chunks: [],
   },
   'carousel-4': {
     name: 'carousel-4',
@@ -3747,7 +3547,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/carousel',
     categories: [],
     root_folder: 'carousel',
-    chunks: [],
   },
   'carousel-5': {
     name: 'carousel-5',
@@ -3764,7 +3563,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/carousel',
     categories: [],
     root_folder: 'carousel',
-    chunks: [],
   },
   'carousel-6': {
     name: 'carousel-6',
@@ -3781,7 +3579,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/carousel',
     categories: [],
     root_folder: 'carousel',
-    chunks: [],
   },
   'date-picker-1': {
     name: 'date-picker-1',
@@ -3798,7 +3595,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/date-picker',
     categories: [],
     root_folder: 'date-picker',
-    chunks: [],
   },
   'date-picker-2': {
     name: 'date-picker-2',
@@ -3815,7 +3611,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/date-picker',
     categories: [],
     root_folder: 'date-picker',
-    chunks: [],
   },
   'date-picker-3': {
     name: 'date-picker-3',
@@ -3832,7 +3627,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/date-picker',
     categories: [],
     root_folder: 'date-picker',
-    chunks: [],
   },
   'date-picker-4': {
     name: 'date-picker-4',
@@ -3849,7 +3643,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/date-picker',
     categories: [],
     root_folder: 'date-picker',
-    chunks: [],
   },
   'date-picker-5': {
     name: 'date-picker-5',
@@ -3866,7 +3659,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/date-picker',
     categories: [],
     root_folder: 'date-picker',
-    chunks: [],
   },
   'date-picker-6': {
     name: 'date-picker-6',
@@ -3883,7 +3675,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/date-picker',
     categories: [],
     root_folder: 'date-picker',
-    chunks: [],
   },
   'popover-1': {
     name: 'popover-1',
@@ -3900,7 +3691,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/popover',
     categories: [],
     root_folder: 'popover',
-    chunks: [],
   },
   'popover-2': {
     name: 'popover-2',
@@ -3917,7 +3707,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/popover',
     categories: [],
     root_folder: 'popover',
-    chunks: [],
   },
   'menubar-1': {
     name: 'menubar-1',
@@ -3934,7 +3723,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/menubar',
     categories: [],
     root_folder: 'menubar',
-    chunks: [],
   },
   'dropdown-menu-1': {
     name: 'dropdown-menu-1',
@@ -3951,7 +3739,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/dropdown-menu',
     categories: [],
     root_folder: 'dropdown-menu',
-    chunks: [],
   },
   'dropdown-menu-2': {
     name: 'dropdown-menu-2',
@@ -3968,7 +3755,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/dropdown-menu',
     categories: [],
     root_folder: 'dropdown-menu',
-    chunks: [],
   },
   'dropdown-menu-3': {
     name: 'dropdown-menu-3',
@@ -3985,7 +3771,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/dropdown-menu',
     categories: [],
     root_folder: 'dropdown-menu',
-    chunks: [],
   },
   'combobox-1': {
     name: 'combobox-1',
@@ -4002,7 +3787,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/combobox',
     categories: [],
     root_folder: 'combobox',
-    chunks: [],
   },
   'combobox-2': {
     name: 'combobox-2',
@@ -4019,7 +3803,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/combobox',
     categories: [],
     root_folder: 'combobox',
-    chunks: [],
   },
   'combobox-3': {
     name: 'combobox-3',
@@ -4036,7 +3819,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/combobox',
     categories: [],
     root_folder: 'combobox',
-    chunks: [],
   },
   'combobox-4': {
     name: 'combobox-4',
@@ -4053,7 +3835,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/combobox',
     categories: [],
     root_folder: 'combobox',
-    chunks: [],
   },
   'combobox-5': {
     name: 'combobox-5',
@@ -4070,7 +3851,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/combobox',
     categories: [],
     root_folder: 'combobox',
-    chunks: [],
   },
   'combobox-6': {
     name: 'combobox-6',
@@ -4087,7 +3867,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/combobox',
     categories: [],
     root_folder: 'combobox',
-    chunks: [],
   },
   'collapsible-1': {
     name: 'collapsible-1',
@@ -4104,7 +3883,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/collapsible',
     categories: [],
     root_folder: 'collapsible',
-    chunks: [],
   },
   'input-otp-1': {
     name: 'input-otp-1',
@@ -4121,7 +3899,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-otp',
     categories: [],
     root_folder: 'input-otp',
-    chunks: [],
   },
   'input-otp-2': {
     name: 'input-otp-2',
@@ -4138,7 +3915,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-otp',
     categories: [],
     root_folder: 'input-otp',
-    chunks: [],
   },
   'input-otp-3': {
     name: 'input-otp-3',
@@ -4155,7 +3931,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-otp',
     categories: [],
     root_folder: 'input-otp',
-    chunks: [],
   },
   'input-otp-4': {
     name: 'input-otp-4',
@@ -4172,7 +3947,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-otp',
     categories: [],
     root_folder: 'input-otp',
-    chunks: [],
   },
   'input-otp-5': {
     name: 'input-otp-5',
@@ -4189,7 +3963,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-otp',
     categories: [],
     root_folder: 'input-otp',
-    chunks: [],
   },
   'input-otp-6': {
     name: 'input-otp-6',
@@ -4206,7 +3979,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-otp',
     categories: [],
     root_folder: 'input-otp',
-    chunks: [],
   },
   'chart-1': {
     name: 'chart-1',
@@ -4223,7 +3995,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/chart',
     categories: [],
     root_folder: 'chart',
-    chunks: [],
   },
   'chart-2': {
     name: 'chart-2',
@@ -4240,7 +4011,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/chart',
     categories: [],
     root_folder: 'chart',
-    chunks: [],
   },
   'chart-3': {
     name: 'chart-3',
@@ -4257,7 +4027,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/chart',
     categories: [],
     root_folder: 'chart',
-    chunks: [],
   },
   'chart-4': {
     name: 'chart-4',
@@ -4274,7 +4043,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/chart',
     categories: [],
     root_folder: 'chart',
-    chunks: [],
   },
   'chart-5': {
     name: 'chart-5',
@@ -4291,7 +4059,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/chart',
     categories: [],
     root_folder: 'chart',
-    chunks: [],
   },
   'chart-6': {
     name: 'chart-6',
@@ -4308,7 +4075,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/chart',
     categories: [],
     root_folder: 'chart',
-    chunks: [],
   },
   'chart-7': {
     name: 'chart-7',
@@ -4325,7 +4091,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/chart',
     categories: [],
     root_folder: 'chart',
-    chunks: [],
   },
   'navigation-menu-1': {
     name: 'navigation-menu-1',
@@ -4342,7 +4107,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/navigation-menu',
     categories: [],
     root_folder: 'navigation-menu',
-    chunks: [],
   },
   'context-menu-1': {
     name: 'context-menu-1',
@@ -4359,7 +4123,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/context-menu',
     categories: [],
     root_folder: 'context-menu',
-    chunks: [],
   },
   'data-table-1': {
     name: 'data-table-1',
@@ -4376,7 +4139,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/data-table',
     categories: [],
     root_folder: 'data-table',
-    chunks: [],
   },
   'cva-1': {
     name: 'cva-1',
@@ -4393,7 +4155,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/cva',
     categories: [],
     root_folder: 'cva',
-    chunks: [],
   },
   'button-group-1': {
     name: 'button-group-1',
@@ -4410,7 +4171,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-10': {
     name: 'button-group-10',
@@ -4427,7 +4187,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-11': {
     name: 'button-group-11',
@@ -4444,7 +4203,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-2': {
     name: 'button-group-2',
@@ -4461,7 +4219,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-3': {
     name: 'button-group-3',
@@ -4478,7 +4235,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-4': {
     name: 'button-group-4',
@@ -4495,7 +4251,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-5': {
     name: 'button-group-5',
@@ -4512,7 +4267,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-6': {
     name: 'button-group-6',
@@ -4529,7 +4283,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-7': {
     name: 'button-group-7',
@@ -4546,7 +4299,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-8': {
     name: 'button-group-8',
@@ -4563,7 +4315,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'button-group-9': {
     name: 'button-group-9',
@@ -4580,7 +4331,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
-    chunks: [],
   },
   'kbd-1': {
     name: 'kbd-1',
@@ -4597,7 +4347,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/kbd',
     categories: [],
     root_folder: 'kbd',
-    chunks: [],
   },
   'kbd-2': {
     name: 'kbd-2',
@@ -4614,7 +4363,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/kbd',
     categories: [],
     root_folder: 'kbd',
-    chunks: [],
   },
   'kbd-3': {
     name: 'kbd-3',
@@ -4631,7 +4379,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/kbd',
     categories: [],
     root_folder: 'kbd',
-    chunks: [],
   },
   'kbd-4': {
     name: 'kbd-4',
@@ -4648,7 +4395,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/kbd',
     categories: [],
     root_folder: 'kbd',
-    chunks: [],
   },
   'kbd-5': {
     name: 'kbd-5',
@@ -4665,7 +4411,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/kbd',
     categories: [],
     root_folder: 'kbd',
-    chunks: [],
   },
   'empty-1': {
     name: 'empty-1',
@@ -4682,7 +4427,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/empty',
     categories: [],
     root_folder: 'empty',
-    chunks: [],
   },
   'empty-2': {
     name: 'empty-2',
@@ -4699,7 +4443,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/empty',
     categories: [],
     root_folder: 'empty',
-    chunks: [],
   },
   'empty-3': {
     name: 'empty-3',
@@ -4716,7 +4459,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/empty',
     categories: [],
     root_folder: 'empty',
-    chunks: [],
   },
   'empty-4': {
     name: 'empty-4',
@@ -4733,7 +4475,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/empty',
     categories: [],
     root_folder: 'empty',
-    chunks: [],
   },
   'empty-5': {
     name: 'empty-5',
@@ -4750,7 +4491,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/empty',
     categories: [],
     root_folder: 'empty',
-    chunks: [],
   },
   'empty-6': {
     name: 'empty-6',
@@ -4767,7 +4507,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/empty',
     categories: [],
     root_folder: 'empty',
-    chunks: [],
   },
   'field-1': {
     name: 'field-1',
@@ -4784,7 +4523,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-10': {
     name: 'field-10',
@@ -4801,7 +4539,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-11': {
     name: 'field-11',
@@ -4818,7 +4555,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-12': {
     name: 'field-12',
@@ -4835,7 +4571,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-2': {
     name: 'field-2',
@@ -4852,7 +4587,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-3': {
     name: 'field-3',
@@ -4869,7 +4603,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-4': {
     name: 'field-4',
@@ -4886,7 +4619,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-5': {
     name: 'field-5',
@@ -4903,7 +4635,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-6': {
     name: 'field-6',
@@ -4920,7 +4651,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-7': {
     name: 'field-7',
@@ -4937,7 +4667,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-8': {
     name: 'field-8',
@@ -4954,7 +4683,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'field-9': {
     name: 'field-9',
@@ -4971,7 +4699,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
-    chunks: [],
   },
   'item-1': {
     name: 'item-1',
@@ -4988,7 +4715,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'item-10': {
     name: 'item-10',
@@ -5005,7 +4731,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'item-2': {
     name: 'item-2',
@@ -5022,7 +4747,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'item-3': {
     name: 'item-3',
@@ -5039,7 +4763,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'item-4': {
     name: 'item-4',
@@ -5056,7 +4779,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'item-5': {
     name: 'item-5',
@@ -5073,7 +4795,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'item-6': {
     name: 'item-6',
@@ -5090,7 +4811,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'item-7': {
     name: 'item-7',
@@ -5107,7 +4827,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'item-8': {
     name: 'item-8',
@@ -5124,7 +4843,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'item-9': {
     name: 'item-9',
@@ -5141,7 +4859,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
-    chunks: [],
   },
   'input-group-1': {
     name: 'input-group-1',
@@ -5158,7 +4875,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-10': {
     name: 'input-group-10',
@@ -5175,7 +4891,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-11': {
     name: 'input-group-11',
@@ -5192,7 +4907,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-2': {
     name: 'input-group-2',
@@ -5209,7 +4923,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-3': {
     name: 'input-group-3',
@@ -5226,7 +4939,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-4': {
     name: 'input-group-4',
@@ -5243,7 +4955,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-5': {
     name: 'input-group-5',
@@ -5260,7 +4971,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-6': {
     name: 'input-group-6',
@@ -5277,7 +4987,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-7': {
     name: 'input-group-7',
@@ -5294,7 +5003,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-8': {
     name: 'input-group-8',
@@ -5311,7 +5019,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'input-group-9': {
     name: 'input-group-9',
@@ -5328,7 +5035,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
-    chunks: [],
   },
   'theme-toggle-1': {
     name: 'theme-toggle-1',
@@ -5345,7 +5051,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/theme-toggle',
     categories: [],
     root_folder: 'theme-toggle',
-    chunks: [],
   },
   'signup-1': {
     name: 'signup-1',
@@ -5366,7 +5071,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/authentications/signup-1',
     categories: ['authentications', 'signup'],
     root_folder: 'authentications/signup-1',
-    chunks: [],
   },
   'login-1': {
     name: 'login-1',
@@ -5387,7 +5091,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/authentications/login-1',
     categories: ['authentications', 'login'],
     root_folder: 'authentications/login-1',
-    chunks: [],
   },
   'login-2': {
     name: 'login-2',
@@ -5408,7 +5111,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/authentications/login-2',
     categories: ['authentications', 'login'],
     root_folder: 'authentications/login-2',
-    chunks: [],
   },
   'login-3': {
     name: 'login-3',
@@ -5429,7 +5131,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/authentications/login-3',
     categories: ['authentications', 'login'],
     root_folder: 'authentications/login-3',
-    chunks: [],
   },
   'login-4': {
     name: 'login-4',
@@ -5450,7 +5151,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/authentications/login-4',
     categories: ['authentications', 'login'],
     root_folder: 'authentications/login-4',
-    chunks: [],
   },
   'login-5': {
     name: 'login-5',
@@ -5471,7 +5171,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/authentications/login-5',
     categories: ['authentications', 'login'],
     root_folder: 'authentications/login-5',
-    chunks: [],
   },
   'dashboard-1': {
     name: 'dashboard-1',
@@ -5524,7 +5223,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/dashboards/dashboard-1',
     categories: ['dashboards', 'dashboard'],
     root_folder: 'dashboards/dashboard-1',
-    chunks: [],
   },
   'chart-area-axes': {
     name: 'chart-area-axes',
@@ -5541,7 +5239,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-axes',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-axes',
-    chunks: [],
   },
   'chart-area-default': {
     name: 'chart-area-default',
@@ -5560,7 +5257,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-default',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-default',
-    chunks: [],
   },
   'chart-area-gradient': {
     name: 'chart-area-gradient',
@@ -5579,7 +5275,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-gradient',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-gradient',
-    chunks: [],
   },
   'chart-area-icons': {
     name: 'chart-area-icons',
@@ -5596,7 +5291,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-icons',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-icons',
-    chunks: [],
   },
   'chart-area-interactive': {
     name: 'chart-area-interactive',
@@ -5615,7 +5309,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-interactive',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-interactive',
-    chunks: [],
   },
   'chart-area-legend': {
     name: 'chart-area-legend',
@@ -5634,7 +5327,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-legend',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-legend',
-    chunks: [],
   },
   'chart-area-linear': {
     name: 'chart-area-linear',
@@ -5653,7 +5345,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-linear',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-linear',
-    chunks: [],
   },
   'chart-area-stacked-expand': {
     name: 'chart-area-stacked-expand',
@@ -5672,7 +5363,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-stacked-expand',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-stacked-expand',
-    chunks: [],
   },
   'chart-area-stacked': {
     name: 'chart-area-stacked',
@@ -5691,7 +5381,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-stacked',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-stacked',
-    chunks: [],
   },
   'chart-area-step': {
     name: 'chart-area-step',
@@ -5708,7 +5397,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-area-step',
     categories: ['charts', 'charts-area'],
     root_folder: 'charts/chart-area-step',
-    chunks: [],
   },
   'chart-bar-active': {
     name: 'chart-bar-active',
@@ -5725,7 +5413,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-active',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-active',
-    chunks: [],
   },
   'chart-bar-default': {
     name: 'chart-bar-default',
@@ -5744,7 +5431,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-default',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-default',
-    chunks: [],
   },
   'chart-bar-horizontal': {
     name: 'chart-bar-horizontal',
@@ -5763,7 +5449,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-horizontal',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-horizontal',
-    chunks: [],
   },
   'chart-bar-interactive': {
     name: 'chart-bar-interactive',
@@ -5782,7 +5467,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-interactive',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-interactive',
-    chunks: [],
   },
   'chart-bar-label-custom': {
     name: 'chart-bar-label-custom',
@@ -5801,7 +5485,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-label-custom',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-label-custom',
-    chunks: [],
   },
   'chart-bar-label': {
     name: 'chart-bar-label',
@@ -5818,7 +5501,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-label',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-label',
-    chunks: [],
   },
   'chart-bar-mixed': {
     name: 'chart-bar-mixed',
@@ -5835,7 +5517,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-mixed',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-mixed',
-    chunks: [],
   },
   'chart-bar-multiple': {
     name: 'chart-bar-multiple',
@@ -5854,7 +5535,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-multiple',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-multiple',
-    chunks: [],
   },
   'chart-bar-negative': {
     name: 'chart-bar-negative',
@@ -5873,7 +5553,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-negative',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-negative',
-    chunks: [],
   },
   'chart-bar-stacked': {
     name: 'chart-bar-stacked',
@@ -5892,7 +5571,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-bar-stacked',
     categories: ['charts', 'charts-bar'],
     root_folder: 'charts/chart-bar-stacked',
-    chunks: [],
   },
   'chart-line-default': {
     name: 'chart-line-default',
@@ -5911,7 +5589,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-default',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-default',
-    chunks: [],
   },
   'chart-line-dots-colors': {
     name: 'chart-line-dots-colors',
@@ -5930,7 +5607,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-dots-colors',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-dots-colors',
-    chunks: [],
   },
   'chart-line-dots-custom': {
     name: 'chart-line-dots-custom',
@@ -5949,7 +5625,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-dots-custom',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-dots-custom',
-    chunks: [],
   },
   'chart-line-dots': {
     name: 'chart-line-dots',
@@ -5966,7 +5641,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-dots',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-dots',
-    chunks: [],
   },
   'chart-line-interactive': {
     name: 'chart-line-interactive',
@@ -5985,7 +5659,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-interactive',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-interactive',
-    chunks: [],
   },
   'chart-line-label-custom': {
     name: 'chart-line-label-custom',
@@ -6004,7 +5677,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-label-custom',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-label-custom',
-    chunks: [],
   },
   'chart-line-label': {
     name: 'chart-line-label',
@@ -6021,7 +5693,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-label',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-label',
-    chunks: [],
   },
   'chart-line-linear': {
     name: 'chart-line-linear',
@@ -6040,7 +5711,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-linear',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-linear',
-    chunks: [],
   },
   'chart-line-multiple': {
     name: 'chart-line-multiple',
@@ -6059,7 +5729,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-multiple',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-multiple',
-    chunks: [],
   },
   'chart-line-step': {
     name: 'chart-line-step',
@@ -6076,7 +5745,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-line-step',
     categories: ['charts', 'charts-line'],
     root_folder: 'charts/chart-line-step',
-    chunks: [],
   },
   'chart-pie-donut-active': {
     name: 'chart-pie-donut-active',
@@ -6095,7 +5763,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-donut-active',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-donut-active',
-    chunks: [],
   },
   'chart-pie-donut-text': {
     name: 'chart-pie-donut-text',
@@ -6114,7 +5781,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-donut-text',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-donut-text',
-    chunks: [],
   },
   'chart-pie-donut': {
     name: 'chart-pie-donut',
@@ -6131,7 +5797,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-donut',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-donut',
-    chunks: [],
   },
   'chart-pie-interactive': {
     name: 'chart-pie-interactive',
@@ -6150,7 +5815,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-interactive',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-interactive',
-    chunks: [],
   },
   'chart-pie-label-custom': {
     name: 'chart-pie-label-custom',
@@ -6169,7 +5833,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-label-custom',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-label-custom',
-    chunks: [],
   },
   'chart-pie-label-list': {
     name: 'chart-pie-label-list',
@@ -6188,7 +5851,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-label-list',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-label-list',
-    chunks: [],
   },
   'chart-pie-label': {
     name: 'chart-pie-label',
@@ -6205,7 +5867,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-label',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-label',
-    chunks: [],
   },
   'chart-pie-legend': {
     name: 'chart-pie-legend',
@@ -6222,7 +5883,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-legend',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-legend',
-    chunks: [],
   },
   'chart-pie-separator-none': {
     name: 'chart-pie-separator-none',
@@ -6241,7 +5901,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-separator-none',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-separator-none',
-    chunks: [],
   },
   'chart-pie-simple': {
     name: 'chart-pie-simple',
@@ -6258,7 +5917,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-simple',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-simple',
-    chunks: [],
   },
   'chart-pie-stacked': {
     name: 'chart-pie-stacked',
@@ -6277,7 +5935,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-pie-stacked',
     categories: ['charts', 'charts-pie'],
     root_folder: 'charts/chart-pie-stacked',
-    chunks: [],
   },
   'chart-radar-default': {
     name: 'chart-radar-default',
@@ -6296,7 +5953,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-default',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-default',
-    chunks: [],
   },
   'chart-radar-dots': {
     name: 'chart-radar-dots',
@@ -6313,7 +5969,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-dots',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-dots',
-    chunks: [],
   },
   'chart-radar-grid-circle-fill': {
     name: 'chart-radar-grid-circle-fill',
@@ -6333,7 +5988,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-grid-circle-fill',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-grid-circle-fill',
-    chunks: [],
   },
   'chart-radar-grid-circle-no-lines': {
     name: 'chart-radar-grid-circle-no-lines',
@@ -6355,7 +6009,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-grid-circle-no-lines',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-grid-circle-no-lines',
-    chunks: [],
   },
   'chart-radar-grid-circle': {
     name: 'chart-radar-grid-circle',
@@ -6374,7 +6027,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-grid-circle',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-grid-circle',
-    chunks: [],
   },
   'chart-radar-grid-custom': {
     name: 'chart-radar-grid-custom',
@@ -6393,7 +6045,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-grid-custom',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-grid-custom',
-    chunks: [],
   },
   'chart-radar-grid-fill': {
     name: 'chart-radar-grid-fill',
@@ -6412,7 +6063,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-grid-fill',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-grid-fill',
-    chunks: [],
   },
   'chart-radar-grid-none': {
     name: 'chart-radar-grid-none',
@@ -6431,7 +6081,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-grid-none',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-grid-none',
-    chunks: [],
   },
   'chart-radar-icons': {
     name: 'chart-radar-icons',
@@ -6450,7 +6099,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-icons',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-icons',
-    chunks: [],
   },
   'chart-radar-label-custom': {
     name: 'chart-radar-label-custom',
@@ -6469,7 +6117,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-label-custom',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-label-custom',
-    chunks: [],
   },
   'chart-radar-legend': {
     name: 'chart-radar-legend',
@@ -6488,7 +6135,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-legend',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-legend',
-    chunks: [],
   },
   'chart-radar-lines-only': {
     name: 'chart-radar-lines-only',
@@ -6507,7 +6153,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-lines-only',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-lines-only',
-    chunks: [],
   },
   'chart-radar-multiple': {
     name: 'chart-radar-multiple',
@@ -6526,7 +6171,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-multiple',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-multiple',
-    chunks: [],
   },
   'chart-radar-radius': {
     name: 'chart-radar-radius',
@@ -6545,7 +6189,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radar-radius',
     categories: ['charts', 'charts-radar'],
     root_folder: 'charts/chart-radar-radius',
-    chunks: [],
   },
   'chart-radial-grid': {
     name: 'chart-radial-grid',
@@ -6564,7 +6207,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radial-grid',
     categories: ['charts', 'charts-radial'],
     root_folder: 'charts/chart-radial-grid',
-    chunks: [],
   },
   'chart-radial-label': {
     name: 'chart-radial-label',
@@ -6583,7 +6225,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radial-label',
     categories: ['charts', 'charts-radial'],
     root_folder: 'charts/chart-radial-label',
-    chunks: [],
   },
   'chart-radial-shape': {
     name: 'chart-radial-shape',
@@ -6602,7 +6243,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radial-shape',
     categories: ['charts', 'charts-radial'],
     root_folder: 'charts/chart-radial-shape',
-    chunks: [],
   },
   'chart-radial-simple': {
     name: 'chart-radial-simple',
@@ -6621,7 +6261,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radial-simple',
     categories: ['charts', 'charts-radial'],
     root_folder: 'charts/chart-radial-simple',
-    chunks: [],
   },
   'chart-radial-stacked': {
     name: 'chart-radial-stacked',
@@ -6640,7 +6279,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radial-stacked',
     categories: ['charts', 'charts-radial'],
     root_folder: 'charts/chart-radial-stacked',
-    chunks: [],
   },
   'chart-radial-text': {
     name: 'chart-radial-text',
@@ -6659,7 +6297,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-radial-text',
     categories: ['charts', 'charts-radial'],
     root_folder: 'charts/chart-radial-text',
-    chunks: [],
   },
   'chart-tooltip-default': {
     name: 'chart-tooltip-default',
@@ -6678,7 +6315,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-tooltip-default',
     categories: ['charts', 'charts-tooltip'],
     root_folder: 'charts/chart-tooltip-default',
-    chunks: [],
   },
   'chart-tooltip-indicator-line': {
     name: 'chart-tooltip-indicator-line',
@@ -6698,7 +6334,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-tooltip-indicator-line',
     categories: ['charts', 'charts-tooltip'],
     root_folder: 'charts/chart-tooltip-indicator-line',
-    chunks: [],
   },
   'chart-tooltip-indicator-none': {
     name: 'chart-tooltip-indicator-none',
@@ -6718,7 +6353,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-tooltip-indicator-none',
     categories: ['charts', 'charts-tooltip'],
     root_folder: 'charts/chart-tooltip-indicator-none',
-    chunks: [],
   },
   'chart-tooltip-label-none': {
     name: 'chart-tooltip-label-none',
@@ -6737,7 +6371,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-tooltip-label-none',
     categories: ['charts', 'charts-tooltip'],
     root_folder: 'charts/chart-tooltip-label-none',
-    chunks: [],
   },
   'chart-tooltip-label-custom': {
     name: 'chart-tooltip-label-custom',
@@ -6756,7 +6389,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-tooltip-label-custom',
     categories: ['charts', 'charts-tooltip'],
     root_folder: 'charts/chart-tooltip-label-custom',
-    chunks: [],
   },
   'chart-tooltip-label-formatter': {
     name: 'chart-tooltip-label-formatter',
@@ -6776,7 +6408,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-tooltip-label-formatter',
     categories: ['charts', 'charts-tooltip'],
     root_folder: 'charts/chart-tooltip-label-formatter',
-    chunks: [],
   },
   'chart-tooltip-formatter': {
     name: 'chart-tooltip-formatter',
@@ -6795,7 +6426,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-tooltip-formatter',
     categories: ['charts', 'charts-tooltip'],
     root_folder: 'charts/chart-tooltip-formatter',
-    chunks: [],
   },
   'chart-tooltip-icons': {
     name: 'chart-tooltip-icons',
@@ -6814,7 +6444,6 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-tooltip-icons',
     categories: ['charts', 'charts-tooltip'],
     root_folder: 'charts/chart-tooltip-icons',
-    chunks: [],
   },
   'chart-tooltip-advanced': {
     name: 'chart-tooltip-advanced',
@@ -6833,6 +6462,5 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/charts/chart-tooltip-advanced',
     categories: ['charts', 'charts-tooltip'],
     root_folder: 'charts/chart-tooltip-advanced',
-    chunks: [],
   },
 }
