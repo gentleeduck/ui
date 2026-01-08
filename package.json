@@ -71,7 +71,7 @@
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",
     "clean:git": "git clean -xdf .cache .turbo node_modules dist",
     "lint:ws": "pnpm dlx sherif@latest",
-    "postinstall": "pnpm run lint:ws -f",
+    "postinstall": "pnpm run lint:ws",
     "prepare": "husky"
   }
 }

@@ -59,4 +59,4 @@ certificates
 
 tailwind.config.ts
 **/.fuse_*
-**/node_compile_cache/**
+node-compile-cache
