@@ -52,6 +52,7 @@
     "format": "biome format --write ./ && biome check --write .",
     "lint": "biome lint --write ./",
     "lint:ws": "pnpm dlx sherif@latest",
+    "release": "changeset publish",
     "test": "vitest"
   },
   "version": "1.0.0"
