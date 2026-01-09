@@ -10,9 +10,7 @@
     "moduleResolution": "bundler",
     "noErrorTruncation": true,
     "paths": {
-      "@duck-docs/*": ["../../packages/duck-docs/src/*"],
       "~/*": ["./*"],
-      "~/old-registry-ui": ["../_oldstuff_refactor/ui/*"],
       "~/velite": ["./.velite/*"]
     },
     "plugins": [
@@ -28,13 +26,5 @@
   },
   "exclude": ["node_modules", "dist"],
   "extends": "@gentleduck/typescript-config/base.json",
-  "include": [
-    "node_modules",
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".velite",
-    "../../packages/_oldstuff_refactor/ui"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".velite"]
 }

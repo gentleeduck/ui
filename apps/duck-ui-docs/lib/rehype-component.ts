@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import type { UnistNode, UnistTree } from '@duck-docs/types'
+import type { UnistNode, UnistTree } from '@gentleduck/docs/types'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'
 import { Index } from '../__ui_registry__'

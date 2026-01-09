@@ -1,16 +1,17 @@
 import type { Event } from '@duck-docs/lib/events'
-import type * as button from '@gentleduck/registry-ui-duckui/button'
-import type { DropdownMenuTrigger } from '@gentleduck/registry-ui-duckui/dropdown-menu'
+import type * as React from 'react'
 
-export type DropdownMenuTriggerProps = typeof DropdownMenuTrigger
+export type DropdownMenuTriggerProps = React.ComponentPropsWithoutRef<
+  typeof import('@gentleduck/registry-ui-duckui/dropdown-menu').DropdownMenuTrigger
+>
 
-export interface CopyWithClassNamesProps extends DropdownMenuTriggerProps {
+export type CopyWithClassNamesProps = DropdownMenuTriggerProps & {
   value: string
   classNames: string
   className?: string
 }
 
-export interface CopyButtonProps extends button.ButtonProps {
+export type CopyButtonProps = import('@gentleduck/registry-ui-duckui/button').ButtonProps & {
   value: string
   event?: Event['name']
 }

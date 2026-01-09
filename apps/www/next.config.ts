@@ -26,7 +26,7 @@ const nextConfig: NextConfig = {
     ],
   },
   reactStrictMode: false,
-  transpilePackages: ['@gentleduck/registry-ui-duckui', '@gentleduck/registry-examples-duckui'],
+  transpilePackages: ['@gentleduck/registry-ui-duckui'],
 }
 
 export default nextConfig

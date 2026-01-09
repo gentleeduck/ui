@@ -1029,6 +1029,9 @@ importers:
       remark-gfm:
         specifier: ^4.0.0
         version: 4.0.1
+      tabbable:
+        specifier: 6.2.0
+        version: 6.2.0
       tw-animate-css:
         specifier: ^1.2.4
         version: 1.4.0

@@ -98,9 +98,6 @@ const nextConfig: NextConfig = {
     '@gentleduck/registry-examples-duckui',
     '@gentleduck/registry-blocks-duckui',
   ],
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   // rewrites: async () => {
   //   return [
   //     {

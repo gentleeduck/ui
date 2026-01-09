@@ -7,7 +7,6 @@ export default defineConfig({
     '@duck-docs': './src',
   },
   entry: ['src/**/*.{ts,tsx}', '!src/**/__test__/**'],
-  minify: false,
-  noExternal: [/^@gentleduck\//],
+  // noExternal: [/^@gentleduck\//],
   plugins: [],
 })
