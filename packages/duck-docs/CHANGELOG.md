@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.0.4
+
+### Patch Changes
+
+- c0878f7: dependency change
+
 ## 0.0.3
 
 ### Patch Changes
