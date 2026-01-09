@@ -38,5 +38,7 @@ jobs:
         with:
           publish: pnpm release
         env:
+          NODE_ENV: development
+          NEXT_PUBLIC_APP_URL: https://gentleduck.org
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
