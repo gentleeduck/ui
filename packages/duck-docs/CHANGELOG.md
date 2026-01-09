@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.0.7
+
+### Patch Changes
+
+- f42fb03: fix
+
 ## 0.0.6
 
 ### Patch Changes
