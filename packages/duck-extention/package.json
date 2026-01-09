@@ -1,4 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
   "author": "wildduck (https://github.com/wildduck2)",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
@@ -35,9 +42,6 @@
     "typescript-eslint": "^8.46.3",
     "vite": "catalog:",
     "vite-plugin-web-extension": "^4.5.0"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     "./*": "./dist/*"

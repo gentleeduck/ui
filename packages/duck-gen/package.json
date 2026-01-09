@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "author": "gentleduck",
   "bin": {
     "duck-gen": "./bin/duck-gen.js"
@@ -21,9 +24,6 @@
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "tsdown": "catalog:"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     ".": "./src/index.ts",

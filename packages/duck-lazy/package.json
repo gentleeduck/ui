@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "author": "wildduck (https://github.com/wildduck2)",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
@@ -10,9 +14,6 @@
     "@types/react": "catalog:react19",
     "tsdown": "catalog:",
     "tsup": "^8.5.1"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     "./*": "./dist/*/index.js"

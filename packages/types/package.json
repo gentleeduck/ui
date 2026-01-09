@@ -1,13 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "author": "gentleduck",
   "description": "this is a package for types and utils for typescript",
   "devDependencies": {
     "@gentleduck/biome-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     ".": "./index.ts"

@@ -5,7 +5,11 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "ignore": [],
+  "ignore": [
+    "@gentleduck/gen-docs",
+    "@gentleduck/ui-docs",
+    "@gentleduck/www"
+  ],
   "linked": [],
-  "updateInternalDependencies": "patch"
+  "updateInternalDependencies": "minor"
 }

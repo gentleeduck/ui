@@ -1,5 +1,9 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@emoji-mart/data",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "version": "1.2.1",
   "description": "Data for Emoji Mart; the emoji picker for the web.",
   "license": "MIT",

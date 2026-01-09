@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
@@ -29,9 +32,6 @@
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "typescript": "catalog:"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     "./*": "./src/*/index.ts"
