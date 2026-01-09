@@ -55,8 +55,18 @@
     "vitest": "catalog:"
   },
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*/index.ts",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    },
+    "./*": {
+      "types": "./dist/*/index.d.ts",
+      "default": "./dist/*/index.js"
+    },
     "./styles/base.css": "./src/styles/base.css",
     "./styles/docs.css": "./src/styles/docs.css",
     "./styles/mdx.css": "./src/styles/mdx.css",

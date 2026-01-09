@@ -1,6 +1,6 @@
 'use client'
 
-import { CopyButton, useConfig } from '@gentleduck/docs'
+import { CopyButton, useConfig } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import { type BaseColor, baseColors, baseColorsOKLCH } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'

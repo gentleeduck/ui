@@ -1,6 +1,6 @@
 'use client'
 
-import { getIconForLanguageExtension } from '@gentleduck/docs'
+import { getIconForLanguageExtension } from '@gentleduck/docs/client'
 import { trackEvent } from '@gentleduck/docs/lib'
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { cn } from '@gentleduck/libs/cn'

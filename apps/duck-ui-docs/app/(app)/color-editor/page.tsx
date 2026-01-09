@@ -1,6 +1,6 @@
 'use client'
 
-import { CopyButton } from '@gentleduck/docs'
+import { CopyButton } from '@gentleduck/docs/client'
 import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'

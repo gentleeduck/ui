@@ -1,6 +1,6 @@
 'use client'
 
-import { useThemesConfig } from '@gentleduck/docs'
+import { useThemesConfig } from '@gentleduck/docs/client'
 import { THEMES, type Theme } from '@gentleduck/docs/lib'
 import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 import { cn } from '@gentleduck/libs/cn'

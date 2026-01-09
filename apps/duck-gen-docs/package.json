@@ -49,7 +49,7 @@
   "scripts": {
     "build": "next build",
     "build:docs": "pnpm velite",
-    "dev": "next dev --webpack",
+    "dev": "next dev",
     "dev:docs": "pnpm velite dev",
     "lint": "next lint",
     "postbuild": "next-sitemap",

@@ -1,6 +1,6 @@
 'use server'
 
-import { ComponentPreview } from '@gentleduck/docs'
+import { ComponentPreview } from '@gentleduck/docs/client'
 import type { registry_item_file_schema } from '@gentleduck/registers'
 import * as React from 'react'
 import type { z } from 'zod'

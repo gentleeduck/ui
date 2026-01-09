@@ -1,6 +1,6 @@
 'use client'
 
-import { useLiftMode } from '@gentleduck/docs'
+import { useLiftMode } from '@gentleduck/docs/client'
 import type { Block } from '@gentleduck/registers'
 import { AnimatePresence, motion } from 'motion/react'
 import type * as React from 'react'

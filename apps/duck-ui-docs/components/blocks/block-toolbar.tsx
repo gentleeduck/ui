@@ -1,6 +1,6 @@
 'use client'
 
-import { useLiftMode } from '@gentleduck/docs'
+import { useLiftMode } from '@gentleduck/docs/client'
 import { trackEvent } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import type { Block } from '@gentleduck/registers'

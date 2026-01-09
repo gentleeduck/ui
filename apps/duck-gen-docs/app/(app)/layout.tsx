@@ -1,5 +1,5 @@
 'use client'
-import { SiteFooter, SiteHeader } from '@gentleduck/docs'
+import { SiteFooter, SiteHeader } from '@gentleduck/docs/client'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (

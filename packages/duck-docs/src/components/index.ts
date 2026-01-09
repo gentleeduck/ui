@@ -1,3 +1,4 @@
+'use client'
 export * from './copy-button'
 export * from './docs'
 export * from './icons'

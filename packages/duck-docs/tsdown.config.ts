@@ -7,4 +7,5 @@ export default defineConfig({
     '@duck-docs': './src',
   },
   entry: ['src/**/*.{ts,tsx}', '!src/**/__test__/**'],
+  plugins: [],
 })

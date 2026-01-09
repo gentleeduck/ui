@@ -1,6 +1,6 @@
 'use client'
 
-import { useColors } from '@gentleduck/docs'
+import { useColors } from '@gentleduck/docs/client'
 import type { Color } from '@gentleduck/docs/lib'
 import { trackEvent } from '@gentleduck/docs/lib'
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'

@@ -1,6 +1,6 @@
 'use client'
 
-import { useColors } from '@gentleduck/docs'
+import { useColors } from '@gentleduck/docs/client'
 import { type Color, getColorFormat } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'

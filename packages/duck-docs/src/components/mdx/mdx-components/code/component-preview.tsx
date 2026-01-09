@@ -57,7 +57,7 @@ export function ComponentPreview({
   const codeString = React.useMemo(() => {
     if (
       // ! FIX:
-      //  @ts-expect-error 'Code.props' is of type 'unknown'.ts(18046)
+      //  @ts-ignore 'Code.props' is of type 'unknown'.ts(18046)
       typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined'
     ) {
       const Button = React.Children.toArray(
