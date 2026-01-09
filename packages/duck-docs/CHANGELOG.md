@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.0.8
+
+### Patch Changes
+
+- cc47ca0: fixed it now it works fine
+
 ## 0.0.7
 
 ### Patch Changes
