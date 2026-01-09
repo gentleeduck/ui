@@ -1,5 +1,13 @@
 # @gentleduck/docs
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [df94032]
+  - @gentleduck/registers@0.1.1
+  - @gentleduck/registry-ui-duckui@0.1.13
+
 ## 0.0.2
 
 ### Patch Changes
