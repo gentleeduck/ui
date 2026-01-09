@@ -71,5 +71,5 @@
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "start": "next start"
   },
-  "version": "3.0.21"
+  "version": "3.0.22"
 }
