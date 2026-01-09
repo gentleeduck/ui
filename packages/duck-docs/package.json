@@ -54,30 +54,23 @@
     "vite": "catalog:",
     "vitest": "catalog:"
   },
+  "files": [
+    "src"
+  ],
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./client": {
-      "types": "./dist/client.d.ts",
-      "default": "./dist/client.js"
-    },
-    "./*": {
-      "types": "./dist/*/index.d.ts",
-      "default": "./dist/*/index.js"
-    },
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./*": "./src/*/index.ts",
     "./styles/base.css": "./src/styles/base.css",
     "./styles/docs.css": "./src/styles/docs.css",
     "./styles/mdx.css": "./src/styles/mdx.css",
     "./velite": {
-      "browser": "./dist/velite/browser.js",
-      "default": "./dist/velite/index.js",
-      "node": "./dist/velite/index.js",
-      "types": "./dist/velite/index.d.ts"
+      "browser": "./src/velite/browser.ts",
+      "default": "./src/velite/index.ts",
+      "node": "./src/velite/index.ts"
     }
   },
-  "module": "./dist/index.js",
+  "module": "./src/index.ts",
   "name": "@gentleduck/docs",
   "packageManager": "pnpm@10.10.0",
   "private": false,
