@@ -1,0 +1,5 @@
+---
+"@gentleduck/docs": patch
+---
+
+public
