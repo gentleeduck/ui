@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.0.6
+
+### Patch Changes
+
+- b624f33: fix
+
 ## 0.0.5
 
 ### Patch Changes
