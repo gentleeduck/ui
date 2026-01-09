@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@gentleduck/docs": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
@@ -39,6 +43,9 @@
     "directory": "apps/duck-gen-docs"
   },
   "private": true,
+  "publishConfig": {
+    "access": "restricted"
+  },
   "scripts": {
     "build": "next build",
     "build:docs": "pnpm velite",

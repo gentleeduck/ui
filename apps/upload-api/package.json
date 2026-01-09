@@ -1,4 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.10",
     "@hono/node-server": "^1.19.4",

@@ -1,8 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@emoji-mart/data": "^1.2.1",
     "@radix-ui/react-menubar": "^1.1.16",
-    "@testing-library/react": "^16.3.0",
     "@vitejs/plugin-react-swc": "catalog:",
     "cmdk": "^1.1.1",
     "embla-carousel-react": "8.6.0",

@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "author": "ahmed ayob",
   "dependencies": {
     "esbuild": "^0.25.10",
@@ -11,9 +14,6 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "files": [
     "/dist"

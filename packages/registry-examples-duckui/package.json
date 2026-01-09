@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@tabler/icons-react": "catalog:",
@@ -28,9 +32,6 @@
     "@gentleduck/variants": "workspace:*",
     "@gentleduck/vim": "workspace:*",
     "@types/react": "catalog:react19"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     "./*": "./src/*"

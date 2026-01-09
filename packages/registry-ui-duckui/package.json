@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
@@ -30,9 +33,6 @@
     "@types/react-dom": "catalog:react19",
     "typescript": "catalog:"
   },
-  "engines": {
-    "node": ">=22.0.0"
-  },
   "exports": {
     "./*": "./src/*/index.ts"
   },
@@ -49,7 +49,10 @@
     "directory": "packages/registry-ui-duckui"
   },
   "packageManager": "pnpm@10.17.0",
-  "private": true,
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },

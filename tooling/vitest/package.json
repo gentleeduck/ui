@@ -1,5 +1,9 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "author": "gentleduck",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@vitejs/plugin-react-swc": "catalog:",
     "@vitest/coverage-v8": "catalog:",
@@ -9,9 +13,6 @@
   "description": "this is a package for `vitest` test configurations",
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*"
-  },
-  "engines": {
-    "node": ">=24.2.0"
   },
   "keywords": [
     "vitest",

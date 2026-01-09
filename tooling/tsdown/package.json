@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "author": "gentleduck",
   "dependencies": {
     "@vitejs/plugin-react-swc": "catalog:",
@@ -7,9 +11,6 @@
   "description": "this is a package for `tsdown` build configs",
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*"
-  },
-  "engines": {
-    "node": ">=24.2.0"
   },
   "keywords": [
     "tsdown",

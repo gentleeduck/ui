@@ -1,11 +1,12 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "zod": "catalog:"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     ".": "./index.ts"
@@ -23,7 +24,10 @@
     "directory": "packages/registers"
   },
   "packageManager": "pnpm@10.17.0",
-  "private": true,
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },

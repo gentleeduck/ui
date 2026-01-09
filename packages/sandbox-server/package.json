@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@automerge/automerge": "^3.1.2",
     "@electric-sql/pglite": "^0.3.10",

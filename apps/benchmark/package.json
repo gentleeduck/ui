@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@floating-ui/core": "^1.7.2",
     "@floating-ui/dom": "^1.7.2",
@@ -70,9 +74,6 @@
     "vite": "catalog:",
     "vite-tsconfig-paths": "catalog:"
   },
-  "engines": {
-    "node": ">=22.0.0"
-  },
   "name": "benchmark",
   "author": "GentleDuck (https://www.gentleduck.org)",
   "license": "MIT",
@@ -87,6 +88,9 @@
   },
   "packageManager": "pnpm@10.12.2",
   "private": true,
+  "publishConfig": {
+    "access": "restricted"
+  },
   "scripts": {
     "bench": "vitest bench",
     "build": "tsc -b && vite build",
