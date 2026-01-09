@@ -67,9 +67,6 @@
       "types": "./dist/velite/index.d.ts"
     }
   },
-  "files": [
-    "dist"
-  ],
   "module": "./dist/index.js",
   "name": "@gentleduck/docs",
   "packageManager": "pnpm@10.10.0",
