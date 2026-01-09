@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.0.5
+
+### Patch Changes
+
+- a156b17: fixed the nextjs integration
+
 ## 0.0.4
 
 ### Patch Changes
