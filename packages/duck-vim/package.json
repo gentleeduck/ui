@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "author": "wildduck",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
@@ -14,9 +17,6 @@
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     "./*": "./dist/*/index.js"

@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "author": "gentleduck",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
@@ -18,9 +21,6 @@
     "mini-svg-data-uri": "^1.4.4",
     "tabbable": "6.2.0",
     "tsdown": "catalog:"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     "./*": "./dist/*/index.js"

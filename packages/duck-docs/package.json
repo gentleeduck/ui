@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@excalidraw/excalidraw": "^0.17.2",
     "@gentleduck/hooks": "workspace:*",
@@ -49,9 +53,6 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     ".": "./src/index.ts",

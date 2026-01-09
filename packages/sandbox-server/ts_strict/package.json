@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
@@ -14,9 +18,6 @@
     "@types/node": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   },
   "main": "server/index.ts",
   "name": "advanced-express-server",

@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "author": "wildduck (https://github.com/wildduck2)",
   "bin": {
     "duck-benchmark": "dist/index.js"
@@ -42,9 +46,6 @@
     "tsdown": "catalog:",
     "type-fest": "^5.0.1",
     "typescript": "catalog:"
-  },
-  "engines": {
-    "node": ">=22.0.0"
   },
   "exports": {
     ".": {

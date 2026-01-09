@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "name": "duck-skitch",
   "author": "GentleDuck (https://www.gentleduck.org)",
   "license": "MIT",
