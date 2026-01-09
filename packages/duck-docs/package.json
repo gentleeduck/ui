@@ -60,7 +60,6 @@
     "@excalidraw/excalidraw": "^0.17.2",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
-    "@gentleduck/registry-ui-duckui": "workspace:*",
     "@gentleduck/vim": "workspace:*",
     "jotai": "^2.14.0",
     "lucide-react": "catalog:",
@@ -78,9 +77,6 @@
       "optional": true
     },
     "@gentleduck/libs": {
-      "optional": true
-    },
-    "@gentleduck/registry-ui-duckui": {
       "optional": true
     },
     "@gentleduck/vim": {

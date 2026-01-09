@@ -4,7 +4,8 @@
     "baseUrl": ".",
     "outDir": "./dist",
     "paths": {
-      "@duck-docs/*": ["./src/*"]
+      "@duck-docs/*": ["./src/*"],
+      "@gentleduck/registry-ui-duckui/*": ["../registry-ui-duckui/src/*"]
     },
     "jsx": "react-jsx"
   },
