@@ -5,7 +5,8 @@
     "outDir": "./dist",
     "paths": {
       "@duck-docs/*": ["./src/*"]
-    }
+    },
+    "jsx": "react-jsx"
   },
   "exclude": ["node_modules", "dist"],
   "extends": "@gentleduck/typescript-config/internal-package.json",

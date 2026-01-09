@@ -8,5 +8,6 @@ export default defineConfig({
   },
   entry: ['src/**/*.{ts,tsx}', '!src/**/__test__/**'],
   minify: false,
+  noExternal: [/^@gentleduck\//],
   plugins: [],
 })

@@ -4,22 +4,13 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@excalidraw/excalidraw": "^0.17.2",
-    "@gentleduck/hooks": "workspace:*",
-    "@gentleduck/libs": "workspace:*",
-    "@gentleduck/registers": "workspace:*",
-    "@gentleduck/registry-ui-duckui": "workspace:*",
-    "@gentleduck/vim": "workspace:*",
     "@shikijs/compat": "^1.12.1",
     "@types/unist": "^3.0.3",
+    "aria-hidden": "^1.2.6",
     "hast": "^1.0.0",
     "hast-util-to-string": "^3.0.1",
-    "jotai": "^2.14.0",
-    "lucide-react": "catalog:",
     "mdast-util-toc": "^7.1.0",
-    "next": "catalog:",
-    "next-themes": "^0.4.6",
-    "react-resizable-panels": "^3.0.6",
+    "react-remove-scroll": "^2.7.2",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-pretty-code": "^0.6.0",
     "rehype-slug": "^6.0.0",
@@ -34,8 +25,13 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@excalidraw/excalidraw": "^0.17.2",
+    "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/registry-ui-duckui": "workspace:*",
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
+    "@gentleduck/vim": "workspace:*",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/hast": "^3.0.4",
@@ -44,15 +40,72 @@
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "clsx": "^2.1.1",
+    "jotai": "^2.14.0",
     "jsdom": "^27.0.0",
+    "lucide-react": "catalog:",
+    "next": "catalog:",
+    "next-themes": "^0.4.6",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
+    "react-resizable-panels": "^3.0.6",
     "rimraf": "^6.0.1",
     "tailwind-merge": "^3.4.0",
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "@excalidraw/excalidraw": "^0.17.2",
+    "@gentleduck/hooks": "workspace:*",
+    "@gentleduck/libs": "workspace:*",
+    "@gentleduck/registry-ui-duckui": "workspace:*",
+    "@gentleduck/vim": "workspace:*",
+    "jotai": "^2.14.0",
+    "lucide-react": "catalog:",
+    "next": "catalog:",
+    "next-themes": "^0.4.6",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "react-resizable-panels": "^3.0.6"
+  },
+  "peerDependenciesMeta": {
+    "@excalidraw/excalidraw": {
+      "optional": true
+    },
+    "@gentleduck/hooks": {
+      "optional": true
+    },
+    "@gentleduck/libs": {
+      "optional": true
+    },
+    "@gentleduck/registry-ui-duckui": {
+      "optional": true
+    },
+    "@gentleduck/vim": {
+      "optional": true
+    },
+    "jotai": {
+      "optional": true
+    },
+    "lucide-react": {
+      "optional": true
+    },
+    "next": {
+      "optional": true
+    },
+    "next-themes": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "react-resizable-panels": {
+      "optional": true
+    }
   },
   "files": [
     "dist",
@@ -71,15 +124,16 @@
       "types": "./dist/*/index.d.ts",
       "default": "./dist/*/index.js"
     },
-    "./styles/base.css": "./src/styles/base.css",
-    "./styles/docs.css": "./src/styles/docs.css",
-    "./styles/mdx.css": "./src/styles/mdx.css",
+    "./styles/base.css": "./dist/styles/base.css",
+    "./styles/docs.css": "./dist/styles/docs.css",
+    "./styles/mdx.css": "./dist/styles/mdx.css",
     "./velite": {
       "browser": "./dist/velite/browser.js",
       "default": "./dist/velite/index.js",
       "node": "./dist/velite/index.js",
       "types": "./dist/velite/index.d.ts"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "module": "./dist/index.js",
   "name": "@gentleduck/docs",
@@ -109,7 +163,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "cp -r ../registers/registry-colors/registry-colors.ts ./src/lib/registry-colors-data.ts && tsdown && node ./scripts/patch-react-refresh.mjs && node ./scripts/copy-styles.mjs",
     "dev": "vitest",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "test": "vitest run"

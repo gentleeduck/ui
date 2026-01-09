@@ -1,5 +1,5 @@
-import { registry_colors } from '@gentleduck/registers'
 import { z } from 'zod'
+import { registry_colors } from './registry-colors-data'
 
 const colorSchema = z.object({
   className: z.string(),

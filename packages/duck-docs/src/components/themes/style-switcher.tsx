@@ -1,8 +1,8 @@
 'use client'
 
 import { useConfig } from '@duck-docs/hooks/use-config'
+import { type Style, styles } from '@duck-docs/lib/registry-styles'
 import { cn } from '@gentleduck/libs/cn'
-import { type Style, styles } from '@gentleduck/registers'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 import type * as React from 'react'
 

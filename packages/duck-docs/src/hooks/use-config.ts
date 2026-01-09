@@ -1,10 +1,10 @@
-import type { BaseColor, Style } from '@gentleduck/registers'
+import type { Style } from '@duck-docs/lib/registry-styles'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 
 type Config = {
   style: Style['name']
-  theme: BaseColor['name']
+  theme: string
   radius: number
 }
 

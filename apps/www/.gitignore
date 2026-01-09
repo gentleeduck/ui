@@ -1,0 +1,13 @@
+node_modules
+dist
+.turbo
+.contentlayer
+tsconfig.tsbuildinfo
+__registry__
+
+certificates
+
+tailwind.config.ts
+**/.fuse_*
+node-compile-cache
+**/tsconfig.tsbuildinfo
