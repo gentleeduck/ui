@@ -5,7 +5,7 @@
   },
   "author": "ahmed ayob",
   "dependencies": {
-    "esbuild": "^0.25.10",
+    "esbuild": "^0.26.0",
     "vite": "catalog:"
   },
   "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
