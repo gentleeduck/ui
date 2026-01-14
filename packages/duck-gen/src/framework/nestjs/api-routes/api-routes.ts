@@ -1,4 +1,4 @@
-import type { Project, SourceFile, ts } from 'ts-morph'
+import { type Project, type SourceFile, ts } from 'ts-morph'
 import { spinner } from '../../..'
 import type { DuckGenConfig } from '../../../config/config.dto'
 import { isNodeModulesFile } from '../../../shared/utils'
@@ -21,9 +21,18 @@ import {
 } from './api-routes.libs'
 import type { Route } from './api-routes.types'
 
+const TYPE_TEXT_FLAGS =
+  ts.TypeFormatFlags.NoTruncation |
+  ts.TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
+  ts.TypeFormatFlags.InTypeAlias |
+  ts.TypeFormatFlags.UseFullyQualifiedType |
+  ts.TypeFormatFlags.WriteTypeArgumentsOfSignature |
+  ts.TypeFormatFlags.WriteArrayAsGenericType |
+  ts.TypeFormatFlags.MultilineObjectLiterals
+
 export async function processNestJsApiRoutes(
   project: Project,
-  { shared, apiRoutes: apiRoutes }: DuckGenConfig['extensions'],
+  { shared, apiRoutes }: DuckGenConfig['extensions'],
   outFile: string,
 ) {
   const routes: Route[] = []
@@ -33,6 +42,7 @@ export async function processNestJsApiRoutes(
   for (let i = 0; i < sourceFiles.length; i++) {
     const sf = sourceFiles[i] as SourceFile
     const sfPath = sf.getFilePath()
+
     if (!shared.includeNodeModules && isNodeModulesFile(sfPath)) continue
     if (shouldSkipFile(sfPath)) continue
 
@@ -44,12 +54,7 @@ export async function processNestJsApiRoutes(
       if (!controllerDec) continue
 
       const controllerPrefix = getDecoratorFirstStringArg(controllerDec)
-      if (controllerPrefix === undefined) continue // 🦆 non-literal, skip
-
-      const controllerName = cls.getName()
-      if (!controllerName) continue
-
-      addTypeImport(typeImports, outFile, { filePath: sfPath, name: controllerName })
+      if (controllerPrefix === undefined) continue
 
       for (const m of cls.getMethods()) {
         const httpDecName = pickHttpMethodDecoratorName(m)
@@ -59,7 +64,7 @@ export async function processNestJsApiRoutes(
         if (!httpDec) continue
 
         const methodPath = getDecoratorFirstStringArg(httpDec)
-        if (methodPath === undefined) continue // 🦆 non-literal, skip
+        if (methodPath === undefined) continue
 
         const fullPath = joinUrl(apiRoutes.globalPrefix, controllerPrefix, methodPath)
         const httpMethod = toHttpMethod(httpDecName)
@@ -71,6 +76,7 @@ export async function processNestJsApiRoutes(
 
         const symbolsToImport = new Set<ts.Symbol>()
 
+        // Request types
         for (const p of m.getParameters()) {
           const pTypeText = getTypeText(p, apiRoutes.normalizeAnyToUnknown)
 
@@ -107,18 +113,23 @@ export async function processNestJsApiRoutes(
           }
         }
 
+        // Return type (emit the inner awaited type, not Promise<T>)
         const returnType = m.getReturnType()
         if (apiRoutes.normalizeAnyToUnknown && returnType.isAny()) {
-          spinner.warn(
-            `[any-return] ${controllerName}.${m.getName()} at ${sfPath} has return type any. Consider typing the return.`,
-          )
+          spinner.warn(`[any-return] ${cls.getName() ?? 'Controller'}.${m.getName()} at ${sfPath} is any`)
         }
 
-        // 🦆 emit type-only imports for referenced symbols
+        const awaited = returnType.getAwaitedType()
+        const expanded = awaited.getApparentType()
+
+        // include return type symbols so the generated file has the imports it needs
+        collectTypeSymbols(expanded, symbolsToImport)
+
+        // emit type-only imports for all referenced symbols (params + return)
         for (const sym of symbolsToImport) {
           const info = symbolToImportInfo(sym)
           if (!info) continue
-          if (shouldSkipSelfTypeImport(info, controllerName, sfPath)) continue
+          if (shouldSkipSelfTypeImport(info, cls.getName() ?? '', sfPath)) continue
           addTypeImport(typeImports, outFile, info)
         }
 
@@ -127,7 +138,10 @@ export async function processNestJsApiRoutes(
         const paramsType = mergeTypes(paramsParts)
         const headersType = mergeTypes(headersParts)
 
-        const resType = `Awaited<ReturnType<${controllerName}['${m.getName()}']>>`
+        const resType =
+          apiRoutes.normalizeAnyToUnknown && expanded.isAny()
+            ? 'unknown'
+            : expanded.getText(m, TYPE_TEXT_FLAGS) || 'unknown'
 
         routes.push({
           bodyType,

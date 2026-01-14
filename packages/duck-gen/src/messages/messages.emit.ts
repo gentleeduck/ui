@@ -6,7 +6,7 @@ import type { DuckgenMessageSource } from './messages.types'
 export function emitDuckgenMessagesFile(outFile: string, messages: DuckgenMessageSource[]) {
   let out = `// 🦆 THIS FILE IS AUTO-GENERATED. DO NOT EDIT.\n\n`
 
-  // 🦆 Collect value imports for the message const arrays (AUTH_MESSAGES, etc).
+  // Collect value imports for message consts (arrays or objects).
   const valueImports = new Map<string, Set<string>>()
   for (const msg of messages) {
     const p = relImport(outFile, msg.filePath)
@@ -24,9 +24,10 @@ export function emitDuckgenMessagesFile(outFile: string, messages: DuckgenMessag
   out += doc([
     'Duckgen message registry.',
     '',
-    'Each group key points to a const string array declared in your code and tagged for duckgen.',
-    'Use the types below to build i18n dictionaries that are always aligned with those arrays.',
+    'Each group key points to either a const string array OR a const object record.',
+    'Use the types below to build i18n dictionaries aligned with those sources.',
   ])
+
   out += `export const DuckgenMessageSources = {\n`
   for (const msg of sorted) {
     out += `  ${formatPropKey(msg.groupKey)}: ${msg.constName},\n`
@@ -38,10 +39,13 @@ export function emitDuckgenMessagesFile(outFile: string, messages: DuckgenMessag
 
   out += doc([
     'Message key union for a specific group.',
+    'Supports both array sources (values) and object sources (keys).',
     'If G is omitted, the result is the union of all message keys across all groups.',
   ])
   out += `export type DuckgenMessageKey<G extends DuckgenMessageGroup = DuckgenMessageGroup> =\n`
-  out += `  (typeof DuckgenMessageSources)[G][number]\n\n`
+  out += `  (typeof DuckgenMessageSources)[G] extends readonly (infer V)[]\n`
+  out += `    ? V & string\n`
+  out += `    : keyof (typeof DuckgenMessageSources)[G] & string\n\n`
 
   out += doc(['Dictionary shape for a single group.', 'Keys are enforced by DuckgenMessageKey<G>.'])
   out += `export type DuckgenMessageDictionary<G extends DuckgenMessageGroup = DuckgenMessageGroup> =\n`
@@ -81,7 +85,6 @@ export function emitDuckgenMessagesFile(outFile: string, messages: DuckgenMessag
   out += `  ? Record<Lang, Record<ScopeOrMessages, Messages>>\n`
   out += `  : Record<Lang, Record<string, ScopeOrMessages>>\n\n`
 
-  // 🦆 Optional: per-group convenience aliases (short, no repeated examples)
   for (const msg of sorted) {
     out += doc([`Convenience alias for the "${msg.groupKey}" group dictionary.`])
     out += `export type ${msg.constName}Dictionary = DuckgenMessageDictionary<${JSON.stringify(msg.groupKey)}>\n`
