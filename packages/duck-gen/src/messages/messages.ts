@@ -6,7 +6,11 @@ import { emitDuckgenMessagesFile } from './messages.emit'
 import { parseDuckgenMessagesTag } from './messages.libs'
 import type { DuckgenMessageSource } from './messages.types'
 
-export async function scanDuckgenMessages(project: Project, { shared }: DuckGenConfig['extensions'], outFiles: string[]) {
+export async function scanDuckgenMessages(
+  project: Project,
+  { shared }: DuckGenConfig['extensions'],
+  outFiles: string[],
+) {
   if (!outFiles.length) return
   const messages: DuckgenMessageSource[] = []
   const warnings: string[] = []

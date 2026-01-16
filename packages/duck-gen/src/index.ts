@@ -53,12 +53,7 @@ function resolveSharedOutputDirs(value: OutputSource, cwd: string): string[] {
   return uniqueStrings(entries.map((entry) => (path.isAbsolute(entry) ? entry : path.resolve(cwd, entry))))
 }
 
-function resolveOutputTargets(
-  value: OutputSource,
-  sharedDirs: string[],
-  defaultPath: string,
-  cwd: string,
-): string[] {
+function resolveOutputTargets(value: OutputSource, sharedDirs: string[], defaultPath: string, cwd: string): string[] {
   const entries = normalizeOutputSource(value)
   const fileName = path.basename(defaultPath)
 
