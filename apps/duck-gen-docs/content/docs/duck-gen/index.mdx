@@ -133,6 +133,7 @@ enabled = true
 - `globalPrefix` (string, default: `/api`): Prefix applied to all routes.
 - `normalizeAnyToUnknown` (boolean, default: `true`): Converts `any` request
   types to `unknown`.
+- `outputPath` (string or string[]): Output file path(s) for generated API routes.
 - `sourceGlobs` (string[]): Overrides `extensions.shared.sourceGlobs`.
 - `tsconfigPath` (string): Overrides `extensions.shared.tsconfigPath`.
 - `includeNodeModules` (boolean): Overrides `extensions.shared.includeNodeModules`.
@@ -140,6 +141,7 @@ enabled = true
 **extensions.messages**
 
 - `enabled` (boolean, default: `true`): Enable message generation.
+- `outputPath` (string or string[]): Output file path(s) for generated message types.
 - `sourceGlobs` (string[]): Overrides `extensions.shared.sourceGlobs`.
 - `tsconfigPath` (string): Overrides `extensions.shared.tsconfigPath`.
 - `includeNodeModules` (boolean): Overrides `extensions.shared.includeNodeModules`.
@@ -151,6 +153,10 @@ Duck Gen writes generated files inside the package:
 - `@gentleduck/gen/generated/nestjs/duck-gen-api-routes.d.ts`
 - `@gentleduck/gen/generated/nestjs/duck-gen-messages.d.ts`
 - `@gentleduck/gen/generated/nestjs/index.d.ts`
+
+Override output locations with `extensions.apiRoutes.outputPath` or
+`extensions.messages.outputPath` (string or list). When you customize outputs,
+import types from those paths instead of the package entrypoints.
 
 Import the public entrypoint:
 

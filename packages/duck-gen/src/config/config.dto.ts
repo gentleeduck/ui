@@ -5,9 +5,11 @@ export const config_schema = z.object({
       enabled: z.boolean(),
       globalPrefix: z.string().optional(),
       normalizeAnyToUnknown: z.boolean(),
+      outputPath: z.union([z.string(), z.array(z.string())]).optional(),
     }),
     messages: z.object({
       enabled: z.boolean(),
+      outputPath: z.union([z.string(), z.array(z.string())]).optional(),
     }),
     shared: z.object({
       includeNodeModules: z.boolean(),

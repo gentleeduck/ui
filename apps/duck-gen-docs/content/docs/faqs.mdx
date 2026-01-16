@@ -83,12 +83,16 @@ https://github.com/gentleeduck/duck-ui
   <AccordionItem value="output-location">
     <AccordionTrigger>Where do the generated types go?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Duck Gen writes generated files inside the package:
+      Duck Gen writes generated files inside the package by default:
       <ul className="mt-2 list-disc pl-5">
         <li><code className="rounded bg-muted px-2 py-1">@gentleduck/gen/generated/nestjs/duck-gen-api-routes.d.ts</code></li>
         <li><code className="rounded bg-muted px-2 py-1">@gentleduck/gen/generated/nestjs/duck-gen-messages.d.ts</code></li>
         <li><code className="rounded bg-muted px-2 py-1">@gentleduck/gen/generated/nestjs/index.d.ts</code></li>
       </ul>
+      You can override each output with
+      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.apiRoutes.outputPath</code> and
+      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.messages.outputPath</code>.
+      Both accept a single path or a list of paths.
     </AccordionContent>
   </AccordionItem>
 

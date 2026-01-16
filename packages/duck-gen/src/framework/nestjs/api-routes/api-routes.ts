@@ -4,7 +4,7 @@ import type { DuckGenConfig } from '../../../config/config.dto'
 import { isNodeModulesFile } from '../../../shared/utils'
 import { emitApiRoutesFile } from './api-routes.emit'
 import {
-  addTypeImport,
+  addTypeImportSource,
   buildKeyedObjectType,
   collectTypeSymbols,
   getDecoratorFirstStringArg,
@@ -14,6 +14,7 @@ import {
   mergeTypes,
   pickHttpMethodDecoratorName,
   pushPart,
+  resolveTypeImports,
   shouldSkipFile,
   shouldSkipSelfTypeImport,
   symbolToImportInfo,
@@ -33,10 +34,10 @@ const TYPE_TEXT_FLAGS =
 export async function processNestJsApiRoutes(
   project: Project,
   { shared, apiRoutes }: DuckGenConfig['extensions'],
-  outFile: string,
+  outFiles: string[],
 ) {
   const routes: Route[] = []
-  const typeImports = new Map<string, Set<string>>()
+  const typeImportSources = new Map<string, Set<string>>()
 
   const sourceFiles = project.getSourceFiles()
   for (let i = 0; i < sourceFiles.length; i++) {
@@ -130,7 +131,7 @@ export async function processNestJsApiRoutes(
           const info = symbolToImportInfo(sym)
           if (!info) continue
           if (shouldSkipSelfTypeImport(info, cls.getName() ?? '', sfPath)) continue
-          addTypeImport(typeImports, outFile, info)
+          addTypeImportSource(typeImportSources, info)
         }
 
         const bodyType = mergeTypes(bodyParts)
@@ -156,5 +157,8 @@ export async function processNestJsApiRoutes(
     }
   }
 
-  emitApiRoutesFile(outFile, routes, { typeImports })
+  for (const outFile of outFiles) {
+    const typeImports = resolveTypeImports(typeImportSources, outFile)
+    emitApiRoutesFile(outFile, routes, { typeImports })
+  }
 }

@@ -62,6 +62,11 @@ import type {
 
 Duck Gen writes type definitions to `@gentleduck/gen/generated/<framework>` and
 exposes them via framework entrypoints like `@gentleduck/gen/nestjs`.
+You can override the output file per feature by setting
+`extensions.apiRoutes.outputPath` or `extensions.messages.outputPath` (string or list) in
+`duck-gen.toml` (paths resolve relative to the config file). When you customize
+outputs, import types from those files directly instead of the package
+entrypoints.
 
 Generated files include:
 
@@ -74,4 +79,3 @@ Generated files include:
 - If `duck-gen.toml` is missing, defaults are used.
 - Run the CLI from the project root so paths resolve correctly.
 - Message arrays should be `as const` so keys are literal types.
-

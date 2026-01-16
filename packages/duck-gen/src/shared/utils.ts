@@ -13,7 +13,7 @@ export function relImport(fromFile: string, toFile: string): string {
   const rel = path
     .relative(path.dirname(fromFile), toFile)
     .replace(/\\/g, '/')
-    .replace(/\.(ts|tsx|d\.ts)$/, '')
+    .replace(/\.(d\.ts|ts|tsx)$/, '')
   return rel.startsWith('.') ? rel : './' + rel
 }
 

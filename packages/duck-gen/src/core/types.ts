@@ -3,3 +3,8 @@ export type DuckGenOutputPaths = {
   messages: string
   index: string
 }
+
+export type DuckGenOutputTargets = {
+  apiRoutes: string[]
+  messages: string[]
+}

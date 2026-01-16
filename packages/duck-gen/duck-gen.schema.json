@@ -60,6 +60,20 @@
               "default": true,
               "description": "Normalize any to unknown in generated route types."
             },
+            "outputPath": {
+              "description": "Output file path(s) for generated API routes.",
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
             "sourceGlobs": {
               "type": "array",
               "items": {
@@ -81,6 +95,20 @@
               "type": "boolean",
               "default": true,
               "description": "Enable @duckgen messages generation."
+            },
+            "outputPath": {
+              "description": "Output file path(s) for generated message types.",
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
             },
             "includeNodeModules": {
               "type": "boolean",

@@ -97,14 +97,24 @@ export function getNamedDeclarationIdentifier(decl: ts.Declaration): string | un
   return undefined
 }
 
-export function addTypeImport(
-  typeImports: Map<string, Set<string>>,
-  outFile: string,
+export function addTypeImportSource(
+  typeImportSources: Map<string, Set<string>>,
   symbolInfo: TypeSymbolImportInfo,
 ): void {
-  const p = relImport(outFile, symbolInfo.filePath)
-  if (!typeImports.has(p)) typeImports.set(p, new Set())
-  typeImports.get(p)!.add(symbolInfo.name)
+  const p = path.resolve(symbolInfo.filePath)
+  if (!typeImportSources.has(p)) typeImportSources.set(p, new Set())
+  typeImportSources.get(p)!.add(symbolInfo.name)
+}
+
+export function resolveTypeImports(typeImportSources: Map<string, Set<string>>, outFile: string): Map<string, Set<string>> {
+  const typeImports = new Map<string, Set<string>>()
+  for (const [filePath, names] of typeImportSources) {
+    const p = relImport(outFile, filePath)
+    if (!typeImports.has(p)) typeImports.set(p, new Set())
+    const dest = typeImports.get(p)!
+    for (const name of names) dest.add(name)
+  }
+  return typeImports
 }
 
 export function shouldSkipSelfTypeImport(
