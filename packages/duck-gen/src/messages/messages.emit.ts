@@ -6,7 +6,7 @@ import type { DuckgenMessageSource } from './messages.types'
 export function emitDuckgenMessagesFile(outFile: string, messages: DuckgenMessageSource[]) {
   let out = `// 🦆 THIS FILE IS AUTO-GENERATED. DO NOT EDIT.\n\n`
 
-  // Collect value imports for message consts (arrays or objects).
+  // Collect imports for message consts (arrays or objects).
   const valueImports = new Map<string, Set<string>>()
   for (const msg of messages) {
     const p = relImport(outFile, msg.filePath)
@@ -28,14 +28,14 @@ export function emitDuckgenMessagesFile(outFile: string, messages: DuckgenMessag
     'Use the types below to build i18n dictionaries aligned with those sources.',
   ])
 
-  out += `export const DuckgenMessageSources = {\n`
+  out += `export type DuckgenMessageSources = {\n`
   for (const msg of sorted) {
-    out += `  ${formatPropKey(msg.groupKey)}: ${msg.constName},\n`
+    out += `  ${formatPropKey(msg.groupKey)}: typeof ${msg.constName},\n`
   }
-  out += `} as const\n\n`
+  out += `}\n\n`
 
   out += doc(['All message group keys (for example: "auth", "users", "errors").'])
-  out += `export type DuckgenMessageGroup = keyof typeof DuckgenMessageSources\n\n`
+  out += `export type DuckgenMessageGroup = keyof DuckgenMessageSources\n\n`
 
   out += doc([
     'Message key union for a specific group.',
@@ -43,9 +43,9 @@ export function emitDuckgenMessagesFile(outFile: string, messages: DuckgenMessag
     'If G is omitted, the result is the union of all message keys across all groups.',
   ])
   out += `export type DuckgenMessageKey<G extends DuckgenMessageGroup = DuckgenMessageGroup> =\n`
-  out += `  (typeof DuckgenMessageSources)[G] extends readonly (infer V)[]\n`
+  out += `  DuckgenMessageSources[G] extends readonly (infer V)[]\n`
   out += `    ? V & string\n`
-  out += `    : keyof (typeof DuckgenMessageSources)[G] & string\n\n`
+  out += `    : keyof DuckgenMessageSources[G] & string\n\n`
 
   out += doc(['Dictionary shape for a single group.', 'Keys are enforced by DuckgenMessageKey<G>.'])
   out += `export type DuckgenMessageDictionary<G extends DuckgenMessageGroup = DuckgenMessageGroup> =\n`

@@ -7,8 +7,8 @@ import type { DuckGenOutputPaths, DuckGenOutputTargets } from './types'
 const PACKAGE_ROOT = path.resolve(fileURLToPath(new URL('../..', import.meta.url)))
 const GENERATED_ROOT = path.join(PACKAGE_ROOT, 'generated')
 export const SUPPORTED_FRAMEWORKS = ['nestjs'] as const
-const OUTPUT_API_ROUTES = 'duck-gen-api-routes.ts'
-const OUTPUT_MESSAGES = 'duck-gen-messages.ts'
+const OUTPUT_API_ROUTES = 'duck-gen-api-routes.d.ts'
+const OUTPUT_MESSAGES = 'duck-gen-messages.d.ts'
 const OUTPUT_INDEX = 'index.d.ts'
 
 export type DuckGenOutputOverrides = Partial<Pick<DuckGenOutputPaths, 'apiRoutes' | 'messages' | 'index'>>

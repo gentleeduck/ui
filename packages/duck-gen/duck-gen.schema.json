@@ -39,7 +39,7 @@
                   }
                 }
               ],
-              "description": "Default output directories for generated files (used when a feature does not define outputSource)."
+              "description": "Additional output directories for generated files (package outputs are always generated)."
             },
             "sourceGlobs": {
               "type": "array",
@@ -90,7 +90,7 @@
                   }
                 }
               ],
-              "description": "Output file path(s) for generated API routes (file paths or directories)."
+              "description": "Additional output file path(s) or directories for generated API routes (.d.ts only)."
             },
             "outputPath": {
               "type": "string",
@@ -131,7 +131,7 @@
                   }
                 }
               ],
-              "description": "Output file path(s) for generated message types (file paths or directories)."
+              "description": "Additional output file path(s) or directories for generated message types (.d.ts only)."
             },
             "outputPath": {
               "type": "string",

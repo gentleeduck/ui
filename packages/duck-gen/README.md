@@ -72,10 +72,11 @@ Duck Gen writes type definitions to `@gentleduck/gen/generated/<framework>` and
 exposes them via framework entrypoints like `@gentleduck/gen/nestjs`.
 You can override the output file per feature by setting
 `extensions.apiRoutes.outputSource` or `extensions.messages.outputSource` in
-`duck-gen.json` (paths resolve relative to the config file). Use
-`extensions.shared.outputSource` to set default output directories. When you
-customize outputs, import types from those files directly instead of the
-package entrypoints.
+`duck-gen.json` (paths resolve relative to the config file). Outputs are always
+written to the package `generated` folder; `outputSource` adds extra output
+files or directories. Use `extensions.shared.outputSource` to add shared output
+directories. When you customize outputs, import types from those files directly
+instead of the package entrypoints.
 
 Generated files include:
 

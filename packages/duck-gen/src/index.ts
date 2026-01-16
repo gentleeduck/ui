@@ -17,18 +17,22 @@ async function run() {
   const frameworkKey = resolveFrameworkKey(framework)
   const cwd = process.cwd()
   const defaultOutputs = getFrameworkOutputPaths(frameworkKey)
-  const sharedOutputDirs = resolveSharedOutputDirs(extensions.shared.outputSource, cwd)
+  const sharedOutputSources = normalizeOutputSource(extensions.shared.outputSource)
+  const apiOutputSources = normalizeOutputSource(
+    resolveOutputSource(extensions.apiRoutes.outputSource, extensions.apiRoutes.outputPath),
+  )
+  const messageOutputSources = normalizeOutputSource(
+    resolveOutputSource(extensions.messages.outputSource, extensions.messages.outputPath),
+  )
 
   const outputPaths = {
     apiRoutes: resolveOutputTargets(
-      resolveOutputSource(extensions.apiRoutes.outputSource, extensions.apiRoutes.outputPath),
-      sharedOutputDirs,
+      [...sharedOutputSources, ...apiOutputSources],
       defaultOutputs.apiRoutes,
       cwd,
     ),
     messages: resolveOutputTargets(
-      resolveOutputSource(extensions.messages.outputSource, extensions.messages.outputPath),
-      sharedOutputDirs,
+      [...sharedOutputSources, ...messageOutputSources],
       defaultOutputs.messages,
       cwd,
     ),
@@ -48,29 +52,30 @@ function resolveOutputSource(outputSource: OutputSource, outputPath?: string): O
   return outputSource ?? outputPath
 }
 
-function resolveSharedOutputDirs(value: OutputSource, cwd: string): string[] {
-  const entries = normalizeOutputSource(value)
-  return uniqueStrings(entries.map((entry) => (path.isAbsolute(entry) ? entry : path.resolve(cwd, entry))))
-}
-
-function resolveOutputTargets(value: OutputSource, sharedDirs: string[], defaultPath: string, cwd: string): string[] {
-  const entries = normalizeOutputSource(value)
+function resolveOutputTargets(entries: string[], defaultPath: string, cwd: string): string[] {
   const fileName = path.basename(defaultPath)
+  const targets = [defaultPath]
 
-  if (entries.length) {
-    return uniqueStrings(entries.map((entry) => resolveOutputTarget(entry, cwd, fileName)))
+  for (const entry of entries) {
+    targets.push(resolveOutputTarget(entry, cwd, fileName))
   }
 
-  if (sharedDirs.length) {
-    return uniqueStrings(sharedDirs.map((dir) => path.join(dir, fileName)))
-  }
-
-  return [defaultPath]
+  return uniqueStrings(targets)
 }
 
 function resolveOutputTarget(entry: string, cwd: string, defaultFileName: string): string {
   const resolved = path.isAbsolute(entry) ? entry : path.resolve(cwd, entry)
-  return path.extname(resolved) ? resolved : path.join(resolved, defaultFileName)
+  if (!path.extname(resolved)) {
+    return path.join(resolved, defaultFileName)
+  }
+  return ensureDtsExtension(resolved)
+}
+
+function ensureDtsExtension(filePath: string): string {
+  if (filePath.endsWith('.d.ts')) return filePath
+  const ext = path.extname(filePath)
+  if (!ext) return `${filePath}.d.ts`
+  return `${filePath.slice(0, -ext.length)}.d.ts`
 }
 
 function normalizeOutputSource(value: OutputSource): string[] {
