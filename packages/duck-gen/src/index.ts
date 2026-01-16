@@ -3,7 +3,6 @@ import chalk from 'chalk'
 import ora from 'ora'
 import { load_duckgen_config as loadDuckGenConfig } from './config'
 import { emitFrameworkIndex, emitGeneratedIndex, getFrameworkOutputPaths, resolveFrameworkKey } from './core/paths'
-import type { DuckGenOutputTargets } from './core/types'
 import { getFrameworkProcessor } from './framework'
 
 export const spinner = ora({
@@ -17,44 +16,83 @@ async function run() {
 
   const frameworkKey = resolveFrameworkKey(framework)
   const cwd = process.cwd()
-  const apiRoutesOutputs = resolveOutputPaths(extensions.apiRoutes.outputPath, cwd)
-  const messagesOutputs = resolveOutputPaths(extensions.messages.outputPath, cwd)
+  const defaultOutputs = getFrameworkOutputPaths(frameworkKey)
+  const sharedOutputDirs = resolveSharedOutputDirs(extensions.shared.outputSource, cwd)
 
-  const outputPaths = getFrameworkOutputPaths(frameworkKey, {
-    apiRoutes: apiRoutesOutputs?.[0],
-    messages: messagesOutputs?.[0],
-  })
-  const outputTargets: DuckGenOutputTargets = {
-    apiRoutes: apiRoutesOutputs ?? [outputPaths.apiRoutes],
-    messages: messagesOutputs ?? [outputPaths.messages],
+  const outputPaths = {
+    apiRoutes: resolveOutputTargets(
+      resolveOutputSource(extensions.apiRoutes.outputSource, extensions.apiRoutes.outputPath),
+      sharedOutputDirs,
+      defaultOutputs.apiRoutes,
+      cwd,
+    ),
+    messages: resolveOutputTargets(
+      resolveOutputSource(extensions.messages.outputSource, extensions.messages.outputPath),
+      sharedOutputDirs,
+      defaultOutputs.messages,
+      cwd,
+    ),
   }
 
   spinner.start('Processing...')
-  await getFrameworkProcessor(framework)(extensions, outputTargets)
+  await getFrameworkProcessor(framework)(extensions, outputPaths)
   spinner.succeed('Processing done')
 
   emitFrameworkIndex(outputPaths)
   emitGeneratedIndex()
 }
 
-function resolveOutputPaths(value: string | string[] | undefined, cwd: string): string[] | undefined {
-  if (!value) return undefined
-  const list = Array.isArray(value) ? value : [value]
-  const resolved = list
-    .map((entry) => entry.trim())
-    .filter(Boolean)
-    .map((entry) => (path.isAbsolute(entry) ? entry : path.resolve(cwd, entry)))
+type OutputSource = string | string[] | undefined
 
-  if (!resolved.length) return undefined
+function resolveOutputSource(outputSource: OutputSource, outputPath?: string): OutputSource {
+  return outputSource ?? outputPath
+}
 
-  const seen = new Set<string>()
-  const unique: string[] = []
-  for (const entry of resolved) {
-    if (seen.has(entry)) continue
-    seen.add(entry)
-    unique.push(entry)
+function resolveSharedOutputDirs(value: OutputSource, cwd: string): string[] {
+  const entries = normalizeOutputSource(value)
+  return uniqueStrings(entries.map((entry) => (path.isAbsolute(entry) ? entry : path.resolve(cwd, entry))))
+}
+
+function resolveOutputTargets(
+  value: OutputSource,
+  sharedDirs: string[],
+  defaultPath: string,
+  cwd: string,
+): string[] {
+  const entries = normalizeOutputSource(value)
+  const fileName = path.basename(defaultPath)
+
+  if (entries.length) {
+    return uniqueStrings(entries.map((entry) => resolveOutputTarget(entry, cwd, fileName)))
   }
-  return unique.length ? unique : undefined
+
+  if (sharedDirs.length) {
+    return uniqueStrings(sharedDirs.map((dir) => path.join(dir, fileName)))
+  }
+
+  return [defaultPath]
+}
+
+function resolveOutputTarget(entry: string, cwd: string, defaultFileName: string): string {
+  const resolved = path.isAbsolute(entry) ? entry : path.resolve(cwd, entry)
+  return path.extname(resolved) ? resolved : path.join(resolved, defaultFileName)
+}
+
+function normalizeOutputSource(value: OutputSource): string[] {
+  if (!value) return []
+  const entries = Array.isArray(value) ? value : [value]
+  return entries.map((entry) => entry.trim()).filter(Boolean)
+}
+
+function uniqueStrings(values: string[]): string[] {
+  const seen = new Set<string>()
+  const out: string[] = []
+  for (const value of values) {
+    if (seen.has(value)) continue
+    seen.add(value)
+    out.push(value)
+  }
+  return out
 }
 
 run().catch((error) => {

@@ -18,7 +18,7 @@ is simple: keep server contracts and client types aligned without manual sync wo
 
 ## How it works
 
-1. Reads `duck-gen.toml` from your project root (or uses defaults).
+1. Reads `duck-gen.json` from your project root (or uses defaults).
 2. Builds a TypeScript project using `tsconfigPath` and `sourceGlobs`.
 3. Scans framework controllers and `@duckgen` message arrays (currently tested with NestJS).
 4. Emits `.d.ts` files under `@gentleduck/gen/generated/<framework>`.
@@ -56,23 +56,31 @@ pnpm add -D @gentleduck/gen
 
 <Steps>
 
-<Step>Create duck-gen.toml</Step>
+<Step>Create duck-gen.json</Step>
 
-```toml title="duck-gen.toml"
-framework = "nestjs"
-
-[extensions.shared]
-sourceGlobs = ["src/**/*.ts", "src/**/*.tsx"]
-tsconfigPath = "./tsconfig.json"
-includeNodeModules = false
-
-[extensions.apiRoutes]
-enabled = true
-globalPrefix = "/api"
-normalizeAnyToUnknown = true
-
-[extensions.messages]
-enabled = true
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "./generated",
+      "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": "./generated"
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
 ```
 
 <Step>Run the generator</Step>
@@ -91,24 +99,32 @@ import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 
 ## Configuration
 
-Duck Gen reads `duck-gen.toml` from your project root. Paths are resolved
+Duck Gen reads `duck-gen.json` from your project root. Paths are resolved
 relative to the config file.
 
-```toml title="duck-gen.toml"
-framework = "nestjs"
-
-[extensions.shared]
-sourceGlobs = ["src/**/*.ts", "src/**/*.tsx"]
-tsconfigPath = "./tsconfig.json"
-includeNodeModules = false
-
-[extensions.apiRoutes]
-enabled = true
-globalPrefix = "/api"
-normalizeAnyToUnknown = true
-
-[extensions.messages]
-enabled = true
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "./generated",
+      "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": "./generated"
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
 ```
 
 **Root**
@@ -126,6 +142,8 @@ enabled = true
   by ts-morph.
 - `includeNodeModules` (boolean, default: `false`): Include `node_modules` in
   scanning.
+- `outputSource` (string | string[]): Default output directories for generated
+  files when a feature does not define its own output source.
 
 **extensions.apiRoutes**
 
@@ -133,7 +151,8 @@ enabled = true
 - `globalPrefix` (string, default: `/api`): Prefix applied to all routes.
 - `normalizeAnyToUnknown` (boolean, default: `true`): Converts `any` request
   types to `unknown`.
-- `outputPath` (string or string[]): Output file path(s) for generated API routes.
+- `outputSource` (string | string[]): Output file path(s) or directories for
+  generated API routes.
 - `sourceGlobs` (string[]): Overrides `extensions.shared.sourceGlobs`.
 - `tsconfigPath` (string): Overrides `extensions.shared.tsconfigPath`.
 - `includeNodeModules` (boolean): Overrides `extensions.shared.includeNodeModules`.
@@ -141,7 +160,8 @@ enabled = true
 **extensions.messages**
 
 - `enabled` (boolean, default: `true`): Enable message generation.
-- `outputPath` (string or string[]): Output file path(s) for generated message types.
+- `outputSource` (string | string[]): Output file path(s) or directories for
+  generated message types.
 - `sourceGlobs` (string[]): Overrides `extensions.shared.sourceGlobs`.
 - `tsconfigPath` (string): Overrides `extensions.shared.tsconfigPath`.
 - `includeNodeModules` (boolean): Overrides `extensions.shared.includeNodeModules`.
@@ -154,22 +174,10 @@ Duck Gen writes generated files inside the package:
 - `@gentleduck/gen/generated/nestjs/duck-gen-messages.d.ts`
 - `@gentleduck/gen/generated/nestjs/index.d.ts`
 
-Override output locations with `extensions.apiRoutes.outputPath` or
-`extensions.messages.outputPath` (string or list). When you customize outputs,
-import types from those paths instead of the package entrypoints.
-
-Example (write to multiple targets):
-
-```toml
-[extensions.apiRoutes]
-outputPath = ["./client/src/types/duck-gen-api-routes.d.ts", "./shared/src/types/duck-gen-api-routes.d.ts"]
-
-[extensions.messages]
-outputPath = "./client/src/types/duck-gen-messages.d.ts"
-```
-
-Paths resolve relative to `duck-gen.toml`. When you provide a list, Duck Gen
-writes the same output to each path.
+Override output locations with `extensions.apiRoutes.outputSource` or
+`extensions.messages.outputSource`, or use `extensions.shared.outputSource`
+for shared output directories. When you customize outputs, import types from
+those paths instead of the package entrypoints.
 
 Import the public entrypoint:
 
@@ -179,7 +187,7 @@ import type { ApiRoutes, DuckgenMessageGroup } from '@gentleduck/gen/nestjs'
 
 CLI notes:
 
-- If `duck-gen.toml` is missing, defaults are used.
+- If `duck-gen.json` is missing, defaults are used.
 - Warnings are printed for duplicate message groups or `any` return types.
 - Running the generator multiple times is safe; it overwrites the same files.
 
@@ -187,7 +195,7 @@ CLI notes:
 
 - **No routes generated**: Make sure your decorators use string literal paths.
   Dynamic values are skipped.
-- **Missing types**: Check `sourceGlobs` and `tsconfigPath` in `duck-gen.toml`.
+- **Missing types**: Check `sourceGlobs` and `tsconfigPath` in `duck-gen.json`.
 - **Message keys are just `string`**: Add `as const` to message arrays.
 - **Duplicate group warnings**: Ensure each `@duckgen` group key is unique.
 - **Any return warnings**: Add explicit return types or update the controller

@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { relImport } from '../shared/utils'
-import type { DuckGenOutputPaths } from './types'
+import type { DuckGenOutputPaths, DuckGenOutputTargets } from './types'
 
 const PACKAGE_ROOT = path.resolve(fileURLToPath(new URL('../..', import.meta.url)))
 const GENERATED_ROOT = path.join(PACKAGE_ROOT, 'generated')
@@ -50,22 +50,31 @@ export function getGeneratedIndexPath(): string {
   return path.join(GENERATED_ROOT, OUTPUT_INDEX)
 }
 
-export function emitFrameworkIndex(outputPaths: { apiRoutes: string; messages: string; index: string }): void {
-  const dir = path.dirname(outputPaths.index)
-  const exports: string[] = []
+export function emitFrameworkIndex(outputPaths: DuckGenOutputTargets): void {
+  const dirCandidates = new Map<string, string[]>()
 
-  const candidates = [outputPaths.apiRoutes, outputPaths.messages]
-  for (const entry of candidates) {
-    if (!fs.existsSync(entry)) continue
-    const specifier = relImport(outputPaths.index, entry)
-    exports.push(`export * from '${specifier}'`)
+  for (const entry of [...outputPaths.apiRoutes, ...outputPaths.messages]) {
+    const dir = path.dirname(entry)
+    if (!dirCandidates.has(dir)) dirCandidates.set(dir, [])
+    dirCandidates.get(dir)!.push(entry)
   }
 
-  if (!exports.length) exports.push('export {}')
+  for (const [dir, entries] of dirCandidates) {
+    const indexPath = path.join(dir, OUTPUT_INDEX)
+    const exports: string[] = []
 
-  const out = ['// 🦆 THIS FILE IS AUTO-GENERATED. DO NOT EDIT.', '', ...exports, ''].join('\n')
-  fs.mkdirSync(dir, { recursive: true })
-  fs.writeFileSync(outputPaths.index, out, 'utf8')
+    for (const entry of entries) {
+      if (!fs.existsSync(entry)) continue
+      const specifier = relImport(indexPath, entry)
+      exports.push(`export * from '${specifier}'`)
+    }
+
+    if (!exports.length) exports.push('export {}')
+
+    const out = ['// 🦆 THIS FILE IS AUTO-GENERATED. DO NOT EDIT.', '', ...exports, ''].join('\n')
+    fs.mkdirSync(dir, { recursive: true })
+    fs.writeFileSync(indexPath, out, 'utf8')
+  }
 }
 
 export function emitGeneratedIndex(): void {

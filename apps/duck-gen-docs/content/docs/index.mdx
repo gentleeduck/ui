@@ -66,21 +66,29 @@ shared understanding that we're all just trying to build cool stuff without losi
 pnpm add -D @gentleduck/gen
 ```
 
-```toml title="duck-gen.toml"
-framework = "nestjs"
-
-[extensions.shared]
-sourceGlobs = ["src/**/*.ts", "src/**/*.tsx"]
-tsconfigPath = "./tsconfig.json"
-includeNodeModules = false
-
-[extensions.apiRoutes]
-enabled = true
-globalPrefix = "/api"
-normalizeAnyToUnknown = true
-
-[extensions.messages]
-enabled = true
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "./generated",
+      "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": "./generated"
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
 ```
 
 ```bash

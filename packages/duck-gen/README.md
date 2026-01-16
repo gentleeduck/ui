@@ -11,23 +11,31 @@ pnpm add -D @gentleduck/gen
 
 ## Quick start
 
-Create a `duck-gen.toml` at your project root:
+Create a `duck-gen.json` at your project root:
 
-```toml
-framework = "nestjs"
-
-[extensions.shared]
-sourceGlobs = ["src/**/*.ts", "src/**/*.tsx"]
-tsconfigPath = "./tsconfig.json"
-includeNodeModules = false
-
-[extensions.apiRoutes]
-enabled = true
-globalPrefix = "/api"
-normalizeAnyToUnknown = true
-
-[extensions.messages]
-enabled = true
+```json
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "./generated",
+      "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": ["./generated", "./src/generated"]
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
 ```
 
 Add a message group tagged for Duck Gen:
@@ -63,10 +71,11 @@ import type {
 Duck Gen writes type definitions to `@gentleduck/gen/generated/<framework>` and
 exposes them via framework entrypoints like `@gentleduck/gen/nestjs`.
 You can override the output file per feature by setting
-`extensions.apiRoutes.outputPath` or `extensions.messages.outputPath` (string or list) in
-`duck-gen.toml` (paths resolve relative to the config file). When you customize
-outputs, import types from those files directly instead of the package
-entrypoints.
+`extensions.apiRoutes.outputSource` or `extensions.messages.outputSource` in
+`duck-gen.json` (paths resolve relative to the config file). Use
+`extensions.shared.outputSource` to set default output directories. When you
+customize outputs, import types from those files directly instead of the
+package entrypoints.
 
 Generated files include:
 
@@ -76,6 +85,6 @@ Generated files include:
 
 ## Notes
 
-- If `duck-gen.toml` is missing, defaults are used.
+- If `duck-gen.json` is missing, defaults are used.
 - Run the CLI from the project root so paths resolve correctly.
 - Message arrays should be `as const` so keys are literal types.

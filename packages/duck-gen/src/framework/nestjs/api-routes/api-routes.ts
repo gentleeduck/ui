@@ -36,6 +36,7 @@ export async function processNestJsApiRoutes(
   { shared, apiRoutes }: DuckGenConfig['extensions'],
   outFiles: string[],
 ) {
+  if (!outFiles.length) return
   const routes: Route[] = []
   const typeImportSources = new Map<string, Set<string>>()
 

@@ -67,7 +67,7 @@ https://github.com/gentleeduck/duck-ui
   <AccordionItem value="config-location">
     <AccordionTrigger>Where does the configuration live?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Duck Gen reads <code className="rounded bg-muted px-2 py-1">duck-gen.toml</code> from your project root. All paths
+      Duck Gen reads <code className="rounded bg-muted px-2 py-1">duck-gen.json</code> from your project root. All paths
       inside the config are resolved relative to that file.
     </AccordionContent>
   </AccordionItem>
@@ -75,7 +75,7 @@ https://github.com/gentleeduck/duck-ui
   <AccordionItem value="config-required">
     <AccordionTrigger>Do I need a config file?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      No. If <code className="rounded bg-muted px-2 py-1">duck-gen.toml</code> is missing, Duck Gen uses defaults.
+      No. If <code className="rounded bg-muted px-2 py-1">duck-gen.json</code> is missing, Duck Gen uses defaults.
       You only need the file when you want to customize globs, paths, or extensions.
     </AccordionContent>
   </AccordionItem>
@@ -90,9 +90,9 @@ https://github.com/gentleeduck/duck-ui
         <li><code className="rounded bg-muted px-2 py-1">@gentleduck/gen/generated/nestjs/index.d.ts</code></li>
       </ul>
       You can override each output with
-      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.apiRoutes.outputPath</code> and
-      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.messages.outputPath</code>.
-      Both accept a single path or a list of paths.
+      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.apiRoutes.outputSource</code> and
+      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.messages.outputSource</code>, or set
+      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.shared.outputSource</code> for shared output dirs.
     </AccordionContent>
   </AccordionItem>
 
@@ -121,7 +121,7 @@ https://github.com/gentleeduck/duck-ui
     <AccordionContent className="text-muted-foreground">
       Yes. Set <code className="rounded bg-muted px-2 py-1">extensions.apiRoutes.enabled</code> or
       <code className="ml-2 rounded bg-muted px-2 py-1">extensions.messages.enabled</code> to
-      <code className="ml-2 rounded bg-muted px-2 py-1">false</code> in <code className="rounded bg-muted px-2 py-1">duck-gen.toml</code>.
+      <code className="ml-2 rounded bg-muted px-2 py-1">false</code> in <code className="rounded bg-muted px-2 py-1">duck-gen.json</code>.
     </AccordionContent>
   </AccordionItem>
 

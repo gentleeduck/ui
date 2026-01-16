@@ -5,6 +5,10 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional schema reference for editor validation."
+    },
     "framework": {
       "type": "string",
       "enum": ["nestjs"],
@@ -22,6 +26,20 @@
               "type": "boolean",
               "default": false,
               "description": "Shared default: scan files inside node_modules."
+            },
+            "outputSource": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "description": "Default output directories for generated files (used when a feature does not define outputSource)."
             },
             "sourceGlobs": {
               "type": "array",
@@ -60,8 +78,7 @@
               "default": true,
               "description": "Normalize any to unknown in generated route types."
             },
-            "outputPath": {
-              "description": "Output file path(s) for generated API routes.",
+            "outputSource": {
               "oneOf": [
                 {
                   "type": "string"
@@ -72,7 +89,13 @@
                     "type": "string"
                   }
                 }
-              ]
+              ],
+              "description": "Output file path(s) for generated API routes (file paths or directories)."
+            },
+            "outputPath": {
+              "type": "string",
+              "deprecated": true,
+              "description": "Output file path for generated API routes."
             },
             "sourceGlobs": {
               "type": "array",
@@ -96,8 +119,7 @@
               "default": true,
               "description": "Enable @duckgen messages generation."
             },
-            "outputPath": {
-              "description": "Output file path(s) for generated message types.",
+            "outputSource": {
               "oneOf": [
                 {
                   "type": "string"
@@ -108,7 +130,13 @@
                     "type": "string"
                   }
                 }
-              ]
+              ],
+              "description": "Output file path(s) for generated message types (file paths or directories)."
+            },
+            "outputPath": {
+              "type": "string",
+              "deprecated": true,
+              "description": "Output file path for generated message types."
             },
             "includeNodeModules": {
               "type": "boolean",
@@ -133,20 +161,24 @@
   },
   "examples": [
     {
+      "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
       "framework": "nestjs",
       "extensions": {
         "shared": {
           "includeNodeModules": false,
+          "outputSource": "./generated",
           "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"],
           "tsconfigPath": "./tsconfig.json"
         },
         "apiRoutes": {
           "enabled": true,
           "globalPrefix": "/api",
-          "normalizeAnyToUnknown": true
+          "normalizeAnyToUnknown": true,
+          "outputSource": ["./generated", "./src/generated"]
         },
         "messages": {
-          "enabled": true
+          "enabled": true,
+          "outputSource": "./generated"
         }
       }
     }
