@@ -26,16 +26,8 @@ async function run() {
   )
 
   const outputPaths = {
-    apiRoutes: resolveOutputTargets(
-      [...sharedOutputSources, ...apiOutputSources],
-      defaultOutputs.apiRoutes,
-      cwd,
-    ),
-    messages: resolveOutputTargets(
-      [...sharedOutputSources, ...messageOutputSources],
-      defaultOutputs.messages,
-      cwd,
-    ),
+    apiRoutes: resolveOutputTargets([...sharedOutputSources, ...apiOutputSources], defaultOutputs.apiRoutes, cwd),
+    messages: resolveOutputTargets([...sharedOutputSources, ...messageOutputSources], defaultOutputs.messages, cwd),
   }
 
   spinner.start('Processing...')

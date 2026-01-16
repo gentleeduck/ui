@@ -121,7 +121,7 @@ export async function processNestJsApiRoutes(
           spinner.warn(`[any-return] ${cls.getName() ?? 'Controller'}.${m.getName()} at ${sfPath} is any`)
         }
 
-        const awaited = returnType.getAwaitedType()
+        const awaited = returnType.getAwaitedType() ?? returnType
         const expanded = awaited.getApparentType()
 
         // include return type symbols so the generated file has the imports it needs

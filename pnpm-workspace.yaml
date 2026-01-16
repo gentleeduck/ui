@@ -1,5 +1,8 @@
 packages:
   - apps/*
+  - packages/duck-gen/examples/*
+  - packages/duck-gen/examples/*/client
+  - packages/duck-gen/examples/*/server
   - packages/*
   - tooling/*
   - '!./apps/upload-api/'

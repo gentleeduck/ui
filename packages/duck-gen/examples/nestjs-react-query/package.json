@@ -1,0 +1,13 @@
+{
+  "name": "@gentleduck/duck-gen-example",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "gen": "duck-gen",
+    "build": "pnpm --filter @gentleduck/duck-gen-example-server build && pnpm --filter @gentleduck/duck-gen-example-client build",
+    "dev": "pnpm --filter @gentleduck/duck-gen-example-server dev"
+  },
+  "devDependencies": {
+    "@gentleduck/gen": "workspace:*"
+  }
+}

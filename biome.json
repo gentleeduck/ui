@@ -12,6 +12,7 @@
     "includes": [
       "**",
       "!**/node_modules",
+      "!**/node_modules.root-owned",
       "!**/dist",
       "!**/build",
       "!**/out",
@@ -21,6 +22,7 @@
       "!**/apps/docs/.next",
       "!**/website",
       "!**/.*",
+      "!**/generated.root-owned",
       "!**/old_*",
       "!packages/___",
       "./apps/docs/__ui_registry__/**",
@@ -38,6 +40,7 @@
     "includes": [
       "**",
       "!**/node_modules/**",
+      "!**/node_modules.root-owned/**",
       "!**/dist/**",
       "!**/build/**",
       "!**/out/**",
@@ -48,6 +51,7 @@
       "!**/apps/docs/.next/**",
       "!**/website/**",
       "!**/.*/**",
+      "!**/generated.root-owned/**",
       "!**/old_*/**",
       "!packages/___/**",
       "./apps/docs/__ui_registry__/**",
@@ -61,6 +65,9 @@
     "lineWidth": 120
   },
   "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
     "formatter": {
       "arrowParentheses": "always",
       "attributePosition": "auto",
@@ -79,6 +86,7 @@
     "includes": [
       "**",
       "!**/node_modules/**",
+      "!**/node_modules.root-owned/**",
       "!**/dist/**",
       "!**/build/**",
       "!**/out/**",
@@ -88,6 +96,7 @@
       "!**/apps/docs/.next/**",
       "!**/website/**",
       "!**/.*/**",
+      "!**/generated.root-owned/**",
       "!**/old_*/**",
       "!**/_*/**",
       "!apps/docs/**",

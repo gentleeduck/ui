@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "./generated",
+      "sourceGlobs": ["server/src/**/*.ts"],
+      "tsconfigPath": "./server/tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": "./generated"
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
