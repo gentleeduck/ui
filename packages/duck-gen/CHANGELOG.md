@@ -1,5 +1,11 @@
 # @gentleduck/gen
 
+## 0.1.8
+
+### Patch Changes
+
+- ad08c4b: update
+
 ## 0.1.7
 
 ### Patch Changes
