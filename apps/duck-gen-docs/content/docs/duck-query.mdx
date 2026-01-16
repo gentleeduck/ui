@@ -45,6 +45,9 @@ const { data } = await client.post('/api/auth/signin', {
 })
 ```
 
+If you configured Duck Gen to write to custom output paths, import `ApiRoutes`
+and any helper types from those files instead of `@gentleduck/gen/nestjs`.
+
 ## Request shape
 
 Every route request is a small object with up to four fields:
@@ -90,6 +93,62 @@ client.axios.interceptors.request.use((config) => {
   return config
 })
 ```
+
+## React Query (TanStack Query)
+
+```bash
+pnpm add @tanstack/react-query
+```
+
+Wrap your app with a query client provider before using hooks:
+
+```tsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import * as React from 'react'
+
+const queryClient = new QueryClient()
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+}
+```
+
+```tsx
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+
+const client = createDuckQueryClient<ApiRoutes>({ baseURL: 'http://localhost:3000' })
+
+type SigninReq = RouteReq<'/api/auth/signin'>
+type SigninRes = RouteRes<'/api/auth/signin'>
+
+export function useSignin() {
+  const qc = useQueryClient()
+  return useMutation<SigninRes, unknown, SigninReq>({
+    mutationFn: async (req) => {
+      const { data } = await client.post('/api/auth/signin', req)
+      return data
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['auth'] }),
+  })
+}
+
+type UserRes = RouteRes<'/api/users/:id'>
+
+export function useUser(id: string) {
+  return useQuery({
+    queryKey: ['users', id],
+    enabled: Boolean(id),
+    queryFn: async () => {
+      const { data } = await client.get('/api/users/:id', { params: { id } })
+      return data
+    },
+  })
+}
+```
+
+Replace `/api/users/:id` with a GET route from your `ApiRoutes`.
 
 ## Types
 
@@ -168,4 +227,3 @@ try {
 - Methods like GET and DELETE ignore `body` even if it exists.
 - `request` uses `config.method` and defaults to GET if it is missing.
 - Paths are type-checked against the method you call, so you cannot `post` to a GET-only route.
-

@@ -1,6 +1,6 @@
+import path from 'node:path'
 import chalk from 'chalk'
 import ora from 'ora'
-import path from 'node:path'
 import { load_duckgen_config as loadDuckGenConfig } from './config'
 import { emitFrameworkIndex, emitGeneratedIndex, getFrameworkOutputPaths, resolveFrameworkKey } from './core/paths'
 import type { DuckGenOutputTargets } from './core/types'

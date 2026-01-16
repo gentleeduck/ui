@@ -106,7 +106,10 @@ export function addTypeImportSource(
   typeImportSources.get(p)!.add(symbolInfo.name)
 }
 
-export function resolveTypeImports(typeImportSources: Map<string, Set<string>>, outFile: string): Map<string, Set<string>> {
+export function resolveTypeImports(
+  typeImportSources: Map<string, Set<string>>,
+  outFile: string,
+): Map<string, Set<string>> {
   const typeImports = new Map<string, Set<string>>()
   for (const [filePath, names] of typeImportSources) {
     const p = relImport(outFile, filePath)

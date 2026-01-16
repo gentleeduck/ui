@@ -158,6 +158,19 @@ Override output locations with `extensions.apiRoutes.outputPath` or
 `extensions.messages.outputPath` (string or list). When you customize outputs,
 import types from those paths instead of the package entrypoints.
 
+Example (write to multiple targets):
+
+```toml
+[extensions.apiRoutes]
+outputPath = ["./client/src/types/duck-gen-api-routes.d.ts", "./shared/src/types/duck-gen-api-routes.d.ts"]
+
+[extensions.messages]
+outputPath = "./client/src/types/duck-gen-messages.d.ts"
+```
+
+Paths resolve relative to `duck-gen.toml`. When you provide a list, Duck Gen
+writes the same output to each path.
+
 Import the public entrypoint:
 
 ```ts

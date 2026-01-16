@@ -46,17 +46,19 @@ make it realistic.
 framework = "nestjs"
 
 [extensions.shared]
-sourceGlobs = ["src/**/*.ts"]
-tsconfigPath = "./tsconfig.json"
+sourceGlobs = ["backend/src/**/*.ts"]
+tsconfigPath = "./backend/tsconfig.json"
 includeNodeModules = false
 
 [extensions.apiRoutes]
 enabled = true
 globalPrefix = "/api"
 normalizeAnyToUnknown = true
+outputPath = ["./client/src/types/duck-gen-api-routes.d.ts", "./backend/src/common/types/duck-gen-api-routes.d.ts"]
 
 [extensions.messages]
 enabled = true
+outputPath = ["./client/src/types/duck-gen-messages.d.ts", "./backend/src/common/types/duck-gen-messages.d.ts"]
 ```
 
 ## Link the client to the backend
@@ -263,6 +265,7 @@ export class AuthModule {}
 ## Client-side (Duck Query)
 
 You can see the full query docs [here](/docs/duck-query).
+If you customized `outputPath`, import types from those files instead of `@gentleduck/gen/nestjs`.
 
 ```ts title="client/auth.query.ts"
 import { toast } from 'sonner'
@@ -324,6 +327,48 @@ const i18n: I18n = {
   },
 }
 ```
+
+## Client-side (React Query)
+
+```tsx title="client/auth.react-query.ts"
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+
+const client = createDuckQueryClient<ApiRoutes>({
+  baseURL: 'http://localhost:3000',
+  withCredentials: true,
+})
+
+type SigninReq = RouteReq<'/api/auth/signin'>
+type SigninRes = RouteRes<'/api/auth/signin'>
+
+export function useSignin() {
+  const qc = useQueryClient()
+  return useMutation<SigninRes, unknown, SigninReq>({
+    mutationFn: async (req) => {
+      const { data } = await client.post('/api/auth/signin', req)
+      return data
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['auth'] }),
+  })
+}
+
+type UserRes = RouteRes<'/api/users/:id'>
+
+export function useUser(id: string) {
+  return useQuery({
+    queryKey: ['users', id],
+    enabled: Boolean(id),
+    queryFn: async () => {
+      const { data } = await client.get('/api/users/:id', { params: { id } })
+      return data
+    },
+  })
+}
+```
+
+Replace `/api/users/:id` with a GET route from your `ApiRoutes`.
 
 ## Run the generator
 
