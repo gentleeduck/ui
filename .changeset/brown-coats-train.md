@@ -1,5 +1,0 @@
----
-"@gentleduck/gen": minor
----
-
-done
