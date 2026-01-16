@@ -1,8 +1,9 @@
 import { createDuckQueryClient } from '@gentleduck/query'
 import { useMutation } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { ApiRoutes, RouteReq, RouteRes } from '../../generated/duck-gen-api-routes'
-import { type Locale, t } from './i18n'
+import type { Locale } from './i18n'
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3000'
 const client = createDuckQueryClient<ApiRoutes>({
@@ -16,9 +17,14 @@ type SignInReq = RouteReq<SignInPath>
 type SignInRes = RouteRes<SignInPath>
 
 export function App() {
+  const { i18n: i18nInstance, t } = useTranslation('auth')
   const [locale, setLocale] = useState<Locale>('en')
   const [username, setUsername] = useState('duck')
   const [password, setPassword] = useState('quack')
+
+  useEffect(() => {
+    void i18nInstance.changeLanguage(locale)
+  }, [i18nInstance, locale])
 
   const mutation = useMutation<SignInRes, Error, SignInReq>({
     mutationFn: async (req) => {
@@ -29,8 +35,8 @@ export function App() {
 
   const message = useMemo(() => {
     if (!mutation.data) return null
-    return t(locale, mutation.data.message)
-  }, [locale, mutation.data])
+    return t(mutation.data.message)
+  }, [locale, mutation.data, t])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

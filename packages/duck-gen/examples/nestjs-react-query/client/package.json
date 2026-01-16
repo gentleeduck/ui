@@ -11,8 +11,10 @@
   "dependencies": {
     "@gentleduck/query": "workspace:*",
     "@tanstack/react-query": "catalog:",
+    "i18next": "^23.15.1",
     "react": "catalog:react19",
-    "react-dom": "catalog:react19"
+    "react-dom": "catalog:react19",
+    "react-i18next": "^15.0.0"
   },
   "devDependencies": {
     "@types/react": "catalog:react19",

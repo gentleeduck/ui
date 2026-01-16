@@ -1,4 +1,4 @@
 /**
  * @duckgen messages auth
  */
-export const AuthMessages = ['auth.signin.success', 'auth.signin.invalid_credentials', 'auth.signin.locked'] as const
+export const AuthMessages = ['AUTH_SIGNIN_SUCCESS', 'AUTH_SIGNIN_INVALID_CREDENTIALS', 'AUTH_SIGNIN_LOCKED'] as const

@@ -7,14 +7,14 @@ export class AuthService {
 
   async signIn(body: SignInBody): Promise<SignInResponse> {
     if (body.username === 'locked') {
-      return { ok: false, message: 'auth.signin.locked', token: null }
+      return { ok: false, message: 'AUTH_SIGNIN_LOCKED', token: null }
     }
 
     const match = this.users.find((user) => user.username === body.username)
     if (!match || match.password !== body.password) {
-      return { ok: false, message: 'auth.signin.invalid_credentials', token: null }
+      return { ok: false, message: 'AUTH_SIGNIN_INVALID_CREDENTIALS', token: null }
     }
 
-    return { ok: true, message: 'auth.signin.success', token: match.token }
+    return { ok: true, message: 'AUTH_SIGNIN_SUCCESS', token: match.token }
   }
 }
