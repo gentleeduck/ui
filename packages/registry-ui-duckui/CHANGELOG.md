@@ -1,5 +1,12 @@
 # @gentleduck/registry-ui-duckui
 
+## 0.1.14
+
+### Patch Changes
+
+- Updated dependencies [cd47e32]
+  - @gentleduck/primitives@0.1.42
+
 ## 0.1.13
 
 ### Patch Changes
