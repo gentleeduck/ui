@@ -69,6 +69,7 @@ function Content({
   forceMount = true,
   renderOnce = true,
   lockScroll = false,
+  disabled = false,
   ...props
 }: React.HTMLProps<HTMLDivElement> & {
   forceMount?: boolean
@@ -88,7 +89,7 @@ function Content({
   return (
     <Presence present={forceMount || context.open}>
       <FloatingPortal>
-        <FloatingFocusManager context={floatingContext} modal={context.modal}>
+        <FloatingFocusManager context={floatingContext} modal={context.modal} disabled={disabled}>
           <div
             data-open={context.open}
             data-side={context.placement.split('-')[0]}
