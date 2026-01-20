@@ -42,7 +42,7 @@
     "url": "git+https://github.com/gentleeduck/duck-ui.git",
     "directory": "packages/duck-query"
   },
-  "dependencies": {
+  "peerDependencies": {
     "axios": "^1.12.2"
   },
   "devDependencies": {
