@@ -9,7 +9,7 @@
   },
   "description": "Type-safe Axios client that pairs with Duck Gen or custom route maps.",
   "name": "@gentleduck/query",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": false,
   "type": "module",
   "exports": {
