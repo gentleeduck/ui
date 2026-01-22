@@ -34,8 +34,8 @@ https://github.com/gentleeduck/duck-ui
   <AccordionItem value="framework-support">
     <AccordionTrigger>Which frameworks are supported?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Duck Gen is designed for multiple frameworks and is currently tested with NestJS. Other adapters are in progress,
-      and unsupported values fall back to the NestJS adapter with a warning.
+      Duck Gen is designed for multiple frameworks and is currently tested with NestJS. Only
+      <code className="rounded bg-muted px-2 py-1">nestjs</code> is accepted today; other values fail config validation.
     </AccordionContent>
   </AccordionItem>
 
@@ -75,8 +75,8 @@ https://github.com/gentleeduck/duck-ui
   <AccordionItem value="config-required">
     <AccordionTrigger>Do I need a config file?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      No. If <code className="rounded bg-muted px-2 py-1">duck-gen.json</code> is missing, Duck Gen uses defaults.
-      You only need the file when you want to customize globs, paths, or extensions.
+      Yes. <code className="rounded bg-muted px-2 py-1">duck-gen.json</code> is required, and the CLI fails if it cannot
+      read it. Use it to set required extension flags and paths.
     </AccordionContent>
   </AccordionItem>
 
@@ -102,7 +102,7 @@ https://github.com/gentleeduck/duck-ui
     <AccordionContent className="text-muted-foreground">
       Import from the framework entrypoint:
       <div className="mt-3">
-        <code className="rounded bg-muted px-2 py-1">import type &#123; RouteReq, RouteRes, ApiRoutes, DuckgenMessageGroup &#125; from '@gentleduck/gen/nestjs'</code>
+        <code className="rounded bg-muted px-2 py-1">import type &#123; RouteReq, RouteRes, ApiRoutes, DuckGenI18nMessages, DuckgenScopedI18nByGroup &#125; from '@gentleduck/gen/nestjs'</code>
       </div>
     </AccordionContent>
   </AccordionItem>
@@ -110,10 +110,11 @@ https://github.com/gentleeduck/duck-ui
   <AccordionItem value="scan-control">
     <AccordionTrigger>How do I control what Duck Gen scans?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Use <code className="rounded bg-muted px-2 py-1">sourceGlobs</code>,
-      <code className="ml-2 rounded bg-muted px-2 py-1">tsconfigPath</code>, and
-      <code className="ml-2 rounded bg-muted px-2 py-1">includeNodeModules</code> under
-      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.shared</code> (or override per extension).
+      Set <code className="rounded bg-muted px-2 py-1">extensions.shared.tsconfigPath</code> and
+      <code className="ml-2 rounded bg-muted px-2 py-1">extensions.shared.includeNodeModules</code>. The current NestJS
+      adapter follows your <code className="rounded bg-muted px-2 py-1">tsconfig.json</code> include/exclude globs;
+      <code className="ml-2 rounded bg-muted px-2 py-1">sourceGlobs</code> and per-extension overrides are present in the
+      schema but not applied yet.
     </AccordionContent>
   </AccordionItem>
 
@@ -140,8 +141,8 @@ https://github.com/gentleeduck/duck-ui
       Common causes:
       <ul className="mt-2 list-disc pl-5">
         <li>Your route decorators use dynamic values instead of string literals.</li>
-        <li>Your <code className="rounded bg-muted px-2 py-1">sourceGlobs</code> do not include the files.</li>
         <li>Your <code className="rounded bg-muted px-2 py-1">tsconfigPath</code> is incorrect.</li>
+        <li>Your <code className="rounded bg-muted px-2 py-1">tsconfig.json</code> include/exclude globs skip the files.</li>
       </ul>
     </AccordionContent>
   </AccordionItem>

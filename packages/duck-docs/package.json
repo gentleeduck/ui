@@ -41,7 +41,7 @@
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "clsx": "^2.1.1",
-    "jotai": "^2.14.0",
+    "jotai": "^2.16.2",
     "jsdom": "^27.0.0",
     "lucide-react": "catalog:",
     "next": "catalog:",

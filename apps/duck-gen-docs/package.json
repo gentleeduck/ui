@@ -17,14 +17,14 @@
     "lucide-react": "catalog:",
     "next": "catalog:",
     "next-sitemap": "^4.2.3",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "catalog:",
-    "@types/react": "^19.2.6",
+    "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",

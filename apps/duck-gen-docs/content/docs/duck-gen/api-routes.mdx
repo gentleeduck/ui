@@ -47,6 +47,8 @@ clean URL joins. Empty segments are removed and slashes are normalized.
 | `RouteReq` | Request shape for a path (`body`, `query`, `params`, `headers`). |
 | `RouteRes` | Response type for a path. |
 | `RouteMethod` | HTTP method for a path. |
+| `RouteMethods` | Union of all HTTP methods used by routes. |
+| `PathsByMethod` | Filters route paths by method. |
 | `DuckFetcher` | Typed fetcher signature. |
 | `DuckClient` | Typed client helper with `request` and `byMethod`. |
 | `GetBody` | Body type for a path. |

@@ -40,10 +40,10 @@ extension, Duck Gen automates the contract layer so you can focus on building fe
   from framework controllers (currently tested with NestJS).
 - **Message key safety**: Keep i18n dictionaries aligned with the constants you
   declare in code.
-- **Configurable scanning**: Fine tune `sourceGlobs` and `tsconfigPath` so the
-  generator only touches what you want.
-- **Warnings with intent**: Duck Gen surfaces duplicate groups and `any`
-  returns so you can fix contracts early.
+- **Configurable scanning**: Point Duck Gen at your `tsconfig.json` and let its
+  include/exclude globs define the scan surface.
+- **Warnings with intent**: Duck Gen surfaces duplicate message const names and
+  `any` returns so you can fix contracts early.
 - **Built for automation**: Run it locally or in CI. Generated files are safe
   to overwrite.
 

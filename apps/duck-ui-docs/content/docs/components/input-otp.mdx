@@ -1,6 +1,6 @@
 ---
 title: input-otp 
-description: Accessible one-time password component with copy paste functionality.
+description: Accessible one-time password component with paste-to-fill support.
 component: true
 ---
 
@@ -70,6 +70,12 @@ import {
   </InputOTPGroup>
 </InputOTP>
 ```
+
+## Paste
+
+- Pasting fills slots starting at the focused input.
+- Characters are filtered by the `pattern` prop.
+- `onValueChange` fires after paste and per-key entry.
 
 ## Examples
 

@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
-    "axios": "^1.12.2",
+    "axios": "^1.13.2",
     "lucide-react": "catalog:",
     "react": "catalog:react19",
     "react-dom": "catalog:react19"

@@ -36,6 +36,11 @@ export function usePopover({
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
 
+  const openRef = React.useRef(open)
+  React.useEffect(() => {
+    openRef.current = open
+  }, [open])
+
   const middleware = [
     offset({ crossAxis: alignOffset, mainAxis: sideOffset }),
     flip({
@@ -72,27 +77,33 @@ export function usePopover({
 
   const context = data.context
 
+  // IMPORTANT: don’t allow normal click-to-open when this is a context menu
   const click = useClick(context, {
-    enabled: controlledOpen == null,
+    enabled: controlledOpen == null && !contextMenu,
   })
+
   const dismiss = useDismiss(context)
   const role = useRole(context, contextMenu ? { role: 'menu' } : {})
 
   const hover = useHover(context, {
     delay: { close: 150, open: 150 },
-    enabled: enableHover,
+    enabled: enableHover && !contextMenu,
     move: true,
     restMs: 200,
   })
 
   const interactions = useInteractions([click, dismiss, role, hover])
-  const allowMouseUpCloseRef = React.useRef(false)
 
   React.useEffect(() => {
     if (!contextMenu) return
-    let timeout: number
 
-    function onContextMenu(e: MouseEvent) {
+    // keep a stable handle to the actual trigger element (works even after setPositionReference)
+    const domRef =
+      (data.refs.domReference?.current as HTMLElement | null) ?? (data.refs.reference.current as HTMLElement | null)
+
+    if (!domRef) return
+
+    const onTriggerContextMenu = (e: MouseEvent) => {
       e.preventDefault()
 
       data.refs.setPositionReference({
@@ -111,28 +122,32 @@ export function usePopover({
       })
 
       setOpen(true)
-      clearTimeout(timeout)
-
-      allowMouseUpCloseRef.current = false
-      timeout = window.setTimeout(() => {
-        allowMouseUpCloseRef.current = true
-      }, 300)
     }
 
-    function onMouseUp() {
-      if (allowMouseUpCloseRef.current) {
+    // right-click anywhere else should only close (and never open)
+    const onDocContextMenuCapture = (e: MouseEvent) => {
+      if (!openRef.current) return
+
+      const target = e.target as Node
+      const floatingEl = data.refs.floating.current as HTMLElement | null
+
+      const insideTrigger = domRef.contains(target)
+      const insideFloating = floatingEl?.contains(target) ?? false
+
+      if (!insideTrigger && !insideFloating) {
         setOpen(false)
+        // do NOT preventDefault: let browser context menu show
       }
     }
 
-    document.addEventListener('contextmenu', onContextMenu)
-    document.addEventListener('mouseup', onMouseUp)
+    domRef.addEventListener('contextmenu', onTriggerContextMenu)
+    document.addEventListener('contextmenu', onDocContextMenuCapture, true)
+
     return () => {
-      document.removeEventListener('contextmenu', onContextMenu)
-      document.removeEventListener('mouseup', onMouseUp)
-      clearTimeout(timeout)
+      domRef.removeEventListener('contextmenu', onTriggerContextMenu)
+      document.removeEventListener('contextmenu', onDocContextMenuCapture, true)
     }
-  }, [data.refs])
+  }, [contextMenu, data.refs, setOpen])
 
   return React.useMemo(
     () => ({

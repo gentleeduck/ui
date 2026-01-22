@@ -1,6 +1,6 @@
 ---
 title: context-menu
-description: Displays a menu to the user — such as a set of actions or functions — triggered by a button.
+description: Displays a context menu of actions triggered by right-click on a target.
 component: true
 ---
 
@@ -70,3 +70,9 @@ import {
   </ContextMenuContent>
 </ContextMenu>
 ```
+
+## Behavior
+
+- Right-click the trigger area to open the menu.
+- Left-click does not open the menu; use DropdownMenu if you need click activation.
+- Right-clicking outside closes the menu and allows the native browser menu to appear.

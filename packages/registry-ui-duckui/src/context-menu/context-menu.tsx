@@ -17,7 +17,6 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-  useDropdownMenuContext,
 } from '../dropdown-menu'
 
 function ContextMenu(props: React.ComponentPropsWithoutRef<typeof DropdownMenu>) {
@@ -25,48 +24,6 @@ function ContextMenu(props: React.ComponentPropsWithoutRef<typeof DropdownMenu>)
 }
 
 function ContextMenuTrigger(props: React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger>) {
-  const { triggerRef, open, onOpenChange } = useDropdownMenuContext()
-
-  React.useLayoutEffect(() => {
-    triggerRef.current?.addEventListener('click', (e) => {
-      e.preventDefault()
-    })
-
-    triggerRef.current?.addEventListener('contextmenu', (e) => {
-      e.preventDefault()
-      if (open) return
-
-      const trigger = triggerRef.current
-      const content = trigger?.nextSibling as HTMLDivElement
-      if (!trigger || !content) return
-
-      const mouseX = e.clientX
-      const mouseY = e.clientY
-
-      const viewportWidth = window.innerWidth
-      const viewportHeight = window.innerHeight
-
-      let left = mouseX + 4
-      let top = mouseY + 4
-
-      if (mouseX > viewportWidth * 0.5) {
-        left = mouseX - 210
-      }
-
-      if (mouseY > viewportHeight * 0.6) {
-        top = mouseY - 310
-      }
-
-      content.style.transform = 'translate(0,0)'
-      content.style.left = `${left}px`
-      content.style.top = `${top}px`
-      content.style.zIndex = '9999'
-      setTimeout(() => {
-        onOpenChange(true)
-      }, 100)
-    })
-  }, [])
-
   return (
     <DropdownMenuTrigger
       {...props}

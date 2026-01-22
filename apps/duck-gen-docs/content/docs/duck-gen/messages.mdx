@@ -5,13 +5,16 @@ description: Generate typed i18n dictionaries from @duckgen tags.
 
 ## What it scans
 
-Exported const arrays with JSDoc `@duckgen` tags.
+Exported const arrays or const objects with JSDoc `@duckgen` tags. Array values
+become message keys; object keys become message keys.
 
 ## Tag formats
 
 - `@duckgen`
 - `@duckgen messages`
+- `@duckgen message`
 - `@duckgen messages auth`
+- `@duckgen message auth`
 - `@duckgen auth`
 
 If a group key is provided, it becomes the message group name. If not, the
@@ -20,7 +23,8 @@ const name is used as the group key.
 ## Group key rules
 
 - Each group key must be unique.
-- Duplicate group keys produce warnings and are skipped.
+- Duplicate group keys are skipped.
+- Duplicate const names are warned and skipped.
 - Use `as const` on arrays to preserve literal message keys.
 
 ## Generated types
@@ -34,11 +38,14 @@ const name is used as the group key.
 | `DuckgenMessageKey` | Union of message keys for a group (or all groups). |
 | `DuckgenMessageDictionary` | Record of message key to string for a group. |
 | `DuckgenMessageDictionaryByGroup` | Map of groups to their dictionaries. |
+| `DuckGenI18nMessages` | Alias of `DuckgenMessageDictionaryByGroup`. |
 | `DuckgenI18n` | Language to dictionary for a group or groups. |
 | `DuckgenI18nByGroup` | Language to all group dictionaries. |
 | `DuckgenScopedI18nByGroup` | Language to scoped group dictionaries. |
 
 ## Example
+
+### Array source
 
 ```ts
 /**
@@ -48,6 +55,18 @@ export const AuthMessages = [
   'auth.invalid_credentials',
   'auth.locked',
 ] as const
+```
+
+### Object source
+
+```ts
+/**
+ * @duckgen messages auth
+ */
+export const AuthMessages = {
+  AUTH_INVALID_CREDENTIALS: 'AUTH_INVALID_CREDENTIALS',
+  AUTH_LOCKED: 'AUTH_LOCKED',
+} as const
 ```
 
 ```ts

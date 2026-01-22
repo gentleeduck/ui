@@ -18,11 +18,11 @@ is simple: keep server contracts and client types aligned without manual sync wo
 
 ## How it works
 
-1. Reads `duck-gen.json` from your project root (or uses defaults).
-2. Builds a TypeScript project using `tsconfigPath` and `sourceGlobs`.
-3. Scans framework controllers and `@duckgen` message arrays (currently tested with NestJS).
+1. Reads `duck-gen.json` from your project root (required).
+2. Builds a TypeScript project from `tsconfigPath` (NestJS uses tsconfig includes/excludes; `sourceGlobs` are reserved).
+3. Scans framework controllers and `@duckgen` message sources (arrays or objects).
 4. Emits `.d.ts` files under `@gentleduck/gen/generated/<framework>`.
-5. Prints warnings for edge cases like duplicate message groups or `any` types.
+5. Prints warnings for `any` return types and duplicate message const names.
 
 ## Installation
 
@@ -99,8 +99,8 @@ import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 
 ## Configuration
 
-Duck Gen reads `duck-gen.json` from your project root. Paths are resolved
-relative to the config file.
+Duck Gen reads `duck-gen.json` from your project root. The config file is required,
+and paths are resolved relative to the config file.
 
 ```json title="duck-gen.json"
 {
@@ -129,42 +129,50 @@ relative to the config file.
 
 **Root**
 
-- `framework` (string, default: `nestjs`): The target framework. Duck Gen is
-  designed for multiple frameworks; current testing uses `nestjs` and other
-  adapters are in progress. Unsupported values emit a warning and fall back to
-  `nestjs`.
+- `framework` (string, required): The target framework. Currently only `nestjs`
+  is supported; other values fail validation.
 
 **extensions.shared**
 
-- `sourceGlobs` (string[], default: `["src/**/*.ts", "src/**/*.tsx"]`): Files
-  to scan.
-- `tsconfigPath` (string, default: `./tsconfig.json`): TypeScript config used
+- `tsconfigPath` (string, required for NestJS scanning): TypeScript config used
   by ts-morph.
-- `includeNodeModules` (boolean, default: `false`): Include `node_modules` in
-  scanning.
+- `includeNodeModules` (boolean, required): Include `node_modules` in scanning.
+- `sourceGlobs` (string[], reserved): Present in the schema but not applied by
+  the current NestJS adapter.
 - `outputSource` (string | string[]): Additional output directories for generated
   files (package outputs are always generated).
 
 **extensions.apiRoutes**
 
-- `enabled` (boolean, default: `true`): Enable API route generation.
-- `globalPrefix` (string, default: `/api`): Prefix applied to all routes.
-- `normalizeAnyToUnknown` (boolean, default: `true`): Converts `any` request
-  types to `unknown`.
+- `enabled` (boolean, required): Enable API route generation.
+- `globalPrefix` (string, optional): Prefix applied to all routes. Omit for no
+  prefix.
+- `normalizeAnyToUnknown` (boolean, required): Converts `any` request/response
+  types to `unknown` and warns on `any` return types when enabled.
 - `outputSource` (string | string[]): Additional output file path(s) or
   directories for generated API routes.
-- `sourceGlobs` (string[]): Overrides `extensions.shared.sourceGlobs`.
-- `tsconfigPath` (string): Overrides `extensions.shared.tsconfigPath`.
-- `includeNodeModules` (boolean): Overrides `extensions.shared.includeNodeModules`.
+- `outputPath` (string, deprecated): Legacy output file path for API routes.
+  Use `outputSource` instead.
+- `sourceGlobs` (string[], reserved): Present in the schema but not applied by
+  the current NestJS adapter.
+- `tsconfigPath` (string, reserved): Present in the schema but not applied by
+  the current NestJS adapter.
+- `includeNodeModules` (boolean, reserved): Present in the schema but not
+  applied by the current NestJS adapter.
 
 **extensions.messages**
 
-- `enabled` (boolean, default: `true`): Enable message generation.
+- `enabled` (boolean, required): Enable message generation.
 - `outputSource` (string | string[]): Additional output file path(s) or
   directories for generated message types.
-- `sourceGlobs` (string[]): Overrides `extensions.shared.sourceGlobs`.
-- `tsconfigPath` (string): Overrides `extensions.shared.tsconfigPath`.
-- `includeNodeModules` (boolean): Overrides `extensions.shared.includeNodeModules`.
+- `outputPath` (string, deprecated): Legacy output file path for messages.
+  Use `outputSource` instead.
+- `sourceGlobs` (string[], reserved): Present in the schema but not applied by
+  the current NestJS adapter.
+- `tsconfigPath` (string, reserved): Present in the schema but not applied by
+  the current NestJS adapter.
+- `includeNodeModules` (boolean, reserved): Present in the schema but not
+  applied by the current NestJS adapter.
 
 ## Output and CLI
 
@@ -183,24 +191,26 @@ those paths instead of the package entrypoints.
 Import the public entrypoint:
 
 ```ts
-import type { ApiRoutes, DuckgenMessageGroup } from '@gentleduck/gen/nestjs'
+import type { ApiRoutes, DuckGenI18nMessages, DuckgenScopedI18nByGroup } from '@gentleduck/gen/nestjs'
 ```
 
 CLI notes:
 
-- If `duck-gen.json` is missing, defaults are used.
-- Warnings are printed for duplicate message groups or `any` return types.
+- `duck-gen.json` is required; the CLI fails if it cannot be read.
+- Run the CLI from the project root so paths resolve correctly.
+- Warnings are printed for `any` return types and duplicate message const names.
 - Running the generator multiple times is safe; it overwrites the same files.
 
 ## Troubleshooting
 
 - **No routes generated**: Make sure your decorators use string literal paths.
   Dynamic values are skipped.
-- **Missing types**: Check `sourceGlobs` and `tsconfigPath` in `duck-gen.json`.
+- **Missing types**: Check `tsconfigPath` and the `include`/`exclude` globs in
+  your `tsconfig.json`.
 - **Message keys are just `string`**: Add `as const` to message arrays.
-- **Duplicate group warnings**: Ensure each `@duckgen` group key is unique.
-- **Any return warnings**: Add explicit return types or update the controller
-  methods to avoid `any`.
+- **Duplicate group keys**: Ensure each `@duckgen` group key is unique.
+- **Any return warnings**: Add explicit return types, or set
+  `normalizeAnyToUnknown` to `false` if you want to allow `any` through.
 
 ## Extensions
 
