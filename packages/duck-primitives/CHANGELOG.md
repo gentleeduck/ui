@@ -1,5 +1,11 @@
 # @gentleduck/primitives
 
+## 0.1.43
+
+### Patch Changes
+
+- 45ec82f: fix the context menu
+
 ## 0.1.42
 
 ### Patch Changes
