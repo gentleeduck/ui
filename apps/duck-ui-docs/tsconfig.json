@@ -5,21 +5,13 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.iterable"
-    ],
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noErrorTruncation": true,
     "paths": {
-      "~/*": [
-        "./*"
-      ],
-      "~/velite": [
-        "./.velite/*"
-      ]
+      "~/*": ["./*"],
+      "~/velite": ["./.velite/*"]
     },
     "plugins": [
       {
@@ -29,21 +21,10 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
-    "types": [
-      "@types/react",
-      "node"
-    ],
+    "types": ["@types/react", "node"],
     "useDefineForClassFields": true
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
+  "exclude": ["node_modules", "dist"],
   "extends": "@gentleduck/typescript-config/base.json",
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".velite"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".velite"]
 }
