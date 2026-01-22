@@ -98,6 +98,7 @@ const nextConfig: NextConfig = {
     '@gentleduck/registry-examples-duckui',
     '@gentleduck/registry-blocks-duckui',
     '@gentleduck/docs',
+    '@gentleduck/lazy',
   ],
   // rewrites: async () => {
   //   return [
