@@ -33,7 +33,7 @@ export const packages = [
       'Accessible, unstyled building blocks (dialogs, popovers, tooltips, and more) to power any design system.',
     href: `/docs/packages/duck-primitives`,
     icon: Layers,
-    name: '',
+    name: 'Gentleduck Primitives',
     status: 'new',
   },
   {
