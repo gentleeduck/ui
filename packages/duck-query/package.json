@@ -60,6 +60,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@gentleduck/query": "file:gentleduck-query-0.1.5.tgz"
+    "@gentleduck/query": "workspace:*"
   }
 }
