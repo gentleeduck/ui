@@ -14,13 +14,13 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
-  "types": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "files": [
-    "src",
+    "dist",
     "README.md",
     "LICENSE",
     "tsconfig.json"
@@ -47,9 +47,12 @@
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
   },
   "scripts": {
+    "build": "tsdown",
     "dev": "tsx ./src/index.ts",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },

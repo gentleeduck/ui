@@ -1,5 +1,11 @@
 # @gentleduck/gen
 
+## 0.2.2
+
+### Patch Changes
+
+- 533602f: fixed gen and query
+
 ## 0.2.1
 
 ### Patch Changes

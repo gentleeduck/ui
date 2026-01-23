@@ -1442,6 +1442,12 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.3
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.18.3(typescript@5.9.3)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
 
   packages/duck-shortcut:
     dependencies:
