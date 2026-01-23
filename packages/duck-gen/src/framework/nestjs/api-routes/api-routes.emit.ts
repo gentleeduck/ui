@@ -21,16 +21,29 @@ export function emitApiRoutesFile(outFile: string, routes: Route[], imports: Imp
   pushDoc(out, ['Internal route metadata shape used by ApiRoutes.'])
   out.push(
     'type RouteMeta<Body, Query, Params, Headers, Res, Method extends string> = ' +
-      '{ body: Body; query: Query; params: Params; headers: Headers; res: Res; method: Method }',
+    '{ body: Body; query: Query; params: Params; headers: Headers; res: Res; method: Method }',
   )
   out.push('')
 
   pushDoc(out, ['Route map: path -> route metadata.', "Example: ApiRoutes['/api/auth/signin']"])
   out.push('export interface ApiRoutes {')
-  for (const r of routes.sort((a, b) => a.fullPath.localeCompare(b.fullPath))) {
-    out.push(
-      `  '${r.fullPath}': RouteMeta<${r.bodyType}, ${r.queryType}, ${r.paramsType}, ${r.headersType}, ${r.resType}, '${r.httpMethod}'>`,
+  const routesByPath = new Map<string, Route[]>()
+  for (const r of routes) {
+    if (!routesByPath.has(r.fullPath)) {
+      routesByPath.set(r.fullPath, [])
+    }
+    routesByPath.get(r.fullPath)!.push(r)
+  }
+
+  for (const path of Array.from(routesByPath.keys()).sort()) {
+    const group = routesByPath.get(path)!
+    group.sort((a, b) => a.httpMethod.localeCompare(b.httpMethod))
+
+    const types = group.map(
+      (r) =>
+        `RouteMeta<${r.bodyType}, ${r.queryType}, ${r.paramsType}, ${r.headersType}, ${r.resType}, '${r.httpMethod}'>`,
     )
+    out.push(`  '${path}': ${types.join(' | ')}`)
   }
   out.push('}', '')
 
@@ -62,7 +75,7 @@ export function emitApiRoutesFile(outFile: string, routes: Route[], imports: Imp
 
   pushDoc(out, ['Filters route paths by method.', "Example: PathsByMethod<'GET'>"])
   out.push(
-    'export type PathsByMethod<M extends RouteMethods> = { [P in RoutePath]: RouteMethod<P> extends M ? P : never }[RoutePath]',
+    'export type PathsByMethod<M extends RouteMethods> = { [P in RoutePath]: M extends RouteMethod<P> ? P : never }[RoutePath]',
   )
 
   pushDoc(out, ['Fetcher signature for a typed client.'])
