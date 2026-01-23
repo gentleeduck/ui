@@ -11,6 +11,7 @@
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "dependencies": {
+    "@gentleduck/gen": "file:gentleduck-gen-0.2.2.tgz",
     "@iarna/toml": "^3.0.0",
     "chalk": "5.6.2",
     "ora": "^9.0.0",
@@ -26,7 +27,10 @@
     "tsdown": "catalog:"
   },
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.js"
+    },
     "./generated": "./generated/index.d.ts",
     "./generated/*": "./generated/*",
     "./nestjs": "./generated/nestjs/index.d.ts",
@@ -35,8 +39,8 @@
   },
   "files": [
     "bin",
+    "dist",
     "generated",
-    "src",
     "duck-gen.schema.json",
     "README.md",
     "LICENSE"
@@ -54,6 +58,7 @@
   ],
   "license": "MIT",
   "name": "@gentleduck/gen",
+  "types": "./dist/index.d.mts",
   "packageManager": "pnpm@10.17.0",
   "private": false,
   "publishConfig": {

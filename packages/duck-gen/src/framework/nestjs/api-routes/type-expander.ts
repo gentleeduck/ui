@@ -4,13 +4,57 @@ export interface ExpandTypeOptions {
   normalizeAnyToUnknown?: boolean
 }
 
+const DISPLAY_TYPE_FLAGS = TypeFormatFlags.NoTruncation | TypeFormatFlags.UseAliasDefinedOutsideCurrentScope
+
+function isArrayLikeSymbol(symbol?: Symbol): boolean {
+  const name = symbol?.getName()
+  return name === 'Array' || name === 'ReadonlyArray' || name === 'ArrayLike'
+}
+
+function looksLikeArrayText(text: string): boolean {
+  return (
+    text.endsWith('[]') ||
+    text.startsWith('Array<') ||
+    text.startsWith('ReadonlyArray<') ||
+    text.startsWith('ArrayLike<')
+  )
+}
+
+function looksLikeArrayByProps(type: Type): boolean {
+  const names = new Set(type.getProperties().map((prop) => prop.getName()))
+  if (!names.has('length')) return false
+
+  if (names.has('push') || names.has('pop')) return true
+  if (names.has('map') && names.has('filter')) return true
+  if (names.has('concat') && names.has('slice')) return true
+
+  return false
+}
+
+function isArrayLikeType(type: Type, symbol?: Symbol, node?: Node): boolean {
+  if (type.isArray() || type.isReadonlyArray() || type.isTuple()) return true
+
+  const targetSymbol = type.getTargetType()?.getSymbol()
+  if (isArrayLikeSymbol(symbol) || isArrayLikeSymbol(targetSymbol)) return true
+
+  const numberIndex = type.getNumberIndexType()
+  if (numberIndex) {
+    // Avoid expanding array-like structures into method/property lists.
+    if (type.getProperty('length')) return true
+  }
+
+  if (looksLikeArrayText(type.getText(node, DISPLAY_TYPE_FLAGS))) return true
+  if (looksLikeArrayByProps(type)) return true
+
+  return false
+}
+
 export function expandType(
   type: Type,
   node?: Node,
   options: ExpandTypeOptions = {},
   seen = new Map<string, string>(),
 ): string {
-  // Basic types
   if (type.isString()) return 'string'
   if (type.isNumber()) return 'number'
   if (type.isBoolean()) return 'boolean'
@@ -23,70 +67,39 @@ export function expandType(
   if (type.isUnknown()) return 'unknown'
   if (type.isVoid()) return 'void'
 
-  // Handle Date
   const symbol = type.getAliasSymbol() || type.getSymbol()
   if (symbol && symbol.getName() === 'Date') {
     return 'Date'
   }
 
-  // Recursion Check (by unique name if available)
   const typeText = type.getText(node, TypeFormatFlags.UseFullyQualifiedType | TypeFormatFlags.NoTruncation)
   if (seen.has(typeText)) {
     return typeText
   }
 
-  // Handle Arrays - Improved Detection
-  // Check if it's an array type OR if it's a type reference to global Array
-  if (type.isArray()) {
-    const elemType = type.getArrayElementType()
-    if (elemType) {
-      return `${expandType(elemType, node, options, seen)}[]`
-    }
-    return options.normalizeAnyToUnknown ? 'unknown[]' : 'any[]'
+  if (isArrayLikeType(type, symbol, node)) {
+    return type.getText(node, DISPLAY_TYPE_FLAGS)
   }
 
-  // Fallback for types that look like arrays but are references (e.g. Array<T>)
-  // Sometimes isArray() is false for TypeReference to Array?
-  if (symbol && symbol.getName() === 'Array') {
-    const args = type.getTypeArguments()
-    if (args.length > 0) {
-      return `${expandType(args[0], node, options, seen)}[]`
-    }
-    return options.normalizeAnyToUnknown ? 'unknown[]' : 'any[]'
-  }
-
-  // Handle Union
   if (type.isUnion()) {
     const parts = type.getUnionTypes().map((t) => expandType(t, node, options, seen))
     return Array.from(new Set(parts)).join(' | ')
   }
 
-  // Handle Objects
   if (type.isObject() || type.isIntersection()) {
     const symName = symbol?.getName()
 
-    // Block expansion of standard library types that might mimic objects
     if (symName === 'Promise') {
       const args = type.getTypeArguments()
       if (args.length > 0) return expandType(args[0], node, options, seen)
       return options.normalizeAnyToUnknown ? 'Promise<unknown>' : 'Promise<any>'
     }
 
-    // Prevent expanding Buffer, Function, etc.
     if (symName === 'Buffer' || symName === 'Function') {
       return symName
     }
 
-    // Explicitly check if it "looks" like an Array (has numbered index signature and length?)
-    // The user saw `__@iterator`. This usually happens when iterating properties of an Array object.
-    // If we missed the array check above, we might land here.
-    // Let's verify if `type.getApparentType()` has `push`, `pop`, `length`.
-    // If so, it's likely an array-like that we should treat as Array<any> or similar fallback if we can't get element type.
-
-    // However, `type.isArray()` should catch it.
-    // Maybe it's a `Tuple`?
     if (type.isTuple()) {
-      // Expand tuple elements
       const elements = type.getTupleElements()
       const expanded = elements.map((t) => expandType(t, node, options, seen))
       return `[${expanded.join(', ')}]`
@@ -104,7 +117,6 @@ export function expandType(
 
     const lines: string[] = []
     for (const prop of props) {
-      // Filter out methods
       const valDeclaration = prop.getValueDeclaration()
       if (
         valDeclaration &&
@@ -114,14 +126,10 @@ export function expandType(
         continue
       }
 
-      // Should we filter internal properties starting with __?
       if (prop.getName().startsWith('__')) continue
-      // Filter standard props if we suspect it's looking like an array?
-      // `length`, `toString`, `toLocaleString` are on Object/Array.
 
       const name = prop.getName()
 
-      // Standard Object methods we don't want in our DTOs
       if (
         [
           'toString',

@@ -18,21 +18,3 @@ export type SignInResponse =
       message: AuthMessage
       token: null
     }
-
-export type DeepType = {
-  data: {
-    items: {
-      id: string
-      details: {
-        raw: unknown
-        history: {
-          date: Date
-          action: string
-        }[]
-      }
-    }[]
-    meta: {
-      total: number
-    }
-  }
-}
