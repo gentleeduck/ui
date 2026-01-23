@@ -21,7 +21,7 @@ export function emitApiRoutesFile(outFile: string, routes: Route[], imports: Imp
   pushDoc(out, ['Internal route metadata shape used by ApiRoutes.'])
   out.push(
     'type RouteMeta<Body, Query, Params, Headers, Res, Method extends string> = ' +
-    '{ body: Body; query: Query; params: Params; headers: Headers; res: Res; method: Method }',
+      '{ body: Body; query: Query; params: Params; headers: Headers; res: Res; method: Method }',
   )
   out.push('')
 

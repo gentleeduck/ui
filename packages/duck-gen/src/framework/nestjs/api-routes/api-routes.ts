@@ -1,4 +1,4 @@
-import { type Project, type SourceFile, ts } from 'ts-morph'
+import type { Project, SourceFile, ts } from 'ts-morph'
 import { spinner } from '../../..'
 import type { DuckGenConfig } from '../../../config/config.dto'
 import { isNodeModulesFile } from '../../../shared/utils'
@@ -20,10 +20,8 @@ import {
   symbolToImportInfo,
   toHttpMethod,
 } from './api-routes.libs'
-import { expandType } from './type-expander'
 import type { Route } from './api-routes.types'
-
-
+import { expandType } from './type-expander'
 
 export async function processNestJsApiRoutes(
   project: Project,
