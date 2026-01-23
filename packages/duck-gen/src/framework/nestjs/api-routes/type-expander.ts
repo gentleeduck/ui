@@ -1,4 +1,4 @@
-import { type Node, Symbol, SyntaxKind, type Type, TypeFormatFlags, ts } from 'ts-morph'
+import { type Node, type Symbol, SyntaxKind, type Type, TypeFormatFlags, ts } from 'ts-morph'
 
 export interface ExpandTypeOptions {
   normalizeAnyToUnknown?: boolean
