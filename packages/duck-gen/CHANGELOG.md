@@ -1,5 +1,13 @@
 # @gentleduck/gen
 
+## 0.2.3
+
+### Patch Changes
+
+- 2f295d6: done
+- Updated dependencies [2f295d6]
+  - @gentleduck/gen@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @gentleduck/query
 
+## 0.1.6
+
+### Patch Changes
+
+- 2f295d6: done
+- Updated dependencies [2f295d6]
+  - @gentleduck/query@0.1.6
+
 ## 0.1.5
 
 ### Patch Changes
