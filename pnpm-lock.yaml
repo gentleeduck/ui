@@ -1435,9 +1435,6 @@ importers:
 
   packages/duck-query:
     dependencies:
-      '@gentleduck/query':
-        specifier: workspace:*
-        version: 'link:'
       axios:
         specifier: ^1.12.2
         version: 1.13.2

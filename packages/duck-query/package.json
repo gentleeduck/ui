@@ -58,8 +58,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@gentleduck/query": "workspace:*"
   }
 }
