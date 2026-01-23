@@ -83,7 +83,7 @@ function SelectWrapper({
         triggerRef: triggerRef,
         value: selectedItem?.getAttribute('value') ?? value,
       }}>
-      {children}
+      <div>{children}</div>
     </SelectContext.Provider>
   )
 }
@@ -146,7 +146,7 @@ function SelectContent({ children, className, ...props }: React.ComponentPropsWi
         className={cn(scrollable && 'max-h-[450px] overflow-y-scroll')}
         data-slot="select-content-scrollable"
         duck-select-content-scrollable=""
-        ref={contentRef as never}>
+        ref={contentRef}>
         {children}
       </div>
       {scrollable && <SelectScrollDownButton />}
@@ -158,9 +158,15 @@ function SelectGroup({ children, ...props }: React.HTMLProps<HTMLUListElement>) 
   return <ul {...props}>{children}</ul>
 }
 
-function SelectValue({ className, children, placeholder, ...props }: React.HTMLProps<HTMLDivElement>) {
+function SelectValue({
+  className,
+  children,
+  placeholder,
+  ...props
+}: Omit<React.HTMLProps<HTMLDivElement>, 'placeholder'> & {
+  placeholder?: string | number
+}) {
   const { value } = useSelectContext()
-
   return (
     <div
       className={cn(
@@ -211,7 +217,7 @@ function SelectItem({
       {...props}
       aria-disabled={disabled}
       className={cn(
-        "relative flex flex w-full cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-background hover:text-accent-foreground data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-muted",
+        'relative flex flex w-full cursor-default cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1 text-sm outline-hidden transition-color duration-300 will-change-300 hover:bg-muted hover:text-accent-foreground data-[selected=true]:text-accent-foreground [&[aria-selected]]:bg-muted',
         disabled && 'pointer-events-none opacity-50',
       )}
       data-slot="select-item"

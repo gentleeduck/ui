@@ -20,7 +20,7 @@ export function useDropdownMenuInit(open: boolean, onOpenChange: (open: boolean)
 
   React.useEffect(() => {
     setTimeout(() => {
-      initRefs(groupsRef, contentRef, selectedItemRef, itemsRef, originalItemsRef, onOpenChange, sub)
+      initRefs(groupsRef, contentRef, itemsRef, originalItemsRef, onOpenChange, sub)
     }, 0)
   }, [open])
 

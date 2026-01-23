@@ -69,7 +69,7 @@ function Content({
   forceMount = true,
   renderOnce = true,
   lockScroll = false,
-  disabled = false,
+  disabled = true,
   ...props
 }: React.HTMLProps<HTMLDivElement> & {
   forceMount?: boolean

@@ -21,7 +21,6 @@ import {
 } from '@gentleduck/registry-ui-duckui/dropdown-menu'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Pagination, PaginationContent, PaginationItem } from '@gentleduck/registry-ui-duckui/pagination'
-import { Portal } from '@gentleduck/registry-ui-duckui/portal'
 import {
   Select,
   SelectContent,
@@ -353,23 +352,21 @@ export function DuckTableActionsDelete() {
           Delete
         </DropdownMenuItem>
       </AlertDialogTrigger>
-      <Portal>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your account and remove your data from our
-              servers.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex items-center gap-2 justify-end">
-            <AlertDialogCancel asChild>
-              <Button variant="outline">Cancel</Button>
-            </AlertDialogCancel>
-            <AlertDialogAction>Continue</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </Portal>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your account and remove your data from our
+            servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="flex items-center gap-2 justify-end">
+          <AlertDialogCancel asChild>
+            <Button variant="outline">Cancel</Button>
+          </AlertDialogCancel>
+          <AlertDialogAction>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
     </AlertDialog>
   )
 }

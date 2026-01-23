@@ -4,7 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui
 export default function Tooltip2Demo() {
   return (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger asChild>
         <Button variant="outline">Hover</Button>
       </TooltipTrigger>
       <TooltipContent>Tooltip Content</TooltipContent>

@@ -98,6 +98,11 @@ export function createStore() {
 
       const result = atom.write(store.get as Getter, store.set as Setter, ...args)
 
+      if (!('initValue' in atom)) {
+        // Derived atoms cache their read result; clear it so next read reflects writes.
+        atomState.delete(atom)
+      }
+
       invalidateDependents(atom)
       const l = listeners.get(atom)
       if (l) l.forEach((fn) => fn())
