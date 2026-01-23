@@ -1,5 +1,15 @@
 # @gentleduck/gen
 
+## 0.2.3
+
+### Patch Changes
+
+- 2f295d6: done
+- 0c417cb: fixed bug
+- Updated dependencies [2f295d6]
+- Updated dependencies [0c417cb]
+  - @gentleduck/gen@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes
