@@ -4,6 +4,13 @@
 
 ### Patch Changes
 
+- 7c62d44: done
+- 7c62d44: fixed bug
+
+## 0.1.5
+
+### Patch Changes
+
 - 533602f: fixed gen and query
 
 ## 0.1.4
