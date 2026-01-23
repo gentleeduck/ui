@@ -3,4 +3,4 @@
 "@gentleduck/query": patch
 ---
 
-fixed gen and query
+done

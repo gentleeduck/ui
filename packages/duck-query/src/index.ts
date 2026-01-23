@@ -17,25 +17,20 @@ type CleanupNever<T> = {
 
 export type RoutePath<Routes> = keyof Routes & string
 export type RouteOf<Routes, P extends RoutePath<Routes>> = Routes[P] extends DuckRouteMeta ? Routes[P] : never
+export type RouteMethod<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['method']
+export type RouteRes<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['res']
+export type RouteReq<Routes, P extends RoutePath<Routes>> = CleanupNever<
+  Pick<RouteOf<Routes, P>, 'body' | 'query' | 'params' | 'headers'>
+>
+export type RouteMethods<Routes> = RouteOf<Routes, RoutePath<Routes>>['method']
 export type RouteOfMethod<Routes, P extends RoutePath<Routes>, M extends string> = Extract<
   RouteOf<Routes, P>,
   { method: M }
 >
-
-export type RouteMethod<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['method']
-export type RouteRes<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['res']
 export type RouteResMethod<Routes, P extends RoutePath<Routes>, M extends string> = RouteOfMethod<Routes, P, M>['res']
-
-export type RouteReq<Routes, P extends RoutePath<Routes>> = CleanupNever<
-  Pick<RouteOf<Routes, P>, 'body' | 'query' | 'params' | 'headers'>
->
 export type RouteReqMethod<Routes, P extends RoutePath<Routes>, M extends string> = CleanupNever<
   Pick<RouteOfMethod<Routes, P, M>, 'body' | 'query' | 'params' | 'headers'>
 >
-
-export type RouteMethods<Routes> = RouteOf<Routes, RoutePath<Routes>>['method']
-
-// Fix PathsByMethod to handle union methods (M extends RouteMethod vs RouteMethod extends M)
 export type PathsByMethod<Routes, M extends string> = {
   [P in RoutePath<Routes>]: M extends RouteMethod<Routes, P> ? P : never
 }[RoutePath<Routes>]

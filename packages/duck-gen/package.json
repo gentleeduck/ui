@@ -26,7 +26,10 @@
     "tsdown": "catalog:"
   },
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.js"
+    },
     "./generated": "./generated/index.d.ts",
     "./generated/*": "./generated/*",
     "./nestjs": "./generated/nestjs/index.d.ts",
@@ -35,8 +38,8 @@
   },
   "files": [
     "bin",
+    "dist",
     "generated",
-    "src",
     "duck-gen.schema.json",
     "README.md",
     "LICENSE"
@@ -54,6 +57,7 @@
   ],
   "license": "MIT",
   "name": "@gentleduck/gen",
+  "types": "./dist/index.d.mts",
   "packageManager": "pnpm@10.17.0",
   "private": false,
   "publishConfig": {
@@ -70,5 +74,5 @@
     "dev": "tsx ./src/index.ts"
   },
   "type": "module",
-  "version": "0.2.1"
+  "version": "0.2.2"
 }
