@@ -20,16 +20,10 @@ import {
   symbolToImportInfo,
   toHttpMethod,
 } from './api-routes.libs'
+import { expandType } from './type-expander'
 import type { Route } from './api-routes.types'
 
-const TYPE_TEXT_FLAGS =
-  ts.TypeFormatFlags.NoTruncation |
-  ts.TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
-  ts.TypeFormatFlags.InTypeAlias |
-  ts.TypeFormatFlags.UseFullyQualifiedType |
-  ts.TypeFormatFlags.WriteTypeArgumentsOfSignature |
-  ts.TypeFormatFlags.WriteArrayAsGenericType |
-  ts.TypeFormatFlags.MultilineObjectLiterals
+
 
 export async function processNestJsApiRoutes(
   project: Project,
@@ -140,10 +134,9 @@ export async function processNestJsApiRoutes(
         const paramsType = mergeTypes(paramsParts)
         const headersType = mergeTypes(headersParts)
 
-        const resType =
-          apiRoutes.normalizeAnyToUnknown && expanded.isAny()
-            ? 'unknown'
-            : expanded.getText(m, TYPE_TEXT_FLAGS) || 'unknown'
+        const resType = expandType(expanded, m, {
+          normalizeAnyToUnknown: apiRoutes.normalizeAnyToUnknown,
+        })
 
         routes.push({
           bodyType,
