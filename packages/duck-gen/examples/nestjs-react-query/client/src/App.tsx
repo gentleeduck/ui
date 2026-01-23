@@ -28,6 +28,12 @@ export function App() {
 
   const mutation = useMutation<SignInRes, Error, SignInReq>({
     mutationFn: async (req) => {
+      let hi = await client.get('/api/auth/dup', {})
+      let hi1 = await client.post('/api/auth/dup', {})
+
+      hi.data.method
+      hi1.data.method
+
       const response = await client.post(signInPath, req)
       return response.data
     },
