@@ -127,7 +127,6 @@ export function useCommandSearch(
     // Styling the first item after search
     const item = filteredItems.current?.[0] as HTMLLIElement
     styleItem(item ?? null)
-    item?.focus()
     setSelectedItem(item ?? null)
   }, [search])
 }
@@ -141,61 +140,92 @@ export function useHandleKeyDown(props: {
   originalItemsRef: React.RefObject<HTMLLIElement[]>
   allowAxisArrowKeys?: boolean
 }) {
-  const { selectedItem, setSelectedItem, open, itemsRef, originalItemsRef, allowAxisArrowKeys = false } = props
+  const { open = false, itemsRef, setSelectedItem, allowAxisArrowKeys = false } = props
+
+  const currentRef = React.useRef(-1)
+  const originalRef = React.useRef(-1)
+  const inSubMenuRef = React.useRef(false)
+
+  // Always reset when closed
+  React.useEffect(() => {
+    if (!open) {
+      currentRef.current = -1
+      originalRef.current = -1
+      inSubMenuRef.current = false
+    }
+  }, [open])
+
   React.useEffect(() => {
     if (!open) return
 
-    const idx = originalItemsRef.current?.indexOf(selectedItem as HTMLLIElement) ?? 0
-    let originalCurrentItem = idx === -1 ? 0 : idx
-    let currentItem = idx === -1 ? 0 : idx
-    let inSubMenu = false
-
     function handleKeyDown(e: KeyboardEvent) {
+      const n = itemsRef.current.length
+      if (n === 0) return
+
       if (e.key === 'ArrowDown') {
         e.preventDefault()
-        if (inSubMenu) return
-        const itemIndex = currentItem === itemsRef.current.length - 1 ? 0 : currentItem + 1
-        currentItem = itemIndex
-        originalCurrentItem = itemIndex
-      } else if (e.key === 'ArrowUp') {
+        if (inSubMenuRef.current) return
+
+        const cur = currentRef.current
+        const next = cur === -1 ? 0 : cur === n - 1 ? 0 : cur + 1
+
+        currentRef.current = next
+        originalRef.current = next
+        handleItemsSelection(next, itemsRef, setSelectedItem)
+        return
+      }
+
+      if (e.key === 'ArrowUp') {
         e.preventDefault()
-        if (inSubMenu) return
-        const itemIndex = currentItem === 0 ? itemsRef.current.length - 1 : currentItem - 1
-        currentItem = itemIndex
-        originalCurrentItem = itemIndex
-      } else if (e.key === 'Enter') {
-        if (
-          itemsRef.current[currentItem]?.hasAttribute('duck-select-item') ||
-          itemsRef.current[currentItem]?.hasAttribute('duck-command-item')
-        ) {
+        if (inSubMenuRef.current) return
+
+        const cur = currentRef.current
+        const next = cur === -1 ? n - 1 : cur === 0 ? n - 1 : cur - 1
+
+        currentRef.current = next
+        originalRef.current = next
+        handleItemsSelection(next, itemsRef, setSelectedItem)
+        return
+      }
+
+      if (e.key === 'Enter') {
+        const cur = currentRef.current
+        if (cur < 0) return
+
+        const item = itemsRef.current[cur]
+        if (!item) return
+
+        if (item.hasAttribute('duck-select-item') || item.hasAttribute('duck-command-item')) {
           e.preventDefault()
           e.stopPropagation()
-          setSelectedItem(itemsRef.current[currentItem] as HTMLLIElement)
-          itemsRef.current[currentItem]?.click()
+          setSelectedItem(item)
+          item.click()
         }
+        return
       }
 
       if (e.key === 'Enter' || e.key === 'Escape') {
-        if (itemsRef.current[currentItem]?.hasAttribute('duck-dropdown-menu-sub-trigger')) {
-          inSubMenu = !inSubMenu
+        const cur = currentRef.current
+        if (cur < 0) return
+        const item = itemsRef.current[cur]
+        if (item?.hasAttribute('duck-dropdown-menu-sub-trigger')) {
+          inSubMenuRef.current = !inSubMenuRef.current
         }
       }
 
-      if (allowAxisArrowKeys) {
-        const item = itemsRef.current[originalCurrentItem] as HTMLLIElement
-        if (item.hasAttribute('duck-dropdown-menu-sub-trigger')) {
-          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-            inSubMenu = !inSubMenu
-            item?.click()
-            return
-          }
+      if (allowAxisArrowKeys && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+        const cur = originalRef.current
+        if (cur < 0) return
+        const item = itemsRef.current[cur]
+        if (item?.hasAttribute('duck-dropdown-menu-sub-trigger')) {
+          e.preventDefault()
+          inSubMenuRef.current = !inSubMenuRef.current
+          item.click()
         }
       }
-
-      handleItemsSelection(currentItem, itemsRef, setSelectedItem)
     }
 
-    props.containerRef.current?.addEventListener('keydown', handleKeyDown)
-    return () => props.containerRef.current?.removeEventListener('keydown', handleKeyDown)
-  }, [open])
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [open, itemsRef, setSelectedItem, allowAxisArrowKeys])
 }

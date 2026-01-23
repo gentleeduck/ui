@@ -73,14 +73,15 @@ import { Badge } from '@/components/ui/badge'
 
 #### Example Usage:
 
-```tsx {5, 12}
+```tsx {6, 13}
 import { Badge } from '@/components/ui/badge'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 const MyBadge = () => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Badge arial-label="Badge" variant={'outline'} size={'icon'} className="rounded-full">
+        <Badge aria-label="Badge" className="rounded-full" size="icon" variant="outline">
           <Info />
         </Badge>
       </TooltipTrigger>
@@ -151,4 +152,3 @@ const MyBadge = () => {
 - **`...props`** (`React.HTMLAttributes<HTMLDivElement>`):
 
 ---
-

@@ -15,12 +15,12 @@ export type ComboboxItemType = {
 export type ComboboxProps<TData extends readonly ComboboxItemType[], TType extends 'single' | 'multiple' = 'single'> = {
   items: TData
   onValueChange?: TType extends 'single'
-    ? (value: TData[number]['label']) => void
-    : (value: TData[number]['label'][]) => void
+    ? (value: TData[number]['value']) => void
+    : (value: TData[number]['value'][]) => void
   withSearch?: boolean
   showSelected?: boolean
-  defaultValue?: TType extends 'single' ? TData[number]['label'] : TData[number]['label'][]
-  value?: TType extends 'single' ? TData[number]['label'] : TData[number]['label'][]
+  defaultValue?: TType extends 'single' ? TData[number]['value'] : TData[number]['value'][]
+  value?: TType extends 'single' ? TData[number]['value'] : TData[number]['value'][]
   popover?: React.ComponentPropsWithoutRef<typeof Popover>
   popoverTrigger?: React.ComponentPropsWithoutRef<typeof Button>
   popoverContent?: React.ComponentPropsWithoutRef<typeof PopoverContent>

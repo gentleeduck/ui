@@ -38,41 +38,32 @@ export function initRefs(
     } else {
       item = itemsRef.current?.[0] ?? null
     }
-
-    if (item) {
-      styleItem(item)
-      item.focus()
-      selectedItemRef.current = item
-    }
   }
 
   for (let i = 0; i < itemsRef.current?.length; i++) {
     const item = itemsRef.current[i] as HTMLLIElement
     if (
-      selectedItemRef.current?.getAttribute('value') === item.getAttribute('value') ||
-      item.getAttribute('data-value') === value
+      (selectedItemRef.current?.getAttribute('value') === item.getAttribute('value') ||
+        item.getAttribute('data-value') === value) &&
+      open
     ) {
       styleItem(item)
     }
 
-    item.addEventListener('mouseenter', () => {
-      if (open) {
-        for (let i = 0; i < itemsRef.current?.length; i++) {
-          const item = itemsRef.current[i] as HTMLLIElement
-          dstyleItem(item)
-        }
-
-        item?.setAttribute('aria-selected', '')
-        item?.focus()
-        selectedItemRef.current = item
-      }
-    })
+    if (!selectedItemRef.current) {
+      dstyleItem(item)
+    }
 
     item.addEventListener('click', () => {
       selectedItemRef.current = item
       setSelectedItem(item)
       onValueChange(item.getAttribute('value') as string)
       onOpenChange(false)
+
+      for (let i = 0; i < itemsRef.current?.length; i++) {
+        const item = itemsRef.current[i] as HTMLLIElement
+        dstyleItem(item)
+      }
     })
   }
 }

@@ -60,6 +60,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
         return (
           <Tooltip key={theme.name} placement={isDesktop ? 'left' : 'top'}>
             <TooltipTrigger
+              asChild
               style={
                 {
                   ...cssVars,

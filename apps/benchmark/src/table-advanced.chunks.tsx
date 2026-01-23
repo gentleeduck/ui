@@ -1,4 +1,5 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import type { ComboboxItemType } from '@gentleduck/registry-ui-duckui/combobox'
 import { Combobox, ComboboxItem, ComboxGroup } from '@gentleduck/registry-ui-duckui/combobox'
 import { CommandShortcut } from '@gentleduck/registry-ui-duckui/command'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
@@ -29,25 +30,24 @@ export function DuckTableSearch({
   placeholder = 'Search Rows...',
   ...props
 }: React.ComponentPropsWithoutRef<typeof Input>) {
-  function IInput() {
-    const [query, setQuery] = useAtom(duck_table.atoms.query)
-
-    return (
-      <Input
-        className="max-w-[200px] h-8"
-        onChange={(e) => setQuery(e.currentTarget.value)}
-        placeholder={placeholder}
-        value={query as string}
-        {...props}
-        duck-table-search=""
-      />
-    )
-  }
+  const [query, setQuery] = useAtom(duck_table.atoms.query)
+  const inputValue = typeof query === 'string' ? query : ''
 
   return (
-    <Tooltip>
-      <TooltipTrigger>
-        <IInput />
+    <Tooltip delayDuration={300}>
+      <TooltipTrigger asChild>
+        <div className="inline-flex">
+          <Input
+            className="h-8 max-w-[200px]"
+            onChange={(e) => {
+              setQuery(e.currentTarget.value)
+            }}
+            placeholder={placeholder}
+            value={inputValue}
+            {...props}
+            duck-table-search=""
+          />
+        </div>
       </TooltipTrigger>
       <TooltipContent className="flex items-center gap-2">
         <CommandShortcut keys={'ctrl+s'} onKeysPressed={() => {}} variant="secondary">
@@ -60,7 +60,7 @@ export function DuckTableSearch({
   )
 }
 
-export function DuckTableFilter<T extends readonly string[] | string[]>({
+export function DuckTableFilter<T extends readonly ComboboxItemType[]>({
   value: defaultValue,
   items,
   heading,
@@ -68,19 +68,19 @@ export function DuckTableFilter<T extends readonly string[] | string[]>({
   onValueChange,
 }: {
   trigger?: React.ComponentProps<typeof Combobox>['popoverTrigger']
-  onValueChange?: (value: string) => void
+  onValueChange?: (value: T[number]['value'][]) => void
   items: T
-  value?: string[]
+  value?: T[number]['value'][]
   heading: string
 }) {
-  const [value, setValue] = React.useState<string[]>(defaultValue ?? [])
+  const [value, setValue] = React.useState<T[number]['value'][]>(defaultValue ?? [])
 
   return (
     <Combobox<T, 'multiple'>
       command={{ className: 'p-1' }}
       duck-table-filter=""
       items={items}
-      onValueChange={onValueChange as never}
+      onValueChange={onValueChange}
       popoverTrigger={{
         ...trigger,
         className: cn('px-2', trigger?.className),
@@ -93,7 +93,8 @@ export function DuckTableFilter<T extends readonly string[] | string[]>({
               {items.map((item) => (
                 <ComboboxItem<typeof item>
                   checked={value.includes(item.value)}
-                  key={item}
+                  item={item}
+                  key={item.value}
                   onSelect={(value) => {
                     setValue((prev) => {
                       if (prev.includes(value)) {
@@ -103,9 +104,7 @@ export function DuckTableFilter<T extends readonly string[] | string[]>({
                       }
                     })
                   }}
-                  value={item}>
-                  {item.label}
-                </ComboboxItem>
+                />
               ))}
             </ComboxGroup>
 
@@ -152,7 +151,6 @@ export function DuckTableColumnView() {
         variant: 'outline',
       }}
       showSelected={false}
-      value={_columns}
       withSearch={false}>
       {(items) => {
         return (
@@ -169,10 +167,10 @@ export function DuckTableColumnView() {
                         : false) as boolean
                     }
                     className="[&_input]:border-none capitalize"
+                    item={item}
+                    key={item.value}
                     onSelect={() => setVisibleColumns(item.label as keyof typeof columns)}
-                    value={item.label}>
-                    {item.label}
-                  </ComboboxItem>
+                  />
                 )
               })}
             </ComboxGroup>

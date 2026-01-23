@@ -48,11 +48,11 @@ function Trigger({
   return (
     <Comp
       data-open={context.open}
-      onClick={(e: React.MouseEvent<HTMLElement>) => {
-        context.setOpen(!context.open)
-        // @ts-ignore
-        onClick?.(e)
-      }}
+      // onClick={(e: React.MouseEvent<HTMLElement>) => {
+      //   context.setOpen(!context.open)
+      //   // @ts-ignore
+      //   onClick?.(e)
+      // }}
       // The user can style the trigger based on the state
       ref={ref}
       type="button"
@@ -68,8 +68,10 @@ function Content({
   forceMount = true,
   renderOnce = true,
   lockScroll = false,
+  disabled = true,
   ...props
 }: React.HTMLProps<HTMLDivElement> & {
+  disabled?: boolean
   forceMount?: boolean
   renderOnce?: boolean
   lockScroll?: boolean
@@ -86,7 +88,7 @@ function Content({
 
   return (
     <Presence present={forceMount || context.open}>
-      <FloatingFocusManager context={floatingContext} modal={context.modal}>
+      <FloatingFocusManager context={floatingContext} modal={context.modal} disabled={disabled}>
         <div
           data-open={context.open}
           data-side={context.placement.split('-')[0]}
