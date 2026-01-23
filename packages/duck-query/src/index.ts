@@ -17,7 +17,10 @@ type CleanupNever<T> = {
 
 export type RoutePath<Routes> = keyof Routes & string
 export type RouteOf<Routes, P extends RoutePath<Routes>> = Routes[P] extends DuckRouteMeta ? Routes[P] : never
-export type RouteOfMethod<Routes, P extends RoutePath<Routes>, M extends string> = Extract<RouteOf<Routes, P>, { method: M }>
+export type RouteOfMethod<Routes, P extends RoutePath<Routes>, M extends string> = Extract<
+  RouteOf<Routes, P>,
+  { method: M }
+>
 
 export type RouteMethod<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['method']
 export type RouteRes<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['res']

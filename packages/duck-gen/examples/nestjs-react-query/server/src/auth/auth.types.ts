@@ -9,15 +9,15 @@ export type SignInBody = {
 
 export type SignInResponse =
   | {
-    ok: true
-    message: AuthMessage
-    token: string
-  }
+      ok: true
+      message: AuthMessage
+      token: string
+    }
   | {
-    ok: false
-    message: AuthMessage
-    token: null
-  }
+      ok: false
+      message: AuthMessage
+      token: null
+    }
 
 export type DeepType = {
   data: {
