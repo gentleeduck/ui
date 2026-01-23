@@ -17,14 +17,24 @@ type CleanupNever<T> = {
 
 export type RoutePath<Routes> = keyof Routes & string
 export type RouteOf<Routes, P extends RoutePath<Routes>> = Routes[P] extends DuckRouteMeta ? Routes[P] : never
+export type RouteOfMethod<Routes, P extends RoutePath<Routes>, M extends string> = Extract<RouteOf<Routes, P>, { method: M }>
+
 export type RouteMethod<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['method']
 export type RouteRes<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['res']
+export type RouteResMethod<Routes, P extends RoutePath<Routes>, M extends string> = RouteOfMethod<Routes, P, M>['res']
+
 export type RouteReq<Routes, P extends RoutePath<Routes>> = CleanupNever<
   Pick<RouteOf<Routes, P>, 'body' | 'query' | 'params' | 'headers'>
 >
+export type RouteReqMethod<Routes, P extends RoutePath<Routes>, M extends string> = CleanupNever<
+  Pick<RouteOfMethod<Routes, P, M>, 'body' | 'query' | 'params' | 'headers'>
+>
+
 export type RouteMethods<Routes> = RouteOf<Routes, RoutePath<Routes>>['method']
+
+// Fix PathsByMethod to handle union methods (M extends RouteMethod vs RouteMethod extends M)
 export type PathsByMethod<Routes, M extends string> = {
-  [P in RoutePath<Routes>]: RouteMethod<Routes, P> extends M ? P : never
+  [P in RoutePath<Routes>]: M extends RouteMethod<Routes, P> ? P : never
 }[RoutePath<Routes>]
 
 export type DuckQueryClient<Routes> = {
@@ -37,34 +47,34 @@ export type DuckQueryClient<Routes> = {
   byMethod: <M extends RouteMethods<Routes>, P extends PathsByMethod<Routes, M>>(
     method: M,
     path: P,
-    req?: RouteReq<Routes, P>,
+    req?: RouteReqMethod<Routes, P, M>,
     config?: AxiosRequestConfig,
-  ) => Promise<AxiosResponse<RouteRes<Routes, P>>>
+  ) => Promise<AxiosResponse<RouteResMethod<Routes, P, M>>>
   get: <P extends PathsByMethod<Routes, 'GET'>>(
     path: P,
-    req?: RouteReq<Routes, P>,
+    req?: RouteReqMethod<Routes, P, 'GET'>,
     config?: AxiosRequestConfig,
-  ) => Promise<AxiosResponse<RouteRes<Routes, P>>>
+  ) => Promise<AxiosResponse<RouteResMethod<Routes, P, 'GET'>>>
   del: <P extends PathsByMethod<Routes, 'DELETE'>>(
     path: P,
-    req?: RouteReq<Routes, P>,
+    req?: RouteReqMethod<Routes, P, 'DELETE'>,
     config?: AxiosRequestConfig,
-  ) => Promise<AxiosResponse<RouteRes<Routes, P>>>
+  ) => Promise<AxiosResponse<RouteResMethod<Routes, P, 'DELETE'>>>
   post: <P extends PathsByMethod<Routes, 'POST'>>(
     path: P,
-    req: RouteReq<Routes, P>,
+    req: RouteReqMethod<Routes, P, 'POST'>,
     config?: AxiosRequestConfig,
-  ) => Promise<AxiosResponse<RouteRes<Routes, P>>>
+  ) => Promise<AxiosResponse<RouteResMethod<Routes, P, 'POST'>>>
   put: <P extends PathsByMethod<Routes, 'PUT'>>(
     path: P,
-    req: RouteReq<Routes, P>,
+    req: RouteReqMethod<Routes, P, 'PUT'>,
     config?: AxiosRequestConfig,
-  ) => Promise<AxiosResponse<RouteRes<Routes, P>>>
+  ) => Promise<AxiosResponse<RouteResMethod<Routes, P, 'PUT'>>>
   patch: <P extends PathsByMethod<Routes, 'PATCH'>>(
     path: P,
-    req: RouteReq<Routes, P>,
+    req: RouteReqMethod<Routes, P, 'PATCH'>,
     config?: AxiosRequestConfig,
-  ) => Promise<AxiosResponse<RouteRes<Routes, P>>>
+  ) => Promise<AxiosResponse<RouteResMethod<Routes, P, 'PATCH'>>>
 }
 
 function buildUrl(url: string, params?: Record<string, unknown>): string {

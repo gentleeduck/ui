@@ -21,7 +21,7 @@ export function emitApiRoutesFile(outFile: string, routes: Route[], imports: Imp
   pushDoc(out, ['Internal route metadata shape used by ApiRoutes.'])
   out.push(
     'type RouteMeta<Body, Query, Params, Headers, Res, Method extends string> = ' +
-      '{ body: Body; query: Query; params: Params; headers: Headers; res: Res; method: Method }',
+    '{ body: Body; query: Query; params: Params; headers: Headers; res: Res; method: Method }',
   )
   out.push('')
 
@@ -50,6 +50,9 @@ export function emitApiRoutesFile(outFile: string, routes: Route[], imports: Imp
   pushDoc(out, ['Lookup helper for a single route entry.', "Example: RouteOf<'/api/auth/signin'>"])
   out.push('type RouteOf<P extends keyof ApiRoutes> = ApiRoutes[P]')
 
+  pushDoc(out, ['Lookup helper for a route entry by method.', "Example: RouteOfMethod<'/api/auth/signin', 'POST'>"])
+  out.push('type RouteOfMethod<P extends keyof ApiRoutes, M extends RouteMethods> = Extract<RouteOf<P>, { method: M }>')
+
   pushDoc(out, ['Removes keys with `never` values for cleaner request shapes.'])
   out.push('type CleanupNever<T> = {')
   out.push('  [K in keyof T as T[K] extends never ? never : K]: T[K]')
@@ -62,12 +65,19 @@ export function emitApiRoutesFile(outFile: string, routes: Route[], imports: Imp
   pushDoc(out, ['HTTP method for a given path.', "Example: RouteMethod<'/api/auth/signin'>"])
   out.push("export type RouteMethod<P extends RoutePath> = RouteOf<P>['method']")
 
-  pushDoc(out, ['Response type for a given path.'])
   out.push("export type RouteRes<P extends RoutePath> = RouteOf<P>['res']")
+
+  pushDoc(out, ['Response type for a given path and method.'])
+  out.push("export type RouteResMethod<P extends RoutePath, M extends RouteMethods> = RouteOfMethod<P, M>['res']")
 
   pushDoc(out, ['Request shape for a given path (body/query/params/headers).', "Example: RouteReq<'/api/auth/signin'>"])
   out.push(
     "export type RouteReq<P extends RoutePath> = CleanupNever<Pick<RouteOf<P>, 'body' | 'query' | 'params' | 'headers'>>",
+  )
+
+  pushDoc(out, ['Request shape for a given path and method.', "Example: RouteReqMethod<'/api/auth/signin', 'POST'>"])
+  out.push(
+    "export type RouteReqMethod<P extends RoutePath, M extends RouteMethods> = CleanupNever<Pick<RouteOfMethod<P, M>, 'body' | 'query' | 'params' | 'headers'>>",
   )
 
   pushDoc(out, ['Union of all HTTP methods used by routes.'])
@@ -81,9 +91,8 @@ export function emitApiRoutesFile(outFile: string, routes: Route[], imports: Imp
   pushDoc(out, ['Fetcher signature for a typed client.'])
   out.push('export type DuckFetcher = <P extends RoutePath>(path: P, req: RouteReq<P>) => Promise<RouteRes<P>>')
 
-  pushDoc(out, ['Typed client helper with request/byMethod.'])
   out.push(
-    'export type DuckClient = { request: DuckFetcher; byMethod: <M extends RouteMethods, P extends PathsByMethod<M>>(method: M, path: P, req: RouteReq<P>) => Promise<RouteRes<P>> }',
+    'export type DuckClient = { request: DuckFetcher; byMethod: <M extends RouteMethods, P extends PathsByMethod<M>>(method: M, path: P, req: RouteReqMethod<P, M>) => Promise<RouteResMethod<P, M>> }',
   )
   out.push('')
 
