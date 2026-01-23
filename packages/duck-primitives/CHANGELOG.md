@@ -1,5 +1,12 @@
 # @gentleduck/primitives
 
+## 0.1.44
+
+### Patch Changes
+
+- d0a2c1d: fixed some bugs
+- d0a2c1d: Update tooltip primitive behavior by removing click-toggle on the trigger and adding a `disabled` option for focus management in `Tooltip.Content`.
+
 ## 0.1.43
 
 ### Patch Changes
