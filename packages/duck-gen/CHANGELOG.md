@@ -1,5 +1,11 @@
 # @gentleduck/gen
 
+## 0.2.1
+
+### Patch Changes
+
+- b3f2485: new feature
+
 ## 0.2.0
 
 ### Minor Changes
