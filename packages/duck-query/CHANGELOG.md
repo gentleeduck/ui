@@ -1,5 +1,11 @@
 # @gentleduck/query
 
+## 0.1.6
+
+### Patch Changes
+
+- 4f93768: fixing bugs and making sure gen support new format
+
 ## 0.1.5
 
 ### Patch Changes

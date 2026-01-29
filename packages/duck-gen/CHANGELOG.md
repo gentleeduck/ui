@@ -1,5 +1,11 @@
 # @gentleduck/gen
 
+## 0.2.5
+
+### Patch Changes
+
+- 4f93768: fixing bugs and making sure gen support new format
+
 ## 0.2.3
 
 ### Patch Changes
