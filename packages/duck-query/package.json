@@ -46,6 +46,7 @@
     "axios": "^1.12.2"
   },
   "devDependencies": {
+    "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "tsdown": "catalog:",
