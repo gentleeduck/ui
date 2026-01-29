@@ -1,5 +1,11 @@
 # @gentleduck/primitives
 
+## 0.1.45
+
+### Patch Changes
+
+- 4f93768: fixing bugs and making sure gen support new format
+
 ## 0.1.44
 
 ### Patch Changes
