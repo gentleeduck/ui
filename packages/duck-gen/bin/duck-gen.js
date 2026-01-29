@@ -15,17 +15,22 @@ if (existsSync(distPath)) {
   process.exit(result.status ?? 1)
 }
 
-const require = createRequire(import.meta.url)
-const loaderPath = require.resolve('tsx/esm')
-const entryPath = fileURLToPath(new URL('../src/index.ts', import.meta.url))
+const srcPath = fileURLToPath(new URL('../src/index.ts', import.meta.url))
+if (existsSync(srcPath)) {
+  const require = createRequire(import.meta.url)
+  const loaderPath = require.resolve('tsx/esm')
 
-const result = spawnSync(process.execPath, ['--import', loaderPath, entryPath], {
-  stdio: 'inherit',
-})
+  const result = spawnSync(process.execPath, ['--import', loaderPath, srcPath], {
+    stdio: 'inherit',
+  })
 
-if (result.error) {
-  console.error(result.error)
-  process.exit(1)
+  if (result.error) {
+    console.error(result.error)
+    process.exit(1)
+  }
+
+  process.exit(result.status ?? 1)
 }
 
-process.exit(result.status ?? 1)
+console.error('Duck Gen is missing its runtime build. Please reinstall the package or rebuild it.')
+process.exit(1)

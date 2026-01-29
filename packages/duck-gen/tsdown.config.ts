@@ -1,14 +1,8 @@
+import { config } from '@gentleduck/tsdown-config'
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  clean: true,
-  dts: true,
-  entry: ['src/index.ts'],
-  format: ['esm'],
-  minify: true,
-  outDir: 'dist',
-  platform: 'node',
-  sourcemap: true,
-  target: 'esnext',
-  treeshake: true,
+  ...config,
+
+  entry: ['src/**/*.{ts,tsx}', '!src/**/__test__/**'],
 })
