@@ -88,6 +88,7 @@ function DropdownMenuContent({
   children,
   className,
   renderOnce = true,
+  disabled = true,
   ...props
 }: React.ComponentPropsWithoutRef<typeof PopoverContent> & {
   renderOnce?: boolean
@@ -99,7 +100,7 @@ function DropdownMenuContent({
       data-slot="dropdown-menu-content"
       duck-dropdown-menu-content=""
       lockScroll
-      disabled
+      disabled={disabled}
       ref={contentRef}
       {...props}>
       {children}
@@ -288,6 +289,7 @@ function DropdownMenuSubTrigger({
 function DropdownMenuSubContent({
   className,
   children,
+  disabled = true,
   ...props
 }: React.ComponentPropsWithoutRef<typeof PopoverContent>) {
   const { contentRef } = useDropdownMenuSubContext()
@@ -296,6 +298,7 @@ function DropdownMenuSubContent({
       className={cn('fixed z-[55] w-auto min-w-[8rem] p-1', className)}
       lockScroll={true}
       ref={contentRef}
+      disabled={disabled}
       {...props}
       data-slot="dropdown-menu-sub-content"
       duck-dropdown-menu-sub-content="">
@@ -313,7 +316,16 @@ function DropdownMenuCheckboxItem({
   ref,
   ...props
 }: React.ComponentPropsWithRef<typeof Button> & { checked?: boolean; onCheckedChange?: (checked: boolean) => void }) {
-  const [checkedState, setCheckedState] = React.useState(checked ?? false)
+  const isControlled = typeof checked === 'boolean'
+  const [uncontrolledChecked, setUncontrolledChecked] = React.useState(checked ?? false)
+
+  React.useEffect(() => {
+    if (isControlled) {
+      setUncontrolledChecked(checked ?? false)
+    }
+  }, [checked, isControlled])
+
+  const checkedState = isControlled ? (checked ?? false) : uncontrolledChecked
   return (
     <DropdownMenuItem
       className={cn(className)}
@@ -322,8 +334,9 @@ function DropdownMenuCheckboxItem({
       duck-dropdown-menu-checkbox-item=""
       onClick={(e) => {
         onClick?.(e)
-        setCheckedState(!checkedState)
-        onCheckedChange?.(!checkedState)
+        const next = !checkedState
+        if (!isControlled) setUncontrolledChecked(next)
+        onCheckedChange?.(next)
       }}
       ref={ref}
       {...props}>

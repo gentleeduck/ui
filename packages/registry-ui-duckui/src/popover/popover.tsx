@@ -25,6 +25,7 @@ function PopoverContent({
   children,
   className,
   ref,
+  disabled = false,
   ...props
 }: React.ComponentPropsWithRef<typeof PopoverPrimitive.Content>): React.JSX.Element {
   return (
@@ -36,6 +37,7 @@ function PopoverContent({
       )}
       data-slot="popover-content"
       ref={ref}
+      disabled={disabled}
       {...props}>
       {children}
     </PopoverPrimitive.Content>
