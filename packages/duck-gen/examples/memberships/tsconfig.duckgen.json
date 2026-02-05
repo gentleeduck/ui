@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": false,
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@gentleduck/db": ["../duck-db/src/db.ts"],
+      "@gentleduck/db/*": ["../duck-db/src/*"]
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "module": "preserve",
+    "target": "es2021",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "strict": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "declarationMap": true,
+    "stripInternal": false,
+    "lib": ["ES2022"],
+    "paths": {
+      "@gentleduck/db": ["../duck-db/src/db.ts"],
+      "@gentleduck/db/*": ["../duck-db/src/*"]
+    },
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "types": ["node", "express-session"]
+  },
+  "include": ["**/*.ts", "**/*.tsx", "types"]
+}
