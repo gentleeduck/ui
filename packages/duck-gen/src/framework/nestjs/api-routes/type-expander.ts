@@ -6,6 +6,88 @@ export interface ExpandTypeOptions {
 
 const DISPLAY_TYPE_FLAGS = TypeFormatFlags.NoTruncation | TypeFormatFlags.UseAliasDefinedOutsideCurrentScope
 
+function inferColumnDataTypeText(prop: Symbol): string | undefined {
+  const decl = prop.getValueDeclaration() ?? prop.getDeclarations()[0]
+  if (!decl) return undefined
+  if (decl.getKind() !== SyntaxKind.PropertyAssignment) return undefined
+
+  const init = decl.getInitializer()
+  if (!init) return undefined
+
+  const initType = init.getType()
+  const typeArgs = initType.getTypeArguments()
+  if (!typeArgs.length) return undefined
+
+  const config = typeArgs[0]
+  const dataProp = config.getProperty('data')
+  if (!dataProp) return undefined
+
+  const dataType = dataProp.getTypeAtLocation(init)
+  let text = dataType.getText(init, DISPLAY_TYPE_FLAGS)
+
+  const notNullProp = config.getProperty('notNull')
+  if (notNullProp) {
+    const notNullType = notNullProp.getTypeAtLocation(init)
+    const notNullText = notNullType.getText(init, DISPLAY_TYPE_FLAGS)
+    if (notNullText === 'false' && !text.includes('null')) {
+      text = `${text} | null`
+    }
+  }
+
+  return text
+}
+
+function expandInferReturning(
+  type: Type,
+  node: Node | undefined,
+  options: ExpandTypeOptions,
+  seen: Map<string, string>,
+): string | undefined {
+  const alias = type.getAliasSymbol()
+  if (!alias || alias.getName() !== 'InferReturning') return undefined
+
+  const args = type.getAliasTypeArguments()
+  const shape = args[0]
+  if (!shape) return undefined
+
+  const props = shape.getProperties()
+  if (props.length === 0) return '{}'
+
+  const lines: string[] = []
+  for (const prop of props) {
+    const name = prop.getName()
+    if (name.startsWith('__')) continue
+
+    const isOptional = (prop.getFlags() & ts.SymbolFlags.Optional) !== 0
+    const q = isOptional ? '?' : ''
+
+    let inferredText = inferColumnDataTypeText(prop)
+
+    if (!inferredText) {
+      let propType: Type | undefined
+      if (node) {
+        propType = prop.getTypeAtLocation(node)
+      }
+      if (!propType) {
+        const decl = prop.getValueDeclaration() ?? prop.getDeclarations()[0]
+        if (decl) propType = prop.getTypeAtLocation(decl)
+      }
+
+      if (!propType) {
+        lines.push(`${name}${q}: any`)
+        continue
+      }
+
+      inferredText = expandType(propType, node, options, new Map(seen))
+    }
+
+    lines.push(`${name}${q}: ${inferredText}`)
+  }
+
+  if (lines.length === 0) return '{}'
+  return `{ ${lines.join('; ')} }`
+}
+
 function isArrayLikeSymbol(symbol?: Symbol): boolean {
   const name = symbol?.getName()
   return name === 'Array' || name === 'ReadonlyArray' || name === 'ArrayLike'
@@ -55,6 +137,9 @@ export function expandType(
   options: ExpandTypeOptions = {},
   seen = new Map<string, string>(),
 ): string {
+  const inferredReturning = expandInferReturning(type, node, options, seen)
+  if (inferredReturning) return inferredReturning
+
   if (type.isString()) return 'string'
   if (type.isNumber()) return 'number'
   if (type.isBoolean()) return 'boolean'
@@ -154,6 +239,11 @@ export function expandType(
         continue
       }
 
+      let inferredText: string | undefined
+      if (propType.isAny() || propType.isUnknown()) {
+        inferredText = inferColumnDataTypeText(prop)
+      }
+
       const isOptional = (prop.getFlags() & ts.SymbolFlags.Optional) !== 0
       const q = isOptional ? '?' : ''
 
@@ -169,7 +259,7 @@ export function expandType(
         }
       }
 
-      const expandedPropType = expandType(propType, node, options, newSeen)
+      const expandedPropType = inferredText ?? expandType(propType, node, options, newSeen)
       lines.push(`${name}${q}: ${expandedPropType}`)
     }
 
