@@ -56,7 +56,7 @@ Run the generator:
 pnpm exec duck-gen
 ```
 
-Import generated types:
+Import generated types (package outputs only exist when you don't set `outputSource`):
 
 ```ts
 import type {
@@ -66,17 +66,21 @@ import type {
 } from '@gentleduck/gen/nestjs'
 ```
 
+If you configure `outputSource`, import directly from your generated file instead:
+
+```ts
+import type { ApiRoutes } from './generated/duck-gen-api-routes'
+```
+
 ## Output
 
 Duck Gen writes type definitions to `@gentleduck/gen/generated/<framework>` and
-exposes them via framework entrypoints like `@gentleduck/gen/nestjs`.
-You can override the output file per feature by setting
-`extensions.apiRoutes.outputSource` or `extensions.messages.outputSource` in
-`duck-gen.json` (paths resolve relative to the config file). Outputs are always
-written to the package `generated` folder; `outputSource` adds extra output
-files or directories. Use `extensions.shared.outputSource` to add shared output
-directories. When you customize outputs, import types from those files directly
-instead of the package entrypoints.
+exposes them via framework entrypoints like `@gentleduck/gen/nestjs` **only when
+no output paths are configured**. If you set `extensions.shared.outputSource`,
+`extensions.apiRoutes.outputSource`, or `extensions.messages.outputSource`, the
+generator writes **only** to those configured paths (paths resolve relative to
+`duck-gen.json`). When you customize outputs, import types from those files
+directly instead of the package entrypoints.
 
 Generated files include:
 
@@ -89,3 +93,15 @@ Generated files include:
 - If `duck-gen.json` is missing, defaults are used.
 - Run the CLI from the project root so paths resolve correctly.
 - Message arrays should be `as const` so keys are literal types.
+- `sourceGlobs` are resolved relative to `duck-gen.json` and override tsconfig
+  includes for that extension when provided.
+- If no `sourceGlobs` are provided, Duck Gen uses defaults:
+  - API routes: `**/*.controller.ts(x)`
+  - Messages: `**/*.ts(x)`
+- API routes do **not** fall back to `extensions.shared.sourceGlobs`. If your
+  controllers don’t follow `*.controller.ts(x)`, set
+  `extensions.apiRoutes.sourceGlobs` explicitly.
+- Duck Gen automatically excludes `node_modules`, `dist`, `generated`, and
+  `.turbo` from globs unless `includeNodeModules` is `true`.
+- If no `tsconfigPath` is set, Duck Gen prefers `tsconfig.duckgen.json` (if it
+  exists) and falls back to `tsconfig.json`.

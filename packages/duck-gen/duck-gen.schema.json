@@ -39,18 +39,18 @@
                   }
                 }
               ],
-              "description": "Additional output directories for generated files (package outputs are always generated)."
+              "description": "Output directories for generated files. When provided, default package outputs are disabled."
             },
             "sourceGlobs": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "Shared default: glob patterns for files to scan."
+              "description": "Shared default: glob patterns for files to scan (resolved relative to duck-gen.json)."
             },
             "tsconfigPath": {
               "type": "string",
-              "description": "Shared default: path to the tsconfig.json used by ts-morph."
+              "description": "Shared default: path to the tsconfig.json used by ts-morph (resolved relative to duck-gen.json)."
             }
           }
         },
@@ -90,7 +90,7 @@
                   }
                 }
               ],
-              "description": "Additional output file path(s) or directories for generated API routes (.d.ts only)."
+              "description": "Output file path(s) or directories for generated API routes (.d.ts only). When provided, default package outputs are disabled."
             },
             "outputPath": {
               "type": "string",
@@ -102,11 +102,11 @@
               "items": {
                 "type": "string"
               },
-              "description": "Glob patterns for files to scan (overrides extensions.shared)."
+              "description": "Glob patterns for files to scan (overrides extensions.shared; resolved relative to duck-gen.json)."
             },
             "tsconfigPath": {
               "type": "string",
-              "description": "Path to the tsconfig.json used by ts-morph (overrides extensions.shared)."
+              "description": "Path to the tsconfig.json used by ts-morph (overrides extensions.shared; resolved relative to duck-gen.json)."
             }
           }
         },
@@ -131,7 +131,7 @@
                   }
                 }
               ],
-              "description": "Additional output file path(s) or directories for generated message types (.d.ts only)."
+              "description": "Output file path(s) or directories for generated message types (.d.ts only). When provided, default package outputs are disabled."
             },
             "outputPath": {
               "type": "string",
@@ -148,11 +148,11 @@
               "items": {
                 "type": "string"
               },
-              "description": "Glob patterns for files to scan (overrides extensions.shared)."
+              "description": "Glob patterns for files to scan (overrides extensions.shared; resolved relative to duck-gen.json)."
             },
             "tsconfigPath": {
               "type": "string",
-              "description": "Path to the tsconfig.json used by ts-morph (overrides extensions.shared)."
+              "description": "Path to the tsconfig.json used by ts-morph (overrides extensions.shared; resolved relative to duck-gen.json)."
             }
           }
         }

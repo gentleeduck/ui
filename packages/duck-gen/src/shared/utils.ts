@@ -5,6 +5,15 @@ export function isNodeModulesFile(filePath: string): boolean {
   return filePath.includes(`${path.sep}node_modules${path.sep}`)
 }
 
+export function isGeneratedOutputPath(filePath: string): boolean {
+  // 🦆 Ignore common build artefacts and turbo caches
+  return (
+    filePath.includes(`${path.sep}dist${path.sep}`) ||
+    filePath.includes(`${path.sep}generated${path.sep}`) ||
+    filePath.includes(`${path.sep}.turbo${path.sep}`)
+  )
+}
+
 export function isTsLibFile(filePath: string): boolean {
   return /[\\\/]typescript[\\\/]lib[\\\/].*\.d\.ts$/.test(filePath)
 }
