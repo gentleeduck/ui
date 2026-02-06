@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "dependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
+    "pg": "^8.17.1",
+    "postgres": "^3.4.7",
+    "uuidv7": "^1.1.0"
+  },
+  "devDependencies": {
+    "@gentleduck/typescript-config": "workspace:*",
+    "@types/node": "^25.0.8",
+    "@types/pg": "^8.16.0",
+    "drizzle-kit": "^0.31.7",
+    "mysql2": "^3.15.3",
+    "tsx": "^4.20.5",
+    "typescript": "5.9.3"
+  },
+  "exports": {
+    ".": "./src/db.ts",
+    "./schema": "./src/schema/index.ts"
+  },
+  "name": "@gentleduck/db",
+  "private": true,
+  "scripts": {
+    "build": "tsdown ./src",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:pull": "drizzle-kit pull",
+    "db:push": "drizzle-kit push",
+    "db:reset": "tsx ./src/reset-db.ts && drizzle-kit push",
+    "db:seed": "tsx ./src/seed.ts",
+    "db:start": "pnpm run db:generate && pnpm run db:reset && pnpm run db:seed && pnpm run db:studio",
+    "db:studio": "npx drizzle-kit studio --host 0.0.0.0 --port 4983"
+  },
+  "type": "module",
+  "version": "0.1.0"
+}
