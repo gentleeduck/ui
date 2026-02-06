@@ -1,0 +1,1 @@
+ALTER TABLE "file_links" DROP CONSTRAINT "file_links_tenant_id_entity_type_entity_id_field_pk";
