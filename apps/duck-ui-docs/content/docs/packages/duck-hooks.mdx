@@ -3,17 +3,37 @@ title: gentleduck-libs
 description: "A collection of reusable React hooks for the @gentelduck/ui component library."
 ---
 
-<Callout>
+<Callout icon={<Zap />}>
 
 This package provides a collection of reusable React hooks for the **@gentleduck/ui** component library.
 
 </Callout>
+
+## Philosophy
+
+Hooks are the glue between React's render cycle and the real world — browser APIs, external state, user interactions. Rather than scattering custom hooks across components, duck-hooks centralizes them as tested, typed utilities. Each hook solves one problem (media queries, local storage, intersection observer) and composes with others.
+
+---
 
 ## Installation
 
 ```bash
 npm install @gentleduck/hooks
 ```
+
+<MermaidDiagram chart={`graph TD
+    A[duck-hooks] --> B[Ref Hooks]
+    A --> C[Timing Hooks]
+    A --> D[Layout Hooks]
+    A --> E[State Hooks]
+    B --> F[use-composed-refs]
+    C --> G[use-computed-timeout-transition]
+    C --> H[use-debounce]
+    D --> I[use-is-mobile]
+    D --> J[use-media-query]
+    E --> K[use-on-open-change]
+    E --> L[use-stable-id]
+`} />
 
 ## Available Hooks
 

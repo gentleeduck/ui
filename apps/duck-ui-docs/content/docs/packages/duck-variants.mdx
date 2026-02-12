@@ -5,7 +5,13 @@ description: A lightweight, type-safe utility for generating class names from va
 
 <ComponentPreview name="cva-1" description="cva utility examples" />
 
-## Installation 
+## Philosophy
+
+Variant management is the bridge between design tokens and component props. duck-variants provides a type-safe API for declaring visual variants (size, color, state) that maps directly to CSS classes. It replaces ad-hoc conditional class logic with a schema that's readable, extensible, and catches invalid combinations at compile time.
+
+---
+
+## Installation
 
 ```bash
 npm install @gentleduck/variants
@@ -47,6 +53,21 @@ memoized for repeated calls with identical props.
   calls are fast.
 
 ---
+
+## How it works
+
+<MermaidDiagram chart={`flowchart LR
+    A[cva call] --> B[base classes]
+    A --> C[variants config]
+    A --> D[defaultVariants]
+    A --> E[compoundVariants]
+    B --> F[Class resolver]
+    C --> F
+    D --> F
+    E --> F
+    F --> G[Memoized result]
+    G --> H[className string]
+`} />
 
 ## API reference (concise)
 
@@ -211,8 +232,6 @@ export type VariantParams<
 
 </CodeBlockWrapper>
 
----
-
 ### 2. CVA Configuration
 
 Defines how to configure a **CVA function**, including:
@@ -242,8 +261,6 @@ export interface VariantsOptions<
 
 </CodeBlockWrapper>
 
----
-
 ### 3. CVA Props
 
 Props that a **CVA-generated function** accepts.
@@ -262,8 +279,6 @@ export type CvaProps<
 
 </CodeBlockWrapper>
 
----
-
 ### 4. Variant Props
 
 Utility type to **extract only the variant-related props** from a CVA function, omitting `class` and `className`.
@@ -279,8 +294,6 @@ export type VariantProps<T> = T extends (props?: infer P) => string
 ```
 
 </CodeBlockWrapper>
-
----
 
 ### 5. Class Utility Types
 

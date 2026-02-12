@@ -3,6 +3,21 @@ title: gentleduck/cli
 description: Use the gentleduck/cli package to add components and dependencies to your project.
 ---
 
+<MermaidDiagram chart={`flowchart TD
+    A[npx gentleduck/cli] --> B[init]
+    A --> C[add]
+    B --> D[Configure Project]
+    C --> E[Select Components]
+    E --> F[Install Dependencies]
+    F --> G[Copy Source Files]
+`} />
+
+## Philosophy
+
+A good CLI makes adoption frictionless. duck-cli doesn't install pre-built packages — it copies source code into your project. This means you own every line, can modify anything, and never wait for a library release to fix a bug. The tradeoff is intentional: full control over zero-config convenience.
+
+---
+
 ## init
 
 Use the `init` command to initialize configuration and dependencies for a new project.

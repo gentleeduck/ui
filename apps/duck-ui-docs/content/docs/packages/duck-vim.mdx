@@ -3,6 +3,12 @@ title: "gentleduck-vim"
 description: "Tiny, framework-agnostic keyboard command engine with optional React bindings."
 ---
 
+## Philosophy
+
+Keyboard-driven interfaces aren't just for Vim enthusiasts — they're an accessibility and power-user feature. duck-vim provides a registry-based key binding system where shortcuts are declared, not hardcoded. This means keybindings can be discovered (via the command palette), customized (per user), and composed (chord sequences) without touching component code.
+
+---
+
 ## Features
 
 - Core is DOM‑only and framework‑agnostic.
@@ -78,6 +84,15 @@ export default function Root() {
 - **Prefixes** - registering `g+d` marks `g` as a prefix while awaiting the next key.
 - **Timeout** - an active prefix expires after `timeoutMs`.
 
+<MermaidDiagram chart={`flowchart LR
+    A[User Input] --> B[KeyHandler]
+    B --> C[Registry]
+    C --> D{Match?}
+    D -->|Yes| E[Execute Command]
+    D -->|No| F[Buffer / Discard]
+    G[React Hook] -.-> C
+`} />
+
 ## API (core)
 
 ### `Command` type
@@ -90,27 +105,33 @@ interface Command {
 }
 ```
 
-### `Registry`
+### Registry
 
-- `constructor(debug?: boolean)`
-- `register(key: string, cmd: Command)`
-- `hasCommand(key: string): boolean`
-- `getCommand(key: string): Command | undefined`
-- `isPrefix(key: string): boolean`
+| Method | Signature | Description |
+| --- | --- | --- |
+| `constructor` | `(debug?: boolean)` | Create a new registry, optionally enabling debug logging |
+| `register` | `(key: string, cmd: Command)` | Register a command for a key sequence |
+| `hasCommand` | `(key: string): boolean` | Check if a command is registered for a key |
+| `getCommand` | `(key: string): Command \| undefined` | Retrieve the command for a key |
+| `isPrefix` | `(key: string): boolean` | Check if a key is a prefix of a registered sequence |
 
-### `KeyHandler`
+### KeyHandler
 
-- `constructor(registry: Registry, timeoutMs = 600)`
-- `attach(target = document)`
-- `detach(target = document)`
+| Method | Signature | Description |
+| --- | --- | --- |
+| `constructor` | `(registry: Registry, timeoutMs = 600)` | Create a handler bound to a registry with a sequence timeout |
+| `attach` | `(target = document)` | Start listening for keyboard events on the target |
+| `detach` | `(target = document)` | Stop listening for keyboard events on the target |
 
-Behavior: ignores pure modifier keys; attempts full-sequence match, waits on prefix, retries last key, then resets.
+**Behavior:** ignores pure modifier keys; attempts full-sequence match, waits on prefix, retries last key, then resets.
 
 ## React bindings
 
-- `KeyProvider` - mounts `Registry` + `KeyHandler`, attaches on mount.
-- `useKeyCommands(commands)` - registers mappings under the provider.
-- `KeyContext` - advanced access to `{ registry, handler }`.
+| Export | Description |
+| --- | --- |
+| `KeyProvider` | Mounts `Registry` + `KeyHandler`, attaches on mount |
+| `useKeyCommands(commands)` | Registers mappings under the provider |
+| `KeyContext` | Advanced access to `{ registry, handler }` |
 
 ## Advanced usage & tips
 
@@ -119,7 +140,7 @@ Behavior: ignores pure modifier keys; attempts full-sequence match, waits on pre
 - Call `registry.getCommand('...')?.execute()` for programmatic triggers.
 - Enable `debug` during development to log matching behaviour.
 
-<Callout>
+<Callout icon={<Zap />}>
 
 **You can make your own binding to your own Framework, hence this package is framework-agnostic.**
 

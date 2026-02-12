@@ -3,7 +3,7 @@ title: gentleduck-ttest
 description: "TypeScript Type-Level Test Framework. Assert your types like you mean it, at compile time."
 ---
 
-<Callout>
+<Callout icon={<Zap />}>
 
 **TypeScript Type-Level Test Framework**  
 Assert your types like you mean it, at compile time.
@@ -38,6 +38,13 @@ npm install --save-dev @gentleduck/ttest
 ````
 
 ---
+
+<MermaidDiagram chart={`flowchart LR
+    A[Type Definition] --> B[Test Assertion]
+    B --> C{Compile Time}
+    C -->|Pass| D[Type Checks]
+    C -->|Fail| E[TypeScript Error]
+`} />
 
 ## Quick Start
 
@@ -89,7 +96,7 @@ type Test_X1 = AssertTrue<
 
 ## Philosophy
 
-<Callout>
+<Callout icon={<Zap />}>
 
 Runtime tests test **behavior**.
 Type tests test **contracts**.
