@@ -37,7 +37,7 @@ export async function GET(request: Request) {
   const [fonts] = await Promise.all([loadAssets()])
 
   return new ImageResponse(
-    <div style={{ fontFamily: 'Geist Mono' }} tw="flex h-full w-full bg-black text-white">
+    <div style={{ fontFamily: 'Geist' }} tw="flex h-full w-full bg-black text-white">
       <div tw="flex border absolute border-stone-700 border-dashed inset-y-0 left-16 w-[1px]" />
       <div tw="flex border absolute border-stone-700 border-dashed inset-y-0 right-16 w-[1px]" />
       <div tw="flex border absolute border-stone-700 inset-x-0 h-[1px] top-16" />

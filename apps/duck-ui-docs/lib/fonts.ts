@@ -1,17 +1,13 @@
-// import { JetBrains_Mono as FontMono, Inter as FontSans } from "next/font/google"
-// import { GeistMono } from "geist/font/mono"
-import { JetBrains_Mono as FontMono, Inter as FontSans } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
 
-// export const fontSans = FontSans({
-//   subsets: ["latin"],
-//   variable: "--font-sans",
-// })
-export const fontSans = FontSans({
+export const fontSans = Geist({
   subsets: ['latin'],
-  variable: '--font-sans',
+  variable: '--font-geist-sans',
+  display: 'swap',
 })
 
-export const fontMono = FontMono({
+export const fontMono = Geist_Mono({
   subsets: ['latin'],
-  variable: '--font-mono',
+  variable: '--font-geist-mono',
+  display: 'swap',
 })
