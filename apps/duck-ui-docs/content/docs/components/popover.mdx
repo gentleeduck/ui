@@ -13,6 +13,34 @@ component: true
 
 Popover built with [@floating-ui/react](https://floating-ui.com/). Supports click, hover, and context menu triggers with smart placement.
 
+## Philosophy
+
+Popovers bridge the gap between tooltips (hover, no interaction) and dialogs (heavy, blocking). They're the right choice for inline forms, color pickers, and contextual actions that need more space than a tooltip but shouldn't interrupt the user's flow. We handle positioning and collision detection so you can focus on content.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Popover[Popover]
+  Popover --> primitives["@gentleduck/primitives\n/popover"]:::internal
+  Popover --> motion["@gentleduck/motion"]:::internal
+  Popover --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"uses"| floatingUI["Floating UI"]:::external
+  primitives --> |"provides"| Positioning["Collision-aware\nPositioning"]
+  primitives --> |"provides"| FocusTrap["Focus Trapping"]
+  primitives --> |"provides"| ClickOutside["Click Outside\nDismiss"]
+  motion --> |"provides"| AnimVariants["Entry/Exit\nAnimations"]
+
+  Popover -.- |"used by"| Select["Select"]:::component
+  Popover -.- |"used by"| DropdownMenu["DropdownMenu"]:::component
+  Popover -.- |"used by"| Combobox["Combobox"]:::component
+  Popover -.- |"used by"| DatePicker["DatePicker"]:::component
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -68,50 +96,60 @@ import {
 </Popover>
 ```
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Popover] --> B[PopoverTrigger]
+    A --> C[PopoverContent]
+    A --> D[PopoverPortal]
+    C --> E[PopoverClose]
+`} />
+
 ## API Reference
 
-### **Popover**
+### Popover
 
-* **`defaultOpen`** (`boolean`, optional): Initial open state for uncontrolled usage.
-* **`open`** (`boolean`, optional): Controlled open state.
-* **`onOpenChange`** (`(open: boolean) => void`, optional): Callback when open state changes.
-* **`placement`** (`Placement`, optional, default: `'bottom'`): Placement relative to the trigger.
-* **`sideOffset`** (`number`, optional, default: `4`): Offset on the main axis.
-* **`alignOffset`** (`number`, optional, default: `0`): Offset on the cross axis.
-* **`mainAxis`** (`boolean`, optional, default: `true`): Enables main-axis flipping while positioning.
-* **`matchWidth`** (`boolean`, optional, default: `false`): Match the popover width to the trigger width.
-* **`enableHover`** (`boolean`, optional, default: `false`): Open on hover instead of click.
-* **`contextMenu`** (`boolean`, optional, default: `false`): Open on right-click at the cursor position.
-* **`modal`** (`boolean`, optional): Enables focus management when content is not disabled.
-* **`...props`** (`React.ComponentPropsWithRef<typeof PopoverPrimitive.Root>`): Additional props forwarded to the underlying popover root.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
+| `open` | `boolean` | `--` | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
+| `placement` | `Placement` | `'bottom'` | Placement relative to the trigger |
+| `sideOffset` | `number` | `4` | Offset on the main axis |
+| `alignOffset` | `number` | `0` | Offset on the cross axis |
+| `mainAxis` | `boolean` | `true` | Enables main-axis flipping while positioning |
+| `matchWidth` | `boolean` | `false` | Match the popover width to the trigger width |
+| `enableHover` | `boolean` | `false` | Open on hover instead of click |
+| `contextMenu` | `boolean` | `false` | Open on right-click at the cursor position |
+| `modal` | `boolean` | `--` | Enables focus management when content is not disabled |
 
----
+*Also accepts all standard `PopoverPrimitive.Root` props.*
 
-### **PopoverTrigger**
+### PopoverTrigger
 
-* **`asChild`** (`boolean`, optional): Use the child element as the trigger.
-* **`...props`** (`React.ComponentPropsWithRef<typeof PopoverPrimitive.Trigger>`): Props forwarded to the trigger element.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | `--` | Use the child element as the trigger |
 
----
+*Also accepts all standard `PopoverPrimitive.Trigger` props.*
 
-### **PopoverContent**
+### PopoverContent
 
-* **`forceMount`** (`boolean`, optional, default: `true`): Keep content mounted for CSS-driven animations.
-* **`lockScroll`** (`boolean`, optional, default: `false`): Locks scroll while the popover is open.
-* **`disabled`** (`boolean`, optional, default: `true`): Disables focus management when true.
-* **`...props`** (`React.ComponentPropsWithRef<typeof PopoverPrimitive.Content>`): Props forwarded to the content container.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `boolean` | `true` | Keep content mounted for CSS-driven animations |
+| `lockScroll` | `boolean` | `false` | Locks scroll while the popover is open |
+| `disabled` | `boolean` | `true` | Disables focus management when true |
+
+*Also accepts all standard `PopoverPrimitive.Content` props.*
 
 **Behavior:**
 `PopoverContent` receives `data-open` and `data-side` attributes for state-aware styling.
 
----
-
-### **PopoverClose**
+### PopoverClose
 
 Alias for `PopoverTrigger`. Use to render an element that closes the popover.
 
----
-
-### **PopoverPortal**
+### PopoverPortal
 
 Renders the popover in a portal using Floating UI.

@@ -4,7 +4,7 @@ description: Used to display textual user input from keyboard.
 component: true
 ---
 
-<Callout>
+<Callout icon={<Lightbulb />}>
 
 **Rewritten version:**
 
@@ -16,6 +16,10 @@ As a result, it has a different API and does not require certain props like `key
 </Callout>
 
 <ComponentPreview name="kbd-1" />
+
+## Philosophy
+
+Keyboard shortcuts deserve visual prominence. The Kbd component renders key combinations with consistent styling, making shortcut discovery a natural part of the UI rather than something hidden in documentation. We pair it with `@gentleduck/vim` for actual key binding — Kbd handles the display, vim handles the logic.
 
 ## Installation
 

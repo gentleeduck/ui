@@ -9,6 +9,28 @@ component: true
   description="A radio group with 3 items."
 />
 
+## Philosophy
+
+Radio groups enforce single selection from a set -- the constraint is the feature. Unlike checkboxes (multi-select) or selects (dropdown), radio groups make all options visible simultaneously. We use native radio inputs for built-in keyboard navigation (arrow keys cycle through options) and form integration.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  RadioGroup[RadioGroup]
+  RadioGroup --> primitives["@gentleduck/primitives\n/checkers"]:::internal
+  RadioGroup --> motion["@gentleduck/motion"]:::internal
+  RadioGroup --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"provides"| SvgIndicator["useSvgIndicator\n(dot indicator)"]
+  primitives --> |"provides"| NativeRadio["Native Radio\nInputs"]
+  motion --> |"provides"| AnimVariants["Selection\nAnimation"]
+  RadioGroup --> |"adds"| ArrowNav["Arrow Key\nNavigation"]
+  RadioGroup --> |"adds"| GroupContext["RadioGroup\nContext"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -37,7 +59,7 @@ npm install @gentleduck/primitives @gentleduck/motion @gentleduck/libs
 
 <Step>Add the `Label` component to your project.</Step>
 
-The `Pagination` component uses the [`Label`](/components/label) component. Make sure you have it installed in your project.
+The `RadioGroup` component uses the [`Label`](/components/label) component. Make sure you have it installed in your project.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -77,14 +99,27 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 <ComponentPreview name="radio-group-2" />
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[RadioGroup] --> B[RadioGroupItem]
+    B --> C[Radio]
+    B --> D[Label]
+    C --> E[Hidden Input]
+    C --> F[SVG Indicator]
+`} />
+
 ## API Reference
 
-### **RadioGroup**
+### RadioGroup
 
-* **`value`** (`string`, optional): Controlled value of the selected radio item.
-* **`defaultValue`** (`string`, optional): Initial selected value when uncontrolled.
-* **`onValueChange`** (`(value: string) => void`, optional): Callback fired when selection changes.
-* **`...props`** (`React.HTMLProps<HTMLUListElement>`): Native props forwarded to the `<ul>` container.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | `--` | Controlled value of the selected radio item |
+| `defaultValue` | `string` | `--` | Initial selected value when uncontrolled |
+| `onValueChange` | `(value: string) => void` | `--` | Callback fired when selection changes |
+
+*Also accepts all standard HTML `ul` props.*
 
 **Behavior:**
 
@@ -93,13 +128,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 * Renders a `<ul>` with role `radiogroup`.
 * Uses internal hooks for managing click behavior and ARIA attributes.
 
----
+### RadioGroupItem
 
-### **RadioGroupItem**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | (required) | Unique value for the radio item, also used as the element's `id` |
+| `customIndicator` | `React.ReactNode` | `--` | Custom indicator element rendered inside the item |
 
-* **`value`** (`string`, required): Unique value for the radio item, also used as the element's `id`.
-* **`customIndicator`** (`React.ReactNode`, optional): Custom indicator element rendered inside the item.
-* **`...props`** (`Omit<React.HTMLProps<HTMLLIElement>, 'value'>`): Native props forwarded to the `<li>` element.
+*Also accepts all standard HTML `li` props (except `value`).*
 
 **Behavior:**
 
@@ -108,13 +144,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 * Handles `aria-checked` state toggling and styling.
 * Associates label with radio input via `htmlFor` and `id`.
 
----
+### Radio
 
-### **Radio**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `indicator` | `React.ReactElement` | `--` | Custom SVG or element for unchecked state indicator |
+| `checkedIndicator` | `React.ReactElement` | `--` | Custom SVG or element for checked state indicator |
 
-* **`indicator`** (`React.ReactElement`, optional): Custom SVG or element for unchecked state indicator.
-* **`checkedIndicator`** (`React.ReactElement`, optional): Custom SVG or element for checked state indicator.
-* **`...props`** (`React.HTMLProps<HTMLInputElement>`): Native props forwarded to the radio `<input>`.
+*Also accepts all standard HTML `input` props.*
 
 **Behavior:**
 
@@ -123,18 +160,20 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 * Supports custom checked and unchecked indicators.
 * Applies animation and styling variants.
 
----
-
-### **useRadioGroupContext**
+### useRadioGroupContext
 
 * Hook to consume the `RadioGroupContext`.
 * Throws an error if used outside of a `RadioGroup` provider.
 
----
-
-### **useHandleRadioClick**
+### useHandleRadioClick
 
 * Hook to manage click handlers and ARIA states on radio items.
 * Accepts optional `defaultValue`, `value`, and `onValueChange` callback.
 * Returns refs to the wrapper (`<ul>`), selected item, and all items.
+
+## See also
+
+- [Checkbox](/docs/components/checkbox) — Multi-selection toggle control
+- [Switch](/docs/components/switch) — Toggle between on and off states
+- [Select](/docs/components/select) — Dropdown selection from a list
 

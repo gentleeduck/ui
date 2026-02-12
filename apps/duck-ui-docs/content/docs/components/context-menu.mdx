@@ -9,6 +9,10 @@ component: true
   description="A context menu with sub menu items."
 />
 
+## Philosophy
+
+Context menus are power-user shortcuts — they surface relevant actions where the user already is. We share the DropdownMenu component internals because the interaction pattern is identical; only the trigger mechanism (right-click vs button click) differs. This means you learn one API for both patterns.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -71,8 +75,95 @@ import {
 </ContextMenu>
 ```
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[ContextMenu] --> B[ContextMenuTrigger]
+    A --> C[ContextMenuContent]
+    C --> D[ContextMenuGroup]
+    D --> E[ContextMenuItem]
+    D --> F[ContextMenuCheckboxItem]
+    C --> G[ContextMenuRadioGroup]
+    G --> H[ContextMenuRadioItem]
+    C --> I[ContextMenuLabel]
+    C --> J[ContextMenuSeparator]
+    C --> K[ContextMenuSub]
+    K --> L[ContextMenuSubTrigger]
+    K --> M[ContextMenuSubContent]
+`} />
+
 ## Behavior
 
 - Right-click the trigger area to open the menu.
 - Left-click does not open the menu; use DropdownMenu if you need click activation.
 - Right-clicking outside closes the menu and allows the native browser menu to appear.
+
+## API Reference
+
+ContextMenu shares the same props as [DropdownMenu](/docs/components/dropdown-menu). Every ContextMenu sub-component is a thin wrapper around its DropdownMenu counterpart with `contextMenu` enabled by default. See the DropdownMenu API Reference for full prop details.
+
+### ContextMenu
+
+Root wrapper. Renders a `DropdownMenu` with `contextMenu` set to `true`.
+
+*Accepts all `DropdownMenu` props.*
+
+### ContextMenuTrigger
+
+The right-click target area. Renders a `DropdownMenuTrigger` with default dimensions and dashed border styling.
+
+*Accepts all `DropdownMenuTrigger` props.*
+
+### ContextMenuContent
+
+*Accepts all `DropdownMenuContent` props.*
+
+### ContextMenuItem
+
+*Accepts all `DropdownMenuItem` props.*
+
+### ContextMenuCheckboxItem
+
+*Accepts all `DropdownMenuCheckboxItem` props.*
+
+### ContextMenuRadioGroup
+
+*Accepts all `DropdownMenuRadioGroup` props.*
+
+### ContextMenuRadioItem
+
+*Accepts all `DropdownMenuRadioItem` props.*
+
+### ContextMenuLabel
+
+*Accepts all `DropdownMenuLabel` props.*
+
+### ContextMenuSeparator
+
+*Accepts all `DropdownMenuSeparator` props.*
+
+### ContextMenuShortcut
+
+*Accepts all `DropdownMenuShortcut` props.*
+
+### ContextMenuGroup
+
+*Accepts all `DropdownMenuGroup` props.*
+
+### ContextMenuSub
+
+Submenu wrapper.
+
+*Accepts all `DropdownMenuSub` props.*
+
+### ContextMenuSubTrigger
+
+Submenu trigger element.
+
+*Accepts all `DropdownMenuSubTrigger` props.*
+
+### ContextMenuSubContent
+
+Submenu content container.
+
+*Accepts all `DropdownMenuSubContent` props.*

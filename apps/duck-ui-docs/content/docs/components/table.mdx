@@ -6,6 +6,10 @@ component: true
 
 <ComponentPreview name="table-1" description="A table component." />
 
+## Philosophy
+
+HTML tables are semantically powerful but visually bland. Our Table components add consistent styling while preserving the native table structure -- `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>` -- because screen readers depend on these elements for data navigation. For interactive features like sorting and filtering, see Data Table.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -91,55 +95,53 @@ You can also see an example of a data table in the [Tasks](/examples/tasks) demo
 
 ---
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Table] --> B[TableCaption]
+    A --> C[TableHeader]
+    A --> D[TableBody]
+    A --> E[TableFooter]
+    C --> F[TableRow]
+    D --> F
+    E --> F
+    F --> G[TableHead]
+    F --> H[TableCell]
+`} />
+
 ## API Reference
 
-### **Table**
+### Table
 
-* **`props`** (`React.ComponentProps<'table'>`): Native props forwarded to the `<table>` element.
+*Accepts all standard HTML `table` props.*
 
----
+### TableHeader
 
-### **TableHeader**
+*Accepts all standard HTML `thead` props.*
 
-* **`props`** (`React.ComponentProps<'thead'>`): Native props forwarded to the `<thead>` element.
+### TableBody
 
----
+*Accepts all standard HTML `tbody` props.*
 
-### **TableBody**
+### TableFooter
 
-* **`props`** (`React.ComponentProps<'tbody'>`): Native props forwarded to the `<tbody>` element.
+*Accepts all standard HTML `tfoot` props.*
 
----
+### TableRow
 
-### **TableFooter**
+*Accepts all standard HTML `tr` props.*
 
-* **`props`** (`React.ComponentProps<'tfoot'>`): Native props forwarded to the `<tfoot>` element.
+### TableHead
 
----
+*Accepts all standard HTML `th` props.*
 
-### **TableRow**
+### TableCell
 
-* **`props`** (`React.ComponentProps<'tr'>`): Native props forwarded to the `<tr>` element.
+*Accepts all standard HTML `td` props.*
 
----
+### TableCaption
 
-### **TableHead**
-
-* **`props`** (`React.ComponentProps<'th'>`): Native props forwarded to the `<th>` element.
-
----
-
-### **TableCell**
-
-* **`props`** (`React.ComponentProps<'td'>`): Native props forwarded to the `<td>` element.
-
----
-
-### **TableCaption**
-
-* **`props`** (`React.ComponentProps<'caption'>`): Native props forwarded to the `<caption>` element.
-
----
+*Accepts all standard HTML `caption` props.*
 
 **Behavior:**
 These components provide a styled, accessible table structure with flexible customization via `className` and props forwarding. The `Table` component wraps the native `<table>` in a div for responsive overflow. Header, body, footer, rows, heads, cells, and caption have default styling with support for hover, selection, and alignment adjustments — including special handling for checkboxes inside cells.

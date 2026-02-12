@@ -18,7 +18,7 @@ So instead of a data-table component, I thought it would be more helpful to prov
 
 We'll start with the basic `<Table />` component and build a complex data table from scratch.
 
-<Callout className="mt-4">
+<Callout icon={<Lightbulb />} className="mt-4">
 
 **Tip:** If you find yourself using the same table in multiple places in your app, you can always extract it into a reusable component.
 
@@ -28,6 +28,16 @@ We'll start with the basic `<Table />` component and build a complex data table 
 
 This guide will show you how to use [TanStack Table](https://tanstack.com/table) and the `<Table />` component to build your own custom data table. We'll cover the following topics:
 
+<MermaidDiagram chart={`flowchart LR
+    A["Basic Table"] --> B["Row Actions"]
+    B --> C["Pagination"]
+    C --> D["Sorting"]
+    D --> E["Filtering"]
+    E --> F["Visibility"]
+    F --> G["Row Selection"]
+    G --> H["Reusable Components"]
+`} />
+
 - [Basic Table](#basic-table)
 - [Row Actions](#row-actions)
 - [Pagination](#pagination)
@@ -36,6 +46,10 @@ This guide will show you how to use [TanStack Table](https://tanstack.com/table)
 - [Visibility](#visibility)
 - [Row Selection](#row-selection)
 - [Reusable Components](#reusable-components)
+
+## Philosophy
+
+Data tables are the workhorses of application UIs. Rather than shipping a monolithic DataTable component with 50 props, we teach you to build tables progressively using TanStack Table primitives. Each feature — sorting, filtering, pagination, selection — layers on independently. You only pay for what you use.
 
 ## Installation
 
@@ -138,7 +152,7 @@ export const columns: ColumnDef<Payment>[] = [
 ]
 ```
 
-<Callout className="mt-4">
+<Callout icon={<Lightbulb />} className="mt-4">
 
 **Note:** Columns are where you define the core of what your table
 will look like. They define the data that will be displayed, how it will be
@@ -233,7 +247,7 @@ export function DataTable<TData, TValue>({
 }
 ```
 
-<Callout>
+<Callout icon={<Lightbulb />}>
 
 **Tip**: If you find yourself using `<DataTable />` in multiple places, this is the component you could make reusable by extracting it to `components/ui/data-table.tsx`.
 

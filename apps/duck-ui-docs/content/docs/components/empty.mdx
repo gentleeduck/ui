@@ -6,6 +6,25 @@ component: true
 
 <ComponentPreview name="empty-1" className="[&_.preview]:p-0" />
 
+## Philosophy
+
+Empty states are opportunities, not dead ends. When there's no data to show, the Empty component turns a blank screen into a call to action. We structure it as header + content because every empty state needs two things: an explanation of why it's empty, and a path forward. The media slot (icon, avatar, illustration) adds emotional tone.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Empty[Empty]
+  Empty --> variants["@gentleduck/variants"]:::internal
+  Empty --> libs["@gentleduck/libs"]:::internal
+  variants --> |"provides"| VariantSystem["Layout Variants"]
+  Empty --> |"composes"| EmptyHeader["EmptyHeader"]
+  Empty --> |"composes"| EmptyContent["EmptyContent"]
+  EmptyHeader --> EmptyMedia["EmptyMedia\n(icon/avatar/image)"]
+  EmptyHeader --> EmptyTitle["EmptyTitle"]
+  EmptyHeader --> EmptyDescription["EmptyDescription"]
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -17,7 +36,7 @@ component: true
 <TabsContent value="cli">
 
 ```bash
-npx @gnetleduck/cli add empty
+npx @gentleduck/cli add empty
 ```
 
 </TabsContent>
@@ -106,6 +125,16 @@ Use the `EmptyMedia` component to display an avatar group in the empty state.
 You can add an `InputGroup` component to the `EmptyContent` component.
 
 <ComponentPreview name="empty-6" className="[&_.preview]:p-0" />
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Empty] --> B[EmptyHeader]
+    B --> C[EmptyMedia]
+    A --> D[EmptyTitle]
+    A --> E[EmptyDescription]
+    A --> F[EmptyContent]
+`} />
 
 ## API Reference
 

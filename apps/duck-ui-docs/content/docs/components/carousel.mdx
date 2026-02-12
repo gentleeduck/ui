@@ -17,6 +17,29 @@ links:
 
 The carousel component is built using the [Embla Carousel](https://www.embla-carousel.com/) library.
 
+## Philosophy
+
+Carousels are controversial -- done wrong, they hide content behind interaction. We wrap Embla Carousel because it handles the hard parts (touch gestures, snap points, accessibility, RTL support) without opinions about visual design. Our layer adds the duck-ui styling and exposes Previous/Next controls as composable elements.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Carousel[Carousel]
+  Carousel --> embla["embla-carousel-react"]:::external
+  Carousel --> libs["@gentleduck/libs"]:::internal
+  Carousel --> Button["Button"]:::component
+  Carousel --> lucide["lucide-react"]:::external
+
+  embla --> |"provides"| ScrollSnap["Scroll & Snap Logic"]
+  embla --> |"provides"| TouchGestures["Touch Gestures"]
+  Carousel --> |"adds"| Context["React Context"]
+  Carousel --> |"adds"| KeyboardNav["Keyboard Navigation"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -120,7 +143,7 @@ To set the size of the items, you can use the `basis` utility class on the `<Car
 
 To set the spacing between the items, we use a `pl-[VALUE]` utility on the `<CarouselItem />` and a negative `-ml-[VALUE]` on the `<CarouselContent />`.
 
-<Callout className="mt-6">
+<Callout icon={<TriangleAlert />} className="mt-6">
   **Why:** I have been using the `gap` property or a `grid` layout on the `
   <CarouselContent />` but it required a lot of math and mental effort to get the
   spacing right. I found `pl-[VALUE]` and `-ml-[VALUE]` utilities much easier to
@@ -302,15 +325,27 @@ export function Example() {
 
 See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for more information on using plugins.
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Carousel] --> B[CarouselContent]
+    B --> C[CarouselItem]
+    A --> D[CarouselPrevious]
+    A --> E[CarouselNext]
+`} />
+
 ## API Reference
 
-### **Carousel**
+### Carousel
 
-* **`opts`** (`CarouselOptions`, optional): Configuration options passed to `embla-carousel`.
-* **`plugins`** (`CarouselPlugin`, optional): Array of Embla plugins.
-* **`orientation`** (`'horizontal' | 'vertical'`, default: `'horizontal'`): Carousel axis direction.
-* **`setApi`** (`(api: CarouselApi) => void`, optional): Callback to expose the Embla API.
-* **`...props`** (`React.HTMLProps<HTMLDivElement>`): All other standard `<div>` props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `opts` | `CarouselOptions` | -- | Configuration options passed to `embla-carousel` |
+| `plugins` | `CarouselPlugin` | -- | Array of Embla plugins |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Carousel axis direction |
+| `setApi` | `(api: CarouselApi) => void` | -- | Callback to expose the Embla API |
+
+*Also accepts all standard HTML `div` props.*
 
 **Behavior:**
 
@@ -318,35 +353,32 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 * Handles keyboard navigation (Left/Right arrows).
 * Tracks whether previous/next scroll is possible.
 
----
+### CarouselContent
 
-### **CarouselContent**
-
-* **`props`** (`React.HTMLProps<HTMLDivElement>`): Standard `<div>` props.
+*Accepts all standard HTML `div` props.*
 
 **Behavior:**
 
 * Wraps slides in an Embla scroll container.
 * Adjusts layout based on `orientation` (horizontal or vertical).
 
----
+### CarouselItem
 
-### **CarouselItem**
-
-* **`props`** (`React.HTMLProps<HTMLDivElement>`): Standard `<div>` props.
+*Accepts all standard HTML `div` props.*
 
 **Behavior:**
 
 * Represents a single slide with `role="group"` and `aria-roledescription="slide"`.
 * Uses spacing (`pl-4` or `pt-4`) depending on `orientation`.
 
----
+### CarouselPrevious
 
-### **CarouselPrevious**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `string` | `'outline'` | Variant prop for the `Button` component |
+| `size` | `string` | `'icon'` | Size prop for the `Button` component |
 
-* **`variant`** (`string`, default: `'outline'`): Variant prop for the `Button` component.
-* **`size`** (`string`, default: `'icon'`): Size prop for the `Button` component.
-* **`...props`** (`React.ComponentProps<typeof Button>`): All other `Button` props.
+*Also accepts all `Button` props.*
 
 **Behavior:**
 
@@ -354,13 +386,14 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 * Disabled when `canScrollPrev` is false.
 * Positioned absolutely relative to carousel orientation.
 
----
+### CarouselNext
 
-### **CarouselNext**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `string` | `'outline'` | Variant prop for the `Button` component |
+| `size` | `string` | `'icon'` | Size prop for the `Button` component |
 
-* **`variant`** (`string`, default: `'outline'`): Variant prop for the `Button` component.
-* **`size`** (`string`, default: `'icon'`): Size prop for the `Button` component.
-* **`...props`** (`React.ComponentProps<typeof Button>`): All other `Button` props.
+*Also accepts all `Button` props.*
 
 **Behavior:**
 
@@ -368,9 +401,7 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 * Disabled when `canScrollNext` is false.
 * Positioned absolutely relative to carousel orientation.
 
----
-
-### **Types**
+### Types
 
 ```ts
 type CarouselApi = UseEmblaCarouselType[1]

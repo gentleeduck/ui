@@ -10,6 +10,24 @@ component: true
   description="A calendar with date of birth picker."
 />
 
+## Philosophy
+
+Date picking is a composition problem, not a component problem. A date picker is just a Calendar inside a Popover triggered by a Button — three components you already have. We document it as a pattern rather than shipping a dedicated component because the "right" date picker varies wildly by use case (single date, range, date-time, with presets).
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  DatePicker[Date Picker]
+  DatePicker --> Calendar["Calendar"]:::component
+  DatePicker --> Popover["Popover"]:::component
+  DatePicker --> Button["Button"]:::component
+  Calendar --> |"provides"| DateGrid["Date Selection\nGrid"]
+  Popover --> |"provides"| Dropdown["Dropdown\nPositioning"]
+  Button --> |"provides"| Trigger["Styled Trigger\nwith Date Display"]
+  DatePicker --> |"pattern"| Composition["Composed Pattern\n(not a component)"]
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 The Date Picker is built using a composition of the `<Popover />` and the `<Calendar />` components.

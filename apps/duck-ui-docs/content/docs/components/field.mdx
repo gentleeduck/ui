@@ -9,6 +9,10 @@ component: true
   className="[&_.preview]:h-[800px] [&_.preview]:p-6 md:[&_.preview]:h-[850px]"
 />
 
+## Philosophy
+
+Fields are the structural glue between form controls and their metadata -- labels, descriptions, error messages. Rather than baking this structure into every input component, Field composes around any control. This means the same label/error pattern works for Input, Select, Textarea, or your custom components.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -182,6 +186,20 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 - `FieldSet` and `FieldLegend` keep related controls grouped for keyboard and assistive tech users.
 - `Field` outputs `role="group"` so nested controls inherit labeling from `FieldLabel` and `FieldLegend` when combined.
 - Apply `FieldSeparator` sparingly to ensure screen readers encounter clear section boundaries.
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[FieldSet] --> B[FieldLegend]
+    A --> C[FieldGroup]
+    C --> D[Field]
+    C --> E[FieldSeparator]
+    D --> F[FieldLabel]
+    D --> G[FieldContent]
+    G --> H[FieldTitle]
+    G --> I[FieldDescription]
+    D --> J[FieldError]
+`} />
 
 ## API Reference
 

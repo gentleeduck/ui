@@ -9,6 +9,10 @@ component: true
   description="A progress bar component."
 />
 
+## Philosophy
+
+Progress bars answer the most anxious user question: "Is this working?" A determinate progress indicator builds trust by showing measurable advancement. We keep the API to a single `value` prop because progress is inherently one-dimensional — the component's visual treatment handles the rest.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -59,15 +63,18 @@ import { Progress } from "@/components/ui/progress"
 
 ## API Reference
 
-### **Progress**
+### Progress
 
-* **`value`** (`number`, required): Progress value from `0` to `100` representing the completion percentage.
-* **`...props`** (`Omit<React.HTMLProps<HTMLDivElement>, 'value'>`): Other native div props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `number` | (required) | Progress value from `0` to `100` representing the completion percentage |
+
+*Also accepts all standard HTML `div` props.*
 
 **Behavior:**
 
-* Renders a progress bar container with a colored inner bar representing progress.
-* Uses `aria` attributes for accessibility (`role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`).
-* The inner bar's width is animated via CSS `transform: translateX` for smooth transitions.
-* The container is styled with rounded corners, overflow hidden, and background color for progress track.
+- Renders a progress bar container with a colored inner bar representing progress.
+- Uses `aria` attributes for accessibility (`role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`).
+- The inner bar's width is animated via CSS `transform: translateX` for smooth transitions.
+- The container is styled with rounded corners, overflow hidden, and background color for progress track.
 

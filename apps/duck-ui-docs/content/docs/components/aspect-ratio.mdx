@@ -10,6 +10,22 @@ component: true
   description="A component that displays an image with a 16:9 aspect ratio."
 />
 
+## Philosophy
+
+Responsive media needs dimensional constraints. AspectRatio solves the CSS aspect-ratio problem with a clean component API, preventing layout shifts when images and videos load. The `ratio` prop is the only knob you need — everything else is handled by the container's CSS.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  AspectRatio[AspectRatio]
+  AspectRatio --> primitives["@gentleduck/primitives\n/slot"]:::internal
+  AspectRatio --> libs["@gentleduck/libs"]:::internal
+  primitives --> |"provides"| SlotRendering["Slot Rendering\n(wraps child)"]
+  AspectRatio --> |"manages"| PaddingTrick["CSS Padding\nAspect Ratio"]
+  AspectRatio --> |"adds"| ResponsiveMedia["Responsive Media\nContainment"]
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -66,13 +82,14 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 
 ## API Reference
 
----
+### AspectRatio
 
-### **AspectRatio**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `ratio` | `string` | (required) | Aspect ratio of the container, e.g. `'16/9'`, `'4/3'` |
+| `className` | `string` | `--` | Additional class names to apply to the container |
+| `style` | `React.CSSProperties` | `--` | Inline styles applied to the container |
 
-* **`ratio`** (`string`, required): Aspect ratio of the container, e.g. `'16/9'`, `'4/3'`.
-* **`className`** (`string`, optional): Additional class names to apply to the container.
-* **`style`** (`React.CSSProperties`, optional): Inline styles applied to the container.
-* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Native `div` element props (forwarded to `Slot`).
+*Also accepts all standard HTML `div` props.*
 
 

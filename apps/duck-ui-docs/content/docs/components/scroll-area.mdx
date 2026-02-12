@@ -9,6 +9,10 @@ component: true
   description="A scroll area component."
 />
 
+## Philosophy
+
+Native scrollbars break visual consistency across platforms. ScrollArea provides custom-styled scrollbars that behave identically everywhere while preserving native scroll physics. We keep the API minimal — just `viewportClassName` — because scrolling should be invisible infrastructure, not a feature you configure.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -120,10 +124,11 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 
 ## API Reference
 
-### **ScrollArea**
+### ScrollArea
 
-* **`viewportClassName`** (`string`, optional): Additional CSS classes to apply to the scroll viewport container.
-* **`...props`** (`React.HTMLAttributes<HTMLDivElement>`): Other native props forwarded to the outer container `<div>`.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `viewportClassName` | `string` | `--` | Additional CSS classes to apply to the scroll viewport container |
 
----
+*Also accepts all standard HTML `div` props.*
 

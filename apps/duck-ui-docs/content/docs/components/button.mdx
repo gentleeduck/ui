@@ -20,6 +20,29 @@ component: true
 - Powered by `@gentleduck/variants` for scalable theming
 - Clean, composable, and **Tailwind-optimized**
 
+## Philosophy
+
+Buttons are the primary call to action in any interface. We ship an intentionally rich variant system because buttons carry the most visual weight in UI decisions — primary, destructive, ghost, and outline each communicate different levels of commitment. The `asChild` pattern lets you render any element as a button, because sometimes a link needs to look like one.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Button[Button]
+  Button --> variants["@gentleduck/variants"]:::internal
+  Button --> primitives["@gentleduck/primitives\n/slot"]:::internal
+  Button --> libs["@gentleduck/libs"]:::internal
+  Button --> lucide["lucide-react"]:::external
+
+  variants --> |"provides"| VariantSystem["Type-safe Variants\n(size, style, border)"]
+  primitives --> |"provides"| AsChild["asChild Rendering"]
+  Button --> |"built-in"| Loading["Loading State\n& Spinner"]
+  Button --> |"built-in"| Icons["Icon Slots\n(left, right)"]
+  Button --> |"built-in"| AnimIcon["AnimationIcon\nHover Effects"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -244,23 +267,25 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
 
 ## API Reference
 
-### **Button Props**
+### Button Props
 
-* **`variant`** (`'default' | 'destructive' | 'warning' | 'outline' | 'dashed' | 'secondary' | 'ghost' | 'link' | 'expand_icon' | 'nothing'`, optional):
-* **`size`** (`'icon' | 'xs' | 'sm' | 'default' | 'lg' | 'xl' | '2xl' | '3xl'`, optional):
-* **`border`** (`'default' | 'primary' | 'secondary' | 'destructive' | 'warning'`, optional):
-* **`asChild`** (`boolean`, optional): If `true`, renders using a custom child element via `Slot` (e.g. a `Link`).
-* **`loading`** (`boolean`, optional): If `true`, shows a spinning loader icon and disables the button.
-* **`disabled`** (`boolean`, optional): Disables the button manually.
-* **`icon`** (`React.ReactNode`, optional): Icon placed before the content (left-aligned or centered if collapsed).
-* **`secondIcon`** (`React.ReactNode`, optional): Icon placed after the content (right-aligned).
-* **`isCollapsed`** (`boolean`, optional):If `true`, renders icon-only button (hides children and secondIcon).
-* **`type`** (`'button' | 'submit' | 'reset'`, optional): Native HTML button type. Default is `'button'`.
-* **`...props`** (`React.HTMLProps<HTMLButtonElement>`): All native HTML button props are supported.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `'default' \| 'destructive' \| 'warning' \| 'outline' \| 'dashed' \| 'secondary' \| 'ghost' \| 'link' \| 'expand_icon' \| 'nothing'` | `'default'` | Visual style variant |
+| `size` | `'icon' \| 'xs' \| 'sm' \| 'default' \| 'lg' \| 'xl' \| '2xl' \| '3xl'` | `'default'` | Size of the button |
+| `border` | `'default' \| 'primary' \| 'secondary' \| 'destructive' \| 'warning'` | -- | Border style variant |
+| `asChild` | `boolean` | -- | If `true`, renders using a custom child element via `Slot` (e.g. a `Link`) |
+| `loading` | `boolean` | -- | If `true`, shows a spinning loader icon and disables the button |
+| `disabled` | `boolean` | -- | Disables the button manually |
+| `icon` | `React.ReactNode` | -- | Icon placed before the content (left-aligned or centered if collapsed) |
+| `secondIcon` | `React.ReactNode` | -- | Icon placed after the content (right-aligned) |
+| `isCollapsed` | `boolean` | -- | If `true`, renders icon-only button (hides children and secondIcon) |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Native HTML button type |
 
----
+*Also accepts all standard HTML `button` props.*
 
-### **AnimationIcon Props**
+### AnimationIcon Props
 
-* **`animationIcon`** (`{ icon?: React.ReactNode; iconPlacement?: 'left' | 'right' }`, optional):
----
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `animationIcon` | `{ icon?: React.ReactNode; iconPlacement?: 'left' \| 'right' }` | -- | Animation icon configuration |

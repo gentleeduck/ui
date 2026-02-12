@@ -29,6 +29,30 @@ component: true
 ## About
 This component uses the [@gentleduck/vim](https://github.com/gentleeduck/ui/tree/master/packages/duck-vim) library under the hood.
 
+## Philosophy
+
+Command palettes are the power user's best friend -- they surface every action in the app behind a single keyboard shortcut. We wrap cmdk because it handles fuzzy search, group filtering, and keyboard navigation with minimal API surface. The composable sub-components let you build anything from a simple search to a full IDE-style command center.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Command[Command]
+  Command --> vim["@gentleduck/vim"]:::internal
+  Command --> libs["@gentleduck/libs"]:::internal
+  Command --> Dialog["Dialog"]:::component
+  Command --> ScrollArea["ScrollArea"]:::component
+  Command --> lucide["lucide-react"]:::external
+
+  vim --> |"provides"| KeyBindings["Key Bindings Registry"]
+  Command --> |"custom"| Hooks["useCommandSearch\nuseHandleKeyDown"]
+  Command --> |"custom"| SelectionLogic["Item Selection &\nFiltering Logic"]
+  Command --> |"uses"| Context["React Context\n(Refs + State)"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -156,72 +180,80 @@ export function CommandMenu() {
 }
 ```
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Command] --> B[CommandInput]
+    A --> C[CommandList]
+    C --> D[CommandEmpty]
+    C --> E[CommandGroup]
+    C --> F[CommandSeparator]
+    E --> G[CommandItem]
+    G --> H[CommandShortcut]
+    A -.->|dialog mode| I[CommandDialog]
+    I --> A
+`} />
+
 ## API Reference
 
-### **Command Props**
+### Command
 
-* **`props`** (`React.HTMLProps<HTMLDivElement>`): All native div props are supported.
+*Accepts all standard HTML `div` props.*
 
----
+### CommandInput
 
-### **CommandInput Props**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `placeholder` | `string` | `'Search...'` | Placeholder text in the input |
+| `autoFocus` | `boolean` | `true` | Automatically focus input on mount |
+| `onChange` | `React.ChangeEventHandler` | -- | Triggered when the input value changes |
 
-* **`placeholder`** (`string`, optional): Placeholder text in the input. Default is `'Search...'`.
-* **`autoFocus`** (`boolean`, optional): Automatically focus input on mount. Default is `true`.
-* **`onChange`** (`React.ChangeEventHandler`, optional): Triggered when the input value changes.
-* **`...props`** (`React.HTMLProps<HTMLInputElement>`): All native input props are supported.
+*Also accepts all standard HTML `input` props.*
 
----
+### CommandList
 
-### **CommandList Props**
+*Accepts all standard HTML `ul` props.*
 
-* **`props`** (`React.HTMLAttributes<HTMLUListElement>`): All native `ul` props are supported.
+### CommandItem
 
----
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | -- | The internal value for selection |
+| `onSelect` | `(value: string) => void` | -- | Called when the item is selected |
+| `onClick` | `React.MouseEventHandler` | -- | Native click event |
+| `onKeyDown` | `React.KeyboardEventHandler` | -- | Native keydown event |
 
-### **CommandItem Props**
+*Also accepts all standard HTML `li` props.*
 
-* **`value`** (`string`, optional): The internal value for selection.
-* **`onSelect`** (`(value: string) => void`, optional): Called when the item is selected.
-* **`onClick`** (`React.MouseEventHandler`, optional): Native click event.
-* **`onKeyDown`** (`React.KeyboardEventHandler`, optional): Native keydown event.
-* **`...props`** (`React.HTMLProps<HTMLLIElement>`): All native `li` props are supported.
+### CommandGroup
 
----
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `heading` | `string` | -- | Optional heading for the group |
 
-### **CommandGroup Props**
+*Also accepts all standard HTML `div` props.*
 
-* **`heading`** (`string`, optional): Optional heading for the group.
-* **`props`** (`React.HTMLProps<HTMLDivElement>`): All native `div` props are supported.
+### CommandEmpty
 
----
+*Accepts all standard HTML `h6` props.*
 
-### **CommandEmpty Props**
+### CommandShortcut
 
-* **`props`** (`React.HTMLAttributes<HTMLHeadingElement>`): All native `h6` props are supported.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `keys` | `string` | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
+| `onKeysPressed` | `() => void` | -- | Triggered when shortcut is pressed |
+| `variant` | `'default' \| 'secondary'` | -- | Visual style variant |
 
----
+*Also accepts all standard HTML `kbd` props.*
 
-### **CommandShortcut Props**
+### CommandSeparator
 
-* **`keys`** (`string`, optional): Keyboard shortcut string (e.g. `"ctrl+K"`).
-* **`onKeysPressed`** (`() => void`, optional): Triggered when shortcut is pressed.
-* **`variant`** (`'default' | 'secondary'`, optional): Visual style variant.
-* **`...props`** (`React.HTMLProps<HTMLElement>`): All native `kbd` props are supported.
+*Accepts all standard HTML `div` props.*
 
----
+### CommandDialog
 
-### **CommandSeparator Props**
-
-* **`props`** (`React.HTMLProps<HTMLDivElement>`): All native `div` props are supported.
-
----
-
-### **CommandDialog Props**
-
-* **`props`** (`DialogProps`): All props supported by the underlying `<Dialog />` component.
-
----
+*Accepts all `Dialog` props.*
 
 ## Types
 

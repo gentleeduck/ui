@@ -9,6 +9,24 @@ component: true
   description="A toggle group with three items."
 />
 
+## Philosophy
+
+When multiple toggles share context, they become a group. ToggleGroup manages mutual exclusivity (single mode) or multi-selection, keeping the state logic out of your components. It's the same relationship as RadioGroup to Radio — the group owns the state, the items render the UI.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  ToggleGroup[ToggleGroup]
+  ToggleGroup --> variants["@gentleduck/variants"]:::internal
+  ToggleGroup --> libs["@gentleduck/libs"]:::internal
+  ToggleGroup --> Toggle["Toggle"]:::component
+  variants --> |"provides"| VariantSystem["Type-safe Variants"]
+  Toggle --> |"provides"| ItemBehavior["Individual\nToggle Behavior"]
+  ToggleGroup --> |"manages"| GroupContext["Selection Context\n(single/multiple)"]
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -109,29 +127,29 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 ## API Reference
 
-### **ToggleGroup**
+### ToggleGroup
 
-* **`variant`** (`string`, optional, default: `'default'`): Visual style variant for the toggles (passed down to items).
-* **`size`** (`string`, optional): Size variant for the toggles (passed down to items).
-* **`type`** (`'single' | 'multiple'`, optional): Determines selection behavior. `'single'` allows only one toggle selected at a time; `'multiple'` allows multiple toggles selected.
-* **`onValueChange`** (`(value: string) => void`, optional): Callback invoked when a toggle item is selected or deselected.
-* **`...props`** (`React.HTMLProps<HTMLUListElement>`): Additional native props forwarded to the root `<ul>` element.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `string` | `'default'` | Visual style variant for the toggles (passed down to items) |
+| `size` | `string` | `--` | Size variant for the toggles (passed down to items) |
+| `type` | `'single' \| 'multiple'` | `--` | Determines selection behavior. `'single'` allows only one toggle selected at a time; `'multiple'` allows multiple toggles selected |
+| `onValueChange` | `(value: string) => void` | `--` | Callback invoked when a toggle item is selected or deselected |
 
----
+*Also accepts all standard HTML `ul` props.*
 
 **Behavior:**
 Renders a group of toggle items as a flex container. Manages internal refs for all toggle items and tracks selected toggles depending on the `type` (`single` or `multiple`). Selection state is synchronized via ARIA attributes and the native `checked` property on underlying inputs. The `onValueChange` callback is called with the value of the selected toggle(s). Supports `variant` and `size` styling passed down to child toggles.
 
----
+### ToggleGroupItem
 
-### **ToggleGroupItem**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `string` | `--` | Visual style variant for the toggle item |
+| `size` | `string` | `--` | Size variant for the toggle item |
+| `value` | `string` | (required) | The unique value identifying this toggle item |
 
-* **`variant`** (`string`, optional): Visual style variant for the toggle item.
-* **`size`** (`string`, optional): Size variant for the toggle item.
-* **`value`** (`string`, required): The unique value identifying this toggle item.
-* **`...props`** (`React.ComponentProps<typeof Toggle.Toggle>`): Additional props forwarded to the internal `Toggle.Toggle` component.
-
----
+*Also accepts all standard `Toggle.Toggle` props.*
 
 **Behavior:**
 Represents an individual toggle item inside a `ToggleGroup`. Receives style and behavior context from the parent group via React context. The item updates the group's selection state on interaction and synchronizes its own checked state and ARIA attributes accordingly. The `duck-toggle-group-item` attribute is added for targeting.

@@ -18,6 +18,24 @@ component: true
 - Lightweight, **ref-forwarding**, and easily composable
 - Powered by `@gentleduck/variants` for scalable, consistent design
 
+## Philosophy
+
+A badge is metadata made visible. It labels, categorizes, and quantifies without demanding interaction. We deliberately keep badges non-interactive by default — if you need a clickable label, compose it with a button. This constraint keeps the component's purpose clear and its accessibility story simple.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Badge[Badge]
+  Badge --> variants["@gentleduck/variants"]:::internal
+  Badge --> primitives["@gentleduck/primitives\n/slot"]:::internal
+  Badge --> libs["@gentleduck/libs"]:::internal
+  variants --> |"provides"| VariantSystem["Type-safe Variants\n(style, size, border)"]
+  primitives --> |"provides"| AsChild["asChild Rendering"]
+  Badge --> |"adds"| NonInteractive["Non-interactive\nby Default"]
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -144,11 +162,12 @@ const MyBadge = () => {
 
 ## API Reference
 
-### **Badge Props**
+### Badge
 
-- **`size`** (`'default' | 'sm' | 'lg' | 'icon'`, optional):
-- **`variant`** (`'default' | 'secondary' | 'destructive' | 'warning' | 'dashed' | 'outline' | 'nothing'`, optional):
-- **`border`** (`'default' | 'primary' | 'secondary' | 'destructive' | 'warning'`, optional):
-- **`...props`** (`React.HTMLAttributes<HTMLDivElement>`):
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `'default' \| 'secondary' \| 'destructive' \| 'warning' \| 'dashed' \| 'outline' \| 'nothing'` | `'default'` | Visual style of the badge |
+| `size` | `'default' \| 'sm' \| 'lg' \| 'icon'` | `'default'` | Size of the badge |
+| `border` | `'default' \| 'primary' \| 'secondary' \| 'destructive' \| 'warning'` | -- | Border style variant |
 
----
+*Also accepts all standard HTML `div` props.*

@@ -10,6 +10,10 @@ component: true
   description="An accordion with three items"
 />
 
+## Philosophy
+
+Accordions solve the progressive disclosure problem — show the outline, hide the details until requested. We use a compound component pattern (Accordion → AccordionItem → AccordionTrigger + AccordionContent) because each piece needs independent control while sharing open/close state. The `type="single"` vs `type="multiple"` distinction maps directly to whether sections are mutually exclusive.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -34,7 +38,7 @@ npx @gentleduck/cli add accordion
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/primitives @gentledduck/motion @gentleduck/libs
+npm install @gentleduck/primitives @gentleduck/motion @gentleduck/libs
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -87,39 +91,53 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
   description="accordion multiple"
 />
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Accordion] --> B[AccordionItem]
+    B --> C[AccordionTrigger]
+    B --> D[AccordionContent]
+`} />
+
 ## API Reference
 
-### **Accordion**
+### Accordion
 
-* **`type?: 'single' | 'multiple'`** (default: `'single'`): Defines accordion behavior. `'single'` allows only one open item; `'multiple'` allows multiple open items.
-* **`defaultValue?: string | string[]`**: Sets initial open state(s); string for single type, array for multiple.
-* **`value?: string | string[]`**: Controlled open state(s); requires `onValueChange` for updates.
-* **`onValueChange?: (value: string | string[]) => void`**: Callback fired when open state changes.
-* **`collapsible?: boolean`** (default: `true`, single type only): Allows collapsing the currently open item by clicking again.
-* **`rerender?: boolean`** (default: `false`): Forces internal re-render on each toggle, enabling conditional remount with `renderOnce`.
-* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `'single' \| 'multiple'` | `'single'` | Defines accordion behavior. `'single'` allows only one open item; `'multiple'` allows multiple open items |
+| `defaultValue` | `string \| string[]` | -- | Sets initial open state(s); string for single type, array for multiple |
+| `value` | `string \| string[]` | -- | Controlled open state(s); requires `onValueChange` for updates |
+| `onValueChange` | `(value: string \| string[]) => void` | -- | Callback fired when open state changes |
+| `collapsible` | `boolean` | `true` | Allows collapsing the currently open item by clicking again (single type only) |
+| `rerender` | `boolean` | `false` | Forces internal re-render on each toggle, enabling conditional remount with `renderOnce` |
 
----
+*Also accepts all standard HTML `div` props.*
 
-### **AccordionItem Props**
+### AccordionItem Props
 
-* **`value: string`**: Unique identifier tying trigger to content.
-* **`renderOnce?: boolean`** (default: `false`): Mounts content only on first expand and preserves it.
-* **`children: [trigger: ReactNode, content: ReactNode]`**: Two nodes: first the `AccordionTrigger`, second the `AccordionContent`.
-* **`...props?: React.HTMLProps<HTMLDetailsElement>`**: Other native `<details>` props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | (required) | Unique identifier tying trigger to content |
+| `renderOnce` | `boolean` | `false` | Mounts content only on first expand and preserves it |
+| `children` | `[trigger: ReactNode, content: ReactNode]` | (required) | Two nodes: first the `AccordionTrigger`, second the `AccordionContent` |
 
----
+*Also accepts all standard HTML `details` props.*
 
-### **AccordionTrigger Props**
+### AccordionTrigger Props
 
-* **`value?: string`**: Identifier matching parent item’s `value`.
-* **`icon?: ReactNode`**: Custom icon component; defaults to a rotating ChevronDown.
-* **`...props?: React.HTMLProps<HTMLElement>`**: Other native `<summary>` props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | -- | Identifier matching parent item's `value` |
+| `icon` | `ReactNode` | -- | Custom icon component; defaults to a rotating ChevronDown |
 
----
+*Also accepts all standard HTML `summary` props.*
 
-### **AccordionContent Props**
+### AccordionContent Props
 
-* **`rerender?: boolean`** (default: `false`): Controls remount behavior based on parent context.
-* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `rerender` | `boolean` | `false` | Controls remount behavior based on parent context |
+
+*Also accepts all standard HTML `div` props.*
 

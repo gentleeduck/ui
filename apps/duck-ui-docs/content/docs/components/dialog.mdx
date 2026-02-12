@@ -9,6 +9,30 @@ component: true
   description="A dialog for editing profile details."
 />
 
+## Philosophy
+
+Dialogs demand attention and block interaction — use them when the user *must* make a decision before continuing. We split the anatomy into DialogTrigger, DialogContent, DialogHeader, etc. because every dialog has different needs but the same accessibility requirements: focus trapping, escape dismissal, and return focus.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Dialog[Dialog]
+  Dialog --> primitives["@gentleduck/primitives\n/dialog"]:::internal
+  Dialog --> motion["@gentleduck/motion"]:::internal
+  Dialog --> hooks["@gentleduck/hooks"]:::internal
+  Dialog --> libs["@gentleduck/libs"]:::internal
+  Dialog --> lucide["lucide-react"]:::external
+
+  primitives --> |"provides"| FocusTrap["Focus Trapping"]
+  primitives --> |"provides"| Portal["Portal Rendering"]
+  primitives --> |"provides"| EscDismiss["Escape Dismiss"]
+  motion --> |"provides"| AnimVariants["Entry/Exit\nAnimations"]
+  hooks --> |"provides"| MediaQuery["useMediaQuery\n(Responsive)"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -115,71 +139,97 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 </Dialog>
 ```
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Dialog] --> B[DialogTrigger]
+    A --> C[DialogContent]
+    C --> D[DialogHeader]
+    C --> E[DialogFooter]
+    D --> F[DialogTitle]
+    D --> G[DialogDescription]
+    C --> H[DialogCloseX]
+`} />
+
 ## API Reference
 
-### **Dialog**
+### Dialog
 
-* **`closeButton`** (`boolean`, optional): Whether to display a close button. Default: `true`.
-* **`...props`** (`DialogPrimitive.Root` props): All props supported by `DialogPrimitive.Root`.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `closeButton` | `boolean` | `true` | Whether to display a close button |
 
----
+*Also accepts all standard `DialogPrimitive.Root` props.*
 
-### **DialogTrigger**
+### DialogTrigger
 
-* **`children`** (`React.ReactNode`): Content to render inside the trigger button.
-* **`...props`** (`Omit<DialogPrimitive.Trigger, 'size' | 'asChild'> & Omit<Button, 'asChild'>`): Props from both `DialogPrimitive.Trigger` and `Button` components.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Content to render inside the trigger button |
 
----
+*Also accepts all `Omit<DialogPrimitive.Trigger, 'size' \| 'asChild'> & Omit<Button, 'asChild'>` props.*
 
-### **DialogCloseX**
+### DialogCloseX
 
-* **`size`** (`number`, optional): Icon size in pixels. Default: `16`.
-* **`children`** (`React.ReactNode`, optional): Custom content instead of the default `<X />` icon.
-* **`...props`** (`React.HTMLProps<HTMLButtonElement>`): Native button props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `number` | `16` | Icon size in pixels |
+| `children` | `React.ReactNode` | -- | Custom content instead of the default `<X />` icon |
 
----
+*Also accepts all standard HTML `button` props.*
 
-### **DialogContent**
+### DialogContent
 
-* **`renderOnce`** (`boolean`, optional): Whether to render the content only once. Default: `false`.
-* **`overlay`** (`string`, optional): Overlay animation variant. Default: `'default'`.
-* **`closedby`** (`string`, optional): How the dialog can be closed. Default: `'any'`.
-* **`animation`** (`string`, optional): Dialog animation style. Default: `'default'`.
-* **`className`** (`string`, optional): Additional class names.
-* **`children`** (`React.ReactNode`): Dialog inner content.
-* **`...props`** (`DialogContentProps`): All props from `DialogContentProps`.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `renderOnce` | `boolean` | `false` | Whether to render the content only once |
+| `overlay` | `string` | `'default'` | Overlay animation variant |
+| `closedby` | `string` | `'any'` | How the dialog can be closed |
+| `animation` | `string` | `'default'` | Dialog animation style |
+| `className` | `string` | -- | Additional class names |
+| `children` | `React.ReactNode` | -- | Dialog inner content |
 
----
+*Also accepts all `DialogContentProps` props.*
 
-### **DialogHeader**
+### DialogHeader
 
-* **`className`** (`string`, optional): Additional class names.
-* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Native `div` element props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names |
 
----
+*Also accepts all standard HTML `div` props.*
 
-### **DialogFooter**
+### DialogFooter
 
-* **`className`** (`string`, optional): Additional class names.
-* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Native `div` element props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names |
 
----
+*Also accepts all standard HTML `div` props.*
 
-### **DialogTitle**
+### DialogTitle
 
-* **`className`** (`string`, optional): Additional class names.
-* **`...props`** (`React.HTMLProps<HTMLHeadingElement>`): Native heading element props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names |
 
----
+*Also accepts all standard HTML `heading` props.*
 
-### **DialogDescription**
+### DialogDescription
 
-* **`className`** (`string`, optional): Additional class names.
-* **`...props`** (`React.HTMLProps<HTMLParagraphElement>`): Native paragraph element props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names |
 
----
+*Also accepts all standard HTML `p` props.*
 
-### **DialogClose**
+### DialogClose
 
-* **Alias of**: `DialogTrigger`.
+Alias of `DialogTrigger`.
+
+## See also
+
+- [Sheet](/docs/components/sheet) — Side panel overlay, extends Dialog
+- [Drawer](/docs/components/drawer) — Bottom drawer overlay, great for mobile
+- [Alert Dialog](/docs/components/alert-dialog) — Confirmation dialog that requires user action
 

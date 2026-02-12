@@ -6,6 +6,28 @@ component: true
 
 <ComponentPreview name="checkbox-1" description="A checkbox" />
 
+## Philosophy
+
+Checkboxes are deceptively complex. A simple checked/unchecked state becomes indeterminate for parent/child relationships, needs accessible labels, and must work in both controlled and uncontrolled modes. We handle all of this with native checkbox semantics and custom SVG indicators, so the visual design is yours while the behavior is correct.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Checkbox[Checkbox]
+  Checkbox --> primitives["@gentleduck/primitives\n/checkers"]:::internal
+  Checkbox --> motion["@gentleduck/motion"]:::internal
+  Checkbox --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"provides"| SvgIndicator["useSvgIndicator\n(check/indeterminate)"]
+  primitives --> |"provides"| NativeInput["Native Checkbox\nInput"]
+  motion --> |"provides"| AnimVariants["Check Animation"]
+  Checkbox --> |"adds"| WithLabel["CheckboxWithLabel\ncomposition"]
+  Checkbox --> |"adds"| Group["CheckboxGroup\nmulti-select"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -56,36 +78,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 <Checkbox />
 ```
 
-## API
-
-### `Checkbox`
-
-* **`indicator?: React.ReactElement`** – Custom SVG or element to display as the unchecked indicator.
-* **`checkedIndicator?: React.ReactElement`** – Custom SVG or element to display when checked.
-* **`checked?: boolean | 'indeterminate'`** – Controlled checked state.
-* **`defaultChecked?: boolean | 'indeterminate'`** – Initial checked state (uncontrolled).
-* **`onCheckedChange?: (checked: boolean | 'indeterminate') => void`** – Callback when the checked state changes.
-* *(plus all native `input` attributes except `checked`, `onChange`, and `defaultChecked`)*
-
----
-
-### `CheckboxWithLabel`
-
-* **`_checkbox: CheckboxProps`** – Props forwarded to the internal `<Checkbox />`.
-* **`_label: React.ComponentPropsWithoutRef<typeof Label>`** – Props forwarded to the `<Label />`.
-* **`id?: string`** – Used to link the checkbox and label via `htmlFor`.
-* *(plus all native `div` props)*
-
----
-
-### `CheckboxGroup`
-
-* **`subtasks: { id: string; title: string; checked?: boolean | 'indeterminate' }[]`** – Array of checkbox items.
-* **`subtasks_default_values?: CheckboxWithLabelProps`** – Default props applied to all subtasks.
-* *(plus all native `div` props)*
-
----
-
 ## Examples
 
 ### Basic uncontrolled checkbox
@@ -115,17 +107,30 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 <ComponentPreview name="checkbox-8" />
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Checkbox] --> B[Hidden Input]
+    A --> C[SVG Indicator]
+    D[CheckboxWithLabel] --> A
+    D --> E[Label]
+    F[CheckboxGroup] --> D
+`} />
+
 ## API Reference
 
-### **Checkbox**
+### Checkbox
 
-* **`indicator`** (`React.ReactElement`, optional): Custom SVG or icon for unchecked state indicator.
-* **`checkedIndicator`** (`React.ReactElement`, optional): Custom SVG or icon for checked state indicator.
-* **`checked`** (`boolean | 'indeterminate'`, optional): Controlled checked state.
-* **`defaultChecked`** (`boolean | 'indeterminate'`, optional, default: `false`): Initial checked state if uncontrolled.
-* **`onCheckedChange`** (`(checked: boolean | 'indeterminate') => void`, optional): Callback fired when checked state changes.
-* **`ref`** (`React.Ref<HTMLInputElement>`, optional): Ref forwarded to the native checkbox input.
-* **`...props`** (`React.HTMLProps<HTMLInputElement>`): Native `<input type="checkbox">` element props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `indicator` | `React.ReactElement` | -- | Custom SVG or icon for unchecked state indicator |
+| `checkedIndicator` | `React.ReactElement` | -- | Custom SVG or icon for checked state indicator |
+| `checked` | `boolean \| 'indeterminate'` | -- | Controlled checked state |
+| `defaultChecked` | `boolean \| 'indeterminate'` | `false` | Initial checked state if uncontrolled |
+| `onCheckedChange` | `(checked: boolean \| 'indeterminate') => void` | -- | Callback fired when checked state changes |
+| `ref` | `React.Ref<HTMLInputElement>` | -- | Ref forwarded to the native checkbox input |
+
+*Also accepts all standard HTML `input` props.*
 
 **Behavior:**
 
@@ -134,33 +139,40 @@ import { Checkbox } from "@/components/ui/checkbox"
 * Renders a hidden SVG indicator element (using `useSvgIndicator` hook).
 * Supports custom indicators for checked and unchecked states.
 
----
+### CheckboxWithLabel
 
-### **CheckboxWithLabel**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | (required) | HTML `id` attribute to link checkbox and label |
+| `_checkbox` | `React.ComponentPropsWithoutRef<typeof Checkbox>` | (required) | Props passed to the internal `Checkbox` component |
+| `_label` | `React.ComponentPropsWithoutRef<typeof Label>` | (required) | Props passed to the internal `Label` component |
+| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the wrapping div |
 
-* **`id`** (`string`, required): HTML `id` attribute to link checkbox and label.
-* **`_checkbox`** (`React.ComponentPropsWithoutRef<typeof Checkbox>`, required): Props passed to the internal `Checkbox` component.
-* **`_label`** (`React.ComponentPropsWithoutRef<typeof Label>`, required): Props passed to the internal `Label` component.
-* **`ref`** (`React.Ref<HTMLDivElement>`, optional): Ref forwarded to the wrapping div.
-* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Native div props.
+*Also accepts all standard HTML `div` props.*
 
 **Behavior:**
 
 * Wraps a `Checkbox` and a linked `Label` with consistent layout and spacing.
 * Ensures accessibility via matching `htmlFor` and `id`.
 
----
+### CheckboxGroup
 
-### **CheckboxGroup**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `subtasks` | `Array<{ id: string; title: string; checked?: boolean \| 'indeterminate' }>` | (required) | Array of subtasks to render as individual checkboxes with labels |
+| `subtasks_default_values` | `CheckboxWithLabelProps` | -- | Default props applied to each checkbox and label in the group |
+| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the wrapping div |
 
-* **`subtasks`** (`Array<{ id: string; title: string; checked?: boolean | 'indeterminate' }>`, required): Array of subtasks to render as individual checkboxes with labels.
-* **`subtasks_default_values`** (`CheckboxWithLabelProps`, optional): Default props applied to each checkbox and label in the group.
-* **`ref`** (`React.Ref<HTMLDivElement>`, optional): Ref forwarded to the wrapping div.
-* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Native div props.
+*Also accepts all standard HTML `div` props.*
 
 **Behavior:**
 
 * Renders a vertical list of `CheckboxWithLabel` components.
 * Applies default checkbox and label props to all items unless overridden.
 * Supports controlled checked state for each subtask.
+
+## See also
+
+- [Radio Group](/docs/components/radio-group) — Single selection from a set of options
+- [Switch](/docs/components/switch) — Toggle between on and off states
 

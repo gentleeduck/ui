@@ -9,6 +9,10 @@ component: true
   description="An alert dialog with cancel and continue buttons."
 />
 
+## Philosophy
+
+Alert dialogs are the nuclear option of UI interruption. Unlike regular dialogs, they can't be dismissed by clicking outside or pressing Escape — the user must explicitly choose an action. Reserve them for destructive operations where an accidental dismissal could mean data loss.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -44,7 +48,7 @@ npm install @gentleduck/primitives
 
 <Step>Add the `Dialog` component to your project.</Step>
 
-The `AlertDialog` component uses the `[Dialog](/docs/components/dialog)` component. Make sure you have it installed in your project.
+The `AlertDialog` component uses the [`Dialog`](/docs/components/dialog) component. Make sure you have it installed in your project.
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -89,27 +93,41 @@ import { Button } from '@/components/ui/button';
 </AlertDialog>
 ```
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[AlertDialog] --> B[AlertDialogTrigger]
+    A --> C[AlertDialogContent]
+    C --> D[AlertDialogHeader]
+    C --> E[AlertDialogFooter]
+    D --> F[AlertDialogTitle]
+    D --> G[AlertDialogDescription]
+    E --> H[AlertDialogAction]
+    E --> I[AlertDialogCancel]
+`} />
+
 ## API Reference
 
-### **AlertDialogProps**
+### AlertDialogProps
 
-- **`defaultOpen`** (`boolean`, optional): Determines if the dialog should be open by default.
-- **`open`** (`boolean`, optional): Controls the visibility of the dialog.
-- **`onOpenChange`** (`(open: boolean) => void`, optional): Callback function triggered when the dialog opens or closes.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `defaultOpen` | `boolean` | -- | Determines if the dialog should be open by default |
+| `open` | `boolean` | -- | Controls the visibility of the dialog |
+| `onOpenChange` | `(open: boolean) => void` | -- | Callback function triggered when the dialog opens or closes |
 
----
+### AlertDialogTrigger
 
-### **AlertDialogTrigger**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | -- | If `true`, the trigger will be rendered as a child element |
 
-- **`asChild`** (`boolean`): If `true`, the trigger will be rendered as a child element.
+### AlertDialogContent
 
----
-
-### **AlertDialogContent**
-
-- **`asChild`** (`boolean`): If `true`, the content will be rendered as a child element.
-- **`forceMount`** (`boolean`): If `true`, forces the content to mount.
-
-- **`onOpenAutoFocus`** (`(event: Event) => void`): Callback for managing focus when the dialog opens.
-- **`onCloseAutoFocus`** (`(event: Event) => void`): Callback for managing focus when the dialog closes.
-- **`onEscapeKeyDown`** (`(event: KeyboardEvent) => void`): Callback for handling the Escape key press.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | -- | If `true`, the content will be rendered as a child element |
+| `forceMount` | `boolean` | -- | If `true`, forces the content to mount |
+| `onOpenAutoFocus` | `(event: Event) => void` | -- | Callback for managing focus when the dialog opens |
+| `onCloseAutoFocus` | `(event: Event) => void` | -- | Callback for managing focus when the dialog closes |
+| `onEscapeKeyDown` | `(event: KeyboardEvent) => void` | -- | Callback for handling the Escape key press |

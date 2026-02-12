@@ -9,6 +9,10 @@ component: true
   description="A pagination with previous and next links."
 />
 
+## Philosophy
+
+Pagination is a navigation pattern, not a data-fetching pattern. We provide the visual components (page buttons, next/previous, ellipsis) and let you wire them to your data layer. This separation means the same pagination UI works whether you're paginating a client-side array, an API, or a database cursor.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -108,98 +112,101 @@ const PaginationLink = ({...props }: ) => (
 
 ```
 
-<Callout className="mt-6">
+<Callout icon={<Lightbulb />} className="mt-6">
 
 **Note:** We are making updates to the cli to automatically do this for you.
 
 </Callout>
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Pagination] --> B[PaginationContent]
+    B --> C[PaginationItem]
+    C --> D[PaginationPrevious]
+    C --> E[PaginationLink]
+    C --> F[PaginationNext]
+    C --> G[PaginationEllipsis]
+    A -.-> H[PaginationWrapper]
+`} />
+
 ## API Reference
 
-### **Pagination**
+### Pagination
 
-* **`props`** (`React.HTMLProps<HTMLHeadElement>`): Native props forwarded to the `<nav>` element.
+*Accepts all standard HTML `nav` props.*
 
 **Behavior:**
 
 * Wrapper `<nav>` element with role `navigation` and `aria-label="pagination"`.
 * Centers the pagination content by default.
 
----
+### PaginationContent
 
-### **PaginationContent**
-
-* **`props`** (`React.HTMLProps<HTMLUListElement>`): Native props forwarded to the `<ul>` element.
+*Accepts all standard HTML `ul` props.*
 
 **Behavior:**
 
 * Displays pagination items in a horizontal flex row with gaps.
 
----
+### PaginationItem
 
-### **PaginationItem**
-
-* **`props`** (`React.HTMLProps<HTMLLIElement>`): Native props forwarded to the `<li>` element.
+*Accepts all standard HTML `li` props.*
 
 **Behavior:**
 
 * Wraps individual pagination controls or links.
 
----
+### PaginationLink
 
-### **PaginationLink**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `isActive` | `boolean` | -- | Marks the link as active/current page (adds `aria-current="page"` and styles) |
+| `size` | `'icon' \| 'default' \| 'sm'` | `'icon'` | Size variant for the button style |
 
-* **`isActive`** (`boolean`, optional): Marks the link as active/current page (adds `aria-current="page"` and styles).
-* **`size`** (`'icon' | 'default' | 'sm'`, optional, default: `'icon'`): Size variant for the button style.
-* **`...props`** (`React.HTMLProps<HTMLAnchorElement>`): Native props forwarded to the `<a>` element.
+*Also accepts all standard HTML `a` props.*
 
 **Behavior:**
 
 * Styled link element representing a page number or control.
 * Uses different variants for active and inactive states.
 
----
+### PaginationPrevious
 
-### **PaginationPrevious**
+Extends `PaginationLink` with:
 
-* Extends **PaginationLink** with:
+* `aria-label="Go to previous page"`
+* Shows left arrow icon and text "Previous".
+* Uses `'default'` size and adds spacing classes.
 
-  * `aria-label="Go to previous page"`
-  * Shows left arrow icon and text "Previous".
-  * Uses `'default'` size and adds spacing classes.
+### PaginationNext
 
----
+Extends `PaginationLink` with:
 
-### **PaginationNext**
+* `aria-label="Go to next page"`
+* Shows text "Next" and right arrow icon.
+* Uses `'default'` size and adds spacing classes.
 
-* Extends **PaginationLink** with:
+### PaginationEllipsis
 
-  * `aria-label="Go to next page"`
-  * Shows text "Next" and right arrow icon.
-  * Uses `'default'` size and adds spacing classes.
-
----
-
-### **PaginationEllipsis**
-
-* **`props`** (`React.HTMLProps<HTMLSpanElement>`): Native props forwarded to the `<span>` element.
+*Accepts all standard HTML `span` props.*
 
 **Behavior:**
 
 * Displays a non-interactive ellipsis icon with screen-reader text "More pages".
 * Used to indicate skipped page numbers.
 
----
+### PaginationWrapper
 
-### **PaginationWrapper**
-
-* **`wrapper`** (`React.ComponentPropsWithoutRef<typeof Pagination>`, optional): Props for the pagination container.
-* **`content`** (`React.ComponentPropsWithoutRef<typeof PaginationContent>`, optional): Props for the content list.
-* **`item`** (`React.ComponentPropsWithoutRef<typeof PaginationItem>`, optional): Props for each pagination item.
-* **`right`** (`React.ComponentPropsWithoutRef<typeof Button>`, optional): Props for the "Next" button.
-* **`maxRight`** (`React.ComponentPropsWithoutRef<typeof Button>`, optional): Props for the "Last" button.
-* **`left`** (`React.ComponentPropsWithoutRef<typeof Button>`, optional): Props for the "Previous" button.
-* **`maxLeft`** (`React.ComponentPropsWithoutRef<typeof Button>`, optional): Props for the "First" button.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `wrapper` | `React.ComponentPropsWithoutRef<typeof Pagination>` | -- | Props for the pagination container |
+| `content` | `React.ComponentPropsWithoutRef<typeof PaginationContent>` | -- | Props for the content list |
+| `item` | `React.ComponentPropsWithoutRef<typeof PaginationItem>` | -- | Props for each pagination item |
+| `right` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "Next" button |
+| `maxRight` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "Last" button |
+| `left` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "Previous" button |
+| `maxLeft` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "First" button |
 
 **Behavior:**
 

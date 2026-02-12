@@ -6,6 +6,10 @@ component: true
 
 <ComponentPreview name="card-1" description="A card with a form" />
 
+## Philosophy
+
+Cards are the universal container for grouped content. We decompose them into Header, Content, Footer, Title, and Description not because every card needs all five, but because real-world cards vary enormously. A pricing card needs a footer; a notification card doesn't. The sub-component pattern lets you compose exactly what you need.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -77,63 +81,63 @@ import {
 <ComponentPreview name="card-2" description="A card with a form" />
 
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Card] --> B[CardHeader]
+    A --> C[CardContent]
+    A --> D[CardFooter]
+    B --> E[CardTitle]
+    B --> F[CardDescription]
+`} />
+
 ## API Reference
 
-### **Card**
+### Card
 
-* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): All other standard `<div>` attributes.
+*Accepts all standard HTML `div` props.*
 
 **Behavior:**
 
 * Base container with rounded corners, border, background color (`bg-card`), and shadow (`shadow-xs`).
 * Uses `forwardRef` for ref forwarding.
 
----
+### CardHeader
 
-### **CardHeader**
-
-* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): All other standard `<div>` attributes.
+*Accepts all standard HTML `div` props.*
 
 **Behavior:**
 
 * Vertically stacked layout with spacing (`space-y-1.5`).
 * Padding (`p-6`) for consistent header spacing.
 
----
+### CardTitle
 
-### **CardTitle**
-
-* **`props`** (`React.HTMLAttributes<HTMLHeadingElement>`): All other heading attributes.
+*Accepts all standard HTML `heading` props.*
 
 **Behavior:**
 
 * Semibold, large heading style (`text-2xl`, `leading-none`, `tracking-tight`).
 
----
+### CardDescription
 
-### **CardDescription**
-
-* **`props`** (`React.HTMLAttributes<HTMLParagraphElement>`): All other `<p>` attributes.
+*Accepts all standard HTML `p` props.*
 
 **Behavior:**
 
 * Muted text style (`text-muted-foreground`, `text-sm`).
 
----
+### CardContent
 
-### **CardContent**
-
-* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): All other standard `<div>` attributes.
+*Accepts all standard HTML `div` props.*
 
 **Behavior:**
 
 * Padding (`p-6`) with no top padding (`pt-0`) for a clean visual separation from the header.
 
----
+### CardFooter
 
-### **CardFooter**
-
-* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): All other standard `<div>` attributes.
+*Accepts all standard HTML `div` props.*
 
 **Behavior:**
 

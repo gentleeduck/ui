@@ -18,6 +18,30 @@ We have built a collection of 30+ calendar blocks that you can use to build your
 
 See all calendar blocks in the [Blocks Library](/blocks/calendar) page.
 
+## Philosophy
+
+Calendars are complex accessibility challenges disguised as simple grids. We build on React DayPicker's battle-tested foundation for keyboard navigation, ARIA labels, and locale support, then style it to match the design system. The split between Calendar and CalendarDayButton gives you control over individual day rendering without reimplementing the grid logic.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Calendar[Calendar]
+  Calendar --> rdp["react-day-picker"]:::external
+  Calendar --> libs["@gentleduck/libs"]:::internal
+  Calendar --> Button["Button"]:::component
+  Calendar --> lucide["lucide-react"]:::external
+
+  rdp --> |"provides"| DayGrid["Day Grid Layout"]
+  rdp --> |"provides"| DateLogic["Date Selection Logic"]
+  rdp --> |"provides"| A11y["ARIA & Keyboard Nav"]
+  Calendar --> |"adds"| CustomDayButton["CalendarDayButton"]
+  Calendar --> |"adds"| Styling["Tailwind Styling"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -422,16 +446,19 @@ This will install the latest version of the calendar blocks.
 
 ## API Reference
 
-## **Calendar**
+### Calendar
 
-* **`buttonVariant`** (`React.ComponentProps<typeof Button>['variant']`, optional): Variant style for the calendar’s navigation buttons. Default: `'ghost'`.
-* **`className`** (`string`, optional): Additional class names for the root calendar container.
-* **`classNames`** (`Partial<ReturnType<typeof getDefaultClassNames>>`, optional): Overrides for internal DayPicker class names.
-* **`showOutsideDays`** (`boolean`, optional): Whether to show days from the previous/next month in the current month view. Default: `true`.
-* **`captionLayout`** (`'buttons' | 'dropdown' | 'label'`, optional): Layout for the month/year caption. Default: `'label'`.
-* **`formatters`** (`DayPicker['formatters']`, optional): Custom formatting functions for dates and labels.
-* **`components`** (`DayPicker['components']`, optional): Custom component overrides for internal DayPicker parts.
-* **`...props`** (`React.ComponentProps<typeof DayPicker>`): All other `react-day-picker` props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `buttonVariant` | `React.ComponentProps<typeof Button>['variant']` | `'ghost'` | Variant style for the calendar's navigation buttons |
+| `className` | `string` | -- | Additional class names for the root calendar container |
+| `classNames` | `Partial<ReturnType<typeof getDefaultClassNames>>` | -- | Overrides for internal DayPicker class names |
+| `showOutsideDays` | `boolean` | `true` | Whether to show days from the previous/next month in the current month view |
+| `captionLayout` | `'buttons' \| 'dropdown' \| 'label'` | `'label'` | Layout for the month/year caption |
+| `formatters` | `DayPicker['formatters']` | -- | Custom formatting functions for dates and labels |
+| `components` | `DayPicker['components']` | -- | Custom component overrides for internal DayPicker parts |
+
+*Also accepts all standard `React.ComponentProps<typeof DayPicker>` props.*
 
 **Behavior:**
 
@@ -441,14 +468,15 @@ This will install the latest version of the calendar blocks.
 * Supports date ranges, single-date selection, and week numbers.
 * Automatically focuses the currently highlighted day.
 
----
+### CalendarDayButton
 
-## **CalendarDayButton**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `day` | `DateObj` | (required) | The date object for this cell from `react-day-picker` |
+| `modifiers` | `DayModifiers` | (required) | Selection and state flags for the day (e.g., `selected`, `range_start`) |
+| `className` | `string` | -- | Additional class names for styling the day button |
 
-* **`day`** (`DateObj`, required): The date object for this cell from `react-day-picker`.
-* **`modifiers`** (`DayModifiers`, required): Selection and state flags for the day (e.g., `selected`, `range_start`).
-* **`className`** (`string`, optional): Additional class names for styling the day button.
-* **`...props`** (`React.ComponentProps<typeof DayButton>`): Native `DayButton` props from `react-day-picker`.
+*Also accepts all standard `React.ComponentProps<typeof DayButton>` props.*
 
 **Behavior:**
 

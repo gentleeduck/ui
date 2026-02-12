@@ -9,6 +9,10 @@ component: true
   description="A collapsible component."
 />
 
+## Philosophy
+
+Collapsible is the simplest disclosure primitive — it shows and hides content. Unlike Accordion, it doesn't manage a group of items or enforce single-selection. Use it for individual expand/collapse needs like "show more" sections, advanced settings, or code blocks. It's the building block that Accordion is built on.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -70,3 +74,40 @@ import {
   </CollapsibleContent>
 </Collapsible>
 ```
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Collapsible] --> B[CollapsibleTrigger]
+    A --> C[CollapsibleContent]
+`} />
+
+## API Reference
+
+### Collapsible
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | -- | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | -- | Callback fired when open state changes |
+| `defaultOpen` | `boolean` | `false` | Initial open state when uncontrolled |
+
+*Also accepts all standard HTML `div` props.*
+
+### CollapsibleTrigger
+
+*Accepts all `Button` props.*
+
+**Behavior:**
+Renders a button (defaults to `variant="ghost"`) that toggles the collapsible open/close state. Sets `aria-expanded` and `aria-controls` automatically.
+
+### CollapsibleContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `boolean` | `false` | When `true`, content is always mounted in the DOM regardless of open state |
+
+*Also accepts all standard HTML `section` props.*
+
+**Behavior:**
+Renders an animated `<section>` that expands and collapses based on open state. Uses `MountMinimal` internally to conditionally mount children.

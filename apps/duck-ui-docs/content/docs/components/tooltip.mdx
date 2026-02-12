@@ -19,6 +19,28 @@ component: true
 - **Accessible by default** – Implements proper ARIA attributes and keyboard navigation.
 - **Portal rendering** – Renders tooltips in a portal to avoid layout clipping.
 
+## Philosophy
+
+Tooltips are the lightest touch of contextual help — they appear on hover, require no interaction, and disappear when attention moves on. We build on Floating UI because positioning against viewport edges, scroll containers, and dynamic layouts is harder than it looks. The `data-open` and `data-side` attributes give you animation hooks without JavaScript state management.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Tooltip[Tooltip]
+  Tooltip --> primitives["@gentleduck/primitives\n/tooltip"]:::internal
+  Tooltip --> motion["@gentleduck/motion"]:::internal
+  Tooltip --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"uses"| floatingUI["Floating UI"]:::external
+  primitives --> |"provides"| Positioning["Smart Positioning\n(flip, shift, offset)"]
+  primitives --> |"provides"| A11y["ARIA Attributes"]
+  motion --> |"provides"| AnimVariants["Direction-aware\nAnimations"]
+  Tooltip --> |"exposes"| DataAttrs["data-open\ndata-side\nCSS hooks"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -116,37 +138,39 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 ## API Reference
 
-### **Tooltip**
+### Tooltip
 
-* **`placement`** (`Placement`, optional, default: `'top'`): Tooltip placement relative to the trigger.
-* **`open`** (`boolean`, optional): Controlled open state.
-* **`defaultOpen`** (`boolean`, optional): Uncontrolled initial open state.
-* **`onOpenChange`** (`(open: boolean) => void`, optional): Callback when open state changes.
-* **`delayDuration`** (`number`, optional): Milliseconds delay before showing or hiding the tooltip.
-* **`skipDelayDuration`** (`number`, optional): Rest time in ms before opening when the pointer stops moving.
-* **`sideOffset`** (`number`, optional): Offset along the main axis.
-* **`alignOffset`** (`number`, optional): Offset along the cross axis.
-* **`mainAxis`** (`boolean`, optional): Enables main-axis flipping while positioning.
-* **`modal`** (`boolean`, optional): Enables focus management for the tooltip content.
-* **`...props`** (`React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>`): Additional props forwarded to the underlying Tooltip root component.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `placement` | `Placement` | `'top'` | Tooltip placement relative to the trigger |
+| `open` | `boolean` | -- | Controlled open state |
+| `defaultOpen` | `boolean` | -- | Uncontrolled initial open state |
+| `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
+| `delayDuration` | `number` | -- | Milliseconds delay before showing or hiding the tooltip |
+| `skipDelayDuration` | `number` | -- | Rest time in ms before opening when the pointer stops moving |
+| `sideOffset` | `number` | -- | Offset along the main axis |
+| `alignOffset` | `number` | -- | Offset along the cross axis |
+| `mainAxis` | `boolean` | -- | Enables main-axis flipping while positioning |
+| `modal` | `boolean` | -- | Enables focus management for the tooltip content |
 
----
+*Also accepts all standard `React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>` props.*
 
-### **TooltipTrigger**
+### TooltipTrigger
 
-* **`asChild`** (`boolean`, optional): Use the child element as the trigger.
-* **`props`** (`Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>`): Additional props forwarded to the tooltip trigger element.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | -- | Use the child element as the trigger |
+| `props` | `Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>` | -- | Additional props forwarded to the tooltip trigger element |
 
----
+### TooltipContent
 
-### **TooltipContent**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `boolean` | `true` | Keep the content mounted for CSS-driven animations |
+| `lockScroll` | `boolean` | `false` | Locks scroll while the tooltip is open |
+| `disabled` | `boolean` | `true` | Disables focus management when true |
 
-* **`forceMount`** (`boolean`, optional, default: `true`): Keep the content mounted for CSS-driven animations.
-* **`lockScroll`** (`boolean`, optional, default: `false`): Locks scroll while the tooltip is open.
-* **`disabled`** (`boolean`, optional, default: `true`): Disables focus management when true.
-* **`...props`** (`React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>`): Additional props forwarded to the tooltip content container.
-
----
+*Also accepts all standard `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` props.*
 
 **Behavior:**
 Provides accessible tooltip functionality by wrapping the primitive tooltip components and positioning content with Floating UI. The trigger and content receive `data-open`, while the content also receives `data-side` and `--duck-tooltip-content-transform-origin` to support stateful styling and animations. Tooltips open on hover and focus by default; if you need click-to-toggle, control `open` and `onOpenChange` in your own click handler.

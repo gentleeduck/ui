@@ -6,6 +6,10 @@ component: true
 
 <ComponentPreview name="separator-1" description="A separator component." />
 
+## Philosophy
+
+Visual hierarchy needs breathing room. The Separator creates semantic and visual boundaries between content sections. We expose `orientation` as the only meaningful prop because a divider's job is to divide — its value comes from where you place it, not how you configure it.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -56,12 +60,16 @@ import { Separator } from "@/components/ui/separator"
 
 ## API Reference
 
-### **Separator**
+### Separator
 
-* **`orientation`** (`'horizontal' | 'vertical'`, optional, default: `'horizontal'`): Controls the orientation of the separator line.
-* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Additional props forwarded to the root `<div>` element.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Controls the orientation of the separator line |
+
+*Also accepts all standard HTML `div` props.*
 
 **Behavior:**
+
 Renders an accessible separator line with appropriate ARIA role and orientation.
 By default, renders a horizontal 1px high full-width line; if `orientation` is `'vertical'`, renders a vertical 1px wide full-height line.
 
