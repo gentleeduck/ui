@@ -74,5 +74,5 @@
     "test:ui": "vitest --ui",
     "test:watch": "vitest"
   },
-  "version": "0.0.1"
+  "version": "0.0.2"
 }
