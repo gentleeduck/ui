@@ -8,9 +8,7 @@
     }
   ],
   "name": "theme-toggle-1",
-  "registryDependencies": [
-    ""
-  ],
+  "registryDependencies": [],
   "root_folder": "theme-toggle",
   "source": "/registry-examples-duckui/src/theme-toggle",
   "type": "registry:example"

@@ -8,7 +8,9 @@
     }
   ],
   "name": "checkbox-2",
-  "registryDependencies": [],
+  "registryDependencies": [
+    "checkbox"
+  ],
   "root_folder": "checkbox",
   "source": "/registry-examples-duckui/src/checkbox",
   "type": "registry:example"

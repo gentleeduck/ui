@@ -76,6 +76,7 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
+      "@gentleduck/motion",
       "@gentleduck/libs"
     ],
     "files": [
@@ -174,6 +175,7 @@
   {
     "dependencies": [
       "@gentleduck/variants",
+      "@gentleduck/primitives",
       "@gentleduck/libs"
     ],
     "files": [
@@ -605,6 +607,45 @@
     ],
     "files": [
       {
+        "path": "combobox/combobox.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "combobox/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "combobox",
+    "registryDependencies": [
+      "badge",
+      "button",
+      "checkbox",
+      "command",
+      "popover",
+      "separator"
+    ],
+    "root_folder": "combobox",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/combobox",
+    "tree": [
+      {
+        "name": "combobox.tsx",
+        "path": "combobox/combobox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "index.ts",
+        "path": "combobox/index.ts",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "dependencies": [
+      "@gentleduck/libs"
+    ],
+    "files": [
+      {
         "path": "context-menu/context-menu.tsx",
         "type": "registry:ui"
       },
@@ -848,7 +889,7 @@
   },
   {
     "dependencies": [
-      "@gentleduck/lib",
+      "@gentleduck/libs",
       "@gentleduck/primitives",
       "@gentleduck/motion"
     ],
@@ -1173,6 +1214,7 @@
   },
   {
     "dependencies": [
+      "react-resizable-panels",
       "@gentleduck/libs"
     ],
     "files": [
@@ -1766,7 +1808,8 @@
     ],
     "name": "button-group",
     "registryDependencies": [
-      "button"
+      "button",
+      "separator"
     ],
     "root_folder": "button-group",
     "type": "registry:ui",
@@ -1909,6 +1952,7 @@
   {
     "dependencies": [
       "@gentleduck/libs",
+      "@gentleduck/primitives",
       "@gentleduck/variants"
     ],
     "files": [
@@ -1983,6 +2027,64 @@
       {
         "name": "input-group.tsx",
         "path": "input-group/input-group.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "dependencies": [
+      "@gentleduck/libs",
+      "lucide-react"
+    ],
+    "files": [
+      {
+        "path": "preview-panel/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "preview-panel/preview-panel-dialog.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "preview-panel/preview-panel.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "preview-panel/preview-panel.types.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "preview-panel",
+    "registryDependencies": [
+      "badge",
+      "button",
+      "button-group",
+      "dialog",
+      "separator",
+      "tooltip"
+    ],
+    "root_folder": "preview-panel",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/preview-panel",
+    "tree": [
+      {
+        "name": "index.ts",
+        "path": "preview-panel/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-dialog.tsx",
+        "path": "preview-panel/preview-panel-dialog.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel.tsx",
+        "path": "preview-panel/preview-panel.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel.types.ts",
+        "path": "preview-panel/preview-panel.types.ts",
         "type": "file"
       }
     ]
@@ -9743,7 +9845,9 @@
       }
     ],
     "name": "checkbox-1",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "checkbox"
+    ],
     "root_folder": "checkbox",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/checkbox",
@@ -9798,7 +9902,9 @@
       }
     ],
     "name": "checkbox-2",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "checkbox"
+    ],
     "root_folder": "checkbox",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/checkbox",
@@ -9853,7 +9959,9 @@
       }
     ],
     "name": "checkbox-3",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "checkbox"
+    ],
     "root_folder": "checkbox",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/checkbox",
@@ -9908,7 +10016,9 @@
       }
     ],
     "name": "checkbox-4",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "checkbox"
+    ],
     "root_folder": "checkbox",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/checkbox",
@@ -9963,7 +10073,9 @@
       }
     ],
     "name": "checkbox-5",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "checkbox"
+    ],
     "root_folder": "checkbox",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/checkbox",
@@ -10018,7 +10130,9 @@
       }
     ],
     "name": "checkbox-6",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "checkbox"
+    ],
     "root_folder": "checkbox",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/checkbox",
@@ -10073,7 +10187,9 @@
       }
     ],
     "name": "checkbox-7",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "checkbox"
+    ],
     "root_folder": "checkbox",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/checkbox",
@@ -10128,7 +10244,9 @@
       }
     ],
     "name": "checkbox-8",
-    "registryDependencies": [],
+    "registryDependencies": [
+      "checkbox"
+    ],
     "root_folder": "checkbox",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/checkbox",
@@ -10932,8 +11050,7 @@
     ],
     "name": "combobox-1",
     "registryDependencies": [
-      "popover",
-      "command"
+      "combobox"
     ],
     "root_folder": "combobox",
     "type": "registry:example",
@@ -10980,8 +11097,7 @@
     ],
     "name": "combobox-2",
     "registryDependencies": [
-      "popover",
-      "command"
+      "combobox"
     ],
     "root_folder": "combobox",
     "type": "registry:example",
@@ -11028,8 +11144,7 @@
     ],
     "name": "combobox-3",
     "registryDependencies": [
-      "popover",
-      "command"
+      "combobox"
     ],
     "root_folder": "combobox",
     "type": "registry:example",
@@ -11076,8 +11191,7 @@
     ],
     "name": "combobox-4",
     "registryDependencies": [
-      "popover",
-      "command"
+      "combobox"
     ],
     "root_folder": "combobox",
     "type": "registry:example",
@@ -11124,8 +11238,7 @@
     ],
     "name": "combobox-5",
     "registryDependencies": [
-      "popover",
-      "command"
+      "combobox"
     ],
     "root_folder": "combobox",
     "type": "registry:example",
@@ -11172,8 +11285,7 @@
     ],
     "name": "combobox-6",
     "registryDependencies": [
-      "popover",
-      "command"
+      "combobox"
     ],
     "root_folder": "combobox",
     "type": "registry:example",
@@ -15644,9 +15756,7 @@
       }
     ],
     "name": "theme-toggle-1",
-    "registryDependencies": [
-      ""
-    ],
+    "registryDependencies": [],
     "root_folder": "theme-toggle",
     "type": "registry:example",
     "source": "/registry-examples-duckui/src/theme-toggle",
@@ -15654,6 +15764,154 @@
       {
         "name": "theme-toggle-1.tsx",
         "path": "theme-toggle/theme-toggle-1.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "preview-panel/preview-panel-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "preview-panel-1",
+    "registryDependencies": [
+      "preview-panel"
+    ],
+    "root_folder": "preview-panel",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/preview-panel",
+    "tree": [
+      {
+        "name": "preview-panel-1.tsx",
+        "path": "preview-panel/preview-panel-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-2.tsx",
+        "path": "preview-panel/preview-panel-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-3.tsx",
+        "path": "preview-panel/preview-panel-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-4.tsx",
+        "path": "preview-panel/preview-panel-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "preview-panel/preview-panel-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "preview-panel-2",
+    "registryDependencies": [
+      "preview-panel"
+    ],
+    "root_folder": "preview-panel",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/preview-panel",
+    "tree": [
+      {
+        "name": "preview-panel-1.tsx",
+        "path": "preview-panel/preview-panel-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-2.tsx",
+        "path": "preview-panel/preview-panel-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-3.tsx",
+        "path": "preview-panel/preview-panel-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-4.tsx",
+        "path": "preview-panel/preview-panel-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "preview-panel/preview-panel-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "preview-panel-3",
+    "registryDependencies": [
+      "preview-panel"
+    ],
+    "root_folder": "preview-panel",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/preview-panel",
+    "tree": [
+      {
+        "name": "preview-panel-1.tsx",
+        "path": "preview-panel/preview-panel-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-2.tsx",
+        "path": "preview-panel/preview-panel-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-3.tsx",
+        "path": "preview-panel/preview-panel-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-4.tsx",
+        "path": "preview-panel/preview-panel-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "preview-panel/preview-panel-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "preview-panel-4",
+    "registryDependencies": [
+      "preview-panel"
+    ],
+    "root_folder": "preview-panel",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/preview-panel",
+    "tree": [
+      {
+        "name": "preview-panel-1.tsx",
+        "path": "preview-panel/preview-panel-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-2.tsx",
+        "path": "preview-panel/preview-panel-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-3.tsx",
+        "path": "preview-panel/preview-panel-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-4.tsx",
+        "path": "preview-panel/preview-panel-4.tsx",
         "type": "file"
       }
     ]

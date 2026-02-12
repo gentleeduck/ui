@@ -25,7 +25,8 @@
   ],
   "name": "button-group",
   "registryDependencies": [
-    "button"
+    "button",
+    "separator"
   ],
   "root_folder": "button-group",
   "source": "/registry-ui-duckui/src/button-group",

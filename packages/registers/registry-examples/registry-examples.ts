@@ -251,7 +251,7 @@ export const registry_examples: RegistryEntry[] = [
   {
     files: [],
     name: 'checkbox-examples',
-    registryDependencies: [],
+    registryDependencies: ['checkbox'],
     root_folder: 'checkbox',
     type: 'registry:example',
   },
@@ -293,7 +293,7 @@ export const registry_examples: RegistryEntry[] = [
   {
     files: [],
     name: 'combobox-examples',
-    registryDependencies: ['popover', 'command'],
+    registryDependencies: ['combobox'],
     root_folder: 'combobox',
     type: 'registry:example',
   },
@@ -391,8 +391,15 @@ export const registry_examples: RegistryEntry[] = [
   {
     files: [],
     name: 'theme-toggle-examples',
-    registryDependencies: [''],
+    registryDependencies: [],
     root_folder: 'theme-toggle',
+    type: 'registry:example',
+  },
+  {
+    files: [],
+    name: 'preview-panel-examples',
+    registryDependencies: ['preview-panel'],
+    root_folder: 'preview-panel',
     type: 'registry:example',
   },
 ]
