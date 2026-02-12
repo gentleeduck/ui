@@ -7,7 +7,14 @@ import type { MembershipsAdminGetDto } from '../src/memberships.types'
  * 🦆 Internal route metadata shape used by ApiRoutes.
  */
 
-type RouteMeta<Body, Query, Params, Headers, Res, Method extends string> = { body: Body; query: Query; params: Params; headers: Headers; res: Res; method: Method }
+type RouteMeta<Body, Query, Params, Headers, Res, Method extends string> = {
+  body: Body
+  query: Query
+  params: Params
+  headers: Headers
+  res: Res
+  method: Method
+}
 
 /** 🦆
  * 🦆 Route map: path -> route metadata.
@@ -15,7 +22,34 @@ type RouteMeta<Body, Query, Params, Headers, Res, Method extends string> = { bod
  */
 
 export interface ApiRoutes {
-  '/v1/admin/memberships/:id': RouteMeta<never, MembershipsAdminGetDto, { id: string }, never, { ok: false; error: { code: "MEMBERSHIPS_GET_SUCCESS" | "MEMBERSHIP_NOT_FOUND" | "MEMBERSHIPS_GET_FAILED"; cause?: unknown; issues?: readonly string[] } } | { ok: true; data: { id: string; createdAt: Date; updatedAt: Date; deletedAt: Date | null; tenantId: string; status: "active" | "invited" | "suspended"; userId: string }; code: "MEMBERSHIPS_GET_SUCCESS" | "MEMBERSHIP_NOT_FOUND" | "MEMBERSHIPS_GET_FAILED" }, 'GET'>
+  '/v1/admin/memberships/:id': RouteMeta<
+    never,
+    MembershipsAdminGetDto,
+    { id: string },
+    never,
+    | {
+        ok: false
+        error: {
+          code: 'MEMBERSHIPS_GET_SUCCESS' | 'MEMBERSHIP_NOT_FOUND' | 'MEMBERSHIPS_GET_FAILED'
+          cause?: unknown
+          issues?: readonly string[]
+        }
+      }
+    | {
+        ok: true
+        data: {
+          id: string
+          createdAt: Date
+          updatedAt: Date
+          deletedAt: Date | null
+          tenantId: string
+          status: 'active' | 'invited' | 'suspended'
+          userId: string
+        }
+        code: 'MEMBERSHIPS_GET_SUCCESS' | 'MEMBERSHIP_NOT_FOUND' | 'MEMBERSHIPS_GET_FAILED'
+      },
+    'GET'
+  >
 }
 
 /** 🦆
@@ -75,13 +109,17 @@ export type RouteResMethod<P extends RoutePath, M extends RouteMethods> = RouteO
  * 🦆 Example: RouteReqMethod<'/api/auth/signin', 'POST'>
  */
 
-export type RouteReqMethod<P extends RoutePath, M extends RouteMethods> = CleanupNever<Pick<RouteOfMethod<P, M>, 'body' | 'query' | 'params' | 'headers'>>
+export type RouteReqMethod<P extends RoutePath, M extends RouteMethods> = CleanupNever<
+  Pick<RouteOfMethod<P, M>, 'body' | 'query' | 'params' | 'headers'>
+>
 /** 🦆
  * 🦆 Filters route paths by method.
  * 🦆 Example: PathsByMethod<'GET'>
  */
 
-export type PathsByMethod<M extends RouteMethods> = { [P in RoutePath]: M extends RouteMethod<P> ? P : never }[RoutePath]
+export type PathsByMethod<M extends RouteMethods> = {
+  [P in RoutePath]: M extends RouteMethod<P> ? P : never
+}[RoutePath]
 /** 🦆
  * 🦆 Fetcher signature for a typed client.
  */
@@ -91,7 +129,14 @@ export type DuckFetcher = <P extends RoutePath>(path: P, req: RouteReq<P>) => Pr
  * 🦆 Typed client helper with request/byMethod.
  */
 
-export type DuckClient = { request: DuckFetcher; byMethod: <M extends RouteMethods, P extends PathsByMethod<M>>(method: M, path: P, req: RouteReqMethod<P, M>) => Promise<RouteResMethod<P, M>> }
+export type DuckClient = {
+  request: DuckFetcher
+  byMethod: <M extends RouteMethods, P extends PathsByMethod<M>>(
+    method: M,
+    path: P,
+    req: RouteReqMethod<P, M>,
+  ) => Promise<RouteResMethod<P, M>>
+}
 
 /** 🦆
  * 🦆 Body type for a path.
