@@ -1,10 +1,3 @@
-@font-face {
-  font-family: "JetBrains Mono";
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(/fonts/JetBrainsMono-VF.woff2) format("woff2");
-}
-
 @layer components {
   code,
   code > * > *,
@@ -13,7 +6,6 @@
   pre {
     font-family: var(--font-mono);
     font-style: normal;
-    font-weight: 600;
     font-optical-sizing: auto;
   }
 

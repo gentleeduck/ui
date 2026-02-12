@@ -8,8 +8,7 @@ import { codeImport } from 'remark-code-import'
 import remarkGfm from 'remark-gfm'
 import type { Pluggable } from 'unified'
 import { defineConfig, s, type ZodMeta } from 'velite'
-import { rehypePreBlockSource, rehypeTitle, rhypeMetadataPlugin } from './plugins'
-import { rehypeNpmCommand } from './rehype-npm-command'
+import { rehypeMermaid, rehypeNpmCommand, rehypePreBlockSource, rehypeTitle, rhypeMetadataPlugin } from './plugins'
 import { cleanTocItems } from './utils'
 
 export type DocsVeliteConfigOptions = {
@@ -105,6 +104,7 @@ export function createDocsVeliteConfig({
         ],
         rehypeTitle,
         rehypePreBlockSource,
+        rehypeMermaid,
         rehypeNpmCommand,
         // @ts-ignore
         [rehypeAutolinkHeadings, { properties: { ariaLabel: 'Link to section', className: ['subheading-anchor'] } }],

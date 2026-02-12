@@ -4,38 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: "Adjusted Lucida Sans Typewriter Fallback";
-  src: local("Lucida Sans Typewriter");
-  size-adjust: 119%;
-  ascent-override: 86%;
-  descent-override: 16%;
-  line-gap-override: 30%;
-}
-
-@font-face {
-  font-family: "Adjusted Arial Fallback";
-  src: local("Arial");
-  size-adjust: 99%;
-  ascent-override: 101%;
-  descent-override: 26%;
-  line-gap-override: 0%;
-}
-
-@font-face {
-  font-family: "Geist";
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(/fonts/Geist-VF.woff2) format("woff2");
-}
-
-@font-face {
-  font-family: "Geist Mono";
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(/fonts/GeistMono-VF.woff2) format("woff2");
-}
-
 @theme {
   --animate-shine: shine 8s ease-in-out infinite;
 
@@ -63,11 +31,11 @@
   }
 
   .font-sans {
-    font-family: var(--font-sans-geist) !important;
+    font-family: var(--font-geist-sans, "Geist"), sans-serif !important;
   }
 
   .font-mono {
-    font-family: var(--font-mono-geist) !important;
+    font-family: var(--font-geist-mono, "Geist Mono"), monospace !important;
   }
 
   ::-webkit-scrollbar {
