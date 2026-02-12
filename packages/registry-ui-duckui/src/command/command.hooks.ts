@@ -189,8 +189,7 @@ export function useHandleKeyDown(props: {
       }
 
       if (e.key === 'Enter') {
-        const cur = currentRef.current
-        if (cur < 0) return
+        const cur = currentRef.current < 0 ? 0 : currentRef.current
 
         const item = itemsRef.current[cur]
         if (!item) return
