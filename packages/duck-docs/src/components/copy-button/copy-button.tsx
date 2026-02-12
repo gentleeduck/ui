@@ -55,7 +55,7 @@ export function CopyButton({ value, className, variant = 'ghost', event, ...prop
   )
 }
 
-export function CopyWithClassNames({ value, classNames, className, ...props }: CopyWithClassNamesProps) {
+export function CopyWithClassNames({ value, classNames, className }: CopyWithClassNamesProps) {
   const [hasCopied, setHasCopied] = React.useState(false)
 
   React.useEffect(() => {
@@ -77,7 +77,7 @@ export function CopyWithClassNames({ value, classNames, className, ...props }: C
           icon={hasCopied ? <CheckIcon /> : <ClipboardIcon />}
           size="icon"
           variant="outline"
-          {...props}></Button>
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem onClick={() => copyToClipboard(value)}>Component</DropdownMenuItem>

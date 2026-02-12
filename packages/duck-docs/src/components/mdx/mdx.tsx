@@ -11,12 +11,20 @@ import Image from 'next/image'
 import type * as React from 'react'
 import runtime from 'react/jsx-runtime'
 import { Callout } from './mdx-components/callout'
-import { CodeBlock, CodeBlockWrapper, ComponentPreview, ComponentSource, PreBlock } from './mdx-components/code'
+import {
+  CodeBlock,
+  CodeBlockWrapper,
+  ComponentPreview,
+  ComponentSource,
+  MermaidBlock,
+  PreBlock,
+} from './mdx-components/code'
 import { FigcaptionBlock } from './mdx-components/code/figcaption-block'
 import { ComponentsList } from './mdx-components/components-list'
 import { Table, TableCell, TableHeader, TableRow } from './mdx-components/table'
 import { Tab, TabContent, TabList, TabTrigger } from './mdx-components/tabs'
 import { A, H1, H2, H3, H4, H5, H6, Hr, LinkBlock, LinkedCard, P } from './mdx-components/typepography'
+import { mdxIcons } from './mdx-icons'
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code)
@@ -24,6 +32,7 @@ const useMDXComponent = (code: string) => {
 }
 
 const components = {
+  ...mdxIcons,
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -67,7 +76,13 @@ const components = {
     <ol className={cn('my-6 ml-6 list-decimal', className)} {...props} />
   ),
   p: P,
-  pre: PreBlock,
+  MermaidDiagram: MermaidBlock,
+  pre: (props: any) => {
+    if (props.__isMermaid__) {
+      return <MermaidBlock {...props} />
+    }
+    return <PreBlock {...props} />
+  },
   Step: ({ className, ...props }: React.ComponentProps<'h3'>) => (
     <h3 className={cn('step scroll-m-20 font-heading font-semibold text-xl tracking-tight', className)} {...props} />
   ),

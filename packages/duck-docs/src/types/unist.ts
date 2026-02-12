@@ -17,6 +17,10 @@ export interface UnistNode extends Node {
     __title__?: string
     __marks__?: string[]
     __event__?: string
+    __isMermaid__?: boolean
+    __mermaidLightSvg__?: string
+    __mermaidDarkSvg__?: string
+    className?: string[]
     [key: string]: unknown
   } & NpmCommands
   attributes?: {
