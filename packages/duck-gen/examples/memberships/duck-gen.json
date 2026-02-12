@@ -3,12 +3,8 @@
   "framework": "nestjs",
   "extensions": {
     "shared": {
-      "sourceGlobs": [
-        "./src/*.ts"
-      ],
-      "outputSource": [
-        "./types"
-      ],
+      "sourceGlobs": ["./src/*.ts"],
+      "outputSource": ["./types"],
       "includeNodeModules": false,
       "tsconfigPath": "./tsconfig.json"
     },
