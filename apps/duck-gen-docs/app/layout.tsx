@@ -7,10 +7,23 @@ import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Geist, Geist_Mono } from 'next/font/google'
 import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
 import { META_THEME_COLORS, siteConfig } from '~/config/site'
 import { docs } from '../.velite'
+
+const geistSans = Geist({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-geist-sans',
+})
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-geist-mono',
+})
 
 const docsEntries = docs.map((doc) => {
   const slug = doc.slug.startsWith('/') ? doc.slug : `/${doc.slug}`
@@ -34,23 +47,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html dir="ltr" lang="en" suppressHydrationWarning>
+    <html className={`${geistSans.variable} ${geistMono.variable}`} dir="ltr" lang="en" suppressHydrationWarning>
       <head>
-        {/* Preload critical fonts */}
-        <link as="font" crossOrigin="anonymous" href="/fonts/Geist-VF.woff2" rel="preload" type="font/woff2" />
-        <link as="font" crossOrigin="anonymous" href="/fonts/GeistMono-VF.woff2" rel="preload" type="font/woff2" />
-
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  let fontType = localStorage.getItem('fontType'); 
-                  let family = fontType === 'sans'
-                    ? 'var(--font-sans-geist)'
-                    : 'var(--font-mono-geist)';
-
-                  // Preferred: set as inline style property with priority
+                  var raw = localStorage.getItem('fontType');
+                  var fontType = raw ? JSON.parse(raw) : 'mono';
+                  var family = fontType === 'sans'
+                    ? 'var(--font-geist-sans, "Geist"), sans-serif'
+                    : 'var(--font-geist-mono, "Geist Mono"), monospace';
                   document.documentElement.style.setProperty('font-family', family, 'important');
                 } catch (e) {}
               })();
