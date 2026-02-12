@@ -138,9 +138,6 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 *Also accepts all standard HTML `ul` props.*
 
-**Behavior:**
-Renders a group of toggle items as a flex container. Manages internal refs for all toggle items and tracks selected toggles depending on the `type` (`single` or `multiple`). Selection state is synchronized via ARIA attributes and the native `checked` property on underlying inputs. The `onValueChange` callback is called with the value of the selected toggle(s). Supports `variant` and `size` styling passed down to child toggles.
-
 ### ToggleGroupItem
 
 | Prop | Type | Default | Description |
@@ -150,7 +147,4 @@ Renders a group of toggle items as a flex container. Manages internal refs for a
 | `value` | `string` | (required) | The unique value identifying this toggle item |
 
 *Also accepts all standard `Toggle.Toggle` props.*
-
-**Behavior:**
-Represents an individual toggle item inside a `ToggleGroup`. Receives style and behavior context from the parent group via React context. The item updates the group's selection state on interaction and synchronizes its own checked state and ARIA attributes accordingly. The `duck-toggle-group-item` attribute is added for targeting.
 

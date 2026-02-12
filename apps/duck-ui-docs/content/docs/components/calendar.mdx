@@ -460,14 +460,6 @@ This will install the latest version of the calendar blocks.
 
 *Also accepts all standard `React.ComponentProps<typeof DayPicker>` props.*
 
-**Behavior:**
-
-* Wraps `react-day-picker` with **GentleDuck** styles and design system tokens.
-* Custom navigation icons (`ChevronLeftIcon`, `ChevronRightIcon`, `ChevronDownIcon`).
-* Fully themeable via `classNames` and `buttonVariant`.
-* Supports date ranges, single-date selection, and week numbers.
-* Automatically focuses the currently highlighted day.
-
 ### CalendarDayButton
 
 | Prop | Type | Default | Description |
@@ -477,12 +469,4 @@ This will install the latest version of the calendar blocks.
 | `className` | `string` | -- | Additional class names for styling the day button |
 
 *Also accepts all standard `React.ComponentProps<typeof DayButton>` props.*
-
-**Behavior:**
-
-* Uses the GentleDuck `<Button>` component for consistent button styles.
-* Supports range highlighting (`data-range-start`, `data-range-middle`, `data-range-end`).
-* Adds a unique `data-day` attribute for identifying each date cell.
-* Applies focus ring styles when the day is keyboard-focused.
-* Shows selection and range colors consistent with design system tokens.
 

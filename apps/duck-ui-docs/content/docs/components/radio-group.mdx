@@ -121,13 +121,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 *Also accepts all standard HTML `ul` props.*
 
-**Behavior:**
-
-* Provides context for radio items.
-* Manages selection state (controlled or uncontrolled).
-* Renders a `<ul>` with role `radiogroup`.
-* Uses internal hooks for managing click behavior and ARIA attributes.
-
 ### RadioGroupItem
 
 | Prop | Type | Default | Description |
@@ -137,13 +130,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 *Also accepts all standard HTML `li` props (except `value`).*
 
-**Behavior:**
-
-* Renders a list item representing a single radio option.
-* Supports custom indicator and label.
-* Handles `aria-checked` state toggling and styling.
-* Associates label with radio input via `htmlFor` and `id`.
-
 ### Radio
 
 | Prop | Type | Default | Description |
@@ -152,13 +138,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `checkedIndicator` | `React.ReactElement` | `--` | Custom SVG or element for checked state indicator |
 
 *Also accepts all standard HTML `input` props.*
-
-**Behavior:**
-
-* Hidden native radio input that manages selection.
-* Renders accessible, animated SVG indicators via `useSvgIndicator` hook.
-* Supports custom checked and unchecked indicators.
-* Applies animation and styling variants.
 
 ### useRadioGroupContext
 

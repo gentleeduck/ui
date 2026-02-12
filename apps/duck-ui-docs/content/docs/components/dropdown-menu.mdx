@@ -213,9 +213,6 @@ A menu item with a toggleable checkbox indicator.
 
 *Also accepts all `DropdownMenuItem` props.*
 
-**Behavior:**
-Supports both controlled and uncontrolled usage. When `checked` is not provided, the component manages its own state internally. Displays a check icon when active.
-
 ### DropdownMenuRadioGroup
 
 Groups radio items together for single-selection behavior.
@@ -238,9 +235,6 @@ A radio-selectable menu item. Must be used inside `DropdownMenuRadioGroup`.
 | `customIndicator` | `React.ReactNode` | `--` | Custom indicator element |
 
 *Also accepts all `RadioGroupItem` props.*
-
-**Behavior:**
-Renders inside a `DropdownMenuItem`. Clicking the item triggers the inner radio input. Shows a circular filled indicator when selected.
 
 ### DropdownMenuLabel
 
@@ -270,9 +264,6 @@ Displays a keyboard shortcut hint next to a menu item and registers the key bind
 
 *Also accepts all standard HTML `kbd` props.*
 
-**Behavior:**
-Uses `useKeyCommands` from `@gentleduck/vim/react` to register global keyboard shortcuts. The binding is active regardless of whether the menu is open.
-
 ### DropdownMenuGroup
 
 Groups related menu items together.
@@ -288,9 +279,6 @@ Wrapper for a submenu. Creates a nested popover with hover activation.
 | `contextMenu` | `boolean` | `--` | Open on right-click at the cursor position |
 
 *Also accepts all `Popover` props.*
-
-**Behavior:**
-Internally sets `enableHover`, `modal`, and `placement="right-start"` on the underlying Popover.
 
 ### DropdownMenuSubTrigger
 

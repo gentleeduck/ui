@@ -167,20 +167,9 @@ export default function Example() {
 | --- | --- | --- | --- |
 | `props` | `React.ComponentProps<typeof ResizablePrimitive.PanelGroup>` | -- | Native props forwarded to the underlying `PanelGroup` component |
 
-**Behavior:**
-
-* Wraps `react-resizable-panels`'s `PanelGroup` component.
-* Defaults to horizontal layout but supports vertical via data attributes.
-* Provides a flexible container that manages resizable panels.
-
 ### ResizablePanel
 
 *Also accepts all standard `react-resizable-panels` `Panel` props.*
-
-**Behavior:**
-
-* Represents a single resizable panel inside a `ResizablePanelGroup`.
-* Resizes according to user interaction with `ResizableHandle`.
 
 ### ResizableHandle
 
@@ -189,10 +178,3 @@ export default function Example() {
 | `withHandle` | `boolean` | `false` | Whether to render the visible handle UI (grip icon) |
 
 *Also accepts all standard `React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle>` props.*
-
-**Behavior:**
-
-* Wraps `PanelResizeHandle` from `react-resizable-panels`.
-* Displays a thin draggable bar between panels.
-* If `withHandle` is `true`, renders a small grip icon (`GripVertical`) for better affordance.
-* Supports keyboard focus styling and accessibility.

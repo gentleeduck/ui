@@ -136,26 +136,13 @@ const PaginationLink = ({...props }: ) => (
 
 *Accepts all standard HTML `nav` props.*
 
-**Behavior:**
-
-* Wrapper `<nav>` element with role `navigation` and `aria-label="pagination"`.
-* Centers the pagination content by default.
-
 ### PaginationContent
 
 *Accepts all standard HTML `ul` props.*
 
-**Behavior:**
-
-* Displays pagination items in a horizontal flex row with gaps.
-
 ### PaginationItem
 
 *Accepts all standard HTML `li` props.*
-
-**Behavior:**
-
-* Wraps individual pagination controls or links.
 
 ### PaginationLink
 
@@ -165,11 +152,6 @@ const PaginationLink = ({...props }: ) => (
 | `size` | `'icon' \| 'default' \| 'sm'` | `'icon'` | Size variant for the button style |
 
 *Also accepts all standard HTML `a` props.*
-
-**Behavior:**
-
-* Styled link element representing a page number or control.
-* Uses different variants for active and inactive states.
 
 ### PaginationPrevious
 
@@ -191,11 +173,6 @@ Extends `PaginationLink` with:
 
 *Accepts all standard HTML `span` props.*
 
-**Behavior:**
-
-* Displays a non-interactive ellipsis icon with screen-reader text "More pages".
-* Used to indicate skipped page numbers.
-
 ### PaginationWrapper
 
 | Prop | Type | Default | Description |
@@ -207,9 +184,4 @@ Extends `PaginationLink` with:
 | `maxRight` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "Last" button |
 | `left` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "Previous" button |
 | `maxLeft` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "First" button |
-
-**Behavior:**
-
-* High-level wrapper composing first, previous, next, and last buttons with default styles.
-* Allows customizing props and classes for all internal buttons and wrappers.
 
