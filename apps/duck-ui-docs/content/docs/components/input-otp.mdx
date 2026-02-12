@@ -6,6 +6,27 @@ component: true
 
 <ComponentPreview name="input-otp-1" description="An 6 digits input OTP." />
 
+## Philosophy
+
+OTP inputs are deceptively complex: they need to handle paste, auto-fill, focus management across segments, and mobile keyboard optimization. We isolate this complexity in a dedicated component rather than stretching Input to cover it. Each slot is its own element, giving you full control over styling and animation per digit.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  InputOTP[InputOTP]
+  InputOTP --> libs["@gentleduck/libs"]:::internal
+  InputOTP --> lucide["lucide-react"]:::external
+
+  InputOTP --> |"custom"| OTPContext["OTP Context\n(slot management)"]
+  InputOTP --> |"custom"| InitHook["useInputOTPInit\n(ref wiring)"]
+  OTPContext --> |"manages"| SlotState["Slot Active State\n& Values"]
+  InputOTP --> |"adds"| PatternValidation["Pattern\nValidation"]
+  InputOTP --> |"adds"| AutoFocus["Auto-focus\nNext Slot"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">

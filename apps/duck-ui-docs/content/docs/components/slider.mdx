@@ -9,6 +9,28 @@ links:
 
 <ComponentPreview name="slider-1" description="A slider component." />
 
+## Philosophy
+
+Sliders let users select values within a range through direct manipulation. We build on Radix's accessible foundation (keyboard arrows, ARIA attributes, RTL support) and add the visual track/range/thumb styling. The Root/Track/Range/Thumb decomposition lets you restyle any part without rebuilding the interaction logic.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Slider[Slider]
+  Slider --> primitives["@gentleduck/primitives\n/slider"]:::internal
+  Slider --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"provides"| DragInteraction["Drag Interaction"]
+  primitives --> |"provides"| KeyboardNav["Arrow Key Steps"]
+  primitives --> |"provides"| A11y["ARIA slider\nAttributes"]
+  primitives --> |"provides"| RTL["RTL Support"]
+  Slider --> |"adds"| TrackStyle["Styled Track\n& Range"]
+  Slider --> |"adds"| ThumbStyle["Styled Thumb"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -59,54 +81,60 @@ import { Slider } from "@/components/ui/slider"
 
 <ComponentPreview name="slider-2" description="A slider component." />
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Slider.Root] --> B[Slider.Track]
+    B --> C[Slider.Range]
+    A --> D[Slider.Thumb]
+`} />
+
 ## API Reference
 
-### **Slider.Root**
+### Slider.Root
 
-* **`min`** (`number`, optional, default: `0`): Minimum allowed value.
-* **`max`** (`number`, optional, default: `100`): Maximum allowed value.
-* **`step`** (`number`, optional, default: `1`): Increment step for values.
-* **`value`** (`number[]`, optional): Controlled values array (one or two values for range sliders).
-* **`defaultValue`** (`number[]`, optional, default: `[50]`): Uncontrolled initial values.
-* **`onValueChange`** (`(value: number[]) => void`, optional): Callback fired when slider values change.
-* **`orientation`** (`'horizontal' | 'vertical'`, optional, default: `'horizontal'`): Slider orientation.
-* **`rtl`** (`boolean`, optional, default: `false`): Enables right-to-left layout support.
-* **`...props`** (`Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue'>`): Props forwarded to the root `<div>` element.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `min` | `number` | `0` | Minimum allowed value |
+| `max` | `number` | `100` | Maximum allowed value |
+| `step` | `number` | `1` | Increment step for values |
+| `value` | `number[]` | `--` | Controlled values array (one or two values for range sliders) |
+| `defaultValue` | `number[]` | `[50]` | Uncontrolled initial values |
+| `onValueChange` | `(value: number[]) => void` | `--` | Callback fired when slider values change |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
+| `rtl` | `boolean` | `false` | Enables right-to-left layout support |
+
+*Also accepts all standard HTML `div` props (except `defaultValue`).*
 
 **Behavior:**
 Provides slider state, value management, and interaction logic through context to all child components (`Track`, `Range`, `Thumb`). Handles both single-value and range sliders with pointer and keyboard interactions, snapping values to `step` and clamping between `min` and `max`.
 
----
+### Slider.Track
 
-### **Slider.Track**
-
-* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): Props forwarded to the track container `<div>`.
+*Accepts all standard HTML `div` props.*
 
 **Behavior:**
-Renders the slider’s track area where thumbs can be moved. Automatically sizes based on `orientation` and stores a `ref` for position-to-value calculations.
+Renders the slider's track area where thumbs can be moved. Automatically sizes based on `orientation` and stores a `ref` for position-to-value calculations.
 
----
+### Slider.Range
 
-### **Slider.Range**
-
-* **`props`** (`React.HTMLAttributes<HTMLDivElement>`): Props forwarded to the range indicator `<div>`.
+*Accepts all standard HTML `div` props.*
 
 **Behavior:**
 Displays the active filled portion of the slider between thumbs (or from `min` to current value in single-thumb sliders). Position and size are computed based on `values`, `min`, `max`, and `orientation`.
 
----
+### Slider.Thumb
 
-### **Slider.Thumb**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | (required) | The index of the thumb in the `values` array |
 
-* **`index`** (`number`, required): The index of the thumb in the `values` array.
-* **`...props`** (`React.HTMLProps<HTMLDivElement>`): Props forwarded to the thumb `<button>` element.
+*Also accepts all standard HTML `div` props.*
 
 **Behavior:**
 Interactive handle for selecting slider values. Supports dragging with pointer events and value adjustments via keyboard (`Arrow`, `PageUp`, `PageDown`, `Home`, `End`). Positions itself along the track relative to its current value.
 
----
-
-### **SliderContext & useSliderContext()**
+### SliderContext & useSliderContext()
 
 * **`SliderContext`**: React context providing slider state and methods:
 

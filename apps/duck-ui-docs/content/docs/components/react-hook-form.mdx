@@ -32,6 +32,31 @@ The `<Form />` component is a wrapper around the `react-hook-form` library. It p
 - Bring your own schema library. We use `zod` but you can use anything you want.
 - **You have full control over the markup and styling.**
 
+## Philosophy
+
+Form validation shouldn't require a PhD. We integrate with React Hook Form because it validates at the field level without re-rendering the entire form. The Form/FormField/FormItem/FormControl pattern maps directly to how forms work: each field has a label, an input, a description, and an error message.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Form[Form]
+  Form --> rhf["react-hook-form"]:::external
+  Form --> primitives["@gentleduck/primitives\n/slot"]:::internal
+  Form --> libs["@gentleduck/libs"]:::internal
+  Form --> Label["Label"]:::component
+
+  rhf --> |"provides"| Validation["Field Validation"]
+  rhf --> |"provides"| FormState["Form State\nManagement"]
+  rhf --> |"provides"| Controller["Controlled\nInputs"]
+  primitives --> |"provides"| Slot["Slot Rendering\n(asChild)"]
+  Form --> |"adds"| FieldContext["Field-level\nReact Context"]
+  Form --> |"adds"| ErrorDisplay["Error Message\nComponents"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Anatomy
 
 ```tsx showLineNumbers
@@ -252,62 +277,62 @@ See the following links for more examples on how to use the `<Form />` component
 - [Combobox](/docs/components/combobox#form)
 
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Form] --> B[FormField]
+    B --> C[FormItem]
+    C --> D[FormLabel]
+    C --> E[FormControl]
+    C --> F[FormDescription]
+    C --> G[FormMessage]
+`} />
+
 ## API Reference
 
-### **Form**
+### Form
 
-* **`props`** (`FormProviderProps`): Props from `react-hook-form`'s `FormProvider`.
+*Accepts all `FormProviderProps` from `react-hook-form`.*
 
----
+### FormField
 
-### **FormField**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `FieldPath<TFieldValues>` | (required) | The field name in your form schema |
+| `control` | `Control<TFieldValues>` | (required) | The control object from `useForm` |
+| `render` | `ControllerProps<TFieldValues, TName>['render']` | (required) | Render function receiving `{ field, fieldState, formState }` |
 
-* **`name`** (`FieldPath<TFieldValues>`): The field name in your form schema.
-* **`control`** (`Control<TFieldValues>`): The control object from `useForm`.
-* **`render`** (`ControllerProps<TFieldValues, TName>['render']`): Render function receiving `{ field, fieldState, formState }`.
-* **`...props`** (`ControllerProps<TFieldValues, TName>`): All other props from `react-hook-form`'s `Controller`.
+*Also accepts all `Controller` props from `react-hook-form`.*
 
----
+### FormItem
 
-### **FormItem**
+*Accepts all standard HTML `div` props.*
 
-* **`props`** (`React.ComponentProps<'div'>`): Native `div` element props.
+### FormLabel
 
----
+*Accepts all `Label` component props.*
 
-### **FormLabel**
+### FormControl
 
-* **`props`** (`React.ComponentProps<typeof Label>`): Props from the `Label` component.
+*Accepts all `Slot` component props from Radix UI.*
 
----
+### FormDescription
 
-### **FormControl**
+*Accepts all standard HTML `p` props.*
 
-* **`props`** (`React.ComponentProps<typeof Slot>`): Props from Radix UI's `Slot` component.
+### FormMessage
 
----
+*Accepts all standard HTML `p` props.*
 
-### **FormDescription**
+### useFormField
 
-* **`props`** (`React.ComponentProps<'p'>`): Native `p` element props.
+Returns an object containing:
 
----
-
-### **FormMessage**
-
-* **`props`** (`React.ComponentProps<'p'>`): Native `p` element props.
-
----
-
-### **useFormField**
-
-* **Returns**:
-  An object containing:
-
-  * `id` (`string`): Internal form item ID.
-  * `name` (`string`): Field name.
-  * `formItemId` (`string`): ID for the form control.
-  * `formDescriptionId` (`string`): ID for the description.
-  * `formMessageId` (`string`): ID for the message.
-  * `error` (`FieldError | undefined`): Validation error object.
-
+| Property | Type | Description |
+| --- | --- | --- |
+| `id` | `string` | Internal form item ID |
+| `name` | `string` | Field name |
+| `formItemId` | `string` | ID for the form control |
+| `formDescriptionId` | `string` | ID for the description |
+| `formMessageId` | `string` | ID for the message |
+| `error` | `FieldError \| undefined` | Validation error object |

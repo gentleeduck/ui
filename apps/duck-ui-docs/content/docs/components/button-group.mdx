@@ -6,6 +6,26 @@ component: true
 
 <ComponentPreview name="button-group-1" />
 
+## Philosophy
+
+Individual buttons sometimes belong together. ButtonGroup handles the visual joining — shared borders, connected radii, consistent spacing — so you don't manually manage CSS for grouped actions. It's a layout primitive, not a logic primitive: each button inside still owns its own behavior.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  ButtonGroup[ButtonGroup]
+  ButtonGroup --> variants["@gentleduck/variants"]:::internal
+  ButtonGroup --> primitives["@gentleduck/primitives\n/slot"]:::internal
+  ButtonGroup --> libs["@gentleduck/libs"]:::internal
+  ButtonGroup --> Button["Button"]:::component
+  ButtonGroup --> Separator["Separator"]:::component
+  variants --> |"provides"| LayoutVariants["Layout Variants\n(horizontal, vertical)"]
+  primitives --> |"provides"| SlotRendering["Slot Rendering"]
+  ButtonGroup --> |"manages"| ConnectedBorders["Connected Borders\n& Radii"]
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">

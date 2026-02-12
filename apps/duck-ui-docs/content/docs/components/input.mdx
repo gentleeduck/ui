@@ -10,6 +10,10 @@ component: true
   description="A form input component."
 />
 
+## Philosophy
+
+The input is the most fundamental form primitive — a single line of text entry. We keep it deliberately thin: one component, no sub-parts, just a styled `<input>` that composes naturally with Label, Button, and form validation. Complex input patterns like search bars or password fields are built by composing Input with other primitives, not by bloating its API.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -106,13 +110,21 @@ import { Input } from "@/components/ui/input"
 
 ## API Reference
 
-### **Input**
+### Input
 
-* **`type`** (`string`, optional): The HTML input type (e.g., `'text'`, `'password'`, `'email'`).
-* **`...props`** (`React.HTMLProps<HTMLInputElement>`): Other native input props like `placeholder`, `disabled`, `value`, `onChange`, etc.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `string` | `'text'` | The HTML input type (e.g., `'text'`, `'password'`, `'email'`) |
+
+*Also accepts all standard HTML `input` props like `placeholder`, `disabled`, `value`, `onChange`.*
 
 **Behavior:**
 
-* Renders a fully styled HTML `<input>` element with focus, disabled, and placeholder styles.
-* Supports utility class merging using the `cn` helper.
-* Designed for flexible use in forms or standalone input fields.
+- Renders a fully styled HTML `<input>` element with focus, disabled, and placeholder styles.
+- Supports utility class merging using the `cn` helper.
+- Designed for flexible use in forms or standalone input fields.
+
+## See also
+
+- [Textarea](/docs/components/textarea) — Multi-line text input
+- [Label](/docs/components/label) — Accessible label for form controls

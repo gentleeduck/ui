@@ -17,6 +17,28 @@ links:
 The `Resizable` component is built on top of
 [`react-resizable-panels`](https://github.com/bvaughn/react-resizable-panels) by [`bvaughn`](https://github.com/bvaughn).
 
+## Philosophy
+
+Resizable panels let users allocate screen real estate to match their workflow. We wrap react-resizable-panels because the math of proportional resizing, minimum sizes, and persistent layouts is deceptively complex. The PanelGroup/Panel/Handle model keeps the API simple while supporting arbitrarily complex layouts.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Resizable[Resizable]
+  Resizable --> rrp["react-resizable-panels"]:::external
+  Resizable --> libs["@gentleduck/libs"]:::internal
+  Resizable --> lucide["lucide-react"]:::external
+
+  rrp --> |"provides"| ProportionalResize["Proportional Resizing"]
+  rrp --> |"provides"| MinMax["Min/Max Constraints"]
+  rrp --> |"provides"| Persist["Layout Persistence"]
+  Resizable --> |"adds"| HandleStyle["Styled Drag Handle"]
+  Resizable --> |"adds"| Styling["Tailwind Styling"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -129,11 +151,21 @@ export default function Example() {
 }
 ```
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[ResizablePanelGroup] --> B[ResizablePanel]
+    A --> C[ResizableHandle]
+    A --> D[ResizablePanel]
+`} />
+
 ## API Reference
 
-### **ResizablePanelGroup**
+### ResizablePanelGroup
 
-* **`props`** (`React.ComponentProps<typeof ResizablePrimitive.PanelGroup>`): Native props forwarded to the underlying `PanelGroup` component.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `props` | `React.ComponentProps<typeof ResizablePrimitive.PanelGroup>` | -- | Native props forwarded to the underlying `PanelGroup` component |
 
 **Behavior:**
 
@@ -141,23 +173,22 @@ export default function Example() {
 * Defaults to horizontal layout but supports vertical via data attributes.
 * Provides a flexible container that manages resizable panels.
 
----
+### ResizablePanel
 
-### **ResizablePanel**
-
-* All native props from `react-resizable-panels`'s `Panel`.
+*Also accepts all standard `react-resizable-panels` `Panel` props.*
 
 **Behavior:**
 
 * Represents a single resizable panel inside a `ResizablePanelGroup`.
 * Resizes according to user interaction with `ResizableHandle`.
 
----
+### ResizableHandle
 
-### **ResizableHandle**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `withHandle` | `boolean` | `false` | Whether to render the visible handle UI (grip icon) |
 
-* **`withHandle`** (`boolean`, optional, default: `false`): Whether to render the visible handle UI (grip icon).
-* **`...props`** (`React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle>`): Native props forwarded to the underlying resize handle.
+*Also accepts all standard `React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle>` props.*
 
 **Behavior:**
 

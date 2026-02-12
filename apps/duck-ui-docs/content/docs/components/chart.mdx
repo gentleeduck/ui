@@ -4,7 +4,7 @@ description: Beautiful charts. Built using Recharts. Copy and paste into your ap
 component: true
 ---
 
-<Callout>
+<Callout icon={<TriangleAlert />}>
 
 **Note:** We're working on upgrading to Recharts v3. In the meantime, if you'd like to start testing v3. We'll have an official release soon.
 
@@ -21,6 +21,27 @@ Introducing **Charts**. A collection of chart components that you can copy and p
 Charts are designed to look great out of the box. They work well with the other components and are fully customizable to fit your project.
 
 [Browse the Charts Library](/charts).
+
+## Philosophy
+
+Charts turn data into stories. We wrap Recharts because building accessible, responsive, animated SVG charts from scratch is a multi-month project — not a component library feature. Our layer adds consistent theming (via ChartConfig), accessible tooltips and legends, and the visual polish that makes charts feel native to your design system.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Chart[Chart]
+  Chart --> recharts[recharts]:::external
+  Chart --> libs["@gentleduck/libs"]:::internal
+  Chart --> react[React Context]
+
+  recharts --> |"provides"| RechartsPrimitives["Tooltip, Legend, Bar, Line, ..."]:::external
+  Chart --> |"adds"| Theming["ChartConfig Theming"]
+  Chart --> |"adds"| CustomTooltip["ChartTooltipContent"]
+  Chart --> |"adds"| CustomLegend["ChartLegendContent"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
 
 ## Component
 
@@ -144,7 +165,7 @@ Let's build your first chart. We'll build a bar chart, add a grid, axis, tooltip
 
 The following data represents the number of desktop and mobile users for each month.
 
-<Callout className="mt-4">
+<Callout icon={<TriangleAlert />} className="mt-4">
 
 **Note:** Your data can be in any shape. You are not limited to the shape of the data below. Use the `dataKey` prop to map your data to the chart.
 
@@ -184,7 +205,7 @@ const chartConfig = {
 
 You can now build your chart using Recharts components.
 
-<Callout className="mt-4 bg-amber-50 border-amber-200 dark:bg-amber-950/50 dark:border-amber-950">
+<Callout icon={<TriangleAlert />} className="mt-4 bg-amber-50 border-amber-200 dark:bg-amber-950/50 dark:border-amber-950">
 
 **Important:** Remember to set a `min-h-[VALUE]` on the `ChartContainer` component. This is required for the chart be responsive.
 
@@ -490,15 +511,7 @@ import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
 ### Props
 
-Use the following props to customize the tooltip.
-
-| Prop            | Type                     | Description                                  |
-| :-------------- | :----------------------- | :------------------------------------------- |
-| `labelKey`      | string                   | The config or data key to use for the label. |
-| `nameKey`       | string                   | The config or data key to use for the name.  |
-| `indicator`     | `dot` `line` or `dashed` | The indicator style for the tooltip.         |
-| `hideLabel`     | boolean                  | Whether to hide the label.                   |
-| `hideIndicator` | boolean                  | Whether to hide the indicator.               |
+See the full [API Reference](#api-reference) below for all available props.
 
 ### Colors
 
@@ -590,3 +603,82 @@ This prop adds keyboard access and screen reader support to your charts.
 ```tsx
 <LineChart accessibilityLayer />
 ```
+
+## API Reference
+
+### ChartContainer
+
+The top-level wrapper component for all charts. Provides chart context and applies default styling for Recharts elements.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `config` | `ChartConfig` | -- | (required) Chart configuration object mapping data keys to labels, icons, and colors. |
+| `id` | `string` | -- | Optional id used to scope CSS custom properties. Auto-generated when omitted. |
+| `children` | `React.ComponentProps<typeof ResponsiveContainer>['children']` | -- | (required) Recharts chart element(s) to render inside the responsive container. |
+| `className` | `string` | -- | Additional CSS classes applied to the outer `div`. |
+| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the outer `div`. |
+
+*Also accepts all standard `HTMLDivElement` attributes.*
+
+### ChartTooltipContent
+
+Custom content renderer for `<ChartTooltip>` (Recharts `Tooltip`). Reads theme colors from chart context.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `labelKey` | `string` | -- | Config or data key to use for the tooltip label. |
+| `nameKey` | `string` | -- | Config or data key to use for the tooltip name. |
+| `indicator` | `'dot' \| 'line' \| 'dashed'` | `'dot'` | Visual style of the color indicator next to each item. |
+| `hideLabel` | `boolean` | `false` | Whether to hide the tooltip label entirely. |
+| `hideIndicator` | `boolean` | `false` | Whether to hide the color indicator. |
+| `label` | `string` | -- | Raw label value provided by Recharts. |
+| `labelFormatter` | `(value: any, payload: any[]) => React.ReactNode` | -- | Custom formatter for the tooltip label. Receives the resolved label value and full payload. |
+| `formatter` | `(value: any, name: string, item: any, index: number, payload: any) => React.ReactNode` | -- | Custom formatter for individual tooltip items. When provided, replaces the default item rendering. |
+| `color` | `string` | -- | Override color for the indicator. Falls back to `item.payload.fill` then `item.color`. |
+| `labelClassName` | `string` | -- | Additional CSS classes applied to the label element. |
+| `className` | `string` | -- | Additional CSS classes applied to the tooltip container. |
+| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the tooltip container `div`. |
+
+*Also accepts all Recharts `Tooltip` props (`active`, `payload`, etc.) and standard `HTMLDivElement` attributes.*
+
+### ChartLegendContent
+
+Custom content renderer for `<ChartLegend>` (Recharts `Legend`). Reads theme colors and icons from chart context.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `nameKey` | `string` | -- | Config or data key to use for legend item names. |
+| `hideIcon` | `boolean` | `false` | Whether to hide the icon or color swatch for each legend entry. |
+| `verticalAlign` | `'top' \| 'bottom'` | `'bottom'` | Vertical alignment of the legend relative to the chart. Controls top/bottom padding. |
+| `payload` | `RechartsPrimitive.LegendProps['payload']` | -- | Legend payload provided automatically by Recharts. |
+| `className` | `string` | -- | Additional CSS classes applied to the legend container. |
+| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the legend container `div`. |
+
+*Also accepts all standard `HTMLDivElement` attributes.*
+
+### ChartStyle
+
+Internal component that injects a `<style>` tag to set CSS custom properties (`--color-*`) for each chart data key based on the `config`. Supports light/dark theming.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | -- | (required) The chart id used to scope styles via `[data-chart]` attribute selector. |
+| `config` | `ChartConfig` | -- | (required) Chart configuration object. Entries with `theme` or `color` values produce CSS custom properties. |
+
+### ChartConfig
+
+The configuration type used by all chart components.
+
+```tsx
+type ChartConfig = {
+  [k in string]: {
+    label?: React.ReactNode
+    icon?: React.ComponentType
+  } & (
+    | { color?: string; theme?: never }
+    | { color?: never; theme: Record<'light' | 'dark', string> }
+  )
+}
+```
+
+Each key maps to a data series. Use either `color` (single value) or `theme` (light/dark pair) -- never both.

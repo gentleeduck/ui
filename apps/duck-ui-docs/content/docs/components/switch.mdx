@@ -6,6 +6,28 @@ component: true
 
 <ComponentPreview name="switch-1" description="A switch component." />
 
+## Philosophy
+
+Switches represent immediate, binary state changes — unlike checkboxes, which defer action to a form submission. This semantic distinction matters for UX: a switch should take effect instantly. We support custom SVG indicators so the on/off metaphor can match your design language without sacrificing the accessible `role="switch"` foundation.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Switch[Switch]
+  Switch --> primitives["@gentleduck/primitives\n/checkers"]:::internal
+  Switch --> motion["@gentleduck/motion"]:::internal
+  Switch --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"provides"| SvgIndicator["useSvgIndicator\n(custom icons)"]
+  primitives --> |"provides"| NativeCheckbox["Native Checkbox\nwith role=switch"]
+  motion --> |"provides"| AnimVariants["Slide Animation"]
+  motion --> |"provides"| CheckerStyles["checkersStylePattern"]
+  Switch --> |"adds"| A11y["aria-checked\naria-label"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -62,20 +84,27 @@ import { Switch } from "@/components/ui/switch"
 
 ## API Reference
 
-### **Switch**
+### Switch
 
-* **`className`** (`string`, optional): Additional class names to apply to the underlying checkbox input.
-* **`indicator`** (`React.ReactElement`, optional): Custom SVG or React element to render as the unchecked state indicator.
-* **`checkedIndicator`** (`React.ReactElement`, optional): Custom SVG or React element to render as the checked state indicator.
-* **`onChange`** (`(event: React.ChangeEvent<HTMLInputElement>) => void`, optional): Event handler for the native checkbox `change` event.
-* **`onCheckedChange`** (`(checked: boolean) => void`, optional): Callback called with the new checked boolean value when the switch toggles.
-* **`ref`** (`React.Ref<HTMLInputElement>`, optional): Ref forwarded to the native checkbox input element.
-* **`style`** (`React.CSSProperties`, optional): Inline styles applied to the input element.
-* **`...props`** (`React.HTMLProps<HTMLInputElement>`): Additional native input props forwarded to the checkbox input.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names for the checkbox input |
+| `indicator` | `React.ReactElement` | -- | Custom element for the unchecked state indicator |
+| `checkedIndicator` | `React.ReactElement` | -- | Custom element for the checked state indicator |
+| `onChange` | `(event: ChangeEvent) => void` | -- | Native checkbox `change` event handler |
+| `onCheckedChange` | `(checked: boolean) => void` | -- | Callback with the new checked boolean when toggled |
+| `ref` | `React.Ref<HTMLInputElement>` | -- | Ref forwarded to the native checkbox input |
+| `style` | `React.CSSProperties` | -- | Inline styles applied to the input element |
 
----
+*Also accepts all standard HTML `input` props.*
 
 **Behavior:**
+
 Renders an accessible checkbox with `role="switch"` supporting custom SVG indicators for checked and unchecked states. Applies animated styles based on the presence of indicators and manages both native `onChange` and a boolean-based `onCheckedChange` callback.
 
 The `useSvgIndicator` hook manages which indicator SVG to show and injects styles to the input for proper display.
+
+## See also
+
+- [Checkbox](/docs/components/checkbox) — Multi-selection toggle control
+- [Radio Group](/docs/components/radio-group) — Single selection from a set of options

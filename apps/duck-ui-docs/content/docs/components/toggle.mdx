@@ -9,6 +9,23 @@ component: true
   description="A toggle component."
 />
 
+## Philosophy
+
+Toggles represent a stateful action — not navigation, not form submission, but "turn this on or off." The distinction from buttons matters: toggles carry `aria-pressed` state and communicate their current value visually. We integrate with `@gentleduck/variants` to keep visual states clean and type-safe.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Toggle[Toggle]
+  Toggle --> variants["@gentleduck/variants"]:::internal
+  Toggle --> libs["@gentleduck/libs"]:::internal
+  variants --> |"provides"| VariantSystem["Variant System\n(default, outline)"]
+  variants --> |"provides"| Sizes["Size Variants\n(sm, default, lg)"]
+  Toggle --> |"wraps"| NativeInput["Native Checkbox\n(hidden input)"]
+  Toggle --> |"manages"| AriaPressed["aria-pressed\nState"]
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -37,7 +54,7 @@ npm install @gentleduck/variants @gentleduck/libs
 
 <Step>Add the `Toggle` component to your project.</Step>
 
-The `Pagination` component uses the `[Toggle](/components/toggle)` component. Make sure you have it installed in your project.
+The `ToggleGroup` component uses the [`Toggle`](/components/toggle) component. Make sure you have it installed in your project.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -107,22 +124,21 @@ import { Toggle } from '@/components/ui/toggle'
 
 ## API Reference
 
-### **Toggle**
+### Toggle
 
-* **`value`** (`string`, required): The value associated with the toggle input.
-* **`variant`** (`'default' | 'outline'`, optional, default: `'default'`): Visual style variant of the toggle.
-* **`size`** (`'default' | 'sm' | 'lg'`, optional, default: `'default'`): Size variant of the toggle.
-* **`disabled`** (`boolean`, optional, default: `false`): Disables the toggle if set to `true`.
-* **`...props`** (`React.HTMLProps<HTMLInputElement>`): Additional native input props forwarded to the hidden `<input>`.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | (required) | The value associated with the toggle input |
+| `variant` | `'default' \| 'outline'` | `'default'` | Visual style variant of the toggle |
+| `size` | `'default' \| 'sm' \| 'lg'` | `'default'` | Size variant of the toggle |
+| `disabled` | `boolean` | `false` | Disables the toggle if set to `true` |
 
----
+*Also accepts all standard HTML `input` props.*
 
 **Behavior:**
 Renders a visually styled toggle switch wrapping a native checkbox `<input>` (hidden and invisible). The toggle visually updates based on the input's checked and disabled states using CSS selectors. The component supports size and variant styling via `toggleVariants`, which uses `cva` for variant management.
 
----
-
-### **toggleVariants**
+### toggleVariants
 
 A variant style function built with `cva` that defines CSS class names based on:
 

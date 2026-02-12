@@ -9,6 +9,10 @@ links:
 
 <ComponentPreview name="navigation-menu-1" className="[&_&[duck-preview]]:overflow-visible" />
 
+## Philosophy
+
+Navigation menus serve a different purpose than dropdown menus — they're for wayfinding, not actions. The distinction matters for accessibility: navigation menus use `<nav>` and link semantics, while dropdown menus use `role="menu"` and button semantics. We expose viewport and indicator sub-components for advanced hover/focus animations.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -77,6 +81,18 @@ import {
   </NavigationMenuList>
 </NavigationMenu>
 ```
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[NavigationMenu] --> B[NavigationMenuList]
+    B --> C[NavigationMenuItem]
+    C --> D[NavigationMenuTrigger]
+    C --> E[NavigationMenuContent]
+    C --> F[NavigationMenuLink]
+    A --> G[NavigationMenuViewport]
+    A --> H[NavigationMenuIndicator]
+`} />
 
 ## Link
 

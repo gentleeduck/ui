@@ -8,6 +8,25 @@ component: true
 
 <ComponentPreview name="input-group-1" className="[&_.preview]:p-4" />
 
+## Philosophy
+
+Complex input patterns — search bars, URL fields, currency inputs — need structure beyond a bare `<input>`. InputGroup composes Input with addons, icons, and buttons in a unified container. Rather than building a mega-input with dozens of props, we give you building blocks that snap together. Composition over configuration.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  InputGroup[InputGroup]
+  InputGroup --> variants["@gentleduck/variants"]:::internal
+  InputGroup --> libs["@gentleduck/libs"]:::internal
+  InputGroup --> Button["Button"]:::component
+  InputGroup --> Input["Input"]:::component
+  InputGroup --> Textarea["Textarea"]:::component
+  variants --> |"provides"| LayoutVariants["Layout Variants\n(direction, size)"]
+  InputGroup --> |"manages"| ConnectedInputs["Connected Borders\n& Focus States"]
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -175,7 +194,7 @@ The main component that wraps inputs and addons.
 
 Displays icons, text, buttons, or other content alongside inputs.
 
-<Callout  title="Focus Navigation">
+<Callout icon={<Lightbulb />} title="Focus Navigation">
   For proper focus navigation, the `InputGroupAddon` component should be placed
   after the input. Set the `align` prop to position the addon.
 </Callout>

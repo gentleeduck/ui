@@ -9,6 +9,33 @@ component: true
   description="A combobox with a list of frameworks."
 />
 
+## Philosophy
+
+Comboboxes solve the "too many options" problem -- they combine a text input with a filterable dropdown. We make the component fully generic (`Combobox<TData, TType>`) because your data shape shouldn't be our concern. The composition with Popover and Command means you get search, keyboard navigation, and multi-select for free.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Combobox[Combobox]
+  Combobox --> libs["@gentleduck/libs"]:::internal
+  Combobox --> Popover["Popover"]:::component
+  Combobox --> CommandComp["Command"]:::component
+  Combobox --> Badge["Badge"]:::component
+  Combobox --> Button["Button"]:::component
+  Combobox --> Checkbox["Checkbox"]:::component
+  Combobox --> Separator["Separator"]:::component
+
+  Popover --> |"provides"| Positioning["Dropdown\nPositioning"]
+  CommandComp --> |"provides"| Search["Fuzzy Search"]
+  CommandComp --> |"provides"| KeyNav["Keyboard\nNavigation"]
+  Combobox --> |"adds"| MultiSelect["Multi-select\nwith Badges"]
+  Combobox --> |"adds"| Generics["Type-safe\nGenerics"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 The Combobox is built using a composition of the `<Popover />` and the `<Command />` components.
@@ -121,6 +148,21 @@ export function ExampleCombobox() {
 
 Note: The `Combobox` wrapper component (`@/components/ui/combobox`) uses item `value`s for `value`, `defaultValue`, and `onValueChange`. Use `label` for display only.
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Combobox] --> B[Popover]
+    A --> C[Command]
+    B --> D[PopoverTrigger]
+    B --> E[PopoverContent]
+    E --> C
+    C --> F[CommandInput]
+    C --> G[CommandList]
+    G --> H[CommandEmpty]
+    G --> I[ComboxGroup]
+    I --> J[ComboboxItem]
+`} />
+
 ## Examples
 
 ### Combobox
@@ -150,3 +192,48 @@ You can create a responsive combobox by using the `<Popover />` on desktop and t
 ### Form
 
 <ComponentPreview name="combobox-6" />
+
+## API Reference
+
+### Combobox\<TData, TType\>
+
+A generic combobox component built on top of `Popover` and `Command`. Supports both single and multiple selection via the `TType` generic parameter (defaults to `'single'`).
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `TData` | -- | (required) Readonly array of `{ label: string; value: string }` objects to display as options. |
+| `children` | `(item: TData) => React.ReactNode` | -- | (required) Render function that receives the `items` array and returns the list content (e.g. `ComboboxItem` elements). |
+| `value` | `TData[number]['value']` (single) or `TData[number]['value'][]` (multiple) | -- | Controlled selected value. Shape depends on `TType`. |
+| `defaultValue` | `TData[number]['value']` (single) or `TData[number]['value'][]` (multiple) | -- | Uncontrolled default value. Shape depends on `TType`. |
+| `onValueChange` | `(value) => void` | -- | Callback fired when the value changes. Receives a single string (single mode) or string array (multiple mode). |
+| `withSearch` | `boolean` | `true` | Whether to show the search input inside the command list. |
+| `showSelected` | `boolean` | `true` | Whether to display the currently selected value(s) in the trigger button. In multiple mode, values beyond 2 are collapsed into a "+N Selected" badge. |
+| `commandTriggerPlaceholder` | `string` | `'Select item...'` | Placeholder text shown in the trigger button when no value is selected. |
+| `commandEmpty` | `string` | `'Nothing found.'` | Text shown inside the command list when no results match the search query. |
+| `popover` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Props spread onto the root `Popover` component. |
+| `popoverTrigger` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props spread onto the trigger `Button`. The `variant` defaults to `'dashed'` when not provided. |
+| `popoverContent` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Props spread onto `PopoverContent`. `className` is merged with the default `'w-[200px] p-0'`. |
+| `command` | `React.ComponentPropsWithoutRef<typeof Command>` | -- | Props spread onto the inner `Command` component. |
+| `commandInput` | `React.ComponentPropsWithoutRef<typeof CommandInput>` | -- | Props spread onto `CommandInput` when `withSearch` is `true`. |
+
+### ComboboxItem\<T\>
+
+A single selectable item inside the combobox list. Renders a `CommandItem` with a `Checkbox` indicator.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `item` | `T extends { label: string; value: string }` | -- | (required) The item object. Its `label` is displayed as text and `value` is used for selection. |
+| `onSelect` | `(value: T['value']) => void` | -- | Callback fired when this item is selected. Receives the item's `value`. |
+| `checked` | `boolean` | -- | Whether the checkbox indicator shows as checked. |
+
+*Also accepts all `CommandItem` props (except `onSelect`, which is replaced by the typed version above).*
+
+### ComboxGroup
+
+A convenience wrapper around `CommandGroup` for grouping combobox items.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | (required) `ComboboxItem` elements or other content to render inside the group. |
+
+*Accepts all `CommandGroup` props (`heading`, `className`, etc.).*

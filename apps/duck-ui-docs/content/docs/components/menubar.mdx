@@ -6,6 +6,10 @@ component: true
 
 <ComponentPreview name="menubar-1" description="A menubar component." />
 
+## Philosophy
+
+Menubars bring desktop-application navigation patterns to the web. The keyboard model (arrow keys between menus, type-ahead search within items) follows established platform conventions because muscle memory matters more than novelty. We build on DropdownMenu internals so each menu panel gets the same rich feature set.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -78,3 +82,94 @@ import {
   </MenubarMenu>
 </Menubar>
 ```
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Menubar] --> B[MenubarMenu]
+    B --> C[MenubarTrigger]
+    B --> D[MenubarContent]
+    D --> E[MenubarItem]
+    D --> F[MenubarCheckboxItem]
+    D --> G[MenubarRadioGroup]
+    G --> H[MenubarRadioItem]
+    D --> I[MenubarLabel]
+    D --> J[MenubarSeparator]
+    D --> K[MenubarSub]
+    K --> L[MenubarSubTrigger]
+    K --> M[MenubarSubContent]
+`} />
+
+## API Reference
+
+### Menubar
+
+Root container that renders a horizontal bar and manages keyboard navigation across all menus. Provides `MenubarContext` for coordinating open state, trigger focus, and arrow-key movement between menus.
+
+*Accepts all standard HTML `div` props.*
+
+**Behavior:**
+Handles `ArrowLeft`/`ArrowRight` keyboard navigation to move between menu triggers. When one menu is open, hovering over another trigger automatically switches to that menu.
+
+### MenubarMenu
+
+Wrapper for an individual menu within the menubar. Renders a `DropdownMenu` internally.
+
+*Accepts all standard HTML `div` props (excluding `contextMenu`).*
+
+### MenubarTrigger
+
+Button that opens a specific menu in the menubar. Styled as a ghost button with `sm` size.
+
+*Accepts all `DropdownMenuTrigger` props.*
+
+### MenubarContent
+
+*Accepts all `DropdownMenuContent` props.*
+
+**Behavior:**
+Registers a `keydown` listener for `ArrowUp`/`ArrowDown` item navigation and `ArrowLeft`/`ArrowRight` to switch between menubar menus from within an open dropdown.
+
+### MenubarItem
+
+*Accepts all `DropdownMenuItem` props.*
+
+### MenubarCheckboxItem
+
+*Accepts all `DropdownMenuCheckboxItem` props.*
+
+### MenubarRadioGroup
+
+*Accepts all `DropdownMenuRadioGroup` props.*
+
+### MenubarRadioItem
+
+*Accepts all `DropdownMenuRadioItem` props.*
+
+### MenubarLabel
+
+*Accepts all `DropdownMenuLabel` props.*
+
+### MenubarSeparator
+
+*Accepts all `DropdownMenuSeparator` props.*
+
+### MenubarShortcut
+
+*Accepts all `DropdownMenuShortcut` props.*
+
+### MenubarGroup
+
+*Accepts all `DropdownMenuGroup` props.*
+
+### MenubarSub
+
+*Accepts all `DropdownMenuSub` props.*
+
+### MenubarSubTrigger
+
+*Accepts all `DropdownMenuSubTrigger` props.*
+
+### MenubarSubContent
+
+*Accepts all `DropdownMenuSubContent` props.*

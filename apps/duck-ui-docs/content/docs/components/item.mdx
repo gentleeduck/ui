@@ -10,6 +10,26 @@ You can pretty much achieve the same result with the `div` element and some clas
 
 <ComponentPreview name="item-1" className="[&_.preview]:p-4" />
 
+## Philosophy
+
+The Item component is a universal list entry primitive. Rather than building separate list-item variants for every context (settings, menus, selections), Item provides a flexible container with consistent spacing, alignment, and interactive states. It's the atoms-level building block that higher-level components compose upon.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Item[Item]
+  Item --> variants["@gentleduck/variants"]:::internal
+  Item --> primitives["@gentleduck/primitives\n/slot"]:::internal
+  Item --> libs["@gentleduck/libs"]:::internal
+  Item --> Separator["Separator"]:::component
+  variants --> |"provides"| VariantSystem["Size & Layout\nVariants"]
+  primitives --> |"provides"| AsChild["asChild Rendering"]
+  Item --> |"composes"| ItemContent["ItemContent"]
+  Item --> |"composes"| ItemActions["ItemActions"]
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">

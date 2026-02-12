@@ -9,6 +9,10 @@ component: true
   description="A tabs component with two forms."
 />
 
+## Philosophy
+
+Tabs organize content into parallel views — only one is visible at a time, but all are equally important. We keep the component controlled-optional (works with or without state management) because simple use cases shouldn't pay the complexity tax. The TabsList/TabsTrigger/TabsContent split keeps styling separate from behavior.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -67,38 +71,49 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 </Tabs>
 ```
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Tabs] --> B[TabsList]
+    B --> C[TabsTrigger]
+    A --> D[TabsContent]
+`} />
+
 ## API Reference
 
-### **Tabs Props**
+### Tabs
 
-* **`value?: string`**: Controlled active tab value. Must be used alongside `onValueChange`.
-* **`defaultValue?: string`**: Uncontrolled initial tab value.
-* **`onValueChange?: (value: string) => void`**: Callback fired when the active tab changes.
-* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props applied to the root tablist container.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | `--` | Controlled active tab value. Must be used alongside `onValueChange` |
+| `defaultValue` | `string` | `--` | Uncontrolled initial tab value |
+| `onValueChange` | `(value: string) => void` | `--` | Callback fired when the active tab changes |
 
----
+*Also accepts all standard HTML `div` props.*
 
-### **TabsList Props**
+### TabsList
 
-* **`...props?: React.HTMLProps<HTMLUListElement>`**: Native `<ul>` props passed to the tabs list container.
-* Rendered with:
-  `role="tablist"` and `aria-orientation="vertical"` (can be changed later).
+*Accepts all standard HTML `ul` props.*
 
----
+Rendered with `role="tablist"` and `aria-orientation="vertical"` (can be changed later).
 
-### **TabsTrigger Props**
+### TabsTrigger
 
-* **`value: string`**: A unique value that identifies this tab trigger.
-* **`defaultChecked?: boolean`**: If true, sets this tab as the default active tab on first render.
-* **`disabled?: boolean`**: Disables the tab trigger from user interaction.
-* **`children: ReactNode`**: Label or node to render inside the tab.
-* **`...props?: React.HTMLProps<HTMLLIElement>`**: Other native `<li>` props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | (required) | A unique value that identifies this tab trigger |
+| `defaultChecked` | `boolean` | `--` | If true, sets this tab as the default active tab on first render |
+| `disabled` | `boolean` | `--` | Disables the tab trigger from user interaction |
+| `children` | `ReactNode` | `--` | Label or node to render inside the tab |
 
----
+*Also accepts all standard HTML `li` props.*
 
-### **TabsContent Props**
+### TabsContent
 
-* **`value: string`**: The associated value that matches a `TabsTrigger`.
-* **`forceMount?: boolean`** (default: `true`): Ensures the content is mounted even when hidden.
-* **`children: ReactNode`**: Tab panel content.
-* **`...props?: React.HTMLProps<HTMLDivElement>`**: Other native `<div>` props applied to the content container.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | (required) | The associated value that matches a `TabsTrigger` |
+| `forceMount` | `boolean` | `true` | Ensures the content is mounted even when hidden |
+| `children` | `ReactNode` | `--` | Tab panel content |
+
+*Also accepts all standard HTML `div` props.*

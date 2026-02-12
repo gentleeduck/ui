@@ -6,6 +6,26 @@ component: true
 
 <ComponentPreview name="hover-card-1" description="A hover card component" />
 
+## Philosophy
+
+Hover cards provide progressive disclosure without commitment. They let users preview content before clicking, reducing unnecessary navigation. We build on Popover primitives because hover cards are fundamentally popovers with mouse-enter triggers — shared internals mean consistent behavior and smaller bundle size.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  HoverCard[HoverCard]
+  HoverCard --> primitives["@gentleduck/primitives\n/hover-card"]:::internal
+  HoverCard --> motion["@gentleduck/motion"]:::internal
+  HoverCard --> libs["@gentleduck/libs"]:::internal
+  HoverCard --> Button["Button"]:::component
+  primitives --> |"provides"| HoverTrigger["Hover Detection\n& Timing"]
+  primitives --> |"provides"| Positioning["Floating UI\nPositioning"]
+  motion --> |"provides"| AnimVariants["Entry/Exit\nAnimations"]
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -69,37 +89,42 @@ import {
 
 ## API Reference
 
-### **HoverCard**
+### HoverCard
 
-* **`skipDelayDuration`** (`boolean`, optional): Skip the delay duration before showing the card.
-* **`delayDuration`** (`number`, optional): Delay time in milliseconds before showing the card.
-* **`placement`** (`string`, optional, default: `'bottom'`): Position of the hover card relative to the trigger.
-* **`...props`** (`React.ComponentPropsWithRef<typeof HoverCardPrimitive.Root>`): Native props passed to the root component.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `skipDelayDuration` | `boolean` | `--` | Skip the delay duration before showing the card |
+| `delayDuration` | `number` | `--` | Delay time in milliseconds before showing the card |
+| `placement` | `string` | `'bottom'` | Position of the hover card relative to the trigger |
+
+*Also accepts all standard `HoverCardPrimitive.Root` props.*
 
 **Behavior:**
 
 * Root component controlling hover card open state and positioning.
 
----
+### HoverCardTrigger
 
-### **HoverCardTrigger**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `string` | `'outline'` | Variant style applied to the internal button |
+| `asChild` | `boolean` | `false` | Whether to use the child as the trigger element directly |
 
-* **`variant`** (`string`, optional, default: `'outline'`): Variant style applied to the internal button.
-* **`asChild`** (`boolean`, optional, default: `false`): Whether to use the child as the trigger element directly.
-* **`...props`** (`React.ComponentPropsWithRef<typeof HoverCardPrimitive.Trigger>` & `React.ComponentPropsWithRef<typeof Button>`): Props forwarded to the trigger and internal button.
+*Also accepts all standard `HoverCardPrimitive.Trigger` and `Button` props.*
 
 **Behavior:**
 
 * Wraps the trigger element in a `Button` by default with configurable variant.
 * Supports forwarding refs and using a custom child element as trigger.
 
----
+### HoverCardContent
 
-### **HoverCardContent**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `animation` | `string` | `'default'` | Animation variant controlling content appearance, from `AnimDialogVariants` |
+| `overlay` | `string` | `'nothing'` | Overlay style variant from `AnimVariants` |
 
-* **`animation`** (`string`, optional, default: `'default'`): Animation variant controlling content appearance, from `AnimDialogVariants`.
-* **`overlay`** (`string`, optional, default: `'nothing'`): Overlay style variant from `AnimVariants`.
-* **`...props`** (`React.ComponentPropsWithRef<typeof HoverCardPrimitive.Content>`): Native props forwarded to content.
+*Also accepts all standard `HoverCardPrimitive.Content` props.*
 
 **Behavior:**
 

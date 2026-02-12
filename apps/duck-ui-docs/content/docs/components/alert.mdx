@@ -10,6 +10,22 @@ component: true
   description="An alert with an icon, title and description. The title says 'Heads up!' and the description is 'You can add components to your app using the cli.'."
 />
 
+## Philosophy
+
+Alerts exist to break the user's flow — intentionally. When something demands attention, a subtle inline message beats a disruptive modal every time. We keep the API to just `variant` because an alert's job is simple: show a message with visual weight. Anything more complex belongs in a dialog.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Alert[Alert]
+  Alert --> variants["@gentleduck/variants"]:::internal
+  Alert --> libs["@gentleduck/libs"]:::internal
+  variants --> |"provides"| VariantSystem["Variant System\n(default, destructive)"]
+  Alert --> |"composes"| AlertTitle["AlertTitle"]
+  Alert --> |"composes"| AlertDescription["AlertDescription"]
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -33,7 +49,7 @@ npx @gentleduck/cli add alert
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentledduck/variants @gentleduck/libs
+npm install @gentleduck/variants @gentleduck/libs
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -66,27 +82,28 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 ## API Reference
 
----
+### Alert
 
-### **Alert**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `'default' \| 'destructive'` | `'default'` | Visual style variant for the alert |
+| `className` | `string` | -- | Additional class names to apply |
 
-* **`variant`** (`VariantProps<typeof alertVariants>['variant']`, optional): Visual style variant for the alert.
-* **`className`** (`string`, optional): Additional class names to apply.
-* **`...props`** (`React.ComponentProps<'div'>`): Native `div` element props.
+*Also accepts all standard HTML `div` props.*
 
----
+### AlertTitle
 
-### **AlertTitle**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names to apply |
 
-* **`className`** (`string`, optional): Additional class names to apply.
-* **`...props`** (`React.ComponentProps<'div'>`): Native `div` element props.
+*Also accepts all standard HTML `div` props.*
 
----
+### AlertDescription
 
-### **AlertDescription**
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names to apply |
 
-* **`className`** (`string`, optional): Additional class names to apply.
-* **`...props`** (`React.ComponentProps<'div'>`): Native `div` element props.
-
-
+*Also accepts all standard HTML `div` props.*
 

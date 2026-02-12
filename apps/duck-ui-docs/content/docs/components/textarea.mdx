@@ -9,6 +9,10 @@ component: true
   description="A textarea"
 />
 
+## Philosophy
+
+When a single line isn't enough, Textarea steps in. It's the same design philosophy as Input — a thin wrapper around the native element with consistent styling. We don't add auto-resize or character counting because those are features you compose on top, not defaults everyone pays for.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -100,12 +104,15 @@ import { Textarea } from '@/components/ui/textarea'
 
 ## API Reference
 
-### **Textarea**
+### Textarea
 
-* **`props`** (`React.HTMLProps<HTMLTextAreaElement>`): All other native textarea props forwarded to the underlying element.
-
----
+*Accepts all standard HTML `textarea` props.*
 
 **Behavior:**
 Renders a styled native `<textarea>` element with default styles for borders, padding, focus ring, disabled state, and responsive font sizing. Supports additional class names and ref forwarding. The `duck-textarea` attribute is added for custom styling or targeting.
+
+## See also
+
+- [Input](/docs/components/input) — Single-line text input
+- [Label](/docs/components/label) — Accessible label for form controls
 

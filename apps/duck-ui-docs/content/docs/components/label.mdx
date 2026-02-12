@@ -6,6 +6,10 @@ component: true
 
 <ComponentPreview name="label-1" description="A label" />
 
+## Philosophy
+
+Labels are the accessibility backbone of every form. A form control without a label is invisible to screen readers. We ship Label as a standalone component rather than baking it into every form element because composition is more flexible than configuration — you decide where the label goes and how it connects.
+
 ## Installation
 
 <Tabs defaultValue="cli" >
@@ -56,13 +60,13 @@ import { Label } from "@/components/ui/label"
 
 ## API Reference
 
-### **Label**
+### Label
 
-* **`props`** (`React.HTMLProps<HTMLLabelElement>`): Other native label props such as `htmlFor`, `children`, etc.
+*Accepts all standard HTML `label` props such as `htmlFor`, `children`, etc.*
 
 **Behavior:**
 
-* Renders a styled `<label>` element with default font size, weight, and disabled state styles.
-* Supports merging custom classes via the `cn` utility.
-* Works well with form inputs, especially when using `peer` selectors for interactivity.
+- Renders a styled `<label>` element with default font size, weight, and disabled state styles.
+- Supports merging custom classes via the `cn` utility.
+- Works well with form inputs, especially when using `peer` selectors for interactivity.
 
