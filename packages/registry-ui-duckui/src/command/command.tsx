@@ -56,7 +56,6 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
   useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
   useHandleKeyDown({
     allowAxisArrowKeys: false,
-    containerRef: commandRef,
     itemsRef: filteredItems,
     open: true,
     originalItemsRef: items,
@@ -79,7 +78,6 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
         )}
         data-slot="command"
         duck-command-wrapper=""
-        id={React.useId()}
         ref={commandRef}
         {...props}
       />
@@ -99,6 +97,7 @@ function CommandInput({
   className,
   placeholder = 'Search...',
   onChange,
+  autoFocus = true,
   ...props
 }: React.HTMLProps<HTMLInputElement>): React.JSX.Element {
   const { setSearch } = useCommandContext()
@@ -111,6 +110,7 @@ function CommandInput({
       duck-command-input="">
       <Search className="size-[20px] shrink-0 opacity-50" />
       <input
+        autoFocus={autoFocus}
         className={cn(
           'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
         )}
@@ -244,7 +244,7 @@ function CommandShortcut({
 function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>): React.JSX.Element {
   return (
     <div
-      className={cn('my-2 h-px bg-secondary', className)}
+      className={cn('-mx-1 my-2 h-px bg-secondary', className)}
       ref={ref}
       {...props}
       data-slot="command-separator"
@@ -256,7 +256,7 @@ function CommandSeparator({ className, ref, ...props }: React.HTMLProps<HTMLDivE
 function CommandDialog({ children, ...props }: React.ComponentPropsWithRef<typeof Dialog>): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="h-[500px] w-95 p-0 lg:w-[650px] [&>div]:max-w-full">
+      <DialogContent className="h-[500px] p-0 lg:w-[650px] [&>div]:max-w-full">
         <Command>{children}</Command>
       </DialogContent>
     </Dialog>
