@@ -1,5 +1,11 @@
 # @gentleduck/gen
 
+## 0.2.7
+
+### Patch Changes
+
+- 0a77c38: new features
+
 ## 0.2.5
 
 ### Patch Changes
