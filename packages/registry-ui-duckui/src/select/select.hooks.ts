@@ -15,7 +15,6 @@ export function useSelectScroll(
 
     if (!keyDown || !keyUp) return
 
-    // @ts-ignore
     let intervalId: NodeJS.Timeout | null = null
 
     const moveSelectionDown = () => {

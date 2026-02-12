@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { type Decorator, type MethodDeclaration, type Node, SyntaxKind, type Type, ts } from 'ts-morph'
-import { formatPropKey, isNodeModulesFile, isTsLibFile, relImport } from '../../../shared/utils'
+import { formatPropKey, isNodeModulesFile, isTsLibFile, relImport, sanitizeTypeText } from '../../../shared/utils'
 import { HTTP_METHOD_BY_DECORATOR, HTTP_METHOD_DECORATORS } from './api-routes.constants'
 import type { CompilerTypeWithId, HttpMethod, HttpMethodDecorator, TypeSymbolImportInfo } from './api-routes.types'
 
@@ -18,13 +18,13 @@ export function shouldSkipFile(sfPath: string): boolean {
 const TYPE_TEXT_FLAGS =
   ts.TypeFormatFlags.NoTruncation |
   ts.TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
-  ts.TypeFormatFlags.InTypeAlias |
-  ts.TypeFormatFlags.UseFullyQualifiedType
+  ts.TypeFormatFlags.InTypeAlias
 
 export function getTypeText(node: Node, normalizeAnyToUnknown: boolean): string {
   const t = node.getType()
   if (normalizeAnyToUnknown && t.isAny()) return 'unknown'
-  return t.getText(node, TYPE_TEXT_FLAGS) || 'unknown'
+  const text = t.getText(node, TYPE_TEXT_FLAGS) || 'unknown'
+  return sanitizeTypeText(text)
 }
 
 export function mergeTypes(parts: string[]): string {
@@ -132,7 +132,7 @@ export function doc(lines: string[]): string[] {
   return ['/** 🦆', ...lines.map((l) => ` * 🦆 ${l}`), ' */']
 }
 
-// 🦆 Collect all referenced symbols for a type (union/intersection/generics).
+// 🦆 Collect all referenced symbols for a type (union/intersection/generics/properties).
 export function collectTypeSymbols(t: Type, out: Set<ts.Symbol>): void {
   const seen = new Set<number>()
 
@@ -149,6 +149,24 @@ export function collectTypeSymbols(t: Type, out: Set<ts.Symbol>): void {
     for (const u of ty.getUnionTypes()) visit(u)
     for (const i of ty.getIntersectionTypes()) visit(i)
     for (const arg of ty.getTypeArguments()) visit(arg)
+
+    // Traverse array element types
+    const elementType = ty.getArrayElementType()
+    if (elementType) visit(elementType)
+
+    // Traverse object property types so getText() references have imports
+    for (const prop of ty.getProperties()) {
+      const decls = prop.getDeclarations()
+      const decl = decls[0]
+      if (decl) {
+        try {
+          const propType = prop.getTypeAtLocation(decl)
+          visit(propType)
+        } catch {
+          // skip properties whose type can't be resolved
+        }
+      }
+    }
 
     const apparent = ty.getApparentType()
     if (apparent !== ty) visit(apparent)

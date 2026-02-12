@@ -38,6 +38,11 @@ export function initRefs(
     } else {
       item = itemsRef.current?.[0] ?? null
     }
+
+    if (item) {
+      selectedItemRef.current = item
+      setSelectedItem(item)
+    }
   }
 
   for (let i = 0; i < itemsRef.current?.length; i++) {
@@ -54,7 +59,7 @@ export function initRefs(
       dstyleItem(item)
     }
 
-    item.addEventListener('click', () => {
+    item.onclick = () => {
       selectedItemRef.current = item
       setSelectedItem(item)
       onValueChange(item.getAttribute('value') as string)
@@ -64,6 +69,6 @@ export function initRefs(
         const item = itemsRef.current[i] as HTMLLIElement
         dstyleItem(item)
       }
-    })
+    }
   }
 }

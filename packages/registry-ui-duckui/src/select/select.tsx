@@ -23,9 +23,9 @@ export function useSelectContext() {
 function SelectWrapper({
   children,
   scrollable = false,
-  value = '',
+  value,
   onValueChange = () => {},
-  defaultValue,
+  defaultValue = '',
 }: {
   children: React.ReactNode
   scrollable?: boolean
@@ -41,9 +41,15 @@ function SelectWrapper({
   const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
   const itemsRef = React.useRef<HTMLLIElement[]>([])
   const selectedItemRef = React.useRef<HTMLLIElement | null>(null)
+  const selectValue = value ?? ''
 
   React.useEffect(() => {
-    setTimeout(() => {
+    selectedItemRef.current = null
+    setSelectedItem(null)
+  }, [value, defaultValue])
+
+  React.useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
       initRefs(
         open,
         groupsRef,
@@ -52,12 +58,14 @@ function SelectWrapper({
         itemsRef,
         setSelectedItem,
         onOpenChange,
-        value,
+        selectValue,
         onValueChange,
-        defaultValue as string,
+        defaultValue,
       )
     }, 0)
-  }, [open])
+
+    return () => window.clearTimeout(timeoutId)
+  }, [open, selectValue, defaultValue, onOpenChange, onValueChange])
 
   useSelectScroll(open, itemsRef, selectedItemRef, contentRef)
   useHandleKeyDown({
@@ -81,7 +89,7 @@ function SelectWrapper({
         scrollable,
         selectedItem,
         triggerRef: triggerRef,
-        value: selectedItem?.getAttribute('value') ?? value,
+        value: selectedItem?.getAttribute('value') ?? (selectValue || defaultValue),
       }}>
       <div>{children}</div>
     </SelectContext.Provider>
