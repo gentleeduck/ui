@@ -9,8 +9,7 @@
   ],
   "name": "combobox-5",
   "registryDependencies": [
-    "popover",
-    "command"
+    "combobox"
   ],
   "root_folder": "combobox",
   "source": "/registry-examples-duckui/src/combobox",

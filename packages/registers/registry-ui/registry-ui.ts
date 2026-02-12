@@ -16,7 +16,7 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/primitives', '@gentleduck/libs'],
+    dependencies: ['@gentleduck/primitives', '@gentleduck/motion', '@gentleduck/libs'],
     files: [],
     name: 'alert-dialog',
     registryDependencies: ['dialog'],
@@ -38,7 +38,7 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/variants', '@gentleduck/libs'],
+    dependencies: ['@gentleduck/variants', '@gentleduck/primitives', '@gentleduck/libs'],
     files: [],
     name: 'badge',
     root_folder: 'badge',
@@ -116,6 +116,14 @@ export const registry_ui: RegistryEntry[] = [
   {
     dependencies: ['@gentleduck/libs'],
     files: [],
+    name: 'combobox',
+    registryDependencies: ['badge', 'button', 'checkbox', 'command', 'popover', 'separator'],
+    root_folder: 'combobox',
+    type: 'registry:ui',
+  },
+  {
+    dependencies: ['@gentleduck/libs'],
+    files: [],
     name: 'context-menu',
     registryDependencies: ['dropdown-menu'],
     root_folder: 'context-menu',
@@ -160,7 +168,7 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/lib', '@gentleduck/primitives', '@gentleduck/motion'],
+    dependencies: ['@gentleduck/libs', '@gentleduck/primitives', '@gentleduck/motion'],
     files: [],
     name: 'hover-card',
     registryDependencies: ['button'],
@@ -227,7 +235,7 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/libs'],
+    dependencies: ['react-resizable-panels', '@gentleduck/libs'],
     files: [],
     name: 'resizable',
     root_folder: 'resizable',
@@ -340,7 +348,7 @@ export const registry_ui: RegistryEntry[] = [
     dependencies: ['@gentleduck/libs', '@gentleduck/variants'],
     files: [],
     name: 'button-group',
-    registryDependencies: ['button'],
+    registryDependencies: ['button', 'separator'],
     root_folder: 'button-group',
     type: 'registry:ui',
   },
@@ -367,7 +375,7 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/libs', '@gentleduck/variants'],
+    dependencies: ['@gentleduck/libs', '@gentleduck/primitives', '@gentleduck/variants'],
     files: [],
     name: 'item',
     registryDependencies: ['separator'],
@@ -380,6 +388,14 @@ export const registry_ui: RegistryEntry[] = [
     name: 'input-group',
     registryDependencies: ['button', 'input', 'textarea'],
     root_folder: 'input-group',
+    type: 'registry:ui',
+  },
+  {
+    dependencies: ['@gentleduck/libs', 'lucide-react'],
+    files: [],
+    name: 'preview-panel',
+    registryDependencies: ['badge', 'button', 'button-group', 'dialog', 'separator', 'tooltip'],
+    root_folder: 'preview-panel',
     type: 'registry:ui',
   },
 ]

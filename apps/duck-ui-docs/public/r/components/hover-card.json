@@ -1,6 +1,6 @@
 {
   "dependencies": [
-    "@gentleduck/lib",
+    "@gentleduck/libs",
     "@gentleduck/primitives",
     "@gentleduck/motion"
   ],
