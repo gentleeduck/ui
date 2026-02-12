@@ -1,4 +1,5 @@
 import { type Node, type Symbol, SyntaxKind, type Type, TypeFormatFlags, ts } from 'ts-morph'
+import { sanitizeTypeText } from '../../../shared/utils'
 
 export interface ExpandTypeOptions {
   normalizeAnyToUnknown?: boolean
@@ -152,18 +153,37 @@ export function expandType(
   if (type.isUnknown()) return 'unknown'
   if (type.isVoid()) return 'void'
 
+  if (type.isStringLiteral()) return type.getText()
+  if (type.isNumberLiteral()) return type.getText()
+  if (type.isBooleanLiteral()) return type.getText()
+  if (type.isEnumLiteral()) return sanitizeTypeText(type.getText())
+
   const symbol = type.getAliasSymbol() || type.getSymbol()
   if (symbol && symbol.getName() === 'Date') {
     return 'Date'
   }
 
-  const typeText = type.getText(node, TypeFormatFlags.UseFullyQualifiedType | TypeFormatFlags.NoTruncation)
+  const typeText = sanitizeTypeText(type.getText(node, TypeFormatFlags.NoTruncation))
   if (seen.has(typeText)) {
     return typeText
   }
 
   if (isArrayLikeType(type, symbol, node)) {
-    return type.getText(node, DISPLAY_TYPE_FLAGS)
+    if (type.isTuple()) {
+      const elements = type.getTupleElements()
+      const expanded = elements.map((t) => expandType(t, node, options, seen))
+      return `[${expanded.join(', ')}]`
+    }
+
+    const elementType = type.getArrayElementType()
+    if (elementType) {
+      const expanded = expandType(elementType, node, options, seen)
+      const needsParens = expanded.includes(' | ') || expanded.includes(' & ')
+      const readonlyPrefix = type.isReadonlyArray() ? 'readonly ' : ''
+      return needsParens ? `${readonlyPrefix}(${expanded})[]` : `${readonlyPrefix}${expanded}[]`
+    }
+
+    return sanitizeTypeText(type.getText(node, DISPLAY_TYPE_FLAGS))
   }
 
   if (type.isUnion()) {
@@ -184,20 +204,24 @@ export function expandType(
       return symName
     }
 
-    if (type.isTuple()) {
-      const elements = type.getTupleElements()
-      const expanded = elements.map((t) => expandType(t, node, options, seen))
-      return `[${expanded.join(', ')}]`
-    }
-
     const newSeen = new Map(seen)
     newSeen.set(typeText, typeText)
 
     const props = type.getProperties()
     if (props.length === 0) {
+      const stringIndex = type.getStringIndexType()
+      const numberIndex = type.getNumberIndexType()
+      if (stringIndex) {
+        const expanded = expandType(stringIndex, node, options, newSeen)
+        return `{ [key: string]: ${expanded} }`
+      }
+      if (numberIndex) {
+        const expanded = expandType(numberIndex, node, options, newSeen)
+        return `{ [key: number]: ${expanded} }`
+      }
       const text = type.getText(node, TypeFormatFlags.NoTruncation)
       if (text === '{}') return '{}'
-      return text
+      return sanitizeTypeText(text)
     }
 
     const lines: string[] = []
@@ -267,5 +291,5 @@ export function expandType(
     return `{ ${lines.join('; ')} }`
   }
 
-  return type.getText(node, TypeFormatFlags.NoTruncation | TypeFormatFlags.UseFullyQualifiedType)
+  return sanitizeTypeText(type.getText(node, TypeFormatFlags.NoTruncation))
 }

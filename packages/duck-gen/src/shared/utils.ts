@@ -36,6 +36,11 @@ export function sortMap<T>(m: Map<string, Set<T>>) {
   return Array.from(m.entries()).sort((a, b) => a[0].localeCompare(b[0]))
 }
 
+// 🦆 Strip import("…"). references that TypeScript's type printer may inject.
+export function sanitizeTypeText(text: string): string {
+  return text.replace(/import\("[^"]*"\)\./g, '')
+}
+
 /** 🦆
  * 🦆 Builds a compact JSDoc block (kept short on purpose).
  * 🦆 Use this for hover docs without spamming repetitive examples.

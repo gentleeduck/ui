@@ -3,10 +3,14 @@
   "framework": "nestjs",
   "extensions": {
     "shared": {
-      "sourceGlobs": ["./*.ts"],
-      "outputSource": ["./types"],
+      "sourceGlobs": [
+        "./src/*.ts"
+      ],
+      "outputSource": [
+        "./types"
+      ],
       "includeNodeModules": false,
-      "tsconfigPath": "./tsconfig.duckgen.json"
+      "tsconfigPath": "./tsconfig.json"
     },
     "messages": {
       "enabled": false
