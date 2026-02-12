@@ -171,6 +171,3 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 | `disabled` | `boolean` | `true` | Disables focus management when true |
 
 *Also accepts all standard `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` props.*
-
-**Behavior:**
-Provides accessible tooltip functionality by wrapping the primitive tooltip components and positioning content with Floating UI. The trigger and content receive `data-open`, while the content also receives `data-side` and `--duck-tooltip-content-transform-origin` to support stateful styling and animations. Tooltips open on hover and focus by default; if you need click-to-toggle, control `open` and `onOpenChange` in your own click handler.

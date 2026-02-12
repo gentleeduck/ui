@@ -140,9 +140,6 @@ import {
 
 *Also accepts all `Popover` props.*
 
-**Behavior:**
-Wraps the select dropdown in a Popover. Manages open state and selection context.
-
 ### SelectWrapper
 
 Internal component managing refs, selection state, and event handlers. Uses context `SelectContext` to expose state and refs. Handles initialization of items and groups, manages highlighting and selection.
@@ -155,15 +152,9 @@ Internal component managing refs, selection state, and event handlers. Uses cont
 
 *Also accepts all `PopoverTrigger` props.*
 
-**Behavior:**
-Button that toggles the dropdown popover. Displays current selection and indicator icon.
-
 ### SelectContent
 
 *Accepts all `PopoverContent` props.*
-
-**Behavior:**
-Renders the dropdown panel, with optional scroll buttons and scrollable container if `scrollable` is enabled.
 
 ### SelectGroup
 
@@ -176,9 +167,6 @@ Renders the dropdown panel, with optional scroll buttons and scrollable containe
 | `placeholder` | `string \| number` | -- | Text to show when no value is selected |
 
 *Also accepts all standard HTML `div` props.*
-
-**Behavior:**
-Displays the selected value or placeholder text.
 
 ### SelectLabel
 
@@ -197,22 +185,13 @@ Displays the selected value or placeholder text.
 
 *Also accepts all standard HTML `li` props.*
 
-**Behavior:**
-Selectable item inside the dropdown list. Shows checkmark if selected.
-
 ### SelectSeparator
 
 *Accepts all standard HTML `div` props.*
 
-**Behavior:**
-Visual separator between groups or items.
-
 ### SelectScrollUpButton / SelectScrollDownButton
 
 *Accepts all `Button` props.*
-
-**Behavior:**
-Buttons that appear when `scrollable` is enabled to scroll the dropdown list up or down.
 
 ### SelectContext
 

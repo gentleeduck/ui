@@ -132,13 +132,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 *Also accepts all standard HTML `input` props.*
 
-**Behavior:**
-
-* Manages controlled and uncontrolled checked states, including `'indeterminate'`.
-* Updates `aria-checked` and `data-checked` attributes to reflect current state.
-* Renders a hidden SVG indicator element (using `useSvgIndicator` hook).
-* Supports custom indicators for checked and unchecked states.
-
 ### CheckboxWithLabel
 
 | Prop | Type | Default | Description |
@@ -150,11 +143,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 *Also accepts all standard HTML `div` props.*
 
-**Behavior:**
-
-* Wraps a `Checkbox` and a linked `Label` with consistent layout and spacing.
-* Ensures accessibility via matching `htmlFor` and `id`.
-
 ### CheckboxGroup
 
 | Prop | Type | Default | Description |
@@ -164,12 +152,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the wrapping div |
 
 *Also accepts all standard HTML `div` props.*
-
-**Behavior:**
-
-* Renders a vertical list of `CheckboxWithLabel` components.
-* Applies default checkbox and label props to all items unless overridden.
-* Supports controlled checked state for each subtask.
 
 ## See also
 

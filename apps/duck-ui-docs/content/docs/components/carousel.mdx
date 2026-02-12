@@ -347,29 +347,13 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 
 *Also accepts all standard HTML `div` props.*
 
-**Behavior:**
-
-* Provides context (`CarouselContext`) for child components.
-* Handles keyboard navigation (Left/Right arrows).
-* Tracks whether previous/next scroll is possible.
-
 ### CarouselContent
 
 *Accepts all standard HTML `div` props.*
 
-**Behavior:**
-
-* Wraps slides in an Embla scroll container.
-* Adjusts layout based on `orientation` (horizontal or vertical).
-
 ### CarouselItem
 
 *Accepts all standard HTML `div` props.*
-
-**Behavior:**
-
-* Represents a single slide with `role="group"` and `aria-roledescription="slide"`.
-* Uses spacing (`pl-4` or `pt-4`) depending on `orientation`.
 
 ### CarouselPrevious
 
@@ -380,12 +364,6 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 
 *Also accepts all `Button` props.*
 
-**Behavior:**
-
-* Scrolls to the previous slide when clicked.
-* Disabled when `canScrollPrev` is false.
-* Positioned absolutely relative to carousel orientation.
-
 ### CarouselNext
 
 | Prop | Type | Default | Description |
@@ -394,12 +372,6 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 | `size` | `string` | `'icon'` | Size prop for the `Button` component |
 
 *Also accepts all `Button` props.*
-
-**Behavior:**
-
-* Scrolls to the next slide when clicked.
-* Disabled when `canScrollNext` is false.
-* Positioned absolutely relative to carousel orientation.
 
 ### Types
 

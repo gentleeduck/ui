@@ -108,9 +108,6 @@ Root container that renders a horizontal bar and manages keyboard navigation acr
 
 *Accepts all standard HTML `div` props.*
 
-**Behavior:**
-Handles `ArrowLeft`/`ArrowRight` keyboard navigation to move between menu triggers. When one menu is open, hovering over another trigger automatically switches to that menu.
-
 ### MenubarMenu
 
 Wrapper for an individual menu within the menubar. Renders a `DropdownMenu` internally.
@@ -126,9 +123,6 @@ Button that opens a specific menu in the menubar. Styled as a ghost button with 
 ### MenubarContent
 
 *Accepts all `DropdownMenuContent` props.*
-
-**Behavior:**
-Registers a `keydown` listener for `ArrowUp`/`ArrowDown` item navigation and `ArrowLeft`/`ArrowRight` to switch between menubar menus from within an open dropdown.
 
 ### MenubarItem
 
