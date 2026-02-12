@@ -3,17 +3,35 @@ title: gentleduck libs
 description: "A collection of tiny, framework-agnostic React libs. Each hook lives in its own folder and can be imported individually or all together."
 ---
 
-<Callout>
+<Callout icon={<Zap />}>
 
 A collection of tiny, framework-agnostic React libs. Each hook lives in its own folder and can be imported individually or all together.
 
 </Callout>
+
+## Philosophy
+
+Every UI library needs utility functions, but they shouldn't be a dependency decision. duck-libs provides the small, typed helpers (cn for class merging, formatters, assertion functions) that every component uses internally. They're extracted into a shared package so you can use them too, without pulling in lodash for three functions.
+
+---
 
 ## Installation
 
 ```bash
 npm install @gentleduck/libs
 ````
+
+<MermaidDiagram chart={`graph TD
+    A[duck-libs] --> B[Class Utils]
+    A --> C[Object Utils]
+    A --> D[Array Utils]
+    A --> E[Date Utils]
+    B --> F[cn]
+    C --> G[filtered-object]
+    D --> H[group-array]
+    D --> I[group-data-by-numbers]
+    E --> J[parse-date]
+`} />
 
 ## Available Hooks
 

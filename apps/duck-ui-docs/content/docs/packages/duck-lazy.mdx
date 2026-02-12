@@ -3,6 +3,12 @@ title: "gentleduck-lazy"
 description: It is a lightweight and accessible React library for lazy-loading images and components. It uses the IntersectionObserver API to trigger loading when content enters the viewport, ensuring smooth performance and accessibility.
 ---
 
+## Philosophy
+
+Lazy loading should be invisible to the user and effortless for the developer. duck-lazy wraps React's `lazy()` and `Suspense` with sensible defaults — loading skeletons, error boundaries, and intersection observer support — so components and images load only when needed, without boilerplate.
+
+---
+
 ## Features
 
 - **Lazy loading for components and images**  
@@ -20,6 +26,16 @@ npm install @gentleduck/lazy
 ````
 
 ---
+
+<MermaidDiagram chart={`flowchart TD
+    A[IntersectionObserver] --> B{Element Visible?}
+    B -->|Yes| C[Load Content]
+    B -->|No| D[Show Placeholder]
+    C --> E[DuckLazyComponent]
+    C --> F[DuckLazyImage]
+    G[useLazyLoad] --> A
+    H[useLazyImage] --> A
+`} />
 
 ## Usage
 
@@ -45,8 +61,10 @@ function MyComponent() {
 
 #### Props
 
-* `options?`: IntersectionObserver options (`rootMargin`, `threshold`)
-* `children`: The lazy-loaded content
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `options` | `IntersectionObserverInit` | -- | IntersectionObserver options (`rootMargin`, `threshold`) |
+| `children` | `React.ReactNode` | -- | The lazy-loaded content (required) |
 
 ---
 
@@ -77,12 +95,15 @@ function MyImageComponent() {
 
 #### Props
 
-* `src`: URL of the image (required)
-* `placeholder?`: Placeholder URL while loading
-* `alt`: Accessible description (required)
-* `width` / `height`: Image size (required)
-* `options?`: IntersectionObserver options
-* `nextImage?`: Enables Next.js `next/image` optimization
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `src` | `string` | (required) | URL of the image |
+| `placeholder` | `string` | -- | Placeholder URL while loading |
+| `alt` | `string` | (required) | Accessible description |
+| `width` | `number` | (required) | Image width |
+| `height` | `number` | (required) | Image height |
+| `options` | `IntersectionObserverInit` | -- | IntersectionObserver options |
+| `nextImage` | `boolean` | -- | Enables Next.js `next/image` optimization |
 
 ---
 
@@ -113,8 +134,10 @@ function MyComponent() {
 
 #### Returns
 
-* `isVisible`: `boolean` → if element is visible
-* `elementRef`: `React.Ref` → attach to observed element
+| Name | Type | Description |
+| --- | --- | --- |
+| `isVisible` | `boolean` | Whether the element is visible in the viewport |
+| `elementRef` | `React.Ref` | Ref to attach to the observed element |
 
 ---
 
@@ -146,8 +169,10 @@ function LazyImage({ src, placeholder }) {
 
 #### Returns
 
-* `isLoaded`: `boolean` → if image finished loading
-* `imageRef`: `React.Ref` → attach to `<img>`
+| Name | Type | Description |
+| --- | --- | --- |
+| `isLoaded` | `boolean` | Whether the image has finished loading |
+| `imageRef` | `React.Ref` | Ref to attach to the `<img>` element |
 
 ---
 

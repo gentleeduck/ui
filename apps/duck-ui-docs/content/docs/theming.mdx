@@ -5,6 +5,21 @@ description: Using CSS Variables and color utilities for theming.
 
 You can choose between using CSS variables (recommended) or utility classes for theming.
 
+<MermaidDiagram chart={`flowchart TD
+    A[":root / .dark"] -->|"defines"| B["CSS Variables"]
+    B --> C["--background / --foreground"]
+    B --> D["--primary / --primary-foreground"]
+    B --> E["--muted / --accent / --card"]
+    B --> F["--destructive / --warning"]
+    B --> G["--border / --input / --ring"]
+    C -->|"mapped in @theme"| H["Tailwind Classes"]
+    D -->|"mapped in @theme"| H
+    E -->|"mapped in @theme"| H
+    F -->|"mapped in @theme"| H
+    G -->|"mapped in @theme"| H
+    H --> I["bg-primary text-foreground border-border"]
+`} />
+
 ## CSS Variables
 
 ```tsx /bg-background/ /text-foreground/
@@ -63,9 +78,9 @@ To use utility classes for theming set `tailwind.cssVariables` to `false` in you
 
 We use a simple `background` and `foreground` convention for colors. The `background` variable is used for the background color of the component and the `foreground` variable is used for the text color.
 
-<Callout className="mt-4">
+<Callout icon={<Lightbulb/>} title="Naming convention">
 
-The `background` suffix is omitted when the variable is used for the background color of the component.
+The `background` suffix is omitted when the variable is used for the background color of the component. For example, `--primary` is the background and `--primary-foreground` is the text color.
 
 </Callout>
 
@@ -85,6 +100,22 @@ The `background` color of the following component will be `var(--primary)` and t
 ## List of variables
 
 Here's the list of variables available for customization:
+
+| Variable | Usage | Description |
+| --- | --- | --- |
+| `--background` | `bg-background` | Page background |
+| `--foreground` | `text-foreground` | Default text color |
+| `--primary` | `bg-primary` | Primary actions and emphasis |
+| `--secondary` | `bg-secondary` | Secondary actions |
+| `--muted` | `bg-muted` | Subtle backgrounds |
+| `--accent` | `bg-accent` | Hover and active states |
+| `--destructive` | `bg-destructive` | Error and danger actions |
+| `--warning` | `bg-warning` | Warning states |
+| `--card` | `bg-card` | Card backgrounds |
+| `--popover` | `bg-popover` | Popover backgrounds |
+| `--border` | `border-border` | Default borders |
+| `--input` | `border-input` | Input borders |
+| `--ring` | `ring-ring` | Focus rings |
 
 ```css title="app/globals.css" showLineNumbers
 :root {
