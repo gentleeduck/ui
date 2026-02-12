@@ -1,38 +1,84 @@
 ---
 title: duck gen
-description: Core setup and usage for the Duck Gen compiler extension, currently tested with NestJS.
+description: Type-safe API route and message key generator for TypeScript. Scans your server code and emits .d.ts files so your client types always match your backend contracts.
 ---
 
 ## What is Duck Gen?
 
-Duck Gen is a general-purpose compiler extension in the @gentleduck ecosystem. It scans
-server code and emits TypeScript definitions that describe API routes and message keys.
-It is designed for multiple frameworks and is currently being tested with NestJS. The goal
-is simple: keep server contracts and client types aligned without manual sync work.
+Duck Gen is a **compiler extension** that reads your server source code and generates TypeScript
+definition files (`.d.ts`) describing every API route and message key it finds. Instead of
+writing route types by hand or hoping your client stays in sync with the server, Duck Gen
+automates the entire contract layer.
 
-## What it generates
+It is part of the [@gentleduck](https://github.com/gentleeduck) ecosystem and is currently
+tested with **NestJS**. The architecture supports multiple frameworks — NestJS is the first
+adapter shipped.
 
-- **API route types**: A map of routes with request and response types.
-- **Message registry types**: Strongly typed i18n dictionaries based on
-  `@duckgen` message tags.
+### The problem it solves
+
+Without Duck Gen, keeping client types aligned with server routes looks like this:
+
+```ts
+// Server: you add a new route
+@Post('signup')
+signup(@Body() body: SignupDto): Promise<AuthSession> { ... }
+
+// Client: you manually write the matching types... or forget to
+type SignupReq = { email: string; password: string } // hope this matches SignupDto
+type SignupRes = { token: string } // hope this matches AuthSession
+```
+
+Every time a DTO changes or a new route is added, someone has to update the client types.
+Duck Gen removes that step entirely.
+
+### What it generates
+
+Duck Gen produces two categories of types:
+
+| Category | What you get |
+| --- | --- |
+| **API route types** | A route map with typed request shapes (body, query, params, headers) and response types for every controller method. |
+| **Message registry types** | Strongly-typed i18n dictionaries derived from `@duckgen` message tags in your code. |
+
+Both outputs are `.d.ts` files you import directly — no runtime cost, just types.
 
 ## How it works
 
-1. Reads `duck-gen.json` from your project root (required).
-2. Builds a TypeScript project from `tsconfigPath` (NestJS uses tsconfig includes/excludes; `sourceGlobs` are reserved).
-3. Scans framework controllers and `@duckgen` message sources (arrays or objects).
-4. Emits `.d.ts` files under `@gentleduck/gen/generated/<framework>`.
-5. Prints warnings for `any` return types and duplicate message const names.
+```text
+┌─────────────────────────────────────────────────┐
+│  1. Read duck-gen.json config                   │
+│  2. Build TypeScript project from tsconfigPath  │
+│  3. Scan controllers + @duckgen message sources │
+│  4. Extract routes, request/response types      │
+│  5. Emit .d.ts files                            │
+└─────────────────────────────────────────────────┘
+```
 
-## Installation
+Here is the step-by-step flow:
+
+1. **Load config** — Duck Gen reads `duck-gen.json` from your project root. This tells it
+   which framework adapter to use, where your `tsconfig.json` lives, and what to generate.
+
+2. **Build the project** — Using [ts-morph](https://ts-morph.com/), it creates an in-memory
+   TypeScript project from your `tsconfigPath`. The `include` and `exclude` globs in your
+   `tsconfig.json` determine which files get scanned.
+
+3. **Scan source files** — The NestJS adapter looks for:
+   - Classes decorated with `@Controller()` — these become API routes.
+   - Exported variables with `@duckgen` JSDoc tags — these become message sources.
+
+4. **Extract type information** — For each controller method, Duck Gen extracts:
+   - The HTTP method (`GET`, `POST`, etc.) from decorators.
+   - The full route path (`globalPrefix` + controller path + method path).
+   - Request shape from parameter decorators (`@Body`, `@Query`, `@Param`, `@Headers`).
+   - Response type from the method's return type.
+
+5. **Emit `.d.ts` files** — Generated type files are written to the package's `generated`
+   folder and optionally to custom output directories.
+
+## Quick start
 
 <Steps>
-
-<Step>Prerequisites</Step>
-
-- Node 22 or newer.
-- A TypeScript project with a valid `tsconfig.json`.
-- NestJS (current testing target).
 
 <Step>Install the package</Step>
 
@@ -40,23 +86,7 @@ is simple: keep server contracts and client types aligned without manual sync wo
 pnpm add -D @gentleduck/gen
 ```
 
-<Step>Add a script (optional)</Step>
-
-```json title="package.json"
-{
-  "scripts": {
-    "duck-gen": "duck-gen"
-  }
-}
-```
-
-</Steps>
-
-## Quick start
-
-<Steps>
-
-<Step>Create duck-gen.json</Step>
+<Step>Create duck-gen.json in your project root</Step>
 
 ```json title="duck-gen.json"
 {
@@ -82,6 +112,8 @@ pnpm add -D @gentleduck/gen
   }
 }
 ```
+
+The `$schema` field gives you autocomplete and validation in your editor.
 
 <Step>Run the generator</Step>
 
@@ -89,135 +121,109 @@ pnpm add -D @gentleduck/gen
 pnpm exec duck-gen
 ```
 
-<Step>Import generated types</Step>
+You should see output like:
+
+```text
+Config loaded
+Processing done
+```
+
+<Step>Import and use the generated types</Step>
 
 ```ts
-import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+
+// Now your client knows every route, request shape, and response type
+type SigninRequest = RouteReq<'/api/auth/signin'>
+type SigninResponse = RouteRes<'/api/auth/signin'>
 ```
 
 </Steps>
 
-## Configuration
+## Output files
 
-Duck Gen reads `duck-gen.json` from your project root. The config file is required,
-and paths are resolved relative to the config file.
+Duck Gen always writes to the package's `generated` folder:
 
-```json title="duck-gen.json"
+```text
+node_modules/@gentleduck/gen/
+  generated/
+    nestjs/
+      duck-gen-api-routes.d.ts   -- route types
+      duck-gen-messages.d.ts     -- message types
+      index.d.ts                 -- barrel export
+    index.d.ts                   -- top-level barrel
+```
+
+If you set `outputSource` in your config, Duck Gen also copies the generated files to those
+locations (e.g. `./generated` in your project root).
+
+**Import paths:**
+
+```ts
+// From the package entrypoint (recommended)
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+
+// From a custom output directory
+import type { ApiRoutes } from './generated/duck-gen-api-routes'
+```
+
+## CLI usage
+
+Add a script to your `package.json` for convenience:
+
+```json title="package.json"
 {
-  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
-  "framework": "nestjs",
-  "extensions": {
-    "shared": {
-      "includeNodeModules": false,
-      "outputSource": "./generated",
-      "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"],
-      "tsconfigPath": "./tsconfig.json"
-    },
-    "apiRoutes": {
-      "enabled": true,
-      "globalPrefix": "/api",
-      "normalizeAnyToUnknown": true,
-      "outputSource": "./generated"
-    },
-    "messages": {
-      "enabled": true,
-      "outputSource": "./generated"
-    }
+  "scripts": {
+    "generate": "duck-gen",
+    "generate:watch": "duck-gen --watch"
   }
 }
 ```
 
-**Root**
+```bash
+# Run directly
+pnpm exec duck-gen
 
-- `framework` (string, required): The target framework. Currently only `nestjs`
-  is supported; other values fail validation.
-
-**extensions.shared**
-
-- `tsconfigPath` (string, required for NestJS scanning): TypeScript config used
-  by ts-morph.
-- `includeNodeModules` (boolean, required): Include `node_modules` in scanning.
-- `sourceGlobs` (string[], reserved): Present in the schema but not applied by
-  the current NestJS adapter.
-- `outputSource` (string | string[]): Additional output directories for generated
-  files (package outputs are always generated).
-
-**extensions.apiRoutes**
-
-- `enabled` (boolean, required): Enable API route generation.
-- `globalPrefix` (string, optional): Prefix applied to all routes. Omit for no
-  prefix.
-- `normalizeAnyToUnknown` (boolean, required): Converts `any` request/response
-  types to `unknown` and warns on `any` return types when enabled.
-- `outputSource` (string | string[]): Additional output file path(s) or
-  directories for generated API routes.
-- `outputPath` (string, deprecated): Legacy output file path for API routes.
-  Use `outputSource` instead.
-- `sourceGlobs` (string[], reserved): Present in the schema but not applied by
-  the current NestJS adapter.
-- `tsconfigPath` (string, reserved): Present in the schema but not applied by
-  the current NestJS adapter.
-- `includeNodeModules` (boolean, reserved): Present in the schema but not
-  applied by the current NestJS adapter.
-
-**extensions.messages**
-
-- `enabled` (boolean, required): Enable message generation.
-- `outputSource` (string | string[]): Additional output file path(s) or
-  directories for generated message types.
-- `outputPath` (string, deprecated): Legacy output file path for messages.
-  Use `outputSource` instead.
-- `sourceGlobs` (string[], reserved): Present in the schema but not applied by
-  the current NestJS adapter.
-- `tsconfigPath` (string, reserved): Present in the schema but not applied by
-  the current NestJS adapter.
-- `includeNodeModules` (boolean, reserved): Present in the schema but not
-  applied by the current NestJS adapter.
-
-## Output and CLI
-
-Duck Gen writes generated files inside the package:
-
-- `@gentleduck/gen/generated/nestjs/duck-gen-api-routes.d.ts`
-- `@gentleduck/gen/generated/nestjs/duck-gen-messages.d.ts`
-- `@gentleduck/gen/generated/nestjs/index.d.ts`
-
-Outputs are always written to the package `generated` folder. Use
-`extensions.apiRoutes.outputSource` or `extensions.messages.outputSource` to
-add extra output files or directories, or use `extensions.shared.outputSource`
-for shared output directories. When you customize outputs, import types from
-those paths instead of the package entrypoints.
-
-Import the public entrypoint:
-
-```ts
-import type { ApiRoutes, DuckGenI18nMessages, DuckgenScopedI18nByGroup } from '@gentleduck/gen/nestjs'
+# Or via script
+pnpm generate
 ```
 
-CLI notes:
+**CLI behavior:**
 
-- `duck-gen.json` is required; the CLI fails if it cannot be read.
-- Run the CLI from the project root so paths resolve correctly.
-- Warnings are printed for `any` return types and duplicate message const names.
-- Running the generator multiple times is safe; it overwrites the same files.
+- Requires `duck-gen.json` in the current directory — fails if missing.
+- Overwrites existing generated files on every run — safe to run repeatedly.
+- Prints warnings for `any` return types and duplicate message const names.
+- Safe for CI/CD pipelines — deterministic output, no side effects.
+
+## What to read next
+
+| Guide | What you will learn |
+| --- | --- |
+| [Configuration](/docs/duck-gen/configuration) | Every config option explained with examples. |
+| [API Routes](/docs/duck-gen/api-routes) | How route scanning works, supported decorators, request shape rules, and examples. |
+| [Messages](/docs/duck-gen/messages) | How message scanning works, tag formats, i18n type generation. |
+| [Generated Types](/docs/duck-gen/generated-types) | Deep dive into every exported type with usage examples. |
+| [Duck Query](/docs/duck-query) | Use generated types with a type-safe HTTP client. |
+| [Templates](/docs/templates) | Complete NestJS + Duck Query example project. |
 
 ## Troubleshooting
 
-- **No routes generated**: Make sure your decorators use string literal paths.
-  Dynamic values are skipped.
-- **Missing types**: Check `tsconfigPath` and the `include`/`exclude` globs in
-  your `tsconfig.json`.
-- **Message keys are just `string`**: Add `as const` to message arrays.
-- **Duplicate group keys**: Ensure each `@duckgen` group key is unique.
-- **Any return warnings**: Add explicit return types, or set
-  `normalizeAnyToUnknown` to `false` if you want to allow `any` through.
+| Problem | Solution |
+| --- | --- |
+| No routes generated | Make sure decorators use **string literal** paths. Dynamic values are skipped. |
+| Missing types in output | Check that `tsconfigPath` points to the right file and your `tsconfig.json` includes the source files. |
+| Message keys are just `string` | Add `as const` to your message arrays or objects. |
+| Duplicate group key warnings | Each `@duckgen` group key must be unique across your project. |
+| `any` return warnings | Add explicit return types to controller methods, or set `normalizeAnyToUnknown: false`. |
+| Config file not found | Run `duck-gen` from the directory containing `duck-gen.json`. |
 
-## Extensions
+## Requirements
 
-- **API Routes**: [Read the API routes guide](/docs/duck-gen/api-routes).
-- **Messages**: [Read the messages guide](/docs/duck-gen/messages).
+- **Node.js** 22 or newer.
+- A **TypeScript** project with a valid `tsconfig.json`.
+- **NestJS** (for the current tested adapter).
 
 ## Contributing
 
 Duck Gen lives in the Gentleduck monorepo. Issues, fixes, and documentation
-improvements are welcome at [`@gentleduck`](https://github.com/gentleeduck/duck-ui.)
+improvements are welcome at [`@gentleduck`](https://github.com/gentleeduck/duck-ui).
