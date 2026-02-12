@@ -47,18 +47,23 @@ extension, Duck Gen automates the contract layer so you can focus on building fe
 - **Built for automation**: Run it locally or in CI. Generated files are safe
   to overwrite.
 
-## Contributing
+## Documentation map
 
-We want your contributions. Bug reports, feature requests, code, documentation improvements,
-hot takes on generator ergonomics bring it all to our
-[GitHub repository](https://github.com/gentleeduck/duck-ui).
-
-Unlike projects run by committees, we move fast. Good ideas get implemented. Bad ideas get
-respectfully declined with actual reasoning. Contributions get reviewed by humans who remember
-what it's like to be on the other side of a pull request.
-
-The [@gentleduck](https://github.com/gentleeduck) community is built on mutual respect and the
-shared understanding that we're all just trying to build cool stuff without losing our minds.
+| Section | What it covers |
+| --- | --- |
+| [Installation](/docs/installation) | Install Duck Gen + Duck Query and generate your first types. |
+| [Duck Gen](/docs/duck-gen) | How Duck Gen works, quick start, output, and troubleshooting. |
+| [Configuration](/docs/duck-gen/configuration) | Every `duck-gen.json` option explained. |
+| [API Routes](/docs/duck-gen/api-routes) | How controllers are scanned, supported decorators, request shapes. |
+| [Messages](/docs/duck-gen/messages) | How `@duckgen` tags work, group keys, i18n patterns. |
+| [Generated Types](/docs/duck-gen/generated-types) | Every exported type with usage examples. |
+| [Duck Query](/docs/duck-query) | Type-safe Axios client overview. |
+| [Client Methods](/docs/duck-query/client-methods) | Detailed reference for every client method. |
+| [Query Types](/docs/duck-query/types) | Duck Query types for custom route maps. |
+| [Advanced](/docs/duck-query/advanced) | Interceptors, error handling, React Query, patterns. |
+| [End-to-End Guide](/docs/guides) | Complete walkthrough from NestJS backend to typed client. |
+| [Templates](/docs/templates) | Full auth example with DTOs, messages, and Duck Query. |
+| [FAQs](/docs/faqs) | Common questions and answers. |
 
 ## Getting Started (The Fast Version)
 
@@ -99,4 +104,18 @@ pnpm exec duck-gen
 import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 ```
 
-See the [Duck Gen core guide](/docs/duck-gen) for full configuration and usage.
+See the [Duck Gen core guide](/docs/duck-gen) for full configuration and usage,
+or jump straight to the [end-to-end guide](/docs/guides) for a complete walkthrough.
+
+## Contributing
+
+We want your contributions. Bug reports, feature requests, code, documentation improvements,
+hot takes on generator ergonomics bring it all to our
+[GitHub repository](https://github.com/gentleeduck/duck-ui).
+
+Unlike projects run by committees, we move fast. Good ideas get implemented. Bad ideas get
+respectfully declined with actual reasoning. Contributions get reviewed by humans who remember
+what it's like to be on the other side of a pull request.
+
+The [@gentleduck](https://github.com/gentleeduck) community is built on mutual respect and the
+shared understanding that we're all just trying to build cool stuff without losing our minds.

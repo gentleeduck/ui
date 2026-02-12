@@ -21,6 +21,10 @@ export const docsConfig = {
           title: 'Installation',
         },
         {
+          href: '/docs/guides',
+          title: 'End-to-End Guide',
+        },
+        {
           href: '/docs/templates',
           title: 'Templates',
         },
@@ -40,7 +44,11 @@ export const docsConfig = {
       items: [
         {
           href: '/docs/duck-gen',
-          title: 'Core',
+          title: 'Overview',
+        },
+        {
+          href: '/docs/duck-gen/configuration',
+          title: 'Configuration',
         },
         {
           href: '/docs/duck-gen/api-routes',
@@ -51,11 +59,33 @@ export const docsConfig = {
           title: 'Messages',
         },
         {
-          href: '/docs/duck-query',
-          title: 'Duck Query',
+          href: '/docs/duck-gen/generated-types',
+          title: 'Generated Types',
         },
       ],
-      title: 'Overview',
+      title: 'Duck Gen',
+    },
+    {
+      collapsible: false,
+      items: [
+        {
+          href: '/docs/duck-query',
+          title: 'Overview',
+        },
+        {
+          href: '/docs/duck-query/client-methods',
+          title: 'Client Methods',
+        },
+        {
+          href: '/docs/duck-query/types',
+          title: 'Types',
+        },
+        {
+          href: '/docs/duck-query/advanced',
+          title: 'Advanced',
+        },
+      ],
+      title: 'Duck Query',
     },
   ],
 } satisfies DocsConfig

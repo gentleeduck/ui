@@ -19,7 +19,6 @@
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "mini-svg-data-uri": "^1.4.4",
-    "tabbable": "6.2.0",
     "tsdown": "catalog:"
   },
   "exports": {
@@ -49,6 +48,7 @@
   "name": "@gentleduck/primitives",
   "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
+    "tabbable": "6.2.0",
     "react": "catalog:react19",
     "react-dom": "catalog:react19"
   },

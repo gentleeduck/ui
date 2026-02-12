@@ -2,12 +2,9 @@ import { cn } from '@gentleduck/libs/cn'
 import type { FC } from 'react'
 
 export const Table: FC<React.HTMLAttributes<HTMLTableElement>> = ({ className, ...props }) => (
-  <div className="my-6 w-full rounded-lg border">
+  <div className="my-6 w-full overflow-x-auto rounded-lg border">
     <table
-      className={cn(
-        'relative w-full overflow-hidden border-none text-sm [&_tbody_tr:last-child]:border-b-0',
-        className,
-      )}
+      className={cn('relative w-full overflow-auto border-none text-sm [&_tbody_tr:last-child]:border-b-0', className)}
       {...props}
     />
   </div>
