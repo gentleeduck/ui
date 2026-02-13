@@ -145,7 +145,9 @@ const _Drawer3 = dynamic(() => import('@gentleduck/registry-examples-duckui/draw
 const _Drawer4 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-4'), { ssr: false })
 const _Drawer5 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-5'), { ssr: false })
 const _Drawer6 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-6'), { ssr: false })
-const _HoverCard1 = dynamic(() => import('@gentleduck/registry-examples-duckui/hover-card/hover-card-1'), { ssr: false })
+const _HoverCard1 = dynamic(() => import('@gentleduck/registry-examples-duckui/hover-card/hover-card-1'), {
+  ssr: false,
+})
 const _Input1 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-1'), { ssr: false })
 const _Input2 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-2'), { ssr: false })
 const _Input3 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-3'), { ssr: false })
@@ -346,7 +348,9 @@ const _NavigationMenu1 = dynamic(
 const _ContextMenu1 = dynamic(() => import('@gentleduck/registry-examples-duckui/context-menu/context-menu-1'), {
   ssr: false,
 })
-const _DataTable1 = dynamic(() => import('@gentleduck/registry-examples-duckui/data-table/data-table-1'), { ssr: false })
+const _DataTable1 = dynamic(() => import('@gentleduck/registry-examples-duckui/data-table/data-table-1'), {
+  ssr: false,
+})
 const _Cva1 = dynamic(() => import('@gentleduck/registry-examples-duckui/cva/cva-1'), { ssr: false })
 const _ButtonGroup1 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-1'), {
   ssr: false,
