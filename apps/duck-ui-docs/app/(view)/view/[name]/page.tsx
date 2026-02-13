@@ -1,16 +1,10 @@
 import { absoluteUrl } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
-import { registry_entry_schema } from '@gentleduck/registers'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 import React from 'react'
-import z from 'zod'
 import { siteConfig } from '~/config/site'
 import { getRegistryComponent, getRegistryItem } from '~/lib/get-registry-item'
-
-export const revalidate = false
-export const dynamic = 'force-static'
-export const dynamicParams = false
 
 const getCachedRegistryItem = React.cache(async (name: string) => {
   return await getRegistryItem(name)
@@ -58,17 +52,6 @@ export async function generateMetadata({
       title,
     },
   }
-}
-
-export async function generateStaticParams() {
-  const { Index } = await import('~/__ui_registry__/index')
-  const index = z.record(z.string(), registry_entry_schema).parse(Index)
-
-  return Object.values(index)
-    .filter((block) => ['registry:block', 'registry:example'].includes(block.type))
-    .map((block) => ({
-      name: block.name,
-    }))
 }
 
 export default async function BlockPage({

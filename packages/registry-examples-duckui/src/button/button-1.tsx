@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { CommandShortcut } from '@gentleduck/registry-ui-duckui/command'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
