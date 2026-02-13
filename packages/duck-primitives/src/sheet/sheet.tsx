@@ -81,7 +81,7 @@ function Content({
           style={{
             ...style,
             position: 'fixed',
-            zIndex: 99,
+            zIndex: context.layer.contentZIndex,
           }}>
           {props.children}
           {context.closeButton && <SheetClose />}
@@ -95,10 +95,12 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
   const { ...context } = useSheetContext()
 
   React.useEffect(() => {
-    if (lockScroll && context.open) {
-      lockScrollbar(true)
+    if (!(lockScroll && context.open)) return
+
+    const didLock = lockScrollbar(true)
+    return () => {
+      if (didLock) cleanLockScrollbar()
     }
-    return () => cleanLockScrollbar()
   }, [lockScroll, context.open])
 
   return (
@@ -112,9 +114,10 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
           opacity: context.open ? 1 : 0,
           overflow: 'hidden',
           pointerEvents: context.open ? 'auto' : 'none',
-          zIndex: 98,
+          zIndex: context.layer.overlayZIndex,
         } as React.CSSProperties
       }
+      lockScroll={false}
       {...props}>
       {children}
     </FloatingOverlay>
