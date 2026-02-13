@@ -122,16 +122,14 @@ import {
 | `enableHover` | `boolean` | `false` | Open on hover instead of click |
 | `contextMenu` | `boolean` | `false` | Open on right-click at the cursor position |
 | `modal` | `boolean` | `--` | Enables focus management when content is not disabled |
-
-*Also accepts all standard `PopoverPrimitive.Root` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>` | -- | Additional props inherited from `Popover.Root`. |
 
 ### PopoverTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `--` | Use the child element as the trigger |
-
-*Also accepts all standard `PopoverPrimitive.Trigger` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>` | -- | Additional props inherited from `Popover.Trigger`. |
 
 ### PopoverContent
 
@@ -140,14 +138,15 @@ import {
 | `forceMount` | `boolean` | `true` | Keep content mounted for CSS-driven animations |
 | `lockScroll` | `boolean` | `false` | Locks scroll while the popover is open |
 | `disabled` | `boolean` | `false` | Disables focus management when true |
-
-*Also accepts all standard `PopoverPrimitive.Content` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>` | -- | Additional props inherited from `Popover.Content`. |
 
 ### PopoverClose
 
 Alias for `PopoverTrigger`. Use to render an element that closes the popover.
 
-*Accepts all `PopoverTrigger` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverTrigger>` | -- | Additional props inherited from `PopoverTrigger`. |
 
 ### PopoverPortal
 
@@ -156,5 +155,4 @@ Renders the popover in a portal using Floating UI.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | `--` | Content to render inside the portal |
-
-*Also accepts all `PopoverPrimitive.Portal` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Portal>` | -- | Additional props inherited from `Popover.Portal`. |

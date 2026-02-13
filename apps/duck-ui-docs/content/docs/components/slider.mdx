@@ -98,8 +98,7 @@ A single-thumb slider. Internally composes `SliderPrimitive.Root`, `SliderPrimit
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-
-*Also accepts all `SliderPrimitive.Root` props (including `min`, `max`, `step`, `value`, `defaultValue`, `onValueChange`, `orientation`, `rtl`).*
+| `...props` | `React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>` | -- | Additional props inherited from `Slider.Root`. |
 
 ### SliderRange
 
@@ -108,8 +107,7 @@ A dual-thumb range slider. Internally composes `SliderPrimitive.Root`, `SliderPr
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-
-*Also accepts all `SliderPrimitive.Root` props (including `min`, `max`, `step`, `value`, `defaultValue`, `onValueChange`, `orientation`, `rtl`).*
+| `...props` | `React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>` | -- | Additional props inherited from `Slider.Root`. |
 
 ### Primitive Sub-components
 
@@ -131,11 +129,15 @@ The following primitives are used internally by `Slider` and `SliderRange`:
 
 #### SliderPrimitive.Track
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div. |
 
 #### SliderPrimitive.Range
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div. |
 
 #### SliderPrimitive.Thumb
 

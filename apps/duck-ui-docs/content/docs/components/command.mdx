@@ -267,8 +267,7 @@ export function CommandMenu() {
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Command content rendered inside the dialog (typically `CommandInput`, `CommandList`, etc.) |
-
-*Also accepts all `Dialog` props (`open`, `onOpenChange`, `closeButton`, etc.).*
+| `...props` | `React.ComponentPropsWithoutRef<typeof Dialog>` | -- | Additional props inherited from `Dialog`. |
 
 ## Types
 

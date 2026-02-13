@@ -292,7 +292,9 @@ See the following links for more examples on how to use the `<Form />` component
 
 ### Form
 
-*Accepts all `FormProviderProps` from `react-hook-form`.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `FormProviderProps` | -- | Additional props inherited from `FormProvider` in `react-hook-form`. |
 
 ### FormField
 
@@ -301,8 +303,7 @@ See the following links for more examples on how to use the `<Form />` component
 | `name` | `FieldPath<TFieldValues>` | (required) | The field name in your form schema |
 | `control` | `Control<TFieldValues>` | (required) | The control object from `useForm` |
 | `render` | `ControllerProps<TFieldValues, TName>['render']` | (required) | Render function receiving `{ field, fieldState, formState }` |
-
-*Also accepts all `Controller` props from `react-hook-form`.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof Controller>` | -- | Additional props inherited from `Controller`. |
 
 ### FormItem
 
@@ -317,8 +318,7 @@ See the following links for more examples on how to use the `<Form />` component
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the label |
-
-*Also accepts all `Label` component props. Automatically receives `htmlFor` and `data-error` from form context.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof Label>` | -- | Additional props inherited from `Label`. Automatically receives `htmlFor` and `data-error` from form context. |
 
 ### FormControl
 
@@ -327,8 +327,7 @@ Renders its child via `Slot`, injecting `id`, `aria-describedby`, and `aria-inva
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | `--` | The form control element (input, select, etc.) |
-
-*Also accepts all `Slot` component props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof Slot>` | -- | Additional props inherited from `Slot`. |
 
 ### FormDescription
 

@@ -215,8 +215,7 @@ A button styled for use within input groups. Renders a `Button` with compact siz
 | `variant` | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link' \| 'dashed' \| 'warning' \| 'nothing' \| 'expand_icon'` | `'ghost'` | Visual variant of the button |
 | `type` | `string` | `'button'` | The HTML button type attribute |
 | `className` | `string` | `--` | Additional CSS classes to apply |
-
-*Also accepts all `Button` props (except `size`, which uses the input-group-specific variants above).*
+| `...props` | `Omit<React.ComponentPropsWithoutRef<typeof Button>, 'size'>` | -- | Additional props inherited from `Button` (excluding `size`). |
 
 ### InputGroupText
 

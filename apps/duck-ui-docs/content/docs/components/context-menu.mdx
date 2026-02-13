@@ -109,8 +109,7 @@ Root wrapper. Renders a `DropdownMenu` with `contextMenu` set to `true`.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Context menu content (trigger + menu content) |
-
-*Also accepts all `DropdownMenu` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenu>` | -- | Additional props inherited from `DropdownMenu`. |
 
 ### ContextMenuTrigger
 
@@ -120,8 +119,7 @@ The right-click target area. Renders a `DropdownMenuTrigger` with default dimens
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes (merged with default `h-[200px] w-[300px]` styling) |
 | `children` | `React.ReactNode` | -- | Trigger area content |
-
-*Also accepts all `DropdownMenuTrigger` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger>` | -- | Additional props inherited from `DropdownMenuTrigger`. |
 
 ### ContextMenuContent
 
@@ -129,8 +127,7 @@ The right-click target area. Renders a `DropdownMenuTrigger` with default dimens
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes (merged with `fixed` positioning) |
 | `children` | `React.ReactNode` | -- | Menu items and groups |
-
-*Also accepts all `DropdownMenuContent` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuContent>` | -- | Additional props inherited from `DropdownMenuContent`. |
 
 ### ContextMenuItem
 
@@ -138,8 +135,7 @@ The right-click target area. Renders a `DropdownMenuTrigger` with default dimens
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes |
 | `children` | `React.ReactNode` | -- | Item content |
-
-*Also accepts all `DropdownMenuItem` props (`inset`, `disabled`, etc.).*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuItem>` | -- | Additional props inherited from `DropdownMenuItem`. |
 
 ### ContextMenuCheckboxItem
 
@@ -148,24 +144,21 @@ The right-click target area. Renders a `DropdownMenuTrigger` with default dimens
 | `checked` | `boolean` | -- | Whether the item is checked |
 | `onCheckedChange` | `(checked: boolean) => void` | -- | Callback when checked state changes |
 | `children` | `React.ReactNode` | -- | Item content |
-
-*Also accepts all `DropdownMenuCheckboxItem` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuCheckboxItem>` | -- | Additional props inherited from `DropdownMenuCheckboxItem`. |
 
 ### ContextMenuRadioGroup
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | `ContextMenuRadioItem` elements |
-
-*Also accepts all `DropdownMenuRadioGroup` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuRadioGroup>` | -- | Additional props inherited from `DropdownMenuRadioGroup`. |
 
 ### ContextMenuRadioItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Item content |
-
-*Also accepts all `DropdownMenuRadioItem` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>` | -- | Additional props inherited from `DropdownMenuRadioItem`. |
 
 ### ContextMenuLabel
 
@@ -174,16 +167,14 @@ The right-click target area. Renders a `DropdownMenuTrigger` with default dimens
 | `className` | `string` | -- | Additional CSS classes |
 | `inset` | `boolean` | -- | When `true`, adds left padding for alignment with items |
 | `children` | `React.ReactNode` | -- | Label content |
-
-*Also accepts all `DropdownMenuLabel` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuLabel>` | -- | Additional props inherited from `DropdownMenuLabel`. |
 
 ### ContextMenuSeparator
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes |
-
-*Also accepts all `DropdownMenuSeparator` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSeparator>` | -- | Additional props inherited from `DropdownMenuSeparator`. |
 
 ### ContextMenuShortcut
 
@@ -192,8 +183,7 @@ The right-click target area. Renders a `DropdownMenuTrigger` with default dimens
 | `keys` | `string` | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
 | `onKeysPressed` | `() => void` | -- | Callback when shortcut keys are pressed |
 | `colored` | `boolean` | `false` | Whether to apply a colored background |
-
-*Also accepts all `DropdownMenuShortcut` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut>` | -- | Additional props inherited from `DropdownMenuShortcut`. |
 
 ### ContextMenuGroup
 
@@ -201,8 +191,7 @@ The right-click target area. Renders a `DropdownMenuTrigger` with default dimens
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes |
 | `children` | `React.ReactNode` | -- | Group content |
-
-*Also accepts all `DropdownMenuGroup` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuGroup>` | -- | Additional props inherited from `DropdownMenuGroup`. |
 
 ### ContextMenuSub
 
@@ -211,8 +200,7 @@ Submenu wrapper.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Sub-trigger and sub-content elements |
-
-*Also accepts all `DropdownMenuSub` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSub>` | -- | Additional props inherited from `DropdownMenuSub`. |
 
 ### ContextMenuSubTrigger
 
@@ -223,8 +211,7 @@ Submenu trigger element.
 | `className` | `string` | -- | Additional CSS classes |
 | `inset` | `boolean` | `false` | When `true`, adds left padding for alignment |
 | `children` | `React.ReactNode` | -- | Trigger content |
-
-*Also accepts all `DropdownMenuSubTrigger` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSubTrigger>` | -- | Additional props inherited from `DropdownMenuSubTrigger`. |
 
 ### ContextMenuSubContent
 
@@ -234,5 +221,4 @@ Submenu content container.
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes |
 | `children` | `React.ReactNode` | -- | Submenu items |
-
-*Also accepts all `DropdownMenuSubContent` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent>` | -- | Additional props inherited from `DropdownMenuSubContent`. |
