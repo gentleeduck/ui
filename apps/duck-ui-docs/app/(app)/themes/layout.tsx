@@ -60,7 +60,7 @@ export default function ThemesLayout({ children }: { children: React.ReactNode }
       </div>
       <div className="container-wrapper bg-background">
         <div className="container py-6">
-          <section className="relative z-50 scroll-mt-20" id="themes">
+          <section className="relative scroll-mt-20">
             <ThemeWrapper>{children}</ThemeWrapper>
           </section>
         </div>

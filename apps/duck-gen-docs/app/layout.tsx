@@ -80,7 +80,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </DocsProvider>
 
-            {/* non-critical scripts */}
             <SpeedInsights />
             <VercelAnalytics />
             <Toaster />

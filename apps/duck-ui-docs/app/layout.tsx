@@ -88,7 +88,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
                 </div>
 
-                {/* non-critical scripts */}
                 <SpeedInsights />
                 <VercelAnalytics />
                 <Toaster />

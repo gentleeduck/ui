@@ -3,7 +3,6 @@ import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
-import { ColorsNav } from '~/components/colors'
 import { ThemeWrapper } from '~/components/themes'
 
 const title = 'Tailwind Colors, Simplified'
@@ -52,13 +51,6 @@ export default function ColorsLayout({ children }: { children: React.ReactNode }
           </Button>
         </PageActions>
       </PageHeader>
-      <div className="hidden">
-        <div className="container-wrapper">
-          <div className="container flex items-center justify-between gap-8 py-4">
-            <ColorsNav className="flex-1 overflow-hidden [&>a:first-child]:text-primary" />
-          </div>
-        </div>
-      </div>
       <div className="container-wrapper">
         <div className="container py-6">
           <section className="scroll-mt-20" id="colors">
