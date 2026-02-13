@@ -48,9 +48,9 @@
   "name": "@gentleduck/primitives",
   "packageManager": "pnpm@10.17.0",
   "peerDependencies": {
-    "tabbable": "6.2.0",
     "react": "catalog:react19",
-    "react-dom": "catalog:react19"
+    "react-dom": "catalog:react19",
+    "tabbable": "6.2.0"
   },
   "private": false,
   "publishConfig": {

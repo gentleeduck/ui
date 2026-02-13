@@ -6,13 +6,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: "Geist Mono";
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(/fonts/GeistMono-VF.woff2) format("woff2");
-}
-
 @layer base {
   * {
     @apply border-border font-medium font-mono;

@@ -20,7 +20,6 @@
     "@vercel/speed-insights": "^1.2.0",
     "culori": "^4.0.2",
     "date-fns": "^4.1.0",
-    "geist": "^1.5.1",
     "lodash.template": "^4.5.0",
     "lucide-react": "catalog:",
     "motion": "^12.26.2",
