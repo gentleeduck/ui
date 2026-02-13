@@ -32,7 +32,8 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
               variant: 'outline',
             }),
           )}
-          href={pager.prev.href}>
+          href={pager.prev.href}
+          scroll>
           <ChevronLeft className="mr-2 size-4" />
           <span>{pager.prev.title}</span>
         </Link>
@@ -45,7 +46,8 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
               variant: 'outline',
             }),
           )}
-          href={pager.next.href}>
+          href={pager.next.href}
+          scroll>
           <span>{pager.next.title}</span>
           <ChevronRight className="ml-2 size-4" />
         </Link>
@@ -72,7 +74,8 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
               variant: 'secondary',
             }),
           )}
-          href={pager.prev.href}>
+          href={pager.prev.href}
+          scroll>
           <ArrowLeft />
         </Link>
       )}
@@ -85,7 +88,8 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
               variant: 'secondary',
             }),
           )}
-          href={pager.next.href}>
+          href={pager.next.href}
+          scroll>
           <ArrowRight />
         </Link>
       )}
