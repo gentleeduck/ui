@@ -9,6 +9,31 @@ When you run `duck-gen`, it generates `.d.ts` files that export types describing
 API routes and message registries. This page documents **every exported type** with
 examples showing how to use each one.
 
+<MermaidDiagram chart={`flowchart TD
+    subgraph RouteTypes["duck-gen-api-routes.d.ts"]
+        A["ApiRoutes"] --> B["RoutePath"]
+        A --> C["RouteReq"]
+        A --> D["RouteRes"]
+        A --> E["RouteMethod"]
+        C --> F["GetBody"]
+        C --> G["GetQuery"]
+        C --> H["GetParams"]
+        C --> I["GetHeaders"]
+        E --> J["PathsByMethod"]
+        A --> K["DuckFetcher"]
+        A --> L["DuckClient"]
+    end
+    subgraph MsgTypes["duck-gen-messages.d.ts"]
+        M["DuckgenMessageSources"] --> N["DuckgenMessageGroup"]
+        M --> O["DuckgenMessageKey"]
+        M --> P["DuckgenMessageDictionary"]
+        P --> Q["DuckgenMessageDictionaryByGroup"]
+        Q --> R["DuckGenI18nMessages"]
+        R --> S["DuckgenI18n"]
+        R --> T["DuckgenI18nByGroup"]
+        R --> U["DuckgenScopedI18nByGroup"]
+    end`} />
+
 Import generated types from the framework entrypoint:
 
 ```ts

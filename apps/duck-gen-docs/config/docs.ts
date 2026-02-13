@@ -36,6 +36,10 @@ export const docsConfig = {
           href: '/docs/whoiam',
           title: 'whoiam',
         },
+        {
+          href: '/docs/changelog',
+          title: 'Changelog',
+        },
       ],
       title: 'Getting Started',
     },

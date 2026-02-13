@@ -49,7 +49,7 @@
   "scripts": {
     "build": "next build",
     "build:docs": "pnpm velite",
-    "dev": "next dev",
+    "dev": "next dev --port 3004",
     "dev:docs": "pnpm velite dev",
     "lint": "next lint",
     "postbuild": "next-sitemap",

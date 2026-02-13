@@ -31,6 +31,13 @@ type SignupRes = { token: string } // hope this matches AuthSession
 Every time a DTO changes or a new route is added, someone has to update the client types.
 Duck Gen removes that step entirely.
 
+
+<Callout icon={<Target/>} title="The core promise">
+  Change your server code, re-run `duck-gen`, and your client types update automatically.
+  If the new types break your client code, TypeScript tells you immediately — not your users
+  in production.
+</Callout>
+
 ### What it generates
 
 Duck Gen produces two categories of types:
@@ -44,15 +51,22 @@ Both outputs are `.d.ts` files you import directly — no runtime cost, just typ
 
 ## How it works
 
-```text
-┌─────────────────────────────────────────────────┐
-│  1. Read duck-gen.json config                   │
-│  2. Build TypeScript project from tsconfigPath  │
-│  3. Scan controllers + @duckgen message sources │
-│  4. Extract routes, request/response types      │
-│  5. Emit .d.ts files                            │
-└─────────────────────────────────────────────────┘
-```
+<MermaidDiagram chart={`flowchart TD
+    A["duck-gen.json"] -->|framework + paths| B["ts-morph project"]
+    B --> C{"Scan source files"}
+    C -->|"@Controller classes"| D["Route Extractor"]
+    C -->|"@duckgen JSDoc tags"| E["Message Extractor"]
+    D --> F["Extract HTTP method"]
+    D --> G["Extract path segments"]
+    D --> H["Extract @Body @Query @Param @Headers"]
+    D --> I["Extract return type"]
+    F & G & H & I --> J["Route Map"]
+    E --> K["Read array/object literal keys"]
+    E --> L["Group by @duckgen tag"]
+    K & L --> M["Message Registry"]
+    J --> N["duck-gen-api-routes.d.ts"]
+    M --> O["duck-gen-messages.d.ts"]
+    N & O --> P["outputSource directories"]`} />
 
 Here is the step-by-step flow:
 
@@ -75,6 +89,12 @@ Here is the step-by-step flow:
 
 5. **Emit `.d.ts` files** — Generated type files are written to the package's `generated`
    folder and optionally to custom output directories.
+
+<Callout icon={<Search/>} title="Under the hood">
+  Duck Gen uses [ts-morph](https://ts-morph.com/) (a TypeScript compiler wrapper) to parse
+  your code with full type resolution. This means it understands generics, utility types,
+  type aliases, and complex return types — not just simple interfaces.
+</Callout>
 
 ## Quick start
 
@@ -166,6 +186,12 @@ import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
 // From a custom output directory
 import type { ApiRoutes } from './generated/duck-gen-api-routes'
 ```
+
+<Callout icon={<Lightbulb/>} title="Which import path should I use?">
+  Use the package entrypoint (`@gentleduck/gen/nestjs`) for most cases. It works in both
+  monorepo and standalone setups. Use custom output paths only when you need types in a
+  package that doesn't have access to `@gentleduck/gen`.
+</Callout>
 
 ## CLI usage
 

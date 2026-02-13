@@ -375,19 +375,33 @@ export async function createUserWithFeedback(
 
 Here is the complete flow:
 
-```text
-1. Write NestJS controllers with typed DTOs and @duckgen message tags
-                          ↓
-2. Run `pnpm exec duck-gen` to generate ApiRoutes and message types
-                          ↓
-3. Create Duck Query client with `createDuckQueryClient<ApiRoutes>()`
-                          ↓
-4. Make type-safe API calls — paths, bodies, and responses are enforced
-                          ↓
-5. Build type-safe i18n using DuckgenScopedI18nByGroup
-                          ↓
-6. When the server changes, re-run duck-gen — TypeScript catches mismatches
-```
+<MermaidDiagram chart={`flowchart TD
+    subgraph Backend["1. Define Backend"]
+        A["NestJS Controllers\\nTyped DTOs with Zod"]
+        B["Message Constants\\n@duckgen JSDoc tags"]
+    end
+    subgraph Generate["2. Generate Types"]
+        C["pnpm exec duck-gen"]
+        D["duck-gen-api-routes.d.ts\\nApiRoutes, RouteReq, RouteRes"]
+        E["duck-gen-messages.d.ts\\nDuckgenMessageKey, DuckgenI18n"]
+    end
+    subgraph Client["3. Build Client"]
+        F["createDuckQueryClient\\nwith ApiRoutes generic"]
+        G["Type-safe HTTP calls\\npaths, bodies, responses"]
+    end
+    subgraph I18n["4. Add i18n"]
+        H["DuckgenScopedI18nByGroup"]
+        I["Type-safe translations\\nen, ar, ..."]
+    end
+    subgraph Loop["5. Iterate"]
+        J["Server changes"]
+        K["Re-run duck-gen"]
+        L["TypeScript catches\\nmismatches instantly"]
+    end
+    A & B --> C --> D & E
+    D --> F --> G
+    E --> H --> I
+    J --> K --> L --> A`} />
 
 No manual type writing. No drift between server and client. Full type safety from
 database to UI.

@@ -10,6 +10,31 @@ JSDoc comments. It reads the keys from those constants and generates TypeScript 
 describe your message registry — giving you compile-time safety for i18n dictionaries,
 error codes, and any other string-keyed data you define on the server.
 
+<MermaidDiagram chart={`flowchart TD
+    subgraph Server["Server Source Files"]
+        A1["auth.constants.ts\\n/** @duckgen messages auth */\\nexport const AuthMessages = ..."]
+        A2["users.constants.ts\\n/** @duckgen messages users */\\nexport const UserMessages = ..."]
+    end
+    subgraph Scan["Duck Gen Scanning"]
+        A1 --> B1["Find @duckgen JSDoc tag"]
+        A2 --> B2["Find @duckgen JSDoc tag"]
+        B1 --> C1["Parse tag: group = auth"]
+        B2 --> C2["Parse tag: group = users"]
+        C1 --> D1["Extract literal keys\\nAUTH_SIGNIN_SUCCESS\\nAUTH_SIGNIN_FAILED\\n..."]
+        C2 --> D2["Extract literal keys\\nUSER_CREATED\\nUSER_NOT_FOUND\\n..."]
+    end
+    subgraph Gen["Generated Types"]
+        D1 & D2 --> E["duck-gen-messages.d.ts"]
+        E --> F["DuckgenMessageKey"]
+        E --> G["DuckgenI18n"]
+        E --> H["DuckgenScopedI18nByGroup"]
+    end
+    subgraph Client["Client Usage"]
+        F --> I["Type-safe error keys"]
+        G --> J["Type-safe translations"]
+        H --> K["Scoped i18n objects"]
+    end`} />
+
 ## What it scans
 
 Duck Gen looks for **exported** `const` declarations that:
