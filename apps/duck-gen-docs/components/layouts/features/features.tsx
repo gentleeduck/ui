@@ -37,9 +37,6 @@ export function FeaturesSection() {
       {/* Background elements */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]"></div>
-      <div
-        aria-hidden="true"
         className="absolute top-1/4 left-1/4 z-0 h-64 w-64 rounded-full bg-purple-500/20 blur-3xl"></div>
       <div
         aria-hidden="true"

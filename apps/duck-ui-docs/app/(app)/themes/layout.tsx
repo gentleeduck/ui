@@ -32,9 +32,6 @@ export const metadata: Metadata = {
 export default function ThemesLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
       <PageHeader className="relative">
         <div
           aria-hidden="true"

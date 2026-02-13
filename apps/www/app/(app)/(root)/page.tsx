@@ -40,9 +40,6 @@ export default function Page() {
       <PageHeader className="relative flex flex-col justify-start justify-self-center text-center">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]"></div>
-        <div
-          aria-hidden="true"
           className="absolute top-0 right-0 z-0 h-16 w-16 rounded-full bg-yellow-400/20 blur-2xl md:h-72 md:w-72"></div>
         <div
           aria-hidden="true"
@@ -63,10 +60,10 @@ export default function Page() {
         </div>
         <PageHeaderDescription>{description}</PageHeaderDescription>
         <PageActions className="mx-auto w-full justify-center">
-          <Button size="sm">
+          <Button>
             <Link href="/docs">Get Started</Link>
           </Button>
-          <Button size="sm" variant="outline">
+          <Button variant="outline">
             <Link href="/docs/whoiam">Who is behind?</Link>
           </Button>
         </PageActions>
