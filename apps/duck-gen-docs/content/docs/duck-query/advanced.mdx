@@ -1,6 +1,6 @@
 ---
 title: advanced
-description: Advanced Duck Query patterns — interceptors, error handling, custom Axios instances, using without Duck Gen, and real-world integration tips.
+description: Advanced Duck Query patterns -- interceptors, error handling, custom Axios instances, using without Duck Gen, and real-world integration tips.
 ---
 
 ## Interceptors
@@ -357,18 +357,18 @@ export const external = createDuckQueryClient<ExternalRoutes>({
 
 A few things to keep in mind:
 
-- **GET and DELETE ignore body** — even if the request object has a `body` field, it is
+- **GET and DELETE ignore body** -- even if the request object has a `body` field, it is
   not sent for GET, DELETE, HEAD, and OPTIONS requests.
-- **`request` defaults to GET** — if you don't pass `config.method`, it defaults to `'GET'`.
-- **Path type checking** — `client.post()` only accepts paths that support POST. Trying
+- **`request` defaults to GET** -- if you don't pass `config.method`, it defaults to `'GET'`.
+- **Path type checking** -- `client.post()` only accepts paths that support POST. Trying
   to POST to a GET-only route is a compile-time error.
-- **Param encoding** — path parameter values are automatically URL-encoded with
+- **Param encoding** -- path parameter values are automatically URL-encoded with
   `encodeURIComponent`.
-- **Slash normalization** — double slashes in built URLs are normalized.
+- **Slash normalization** -- double slashes in built URLs are normalized.
 
 ## Next steps
 
-- [Duck Query overview](/docs/duck-query) — getting started guide.
-- [Client Methods](/docs/duck-query/client-methods) — detailed method reference.
-- [Types](/docs/duck-query/types) — all exported types.
-- [Templates](/docs/templates) — complete working example.
+- [Duck Query overview](/docs/duck-query) -- getting started guide.
+- [Client Methods](/docs/duck-query/client-methods) -- detailed method reference.
+- [Types](/docs/duck-query/types) -- all exported types.
+- [Templates](/docs/templates) -- complete working example.

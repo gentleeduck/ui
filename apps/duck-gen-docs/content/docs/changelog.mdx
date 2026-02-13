@@ -15,8 +15,8 @@ The docs are now organized into clear sections:
 
 | Section | What it covers |
 | --- | --- |
-| **Duck Gen** | Core generator — overview, configuration, API routes, messages, generated types |
-| **Duck Query** | Type-safe HTTP client — overview, client methods, types, advanced usage |
+| **Duck Gen** | Core generator -- overview, configuration, API routes, messages, generated types |
+| **Duck Query** | Type-safe HTTP client -- overview, client methods, types, advanced usage |
 | **Guides** | End-to-end walkthrough from setup to production |
 | **Templates** | Starter projects with Duck Gen pre-configured |
 
@@ -24,18 +24,18 @@ The docs are now organized into clear sections:
 
 Added a complete **Duck Query** section covering the type-safe HTTP client that consumes Duck Gen's generated types:
 
-- **Overview** — What Duck Query is and how it connects to Duck Gen output
-- **Client Methods** — Every method (`get`, `post`, `put`, `patch`, `delete`) with typed request/response examples
-- **Types** — Deep dive into `RouteReq`, `RouteRes`, `ApiRoutes`, and utility types
-- **Advanced** — Custom interceptors, error handling, retry logic, and SSR patterns
+- **Overview** -- What Duck Query is and how it connects to Duck Gen output
+- **Client Methods** -- Every method (`get`, `post`, `put`, `patch`, `delete`) with typed request/response examples
+- **Types** -- Deep dive into `RouteReq`, `RouteRes`, `ApiRoutes`, and utility types
+- **Advanced** -- Custom interceptors, error handling, retry logic, and SSR patterns
 
 #### Mermaid Diagrams
 
 Added architecture flowcharts showing how Duck Gen processes source code:
 
-- **Main flow diagram** — From `duck-gen.json` config through ts-morph scanning to `.d.ts` output
-- **Route extraction pipeline** — How controller decorators are parsed into typed route maps
-- **Message extraction pipeline** — How `@duckgen` JSDoc tags become typed message registries
+- **Main flow diagram** -- From `duck-gen.json` config through ts-morph scanning to `.d.ts` output
+- **Route extraction pipeline** -- How controller decorators are parsed into typed route maps
+- **Message extraction pipeline** -- How `@duckgen` JSDoc tags become typed message registries
 
 #### Callout Enhancements
 

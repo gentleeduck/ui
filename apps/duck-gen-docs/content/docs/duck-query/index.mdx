@@ -43,7 +43,7 @@ and TypeScript tells you exactly what to send and what you get back.
 pnpm add @gentleduck/query
 ```
 
-Axios is a **peer dependency** — it should already be in your project. If not:
+Axios is a **peer dependency** -- it should already be in your project. If not:
 
 ```bash
 pnpm add axios
@@ -166,7 +166,7 @@ Duck Query provides seven methods plus access to the underlying Axios instance:
 | `del(path, req?, config?)` | DELETE request | No |
 | `request(path, req?, config?)` | Uses `config.method` (default: GET) | Depends |
 | `byMethod(method, path, req?, config?)` | Explicit method string | Depends |
-| `axios` | The underlying Axios instance | — |
+| `axios` | The underlying Axios instance | -- |
 
 Each method returns `Promise<AxiosResponse<RouteRes>>`, so you get the full Axios response
 including `data`, `status`, `headers`, etc.

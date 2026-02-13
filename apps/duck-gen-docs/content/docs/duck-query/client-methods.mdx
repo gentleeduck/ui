@@ -1,6 +1,6 @@
 ---
 title: client methods
-description: Detailed reference for every Duck Query client method — get, post, put, patch, del, request, byMethod, and the axios instance.
+description: Detailed reference for every Duck Query client method -- get, post, put, patch, del, request, byMethod, and the axios instance.
 ---
 
 ## Overview
@@ -257,7 +257,7 @@ prefer the named methods (`get`, `post`, etc.) for better type safety.
 ## byMethod
 
 Explicitly specify the HTTP method as the first argument. This gives you the strongest
-type checking — the path is constrained to routes that support the given method.
+type checking -- the path is constrained to routes that support the given method.
 
 ```ts
 client.byMethod<M extends RouteMethods<Routes>, P extends PathsByMethod<Routes, M>>(
@@ -340,5 +340,5 @@ await client.get('/api/users', {
 
 ## Next steps
 
-- [Types reference](/docs/duck-query/types) — all exported types for building custom route maps.
-- [Advanced patterns](/docs/duck-query/advanced) — interceptors, error handling, custom routes.
+- [Types reference](/docs/duck-query/types) -- all exported types for building custom route maps.
+- [Advanced patterns](/docs/duck-query/advanced) -- interceptors, error handling, custom routes.

@@ -11,7 +11,7 @@ writing route types by hand or hoping your client stays in sync with the server,
 automates the entire contract layer.
 
 It is part of the [@gentleduck](https://github.com/gentleeduck) ecosystem and is currently
-tested with **NestJS**. The architecture supports multiple frameworks — NestJS is the first
+tested with **NestJS**. The architecture supports multiple frameworks -- NestJS is the first
 adapter shipped.
 
 ### The problem it solves
@@ -34,7 +34,7 @@ Duck Gen removes that step entirely.
 
 <Callout icon={<Target/>} title="The core promise">
   Change your server code, re-run `duck-gen`, and your client types update automatically.
-  If the new types break your client code, TypeScript tells you immediately — not your users
+  If the new types break your client code, TypeScript tells you immediately -- not your users
   in production.
 </Callout>
 
@@ -47,7 +47,7 @@ Duck Gen produces two categories of types:
 | **API route types** | A route map with typed request shapes (body, query, params, headers) and response types for every controller method. |
 | **Message registry types** | Strongly-typed i18n dictionaries derived from `@duckgen` message tags in your code. |
 
-Both outputs are `.d.ts` files you import directly — no runtime cost, just types.
+Both outputs are `.d.ts` files you import directly -- no runtime cost, just types.
 
 ## How it works
 
@@ -70,30 +70,30 @@ Both outputs are `.d.ts` files you import directly — no runtime cost, just typ
 
 Here is the step-by-step flow:
 
-1. **Load config** — Duck Gen reads `duck-gen.json` from your project root. This tells it
+1. **Load config** -- Duck Gen reads `duck-gen.json` from your project root. This tells it
    which framework adapter to use, where your `tsconfig.json` lives, and what to generate.
 
-2. **Build the project** — Using [ts-morph](https://ts-morph.com/), it creates an in-memory
+2. **Build the project** -- Using [ts-morph](https://ts-morph.com/), it creates an in-memory
    TypeScript project from your `tsconfigPath`. The `include` and `exclude` globs in your
    `tsconfig.json` determine which files get scanned.
 
-3. **Scan source files** — The NestJS adapter looks for:
-   - Classes decorated with `@Controller()` — these become API routes.
-   - Exported variables with `@duckgen` JSDoc tags — these become message sources.
+3. **Scan source files** -- The NestJS adapter looks for:
+   - Classes decorated with `@Controller()` -- these become API routes.
+   - Exported variables with `@duckgen` JSDoc tags -- these become message sources.
 
-4. **Extract type information** — For each controller method, Duck Gen extracts:
+4. **Extract type information** -- For each controller method, Duck Gen extracts:
    - The HTTP method (`GET`, `POST`, etc.) from decorators.
    - The full route path (`globalPrefix` + controller path + method path).
    - Request shape from parameter decorators (`@Body`, `@Query`, `@Param`, `@Headers`).
    - Response type from the method's return type.
 
-5. **Emit `.d.ts` files** — Generated type files are written to the package's `generated`
+5. **Emit `.d.ts` files** -- Generated type files are written to the package's `generated`
    folder and optionally to custom output directories.
 
 <Callout icon={<Search/>} title="Under the hood">
   Duck Gen uses [ts-morph](https://ts-morph.com/) (a TypeScript compiler wrapper) to parse
   your code with full type resolution. This means it understands generics, utility types,
-  type aliases, and complex return types — not just simple interfaces.
+  type aliases, and complex return types -- not just simple interfaces.
 </Callout>
 
 ## Quick start
@@ -216,10 +216,10 @@ pnpm generate
 
 **CLI behavior:**
 
-- Requires `duck-gen.json` in the current directory — fails if missing.
-- Overwrites existing generated files on every run — safe to run repeatedly.
+- Requires `duck-gen.json` in the current directory -- fails if missing.
+- Overwrites existing generated files on every run -- safe to run repeatedly.
 - Prints warnings for `any` return types and duplicate message const names.
-- Safe for CI/CD pipelines — deterministic output, no side effects.
+- Safe for CI/CD pipelines -- deterministic output, no side effects.
 
 ## What to read next
 

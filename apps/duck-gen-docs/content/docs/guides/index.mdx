@@ -1,6 +1,6 @@
 ---
 title: end-to-end guide
-description: Complete walkthrough — build a NestJS backend, generate types with Duck Gen, and consume them with Duck Query on the client.
+description: Complete walkthrough -- build a NestJS backend, generate types with Duck Gen, and consume them with Duck Query on the client.
 ---
 
 ## What you will build
@@ -12,7 +12,7 @@ This guide walks you through the full Duck Gen + Duck Query workflow from scratc
 3. A type-safe client using Duck Query.
 4. Type-safe i18n translations using generated message types.
 
-By the end, your client code will have **zero manually written types** for API calls —
+By the end, your client code will have **zero manually written types** for API calls --
 everything comes from the server source code.
 
 ## Step 1: Set up the backend
@@ -66,7 +66,7 @@ export const UserMessages = [
 ] as const
 ```
 
-Notice the `@duckgen messages users` JSDoc tag — this tells Duck Gen to scan this constant
+Notice the `@duckgen messages users` JSDoc tag -- this tells Duck Gen to scan this constant
 and register it under the `users` group.
 
 ### Response type
@@ -189,11 +189,11 @@ Output:
 ```
 
 Duck Gen now generates types that know about:
-- `GET /api/users` — returns `ApiResponse<UserDto[], UserMessage>`, accepts `PaginationDto` query.
-- `GET /api/users/:id` — returns `ApiResponse<UserDto, UserMessage>`, accepts `id` param.
-- `POST /api/users` — returns `ApiResponse<UserDto, UserMessage>`, accepts `CreateUserDto` body.
-- `PUT /api/users/:id` — returns `ApiResponse<UserDto, UserMessage>`, accepts `UpdateUserDto` body + `id` param.
-- `DELETE /api/users/:id` — returns `ApiResponse<null, UserMessage>`, accepts `id` param.
+- `GET /api/users` -- returns `ApiResponse<UserDto[], UserMessage>`, accepts `PaginationDto` query.
+- `GET /api/users/:id` -- returns `ApiResponse<UserDto, UserMessage>`, accepts `id` param.
+- `POST /api/users` -- returns `ApiResponse<UserDto, UserMessage>`, accepts `CreateUserDto` body.
+- `PUT /api/users/:id` -- returns `ApiResponse<UserDto, UserMessage>`, accepts `UpdateUserDto` body + `id` param.
+- `DELETE /api/users/:id` -- returns `ApiResponse<null, UserMessage>`, accepts `id` param.
 - Message group `users` with keys: `USER_CREATED`, `USER_UPDATED`, etc.
 
 ## Step 4: Create the Duck Query client
@@ -408,7 +408,7 @@ database to UI.
 
 ## Next steps
 
-- [Templates](/docs/templates) — another complete example with auth flow.
-- [Duck Gen overview](/docs/duck-gen) — deep dive into Duck Gen features.
-- [Duck Query overview](/docs/duck-query) — deep dive into the HTTP client.
-- [Configuration](/docs/duck-gen/configuration) — customize Duck Gen behavior.
+- [Templates](/docs/templates) -- another complete example with auth flow.
+- [Duck Gen overview](/docs/duck-gen) -- deep dive into Duck Gen features.
+- [Duck Query overview](/docs/duck-query) -- deep dive into the HTTP client.
+- [Configuration](/docs/duck-gen/configuration) -- customize Duck Gen behavior.
