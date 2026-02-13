@@ -10,19 +10,52 @@ export const docsConfig = {
         {
           title: 'Overview',
           href: '/docs',
-        },
-        {
-          title: 'What’s new',
-          label: 'check me!',
-          href: '/docs/news',
+          items: [],
         },
         {
           title: 'FAQs',
           href: '/docs/faqs',
+          items: [],
         },
         {
-          title: 'whoiam',
+          title: 'Who am I?',
           href: '/docs/whoiam',
+          items: [],
+        },
+      ],
+    },
+    {
+      title: 'News',
+      items: [
+        {
+          title: "What's New",
+          href: '/docs/news',
+          label: 'new',
+          items: [],
+        },
+        {
+          title: 'February 2026 Updates',
+          href: '/docs/news/february-2026-updates',
+          label: 'new',
+          items: [],
+        },
+        {
+          title: 'Duck Gen & Duck Query',
+          href: '/docs/news/duck-gen-and-query',
+          label: 'new',
+          items: [],
+        },
+        {
+          title: 'Component Library',
+          href: '/docs/news/component-library',
+          label: 'new',
+          items: [],
+        },
+        {
+          title: 'The Ecosystem',
+          href: '/docs/news/ecosystem-overview',
+          label: 'new',
+          items: [],
         },
       ],
     },
