@@ -13,6 +13,12 @@ exposes.
 Duck Gen is designed for multiple frameworks. This guide documents the **NestJS adapter** — the
 first adapter shipped and currently tested.
 
+<Callout icon={<Target/>} title="What this means for you">
+  After running `duck-gen`, your client code knows every route path, what data to send, and
+  what data comes back — all enforced by TypeScript. Misspell a route? Type error. Send the
+  wrong body shape? Type error. Forget a required param? Type error.
+</Callout>
+
 ## What it scans
 
 Duck Gen looks for three things in your source files:
@@ -81,13 +87,39 @@ Each decorator accepts an optional string path:
 | `@Headers()` | `headers` | no | The full headers type |
 | `@Headers('x-token')` | `headers['x-token']` | no (optional field) | `{ 'x-token'?: Type }` |
 
+<Callout icon={<Lightbulb/>} title="Full DTO vs named property">
+  When you use `@Body()` (no argument), the **entire parameter type** becomes the body type.
+  When you use `@Body('email')`, Duck Gen creates `{ email?: Type }` — an object with that
+  single optional field. The same logic applies to `@Query` and `@Headers`.
+</Callout>
+
 ## Path construction rules
 
 Duck Gen builds the final route path by joining three segments:
 
-```text
-globalPrefix + controllerPath + methodPath
-```
+<MermaidDiagram chart={`flowchart TD
+    subgraph Source["Source Code"]
+        S1["main.ts\\napp.setGlobalPrefix('api')"]
+        S2["@Controller('users')"]
+        S3["@Get(':id')"]
+    end
+    subgraph Extraction["Duck Gen Extraction"]
+        S1 --> A["globalPrefix = /api"]
+        S2 --> B["controllerPath = /users"]
+        S3 --> C["methodPath = /:id"]
+    end
+    subgraph Join["Path Construction"]
+        A --> D["Join segments"]
+        B --> D
+        C --> D
+        D --> E["Normalize slashes"]
+        E --> F["/api/users/:id"]
+    end
+    subgraph Output["Generated Route Entry"]
+        F --> G["method: GET"]
+        F --> H["params: id string"]
+        F --> I["res: UserDto"]
+    end`} />
 
 For example:
 
@@ -200,10 +232,11 @@ findOne(@Param('id') id: string): Promise<UserDto> {
 // => response type: UserDto
 ```
 
-**Important:** Always add explicit return type annotations to your controller methods.
-If the return type is inferred as `any`, Duck Gen will:
-- Print a warning during generation.
-- Convert `any` to `unknown` if `normalizeAnyToUnknown` is enabled.
+<Callout icon={<TriangleAlert/>} title="Always annotate return types">
+  Always add explicit return type annotations to your controller methods. If the return type
+  is inferred as `any`, Duck Gen will print a warning and convert it to `unknown` (when
+  `normalizeAnyToUnknown` is enabled). Explicit types give you the best results.
+</Callout>
 
 ## Complete example
 
@@ -346,6 +379,13 @@ const ROUTE = 'users'
 @Controller(ROUTE) // skipped -- not a string literal
 export class UsersController { ... }
 ```
+
+<Callout icon={<Lightbulb/>} title="Why string literals only?">
+  Duck Gen runs at build time and doesn't execute your code. It reads the AST (abstract syntax
+  tree) to find decorator arguments. Variables and expressions would require runtime evaluation,
+  which isn't possible during static analysis. Use string literals in your decorators for
+  reliable type generation.
+</Callout>
 
 ### Methods without HTTP decorators are ignored
 

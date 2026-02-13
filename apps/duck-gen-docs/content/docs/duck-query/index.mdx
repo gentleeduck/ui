@@ -14,26 +14,24 @@ and TypeScript tells you exactly what to send and what you get back.
 
 ## How it works with Duck Gen
 
-```text
-┌─────────────────────────────────────────────┐
-│  NestJS Controller                          │
-│  @Post('signin')                            │
-│  signin(@Body() body: SigninDto): AuthRes   │
-└──────────────────┬──────────────────────────┘
-                   │ duck-gen scans
-                   |
-┌─────────────────────────────────────────────┐
-│  Generated ApiRoutes type map               │
-│  '/api/auth/signin' -> POST, SigninDto, Res │
-└──────────────────┬──────────────────────────┘
-                   │ passed as generic
-                   |
-┌─────────────────────────────────────────────┐
-│  Duck Query Client                          │
-│  client.post('/api/auth/signin', { body })  │
-│  TypeScript enforces types end-to-end        │
-└─────────────────────────────────────────────┘
-```
+<MermaidDiagram chart={`flowchart LR
+    subgraph Server["NestJS Server"]
+        A["@Controller('auth')\\n@Post('signin')\\nsignin(@Body() dto: SigninDto): AuthSession"]
+    end
+    subgraph Gen["Duck Gen"]
+        B["Scan controllers"]
+        C["Extract types"]
+        D["Emit .d.ts"]
+    end
+    subgraph Types["Generated ApiRoutes"]
+        E["'/api/auth/signin'\\nmethod: POST\\nbody: SigninDto\\nres: AuthSession"]
+    end
+    subgraph Client["Duck Query Client"]
+        F["client.post('/api/auth/signin',\\n  body: SigninDto\\n)"]
+        G["Response: AuthSession"]
+    end
+    A --> B --> C --> D --> E
+    E -->|"generic param"| F --> G`} />
 
 ## Install
 

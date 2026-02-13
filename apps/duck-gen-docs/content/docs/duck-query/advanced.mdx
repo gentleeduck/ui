@@ -5,6 +5,32 @@ description: Advanced Duck Query patterns — interceptors, error handling, cust
 
 ## Interceptors
 
+<MermaidDiagram chart={`flowchart TD
+    subgraph App["Your Application"]
+        A["client.post('/api/auth/signin',\\n  body: SigninDto\\n)"]
+    end
+    subgraph ReqChain["Request Pipeline"]
+        B["Serialize body + query + params"]
+        C["Request Interceptor 1\\nAttach Bearer token"]
+        D["Request Interceptor 2\\nAdd X-Request-ID header"]
+    end
+    subgraph Network["Network"]
+        E["Axios HTTP Request\\nPOST /api/auth/signin"]
+        F["Server Response\\n200 or 401"]
+    end
+    subgraph ResChain["Response Pipeline"]
+        G{"Status code?"}
+        H["Response Interceptor\\nReturn typed data"]
+        I["Error Interceptor\\n401: refresh token + retry\\n500: log + reject"]
+    end
+    subgraph Result["Result"]
+        J["Typed AuthSession"]
+        K["AxiosError with status"]
+    end
+    A --> B --> C --> D --> E --> F --> G
+    G -->|"2xx"| H --> J
+    G -->|"4xx/5xx"| I --> K`} />
+
 Since Duck Query is built on Axios, you have full access to request and response
 interceptors through `client.axios`.
 

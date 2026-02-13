@@ -13,6 +13,12 @@ is simple: keep server contracts and client types aligned without manual sync wo
 If you have ever shipped a client without matching route types or drifted i18n
 keys, Duck Gen removes that pain.
 
+<Callout icon={<Lightbulb/>} title="Think of it this way">
+  Duck Gen is like a translator that reads your server code and writes a dictionary
+  your client can use. Every time the server changes, you re-run the translator and
+  your client instantly knows the new vocabulary.
+</Callout>
+
 ## The Human Behind the Duck
 
 [@wildduck2](https://github.com/wildduck2) is the architect behind [@gentleduck](https://github.com/gentleeduck).
@@ -47,6 +53,11 @@ extension, Duck Gen automates the contract layer so you can focus on building fe
 - **Built for automation**: Run it locally or in CI. Generated files are safe
   to overwrite.
 
+<Callout icon={<Zap/>} title="Zero runtime cost">
+  Duck Gen only produces `.d.ts` files — pure type declarations. There is no runtime
+  library, no bundle size impact, no performance overhead. Types are erased at compile time.
+</Callout>
+
 ## Documentation map
 
 | Section | What it covers |
@@ -64,6 +75,12 @@ extension, Duck Gen automates the contract layer so you can focus on building fe
 | [End-to-End Guide](/docs/guides) | Complete walkthrough from NestJS backend to typed client. |
 | [Templates](/docs/templates) | Full auth example with DTOs, messages, and Duck Query. |
 | [FAQs](/docs/faqs) | Common questions and answers. |
+
+<Callout icon={<MapIcon/>} title="Not sure where to start?">
+  If you want to jump straight in, head to the [Installation guide](/docs/installation) and
+  follow the steps. If you want to understand the system first, start with
+  [Duck Gen overview](/docs/duck-gen).
+</Callout>
 
 ## Getting Started (The Fast Version)
 

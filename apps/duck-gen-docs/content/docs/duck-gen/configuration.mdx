@@ -10,6 +10,11 @@ is **required** — the CLI fails if it cannot find or parse it.
 
 All paths inside the config are resolved **relative to the config file location**.
 
+<Callout icon={<Lightbulb/>} title="Editor autocomplete">
+  Add the `$schema` field to your config file to get autocomplete, validation, and inline
+  documentation in VS Code and other editors that support JSON Schema.
+</Callout>
+
 ## Minimal config
 
 The smallest working configuration for a NestJS project:
@@ -60,7 +65,7 @@ This points to the schema file bundled with the `@gentleduck/gen` package.
 { "framework": "nestjs" }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `string` |
 | **Required** | Yes |
@@ -74,6 +79,12 @@ fail config validation. More adapters are planned.
 The `extensions.shared` section configures settings that apply to **both** the API routes
 and messages extensions.
 
+<Callout icon={<LinkIcon/>} title="Shared means shared">
+  Settings in `extensions.shared` affect all extensions. If you set `outputSource` here,
+  **both** API route types and message types are written to that location. Use the
+  per-extension `outputSource` when you need different paths for each.
+</Callout>
+
 ### tsconfigPath
 
 ```json
@@ -86,7 +97,7 @@ and messages extensions.
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `string` |
 | **Required** | Yes (for NestJS) |
@@ -111,7 +122,7 @@ file is excluded by your tsconfig, Duck Gen won't see it.
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `boolean` |
 | **Required** | Yes |
@@ -119,6 +130,12 @@ file is excluded by your tsconfig, Duck Gen won't see it.
 
 Whether to include `node_modules` files when scanning. Set to `false` unless you have
 a specific reason to scan third-party code (e.g. scanning a local workspace package).
+
+<Callout icon={<TriangleAlert/>} title="Performance warning">
+  Setting `includeNodeModules: true` significantly increases scanning time because Duck Gen
+  will parse every TypeScript file in your `node_modules`. Only enable this if you need to
+  scan controllers in a linked workspace package.
+</Callout>
 
 ### outputSource
 
@@ -132,7 +149,7 @@ a specific reason to scan third-party code (e.g. scanning a local workspace pack
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `string` or `string[]` |
 | **Required** | No |
@@ -170,7 +187,7 @@ writes directly to that file.
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `string[]` |
 | **Required** | No |
@@ -195,7 +212,7 @@ The `extensions.apiRoutes` section configures the API route type generator.
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `boolean` |
 | **Required** | Yes |
@@ -214,7 +231,7 @@ Enable or disable API route generation. Set to `false` if you only want message 
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `string` |
 | **Required** | No |
@@ -232,6 +249,12 @@ Without a prefix, routes start directly from the controller path:
 - With `globalPrefix: "/api"`: `/api/users/:id`
 - Without: `/users/:id`
 
+<Callout icon={<TriangleAlert/>} title="Keep prefixes in sync">
+  If your NestJS app uses `app.setGlobalPrefix('api')` but your config says
+  `globalPrefix: "/v1"`, the generated route paths won't match the actual server paths.
+  Always keep these aligned.
+</Callout>
+
 ### normalizeAnyToUnknown
 
 ```json
@@ -244,7 +267,7 @@ Without a prefix, routes start directly from the controller path:
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `boolean` |
 | **Required** | Yes |
@@ -269,7 +292,7 @@ if you intentionally want `any` to pass through.
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `string` or `string[]` |
 | **Required** | No |
@@ -295,7 +318,7 @@ The `extensions.messages` section configures the message registry type generator
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `boolean` |
 | **Required** | Yes |
@@ -314,7 +337,7 @@ Enable or disable message generation. Set to `false` if you only want API route 
 }
 ```
 
-| | |
+| Property | Value |
 | --- | --- |
 | **Type** | `string` or `string[]` |
 | **Required** | No |
@@ -364,6 +387,8 @@ With this config:
 
 ### API routes only
 
+Use this when your project doesn't use i18n or message keys:
+
 ```json title="duck-gen.json"
 {
   "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
@@ -387,6 +412,8 @@ With this config:
 ```
 
 ### Messages only
+
+Use this when you only need i18n type safety and handle routes differently:
 
 ```json title="duck-gen.json"
 {
@@ -441,6 +468,11 @@ Then in your client package:
 ```ts
 import type { ApiRoutes } from '../../packages/shared-types/generated/duck-gen-api-routes'
 ```
+
+<Callout icon={<Lightbulb/>} title="Monorepo tip">
+  When using a shared output directory, add the generated files to your `.gitignore` and
+  regenerate them in CI. This avoids merge conflicts and ensures types are always fresh.
+</Callout>
 
 ## Next steps
 
