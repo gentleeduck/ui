@@ -53,7 +53,7 @@
     text-align: right;
     content: counter(line);
     counter-increment: line;
-    @apply text-zinc-50/40 text-xs;
+    @apply text-accent-foreground text-xs;
   }
 
   [data-rehype-pretty-code-fragment] .line--highlighted,
