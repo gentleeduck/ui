@@ -1,6 +1,4 @@
 :root {
-  --font-mono-geist: "Geist Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
-
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
@@ -22,7 +20,7 @@
 }
 
 @theme inline {
-  --font-mono: "Geist Mono", "JetBrains Mono", monospace, "Adjusted Lucida Sans Typewriter Fallback";
+  --font-mono: var(--font-geist-mono, "Geist Mono"), monospace;
   --radius: 0.5rem;
 
   --color-background: var(--background);

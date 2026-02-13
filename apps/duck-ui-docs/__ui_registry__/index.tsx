@@ -348,6 +348,26 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'command',
   },
+  combobox: {
+    name: 'combobox',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['badge', 'button', 'checkbox', 'command', 'popover', 'separator'],
+    files: [
+      {
+        path: 'combobox/combobox.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'combobox/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/combobox')),
+    source: '/registry-ui-duckui/src/combobox',
+    categories: [],
+    root_folder: 'combobox',
+  },
   'context-menu': {
     name: 'context-menu',
     description: '',
@@ -1016,7 +1036,7 @@ export const Index: Record<string, any> = {
     name: 'button-group',
     description: '',
     type: 'registry:ui',
-    registryDependencies: ['button'],
+    registryDependencies: ['button', 'separator'],
     files: [
       {
         path: 'button-group/button-group.constants.ts',
@@ -1147,6 +1167,34 @@ export const Index: Record<string, any> = {
     source: '/registry-ui-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
+  },
+  'preview-panel': {
+    name: 'preview-panel',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['badge', 'button', 'button-group', 'dialog', 'separator', 'tooltip'],
+    files: [
+      {
+        path: 'preview-panel/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'preview-panel/preview-panel-dialog.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'preview-panel/preview-panel.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'preview-panel/preview-panel.types.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/preview-panel')),
+    source: '/registry-ui-duckui/src/preview-panel',
+    categories: [],
+    root_folder: 'preview-panel',
   },
   'accordion-1': {
     name: 'accordion-1',
@@ -3360,7 +3408,7 @@ export const Index: Record<string, any> = {
     name: 'checkbox-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['checkbox'],
     files: [
       {
         path: 'checkbox/checkbox-1.tsx',
@@ -3376,7 +3424,7 @@ export const Index: Record<string, any> = {
     name: 'checkbox-2',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['checkbox'],
     files: [
       {
         path: 'checkbox/checkbox-2.tsx',
@@ -3392,7 +3440,7 @@ export const Index: Record<string, any> = {
     name: 'checkbox-3',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['checkbox'],
     files: [
       {
         path: 'checkbox/checkbox-3.tsx',
@@ -3408,7 +3456,7 @@ export const Index: Record<string, any> = {
     name: 'checkbox-4',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['checkbox'],
     files: [
       {
         path: 'checkbox/checkbox-4.tsx',
@@ -3424,7 +3472,7 @@ export const Index: Record<string, any> = {
     name: 'checkbox-5',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['checkbox'],
     files: [
       {
         path: 'checkbox/checkbox-5.tsx',
@@ -3440,7 +3488,7 @@ export const Index: Record<string, any> = {
     name: 'checkbox-6',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['checkbox'],
     files: [
       {
         path: 'checkbox/checkbox-6.tsx',
@@ -3456,7 +3504,7 @@ export const Index: Record<string, any> = {
     name: 'checkbox-7',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['checkbox'],
     files: [
       {
         path: 'checkbox/checkbox-7.tsx',
@@ -3472,7 +3520,7 @@ export const Index: Record<string, any> = {
     name: 'checkbox-8',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['checkbox'],
     files: [
       {
         path: 'checkbox/checkbox-8.tsx',
@@ -3776,7 +3824,7 @@ export const Index: Record<string, any> = {
     name: 'combobox-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['popover', 'command'],
+    registryDependencies: ['combobox'],
     files: [
       {
         path: 'combobox/combobox-1.tsx',
@@ -3792,7 +3840,7 @@ export const Index: Record<string, any> = {
     name: 'combobox-2',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['popover', 'command'],
+    registryDependencies: ['combobox'],
     files: [
       {
         path: 'combobox/combobox-2.tsx',
@@ -3808,7 +3856,7 @@ export const Index: Record<string, any> = {
     name: 'combobox-3',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['popover', 'command'],
+    registryDependencies: ['combobox'],
     files: [
       {
         path: 'combobox/combobox-3.tsx',
@@ -3824,7 +3872,7 @@ export const Index: Record<string, any> = {
     name: 'combobox-4',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['popover', 'command'],
+    registryDependencies: ['combobox'],
     files: [
       {
         path: 'combobox/combobox-4.tsx',
@@ -3840,7 +3888,7 @@ export const Index: Record<string, any> = {
     name: 'combobox-5',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['popover', 'command'],
+    registryDependencies: ['combobox'],
     files: [
       {
         path: 'combobox/combobox-5.tsx',
@@ -3856,7 +3904,7 @@ export const Index: Record<string, any> = {
     name: 'combobox-6',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['popover', 'command'],
+    registryDependencies: ['combobox'],
     files: [
       {
         path: 'combobox/combobox-6.tsx',
@@ -5040,7 +5088,7 @@ export const Index: Record<string, any> = {
     name: 'theme-toggle-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: [''],
+    registryDependencies: [],
     files: [
       {
         path: 'theme-toggle/theme-toggle-1.tsx',
@@ -5051,6 +5099,70 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/theme-toggle',
     categories: [],
     root_folder: 'theme-toggle',
+  },
+  'preview-panel-1': {
+    name: 'preview-panel-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['preview-panel'],
+    files: [
+      {
+        path: 'preview-panel/preview-panel-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-1')),
+    source: '/registry-examples-duckui/src/preview-panel',
+    categories: [],
+    root_folder: 'preview-panel',
+  },
+  'preview-panel-2': {
+    name: 'preview-panel-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['preview-panel'],
+    files: [
+      {
+        path: 'preview-panel/preview-panel-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-2')),
+    source: '/registry-examples-duckui/src/preview-panel',
+    categories: [],
+    root_folder: 'preview-panel',
+  },
+  'preview-panel-3': {
+    name: 'preview-panel-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['preview-panel'],
+    files: [
+      {
+        path: 'preview-panel/preview-panel-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-3')),
+    source: '/registry-examples-duckui/src/preview-panel',
+    categories: [],
+    root_folder: 'preview-panel',
+  },
+  'preview-panel-4': {
+    name: 'preview-panel-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['preview-panel'],
+    files: [
+      {
+        path: 'preview-panel/preview-panel-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-4')),
+    source: '/registry-examples-duckui/src/preview-panel',
+    categories: [],
+    root_folder: 'preview-panel',
   },
   'signup-1': {
     name: 'signup-1',
