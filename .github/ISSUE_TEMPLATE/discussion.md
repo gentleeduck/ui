@@ -1,6 +1,6 @@
 ---
 name: "💬 Discussion / RFC"
-about: Propose an idea, design change, or open discussion about Gentleduck
+about: Propose an idea, design change, or open discussion about duck-ui
 title: "[RFC] "
 labels: discussion
 assignees: ""
@@ -23,4 +23,3 @@ List questions or points where feedback is needed.
 
 ## Additional Context
 Add references, diagrams, or examples if relevant.
-

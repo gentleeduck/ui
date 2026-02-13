@@ -59,7 +59,7 @@ function applyFont(font, importUrl) {
   }
 
   if (font?.family) {
-    console.log('🔥 Gentleduck font applied:', font.family)
+    console.log('🔥 duck-ui font applied:', font.family)
   }
 }
 
@@ -126,7 +126,7 @@ function injectToggleButton() {
     const button = document.createElement('button')
     button.id = 'gentleduck-toggle-btn'
     button.innerHTML = '🔤'
-    button.title = 'Toggle Gentleduck Extension'
+    button.title = 'Toggle duck-ui Extension'
     button.style.cssText = `
       position: fixed;
       bottom: 20px;
@@ -193,11 +193,11 @@ function updateButtonState(button, isDisabled) {
   if (isDisabled) {
     button.style.opacity = '0.5'
     button.style.background = '#666'
-    button.title = 'Enable Gentleduck Extension'
+    button.title = 'Enable duck-ui Extension'
   } else {
     button.style.opacity = '1'
     button.style.background = '#000'
-    button.title = 'Disable Gentleduck Extension'
+    button.title = 'Disable duck-ui Extension'
   }
 }
 

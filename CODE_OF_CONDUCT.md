@@ -1,8 +1,8 @@
-# Code of Conduct 
+# Code of Conduct
 
 ## Our Pledge
 
-We, as members, contributors, and leaders of the **Gentleduck** project, pledge to make participation in our community a harassment-free experience for everyone.
+We, as members, contributors, and leaders of the **duck-ui** project, pledge to make participation in our community a harassment-free experience for everyone.
 We are committed to fostering an environment where **everyone feels respected, safe, and welcome**, regardless of:
 
 * Age

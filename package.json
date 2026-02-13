@@ -11,11 +11,11 @@
     "typescript": "5.9.3",
     "vercel": "^50.1.6"
   },
-  "name": "gentleduck",
-  "description": "GentleDuck monorepo for Duck UI, Duck Gen, and related tooling.",
-  "author": "GentleDuck (https://www.gentleduck.org)",
+  "name": "duck-ui",
+  "description": "duck-ui monorepo for UI, Duck Gen, and related tooling.",
+  "author": "duck-ui contributors",
   "license": "MIT",
-  "homepage": "https://www.gentleduck.org",
+  "homepage": "https://ui.gentleduck.org",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gentleeduck/duck-ui.git"
@@ -24,56 +24,77 @@
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "keywords": [
-    "gentleduck",
     "duck-ui",
+    "duckui",
     "developer-tools",
     "ui",
     "react"
   ],
-  "packageManager": "pnpm@10.12.4",
-  "pnpm": {
-    "ignoredBuiltDependencies": [
-      "rolldown"
-    ],
-    "onlyBuiltDependencies": [
-      "@biomejs/biome",
-      "@ffprobe-installer/linux-x64",
-      "@parcel/watcher",
-      "@swc/core",
-      "core-js-pure",
-      "esbuild",
-      "protobufjs",
-      "sharp"
-    ],
-    "packageExtensions": {
-      "@hookform/resolvers@*": {
-        "dependencies": {
-          "zod": "^4.2.1"
-        }
-      }
-    },
-    "overrides": {
-      "vite": "npm:rolldown-vite@^7.3.0"
-    }
-  },
+  "packageManager": "bun@1.3.5",
   "private": true,
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
     "test": "turbo test",
-    "check-types": "turbo run check-types",
     "check": "biome check .",
     "lint": "biome lint .",
     "format": "biome format --write .",
     "fix": "biome check --write .",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "ci": "pnpm run lint && pnpm run format && pnpm run build",
-    "release": "pnpm run ci && changeset publish",
+    "ci": "bun run lint && bun run format && bun run build",
+    "release": "bun run ci && changeset publish",
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",
     "clean:git": "git clean -xdf .cache .turbo node_modules dist",
-    "lint:ws": "pnpm dlx sherif@latest",
-    "postinstall": "pnpm run lint:ws",
-    "prepare": "husky"
+    "lint:ws": "bunx sherif@latest",
+    "postinstall": "bun run lint:ws",
+    "prepare": "husky",
+    "postbuild": "next-sitemap && node scripts/fix-required-server-files.mjs",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
+    "start": "next start",
+    "preview": "bunx @cloudflare/next-on-pages",
+    "deploy": "bunx @cloudflare/next-on-pages && bunx wrangler pages deploy .vercel/output/static"
+  },
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*",
+      "tooling/*",
+      "!./apps/upload-api/",
+      "!./apps/benchmark/"
+    ],
+    "catalog": {
+      "next": "^16.1.1",
+      "lucide-react": "0.562.0",
+      "@changesets/cli": "^2.29.8",
+      "@tabler/icons-react": "3.36.0",
+      "@tanstack/react-query": "^5.90.15",
+      "@trpc/client": "^11.8.1",
+      "@trpc/react-query": "^11.8.1",
+      "@trpc/server": "^11.8.1",
+      "@types/node": "22.19.3",
+      "@vitejs/plugin-react-swc": "^3.11.0",
+      "@vitest/coverage-v8": "^3.2.4",
+      "@vitest/ui": "^3.2.4",
+      "react-day-picker": "^9.8.1",
+      "tailwindcss": "4.1.18",
+      "tsdown": "0.18.3",
+      "tsx": "^4.21.0",
+      "typescript": "5.9.3",
+      "vite": "npm:rolldown-vite@^7.3.0",
+      "vite-bundle-analyzer": "^1.3.2",
+      "vite-plugin-inspect": "^11.3.3",
+      "vite-tsconfig-paths": "^6.0.3",
+      "vitest": "^4.0.16",
+      "zod": "4.2.1"
+    },
+    "catalogs": {
+      "react19": {
+        "react": "^19.2.3",
+        "react-dom": "^19.2.3",
+        "@types/react": "19.2.7",
+        "@types/react-dom": "19.2.3"
+      }
+    }
   }
 }

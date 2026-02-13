@@ -27,10 +27,10 @@
     "ora": "^9.0.0",
     "postcss": "^8.5.6",
     "prompts": "^2.4.2",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "tsconfig-paths": "^4.2.0",
-    "zod": "catalog:"
+    "zod": "4.2.1"
   },
   "description": "this is the benchmark tool for the @gentleduck/ui components, it's a black magic tool to let you know weather your code suck or good.",
   "devDependencies": {
@@ -39,13 +39,13 @@
     "@types/figlet": "^1.7.0",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash.template": "^4.5.3",
-    "@types/node": "catalog:",
+    "@types/node": "22.19.3",
     "@types/prompts": "^2.4.9",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19",
-    "tsdown": "catalog:",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "tsdown": "0.18.3",
     "type-fest": "^5.0.1",
-    "typescript": "catalog:"
+    "typescript": "5.9.3"
   },
   "exports": {
     ".": {
@@ -65,7 +65,7 @@
   ],
   "license": "MIT",
   "name": "@gentleduck/benchmark",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "bun@1.3.5",
   "private": false,
   "publishConfig": {
     "access": "public"

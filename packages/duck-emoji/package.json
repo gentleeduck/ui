@@ -10,8 +10,8 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Emoji assets and utilities for GentleDuck.",
-  "author": "GentleDuck (https://www.gentleduck.org)",
+  "description": "Emoji assets and utilities for duck-ui.",
+  "author": "duck-ui contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-emoji#readme",
   "bugs": {

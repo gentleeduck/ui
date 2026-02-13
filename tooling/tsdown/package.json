@@ -3,10 +3,10 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "author": "gentleduck",
+  "author": "duck-ui contributors",
   "dependencies": {
-    "@vitejs/plugin-react-swc": "catalog:",
-    "tsdown": "catalog:"
+    "@vitejs/plugin-react-swc": "^3.11.0",
+    "tsdown": "0.18.3"
   },
   "description": "this is a package for `tsdown` build configs",
   "devDependencies": {
@@ -28,7 +28,7 @@
     "url": "git+https://github.com/gentleeduck/duck-ui.git",
     "directory": "tooling/tsdown"
   },
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "bun@1.3.5",
   "private": true,
   "scripts": {
     "clean": "git clean -xdf .cache .turbo node_modules dist",

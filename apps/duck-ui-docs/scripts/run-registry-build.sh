@@ -16,18 +16,18 @@ else
   exit 1
 fi
 
-# Check if pnpm is installed
-if ! command -v pnpm &> /dev/null; then
-  echo "❌ pnpm is not installed. Please install pnpm globally."
+# Check if bun is installed
+if ! command -v bun &> /dev/null; then
+  echo "❌ bun is not installed. Please install bun first."
   exit 1
 fi
 
-# Run the start script with sudo (if required)
-echo "🔧 Running 'pnpm run start'..."
-if sudo pnpm run start; then
+# Run the start script
+echo "🔧 Running 'bun run start'..."
+if bun run start; then
   echo "🎉 Registry build completed successfully!"
 else
-  echo "❌ Failed to run 'pnpm run start'. Check the logs for errors."
+  echo "❌ Failed to run 'bun run start'. Check the logs for errors."
   exit 1
 fi
 
@@ -43,7 +43,7 @@ echo "🏁 Script execution finished."
 # 🚀 Starting registry build script...
 # 📂 Changing directory to ./packages/registry-build-duckui...
 # ✅ Successfully changed directory.
-# 🔧 Running 'pnpm run start'...
+# 🔧 Running 'bun run start'...
 #
 # > @gentleduck/registry-build-duckui@0.1.0 start /mnt/1T_wild/wildduck/@gentleduck-ui/packages/registry-build-duckui
 # > tsx ./index.ts

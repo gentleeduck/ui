@@ -13,9 +13,9 @@
     "@gentleduck/typescript-config": "workspace:*",
     "clsx": "^2.1.1",
     "cva": "1.0.0-beta.3",
-    "tsdown": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "tsdown": "0.18.3",
+    "typescript": "5.9.3",
+    "vitest": "^4.0.16"
   },
   "exports": {
     ".": "./dist/index.js"
@@ -48,7 +48,7 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "name": "@gentleduck/variants",
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "bun@1.3.5",
   "private": false,
   "publishConfig": {
     "access": "public"

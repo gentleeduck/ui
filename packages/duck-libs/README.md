@@ -42,4 +42,4 @@ function SearchInput() {
 
 ## License
 
-[MIT © GentleDuck](./LICENSE)
+[MIT © duck-ui](./LICENSE)

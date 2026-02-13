@@ -1,6 +1,6 @@
-# Contributing to Gentleduck 🦆✨
+# Contributing to duck-ui
 
-First off, thank you for considering contributing to **Gentleduck**!
+First off, thank you for considering contributing to **duck-ui**!
 We welcome all kinds of contributions — from bug reports and documentation improvements to feature requests and new packages.
 
 This document provides guidelines to help you get started.
@@ -9,7 +9,7 @@ This document provides guidelines to help you get started.
 
 ## Code of Conduct
 
-By participating in this project, you agree to uphold our [Code of Conduct](./CODE_OF_CONDUCT.md) (coming soon).
+By participating in this project, you agree to uphold our [Code of Conduct](./CODE_OF_CONDUCT.md).
 Please treat everyone with respect and kindness.
 
 ---
@@ -25,22 +25,22 @@ cd duck-ui
 
 ### 2. Install Dependencies
 
-We use **pnpm** with workspaces:
+We use **Bun** with workspaces:
 
 ```bash
-pnpm install
+bun install
 ```
 
 ### 3. Build All Packages
 
 ```bash
-pnpm build
+bun run build
 ```
 
 ### 4. Run in Development
 
 ```bash
-pnpm dev
+bun run dev
 ```
 
 This will spin up local development environments for the packages and docs.
@@ -88,7 +88,7 @@ This will spin up local development environments for the packages and docs.
    * Run all tests before pushing:
 
      ```bash
-     pnpm test
+     bun run test
      ```
 
 ---
@@ -127,7 +127,7 @@ If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui
 * **Code**: Bug fixes, features, optimizations
 * **Docs**: Tutorials, guides, API references
 * **Design**: Improving UX, accessibility, component design
-* **Community**: Helping others in discussions, writing blog posts, or sharing Gentleduck
+* **Community**: Helping others in discussions, writing blog posts, or sharing duck-ui
 
 ---
 
@@ -142,4 +142,3 @@ If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui
 ## License
 
 By contributing, you agree that your contributions will be licensed under the project’s [MIT License](./LICENSE).
-

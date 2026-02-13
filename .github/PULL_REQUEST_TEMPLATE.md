@@ -1,6 +1,6 @@
 ---
 name: "🔀 Pull Request"
-about: Submit a pull request to Gentleduck
+about: Submit a pull request to duck-ui
 title: "[PR] "
 assignees: ""
 ---
@@ -31,10 +31,9 @@ Explain the testing strategy:
 - [ ] Other (please describe)
 
 ## Checklist
-- [ ] My code follows the Gentleduck coding guidelines
+- [ ] My code follows the duck-ui coding guidelines
 - [ ] I’ve added/updated tests when applicable
 - [ ] I’ve updated relevant documentation
 - [ ] All new and existing tests pass
 
 ---
-

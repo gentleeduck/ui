@@ -74,8 +74,8 @@ export default function Component() {
                     key={payload.month}
                     stroke="var(--color-desktop)"
                     width={r}
-                    x={cx - r / 2}
-                    y={cy - r / 2}
+                    x={(cx ?? 0) - r / 2}
+                    y={(cy ?? 0) - r / 2}
                   />
                 )
               }}

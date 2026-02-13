@@ -1,6 +1,6 @@
 ---
 name: "✨ Feature Request"
-about: Suggest a new feature or improvement for Gentleduck
+about: Suggest a new feature or improvement for duck-ui
 title: "[Feature] "
 labels: enhancement
 assignees: ""
@@ -25,11 +25,9 @@ A clear and concise description of the feature you’d like to see.
 
 ```tsx
 // Example usage
-import { DuckMagic } from "@gentleduck/ui"
+import { Button } from "@gentleduck/registry-ui-duckui/button"
 
-<DuckMagic variant="shiny" duration={300}>
-  Make things sparkle ✨
-</DuckMagic>
+<Button variant="default">Hello duck-ui</Button>
 ````
 
 ---
@@ -55,7 +53,7 @@ List 2–3 practical use cases for this feature:
 
 How important is this feature to you?
 
-* [ ] Critical – I cannot use Gentleduck without it
+* [ ] Critical – I cannot use duck-ui without it
 * [ ] High – It would significantly improve my workflow
 * [ ] Medium – Useful, but I can manage without it
 * [ ] Low – Nice to have

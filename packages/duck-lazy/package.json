@@ -10,9 +10,9 @@
   "description": "A package for lazy loading components and images, providing virtualized rendering to improve client-side performance.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:react19",
-    "tsdown": "catalog:",
+    "@types/node": "22.19.3",
+    "@types/react": "19.2.7",
+    "tsdown": "0.18.3",
     "tsup": "^8.5.1"
   },
   "exports": {
@@ -40,11 +40,11 @@
   "license": "MIT",
   "main": "./index.ts",
   "name": "@gentleduck/lazy",
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "bun@1.3.5",
   "peerDependencies": {
-    "next": "catalog:",
-    "react": "catalog:react19",
-    "typescript": "catalog:"
+    "next": "^16.1.1",
+    "react": "^19.2.3",
+    "typescript": "5.9.3"
   },
   "peerDependenciesMeta": {
     "next": {

@@ -21,13 +21,13 @@
     "culori": "^4.0.2",
     "date-fns": "^4.1.0",
     "lodash.template": "^4.5.0",
-    "lucide-react": "catalog:",
+    "lucide-react": "0.562.0",
     "motion": "^12.26.2",
-    "next": "catalog:",
+    "next": "^16.1.1",
     "next-sitemap": "^4.2.3",
     "next-themes": "^0.4.6",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-resizable-panels": "^3.0.6",
     "recharts": "^3.7.0",
     "shiki": "^1.12.1",
@@ -36,22 +36,22 @@
     "tw-animate-css": "^1.2.4",
     "unist-builder": "4.0.0",
     "unist-util-visit": "^5.0.0",
-    "zod": "catalog:"
+    "zod": "4.2.1"
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/culori": "^4.0.1",
     "@types/lodash.template": "^4.5.3",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19",
-    "tailwindcss": "catalog:",
-    "typescript": "catalog:",
+    "@types/node": "22.19.3",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "tailwindcss": "4.1.18",
+    "typescript": "5.9.3",
     "velite": "^0.3.1"
   },
   "name": "@gentleduck/ui-docs",
-  "author": "GentleDuck (https://www.gentleduck.org)",
+  "author": "duck-ui contributors",
   "license": "MIT",
   "homepage": "https://www.gentleduck.org",
   "bugs": {
@@ -68,14 +68,15 @@
   },
   "scripts": {
     "build": "next build",
-    "build:docs": "pnpm velite",
+    "build:docs": "bunx velite",
     "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/index.tsx",
     "dev": "next dev --webpack",
-    "dev:docs": "pnpm velite dev",
+    "dev:docs": "bunx velite dev",
     "lint": "next lint",
-    "postbuild": "next-sitemap",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "start": "next start"
+    "postbuild": "next-sitemap && node scripts/fix-required-server-files.mjs",
+    "start": "next start",
+    "preview": "next build && next start"
   },
   "version": "3.0.21"
 }

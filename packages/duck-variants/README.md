@@ -9,10 +9,10 @@ A lightweight utility for generating class names based on variant configurations
 
 ## Philosophy
 
-At **GentleDuck**, we believe that developer tools should be **fast**, **reliable**, and **actively maintained** — not abandoned. While `class-variance-authority` initially inspired the idea of variant-based class management, its situation has become unacceptable:  
+At **duck-ui**, we believe that developer tools should be **fast**, **reliable**, and **actively maintained** — not abandoned. While `class-variance-authority` initially inspired the idea of variant-based class management, its situation has become unacceptable:  
 despite having **over 6 million weekly downloads**, the project has been left **poorly maintained for more than 6 months**, with important pull requests and bug fixes sitting untouched.
 
-Leaving a critical utility like this in a broken or half-maintained state is **unacceptable** to us at **GentleDuck**.  
+Leaving a critical utility like this in a broken or half-maintained state is **unacceptable** to us at **duck-ui**.  
 So, we took action: we rewrote the library from scratch with our own vision and philosophy — making it **more modern**, **more reliable**, and **up to 7× faster**.  
 
 Our goal with **@gentleduck/variants** is simple:  
@@ -62,7 +62,7 @@ npm install @gentleduck/variants
 # or
 yarn add @gentleduck/variants
 # or
-pnpm add @gentleduck/variants
+bun add @gentleduck/variants
 ```
 
 ---
@@ -250,4 +250,4 @@ const fn = cva({ base: 'base', variants, defaultVariants, compoundVariants })
 
 ## License
 
-MIT © [GentleDuck](./LICENSE)
+MIT © [duck-ui](./LICENSE)

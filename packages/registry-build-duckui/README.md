@@ -10,7 +10,7 @@ This script builds the @gentleduck/ui Registry**, a centralized collection of co
 
 1. Install dependencies:
    ```bash
-   pnpm install
+   bun install
    ```
 
 2. Copy the `example.env` to be .env 
@@ -22,7 +22,7 @@ This script builds the @gentleduck/ui Registry**, a centralized collection of co
 
 4. Build the registry:
    ```bash
-   pnpm run start
+   bun run start
    ```
 
 ---
@@ -38,7 +38,7 @@ This script builds the @gentleduck/ui Registry**, a centralized collection of co
 
 Run the following command to build the registry:
 ```bash
-pnpm run start
+bun run start
 ```
 
 ---

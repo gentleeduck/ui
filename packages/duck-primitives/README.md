@@ -64,10 +64,10 @@ export function ExampleDialog() {
 ## 🔒 Security
 
 See [`SECURITY.md`](./SECURITY.md).
-Report issues at [github.com/gentleduck/ui/issues](https://github.com/gentleeduck/duck-ui/issues).
+Report issues at [github.com/gentleeduck/duck-ui/issues](https://github.com/gentleeduck/duck-ui/issues).
 
 ---
 
 ## 📄 License
 
-[MIT © GentleDuck](./LICENSE)
+[MIT © duck-ui](./LICENSE)

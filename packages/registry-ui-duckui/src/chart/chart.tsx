@@ -144,10 +144,10 @@ const ChartTooltipContent = ({
       ref={ref}>
       {nestLabel ? null : tooltipLabel}
       <div className="grid gap-1.5" data-slot="tooltip-items">
-        {payload.map((item, index) => {
+        {payload.map((item: RechartsPrimitive.TooltipPayloadEntry<string | number, string | number>, index: number) => {
           const key = `${nameKey || item.name || item.dataKey || 'value'}`
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
-          const indicatorColor = color || item.payload.fill || item.color
+          const indicatorColor = color || item.payload?.fill || item.color
 
           return (
             <div
@@ -156,7 +156,7 @@ const ChartTooltipContent = ({
                 indicator === 'dot' && 'items-center',
               )}
               data-slot="tooltip-item"
-              key={item.dataKey}>
+              key={String(item.dataKey)}>
               {formatter && item?.value !== undefined && item.name ? (
                 formatter(item.value, item.name, item, index, item.payload)
               ) : (
@@ -227,7 +227,7 @@ const ChartLegendContent = ({
       className={cn('flex items-center justify-center gap-4', verticalAlign === 'top' ? 'pb-3' : 'pt-3', className)}
       data-slot="legend-content"
       ref={ref}>
-      {payload.map((item) => {
+      {payload?.map((item: RechartsPrimitive.LegendPayload) => {
         const key = `${nameKey || item.dataKey || 'value'}`
         const itemConfig = getPayloadConfigFromPayload(config, item, key)
 

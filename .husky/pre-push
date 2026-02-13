@@ -1,8 +1,8 @@
 echo "[husky] pre-push checks starting..."
 
-pnpm run fix 
-pnpm run check
-# pnpm run check-types
-# pnpm -s test
+bun run fix
+bun run check
+# bun run check-types
+# bun test
 
 echo "[husky] pre-push checks passed"

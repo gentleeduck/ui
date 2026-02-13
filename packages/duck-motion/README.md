@@ -7,7 +7,7 @@ A lightweight and composable animation library for web applications.
 ## Installation
 
 ```bash
-pnpm add @gentleduck/motion
+bun add @gentleduck/motion
 ```
 
 ## API
@@ -18,8 +18,8 @@ pnpm add @gentleduck/motion
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request on the [GitHub repository](https://github.com/gentleduck/ui).
+Contributions are welcome! Please open an issue or submit a pull request on the [GitHub repository](https://github.com/gentleeduck/duck-ui).
 
 ## License
 
-[MIT © GentleDuck](./LICENSE)
+[MIT © duck-ui](./LICENSE)

@@ -78,7 +78,7 @@ export default function Component() {
             />
             <XAxis dataKey="visitors" hide type="number" />
             <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
-            <Bar dataKey="visitors" layout="vertical" radius={5} />
+            <Bar dataKey="visitors" radius={5} />
           </BarChart>
         </ChartContainer>
       </CardContent>

@@ -1,20 +1,18 @@
 <p align="center">
-  <img src="./apps/www/public/og/root.png" alt="Duck UI Logo" width="800"/>
+  <img src="./apps/duck-ui-docs/public/og/root.png" alt="duck-ui logo" width="800"/>
 </p>
 
-# @gentleduck
+# duck-ui
 
-GentleDuck is an open source organization building production-grade developer tooling. We exist to 
-reduce friction across the entire development lifecycle, from UI and interaction design to 
-documentation, automation, testing, and systems performance.
+duck-ui is a Bun-based monorepo for the duck-ui component system, docs, and related tooling.
  
 ## Documentation
-- Website: https://www.gentleduck.org
+- Docs app: `apps/duck-ui-docs`
 - GitHub: https://github.com/gentleeduck/duck-ui
 
-## What's in the Repo
+## What's in this repo
 ### Apps
-- `apps/duck-ui-docs` – UI docs site (components, blocks, charts, themes)
+- `apps/duck-ui-docs` – component docs site (components, blocks, charts, themes)
 - `apps/duck-gen-docs` – Duck Gen docs site
 
 ### Packages (Selected)
@@ -47,13 +45,13 @@ documentation, automation, testing, and systems performance.
 ```bash
 git clone https://github.com/gentleeduck/duck-ui.git
 cd duck-ui
-pnpm install
+bun install
 ```
 
 ## Run a Single App
 ```bash
-pnpm --filter @gentleduck/ui-docs dev
-pnpm --filter @gentleduck/gen-docs dev
+bun --filter @gentleduck/ui-docs dev
+bun --filter @gentleduck/gen-docs dev
 ```
 
 ## Contributing

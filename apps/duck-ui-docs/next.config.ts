@@ -1,10 +1,23 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { NextConfig } from 'next'
+
+const currentDir = path.dirname(fileURLToPath(import.meta.url))
+const monorepoRoot = path.join(currentDir, '../..')
 
 const nextConfig: NextConfig = {
   devIndicators: false,
-  typescript: {
-    ignoreBuildErrors: true,
+  outputFileTracingRoot: monorepoRoot,
+  turbopack: {
+    root: monorepoRoot,
   },
+  experimental: {
+    externalDir: true,
+    // swcPlugins: [['@lingui/swc-plugin', {}]],
+  },
+  // typescript: {
+  //   ignoreBuildErrors: true,
+  // },
   images: {
     remotePatterns: [
       {

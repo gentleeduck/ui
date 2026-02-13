@@ -11,7 +11,7 @@
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "tsdown": "catalog:"
+    "tsdown": "0.18.3"
   },
   "exports": {
     "./*": "./dist/*.js",
@@ -34,10 +34,10 @@
   ],
   "license": "MIT",
   "name": "@gentleduck/motion",
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "bun@1.3.5",
   "peerDependencies": {
     "@gentleduck/variants": "workspace:*",
-    "typescript": "catalog:"
+    "typescript": "5.9.3"
   },
   "private": false,
   "publishConfig": {

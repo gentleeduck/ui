@@ -15,7 +15,7 @@ import {
   ChartTooltipContent,
 } from '@gentleduck/registry-ui-duckui/chart'
 import { TrendingUp } from 'lucide-react'
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from 'recharts'
+import { type BaseTickContentProps, PolarAngleAxis, PolarGrid, Radar, RadarChart } from 'recharts'
 
 export const description = 'A radar chart with a custom label'
 
@@ -59,7 +59,7 @@ export default function Component() {
             <ChartTooltip content={<ChartTooltipContent indicator="line" />} cursor={false} />
             <PolarAngleAxis
               dataKey="month"
-              tick={({ x, y, textAnchor, value, index, ...props }) => {
+              tick={({ x, y, textAnchor, index, ...props }: BaseTickContentProps) => {
                 const data = chartData[index]
 
                 return (
@@ -68,7 +68,7 @@ export default function Component() {
                     fontWeight={500}
                     textAnchor={textAnchor}
                     x={x}
-                    y={index === 0 ? y - 10 : y}
+                    y={index === 0 ? (y as number) - 10 : y}
                     {...props}>
                     <tspan>{data?.desktop}</tspan>
                     <tspan className="fill-muted-foreground">/</tspan>

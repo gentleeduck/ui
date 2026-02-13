@@ -1,10 +1,19 @@
 import { absoluteUrl } from '@gentleduck/docs/lib'
-import { cn } from '@gentleduck/libs/cn'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 import React from 'react'
+import { Index } from '~/__ui_registry__'
+import { RegistryPreview } from '~/components/registry-preview'
 import { siteConfig } from '~/config/site'
-import { getRegistryComponent, getRegistryItem } from '~/lib/get-registry-item'
+import { getRegistryItem } from '~/lib/get-registry-item'
+
+export const revalidate = false
+export const dynamic = 'force-static'
+export const dynamicParams = false
+
+export async function generateStaticParams() {
+  return Object.keys(Index).map((name) => ({ name }))
+}
 
 const getCachedRegistryItem = React.cache(async (name: string) => {
   return await getRegistryItem(name)
@@ -63,19 +72,16 @@ export default async function BlockPage({
 }) {
   const { name } = await params
   const item = await getCachedRegistryItem(name)
-  const Component = getRegistryComponent(name)
 
-  if (!Component || !item) {
+  if (!item) {
     return notFound()
   }
 
   return (
-    <>
-      <div className={cn('flex min-h-screen flex-col items-center justify-center p-4')}>
-        <div className="w-full max-w-screen-2xl">
-          <Component />
-        </div>
+    <div className="flex min-h-screen flex-col items-center justify-center p-4">
+      <div className="w-full max-w-screen-2xl">
+        <RegistryPreview name={name} />
       </div>
-    </>
+    </div>
   )
 }

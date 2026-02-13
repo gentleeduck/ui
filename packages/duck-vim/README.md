@@ -178,5 +178,5 @@ The repo uses `vitest` + JSDOM. Test `Registry` directly for DOM‑less behavior
 
 ## License
 
-[MIT © GentleDuck](./LICENSE)
+[MIT © duck-ui](./LICENSE)
 
