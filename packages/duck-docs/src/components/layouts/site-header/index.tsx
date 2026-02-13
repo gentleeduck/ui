@@ -106,7 +106,7 @@ export function FontStyleButton() {
 
     const family =
       fontType === 'sans'
-        ? 'var(--font-geist-sans, "Geist"), sans-serif'
+        ? 'var(--font-geist-sans, "Montserrat"), sans-serif'
         : 'var(--font-geist-mono, "Geist Mono"), monospace'
 
     document.documentElement.style.setProperty('font-family', family, 'important')

@@ -8,7 +8,7 @@ import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
 import { KeyProvider } from '@gentleduck/vim/react'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist_Mono, Montserrat } from 'next/font/google'
 import { DocsAppProvider } from '~/components/docs-provider'
 import { ThemeWrapper } from '~/components/themes'
 import { docsConfig } from '~/config/docs'
@@ -16,7 +16,7 @@ import { METADATA } from '~/config/metadata'
 import { META_THEME_COLORS, siteConfig } from '~/config/site'
 import { docs } from '../.velite'
 
-const geistSans = Geist({
+const geistSans = Montserrat({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-geist-sans',
@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   var raw = localStorage.getItem('fontType');
                   var fontType = raw ? JSON.parse(raw) : 'mono';
                   var family = fontType === 'sans'
-                    ? 'var(--font-geist-sans, "Geist"), sans-serif'
+                    ? 'var(--font-geist-sans, "Montserrat"), sans-serif'
                     : 'var(--font-geist-mono, "Geist Mono"), monospace';
                   document.documentElement.style.setProperty('font-family', family, 'important');
                 } catch (e) {}
