@@ -15,19 +15,20 @@ import * as React from 'react'
 
 const people = [
   {
-    avatar: 'https://github.com/shadcn.png',
-    email: 'shadcn@vercel.com',
-    username: 'shadcn',
+    avatar: 'https://github.com/wildduck2.png',
+    email: 'wildduck@gentleduck.org',
+    username: 'wildduck',
   },
   {
-    avatar: 'https://github.com/maxleiter.png',
-    email: 'maxleiter@vercel.com',
-    username: 'maxleiter',
+    avatar: 'https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true',
+    email: 'gentleduck@gentleduck.org',
+    username: 'gentleduck',
   },
   {
-    avatar: 'https://github.com/evilrabbit.png',
-    email: 'evilrabbit@vercel.com',
-    username: 'evilrabbit',
+    avatar:
+      'https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp',
+    email: 'inc@gentleduck.org',
+    username: 'gentleduck.inc',
   },
 ]
 
