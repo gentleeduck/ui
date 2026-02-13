@@ -561,7 +561,7 @@
 //         // onClick: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
 //         // command: {
 //         //     key: 'ctrl+shift+right',
-//         //     label: '⌃+⇧+→',
+//         //     label: '⌃+⇧+->',
 //         //     action: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
 //         // },
 //         label: {

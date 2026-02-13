@@ -178,7 +178,7 @@ export default function ConverterPage() {
       <div className="mb-6 flex items-center gap-4">
         <Button className="flex items-center gap-2 bg-transparent" onClick={toggleDirection} variant="outline">
           <ArrowRightLeft className="h-4 w-4" />
-          {isJsToCSS ? 'JS → CSS' : 'CSS → JS'}
+          {isJsToCSS ? 'JS -> CSS' : 'CSS -> JS'}
         </Button>
         <span className="text-muted-foreground text-sm">
           Currently converting from {isJsToCSS ? 'JavaScript Object' : 'CSS'} to{' '}
