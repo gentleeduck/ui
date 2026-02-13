@@ -75,7 +75,7 @@ type Test_InferSchema_Extended = AssertTrue<
       uid?: string | null
     }
   >,
-  'Expected DOUBLE PRECISION → number, DATE → string, UUID → string'
+  'Expected DOUBLE PRECISION -> number, DATE -> string, UUID -> string'
 >
 
 // -------------------------------------------

@@ -232,7 +232,7 @@ type CvaFn<T> = (
 ```
 
 - **`base: string`** — always-included classes  
-- **`variants`** — map of variant names → (value → class/string[])  
+- **`variants`** — map of variant names -> (value -> class/string[])  
 - **`defaultVariants?`** — fallback values  
 - **`compoundVariants?`** — apply extra classes when multiple values match  
 

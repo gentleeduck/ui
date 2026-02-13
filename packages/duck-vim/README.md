@@ -102,7 +102,7 @@ export default function Root() {
 
 ## Concepts
 
-* **Key descriptor** — built from a `KeyboardEvent` as `ctrl?+alt?+meta?+shift?+key`. Always normalized to lowercase. Aliases: `' '` → `space`, `escape` → `esc`, `control` → `ctrl`.
+* **Key descriptor** — built from a `KeyboardEvent` as `ctrl?+alt?+meta?+shift?+key`. Always normalized to lowercase. Aliases: `' '` -> `space`, `escape` -> `esc`, `control` -> `ctrl`.
 * **Sequence** — concatenation of descriptors separated by `+` between steps (e.g. `g+d`). Each step may include modifiers: `ctrl+shift+k`.
 * **Prefixes** — every registered sequence contributes progressive prefixes. Registering `g+d` will mark `g` as a valid prefix while waiting for completion.
 * **Timeout** — when a prefix is active, the internal sequence resets after `timeoutMs` unless the sequence completes.
@@ -140,7 +140,7 @@ detach(target: HTMLElement | Document = document): void
 ```
 
 * Ignores pure modifier presses (`Shift`, `Control`, `Alt`, `Meta`).
-* Matching strategy: try full sequence → if prefix, wait → otherwise retry last descriptor → reset.
+* Matching strategy: try full sequence -> if prefix, wait -> otherwise retry last descriptor -> reset.
 
 ## API (React bindings)
 
@@ -148,7 +148,7 @@ detach(target: HTMLElement | Document = document): void
 
   * Props: `{ debug?: boolean; timeoutMs?: number; children: ReactNode }`
 
-* **`useKeyCommands(commands: Record<string, Command>)`** — registers a set of key→command mappings using the provider's `registry`. Must be used inside `KeyProvider`.
+* **`useKeyCommands(commands: Record<string, Command>)`** — registers a set of key->command mappings using the provider's `registry`. Must be used inside `KeyProvider`.
 
 * **`KeyContext`** — advanced: exposes `{ registry: Registry; handler: KeyHandler }` for programmatic usage.
 

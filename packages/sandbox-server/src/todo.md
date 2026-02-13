@@ -26,7 +26,7 @@
 5. Save checkpointed states to Postgres every X seconds or on idle.
 
 **Consistency:** CRDT ensures last-write-wins, no conflicts.
-**Fault Tolerance:** Offline editing is possible, syncs when online. Redis can lose messages → use Kafka if strict delivery is required.
+**Fault Tolerance:** Offline editing is possible, syncs when online. Redis can lose messages -> use Kafka if strict delivery is required.
 
 ---
 
@@ -196,8 +196,8 @@
 ### ✅ **Answer:**
 
 * **Metrics**: Prometheus + Grafana
-* **Logs**: Fluentd / Logstash → Elasticsearch → Kibana
-* **Tracing**: OpenTelemetry → Jaeger or Zipkin
+* **Logs**: Fluentd / Logstash -> Elasticsearch -> Kibana
+* **Tracing**: OpenTelemetry -> Jaeger or Zipkin
 * **Dashboards**:
 
   * API latency
@@ -446,9 +446,9 @@
 
 **A29:**
 
-* Missing indexes → use `explain()` to analyze.
-* Large documents → split into subcollections or reduce nesting.
-* Unbounded arrays → avoid for high-write concurrency.
+* Missing indexes -> use `explain()` to analyze.
+* Large documents -> split into subcollections or reduce nesting.
+* Unbounded arrays -> avoid for high-write concurrency.
 * Relying on joins (use pre-aggregation or redundancy).
 * Avoid `$where` or regex on unindexed fields.
 
@@ -535,9 +535,9 @@ Excellent — let's push it further to **cover the remaining senior-level gaps**
 
 **Answer:**
 
-* Logs: Winston/Pino to stdout, aggregated by Fluentd → ELK or Loki
+* Logs: Winston/Pino to stdout, aggregated by Fluentd -> ELK or Loki
 * Metrics: Prometheus + Grafana
-* Tracing: OpenTelemetry → Jaeger
+* Tracing: OpenTelemetry -> Jaeger
 * Alerts: Prometheus AlertManager + PagerDuty
 * Correlation IDs across requests
 

@@ -15,49 +15,49 @@
 // export function highlightTS(code: string): string {
 //   return (
 //     code
-//       // 1. Single‐quoted strings → red
+//       // 1. Single‐quoted strings -> red
 //       //    Using a more robust regex so that the closing ' is always matched,
 //       //    even if it’s the last character on the line, and even if the string
 //       //    contains escaped quotes like 'I\'m here'.
 //       .replace(/(?<=\[\s*|,\s*)'((?:\\.|[^'\\])*)'/g, `'${c.red}$1${c.reset}'`)
 //       // Numeric (integers or decimals, optional leading +/−):
 //
-//       // 2. Double‐quoted strings → red
+//       // 2. Double‐quoted strings -> red
 //       .replace(/("(?:\\.|[^"\\])*")/g, `${c.red}$1${c.reset}`)
 //
-//       // 3. Special‐case “table({” → “table” in blue, “({” in white
+//       // 3. Special‐case “table({” -> “table” in blue, “({” in white
 //       .replace(/\btable\(\{/g, `${c.blue}table${c.reset}${c.white}({${c.reset}`)
 //
-//       // 4. “const <identifier>” at the start → “const” in magenta, identifier in white
+//       // 4. “const <identifier>” at the start -> “const” in magenta, identifier in white
 //       .replace(/\bconst\s+([A-Za-z_$][\w$]*)\b/g, `${c.magenta}const${c.reset} ${c.white}$1${c.reset}`)
 //
-//       // 5. “as” → blue
+//       // 5. “as” -> blue
 //       .replace(/\bas\b/g, `${c.blue}as${c.reset}`)
 //
-//       // 6. Any standalone “const” (e.g. “as const”) → magenta
+//       // 6. Any standalone “const” (e.g. “as const”) -> magenta
 //       .replace(/\bconst\b/g, `${c.magenta}const${c.reset}`)
 //
-//       // 7. Other function‐like calls: foo(bar) → foo in cyan, bar in green
+//       // 7. Other function‐like calls: foo(bar) -> foo in cyan, bar in green
 //       .replace(/\b([a-z_]+)\((.*?)\)/g, (match, fnName, args) => {
 //         return `${c.cyan}${fnName}${c.reset}(${c.green}${args}${c.reset})`
 //       })
 //
-//       // 8. Types → yellow
+//       // 8. Types -> yellow
 //       .replace(/\b(uuid|varchar|text|timestamp|integer|jsonb|number|boolean)\b/g, `${c.yellow}$1${c.reset}`)
 //
-//       // 9. Keywords → blue
+//       // 9. Keywords -> blue
 //       .replace(/\b(typeof|default|on_update|on_delete|relation|unique|pk)\b/g, `${c.blue}$1${c.reset}`)
 //
-//       // 10. |> operator → white
+//       // 10. |> operator -> white
 //       .replace(/\|\>/g, `${c.white}|>${c.reset}`)
 //
-//       // 11. = operator → white
+//       // 11. = operator -> white
 //       .replace(/=/g, `${c.white}=${c.reset}`)
 //
-//       // 12. < and > → gray
+//       // 12. < and > -> gray
 //       .replace(/(<|>)/g, `${c.gray}$1${c.reset}`)
 //
-//       // 13. Numeric literals → orange
+//       // 13. Numeric literals -> orange
 //       //     This matches any standalone integer (e.g. 0, 42, 123456)
 //       .replace(/\b([+-]?\d+(?:\.\d+)?)\b/g, `${c.orange}$1${c.reset}`)
 //   )
