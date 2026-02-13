@@ -120,8 +120,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `onValueChange` | `(value: string) => void` | `--` | Callback fired when selection changes |
 | `className` | `string` | `--` | Additional CSS classes for the radio group list |
 | `children` | `React.ReactNode` | `--` | `RadioGroupItem` elements |
-
-*Also accepts all standard HTML `ul` props.*
+| `...props` | `React.HTMLProps<HTMLUListElement>` | -- | Additional props to spread to the ul element |
 
 ### RadioGroupItem
 
@@ -131,8 +130,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `customIndicator` | `React.ReactNode` | `--` | Custom indicator element rendered inside the item |
 | `className` | `string` | `--` | Additional CSS classes for the list item |
 | `children` | `React.ReactNode` | `--` | Label content rendered via the `Label` component |
-
-*Also accepts all standard HTML `li` props (except `value`).*
+| `...props` | `Omit<React.HTMLProps<HTMLLIElement>, 'value'>` | -- | Additional props to spread to the li element |
 
 ### Radio
 
@@ -140,8 +138,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | --- | --- | --- | --- |
 | `indicator` | `React.ReactElement` | `--` | Custom SVG or element for unchecked state indicator |
 | `checkedIndicator` | `React.ReactElement` | `--` | Custom SVG or element for checked state indicator |
-
-*Also accepts all standard HTML `input` props.*
+| `...props` | `React.HTMLProps<HTMLInputElement>` | -- | Additional props to spread to the input element |
 
 ### useRadioGroupContext
 

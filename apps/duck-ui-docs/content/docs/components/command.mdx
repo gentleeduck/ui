@@ -202,8 +202,7 @@ export function CommandMenu() {
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the command container |
 | `children` | `React.ReactNode` | -- | Command content (`CommandInput`, `CommandList`, etc.) |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### CommandInput
 
@@ -212,8 +211,7 @@ export function CommandMenu() {
 | `placeholder` | `string` | `'Search...'` | Placeholder text in the input |
 | `autoFocus` | `boolean` | `true` | Automatically focus input on mount |
 | `onChange` | `React.ChangeEventHandler` | -- | Triggered when the input value changes |
-
-*Also accepts all standard HTML `input` props.*
+| `...props` | `React.HTMLProps<HTMLInputElement>` | -- | Additional props to spread to the input element |
 
 ### CommandList
 
@@ -221,8 +219,7 @@ export function CommandMenu() {
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the list |
 | `children` | `React.ReactNode` | -- | `CommandGroup`, `CommandItem`, `CommandEmpty`, and `CommandSeparator` elements |
-
-*Also accepts all standard HTML `ul` props.*
+| `...props` | `React.HTMLProps<HTMLUListElement>` | -- | Additional props to spread to the ul element |
 
 ### CommandItem
 
@@ -232,16 +229,14 @@ export function CommandMenu() {
 | `onSelect` | `(value: string) => void` | -- | Called when the item is selected |
 | `onClick` | `React.MouseEventHandler` | -- | Native click event |
 | `onKeyDown` | `React.KeyboardEventHandler` | -- | Native keydown event |
-
-*Also accepts all standard HTML `li` props.*
+| `...props` | `React.HTMLProps<HTMLLIElement>` | -- | Additional props to spread to the li element |
 
 ### CommandGroup
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `heading` | `string` | -- | Optional heading for the group |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### CommandEmpty
 
@@ -249,8 +244,7 @@ export function CommandMenu() {
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the empty state |
 | `children` | `React.ReactNode` | -- | Content shown when no items match the search query |
-
-*Also accepts all standard HTML `h6` props.*
+| `...props` | `React.HTMLProps<HTMLHeadingElement>` | -- | Additional props to spread to the h6 element |
 
 ### CommandShortcut
 
@@ -259,16 +253,14 @@ export function CommandMenu() {
 | `keys` | `string` | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
 | `onKeysPressed` | `() => void` | -- | Triggered when shortcut is pressed |
 | `variant` | `'default' \| 'secondary'` | `'default'` | Visual style variant |
-
-*Also accepts all standard HTML `kbd` props.*
+| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the kbd element |
 
 ### CommandSeparator
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the separator |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### CommandDialog
 

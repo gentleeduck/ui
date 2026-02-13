@@ -163,8 +163,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 | `asChild` | `boolean` | `false` | Renders the child element as the trigger instead of a `button` |
 | `children` | `React.ReactNode` | -- | Content rendered inside the trigger |
 | `className` | `string` | -- | Additional CSS class names to apply |
-
-*Also accepts all standard HTML button props (via `Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>`).*
+| `...props` | `Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>` | -- | Additional props to spread to the button element |
 
 ### TooltipContent
 
@@ -177,8 +176,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 | `renderOnce` | `boolean` | `true` | Render content only once and reuse the DOM node |
 | `lockScroll` | `boolean` | `false` | Locks scroll while the tooltip is open |
 | `disabled` | `boolean` | `true` | Disables focus management when true |
-
-*Also accepts all standard HTML `div` props (via `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>`).*
+| `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` | -- | Additional props to spread to the content div |
 
 ### TooltipPortal
 

@@ -171,8 +171,7 @@ Internal component managing refs, selection state, and event handlers. Uses `Sel
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Group content (typically `SelectLabel` and `SelectItem` elements) |
-
-*Also accepts all standard HTML `ul` props.*
+| `...props` | `React.HTMLProps<HTMLUListElement>` | -- | Additional props to spread to the ul element |
 
 ### SelectValue
 
@@ -181,8 +180,7 @@ Internal component managing refs, selection state, and event handlers. Uses `Sel
 | `placeholder` | `string \| number` | -- | Text to show when no value is selected |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Custom content to render |
-
-*Also accepts all standard HTML `div` props (except `placeholder`).*
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'placeholder'>` | -- | Additional props to spread to the content div |
 
 ### SelectLabel
 
@@ -191,8 +189,7 @@ Internal component managing refs, selection state, and event handlers. Uses `Sel
 | `htmlFor` | `string` | -- | ID of the associated input or control |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Label text content |
-
-*Also accepts all standard HTML `label` props.*
+| `...props` | `React.HTMLProps<HTMLLabelElement>` | -- | Additional props to spread to the label element |
 
 ### SelectItem
 
@@ -202,16 +199,14 @@ Internal component managing refs, selection state, and event handlers. Uses `Sel
 | `disabled` | `boolean` | -- | Whether the item is disabled |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Item content |
-
-*Also accepts all standard HTML `li` props (except `value`).*
+| `...props` | `Omit<React.HTMLProps<HTMLLIElement>, 'value'>` | -- | Additional props to spread to the li element |
 
 ### SelectSeparator
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### SelectScrollUpButton / SelectScrollDownButton
 

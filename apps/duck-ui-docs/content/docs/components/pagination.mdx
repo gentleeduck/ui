@@ -137,24 +137,21 @@ const PaginationLink = ({...props }: ) => (
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the `nav` element |
-
-*Also accepts all standard HTML `nav` props.*
+| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the nav element |
 
 ### PaginationContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the `ul` element |
-
-*Also accepts all standard HTML `ul` props.*
+| `...props` | `React.HTMLProps<HTMLUListElement>` | -- | Additional props to spread to the ul element |
 
 ### PaginationItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the `li` element |
-
-*Also accepts all standard HTML `li` props.*
+| `...props` | `React.HTMLProps<HTMLLIElement>` | -- | Additional props to spread to the li element |
 
 ### PaginationLink
 
@@ -162,8 +159,7 @@ const PaginationLink = ({...props }: ) => (
 | --- | --- | --- | --- |
 | `isActive` | `boolean` | -- | Marks the link as active/current page (adds `aria-current="page"` and styles) |
 | `size` | `'icon' \| 'default' \| 'sm'` | `'icon'` | Size variant for the button style |
-
-*Also accepts all standard HTML `a` props.*
+| `...props` | `React.HTMLProps<HTMLAnchorElement>` | -- | Additional props to spread to the a element |
 
 ### PaginationPrevious
 
@@ -190,8 +186,7 @@ Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and r
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the ellipsis element |
-
-*Also accepts all standard HTML `span` props.*
+| `...props` | `React.HTMLProps<HTMLSpanElement>` | -- | Additional props to spread to the span element |
 
 ### PaginationWrapper
 

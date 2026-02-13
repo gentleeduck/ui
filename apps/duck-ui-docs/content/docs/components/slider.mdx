@@ -127,8 +127,7 @@ The following primitives are used internally by `Slider` and `SliderRange`:
 | `onValueChange` | `(value: number[]) => void` | -- | Callback fired when slider values change |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
 | `rtl` | `boolean` | `false` | Enables right-to-left layout support |
-
-*Also accepts all standard HTML `div` props (except `defaultValue`).*
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue'>` | -- | Additional props to spread to the content div |
 
 #### SliderPrimitive.Track
 
@@ -143,8 +142,7 @@ The following primitives are used internally by `Slider` and `SliderRange`:
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `index` | `number` | (required) | The index of the thumb in the `values` array |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### SliderContext & useSliderContext()
 

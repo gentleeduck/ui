@@ -140,8 +140,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 | `defaultValue` | `string \| string[]` | -- | Uncontrolled initial selected value(s) |
 | `children` | `React.ReactNode` | -- | ToggleGroupItem elements to render inside the group |
 | `ref` | `React.Ref<HTMLUListElement>` | -- | Ref forwarded to the underlying `ul` element |
-
-*Also accepts all standard HTML `ul` props (via `Omit<React.HTMLProps<HTMLUListElement>, 'size'>`).*
+| `...props` | `Omit<React.HTMLProps<HTMLUListElement>, 'size'>` | -- | Additional props to spread to the ul element |
 
 ### ToggleGroupItem
 

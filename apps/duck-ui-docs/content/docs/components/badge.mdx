@@ -171,5 +171,4 @@ const MyBadge = () => {
 | `border` | `'default' \| 'primary' \| 'secondary' \| 'destructive' \| 'warning'` | `'default'` | Border style variant |
 | `asChild` | `boolean` | `false` | If `true`, renders using a `Slot` instead of a `span` element |
 | `className` | `string` | `--` | Additional class names to apply |
-
-*Also accepts all standard HTML `div` props (excluding `size`).*
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'size'>` | -- | Additional props to spread to the content div |

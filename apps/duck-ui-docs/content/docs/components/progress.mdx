@@ -69,6 +69,5 @@ import { Progress } from "@/components/ui/progress"
 | --- | --- | --- | --- |
 | `value` | `number` | (required) | Progress value from `0` to `100` representing the completion percentage |
 | `className` | `string` | `--` | Additional CSS classes for the progress bar container |
-
-*Also accepts all standard HTML `div` props (except `value`, which is typed as `number` instead of `string`).*
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'value'>` | -- | Additional props to spread to the content div |
 

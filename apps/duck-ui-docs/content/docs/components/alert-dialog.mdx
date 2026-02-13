@@ -125,8 +125,7 @@ import { Button } from '@/components/ui/button';
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `false` | If `true`, renders using a `Slot` instead of a `button` element |
 | `children` | `React.ReactNode` | `--` | Content of the trigger |
-
-*Also accepts all standard HTML `button` props.*
+| `...props` | `React.HTMLProps<HTMLButtonElement>` | -- | Additional props to spread to the button element |
 
 ### AlertDialogCloseX
 
@@ -135,8 +134,7 @@ import { Button } from '@/components/ui/button';
 | `size` | `number` | `16` | Size in pixels for the close icon |
 | `children` | `React.ReactNode` | `<X />` | Custom close icon; defaults to the `X` icon from lucide-react |
 | `className` | `string` | `--` | Additional class names to apply |
-
-*Also accepts all standard HTML `button` props.*
+| `...props` | `React.HTMLProps<HTMLButtonElement>` | -- | Additional props to spread to the button element |
 
 ### AlertDialogContent
 
@@ -164,8 +162,7 @@ import { Button } from '@/components/ui/button';
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Footer content (typically Action and Cancel buttons) |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### AlertDialogTitle
 

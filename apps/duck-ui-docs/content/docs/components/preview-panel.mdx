@@ -159,8 +159,7 @@ The core pan-zoom container.
 | `style` | `React.CSSProperties` | `--` | Inline styles for the outer container |
 | `onStateChange` | `(state: PreviewPanelState) => void` | `--` | Called whenever zoom or position changes. Use to sync with another panel |
 | `syncState` | `PreviewPanelState` | `--` | External state to apply. The panel syncs to this state when set |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### PreviewPanelDialog
 

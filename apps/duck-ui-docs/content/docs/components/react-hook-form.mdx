@@ -310,8 +310,7 @@ See the following links for more examples on how to use the `<Form />` component
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the form item wrapper |
 | `children` | `React.ReactNode` | `--` | Label, control, description, and message elements |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### FormLabel
 
@@ -337,8 +336,7 @@ Renders its child via `Slot`, injecting `id`, `aria-describedby`, and `aria-inva
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the description text |
 | `children` | `React.ReactNode` | `--` | Help text content |
-
-*Also accepts all standard HTML `p` props.*
+| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Additional props to spread to the p element |
 
 ### FormMessage
 
@@ -348,8 +346,7 @@ Displays the field's validation error message. If no error exists, renders `chil
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the message text |
 | `children` | `React.ReactNode` | `--` | Fallback content when no error is present |
-
-*Also accepts all standard HTML `p` props.*
+| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Additional props to spread to the p element |
 
 ### useFormField
 

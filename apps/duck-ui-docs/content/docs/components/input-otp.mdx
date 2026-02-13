@@ -182,8 +182,7 @@ The root component that provides OTP context and manages slot focus, paste, and 
 | `pattern` | `RegExp` | `/^[\w\d\p{P}\p{S}]$/u` | Regex used to validate each entered character |
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the wrapper div |
 | `aria-label` | `string` | `"otp-one-time-password"` | Accessible label for the OTP region |
-
-*Also accepts all standard HTML `div` props (except `pattern`).*
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'pattern'>` | -- | Additional props to spread to the content div |
 
 ### InputOTPGroup
 
@@ -194,8 +193,7 @@ Groups related OTP slots together with flex layout.
 | `className` | `string` | -- | Additional class names for the group div |
 | `children` | `React.ReactNode` | -- | OTP slots to group together |
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the group div |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### InputOTPSlot
 
@@ -205,8 +203,7 @@ An individual input element representing a single OTP digit.
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional class names for the input element |
 | `ref` | `React.Ref<HTMLInputElement>` | -- | Ref forwarded to the input element |
-
-*Also accepts all standard HTML `input` props.*
+| `...props` | `React.HTMLProps<HTMLInputElement>` | -- | Additional props to spread to the input element |
 
 ### InputOTPSeparator
 
@@ -217,5 +214,4 @@ A visual separator rendered between OTP groups.
 | `className` | `string` | -- | Additional class names for the separator div |
 | `customIndicator` | `React.ReactNode` | -- | Custom element to render instead of the default dot icon |
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the separator div |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |

@@ -110,8 +110,7 @@ Root container that renders a horizontal bar and manages keyboard navigation acr
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the menubar container |
 | `children` | `React.ReactNode` | `--` | `MenubarMenu` items to render inside the bar |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### MenubarMenu
 
@@ -121,8 +120,7 @@ Wrapper for an individual menu within the menubar. Renders a `DropdownMenu` inte
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the menu wrapper |
 | `children` | `React.ReactNode` | `--` | Trigger and content elements for this menu |
-
-*Also accepts all standard HTML `div` props (excluding `contextMenu`).*
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'contextMenu'>` | -- | Additional props to spread to the content div |
 
 ### MenubarTrigger
 

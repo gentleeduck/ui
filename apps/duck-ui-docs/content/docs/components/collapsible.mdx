@@ -91,8 +91,7 @@ import {
 | `open` | `boolean` | -- | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | -- | Callback fired when open state changes |
 | `defaultOpen` | `boolean` | `false` | Initial open state when uncontrolled |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### CollapsibleTrigger
 
@@ -108,5 +107,4 @@ import {
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `forceMount` | `boolean` | `false` | When `true`, content is always mounted in the DOM regardless of open state |
-
-*Also accepts all standard HTML `section` props.*
+| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the section element |

@@ -155,8 +155,7 @@ You can adjust the size of the sheet using CSS classes:
 | `size` | `number` | `16` | Size of the close icon in pixels |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Custom close icon content (defaults to `X` icon) |
-
-*Also accepts all standard HTML `button` props.*
+| `...props` | `React.HTMLProps<HTMLButtonElement>` | -- | Additional props to spread to the button element |
 
 ### SheetContent
 
@@ -181,8 +180,7 @@ You can adjust the size of the sheet using CSS classes:
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### SheetTitle
 

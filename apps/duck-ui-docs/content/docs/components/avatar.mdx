@@ -72,8 +72,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 | `alt` | `string` | `--` | Alternate text for the avatar image, also used as `aria-label` on the fallback |
 | `className` | `string` | `--` | Additional class names for styling the avatar container |
 | `ref` | `React.Ref<HTMLImageElement>` | `--` | Ref for the underlying `img` element |
-
-*Also accepts all standard HTML `img` props.*
+| `...props` | `React.HTMLProps<HTMLImageElement>` | -- | Additional props to spread to the img element |
 
 ### AvatarGroup
 
@@ -83,6 +82,5 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 | `maxVisible` | `number` | `3` | Maximum number of avatars to display before showing overflow count |
 | `className` | `string` | `--` | Additional class names for styling the avatar group container |
 | `ref` | `React.Ref<HTMLDivElement>` | `--` | Ref for the container element |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
