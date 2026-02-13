@@ -65,12 +65,7 @@ export async function generateStaticParams() {
   const index = z.record(z.string(), registry_entry_schema).parse(Index)
 
   return Object.values(index)
-    .filter((block) =>
-      [
-        'registry:block',
-        // 'registry:example',
-      ].includes(block.type),
-    )
+    .filter((block) => ['registry:block', 'registry:example'].includes(block.type))
     .map((block) => ({
       name: block.name,
     }))

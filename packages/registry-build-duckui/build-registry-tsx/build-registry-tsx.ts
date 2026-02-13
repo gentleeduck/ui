@@ -1,16 +1,34 @@
-import { GetComponentFilesArgs } from './build-registry-tsx.types'
+import { BuildRegistryTsxResult, GetComponentFilesArgs } from './build-registry-tsx.types'
 
 // ----------------------------------------------------------------------------
 
 /**
- * Generates a TSX registry entry for a given registry item.
+ * Converts a kebab-case registry name to a valid JS identifier.
+ * e.g. "accordion" -> "_Accordion", "chart-area-axes" -> "_ChartAreaAxes"
+ */
+function toIdentifier(name: string): string {
+  return (
+    '_' +
+    name
+      .split('-')
+      .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+      .join('')
+  )
+}
+
+// ----------------------------------------------------------------------------
+
+/**
+ * Generates a next/dynamic declaration and a TSX registry entry for a given registry item.
+ * Uses next/dynamic with ssr: true so components are server-rendered (no loading state)
+ * while still being code-split on the client for small bundles.
  *
- * @param {GetComponentFilesArgs} params- The registry component item.
+ * @param {GetComponentFilesArgs} params - The registry component item.
  * @param {z.infer<typeof registry_schema>[number]} params.item - The registry component item.
  * @param {import("ora").Ora} params.spinner - The spinner instance for displaying progress.
- * @returns {Promise<string>} - The formatted TSXentry for the registry.
+ * @returns {Promise<BuildRegistryTsxResult>} - The declaration and registry entry.
  */
-export async function build_registry_tsx({ item, spinner }: GetComponentFilesArgs): Promise<string> {
+export async function build_registry_tsx({ item, spinner }: GetComponentFilesArgs): Promise<BuildRegistryTsxResult> {
   try {
     const component_path = `${
       item.type.includes('ui')
@@ -20,15 +38,20 @@ export async function build_registry_tsx({ item, spinner }: GetComponentFilesArg
           : `@gentleduck/registry-blocks-duckui/${item.root_folder}`
     }/${item?.name}`
 
+    const id = toIdentifier(item.name)
+
     spinner.text = `🧭 Building TSX registry entry for ${item.name}`
-    const registryEntry = `
+
+    const importLine = `const ${id} = dynamic(() => import("${component_path}"), { ssr: true })\n`
+
+    const entry = `
     "${item.name}": {
       name: "${item.name}",
       description: "${item.description ?? ''}",
       type: "${item.type}",
       registryDependencies: ${JSON.stringify(item.registryDependencies)},
       files: ${JSON.stringify(item.files, null, 2)},
-      component: React.lazy(() => import("${component_path}")),
+      component: ${id},
       source: "${item.source}",
       categories: [${(item.categories ?? []).map((category) => `"${category}"`).join(', ')}],
       root_folder: "${item.root_folder}",
@@ -36,7 +59,7 @@ export async function build_registry_tsx({ item, spinner }: GetComponentFilesArg
 
     spinner.text = `Successfully built TSX registry entry for ${item.name}`
 
-    return registryEntry
+    return { importLine, entry }
   } catch (error) {
     spinner.fail(`Failed to build TSX registry entry: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(0)

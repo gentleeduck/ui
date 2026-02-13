@@ -8,5 +8,8 @@ export type GetComponentFilesArgs = {
   spinner: Ora
 }
 
+// The result of building a single TSX registry entry.
+export type BuildRegistryTsxResult = { importLine: string; entry: string }
+
 // The parameters for processing the file.
 export type WriteIndexTsxParams = { tsx_content: string; spinner: Ora }

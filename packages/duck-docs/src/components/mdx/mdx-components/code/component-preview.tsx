@@ -1,7 +1,6 @@
 'use client'
 
 import { CopyButton } from '@duck-docs/components/copy-button'
-import { Icons } from '@duck-docs/components/icons'
 import { useRegistryIndex } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
@@ -104,15 +103,7 @@ export function ComponentPreview({
               'items-start': align === 'start',
             })}
             duck-preview="">
-            <React.Suspense
-              fallback={
-                <div className="flex w-full items-center justify-center text-muted-foreground text-sm">
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                  Loading...
-                </div>
-              }>
-              {Preview}
-            </React.Suspense>
+            {Preview}
           </div>
         </TabsContent>
         <TabsContent

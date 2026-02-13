@@ -2,13 +2,19 @@ import { registry_entry_schema, type registry_item_file_schema } from '@gentledu
 import fs from 'fs/promises'
 import { tmpdir } from 'os'
 import path from 'path'
-import { Project, ScriptKind, SourceFile } from 'ts-morph'
+import { Project, ScriptKind } from 'ts-morph'
 import type { z } from 'zod'
 import { Index } from '~/__ui_registry__'
 
 const memoizedIndex: typeof Index = Object.fromEntries(
   Object.entries(Index).map(([style, items]) => [style, { ...items }]),
 )
+
+function getSourceDir(fileType: string): string {
+  if (fileType.includes('ui')) return 'packages/registry-ui-duckui/src/'
+  if (fileType.includes('example')) return 'packages/registry-examples-duckui/src/'
+  return 'packages/registry-blocks-duckui/src/'
+}
 
 export function getRegistryComponent(name: string) {
   return memoizedIndex[name]?.component
@@ -42,7 +48,12 @@ export async function getRegistryItem(name: string) {
   // Get meta.
   // Assume the first file is the main file.
   // TODO: Get meta from registry.
-  const meta = await getFileMeta(files[0]?.path as string)
+  let meta = {}
+  try {
+    meta = await getFileMeta(files[0]?.path as string, item.type)
+  } catch {
+    // Meta extraction is optional — don't fail the whole item.
+  }
 
   // Fix file paths.
   files = fixFilePaths(files)
@@ -63,7 +74,7 @@ export async function getRegistryItem(name: string) {
 
 async function getFileContent(file: { path: string; type: string }) {
   const raw = await fs.readFile(
-    process.cwd().replace('apps/duck-ui-docs', 'packages/registry-blocks-duckui/src/') + file.path,
+    process.cwd().replace('apps/duck-ui-docs', getSourceDir(file.type)) + file.path,
     'utf-8',
   )
 
@@ -91,11 +102,8 @@ async function getFileContent(file: { path: string; type: string }) {
   return code
 }
 
-async function getFileMeta(filePath: string) {
-  const raw = await fs.readFile(
-    process.cwd().replace('apps/duck-ui-docs', 'packages/registry-blocks-duckui/src/') + filePath,
-    'utf-8',
-  )
+async function getFileMeta(filePath: string, fileType: string) {
+  const raw = await fs.readFile(process.cwd().replace('apps/duck-ui-docs', getSourceDir(fileType)) + filePath, 'utf-8')
 
   const project = new Project({
     compilerOptions: {},
