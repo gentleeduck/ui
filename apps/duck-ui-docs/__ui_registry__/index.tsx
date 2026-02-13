@@ -9,771 +9,771 @@ try {
 } catch {
   dynamic = () => () => null
 }
-const _Accordion = dynamic(() => import('@gentleduck/registry-ui-duckui/accordion'), { ssr: true })
-const _Alert = dynamic(() => import('@gentleduck/registry-ui-duckui/alert'), { ssr: true })
-const _AlertDialog = dynamic(() => import('@gentleduck/registry-ui-duckui/alert-dialog'), { ssr: true })
-const _AspectRatio = dynamic(() => import('@gentleduck/registry-ui-duckui/aspect-ratio'), { ssr: true })
-const _Avatar = dynamic(() => import('@gentleduck/registry-ui-duckui/avatar'), { ssr: true })
-const _Badge = dynamic(() => import('@gentleduck/registry-ui-duckui/badge'), { ssr: true })
-const _Breadcrumb = dynamic(() => import('@gentleduck/registry-ui-duckui/breadcrumb'), { ssr: true })
-const _Button = dynamic(() => import('@gentleduck/registry-ui-duckui/button'), { ssr: true })
-const _Calendar = dynamic(() => import('@gentleduck/registry-ui-duckui/calendar'), { ssr: true })
-const _Card = dynamic(() => import('@gentleduck/registry-ui-duckui/card'), { ssr: true })
-const _Carousel = dynamic(() => import('@gentleduck/registry-ui-duckui/carousel'), { ssr: true })
-const _Chart = dynamic(() => import('@gentleduck/registry-ui-duckui/chart'), { ssr: true })
-const _Checkbox = dynamic(() => import('@gentleduck/registry-ui-duckui/checkbox'), { ssr: true })
-const _Collapsible = dynamic(() => import('@gentleduck/registry-ui-duckui/collapsible'), { ssr: true })
-const _Command = dynamic(() => import('@gentleduck/registry-ui-duckui/command'), { ssr: true })
-const _Combobox = dynamic(() => import('@gentleduck/registry-ui-duckui/combobox'), { ssr: true })
-const _ContextMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/context-menu'), { ssr: true })
-const _Dialog = dynamic(() => import('@gentleduck/registry-ui-duckui/dialog'), { ssr: true })
-const _Drawer = dynamic(() => import('@gentleduck/registry-ui-duckui/drawer'), { ssr: true })
-const _DropdownMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/dropdown-menu'), { ssr: true })
-const _NavigationMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/navigation-menu'), { ssr: true })
-const _ReactHookForm = dynamic(() => import('@gentleduck/registry-ui-duckui/react-hook-form'), { ssr: true })
-const _HoverCard = dynamic(() => import('@gentleduck/registry-ui-duckui/hover-card'), { ssr: true })
-const _Input = dynamic(() => import('@gentleduck/registry-ui-duckui/input'), { ssr: true })
-const _InputOtp = dynamic(() => import('@gentleduck/registry-ui-duckui/input-otp'), { ssr: true })
-const _Label = dynamic(() => import('@gentleduck/registry-ui-duckui/label'), { ssr: true })
-const _Menubar = dynamic(() => import('@gentleduck/registry-ui-duckui/menubar'), { ssr: true })
-const _Pagination = dynamic(() => import('@gentleduck/registry-ui-duckui/pagination'), { ssr: true })
-const _Popover = dynamic(() => import('@gentleduck/registry-ui-duckui/popover'), { ssr: true })
-const _Progress = dynamic(() => import('@gentleduck/registry-ui-duckui/progress'), { ssr: true })
-const _RadioGroup = dynamic(() => import('@gentleduck/registry-ui-duckui/radio-group'), { ssr: true })
-const _Resizable = dynamic(() => import('@gentleduck/registry-ui-duckui/resizable'), { ssr: true })
-const _ScrollArea = dynamic(() => import('@gentleduck/registry-ui-duckui/scroll-area'), { ssr: true })
-const _Select = dynamic(() => import('@gentleduck/registry-ui-duckui/select'), { ssr: true })
-const _Separator = dynamic(() => import('@gentleduck/registry-ui-duckui/separator'), { ssr: true })
-const _Sheet = dynamic(() => import('@gentleduck/registry-ui-duckui/sheet'), { ssr: true })
-const _Skeleton = dynamic(() => import('@gentleduck/registry-ui-duckui/skeleton'), { ssr: true })
-const _Slider = dynamic(() => import('@gentleduck/registry-ui-duckui/slider'), { ssr: true })
-const _Sonner = dynamic(() => import('@gentleduck/registry-ui-duckui/sonner'), { ssr: true })
-const _Switch = dynamic(() => import('@gentleduck/registry-ui-duckui/switch'), { ssr: true })
-const _Table = dynamic(() => import('@gentleduck/registry-ui-duckui/table'), { ssr: true })
-const _Tabs = dynamic(() => import('@gentleduck/registry-ui-duckui/tabs'), { ssr: true })
-const _Textarea = dynamic(() => import('@gentleduck/registry-ui-duckui/textarea'), { ssr: true })
-const _Toggle = dynamic(() => import('@gentleduck/registry-ui-duckui/toggle'), { ssr: true })
-const _ToggleGroup = dynamic(() => import('@gentleduck/registry-ui-duckui/toggle-group'), { ssr: true })
-const _Tooltip = dynamic(() => import('@gentleduck/registry-ui-duckui/tooltip'), { ssr: true })
-const _ButtonGroup = dynamic(() => import('@gentleduck/registry-ui-duckui/button-group'), { ssr: true })
-const _Kbd = dynamic(() => import('@gentleduck/registry-ui-duckui/kbd'), { ssr: true })
-const _Empty = dynamic(() => import('@gentleduck/registry-ui-duckui/empty'), { ssr: true })
-const _Field = dynamic(() => import('@gentleduck/registry-ui-duckui/field'), { ssr: true })
-const _Item = dynamic(() => import('@gentleduck/registry-ui-duckui/item'), { ssr: true })
-const _InputGroup = dynamic(() => import('@gentleduck/registry-ui-duckui/input-group'), { ssr: true })
-const _JsonEditor = dynamic(() => import('@gentleduck/registry-ui-duckui/json-editor'), { ssr: true })
-const _PreviewPanel = dynamic(() => import('@gentleduck/registry-ui-duckui/preview-panel'), { ssr: true })
-const _Accordion1 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-1'), { ssr: true })
-const _Accordion2 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-2'), { ssr: true })
-const _Accordion3 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-3'), { ssr: true })
-const _Accordion4 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-4'), { ssr: true })
-const _Alert1 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-1'), { ssr: true })
-const _Alert2 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-2'), { ssr: true })
-const _Alert3 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-3'), { ssr: true })
+const _Accordion = dynamic(() => import('@gentleduck/registry-ui-duckui/accordion'), { ssr: false })
+const _Alert = dynamic(() => import('@gentleduck/registry-ui-duckui/alert'), { ssr: false })
+const _AlertDialog = dynamic(() => import('@gentleduck/registry-ui-duckui/alert-dialog'), { ssr: false })
+const _AspectRatio = dynamic(() => import('@gentleduck/registry-ui-duckui/aspect-ratio'), { ssr: false })
+const _Avatar = dynamic(() => import('@gentleduck/registry-ui-duckui/avatar'), { ssr: false })
+const _Badge = dynamic(() => import('@gentleduck/registry-ui-duckui/badge'), { ssr: false })
+const _Breadcrumb = dynamic(() => import('@gentleduck/registry-ui-duckui/breadcrumb'), { ssr: false })
+const _Button = dynamic(() => import('@gentleduck/registry-ui-duckui/button'), { ssr: false })
+const _Calendar = dynamic(() => import('@gentleduck/registry-ui-duckui/calendar'), { ssr: false })
+const _Card = dynamic(() => import('@gentleduck/registry-ui-duckui/card'), { ssr: false })
+const _Carousel = dynamic(() => import('@gentleduck/registry-ui-duckui/carousel'), { ssr: false })
+const _Chart = dynamic(() => import('@gentleduck/registry-ui-duckui/chart'), { ssr: false })
+const _Checkbox = dynamic(() => import('@gentleduck/registry-ui-duckui/checkbox'), { ssr: false })
+const _Collapsible = dynamic(() => import('@gentleduck/registry-ui-duckui/collapsible'), { ssr: false })
+const _Command = dynamic(() => import('@gentleduck/registry-ui-duckui/command'), { ssr: false })
+const _Combobox = dynamic(() => import('@gentleduck/registry-ui-duckui/combobox'), { ssr: false })
+const _ContextMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/context-menu'), { ssr: false })
+const _Dialog = dynamic(() => import('@gentleduck/registry-ui-duckui/dialog'), { ssr: false })
+const _Drawer = dynamic(() => import('@gentleduck/registry-ui-duckui/drawer'), { ssr: false })
+const _DropdownMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/dropdown-menu'), { ssr: false })
+const _NavigationMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/navigation-menu'), { ssr: false })
+const _ReactHookForm = dynamic(() => import('@gentleduck/registry-ui-duckui/react-hook-form'), { ssr: false })
+const _HoverCard = dynamic(() => import('@gentleduck/registry-ui-duckui/hover-card'), { ssr: false })
+const _Input = dynamic(() => import('@gentleduck/registry-ui-duckui/input'), { ssr: false })
+const _InputOtp = dynamic(() => import('@gentleduck/registry-ui-duckui/input-otp'), { ssr: false })
+const _Label = dynamic(() => import('@gentleduck/registry-ui-duckui/label'), { ssr: false })
+const _Menubar = dynamic(() => import('@gentleduck/registry-ui-duckui/menubar'), { ssr: false })
+const _Pagination = dynamic(() => import('@gentleduck/registry-ui-duckui/pagination'), { ssr: false })
+const _Popover = dynamic(() => import('@gentleduck/registry-ui-duckui/popover'), { ssr: false })
+const _Progress = dynamic(() => import('@gentleduck/registry-ui-duckui/progress'), { ssr: false })
+const _RadioGroup = dynamic(() => import('@gentleduck/registry-ui-duckui/radio-group'), { ssr: false })
+const _Resizable = dynamic(() => import('@gentleduck/registry-ui-duckui/resizable'), { ssr: false })
+const _ScrollArea = dynamic(() => import('@gentleduck/registry-ui-duckui/scroll-area'), { ssr: false })
+const _Select = dynamic(() => import('@gentleduck/registry-ui-duckui/select'), { ssr: false })
+const _Separator = dynamic(() => import('@gentleduck/registry-ui-duckui/separator'), { ssr: false })
+const _Sheet = dynamic(() => import('@gentleduck/registry-ui-duckui/sheet'), { ssr: false })
+const _Skeleton = dynamic(() => import('@gentleduck/registry-ui-duckui/skeleton'), { ssr: false })
+const _Slider = dynamic(() => import('@gentleduck/registry-ui-duckui/slider'), { ssr: false })
+const _Sonner = dynamic(() => import('@gentleduck/registry-ui-duckui/sonner'), { ssr: false })
+const _Switch = dynamic(() => import('@gentleduck/registry-ui-duckui/switch'), { ssr: false })
+const _Table = dynamic(() => import('@gentleduck/registry-ui-duckui/table'), { ssr: false })
+const _Tabs = dynamic(() => import('@gentleduck/registry-ui-duckui/tabs'), { ssr: false })
+const _Textarea = dynamic(() => import('@gentleduck/registry-ui-duckui/textarea'), { ssr: false })
+const _Toggle = dynamic(() => import('@gentleduck/registry-ui-duckui/toggle'), { ssr: false })
+const _ToggleGroup = dynamic(() => import('@gentleduck/registry-ui-duckui/toggle-group'), { ssr: false })
+const _Tooltip = dynamic(() => import('@gentleduck/registry-ui-duckui/tooltip'), { ssr: false })
+const _ButtonGroup = dynamic(() => import('@gentleduck/registry-ui-duckui/button-group'), { ssr: false })
+const _Kbd = dynamic(() => import('@gentleduck/registry-ui-duckui/kbd'), { ssr: false })
+const _Empty = dynamic(() => import('@gentleduck/registry-ui-duckui/empty'), { ssr: false })
+const _Field = dynamic(() => import('@gentleduck/registry-ui-duckui/field'), { ssr: false })
+const _Item = dynamic(() => import('@gentleduck/registry-ui-duckui/item'), { ssr: false })
+const _InputGroup = dynamic(() => import('@gentleduck/registry-ui-duckui/input-group'), { ssr: false })
+const _JsonEditor = dynamic(() => import('@gentleduck/registry-ui-duckui/json-editor'), { ssr: false })
+const _PreviewPanel = dynamic(() => import('@gentleduck/registry-ui-duckui/preview-panel'), { ssr: false })
+const _Accordion1 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-1'), { ssr: false })
+const _Accordion2 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-2'), { ssr: false })
+const _Accordion3 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-3'), { ssr: false })
+const _Accordion4 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-4'), { ssr: false })
+const _Alert1 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-1'), { ssr: false })
+const _Alert2 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-2'), { ssr: false })
+const _Alert3 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-3'), { ssr: false })
 const _AlertDialog1 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert-dialog/alert-dialog-1'), {
-  ssr: true,
+  ssr: false,
 })
-const _Avatar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/avatar/avatar-1'), { ssr: true })
-const _Badge1 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-1'), { ssr: true })
-const _Badge2 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-2'), { ssr: true })
-const _Badge3 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-3'), { ssr: true })
-const _Badge4 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-4'), { ssr: true })
-const _Badge5 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-5'), { ssr: true })
-const _Badge6 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-6'), { ssr: true })
-const _Badge7 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-7'), { ssr: true })
-const _Badge8 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-8'), { ssr: true })
-const _Button1 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-1'), { ssr: true })
-const _Button10 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-10'), { ssr: true })
-const _Button11 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-11'), { ssr: true })
-const _Button12 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-12'), { ssr: true })
-const _Button13 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-13'), { ssr: true })
-const _Button14 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-14'), { ssr: true })
-const _Button15 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-15'), { ssr: true })
-const _Button16 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-16'), { ssr: true })
-const _Button17 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-17'), { ssr: true })
-const _Button18 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-18'), { ssr: true })
-const _Button19 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-19'), { ssr: true })
-const _Button2 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-2'), { ssr: true })
-const _Button3 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-3'), { ssr: true })
-const _Button4 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-4'), { ssr: true })
-const _Button5 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-5'), { ssr: true })
-const _Button6 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-6'), { ssr: true })
-const _Button7 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-7'), { ssr: true })
-const _Button8 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-8'), { ssr: true })
-const _Button9 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-9'), { ssr: true })
+const _Avatar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/avatar/avatar-1'), { ssr: false })
+const _Badge1 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-1'), { ssr: false })
+const _Badge2 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-2'), { ssr: false })
+const _Badge3 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-3'), { ssr: false })
+const _Badge4 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-4'), { ssr: false })
+const _Badge5 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-5'), { ssr: false })
+const _Badge6 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-6'), { ssr: false })
+const _Badge7 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-7'), { ssr: false })
+const _Badge8 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-8'), { ssr: false })
+const _Button1 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-1'), { ssr: false })
+const _Button10 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-10'), { ssr: false })
+const _Button11 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-11'), { ssr: false })
+const _Button12 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-12'), { ssr: false })
+const _Button13 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-13'), { ssr: false })
+const _Button14 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-14'), { ssr: false })
+const _Button15 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-15'), { ssr: false })
+const _Button16 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-16'), { ssr: false })
+const _Button17 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-17'), { ssr: false })
+const _Button18 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-18'), { ssr: false })
+const _Button19 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-19'), { ssr: false })
+const _Button2 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-2'), { ssr: false })
+const _Button3 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-3'), { ssr: false })
+const _Button4 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-4'), { ssr: false })
+const _Button5 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-5'), { ssr: false })
+const _Button6 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-6'), { ssr: false })
+const _Button7 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-7'), { ssr: false })
+const _Button8 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-8'), { ssr: false })
+const _Button9 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-9'), { ssr: false })
 const _Breadcrumb1 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _Breadcrumb2 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _Breadcrumb3 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-3'), {
-  ssr: true,
+  ssr: false,
 })
 const _Breadcrumb4 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-4'), {
-  ssr: true,
+  ssr: false,
 })
 const _Breadcrumb5 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-5'), {
-  ssr: true,
+  ssr: false,
 })
 const _Breadcrumb6 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-6'), {
-  ssr: true,
+  ssr: false,
 })
 const _Breadcrumb7 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-7'), {
-  ssr: true,
+  ssr: false,
 })
 const _Breadcrumb8 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-8'), {
-  ssr: true,
+  ssr: false,
 })
-const _Dialog1 = dynamic(() => import('@gentleduck/registry-examples-duckui/dialog/dialog-1'), { ssr: true })
-const _Dialog2 = dynamic(() => import('@gentleduck/registry-examples-duckui/dialog/dialog-2'), { ssr: true })
-const _Command1 = dynamic(() => import('@gentleduck/registry-examples-duckui/command/command-1'), { ssr: true })
-const _Command2 = dynamic(() => import('@gentleduck/registry-examples-duckui/command/command-2'), { ssr: true })
-const _Card1 = dynamic(() => import('@gentleduck/registry-examples-duckui/card/card-1'), { ssr: true })
-const _Card2 = dynamic(() => import('@gentleduck/registry-examples-duckui/card/card-2'), { ssr: true })
-const _Calendar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-1'), { ssr: true })
-const _Calendar2 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-2'), { ssr: true })
-const _Calendar3 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-3'), { ssr: true })
-const _Calendar4 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-4'), { ssr: true })
-const _Calendar5 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-5'), { ssr: true })
-const _Calendar6 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-6'), { ssr: true })
-const _Calendar7 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-7'), { ssr: true })
-const _Calendar8 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-8'), { ssr: true })
-const _Drawer1 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-1'), { ssr: true })
-const _Drawer2 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-2'), { ssr: true })
-const _Drawer3 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-3'), { ssr: true })
-const _Drawer4 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-4'), { ssr: true })
-const _Drawer5 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-5'), { ssr: true })
-const _Drawer6 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-6'), { ssr: true })
-const _HoverCard1 = dynamic(() => import('@gentleduck/registry-examples-duckui/hover-card/hover-card-1'), { ssr: true })
-const _Input1 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-1'), { ssr: true })
-const _Input2 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-2'), { ssr: true })
-const _Input3 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-3'), { ssr: true })
-const _Input4 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-4'), { ssr: true })
-const _Input5 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-5'), { ssr: true })
-const _Input6 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-6'), { ssr: true })
-const _Input7 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-7'), { ssr: true })
-const _Label1 = dynamic(() => import('@gentleduck/registry-examples-duckui/label/label-1'), { ssr: true })
-const _Label2 = dynamic(() => import('@gentleduck/registry-examples-duckui/label/label-2'), { ssr: true })
-const _Progress1 = dynamic(() => import('@gentleduck/registry-examples-duckui/progress/progress-1'), { ssr: true })
+const _Dialog1 = dynamic(() => import('@gentleduck/registry-examples-duckui/dialog/dialog-1'), { ssr: false })
+const _Dialog2 = dynamic(() => import('@gentleduck/registry-examples-duckui/dialog/dialog-2'), { ssr: false })
+const _Command1 = dynamic(() => import('@gentleduck/registry-examples-duckui/command/command-1'), { ssr: false })
+const _Command2 = dynamic(() => import('@gentleduck/registry-examples-duckui/command/command-2'), { ssr: false })
+const _Card1 = dynamic(() => import('@gentleduck/registry-examples-duckui/card/card-1'), { ssr: false })
+const _Card2 = dynamic(() => import('@gentleduck/registry-examples-duckui/card/card-2'), { ssr: false })
+const _Calendar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-1'), { ssr: false })
+const _Calendar2 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-2'), { ssr: false })
+const _Calendar3 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-3'), { ssr: false })
+const _Calendar4 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-4'), { ssr: false })
+const _Calendar5 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-5'), { ssr: false })
+const _Calendar6 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-6'), { ssr: false })
+const _Calendar7 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-7'), { ssr: false })
+const _Calendar8 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-8'), { ssr: false })
+const _Drawer1 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-1'), { ssr: false })
+const _Drawer2 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-2'), { ssr: false })
+const _Drawer3 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-3'), { ssr: false })
+const _Drawer4 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-4'), { ssr: false })
+const _Drawer5 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-5'), { ssr: false })
+const _Drawer6 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-6'), { ssr: false })
+const _HoverCard1 = dynamic(() => import('@gentleduck/registry-examples-duckui/hover-card/hover-card-1'), { ssr: false })
+const _Input1 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-1'), { ssr: false })
+const _Input2 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-2'), { ssr: false })
+const _Input3 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-3'), { ssr: false })
+const _Input4 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-4'), { ssr: false })
+const _Input5 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-5'), { ssr: false })
+const _Input6 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-6'), { ssr: false })
+const _Input7 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-7'), { ssr: false })
+const _Label1 = dynamic(() => import('@gentleduck/registry-examples-duckui/label/label-1'), { ssr: false })
+const _Label2 = dynamic(() => import('@gentleduck/registry-examples-duckui/label/label-2'), { ssr: false })
+const _Progress1 = dynamic(() => import('@gentleduck/registry-examples-duckui/progress/progress-1'), { ssr: false })
 const _RadioGroup1 = dynamic(() => import('@gentleduck/registry-examples-duckui/radio-group/radio-group-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _RadioGroup2 = dynamic(() => import('@gentleduck/registry-examples-duckui/radio-group/radio-group-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _ScrollArea1 = dynamic(() => import('@gentleduck/registry-examples-duckui/scroll-area/scroll-area-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _ScrollArea2 = dynamic(() => import('@gentleduck/registry-examples-duckui/scroll-area/scroll-area-2'), {
-  ssr: true,
+  ssr: false,
 })
-const _Select1 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-1'), { ssr: true })
-const _Select2 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-2'), { ssr: true })
-const _Select3 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-3'), { ssr: true })
-const _Separator1 = dynamic(() => import('@gentleduck/registry-examples-duckui/separator/separator-1'), { ssr: true })
-const _Sheet1 = dynamic(() => import('@gentleduck/registry-examples-duckui/sheet/sheet-1'), { ssr: true })
-const _Sheet2 = dynamic(() => import('@gentleduck/registry-examples-duckui/sheet/sheet-2'), { ssr: true })
-const _Skeleton1 = dynamic(() => import('@gentleduck/registry-examples-duckui/skeleton/skeleton-1'), { ssr: true })
-const _Skeleton2 = dynamic(() => import('@gentleduck/registry-examples-duckui/skeleton/skeleton-2'), { ssr: true })
-const _Slider1 = dynamic(() => import('@gentleduck/registry-examples-duckui/slider/slider-1'), { ssr: true })
-const _Slider2 = dynamic(() => import('@gentleduck/registry-examples-duckui/slider/slider-2'), { ssr: true })
-const _Switch1 = dynamic(() => import('@gentleduck/registry-examples-duckui/switch/switch-1'), { ssr: true })
-const _Switch2 = dynamic(() => import('@gentleduck/registry-examples-duckui/switch/switch-2'), { ssr: true })
-const _Sonner1 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-1'), { ssr: true })
-const _Sonner2 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-2'), { ssr: true })
-const _Sonner3 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-3'), { ssr: true })
-const _Tabs1 = dynamic(() => import('@gentleduck/registry-examples-duckui/tabs/tabs-1'), { ssr: true })
-const _Textarea1 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-1'), { ssr: true })
-const _Textarea2 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-2'), { ssr: true })
-const _Textarea3 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-3'), { ssr: true })
-const _Textarea4 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-4'), { ssr: true })
-const _Textarea5 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-5'), { ssr: true })
-const _Textarea6 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-6'), { ssr: true })
-const _Textarea7 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-7'), { ssr: true })
-const _Toggle1 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-1'), { ssr: true })
-const _Toggle2 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-2'), { ssr: true })
-const _Toggle3 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-3'), { ssr: true })
-const _Toggle4 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-4'), { ssr: true })
-const _Toggle5 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-5'), { ssr: true })
-const _Toggle6 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-6'), { ssr: true })
-const _Toggle7 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-7'), { ssr: true })
+const _Select1 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-1'), { ssr: false })
+const _Select2 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-2'), { ssr: false })
+const _Select3 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-3'), { ssr: false })
+const _Separator1 = dynamic(() => import('@gentleduck/registry-examples-duckui/separator/separator-1'), { ssr: false })
+const _Sheet1 = dynamic(() => import('@gentleduck/registry-examples-duckui/sheet/sheet-1'), { ssr: false })
+const _Sheet2 = dynamic(() => import('@gentleduck/registry-examples-duckui/sheet/sheet-2'), { ssr: false })
+const _Skeleton1 = dynamic(() => import('@gentleduck/registry-examples-duckui/skeleton/skeleton-1'), { ssr: false })
+const _Skeleton2 = dynamic(() => import('@gentleduck/registry-examples-duckui/skeleton/skeleton-2'), { ssr: false })
+const _Slider1 = dynamic(() => import('@gentleduck/registry-examples-duckui/slider/slider-1'), { ssr: false })
+const _Slider2 = dynamic(() => import('@gentleduck/registry-examples-duckui/slider/slider-2'), { ssr: false })
+const _Switch1 = dynamic(() => import('@gentleduck/registry-examples-duckui/switch/switch-1'), { ssr: false })
+const _Switch2 = dynamic(() => import('@gentleduck/registry-examples-duckui/switch/switch-2'), { ssr: false })
+const _Sonner1 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-1'), { ssr: false })
+const _Sonner2 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-2'), { ssr: false })
+const _Sonner3 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-3'), { ssr: false })
+const _Tabs1 = dynamic(() => import('@gentleduck/registry-examples-duckui/tabs/tabs-1'), { ssr: false })
+const _Textarea1 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-1'), { ssr: false })
+const _Textarea2 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-2'), { ssr: false })
+const _Textarea3 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-3'), { ssr: false })
+const _Textarea4 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-4'), { ssr: false })
+const _Textarea5 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-5'), { ssr: false })
+const _Textarea6 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-6'), { ssr: false })
+const _Textarea7 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-7'), { ssr: false })
+const _Toggle1 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-1'), { ssr: false })
+const _Toggle2 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-2'), { ssr: false })
+const _Toggle3 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-3'), { ssr: false })
+const _Toggle4 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-4'), { ssr: false })
+const _Toggle5 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-5'), { ssr: false })
+const _Toggle6 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-6'), { ssr: false })
+const _Toggle7 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-7'), { ssr: false })
 const _ToggleGroup1 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _ToggleGroup2 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _ToggleGroup3 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-3'), {
-  ssr: true,
+  ssr: false,
 })
 const _ToggleGroup4 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-4'), {
-  ssr: true,
+  ssr: false,
 })
 const _ToggleGroup5 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-5'), {
-  ssr: true,
+  ssr: false,
 })
 const _ToggleGroup6 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-6'), {
-  ssr: true,
+  ssr: false,
 })
 const _ToggleGroup7 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-7'), {
-  ssr: true,
+  ssr: false,
 })
-const _Tooltip1 = dynamic(() => import('@gentleduck/registry-examples-duckui/tooltip/tooltip-1'), { ssr: true })
-const _Tooltip2 = dynamic(() => import('@gentleduck/registry-examples-duckui/tooltip/tooltip-2'), { ssr: true })
+const _Tooltip1 = dynamic(() => import('@gentleduck/registry-examples-duckui/tooltip/tooltip-1'), { ssr: false })
+const _Tooltip2 = dynamic(() => import('@gentleduck/registry-examples-duckui/tooltip/tooltip-2'), { ssr: false })
 const _AspectRatio1 = dynamic(() => import('@gentleduck/registry-examples-duckui/aspect-ratio/aspect-ratio-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography1 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography10 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-10'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography11 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-11'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography12 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-12'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography13 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-13'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography14 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-14'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography2 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography3 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-3'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography4 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-4'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography5 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-5'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography6 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-6'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography7 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-7'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography8 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-8'), {
-  ssr: true,
+  ssr: false,
 })
 const _Typography9 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-9'), {
-  ssr: true,
+  ssr: false,
 })
-const _Table1 = dynamic(() => import('@gentleduck/registry-examples-duckui/table/table-1'), { ssr: true })
-const _Resizable1 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-1'), { ssr: true })
-const _Resizable2 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-2'), { ssr: true })
-const _Resizable3 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-3'), { ssr: true })
+const _Table1 = dynamic(() => import('@gentleduck/registry-examples-duckui/table/table-1'), { ssr: false })
+const _Resizable1 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-1'), { ssr: false })
+const _Resizable2 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-2'), { ssr: false })
+const _Resizable3 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-3'), { ssr: false })
 const _Pagination1 = dynamic(() => import('@gentleduck/registry-examples-duckui/pagination/pagination-1'), {
-  ssr: true,
+  ssr: false,
 })
-const _Checkbox1 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-1'), { ssr: true })
-const _Checkbox2 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-2'), { ssr: true })
-const _Checkbox3 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-3'), { ssr: true })
-const _Checkbox4 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-4'), { ssr: true })
-const _Checkbox5 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-5'), { ssr: true })
-const _Checkbox6 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-6'), { ssr: true })
-const _Checkbox7 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-7'), { ssr: true })
-const _Checkbox8 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-8'), { ssr: true })
-const _Carousel1 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-1'), { ssr: true })
-const _Carousel2 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-2'), { ssr: true })
-const _Carousel3 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-3'), { ssr: true })
-const _Carousel4 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-4'), { ssr: true })
-const _Carousel5 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-5'), { ssr: true })
-const _Carousel6 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-6'), { ssr: true })
+const _Checkbox1 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-1'), { ssr: false })
+const _Checkbox2 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-2'), { ssr: false })
+const _Checkbox3 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-3'), { ssr: false })
+const _Checkbox4 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-4'), { ssr: false })
+const _Checkbox5 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-5'), { ssr: false })
+const _Checkbox6 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-6'), { ssr: false })
+const _Checkbox7 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-7'), { ssr: false })
+const _Checkbox8 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-8'), { ssr: false })
+const _Carousel1 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-1'), { ssr: false })
+const _Carousel2 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-2'), { ssr: false })
+const _Carousel3 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-3'), { ssr: false })
+const _Carousel4 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-4'), { ssr: false })
+const _Carousel5 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-5'), { ssr: false })
+const _Carousel6 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-6'), { ssr: false })
 const _DatePicker1 = dynamic(() => import('@gentleduck/registry-examples-duckui/date-picker/date-picker-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _DatePicker2 = dynamic(() => import('@gentleduck/registry-examples-duckui/date-picker/date-picker-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _DatePicker3 = dynamic(() => import('@gentleduck/registry-examples-duckui/date-picker/date-picker-3'), {
-  ssr: true,
+  ssr: false,
 })
 const _DatePicker4 = dynamic(() => import('@gentleduck/registry-examples-duckui/date-picker/date-picker-4'), {
-  ssr: true,
+  ssr: false,
 })
 const _DatePicker5 = dynamic(() => import('@gentleduck/registry-examples-duckui/date-picker/date-picker-5'), {
-  ssr: true,
+  ssr: false,
 })
 const _DatePicker6 = dynamic(() => import('@gentleduck/registry-examples-duckui/date-picker/date-picker-6'), {
-  ssr: true,
+  ssr: false,
 })
-const _Popover1 = dynamic(() => import('@gentleduck/registry-examples-duckui/popover/popover-1'), { ssr: true })
-const _Popover2 = dynamic(() => import('@gentleduck/registry-examples-duckui/popover/popover-2'), { ssr: true })
-const _Menubar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/menubar/menubar-1'), { ssr: true })
+const _Popover1 = dynamic(() => import('@gentleduck/registry-examples-duckui/popover/popover-1'), { ssr: false })
+const _Popover2 = dynamic(() => import('@gentleduck/registry-examples-duckui/popover/popover-2'), { ssr: false })
+const _Menubar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/menubar/menubar-1'), { ssr: false })
 const _DropdownMenu1 = dynamic(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _DropdownMenu2 = dynamic(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _DropdownMenu3 = dynamic(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-3'), {
-  ssr: true,
+  ssr: false,
 })
-const _Combobox1 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-1'), { ssr: true })
-const _Combobox2 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-2'), { ssr: true })
-const _Combobox3 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-3'), { ssr: true })
-const _Combobox4 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-4'), { ssr: true })
-const _Combobox5 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-5'), { ssr: true })
-const _Combobox6 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-6'), { ssr: true })
+const _Combobox1 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-1'), { ssr: false })
+const _Combobox2 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-2'), { ssr: false })
+const _Combobox3 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-3'), { ssr: false })
+const _Combobox4 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-4'), { ssr: false })
+const _Combobox5 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-5'), { ssr: false })
+const _Combobox6 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-6'), { ssr: false })
 const _Collapsible1 = dynamic(() => import('@gentleduck/registry-examples-duckui/collapsible/collapsible-1'), {
-  ssr: true,
+  ssr: false,
 })
-const _InputOtp1 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-1'), { ssr: true })
-const _InputOtp2 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-2'), { ssr: true })
-const _InputOtp3 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-3'), { ssr: true })
-const _InputOtp4 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-4'), { ssr: true })
-const _InputOtp5 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-5'), { ssr: true })
-const _InputOtp6 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-6'), { ssr: true })
-const _Chart1 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-1'), { ssr: true })
-const _Chart2 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-2'), { ssr: true })
-const _Chart3 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-3'), { ssr: true })
-const _Chart4 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-4'), { ssr: true })
-const _Chart5 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-5'), { ssr: true })
-const _Chart6 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-6'), { ssr: true })
-const _Chart7 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-7'), { ssr: true })
+const _InputOtp1 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-1'), { ssr: false })
+const _InputOtp2 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-2'), { ssr: false })
+const _InputOtp3 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-3'), { ssr: false })
+const _InputOtp4 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-4'), { ssr: false })
+const _InputOtp5 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-5'), { ssr: false })
+const _InputOtp6 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-6'), { ssr: false })
+const _Chart1 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-1'), { ssr: false })
+const _Chart2 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-2'), { ssr: false })
+const _Chart3 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-3'), { ssr: false })
+const _Chart4 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-4'), { ssr: false })
+const _Chart5 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-5'), { ssr: false })
+const _Chart6 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-6'), { ssr: false })
+const _Chart7 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-7'), { ssr: false })
 const _NavigationMenu1 = dynamic(
   () => import('@gentleduck/registry-examples-duckui/navigation-menu/navigation-menu-1'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ContextMenu1 = dynamic(() => import('@gentleduck/registry-examples-duckui/context-menu/context-menu-1'), {
-  ssr: true,
+  ssr: false,
 })
-const _DataTable1 = dynamic(() => import('@gentleduck/registry-examples-duckui/data-table/data-table-1'), { ssr: true })
-const _Cva1 = dynamic(() => import('@gentleduck/registry-examples-duckui/cva/cva-1'), { ssr: true })
+const _DataTable1 = dynamic(() => import('@gentleduck/registry-examples-duckui/data-table/data-table-1'), { ssr: false })
+const _Cva1 = dynamic(() => import('@gentleduck/registry-examples-duckui/cva/cva-1'), { ssr: false })
 const _ButtonGroup1 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup10 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-10'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup11 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-11'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup2 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup3 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-3'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup4 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-4'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup5 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-5'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup6 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-6'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup7 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-7'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup8 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-8'), {
-  ssr: true,
+  ssr: false,
 })
 const _ButtonGroup9 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-9'), {
-  ssr: true,
+  ssr: false,
 })
-const _Kbd1 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-1'), { ssr: true })
-const _Kbd2 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-2'), { ssr: true })
-const _Kbd3 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-3'), { ssr: true })
-const _Kbd4 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-4'), { ssr: true })
-const _Kbd5 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-5'), { ssr: true })
-const _Empty1 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-1'), { ssr: true })
-const _Empty2 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-2'), { ssr: true })
-const _Empty3 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-3'), { ssr: true })
-const _Empty4 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-4'), { ssr: true })
-const _Empty5 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-5'), { ssr: true })
-const _Empty6 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-6'), { ssr: true })
-const _Field1 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-1'), { ssr: true })
-const _Field10 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-10'), { ssr: true })
-const _Field11 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-11'), { ssr: true })
-const _Field12 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-12'), { ssr: true })
-const _Field2 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-2'), { ssr: true })
-const _Field3 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-3'), { ssr: true })
-const _Field4 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-4'), { ssr: true })
-const _Field5 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-5'), { ssr: true })
-const _Field6 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-6'), { ssr: true })
-const _Field7 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-7'), { ssr: true })
-const _Field8 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-8'), { ssr: true })
-const _Field9 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-9'), { ssr: true })
-const _Item1 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-1'), { ssr: true })
-const _Item10 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-10'), { ssr: true })
-const _Item2 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-2'), { ssr: true })
-const _Item3 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-3'), { ssr: true })
-const _Item4 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-4'), { ssr: true })
-const _Item5 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-5'), { ssr: true })
-const _Item6 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-6'), { ssr: true })
-const _Item7 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-7'), { ssr: true })
-const _Item8 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-8'), { ssr: true })
-const _Item9 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-9'), { ssr: true })
+const _Kbd1 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-1'), { ssr: false })
+const _Kbd2 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-2'), { ssr: false })
+const _Kbd3 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-3'), { ssr: false })
+const _Kbd4 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-4'), { ssr: false })
+const _Kbd5 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-5'), { ssr: false })
+const _Empty1 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-1'), { ssr: false })
+const _Empty2 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-2'), { ssr: false })
+const _Empty3 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-3'), { ssr: false })
+const _Empty4 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-4'), { ssr: false })
+const _Empty5 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-5'), { ssr: false })
+const _Empty6 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-6'), { ssr: false })
+const _Field1 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-1'), { ssr: false })
+const _Field10 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-10'), { ssr: false })
+const _Field11 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-11'), { ssr: false })
+const _Field12 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-12'), { ssr: false })
+const _Field2 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-2'), { ssr: false })
+const _Field3 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-3'), { ssr: false })
+const _Field4 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-4'), { ssr: false })
+const _Field5 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-5'), { ssr: false })
+const _Field6 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-6'), { ssr: false })
+const _Field7 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-7'), { ssr: false })
+const _Field8 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-8'), { ssr: false })
+const _Field9 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-9'), { ssr: false })
+const _Item1 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-1'), { ssr: false })
+const _Item10 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-10'), { ssr: false })
+const _Item2 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-2'), { ssr: false })
+const _Item3 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-3'), { ssr: false })
+const _Item4 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-4'), { ssr: false })
+const _Item5 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-5'), { ssr: false })
+const _Item6 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-6'), { ssr: false })
+const _Item7 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-7'), { ssr: false })
+const _Item8 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-8'), { ssr: false })
+const _Item9 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-9'), { ssr: false })
 const _InputGroup1 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup10 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-10'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup11 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-11'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup2 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup3 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-3'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup4 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-4'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup5 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-5'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup6 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-6'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup7 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-7'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup8 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-8'), {
-  ssr: true,
+  ssr: false,
 })
 const _InputGroup9 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-9'), {
-  ssr: true,
+  ssr: false,
 })
 const _JsonEditor1 = dynamic(() => import('@gentleduck/registry-examples-duckui/json-editor/json-editor-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _JsonEditor2 = dynamic(() => import('@gentleduck/registry-examples-duckui/json-editor/json-editor-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _JsonEditor3 = dynamic(() => import('@gentleduck/registry-examples-duckui/json-editor/json-editor-3'), {
-  ssr: true,
+  ssr: false,
 })
 const _ThemeToggle1 = dynamic(() => import('@gentleduck/registry-examples-duckui/theme-toggle/theme-toggle-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _PreviewPanel1 = dynamic(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _PreviewPanel2 = dynamic(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _PreviewPanel3 = dynamic(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-3'), {
-  ssr: true,
+  ssr: false,
 })
 const _PreviewPanel4 = dynamic(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-4'), {
-  ssr: true,
+  ssr: false,
 })
 const _Signup1 = dynamic(() => import('@gentleduck/registry-blocks-duckui/authentications/signup-1/signup-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _Login1 = dynamic(() => import('@gentleduck/registry-blocks-duckui/authentications/login-1/login-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _Login2 = dynamic(() => import('@gentleduck/registry-blocks-duckui/authentications/login-2/login-2'), {
-  ssr: true,
+  ssr: false,
 })
 const _Login3 = dynamic(() => import('@gentleduck/registry-blocks-duckui/authentications/login-3/login-3'), {
-  ssr: true,
+  ssr: false,
 })
 const _Login4 = dynamic(() => import('@gentleduck/registry-blocks-duckui/authentications/login-4/login-4'), {
-  ssr: true,
+  ssr: false,
 })
 const _Login5 = dynamic(() => import('@gentleduck/registry-blocks-duckui/authentications/login-5/login-5'), {
-  ssr: true,
+  ssr: false,
 })
 const _Dashboard1 = dynamic(() => import('@gentleduck/registry-blocks-duckui/dashboards/dashboard-1/dashboard-1'), {
-  ssr: true,
+  ssr: false,
 })
 const _ChartAreaAxes = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-axes/chart-area-axes'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartAreaDefault = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-default/chart-area-default'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartAreaGradient = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-gradient/chart-area-gradient'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartAreaIcons = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-icons/chart-area-icons'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartAreaInteractive = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-interactive/chart-area-interactive'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartAreaLegend = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-legend/chart-area-legend'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartAreaLinear = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-linear/chart-area-linear'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartAreaStackedExpand = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-stacked-expand/chart-area-stacked-expand'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartAreaStacked = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-stacked/chart-area-stacked'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartAreaStep = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-area-step/chart-area-step'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarActive = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-active/chart-bar-active'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarDefault = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-default/chart-bar-default'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarHorizontal = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-horizontal/chart-bar-horizontal'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarInteractive = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-interactive/chart-bar-interactive'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarLabelCustom = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-label-custom/chart-bar-label-custom'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarLabel = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-label/chart-bar-label'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarMixed = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-mixed/chart-bar-mixed'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarMultiple = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-multiple/chart-bar-multiple'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarNegative = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-negative/chart-bar-negative'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartBarStacked = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-bar-stacked/chart-bar-stacked'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineDefault = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-default/chart-line-default'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineDotsColors = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-dots-colors/chart-line-dots-colors'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineDotsCustom = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-dots-custom/chart-line-dots-custom'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineDots = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-dots/chart-line-dots'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineInteractive = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-interactive/chart-line-interactive'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineLabelCustom = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-label-custom/chart-line-label-custom'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineLabel = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-label/chart-line-label'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineLinear = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-linear/chart-line-linear'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineMultiple = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-multiple/chart-line-multiple'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartLineStep = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-line-step/chart-line-step'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieDonutActive = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-donut-active/chart-pie-donut-active'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieDonutText = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-donut-text/chart-pie-donut-text'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieDonut = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-donut/chart-pie-donut'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieInteractive = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-interactive/chart-pie-interactive'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieLabelCustom = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-label-custom/chart-pie-label-custom'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieLabelList = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-label-list/chart-pie-label-list'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieLabel = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-label/chart-pie-label'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieLegend = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-legend/chart-pie-legend'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieSeparatorNone = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-separator-none/chart-pie-separator-none'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieSimple = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-simple/chart-pie-simple'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartPieStacked = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-pie-stacked/chart-pie-stacked'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarDefault = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-default/chart-radar-default'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarDots = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-dots/chart-radar-dots'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarGridCircleFill = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-grid-circle-fill/chart-radar-grid-circle-fill'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarGridCircleNoLines = dynamic(
   () =>
     import(
       '@gentleduck/registry-blocks-duckui/charts/chart-radar-grid-circle-no-lines/chart-radar-grid-circle-no-lines'
     ),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarGridCircle = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-grid-circle/chart-radar-grid-circle'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarGridCustom = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-grid-custom/chart-radar-grid-custom'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarGridFill = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-grid-fill/chart-radar-grid-fill'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarGridNone = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-grid-none/chart-radar-grid-none'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarIcons = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-icons/chart-radar-icons'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarLabelCustom = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-label-custom/chart-radar-label-custom'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarLegend = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-legend/chart-radar-legend'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarLinesOnly = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-lines-only/chart-radar-lines-only'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarMultiple = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-multiple/chart-radar-multiple'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadarRadius = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radar-radius/chart-radar-radius'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadialGrid = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radial-grid/chart-radial-grid'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadialLabel = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radial-label/chart-radial-label'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadialShape = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radial-shape/chart-radial-shape'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadialSimple = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radial-simple/chart-radial-simple'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadialStacked = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radial-stacked/chart-radial-stacked'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartRadialText = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-radial-text/chart-radial-text'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartTooltipDefault = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-tooltip-default/chart-tooltip-default'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartTooltipIndicatorLine = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-tooltip-indicator-line/chart-tooltip-indicator-line'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartTooltipIndicatorNone = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-tooltip-indicator-none/chart-tooltip-indicator-none'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartTooltipLabelNone = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-tooltip-label-none/chart-tooltip-label-none'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartTooltipLabelCustom = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-tooltip-label-custom/chart-tooltip-label-custom'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartTooltipLabelFormatter = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-tooltip-label-formatter/chart-tooltip-label-formatter'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartTooltipFormatter = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-tooltip-formatter/chart-tooltip-formatter'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartTooltipIcons = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-tooltip-icons/chart-tooltip-icons'),
-  { ssr: true },
+  { ssr: false },
 )
 const _ChartTooltipAdvanced = dynamic(
   () => import('@gentleduck/registry-blocks-duckui/charts/chart-tooltip-advanced/chart-tooltip-advanced'),
-  { ssr: true },
+  { ssr: false },
 )
 
 export const Index: Record<string, any> = {

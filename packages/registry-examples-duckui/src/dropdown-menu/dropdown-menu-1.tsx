@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   DropdownMenu,

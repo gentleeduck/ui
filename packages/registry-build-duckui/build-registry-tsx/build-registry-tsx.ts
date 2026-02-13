@@ -20,8 +20,8 @@ function toIdentifier(name: string): string {
 
 /**
  * Generates a next/dynamic declaration and a TSX registry entry for a given registry item.
- * Uses next/dynamic with ssr: true so components are server-rendered (no loading state)
- * while still being code-split on the client for small bundles.
+ * Uses next/dynamic with ssr: false so components are client-rendered (avoids RSC
+ * boundary violations for blocks that pass event handlers as props).
  *
  * @param {GetComponentFilesArgs} params - The registry component item.
  * @param {z.infer<typeof registry_schema>[number]} params.item - The registry component item.
@@ -42,7 +42,7 @@ export async function build_registry_tsx({ item, spinner }: GetComponentFilesArg
 
     spinner.text = `🧭 Building TSX registry entry for ${item.name}`
 
-    const importLine = `const ${id} = dynamic(() => import("${component_path}"), { ssr: true })\n`
+    const importLine = `const ${id} = dynamic(() => import("${component_path}"), { ssr: false })\n`
 
     const entry = `
     "${item.name}": {
