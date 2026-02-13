@@ -68,7 +68,6 @@ export function CardsExerciseMinutes() {
       <CardContent>
         <ChartContainer className="w-full md:h-[200px]" config={chartConfig}>
           <LineChart
-            accessibilityLayer
             data={data}
             margin={{
               bottom: 0,

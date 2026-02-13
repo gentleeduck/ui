@@ -97,7 +97,7 @@
 @theme inline {
   --breakpoint-3xl: 1600px;
   --breakpoint-4xl: 2000px;
-  --font-sans: var(--font-geist-sans, "Geist"), sans-serif;
+  --font-sans: var(--font-geist-sans, "Montserrat"), sans-serif;
   --font-mono: var(--font-geist-mono, "Geist Mono"), monospace;
   --radius: 0.5rem;
 
