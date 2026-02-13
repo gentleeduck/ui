@@ -76,7 +76,7 @@ function Content({
           transform: `scale(${context.open ? 1 : 0.9})`,
           ...style,
           position: 'fixed',
-          zIndex: 99,
+          zIndex: context.layer.contentZIndex,
         }}
         // @ts-ignore
         {...context.getFloatingProps(props)}
@@ -96,10 +96,12 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
   const { ...context } = useDialogContext()
 
   React.useEffect(() => {
-    if (lockScroll && context.open) {
-      lockScrollbar(true)
+    if (!(lockScroll && context.open)) return
+
+    const didLock = lockScrollbar(true)
+    return () => {
+      if (didLock) cleanLockScrollbar()
     }
-    return () => cleanLockScrollbar()
   }, [lockScroll, context.open])
 
   return (
@@ -112,9 +114,10 @@ function Overlay({ children, lockScroll = true, ...props }: React.ComponentProps
           opacity: context.open ? 1 : 0,
           overflow: 'hidden',
           pointerEvents: context.open ? 'auto' : 'none',
-          zIndex: 98,
+          zIndex: context.layer.overlayZIndex,
         } as React.CSSProperties
       }
+      lockScroll={false}
       {...props}>
       {children}
     </FloatingOverlay>
