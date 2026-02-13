@@ -5,6 +5,35 @@ description: Recent updates and improvements to the duck-ui documentation and co
 
 ## February 2026
 
+### Recharts v3 Migration (February 14, 2026)
+
+Upgraded all charts from Recharts v2.15.1 to Recharts v3.7.0. This is a major upgrade that brings server-side rendering, better accessibility, and smaller bundles.
+
+**What changed:**
+
+- **Recharts v3.7.0** -- Upgraded across all 6 packages that depend on recharts.
+- **Accessibility by default** -- Removed explicit `accessibilityLayer` prop from 47 chart files. In v3, accessibility is enabled by default.
+- **`activeIndex` migrated** -- Replaced removed `activeIndex` prop on Bar/Pie with Tooltip `defaultIndex` in `chart-bar-active`, `chart-pie-donut-active`, and `chart-pie-interactive`.
+- **Type imports updated** -- Consolidated `PieSectorDataItem` from deep import path (`recharts/types/polar/Pie`) to the main `recharts` export.
+- **`next/dynamic` with SSR** -- Registry build system now generates `next/dynamic({ ssr: true })` instead of `React.lazy()` for all 382 components. This means components are server-rendered (instant HTML) while still code-split on the client.
+- **No `React.Suspense` spinners** -- Removed the loading spinner fallback from `ComponentPreview`.
+
+**What you need to know:**
+
+- The chart API is unchanged. Your existing chart code works as-is.
+- Charts now render on the server, so there's no flash of "Loading..." on page load.
+- `accessibilityLayer` is on by default -- you no longer need to add it.
+
+### Layout Cleanup (February 14, 2026)
+
+Cleaned up layout files across all three apps (duck-ui-docs, duck-gen-docs, www):
+
+- Removed unnecessary `'use client'` from `(app)/layout.tsx` in all 3 apps.
+- Fixed invalid `aria-hidden="undefined"` and `@ts-ignore` in all 3 docs sidebar layouts.
+- Wired up www's velite docs (was `[] as any`).
+- Removed dead `ColorsNav` in hidden div from colors layout.
+- Fixed duplicate `id="themes"` in themes layout.
+
 ### Documentation Overhaul
 
 This release is a comprehensive documentation rewrite covering every component and package page in duck-ui.

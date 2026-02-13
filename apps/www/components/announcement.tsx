@@ -8,7 +8,7 @@ export function Announcement() {
       <Link className="flex items-center gap-2" href="/docs/news">
         <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">New</span>
         <span className="text-sm">
-          Gen and Query are here <span className="underline">Learn more</span>
+          Recharts v3, new components, and more <span className="underline">See what's new</span>
         </span>
         <ArrowRightIcon />
       </Link>

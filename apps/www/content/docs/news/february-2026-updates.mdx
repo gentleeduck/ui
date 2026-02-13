@@ -1,0 +1,165 @@
+---
+title: february 2026 updates
+description: Recharts v3 migration, documentation overhaul, new components, layout cleanup, and registry fixes across the GentleDuck ecosystem.
+---
+
+<Image
+  src="https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/og/root.png?raw=true"
+  alt="Duck UI documentation"
+  width="1200"
+  height="630"
+  className="w-full rounded-lg border shadow-sm"
+/>
+
+February 2026 was the largest single update to the GentleDuck ecosystem. This post covers everything that shipped.
+
+---
+
+## Recharts v3 Migration
+
+Upgraded all charts from **Recharts v2.15.1** to **Recharts v3.7.0** across 6 packages. This is a major upgrade that brings server-side rendering, better accessibility, and smaller bundles.
+
+### What changed
+
+| Change | Details |
+| --- | --- |
+| **Recharts v3.7.0** | Upgraded across all 6 packages that depend on recharts. |
+| **Accessibility by default** | Removed explicit `accessibilityLayer` prop from 47 chart files. In v3, accessibility is enabled by default. |
+| **`activeIndex` migrated** | Replaced the removed `activeIndex` prop on `Bar`/`Pie` with Tooltip `defaultIndex` in 3 components. |
+| **Type imports updated** | Consolidated `PieSectorDataItem` from deep import path to the main `recharts` export. |
+| **SSR via `next/dynamic`** | Registry build system now generates `next/dynamic({ ssr: true })` instead of `React.lazy()`. Components are server-rendered while still code-split on the client. |
+| **No loading spinners** | Removed the `React.Suspense` loading fallback from `ComponentPreview`. |
+
+### Before and after
+
+```ts
+// Before (v2)
+import { PieSectorDataItem } from 'recharts/types/polar/Pie'
+
+<PieChart>
+  <Pie activeIndex={0} data={data} accessibilityLayer>
+    ...
+  </Pie>
+</PieChart>
+
+// After (v3)
+import { type PieSectorDataItem } from 'recharts'
+
+<PieChart>
+  <Pie data={data}>
+    ...
+  </Pie>
+  <ChartTooltip defaultIndex={0} />
+</PieChart>
+```
+
+<Callout title="No changes needed on your end">
+  The chart API is unchanged for consumers. Your existing chart code works as-is. Charts now render on the server, so there is no flash of "Loading..." on page load.
+</Callout>
+
+---
+
+## Documentation Overhaul
+
+A comprehensive rewrite covering every component and package page in duck-ui.
+
+<MermaidDiagram chart={`flowchart TD
+    A["57 Component Pages"] --> B["API Reference Tables"]
+    A --> C["Philosophy Sections"]
+    A --> D["Mermaid Diagrams"]
+    A --> E["Callout Icons"]
+    A --> F["Cross-Links"]
+    D --> G["Composition Diagrams"]
+    D --> H["Dependency Diagrams"]
+    I["9 Package Pages"] --> C
+    I --> D
+    I --> J["Architecture Overviews"]
+    style A fill:#e8e8ff,stroke:#333
+    style I fill:#e8ffe8,stroke:#333`} />
+
+### API Reference Tables
+
+Every component page now includes a formal **API Reference** section with prop tables documenting types, defaults, and descriptions. This covers all 57 component pages:
+
+Accordion, Alert, Alert Dialog, Aspect Ratio, Avatar, Badge, Breadcrumb, Button, Button Group, Calendar, Card, Carousel, Chart, Checkbox, Collapsible, Combobox, Command, Context Menu, Data Table, Date Picker, Dialog, Drawer, Dropdown Menu, Empty, Field, Hover Card, Input, Input Group, Input OTP, Item, JSON Editor, Kbd, Label, Menubar, Navigation Menu, Pagination, Popover, Preview Panel, Progress, Radio Group, React Hook Form, Resizable, Scroll Area, Select, Separator, Sheet, Skeleton, Slider, Sonner, Switch, Table, Tabs, Textarea, Toggle, Toggle Group, Tooltip, and Typography.
+
+### Philosophy Sections
+
+Every component and package page now has a **Philosophy** section explaining the design rationale -- why the component exists, what problem it solves, and the architectural decisions behind it.
+
+### Mermaid Diagrams
+
+Two types of diagrams were added across 50+ pages:
+
+- **Composition diagrams** -- Show how complex components nest sub-components. For example, how `DropdownMenu` composes `Command`, `Popover`, `Button`, and `RadioGroup`.
+- **Dependency diagrams** -- Show which internal packages (`@gentleduck/primitives`, `@gentleduck/variants`, `@gentleduck/motion`, `@gentleduck/libs`) and external libraries each component is built from.
+
+### Callout Icons and Cross-Links
+
+All `<Callout>` blocks across the documentation now include contextual icons for better visual scanning. Related components link to each other -- Dialog links to Sheet and Drawer, Toggle links to Toggle Group, Button links to Button Group.
+
+---
+
+## New Components
+
+### Preview Panel
+
+A panel component for previewing content with multiple layout modes. Supports inline preview, side-by-side comparison, and fullscreen modes.
+
+### JSON Editor
+
+A structured editor for JSON data with form-based editing, validation, and multiple display modes:
+
+- **Inline/sheet mode** -- Edit JSON in a sliding panel
+- **Popover mode** -- Edit in a floating popover
+- **Callback expand mode** -- Expand into a full editor view
+
+Built on top of `alert-dialog`, `button`, `popover`, `react-hook-form`, and `sheet`.
+
+---
+
+## Layout Cleanup
+
+Cleaned up layout files across all three apps (duck-ui-docs, duck-gen-docs, www):
+
+| Fix | Scope |
+| --- | --- |
+| Removed unnecessary `'use client'` from `(app)/layout.tsx` | All 3 apps |
+| Fixed invalid `aria-hidden="undefined"` and `@ts-ignore` | All 3 docs sidebar layouts |
+| Wired up www velite docs (was `[] as any`) | www |
+| Removed dead `ColorsNav` in hidden div | duck-ui-docs colors layout |
+| Fixed duplicate `id="themes"` | duck-ui-docs themes layout |
+
+---
+
+## Registry Fixes
+
+Fixed component dependency declarations in `registry-ui.ts` and `registry-examples.ts` to match actual source imports:
+
+| Component | Fix |
+| --- | --- |
+| **Combobox** | Added missing registry entry with correct dependencies |
+| **Resizable** | Added missing `react-resizable-panels` dependency |
+| **Hover Card** | Fixed typo in `@gentleduck/libs` dependency |
+| **Button Group** | Added missing `separator` registry dependency |
+| **Badge** | Added missing `@gentleduck/primitives` dependency |
+| **Alert Dialog** | Added missing `@gentleduck/motion` dependency |
+| **Item** | Added missing `@gentleduck/primitives` dependency |
+| **Checkbox examples** | Fixed empty registry dependencies |
+| **Theme Toggle examples** | Fixed malformed empty-string dependency |
+
+---
+
+## Package Documentation
+
+All 9 core package pages now have structured documentation with architecture diagrams, philosophy sections, and API overviews:
+
+- **@gentleduck/cli** -- CLI tool for scaffolding components
+- **@gentleduck/lazy** -- Lazy-loading utilities
+- **@gentleduck/variants** -- Type-safe variant system (CVA wrapper)
+- **@gentleduck/vim** -- Keyboard navigation engine
+- **@gentleduck/primitives** -- Headless UI primitives
+- **@gentleduck/libs** -- Shared utilities (cn, Slot, Portal)
+- **@gentleduck/hooks** -- React hooks collection
+- **@gentleduck/ttest** -- Visual testing framework
+- **@gentleduck/template** -- Project scaffolding templates

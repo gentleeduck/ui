@@ -50,7 +50,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/theming',
           items: [],
-          title: 'Thmeing',
+          title: 'Theming',
         },
         {
           href: '/docs/javascript',
@@ -60,19 +60,16 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/dark-theme',
           items: [],
-          label: '',
           title: 'Dark Theme',
         },
         {
           href: '/docs/faqs',
           items: [],
-          label: '',
           title: 'FAQs',
         },
         {
           href: '/docs/whoiam',
           items: [],
-          label: '',
           title: 'Who am I?',
         },
         {
@@ -201,7 +198,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/chart',
           items: [],
-          label: '',
+          label: 'new',
           title: 'Chart',
         },
         {
@@ -247,7 +244,6 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/drawer',
           items: [],
-          label: '',
           title: 'Drawer',
         },
         {
