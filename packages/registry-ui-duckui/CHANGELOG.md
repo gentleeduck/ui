@@ -1,5 +1,17 @@
 # @gentleduck/registry-ui-duckui
 
+## 0.2.0
+
+### Minor Changes
+
+- 36f9364: Add json-editor component with inline, sheet, and popover editing modes for JSON data with validation. Includes registry entries and three example demos.
+
+### Patch Changes
+
+- d46534e: Upgrade recharts peer dependency from v2 to v3.7.0
+- Updated dependencies [36f9364]
+  - @gentleduck/primitives@0.2.0
+
 ## 0.1.17
 
 ### Patch Changes
