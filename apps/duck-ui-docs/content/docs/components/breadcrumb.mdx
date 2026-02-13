@@ -12,7 +12,7 @@ component: true
 
 ## Philosophy
 
-Breadcrumbs answer "where am I?" -- the most basic navigation question. We keep the API declarative (BreadcrumbList → BreadcrumbItem → BreadcrumbLink) rather than generating breadcrumbs from routes because not every route maps cleanly to a breadcrumb trail. The Separator and Ellipsis sub-components handle the visual connecting tissue.
+Breadcrumbs answer "where am I?" -- the most basic navigation question. We keep the API declarative (BreadcrumbList -> BreadcrumbItem -> BreadcrumbLink) rather than generating breadcrumbs from routes because not every route maps cleanly to a breadcrumb trail. The Separator and Ellipsis sub-components handle the visual connecting tissue.
 
 ## Installation
 
@@ -241,8 +241,7 @@ It displays a dropdown on desktop and a drawer on mobile.
 | `separator` | `React.ReactNode` | `--` | Custom separator element between breadcrumb items |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Breadcrumb content (typically a `BreadcrumbList`) |
-
-*Also accepts all standard HTML `nav` props.*
+| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the nav element |
 
 ### BreadcrumbList
 
@@ -250,8 +249,7 @@ It displays a dropdown on desktop and a drawer on mobile.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | List of `BreadcrumbItem` elements |
-
-*Also accepts all standard HTML `ol` props.*
+| `...props` | `React.HTMLProps<HTMLOListElement>` | -- | Additional props to spread to the ol element |
 
 ### BreadcrumbItem
 
@@ -259,8 +257,7 @@ It displays a dropdown on desktop and a drawer on mobile.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Item content (typically a `BreadcrumbLink` or `BreadcrumbPage`) |
-
-*Also accepts all standard HTML `li` props.*
+| `...props` | `React.HTMLProps<HTMLLIElement>` | -- | Additional props to spread to the li element |
 
 ### BreadcrumbLink
 
@@ -269,8 +266,7 @@ It displays a dropdown on desktop and a drawer on mobile.
 | `asChild` | `boolean` | `--` | If `true`, uses the `Slot` component instead of rendering an `<a>` directly |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Link content |
-
-*Also accepts all standard HTML `a` props.*
+| `...props` | `React.HTMLProps<HTMLAnchorElement>` | -- | Additional props to spread to the a element |
 
 ### BreadcrumbPage
 
@@ -278,8 +274,7 @@ It displays a dropdown on desktop and a drawer on mobile.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Page content (rendered with `aria-current="page"`) |
-
-*Also accepts all standard HTML `a` props.*
+| `...props` | `React.HTMLProps<HTMLAnchorElement>` | -- | Additional props to spread to the a element |
 
 ### BreadcrumbSeparator
 
@@ -287,13 +282,11 @@ It displays a dropdown on desktop and a drawer on mobile.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `<ChevronRight />` | Custom separator icon; defaults to a `ChevronRight` icon |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### BreadcrumbEllipsis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
-
-*Also accepts all standard HTML `span` props.*
+| `...props` | `React.HTMLProps<HTMLSpanElement>` | -- | Additional props to spread to the span element |

@@ -175,8 +175,7 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 | --- | --- | --- | --- |
 | `size` | `number` | `16` | Icon size in pixels |
 | `children` | `React.ReactNode` | -- | Custom content instead of the default `<X />` icon |
-
-*Also accepts all standard HTML `button` props.*
+| `...props` | `React.HTMLProps<HTMLButtonElement>` | -- | Additional props to spread to the button element |
 
 ### DialogContent
 
@@ -202,8 +201,7 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the footer |
 | `children` | `React.ReactNode` | -- | Footer content (typically action buttons) |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### DialogTitle
 

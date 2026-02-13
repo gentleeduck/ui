@@ -88,8 +88,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 | `value` | `string` | -- | Controlled active tab value. Must be used alongside `onValueChange` |
 | `defaultValue` | `string` | -- | Uncontrolled initial tab value |
 | `onValueChange` | `(value: string) => void` | -- | Callback fired when the active tab changes |
-
-*Also accepts all standard HTML `div` props (except `defaultValue`).*
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue'>` | -- | Additional props to spread to the content div |
 
 ### TabsList
 
@@ -97,8 +96,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | `TabsTrigger` elements |
-
-*Also accepts all standard HTML `ul` props.*
+| `...props` | `React.HTMLProps<HTMLUListElement>` | -- | Additional props to spread to the ul element |
 
 ### TabsTrigger
 
@@ -109,8 +107,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 | `disabled` | `boolean` | -- | Disables the tab trigger from user interaction |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Label or node to render inside the tab |
-
-*Also accepts all standard HTML `li` props.*
+| `...props` | `React.HTMLProps<HTMLLIElement>` | -- | Additional props to spread to the li element |
 
 ### TabsContent
 
@@ -120,5 +117,4 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 | `forceMount` | `boolean` | `false` | If true, the content stays mounted in the DOM even when hidden |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Tab panel content |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |

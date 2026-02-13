@@ -146,8 +146,7 @@ The main component of the empty state. Wraps the `EmptyHeader` and `EmptyContent
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Empty state content |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### EmptyHeader
 
@@ -157,8 +156,7 @@ The `EmptyHeader` component wraps the empty media, title, and description.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Header content (media, title, description) |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### EmptyMedia
 
@@ -169,8 +167,7 @@ Use the `EmptyMedia` component to display the media of the empty state such as a
 | `variant` | `'default' \| 'icon'` | `'default'` | Visual variant of the media container |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Media content (icon, avatar, image) |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### EmptyTitle
 
@@ -180,8 +177,7 @@ Use the `EmptyTitle` component to display the title of the empty state.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Title text |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### EmptyDescription
 
@@ -191,8 +187,7 @@ Use the `EmptyDescription` component to display the description of the empty sta
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Description text |
-
-*Also accepts all standard HTML `p` props.*
+| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Additional props to spread to the p element |
 
 ### EmptyContent
 
@@ -202,5 +197,4 @@ Use the `EmptyContent` component to display the content of the empty state such 
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Action content (buttons, links, inputs) |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |

@@ -247,8 +247,7 @@ A non-interactive label for grouping menu items.
 | `inset` | `boolean` | `--` | Adds left padding to align with inset menu items |
 | `htmlFor` | `string` | `--` | Associates the label with a form control by its `id` |
 | `className` | `string` | `--` | Additional CSS classes to apply |
-
-*Also accepts all standard HTML `label` props.*
+| `...props` | `React.HTMLProps<HTMLLabelElement>` | -- | Additional props to spread to the label element |
 
 ### DropdownMenuSeparator
 
@@ -257,8 +256,7 @@ A visual divider between groups of menu items.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes to apply |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### DropdownMenuShortcut
 
@@ -269,8 +267,7 @@ Displays a keyboard shortcut hint next to a menu item and registers the key bind
 | `keys` | `string` | (required) | Keyboard shortcut string (e.g. `"ctrl+K"`) |
 | `onKeysPressed` | `() => void` | (required) | Callback invoked when the shortcut keys are pressed |
 | `colored` | `boolean` | `false` | Applies a muted background to the shortcut badge |
-
-*Also accepts all standard HTML `kbd` props.*
+| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the kbd element |
 
 ### DropdownMenuGroup
 
@@ -280,8 +277,7 @@ Groups related menu items together.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes to apply |
 | `children` | `React.ReactNode` | `--` | Menu items to render inside the group |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### DropdownMenuSub
 

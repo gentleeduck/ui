@@ -12,7 +12,7 @@ component: true
 
 ## Philosophy
 
-Accordions solve the progressive disclosure problem -- show the outline, hide the details until requested. We use a compound component pattern (Accordion → AccordionItem → AccordionTrigger + AccordionContent) because each piece needs independent control while sharing open/close state. The `type="single"` vs `type="multiple"` distinction maps directly to whether sections are mutually exclusive.
+Accordions solve the progressive disclosure problem -- show the outline, hide the details until requested. We use a compound component pattern (Accordion -> AccordionItem -> AccordionTrigger + AccordionContent) because each piece needs independent control while sharing open/close state. The `type="single"` vs `type="multiple"` distinction maps directly to whether sections are mutually exclusive.
 
 ## Installation
 
@@ -113,8 +113,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 | `rerender` | `boolean` | `false` | Forces internal re-render on each toggle, enabling conditional remount with `renderOnce` |
 | `className` | `string` | -- | Additional CSS classes applied to the root div |
 | `children` | `React.ReactNode` | -- | AccordionItem elements to render inside the accordion |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### AccordionItem Props
 
@@ -124,8 +123,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 | `renderOnce` | `boolean` | `false` | Mounts content only on first expand and preserves it |
 | `children` | `[trigger: ReactNode, content: ReactNode]` | (required) | Two nodes: first the `AccordionTrigger`, second the `AccordionContent` |
 | `className` | `string` | -- | Additional CSS classes applied to the details element |
-
-*Also accepts all standard HTML `details` props.*
+| `...props` | `React.HTMLProps<HTMLDetailsElement>` | -- | Additional props to spread to the details element |
 
 ### AccordionTrigger Props
 
@@ -135,8 +133,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 | `icon` | `React.ReactNode` | -- | Custom icon component; defaults to a rotating ChevronDown |
 | `className` | `string` | -- | Additional CSS classes applied to the summary element |
 | `children` | `React.ReactNode` | -- | Content rendered as the trigger label |
-
-*Also accepts all standard HTML `summary` props.*
+| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the summary element |
 
 ### AccordionContent Props
 
@@ -145,6 +142,4 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 | `rerender` | `boolean` | `false` | Controls remount behavior based on parent context |
 | `className` | `string` | -- | Additional CSS classes applied to the content div |
 | `children` | `React.ReactNode` | -- | Content to reveal when the accordion item is expanded |
-
-*Also accepts all standard HTML `div` props.*
-
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |

@@ -211,8 +211,7 @@ Container that renders a semantic `fieldset` with spacing presets.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Fieldset content |
-
-*Also accepts all standard HTML `fieldset` props.*
+| `...props` | `React.HTMLProps<HTMLFieldSetElement>` | -- | Additional props to spread to the fieldset element |
 
 ### FieldLegend
 
@@ -222,8 +221,7 @@ Legend element for a `FieldSet`. Switch to the `label` variant to align with lab
 | --- | --- | --- | --- |
 | `variant` | `'legend' \| 'label'` | `'legend'` | Visual variant controlling text size |
 | `className` | `string` | `--` | Additional CSS classes |
-
-*Also accepts all standard HTML `legend` props.*
+| `...props` | `React.HTMLProps<HTMLLegendElement>` | -- | Additional props to spread to the legend element |
 
 ### FieldGroup
 
@@ -233,8 +231,7 @@ Layout wrapper that stacks `Field` components and enables container queries for 
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Field components |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### Field
 
@@ -245,8 +242,7 @@ The core wrapper for a single field. Provides orientation control, invalid state
 | `orientation` | `'vertical' \| 'horizontal' \| 'responsive'` | `'vertical'` | Layout orientation of the field |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Field content |
-
-*Also accepts all standard HTML `div` props. Set `data-invalid` to render in an error state.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div; set `data-invalid` to render in an error state |
 
 ### FieldContent
 
@@ -256,8 +252,7 @@ Flex column that groups control and descriptions when the label sits beside the 
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Label, description, and control content |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### FieldLabel
 
@@ -278,8 +273,7 @@ Renders a title with label styling inside `FieldContent`.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Title text |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### FieldDescription
 
@@ -289,8 +283,7 @@ Helper text slot that automatically balances long lines in horizontal layouts.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Description text |
-
-*Also accepts all standard HTML `p` props.*
+| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Additional props to spread to the p element |
 
 ### FieldSeparator
 
@@ -300,8 +293,7 @@ Visual divider to separate sections inside a `FieldGroup`. Accepts optional inli
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | `--` | Optional inline content displayed over the separator |
 | `className` | `string` | `--` | Additional CSS classes |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### FieldError
 
@@ -312,8 +304,7 @@ Accessible error container that accepts children or an `errors` array (e.g., fro
 | `errors` | `Array<{ message?: string } \| undefined>` | `--` | Array of error objects from a form library |
 | `children` | `React.ReactNode` | `--` | Custom error content (takes precedence over `errors`) |
 | `className` | `string` | `--` | Additional CSS classes |
-
-*Also accepts all standard HTML `div` props.*
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 When the `errors` array contains multiple messages, the component renders a list automatically.
 
