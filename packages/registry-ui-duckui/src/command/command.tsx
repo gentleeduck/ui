@@ -55,6 +55,7 @@ function CommandWrapper({ className, ref, ...props }: React.HTMLProps<HTMLDivEle
 
   useCommandSearch(items, search, setSelectedItem, emptyRef, commandRef, groups, filteredItems)
   useHandleKeyDown({
+    containerRef: commandRef,
     allowAxisArrowKeys: false,
     itemsRef: filteredItems,
     open: true,
@@ -143,7 +144,11 @@ function CommandEmpty({ className, ...props }: React.HTMLAttributes<HTMLHeadingE
 function CommandList({ className, ...props }: React.HTMLAttributes<HTMLUListElement>): React.JSX.Element {
   const context = useCommandRefsContext()
   return (
-    <ScrollArea className="overflow-y-auto overflow-x-hidden" data-slot="command-list" duck-command-list="">
+    <ScrollArea
+      className="overflow-y-auto overflow-x-hidden"
+      data-slot="command-list"
+      duck-command-list=""
+      viewportClassName="overflow-x-hidden">
       <ul className={cn('max-h-[300px] focus:outline-none', className)} ref={context.listRef} {...props} />
     </ScrollArea>
   )
