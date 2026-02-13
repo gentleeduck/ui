@@ -11,11 +11,11 @@ Since you want to create a **state management library compatible with all framew
 
 ---
 
-Here's a boilerplate to start building **GentleDuck/State**, combining the best features of Zustand, Jotai, Redux, and React Query.  
+Here's a boilerplate to start building **duck-ui/State**, combining the best features of Zustand, Jotai, Redux, and React Query.  
 
 ---
 
-### 🚀 **GentleDuck/State Boilerplate**
+### 🚀 **duck-ui/State Boilerplate**
 This will include:
 1. **Atom-based state management (Jotai-like)**
 2. **Selectors for derived state (Optimized re-renders)**
@@ -198,4 +198,4 @@ doubleCounter.subscribe(() => console.log("Double Counter:", doubleCounter.get()
   - `useSelector(selector)`
   - `useAsyncAtom(asyncAtom)`
 
-Would you like me to create a **React Hook wrapper** for GentleDuck/State? 🚀
+Would you like me to create a **React Hook wrapper** for duck-ui/State? 🚀

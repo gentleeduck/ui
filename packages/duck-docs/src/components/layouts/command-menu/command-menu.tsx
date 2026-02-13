@@ -127,7 +127,7 @@ function CommandFooter() {
       description: 'Copy command',
       execute: () =>
         navigator.clipboard.writeText(
-          ('pnpm dlx @gentleduck/cli add ' + selectedItem?.innerText.toLowerCase().replace(/ /g, '-')) as string,
+          ('bunx @gentleduck/cli add ' + selectedItem?.innerText.toLowerCase().replace(/ /g, '-')) as string,
         ),
       name: 'ctrl+shift+c',
     },
@@ -150,7 +150,7 @@ function CommandFooter() {
             </div>
             <Separator className="m-0 h-4 p-0" orientation="vertical" />
             <div className="flex items-center gap-1">
-              <span>pnpm dlx @gentleduck/cli add</span>
+              <span>bunx @gentleduck/cli add</span>
               <span className="text-blue-400">{selectedNavItem.title.toLowerCase()}</span>
             </div>
           </Button>

@@ -19,7 +19,7 @@ npm install @gentleduck/lazy
 # or
 yarn add @gentleduck/lazy
 # or
-pnpm add @gentleduck/lazy
+bun add @gentleduck/lazy
 ```
 
 ## Usage
@@ -252,4 +252,4 @@ Feel free to open issues or submit pull requests for bug fixes or improvements. 
 
 ## License
 
-[MIT © GentleDuck](./LICENSE)
+[MIT © duck-ui](./LICENSE)

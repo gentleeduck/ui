@@ -5,14 +5,14 @@
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
-    "@types/node": "catalog:",
-    "zod": "catalog:"
+    "@types/node": "22.19.3",
+    "zod": "4.2.1"
   },
   "exports": {
     ".": "./index.ts"
   },
   "name": "@gentleduck/registers",
-  "author": "GentleDuck (https://www.gentleduck.org)",
+  "author": "duck-ui contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registers#readme",
   "bugs": {
@@ -23,7 +23,7 @@
     "url": "git+https://github.com/gentleeduck/duck-ui.git",
     "directory": "packages/registers"
   },
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "bun@1.3.5",
   "private": false,
   "publishConfig": {
     "access": "public"

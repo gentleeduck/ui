@@ -4,7 +4,7 @@
 
 # @gentleduck/duck-ui-docs
 
-Next.js documentation site for Gentleduck UI. Covers components, blocks, charts, themes, and registry-powered previews.
+Next.js documentation site for duck-ui. Covers components, blocks, charts, themes, and registry-powered previews.
 
 ## Stack
 - Next.js App Router
@@ -14,18 +14,18 @@ Next.js documentation site for Gentleduck UI. Covers components, blocks, charts,
 
 ## Quick Start
 ```bash
-pnpm --filter @gentleduck/ui-docs dev:docs
-pnpm --filter @gentleduck/ui-docs dev
+bun --filter @gentleduck/ui-docs dev:docs
+bun --filter @gentleduck/ui-docs dev
 ```
 
 ## Scripts
-- `pnpm --filter @gentleduck/ui-docs dev` – run the dev server
-- `pnpm --filter @gentleduck/ui-docs build` – production build
-- `pnpm --filter @gentleduck/ui-docs start` – serve the build
-- `pnpm --filter @gentleduck/ui-docs dev:docs` – watch/generate MDX content
-- `pnpm --filter @gentleduck/ui-docs build:docs` – one-time MDX build
-- `pnpm --filter @gentleduck/ui-docs build:reg` – rebuild the UI registry and format output
-- `pnpm --filter @gentleduck/ui-docs lint` – lint
+- `bun --filter @gentleduck/ui-docs dev` – run the dev server
+- `bun --filter @gentleduck/ui-docs build` – production build
+- `bun --filter @gentleduck/ui-docs start` – serve the build
+- `bun --filter @gentleduck/ui-docs dev:docs` – watch/generate MDX content
+- `bun --filter @gentleduck/ui-docs build:docs` – one-time MDX build
+- `bun --filter @gentleduck/ui-docs build:reg` – rebuild the UI registry and format output
+- `bun --filter @gentleduck/ui-docs lint` – lint
 
 ## Environment
 - `.env` is optional; see `.env.example` for defaults.

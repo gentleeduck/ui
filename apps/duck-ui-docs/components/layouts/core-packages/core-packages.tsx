@@ -58,7 +58,7 @@ export function EcosystemSection() {
       <div className="container relative mx-auto pb-24 sm:pb-32 lg:pb-40">
         <SectionTitle
           subtitle="A growing ecosystem of tools, primitives, and utilities for modern development."
-          title="The Gentleduck Ecosystem"
+          title="The duck-ui Ecosystem"
         />
 
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

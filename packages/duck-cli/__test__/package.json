@@ -6,7 +6,7 @@
   "author": "",
   "description": "",
   "devDependencies": {
-    "typescript": "catalog:"
+    "typescript": "5.9.3"
   },
   "keywords": [],
   "license": "ISC",

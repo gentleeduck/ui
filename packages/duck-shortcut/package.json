@@ -6,14 +6,14 @@
   "author": "ahmed ayob",
   "dependencies": {
     "esbuild": "^0.25.10",
-    "vite": "catalog:"
+    "vite": "npm:rolldown-vite@^7.3.0"
   },
   "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
   "devDependencies": {
     "@types/mousetrap": "^1.6.15",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19"
+    "@types/node": "22.19.3",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3"
   },
   "files": [
     "/dist"
@@ -48,16 +48,16 @@
   "module": "dist/index.mjs",
   "name": "@gentleduck/shortcut",
   "peerDependencies": {
-    "@changesets/cli": "catalog:",
+    "@changesets/cli": "^2.29.8",
     "date-fns": "^4.1.0",
     "jsdom": "^27.0.0",
     "mousetrap": "^1.6.5",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19",
-    "tsdown": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:",
-    "zod": "catalog:"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tsdown": "0.18.3",
+    "typescript": "5.9.3",
+    "vitest": "^4.0.16",
+    "zod": "4.2.1"
   },
   "private": false,
   "publishConfig": {

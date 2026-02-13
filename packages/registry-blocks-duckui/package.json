@@ -11,18 +11,18 @@
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@tanstack/react-table": "^8.21.3",
-    "lucide-react": "catalog:",
-    "next": "catalog:",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19",
+    "lucide-react": "0.562.0",
+    "next": "^16.1.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "recharts": "^3.7.0",
     "sonner": "^2.0.7",
-    "zod": "catalog:"
+    "zod": "4.2.1"
   },
   "devDependencies": {
     "@gentleduck/registry-ui-duckui": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "@types/react": "catalog:react19"
+    "@types/react": "19.2.7"
   },
   "exports": {
     ".": "./src/index.ts",
@@ -30,7 +30,7 @@
     "./charts/*": "./src/charts/*"
   },
   "name": "@gentleduck/registry-blocks-duckui",
-  "author": "GentleDuck (https://www.gentleduck.org)",
+  "author": "duck-ui contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registry-blocks-duckui#readme",
   "bugs": {
@@ -41,7 +41,7 @@
     "url": "git+https://github.com/gentleeduck/duck-ui.git",
     "directory": "packages/registry-blocks-duckui"
   },
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "bun@1.3.5",
   "private": true,
   "scripts": {
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"

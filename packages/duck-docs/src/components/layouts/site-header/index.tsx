@@ -63,8 +63,11 @@ function GitHubStarsButton() {
           return
         }
         const res = await fetch(`https://api.github.com/repos/${repo}`)
+        if (!res.ok) return
         const data = await res.json()
-        setStars(data.stargazers_count)
+        if (typeof data.stargazers_count === 'number') {
+          setStars(data.stargazers_count)
+        }
       } catch (err) {
         console.error('Failed to fetch stars:', err)
       }

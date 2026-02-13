@@ -3,6 +3,8 @@
 # dependencies
 node_modules
 node_modules.root-owned
+.node_modules.root-owned/
+node_modules.bun-attempt.*/
 .pnp
 .pnp.js
 
@@ -62,4 +64,16 @@ certificates
 tailwind.config.ts
 **/.fuse_*
 node-compile-cache
+.node-compile-cache.root-owned/
+node-compile-cache.root-owned/
+*.root-owned-backup.*/
+.root-owned-backups.*/
+**/.backup-root-owned-modules*/
+**/.backup-root-owned-modules.*/
+**/.dist.root-owned.*/
+**/dist.root-owned.*/
+**/.turbo.root-owned*/
+**/.next.root-owned*/
+**/dist.prebun.*/
+**/.dist.prebun.*/
 **/tsconfig.tsbuildinfo

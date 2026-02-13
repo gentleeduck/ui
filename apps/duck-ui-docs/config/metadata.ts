@@ -29,13 +29,13 @@ export const METADATA: Metadata = {
   },
   keywords: [
     // Brand
-    'gentleduck',
-    'gentleduck duck ui',
-    'gentleduck button',
+    'duck-ui',
+    'duck-ui react components',
+    'duck-ui button',
     'Duck UI',
 
-    'Gentleduck',
-    'Gentleduck Duck UI',
+    'duck-ui library',
+    'duck-ui components',
 
     // Core tech stack
     'React UI library',

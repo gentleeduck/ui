@@ -10,9 +10,9 @@
   "description": "A package for state management",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
-    "@types/react": "catalog:react19",
-    "@types/react-dom": "catalog:react19",
-    "tsdown": "catalog:"
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "tsdown": "0.18.3"
   },
   "exports": {
     ".": "./dist/index.js",
@@ -34,16 +34,16 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "name": "@gentleduck/state",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "bun@1.3.5",
   "private": false,
   "publishConfig": {
     "access": "public"
   },
   "peerDependencies": {
-    "@types/node": "catalog:",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19",
-    "typescript": "catalog:"
+    "@types/node": "22.19.3",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "typescript": "5.9.3"
   },
   "repository": {
     "type": "git",
