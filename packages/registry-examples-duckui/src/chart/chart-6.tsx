@@ -33,7 +33,7 @@ const chartConfig = {
 export default function ChartDemo() {
   return (
     <ChartContainer className="min-h-[200px] w-full" config={chartConfig}>
-      <BarChart accessibilityLayer data={chartData}>
+      <BarChart data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis
           axisLine={false}

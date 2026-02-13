@@ -43,17 +43,17 @@ export default function Component() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart data={chartData}>
             <CartesianGrid vertical={false} />
             <ChartTooltip content={<ChartTooltipContent hideIndicator hideLabel />} cursor={false} />
             <Bar dataKey="visitors">
               <LabelList dataKey="month" fillOpacity={1} position="top" />
               {chartData.map((item) => {
                 if (item.visitors > 0) {
-                  return <Cell fill={'var(--chart-1'} key={item.month} />
+                  return <Cell fill={'var(--chart-1)'} key={item.month} />
                 }
 
-                return <Cell fill={'var(--chart-2'} key={item.month} />
+                return <Cell fill={'var(--chart-2)'} key={item.month} />
               })}
             </Bar>
           </BarChart>

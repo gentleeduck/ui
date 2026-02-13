@@ -10,8 +10,7 @@ import {
 } from '@gentleduck/registry-ui-duckui/chart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 import * as React from 'react'
-import { Label, Pie, PieChart, Sector } from 'recharts'
-import type { PieSectorDataItem } from 'recharts/types/polar/Pie'
+import { Label, Pie, PieChart, Sector, type PieSectorDataItem } from 'recharts'
 
 export const description = 'An interactive pie chart'
 
@@ -102,9 +101,8 @@ export default function Component() {
       <CardContent className="flex flex-1 justify-center pb-0">
         <ChartContainer className="mx-auto aspect-square w-full max-w-[300px]" config={chartConfig} id={id}>
           <PieChart>
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} defaultIndex={activeIndex} />
             <Pie
-              activeIndex={activeIndex}
               activeShape={({ outerRadius = 0, ...props }: PieSectorDataItem) => (
                 <g>
                   <Sector {...props} outerRadius={outerRadius + 10} />

@@ -26,7 +26,7 @@ const chartConfig = {
 export default function ChartDemo() {
   return (
     <ChartContainer className="min-h-[200px] w-full" config={chartConfig}>
-      <BarChart accessibilityLayer data={chartData}>
+      <BarChart data={chartData}>
         <CartesianGrid vertical={false} />
         <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
         <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />

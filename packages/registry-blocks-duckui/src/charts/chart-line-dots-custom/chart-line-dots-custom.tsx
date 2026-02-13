@@ -49,7 +49,7 @@ export default function Component() {
       <CardContent>
         <ChartContainer config={chartConfig}>
           <LineChart
-            accessibilityLayer
+           
             data={chartData}
             margin={{
               left: 12,
