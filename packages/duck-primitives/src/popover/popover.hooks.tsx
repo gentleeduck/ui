@@ -12,6 +12,7 @@ import {
   useRole,
 } from '@floating-ui/react'
 import * as React from 'react'
+import { useDynamicLayer } from '../layer'
 import type { PopoverOptions } from './popover.types'
 
 export function usePopover({
@@ -27,6 +28,7 @@ export function usePopover({
   mainAxis = true,
   contextMenu = false,
 }: PopoverOptions): ReturnType<typeof useFloating> & {
+  layer: ReturnType<typeof useDynamicLayer>
   open: boolean
   setOpen: (open: boolean) => void
   modal?: boolean
@@ -35,6 +37,10 @@ export function usePopover({
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
+  const layer = useDynamicLayer({
+    baseZIndex: 1200,
+    open,
+  })
 
   const openRef = React.useRef(open)
   React.useEffect(() => {
@@ -155,8 +161,9 @@ export function usePopover({
       setOpen,
       ...interactions,
       ...data,
+      layer,
       modal,
     }),
-    [open, setOpen, interactions, data, modal],
+    [open, setOpen, interactions, data, modal, layer],
   )
 }

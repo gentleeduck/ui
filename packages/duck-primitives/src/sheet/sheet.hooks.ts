@@ -1,6 +1,7 @@
 import { useClick, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
 
 import * as React from 'react'
+import { useDynamicLayer } from '../layer'
 import { SheetContext } from './sheet'
 import type { SheetContextProps, SheetOptions } from './sheet.types'
 
@@ -13,6 +14,7 @@ export function useSheet({
   open: boolean
   setOpen: (open: boolean) => void
   closeButton: boolean
+  layer: ReturnType<typeof useDynamicLayer>
   descriptionId?: string
   labelId?: string
   setDescriptionId: React.Dispatch<React.SetStateAction<string | undefined>>
@@ -27,6 +29,7 @@ export function useSheet({
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
+  const layer = useDynamicLayer({ open })
 
   const data = useFloating({
     onOpenChange: setOpen,
@@ -51,13 +54,14 @@ export function useSheet({
       ...data,
       closeButton,
       descriptionId,
+      layer,
       labelId,
       setDescriptionId,
       setLabelId,
       setTitleId,
       titleId,
     }),
-    [open, setOpen, interactions, data, labelId, descriptionId, setTitleId],
+    [open, setOpen, interactions, data, labelId, descriptionId, setTitleId, layer],
   )
 }
 
