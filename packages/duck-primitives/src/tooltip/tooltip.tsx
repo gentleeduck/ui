@@ -80,10 +80,12 @@ function Content({
   const ref = useMergeRefs([context.refs.setFloating, propRef])
 
   React.useEffect(() => {
-    if (lockScroll && context.open) {
-      lockScrollbar(true)
+    if (!(lockScroll && context.open)) return
+
+    const didLock = lockScrollbar(true)
+    return () => {
+      if (didLock) cleanLockScrollbar()
     }
-    return () => cleanLockScrollbar()
   }, [lockScroll, context.open])
 
   return (
@@ -99,9 +101,9 @@ function Content({
               '--duck-tooltip-content-transform-origin': context.floatingStyles?.transformOrigin,
               transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
               transformOrigin: 'var(--duck-tooltip-content-transform-origin)',
-              zIndex: 100,
             },
             ...style,
+            zIndex: context.layer.contentZIndex,
           }}
           // @ts-ignore
           {...context.getFloatingProps(props)}>

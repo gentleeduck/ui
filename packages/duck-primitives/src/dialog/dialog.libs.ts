@@ -3,6 +3,7 @@
 let prevBodyOverflow: string | null = null
 let prevScrollbarGutter: string | null = null
 let didLock = false
+let lockCount = 0
 
 function isPageScrollable(): boolean {
   if (typeof document === 'undefined') return false
@@ -23,7 +24,7 @@ export function lockScrollbar(isLocked: boolean) {
 
   if (isLocked) {
     // Don't remove scroll if there isn't any scroll to begin with
-    if (!isPageScrollable()) return
+    if (!isPageScrollable() && lockCount === 0) return false
 
     if (!didLock) {
       prevScrollbarGutter = documentElement.style.scrollbarGutter
@@ -31,11 +32,17 @@ export function lockScrollbar(isLocked: boolean) {
       didLock = true
     }
 
+    lockCount += 1
+
     // Reserve scrollbar space so width doesn't change
     documentElement.style.scrollbarGutter = 'stable'
     body.style.overflow = 'hidden'
+    return true
   } else {
-    if (!didLock) return
+    if (!didLock || lockCount === 0) return false
+
+    lockCount -= 1
+    if (lockCount > 0) return true
 
     documentElement.style.scrollbarGutter = prevScrollbarGutter ?? ''
     body.style.overflow = prevBodyOverflow ?? ''
@@ -43,12 +50,17 @@ export function lockScrollbar(isLocked: boolean) {
     prevScrollbarGutter = null
     prevBodyOverflow = null
     didLock = false
+    lockCount = 0
+    return true
   }
 }
 
 export function cleanLockScrollbar() {
   if (typeof document === 'undefined') return
-  if (!didLock) return
+  if (!didLock || lockCount === 0) return
+
+  lockCount -= 1
+  if (lockCount > 0) return
 
   const { documentElement, body } = document
   documentElement.style.scrollbarGutter = prevScrollbarGutter ?? ''
@@ -57,4 +69,5 @@ export function cleanLockScrollbar() {
   prevScrollbarGutter = null
   prevBodyOverflow = null
   didLock = false
+  lockCount = 0
 }

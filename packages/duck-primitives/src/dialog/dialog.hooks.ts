@@ -1,6 +1,7 @@
 import { useClick, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
 
 import * as React from 'react'
+import { useDynamicLayer } from '../layer'
 import { DialogContext } from './dialog'
 import type { DialogContextProps, DialogOptions } from './dialog.types'
 
@@ -14,6 +15,7 @@ export function useDialog({
   open: boolean
   setOpen: (open: boolean) => void
   closeButton: boolean
+  layer: ReturnType<typeof useDynamicLayer>
   descriptionId?: string
   labelId?: string
   modal?: boolean
@@ -29,6 +31,7 @@ export function useDialog({
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
+  const layer = useDynamicLayer({ open })
 
   const data = useFloating({
     onOpenChange: setOpen,
@@ -53,6 +56,7 @@ export function useDialog({
       ...interactions,
       closeButton,
       descriptionId,
+      layer,
       labelId,
       modal,
       setDescriptionId,
@@ -60,7 +64,7 @@ export function useDialog({
       setTitleId,
       titleId,
     }),
-    [open, setOpen, interactions, data, labelId, descriptionId, setTitleId],
+    [open, setOpen, interactions, data, labelId, descriptionId, setTitleId, layer],
   )
 }
 

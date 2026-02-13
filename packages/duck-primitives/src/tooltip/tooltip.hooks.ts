@@ -11,6 +11,7 @@ import {
   useRole,
 } from '@floating-ui/react'
 import React from 'react'
+import { useDynamicLayer } from '../layer'
 import type { TooltipOptions } from './tooltip.types'
 
 export function useTooltip({
@@ -25,6 +26,7 @@ export function useTooltip({
   delayDuration = 150,
   skipDelayDuration = 150,
 }: TooltipOptions): ReturnType<typeof useFloating> & {
+  layer: ReturnType<typeof useDynamicLayer>
   open: boolean
   setOpen: (open: boolean) => void
   modal?: boolean
@@ -33,6 +35,10 @@ export function useTooltip({
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
+  const layer = useDynamicLayer({
+    baseZIndex: 1200,
+    open,
+  })
 
   const middleware = [
     offset({ crossAxis: alignOffset, mainAxis: sideOffset }),
@@ -80,8 +86,9 @@ export function useTooltip({
       setOpen,
       ...interactions,
       ...data,
+      layer,
       modal,
     }),
-    [open, setOpen, interactions, data, modal],
+    [open, setOpen, interactions, data, modal, layer],
   )
 }
