@@ -11,6 +11,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
 import { META_THEME_COLORS, siteConfig } from '~/config/site'
+import { docs } from '../.velite'
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -24,7 +25,16 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
 })
 
-const docsEntries = [] as any
+const docsEntries = docs.map((doc) => {
+  const slug = doc.slug.startsWith('/') ? doc.slug : `/${doc.slug}`
+  return {
+    component: doc.component,
+    content: doc.body,
+    permalink: slug,
+    slug,
+    title: doc.title,
+  }
+})
 
 const docsSiteConfig = {
   ...siteConfig,
@@ -70,7 +80,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </DocsProvider>
 
-            {/* non-critical scripts */}
             <SpeedInsights />
             <VercelAnalytics />
             <Toaster />
