@@ -198,7 +198,12 @@ export function CommandMenu() {
 
 ### Command
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the command container |
+| `children` | `React.ReactNode` | -- | Command content (`CommandInput`, `CommandList`, etc.) |
+
+*Also accepts all standard HTML `div` props.*
 
 ### CommandInput
 
@@ -212,7 +217,12 @@ export function CommandMenu() {
 
 ### CommandList
 
-*Accepts all standard HTML `ul` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the list |
+| `children` | `React.ReactNode` | -- | `CommandGroup`, `CommandItem`, `CommandEmpty`, and `CommandSeparator` elements |
+
+*Also accepts all standard HTML `ul` props.*
 
 ### CommandItem
 
@@ -235,7 +245,12 @@ export function CommandMenu() {
 
 ### CommandEmpty
 
-*Accepts all standard HTML `h6` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the empty state |
+| `children` | `React.ReactNode` | -- | Content shown when no items match the search query |
+
+*Also accepts all standard HTML `h6` props.*
 
 ### CommandShortcut
 
@@ -243,17 +258,25 @@ export function CommandMenu() {
 | --- | --- | --- | --- |
 | `keys` | `string` | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
 | `onKeysPressed` | `() => void` | -- | Triggered when shortcut is pressed |
-| `variant` | `'default' \| 'secondary'` | -- | Visual style variant |
+| `variant` | `'default' \| 'secondary'` | `'default'` | Visual style variant |
 
 *Also accepts all standard HTML `kbd` props.*
 
 ### CommandSeparator
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the separator |
+
+*Also accepts all standard HTML `div` props.*
 
 ### CommandDialog
 
-*Accepts all `Dialog` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Command content rendered inside the dialog (typically `CommandInput`, `CommandList`, etc.) |
+
+*Also accepts all `Dialog` props (`open`, `onOpenChange`, `closeButton`, etc.).*
 
 ## Types
 

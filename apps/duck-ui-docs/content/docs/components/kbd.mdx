@@ -99,19 +99,22 @@ You can use the `Kbd` component inside a `InputGroupAddon` component to display 
 
 ### Kbd
 
-Use the `Kbd` component to display a keyboard key.
+Displays an individual keyboard key with consistent styling.
 
-```tsx
-<Kbd>Ctrl</Kbd>
-```
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names for the kbd element |
+| `children` | `React.ReactNode` | -- | Key label text or icon |
+
+*Also accepts all standard HTML `kbd` props.*
 
 ### KbdGroup
 
-Use the `KbdGroup` component to group `Kbd` components together.
+Groups multiple `Kbd` components together in an inline layout.
 
-```tsx
-<KbdGroup>
-  <Kbd>Ctrl</Kbd>
-  <Kbd>B</Kbd>
-</KbdGroup>
-```
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names for the group |
+| `children` | `React.ReactNode` | -- | `Kbd` elements to group together |
+
+*Also accepts all standard HTML `div` props.*

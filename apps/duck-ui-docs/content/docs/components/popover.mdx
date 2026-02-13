@@ -139,7 +139,7 @@ import {
 | --- | --- | --- | --- |
 | `forceMount` | `boolean` | `true` | Keep content mounted for CSS-driven animations |
 | `lockScroll` | `boolean` | `false` | Locks scroll while the popover is open |
-| `disabled` | `boolean` | `true` | Disables focus management when true |
+| `disabled` | `boolean` | `false` | Disables focus management when true |
 
 *Also accepts all standard `PopoverPrimitive.Content` props.*
 
@@ -147,6 +147,14 @@ import {
 
 Alias for `PopoverTrigger`. Use to render an element that closes the popover.
 
+*Accepts all `PopoverTrigger` props.*
+
 ### PopoverPortal
 
 Renders the popover in a portal using Floating UI.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | `--` | Content to render inside the portal |
+
+*Also accepts all `PopoverPrimitive.Portal` props.*

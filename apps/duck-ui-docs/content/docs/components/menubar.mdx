@@ -106,27 +106,52 @@ import {
 
 Root container that renders a horizontal bar and manages keyboard navigation across all menus. Provides `MenubarContext` for coordinating open state, trigger focus, and arrow-key movement between menus.
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the menubar container |
+| `children` | `React.ReactNode` | `--` | `MenubarMenu` items to render inside the bar |
+
+*Also accepts all standard HTML `div` props.*
 
 ### MenubarMenu
 
 Wrapper for an individual menu within the menubar. Renders a `DropdownMenu` internally.
 
-*Accepts all standard HTML `div` props (excluding `contextMenu`).*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the menu wrapper |
+| `children` | `React.ReactNode` | `--` | Trigger and content elements for this menu |
+
+*Also accepts all standard HTML `div` props (excluding `contextMenu`).*
 
 ### MenubarTrigger
 
 Button that opens a specific menu in the menubar. Styled as a ghost button with `sm` size.
 
-*Accepts all `DropdownMenuTrigger` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the trigger button |
+| `children` | `React.ReactNode` | `--` | Label content for the trigger |
+
+*Also accepts all `DropdownMenuTrigger` props.*
 
 ### MenubarContent
 
-*Accepts all `DropdownMenuContent` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the dropdown content |
+| `children` | `React.ReactNode` | `--` | Menu items to render inside the dropdown |
+
+*Also accepts all `DropdownMenuContent` props.*
 
 ### MenubarItem
 
-*Accepts all `DropdownMenuItem` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the menu item |
+| `children` | `React.ReactNode` | `--` | Content of the menu item |
+
+*Also accepts all `DropdownMenuItem` props.*
 
 ### MenubarCheckboxItem
 

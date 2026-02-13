@@ -167,71 +167,29 @@ Use with a `Popover` component.
 
 ### ButtonGroup
 
-The `ButtonGroup` component is a container that groups related buttons together with consistent styling.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the button group |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Grouped content (buttons, separators, text, or nested groups) |
 
-
-* **`orientation`** (`"horizontal" | "vertical"`, optional): The orientation of the button group. Defaults to `"horizontal"`.
-
-```tsx
-<ButtonGroup>
-  <Button>Button 1</Button>
-  <Button>Button 2</Button>
-</ButtonGroup>
-```
-
-Nest multiple button groups to create complex layouts with spacing. See the [nested](#nested) example for more details.
-
-```tsx
-<ButtonGroup>
-  <ButtonGroup />
-  <ButtonGroup />
-</ButtonGroup>
-```
+*Also accepts all standard HTML `div` props.*
 
 ### ButtonGroupSeparator
 
-The `ButtonGroupSeparator` component visually divides buttons within a group.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | Orientation of the separator line |
+| `className` | `string` | `--` | Additional class names to apply |
 
-
-* **`orientation`** (`"horizontal" | "vertical"`, optional): The orientation of the separator. Defaults to `"vertical"`.
-
-
-```tsx
-<ButtonGroup>
-  <Button>Button 1</Button>
-  <ButtonGroupSeparator />
-  <Button>Button 2</Button>
-</ButtonGroup>
-```
+*Also accepts all standard `Separator` component props.*
 
 ### ButtonGroupText
 
-Use this component to display text within a button group.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | `false` | If `true`, uses the `Slot` component instead of rendering a `div` |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Text content to display |
 
-* **`asChild`** (`boolean`, optional): If `true`, uses the `Slot` component instead of rendering an `<a>` directly.
-
-
-```tsx
-<ButtonGroup>
-  <ButtonGroupText>Text</ButtonGroupText>
-  <Button>Button</Button>
-</ButtonGroup>
-```
-
-Use the `asChild` prop to render a custom component as the text, for example a label.
-
-```tsx showLineNumbers
-import { ButtonGroupText } from "@/components/ui/button-group"
-import { Label } from "@/components/ui/label"
-
-export function ButtonGroupTextDemo() {
-  return (
-    <ButtonGroup>
-      <ButtonGroupText asChild>
-        <Label htmlFor="name">Text</Label>
-      </ButtonGroupText>
-      <Input placeholder="Type something here..." id="name" />
-    </ButtonGroup>
-  )
-}
-```
+*Also accepts all standard HTML `div` props.*

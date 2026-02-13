@@ -349,11 +349,21 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 
 ### CarouselContent
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the content container |
+| `children` | `React.ReactNode` | -- | `CarouselItem` elements |
+
+*Also accepts all standard HTML `div` props.*
 
 ### CarouselItem
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the item (use `basis-*` utilities to control size) |
+| `children` | `React.ReactNode` | -- | Slide content |
+
+*Also accepts all standard HTML `li` props.*
 
 ### CarouselPrevious
 

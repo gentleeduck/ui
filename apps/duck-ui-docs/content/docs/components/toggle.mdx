@@ -128,9 +128,12 @@ import { Toggle } from '@/components/ui/toggle'
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names to apply |
 | `value` | `string` | (required) | The value associated with the toggle input |
 | `variant` | `'default' \| 'outline'` | `'default'` | Visual style variant of the toggle |
 | `size` | `'default' \| 'sm' \| 'lg'` | `'default'` | Size variant of the toggle |
 | `disabled` | `boolean` | `false` | Disables the toggle if set to `true` |
+| `children` | `React.ReactNode` | -- | Content rendered inside the toggle label |
+| `ref` | `React.Ref<HTMLInputElement>` | -- | Ref forwarded to the underlying hidden input element |
 
-*Also accepts all standard HTML `input` props.*
+*Also accepts all standard HTML `input` props (via `Omit<React.HTMLProps<HTMLInputElement>, 'size'>`).*

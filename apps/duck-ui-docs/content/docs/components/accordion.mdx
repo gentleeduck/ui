@@ -111,6 +111,8 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 | `onValueChange` | `(value: string \| string[]) => void` | -- | Callback fired when open state changes |
 | `collapsible` | `boolean` | `true` | Allows collapsing the currently open item by clicking again (single type only) |
 | `rerender` | `boolean` | `false` | Forces internal re-render on each toggle, enabling conditional remount with `renderOnce` |
+| `className` | `string` | -- | Additional CSS classes applied to the root div |
+| `children` | `React.ReactNode` | -- | AccordionItem elements to render inside the accordion |
 
 *Also accepts all standard HTML `div` props.*
 
@@ -121,6 +123,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 | `value` | `string` | (required) | Unique identifier tying trigger to content |
 | `renderOnce` | `boolean` | `false` | Mounts content only on first expand and preserves it |
 | `children` | `[trigger: ReactNode, content: ReactNode]` | (required) | Two nodes: first the `AccordionTrigger`, second the `AccordionContent` |
+| `className` | `string` | -- | Additional CSS classes applied to the details element |
 
 *Also accepts all standard HTML `details` props.*
 
@@ -129,7 +132,9 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | -- | Identifier matching parent item's `value` |
-| `icon` | `ReactNode` | -- | Custom icon component; defaults to a rotating ChevronDown |
+| `icon` | `React.ReactNode` | -- | Custom icon component; defaults to a rotating ChevronDown |
+| `className` | `string` | -- | Additional CSS classes applied to the summary element |
+| `children` | `React.ReactNode` | -- | Content rendered as the trigger label |
 
 *Also accepts all standard HTML `summary` props.*
 
@@ -138,6 +143,8 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `rerender` | `boolean` | `false` | Controls remount behavior based on parent context |
+| `className` | `string` | -- | Additional CSS classes applied to the content div |
+| `children` | `React.ReactNode` | -- | Content to reveal when the accordion item is expanded |
 
 *Also accepts all standard HTML `div` props.*
 

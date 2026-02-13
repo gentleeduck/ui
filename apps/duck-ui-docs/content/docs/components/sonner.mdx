@@ -148,18 +148,15 @@ toast('Event has been created.')
 
 ## API Reference
 
-### Sonner Props
+### Toaster
+
+The `Toaster` component wraps the `Sonner` `Toaster` from the `sonner` library, applying theme synchronization via `next-themes` and default styling.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `theme` | `'light' \| 'dark' \| 'system'` | `'system'` | Specifies the theme for the toaster. Uses the current theme from `next-themes` if available |
-| `className` | `string` | `'toaster'` | Adds additional CSS classes to the main toaster wrapper |
-| `toastOptions` | `object` | `{}` | Customizes individual toast components. See `ToastOptions` below |
-| `classNames` | `object` | -- | Custom CSS classes for different toast elements |
-| `classNames.toast` | `string` | -- | Styles applied to the toast container |
-| `classNames.description` | `string` | -- | Styles applied to the toast description text |
-| `classNames.actionButton` | `string` | -- | Styles applied to action buttons inside the toast |
-| `classNames.cancelButton` | `string` | -- | Styles applied to cancel buttons inside the toast |
+| `theme` | `'light' \| 'dark' \| 'system'` | `'system'` | Toast theme. Auto-detected from `next-themes` `useTheme()` |
+
+*Also accepts all `ToasterProps` from the `sonner` library.*
 
 ### SonnerUpload
 

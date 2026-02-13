@@ -142,38 +142,67 @@ You can adjust the size of the sheet using CSS classes:
 
 ### SheetTrigger
 
-*Accepts all `DialogTrigger` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Trigger content |
+
+*Also accepts all `SheetPrimitive.Trigger` props.*
+
+### SheetCloseX
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `number` | `16` | Size of the close icon in pixels |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Custom close icon content (defaults to `X` icon) |
+
+*Also accepts all standard HTML `button` props.*
 
 ### SheetContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `renderOnce` | `boolean` | `false` | Controls whether the content should only render once (currently unused) |
-| `overlay` | `string` | `'default'` | Animation overlay style variant |
-| `closedby` | `string` | `'any'` | Close behavior (currently unused) |
-| `side` | `string` | `'right'` | The side from which the sheet slides in |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'right'` | The side from which the sheet slides in |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Sheet content |
 
-*Also accepts all `DialogContentProps & VariantProps<typeof AnimSheetVariants>` props.*
+*Also accepts all `SheetPrimitive.Content` props and `VariantProps<typeof AnimSheetVariants>`.*
 
 ### SheetHeader
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+
+*Also accepts all `SheetPrimitive.Heading` props.*
 
 ### SheetFooter
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+
+*Also accepts all standard HTML `div` props.*
 
 ### SheetTitle
 
-*Accepts all standard HTML `heading` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+
+*Also accepts all `SheetPrimitive.Title` props.*
 
 ### SheetDescription
 
-*Accepts all standard HTML `p` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+
+*Also accepts all `SheetPrimitive.Description` props.*
 
 ### SheetClose
 
-*Accepts all `DialogClose` props.*
+Alias for `SheetTrigger`. Accepts the same props.
 
 ## See also
 

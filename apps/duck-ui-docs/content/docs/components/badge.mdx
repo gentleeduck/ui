@@ -168,6 +168,8 @@ const MyBadge = () => {
 | --- | --- | --- | --- |
 | `variant` | `'default' \| 'secondary' \| 'destructive' \| 'warning' \| 'dashed' \| 'outline' \| 'nothing'` | `'default'` | Visual style of the badge |
 | `size` | `'default' \| 'sm' \| 'lg' \| 'icon'` | `'default'` | Size of the badge |
-| `border` | `'default' \| 'primary' \| 'secondary' \| 'destructive' \| 'warning'` | -- | Border style variant |
+| `border` | `'default' \| 'primary' \| 'secondary' \| 'destructive' \| 'warning'` | `'default'` | Border style variant |
+| `asChild` | `boolean` | `false` | If `true`, renders using a `Slot` instead of a `span` element |
+| `className` | `string` | `--` | Additional class names to apply |
 
-*Also accepts all standard HTML `div` props.*
+*Also accepts all standard HTML `div` props (excluding `size`).*

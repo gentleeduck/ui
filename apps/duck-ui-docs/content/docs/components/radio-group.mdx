@@ -118,6 +118,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `value` | `string` | `--` | Controlled value of the selected radio item |
 | `defaultValue` | `string` | `--` | Initial selected value when uncontrolled |
 | `onValueChange` | `(value: string) => void` | `--` | Callback fired when selection changes |
+| `className` | `string` | `--` | Additional CSS classes for the radio group list |
+| `children` | `React.ReactNode` | `--` | `RadioGroupItem` elements |
 
 *Also accepts all standard HTML `ul` props.*
 
@@ -127,6 +129,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | Unique value for the radio item, also used as the element's `id` |
 | `customIndicator` | `React.ReactNode` | `--` | Custom indicator element rendered inside the item |
+| `className` | `string` | `--` | Additional CSS classes for the list item |
+| `children` | `React.ReactNode` | `--` | Label content rendered via the `Label` component |
 
 *Also accepts all standard HTML `li` props (except `value`).*
 

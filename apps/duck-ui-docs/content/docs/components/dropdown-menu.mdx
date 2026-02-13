@@ -169,6 +169,8 @@ Button that toggles the dropdown menu open and closed.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `--` | Use the child element as the trigger instead of wrapping in a button |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `--` | Content rendered inside the trigger |
 
 *Also accepts all `PopoverTrigger` props.*
 
@@ -243,6 +245,8 @@ A non-interactive label for grouping menu items.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `inset` | `boolean` | `--` | Adds left padding to align with inset menu items |
+| `htmlFor` | `string` | `--` | Associates the label with a form control by its `id` |
+| `className` | `string` | `--` | Additional CSS classes to apply |
 
 *Also accepts all standard HTML `label` props.*
 
@@ -250,7 +254,11 @@ A non-interactive label for grouping menu items.
 
 A visual divider between groups of menu items.
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+
+*Also accepts all standard HTML `div` props.*
 
 ### DropdownMenuShortcut
 
@@ -268,7 +276,12 @@ Displays a keyboard shortcut hint next to a menu item and registers the key bind
 
 Groups related menu items together.
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `--` | Menu items to render inside the group |
+
+*Also accepts all standard HTML `div` props.*
 
 ### DropdownMenuSub
 

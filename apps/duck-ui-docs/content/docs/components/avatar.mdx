@@ -68,7 +68,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `alt` | `string` | `--` | Alternate text for the avatar image, also used for fallback initials |
+| `fallback` | `string` | `--` | Text displayed when the image fails to load; truncated to the first 2 characters |
+| `alt` | `string` | `--` | Alternate text for the avatar image, also used as `aria-label` on the fallback |
 | `className` | `string` | `--` | Additional class names for styling the avatar container |
 | `ref` | `React.Ref<HTMLImageElement>` | `--` | Ref for the underlying `img` element |
 

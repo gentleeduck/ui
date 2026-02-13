@@ -111,3 +111,86 @@ export function NavigationMenuDemo() {
   )
 }
 ```
+
+## API Reference
+
+### NavigationMenu
+
+Root container that wraps the navigation menu and optionally renders the viewport.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `viewport` | `boolean` | `true` | Whether to render the `NavigationMenuViewport` automatically |
+| `className` | `string` | `--` | Additional CSS classes for the root element |
+| `children` | `React.ReactNode` | `--` | Navigation menu list and other elements |
+
+*Also accepts all `NavigationMenuPrimitive.Root` props.*
+
+### NavigationMenuList
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the list element |
+
+*Also accepts all `NavigationMenuPrimitive.List` props.*
+
+### NavigationMenuItem
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the menu item |
+
+*Also accepts all `NavigationMenuPrimitive.Item` props.*
+
+### NavigationMenuTrigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the trigger |
+| `children` | `React.ReactNode` | `--` | Trigger label content. A chevron icon is appended automatically |
+
+*Also accepts all `NavigationMenuPrimitive.Trigger` props.*
+
+### NavigationMenuContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the content panel |
+
+*Also accepts all `NavigationMenuPrimitive.Content` props.*
+
+### NavigationMenuLink
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the link |
+
+*Also accepts all `NavigationMenuPrimitive.Link` props.*
+
+### NavigationMenuViewport
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the viewport |
+
+*Also accepts all `NavigationMenuPrimitive.Viewport` props.*
+
+### NavigationMenuIndicator
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the indicator |
+
+*Also accepts all `NavigationMenuPrimitive.Indicator` props.*
+
+### navigationMenuTriggerStyle
+
+A `cva` variant function that returns the default trigger styling classes. Use it to style non-trigger elements (e.g. plain links) to match the trigger appearance.
+
+```tsx
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
+
+<NavigationMenuLink className={navigationMenuTriggerStyle()}>
+  Documentation
+</NavigationMenuLink>
+```
