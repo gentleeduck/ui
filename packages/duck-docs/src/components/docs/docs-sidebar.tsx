@@ -75,6 +75,7 @@ export function DocsSidebarNavItem({ item, pathname }: { item: SidebarNavItem; p
             pathname === item.href ? 'font-medium text-foreground' : 'text-muted-foreground',
           )}
           href={item.href}
+          scroll
           rel={item.external ? 'noreferrer' : ''}
           target={item.external ? '_blank' : ''}>
           {item.title}

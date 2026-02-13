@@ -7,7 +7,6 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-du
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 import { PanelsTopLeft } from 'lucide-react'
 import Link, { type LinkProps } from 'next/link'
-import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
 export function MobileNav() {
@@ -75,13 +74,12 @@ interface MobileLinkProps extends LinkProps {
 }
 
 function MobileLink({ href, onOpenChange, className, children, ...props }: MobileLinkProps) {
-  const router = useRouter()
   return (
     <Link
       className={cn(className)}
       href={href}
+      scroll
       onClick={() => {
-        router.push(href.toString())
         onOpenChange?.(false)
       }}
       {...props}>
