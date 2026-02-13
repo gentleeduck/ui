@@ -49,7 +49,6 @@ export default function Component() {
       <CardContent>
         <ChartContainer config={chartConfig}>
           <AreaChart
-           
             data={chartData}
             margin={{
               left: 12,

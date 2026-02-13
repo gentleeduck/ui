@@ -104,7 +104,6 @@ export default function Calendar27() {
       <CardContent className="px-4">
         <ChartContainer className="aspect-auto h-[250px] w-full" config={chartConfig}>
           <BarChart
-           
             data={filteredData}
             margin={{
               left: 12,

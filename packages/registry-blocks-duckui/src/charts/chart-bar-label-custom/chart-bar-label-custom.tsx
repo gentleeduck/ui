@@ -52,7 +52,6 @@ export default function Component() {
       <CardContent>
         <ChartContainer config={chartConfig}>
           <BarChart
-           
             data={chartData}
             layout="vertical"
             margin={{

@@ -45,7 +45,6 @@ export default function Component() {
       <CardContent>
         <ChartContainer config={chartConfig}>
           <LineChart
-           
             data={chartData}
             margin={{
               left: 12,

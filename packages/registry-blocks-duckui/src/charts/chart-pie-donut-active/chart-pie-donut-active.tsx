@@ -15,7 +15,7 @@ import {
   ChartTooltipContent,
 } from '@gentleduck/registry-ui-duckui/chart'
 import { TrendingUp } from 'lucide-react'
-import { Pie, PieChart, Sector, type PieSectorDataItem } from 'recharts'
+import { Pie, PieChart, type PieSectorDataItem, Sector } from 'recharts'
 
 export const description = 'A donut chart with an active sector'
 
