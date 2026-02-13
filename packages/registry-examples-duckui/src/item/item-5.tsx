@@ -23,7 +23,7 @@ export default function ItemAvatar() {
           />
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>Evil Rabbit</ItemTitle>
+          <ItemTitle>Wildduck</ItemTitle>
           <ItemDescription>Last seen 5 months ago</ItemDescription>
         </ItemContent>
         <ItemActions>
@@ -35,9 +35,24 @@ export default function ItemAvatar() {
       <Item variant="outline">
         <ItemMedia>
           <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
-            <Avatar alt="@shadcn" className="hidden sm:flex" fallback="CN" src="https://github.com/shadcn.png" />
-            <Avatar alt="@shadcn" className="hidden sm:flex" fallback="CN" src="https://github.com/shadcn.png" />
-            <Avatar alt="@shadcn" className="hidden sm:flex" fallback="CN" src="https://github.com/shadcn.png" />
+            <Avatar
+              alt="@shadcn"
+              className="hidden sm:flex"
+              fallback="GD"
+              src="https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp"
+            />
+            <Avatar
+              alt="@shadcn"
+              className="hidden sm:flex"
+              fallback="GD"
+              src="https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp"
+            />
+            <Avatar
+              alt="@shadcn"
+              className="hidden sm:flex"
+              fallback="GD"
+              src="https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp"
+            />
           </div>
         </ItemMedia>
         <ItemContent>
