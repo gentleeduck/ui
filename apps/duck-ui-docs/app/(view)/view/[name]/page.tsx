@@ -88,8 +88,10 @@ export default async function BlockPage({
 
   return (
     <>
-      <div className={cn('flex h-screen flex-col items-center justify-center')}>
-        <Component />
+      <div className={cn('flex min-h-screen flex-col items-center justify-center p-4')}>
+        <div className="w-full max-w-screen-2xl">
+          <Component />
+        </div>
       </div>
     </>
   )
