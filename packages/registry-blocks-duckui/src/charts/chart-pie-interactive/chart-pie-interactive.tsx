@@ -10,7 +10,7 @@ import {
 } from '@gentleduck/registry-ui-duckui/chart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 import * as React from 'react'
-import { Label, Pie, PieChart, Sector, type PieSectorDataItem } from 'recharts'
+import { Label, Pie, PieChart, type PieSectorDataItem, Sector } from 'recharts'
 
 export const description = 'An interactive pie chart'
 

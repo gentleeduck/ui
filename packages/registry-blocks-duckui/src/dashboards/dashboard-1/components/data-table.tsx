@@ -543,7 +543,6 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
             <>
               <ChartContainer config={chartConfig}>
                 <AreaChart
-                 
                   data={chartData}
                   margin={{
                     left: 0,

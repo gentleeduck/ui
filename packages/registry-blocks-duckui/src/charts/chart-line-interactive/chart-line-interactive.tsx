@@ -160,7 +160,6 @@ export default function Component() {
       <CardContent className="px-2 sm:p-6">
         <ChartContainer className="aspect-auto h-[250px] w-full" config={chartConfig}>
           <LineChart
-           
             data={chartData}
             margin={{
               left: 12,
