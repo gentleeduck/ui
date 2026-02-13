@@ -5,7 +5,7 @@ import { build_registry_components } from '../build-registry-components'
 import { build_registry_home } from '../build-registry-home'
 import { build_registry_index } from '../build-registry-index'
 import { build_registry_tsx, write_index_tsx } from '../build-registry-tsx'
-import { tsx_index } from './main.constants'
+import { tsx_header } from './main.constants'
 import { spinner as Spinner } from './main.lib'
 
 export async function main() {
@@ -32,9 +32,9 @@ export async function main() {
   })
   if (!index) return
 
-  // 4- build components and registry and styles
-  let tsx_content: string
-  tsx_content = tsx_index
+  // 4- build components and registry with next/dynamic (ssr: true)
+  let imports = ''
+  let entries = ''
 
   for (const item of index) {
     // 1- build the components in the public folder.
@@ -44,10 +44,14 @@ export async function main() {
       registry_count: index.length,
       spinner,
     })
-    // 2- build the __registry__/
-    tsx_content += await build_registry_tsx({ item, spinner })
+    // 2- build the __registry__/ entry with static import
+    const { importLine, entry } = await build_registry_tsx({ item, spinner })
+    imports += importLine
+    entries += entry
   }
-  // 5- write the index.tsx
+
+  // 5- assemble and write the index.tsx
+  const tsx_content = tsx_header + imports + '\nexport const Index: Record<string, any> = {' + entries + '\n}'
   await write_index_tsx({ spinner, tsx_content })
 
   // 6- build registry colors
