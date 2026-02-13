@@ -9,6 +9,15 @@ description: Recent updates and improvements to the duck-ui documentation and co
 
 This release is a comprehensive documentation rewrite covering every component and package page in duck-ui.
 
+### API Props Coverage Update (February 13, 2026)
+
+Completed a full API props normalization pass across component docs so inherited props are documented explicitly in API tables instead of prose notes.
+
+- Replaced implicit "Accepts all ... props" and "Also accepts all ... props" notes with explicit `...props` rows in component API tables.
+- Added missing `...props` rows for wrapper and composed components (including Context Menu, Dropdown Menu, Menubar, Popover, Drawer, Chart, React Hook Form, Resizable, and others).
+- Standardized HTML `div` spread descriptions to "Additional props to spread to the content div" for consistency.
+- Fixed malformed prop type references introduced during migration (notably Resizable panel types and FormLabel inherited props typing).
+
 #### API Reference Tables
 
 Every component page now includes a formal **API Reference** section with prop tables documenting types, defaults, and descriptions. This covers all 57 component pages:

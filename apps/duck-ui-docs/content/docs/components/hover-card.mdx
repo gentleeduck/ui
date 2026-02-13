@@ -102,8 +102,7 @@ Root wrapper that provides hover-card state and context. Wraps `HoverCardPrimiti
 | `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
 | `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
 | `children` | `React.ReactNode` | `--` | HoverCard sub-components |
-
-*Also accepts all `HoverCardPrimitive.Root` props (`sideOffset`, `alignOffset`, `mainAxis`, `modal`).*
+| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root>` | -- | Additional props inherited from `HoverCard.Root`. |
 
 ### HoverCardTrigger
 
@@ -114,8 +113,7 @@ The element that triggers the hover card on hover. Renders a `Button` internally
 | `variant` | `string` | `'outline'` | Variant style applied to the internal `Button` |
 | `asChild` | `boolean` | `false` | Whether to use the child as the trigger element directly |
 | `children` | `React.ReactNode` | `--` | Content rendered inside the trigger button |
-
-*Also accepts all `HoverCardPrimitive.Trigger` and `Button` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `HoverCard.Trigger` and `Button`. |
 
 ### HoverCardContent
 
@@ -129,6 +127,5 @@ The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Con
 | `renderOnce` | `boolean` | `true` | Keep content mounted after first open |
 | `lockScroll` | `boolean` | `false` | Locks page scroll while the hover card is open |
 | `disabled` | `boolean` | `true` | Disables focus management when true |
-
-*Also accepts all `HoverCardPrimitive.Content` props and standard HTML `div` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & React.HTMLProps<HTMLDivElement>` | -- | Additional props inherited from `HoverCard.Content` and standard content div props. |
 

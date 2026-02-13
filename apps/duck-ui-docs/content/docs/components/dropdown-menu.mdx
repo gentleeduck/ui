@@ -159,8 +159,7 @@ Root wrapper that provides dropdown state and context. Wraps Popover internally.
 | `enableHover` | `boolean` | `false` | Open on hover instead of click |
 | `contextMenu` | `boolean` | `false` | Open on right-click at the cursor position |
 | `modal` | `boolean` | `false` | Enables focus management when content is not disabled |
-
-*Also accepts all `Popover` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Additional props inherited from `Popover`. |
 
 ### DropdownMenuTrigger
 
@@ -171,8 +170,7 @@ Button that toggles the dropdown menu open and closed.
 | `asChild` | `boolean` | `--` | Use the child element as the trigger instead of wrapping in a button |
 | `className` | `string` | `--` | Additional CSS classes to apply |
 | `children` | `React.ReactNode` | `--` | Content rendered inside the trigger |
-
-*Also accepts all `PopoverTrigger` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverTrigger>` | -- | Additional props inherited from `PopoverTrigger`. |
 
 ### DropdownMenuContent
 
@@ -184,8 +182,7 @@ Container for the menu items. Rendered inside a portal.
 | `disabled` | `boolean` | `true` | Disables focus management when true |
 | `lockScroll` | `boolean` | `true` | Locks page scroll while the menu is open |
 | `forceMount` | `boolean` | `true` | Keep content mounted for CSS-driven animations |
-
-*Also accepts all `PopoverContent` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Additional props inherited from `PopoverContent`. |
 
 ### DropdownMenuItem
 
@@ -201,8 +198,7 @@ An individual menu action item. Renders as a `Button` with `ghost` variant and `
 | `loading` | `boolean` | `--` | Shows a loading spinner |
 | `icon` | `React.ReactNode` | `--` | Primary icon to display |
 | `secondIcon` | `React.ReactNode` | `--` | Secondary icon |
-
-*Also accepts all `Button` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `Button`. |
 
 ### DropdownMenuCheckboxItem
 
@@ -212,8 +208,7 @@ A menu item with a toggleable checkbox indicator.
 | --- | --- | --- | --- |
 | `checked` | `boolean` | `--` | Controlled checked state |
 | `onCheckedChange` | `(checked: boolean) => void` | `--` | Callback when checked state changes |
-
-*Also accepts all `DropdownMenuItem` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuItem>` | -- | Additional props inherited from `DropdownMenuItem`. |
 
 ### DropdownMenuRadioGroup
 
@@ -224,8 +219,7 @@ Groups radio items together for single-selection behavior.
 | `value` | `string` | `--` | The currently selected radio value |
 | `onValueChange` | `(value: string) => void` | `--` | Callback when the selected value changes |
 | `defaultValue` | `string` | `--` | Initial value for uncontrolled usage |
-
-*Also accepts all `RadioGroup` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof RadioGroup>` | -- | Additional props inherited from `RadioGroup`. |
 
 ### DropdownMenuRadioItem
 
@@ -235,8 +229,7 @@ A radio-selectable menu item. Must be used inside `DropdownMenuRadioGroup`.
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | The value representing this radio item |
 | `customIndicator` | `React.ReactNode` | `--` | Custom indicator element |
-
-*Also accepts all `RadioGroupItem` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof RadioGroupItem>` | -- | Additional props inherited from `RadioGroupItem`. |
 
 ### DropdownMenuLabel
 
@@ -286,8 +279,7 @@ Wrapper for a submenu. Creates a nested popover with hover activation.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `contextMenu` | `boolean` | `--` | Open on right-click at the cursor position |
-
-*Also accepts all `Popover` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Additional props inherited from `Popover`. |
 
 ### DropdownMenuSubTrigger
 
@@ -296,8 +288,7 @@ Trigger element for a submenu. Displays a chevron icon indicating a nested menu.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `inset` | `boolean` | `false` | Adds left padding to align with inset menu items |
-
-*Also accepts all `PopoverTrigger` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverTrigger>` | -- | Additional props inherited from `PopoverTrigger`. |
 
 ### DropdownMenuSubContent
 
@@ -307,5 +298,4 @@ Content container for a submenu.
 | --- | --- | --- | --- |
 | `disabled` | `boolean` | `true` | Disables focus management when true |
 | `lockScroll` | `boolean` | `true` | Locks page scroll while the submenu is open |
-
-*Also accepts all `PopoverContent` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Additional props inherited from `PopoverContent`. |

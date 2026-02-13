@@ -167,8 +167,7 @@ A non-dismissible drawer For cases when your drawer has to be always visible, No
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `shouldScaleBackground` | `boolean` | `true` | Whether to scale the background when drawer is open |
-
-*Also accepts all `DrawerPrimitive.Root` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root>` | -- | Additional props inherited from `Drawer.Root`. |
 
 ### DrawerTrigger
 
@@ -178,14 +177,15 @@ Wrapper around `DrawerPrimitive.Trigger`. Used to toggle the drawer open or clos
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the trigger |
 | `children` | `React.ReactNode` | -- | Trigger content |
-
-*Also accepts all `DrawerPrimitive.Trigger` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Trigger>` | -- | Additional props inherited from `Drawer.Trigger`. |
 
 ### DrawerPortal
 
 Wrapper around `DrawerPrimitive.Portal`. Renders drawer content in a React Portal.
 
-*Accepts all `DrawerPrimitive.Portal` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Portal>` | -- | Additional props inherited from `Drawer.Portal`. |
 
 ### DrawerClose
 
@@ -195,16 +195,14 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the close element |
 | `children` | `React.ReactNode` | -- | Close button content |
-
-*Also accepts all `DrawerPrimitive.Close` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Close>` | -- | Additional props inherited from `Drawer.Close`. |
 
 ### DrawerOverlay
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the overlay |
-
-*Also accepts all `DrawerPrimitive.Overlay` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>` | -- | Additional props inherited from `Drawer.Overlay`. |
 
 ### DrawerContent
 
@@ -213,8 +211,7 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 | `className` | `string` | -- | Additional CSS classes applied to the content panel |
 | `children` | `React.ReactNode` | -- | Drawer inner content |
 | `overlay` | `React.ComponentPropsWithRef<typeof DrawerOverlay>` | -- | Props forwarded to the `DrawerOverlay` |
-
-*Also accepts all `DrawerPrimitive.Content` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>` | -- | Additional props inherited from `Drawer.Content`. |
 
 ### DrawerHeader
 
@@ -238,8 +235,7 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the title |
 | `children` | `React.ReactNode` | -- | Title text |
-
-*Also accepts all `DrawerPrimitive.Title` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>` | -- | Additional props inherited from `Drawer.Title`. |
 
 ### DrawerDescription
 
@@ -247,8 +243,7 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the description |
 | `children` | `React.ReactNode` | -- | Description text |
-
-*Also accepts all `DrawerPrimitive.Description` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>` | -- | Additional props inherited from `Drawer.Description`. |
 
 ## See also
 

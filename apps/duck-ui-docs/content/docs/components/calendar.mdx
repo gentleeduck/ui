@@ -457,8 +457,7 @@ This will install the latest version of the calendar blocks.
 | `captionLayout` | `'buttons' \| 'dropdown' \| 'label'` | `'label'` | Layout for the month/year caption |
 | `formatters` | `DayPicker['formatters']` | -- | Custom formatting functions for dates and labels |
 | `components` | `DayPicker['components']` | -- | Custom component overrides for internal DayPicker parts |
-
-*Also accepts all standard `React.ComponentProps<typeof DayPicker>` props.*
+| `...props` | `React.ComponentProps<typeof DayPicker>` | -- | Additional standard component props. |
 
 ### CalendarDayButton
 
@@ -467,6 +466,5 @@ This will install the latest version of the calendar blocks.
 | `day` | `CalendarDay` | (required) | The day object for this cell from `react-day-picker` |
 | `modifiers` | `Modifiers` | (required) | Selection and state flags for the day (e.g., `selected`, `range_start`, `range_end`) |
 | `className` | `string` | -- | Additional CSS classes for styling the day button |
-
-*Also accepts all standard `React.ComponentProps<typeof DayButton>` props.*
+| `...props` | `React.ComponentProps<typeof DayButton>` | -- | Additional standard component props. |
 

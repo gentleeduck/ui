@@ -7,7 +7,7 @@ links:
   api: https://www.radix-ui.com/docs/primitives/components/navigation-menu#api-reference
 ---
 
-<ComponentPreview name="navigation-menu-1" className="[&_&[duck-preview]]:overflow-visible" />
+<ComponentPreview name="navigation-menu-1" className="[&>div>div>div[duck-preview]]:overflow-visible!" />
 
 ## Philosophy
 
@@ -123,24 +123,21 @@ Root container that wraps the navigation menu and optionally renders the viewpor
 | `viewport` | `boolean` | `true` | Whether to render the `NavigationMenuViewport` automatically |
 | `className` | `string` | `--` | Additional CSS classes for the root element |
 | `children` | `React.ReactNode` | `--` | Navigation menu list and other elements |
-
-*Also accepts all `NavigationMenuPrimitive.Root` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>` | -- | Additional props inherited from `NavigationMenu.Root`. |
 
 ### NavigationMenuList
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the list element |
-
-*Also accepts all `NavigationMenuPrimitive.List` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>` | -- | Additional props inherited from `NavigationMenu.List`. |
 
 ### NavigationMenuItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the menu item |
-
-*Also accepts all `NavigationMenuPrimitive.Item` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Item>` | -- | Additional props inherited from `NavigationMenu.Item`. |
 
 ### NavigationMenuTrigger
 
@@ -148,40 +145,35 @@ Root container that wraps the navigation menu and optionally renders the viewpor
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the trigger |
 | `children` | `React.ReactNode` | `--` | Trigger label content. A chevron icon is appended automatically |
-
-*Also accepts all `NavigationMenuPrimitive.Trigger` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>` | -- | Additional props inherited from `NavigationMenu.Trigger`. |
 
 ### NavigationMenuContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the content panel |
-
-*Also accepts all `NavigationMenuPrimitive.Content` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>` | -- | Additional props inherited from `NavigationMenu.Content`. |
 
 ### NavigationMenuLink
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the link |
-
-*Also accepts all `NavigationMenuPrimitive.Link` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Link>` | -- | Additional props inherited from `NavigationMenu.Link`. |
 
 ### NavigationMenuViewport
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the viewport |
-
-*Also accepts all `NavigationMenuPrimitive.Viewport` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>` | -- | Additional props inherited from `NavigationMenu.Viewport`. |
 
 ### NavigationMenuIndicator
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the indicator |
-
-*Also accepts all `NavigationMenuPrimitive.Indicator` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>` | -- | Additional props inherited from `NavigationMenu.Indicator`. |
 
 ### navigationMenuTriggerStyle
 

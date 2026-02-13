@@ -90,7 +90,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 | `className` | `string` | `--` | Additional class names to apply to the container |
 | `style` | `React.CSSProperties` | `--` | Inline styles applied to the container (aspect-ratio is merged automatically) |
 | `children` | `React.ReactNode` | `--` | Child element to render inside the aspect-ratio container |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Slot>` | -- | Additional props inherited from `Slot`. |
 
-*Uses a `Slot` wrapper, so the child element receives the aspect-ratio styles. Also accepts all standard `Slot` props.*
-
+*Uses a `Slot` wrapper, so the child element receives the aspect-ratio styles.*
 

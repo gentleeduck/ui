@@ -139,8 +139,7 @@ import {
 | `onValueChange` | `(value: string) => void` | -- | Callback fired when the selected value changes |
 | `scrollable` | `boolean` | `false` | Enables scroll buttons and makes the dropdown content scrollable |
 | `contextMenu` | `boolean` | -- | Whether to render as a context menu |
-
-*Also accepts all `Popover` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Additional props inherited from `Popover`. |
 
 ### SelectWrapper
 
@@ -153,8 +152,7 @@ Internal component managing refs, selection state, and event handlers. Uses `Sel
 | `customIndicator` | `React.ReactNode` | -- | Custom icon to display on the trigger instead of the default ChevronDown |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Trigger content |
-
-*Also accepts all `PopoverTrigger` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverTrigger>` | -- | Additional props inherited from `PopoverTrigger`. |
 
 ### SelectContent
 
@@ -162,8 +160,7 @@ Internal component managing refs, selection state, and event handlers. Uses `Sel
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Content to render inside the dropdown |
-
-*Also accepts all `PopoverContent` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Additional props inherited from `PopoverContent`. |
 
 ### SelectGroup
 
@@ -213,8 +210,7 @@ Internal component managing refs, selection state, and event handlers. Uses `Sel
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-
-*Also accepts all `Button` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `Button`. |
 
 ### SelectContext
 

@@ -137,16 +137,14 @@ You can adjust the size of the sheet using CSS classes:
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `closeButton` | `boolean` | `true` | Whether to show the default close button on the sheet |
-
-*Also accepts all `SheetPrimitive.Root` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Root>` | -- | Additional props inherited from `Sheet.Root`. |
 
 ### SheetTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Trigger content |
-
-*Also accepts all `SheetPrimitive.Trigger` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Trigger>` | -- | Additional props inherited from `Sheet.Trigger`. |
 
 ### SheetCloseX
 
@@ -164,16 +162,14 @@ You can adjust the size of the sheet using CSS classes:
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'right'` | The side from which the sheet slides in |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Sheet content |
-
-*Also accepts all `SheetPrimitive.Content` props and `VariantProps<typeof AnimSheetVariants>`.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & VariantProps<typeof AnimSheetVariants>` | -- | Additional props inherited from `Sheet.Content` and `VariantProps<typeof AnimSheetVariants>`. |
 
 ### SheetHeader
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-
-*Also accepts all `SheetPrimitive.Heading` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Heading>` | -- | Additional props inherited from `Sheet.Heading`. |
 
 ### SheetFooter
 
@@ -187,16 +183,14 @@ You can adjust the size of the sheet using CSS classes:
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-
-*Also accepts all `SheetPrimitive.Title` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>` | -- | Additional props inherited from `Sheet.Title`. |
 
 ### SheetDescription
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-
-*Also accepts all `SheetPrimitive.Description` props.*
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>` | -- | Additional props inherited from `Sheet.Description`. |
 
 ### SheetClose
 
