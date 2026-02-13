@@ -174,41 +174,83 @@ A non-dismissible drawer For cases when your drawer has to be always visible, No
 
 Wrapper around `DrawerPrimitive.Trigger`. Used to toggle the drawer open or closed.
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the trigger |
+| `children` | `React.ReactNode` | -- | Trigger content |
+
+*Also accepts all `DrawerPrimitive.Trigger` props.*
+
 ### DrawerPortal
 
 Wrapper around `DrawerPrimitive.Portal`. Renders drawer content in a React Portal.
+
+*Accepts all `DrawerPrimitive.Portal` props.*
 
 ### DrawerClose
 
 Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the close element |
+| `children` | `React.ReactNode` | -- | Close button content |
+
+*Also accepts all `DrawerPrimitive.Close` props.*
+
 ### DrawerOverlay
 
-*Accepts all `DrawerPrimitive.Overlay` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the overlay |
+
+*Also accepts all `DrawerPrimitive.Overlay` props.*
 
 ### DrawerContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `overlay` | `React.ComponentPropsWithRef<typeof DrawerOverlay>` | -- | Props forwarded to overlay |
+| `className` | `string` | -- | Additional CSS classes applied to the content panel |
+| `children` | `React.ReactNode` | -- | Drawer inner content |
+| `overlay` | `React.ComponentPropsWithRef<typeof DrawerOverlay>` | -- | Props forwarded to the `DrawerOverlay` |
 
 *Also accepts all `DrawerPrimitive.Content` props.*
 
 ### DrawerHeader
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the header |
+| `children` | `React.ReactNode` | -- | Header content |
+
+*Also accepts all standard HTML `div` props.*
 
 ### DrawerFooter
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the footer |
+| `children` | `React.ReactNode` | -- | Footer content |
+
+*Also accepts all standard HTML `div` props.*
 
 ### DrawerTitle
 
-*Accepts all `DrawerPrimitive.Title` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the title |
+| `children` | `React.ReactNode` | -- | Title text |
+
+*Also accepts all `DrawerPrimitive.Title` props.*
 
 ### DrawerDescription
 
-*Accepts all `DrawerPrimitive.Description` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes applied to the description |
+| `children` | `React.ReactNode` | -- | Description text |
+
+*Also accepts all `DrawerPrimitive.Description` props.*
 
 ## See also
 

@@ -135,44 +135,62 @@ import {
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | -- | Current selected value of the select component |
+| `defaultValue` | `string` | `''` | Uncontrolled initial value |
 | `onValueChange` | `(value: string) => void` | -- | Callback fired when the selected value changes |
 | `scrollable` | `boolean` | `false` | Enables scroll buttons and makes the dropdown content scrollable |
+| `contextMenu` | `boolean` | -- | Whether to render as a context menu |
 
 *Also accepts all `Popover` props.*
 
 ### SelectWrapper
 
-Internal component managing refs, selection state, and event handlers. Uses context `SelectContext` to expose state and refs. Handles initialization of items and groups, manages highlighting and selection.
+Internal component managing refs, selection state, and event handlers. Uses `SelectContext` to expose state and refs. Handles initialization of items and groups, manages highlighting and selection.
 
 ### SelectTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `customIndicator` | `React.ReactNode` | -- | Custom icon to display on the trigger instead of the default ChevronDown |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Trigger content |
 
 *Also accepts all `PopoverTrigger` props.*
 
 ### SelectContent
 
-*Accepts all `PopoverContent` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Content to render inside the dropdown |
+
+*Also accepts all `PopoverContent` props.*
 
 ### SelectGroup
 
-*Accepts all standard HTML `ul` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Group content (typically `SelectLabel` and `SelectItem` elements) |
+
+*Also accepts all standard HTML `ul` props.*
 
 ### SelectValue
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `placeholder` | `string \| number` | -- | Text to show when no value is selected |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Custom content to render |
 
-*Also accepts all standard HTML `div` props.*
+*Also accepts all standard HTML `div` props (except `placeholder`).*
 
 ### SelectLabel
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `htmlFor` | `string` | (required) | ID of the associated input or control |
+| `htmlFor` | `string` | -- | ID of the associated input or control |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Label text content |
 
 *Also accepts all standard HTML `label` props.*
 
@@ -182,16 +200,26 @@ Internal component managing refs, selection state, and event handlers. Uses cont
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | The value representing this item |
 | `disabled` | `boolean` | -- | Whether the item is disabled |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Item content |
 
-*Also accepts all standard HTML `li` props.*
+*Also accepts all standard HTML `li` props (except `value`).*
 
 ### SelectSeparator
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+
+*Also accepts all standard HTML `div` props.*
 
 ### SelectScrollUpButton / SelectScrollDownButton
 
-*Accepts all `Button` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+
+*Also accepts all `Button` props.*
 
 ### SelectContext
 
@@ -201,10 +229,9 @@ The context exposes:
 | --- | --- | --- |
 | `open` | `boolean` | Dropdown open state |
 | `value` | `string` | Current selected value |
-| `wrapperRef` | `React.RefObject` | Ref to the outer wrapper `<div>` |
-| `triggerRef` | `React.RefObject` | Ref to the trigger button `<div>` |
-| `contentRef` | `React.RefObject` | Ref to the scrollable dropdown content `<div>` |
-| `groupsRef` | `React.RefObject` | Ref to groups `<ul>` elements |
-| `itemsRef` | `React.RefObject` | Ref to the list of select items `<li>` |
+| `triggerRef` | `React.RefObject<HTMLButtonElement \| null>` | Ref to the trigger button |
+| `contentRef` | `React.RefObject<HTMLDivElement \| null>` | Ref to the scrollable dropdown content `<div>` |
+| `groupsRef` | `React.RefObject<HTMLUListElement[] \| null>` | Ref to groups `<ul>` elements |
+| `itemsRef` | `React.RefObject<HTMLLIElement[] \| null>` | Ref to the list of select items `<li>` |
 | `selectedItem` | `HTMLLIElement \| null` | Currently selected item DOM element |
 | `scrollable` | `boolean` | If the dropdown is scrollable |

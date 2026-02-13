@@ -106,64 +106,133 @@ ContextMenu shares the same props as [DropdownMenu](/docs/components/dropdown-me
 
 Root wrapper. Renders a `DropdownMenu` with `contextMenu` set to `true`.
 
-*Accepts all `DropdownMenu` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Context menu content (trigger + menu content) |
+
+*Also accepts all `DropdownMenu` props.*
 
 ### ContextMenuTrigger
 
 The right-click target area. Renders a `DropdownMenuTrigger` with default dimensions and dashed border styling.
 
-*Accepts all `DropdownMenuTrigger` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes (merged with default `h-[200px] w-[300px]` styling) |
+| `children` | `React.ReactNode` | -- | Trigger area content |
+
+*Also accepts all `DropdownMenuTrigger` props.*
 
 ### ContextMenuContent
 
-*Accepts all `DropdownMenuContent` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes (merged with `fixed` positioning) |
+| `children` | `React.ReactNode` | -- | Menu items and groups |
+
+*Also accepts all `DropdownMenuContent` props.*
 
 ### ContextMenuItem
 
-*Accepts all `DropdownMenuItem` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes |
+| `children` | `React.ReactNode` | -- | Item content |
+
+*Also accepts all `DropdownMenuItem` props (`inset`, `disabled`, etc.).*
 
 ### ContextMenuCheckboxItem
 
-*Accepts all `DropdownMenuCheckboxItem` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `checked` | `boolean` | -- | Whether the item is checked |
+| `onCheckedChange` | `(checked: boolean) => void` | -- | Callback when checked state changes |
+| `children` | `React.ReactNode` | -- | Item content |
+
+*Also accepts all `DropdownMenuCheckboxItem` props.*
 
 ### ContextMenuRadioGroup
 
-*Accepts all `DropdownMenuRadioGroup` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | `ContextMenuRadioItem` elements |
+
+*Also accepts all `DropdownMenuRadioGroup` props.*
 
 ### ContextMenuRadioItem
 
-*Accepts all `DropdownMenuRadioItem` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Item content |
+
+*Also accepts all `DropdownMenuRadioItem` props.*
 
 ### ContextMenuLabel
 
-*Accepts all `DropdownMenuLabel` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes |
+| `inset` | `boolean` | -- | When `true`, adds left padding for alignment with items |
+| `children` | `React.ReactNode` | -- | Label content |
+
+*Also accepts all `DropdownMenuLabel` props.*
 
 ### ContextMenuSeparator
 
-*Accepts all `DropdownMenuSeparator` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes |
+
+*Also accepts all `DropdownMenuSeparator` props.*
 
 ### ContextMenuShortcut
 
-*Accepts all `DropdownMenuShortcut` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `keys` | `string` | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
+| `onKeysPressed` | `() => void` | -- | Callback when shortcut keys are pressed |
+| `colored` | `boolean` | `false` | Whether to apply a colored background |
+
+*Also accepts all `DropdownMenuShortcut` props.*
 
 ### ContextMenuGroup
 
-*Accepts all `DropdownMenuGroup` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes |
+| `children` | `React.ReactNode` | -- | Group content |
+
+*Also accepts all `DropdownMenuGroup` props.*
 
 ### ContextMenuSub
 
 Submenu wrapper.
 
-*Accepts all `DropdownMenuSub` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Sub-trigger and sub-content elements |
+
+*Also accepts all `DropdownMenuSub` props.*
 
 ### ContextMenuSubTrigger
 
 Submenu trigger element.
 
-*Accepts all `DropdownMenuSubTrigger` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes |
+| `inset` | `boolean` | `false` | When `true`, adds left padding for alignment |
+| `children` | `React.ReactNode` | -- | Trigger content |
+
+*Also accepts all `DropdownMenuSubTrigger` props.*
 
 ### ContextMenuSubContent
 
 Submenu content container.
 
-*Accepts all `DropdownMenuSubContent` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes |
+| `children` | `React.ReactNode` | -- | Submenu items |
+
+*Also accepts all `DropdownMenuSubContent` props.*

@@ -128,7 +128,10 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `viewportClassName` | `string` | `--` | Additional CSS classes to apply to the scroll viewport container |
+| `viewportClassName` | `string` | `--` | Additional CSS classes for the inner scrollable viewport |
+| `className` | `string` | `--` | Additional CSS classes for the outer container |
+| `style` | `React.CSSProperties` | `--` | Inline styles for the outer container |
+| `children` | `React.ReactNode` | `--` | Scrollable content |
 
 *Also accepts all standard HTML `div` props.*
 

@@ -165,16 +165,32 @@ export default function Example() {
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `props` | `React.ComponentProps<typeof ResizablePrimitive.PanelGroup>` | -- | Native props forwarded to the underlying `PanelGroup` component |
+| `direction` | `"horizontal" \| "vertical"` | (required) | Layout direction of the panels |
+| `className` | `string` | `--` | Additional CSS classes for the panel group |
+| `children` | `React.ReactNode` | `--` | `ResizablePanel` and `ResizableHandle` elements |
+
+*Also accepts all `react-resizable-panels` `PanelGroup` props (e.g. `autoSaveId`, `onLayout`).*
 
 ### ResizablePanel
 
-*Also accepts all standard `react-resizable-panels` `Panel` props.*
+Re-exports `Panel` from `react-resizable-panels` directly.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `defaultSize` | `number` | `--` | Default size of the panel as a percentage (0-100) |
+| `minSize` | `number` | `--` | Minimum size of the panel as a percentage |
+| `maxSize` | `number` | `--` | Maximum size of the panel as a percentage |
+| `collapsible` | `boolean` | `false` | Whether the panel can be collapsed |
+| `className` | `string` | `--` | Additional CSS classes for the panel |
+| `children` | `React.ReactNode` | `--` | Panel content |
+
+*Also accepts all `react-resizable-panels` `Panel` props.*
 
 ### ResizableHandle
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `withHandle` | `boolean` | `false` | Whether to render the visible handle UI (grip icon) |
+| `withHandle` | `boolean` | `--` | Whether to render the visible grip icon handle |
+| `className` | `string` | `--` | Additional CSS classes for the resize handle |
 
-*Also accepts all standard `React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle>` props.*
+*Also accepts all `react-resizable-panels` `PanelResizeHandle` props.*

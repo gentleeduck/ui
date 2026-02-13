@@ -91,29 +91,44 @@ import {
 
 ### HoverCard
 
+Root wrapper that provides hover-card state and context. Wraps `HoverCardPrimitive.Root` internally.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `skipDelayDuration` | `boolean` | `--` | Skip the delay duration before showing the card |
+| `placement` | `Placement` | `'top'` | Position of the hover card relative to the trigger |
+| `skipDelayDuration` | `number` | `--` | Time in milliseconds to skip the delay when rapidly moving between triggers |
 | `delayDuration` | `number` | `--` | Delay time in milliseconds before showing the card |
-| `placement` | `string` | `'bottom'` | Position of the hover card relative to the trigger |
+| `open` | `boolean` | `--` | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
+| `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
+| `children` | `React.ReactNode` | `--` | HoverCard sub-components |
 
-*Also accepts all standard `HoverCardPrimitive.Root` props.*
+*Also accepts all `HoverCardPrimitive.Root` props (`sideOffset`, `alignOffset`, `mainAxis`, `modal`).*
 
 ### HoverCardTrigger
 
+The element that triggers the hover card on hover. Renders a `Button` internally.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `string` | `'outline'` | Variant style applied to the internal button |
+| `variant` | `string` | `'outline'` | Variant style applied to the internal `Button` |
 | `asChild` | `boolean` | `false` | Whether to use the child as the trigger element directly |
+| `children` | `React.ReactNode` | `--` | Content rendered inside the trigger button |
 
-*Also accepts all standard `HoverCardPrimitive.Trigger` and `Button` props.*
+*Also accepts all `HoverCardPrimitive.Trigger` and `Button` props.*
 
 ### HoverCardContent
 
+The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Content` with animation and styling.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `animation` | `string` | `'default'` | Animation variant controlling content appearance, from `AnimDialogVariants` |
-| `overlay` | `string` | `'nothing'` | Overlay style variant from `AnimVariants` |
+| `className` | `string` | `--` | Additional CSS classes to apply to the content container |
+| `children` | `React.ReactNode` | `--` | Content rendered inside the hover card |
+| `forceMount` | `boolean` | `true` | Keep content mounted for CSS-driven animations |
+| `renderOnce` | `boolean` | `true` | Keep content mounted after first open |
+| `lockScroll` | `boolean` | `false` | Locks page scroll while the hover card is open |
+| `disabled` | `boolean` | `true` | Disables focus management when true |
 
-*Also accepts all standard `HoverCardPrimitive.Content` props.*
+*Also accepts all `HoverCardPrimitive.Content` props and standard HTML `div` props.*
 

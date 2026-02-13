@@ -128,9 +128,11 @@ import { Checkbox } from "@/components/ui/checkbox"
 | `checked` | `boolean \| 'indeterminate'` | -- | Controlled checked state |
 | `defaultChecked` | `boolean \| 'indeterminate'` | `false` | Initial checked state if uncontrolled |
 | `onCheckedChange` | `(checked: boolean \| 'indeterminate') => void` | -- | Callback fired when checked state changes |
+| `className` | `string` | -- | Additional CSS classes applied to the checkbox input |
+| `style` | `React.CSSProperties` | -- | Inline styles merged with internal indicator styles |
 | `ref` | `React.Ref<HTMLInputElement>` | -- | Ref forwarded to the native checkbox input |
 
-*Also accepts all standard HTML `input` props.*
+*Also accepts all standard HTML `input` props (except `checked`, `onChange`, `defaultChecked` which are replaced by custom props above).*
 
 ### CheckboxWithLabel
 
@@ -139,6 +141,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 | `id` | `string` | (required) | HTML `id` attribute to link checkbox and label |
 | `_checkbox` | `React.ComponentPropsWithoutRef<typeof Checkbox>` | (required) | Props passed to the internal `Checkbox` component |
 | `_label` | `React.ComponentPropsWithoutRef<typeof Label>` | (required) | Props passed to the internal `Label` component |
+| `className` | `string` | -- | Additional CSS classes applied to the wrapping div |
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the wrapping div |
 
 *Also accepts all standard HTML `div` props.*
@@ -147,11 +150,22 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `subtasks` | `Array<{ id: string; title: string; checked?: boolean \| 'indeterminate' }>` | (required) | Array of subtasks to render as individual checkboxes with labels |
+| `subtasks` | `CheckboxGroupSubtasks[]` | (required) | Array of subtasks to render as individual checkboxes with labels |
 | `subtasks_default_values` | `CheckboxWithLabelProps` | -- | Default props applied to each checkbox and label in the group |
+| `className` | `string` | -- | Additional CSS classes applied to the wrapping div |
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the wrapping div |
 
 *Also accepts all standard HTML `div` props.*
+
+### CheckboxGroupSubtasks
+
+```tsx
+type CheckboxGroupSubtasks = {
+  id: string
+  title: string
+  checked?: boolean | 'indeterminate'
+}
+```
 
 ## See also
 

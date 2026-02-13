@@ -131,20 +131,28 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `string` | `'default'` | Visual style variant for the toggles (passed down to items) |
-| `size` | `string` | `--` | Size variant for the toggles (passed down to items) |
-| `type` | `'single' \| 'multiple'` | `--` | Determines selection behavior. `'single'` allows only one toggle selected at a time; `'multiple'` allows multiple toggles selected |
-| `onValueChange` | `(value: string) => void` | `--` | Callback invoked when a toggle item is selected or deselected |
+| `className` | `string` | -- | Additional CSS class names to apply |
+| `variant` | `'default' \| 'outline'` | `'default'` | Visual style variant for the toggles (passed down to items via context) |
+| `size` | `'default' \| 'sm' \| 'lg'` | -- | Size variant for the toggles (passed down to items via context) |
+| `type` | `'single' \| 'multiple'` | -- | Determines selection behavior. `'single'` allows only one toggle selected at a time; `'multiple'` allows multiple toggles selected |
+| `onValueChange` | `(value: string) => void` | -- | Callback invoked when a toggle item is selected or deselected |
+| `value` | `string \| string[]` | -- | Controlled selected value(s) |
+| `defaultValue` | `string \| string[]` | -- | Uncontrolled initial selected value(s) |
+| `children` | `React.ReactNode` | -- | ToggleGroupItem elements to render inside the group |
+| `ref` | `React.Ref<HTMLUListElement>` | -- | Ref forwarded to the underlying `ul` element |
 
-*Also accepts all standard HTML `ul` props.*
+*Also accepts all standard HTML `ul` props (via `Omit<React.HTMLProps<HTMLUListElement>, 'size'>`).*
 
 ### ToggleGroupItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `string` | `--` | Visual style variant for the toggle item |
-| `size` | `string` | `--` | Size variant for the toggle item |
+| `className` | `string` | -- | Additional CSS class names to apply |
+| `variant` | `'default' \| 'outline'` | -- | Visual style variant for this item (overrides group context) |
+| `size` | `'default' \| 'sm' \| 'lg'` | -- | Size variant for this item (overrides group context) |
 | `value` | `string` | (required) | The unique value identifying this toggle item |
+| `children` | `React.ReactNode` | -- | Content rendered inside the toggle item |
+| `ref` | `React.Ref<HTMLInputElement>` | -- | Ref forwarded to the underlying Toggle component |
 
-*Also accepts all standard `Toggle.Toggle` props.*
+*Also accepts all `Toggle` component props (via `React.ComponentPropsWithRef<typeof Toggle>`).*
 

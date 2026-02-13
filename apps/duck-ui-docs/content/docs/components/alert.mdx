@@ -87,23 +87,26 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `'default' \| 'destructive'` | `'default'` | Visual style variant for the alert |
-| `className` | `string` | -- | Additional class names to apply |
+| `className` | `string` | -- | Additional CSS classes applied to the alert container |
+| `children` | `React.ReactNode` | -- | Alert content, typically an icon, AlertTitle, and AlertDescription |
 
-*Also accepts all standard HTML `div` props.*
+*Also accepts all standard `React.ComponentProps<'div'>` props.*
 
 ### AlertTitle
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names to apply |
+| `className` | `string` | -- | Additional CSS classes applied to the title element |
+| `children` | `React.ReactNode` | -- | Title text content |
 
-*Also accepts all standard HTML `div` props.*
+*Also accepts all standard `React.ComponentProps<'div'>` props.*
 
 ### AlertDescription
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names to apply |
+| `className` | `string` | -- | Additional CSS classes applied to the description element |
+| `children` | `React.ReactNode` | -- | Description text content |
 
-*Also accepts all standard HTML `div` props.*
+*Also accepts all standard `React.ComponentProps<'div'>` props.*
 

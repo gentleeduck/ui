@@ -620,6 +620,12 @@ The top-level wrapper component for all charts. Provides chart context and appli
 
 *Also accepts all standard `HTMLDivElement` attributes.*
 
+### ChartTooltip
+
+Re-export of `RechartsPrimitive.Tooltip`. Use this as the wrapper and pass `<ChartTooltipContent />` via its `content` prop.
+
+*Accepts all standard Recharts `Tooltip` props.*
+
 ### ChartTooltipContent
 
 Custom content renderer for `<ChartTooltip>` (Recharts `Tooltip`). Reads theme colors from chart context.
@@ -640,6 +646,12 @@ Custom content renderer for `<ChartTooltip>` (Recharts `Tooltip`). Reads theme c
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the tooltip container `div`. |
 
 *Also accepts all Recharts `Tooltip` props (`active`, `payload`, etc.) and standard `HTMLDivElement` attributes.*
+
+### ChartLegend
+
+Re-export of `RechartsPrimitive.Legend`. Use this as the wrapper and pass `<ChartLegendContent />` via its `content` prop.
+
+*Accepts all standard Recharts `Legend` props.*
 
 ### ChartLegendContent
 

@@ -91,30 +91,54 @@ import { Slider } from "@/components/ui/slider"
 
 ## API Reference
 
-### Slider.Root
+### Slider
+
+A single-thumb slider. Internally composes `SliderPrimitive.Root`, `SliderPrimitive.Track`, `SliderPrimitive.Range`, and `SliderPrimitive.Thumb`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+
+*Also accepts all `SliderPrimitive.Root` props (including `min`, `max`, `step`, `value`, `defaultValue`, `onValueChange`, `orientation`, `rtl`).*
+
+### SliderRange
+
+A dual-thumb range slider. Internally composes `SliderPrimitive.Root`, `SliderPrimitive.Track`, `SliderPrimitive.Range`, and two `SliderPrimitive.Thumb` elements (index 0 and 1).
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+
+*Also accepts all `SliderPrimitive.Root` props (including `min`, `max`, `step`, `value`, `defaultValue`, `onValueChange`, `orientation`, `rtl`).*
+
+### Primitive Sub-components
+
+The following primitives are used internally by `Slider` and `SliderRange`:
+
+#### SliderPrimitive.Root
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `min` | `number` | `0` | Minimum allowed value |
 | `max` | `number` | `100` | Maximum allowed value |
 | `step` | `number` | `1` | Increment step for values |
-| `value` | `number[]` | `--` | Controlled values array (one or two values for range sliders) |
+| `value` | `number[]` | -- | Controlled values array (one or two values for range sliders) |
 | `defaultValue` | `number[]` | `[50]` | Uncontrolled initial values |
-| `onValueChange` | `(value: number[]) => void` | `--` | Callback fired when slider values change |
+| `onValueChange` | `(value: number[]) => void` | -- | Callback fired when slider values change |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
 | `rtl` | `boolean` | `false` | Enables right-to-left layout support |
 
 *Also accepts all standard HTML `div` props (except `defaultValue`).*
 
-### Slider.Track
+#### SliderPrimitive.Track
 
 *Accepts all standard HTML `div` props.*
 
-### Slider.Range
+#### SliderPrimitive.Range
 
 *Accepts all standard HTML `div` props.*
 
-### Slider.Thumb
+#### SliderPrimitive.Thumb
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -127,8 +151,8 @@ import { Slider } from "@/components/ui/slider"
 * **`SliderContext`**: React context providing slider state and methods:
 
   * `min`, `max`, `step`, `values`, `orientation`, `rtl`
-  * `trackRef` — Ref to track element.
-  * `setValueAt(index, value)` — Updates value for a specific thumb.
-  * `positionToValue(pos, rect)` — Converts pointer position to slider value.
+  * `trackRef` -- Ref to track element.
+  * `setValueAt(index, value)` -- Updates value for a specific thumb.
+  * `positionToValue(pos, rect)` -- Converts pointer position to slider value.
 
-* **`useSliderContext()`**: Hook for accessing `SliderContext`. Throws an error if used outside `Slider.Root`.
+* **`useSliderContext()`**: Hook for accessing `SliderContext`. Throws an error if used outside `SliderPrimitive.Root`.

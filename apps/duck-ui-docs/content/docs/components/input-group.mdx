@@ -181,14 +181,14 @@ export function InputGroupCustom() {
 
 ### InputGroup
 
-The main component that wraps inputs and addons.
+The root container that wraps inputs and addons into a unified group with shared border and focus states.
 
-```tsx
-<InputGroup>
-  <InputGroupInput />
-  <InputGroupAddon />
-</InputGroup>
-```
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `--` | InputGroup sub-components to render inside the group |
+
+*Also accepts all standard HTML `div` props.*
 
 ### InputGroupAddon
 
@@ -199,66 +199,54 @@ Displays icons, text, buttons, or other content alongside inputs.
   after the input. Set the `align` prop to position the addon.
 </Callout>
 
-* **align**: The alignment of the addon. Use `"inline-start"`, `"inline-end"`, `"block-start"`, or `"block-end"`.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `align` | `'inline-start' \| 'inline-end' \| 'block-start' \| 'block-end'` | `'inline-start'` | Position of the addon relative to the input. Use `inline-start`/`inline-end` with `InputGroupInput` and `block-start`/`block-end` with `InputGroupTextarea`. |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `--` | Icons, text, buttons, or other content |
 
-```tsx
-<InputGroupAddon align="inline-end">
-  <SearchIcon />
-</InputGroupAddon>
-```
-
-**For `<InputGroupInput />`, use the `inline-start` or `inline-end` alignment. For `<InputGroupTextarea />`, use the `block-start` or `block-end` alignment.**
-
-The `InputGroupAddon` component can have multiple `InputGroupButton` components and icons.
-
-```tsx
-<InputGroupAddon>
-  <InputGroupButton>Button</InputGroupButton>
-  <InputGroupButton>Button</InputGroupButton>
-</InputGroupAddon>
-```
+*Also accepts all standard HTML `div` props.*
 
 ### InputGroupButton
 
-Displays buttons within input groups.
+A button styled for use within input groups. Renders a `Button` with compact sizing defaults.
 
-* **size**: The size of the button. Use `"xs"`, `"icon-xs"`, `"sm"`, or `"icon-sm"`.
-* **variant**: The variant of the button. Use `"default"`, `"destructive"`, `"outline"`, `"secondary"`, `"ghost"`, or `"link"`.
-* **className**: Additional classes to apply to the button.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `'xs' \| 'icon-xs' \| 'sm' \| 'icon-sm'` | `'xs'` | Size of the button |
+| `variant` | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link' \| 'dashed' \| 'warning' \| 'nothing' \| 'expand_icon'` | `'ghost'` | Visual variant of the button |
+| `type` | `string` | `'button'` | The HTML button type attribute |
+| `className` | `string` | `--` | Additional CSS classes to apply |
 
-```tsx
-<InputGroupButton>Button</InputGroupButton>
-<InputGroupButton size="icon-xs" aria-label="Copy">
-  <CopyIcon />
-</InputGroupButton>
-```
+*Also accepts all `Button` props (except `size`, which uses the input-group-specific variants above).*
+
+### InputGroupText
+
+A styled span for displaying static text within input groups.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `--` | Text or icon content to display |
+
+*Also accepts all standard HTML `span` props.*
 
 ### InputGroupInput
 
-Replacement for `<Input />` when building input groups. This component has the input group styles pre-applied and uses the unified `data-slot="input-group-control"` for focus state handling.
+Replacement for `<Input />` when building input groups. Has input group styles pre-applied and uses the unified `data-slot="input-group-control"` for focus state handling.
 
-All other props are passed through to the underlying `<Input />` component.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes to apply |
 
-```tsx
-<InputGroup>
-  <InputGroupInput placeholder="Enter text..." />
-  <InputGroupAddon>
-    <SearchIcon />
-  </InputGroupAddon>
-</InputGroup>
-```
+*Also accepts all standard HTML `input` props (`placeholder`, `disabled`, `value`, `onChange`, etc.).*
 
 ### InputGroupTextarea
 
-Replacement for `<Textarea />` when building input groups. This component has the textarea group styles pre-applied and uses the unified `data-slot="input-group-control"` for focus state handling.
+Replacement for `<Textarea />` when building input groups. Has textarea group styles pre-applied and uses the unified `data-slot="input-group-control"` for focus state handling.
 
-All other props are passed through to the underlying `<Textarea />` component.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes to apply |
 
-```tsx
-<InputGroup>
-  <InputGroupTextarea placeholder="Enter message..." />
-  <InputGroupAddon align="block-end">
-    <InputGroupButton>Send</InputGroupButton>
-  </InputGroupAddon>
-</InputGroup>
-```
+*Also accepts all standard HTML `textarea` props (`placeholder`, `disabled`, `value`, `onChange`, `rows`, etc.).*

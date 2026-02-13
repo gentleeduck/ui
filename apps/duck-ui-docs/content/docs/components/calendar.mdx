@@ -464,9 +464,9 @@ This will install the latest version of the calendar blocks.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `day` | `DateObj` | (required) | The date object for this cell from `react-day-picker` |
-| `modifiers` | `DayModifiers` | (required) | Selection and state flags for the day (e.g., `selected`, `range_start`) |
-| `className` | `string` | -- | Additional class names for styling the day button |
+| `day` | `CalendarDay` | (required) | The day object for this cell from `react-day-picker` |
+| `modifiers` | `Modifiers` | (required) | Selection and state flags for the day (e.g., `selected`, `range_start`, `range_end`) |
+| `className` | `string` | -- | Additional CSS classes for styling the day button |
 
 *Also accepts all standard `React.ComponentProps<typeof DayButton>` props.*
 

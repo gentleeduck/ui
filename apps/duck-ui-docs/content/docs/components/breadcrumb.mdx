@@ -238,34 +238,62 @@ It displays a dropdown on desktop and a drawer on mobile.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `separator` | `React.ReactNode` | `ChevronRight` | Custom separator element between breadcrumb items |
+| `separator` | `React.ReactNode` | `--` | Custom separator element between breadcrumb items |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Breadcrumb content (typically a `BreadcrumbList`) |
 
 *Also accepts all standard HTML `nav` props.*
 
 ### BreadcrumbList
 
-*Accepts all standard HTML `ol` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | List of `BreadcrumbItem` elements |
+
+*Also accepts all standard HTML `ol` props.*
 
 ### BreadcrumbItem
 
-*Accepts all standard HTML `li` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Item content (typically a `BreadcrumbLink` or `BreadcrumbPage`) |
+
+*Also accepts all standard HTML `li` props.*
 
 ### BreadcrumbLink
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | If `true`, uses the `Slot` component instead of rendering an `<a>` directly |
+| `asChild` | `boolean` | `--` | If `true`, uses the `Slot` component instead of rendering an `<a>` directly |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Link content |
 
 *Also accepts all standard HTML `a` props.*
 
 ### BreadcrumbPage
 
-*Accepts all standard HTML `span` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Page content (rendered with `aria-current="page"`) |
+
+*Also accepts all standard HTML `a` props.*
 
 ### BreadcrumbSeparator
 
-*Accepts all standard HTML `li` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `<ChevronRight />` | Custom separator icon; defaults to a `ChevronRight` icon |
+
+*Also accepts all standard HTML `div` props.*
 
 ### BreadcrumbEllipsis
 
-*Accepts all standard HTML `span` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional class names to apply |
+
+*Also accepts all standard HTML `span` props.*

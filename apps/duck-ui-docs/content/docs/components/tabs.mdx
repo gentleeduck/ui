@@ -85,26 +85,30 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | `--` | Controlled active tab value. Must be used alongside `onValueChange` |
-| `defaultValue` | `string` | `--` | Uncontrolled initial tab value |
-| `onValueChange` | `(value: string) => void` | `--` | Callback fired when the active tab changes |
+| `value` | `string` | -- | Controlled active tab value. Must be used alongside `onValueChange` |
+| `defaultValue` | `string` | -- | Uncontrolled initial tab value |
+| `onValueChange` | `(value: string) => void` | -- | Callback fired when the active tab changes |
 
-*Also accepts all standard HTML `div` props.*
+*Also accepts all standard HTML `div` props (except `defaultValue`).*
 
 ### TabsList
 
-*Accepts all standard HTML `ul` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | `TabsTrigger` elements |
 
-Rendered with `role="tablist"` and `aria-orientation="vertical"` (can be changed later).
+*Also accepts all standard HTML `ul` props.*
 
 ### TabsTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | A unique value that identifies this tab trigger |
-| `defaultChecked` | `boolean` | `--` | If true, sets this tab as the default active tab on first render |
-| `disabled` | `boolean` | `--` | Disables the tab trigger from user interaction |
-| `children` | `ReactNode` | `--` | Label or node to render inside the tab |
+| `defaultChecked` | `boolean` | -- | If true, sets this tab as the default active tab on first render |
+| `disabled` | `boolean` | -- | Disables the tab trigger from user interaction |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Label or node to render inside the tab |
 
 *Also accepts all standard HTML `li` props.*
 
@@ -113,7 +117,8 @@ Rendered with `role="tablist"` and `aria-orientation="vertical"` (can be changed
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | The associated value that matches a `TabsTrigger` |
-| `forceMount` | `boolean` | `true` | Ensures the content is mounted even when hidden |
-| `children` | `ReactNode` | `--` | Tab panel content |
+| `forceMount` | `boolean` | `false` | If true, the content stays mounted in the DOM even when hidden |
+| `className` | `string` | -- | Additional CSS class names |
+| `children` | `React.ReactNode` | -- | Tab panel content |
 
 *Also accepts all standard HTML `div` props.*

@@ -207,110 +207,113 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 
 Container that renders a semantic `fieldset` with spacing presets.
 
-```tsx
-<FieldSet>
-  <FieldLegend>Delivery</FieldLegend>
-  <FieldGroup>{/* Fields */}</FieldGroup>
-</FieldSet>
-```
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Fieldset content |
+
+*Also accepts all standard HTML `fieldset` props.*
 
 ### FieldLegend
 
 Legend element for a `FieldSet`. Switch to the `label` variant to align with label sizing.
 
-* **variant**: Use `"legend"` for a regular legend, or `"label"` for a label-sized legend.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `'legend' \| 'label'` | `'legend'` | Visual variant controlling text size |
+| `className` | `string` | `--` | Additional CSS classes |
 
-```tsx
-<FieldLegend variant="label">Notification Preferences</FieldLegend>
-```
-
-The `FieldLegend` has two variants: `legend` and `label`. The `label` variant applies label sizing and alignment. Handy if you have nested `FieldSet`.
+*Also accepts all standard HTML `legend` props.*
 
 ### FieldGroup
 
 Layout wrapper that stacks `Field` components and enables container queries for responsive orientations.
 
-```tsx
-<FieldGroup className="@container/field-group flex flex-col gap-6">
-  <Field>{/* ... */}</Field>
-  <Field>{/* ... */}</Field>
-</FieldGroup>
-```
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Field components |
+
+*Also accepts all standard HTML `div` props.*
 
 ### Field
 
 The core wrapper for a single field. Provides orientation control, invalid state styling, and spacing.
 
-* **orientation**: Orientation of the field. Use `"horizontal"` for stacked labels and controls.
-* **data-invalid**: Renders the field in an invalid state.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `orientation` | `'vertical' \| 'horizontal' \| 'responsive'` | `'vertical'` | Layout orientation of the field |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Field content |
 
-```tsx
-<Field orientation="horizontal">
-  <FieldLabel htmlFor="remember">Remember me</FieldLabel>
-  <Switch id="remember" />
-</Field>
-```
+*Also accepts all standard HTML `div` props. Set `data-invalid` to render in an error state.*
 
 ### FieldContent
 
 Flex column that groups control and descriptions when the label sits beside the control. Not required if you have no description.
 
-```tsx
-<Field>
-  <Checkbox id="notifications" />
-  <FieldContent>
-    <FieldLabel htmlFor="notifications">Notifications</FieldLabel>
-    <FieldDescription>Email, SMS, and push options.</FieldDescription>
-  </FieldContent>
-</Field>
-```
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Label, description, and control content |
+
+*Also accepts all standard HTML `div` props.*
 
 ### FieldLabel
 
 Label styled for both direct inputs and nested `Field` children.
 
-* **asChild**: Renders the label as a child of the control. Useful for nested `Field` components.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Label text or nested field content |
 
-```tsx
-<FieldLabel htmlFor="email">Email</FieldLabel>
-```
+*Also accepts all `Label` props.*
 
 ### FieldTitle
 
 Renders a title with label styling inside `FieldContent`.
 
-```tsx
-<FieldContent>
-  <FieldTitle>Enable Touch ID</FieldTitle>
-  <FieldDescription>Unlock your device faster.</FieldDescription>
-</FieldContent>
-```
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Title text |
+
+*Also accepts all standard HTML `div` props.*
 
 ### FieldDescription
 
 Helper text slot that automatically balances long lines in horizontal layouts.
 
-```tsx
-<FieldDescription>We never share your email with anyone.</FieldDescription>
-```
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Description text |
+
+*Also accepts all standard HTML `p` props.*
 
 ### FieldSeparator
 
 Visual divider to separate sections inside a `FieldGroup`. Accepts optional inline content.
 
-```tsx
-<FieldSeparator>Or continue with</FieldSeparator>
-```
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | `--` | Optional inline content displayed over the separator |
+| `className` | `string` | `--` | Additional CSS classes |
+
+*Also accepts all standard HTML `div` props.*
 
 ### FieldError
 
 Accessible error container that accepts children or an `errors` array (e.g., from `react-hook-form`).
 
-* **errors**: Array of errors produced by a form library, such as `zod`, `valibot`, or `arktype`.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `errors` | `Array<{ message?: string } \| undefined>` | `--` | Array of error objects from a form library |
+| `children` | `React.ReactNode` | `--` | Custom error content (takes precedence over `errors`) |
+| `className` | `string` | `--` | Additional CSS classes |
 
-```tsx
-<FieldError errors={errors.username} />
-```
+*Also accepts all standard HTML `div` props.*
 
 When the `errors` array contains multiple messages, the component renders a list automatically.
 

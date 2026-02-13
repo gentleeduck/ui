@@ -182,28 +182,26 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `renderOnce` | `boolean` | `false` | Whether to render the content only once |
-| `overlay` | `string` | `'default'` | Overlay animation variant |
-| `closedby` | `string` | `'any'` | How the dialog can be closed |
-| `animation` | `string` | `'default'` | Dialog animation style |
-| `className` | `string` | -- | Additional class names |
+| `className` | `string` | -- | Additional CSS classes applied to the content panel |
 | `children` | `React.ReactNode` | -- | Dialog inner content |
 
-*Also accepts all `DialogContentProps` props.*
+*Also accepts all `DialogPrimitive.Content` props (`renderOnce`, `forceMount`, etc.).*
 
 ### DialogHeader
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names |
+| `className` | `string` | -- | Additional CSS classes applied to the header |
+| `children` | `React.ReactNode` | -- | Header content (typically `DialogTitle` and `DialogDescription`) |
 
-*Also accepts all standard HTML `div` props.*
+*Also accepts all `DialogPrimitive.Heading` props.*
 
 ### DialogFooter
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names |
+| `className` | `string` | -- | Additional CSS classes applied to the footer |
+| `children` | `React.ReactNode` | -- | Footer content (typically action buttons) |
 
 *Also accepts all standard HTML `div` props.*
 
@@ -211,21 +209,38 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names |
+| `className` | `string` | -- | Additional CSS classes applied to the title |
+| `children` | `React.ReactNode` | -- | Title text |
 
-*Also accepts all standard HTML `heading` props.*
+*Also accepts all `DialogPrimitive.Title` props.*
 
 ### DialogDescription
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names |
+| `className` | `string` | -- | Additional CSS classes applied to the description |
+| `children` | `React.ReactNode` | -- | Description text |
 
-*Also accepts all standard HTML `p` props.*
+*Also accepts all `DialogPrimitive.Description` props.*
 
 ### DialogClose
 
 Alias of `DialogTrigger`.
+
+### Responsive Variants
+
+The following responsive components automatically render a `Dialog` on desktop (>=768px) and a `Drawer` on mobile. Each accepts the same props as its non-responsive counterpart.
+
+| Component | Desktop renders | Mobile renders |
+| --- | --- | --- |
+| `DialogResponsive` | `Dialog` | `Drawer` |
+| `DialogTriggerResponsive` | `DialogTrigger` | `DrawerTrigger` |
+| `DialogContentResponsive` | `DialogContent` | `DrawerContent` |
+| `DialogHeaderResponsive` | `DialogHeader` | `DrawerHeader` |
+| `DialogFooterResponsive` | `DialogFooter` | `DrawerFooter` |
+| `DialogTitleResponsive` | `DialogTitle` | `DrawerTitle` |
+| `DialogDescriptionResponsive` | `DialogDescription` | `DrawerDescription` |
+| `DialogCloseResponsive` | `DialogClose` | `DrawerClose` |
 
 ## See also
 

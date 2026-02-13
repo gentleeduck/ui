@@ -142,6 +142,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Tooltip sub-components (`TooltipTrigger`, `TooltipContent`) |
 | `placement` | `Placement` | `'top'` | Tooltip placement relative to the trigger |
 | `open` | `boolean` | -- | Controlled open state |
 | `defaultOpen` | `boolean` | -- | Uncontrolled initial open state |
@@ -153,21 +154,36 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 | `mainAxis` | `boolean` | -- | Enables main-axis flipping while positioning |
 | `modal` | `boolean` | -- | Enables focus management for the tooltip content |
 
-*Also accepts all standard `React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>` props.*
+*Also accepts all `TooltipPrimitive.Root` props (via `React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>`).*
 
 ### TooltipTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Use the child element as the trigger |
-| `props` | `Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>` | -- | Additional props forwarded to the tooltip trigger element |
+| `asChild` | `boolean` | `false` | Renders the child element as the trigger instead of a `button` |
+| `children` | `React.ReactNode` | -- | Content rendered inside the trigger |
+| `className` | `string` | -- | Additional CSS class names to apply |
+
+*Also accepts all standard HTML button props (via `Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>`).*
 
 ### TooltipContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names to apply |
+| `children` | `React.ReactNode` | -- | Content rendered inside the tooltip |
+| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the content container |
 | `forceMount` | `boolean` | `true` | Keep the content mounted for CSS-driven animations |
+| `renderOnce` | `boolean` | `true` | Render content only once and reuse the DOM node |
 | `lockScroll` | `boolean` | `false` | Locks scroll while the tooltip is open |
 | `disabled` | `boolean` | `true` | Disables focus management when true |
 
-*Also accepts all standard `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` props.*
+*Also accepts all standard HTML `div` props (via `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>`).*
+
+### TooltipPortal
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Content to render inside the portal |
+
+*Renders children into a React portal to avoid layout clipping.*

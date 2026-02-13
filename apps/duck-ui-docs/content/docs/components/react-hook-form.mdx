@@ -306,23 +306,50 @@ See the following links for more examples on how to use the `<Form />` component
 
 ### FormItem
 
-*Accepts all standard HTML `div` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the form item wrapper |
+| `children` | `React.ReactNode` | `--` | Label, control, description, and message elements |
+
+*Also accepts all standard HTML `div` props.*
 
 ### FormLabel
 
-*Accepts all `Label` component props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the label |
+
+*Also accepts all `Label` component props. Automatically receives `htmlFor` and `data-error` from form context.*
 
 ### FormControl
 
-*Accepts all `Slot` component props from Radix UI.*
+Renders its child via `Slot`, injecting `id`, `aria-describedby`, and `aria-invalid` from the form field context.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | `--` | The form control element (input, select, etc.) |
+
+*Also accepts all `Slot` component props.*
 
 ### FormDescription
 
-*Accepts all standard HTML `p` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the description text |
+| `children` | `React.ReactNode` | `--` | Help text content |
+
+*Also accepts all standard HTML `p` props.*
 
 ### FormMessage
 
-*Accepts all standard HTML `p` props.*
+Displays the field's validation error message. If no error exists, renders `children` or nothing.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the message text |
+| `children` | `React.ReactNode` | `--` | Fallback content when no error is present |
+
+*Also accepts all standard HTML `p` props.*
 
 ### useFormField
 

@@ -134,15 +134,27 @@ const PaginationLink = ({...props }: ) => (
 
 ### Pagination
 
-*Accepts all standard HTML `nav` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the `nav` element |
+
+*Also accepts all standard HTML `nav` props.*
 
 ### PaginationContent
 
-*Accepts all standard HTML `ul` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the `ul` element |
+
+*Also accepts all standard HTML `ul` props.*
 
 ### PaginationItem
 
-*Accepts all standard HTML `li` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the `li` element |
+
+*Also accepts all standard HTML `li` props.*
 
 ### PaginationLink
 
@@ -155,23 +167,31 @@ const PaginationLink = ({...props }: ) => (
 
 ### PaginationPrevious
 
-Extends `PaginationLink` with:
+Extends `PaginationLink` with `aria-label="Go to previous page"`, left arrow icon, and text "Previous". Uses `'default'` size.
 
-* `aria-label="Go to previous page"`
-* Shows left arrow icon and text "Previous".
-* Uses `'default'` size and adds spacing classes.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the previous link |
+
+*Also accepts all `PaginationLink` props.*
 
 ### PaginationNext
 
-Extends `PaginationLink` with:
+Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and right arrow icon. Uses `'default'` size.
 
-* `aria-label="Go to next page"`
-* Shows text "Next" and right arrow icon.
-* Uses `'default'` size and adds spacing classes.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the next link |
+
+*Also accepts all `PaginationLink` props.*
 
 ### PaginationEllipsis
 
-*Accepts all standard HTML `span` props.*
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes for the ellipsis element |
+
+*Also accepts all standard HTML `span` props.*
 
 ### PaginationWrapper
 
