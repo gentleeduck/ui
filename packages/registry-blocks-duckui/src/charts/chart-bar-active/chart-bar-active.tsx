@@ -62,7 +62,7 @@ export default function Component() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
               axisLine={false}
@@ -71,7 +71,7 @@ export default function Component() {
               tickLine={false}
               tickMargin={10}
             />
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} defaultIndex={2} />
             <Bar
               activeBar={({ ...props }) => {
                 return (
@@ -84,7 +84,6 @@ export default function Component() {
                   />
                 )
               }}
-              activeIndex={2}
               dataKey="visitors"
               radius={8}
               strokeWidth={2}

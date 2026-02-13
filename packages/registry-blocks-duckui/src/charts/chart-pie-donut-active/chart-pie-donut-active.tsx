@@ -15,8 +15,7 @@ import {
   ChartTooltipContent,
 } from '@gentleduck/registry-ui-duckui/chart'
 import { TrendingUp } from 'lucide-react'
-import { Pie, PieChart, Sector } from 'recharts'
-import type { PieSectorDataItem } from 'recharts/types/polar/Pie'
+import { Pie, PieChart, Sector, type PieSectorDataItem } from 'recharts'
 
 export const description = 'A donut chart with an active sector'
 
@@ -64,9 +63,8 @@ export default function Component() {
       <CardContent className="flex-1 pb-0">
         <ChartContainer className="mx-auto aspect-square max-h-[250px]" config={chartConfig}>
           <PieChart>
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} defaultIndex={0} />
             <Pie
-              activeIndex={0}
               activeShape={({ outerRadius = 0, ...props }: PieSectorDataItem) => (
                 <Sector {...props} outerRadius={outerRadius + 10} />
               )}
