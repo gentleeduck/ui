@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.0.12
+
+### Patch Changes
+
+- d46534e: Update default sans font fallback from Geist to Montserrat
+
 ## 0.0.11
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @gentleduck/primitives
 
+## 0.2.0
+
+### Minor Changes
+
+- 36f9364: Add dynamic z-index layering system (useDynamicLayer) for correct stacking of nested overlays. Integrate into dialog, popover, sheet, and tooltip primitives. Fix scrollbar lock to use reference counting so concurrent overlays don't unlock prematurely.
+
 ## 0.1.45
 
 ### Patch Changes
