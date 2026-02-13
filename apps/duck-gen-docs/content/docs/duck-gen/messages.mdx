@@ -7,7 +7,7 @@ description: Learn how Duck Gen scans @duckgen tags and generates strongly-typed
 
 The messages extension scans your source files for exported constants tagged with `@duckgen`
 JSDoc comments. It reads the keys from those constants and generates TypeScript types that
-describe your message registry — giving you compile-time safety for i18n dictionaries,
+describe your message registry -- giving you compile-time safety for i18n dictionaries,
 error codes, and any other string-keyed data you define on the server.
 
 <MermaidDiagram chart={`flowchart TD
@@ -147,7 +147,7 @@ export const AuthMessages = {
 } as const
 ```
 
-The object **keys** become the message keys. The values can be anything — Duck Gen only
+The object **keys** become the message keys. The values can be anything -- Duck Gen only
 uses the keys.
 
 ### Mixing shared constants
@@ -234,7 +234,7 @@ type AllDicts = DuckgenMessageDictionaryByGroup
 
 ### DuckGenI18nMessages
 
-An alias of `DuckgenMessageDictionaryByGroup` — use whichever name reads better in your code.
+An alias of `DuckgenMessageDictionaryByGroup` -- use whichever name reads better in your code.
 
 ### DuckgenI18n
 
@@ -256,7 +256,7 @@ type FullI18n = DuckgenI18nByGroup<'en' | 'ar'>
 
 ### DuckgenScopedI18nByGroup
 
-Wraps all groups under a `server` scope — useful when you have both server-generated and
+Wraps all groups under a `server` scope -- useful when you have both server-generated and
 client-only messages:
 
 ```ts
@@ -362,12 +362,12 @@ together.
 | --- | --- |
 | Keys are just `string` | Add `as const` to your array or object. |
 | Group not appearing | Make sure the constant is **exported** and has a `@duckgen` JSDoc tag. |
-| Duplicate group warning | Two constants use the same group key — rename one. |
-| Duplicate const name | Two files export a constant with the same name — rename one. |
+| Duplicate group warning | Two constants use the same group key -- rename one. |
+| Duplicate const name | Two files export a constant with the same name -- rename one. |
 | Spread values missing | Duck Gen reads the literal values. If you spread a dynamic expression, those values may not be captured. Use `as const` on the source too. |
 
 ## Next steps
 
-- [Generated types reference](/docs/duck-gen/generated-types) — full type API for messages.
-- [Templates](/docs/templates) — complete example with messages, controllers, and Duck Query.
-- [Duck Query](/docs/duck-query) — pair your types with a type-safe HTTP client.
+- [Generated types reference](/docs/duck-gen/generated-types) -- full type API for messages.
+- [Templates](/docs/templates) -- complete example with messages, controllers, and Duck Query.
+- [Duck Query](/docs/duck-query) -- pair your types with a type-safe HTTP client.

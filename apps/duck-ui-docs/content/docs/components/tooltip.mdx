@@ -11,17 +11,17 @@ component: true
 
 ## Features
 
-- **Floating UI powered positioning** – Smart placement with `flip`, `shift`, and `offset` middleware.
-- **State-aware styling hooks** – `data-open` and `data-side` attributes for open state and placement styling.
-- **Transform-origin variable** – Uses `--duck-tooltip-content-transform-origin` for direction-aware animations.
-- **Customizable delays** – Control open/close delays with `delayDuration` and `skipDelayDuration`.
-- **Flexible triggers** – Wrap any element using `asChild`.
-- **Accessible by default** – Implements proper ARIA attributes and keyboard navigation.
-- **Portal rendering** – Renders tooltips in a portal to avoid layout clipping.
+- **Floating UI powered positioning** - Smart placement with `flip`, `shift`, and `offset` middleware.
+- **State-aware styling hooks** - `data-open` and `data-side` attributes for open state and placement styling.
+- **Transform-origin variable** - Uses `--duck-tooltip-content-transform-origin` for direction-aware animations.
+- **Customizable delays** - Control open/close delays with `delayDuration` and `skipDelayDuration`.
+- **Flexible triggers** - Wrap any element using `asChild`.
+- **Accessible by default** - Implements proper ARIA attributes and keyboard navigation.
+- **Portal rendering** - Renders tooltips in a portal to avoid layout clipping.
 
 ## Philosophy
 
-Tooltips are the lightest touch of contextual help — they appear on hover, require no interaction, and disappear when attention moves on. We build on Floating UI because positioning against viewport edges, scroll containers, and dynamic layouts is harder than it looks. The `data-open` and `data-side` attributes give you animation hooks without JavaScript state management.
+Tooltips are the lightest touch of contextual help -- they appear on hover, require no interaction, and disappear when attention moves on. We build on Floating UI because positioning against viewport edges, scroll containers, and dynamic layouts is harder than it looks. The `data-open` and `data-side` attributes give you animation hooks without JavaScript state management.
 
 ## How It's Built
 
@@ -132,9 +132,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 ## Styling Hooks
 
-- **`data-open`** – Set on trigger and content (`true`/`false`) for state-based styling.
-- **`data-side`** – Set on content (`top`, `right`, `bottom`, `left`) for placement-aware styles.
-- **`--duck-tooltip-content-transform-origin`** – CSS variable for animation transform origin.
+- **`data-open`** - Set on trigger and content (`true`/`false`) for state-based styling.
+- **`data-side`** - Set on content (`top`, `right`, `bottom`, `left`) for placement-aware styles.
+- **`--duck-tooltip-content-transform-origin`** - CSS variable for animation transform origin.
 
 ## API Reference
 

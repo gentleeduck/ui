@@ -131,7 +131,7 @@ logRoute('/api/unknown')     // error: type error
 ### RouteReq
 
 The request shape for a given route path. Returns an object with `body`, `query`, `params`,
-and `headers` fields — but only the fields that are **not `never`** for that route.
+and `headers` fields -- but only the fields that are **not `never`** for that route.
 
 ```ts
 type SigninReq = RouteReq<'/api/auth/signin'>
@@ -241,7 +241,7 @@ type AuthHeaders = GetHeaders<'/api/me'>
 
 ### GetRes
 
-An alias for `RouteRes` — use whichever reads better:
+An alias for `RouteRes` -- use whichever reads better:
 
 ```ts
 type SigninResponse = GetRes<'/api/auth/signin'>
@@ -467,7 +467,7 @@ const i18n: I18n = {
 
 ## Next steps
 
-- [API Routes guide](/docs/duck-gen/api-routes) — how routes are scanned and generated.
-- [Messages guide](/docs/duck-gen/messages) — how message tags work.
-- [Duck Query](/docs/duck-query) — use these types with a type-safe HTTP client.
-- [Templates](/docs/templates) — complete working example.
+- [API Routes guide](/docs/duck-gen/api-routes) -- how routes are scanned and generated.
+- [Messages guide](/docs/duck-gen/messages) -- how message tags work.
+- [Duck Query](/docs/duck-query) -- use these types with a type-safe HTTP client.
+- [Templates](/docs/templates) -- complete working example.

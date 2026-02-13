@@ -10,12 +10,12 @@ where each key is a route path and each value describes the HTTP method, request
 response type. This gives your client code compile-time knowledge of every route your server
 exposes.
 
-Duck Gen is designed for multiple frameworks. This guide documents the **NestJS adapter** — the
+Duck Gen is designed for multiple frameworks. This guide documents the **NestJS adapter** -- the
 first adapter shipped and currently tested.
 
 <Callout icon={<Target/>} title="What this means for you">
   After running `duck-gen`, your client code knows every route path, what data to send, and
-  what data comes back — all enforced by TypeScript. Misspell a route? Type error. Send the
+  what data comes back -- all enforced by TypeScript. Misspell a route? Type error. Send the
   wrong body shape? Type error. Forget a required param? Type error.
 </Callout>
 
@@ -23,9 +23,9 @@ first adapter shipped and currently tested.
 
 Duck Gen looks for three things in your source files:
 
-1. **Controller classes** — any class decorated with `@Controller()`.
-2. **HTTP method decorators** — methods inside controllers decorated with `@Get`, `@Post`, etc.
-3. **Parameter decorators** — `@Body`, `@Query`, `@Param`, and `@Headers` on method parameters.
+1. **Controller classes** -- any class decorated with `@Controller()`.
+2. **HTTP method decorators** -- methods inside controllers decorated with `@Get`, `@Post`, etc.
+3. **Parameter decorators** -- `@Body`, `@Query`, `@Param`, and `@Headers` on method parameters.
 
 ```ts title="Example: what Duck Gen reads"
 @Controller('users')          // controller path
@@ -49,7 +49,7 @@ with the GET method, `params: { id: string }`, `query: FindUserQuery`, and respo
 
 | Decorator | Description |
 | --- | --- |
-| `@Controller()` | No path prefix — routes start from `globalPrefix`. |
+| `@Controller()` | No path prefix -- routes start from `globalPrefix`. |
 | `@Controller('users')` | Adds `/users` prefix to all routes in this controller. |
 | `@Controller('admin/users')` | Nested paths work too. |
 
@@ -89,7 +89,7 @@ Each decorator accepts an optional string path:
 
 <Callout icon={<Lightbulb/>} title="Full DTO vs named property">
   When you use `@Body()` (no argument), the **entire parameter type** becomes the body type.
-  When you use `@Body('email')`, Duck Gen creates `{ email?: Type }` — an object with that
+  When you use `@Body('email')`, Duck Gen creates `{ email?: Type }` -- an object with that
   single optional field. The same logic applies to `@Query` and `@Headers`.
 </Callout>
 
@@ -142,9 +142,9 @@ Each route's request type is an object with up to four fields: `body`, `query`, 
 and `headers`. Fields that don't apply to a route are set to `never` and cleaned up
 by Duck Query's `CleanupNever` utility.
 
-### @Body — request body
+### @Body -- request body
 
-**Full body** — when `@Body()` is used without a property key, the parameter type becomes
+**Full body** -- when `@Body()` is used without a property key, the parameter type becomes
 the entire `body` type:
 
 ```ts
@@ -153,7 +153,7 @@ signin(@Body() body: SigninDto): Promise<AuthSession> { ... }
 // => body: SigninDto
 ```
 
-**Named property** — when `@Body('field')` is used, Duck Gen creates an object with that
+**Named property** -- when `@Body('field')` is used, Duck Gen creates an object with that
 field as optional:
 
 ```ts
@@ -162,7 +162,7 @@ update(@Body('email') email: string, @Body('name') name: string): Promise<UserDt
 // => body: { email?: string } & { name?: string }
 ```
 
-### @Query — query string
+### @Query -- query string
 
 Works the same as `@Body`:
 
@@ -176,7 +176,7 @@ list(@Query('page') page: number, @Query('limit') limit: number): Promise<UserDt
 // => query: { page?: number } & { limit?: number }
 ```
 
-### @Param — path parameters
+### @Param -- path parameters
 
 Path params are always **required** (not optional):
 
@@ -193,7 +193,7 @@ findPost(
 // => params: { userId: string } & { postId: string }
 ```
 
-### @Headers — request headers
+### @Headers -- request headers
 
 ```ts
 @Get('me')
@@ -419,7 +419,7 @@ export class AdminUsersController { ... }
 
 ## Next steps
 
-- [Configuration reference](/docs/duck-gen/configuration) — customize scanning and output behavior.
-- [Generated types reference](/docs/duck-gen/generated-types) — learn every exported type.
-- [Messages guide](/docs/duck-gen/messages) — generate typed i18n dictionaries.
-- [Duck Query](/docs/duck-query) — use generated types with a type-safe HTTP client.
+- [Configuration reference](/docs/duck-gen/configuration) -- customize scanning and output behavior.
+- [Generated types reference](/docs/duck-gen/generated-types) -- learn every exported type.
+- [Messages guide](/docs/duck-gen/messages) -- generate typed i18n dictionaries.
+- [Duck Query](/docs/duck-query) -- use generated types with a type-safe HTTP client.
