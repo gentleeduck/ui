@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { Portal } from '@gentleduck/primitives/dialog'
 import { Maximize } from 'lucide-react'
 import * as React from 'react'
 import type { FieldValues } from 'react-hook-form'
@@ -371,28 +372,31 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
           </Sheet>
         </>
       ) : null}
-      <AlertDialog onOpenChange={setConfirmDiscardOpen} open={confirmDiscardOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Discard changes?</AlertDialogTitle>
-            <AlertDialogDescription>
-              You have unsaved changes in the editor. If you close now, they will be lost.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setConfirmDiscardOpen(false)}>
-              <Button variant="outline" size="sm">
-                Keep editing
-              </Button>
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={discardSheetChanges}>
-              <Button variant="default" size="sm">
-                Discard
-              </Button>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+
+      <Portal>
+        <AlertDialog onOpenChange={setConfirmDiscardOpen} open={confirmDiscardOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Discard changes?</AlertDialogTitle>
+              <AlertDialogDescription>
+                You have unsaved changes in the editor. If you close now, they will be lost.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => setConfirmDiscardOpen(false)}>
+                <Button variant="outline" size="sm">
+                  Keep editing
+                </Button>
+              </AlertDialogCancel>
+              <AlertDialogAction onClick={discardSheetChanges}>
+                <Button variant="default" size="sm">
+                  Discard
+                </Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </Portal>
     </FormItem>
   )
 }
