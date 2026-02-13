@@ -1168,6 +1168,46 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'input-group',
   },
+  'json-editor': {
+    name: 'json-editor',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: ['alert-dialog', 'button', 'popover', 'react-hook-form', 'sheet'],
+    files: [
+      {
+        path: 'json-editor/index.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'json-editor/json-editor.hooks.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'json-editor/json-editor.libs.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'json-editor/json-editor.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'json-editor/json-editor.types.ts',
+        type: 'registry:ui',
+      },
+      {
+        path: 'json-editor/json-editor.view.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'json-editor/json-text-area.tsx',
+        type: 'registry:ui',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-ui-duckui/json-editor')),
+    source: '/registry-ui-duckui/src/json-editor',
+    categories: [],
+    root_folder: 'json-editor',
+  },
   'preview-panel': {
     name: 'preview-panel',
     description: '',
@@ -5083,6 +5123,54 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/input-group',
     categories: [],
     root_folder: 'input-group',
+  },
+  'json-editor-1': {
+    name: 'json-editor-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['json-editor'],
+    files: [
+      {
+        path: 'json-editor/json-editor-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/json-editor/json-editor-1')),
+    source: '/registry-examples-duckui/src/json-editor',
+    categories: [],
+    root_folder: 'json-editor',
+  },
+  'json-editor-2': {
+    name: 'json-editor-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['json-editor'],
+    files: [
+      {
+        path: 'json-editor/json-editor-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/json-editor/json-editor-2')),
+    source: '/registry-examples-duckui/src/json-editor',
+    categories: [],
+    root_folder: 'json-editor',
+  },
+  'json-editor-3': {
+    name: 'json-editor-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['json-editor'],
+    files: [
+      {
+        path: 'json-editor/json-editor-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: React.lazy(() => import('@gentleduck/registry-examples-duckui/json-editor/json-editor-3')),
+    source: '/registry-examples-duckui/src/json-editor',
+    categories: [],
+    root_folder: 'json-editor',
   },
   'theme-toggle-1': {
     name: 'theme-toggle-1',

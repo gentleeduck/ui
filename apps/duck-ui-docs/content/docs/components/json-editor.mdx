@@ -1,0 +1,183 @@
+---
+title: json-editor
+description: A form-aware JSON editor field with inline, popover, and expanded editing modes.
+component: true
+---
+
+<ComponentPreview
+  name="json-editor-1"
+  className="mb-4! [&_.preview]:h-165 [&_.preview]:p-6"
+/>
+
+## Philosophy
+
+JSON editing is common in advanced settings, integration payloads, and admin tooling. A plain textarea is easy to ship but hard to use safely. `JsonTextareaField` keeps JSON editing in your form flow, adds validation, formatting, and keyboard shortcuts, and supports compact or expanded editing modes without introducing a heavy code editor dependency.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  JsonEditor[JsonTextareaField]
+  JsonEditor --> libs["@gentleduck/libs"]:::internal
+  JsonEditor --> rhf["react-hook-form"]:::external
+  JsonEditor --> sonner["sonner"]:::external
+  JsonEditor --> lucide["lucide-react"]:::external
+  JsonEditor --> AlertDialog["Alert Dialog"]:::component
+  JsonEditor --> Button["Button"]:::component
+  JsonEditor --> Popover["Popover"]:::component
+  JsonEditor --> Form["React Hook Form UI"]:::component
+  JsonEditor --> Sheet["Sheet"]:::component
+  JsonEditor --> |"custom"| Parsing["Parse + Format Helpers"]
+  JsonEditor --> |"custom"| Hotkeys["Ctrl/⌘+Enter and Esc"]
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add json-editor
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs react-hook-form sonner lucide-react
+```
+
+The `json-editor` component depends on the [`alert-dialog`](/docs/components/alert-dialog), [`button`](/docs/components/button), [`popover`](/docs/components/popover), [`react-hook-form`](/docs/components/react-hook-form), and [`sheet`](/docs/components/sheet) components.
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="json-editor" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { JsonTextareaField } from '@/components/ui/json-editor'
+```
+
+```tsx
+import { useForm } from 'react-hook-form'
+import { Form } from '@/components/ui/react-hook-form'
+
+type FormValues = {
+  settings: Record<string, unknown> | null
+}
+
+const form = useForm<FormValues>({
+  defaultValues: {
+    settings: {
+      theme: 'system',
+      notifications: true,
+    },
+  },
+})
+
+<Form {...form}>
+  <form>
+    <JsonTextareaField
+      control={form.control}
+      name="settings"
+      label="Settings"
+    />
+  </form>
+</Form>
+```
+
+## Examples
+
+### Inline + sheet expansion
+
+Default mode renders the editor inline and opens an expanded sheet editor with the `Full` action.
+
+<ComponentPreview
+  name="json-editor-1"
+  className="mb-4! [&_.preview]:h-165 [&_.preview]:p-6"
+/>
+
+### Popover mode
+
+Use `mode="popover"` to keep layout compact and open the editor only when needed.
+
+<ComponentPreview
+  name="json-editor-2"
+  className="mb-4! [&_.preview]:h-165 [&_.preview]:p-6"
+/>
+
+### Custom full-editor callback
+
+Set `expandMode="callback"` to hand off full-screen editing to your own flow.
+
+<ComponentPreview
+  name="json-editor-3"
+  className="mb-4! [&_.preview]:h-165 [&_.preview]:p-6"
+/>
+
+## API Reference
+
+### JsonTextareaField
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `control` | `Control<TFieldValues>` | `--` | React Hook Form control object from `useForm` |
+| `name` | `FieldPath<TFieldValues>` | `--` | Field path in your form values |
+| `label` | `string` | `--` | Visible label rendered above the editor |
+| `description` | `string` | `--` | Helper text rendered under the label |
+| `className` | `string` | `--` | Additional CSS classes for the field root |
+| `actionsClassName` | `string` | `--` | Additional CSS classes for the action buttons row |
+| `isEditable` | `boolean` | `true` | Disables editing and save actions when set to `false` |
+| `allowArray` | `boolean` | `true` | When `false`, only JSON objects are accepted (arrays rejected) |
+| `mode` | `'inline' \| 'popover'` | `'inline'` | Presentation mode for the editor |
+| `rows` | `number` | `12` | Number of rows for the inline textarea |
+| `placeholder` | `string` | `'{\n  "theme": "dark"\n}'` | Placeholder content shown when empty |
+| `lineNumbers` | `boolean` | `true` | Shows or hides the line-number gutter |
+| `lineHeightPx` | `number` | `20` | Line-height used by textarea and line-number gutter |
+| `expandMode` | `'none' \| 'callback' \| 'sheet'` | `'sheet'` | Full-editor behavior for the `Full` action |
+| `sheetSide` | `'left' \| 'right'` | `'right'` | Side used when `expandMode="sheet"` |
+| `sheetTitle` | `string` | `'Edit JSON'` | Title displayed in the sheet header |
+| `onExpandEditor` | `(payload: JsonEditorExpandPayload<TFieldValues>) => void` | `--` | Callback invoked when `expandMode="callback"` and `Full` is pressed |
+
+### JsonEditorExpandPayload
+
+```tsx
+type JsonEditorExpandPayload<TFieldValues extends FieldValues> = {
+  name: FieldPath<TFieldValues>
+  rawText: string
+  value: unknown
+}
+```
+
+### Keyboard shortcuts
+
+- `Ctrl/⌘ + Enter` saves the current editor buffer.
+- `Esc` cancels inline edits or closes the expanded sheet.
+
+## See also
+
+- [React Hook Form](/docs/components/react-hook-form) -- Form context components used by `JsonTextareaField`
+- [Textarea](/docs/components/textarea) -- Basic plain-text multiline input
+- [Field](/docs/components/field) -- Layout primitive for label + description + error composition
