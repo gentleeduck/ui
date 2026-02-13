@@ -2034,6 +2034,92 @@
   {
     "dependencies": [
       "@gentleduck/libs",
+      "react-hook-form",
+      "sonner",
+      "lucide-react"
+    ],
+    "files": [
+      {
+        "path": "json-editor/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "json-editor/json-editor.hooks.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "json-editor/json-editor.libs.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "json-editor/json-editor.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "json-editor/json-editor.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "json-editor/json-editor.view.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "json-editor/json-text-area.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "json-editor",
+    "registryDependencies": [
+      "alert-dialog",
+      "button",
+      "popover",
+      "react-hook-form",
+      "sheet"
+    ],
+    "root_folder": "json-editor",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/json-editor",
+    "tree": [
+      {
+        "name": "index.ts",
+        "path": "json-editor/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "json-editor.hooks.ts",
+        "path": "json-editor/json-editor.hooks.ts",
+        "type": "file"
+      },
+      {
+        "name": "json-editor.libs.ts",
+        "path": "json-editor/json-editor.libs.ts",
+        "type": "file"
+      },
+      {
+        "name": "json-editor.tsx",
+        "path": "json-editor/json-editor.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor.types.ts",
+        "path": "json-editor/json-editor.types.ts",
+        "type": "file"
+      },
+      {
+        "name": "json-editor.view.tsx",
+        "path": "json-editor/json-editor.view.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-text-area.tsx",
+        "path": "json-editor/json-text-area.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "dependencies": [
+      "@gentleduck/libs",
       "lucide-react"
     ],
     "files": [
@@ -15744,6 +15830,102 @@
       {
         "name": "input-group-9.tsx",
         "path": "input-group/input-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "json-editor/json-editor-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "json-editor-1",
+    "registryDependencies": [
+      "json-editor"
+    ],
+    "root_folder": "json-editor",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/json-editor",
+    "tree": [
+      {
+        "name": "json-editor-1.tsx",
+        "path": "json-editor/json-editor-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-2.tsx",
+        "path": "json-editor/json-editor-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-3.tsx",
+        "path": "json-editor/json-editor-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "json-editor/json-editor-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "json-editor-2",
+    "registryDependencies": [
+      "json-editor"
+    ],
+    "root_folder": "json-editor",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/json-editor",
+    "tree": [
+      {
+        "name": "json-editor-1.tsx",
+        "path": "json-editor/json-editor-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-2.tsx",
+        "path": "json-editor/json-editor-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-3.tsx",
+        "path": "json-editor/json-editor-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "json-editor/json-editor-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "json-editor-3",
+    "registryDependencies": [
+      "json-editor"
+    ],
+    "root_folder": "json-editor",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/json-editor",
+    "tree": [
+      {
+        "name": "json-editor-1.tsx",
+        "path": "json-editor/json-editor-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-2.tsx",
+        "path": "json-editor/json-editor-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-3.tsx",
+        "path": "json-editor/json-editor-3.tsx",
         "type": "file"
       }
     ]

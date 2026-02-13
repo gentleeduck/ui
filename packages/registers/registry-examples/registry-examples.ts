@@ -390,6 +390,13 @@ export const registry_examples: RegistryEntry[] = [
   },
   {
     files: [],
+    name: 'json-editor-examples',
+    registryDependencies: ['json-editor'],
+    root_folder: 'json-editor',
+    type: 'registry:example',
+  },
+  {
+    files: [],
     name: 'theme-toggle-examples',
     registryDependencies: [],
     root_folder: 'theme-toggle',

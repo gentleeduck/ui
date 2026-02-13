@@ -296,6 +296,12 @@ export const docsConfig: DocsConfig = {
           title: 'Input Group',
         },
         {
+          href: '/docs/components/json-editor',
+          items: [],
+          label: 'new',
+          title: 'JSON Editor',
+        },
+        {
           href: '/docs/components/input-otp',
           items: [],
           title: 'Input OTP',

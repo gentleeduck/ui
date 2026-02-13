@@ -391,6 +391,14 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
+    dependencies: ['@gentleduck/libs', 'react-hook-form', 'sonner', 'lucide-react'],
+    files: [],
+    name: 'json-editor',
+    registryDependencies: ['alert-dialog', 'button', 'popover', 'react-hook-form', 'sheet'],
+    root_folder: 'json-editor',
+    type: 'registry:ui',
+  },
+  {
     dependencies: ['@gentleduck/libs', 'lucide-react'],
     files: [],
     name: 'preview-panel',
