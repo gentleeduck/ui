@@ -73,7 +73,7 @@ const components = {
     <li className={cn('mt-2', className)} {...props} />
   ),
   ol: ({ className, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className={cn('my-6 ml-6 list-decimal', className)} {...props} />
+    <ol className={cn('my-6 ml-7 list-decimal', className)} {...props} />
   ),
   p: P,
   MermaidDiagram: MermaidBlock,
