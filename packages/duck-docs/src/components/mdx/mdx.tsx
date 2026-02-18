@@ -79,7 +79,7 @@ const components = {
   MermaidDiagram: MermaidBlock,
   pre: (props: any) => {
     if (props.__isMermaid__) {
-      return <MermaidBlock {...props} />
+      return <MermaidBlock {...props} className="my-0 border-none [&_*]:border-none" />
     }
     return <PreBlock {...props} />
   },
