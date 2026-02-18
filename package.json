@@ -49,11 +49,7 @@
     "lint:ws": "bunx sherif@latest",
     "postinstall": "bun run lint:ws",
     "prepare": "husky",
-    "postbuild": "next-sitemap && node scripts/fix-required-server-files.mjs",
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "start": "next start",
-    "preview": "bunx @cloudflare/next-on-pages",
-    "deploy": "bunx @cloudflare/next-on-pages && bunx wrangler pages deploy .vercel/output/static"
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "workspaces": {
     "packages": [
