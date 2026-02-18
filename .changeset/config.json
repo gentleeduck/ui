@@ -6,9 +6,7 @@
   "commit": false,
   "fixed": [],
   "ignore": [
-    "@gentleduck/gen-docs",
-    "@gentleduck/ui-docs",
-    "@gentleduck/www"
+    "@gentleduck/ui-docs"
   ],
   "linked": [],
   "updateInternalDependencies": "minor"
