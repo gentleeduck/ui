@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.0.13
+
+### Patch Changes
+
+- 919f689: fixed some minor issues with the list
+
 ## 0.0.12
 
 ### Patch Changes
