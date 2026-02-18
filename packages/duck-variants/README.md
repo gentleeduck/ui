@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/gentleeduck/ui/98ac7d1f4ec2fdead848d865445312f05bbbf24a/public/variants.png" alt="@gentleduck/variants" width="900"/>
+  <img src="https://raw.githubusercontent.com/gentleeduck/duck-ui/98ac7d1f4ec2fdead848d865445312f05bbbf24a/public/variants.png" alt="@gentleduck/variants" width="900"/>
 </p>
 
 # `@gentleduck/variants`
@@ -45,11 +45,11 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 
 ### **Vitest Benchmark**
 **@gentleduck/variants**: ~7x faster than `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`
-<img src="https://github.com/gentleeduck/ui/blob/master/public/vite_benchmark.png" alt="Benchmark" />
-<img src="https://raw.githubusercontent.com/gentleeduck/ui/3ae21ea9d8311c330fa85cde3e562fd213d83239/public/vite-bench-cases.png" alt="Benchmark" />
+<img src="https://github.com/gentleeduck/duck-ui/blob/master/public/vite_benchmark.png" alt="Benchmark" />
+<img src="https://raw.githubusercontent.com/gentleeduck/duck-ui/3ae21ea9d8311c330fa85cde3e562fd213d83239/public/vite-bench-cases.png" alt="Benchmark" />
 
 ### **Duck Benchmark**
-<img src="https://github.com/gentleeduck/ui/blob/master/public/duck_benchmark.png" alt="Benchmark" />
+<img src="https://github.com/gentleeduck/duck-ui/blob/master/public/duck_benchmark.png" alt="Benchmark" />
 
 
 
