@@ -1,0 +1,31 @@
+/** MenubarSubTrigger opens a nested submenu on hover or keyboard interaction. */
+import * as React from 'react'
+import * as MenuPrimitive from '../menu'
+import type { ScopedProps } from './menubar'
+import { useMenuScope } from './menubar'
+
+const SUB_TRIGGER_NAME = 'MenubarSubTrigger'
+
+type MenubarSubTriggerElement = React.ElementRef<typeof MenuPrimitive.SubTrigger>
+type MenuSubTriggerProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubTrigger>
+interface MenubarSubTriggerProps extends MenuSubTriggerProps {}
+
+const MenubarSubTrigger = React.forwardRef<MenubarSubTriggerElement, MenubarSubTriggerProps>(
+  (props: ScopedProps<MenubarSubTriggerProps>, forwardedRef) => {
+    const { __scopeMenubar, ...subTriggerProps } = props
+    const menuScope = useMenuScope(__scopeMenubar)
+    return (
+      <MenuPrimitive.SubTrigger
+        data-gentleduck-menubar-subtrigger=""
+        {...menuScope}
+        {...subTriggerProps}
+        ref={forwardedRef}
+      />
+    )
+  },
+)
+
+MenubarSubTrigger.displayName = SUB_TRIGGER_NAME
+
+export { MenubarSubTrigger }
+export type { MenubarSubTriggerProps }
