@@ -1,0 +1,110 @@
+import React from 'react'
+import { createSlot, type Slot } from '../slot'
+import { useComposedRefs } from './compose-ref'
+import type { Scope } from './create-context'
+import { createContextScope } from './create-context'
+
+type SlotProps = React.ComponentPropsWithoutRef<typeof Slot>
+type CollectionElement = HTMLElement
+interface CollectionProps extends SlotProps {
+  scope: Scope
+}
+
+function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: string) {
+  // CollectionProvider
+  const PROVIDER_NAME = name + 'CollectionProvider'
+  const [createCollectionContext, createCollectionScope] = createContextScope(PROVIDER_NAME)
+
+  type ContextValue = {
+    collectionRef: React.RefObject<CollectionElement | null>
+    itemMap: Map<React.RefObject<ItemElement | null>, { ref: React.RefObject<ItemElement | null> } & ItemData>
+  }
+
+  const [CollectionProviderImpl, useCollectionContext] = createCollectionContext<ContextValue>(PROVIDER_NAME, {
+    collectionRef: { current: null },
+    itemMap: new Map(),
+  })
+
+  const CollectionProvider: React.FC<{ children?: React.ReactNode; scope: Scope }> = (props) => {
+    const { scope, children } = props
+    const ref = React.useRef<CollectionElement>(null)
+    const itemMap = React.useRef<ContextValue['itemMap']>(new Map()).current
+    return (
+      <CollectionProviderImpl scope={scope} itemMap={itemMap} collectionRef={ref}>
+        {children}
+      </CollectionProviderImpl>
+    )
+  }
+
+  CollectionProvider.displayName = PROVIDER_NAME
+
+  // CollectionSlot
+  const COLLECTION_SLOT_NAME = name + 'CollectionSlot'
+
+  const CollectionSlotImpl = createSlot(COLLECTION_SLOT_NAME)
+  const CollectionSlot = React.forwardRef<CollectionElement, CollectionProps>((props, forwardedRef) => {
+    const { scope, children } = props
+    const context = useCollectionContext(COLLECTION_SLOT_NAME, scope)
+    const composedRefs = useComposedRefs(forwardedRef, context.collectionRef)
+    return <CollectionSlotImpl ref={composedRefs}>{children}</CollectionSlotImpl>
+  })
+
+  CollectionSlot.displayName = COLLECTION_SLOT_NAME
+
+  // CollectionItem
+  const ITEM_SLOT_NAME = name + 'CollectionItemSlot'
+  const ITEM_DATA_ATTR = 'data-gentleduck-collection-item'
+
+  type CollectionItemSlotProps = ItemData & {
+    children: React.ReactNode
+    scope: Scope
+  }
+
+  const CollectionItemSlotImpl = createSlot(ITEM_SLOT_NAME)
+  const CollectionItemSlot = React.forwardRef<ItemElement, CollectionItemSlotProps>((props, forwardedRef) => {
+    const { scope, children, ...itemData } = props
+    const ref = React.useRef<ItemElement>(null)
+    const composedRefs = useComposedRefs(forwardedRef, ref)
+    const context = useCollectionContext(ITEM_SLOT_NAME, scope)
+
+    React.useEffect(() => {
+      context.itemMap.set(ref, { ref, ...(itemData as unknown as ItemData) })
+      return () => void context.itemMap.delete(ref)
+    })
+
+    return (
+      <CollectionItemSlotImpl {...{ [ITEM_DATA_ATTR]: '' }} ref={composedRefs}>
+        {children}
+      </CollectionItemSlotImpl>
+    )
+  })
+
+  CollectionItemSlot.displayName = ITEM_SLOT_NAME
+
+  // useCollection
+  function useCollection(scope: Scope) {
+    const context = useCollectionContext(name + 'CollectionConsumer', scope)
+
+    const getItems = React.useCallback(() => {
+      const collectionNode = context.collectionRef.current
+      if (!collectionNode) return []
+      const orderedNodes = Array.from(collectionNode.querySelectorAll(`[${ITEM_DATA_ATTR}]`))
+      const items = Array.from(context.itemMap.values())
+      const orderedItems = items.sort(
+        (a, b) => orderedNodes.indexOf(a.ref.current!) - orderedNodes.indexOf(b.ref.current!),
+      )
+      return orderedItems
+    }, [context.collectionRef, context.itemMap])
+
+    return getItems
+  }
+
+  return [
+    { Provider: CollectionProvider, Slot: CollectionSlot, ItemSlot: CollectionItemSlot },
+    useCollection,
+    createCollectionScope,
+  ] as const
+}
+
+export { createCollection }
+export type { CollectionProps }
