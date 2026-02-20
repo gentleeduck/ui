@@ -74,8 +74,7 @@ export function CommandMenu() {
           className="bg-secondary"
           keys={'ctrl+k'}
           onKeysPressed={() => {
-            setOpen(!open)
-            window.event?.preventDefault()
+            setOpen((prev) => !prev)
           }}>
           <Command className="!size-3" />
           <span className="text-md">K</span>
@@ -122,16 +121,21 @@ function CommandFooter() {
   const docsConfig = useDocsConfig()
   const sidebarItems = docsConfig.sidebarNav.flatMap((group) => group.items ?? [])
   const selectedNavItem = sidebarItems.find((item) => item.title === selectedItem?.innerText)
-  useKeyCommands({
-    'ctrl+shift+c': {
-      description: 'Copy command',
-      execute: () =>
-        navigator.clipboard.writeText(
-          ('bunx @gentleduck/cli add ' + selectedItem?.innerText.toLowerCase().replace(/ /g, '-')) as string,
-        ),
-      name: 'ctrl+shift+c',
+  useKeyCommands(
+    {
+      'ctrl+shift+c': {
+        description: 'Copy command',
+        execute: () => {
+          if (!selectedItem?.innerText) return
+          navigator.clipboard.writeText(
+            `bunx @gentleduck/cli add ${selectedItem.innerText.toLowerCase().replace(/ /g, '-')}`,
+          )
+        },
+        name: 'ctrl+shift+c',
+      },
     },
-  })
+    { preventDefault: true },
+  )
   return (
     <div className="hidden w-full items-center justify-between gap-4 border-t px-2 pt-2 lg:flex">
       <div className="flex w-full items-center justify-between gap-4">
