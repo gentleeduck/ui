@@ -1,123 +1,76 @@
-import { FloatingFocusManager, FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import * as React from 'react'
-import { cleanLockScrollbar, lockScrollbar } from '../dialog'
-import { Presence } from '../presence'
-import { Slot } from '../slot'
-import { usePopover } from './popover.hooks'
-import type { PopoverOptions } from './popover.types'
+import { useControllableState } from '../hooks/use-controllable-state'
+import { useId } from '../hooks/use-id'
+import { createContextScope, type Scope } from '../libs/create-context'
+import * as PopperPrimitive from '../popper'
+import { createPopperScope } from '../popper'
 
-const PopoverContext = React.createContext<ReturnType<typeof usePopover> | null>(null)
+const POPOVER_NAME = 'Popover'
 
-export function usePopoverContext(): NonNullable<ReturnType<typeof usePopover>> {
-  const context = React.useContext(PopoverContext)
+export type ScopedProps<P> = P & { __scopePopover?: Scope }
 
-  if (context == null) {
-    throw new Error('Popover components must be wrapped in <Popover />')
-  }
+export const [createPopoverContext, createPopoverScope] = createContextScope(POPOVER_NAME, [createPopperScope])
 
-  return context
+export const usePopperScope = createPopperScope()
+
+type PopoverContextValue = {
+  triggerRef: React.RefObject<HTMLButtonElement | null>
+  contentId: string
+  open: boolean
+  onOpenChange(open: boolean): void
+  onOpenToggle(): void
+  hasCustomAnchor: boolean
+  onCustomAnchorAdd(): void
+  onCustomAnchorRemove(): void
+  modal: boolean
 }
 
-function Root({
-  children,
-  modal = false,
-  ...restOptions
-}: {
-  children: React.ReactNode
-} & PopoverOptions) {
-  // This can accept any props as options, e.g. `placement`,
-  // or other positioning options.
-  const popover = usePopover({ modal, ...restOptions })
-  return <PopoverContext.Provider value={popover}>{children}</PopoverContext.Provider>
+export const [PopoverProvider, usePopoverContext] = createPopoverContext<PopoverContextValue>(POPOVER_NAME)
+
+export interface PopoverProps {
+  children?: React.ReactNode
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  modal?: boolean
 }
 
-function Trigger({
-  children,
-  asChild = false,
-  ref: propRef,
-  onClick,
-  ...props
-}: React.HTMLProps<typeof HTMLButtonElement> & {
-  asChild?: boolean
-}) {
-  const context = usePopoverContext()
-  const childrenRef = (children as any)?.ref
-  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
-  const Comp = asChild ? Slot : 'button'
+/**
+ * Root popover component. Manages open/closed state and provides context
+ * to all child components. Supports both controlled and uncontrolled usage.
+ */
+export function Popover(props: ScopedProps<PopoverProps>) {
+  const { __scopePopover, children, open: openProp, defaultOpen, onOpenChange, modal = false } = props
+
+  const popperScope = usePopperScope(__scopePopover)
+  const triggerRef = React.useRef<HTMLButtonElement>(null)
+  const [hasCustomAnchor, setHasCustomAnchor] = React.useState(false)
+
+  // Supports controlled (open prop) and uncontrolled (defaultOpen) modes
+  const [open, setOpen] = useControllableState({
+    prop: openProp,
+    defaultProp: defaultOpen ?? false,
+    onChange: onOpenChange,
+    caller: POPOVER_NAME,
+  })
 
   return (
-    <Comp
-      data-open={context.open}
-      onClick={(e: React.MouseEvent<HTMLElement>) => {
-        context.setOpen(!context.open)
-        // @ts-expect-error
-        onClick?.(e)
-      }}
-      // The user can style the trigger based on the state
-      ref={ref}
-      type="button"
-      // @ts-expect-error
-      {...context.getReferenceProps(props)}>
-      {children}
-    </Comp>
+    <PopperPrimitive.Popper {...popperScope}>
+      <PopoverProvider
+        scope={__scopePopover}
+        contentId={useId()}
+        triggerRef={triggerRef}
+        open={open}
+        onOpenChange={setOpen}
+        onOpenToggle={React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])}
+        hasCustomAnchor={hasCustomAnchor}
+        onCustomAnchorAdd={React.useCallback(() => setHasCustomAnchor(true), [])}
+        onCustomAnchorRemove={React.useCallback(() => setHasCustomAnchor(false), [])}
+        modal={modal}>
+        {children}
+      </PopoverProvider>
+    </PopperPrimitive.Popper>
   )
 }
 
-function Content({
-  style,
-  ref: propRef,
-  forceMount = true,
-  renderOnce = true,
-  lockScroll = false,
-  disabled = true,
-  ...props
-}: React.HTMLProps<HTMLDivElement> & {
-  forceMount?: boolean
-  renderOnce?: boolean
-  lockScroll?: boolean
-}) {
-  const { context: floatingContext, ...context } = usePopoverContext()
-  const ref = useMergeRefs([context.refs.setFloating, propRef])
-
-  React.useEffect(() => {
-    if (!(lockScroll && context.open)) return
-
-    const didLock = lockScrollbar(true)
-    return () => {
-      if (didLock) cleanLockScrollbar()
-    }
-  }, [lockScroll, context.open])
-
-  return (
-    <Presence present={forceMount || context.open}>
-      <FloatingPortal>
-        <FloatingFocusManager context={floatingContext} modal={context.modal} disabled={disabled}>
-          <div
-            data-open={context.open}
-            data-side={context.placement.split('-')[0]}
-            ref={ref}
-            style={{
-              ...{
-                ...context.floatingStyles,
-                '--duck-sheet-content-transform-origin': context.floatingStyles?.transformOrigin,
-                transform: `${context.floatingStyles.transform} scale(${context.open ? 1 : 0.95})`,
-                transformOrigin: 'var(--duck-sheet-content-transform-origin)',
-              },
-              ...style,
-              zIndex: context.layer.contentZIndex,
-            }}
-            //@ts-ignore
-            {...context.getFloatingProps(props)}>
-            <>{props.children}</>
-          </div>
-        </FloatingFocusManager>
-      </FloatingPortal>
-    </Presence>
-  )
-}
-
-function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
-  return <FloatingPortal {...props}>{children}</FloatingPortal>
-}
-
-export { Root, Trigger, Content, Portal }
+Popover.displayName = POPOVER_NAME

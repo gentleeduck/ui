@@ -1,189 +1,81 @@
-'use client'
-
-import { FloatingFocusManager, FloatingOverlay, FloatingPortal, useMergeRefs } from '@floating-ui/react'
 import * as React from 'react'
-import { Mount } from '../mount'
-import { Slot } from '../slot'
-import { useDialog, useDialogContext } from './dialog.hooks'
-import { cleanLockScrollbar, lockScrollbar } from './dialog.libs'
-import type { DialogContextProps, DialogOptions } from './dialog.types'
+import { useControllableState } from '../hooks/use-controllable-state'
+import { useId } from '../hooks/use-id'
+import type { Scope } from '../libs/create-context'
+import { createContext, createContextScope } from '../libs/create-context'
 
-const DialogContext: React.Context<DialogContextProps> = React.createContext<DialogContextProps>(null)
+const DIALOG_NAME = 'Dialog'
 
-function Root({
-  children,
-  ...options
-}: {
-  children: React.ReactNode
-} & DialogOptions) {
-  const dialog = useDialog(options)
-  return <DialogContext.Provider value={dialog}>{children}</DialogContext.Provider>
+export type ScopedProps<P> = P & { __scopeDialog?: Scope }
+export const [createDialogContext, createDialogScope] = createContextScope(DIALOG_NAME)
+
+type DialogContentElement = HTMLDivElement
+
+export type DialogContextValue = {
+  triggerRef: React.RefObject<HTMLButtonElement | null>
+  contentRef: React.RefObject<DialogContentElement | null>
+  contentId: string
+  titleId: string
+  descriptionId: string
+  open: boolean
+  onOpenChange(open: boolean): void
+  onOpenToggle(): void
+  modal: boolean
 }
 
-function Trigger({
-  children,
-  asChild = false,
-  ref: propRef,
-  onClick,
-  ...props
-}: React.HTMLProps<typeof HTMLButtonElement> & {
-  asChild?: boolean
-}) {
-  const context = useDialogContext()
-  const childrenRef = (children as any)?.ref
-  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
-  const Comp = asChild ? Slot : 'button'
+export const [DialogProvider, useDialogContext] = createDialogContext<DialogContextValue>(DIALOG_NAME)
+
+export interface DialogProps {
+  children?: React.ReactNode
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?(open: boolean): void
+  modal?: boolean
+}
+
+/** Manages open/closed state and provides context to all child components. */
+const Dialog: React.FC<DialogProps> = (props: ScopedProps<DialogProps>) => {
+  const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, modal = true } = props
+  const triggerRef = React.useRef<HTMLButtonElement>(null)
+  const contentRef = React.useRef<DialogContentElement>(null)
+  const [open, setOpen] = useControllableState({
+    prop: openProp,
+    defaultProp: defaultOpen ?? false,
+    onChange: onOpenChange,
+    caller: DIALOG_NAME,
+  })
 
   return (
-    <Comp
-      data-open={context.open}
-      // The user can style the trigger based on the state
-      onClick={(e: React.MouseEvent<HTMLElement>) => {
-        context.setOpen(!context.open)
-        // @ts-expect-error
-        onClick?.(e)
-      }}
-      ref={ref}
-      type="button"
-      //@ts-ignore
-      {...context.getReferenceProps(props)}>
+    <DialogProvider
+      scope={__scopeDialog}
+      triggerRef={triggerRef}
+      contentRef={contentRef}
+      contentId={useId()}
+      titleId={useId()}
+      descriptionId={useId()}
+      open={open}
+      onOpenChange={setOpen}
+      onOpenToggle={React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])}
+      modal={modal}>
       {children}
-    </Comp>
+    </DialogProvider>
   )
 }
 
-function Content({
-  style,
-  ref: propRef,
-  dialogClose: DialogClose,
-  renderOnce = false,
-  forceMount = false,
-  ...props
-}: React.HTMLProps<HTMLDivElement> & {
-  forceMount?: boolean
-  renderOnce?: boolean
-  dialogClose?: React.FC<any>
-}) {
-  const { context: floatingContext, ...context } = useDialogContext()
-  const ref = useMergeRefs([context.refs.setFloating, propRef])
+Dialog.displayName = DIALOG_NAME
 
-  return (
-    <FloatingFocusManager context={floatingContext} modal={context.modal}>
-      <div
-        data-open={context.open}
-        ref={ref}
-        style={{
-          transform: `scale(${context.open ? 1 : 0.9})`,
-          ...style,
-          position: 'fixed',
-          zIndex: context.layer.contentZIndex,
-        }}
-        // @ts-ignore
-        {...context.getFloatingProps(props)}
-        aria-label="dialog"
-        aria-labelledby={context.labelId}
-        role="dialog">
-        <Mount open={context.open} renderOnce={renderOnce}>
-          {props.children}
-          {context.closeButton && <DialogClose />}
-        </Mount>
-      </div>
-    </FloatingFocusManager>
-  )
+export function getState(open: boolean) {
+  return open ? 'open' : 'closed'
 }
 
-function Overlay({ children, lockScroll = true, ...props }: React.ComponentPropsWithRef<typeof FloatingOverlay>) {
-  const { ...context } = useDialogContext()
+const TITLE_WARNING_NAME = 'DialogTitleWarning'
+const CONTENT_NAME = 'DialogContent'
+const TITLE_NAME = 'DialogTitle'
 
-  React.useEffect(() => {
-    if (!(lockScroll && context.open)) return
+export const [WarningProvider, useWarningContext] = createContext(TITLE_WARNING_NAME, {
+  contentName: CONTENT_NAME,
+  titleName: TITLE_NAME,
+  docsSlug: 'dialog',
+})
 
-    const didLock = lockScrollbar(true)
-    return () => {
-      if (didLock) cleanLockScrollbar()
-    }
-  }, [lockScroll, context.open])
-
-  return (
-    <FloatingOverlay
-      style={
-        {
-          '--duck-dialog-overlay-bg': 'oklch(0.12 0 0 / 0.83)',
-          backdropFilter: 'blur(1px)',
-          background: 'var(--duck-dialog-overlay-bg)',
-          opacity: context.open ? 1 : 0,
-          overflow: 'hidden',
-          pointerEvents: context.open ? 'auto' : 'none',
-          zIndex: context.layer.overlayZIndex,
-        } as React.CSSProperties
-      }
-      lockScroll={false}
-      {...props}>
-      {children}
-    </FloatingOverlay>
-  )
-}
-
-function Heading({ children, ref, ...props }: React.HTMLProps<HTMLDivElement>) {
-  const { setLabelId } = useDialogContext()
-  const id = React.useId()
-
-  // Only sets `aria-labelledby` on the Dialog root element
-  // if this component is mounted inside it.
-  React.useLayoutEffect(() => {
-    setLabelId(id)
-    return () => setLabelId(undefined)
-  }, [id, setLabelId])
-
-  return (
-    <div {...props} id={id} ref={ref}>
-      {children}
-    </div>
-  )
-}
-
-function Title({ children, ref, ...props }: React.HTMLProps<HTMLHeadingElement>) {
-  const { setTitleId } = useDialogContext()
-  const id = React.useId()
-
-  // Only sets `aria-describedby` on the Dialog root element
-  // if this component is mounted inside it.
-  React.useLayoutEffect(() => {
-    setTitleId(id)
-    return () => setTitleId(undefined)
-  }, [id, setTitleId])
-
-  return (
-    <h2 {...props} id={id} ref={ref}>
-      {children}
-    </h2>
-  )
-}
-
-function Description({ children, ref, ...props }: React.HTMLProps<HTMLParagraphElement>) {
-  const { setDescriptionId } = useDialogContext()
-  const id = React.useId()
-
-  // Only sets `aria-describedby` on the Dialog root element
-  // if this component is mounted inside it.
-  React.useLayoutEffect(() => {
-    setDescriptionId(id)
-    return () => setDescriptionId(undefined)
-  }, [id, setDescriptionId])
-
-  return (
-    <p {...props} id={id} ref={ref}>
-      {children}
-    </p>
-  )
-}
-
-function Portal({ children, ...props }: React.ComponentPropsWithRef<typeof FloatingPortal>) {
-  return (
-    <FloatingPortal {...props} data-duck-dialog>
-      {children}
-    </FloatingPortal>
-  )
-}
-
-export { Root, Trigger, Content, Heading, Title, Description, Portal, DialogContext, Overlay }
+export { Dialog }
