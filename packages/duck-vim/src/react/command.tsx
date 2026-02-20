@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { type Command, KeyHandler, Registry } from '../command'
+import type { KeyBindOptions, RegistrationHandle } from '../command/command.types'
+import { SequenceManager } from '../sequence/sequence'
 import type { KeyContextValue } from './command.types'
 
 /**
@@ -11,12 +13,22 @@ import type { KeyContextValue } from './command.types'
 export const KeyContext = React.createContext<KeyContextValue | null>(null)
 
 /**
+ * Props for the KeyProvider component.
+ */
+interface KeyProviderProps {
+  debug?: boolean
+  timeoutMs?: number
+  defaultOptions?: Partial<KeyBindOptions>
+  children: React.ReactNode
+}
+
+/**
  * Provides a `KeyContext` to its children and attaches a global key handler.
  *
- * @param {object} props - Props for the provider.
- * @param {boolean} [props.debug=false] - Enable debug logging for key events.
- * @param {number} [props.timeoutMs=600] - Timeout between key sequence inputs in milliseconds.
- * @param {ReactNode} props.children - Child components that can access key command functionality.
+ * @param props.debug - Enable debug logging for key events.
+ * @param props.timeoutMs - Timeout between key sequence inputs in milliseconds.
+ * @param props.defaultOptions - Default key binding options for all registrations.
+ * @param props.children - Child components that can access key command functionality.
  *
  * @example
  * ```tsx
@@ -25,30 +37,43 @@ export const KeyContext = React.createContext<KeyContextValue | null>(null)
  * </KeyProvider>
  * ```
  */
-export const KeyProvider: React.FC<{ debug?: boolean; timeoutMs?: number; children: React.ReactNode }> = ({
+export const KeyProvider: React.FC<KeyProviderProps> = ({
   debug = false,
   timeoutMs = 600,
+  defaultOptions,
   children,
-}: {
-  debug?: boolean
-  timeoutMs?: number
-  children: React.ReactNode
 }) => {
-  const registry = new Registry(debug)
-  const handler = new KeyHandler(registry, timeoutMs)
+  const value = React.useMemo<KeyContextValue>(() => {
+    const registry = new Registry(debug)
+    const handler = new KeyHandler(registry, timeoutMs, defaultOptions)
+    const sequenceManager = new SequenceManager()
+
+    return { registry, handler, sequenceManager, timeoutMs, defaultOptions }
+  }, [debug, timeoutMs])
 
   React.useEffect(() => {
-    handler.attach()
-    return () => handler.detach()
-  }, [handler])
+    value.handler.attach()
 
-  return <KeyContext.Provider value={{ handler, registry }}>{children}</KeyContext.Provider>
+    const seqListener = (e: Event) => {
+      value.sequenceManager.handleKeyEvent(e as KeyboardEvent)
+    }
+    document.addEventListener('keydown', seqListener)
+
+    return () => {
+      value.handler.detach()
+      document.removeEventListener('keydown', seqListener)
+      value.sequenceManager.destroy()
+    }
+  }, [value])
+
+  return <KeyContext.Provider value={value}>{children}</KeyContext.Provider>
 }
 
 /**
  * React hook to register one or more key-command mappings using the global key registry.
  *
- * @param {Record<string, Command>} commands - A record of key sequences and their corresponding commands.
+ * @param commands - A record of key sequences and their corresponding commands.
+ * @param options - Optional key binding options applied to all commands in this call.
  *
  * @example
  * ```tsx
@@ -66,18 +91,33 @@ export const KeyProvider: React.FC<{ debug?: boolean; timeoutMs?: number; childr
  *
  * > Note: Must be used within a `KeyProvider`.
  */
-export function useKeyCommands(commands: Record<string, Command>): void {
+export function useKeyCommands(commands: Record<string, Command>, options?: KeyBindOptions): void {
   const ctx = React.useContext(KeyContext)
+  const handlesRef = React.useRef<RegistrationHandle[]>([])
+
   React.useEffect(() => {
     if (!ctx) {
       console.warn('useKeyCommands must be used within a KeyProvider')
       return
     }
 
+    // Clean up previous registrations
+    for (const handle of handlesRef.current) {
+      handle.unregister()
+    }
+    handlesRef.current = []
+
+    // Register new commands
     for (const [seq, cmd] of Object.entries(commands)) {
-      ctx.registry.register(seq, cmd)
+      const handle = ctx.registry.register(seq, cmd, options)
+      handlesRef.current.push(handle)
     }
 
-    // Cleanup would go here if unregistering was supported
-  }, [ctx, commands])
+    return () => {
+      for (const handle of handlesRef.current) {
+        handle.unregister()
+      }
+      handlesRef.current = []
+    }
+  }, [ctx, commands, options])
 }

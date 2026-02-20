@@ -1,4 +1,6 @@
 import type { KeyHandler, Registry } from '../command'
+import type { KeyBindOptions } from '../command/command.types'
+import type { SequenceManager } from '../sequence/sequence'
 
 /**
  * The shape of the value provided by `KeyContext`.
@@ -13,4 +15,19 @@ export interface KeyContextValue {
    * The key handler instance, responsible for listening to key events.
    */
   handler: KeyHandler
+
+  /**
+   * The sequence manager for multi-key sequences.
+   */
+  sequenceManager: SequenceManager
+
+  /**
+   * The timeout in ms for key sequences.
+   */
+  timeoutMs: number
+
+  /**
+   * Default key binding options applied to all registrations unless overridden.
+   */
+  defaultOptions?: Partial<KeyBindOptions>
 }
