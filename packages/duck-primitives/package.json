@@ -15,7 +15,7 @@
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "@types/node": "22.19.3",
+    "@types/node": "^25.3.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "mini-svg-data-uri": "^1.4.4",
@@ -66,5 +66,10 @@
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
-  "version": "0.2.0"
+  "version": "0.2.0",
+  "dependencies": {
+    "@floating-ui/react-dom": "^2.1.7",
+    "aria-hidden": "^1.2.6",
+    "react-remove-scroll": "^2.7.2"
+  }
 }
