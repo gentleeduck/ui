@@ -1,0 +1,2 @@
+import{cn as e}from"@gentleduck/libs/cn";import{jsx as t}from"react/jsx-runtime";const n=({children:n,className:r,viewportClassName:i,style:a,...o})=>t(`div`,{className:e(`relative overflow-hidden`,r),style:a,...o,"data-slot":`scroll-area`,children:t(`div`,{className:e(`scrollbar-none h-full w-full overflow-auto`,i),children:n})});export{n as t};
+//# sourceMappingURL=scroll-area-BL789L-Z.js.map

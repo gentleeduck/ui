@@ -1,0 +1,2 @@
+import{i as e}from"./context-DJmokxRB.js";import{t}from"./mdx-DGshLZvr.js";import{jsx as n}from"react/jsx-runtime";function r({...r}){let i=(e()??[]).find(e=>e.slug===`/docs/installation/${r.data}`);return i?.content?n(t,{code:i.content}):null}export{r as t};
+//# sourceMappingURL=framework-docs-D86UQ4u5.js.map

@@ -1,0 +1,1 @@
+import{t as e}from"../use-config-Dcm8jyqo.js";export{e as useConfig};

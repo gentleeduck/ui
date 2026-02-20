@@ -1,0 +1,2 @@
+import{cn as e}from"@gentleduck/libs/cn";import{jsx as t}from"react/jsx-runtime";function n({className:n,children:i,...a}){return r(i?.toString())?null:t(`span`,{className:e(n),...a,children:i})}function r(e){return/^\/\/.*$/.test(e)}export{n as SpanBlock};
+//# sourceMappingURL=span-block.js.map

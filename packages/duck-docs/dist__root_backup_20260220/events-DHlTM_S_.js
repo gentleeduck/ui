@@ -1,0 +1,2 @@
+import{z as e}from"zod";const t=e.object({name:e.enum([`copy_npm_command`,`copy_usage_import_code`,`copy_usage_code`,`copy_primitive_code`,`copy_theme_code`,`copy_block_code`,`copy_chunk_code`,`enable_lift_mode`,`copy_chart_code`,`copy_chart_theme`,`copy_chart_data`,`copy_color`]),properties:e.record(e.string(),e.union([e.string(),e.number(),e.boolean(),e.null()])).optional()});function n(e){t.parse(e)}export{n as t};
+//# sourceMappingURL=events-DHlTM_S_.js.map

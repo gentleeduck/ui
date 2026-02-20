@@ -1,0 +1,2 @@
+import{t as e}from"./use-mounted-Cvo21RJX.js";import*as t from"jotai";import{atomWithStorage as n}from"jotai/utils";const r=n(`colors`,{format:`hsl`,lastCopied:``});function i(){let[n,i]=t.useAtom(r),a=e();return{format:n.format,isLoading:!a,lastCopied:n.lastCopied,setFormat:e=>i({...n,format:e}),setLastCopied:e=>i({...n,lastCopied:e})}}export{i as t};
+//# sourceMappingURL=use-colors-D8ZL4knD.js.map

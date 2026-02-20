@@ -1,0 +1,2 @@
+import{visit as e}from"unist-util-visit";function t(){return t=>(e(t,`element`,e=>{if(e.tagName===`code`&&e.children){let t={};if(e.data?.meta){let n=e.data?.meta;t.__title__=(n?.match(/title="([^"]*)"/)??[])[1],t.__marks__=[...n?.matchAll(/\/([^/]+)\//g)].map(e=>e[1])}e.properties={...e.properties,__rawString__:e.children?.[0]?.value,...t}}}),t)}export{t};
+//# sourceMappingURL=metadata-plugin-DwmjOAJq.js.map

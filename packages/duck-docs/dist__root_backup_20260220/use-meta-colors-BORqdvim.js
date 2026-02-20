@@ -1,0 +1,2 @@
+import{o as e}from"./context-DJmokxRB.js";import*as t from"react";import{useTheme as n}from"next-themes";const r={dark:`#000000`,light:`#ffffff`};function i(){let{resolvedTheme:i}=n(),a=e().metaThemeColors??r;return{metaColor:t.useMemo(()=>i===`dark`?a.dark:a.light,[a.dark,a.light,i]),setMetaColor:t.useCallback(e=>{document.querySelector(`meta[name="theme-color"]`)?.setAttribute(`content`,e)},[])}}export{i as t};
+//# sourceMappingURL=use-meta-colors-BORqdvim.js.map

@@ -1,0 +1,2 @@
+import{cn as e}from"@gentleduck/libs/cn";import{jsx as t}from"react/jsx-runtime";function n({className:n,children:r,...i}){return t(`div`,{className:e(n),...i,children:r})}export{n as t};
+//# sourceMappingURL=code-block-wrapper-DYnHV8Sg.js.map
