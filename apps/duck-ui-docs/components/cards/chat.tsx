@@ -91,7 +91,7 @@ export function CardsChat() {
               <p className="text-muted-foreground text-xs">m@example.com</p>
             </div>
           </div>
-          <Tooltip delayDuration={0} sideOffset={10}>
+          <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Button
                 className="ml-auto size-8 rounded-full"
@@ -102,7 +102,7 @@ export function CardsChat() {
                 <span className="sr-only">New message</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>New message</TooltipContent>
+            <TooltipContent sideOffset={10}>New message</TooltipContent>
           </Tooltip>
         </CardHeader>
         <CardContent>

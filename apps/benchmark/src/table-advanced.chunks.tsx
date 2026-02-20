@@ -6,7 +6,7 @@ import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { useAtom, useAtomValue, useSetAtom } from '@gentleduck/state/react'
 import { ArrowDown01, ArrowUp10, Command, Minus, ToggleLeft } from 'lucide-react'
 import React from 'react'
@@ -34,29 +34,31 @@ export function DuckTableSearch({
   const inputValue = typeof query === 'string' ? query : ''
 
   return (
-    <Tooltip delayDuration={300}>
-      <TooltipTrigger asChild>
-        <div className="inline-flex">
-          <Input
-            className="h-8 max-w-[200px]"
-            onChange={(e) => {
-              setQuery(e.currentTarget.value)
-            }}
-            placeholder={placeholder}
-            value={inputValue}
-            {...props}
-            duck-table-search=""
-          />
-        </div>
-      </TooltipTrigger>
-      <TooltipContent className="flex items-center gap-2">
-        <CommandShortcut keys={'ctrl+s'} onKeysPressed={() => {}} variant="secondary">
-          <Command />
-          +S
-        </CommandShortcut>
-        <p>Filter tasks...</p>
-      </TooltipContent>
-    </Tooltip>
+    <TooltipProvider>
+      <Tooltip delayDuration={300}>
+        <TooltipTrigger asChild>
+          <div className="inline-flex">
+            <Input
+              className="h-8 max-w-[200px]"
+              onChange={(e) => {
+                setQuery(e.currentTarget.value)
+              }}
+              placeholder={placeholder}
+              value={inputValue}
+              {...props}
+              duck-table-search=""
+            />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent className="flex items-center gap-2">
+          <CommandShortcut variant="secondary">
+            <Command />
+            +S
+          </CommandShortcut>
+          <p>Filter tasks...</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
