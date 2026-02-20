@@ -160,7 +160,7 @@ function SelectTrigger({
       ref={triggerRef as never}>
       {children}
       <span className="[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-muted-foreground [&>svg]:duration-300">
-        {customIndicator ? customIndicator : <ChevronDown className="-mr-1" />}
+        {customIndicator ? customIndicator : <ChevronDown className="-me-1" />}
       </span>
     </PopoverTrigger>
   )
@@ -266,7 +266,7 @@ function SelectItem({
       </div>
       {(_value.length > 0 ? _value : selectedItem?.getAttribute('data-value')) === String(value) && (
         <span
-          className="absolute flex items-center justify-center transition-none duration-0 ltr:right-2 ltr:pl-2 rtl:left-2 rtl:pr-2"
+          className="absolute end-2 flex items-center justify-center ps-2 transition-none duration-0"
           data-slot="select-indicator"
           duck-select-indicator=""
           id="select-indicator">

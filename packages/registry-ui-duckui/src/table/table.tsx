@@ -43,7 +43,7 @@ function TableHead({ className, ref, ...props }: React.HTMLProps<HTMLTableCellEl
   return (
     <th
       className={cn(
-        'h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',
+        'h-12 px-4 text-start align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pe-0',
         className,
       )}
       data-slot="table-head"
@@ -56,7 +56,7 @@ function TableHead({ className, ref, ...props }: React.HTMLProps<HTMLTableCellEl
 function TableCell({ className, ref, ...props }: React.HTMLProps<HTMLTableCellElement>) {
   return (
     <td
-      className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
+      className={cn('p-4 align-middle [&:has([role=checkbox])]:pe-0', className)}
       data-slot="table-cell"
       ref={ref}
       {...props}
