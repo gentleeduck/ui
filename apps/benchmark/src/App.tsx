@@ -115,9 +115,9 @@ function App() {
   return (
     <div>
       <KeyProvider timeoutMs={100} debug>
-        <PopoverDemo />
+        {/* <PopoverDemo /> */}
         {/* <SelectDemo /> */}
-        {/* <Dialog /> */}
+        <Dialog />
       </KeyProvider>
       {/* <TooltipDemo /> */}
     </div>
