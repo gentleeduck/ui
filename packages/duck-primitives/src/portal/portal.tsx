@@ -1,30 +1,34 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom'
+import { useLayoutEffect } from '../hooks/use-layout-effect'
+import { Primitive } from '../primitive-elements'
 
-/**
- * On the server, React emits a warning when calling `useLayoutEffect`.
- * This is because neither `useLayoutEffect` nor `useEffect` run on the server.
- * We use this safe version which suppresses the warning by replacing it with a noop on the server.
+/* -------------------------------------------------------------------------------------------------
+ * Portal
  *
- * See: https://reactjs.org/docs/hooks-reference.html#uselayouteffect
- */
-const useLayoutEffect = globalThis?.document ? React.useLayoutEffect : () => {}
+ * Renders children into a DOM node outside the parent hierarchy using
+ * ReactDOM.createPortal. Defaults to document.body. Waits until after
+ * the first layout effect to mount, ensuring SSR compatibility.
+ * -----------------------------------------------------------------------------------------------*/
 
-interface PortalProps extends React.HTMLProps<HTMLDivElement> {
-  /**
-   * An optional container where the portaled content should be appended.
-   */
+const PORTAL_NAME = 'Portal'
+
+type PortalElement = React.ElementRef<typeof Primitive.div>
+type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
+interface PortalProps extends PrimitiveDivProps {
+  /** The container element to portal into. Defaults to document.body. */
   container?: Element | DocumentFragment | null
 }
 
-const Portal = React.forwardRef<HTMLDivElement, PortalProps>((props, forwardedRef) => {
+const Portal = React.forwardRef<PortalElement, PortalProps>((props, forwardedRef) => {
   const { container: containerProp, ...portalProps } = props
   const [mounted, setMounted] = React.useState(false)
   useLayoutEffect(() => setMounted(true), [])
   const container = containerProp || (mounted && globalThis?.document?.body)
-  return container
-    ? ReactDOM.createPortal(<div {...portalProps} data-slot="portal" ref={forwardedRef} />, container)
-    : null
+  return container ? ReactDOM.createPortal(<Primitive.div {...portalProps} ref={forwardedRef} />, container) : null
 })
 
+Portal.displayName = PORTAL_NAME
+
 export { Portal }
+export type { PortalProps }
