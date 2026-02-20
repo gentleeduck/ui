@@ -7,19 +7,15 @@ import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
 
 const AccordionContext = React.createContext<{
-  value?: string[]
+  value: string[]
   readonly onValueChange?: (value: string | string[]) => void
   readonly wrapperRef: React.RefObject<HTMLDivElement | null>
-  readonly onItemChange: (
-    value: string,
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    e: React.MouseEvent<HTMLDetailsElement, MouseEvent>,
-  ) => void
-  readonly rerender: boolean
+  readonly onItemChange: (value: string, e: React.MouseEvent<HTMLDetailsElement, MouseEvent>) => void
+  readonly renderOnce: boolean
 } | null>(null)
 
 type AccordionProps = Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'type'> & {
-  rerender?: boolean
+  renderOnce?: boolean
 } & (
     | {
         type?: 'single'
@@ -44,12 +40,21 @@ function Accordion({
   type = 'single',
   value,
   collapsible = true,
-  rerender = false,
+  renderOnce = false,
   onValueChange,
   ...props
 }: AccordionProps) {
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
   const itemsRef = React.useRef<HTMLDetailsElement[]>([])
+
+  const [activeValues, setActiveValues] = React.useState<string[]>(() => {
+    if (defaultValue) {
+      return Array.isArray(defaultValue) ? defaultValue : [defaultValue]
+    }
+    return []
+  })
+
+  const currentValues = value !== undefined ? (Array.isArray(value) ? value : [value]) : activeValues
 
   React.useEffect(() => {
     itemsRef.current = Array.from(
@@ -65,23 +70,23 @@ function Accordion({
         }
       })
     }
-  }, [defaultValue, onValueChange])
+  }, [defaultValue])
 
-  function handleAccordionItemChange(
-    value: string,
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    e: React.MouseEvent<HTMLDetailsElement, MouseEvent>,
-  ) {
+  function handleAccordionItemChange(itemValue: string, e: React.MouseEvent<HTMLDetailsElement, MouseEvent>) {
+    let newValues: string[]
+
     if (type === 'single') {
       if (collapsible) {
+        newValues = currentValues.includes(itemValue) ? [] : [itemValue]
         itemsRef.current.forEach((item) => {
-          if (item.id !== value) {
+          if (item.id !== itemValue) {
             item.open = false
           }
         })
       } else {
+        newValues = [itemValue]
         itemsRef.current.forEach((item) => {
-          if (item.id === value) {
+          if (item.id === itemValue) {
             item.open = true
             e.preventDefault()
           } else {
@@ -89,16 +94,26 @@ function Accordion({
           }
         })
       }
-    } else if (type === 'multiple') {
+    } else {
+      if (currentValues.includes(itemValue)) {
+        newValues = currentValues.filter((v) => v !== itemValue)
+      } else {
+        newValues = [...currentValues, itemValue]
+      }
       itemsRef.current.forEach((item) => {
-        if (item.id === value) {
+        if (item.id === itemValue) {
           item.open = !item.open
           e.preventDefault()
         }
       })
     }
-    if (rerender) {
-      setOpen((x) => !x)
+
+    setActiveValues(newValues)
+
+    if (type === 'single') {
+      ;(onValueChange as ((value: string) => void) | undefined)?.(newValues[0] ?? '')
+    } else {
+      ;(onValueChange as ((value: string[]) => void) | undefined)?.(newValues)
     }
   }
 
@@ -107,8 +122,8 @@ function Accordion({
       value={{
         onItemChange: handleAccordionItemChange,
         onValueChange: onValueChange as never,
-        rerender,
-        value: (type === 'single' ? [value ?? defaultValue] : (value ?? defaultValue)) as string[],
+        renderOnce,
+        value: currentValues,
         wrapperRef,
       }}>
       <div
@@ -129,15 +144,13 @@ function AccordionItem({
   onClick,
   onKeyUp,
 
-  renderOnce = false,
   value,
   ...props
 }: Omit<React.HTMLProps<HTMLDetailsElement>, 'value'> & {
-  renderOnce?: boolean
   value?: string
 }) {
-  const { onItemChange, value: _value, rerender } = React.useContext(AccordionContext) ?? {}
-  const [open, setOpen] = React.useState<boolean>(_value?.includes(value as string) ?? false)
+  const { onItemChange, value: _value = [], renderOnce } = React.useContext(AccordionContext) ?? {}
+  const isActive = _value.includes(value as string)
   const _children = Array.from(children as never as React.ReactNode[])
 
   return (
@@ -151,8 +164,13 @@ function AccordionItem({
       )}
       id={value}
       onClick={(e) => {
+        const summary = (e.currentTarget as HTMLDetailsElement).querySelector('summary')
+        if (!summary?.contains(e.target as Node)) {
+          e.preventDefault()
+          return
+        }
         onClick?.(e)
-        onItemChange?.(value ?? '', setOpen, e)
+        onItemChange?.(value ?? '', e)
       }}
       onKeyUp={onKeyUp}
       ref={ref}
@@ -160,12 +178,9 @@ function AccordionItem({
       data-slot="accordion-item"
       duck-accordion-item="">
       {_children[0]}
-      {rerender && (
-        <Mount open={open} renderOnce={renderOnce}>
-          {_children[1]}
-        </Mount>
-      )}
-      {!rerender && _children[1]}
+      <Mount open={renderOnce ? isActive : true} renderOnce={renderOnce ?? false}>
+        {_children[1]}
+      </Mount>
     </details>
   )
 }

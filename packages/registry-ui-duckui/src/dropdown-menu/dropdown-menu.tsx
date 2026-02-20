@@ -295,7 +295,7 @@ function DropdownMenuSubContent({
   const { contentRef } = useDropdownMenuSubContext()
   return (
     <PopoverContent
-      className={cn('fixed z-[55] w-auto min-w-[8rem] p-1', className)}
+      className={cn('fixed w-auto min-w-[8rem] p-1', className)}
       lockScroll={true}
       ref={contentRef}
       disabled={disabled}
