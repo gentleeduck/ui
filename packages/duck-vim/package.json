@@ -7,7 +7,7 @@
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
-  "description": "A package for creating variants of components, providing a simple and efficient way to create variants of components.",
+  "description": "A keyboard command engine with hotkey parsing, sequences, recording, and React hooks.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@testing-library/jest-dom": "^6.8.0",
@@ -20,6 +20,34 @@
   },
   "exports": {
     "./*": "./dist/*/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "command": [
+        "./dist/command/index.d.ts"
+      ],
+      "parser": [
+        "./dist/parser/index.d.ts"
+      ],
+      "platform": [
+        "./dist/platform/index.d.ts"
+      ],
+      "format": [
+        "./dist/format/index.d.ts"
+      ],
+      "matcher": [
+        "./dist/matcher/index.d.ts"
+      ],
+      "sequence": [
+        "./dist/sequence/index.d.ts"
+      ],
+      "recorder": [
+        "./dist/recorder/index.d.ts"
+      ],
+      "react": [
+        "./dist/react/index.d.ts"
+      ]
+    }
   },
   "files": [
     "dist",
@@ -34,6 +62,9 @@
     "vim",
     "keybindings",
     "keyboard",
+    "hotkeys",
+    "shortcuts",
+    "sequences",
     "react"
   ],
   "license": "MIT",

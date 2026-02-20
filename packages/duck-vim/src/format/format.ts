@@ -1,6 +1,6 @@
 import { parseKeyBind } from '../parser/parser'
-import type { Platform } from '../platform/platform.types'
 import { detectPlatform } from '../platform/platform'
+import type { Platform } from '../platform/platform.types'
 import type { FormatOptions } from './format.types'
 
 /**
@@ -106,7 +106,8 @@ export function formatWithLabels(binding: string, options?: FormatOptions): stri
     parts.push(symbols[mod] ?? mod)
   }
 
-  const displayKey = LABEL_MAP[parsed.key] ?? (parsed.key.length === 1 ? parsed.key.toUpperCase() : capitalizeKey(parsed.key))
+  const displayKey =
+    LABEL_MAP[parsed.key] ?? (parsed.key.length === 1 ? parsed.key.toUpperCase() : capitalizeKey(parsed.key))
   parts.push(displayKey)
 
   return parts.join(separator)

@@ -1,5 +1,5 @@
-import type { Platform } from '../platform/platform.types'
 import { resolveMod } from '../platform/platform'
+import type { Platform } from '../platform/platform.types'
 import type { ParsedKeyBind, ValidationResult } from './parser.types'
 
 /**
