@@ -43,11 +43,7 @@ export function isInputElement(el: Element | null): boolean {
  * @param options - Match options
  * @returns true if the event matches the key binding
  */
-export function matchesKeyboardEvent(
-  parsed: ParsedKeyBind,
-  event: KeyboardEvent,
-  options?: MatchOptions,
-): boolean {
+export function matchesKeyboardEvent(parsed: ParsedKeyBind, event: KeyboardEvent, options?: MatchOptions): boolean {
   const ignoreCase = options?.ignoreCase ?? true
 
   // Check modifier flags

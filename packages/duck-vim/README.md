@@ -1,115 +1,339 @@
 # @gentleduck/vim
 
-A tiny, framework‑agnostic keyboard command engine with optional React bindings. Think “vim‑style” key sequences like `g+d`, plus single‑key combos such as `ctrl+shift+k` — all with a simple, strongly‑typed API.
+A keyboard command engine for the web. Framework-agnostic core with optional React bindings.
 
-* Core is DOM‑only and framework‑agnostic (`src/command/`).
-* Optional React bindings (`src/react/`) provide a provider + hook for ergonomic usage.
-* Supports multi‑step sequences with timeout and prefix matching.
-* Written in TypeScript and ships types.
+Supports single-key combos (`ctrl+shift+k`), multi-step sequences (`g+d`), cross-platform `Mod` key, key binding parsing/validation/formatting, key recording, conflict detection, and per-binding options -- all strongly typed.
 
 ---
 
 ## Table of contents
 
-* [Why this exists](#why-this-exists)
-* [Installation](#installation)
-* [Quick start (vanilla)](#quick-start-vanilla-tsjs)
-* [Quick start (React)](#quick-start-react)
-* [Concepts](#concepts)
-* [API (core)](#api-core)
-* [API (React bindings)](#api-react-bindings)
-* [Advanced usage](#advanced-usage)
-* [Accessibility & UX](#accessibility--ux)
-* [Testing](#testing)
-* [Limitations](#limitations)
-* [Roadmap](#roadmap)
-* [License](#license)
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [Modules](#modules)
+  - [platform](#platform)
+  - [parser](#parser)
+  - [matcher](#matcher)
+  - [format](#format)
+  - [command](#command)
+  - [sequence](#sequence)
+  - [recorder](#recorder)
+  - [react](#react)
+- [React hooks](#react-hooks)
+- [Per-binding options](#per-binding-options)
+- [Conflict detection](#conflict-detection)
+- [Key aliases](#key-aliases)
+- [Testing](#testing)
+- [License](#license)
 
 ---
-
-## Why this exists
-
-Many apps need a small, predictable keyboard command system without bringing a large dependency. This project provides a tiny, strongly‑typed engine that:
-
-* Works in any web framework (only depends on the DOM)
-* Supports multi‑step sequences (e.g. `g+d`)
-* Gives simple React ergonomics when you want them
 
 ## Installation
 
 ```sh
 npm install @gentleduck/vim
+# or
+bun add @gentleduck/vim
 ```
 
-```ts
-// ESM (core)
-import { Registry, KeyHandler, type Command } from '@gentleduck/vim/command'
+Each module is a separate subpath export:
 
-// React bindings
-import { KeyProvider, useKeyCommands } from '@gentleduck/vim/react'
+```ts
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+import { parseKeyBind, normalizeKeyBind, validateKeyBind } from '@gentleduck/vim/parser'
+import { detectPlatform, resolveMod, isMac } from '@gentleduck/vim/platform'
+import { formatForDisplay, formatWithLabels } from '@gentleduck/vim/format'
+import { matchesKeyboardEvent, isInputElement, createKeyBindHandler } from '@gentleduck/vim/matcher'
+import { SequenceManager, createSequenceMatcher } from '@gentleduck/vim/sequence'
+import { KeyRecorder, KeyStateTracker } from '@gentleduck/vim/recorder'
+import { KeyProvider, useKeyCommands, useKeyBind, useKeySequence, useKeyRecorder } from '@gentleduck/vim/react'
 ```
 
-If consuming from source in a monorepo, import via your configured workspace alias or relative path.
+---
 
-## Quick start (vanilla TS/JS)
+## Quick start
+
+### Vanilla TS/JS
 
 ```ts
-import { Registry, KeyHandler, type Command } from '@gentleduck/vim/command'
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
 
-const registry = new Registry(true) // enable debug logs
+const registry = new Registry()
 const handler = new KeyHandler(registry, 600)
 
-const openPalette: Command = {
-  name: 'Open Command Palette',
-  execute: () => console.log('palette!'),
-}
+// Single-key combo
+const handle = registry.register('ctrl+k', {
+  name: 'Open Palette',
+  execute: () => console.log('palette opened'),
+}, { preventDefault: true })
 
-const goDashboard: Command = {
+// Multi-step sequence
+registry.register('g+d', {
   name: 'Go Dashboard',
-  execute: () => console.log('navigate to /dashboard'),
-}
-
-registry.register('ctrl+k', openPalette)
-registry.register('g+d', goDashboard) // press `g`, then `d`
+  execute: () => console.log('navigating to /dashboard'),
+})
 
 handler.attach(document)
-// later: handler.detach(document)
+
+// Later: cleanup
+handle.unregister()
+handler.detach(document)
 ```
 
-## Quick start (React)
+### React
 
 ```tsx
-import React from 'react'
-import { KeyProvider, useKeyCommands } from '@gentleduck/vim/react'
+import { KeyProvider, useKeyBind, useKeySequence } from '@gentleduck/vim/react'
 
 function App() {
-  useKeyCommands({
-    'g+d': { name: 'Go Dashboard', execute: () => console.log('dash') },
-    'ctrl+k': { name: 'Open Palette', execute: () => console.log('palette') },
-  })
+  useKeyBind('ctrl+k', () => console.log('palette'), { preventDefault: true })
+  useKeySequence(['g', 'd'], () => console.log('dashboard'))
 
-  return <div>Press g then d, or Ctrl+K</div>
+  return <div>Press Ctrl+K or g then d</div>
 }
 
 export default function Root() {
   return (
-    <KeyProvider debug timeoutMs={600}>
+    <KeyProvider timeoutMs={600}>
       <App />
     </KeyProvider>
   )
 }
 ```
 
-## Concepts
+---
 
-* **Key descriptor** — built from a `KeyboardEvent` as `ctrl?+alt?+meta?+shift?+key`. Always normalized to lowercase. Aliases: `' '` -> `space`, `escape` -> `esc`, `control` -> `ctrl`.
-* **Sequence** — concatenation of descriptors separated by `+` between steps (e.g. `g+d`). Each step may include modifiers: `ctrl+shift+k`.
-* **Prefixes** — every registered sequence contributes progressive prefixes. Registering `g+d` will mark `g` as a valid prefix while waiting for completion.
-* **Timeout** — when a prefix is active, the internal sequence resets after `timeoutMs` unless the sequence completes.
+## Modules
 
-## API (core)
+### platform
 
-### `interface Command`
+OS detection and cross-platform `Mod` key resolution.
+
+```ts
+import { detectPlatform, resolveMod, isMac } from '@gentleduck/vim/platform'
+
+detectPlatform()       // 'mac' | 'windows' | 'linux'
+resolveMod()           // 'meta' on mac, 'ctrl' otherwise
+resolveMod('windows')  // 'ctrl'
+isMac()                // true on macOS
+```
+
+- Caches the result after the first call.
+- Falls back to `'linux'` during SSR (when `navigator` is unavailable).
+
+---
+
+### parser
+
+Parse, normalize, and validate key binding strings.
+
+```ts
+import { parseKeyBind, normalizeKeyBind, validateKeyBind, keyboardEventToDescriptor } from '@gentleduck/vim/parser'
+```
+
+#### `parseKeyBind(binding, platform?)`
+
+Parses a key binding string into a structured object. Resolves `Mod` to the platform-specific modifier.
+
+```ts
+parseKeyBind('Mod+Shift+S', 'mac')
+// {
+//   key: 's',
+//   ctrl: false, shift: true, alt: false, meta: true,
+//   modifiers: ['meta', 'shift']
+// }
+
+parseKeyBind('Mod+Shift+S', 'linux')
+// {
+//   key: 's',
+//   ctrl: true, shift: true, alt: false, meta: false,
+//   modifiers: ['ctrl', 'shift']
+// }
+```
+
+Throws on empty string, modifier-only input, or multiple non-modifier keys.
+
+#### `normalizeKeyBind(binding, platform?)`
+
+Returns the canonical form: modifiers in alphabetical order, all lowercase.
+
+```ts
+normalizeKeyBind('Shift+Ctrl+K')  // 'ctrl+shift+k'
+normalizeKeyBind('Mod+S', 'mac')  // 'meta+s'
+```
+
+#### `validateKeyBind(binding)`
+
+Non-throwing validation. Returns `{ valid, warnings, errors }`.
+
+```ts
+validateKeyBind('ctrl+shift+s')
+// { valid: true, warnings: [], errors: [] }
+
+validateKeyBind('ctrl+ctrl+k')
+// { valid: false, warnings: [], errors: ["Duplicate modifier: 'ctrl'"] }
+
+validateKeyBind('alt+k')
+// { valid: true, warnings: ['Alt+letter combinations may not work on macOS due to special characters'], errors: [] }
+```
+
+#### `keyboardEventToDescriptor(event)`
+
+Converts a `KeyboardEvent` into a canonical descriptor string. Returns `null` for pure modifier presses.
+
+```ts
+// For a keydown event where user pressed Ctrl+S:
+keyboardEventToDescriptor(event)  // 'ctrl+s'
+```
+
+---
+
+### matcher
+
+Match keyboard events against parsed key bindings. Detect input elements. Create standalone handlers.
+
+```ts
+import { matchesKeyboardEvent, isInputElement, createKeyBindHandler, createMultiKeyBindHandler } from '@gentleduck/vim/matcher'
+```
+
+#### `matchesKeyboardEvent(parsed, event, options?)`
+
+Checks if a `KeyboardEvent` matches a `ParsedKeyBind`.
+
+```ts
+const parsed = parseKeyBind('ctrl+s')
+matchesKeyboardEvent(parsed, event)  // true or false
+```
+
+Options: `{ ignoreCase?: boolean }` (default: `true`).
+
+#### `isInputElement(element)`
+
+Returns `true` for text inputs, textareas, selects, and contenteditable elements. Returns `false` for button-type inputs (`button`, `submit`, `reset`).
+
+```ts
+isInputElement(document.querySelector('input[type="text"]'))  // true
+isInputElement(document.querySelector('button'))               // false
+```
+
+#### `createKeyBindHandler(config)`
+
+Creates a standalone `keydown` event handler for a single key binding.
+
+```ts
+const handler = createKeyBindHandler({
+  binding: 'Mod+S',
+  handler: (e) => save(),
+  options: { preventDefault: true, ignoreInputs: true }
+})
+
+document.addEventListener('keydown', handler)
+```
+
+#### `createMultiKeyBindHandler(configs)`
+
+Same as above but for multiple key bindings. First match wins.
+
+```ts
+const handler = createMultiKeyBindHandler([
+  { binding: 'Mod+S', handler: () => save(), options: { preventDefault: true } },
+  { binding: 'Mod+Z', handler: () => undo(), options: { preventDefault: true } },
+])
+
+document.addEventListener('keydown', handler)
+```
+
+---
+
+### format
+
+Platform-aware display formatting for key bindings.
+
+```ts
+import { formatForDisplay, formatWithLabels } from '@gentleduck/vim/format'
+```
+
+#### `formatForDisplay(binding, options?)`
+
+Compact display with platform-specific modifier names.
+
+```ts
+formatForDisplay('Mod+S', { platform: 'mac' })      // 'Cmd+S'
+formatForDisplay('Mod+S', { platform: 'linux' })     // 'Ctrl+S'
+formatForDisplay('Mod+S', { platform: 'windows' })   // 'Ctrl+S'
+formatForDisplay('ctrl+shift+k')                      // 'Ctrl+Shift+K'
+```
+
+#### `formatWithLabels(binding, options?)`
+
+Verbose labels with a wider separator.
+
+```ts
+formatWithLabels('Mod+Shift+S', { platform: 'mac' })     // 'Cmd + Shift + S'
+formatWithLabels('ctrl+space', { platform: 'linux' })     // 'Ctrl + Space'
+```
+
+Options: `{ platform?: Platform, separator?: string }`.
+
+Platform modifier mappings:
+
+| Modifier | Mac   | Windows | Linux |
+|----------|-------|---------|-------|
+| meta     | Cmd   | Win     | Super |
+| ctrl     | Ctrl  | Ctrl    | Ctrl  |
+| alt      | Opt   | Alt     | Alt   |
+| shift    | Shift | Shift   | Shift |
+
+---
+
+### command
+
+The core registry and key handler. Manages key-binding-to-command mappings with prefix-based multi-step sequence support.
+
+```ts
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+```
+
+#### `class Registry`
+
+```ts
+const registry = new Registry(debug?: boolean)
+
+// Register a command -- returns a RegistrationHandle
+const handle = registry.register(key, command, options?)
+
+// Query
+registry.hasCommand(key)                // boolean
+registry.getCommand(key)                // Command | undefined
+registry.getEntry(key)                  // RegistryEntry | undefined
+registry.getOptions(key)                // KeyBindOptions | undefined
+registry.getAllCommands()               // Map<string, Command>
+registry.isPrefix(key)                  // boolean
+
+// Unregister
+handle.unregister()                     // via the handle
+registry.unregister(key)                // directly by key
+registry.clear()                        // remove all
+```
+
+#### `class KeyHandler`
+
+```ts
+const handler = new KeyHandler(registry, timeoutMs?, defaultOptions?)
+
+handler.attach(target?)   // default: document
+handler.detach(target?)
+```
+
+Matching strategy:
+1. Try the full accumulated sequence.
+2. If the sequence is a known prefix, wait up to `timeoutMs` for the next key.
+3. Otherwise, reset and retry with just the last key.
+4. If nothing matches, reset entirely.
+
+Ignores pure modifier key presses (`Shift`, `Control`, `Alt`, `Meta`).
+
+#### `interface Command`
 
 ```ts
 interface Command {
@@ -119,64 +343,327 @@ interface Command {
 }
 ```
 
-### `class Registry`
+#### `interface RegistrationHandle`
+
+Returned from `registry.register()`. Provides per-binding control.
 
 ```ts
-constructor(debug?: boolean)
-register(key: string, cmd: Command): void
-hasCommand(key: string): boolean
-getCommand(key: string): Command | undefined
-isPrefix(key: string): boolean
+interface RegistrationHandle {
+  unregister: () => void
+  setEnabled: (enabled: boolean) => void
+  isEnabled: () => boolean
+  resetFired: () => void
+}
 ```
 
-`Registry` holds the mapping from sequence strings to `Command` and tracks prefixes for multi‑step sequences.
+---
 
-### `class KeyHandler`
+### sequence
+
+Dedicated multi-key sequence matching via `SequenceManager`, separate from the command registry's built-in prefix system.
 
 ```ts
-constructor(registry: Registry, timeoutMs = 600)
-attach(target: HTMLElement | Document = document): void
-detach(target: HTMLElement | Document = document): void
+import { SequenceManager, createSequenceMatcher } from '@gentleduck/vim/sequence'
 ```
 
-* Ignores pure modifier presses (`Shift`, `Control`, `Alt`, `Meta`).
-* Matching strategy: try full sequence -> if prefix, wait -> otherwise retry last descriptor -> reset.
+#### `class SequenceManager`
 
-## API (React bindings)
+Manages multiple sequence registrations. Feed keyboard events and it tracks progress across all registered sequences.
 
-* **`KeyProvider`** — mounts a `Registry` and `KeyHandler`, attaches on mount, detaches on unmount.
+```ts
+const manager = new SequenceManager()
 
-  * Props: `{ debug?: boolean; timeoutMs?: number; children: ReactNode }`
+const handle = manager.register({
+  steps: [{ binding: 'g' }, { binding: 'd' }],
+  handler: () => console.log('g then d'),
+  options: { timeout: 600 }
+})
 
-* **`useKeyCommands(commands: Record<string, Command>)`** — registers a set of key->command mappings using the provider's `registry`. Must be used inside `KeyProvider`.
+// Feed events from a listener
+document.addEventListener('keydown', (e) => {
+  manager.handleKeyEvent(e)
+})
 
-* **`KeyContext`** — advanced: exposes `{ registry: Registry; handler: KeyHandler }` for programmatic usage.
+// Query state
+manager.getState()   // { completedSteps, totalSteps, isMatching }
+manager.reset()      // reset all in-progress matching
+manager.destroy()    // cleanup
 
-## Advanced usage
+handle.unregister()  // remove one sequence
+```
 
-* **Scoped listeners** — call `handler.attach(element)` to scope keyboard handling to a specific DOM subtree.
-* **Multiple registries** — create separate `Registry`/`KeyHandler` instances per feature for isolation.
-* **Programmatic execution** — `registry.getCommand('ctrl+k')?.execute()`.
-* **Debugging** — enable `debug` to log state transitions and matches.
+#### `createSequenceMatcher(steps, handler, options?)`
 
-## Accessibility & UX
+Lightweight standalone matcher for a single sequence.
 
-* Avoid shadowing essential browser shortcuts unless necessary.
-* Provide discoverability (help modal or command palette listing registered shortcuts).
-* Offer alternative mouse/UI paths for critical actions.
-* Test on various keyboard layouts and IME-enabled environments — `e.key` can vary by layout.
+```ts
+const matcher = createSequenceMatcher(['g', 'd'], () => console.log('matched'))
+
+document.addEventListener('keydown', (e) => {
+  matcher.feed(e)
+})
+
+matcher.getState()  // { completedSteps, totalSteps, isMatching }
+matcher.reset()
+```
+
+---
+
+### recorder
+
+Record key combinations and track key state. Useful for settings UIs where users customize keybindings.
+
+```ts
+import { KeyRecorder, KeyStateTracker } from '@gentleduck/vim/recorder'
+```
+
+#### `class KeyRecorder`
+
+Records a single key combination from user input.
+
+```ts
+const recorder = new KeyRecorder({
+  onRecord: (binding) => console.log('Recorded:', binding),
+  onStart: () => console.log('Recording started'),
+  onStop: () => console.log('Recording stopped'),
+})
+
+recorder.start(document.body)
+// User presses Ctrl+Shift+K
+// onRecord fires with 'ctrl+shift+k'
+
+recorder.getState()  // { activeKeys: [], recorded: 'ctrl+shift+k', isRecording: true }
+recorder.stop()
+recorder.reset()
+recorder.destroy()
+```
+
+#### `class KeyStateTracker`
+
+Tracks which keys are currently held down.
+
+```ts
+const tracker = new KeyStateTracker()
+tracker.attach(document.body)
+
+tracker.isKeyPressed('a')   // true if 'a' is held
+tracker.getSnapshot()       // { pressed: ReadonlySet<string>, hasModifier: boolean }
+
+tracker.detach()
+tracker.destroy()
+```
+
+---
+
+### react
+
+React bindings: context provider, legacy hook, and modern hooks.
+
+```ts
+import {
+  KeyProvider,
+  KeyContext,
+  useKeyCommands,
+  useKeyBind,
+  useKeySequence,
+  useKeyRecorder,
+} from '@gentleduck/vim/react'
+```
+
+#### `KeyProvider`
+
+Mounts a `Registry`, `KeyHandler`, and `SequenceManager`. Attaches a global keydown listener on mount.
+
+```tsx
+<KeyProvider debug={false} timeoutMs={600} defaultOptions={{ preventDefault: false }}>
+  <App />
+</KeyProvider>
+```
+
+Props:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `debug` | `boolean` | `false` | Enable debug logging |
+| `timeoutMs` | `number` | `600` | Timeout between sequence steps (ms) |
+| `defaultOptions` | `Partial<KeyBindOptions>` | `{}` | Default options for all registrations |
+| `children` | `ReactNode` | -- | Required |
+
+#### `KeyContext`
+
+Advanced usage: access `{ registry, handler, sequenceManager, timeoutMs, defaultOptions }` directly.
+
+```tsx
+const ctx = React.useContext(KeyContext)
+ctx?.registry.register('ctrl+k', { name: 'test', execute: () => {} })
+```
+
+#### `useKeyCommands(commands, options?)`
+
+Register multiple key-command mappings. Automatically unregisters on cleanup.
+
+```tsx
+useKeyCommands({
+  'ctrl+k': { name: 'Open Palette', execute: () => setOpen(true) },
+  'g+d': { name: 'Go Dashboard', execute: () => navigate('/dashboard') },
+}, { preventDefault: true })
+```
+
+Must be used inside `KeyProvider`.
+
+---
+
+## React hooks
+
+### `useKeyBind(binding, handler, options?)`
+
+Bind a single key binding. Works with or without `KeyProvider`.
+
+```tsx
+// Basic
+useKeyBind('ctrl+k', () => setOpen(true))
+
+// With options
+useKeyBind('Mod+S', () => save(), {
+  preventDefault: true,
+  ignoreInputs: true,
+})
+
+// Scoped to a specific element
+const ref = useRef<HTMLDivElement>(null)
+useKeyBind('escape', () => close(), { targetRef: ref })
+```
+
+Options extend `KeyBindOptions` with an additional `targetRef`.
+
+### `useKeySequence(steps, handler, options?)`
+
+Bind a multi-key sequence.
+
+```tsx
+useKeySequence(['g', 'd'], () => navigate('/dashboard'))
+useKeySequence(['g', 'h'], () => navigate('/home'), { timeout: 800 })
+```
+
+### `useKeyRecorder()`
+
+Record key combinations for settings UIs.
+
+```tsx
+function KeybindingInput() {
+  const { state, start, stop, reset } = useKeyRecorder()
+
+  return (
+    <div>
+      <button onClick={() => start()}>
+        {state.isRecording ? 'Recording...' : 'Click to record'}
+      </button>
+      {state.recorded && <span>Recorded: {state.recorded}</span>}
+      <button onClick={reset}>Reset</button>
+    </div>
+  )
+}
+```
+
+---
+
+## Per-binding options
+
+Every `register()` call accepts an optional `KeyBindOptions` object:
+
+```ts
+interface KeyBindOptions {
+  enabled?: boolean              // default: true
+  preventDefault?: boolean       // default: false
+  stopPropagation?: boolean      // default: false
+  ignoreInputs?: boolean         // default: false -- skip when focused on text inputs
+  eventType?: 'keydown' | 'keyup'  // default: 'keydown'
+  requireReset?: boolean         // default: false -- fire only once until resetFired() is called
+  conflictBehavior?: 'warn' | 'error' | 'replace' | 'allow'  // default: 'warn'
+}
+```
+
+Options can also be set as defaults via the `KeyHandler` constructor or the `KeyProvider` `defaultOptions` prop. Per-binding options override defaults.
+
+```ts
+// Constructor defaults
+const handler = new KeyHandler(registry, 600, { preventDefault: true })
+
+// Per-binding override
+registry.register('ctrl+k', command, { preventDefault: false })
+```
+
+---
+
+## Conflict detection
+
+When registering a key binding that already exists, the behavior is controlled by `conflictBehavior`:
+
+| Value | Behavior |
+|-------|----------|
+| `'warn'` | Logs a console warning and replaces (default) |
+| `'error'` | Throws an `Error` |
+| `'replace'` | Silently replaces the existing binding |
+| `'allow'` | Silently proceeds (same as replace) |
+
+```ts
+registry.register('ctrl+k', cmd1)
+registry.register('ctrl+k', cmd2, { conflictBehavior: 'error' })
+// throws: "Key binding 'ctrl+k' is already registered"
+```
+
+---
+
+## Key aliases
+
+The parser automatically normalizes these aliases:
+
+| Input | Canonical |
+|-------|-----------|
+| `' '` (space character) | `space` |
+| `escape` | `esc` |
+| `control` | `ctrl` |
+| `cmd`, `command` | `meta` |
+| `opt`, `option` | `alt` |
+| `Mod` | `meta` (mac) / `ctrl` (windows, linux) |
+
+---
+
+## Architecture
+
+```
+platform  (zero deps)
+   |
+parser  (depends on: platform)
+   |
+matcher  (depends on: parser)
+   |          |
+format    sequence  (format: parser + platform, sequence: parser + matcher)
+               |
+recorder  (depends on: parser)
+   |           |
+command  (depends on: matcher)
+   |
+react  (depends on: command, sequence, recorder)
+```
+
+Each module is a separate entry point (`@gentleduck/vim/<module>`) and can be used independently. The `react` module pulls everything together.
+
+---
 
 ## Testing
 
-The repo uses `vitest` + JSDOM. Test `Registry` directly for DOM‑less behavior. For `KeyHandler`, dispatch `keydown` events on a JSDOM `document` or element to simulate user input.
+Uses `vitest` with `jsdom`.
 
-## Limitations
+```sh
+bun run test        # run all tests
+bun run dev         # watch mode
+bun run check-types # type check
+bun run build       # build all modules
+```
 
-* No built‑in `unregister` API yet — consumers must manage cleanup or reinstantiate registries.
-* `preventDefault`/`stopPropagation` are not applied automatically — left to integrators for fine control.
-* Timing‑based sequences (`timeoutMs`) can conflict with IME and accessibility tools. Tweak `timeoutMs` as needed.
+---
 
 ## License
 
-[MIT © duck-ui](./LICENSE)
-
+[MIT](./LICENSE)
