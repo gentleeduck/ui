@@ -1,7 +1,6 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { usePopoverContext } from '@gentleduck/primitives/popover'
 import { CheckIcon, ChevronDown, ChevronUp } from 'lucide-react'
 import * as React from 'react'
 import { Button, buttonVariants } from '../button'
@@ -26,15 +25,17 @@ function SelectWrapper({
   value,
   onValueChange = () => {},
   defaultValue = '',
+  open,
+  onOpenChange,
 }: {
   children: React.ReactNode
   scrollable?: boolean
   value?: string
   onValueChange?: (value: string) => void
   defaultValue?: string
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }) {
-  const { open, setOpen: onOpenChange } = usePopoverContext()
-
   const triggerRef = React.useRef<HTMLButtonElement | null>(null)
   const contentRef = React.useRef<HTMLDivElement | null>(null)
   const groupsRef = React.useRef<HTMLUListElement[]>([])
@@ -99,19 +100,43 @@ function SelectWrapper({
 function Select({
   children,
   onValueChange,
-  contextMenu,
   defaultValue,
   value,
+  open: openProp,
+  onOpenChange: onOpenChangeProp,
   ...props
-}: React.ComponentPropsWithRef<typeof Popover> & {
+}: {
+  children: React.ReactNode
   defaultValue?: string
   value?: string
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
   onValueChange?: (value: string) => void
   scrollable?: boolean
 }) {
+  const [internalOpen, setInternalOpen] = React.useState(openProp ?? false)
+  const open = openProp !== undefined ? openProp : internalOpen
+  const onOpenChange = React.useCallback(
+    (v: boolean) => {
+      setInternalOpen(v)
+      onOpenChangeProp?.(v)
+    },
+    [onOpenChangeProp],
+  )
+
+  React.useEffect(() => {
+    if (openProp !== undefined) setInternalOpen(openProp)
+  }, [openProp])
+
   return (
-    <Popover {...props} contextMenu={contextMenu} matchWidth>
-      <SelectWrapper {...props} defaultValue={defaultValue} onValueChange={onValueChange} value={value}>
+    <Popover open={open} onOpenChange={onOpenChange}>
+      <SelectWrapper
+        {...props}
+        open={open}
+        onOpenChange={onOpenChange}
+        defaultValue={defaultValue}
+        onValueChange={onValueChange}
+        value={value}>
         {children}
       </SelectWrapper>
     </Popover>
@@ -145,13 +170,13 @@ function SelectContent({ children, className, ...props }: React.ComponentPropsWi
   const { scrollable, contentRef } = useSelectContext()
   return (
     <PopoverContent
-      className={cn('w-auto px-1 [&>div]:w-full', scrollable ? 'py-0' : 'py-1', className)}
+      className={cn('min-w-[var(--gentleduck-popover-trigger-width)] px-1', scrollable ? 'py-0' : 'py-1', className)}
       data-slot="select-content"
       duck-select-content=""
       {...props}>
       {scrollable && <SelectScrollUpButton />}
       <div
-        className={cn(scrollable && 'max-h-[450px] overflow-y-scroll')}
+        className={cn(scrollable && 'max-h-112.5 overflow-y-scroll')}
         data-slot="select-content-scrollable"
         duck-select-content-scrollable=""
         ref={contentRef}>
