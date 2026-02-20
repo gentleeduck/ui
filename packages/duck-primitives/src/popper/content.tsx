@@ -134,10 +134,10 @@ export const PopperContent = ({ ref: forwardedRef, ...props }: ScopedProps<Poppe
           const { width: anchorWidth, height: anchorHeight } = rects.reference
           const contentStyle = elements.floating.style
 
-          contentStyle.setProperty('--genltleduck-popper-available-width', `${availableWidth}px`)
-          contentStyle.setProperty('--genltleduck-popper-available-height', `${availableHeight}px`)
-          contentStyle.setProperty('--genltleduck-popper-anchor-width', `${anchorWidth}px`)
-          contentStyle.setProperty('--genltleduck-popper-anchor-height', `${anchorHeight}px`)
+          contentStyle.setProperty('--gentleduck-popper-available-width', `${availableWidth}px`)
+          contentStyle.setProperty('--gentleduck-popper-available-height', `${availableHeight}px`)
+          contentStyle.setProperty('--gentleduck-popper-anchor-width', `${anchorWidth}px`)
+          contentStyle.setProperty('--gentleduck-popper-anchor-height', `${anchorHeight}px`)
         },
       }),
       arrow && floatingUIarrow({ element: arrow, padding: arrowPadding }),
@@ -172,7 +172,7 @@ export const PopperContent = ({ ref: forwardedRef, ...props }: ScopedProps<Poppe
           transform: isPositioned ? floatingStyles.transform : 'translate(0, -200%)',
           minWidth: 'max-content',
           zIndex: contentZIndex,
-          '--duck-popper-transform-origin': [middlewareData.transformOrigin?.x, middlewareData.transformOrigin?.y].join(
+          '--gentleduck-popper-transform-origin': [middlewareData.transformOrigin?.x, middlewareData.transformOrigin?.y].join(
             ' ',
           ),
           ...(middlewareData.hide?.referenceHidden && {
