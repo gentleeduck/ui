@@ -1,0 +1,42 @@
+---
+title: "Mount"
+description: "Simple mount/unmount helpers with animation delay support."
+---
+
+```tsx
+import { Mount, MountMinimal } from '@gentleduck/primitives/mount'
+```
+
+## `Mount`
+
+A simple component that mounts children when `open` is true and unmounts after `animationDuration` when `open` becomes false.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | -- | Whether to show children |
+| `renderOnce` | `boolean` | `false` | Unmount completely after close (no re-render) |
+| `animationDuration` | `number` | `400` | Delay before unmounting (ms) |
+
+```tsx
+<Mount open={isOpen} animationDuration={300}>
+  <div className="fade-out-on-close">Content</div>
+</Mount>
+```
+
+## `MountMinimal`
+
+A more advanced mount helper that reads the element's CSS `transition-duration` to determine when to unmount, rather than using a fixed duration.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | `false` | Whether to show children |
+| `forceMount` | `boolean` | `false` | Force mount regardless of open state |
+| `skipWaiting` | `boolean` | `false` | Unmount immediately without waiting for transitions |
+| `renderOnce` | `boolean` | `false` | Keep mounted after first render |
+| `ref` | `HTMLDialogElement \| null` | -- | Element to observe for transition duration |
+
+<Callout icon={<Lightbulb />}>
+
+For most cases, prefer `Presence` over `Mount`. Mount is useful for simpler scenarios where you don't need animation detection.
+
+</Callout>

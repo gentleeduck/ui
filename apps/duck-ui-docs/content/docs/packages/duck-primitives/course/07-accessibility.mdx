@@ -1,0 +1,174 @@
+---
+title: "Lesson 7: Accessibility Deep Dive"
+description: "Understand the ARIA patterns that duck-primitives implement and how to test them."
+---
+
+<Callout icon={<Target />}>
+
+**Lesson 7 of 8** -- Learn what accessibility features primitives handle automatically, what you need to provide, and how to test with screen readers.
+
+</Callout>
+
+## What you get for free
+
+Every duck-primitive implements a WAI-ARIA pattern. Here's what the Dialog primitive does automatically:
+
+1. `role="dialog"` on Content.
+2. `aria-labelledby` pointing to Title's `id`.
+3. `aria-describedby` pointing to Description's `id`.
+4. `aria-haspopup="dialog"` on Trigger.
+5. `aria-expanded` on Trigger (true/false based on open state).
+6. `aria-controls` on Trigger pointing to Content's `id`.
+7. `aria-hidden="true"` on all sibling content when modal dialog is open.
+8. Focus trap cycling through focusable elements.
+9. Focus restoration to trigger on close.
+10. <Kbd>Escape</Kbd> key handling.
+
+<Callout icon={<Zap />}>
+
+You don't write any of this. But you need to understand it to avoid breaking it.
+
+</Callout>
+
+---
+
+## Things you can break
+
+### Missing Title
+
+```tsx
+// BAD: no Title
+<Dialog.Content>
+  <p>Just content, no title</p>
+</Dialog.Content>
+```
+
+<Callout icon={<TriangleAlert />}>
+
+Screen readers announce the dialog but can't tell the user what it's about. In development, duck-primitives warn you about this.
+
+</Callout>
+
+Fix: always include a Title, even if visually hidden:
+
+```tsx
+<Dialog.Title className="sr-only">Settings</Dialog.Title>
+```
+
+### Breaking focus trap with portals
+
+If you render content outside the Dialog.Content (e.g., a toast inside a dialog), it won't be part of the focus trap. Users can <Kbd>Tab</Kbd> to it but can't <Kbd>Tab</Kbd> back into the dialog.
+
+Fix: keep all interactive content inside Content, or use `DismissableLayerBranch` to mark external content as part of the layer.
+
+### Non-interactive tooltips
+
+<Callout icon={<Lightbulb />}>
+
+Tooltips should contain only text, not buttons or links. If users need to interact with floating content, use a **Popover** or **HoverCard** instead.
+
+</Callout>
+
+---
+
+## Testing with screen readers
+
+<Steps>
+
+<Step>macOS VoiceOver</Step>
+
+1. Press <Kbd>Cmd+F5</Kbd> to enable VoiceOver.
+2. <Kbd>Tab</Kbd> to a Dialog Trigger. VoiceOver announces: "Open dialog, button."
+3. Press <Kbd>Enter</Kbd>. VoiceOver announces: "Settings dialog" (from Title).
+4. <Kbd>Tab</Kbd> through content. Each focusable element is announced.
+5. Press <Kbd>Escape</Kbd>. Focus returns to trigger.
+
+<Step>Windows NVDA</Step>
+
+1. Download NVDA (free) and start it.
+2. Navigate to a trigger with <Kbd>Tab</Kbd> or arrow keys.
+3. Activate with <Kbd>Enter</Kbd> / <Kbd>Space</Kbd>.
+4. Verify the dialog role and title are announced.
+
+<Step>Chrome DevTools</Step>
+
+Open DevTools, go to the Accessibility tab, and inspect elements. Check that:
+
+- Dialog Content has `role="dialog"` and `aria-labelledby`.
+- Menu items have `role="menuitem"`.
+- Checkbox items have `role="menuitemcheckbox"` and `aria-checked`.
+- Progress has `role="progressbar"` with `aria-valuenow`.
+
+</Steps>
+
+---
+
+## Focus management details
+
+### Auto-focus on open
+
+By default, Dialog.Content auto-focuses the first focusable element when it mounts. You can control this:
+
+```tsx
+<Dialog.Content onOpenAutoFocus={(event) => {
+  // Focus a specific element instead
+  event.preventDefault()
+  myInputRef.current?.focus()
+}}>
+```
+
+### Focus restoration on close
+
+By default, focus returns to the Trigger. You can redirect it:
+
+```tsx
+<Dialog.Content onCloseAutoFocus={(event) => {
+  event.preventDefault()
+  someOtherElement.current?.focus()
+}}>
+```
+
+---
+
+## The `data-state` contract
+
+<Callout icon={<Lightbulb />}>
+
+Primitives expose state through **data attributes** for styling, and **ARIA attributes** for assistive technology. These are separate concerns:
+
+- `data-state="open"` / `data-state="closed"` -- for your CSS
+- `aria-expanded="true"` / `aria-checked="true"` -- for screen readers
+
+</Callout>
+
+---
+
+## Checklist
+
+<Callout icon={<TriangleAlert />}>
+
+When using duck-primitives, verify:
+
+- Every Dialog/AlertDialog has a Title.
+- Every icon-only button has `aria-label`.
+- <Kbd>Escape</Kbd> closes all overlays.
+- <Kbd>Tab</Kbd> stays within modal dialogs.
+- Focus returns to the trigger after closing.
+- Menu items are navigable with arrow keys.
+- `prefers-reduced-motion` is respected.
+
+</Callout>
+
+---
+
+## Exercise
+
+1. Open your dialog and navigate it using only the keyboard. <Kbd>Tab</Kbd> through every element. Close with <Kbd>Escape</Kbd>. Verify focus returns to the trigger.
+2. Enable VoiceOver (or NVDA) and listen to what gets announced. Fix any missing labels.
+3. Inspect your dialog in Chrome DevTools Accessibility tab and verify all ARIA attributes are correct.
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 8 -- Building a Design System](/docs/packages/duck-primitives/course/08-design-system)
+
+</Callout>

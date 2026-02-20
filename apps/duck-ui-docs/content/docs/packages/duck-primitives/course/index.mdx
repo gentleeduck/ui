@@ -1,0 +1,56 @@
+---
+title: "gentleduck/primitives Course"
+description: "Learn to build accessible UI components with gentleduck/primitives. 8 lessons from basics to production patterns."
+---
+
+<Callout icon={<MapIcon />}>
+
+This course teaches you how to use **gentleduck/primitives** to build accessible, composable UI components. Each lesson introduces one concept with practical code examples.
+
+</Callout>
+
+## Course overview
+
+**Prerequisites:** React knowledge (hooks, refs, context). No accessibility expertise required.
+
+---
+
+## Lessons
+
+| # | Title | What you will learn |
+| --- | --- | --- |
+| 1 | [Why Primitives](/docs/packages/duck-primitives/course/01-why-primitives) | The problem with building UI from scratch, and how primitives solve it |
+| 2 | [Your First Dialog](/docs/packages/duck-primitives/course/02-first-dialog) | The compound component pattern, controlled/uncontrolled state |
+| 3 | [The asChild Pattern](/docs/packages/duck-primitives/course/03-as-child) | Composition without wrapper divs |
+| 4 | [Popover and Positioning](/docs/packages/duck-primitives/course/04-popover) | Floating elements, anchoring, and collision avoidance |
+| 5 | [Menus and Navigation](/docs/packages/duck-primitives/course/05-menus) | Context menus, menubars, and keyboard navigation |
+| 6 | [Animation with Presence](/docs/packages/duck-primitives/course/06-animation) | Enter/exit animations using CSS and Presence |
+| 7 | [Accessibility Deep Dive](/docs/packages/duck-primitives/course/07-accessibility) | ARIA patterns, focus management, and screen reader testing |
+| 8 | [Building a Design System](/docs/packages/duck-primitives/course/08-design-system) | Wrapping primitives into styled, reusable components |
+
+---
+
+## Setup
+
+<Steps>
+
+<Step>Create a new project</Step>
+
+```bash
+npm create vite@latest primitives-playground -- --template react-ts
+```
+
+<Step>Install duck-primitives</Step>
+
+```bash
+cd primitives-playground
+npm install @gentleduck/primitives
+```
+
+<Step>Start the dev server</Step>
+
+```bash
+npm run dev
+```
+
+</Steps>

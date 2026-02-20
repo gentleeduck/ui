@@ -1,0 +1,179 @@
+---
+title: "Getting Started"
+description: "Install duck-primitives and render your first accessible dialog in under 5 minutes."
+---
+
+<Callout icon={<Zap />}>
+
+Get up and running with **gentleduck/primitives** in under 5 minutes. By the end of this page you will have a fully accessible, animated dialog.
+
+</Callout>
+
+## Installation
+
+```bash
+npm install @gentleduck/primitives
+```
+
+<Callout icon={<Lightbulb />}>
+
+duck-primitives ships TypeScript types and requires **React 18+**. No separate `@types` package needed.
+
+</Callout>
+
+---
+
+## Your first dialog
+
+Every primitive follows the same pattern: a namespace object with compound components.
+
+<Steps>
+
+<Step>Import the Dialog primitive</Step>
+
+```tsx
+import * as Dialog from '@gentleduck/primitives/dialog'
+```
+
+<Step>Build your component</Step>
+
+```tsx
+function MyDialog() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>Open dialog</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+        <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg">
+          <Dialog.Title>Are you sure?</Dialog.Title>
+          <Dialog.Description>This action cannot be undone.</Dialog.Description>
+          <Dialog.Close>Close</Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+
+<Step>You are done</Step>
+
+</Steps>
+
+That's it. The dialog handles all of this automatically:
+
+- Focus trapping inside the content when open.
+- Restoring focus to the trigger when closed.
+- Closing on <Kbd>Escape</Kbd> key press.
+- Closing on overlay click.
+- Scroll locking on the body.
+- Correct ARIA roles (`dialog`, `aria-labelledby`, `aria-describedby`).
+- Hiding everything else from screen readers via `aria-hidden`.
+
+You provide the styles. The primitive provides the behavior.
+
+---
+
+## Import patterns
+
+<Tabs defaultValue="namespace">
+<TabsList>
+  <TabsTrigger value="namespace">Namespace (recommended)</TabsTrigger>
+  <TabsTrigger value="named">Named imports</TabsTrigger>
+</TabsList>
+<TabsContent value="namespace">
+
+```tsx
+import * as Dialog from '@gentleduck/primitives/dialog'
+import * as Popover from '@gentleduck/primitives/popover'
+import * as Tooltip from '@gentleduck/primitives/tooltip'
+```
+
+
+Reads clearly in JSX: `<Dialog.Root>`, `<Dialog.Trigger>`, etc.
+
+</TabsContent>
+<TabsContent value="named">
+
+```tsx
+import { DialogRoot, DialogTrigger, DialogContent } from '@gentleduck/primitives/dialog'
+```
+
+Works when you need to avoid naming collisions.
+
+</TabsContent>
+</Tabs>
+
+---
+
+## The component model
+
+Every primitive follows the same compound component pattern:
+
+```txt
+Root         -- State manager, provides context
+Trigger      -- Element that activates the component
+Portal       -- Renders content outside the DOM tree
+Overlay      -- Backdrop behind the content (optional)
+Content      -- The main content area
+Title        -- Accessible title (connected via aria-labelledby)
+Description  -- Accessible description (connected via aria-describedby)
+Close        -- Button that closes the component
+```
+
+<Callout icon={<Lightbulb />}>
+
+Not every primitive has all of these. A Tooltip has no Overlay. A Progress bar has an Indicator instead of Content. But the pattern is consistent across the library.
+
+</Callout>
+
+---
+
+## Controlled vs uncontrolled
+
+All primitives support both modes:
+
+<Tabs defaultValue="uncontrolled">
+<TabsList>
+  <TabsTrigger value="uncontrolled">Uncontrolled</TabsTrigger>
+  <TabsTrigger value="controlled">Controlled</TabsTrigger>
+</TabsList>
+<TabsContent value="uncontrolled">
+
+The primitive manages its own state internally:
+
+```tsx
+<Dialog.Root defaultOpen={false}>
+  ...
+</Dialog.Root>
+```
+
+</TabsContent>
+<TabsContent value="controlled">
+
+You manage the state and pass it in:
+
+```tsx
+const [open, setOpen] = useState(false)
+<Dialog.Root open={open} onOpenChange={setOpen}>
+  ...
+</Dialog.Root>
+```
+
+</TabsContent>
+</Tabs>
+
+<Callout icon={<TriangleAlert />}>
+
+In development mode, switching between controlled and uncontrolled will log a warning to help you catch bugs.
+
+</Callout>
+
+---
+
+## What's next?
+
+<Callout icon={<MapIcon />} className="[&_ul]:my-0">
+- [Core Concepts](/docs/packages/duck-primitives/concepts) -- Understand asChild, Presence, and the composition model.
+- [API Reference](/docs/packages/duck-primitives/api) -- Full API for every primitive.
+- [Course](/docs/packages/duck-primitives/course) -- Hands-on tutorial from zero to advanced.
+</Callout>

@@ -87,47 +87,377 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/packages/duck-cli',
           items: [],
-          title: 'duck-ui CLI',
+          title: 'Gentleduck CLI',
         },
         {
           href: '/docs/packages/duck-lazy',
           items: [],
-          title: 'duck-ui Lazy',
+          title: 'Gentleduck Lazy',
         },
         {
           href: '/docs/packages/duck-variants',
           items: [],
-          title: 'duck-ui Variants',
+          title: 'Gentleduck Variants',
         },
         {
           href: '/docs/packages/duck-vim',
-          items: [],
-          title: 'duck-ui Vim',
+          collapsible: true,
+          label: 'new',
+          items: [
+            {
+              href: '/docs/packages/duck-vim',
+              items: [],
+              title: 'Overview',
+            },
+            {
+              href: '/docs/packages/duck-vim/getting-started',
+              items: [],
+              title: 'Getting Started',
+            },
+            {
+              href: '/docs/packages/duck-vim/concepts',
+              items: [],
+              title: 'Concepts',
+            },
+            {
+              href: '/docs/packages/duck-vim/guides',
+              title: 'Guides',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-vim/guides/command-palette',
+                  items: [],
+                  title: 'Command Palette',
+                },
+                {
+                  href: '/docs/packages/duck-vim/guides/scoped-bindings',
+                  items: [],
+                  title: 'Scoped Bindings',
+                },
+                {
+                  href: '/docs/packages/duck-vim/guides/shortcut-settings',
+                  items: [],
+                  title: 'Shortcut Settings',
+                },
+                {
+                  href: '/docs/packages/duck-vim/guides/custom-framework',
+                  items: [],
+                  title: 'Custom Framework',
+                },
+              ],
+            },
+            {
+              href: '/docs/packages/duck-vim/api',
+              title: 'API Reference',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-vim/api/platform',
+                  items: [],
+                  title: 'Platform',
+                },
+                {
+                  href: '/docs/packages/duck-vim/api/parser',
+                  items: [],
+                  title: 'Parser',
+                },
+                {
+                  href: '/docs/packages/duck-vim/api/matcher',
+                  items: [],
+                  title: 'Matcher',
+                },
+                {
+                  href: '/docs/packages/duck-vim/api/command',
+                  items: [],
+                  title: 'Command',
+                },
+                {
+                  href: '/docs/packages/duck-vim/api/sequence',
+                  items: [],
+                  title: 'Sequence',
+                },
+                {
+                  href: '/docs/packages/duck-vim/api/recorder',
+                  items: [],
+                  title: 'Recorder',
+                },
+                {
+                  href: '/docs/packages/duck-vim/api/format',
+                  items: [],
+                  title: 'Format',
+                },
+                {
+                  href: '/docs/packages/duck-vim/api/react',
+                  items: [],
+                  title: 'React',
+                },
+              ],
+            },
+            {
+              href: '/docs/packages/duck-vim/course',
+              title: 'Course',
+              label: 'try',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-vim/course/01-introduction',
+                  items: [],
+                  title: '01: Introduction',
+                },
+                {
+                  href: '/docs/packages/duck-vim/course/02-first-shortcut',
+                  items: [],
+                  title: '02: First Shortcut',
+                },
+                {
+                  href: '/docs/packages/duck-vim/course/03-key-bindings',
+                  items: [],
+                  title: '03: Key Bindings',
+                },
+                {
+                  href: '/docs/packages/duck-vim/course/04-react',
+                  items: [],
+                  title: '04: React',
+                },
+                {
+                  href: '/docs/packages/duck-vim/course/05-sequences',
+                  items: [],
+                  title: '05: Sequences',
+                },
+                {
+                  href: '/docs/packages/duck-vim/course/06-formatting',
+                  items: [],
+                  title: '06: Formatting',
+                },
+                {
+                  href: '/docs/packages/duck-vim/course/07-recorder',
+                  items: [],
+                  title: '07: Recorder',
+                },
+                {
+                  href: '/docs/packages/duck-vim/course/08-advanced',
+                  items: [],
+                  title: '08: Advanced',
+                },
+              ],
+            },
+          ],
+          title: 'Gentleduck Vim',
         },
         {
           href: '/docs/packages/duck-primitives',
-          items: [],
-          title: 'duck-ui Primitives',
+          collapsible: true,
+          label: 'new',
+          items: [
+            {
+              href: '/docs/packages/duck-primitives',
+              items: [],
+              title: 'Overview',
+            },
+            {
+              href: '/docs/packages/duck-primitives/getting-started',
+              items: [],
+              title: 'Getting Started',
+            },
+            {
+              href: '/docs/packages/duck-primitives/concepts',
+              items: [],
+              title: 'Core Concepts',
+            },
+            {
+              href: '/docs/packages/duck-primitives/guides',
+              title: 'Guides',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-primitives/guides/accessibility',
+                  items: [],
+                  title: 'Accessibility',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/guides/animation',
+                  items: [],
+                  title: 'Animation',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/guides/composition',
+                  items: [],
+                  title: 'Composition',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/guides/styling',
+                  items: [],
+                  title: 'Styling',
+                },
+              ],
+            },
+            {
+              href: '/docs/packages/duck-primitives/api',
+              title: 'API Reference',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-primitives/api/dialog',
+                  items: [],
+                  title: 'Dialog',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/alert-dialog',
+                  items: [],
+                  title: 'Alert Dialog',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/popover',
+                  items: [],
+                  title: 'Popover',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/tooltip',
+                  items: [],
+                  title: 'Tooltip',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/hover-card',
+                  items: [],
+                  title: 'Hover Card',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/menu',
+                  items: [],
+                  title: 'Menu',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/context-menu',
+                  items: [],
+                  title: 'Context Menu',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/menubar',
+                  items: [],
+                  title: 'Menubar',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/progress',
+                  items: [],
+                  title: 'Progress',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/slot',
+                  items: [],
+                  title: 'Slot',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/presence',
+                  items: [],
+                  title: 'Presence',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/portal',
+                  items: [],
+                  title: 'Portal',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/focus-scope',
+                  items: [],
+                  title: 'Focus Scope',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/dismissable-layer',
+                  items: [],
+                  title: 'Dismissable Layer',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/roving-focus',
+                  items: [],
+                  title: 'Roving Focus',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/popper',
+                  items: [],
+                  title: 'Popper',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/mount',
+                  items: [],
+                  title: 'Mount',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/primitive-elements',
+                  items: [],
+                  title: 'Primitive Elements',
+                },
+              ],
+            },
+            {
+              href: '/docs/packages/duck-primitives/course',
+              title: 'Course',
+              label: 'try',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-primitives/course/01-why-primitives',
+                  items: [],
+                  title: '01: Why Primitives',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/course/02-first-dialog',
+                  items: [],
+                  title: '02: First Dialog',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/course/03-as-child',
+                  items: [],
+                  title: '03: asChild Pattern',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/course/04-popover',
+                  items: [],
+                  title: '04: Popover',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/course/05-menus',
+                  items: [],
+                  title: '05: Menus',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/course/06-animation',
+                  items: [],
+                  title: '06: Animation',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/course/07-accessibility',
+                  items: [],
+                  title: '07: Accessibility',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/course/08-design-system',
+                  items: [],
+                  title: '08: Design System',
+                },
+              ],
+            },
+          ],
+          title: 'Gentleduck Primitives',
         },
         {
           href: '/docs/packages/duck-libs',
           items: [],
-          title: 'duck-ui Libs',
+          title: 'Gentleduck Libs',
         },
         {
           href: '/docs/packages/duck-hooks',
           items: [],
-          title: 'duck-ui Hooks',
+          title: 'Gentleduck Hooks',
         },
         {
           href: '/docs/packages/duck-ttest',
           items: [],
-          title: 'duck-ui Ttest',
+          title: 'Gentleduck Ttest',
         },
         {
           href: '/docs/packages/duck-template',
           items: [],
-          title: 'duck-ui Template',
+          title: 'Gentleduck Template',
         },
       ],
       title: 'Core Packages',

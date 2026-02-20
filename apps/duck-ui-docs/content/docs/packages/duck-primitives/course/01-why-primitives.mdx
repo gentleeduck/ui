@@ -1,0 +1,89 @@
+---
+title: "Lesson 1: Why Primitives"
+description: "The problem with building UI from scratch, and how headless primitives solve it."
+---
+
+<Callout icon={<Lightbulb />}>
+
+**Lesson 1 of 8** -- Understand why headless primitives exist and what problems they solve.
+
+</Callout>
+
+## The dialog problem
+
+Building a dialog sounds simple: show a div on top of everything. But a production dialog needs:
+
+- **Focus trap:** <Kbd>Tab</Kbd> should cycle through focusable elements inside the dialog, not escape to the page behind it.
+- **Focus restoration:** When the dialog closes, focus should return to the element that opened it.
+- **Scroll lock:** The page behind the dialog shouldn't scroll.
+- **Escape to close:** Pressing <Kbd>Escape</Kbd> should dismiss the dialog.
+- **Click outside to close:** Clicking the overlay should dismiss the dialog.
+- **Screen reader announcements:** The dialog needs `role="dialog"`, `aria-labelledby`, and `aria-describedby`.
+- **Content hiding:** Everything behind the dialog should be hidden from screen readers via `aria-hidden`.
+- **Animation support:** Exit animations need to complete before unmounting.
+
+<Callout icon={<TriangleAlert />}>
+
+Implementing all of this correctly takes hundreds of lines of code and edge-case handling across browsers. Multiply that by every component (popover, tooltip, menu, select...) and you're looking at weeks of work that has nothing to do with your product.
+
+</Callout>
+
+---
+
+## What primitives give you
+
+duck-primitives handle all of the above. You write:
+
+```tsx
+<Dialog.Root>
+  <Dialog.Trigger>Open</Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Overlay />
+    <Dialog.Content>
+      <Dialog.Title>Hello</Dialog.Title>
+      <Dialog.Close>Close</Dialog.Close>
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
+```
+
+And you get focus trapping, scroll lock, ARIA labels, escape handling, click-outside dismissal, and animation support. All you add is CSS.
+
+---
+
+## Unstyled by design
+
+Primitives render semantic HTML with no visual styles. A `Dialog.Content` renders a `<div role="dialog">` with correct ARIA attributes and behavior, but with zero CSS.
+
+<Callout icon={<Zap />}>
+
+This is intentional. Every design system has different visual language. By shipping zero CSS, duck-primitives work with Tailwind, CSS modules, styled-components, or vanilla CSS equally well.
+
+</Callout>
+
+---
+
+## The compound component pattern
+
+Every primitive uses compound components: a collection of related components that share implicit context.
+
+```tsx
+<Dialog.Root>        {/* Provider: manages state */}
+  <Dialog.Trigger /> {/* Consumer: reads state, toggles open */}
+  <Dialog.Content /> {/* Consumer: reads state, renders conditionally */}
+</Dialog.Root>
+```
+
+Root provides context. Children consume it. You compose them however you want. The structure is flexible: Trigger doesn't have to be a sibling of Content. It just needs to be somewhere inside Root.
+
+---
+
+## What you will learn next
+
+In Lesson 2, you will build your first real dialog with controlled state and understand every component in the anatomy.
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 2 -- Your First Dialog](/docs/packages/duck-primitives/course/02-first-dialog)
+
+</Callout>
