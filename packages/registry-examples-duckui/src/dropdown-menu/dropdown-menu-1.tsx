@@ -27,27 +27,19 @@ export default function DropdownMenuDemo() {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             Profile
-            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>
-              ⇧⌘P
-            </DropdownMenuShortcut>
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             Billing
-            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>
-              ⌘B
-            </DropdownMenuShortcut>
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             Settings
-            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>
-              ⌘S
-            </DropdownMenuShortcut>
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             Keyboard shortcuts
-            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>
-              ⌘K
-            </DropdownMenuShortcut>
+            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -64,9 +56,7 @@ export default function DropdownMenuDemo() {
           </DropdownMenuSub>
           <DropdownMenuItem>
             New Team
-            <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>
-              ⌘+T
-            </DropdownMenuShortcut>
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -76,9 +66,7 @@ export default function DropdownMenuDemo() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           Log out
-          <DropdownMenuShortcut keys={''} onKeysPressed={() => {}}>
-            ⇧⌘Q
-          </DropdownMenuShortcut>
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

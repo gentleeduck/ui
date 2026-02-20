@@ -25,46 +25,22 @@ export default function ContextMenuDemo() {
       <ContextMenuContent className="w-64">
         <ContextMenuItem inset>
           Back
-          <ContextMenuShortcut
-            keys={''}
-            onKeysPressed={(): void => {
-              throw new Error('Function not implemented.')
-            }}>
-            ⌘[
-          </ContextMenuShortcut>
+          <ContextMenuShortcut>⌘[</ContextMenuShortcut>
         </ContextMenuItem>
         <ContextMenuItem disabled inset>
           Forward
-          <ContextMenuShortcut
-            keys={''}
-            onKeysPressed={(): void => {
-              throw new Error('Function not implemented.')
-            }}>
-            ⌘]
-          </ContextMenuShortcut>
+          <ContextMenuShortcut>⌘]</ContextMenuShortcut>
         </ContextMenuItem>
         <ContextMenuItem inset>
           Reload
-          <ContextMenuShortcut
-            keys={''}
-            onKeysPressed={(): void => {
-              throw new Error('Function not implemented.')
-            }}>
-            ⌘R
-          </ContextMenuShortcut>
+          <ContextMenuShortcut>⌘R</ContextMenuShortcut>
         </ContextMenuItem>
         <ContextMenuSub>
           <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
           <ContextMenuSubContent className="w-48">
             <ContextMenuItem>
               Save Page As...
-              <ContextMenuShortcut
-                keys={''}
-                onKeysPressed={(): void => {
-                  throw new Error('Function not implemented.')
-                }}>
-                ⇧⌘S
-              </ContextMenuShortcut>
+              <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
             </ContextMenuItem>
             <ContextMenuItem>Create Shortcut...</ContextMenuItem>
             <ContextMenuItem>Name Window...</ContextMenuItem>
@@ -75,13 +51,7 @@ export default function ContextMenuDemo() {
         <ContextMenuSeparator />
         <ContextMenuCheckboxItem checked>
           Show Bookmarks Bar
-          <ContextMenuShortcut
-            keys={''}
-            onKeysPressed={(): void => {
-              throw new Error('Function not implemented.')
-            }}>
-            ⌘⇧B
-          </ContextMenuShortcut>
+          <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
         </ContextMenuCheckboxItem>
         <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
         <ContextMenuSeparator />

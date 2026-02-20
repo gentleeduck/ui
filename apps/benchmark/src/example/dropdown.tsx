@@ -66,13 +66,13 @@ export default function DropdownMenuDemo() {
           <DropdownMenuGroup>
             <DropdownMenuItem disabled={true}>
               Preferences
-              <DropdownMenuShortcut keys="⌘" onKeysPressed={() => {}}>
+              <DropdownMenuShortcut>
                 <Command />P
               </DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem>
               Settings
-              <DropdownMenuShortcut keys="⌘" onKeysPressed={() => {}}>
+              <DropdownMenuShortcut>
                 <Command />P
               </DropdownMenuShortcut>
             </DropdownMenuItem>

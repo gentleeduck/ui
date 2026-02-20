@@ -37,23 +37,17 @@ export default function CommandDemo() {
           <CommandItem>
             <User />
             <span>Profile</span>
-            <CommandShortcut keys="⌘P" onKeysPressed={() => {}}>
-              ⌘P
-            </CommandShortcut>
+            <CommandShortcut>⌘P</CommandShortcut>
           </CommandItem>
           <CommandItem>
             <CreditCard />
             <span>Billing</span>
-            <CommandShortcut keys="⌘B" onKeysPressed={() => {}}>
-              ⌘B
-            </CommandShortcut>
+            <CommandShortcut>⌘B</CommandShortcut>
           </CommandItem>
           <CommandItem>
             <Settings />
             <span>Settings</span>
-            <CommandShortcut keys="⌘S" onKeysPressed={() => {}}>
-              ⌘S
-            </CommandShortcut>
+            <CommandShortcut>⌘S</CommandShortcut>
           </CommandItem>
         </CommandGroup>
       </CommandList>
