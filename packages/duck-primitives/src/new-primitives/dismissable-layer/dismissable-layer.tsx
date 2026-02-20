@@ -62,10 +62,10 @@ const DismissableLayer = React.forwardRef<DismissableLayerElement, DismissableLa
   const layers = Array.from(context.layers)
   const [highestLayerWithOutsidePointerEventsDisabled] = Array.from(
     context.layersWithOutsidePointerEventsDisabled,
-  ).slice(-1) // prettier-ignore
+  ).slice(-1)
   const highestLayerWithOutsidePointerEventsDisabledIndex = layers.indexOf(
     highestLayerWithOutsidePointerEventsDisabled!,
-  ) // prettier-ignore
+  )
   const index = node ? layers.indexOf(node) : -1
   const isBodyPointerEventsDisabled = context.layersWithOutsidePointerEventsDisabled.size > 0
   const isPointerEventsEnabled = index >= highestLayerWithOutsidePointerEventsDisabledIndex
