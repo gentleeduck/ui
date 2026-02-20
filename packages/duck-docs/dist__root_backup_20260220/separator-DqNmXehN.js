@@ -1,0 +1,2 @@
+import{cn as e}from"@gentleduck/libs/cn";import{jsx as t}from"react/jsx-runtime";const n=({className:n,orientation:r=`horizontal`,ref:i,...a})=>t(`hr`,{"aria-orientation":r,className:e(`shrink-0 bg-border`,r===`horizontal`?`h-[1px] w-full`:`min-h-full w-[1px]`,n),ref:i,...a,"data-slot":`separator`});export{n as t};
+//# sourceMappingURL=separator-DqNmXehN.js.map

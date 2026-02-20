@@ -1,0 +1,2 @@
+import{n as e}from"./icons-ClM062MN.js";import{cn as t}from"@gentleduck/libs/cn";import{Fragment as n,jsx as r,jsxs as i}from"react/jsx-runtime";function a({children:a,className:o,...s}){let c=e(a?.toString().split(`.`).pop()??`terminal`);return r(n,{children:r(`figcaption`,{className:t(`border-border border-b p-3`,o),...s,children:i(`div`,{className:`flex items-center gap-2 font-mono text-muted-foreground text-sm ltr:pl-1.5 rtl:pr-1.5 [&_svg]:h-4 [&_svg]:w-4`,children:[c,a]})})})}export{a as t};
+//# sourceMappingURL=figcaption-block-4fwpYYbR.js.map

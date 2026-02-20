@@ -1,0 +1,2 @@
+import{visit as e}from"unist-util-visit";import{toString as t}from"hast-util-to-string";function n(){return n=>{e(n,e=>{if(e?.type===`element`&&e?.tagName===`div`&&e?.properties){if(!(`data-rehype-pretty-code-fragment`in e.properties))return;e.children?.forEach(e=>{e?.type===`element`&&e?.tagName===`pre`&&(e.properties={...e?.properties,__rawString__:t(e)})})}})}}export{n as t};
+//# sourceMappingURL=rehype-pre-block-source-DsFqAEYL.js.map

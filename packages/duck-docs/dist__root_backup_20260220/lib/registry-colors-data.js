@@ -1,0 +1,1 @@
+import{n as e,t}from"../registry-colors-data-Bj04RpKK.js";export{t as colorMapping,e as registry_colors};

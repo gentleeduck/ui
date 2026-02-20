@@ -1,0 +1,1 @@
+import{t as e}from"../../mdx-icons-DAxvmXSa.js";export{e as mdxIcons};

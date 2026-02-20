@@ -1,0 +1,2 @@
+import{i as e}from"./context-DJmokxRB.js";import{jsx as t}from"react/jsx-runtime";import n from"next/link";function r({components:r}){let i=e();return t(`div`,{className:`grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8 lg:gap-x-16 lg:gap-y-6 xl:gap-x-20`,children:(r??i??[]).filter(e=>e.component).map(e=>t(n,{className:`font-medium text-lg underline-offset-4 hover:underline md:text-base`,href:e.permalink??e.slug,children:e.title},e.title))})}export{r as t};
+//# sourceMappingURL=components-list-CIfIDIpC.js.map

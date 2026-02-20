@@ -1,0 +1,1 @@
+import"../context-DJmokxRB.js";import"../context-C8r4Y-PL.js";import{t as e}from"../use-meta-colors-BORqdvim.js";export{e as useMetaColor};

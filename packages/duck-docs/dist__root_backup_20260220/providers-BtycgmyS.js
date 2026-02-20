@@ -1,0 +1,2 @@
+import"react";import{jsx as e}from"react/jsx-runtime";import{ThemeProvider as t}from"next-themes";import{Provider as n}from"jotai";function r({children:r,...i}){return e(n,{children:e(t,{...i,children:r})})}export{r as t};
+//# sourceMappingURL=providers-BtycgmyS.js.map

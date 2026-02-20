@@ -1,0 +1,1 @@
+import{t as e}from"../registry-styles-DS7n-Klm.js";export{e as styles};

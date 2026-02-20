@@ -1,0 +1,2 @@
+const e=()=>{throw Error(`@gentleduck/docs/velite is server-only.`)},t={},n=e,r=e,i=e,a=e,o=e,s=e;export{i as cleanTocItems,n as createDocsVeliteConfig,t as docsVeliteConfig,r as rehypeNpmCommand,a as rehypePreBlockSource,o as rehypeTitle,s as rhypeMetadataPlugin};
+//# sourceMappingURL=browser.js.map
