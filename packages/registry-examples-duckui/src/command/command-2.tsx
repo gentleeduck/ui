@@ -18,16 +18,18 @@ import * as React from 'react'
 export default function CommandDialogDemo() {
   const [open, setOpen] = React.useState(false)
 
-  useKeyCommands({
-    'ctrl+j': {
-      description: 'Open command menu',
-      execute: () => {
-        window.event?.preventDefault()
-        setOpen(true)
+  useKeyCommands(
+    {
+      'ctrl+j': {
+        description: 'Open command menu',
+        execute: () => {
+          setOpen(true)
+        },
+        name: '⌘j',
       },
-      name: '⌘j',
     },
-  })
+    { preventDefault: true },
+  )
 
   return (
     <>

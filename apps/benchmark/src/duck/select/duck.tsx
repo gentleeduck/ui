@@ -11,8 +11,7 @@ export default function SelectDemo() {
         className="bg-secondary"
         keys={'ctrl+k'}
         onKeysPressed={() => {
-          setOpen(!open)
-          window.event?.preventDefault()
+          setOpen((prev) => !prev)
         }}>
         <span className="text-md">K</span>
       </CommandShortcut>

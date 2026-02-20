@@ -219,17 +219,23 @@ function CommandShortcut({
   ref,
   ...props
 }: CommandBadgeProps): React.JSX.Element {
-  if (keys && onKeysPressed) {
-    useKeyCommands({
-      [keys]: {
-        description: keys,
-        execute: () => {
-          onKeysPressed()
-        },
-        name: keys,
-      },
-    })
-  }
+  const commands = React.useMemo(
+    () =>
+      keys && onKeysPressed
+        ? {
+            [keys]: {
+              description: keys,
+              execute: () => {
+                onKeysPressed()
+              },
+              name: keys,
+            },
+          }
+        : {},
+    [keys, onKeysPressed],
+  )
+
+  useKeyCommands(commands, { preventDefault: true })
 
   return (
     <kbd
