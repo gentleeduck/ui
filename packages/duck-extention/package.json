@@ -24,7 +24,7 @@
     "@gentleduck/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/chrome": "^0.1.31",
-    "@types/node": "22.19.3",
+    "@types/node": "^25.3.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "^5.1.0",

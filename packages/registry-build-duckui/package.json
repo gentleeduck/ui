@@ -11,7 +11,7 @@
     "@gentleduck/typescript-config": "workspace:*",
     "@types/figlet": "^1.7.0",
     "@types/lodash.template": "^4.5.3",
-    "@types/node": "22.19.3",
+    "@types/node": "^25.3.0",
     "cli-width": "^4.1.0",
     "dotenv": "^17.2.3",
     "fast-glob": "^3.3.3",

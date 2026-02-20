@@ -5,7 +5,7 @@
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
-    "@types/node": "22.19.3",
+    "@types/node": "^25.3.0",
     "zod": "4.2.1"
   },
   "exports": {
