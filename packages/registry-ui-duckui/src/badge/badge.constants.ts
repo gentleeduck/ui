@@ -1,7 +1,7 @@
 import { cva } from '@gentleduck/variants'
 
 export const badgeVariants = cva(
-  'inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-md px-2 py-0.5 font-medium transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3',
+  'inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-md px-2 py-0.5 font-medium transition-colors [&_svg]-size-3 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none',
   {
     defaultVariants: {
       border: 'default',
@@ -18,7 +18,7 @@ export const badgeVariants = cva(
       },
       size: {
         default: 'px-2.5 py-0.5 text-sm',
-        icon: 'size-[28px] items-center justify-center rounded-full text-sm [&_*]:size-[.9rem]',
+        icon: 'size-[1.6rem] items-center justify-center rounded-full p-0 [&_*]:size-[.9rem]',
         lg: 'px-3.5 py-0.9 text-lg',
         sm: 'px-1.5 py-0.5 text-[.7rem]',
       },
@@ -30,7 +30,7 @@ export const badgeVariants = cva(
         secondary: 'border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90',
         destructive:
           'border-transparent bg-destructive text-white focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40 [a&]:hover:bg-destructive/90',
-        outline: 'text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
+        outline: 'border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
         warning: 'border-transparent bg-warning text-warning-foreground [a&]:hover:bg-warning/90',
       },
     },
