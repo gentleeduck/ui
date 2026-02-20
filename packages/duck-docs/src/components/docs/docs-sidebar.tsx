@@ -3,11 +3,27 @@
 import { type DocsConfig, useDocsConfig } from '@duck-docs/context'
 import type { SidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
+import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import * as React from 'react'
 
 export interface DocsSidebarNavProps {
   config?: DocsConfig
+}
+
+function isPathActive(pathname: string, href: string) {
+  return pathname === href || (href !== '/docs' && pathname.startsWith(`${href}/`))
+}
+
+function isPathCurrent(pathname: string, href: string) {
+  return pathname === href
+}
+
+function hasActivePath(item: SidebarNavItem, pathname: string | null): boolean {
+  if (!pathname) return false
+  if (item.href && isPathActive(pathname, item.href)) return true
+  return Boolean(item.items?.some((child) => hasActivePath(child, pathname)))
 }
 
 export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
@@ -41,7 +57,9 @@ const CategoryItem = ({ item, pathname }: { item: SidebarNavItem; pathname: stri
         )}
       </div>
       <div className="border-l">
-        {item?.items?.length && <DocsSidebarNavItems items={item.items} pathname={pathname} />}
+        {item?.items?.length && (
+          <DocsSidebarNavItems accordionDefault={Boolean(item.collapsible)} items={item.items} pathname={pathname} />
+        )}
       </div>
     </div>
   )
@@ -51,55 +69,199 @@ interface DocsSidebarNavItemsProps {
   items: SidebarNavItem[]
   pathname: string | null
   className?: string
+  depth?: number
+  accordionDefault?: boolean
 }
 
-export function DocsSidebarNavItems({ items, pathname }: DocsSidebarNavItemsProps) {
+export function DocsSidebarNavItems({
+  items,
+  pathname,
+  className,
+  depth = 0,
+  accordionDefault = false,
+}: DocsSidebarNavItemsProps) {
+  const activeAccordionIndex = React.useMemo(
+    () =>
+      items.findIndex((item) => {
+        const hasChildren = Boolean(item.items?.length)
+        const isAccordionItem = hasChildren && Boolean(item.collapsible ?? accordionDefault)
+        return isAccordionItem && hasActivePath(item, pathname)
+      }),
+    [items, pathname, accordionDefault],
+  )
+
   return (
     items?.length && (
-      <ul>
+      <ul className={cn(depth > 0 && 'ml-3 border-l', className)}>
         {items.map((item, index) => (
-          <DocsSidebarNavItem item={item} key={index} pathname={pathname} />
+          <DocsSidebarNavItem
+            accordionDefault={accordionDefault}
+            depth={depth}
+            forceClose={activeAccordionIndex !== -1 && activeAccordionIndex !== index}
+            forceOpen={activeAccordionIndex === index}
+            item={item}
+            key={index}
+            pathname={pathname}
+          />
         ))}
       </ul>
     )
   )
 }
 
-export function DocsSidebarNavItem({ item, pathname }: { item: SidebarNavItem; pathname: string | null }) {
+export function DocsSidebarNavItem({
+  item,
+  pathname,
+  depth = 0,
+  accordionDefault = false,
+  forceOpen = false,
+  forceClose = false,
+}: {
+  item: SidebarNavItem
+  pathname: string | null
+  depth?: number
+  accordionDefault?: boolean
+  forceOpen?: boolean
+  forceClose?: boolean
+}) {
+  const hasChildren = Boolean(item.items?.length)
+  const isAccordionItem = hasChildren && Boolean(item.collapsible ?? accordionDefault)
+  const isCurrent = Boolean(pathname && item.href && isPathCurrent(pathname, item.href))
+  const isActiveBranch = hasActivePath(item, pathname)
+  const isActive = isCurrent || (hasChildren && isActiveBranch)
+  const [isOpen, setIsOpen] = React.useState(() => {
+    if (!isAccordionItem) return true
+    return isActiveBranch || Boolean(item.defaultOpen)
+  })
+
+  React.useEffect(() => {
+    if (!isAccordionItem) return
+    if (forceOpen || isActiveBranch) {
+      setIsOpen(true)
+      return
+    }
+    if (forceClose) {
+      setIsOpen(false)
+    }
+  }, [isAccordionItem, forceOpen, forceClose, isActiveBranch])
+
   if (item.href && !item.disabled) {
     return (
-      <li className={cn(pathname === item.href && 'border-primary border-l')}>
-        <Link
-          className={cn(
-            'group flex w-full items-center border-primary px-4 py-1 font-medium text-sm focus-visible:border-l focus-visible:outline-none',
-            pathname === item.href ? 'font-medium text-foreground' : 'text-muted-foreground',
+      <li className={cn(isActive && 'border-primary border-l')}>
+        <div className="flex items-center">
+          <Link
+            className={cn(
+              'group flex w-full items-center border-primary px-4 py-1 font-medium text-sm focus-visible:border-l focus-visible:outline-none',
+              depth > 0 && 'px-3',
+              isActive ? 'font-medium text-foreground' : 'text-muted-foreground',
+            )}
+            href={item.href}
+            scroll
+            rel={item.external ? 'noreferrer' : ''}
+            target={item.external ? '_blank' : ''}>
+            {item.title}
+            {item.label && (
+              <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 font-medium text-accent text-xs leading-none no-underline group-hover:no-underline">
+                {item.label}
+              </span>
+            )}
+          </Link>
+          {isAccordionItem && (
+            <button
+              aria-expanded={isOpen}
+              aria-label={`Toggle ${item.title}`}
+              className="mr-1 inline-flex size-6 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              onClick={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
+                setIsOpen((open) => !open)
+              }}
+              type="button">
+              <ChevronRight className={cn('size-3 transition-transform', isOpen && 'rotate-90')} />
+            </button>
           )}
-          href={item.href}
-          scroll
-          rel={item.external ? 'noreferrer' : ''}
-          target={item.external ? '_blank' : ''}>
-          {item.title}
-          {item.label && (
-            <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 font-medium text-accent text-xs leading-none no-underline group-hover:no-underline">
-              {item.label}
-            </span>
-          )}
-        </Link>
+        </div>
+        {hasChildren &&
+          (isAccordionItem ? (
+            <AnimatedHeightCollapse open={isOpen}>
+              <DocsSidebarNavItems
+                accordionDefault={accordionDefault}
+                depth={depth + 1}
+                items={item.items ?? []}
+                pathname={pathname}
+              />
+            </AnimatedHeightCollapse>
+          ) : (
+            <DocsSidebarNavItems
+              accordionDefault={accordionDefault}
+              depth={depth + 1}
+              items={item.items ?? []}
+              pathname={pathname}
+            />
+          ))}
       </li>
     )
   }
 
   return (
-    <span
-      className={cn(
-        'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
-      )}>
-      {item.title}
-      {item.label && (
-        <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-muted-foreground text-sm leading-none no-underline group-hover:no-underline">
-          {item.label}
+    <li>
+      <div className="flex items-center">
+        <span
+          className={cn(
+            'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
+            depth > 0 && 'px-3',
+          )}>
+          {item.title}
+          {item.label && (
+            <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-muted-foreground text-sm leading-none no-underline group-hover:no-underline">
+              {item.label}
+            </span>
+          )}
         </span>
-      )}
-    </span>
+        {isAccordionItem && (
+          <button
+            aria-expanded={isOpen}
+            aria-label={`Toggle ${item.title}`}
+            className="mr-1 inline-flex size-6 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            onClick={() => {
+              setIsOpen((open) => !open)
+            }}
+            type="button">
+            <ChevronRight className={cn('size-3 transition-transform', isOpen && 'rotate-90')} />
+          </button>
+        )}
+      </div>
+      {hasChildren &&
+        (isAccordionItem ? (
+          <AnimatedHeightCollapse open={isOpen}>
+            <DocsSidebarNavItems
+              accordionDefault={accordionDefault}
+              depth={depth + 1}
+              items={item.items ?? []}
+              pathname={pathname}
+            />
+          </AnimatedHeightCollapse>
+        ) : (
+          <DocsSidebarNavItems
+            accordionDefault={accordionDefault}
+            depth={depth + 1}
+            items={item.items ?? []}
+            pathname={pathname}
+          />
+        ))}
+    </li>
+  )
+}
+
+function AnimatedHeightCollapse({ open, children }: { open: boolean; children: React.ReactNode }) {
+  return (
+    <div
+      aria-hidden={!open}
+      className={cn(
+        'grid transition-[grid-template-rows] duration-300 ease-(--duck-motion-ease)',
+        open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+      )}>
+      <div className={cn('overflow-hidden', !open && 'invisible')}>{children}</div>
+    </div>
   )
 }

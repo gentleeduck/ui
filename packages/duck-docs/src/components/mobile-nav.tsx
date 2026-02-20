@@ -1,6 +1,7 @@
 'use client'
 
 import { useDocsConfig } from '@duck-docs/context'
+import type { SidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
@@ -39,24 +40,7 @@ export function MobileNav() {
               {docsConfig.sidebarNav.map((item, index) => (
                 <div className="flex flex-col space-y-3 pt-6" key={index}>
                   <h4 className="font-medium">{item.title}</h4>
-                  {item?.items?.length &&
-                    item.items.map((item) => (
-                      <React.Fragment key={item.href}>
-                        {!item.disabled &&
-                          (item.href ? (
-                            <MobileLink className="text-muted-foreground" href={item.href} onOpenChange={setOpen}>
-                              {item.title}
-                              {item.label && (
-                                <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 text-accent text-xs leading-none no-underline group-hover:no-underline">
-                                  {item.label}
-                                </span>
-                              )}
-                            </MobileLink>
-                          ) : (
-                            item.title
-                          ))}
-                      </React.Fragment>
-                    ))}
+                  <MobileSidebarNavItems items={item.items ?? []} onOpenChange={setOpen} />
                 </div>
               ))}
             </div>
@@ -64,6 +48,50 @@ export function MobileNav() {
         </ScrollArea>
       </DrawerContent>
     </Drawer>
+  )
+}
+
+function MobileSidebarNavItems({
+  items,
+  onOpenChange,
+  depth = 0,
+}: {
+  items: SidebarNavItem[]
+  onOpenChange: (open: boolean) => void
+  depth?: number
+}) {
+  if (!items.length) {
+    return null
+  }
+
+  return (
+    <div className={cn('flex flex-col space-y-2', depth > 0 && 'ml-4 border-l pl-3')}>
+      {items.map((item, index) => {
+        const key = item.href ?? `${depth}-${index}-${item.title}`
+        const hasChildren = Boolean(item.items?.length)
+
+        return (
+          <div className="flex flex-col space-y-2" key={key}>
+            {!item.disabled &&
+              (item.href ? (
+                <MobileLink className="text-muted-foreground" href={item.href} onOpenChange={onOpenChange}>
+                  {item.title}
+                  {item.label && (
+                    <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 text-accent text-xs leading-none no-underline group-hover:no-underline">
+                      {item.label}
+                    </span>
+                  )}
+                </MobileLink>
+              ) : (
+                <p className="text-muted-foreground text-sm">{item.title}</p>
+              ))}
+            {hasChildren && (
+              <MobileSidebarNavItems depth={depth + 1} items={item.items ?? []} onOpenChange={onOpenChange} />
+            )}
+          </div>
+        )
+      })}
+    </div>
   )
 }
 

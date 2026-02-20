@@ -69,11 +69,13 @@ const components = {
   Kbd: Kbd,
   Link: LinkBlock,
   LinkedCard,
-  li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <li className={cn('mt-2', className)} {...props} />
-  ),
+  li: (props: React.HTMLAttributes<HTMLElement>) => <li {...props} />,
   ol: ({ className, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className={cn('my-6 ml-7 list-decimal', className)} {...props} />
+    <ol className={cn('my-6 ml-7 flex list-decimal flex-col gap-2', className)} {...props} />
+  ),
+
+  ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul className={cn('my-6 ml-6 flex list-disc flex-col gap-2', className)} {...props} />
   ),
   p: P,
   MermaidDiagram: MermaidBlock,
@@ -97,9 +99,6 @@ const components = {
   td: TableCell,
   th: TableHeader,
   tr: TableRow,
-  ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className={cn('my-6 ml-6 list-disc', className)} {...props} />
-  ),
   // FrameworkDocs,
 }
 
