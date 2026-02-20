@@ -5,9 +5,9 @@
 export interface DropdownMenuShortcutProps extends React.HTMLProps<HTMLElement> {
   colored?: boolean
   /** The keyboard shortcut keys (e.g., "ctrl+K"). */
-  keys: string
+  keys?: string
   /** Callback function that is invoked when the shortcut keys are pressed. */
-  onKeysPressed: () => void
+  onKeysPressed?: () => void
 }
 
 export interface DropdownMenuContextType {

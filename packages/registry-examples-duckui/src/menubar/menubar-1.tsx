@@ -24,15 +24,11 @@ export default function MenubarDemo() {
         <MenubarContent>
           <MenubarItem>
             New Tab
-            <MenubarShortcut keys={''} onKeysPressed={() => {}}>
-              ⌘T
-            </MenubarShortcut>
+            <MenubarShortcut>⌘T</MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
             New Window
-            <MenubarShortcut keys={''} onKeysPressed={() => {}}>
-              ⌘N
-            </MenubarShortcut>
+            <MenubarShortcut>⌘N</MenubarShortcut>
           </MenubarItem>
           <MenubarItem disabled>New Incognito Window</MenubarItem>
           <MenubarSeparator />
@@ -46,14 +42,7 @@ export default function MenubarDemo() {
           </MenubarSub>
           <MenubarSeparator />
           <MenubarItem>
-            Print...{' '}
-            <MenubarShortcut
-              keys={''}
-              onKeysPressed={function (): void {
-                throw new Error('Function not implemented.')
-              }}>
-              ⌘P
-            </MenubarShortcut>
+            Print... <MenubarShortcut>⌘P</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -61,24 +50,10 @@ export default function MenubarDemo() {
         <MenubarTrigger>Edit</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            Undo{' '}
-            <MenubarShortcut
-              keys={''}
-              onKeysPressed={function (): void {
-                throw new Error('Function not implemented.')
-              }}>
-              ⌘Z
-            </MenubarShortcut>
+            Undo <MenubarShortcut>⌘Z</MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
-            Redo{' '}
-            <MenubarShortcut
-              keys={''}
-              onKeysPressed={function (): void {
-                throw new Error('Function not implemented.')
-              }}>
-              ⇧⌘Z
-            </MenubarShortcut>
+            Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
           </MenubarItem>
           <MenubarSeparator />
           <MenubarSub>
@@ -104,24 +79,10 @@ export default function MenubarDemo() {
           <MenubarCheckboxItem checked>Always Show Full URLs</MenubarCheckboxItem>
           <MenubarSeparator />
           <MenubarItem inset>
-            Reload{' '}
-            <MenubarShortcut
-              keys={''}
-              onKeysPressed={function (): void {
-                throw new Error('Function not implemented.')
-              }}>
-              ⌘R
-            </MenubarShortcut>
+            Reload <MenubarShortcut>⌘R</MenubarShortcut>
           </MenubarItem>
           <MenubarItem disabled inset>
-            Force Reload{' '}
-            <MenubarShortcut
-              keys={''}
-              onKeysPressed={function (): void {
-                throw new Error('Function not implemented.')
-              }}>
-              ⇧⌘R
-            </MenubarShortcut>
+            Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem inset>Toggle Fullscreen</MenubarItem>
