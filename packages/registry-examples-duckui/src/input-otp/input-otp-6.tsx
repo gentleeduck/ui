@@ -27,7 +27,7 @@ export default function InputOTPForm() {
     defaultValues: {
       pin: '',
     },
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(FormSchema as any),
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {

@@ -7,9 +7,9 @@ import type * as React from 'react'
 
 const Popover = PopoverPrimitive.Root
 
-const PopoverTrigger = PopoverPrimitive.Trigger
+const PopoverTrigger: typeof PopoverPrimitive.Trigger = PopoverPrimitive.Trigger
 
-const PopoverAnchor = PopoverPrimitive.Anchor
+const PopoverAnchor: typeof PopoverPrimitive.Anchor = PopoverPrimitive.Anchor
 
 function PopoverContent({
   className,
@@ -36,6 +36,6 @@ function PopoverContent({
 }
 PopoverContent.displayName = PopoverPrimitive.Content.displayName
 
-export const PopoverClose = PopoverPrimitive.Close
+export const PopoverClose: typeof PopoverPrimitive.Close = PopoverPrimitive.Close
 
 export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor }

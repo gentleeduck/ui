@@ -1,9 +1,19 @@
 import { cn } from '@gentleduck/libs/cn'
-import * as NavigationMenuPrimitive from '@gentleduck/primitives/navigation-menu'
+import * as DuckNavigationMenuPrimitiveUnsafe from '@gentleduck/primitives/navigation-menu'
 import { cva } from '@gentleduck/variants'
+import * as RadixNavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
 
 import { ChevronDown } from 'lucide-react'
 import type * as React from 'react'
+
+const DuckNavigationMenuPrimitive = DuckNavigationMenuPrimitiveUnsafe as unknown as Record<string, unknown>
+
+// The primitives navigation-menu export can temporarily be empty when the dist index is stale.
+// Fallback to Radix so registry-ui remains type-safe and functional.
+const NavigationMenuPrimitive =
+  'Root' in DuckNavigationMenuPrimitive
+    ? (DuckNavigationMenuPrimitiveUnsafe as unknown as typeof RadixNavigationMenuPrimitive)
+    : RadixNavigationMenuPrimitive
 
 function NavigationMenu({
   className,

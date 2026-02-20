@@ -5,7 +5,7 @@ import { Maximize2 } from 'lucide-react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { Button } from '../button'
 import { Dialog, DialogContent, DialogTrigger } from '../dialog'
-import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
 import { PreviewPanel } from './preview-panel'
 import type { PreviewPanelDialogProps, PreviewPanelState } from './preview-panel.types'
 
@@ -60,33 +60,35 @@ function PreviewPanelDialog({
           syncState={syncPanels ? sharedState : undefined}
         />
 
-        <Dialog>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  icon={<Maximize2 />}
-                  className="absolute right-3 bottom-3 z-10 border bg-background/80 backdrop-blur-sm"
-                />
-              </DialogTrigger>
-            </TooltipTrigger>
-            <TooltipContent>Open fullscreen</TooltipContent>
-          </Tooltip>
-          <DialogContent className="max-h-[85vh] max-w-[90vw] overflow-auto p-0">
-            <PreviewPanel
-              {...contentProps}
-              minZoom={minZoom}
-              maxZoom={maxZoom}
-              initialZoom={initialZoom}
-              showControls={showControls}
-              className={dialogPanelClassName}
-              onStateChange={handleStateChange}
-              syncState={syncPanels ? sharedState : undefined}
-            />
-          </DialogContent>
-        </Dialog>
+        <TooltipProvider>
+          <Dialog>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    icon={<Maximize2 />}
+                    className="absolute right-3 bottom-3 z-10 border bg-background/80 backdrop-blur-sm"
+                  />
+                </DialogTrigger>
+              </TooltipTrigger>
+              <TooltipContent>Open fullscreen</TooltipContent>
+            </Tooltip>
+            <DialogContent className="max-h-[85vh] max-w-[90vw] overflow-auto p-0">
+              <PreviewPanel
+                {...contentProps}
+                minZoom={minZoom}
+                maxZoom={maxZoom}
+                initialZoom={initialZoom}
+                showControls={showControls}
+                className={dialogPanelClassName}
+                onStateChange={handleStateChange}
+                syncState={syncPanels ? sharedState : undefined}
+              />
+            </DialogContent>
+          </Dialog>
+        </TooltipProvider>
       </div>
     </div>
   )
