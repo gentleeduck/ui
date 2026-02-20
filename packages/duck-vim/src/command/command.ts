@@ -1,5 +1,6 @@
 'use client'
-import type { Command, RegistryClass } from './command.types'
+import { isInputElement } from '../matcher/matcher'
+import type { Command, KeyBindOptions, RegistrationHandle, RegistryClass, RegistryEntry } from './command.types'
 
 /**
  * A registry for keyboard command sequences.
@@ -9,7 +10,7 @@ import type { Command, RegistryClass } from './command.types'
  * to support multi-key bindings like `g+d`.
  */
 export class Registry implements RegistryClass {
-  private commands = new Map<string, Command>()
+  private entries = new Map<string, RegistryEntry>()
   private prefixes = new Set<string>()
 
   /**
@@ -24,51 +25,128 @@ export class Registry implements RegistryClass {
    *
    * @param {string} key - A key sequence like `ctrl+k` or `g+d`.
    * @param {Command} command - A command object containing an `execute()` function.
+   * @param {KeyBindOptions} [options] - Optional per-binding options.
+   * @returns {RegistrationHandle} A handle for unregistering and controlling the binding.
    *
    * @example
-   * registry.register('ctrl+k', {
+   * const handle = registry.register('ctrl+k', {
+   *   name: 'Palette',
    *   execute: () => console.log('Command palette opened')
-   * });
+   * }, { preventDefault: true })
+   *
+   * // Later:
+   * handle.unregister()
    */
-  public register(key: string, command: Command): void {
-    this.commands.set(key, command)
-    const parts = key.split('+')
-    for (let i = 1; i <= parts.length; i++) {
-      this.prefixes.add(parts.slice(0, i).join('+'))
+  public register(key: string, command: Command, options?: KeyBindOptions): RegistrationHandle {
+    const opts: KeyBindOptions = { ...options }
+
+    // Conflict detection
+    if (this.entries.has(key)) {
+      const behavior = opts.conflictBehavior ?? 'warn'
+      if (behavior === 'error') {
+        throw new Error(`Key binding '${key}' is already registered`)
+      }
+      if (behavior === 'warn') {
+        console.warn(`[Registry] Key binding '${key}' is already registered, replacing`)
+      }
+      // 'replace' and 'allow' silently proceed
     }
+
+    const entry: RegistryEntry = { command, options: opts, fired: false }
+    this.entries.set(key, entry)
+    this.rebuildPrefixes()
     this.debug && console.log(`[Registry] Registered '${key}'`)
+
+    return {
+      unregister: () => this.unregister(key),
+      setEnabled: (enabled: boolean) => {
+        entry.options.enabled = enabled
+      },
+      isEnabled: () => entry.options.enabled !== false,
+      resetFired: () => {
+        entry.fired = false
+      },
+    }
+  }
+
+  /**
+   * Unregisters the command at the given key.
+   *
+   * @param {string} key - The key sequence to remove.
+   * @returns {boolean} True if a command was removed.
+   */
+  public unregister(key: string): boolean {
+    const removed = this.entries.delete(key)
+    if (removed) {
+      this.rebuildPrefixes()
+      this.debug && console.log(`[Registry] Unregistered '${key}'`)
+    }
+    return removed
   }
 
   /**
    * Checks if a command is registered under the specified key sequence.
-   *
-   * @param {string} key - The key sequence to check.
-   * @returns {boolean} `true` if a command exists for the given key.
    */
   public hasCommand(key: string): boolean {
-    return this.commands.has(key)
+    return this.entries.has(key)
   }
 
   /**
    * Retrieves a registered command for the given key sequence.
-   *
-   * @param {string} key - The key sequence to retrieve.
-   * @returns {Command | undefined} The command if found, otherwise `undefined`.
    */
   public getCommand(key: string): Command | undefined {
-    return this.commands.get(key)
+    return this.entries.get(key)?.command
+  }
+
+  /**
+   * Retrieves the full registry entry (command + options + state) for a key.
+   */
+  public getEntry(key: string): RegistryEntry | undefined {
+    return this.entries.get(key)
+  }
+
+  /**
+   * Retrieves the options for a registered key binding.
+   */
+  public getOptions(key: string): KeyBindOptions | undefined {
+    return this.entries.get(key)?.options
   }
 
   /**
    * Determines whether the given key sequence is a known prefix of any command.
-   *
-   * Useful for multi-step command sequences like `g+d`.
-   *
-   * @param {string} key - The key prefix to check.
-   * @returns {boolean} `true` if the prefix is valid.
    */
   public isPrefix(key: string): boolean {
     return this.prefixes.has(key)
+  }
+
+  /**
+   * Returns all registered commands.
+   */
+  public getAllCommands(): Map<string, Command> {
+    const result = new Map<string, Command>()
+    for (const [key, entry] of this.entries) {
+      result.set(key, entry.command)
+    }
+    return result
+  }
+
+  /**
+   * Removes all registered commands.
+   */
+  public clear(): void {
+    this.entries.clear()
+    this.prefixes.clear()
+    this.debug && console.log('[Registry] Cleared all commands')
+  }
+
+  private rebuildPrefixes(): void {
+    this.prefixes.clear()
+    for (const key of this.entries.keys()) {
+      const parts = key.split('+')
+      for (let i = 1; i <= parts.length; i++) {
+        this.prefixes.add(parts.slice(0, i).join('+'))
+      }
+    }
   }
 }
 
@@ -82,22 +160,24 @@ export class KeyHandler {
   private seq: string[] = []
   private timeoutId: ReturnType<typeof setTimeout> | null = null
   private TIMEOUT_MS: number
+  private defaultOptions: Partial<KeyBindOptions>
 
   /**
    * @param {Registry} registry - The command registry to use for key resolution.
    * @param {number} [timeoutMs=600] - Timeout in milliseconds between key presses in a sequence.
+   * @param {Partial<KeyBindOptions>} [defaultOptions={}] - Default options merged with per-binding options.
    */
   constructor(
     private registry: Registry,
     timeoutMs: number = 600,
+    defaultOptions: Partial<KeyBindOptions> = {},
   ) {
     this.TIMEOUT_MS = timeoutMs
+    this.defaultOptions = defaultOptions
   }
 
   /**
    * Starts listening for keyboard events on a given target.
-   *
-   * @param {HTMLElement | Document} [target=document] - The element to attach the listener to.
    */
   public attach(target: HTMLElement | Document = document): void {
     target.addEventListener('keydown', this.handleKey as EventListener)
@@ -106,21 +186,12 @@ export class KeyHandler {
 
   /**
    * Stops listening for keyboard events on a given target.
-   *
-   * @param {HTMLElement | Document} [target=document] - The element to detach the listener from.
    */
   public detach(target: HTMLElement | Document = document): void {
     target.removeEventListener('keydown', this.handleKey as EventListener)
     this.registry.debug && console.log('[KeyHandler] Detached from target')
   }
 
-  /**
-   * Normalizes keyboard keys to lowercase and maps some aliases.
-   *
-   * @private
-   * @param {string} key - Raw key from event.
-   * @returns {string} Normalized key.
-   */
   private normalizeKey(key: string): string {
     const lower = key.toLowerCase()
     if (lower === ' ') return 'space'
@@ -129,14 +200,6 @@ export class KeyHandler {
     return lower
   }
 
-  /**
-   * Builds a normalized key descriptor string for a keyboard event.
-   * Combines modifier keys and the actual key, e.g., `ctrl+shift+s`.
-   *
-   * @private
-   * @param {KeyboardEvent} e
-   * @returns {string | null} The key descriptor or `null` for pure modifiers.
-   */
   private buildKeyDescriptor = (e: KeyboardEvent): string | null => {
     if (['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) return null
     const parts: string[] = []
@@ -148,11 +211,6 @@ export class KeyHandler {
     return parts.join('+')
   }
 
-  /**
-   * Resets the current key sequence and clears the timeout.
-   *
-   * @private
-   */
   private resetSequence(): void {
     this.registry.debug && console.log(`[Sequence] Reset (was: '${this.seq.join('+')}')`)
     this.seq = []
@@ -163,16 +221,40 @@ export class KeyHandler {
   }
 
   /**
-   * Handles incoming keydown events and resolves them against the registry.
-   *
-   * Supports both single-key and multi-key sequences.
-   *
-   * @private
-   * @param {KeyboardEvent} e
+   * Attempt to execute a matched command, respecting its options.
+   * Returns true if the command was executed.
    */
+  private executeCommand(key: string, e: KeyboardEvent): boolean {
+    const entry = this.registry.getEntry(key)
+    if (!entry) return false
+
+    const opts: KeyBindOptions = { ...this.defaultOptions, ...entry.options }
+
+    // Check enabled
+    if (opts.enabled === false) return false
+
+    // Check ignoreInputs
+    if (opts.ignoreInputs && isInputElement(e.target as Element)) return false
+
+    // Check requireReset
+    if (opts.requireReset && entry.fired) return false
+
+    // Apply event modifiers
+    if (opts.preventDefault) e.preventDefault()
+    if (opts.stopPropagation) e.stopPropagation()
+
+    // Execute
+    entry.command.execute()
+
+    // Mark as fired for requireReset
+    if (opts.requireReset) {
+      entry.fired = true
+    }
+
+    return true
+  }
+
   private handleKey = (e: KeyboardEvent): void => {
-    // window.event?.preventDefault()
-    // window.event?.stopPropagation()
     const desc = this.buildKeyDescriptor(e)
     if (!desc) return
 
@@ -182,7 +264,7 @@ export class KeyHandler {
 
     if (this.registry.hasCommand(joined)) {
       this.registry.debug && console.log(`[Match] '${joined}'`)
-      this.registry.getCommand(joined)?.execute()
+      this.executeCommand(joined, e)
       this.resetSequence()
       return
     }
@@ -201,7 +283,7 @@ export class KeyHandler {
 
     if (this.registry.hasCommand(desc)) {
       this.registry.debug && console.log(`[Match] '${desc}'`)
-      this.registry.getCommand(desc)?.execute()
+      this.executeCommand(desc, e)
       this.resetSequence()
     } else if (this.registry.isPrefix(desc)) {
       this.timeoutId = setTimeout(() => this.resetSequence(), this.TIMEOUT_MS)

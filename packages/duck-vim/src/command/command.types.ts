@@ -24,6 +24,51 @@ export interface Command {
    */
   execute: <T>(args?: T) => void | Promise<void>
 }
+
+/**
+ * Per-key-binding options that control behavior when the binding is matched.
+ */
+export interface KeyBindOptions {
+  /** Whether this key binding is active. Default: true */
+  enabled?: boolean
+  /** Call event.preventDefault() when matched. Default: false */
+  preventDefault?: boolean
+  /** Call event.stopPropagation() when matched. Default: false */
+  stopPropagation?: boolean
+  /** Skip execution if event target is an input element. Default: false */
+  ignoreInputs?: boolean
+  /** Event type to listen for. Default: 'keydown' */
+  eventType?: 'keydown' | 'keyup'
+  /** Fire only once per key press cycle. Default: false */
+  requireReset?: boolean
+  /** What to do when the key is already registered. Default: 'warn' */
+  conflictBehavior?: 'warn' | 'error' | 'replace' | 'allow'
+}
+
+/**
+ * A handle returned from registering a command.
+ * Used for unregistering and controlling the binding.
+ */
+export interface RegistrationHandle {
+  /** Remove this binding from the registry */
+  unregister: () => void
+  /** Enable or disable this binding */
+  setEnabled: (enabled: boolean) => void
+  /** Check if the binding is currently enabled */
+  isEnabled: () => boolean
+  /** Reset the fired flag (for requireReset mode) */
+  resetFired: () => void
+}
+
+/**
+ * Internal storage entry for a registered command.
+ */
+export interface RegistryEntry {
+  command: Command
+  options: KeyBindOptions
+  fired: boolean
+}
+
 /**
  * Interface for a keyboard command registry.
  *
