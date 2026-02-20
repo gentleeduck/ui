@@ -1,1 +1,0 @@
-import{n as e,t}from"../icons-ClM062MN.js";export{t as Icons,e as getIconForLanguageExtension};

@@ -1,2 +1,0 @@
-function e(e){return e?Object.fromEntries(Object.entries(e).map(([e,n])=>n===void 0?[]:[t(e),n])):{}}function t(e){return`--${e.replace(/([a-z])([A-Z])/g,`$1-$2`).toLowerCase()}`}export{e as n,t};
-//# sourceMappingURL=charts-DhNQgiDh.js.map

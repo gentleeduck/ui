@@ -1,2 +1,0 @@
-import{Lightbulb as e,Link as t,Map as n,Search as r,Target as i,TriangleAlert as a,Zap as o}from"lucide-react";const s={Lightbulb:e,LinkIcon:t,MapIcon:n,Search:r,Target:i,TriangleAlert:a,Zap:o};export{s as t};
-//# sourceMappingURL=mdx-icons-DAxvmXSa.js.map

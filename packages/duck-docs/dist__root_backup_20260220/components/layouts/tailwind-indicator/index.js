@@ -1,1 +1,0 @@
-import{t as e}from"../../../tailwind-indicator-C15pwDvj.js";export{e as TailwindIndicator};

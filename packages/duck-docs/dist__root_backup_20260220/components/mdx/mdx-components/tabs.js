@@ -1,1 +1,0 @@
-import"../../../tabs-D85DXE-W.js";import{i as e,n as t,r as n,t as r}from"../../../tabs-C-jGY5Gk.js";export{r as Tab,t as TabContent,n as TabList,e as TabTrigger};
