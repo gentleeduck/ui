@@ -43,7 +43,6 @@ npm install @gentleduck/lazy
 
 The `DuckLazyComponent` defers rendering until its children enter the viewport.
 
-<CodeBlockWrapper>
 
 ```tsx
 import { DuckLazyComponent } from '@gentleduck/lazy'
@@ -57,7 +56,6 @@ function MyComponent() {
 }
 ```
 
-</CodeBlockWrapper>
 
 #### Props
 
@@ -72,7 +70,6 @@ function MyComponent() {
 
 The `DuckLazyImage` supports placeholders, accessibility attributes, and Next.js `next/image`.
 
-<CodeBlockWrapper>
 
 ```tsx
 import { DuckLazyImage } from '@gentleduck/lazy'
@@ -91,7 +88,6 @@ function MyImageComponent() {
 }
 ```
 
-</CodeBlockWrapper>
 
 #### Props
 
@@ -111,7 +107,6 @@ function MyImageComponent() {
 
 Attach lazy-loading behavior to any element.
 
-<CodeBlockWrapper>
 
 ```tsx
 import { useLazyLoad } from '@gentleduck/lazy'
@@ -130,7 +125,6 @@ function MyComponent() {
 }
 ```
 
-</CodeBlockWrapper>
 
 #### Returns
 
@@ -145,7 +139,6 @@ function MyComponent() {
 
 Specialized hook for images: manages visibility + load state.
 
-<CodeBlockWrapper>
 
 ```tsx
 import { useLazyImage } from '@gentleduck/lazy'
@@ -165,7 +158,6 @@ function LazyImage({ src, placeholder }) {
 }
 ```
 
-</CodeBlockWrapper>
 
 #### Returns
 
@@ -180,7 +172,6 @@ function LazyImage({ src, placeholder }) {
 
 Optimized lazy image loader with placeholder + accessibility.
 
-<CodeBlockWrapper>
 
 ```tsx
 import { DuckLazyImage } from '@gentleduck/lazy'
@@ -199,7 +190,6 @@ function MyImageComponent() {
 }
 ```
 
-</CodeBlockWrapper>
 
 ---
 
@@ -207,7 +197,6 @@ function MyImageComponent() {
 
 Enable Next.js image optimization with `nextImage`.
 
-<CodeBlockWrapper>
 
 ```tsx
 <DuckLazyImage
@@ -220,7 +209,6 @@ Enable Next.js image optimization with `nextImage`.
 />
 ```
 
-</CodeBlockWrapper>
 
 Benefits:
 
@@ -233,7 +221,6 @@ Benefits:
 
 Works as a drop-in replacement for `<img>` in plain React apps.
 
-<CodeBlockWrapper>
 
 ```tsx
 <DuckLazyImage
@@ -245,7 +232,6 @@ Works as a drop-in replacement for `<img>` in plain React apps.
 />
 ```
 
-</CodeBlockWrapper>
 
 ---
 
