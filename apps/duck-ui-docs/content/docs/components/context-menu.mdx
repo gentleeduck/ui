@@ -11,7 +11,7 @@ component: true
 
 ## Philosophy
 
-Context menus are power-user shortcuts -- they surface relevant actions where the user already is. We share the DropdownMenu component internals because the interaction pattern is identical; only the trigger mechanism (right-click vs button click) differs. This means you learn one API for both patterns.
+Context menus are power-user shortcuts that surface relevant actions where the user already is. This implementation is built directly on the `@gentleduck/primitives/context-menu` primitives, so right-click behavior, keyboard interactions, and submenu semantics stay consistent.
 
 ## Installation
 
@@ -36,9 +36,8 @@ npx @gentleduck/cli add context-menu
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/libs 
+npm install @gentleduck/libs @gentleduck/motion @gentleduck/primitives
 ```
-<Step>Make sure you have the [`DropdownMenu`](/docs/components/dropdown-menu) component installed in your project.</Step>
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -95,95 +94,101 @@ import {
 ## Behavior
 
 - Right-click the trigger area to open the menu.
-- Left-click does not open the menu; use DropdownMenu if you need click activation.
+- Left-click does not open the menu.
 - Right-clicking outside closes the menu and allows the native browser menu to appear.
 
 ## API Reference
 
-ContextMenu shares the same props as [DropdownMenu](/docs/components/dropdown-menu). Every ContextMenu sub-component is a thin wrapper around its DropdownMenu counterpart with `contextMenu` enabled by default. See the DropdownMenu API Reference for full prop details.
+Components in this file wrap `@gentleduck/primitives/context-menu`.
 
 ### ContextMenu
-
-Root wrapper. Renders a `DropdownMenu` with `contextMenu` set to `true`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Context menu content (trigger + menu content) |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenu>` | -- | Additional props inherited from `DropdownMenu`. |
+| `modal` | `boolean` | `true` | Whether interaction outside the menu is blocked while open |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction for menu keyboard navigation |
+| `onOpenChange` | `(open: boolean) => void` | -- | Callback fired when open state changes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Root>` | -- | Additional props inherited from `ContextMenuPrimitive.Root` |
 
 ### ContextMenuTrigger
 
-The right-click target area. Renders a `DropdownMenuTrigger` with default dimensions and dashed border styling.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `disabled` | `boolean` | `false` | Disables custom context-menu behavior and falls back to native behavior |
+| `children` | `React.ReactNode` | -- | Trigger area content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Trigger>` | -- | Additional props inherited from `ContextMenuPrimitive.Trigger` |
+
+### ContextMenuPortal
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS classes (merged with default `h-[200px] w-[300px]` styling) |
-| `children` | `React.ReactNode` | -- | Trigger area content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger>` | -- | Additional props inherited from `DropdownMenuTrigger`. |
+| `container` | `HTMLElement` | -- | Optional portal container |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Portal>` | -- | Additional props inherited from `ContextMenuPrimitive.Portal` |
 
 ### ContextMenuContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS classes (merged with `fixed` positioning) |
+| `className` | `string` | -- | Additional CSS classes |
 | `children` | `React.ReactNode` | -- | Menu items and groups |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuContent>` | -- | Additional props inherited from `DropdownMenuContent`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>` | -- | Additional props inherited from `ContextMenuPrimitive.Content` |
+
+`ContextMenuContent` is positioned by the primitive as `side="right"`, `align="start"`, and `sideOffset={2}`.
 
 ### ContextMenuItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `inset` | `boolean` | `false` | Adds start padding for alignment with items that render indicators/icons |
 | `className` | `string` | -- | Additional CSS classes |
-| `children` | `React.ReactNode` | -- | Item content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuItem>` | -- | Additional props inherited from `DropdownMenuItem`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item>` | -- | Additional props inherited from `ContextMenuPrimitive.Item` |
 
 ### ContextMenuCheckboxItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `checked` | `boolean` | -- | Whether the item is checked |
+| `checked` | `boolean` | -- | Controlled checked state |
 | `onCheckedChange` | `(checked: boolean) => void` | -- | Callback when checked state changes |
-| `children` | `React.ReactNode` | -- | Item content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuCheckboxItem>` | -- | Additional props inherited from `DropdownMenuCheckboxItem`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.CheckboxItem>` | -- | Additional props inherited from `ContextMenuPrimitive.CheckboxItem` |
 
 ### ContextMenuRadioGroup
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | -- | `ContextMenuRadioItem` elements |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuRadioGroup>` | -- | Additional props inherited from `DropdownMenuRadioGroup`. |
+| `value` | `string` | -- | Controlled selected value |
+| `onValueChange` | `(value: string) => void` | -- | Callback when selected value changes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.RadioGroup>` | -- | Additional props inherited from `ContextMenuPrimitive.RadioGroup` |
 
 ### ContextMenuRadioItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | -- | Item content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>` | -- | Additional props inherited from `DropdownMenuRadioItem`. |
+| `value` | `string` | (required) | Value represented by this radio item |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.RadioItem>` | -- | Additional props inherited from `ContextMenuPrimitive.RadioItem` |
 
 ### ContextMenuLabel
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `inset` | `boolean` | `false` | Adds start padding for alignment with items |
 | `className` | `string` | -- | Additional CSS classes |
-| `inset` | `boolean` | -- | When `true`, adds left padding for alignment with items |
-| `children` | `React.ReactNode` | -- | Label content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuLabel>` | -- | Additional props inherited from `DropdownMenuLabel`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Label>` | -- | Additional props inherited from `ContextMenuPrimitive.Label` |
 
 ### ContextMenuSeparator
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSeparator>` | -- | Additional props inherited from `DropdownMenuSeparator`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Separator>` | -- | Additional props inherited from `ContextMenuPrimitive.Separator` |
 
 ### ContextMenuShortcut
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `keys` | `string` | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
-| `onKeysPressed` | `() => void` | -- | Callback when shortcut keys are pressed |
-| `colored` | `boolean` | `false` | Whether to apply a colored background |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut>` | -- | Additional props inherited from `DropdownMenuShortcut`. |
+| `className` | `string` | -- | Additional CSS classes |
+| `children` | `React.ReactNode` | -- | Shortcut hint content (for example, `⌘K`) |
+| `...props` | `React.HTMLAttributes<HTMLSpanElement>` | -- | Additional props to spread to the shortcut `<span>` |
 
 ### ContextMenuGroup
 
@@ -191,34 +196,30 @@ The right-click target area. Renders a `DropdownMenuTrigger` with default dimens
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes |
 | `children` | `React.ReactNode` | -- | Group content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuGroup>` | -- | Additional props inherited from `DropdownMenuGroup`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Group>` | -- | Additional props inherited from `ContextMenuPrimitive.Group` |
 
 ### ContextMenuSub
-
-Submenu wrapper.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Sub-trigger and sub-content elements |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSub>` | -- | Additional props inherited from `DropdownMenuSub`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Sub>` | -- | Additional props inherited from `ContextMenuPrimitive.Sub` |
 
 ### ContextMenuSubTrigger
 
-Submenu trigger element.
-
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `inset` | `boolean` | `false` | Adds start padding for alignment |
 | `className` | `string` | -- | Additional CSS classes |
-| `inset` | `boolean` | `false` | When `true`, adds left padding for alignment |
-| `children` | `React.ReactNode` | -- | Trigger content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSubTrigger>` | -- | Additional props inherited from `DropdownMenuSubTrigger`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubTrigger>` | -- | Additional props inherited from `ContextMenuPrimitive.SubTrigger` |
 
 ### ContextMenuSubContent
 
-Submenu content container.
-
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes |
-| `children` | `React.ReactNode` | -- | Submenu items |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent>` | -- | Additional props inherited from `DropdownMenuSubContent`. |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | -- | Preferred side relative to the sub-trigger |
+| `align` | `'start' \| 'center' \| 'end'` | -- | Alignment on the chosen side |
+| `sideOffset` | `number` | -- | Main-axis offset from sub-trigger |
+| `alignOffset` | `number` | -- | Cross-axis offset from sub-trigger |
+| `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>` | -- | Additional props inherited from `ContextMenuPrimitive.SubContent` |

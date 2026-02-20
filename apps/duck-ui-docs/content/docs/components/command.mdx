@@ -149,16 +149,18 @@ import { useKeyCommands } from '@gentleduck/vim/react'
 export function CommandMenu() {
   const [open, setOpen] = React.useState(false)
 
-  useKeyCommands({
-    'ctrl+j': {
-      name: '⌘j',
-      description: 'Open command menu',
-      execute: () => {
-        window.event?.preventDefault()
-        setOpen(true)
+  useKeyCommands(
+    {
+      'ctrl+j': {
+        description: 'Open command menu',
+        execute: () => {
+          setOpen(true)
+        },
+        name: '⌘j',
       },
     },
-  })
+    { preventDefault: true },
+  )
 
 
   return (
@@ -250,8 +252,8 @@ export function CommandMenu() {
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `keys` | `string` | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
-| `onKeysPressed` | `() => void` | -- | Triggered when shortcut is pressed |
+| `keys` | `string` (optional) | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
+| `onKeysPressed` | `() => void` (optional) | -- | Triggered when shortcut is pressed |
 | `variant` | `'default' \| 'secondary'` | `'default'` | Visual style variant |
 | `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the kbd element |
 

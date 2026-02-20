@@ -148,17 +148,11 @@ Root wrapper that provides dropdown state and context. Wraps Popover internally.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `children` | `React.ReactNode` | `--` | Dropdown sub-components (`DropdownMenuTrigger`, `DropdownMenuContent`) |
 | `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
 | `open` | `boolean` | `--` | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
-| `placement` | `Placement` | `'bottom'` | Placement relative to the trigger |
-| `sideOffset` | `number` | `4` | Offset on the main axis |
-| `alignOffset` | `number` | `0` | Offset on the cross axis |
-| `mainAxis` | `boolean` | `true` | Enables main-axis flipping while positioning |
-| `matchWidth` | `boolean` | `false` | Match the popover width to the trigger width |
-| `enableHover` | `boolean` | `false` | Open on hover instead of click |
-| `contextMenu` | `boolean` | `false` | Open on right-click at the cursor position |
-| `modal` | `boolean` | `false` | Enables focus management when content is not disabled |
+| `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
 | `...props` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Additional props inherited from `Popover`. |
 
 ### DropdownMenuTrigger
@@ -178,10 +172,11 @@ Container for the menu items. Rendered inside a portal.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `renderOnce` | `boolean` | `true` | Keep content mounted after first open |
-| `disabled` | `boolean` | `true` | Disables focus management when true |
-| `lockScroll` | `boolean` | `true` | Locks page scroll while the menu is open |
-| `forceMount` | `boolean` | `true` | Keep content mounted for CSS-driven animations |
+| `forceMount` | `boolean` | `--` | Keep content mounted for animation control |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
+| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
+| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Additional props inherited from `PopoverContent`. |
 
 ### DropdownMenuItem
@@ -257,8 +252,8 @@ Displays a keyboard shortcut hint next to a menu item and registers the key bind
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `keys` | `string` | (required) | Keyboard shortcut string (e.g. `"ctrl+K"`) |
-| `onKeysPressed` | `() => void` | (required) | Callback invoked when the shortcut keys are pressed |
+| `keys` | `string` (optional) | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
+| `onKeysPressed` | `() => void` (optional) | -- | Callback invoked when the shortcut keys are pressed |
 | `colored` | `boolean` | `false` | Applies a muted background to the shortcut badge |
 | `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the kbd element |
 
@@ -278,7 +273,11 @@ Wrapper for a submenu. Creates a nested popover with hover activation.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `contextMenu` | `boolean` | `--` | Open on right-click at the cursor position |
+| `children` | `React.ReactNode` | `--` | Submenu trigger/content pair |
+| `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
+| `open` | `boolean` | `--` | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
+| `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
 | `...props` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Additional props inherited from `Popover`. |
 
 ### DropdownMenuSubTrigger
@@ -296,6 +295,8 @@ Content container for a submenu.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `disabled` | `boolean` | `true` | Disables focus management when true |
-| `lockScroll` | `boolean` | `true` | Locks page scroll while the submenu is open |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'right'` | Preferred side for the nested submenu |
+| `align` | `'start' \| 'center' \| 'end'` | `'start'` | Alignment on the chosen side |
+| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
+| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Additional props inherited from `PopoverContent`. |

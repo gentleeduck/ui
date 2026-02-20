@@ -11,7 +11,7 @@ component: true
 
 ## Philosophy
 
-Native selects are accessible but unstyleable. Custom selects are styleable but inaccessible. We bridge this gap by wrapping Radix's Select primitive, which provides the keyboard interactions and ARIA roles that native selects get for free, while giving you full visual control over trigger, content, and items.
+Native selects are accessible but difficult to style consistently. This select keeps accessible interaction patterns while using a compositional approach (`Popover` + command-style keyboard handling) so trigger, content, and items remain fully customizable.
 
 ## How It's Built
 
@@ -137,9 +137,9 @@ import {
 | `value` | `string` | -- | Current selected value of the select component |
 | `defaultValue` | `string` | `''` | Uncontrolled initial value |
 | `onValueChange` | `(value: string) => void` | -- | Callback fired when the selected value changes |
+| `open` | `boolean` | -- | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | -- | Callback fired when dropdown open state changes |
 | `scrollable` | `boolean` | `false` | Enables scroll buttons and makes the dropdown content scrollable |
-| `contextMenu` | `boolean` | -- | Whether to render as a context menu |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Additional props inherited from `Popover`. |
 
 ### SelectWrapper
 
@@ -160,6 +160,10 @@ Internal component managing refs, selection state, and event handlers. Uses `Sel
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Content to render inside the dropdown |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
+| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
+| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Additional props inherited from `PopoverContent`. |
 
 ### SelectGroup
