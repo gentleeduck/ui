@@ -129,14 +129,14 @@ export const columns: ColumnDef<Payment>[] = [
       const payment = row.original
 
       return (
-        <DropdownMenu placement="bottom-end">
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="ml-auto h-8 w-8 p-0" size={'sm'} variant="ghost">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[170px]">
+          <DropdownMenuContent side="bottom" align="end" className="w-[170px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
               Copy payment ID
@@ -193,7 +193,7 @@ export default function DataTableDemo() {
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent side="bottom" align="end">
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())

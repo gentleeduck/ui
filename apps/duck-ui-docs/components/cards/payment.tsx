@@ -123,14 +123,14 @@ export const columns: ColumnDef<Payment>[] = [
       const payment = row.original
 
       return (
-        <DropdownMenu placement="bottom-end">
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="size-8 p-0" variant="ghost">
               <span className="sr-only">Open menu</span>
               <MoreHorizontalIcon />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent side="bottom" align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
               Copy payment ID

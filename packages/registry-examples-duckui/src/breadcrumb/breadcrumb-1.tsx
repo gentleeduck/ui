@@ -26,12 +26,12 @@ export default function BreadcrumbDemo() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <DropdownMenu onOpenChange={() => {}} placement="top-start">
+          <DropdownMenu onOpenChange={() => {}}>
             <DropdownMenuTrigger className="flex items-center gap-1">
               <BreadcrumbEllipsis className="size-4" />
               <span className="sr-only">Toggle menu</span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent align="start" side="top">
               <DropdownMenuItem>Documentation</DropdownMenuItem>
               <DropdownMenuItem>Themes</DropdownMenuItem>
               <DropdownMenuItem>GitHub</DropdownMenuItem>

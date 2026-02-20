@@ -40,14 +40,17 @@ export function NavDocuments({
                 <span>{item.name}</span>
               </a>
             </SidebarMenuButton>
-            <DropdownMenu placement={isMobile ? 'bottom-end' : 'right-start'}>
+            <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction className="rounded-sm data-[state=open]:bg-accent" showOnHover>
                   <MoreHorizontalIcon />
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-24 rounded-lg">
+              <DropdownMenuContent
+                align={isMobile ? 'end' : 'start'}
+                className="w-24 rounded-lg"
+                side={isMobile ? 'bottom' : 'right'}>
                 <DropdownMenuItem>
                   <FolderIcon />
                   <span>Open</span>

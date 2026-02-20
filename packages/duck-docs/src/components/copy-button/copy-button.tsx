@@ -70,7 +70,7 @@ export function CopyWithClassNames({ value, classNames, className }: CopyWithCla
   }, [])
 
   return (
-    <DropdownMenu placement="bottom-end">
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           className={cn('!size-6.5 relative z-50 [&_svg]:w-3.5', className)}
@@ -79,7 +79,7 @@ export function CopyWithClassNames({ value, classNames, className }: CopyWithCla
           variant="outline"
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end" side="bottom">
         <DropdownMenuItem onClick={() => copyToClipboard(value)}>Component</DropdownMenuItem>
         <DropdownMenuItem onClick={() => copyToClipboard(classNames)}>Classname</DropdownMenuItem>
       </DropdownMenuContent>

@@ -235,11 +235,11 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
           <Label className="sr-only" htmlFor={`${row.original.id}-reviewer`}>
             Reviewer
           </Label>
-          <Select placement="bottom-end">
+          <Select>
             <SelectTrigger className="h-8 w-40" id={`${row.original.id}-reviewer`}>
               <SelectValue placeholder="Assign reviewer" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent align="end" side="bottom">
               <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
               <SelectItem value="Jamik Tashpulatov">Jamik Tashpulatov</SelectItem>
             </SelectContent>
@@ -251,14 +251,14 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
   {
     cell: () => (
-      <DropdownMenu placement="bottom-end">
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon" variant="ghost">
             <MoreVerticalIcon />
             <span className="sr-only">Open menu</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-32">
+        <DropdownMenuContent align="end" className="w-32" side="bottom">
           <DropdownMenuItem>Edit</DropdownMenuItem>
           <DropdownMenuItem>Make a copy</DropdownMenuItem>
           <DropdownMenuItem>Favorite</DropdownMenuItem>
@@ -433,12 +433,11 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                 onValueChange={(value) => {
                   table.setPageSize(Number(value))
                 }}
-                placement="top"
                 value={`${table.getState().pagination.pageSize}`}>
                 <SelectTrigger className="w-20" id="rows-per-page">
                   <SelectValue placeholder={table.getState().pagination.pageSize.toString()} />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent side="top">
                   {[10, 20, 30, 40, 50].map((pageSize) => (
                     <SelectItem key={pageSize} value={`${pageSize}`}>
                       {pageSize}

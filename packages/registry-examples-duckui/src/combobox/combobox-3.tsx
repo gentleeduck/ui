@@ -44,13 +44,13 @@ export default function ComboboxPopover() {
   return (
     <div className="flex items-center space-x-4">
       <p className="text-muted-foreground text-sm">Status</p>
-      <Popover onOpenChange={setOpen} open={open} placement="bottom-end">
+      <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger asChild>
           <Button className="w-[150px] justify-start" variant="outline">
             {selectedStatus ? selectedStatus.label : '+ Set status'}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0">
+        <PopoverContent side="bottom" align="end" className="p-0">
           <Command>
             <CommandInput placeholder="Change status..." />
             <CommandList>

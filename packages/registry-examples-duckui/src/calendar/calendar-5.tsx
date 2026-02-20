@@ -16,14 +16,14 @@ export default function CalendarDemo() {
       <Label className="px-1" htmlFor="date">
         Date of birth
       </Label>
-      <Popover onOpenChange={setOpen} open={open} placement="bottom">
+      <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger asChild>
           <Button className="w-48 justify-between font-normal" id="date" variant="outline">
             {date ? date.toLocaleDateString() : 'Select date'}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto overflow-hidden p-0">
+        <PopoverContent side="bottom" className="w-auto overflow-hidden p-0">
           <Calendar
             captionLayout="dropdown"
             mode="single"

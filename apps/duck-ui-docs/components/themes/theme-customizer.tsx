@@ -49,11 +49,13 @@ export function ThemeCustomizer() {
         </DrawerContent>
       </Drawer>
       <div className="hidden items-center md:flex">
-        <Popover placement="right">
+        <Popover>
           <PopoverTrigger asChild>
             <Button size="sm">Customize</Button>
           </PopoverTrigger>
-          <PopoverContent className="z-40 w-auto max-w-[375px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
+          <PopoverContent
+            side="right"
+            className="z-40 w-auto max-w-[375px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
             <Customizer />
           </PopoverContent>
         </Popover>
