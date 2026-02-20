@@ -12,14 +12,15 @@ import { DuckTableOptions } from './table.types'
 import { DuckTableBody } from './table-advanced'
 import { DucKTable, TableDemo } from './table-example'
 
-// const App = lazy(() => import('./App'))
+const App = lazy(() => import('./App'))
 
 createRoot(document.getElementById('root') as HTMLElement).render(<TableDemor />)
 
 export function TableDemor() {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <MyTable />
+      <App />
+      {/* <MyTable /> */}
     </div>
   )
 }
