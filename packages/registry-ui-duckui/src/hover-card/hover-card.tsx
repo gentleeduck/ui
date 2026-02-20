@@ -41,6 +41,7 @@ function HoverCardTrigger({
 function HoverCardContent({
   className,
   children,
+  style,
   ...props
 }: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Content>): React.JSX.Element {
   return (
@@ -48,11 +49,15 @@ function HoverCardContent({
       aria-modal="false"
       className={cn(
         AnimVariants(),
-        'relative z-50 h-fit w-fit overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
+        'relative h-fit w-fit overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
         className,
       )}
       data-slot="hover-card-content"
       role="dialog"
+      style={{
+        transitionProperty: 'opacity',
+        ...style,
+      }}
       {...props}>
       {children}
     </HoverCardPrimitive.Content>

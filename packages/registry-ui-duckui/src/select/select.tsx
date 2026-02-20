@@ -145,7 +145,7 @@ function SelectContent({ children, className, ...props }: React.ComponentPropsWi
   const { scrollable, contentRef } = useSelectContext()
   return (
     <PopoverContent
-      className={cn('w-auto px-1.5 [&>div]:w-full', scrollable ? 'py-0' : 'py-1', className)}
+      className={cn('w-auto px-1 [&>div]:w-full', scrollable ? 'py-0' : 'py-1', className)}
       data-slot="select-content"
       duck-select-content=""
       {...props}>
@@ -273,7 +273,7 @@ function SelectScrollButton({
   return (
     <Button
       className={cn(
-        'sticky z-50 w-full cursor-default cursor-pointer rounded-none bg-background p-0 [&>div]:justify-center',
+        'sticky z-10 w-full cursor-default cursor-pointer rounded-none bg-background p-0 [&>div]:justify-center',
         scrollDown ? 'bottom-0' : '',
         className,
       )}

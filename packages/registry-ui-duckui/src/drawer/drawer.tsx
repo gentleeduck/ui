@@ -31,7 +31,7 @@ const DrawerOverlay = ({
   ...props
 }: React.ComponentPropsWithRef<typeof DrawerPrimitive.Overlay>): React.JSX.Element => (
   <DrawerPrimitive.Overlay
-    className={cn('fixed inset-0 z-50 bg-black/80', className)}
+    className={cn('fixed inset-0 bg-black/80', className)}
     ref={ref}
     {...props}
     data-slot="drawer-overlay"
@@ -52,7 +52,7 @@ function DrawerContent({
       <DrawerOverlay {...overlay} data-slot="drawer-overlay" />
       <DrawerPrimitive.Content
         className={cn(
-          'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
+          'fixed inset-x-0 bottom-0 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
           className,
         )}
         data-slot="drawer-content"
