@@ -1,2 +1,1 @@
-export * from './slot.tsx'
-export * as default from './slot.tsx'
+export * from './slot'
