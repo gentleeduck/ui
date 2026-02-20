@@ -119,9 +119,9 @@
     font-family: var(--font-mono);
     font-size: var(--text-base);
     color: var(--color-code-foreground);
-    border-bottom: color-mix(in oklab, var(--border) 30%, transparent);
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
+    /* border-bottom: color-mix(in oklab, var(--border) 30%, transparent); */
+    /* border-bottom-style: solid; */
+    /* border-bottom-width: 1px; */
   }
 
   [data-line-numbers] {

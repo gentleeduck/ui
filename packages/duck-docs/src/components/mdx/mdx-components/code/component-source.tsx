@@ -1,5 +1,6 @@
 'use client'
 
+import { cn } from '@gentleduck/libs/cn'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import type React from 'react'
@@ -21,7 +22,10 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
     ?.replace('//', '') as string
 
   return (
-    <Tabs className="rounded-md border border-border bg-muted/40" defaultValue={defaultValue}>
+    <Tabs
+      className={cn('rounded-md border border-border bg-muted/40', className)}
+      {...props}
+      defaultValue={defaultValue}>
       <TabsList className="w-[622px] justify-start overflow-x-auto bg-transparent px-2 py-2">
         {children.map((item, idx) => {
           const value = String((item as any).props.children[0].props.__rawString__)
