@@ -172,9 +172,10 @@ export const PopperContent = ({ ref: forwardedRef, ...props }: ScopedProps<Poppe
           transform: isPositioned ? floatingStyles.transform : 'translate(0, -200%)',
           minWidth: 'max-content',
           zIndex: contentZIndex,
-          '--gentleduck-popper-transform-origin': [middlewareData.transformOrigin?.x, middlewareData.transformOrigin?.y].join(
-            ' ',
-          ),
+          '--gentleduck-popper-transform-origin': [
+            middlewareData.transformOrigin?.x,
+            middlewareData.transformOrigin?.y,
+          ].join(' '),
           ...(middlewareData.hide?.referenceHidden && {
             visibility: 'hidden',
             pointerEvents: 'none',
