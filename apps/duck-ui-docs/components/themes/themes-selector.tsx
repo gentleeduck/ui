@@ -58,7 +58,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
         const cssVars = mounted && mode === 'dark' ? theme.cssVars.dark : theme.cssVars.light
 
         return (
-          <Tooltip key={theme.name} placement={isDesktop ? 'left' : 'top'}>
+          <Tooltip key={theme.name}>
             <TooltipTrigger
               asChild
               style={
@@ -91,7 +91,9 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
                 </div>
               </ToggleGroupItem>
             </TooltipTrigger>
-            <TooltipContent className="bg-black text-white">{theme.name}</TooltipContent>
+            <TooltipContent className="bg-black text-white" side={isDesktop ? 'left' : 'top'}>
+              {theme.name}
+            </TooltipContent>
           </Tooltip>
         )
       })}

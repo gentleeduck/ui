@@ -13,68 +13,70 @@ import {
   InputGroupTextarea,
 } from '@gentleduck/registry-ui-duckui/input-group'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { IconCheck, IconInfoCircle, IconPlus } from '@tabler/icons-react'
 import { ArrowUpIcon, Search } from 'lucide-react'
 
 export default function InputGroupDemo() {
   return (
-    <div className="grid w-full max-w-sm gap-6">
-      <InputGroup>
-        <InputGroupInput placeholder="Search..." />
-        <InputGroupAddon>
-          <Search />
-        </InputGroupAddon>
-        <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
-      </InputGroup>
-      <InputGroup>
-        <InputGroupInput className="!pl-1" placeholder="example.com" />
-        <InputGroupAddon>
-          <InputGroupText>https://</InputGroupText>
-        </InputGroupAddon>
-        <InputGroupAddon align="inline-end">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <InputGroupButton className="rounded-full" size="icon-xs">
-                <IconInfoCircle />
-              </InputGroupButton>
-            </TooltipTrigger>
-            <TooltipContent>This is content in a tooltip.</TooltipContent>
-          </Tooltip>
-        </InputGroupAddon>
-      </InputGroup>
-      <InputGroup>
-        <InputGroupTextarea placeholder="Ask, Search or Chat..." />
-        <InputGroupAddon align="block-end">
-          <InputGroupButton className="rounded-full" size="icon-xs" variant="outline">
-            <IconPlus />
-          </InputGroupButton>
-          <DropdownMenu placement="top-start">
-            <DropdownMenuTrigger asChild>
-              <InputGroupButton variant="ghost">Auto</InputGroupButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="[--radius:0.95rem]">
-              <DropdownMenuItem>Auto</DropdownMenuItem>
-              <DropdownMenuItem>Agent</DropdownMenuItem>
-              <DropdownMenuItem>Manual</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <InputGroupText className="ml-auto">52% used</InputGroupText>
-          <Separator className="!h-4" orientation="vertical" />
-          <InputGroupButton className="rounded-full" disabled size="icon-xs" variant="default">
-            <ArrowUpIcon />
-            <span className="sr-only">Send</span>
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
-      <InputGroup>
-        <InputGroupInput placeholder="@shadcn" />
-        <InputGroupAddon align="inline-end">
-          <div className="flex size-4 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            <IconCheck className="size-3" />
-          </div>
-        </InputGroupAddon>
-      </InputGroup>
-    </div>
+    <TooltipProvider>
+      <div className="grid w-full max-w-sm gap-6">
+        <InputGroup>
+          <InputGroupInput placeholder="Search..." />
+          <InputGroupAddon>
+            <Search />
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputGroupInput className="!pl-1" placeholder="example.com" />
+          <InputGroupAddon>
+            <InputGroupText>https://</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <InputGroupButton className="rounded-full" size="icon-xs">
+                  <IconInfoCircle />
+                </InputGroupButton>
+              </TooltipTrigger>
+              <TooltipContent>This is content in a tooltip.</TooltipContent>
+            </Tooltip>
+          </InputGroupAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputGroupTextarea placeholder="Ask, Search or Chat..." />
+          <InputGroupAddon align="block-end">
+            <InputGroupButton className="rounded-full" size="icon-xs" variant="outline">
+              <IconPlus />
+            </InputGroupButton>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <InputGroupButton variant="ghost">Auto</InputGroupButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="[--radius:0.95rem]" side="top">
+                <DropdownMenuItem>Auto</DropdownMenuItem>
+                <DropdownMenuItem>Agent</DropdownMenuItem>
+                <DropdownMenuItem>Manual</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <InputGroupText className="ml-auto">52% used</InputGroupText>
+            <Separator className="!h-4" orientation="vertical" />
+            <InputGroupButton className="rounded-full" disabled size="icon-xs" variant="default">
+              <ArrowUpIcon />
+              <span className="sr-only">Send</span>
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputGroupInput placeholder="@shadcn" />
+          <InputGroupAddon align="inline-end">
+            <div className="flex size-4 items-center justify-center rounded-full bg-primary text-primary-foreground">
+              <IconCheck className="size-3" />
+            </div>
+          </InputGroupAddon>
+        </InputGroup>
+      </div>
+    </TooltipProvider>
   )
 }

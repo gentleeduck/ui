@@ -5,6 +5,7 @@ import 'public/r/themes.css'
 import { TailwindIndicator, ThemeProvider } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
+import { TooltipProvider } from '@gentleduck/registry-ui-duckui/tooltip'
 import { KeyProvider } from '@gentleduck/vim/react'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -82,18 +83,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             disableTransitionOnChange
             enableColorScheme
             enableSystem>
-            <DocsAppProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={docsSiteConfig}>
-              <ThemeWrapper>
-                <div vaul-drawer-wrapper="">
-                  <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
-                </div>
+            <TooltipProvider>
+              <DocsAppProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={docsSiteConfig}>
+                <ThemeWrapper>
+                  <div vaul-drawer-wrapper="">
+                    <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
+                  </div>
 
-                <SpeedInsights />
-                <VercelAnalytics />
-                <Toaster />
-                {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
-              </ThemeWrapper>
-            </DocsAppProvider>
+                  <SpeedInsights />
+                  <VercelAnalytics />
+                  <Toaster />
+                  {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
+                </ThemeWrapper>
+              </DocsAppProvider>
+            </TooltipProvider>
           </ThemeProvider>
         </KeyProvider>
       </body>
