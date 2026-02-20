@@ -127,7 +127,7 @@ function Accordion({
         wrapperRef,
       }}>
       <div
-        className={cn('min-w-[400px] [interpolate-size:allow-keywords]', className)}
+        className={cn('min-w-100 [interpolate-size:allow-keywords]', className)}
         {...props}
         data-slot="accordion"
         ref={wrapperRef}>
@@ -157,9 +157,7 @@ function AccordionItem({
     <details
       aria-labelledby={value}
       className={cn(
-        'group overflow-hidden border-border border-b',
-        '[&::details-content]:h-0 [&::details-content]:transform-gpu [&::details-content]:transition-all [&::details-content]:transition-discrete [&::details-content]:duration-250 [&::details-content]:ease-(--duck-motion-ease) [&::details-content]:will-change-[height] open:[&::details-content]:h-auto',
-        AnimVariants(),
+        'group details-content:h-0 details-content:transform-gpu overflow-hidden border-border border-b details-content:transition-all details-content:transition-discrete details-content:duration-[200ms,150ms] details-content:ease-(--duck-motion-ease) details-content:will-change-[height] open:details-content:h-auto',
         className,
       )}
       id={value}
@@ -201,7 +199,7 @@ function AccordionTrigger({
       aria-controls={value}
       aria-describedby={value}
       className={cn(
-        'flex flex-1 cursor-pointer select-none items-center justify-between whitespace-nowrap py-4 font-medium font-medium text-base ring-offset-background transition-all transition-colors hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'flex flex-1 cursor-pointer select-none items-center justify-between whitespace-nowrap py-4 font-medium text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         className,
       )}
       id={value}

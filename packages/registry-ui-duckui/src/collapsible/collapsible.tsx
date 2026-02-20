@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { AnimVariants } from '@gentleduck/motion/anim'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import React from 'react'
 import { Button } from '../button'
@@ -109,7 +110,7 @@ function CollapsibleContent({
   return (
     <section
       aria-hidden={!open}
-      className={cn('h-0 overflow-hidden transition-all duration-300 ease-in-out data-[open=true]:h-auto', className)}
+      className={cn('h-0 overflow-hidden transition-all data-[open=true]:h-auto', AnimVariants(), className)}
       data-open={open}
       data-slot="collapsible-content"
       duck-collapsible-content=""
