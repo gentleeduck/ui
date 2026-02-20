@@ -1,6 +1,7 @@
 'use client'
 
 import { useDocsConfig } from '@duck-docs/context'
+import type { SidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
@@ -21,6 +22,32 @@ import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 
+type FlattenedSidebarItem = {
+  href: string
+  title: string
+}
+
+function flattenSidebarItems(items: SidebarNavItem[], parentTitle = ''): FlattenedSidebarItem[] {
+  const flattened: FlattenedSidebarItem[] = []
+
+  for (const item of items) {
+    const title = parentTitle ? `${parentTitle} / ${item.title}` : item.title
+
+    if (item.href && !item.disabled) {
+      flattened.push({
+        href: item.href,
+        title,
+      })
+    }
+
+    if (item.items?.length) {
+      flattened.push(...flattenSidebarItems(item.items, title))
+    }
+  }
+
+  return flattened
+}
+
 export function CommandMenu() {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
@@ -30,8 +57,8 @@ export function CommandMenu() {
   const groupRef = React.useRef<HTMLUListElement>(null)
   const items = [
     ...docsConfig.sidebarNav.map((group) => ({
-      items: group.items?.map((navItem) => ({
-        action: () => router.push(navItem.href as string),
+      items: flattenSidebarItems(group.items ?? []).map((navItem) => ({
+        action: () => router.push(navItem.href),
         icon: <Circle className="mr-2 h-3 w-3" />,
         name: navItem.title,
       })),
@@ -119,7 +146,7 @@ export function CommandMenu() {
 function CommandFooter() {
   const { selectedItem } = useCommandRefsContext()
   const docsConfig = useDocsConfig()
-  const sidebarItems = docsConfig.sidebarNav.flatMap((group) => group.items ?? [])
+  const sidebarItems = docsConfig.sidebarNav.flatMap((group) => flattenSidebarItems(group.items ?? []))
   const selectedNavItem = sidebarItems.find((item) => item.title === selectedItem?.innerText)
   useKeyCommands(
     {

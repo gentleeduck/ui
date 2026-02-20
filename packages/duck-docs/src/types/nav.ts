@@ -5,6 +5,8 @@ export interface NavItem {
   external?: boolean
   icon?: string
   label?: string
+  accordion?: boolean
+  defaultOpen?: boolean
   collapsible?: boolean
 }
 
