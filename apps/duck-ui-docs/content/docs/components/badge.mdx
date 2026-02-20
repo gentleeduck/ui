@@ -91,20 +91,22 @@ import { Badge } from '@/components/ui/badge'
 
 #### Example Usage:
 
-```tsx {6, 13}
+```tsx {6, 16}
 import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 const MyBadge = () => {
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Badge aria-label="Badge" className="rounded-full" size="icon" variant="outline">
-          <Info />
-        </Badge>
-      </TooltipTrigger>
-      <TooltipContent>Info Badge</TooltipContent>
-    </Tooltip>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Badge aria-label="Badge" className="rounded-full" size="icon" variant="outline">
+            <Info />
+          </Badge>
+        </TooltipTrigger>
+        <TooltipContent>Info Badge</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 ```

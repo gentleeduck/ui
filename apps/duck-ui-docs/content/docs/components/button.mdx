@@ -97,20 +97,22 @@ import { Button } from '@/components/ui/button'
 
 #### Example Usage:
 
-```tsx {6, 13}
+```tsx {6, 16}
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 const MyButton = () => {
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button size="large" variant="primary">
-          Submit
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>Submit Button</TooltipContent>
-    </Tooltip>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button size="large" variant="primary">
+            Submit
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Submit Button</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 ```

@@ -12,16 +12,16 @@ component: true
 ## Features
 
 - **Floating UI powered positioning** - Smart placement with `flip`, `shift`, and `offset` middleware.
-- **State-aware styling hooks** - `data-open` and `data-side` attributes for open state and placement styling.
-- **Transform-origin variable** - Uses `--duck-tooltip-content-transform-origin` for direction-aware animations.
-- **Customizable delays** - Control open/close delays with `delayDuration` and `skipDelayDuration`.
+- **State-aware styling hooks** - `data-state` and `data-side` attributes for state and placement styling.
+- **Transform-origin variable** - Uses `--gentleduck-tooltip-content-transform-origin` for direction-aware animations.
+- **Customizable delays** - Configure open delays globally with `TooltipProvider` or per tooltip with `delayDuration`.
 - **Flexible triggers** - Wrap any element using `asChild`.
 - **Accessible by default** - Implements proper ARIA attributes and keyboard navigation.
 - **Portal rendering** - Renders tooltips in a portal to avoid layout clipping.
 
 ## Philosophy
 
-Tooltips are the lightest touch of contextual help -- they appear on hover, require no interaction, and disappear when attention moves on. We build on Floating UI because positioning against viewport edges, scroll containers, and dynamic layouts is harder than it looks. The `data-open` and `data-side` attributes give you animation hooks without JavaScript state management.
+Tooltips are the lightest touch of contextual help -- they appear on hover, require no interaction, and disappear when attention moves on. We build on Floating UI because positioning against viewport edges, scroll containers, and dynamic layouts is harder than it looks. The `data-state` and `data-side` attributes give you animation hooks without JavaScript state management.
 
 ## How It's Built
 
@@ -35,7 +35,7 @@ Tooltips are the lightest touch of contextual help -- they appear on hover, requ
   primitives --> |"provides"| Positioning["Smart Positioning\n(flip, shift, offset)"]
   primitives --> |"provides"| A11y["ARIA Attributes"]
   motion --> |"provides"| AnimVariants["Direction-aware\nAnimations"]
-  Tooltip --> |"exposes"| DataAttrs["data-open\ndata-side\nCSS hooks"]
+  Tooltip --> |"exposes"| DataAttrs["data-state\ndata-side\nCSS hooks"]
 
   classDef external fill:#818cf8,stroke:#6366f1,color:#fff
   classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
@@ -83,9 +83,12 @@ npm install @gentleduck/primitives @gentleduck/motion @gentleduck/variants @gent
 ## Usage
 
 ```tsx
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
 
-<Tooltip delayDuration={500} skipDelayDuration={100}>
+// app/layout.tsx (once)
+<TooltipProvider>{children}</TooltipProvider>
+
+<Tooltip delayDuration={500}>
   <TooltipTrigger>Hover</TooltipTrigger>
   <TooltipContent>Tooltip text</TooltipContent>
 </Tooltip>
@@ -115,16 +118,17 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 ```css
 .TooltipContent {
-  transform-origin: var(--duck-tooltip-content-transform-origin);
+  transform-origin: var(--gentleduck-tooltip-content-transform-origin);
   transition: transform 150ms ease, opacity 150ms ease;
 }
 
-.TooltipContent[data-open='false'] {
+.TooltipContent[data-state='closed'] {
   opacity: 0;
   transform: scale(0.95);
 }
 
-.TooltipContent[data-open='true'] {
+.TooltipContent[data-state='delayed-open'],
+.TooltipContent[data-state='instant-open'] {
   opacity: 1;
   transform: scale(1);
 }
@@ -132,28 +136,32 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 ## Styling Hooks
 
-- **`data-open`** - Set on trigger and content (`true`/`false`) for state-based styling.
+- **`data-state`** - Set on trigger and content (`closed`, `delayed-open`, `instant-open`) for state-based styling.
 - **`data-side`** - Set on content (`top`, `right`, `bottom`, `left`) for placement-aware styles.
-- **`--duck-tooltip-content-transform-origin`** - CSS variable for animation transform origin.
+- **`--gentleduck-tooltip-content-transform-origin`** - CSS variable for animation transform origin.
 
 ## API Reference
+
+### TooltipProvider
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Tooltip tree to provide behavior for |
+| `delayDuration` | `number` | `700` | Delay before opening tooltips |
+| `skipDelayDuration` | `number` | `300` | Window where moving between triggers skips delay |
+| `disableHoverableContent` | `boolean` | `false` | Close tooltip as soon as pointer leaves trigger |
 
 ### Tooltip
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Tooltip sub-components (`TooltipTrigger`, `TooltipContent`) |
-| `placement` | `Placement` | `'top'` | Tooltip placement relative to the trigger |
 | `open` | `boolean` | -- | Controlled open state |
-| `defaultOpen` | `boolean` | -- | Uncontrolled initial open state |
+| `defaultOpen` | `boolean` | `false` | Uncontrolled initial open state |
 | `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
-| `delayDuration` | `number` | -- | Milliseconds delay before showing or hiding the tooltip |
-| `skipDelayDuration` | `number` | -- | Rest time in ms before opening when the pointer stops moving |
-| `sideOffset` | `number` | -- | Offset along the main axis |
-| `alignOffset` | `number` | -- | Offset along the cross axis |
-| `mainAxis` | `boolean` | -- | Enables main-axis flipping while positioning |
-| `modal` | `boolean` | -- | Enables focus management for the tooltip content |
-| `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>` | -- | Additional props inherited from `Tooltip.Root`. |
+| `delayDuration` | `number` | `700` | Per-tooltip delay override |
+| `disableHoverableContent` | `boolean` | `false` | Per-tooltip hover-content behavior override |
+| `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>` | -- | Additional root props |
 
 ### TooltipTrigger
 
@@ -171,16 +179,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 | `className` | `string` | -- | Additional CSS class names to apply |
 | `children` | `React.ReactNode` | -- | Content rendered inside the tooltip |
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the content container |
-| `forceMount` | `boolean` | `true` | Keep the content mounted for CSS-driven animations |
-| `renderOnce` | `boolean` | `true` | Render content only once and reuse the DOM node |
-| `lockScroll` | `boolean` | `false` | Locks scroll while the tooltip is open |
-| `disabled` | `boolean` | `true` | Disables focus management when true |
+| `forceMount` | `boolean` | -- | Keep content mounted for external animation control |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Preferred side relative to the trigger |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
+| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
+| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` | -- | Additional props to spread to the content div |
-
-### TooltipPortal
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `React.ReactNode` | -- | Content to render inside the portal |
-
-*Renders children into a React portal to avoid layout clipping.*

@@ -11,7 +11,7 @@ component: true
 
 ## About
 
-Popover built with [@floating-ui/react](https://floating-ui.com/). Supports click, hover, and context menu triggers with smart placement.
+Popover built with [@floating-ui/react](https://floating-ui.com/) and Popper-based primitives for collision-aware positioning.
 
 ## Philosophy
 
@@ -64,7 +64,7 @@ npx @gentleduck/cli add popover
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/libs @gentleduck/primitives @gentleduck/motion @gentleduck/variants
+npm install @gentleduck/libs @gentleduck/primitives @gentleduck/motion
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -101,8 +101,8 @@ import {
 <MermaidDiagram chart={`graph TD
     A[Popover] --> B[PopoverTrigger]
     A --> C[PopoverContent]
-    A --> D[PopoverPortal]
-    C --> E[PopoverClose]
+    A --> D[PopoverAnchor]
+    A --> E[PopoverClose]
 `} />
 
 ## API Reference
@@ -111,17 +111,11 @@ import {
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `children` | `React.ReactNode` | `--` | Popover sub-components (`PopoverTrigger`, `PopoverContent`) |
 | `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
 | `open` | `boolean` | `--` | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
-| `placement` | `Placement` | `'bottom'` | Placement relative to the trigger |
-| `sideOffset` | `number` | `4` | Offset on the main axis |
-| `alignOffset` | `number` | `0` | Offset on the cross axis |
-| `mainAxis` | `boolean` | `true` | Enables main-axis flipping while positioning |
-| `matchWidth` | `boolean` | `false` | Match the popover width to the trigger width |
-| `enableHover` | `boolean` | `false` | Open on hover instead of click |
-| `contextMenu` | `boolean` | `false` | Open on right-click at the cursor position |
-| `modal` | `boolean` | `--` | Enables focus management when content is not disabled |
+| `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>` | -- | Additional props inherited from `Popover.Root`. |
 
 ### PopoverTrigger
@@ -135,24 +129,27 @@ import {
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `forceMount` | `boolean` | `true` | Keep content mounted for CSS-driven animations |
-| `lockScroll` | `boolean` | `false` | Locks scroll while the popover is open |
-| `disabled` | `boolean` | `false` | Disables focus management when true |
+| `forceMount` | `boolean` | `--` | Keep content mounted for animation control |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
+| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
+| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>` | -- | Additional props inherited from `Popover.Content`. |
 
 ### PopoverClose
 
-Alias for `PopoverTrigger`. Use to render an element that closes the popover.
+Element that closes the popover when interacted with.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverTrigger>` | -- | Additional props inherited from `PopoverTrigger`. |
+| `asChild` | `boolean` | `false` | Renders child as the close control |
+| `children` | `React.ReactNode` | -- | Close control content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Close>` | -- | Additional props inherited from `PopoverPrimitive.Close` |
 
-### PopoverPortal
+### PopoverAnchor
 
-Renders the popover in a portal using Floating UI.
+Optional custom anchor element for positioning.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | `--` | Content to render inside the portal |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Portal>` | -- | Additional props inherited from `Popover.Portal`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Anchor>` | -- | Additional props inherited from `Popover.Anchor`. |

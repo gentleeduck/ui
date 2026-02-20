@@ -8,7 +8,7 @@ component: true
 
 ## Philosophy
 
-Menubars bring desktop-application navigation patterns to the web. The keyboard model (arrow keys between menus, type-ahead search within items) follows established platform conventions because muscle memory matters more than novelty. We build on DropdownMenu internals so each menu panel gets the same rich feature set.
+Menubars bring desktop-application navigation patterns to the web. The keyboard model (arrow keys between menus, type-ahead navigation, submenu traversal) follows established platform conventions and is powered by `@gentleduck/primitives/menubar`.
 
 ## Installation
 
@@ -33,15 +33,12 @@ npx @gentleduck/cli add menubar
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/libs 
+npm install @gentleduck/libs @gentleduck/motion @gentleduck/primitives
 ```
-
-<Step>Make sure you have the [`DropdownMenu`](/docs/components/dialog) and
-  [`Button`](/docs/components/button) components installed in your project.</Step>
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="menubar"  />
+<ComponentSource name="menubar" />
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -102,108 +99,136 @@ import {
 
 ## API Reference
 
-### Menubar
+Components in this file wrap `@gentleduck/primitives/menubar`.
 
-Root container that renders a horizontal bar and manages keyboard navigation across all menus. Provides `MenubarContext` for coordinating open state, trigger focus, and arrow-key movement between menus.
+### Menubar
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the menubar container |
-| `children` | `React.ReactNode` | `--` | `MenubarMenu` items to render inside the bar |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `value` | `string` | `''` | Controlled currently-open menu value |
+| `defaultValue` | `string` | `''` | Initial open menu value for uncontrolled usage |
+| `onValueChange` | `(value: string) => void` | -- | Callback when open menu value changes |
+| `loop` | `boolean` | `true` | Loops roving focus across triggers |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction for keyboard navigation |
+| `className` | `string` | -- | Additional CSS classes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>` | -- | Additional props inherited from `MenubarPrimitive.Root` |
 
 ### MenubarMenu
 
-Wrapper for an individual menu within the menubar. Renders a `DropdownMenu` internally.
-
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the menu wrapper |
-| `children` | `React.ReactNode` | `--` | Trigger and content elements for this menu |
-| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'contextMenu'>` | -- | Additional props to spread to the content div |
+| `value` | `string` | auto-generated | Unique identifier for this menu |
+| `children` | `React.ReactNode` | -- | Trigger and content elements for this menu |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Menu>` | -- | Additional props inherited from `MenubarPrimitive.Menu` |
 
 ### MenubarTrigger
 
-Button that opens a specific menu in the menubar. Styled as a ghost button with `sm` size.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS classes |
+| `children` | `React.ReactNode` | -- | Trigger label/content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>` | -- | Additional props inherited from `MenubarPrimitive.Trigger` |
+
+### MenubarPortal
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the trigger button |
-| `children` | `React.ReactNode` | `--` | Label content for the trigger |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuTrigger>` | -- | Additional props inherited from `DropdownMenuTrigger`. |
+| `container` | `HTMLElement` | -- | Optional portal container |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Portal>` | -- | Additional props inherited from `MenubarPrimitive.Portal` |
 
 ### MenubarContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the dropdown content |
-| `children` | `React.ReactNode` | `--` | Menu items to render inside the dropdown |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuContent>` | -- | Additional props inherited from `DropdownMenuContent`. |
+| `className` | `string` | -- | Additional CSS classes |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | -- | Preferred side relative to the trigger |
+| `align` | `'start' \| 'center' \| 'end'` | `'start'` | Alignment on the chosen side |
+| `sideOffset` | `number` | `8` | Main-axis offset from trigger |
+| `alignOffset` | `number` | `-4` | Cross-axis offset from trigger |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>` | -- | Additional props inherited from `MenubarPrimitive.Content` |
 
 ### MenubarItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the menu item |
-| `children` | `React.ReactNode` | `--` | Content of the menu item |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuItem>` | -- | Additional props inherited from `DropdownMenuItem`. |
+| `inset` | `boolean` | `false` | Adds start padding for alignment with indicators/icons |
+| `className` | `string` | -- | Additional CSS classes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item>` | -- | Additional props inherited from `MenubarPrimitive.Item` |
 
 ### MenubarCheckboxItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuCheckboxItem>` | -- | Additional props inherited from `DropdownMenuCheckboxItem`. |
+| `checked` | `boolean` | -- | Controlled checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | -- | Callback when checked state changes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.CheckboxItem>` | -- | Additional props inherited from `MenubarPrimitive.CheckboxItem` |
 
 ### MenubarRadioGroup
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuRadioGroup>` | -- | Additional props inherited from `DropdownMenuRadioGroup`. |
+| `value` | `string` | -- | Controlled selected value |
+| `onValueChange` | `(value: string) => void` | -- | Callback when selected value changes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.RadioGroup>` | -- | Additional props inherited from `MenubarPrimitive.RadioGroup` |
 
 ### MenubarRadioItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuRadioItem>` | -- | Additional props inherited from `DropdownMenuRadioItem`. |
+| `value` | `string` | (required) | Value represented by this radio item |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.RadioItem>` | -- | Additional props inherited from `MenubarPrimitive.RadioItem` |
 
 ### MenubarLabel
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuLabel>` | -- | Additional props inherited from `DropdownMenuLabel`. |
+| `inset` | `boolean` | `false` | Adds start padding for alignment |
+| `className` | `string` | -- | Additional CSS classes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Label>` | -- | Additional props inherited from `MenubarPrimitive.Label` |
 
 ### MenubarSeparator
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSeparator>` | -- | Additional props inherited from `DropdownMenuSeparator`. |
+| `className` | `string` | -- | Additional CSS classes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Separator>` | -- | Additional props inherited from `MenubarPrimitive.Separator` |
 
 ### MenubarShortcut
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuShortcut>` | -- | Additional props inherited from `DropdownMenuShortcut`. |
+| `className` | `string` | -- | Additional CSS classes |
+| `children` | `React.ReactNode` | -- | Shortcut hint content (for example, `⌘S`) |
+| `...props` | `React.HTMLAttributes<HTMLSpanElement>` | -- | Additional props to spread to the shortcut `<span>` |
 
 ### MenubarGroup
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuGroup>` | -- | Additional props inherited from `DropdownMenuGroup`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Group>` | -- | Additional props inherited from `MenubarPrimitive.Group` |
 
 ### MenubarSub
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSub>` | -- | Additional props inherited from `DropdownMenuSub`. |
+| `children` | `React.ReactNode` | -- | Sub-trigger and sub-content elements |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Sub>` | -- | Additional props inherited from `MenubarPrimitive.Sub` |
 
 ### MenubarSubTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSubTrigger>` | -- | Additional props inherited from `DropdownMenuSubTrigger`. |
+| `inset` | `boolean` | `false` | Adds start padding for alignment |
+| `className` | `string` | -- | Additional CSS classes |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubTrigger>` | -- | Additional props inherited from `MenubarPrimitive.SubTrigger` |
 
 ### MenubarSubContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuSubContent>` | -- | Additional props inherited from `DropdownMenuSubContent`. |
+| `className` | `string` | -- | Additional CSS classes |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | -- | Preferred side relative to the sub-trigger |
+| `align` | `'start' \| 'center' \| 'end'` | -- | Alignment on the chosen side |
+| `sideOffset` | `number` | -- | Main-axis offset from sub-trigger |
+| `alignOffset` | `number` | -- | Cross-axis offset from sub-trigger |
+| `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubContent>` | -- | Additional props inherited from `MenubarPrimitive.SubContent` |

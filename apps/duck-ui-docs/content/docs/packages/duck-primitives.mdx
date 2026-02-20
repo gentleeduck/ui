@@ -87,10 +87,12 @@ function Example() {
 ### Tooltip
 
 ```tsx live
-<Tooltip.Root>
-  <Tooltip.Trigger>Hover me</Tooltip.Trigger>
-  <Tooltip.Content>Tooltip text</Tooltip.Content>
-</Tooltip.Root>
+<Tooltip.Provider>
+  <Tooltip.Root>
+    <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+    <Tooltip.Content>Tooltip text</Tooltip.Content>
+  </Tooltip.Root>
+</Tooltip.Provider>
 ```
 
 ---

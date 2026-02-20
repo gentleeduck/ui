@@ -24,7 +24,7 @@ Alert dialogs are the nuclear option of UI interruption. Unlike regular dialogs,
 <TabsContent value="cli">
 
 ```bash
-npx @gentleduck/cli@ add alert-dialog
+npx @gentleduck/cli add alert-dialog
 ```
 
 </TabsContent>
@@ -36,19 +36,14 @@ npx @gentleduck/cli@ add alert-dialog
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/primitives
+npm install @gentleduck/primitives @gentleduck/libs @gentleduck/motion
 ```
 
-<Step>Make sure you have the [`Dialog`](/docs/components/dialog) component installed in your project.</Step>
+<Step>Make sure you have the [`Button`](/docs/components/button) component installed in your project.</Step>
 
 <Step>Copy and paste the following code into your project.</Step>
 
 <ComponentSource name="alert-dialog" />
-
-
-<Step>Add the `Dialog` component to your project.</Step>
-
-The `AlertDialog` component uses the [`Dialog`](/docs/components/dialog) component. Make sure you have it installed in your project.
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -72,7 +67,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
 ```
 
 ```tsx
@@ -115,9 +109,8 @@ import { Button } from '@/components/ui/button';
 | `defaultOpen` | `boolean` | `--` | Determines if the dialog should be open by default |
 | `open` | `boolean` | `--` | Controls the visibility of the dialog |
 | `onOpenChange` | `(open: boolean) => void` | `--` | Callback fired when the dialog opens or closes |
-| `closeButton` | `boolean` | `true` | Whether to render the close button inside the content |
-| `modal` | `boolean` | `--` | Whether the dialog is modal (locks interaction with the rest of the page) |
 | `children` | `React.ReactNode` | (required) | Child elements (typically Trigger and Content) |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Root>` | -- | Additional props inherited from `AlertDialogPrimitive.Root` |
 
 ### AlertDialogTrigger
 
@@ -125,16 +118,22 @@ import { Button } from '@/components/ui/button';
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `false` | If `true`, renders using a `Slot` instead of a `button` element |
 | `children` | `React.ReactNode` | `--` | Content of the trigger |
-| `...props` | `React.HTMLProps<HTMLButtonElement>` | -- | Additional props to spread to the button element |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Trigger>` | -- | Additional props inherited from `AlertDialogPrimitive.Trigger` |
 
-### AlertDialogCloseX
+### AlertDialogPortal
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `number` | `16` | Size in pixels for the close icon |
-| `children` | `React.ReactNode` | `<X />` | Custom close icon; defaults to the `X` icon from lucide-react |
-| `className` | `string` | `--` | Additional class names to apply |
-| `...props` | `React.HTMLProps<HTMLButtonElement>` | -- | Additional props to spread to the button element |
+| `container` | `HTMLElement` | -- | Optional portal container |
+| `forceMount` | `true` | -- | Forces mounted state for all portal children |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Portal>` | -- | Additional props inherited from `AlertDialogPrimitive.Portal` |
+
+### AlertDialogOverlay
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names to apply |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>` | -- | Additional props inherited from `AlertDialogPrimitive.Overlay` |
 
 ### AlertDialogContent
 
@@ -143,8 +142,7 @@ import { Button } from '@/components/ui/button';
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Content displayed inside the dialog |
 | `forceMount` | `boolean` | `false` | If `true`, forces the content to stay mounted in the DOM |
-| `renderOnce` | `boolean` | `false` | If `true`, mounts content only once and preserves it |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | -- | Additional props inherited from `AlertDialog.Content`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | -- | Additional props inherited from `AlertDialogPrimitive.Content` |
 
 ### AlertDialogHeader
 
@@ -152,7 +150,7 @@ import { Button } from '@/components/ui/button';
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Header content (typically Title and Description) |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Heading>` | -- | Additional props inherited from `AlertDialog.Heading`. |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -- | Additional props to spread to the header container |
 
 ### AlertDialogFooter
 
@@ -168,7 +166,7 @@ import { Button } from '@/components/ui/button';
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Title text content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>` | -- | Additional props inherited from `AlertDialog.Title`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>` | -- | Additional props inherited from `AlertDialogPrimitive.Title` |
 
 ### AlertDialogDescription
 
@@ -176,12 +174,20 @@ import { Button } from '@/components/ui/button';
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Description text content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>` | -- | Additional props inherited from `AlertDialog.Description`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>` | -- | Additional props inherited from `AlertDialogPrimitive.Description` |
 
 ### AlertDialogAction
 
-Alias for `AlertDialogTrigger`. Accepts the same props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names merged with default button styles |
+| `children` | `React.ReactNode` | -- | Action button content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>` | -- | Additional props inherited from `AlertDialogPrimitive.Action` |
 
 ### AlertDialogCancel
 
-Alias for `AlertDialogTrigger`. Accepts the same props.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional class names merged with outline button styles |
+| `children` | `React.ReactNode` | -- | Cancel button content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>` | -- | Additional props inherited from `AlertDialogPrimitive.Cancel` |
