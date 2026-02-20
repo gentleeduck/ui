@@ -1,1 +1,0 @@
-"use client";import"../../button-hLJM8rpn.js";import"../../context-DJmokxRB.js";import"../../context-C8r4Y-PL.js";import{i as e,n as t,r as n,t as r}from"../../docs-pager-YeH-CDqj.js";export{r as DocsPagerBottom,t as DocsPagerTop,n as flatten,e as getPagerForDoc};

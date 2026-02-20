@@ -1,2 +1,0 @@
-import{useAtom as e}from"jotai";import{atomWithStorage as t}from"jotai/utils";const n=t(`config`,{radius:.5,style:`default`,theme:`zinc`});function r(){return e(n)}export{r as t};
-//# sourceMappingURL=use-config-Dcm8jyqo.js.map

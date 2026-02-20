@@ -1,2 +1,0 @@
-import{cn as e}from"@gentleduck/libs/cn";import{jsx as t}from"react/jsx-runtime";function n({className:n,__rawString__:r,...i}){return r?t(`code`,{className:e(`relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm dark:bg-muted`,n),...i}):t(`code`,{className:e(`relative rounded-sm px-[0.3rem] py-[0.2rem] font-mono text-sm`,`grid min-w-full break-words rounded-none border-0 bg-transparent p-0`,n),...i})}export{n as t};
-//# sourceMappingURL=code-block-DiRP8-rT.js.map

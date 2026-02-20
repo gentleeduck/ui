@@ -1,2 +1,0 @@
-import{visit as e}from"unist-util-visit";function t(){return t=>{e(t,e=>{if(e?.type===`element`&&e?.tagName===`div`&&e?.properties){if(!(`data-rehype-pretty-code-fragment`in e.properties))return;e.children?.forEach(e=>{e.type===`element`&&e.tagName===`div`&&Object.keys(e.properties??{}).includes(`data-rehype-pretty-code-title`)&&(e.tagName=`figcaption`)})}})}}export{t};
-//# sourceMappingURL=rehype-title-D7qENWqQ.js.map

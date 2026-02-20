@@ -1,2 +1,0 @@
-"use client";import{Fragment as e,jsx as t}from"react/jsx-runtime";import{Excalidraw as n}from"@excalidraw/excalidraw";function r(){return t(e,{children:t(`div`,{className:`h-[500px] w-full`,children:t(n,{})})})}export{r as Exalidraw};
-//# sourceMappingURL=exalidraw.js.map

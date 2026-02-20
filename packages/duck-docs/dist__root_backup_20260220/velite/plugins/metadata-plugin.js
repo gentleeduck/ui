@@ -1,1 +1,0 @@
-import{t as e}from"../../metadata-plugin-DwmjOAJq.js";export{e as rhypeMetadataPlugin};

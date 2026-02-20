@@ -1,1 +1,0 @@
-"use client";import{t as e}from"../providers-BtycgmyS.js";export{e as ThemeProvider};

@@ -1,2 +1,0 @@
-import{t as e}from"./themes-DMfxmis5.js";import{useAtom as t}from"jotai";import{atomWithStorage as n}from"jotai/utils";const r=n(`themes:config`,{activeTheme:e[0]});function i(){let[e,n]=t(r);return{setThemesConfig:n,themesConfig:e}}export{i as t};
-//# sourceMappingURL=use-themes-config-D4swH-ok.js.map

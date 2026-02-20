@@ -1,1 +1,0 @@
-import"../../../../icons-ClM062MN.js";import{t as e}from"../../../../figcaption-block-4fwpYYbR.js";export{e as FigcaptionBlock};

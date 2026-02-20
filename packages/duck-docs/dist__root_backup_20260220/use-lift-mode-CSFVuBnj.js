@@ -1,2 +1,0 @@
-import{useAtom as e}from"jotai";import{atomWithStorage as t}from"jotai/utils";const n=t(`lift-mode`,[]);function r(t){let[r,i]=e(n);function a(e){i(t=>t.includes(e)?t.filter(t=>t!==e):[...t,e])}return{isLiftMode:r.includes(t),toggleLiftMode:a}}export{r as t};
-//# sourceMappingURL=use-lift-mode-CSFVuBnj.js.map

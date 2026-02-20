@@ -1,1 +1,0 @@
-import{n as e,t}from"../colors-jfebBzO8.js";export{t as getColorFormat,e as getColors};

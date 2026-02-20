@@ -1,1 +1,0 @@
-{"version":3,"file":"registry-styles-DS7n-Klm.js","names":[],"sources":["../src/lib/registry-styles.ts"],"sourcesContent":["export const styles = [\n  {\n    label: 'Default',\n    name: 'default',\n  },\n] as const\n\nexport type Style = (typeof styles)[number]\n"],"mappings":"AAAA,MAAa,EAAS,CACpB,CACE,MAAO,UACP,KAAM,UACP,CACF"}

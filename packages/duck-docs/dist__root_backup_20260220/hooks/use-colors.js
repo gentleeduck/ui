@@ -1,1 +1,0 @@
-import"../use-mounted-Cvo21RJX.js";import{t as e}from"../use-colors-D8ZL4knD.js";export{e as useColors};
