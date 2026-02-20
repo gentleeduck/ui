@@ -220,7 +220,6 @@ A: Pass the literal string `'unset'` for that variant: e.g.
 This defines the mapping of **variant names** (like `size`, `intent`, etc.) to their **possible values**.
 It accepts either a single key or an array of keys for each variant.
 
-<CodeBlockWrapper>
 
 ```tsx title="variants.ts"
 export type VariantParams<
@@ -230,7 +229,6 @@ export type VariantParams<
 }
 ```
 
-</CodeBlockWrapper>
 
 ### 2. CVA Configuration
 
@@ -242,7 +240,6 @@ Defines how to configure a **CVA function**, including:
 | `defaultVariants` | Defaults applied when no value is passed. |
 | `compoundVariants` | Conditional styles that apply when multiple variants match. |
 
-<CodeBlockWrapper>
 
 ```tsx title="variants.ts"
 export interface VariantsOptions<
@@ -259,14 +256,12 @@ export interface VariantsOptions<
 }
 ```
 
-</CodeBlockWrapper>
 
 ### 3. CVA Props
 
 Props that a **CVA-generated function** accepts.
 Includes both **variant selections** and optional `class`/`className` overrides.
 
-<CodeBlockWrapper>
 
 ```tsx title="variants.ts"
 export type CvaProps<
@@ -277,13 +272,11 @@ export type CvaProps<
 }
 ```
 
-</CodeBlockWrapper>
 
 ### 4. Variant Props
 
 Utility type to **extract only the variant-related props** from a CVA function, omitting `class` and `className`.
 
-<CodeBlockWrapper>
 
 ```tsx title="variants.ts"
 export type VariantProps<T> = T extends (props?: infer P) => string
@@ -293,7 +286,6 @@ export type VariantProps<T> = T extends (props?: infer P) => string
   : never
 ```
 
-</CodeBlockWrapper>
 
 ### 5. Class Utility Types
 
@@ -305,7 +297,6 @@ Helper types that define the **shape of class names**:
 | `ClassArray` | Nested arrays of class values. |
 | `ClassValue` | Union of everything accepted as a class. |
 
-<CodeBlockWrapper>
 
 ```tsx title="variants.ts"
 export type ClassDictionary = Record<string, boolean | undefined>
@@ -320,4 +311,3 @@ export type ClassValue =
   | ClassArray
 ```
 
-</CodeBlockWrapper>
