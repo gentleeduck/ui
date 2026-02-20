@@ -7,7 +7,7 @@ import { Badge } from '../badge'
 import { Button } from '../button'
 import { ButtonGroup } from '../button-group'
 import { Separator } from '../separator'
-import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
 import type { PreviewPanelProps } from './preview-panel.types'
 
 const ZOOM_STEP_BUTTON = 0.25
@@ -29,32 +29,34 @@ const ZoomControls = memo(function ZoomControls({
   zoom: number
 }) {
   return (
-    <ButtonGroup data-slot="preview-panel-controls" className="rounded-md border bg-background/80 backdrop-blur-sm">
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon-sm" onClick={onZoomIn} icon={<Plus />} />
-        </TooltipTrigger>
-        <TooltipContent>Zoom in</TooltipContent>
-      </Tooltip>
-      <Separator orientation="vertical" />
-      <Badge variant="secondary" size="sm" className="rounded-none tabular-nums">
-        {Math.round(zoom * 100)}%
-      </Badge>
-      <Separator orientation="vertical" />
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon-sm" onClick={onZoomOut} icon={<Minus />} />
-        </TooltipTrigger>
-        <TooltipContent>Zoom out</TooltipContent>
-      </Tooltip>
-      <Separator orientation="vertical" />
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon-sm" onClick={onReset} icon={<RotateCcw />} />
-        </TooltipTrigger>
-        <TooltipContent>Reset view</TooltipContent>
-      </Tooltip>
-    </ButtonGroup>
+    <TooltipProvider>
+      <ButtonGroup data-slot="preview-panel-controls" className="rounded-md border bg-background/80 backdrop-blur-sm">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon-sm" onClick={onZoomIn} icon={<Plus />} />
+          </TooltipTrigger>
+          <TooltipContent>Zoom in</TooltipContent>
+        </Tooltip>
+        <Separator orientation="vertical" />
+        <Badge variant="secondary" size="sm" className="rounded-none tabular-nums">
+          {Math.round(zoom * 100)}%
+        </Badge>
+        <Separator orientation="vertical" />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon-sm" onClick={onZoomOut} icon={<Minus />} />
+          </TooltipTrigger>
+          <TooltipContent>Zoom out</TooltipContent>
+        </Tooltip>
+        <Separator orientation="vertical" />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon-sm" onClick={onReset} icon={<RotateCcw />} />
+          </TooltipTrigger>
+          <TooltipContent>Reset view</TooltipContent>
+        </Tooltip>
+      </ButtonGroup>
+    </TooltipProvider>
   )
 })
 

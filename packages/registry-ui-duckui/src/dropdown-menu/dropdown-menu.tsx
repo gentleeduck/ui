@@ -1,7 +1,6 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { usePopoverContext } from '@gentleduck/primitives/popover'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { Check, ChevronRight } from 'lucide-react'
 import * as React from 'react'
@@ -18,8 +17,41 @@ import type {
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextType | null>(null)
 
-function DropdownMenuImpritive({ children }: { children: React.ReactNode }) {
-  const { open = false, setOpen: onOpenChange = () => {} } = usePopoverContext()
+function useControllableMenuOpen({
+  defaultOpen,
+  onOpenChange,
+  open,
+}: {
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+}) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen ?? false)
+  const isControlled = typeof open === 'boolean'
+  const menuOpen = isControlled ? (open ?? false) : uncontrolledOpen
+
+  const setMenuOpen = React.useCallback(
+    (nextOpen: boolean) => {
+      if (!isControlled) {
+        setUncontrolledOpen(nextOpen)
+      }
+      onOpenChange?.(nextOpen)
+    },
+    [isControlled, onOpenChange],
+  )
+
+  return { open: menuOpen, setOpen: setMenuOpen }
+}
+
+function DropdownMenuImpritive({
+  children,
+  open,
+  onOpenChange,
+}: {
+  children: React.ReactNode
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
   const { contentRef, triggerRef, groupsRef, itemsRef, selectedItemRef, originalItemsRef } = useDropdownMenuInit(
     open,
     onOpenChange,
@@ -55,10 +87,24 @@ function DropdownMenuImpritive({ children }: { children: React.ReactNode }) {
   )
 }
 
-function DropdownMenu({ children, contextMenu, ...props }: React.ComponentPropsWithRef<typeof Popover>) {
+function DropdownMenu({
+  children,
+  defaultOpen,
+  onOpenChange,
+  open,
+  ...props
+}: React.ComponentPropsWithRef<typeof Popover>) {
+  const { open: menuOpen, setOpen: setMenuOpen } = useControllableMenuOpen({
+    defaultOpen,
+    onOpenChange,
+    open,
+  })
+
   return (
-    <Popover contextMenu={contextMenu} {...props}>
-      <DropdownMenuImpritive>{children}</DropdownMenuImpritive>
+    <Popover {...props} onOpenChange={setMenuOpen} open={menuOpen}>
+      <DropdownMenuImpritive onOpenChange={setMenuOpen} open={menuOpen}>
+        {children}
+      </DropdownMenuImpritive>
     </Popover>
   )
 }
@@ -92,15 +138,16 @@ function DropdownMenuContent({
   ...props
 }: React.ComponentPropsWithoutRef<typeof PopoverContent> & {
   renderOnce?: boolean
+  disabled?: boolean
 }): React.JSX.Element {
+  void renderOnce
+  void disabled
   const { contentRef } = useDropdownMenuContext()
   return (
     <PopoverContent
       className={cn('w-auto min-w-[180px] overflow-visible p-1', className)}
       data-slot="dropdown-menu-content"
       duck-dropdown-menu-content=""
-      lockScroll
-      disabled={disabled}
       ref={contentRef}
       {...props}>
       {children}
@@ -221,8 +268,15 @@ export function useDropdownMenuSubContext() {
   return context
 }
 
-function DropdownMenuSubImpritive({ children }: { children: React.ReactNode }) {
-  const { open = false, setOpen: onOpenChange = () => {} } = usePopoverContext()
+function DropdownMenuSubImpritive({
+  children,
+  open,
+  onOpenChange,
+}: {
+  children: React.ReactNode
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
   const { groupsRef, itemsRef, selectedItemRef, originalItemsRef, triggerRef, contentRef } = useDropdownMenuInit(
     open,
     onOpenChange,
@@ -260,12 +314,22 @@ function DropdownMenuSubImpritive({ children }: { children: React.ReactNode }) {
 
 function DropdownMenuSub({
   children,
-  contextMenu,
+  defaultOpen,
+  onOpenChange,
+  open,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Popover>): React.JSX.Element {
+  const { open: subMenuOpen, setOpen: setSubMenuOpen } = useControllableMenuOpen({
+    defaultOpen,
+    onOpenChange,
+    open,
+  })
+
   return (
-    <Popover {...props} contextMenu={contextMenu} enableHover modal placement="right-start">
-      <DropdownMenuSubImpritive {...props}>{children}</DropdownMenuSubImpritive>
+    <Popover {...props} onOpenChange={setSubMenuOpen} open={subMenuOpen}>
+      <DropdownMenuSubImpritive onOpenChange={setSubMenuOpen} open={subMenuOpen}>
+        {children}
+      </DropdownMenuSubImpritive>
     </Popover>
   )
 }
@@ -301,14 +365,15 @@ function DropdownMenuSubContent({
   children,
   disabled = true,
   ...props
-}: React.ComponentPropsWithoutRef<typeof PopoverContent>) {
+}: React.ComponentPropsWithoutRef<typeof PopoverContent> & {
+  disabled?: boolean
+}) {
+  void disabled
   const { contentRef } = useDropdownMenuSubContext()
   return (
     <PopoverContent
       className={cn('fixed w-auto min-w-[8rem] p-1', className)}
-      lockScroll={true}
       ref={contentRef}
-      disabled={disabled}
       {...props}
       data-slot="dropdown-menu-sub-content"
       duck-dropdown-menu-sub-content="">

@@ -17,7 +17,7 @@ export default function SelectDemo() {
       </CommandShortcut>
 
       <Select open={open} onOpenChange={setOpen}>
-        <SelectTrigger className="w-[180px]" onClick={() => setOpen(!open)}>
+        <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Theme" />
         </SelectTrigger>
         <SelectContent>

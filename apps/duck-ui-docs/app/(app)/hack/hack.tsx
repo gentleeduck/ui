@@ -487,13 +487,13 @@
 //         <DropdownMenuGroup>
 //           <DropdownMenuItem disabled={true}>
 //             Preferences
-//             <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+//             <DropdownMenuShortcut>
 //               <Command />P
 //             </DropdownMenuShortcut>
 //           </DropdownMenuItem>
 //           <DropdownMenuItem>
 //             Settings
-//             <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+//             <DropdownMenuShortcut>
 //               <Command />P
 //             </DropdownMenuShortcut>
 //           </DropdownMenuItem>
@@ -543,21 +543,21 @@
 //           <CommandItem>
 //             <User />
 //             <span>Profile</span>
-//             <CommandShortcut onKeysPressed={() => {}} keys="⌘P">
+//             <CommandShortcut>
 //               ⌘P
 //             </CommandShortcut>
 //           </CommandItem>
 //           <CommandItem>
 //             <CreditCard />
 //             <span>Billing</span>
-//             <CommandShortcut onKeysPressed={() => {}} keys="⌘B">
+//             <CommandShortcut>
 //               ⌘B
 //             </CommandShortcut>
 //           </CommandItem>
 //           <CommandItem>
 //             <Settings />
 //             <span>Settings</span>
-//             <CommandShortcut onKeysPressed={() => {}} keys="⌘S">
+//             <CommandShortcut>
 //               ⌘S
 //             </CommandShortcut>
 //           </CommandItem>
@@ -1430,13 +1430,13 @@
 //         <DropdownMenuGroup>
 //           <DropdownMenuItem disabled={true}>
 //             Preferences
-//             <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+//             <DropdownMenuShortcut>
 //               <Command />P
 //             </DropdownMenuShortcut>
 //           </DropdownMenuItem>
 //           <DropdownMenuItem>
 //             Settings
-//             <DropdownMenuShortcut onKeysPressed={() => {}} keys="⌘">
+//             <DropdownMenuShortcut>
 //               <Command />P
 //             </DropdownMenuShortcut>
 //           </DropdownMenuItem>
@@ -1486,21 +1486,21 @@
 //           <CommandItem>
 //             <User />
 //             <span>Profile</span>
-//             <CommandShortcut onKeysPressed={() => {}} keys="⌘P">
+//             <CommandShortcut>
 //               ⌘P
 //             </CommandShortcut>
 //           </CommandItem>
 //           <CommandItem>
 //             <CreditCard />
 //             <span>Billing</span>
-//             <CommandShortcut onKeysPressed={() => {}} keys="⌘B">
+//             <CommandShortcut>
 //               ⌘B
 //             </CommandShortcut>
 //           </CommandItem>
 //           <CommandItem>
 //             <Settings />
 //             <span>Settings</span>
-//             <CommandShortcut onKeysPressed={() => {}} keys="⌘S">
+//             <CommandShortcut>
 //               ⌘S
 //             </CommandShortcut>
 //           </CommandItem>
