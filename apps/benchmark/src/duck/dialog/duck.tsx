@@ -1,18 +1,29 @@
-import * as dialog from '@gentleduck/registry-ui-duckui/dialog'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@gentleduck/registry-ui-duckui/dialog'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
+import SelectDemo from '../select/duck'
 
 export default function DialogDemo() {
   return (
-    <dialog.Dialog>
-      <dialog.DialogTrigger variant="outline">Edit Profile</dialog.DialogTrigger>
-      <dialog.DialogContent className="sm:max-w-[425px]" renderOnce>
-        <dialog.DialogHeader>
-          <dialog.DialogTitle>Edit profile</dialog.DialogTitle>
-          <dialog.DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </dialog.DialogDescription>
-        </dialog.DialogHeader>
+    <Dialog>
+      <DialogTrigger>
+        <Button variant="outline">Edit Duck</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+        </DialogHeader>
+        <SelectDemo />
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right" htmlFor="name">
@@ -27,10 +38,10 @@ export default function DialogDemo() {
             <Input className="col-span-3" defaultValue="@peduarte" id="username" />
           </div>
         </div>
-        <dialog.DialogFooter>
-          <dialog.DialogTrigger>Save changes</dialog.DialogTrigger>
-        </dialog.DialogFooter>
-      </dialog.DialogContent>
-    </dialog.Dialog>
+        <DialogFooter>
+          <DialogTrigger>Save changes</DialogTrigger>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }

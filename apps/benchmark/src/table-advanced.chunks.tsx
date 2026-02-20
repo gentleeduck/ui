@@ -4,7 +4,7 @@ import { Combobox, ComboboxItem, ComboxGroup } from '@gentleduck/registry-ui-duc
 import { CommandShortcut } from '@gentleduck/registry-ui-duckui/command'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
 import { useAtom, useAtomValue, useSetAtom } from '@gentleduck/state/react'
@@ -202,19 +202,19 @@ export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
           Column sort
         </Label>
         <Separator />
-        <PopoverClose asChild>
-          <Button
-            icon={<ArrowUp10 />}
-            onClick={() => {
-              setColumns((prev) => {
-                return prev.map((column) => (column.label === header.label ? { ...column, direction: 'asc' } : column))
-              })
-            }}
-            size={'sm'}
-            variant={'ghost'}>
-            Ascending
-          </Button>
-        </PopoverClose>
+        {/* <PopoverClose asChild> */}
+        {/*   <Button */}
+        {/*     icon={<ArrowUp10 />} */}
+        {/*     onClick={() => { */}
+        {/*       setColumns((prev) => { */}
+        {/*         return prev.map((column) => (column.label === header.label ? { ...column, direction: 'asc' } : column)) */}
+        {/*       }) */}
+        {/*     }} */}
+        {/*     size={'sm'} */}
+        {/*     variant={'ghost'}> */}
+        {/*     Ascending */}
+        {/*   </Button> */}
+        {/* </PopoverClose> */}
         <PopoverClose asChild>
           <Button
             icon={<ArrowDown01 />}

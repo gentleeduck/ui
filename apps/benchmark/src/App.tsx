@@ -1,5 +1,5 @@
+import { KeyProvider } from '@gentleduck/vim/react'
 import { lazy } from 'react'
-import { KeyProvider } from '../../../packages/duck-vim/src/react/command'
 import ShadcnAccordion from './duck/accordion/accordion'
 import DuckAccordion from './duck/accordion/duck'
 import ShadcnBadge from './duck/badge/badge'
@@ -114,7 +114,12 @@ function App() {
 
   return (
     <div>
-      <TooltipDemo />
+      <KeyProvider timeoutMs={100} debug>
+        <PopoverDemo />
+        {/* <SelectDemo /> */}
+        {/* <Dialog /> */}
+      </KeyProvider>
+      {/* <TooltipDemo /> */}
     </div>
     // <TooltipDemo />
     //   <div className="mx-10 flex h-screen flex-col items-center justify-center gap-4 my-[0vh]">
@@ -173,6 +178,8 @@ const items = [
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
 import AccordionDemo from './duck/accordion/duck'
 import ScrollAreaDemo from './duck/scroll-area/scroll-area'
+import SelectDemo from './duck/select/duck'
+import DialogDemo from './example/command'
 import PopoverDemo from './example/popover'
 import { DuckTabsDemo } from './tabs/duck-ui'
 export function AppSidebar() {

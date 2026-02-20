@@ -17,7 +17,7 @@ export default function PopoverDemo() {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <div className="h-[2000px] mt-[400px] flex gap-[400px]">
+    <div className="h-[2000px] mt-[400px] grid items-center gap-2 place-content-center">
       <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger>Open popover</PopoverTrigger>
         <PopoverContent className="w-80">

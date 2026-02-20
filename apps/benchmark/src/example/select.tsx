@@ -11,7 +11,7 @@ import { Calendar, Clock, MicOff, Users, Video } from 'lucide-react'
 
 export default function SelectDemo() {
   return (
-    <Select>
+    <Select open>
       <SelectTrigger className="w-[130px]" variant="outline">
         <SelectValue placeholder="Choose a meeting" />
       </SelectTrigger>
