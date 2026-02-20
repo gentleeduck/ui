@@ -53,11 +53,11 @@ export default function BreadcrumbResponsive() {
           <>
             <BreadcrumbItem>
               {isDesktop ? (
-                <DropdownMenu onOpenChange={setOpen} open={open} placement="top-start">
+                <DropdownMenu onOpenChange={setOpen} open={open}>
                   <DropdownMenuTrigger aria-label="Toggle menu" className="flex items-center gap-1">
                     <BreadcrumbEllipsis className="size-4" />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent>
+                  <DropdownMenuContent side="top" align="start">
                     {items.slice(1, -2).map((item, index) => (
                       <DropdownMenuItem key={`item-${index}-${item.label}`}>
                         <Link href={item.href ? item.href : '#'}>{item.label}</Link>

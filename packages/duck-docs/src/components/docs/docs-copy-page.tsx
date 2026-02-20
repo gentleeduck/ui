@@ -87,11 +87,11 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
         Copy Page
       </Button>
       <Separator className="bg-foreground/25" orientation="vertical" />
-      <DropdownMenu placement="bottom-end">
+      <DropdownMenu>
         <DropdownMenuTrigger asChild className="hidden sm:flex">
           {trigger}
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="bg-muted shadow-none">
+        <DropdownMenuContent align="end" className="bg-muted shadow-none" side="bottom">
           {Object.entries(menuItems).map(([key, value]) => (
             <DropdownMenuItem
               className="flex [&>a]:flex [&>a]:items-center [&>a]:gap-2 [&[aria-selected]]:bg-zinc-600/40"

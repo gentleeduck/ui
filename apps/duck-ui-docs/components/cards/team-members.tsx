@@ -71,13 +71,13 @@ export function CardsTeamMembers() {
                 <p className="text-muted-foreground text-xs">{member.email}</p>
               </div>
             </div>
-            <Popover placement="bottom-end">
+            <Popover>
               <PopoverTrigger asChild>
                 <Button className="ml-auto shadow-none" size="sm" variant="outline">
                   {member.role} <ChevronDown />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="p-0">
+              <PopoverContent side="bottom" align="end" className="p-0">
                 <Command>
                   <CommandInput placeholder="Select role..." />
                   <CommandList>

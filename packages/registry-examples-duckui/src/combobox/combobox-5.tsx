@@ -49,13 +49,13 @@ export default function ComboBoxResponsive() {
 
   if (isDesktop) {
     return (
-      <Popover onOpenChange={setOpen} open={open} placement="bottom-start">
+      <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger asChild>
           <Button className="w-[150px] justify-start" variant="outline">
             {selectedStatus ? selectedStatus.label : '+ Set status'}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent side="bottom" align="start" className="w-[200px] p-0">
           <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
         </PopoverContent>
       </Popover>

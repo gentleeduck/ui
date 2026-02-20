@@ -44,13 +44,13 @@ export default function ButtonGroupDemo() {
       </ButtonGroup>
       <ButtonGroup>
         <Button variant="outline">Snooze</Button>
-        <DropdownMenu placement="bottom-end">
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button aria-label="More Options" size="icon" variant="outline">
               <MoreHorizontalIcon />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-52">
+          <DropdownMenuContent side="bottom" align="end" className="w-52">
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <MailCheckIcon />

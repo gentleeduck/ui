@@ -69,11 +69,11 @@ export default function Component() {
           <CardTitle>Pie Chart - Interactive</CardTitle>
           <CardDescription>January - June 2024</CardDescription>
         </div>
-        <Select onValueChange={setActiveMonth} placement="bottom-end" value={activeMonth}>
+        <Select onValueChange={setActiveMonth} value={activeMonth}>
           <SelectTrigger aria-label="Select a value" className="ml-auto h-7 w-[130px] rounded-lg pl-2.5">
             <SelectValue placeholder="Select month" />
           </SelectTrigger>
-          <SelectContent className="rounded-xl">
+          <SelectContent align="end" className="rounded-xl" side="bottom">
             {months.map((key) => {
               const config = chartConfig[key as keyof typeof chartConfig]
 

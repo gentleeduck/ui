@@ -35,13 +35,13 @@ export default function ComboboxDropdownMenu() {
         <span className="mr-2 rounded-lg bg-primary px-2 py-1 text-primary-foreground text-xs">{label}</span>
         <span className="text-muted-foreground">Create a new project</span>
       </p>
-      <DropdownMenu onOpenChange={setOpen} open={open} placement="top-end">
+      <DropdownMenu onOpenChange={setOpen} open={open}>
         <DropdownMenuTrigger asChild>
           <Button size="sm" variant="ghost">
             <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[200px]">
+        <DropdownMenuContent side="top" align="end" className="w-[200px]">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuGroup>
             <DropdownMenuItem>Assign to...</DropdownMenuItem>
@@ -74,13 +74,7 @@ export default function ComboboxDropdownMenu() {
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-600">
               Delete
-              <DropdownMenuShortcut
-                keys={''}
-                onKeysPressed={(): void => {
-                  throw new Error('Function not implemented.')
-                }}>
-                ⌘⌫
-              </DropdownMenuShortcut>
+              <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

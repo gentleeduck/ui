@@ -50,7 +50,7 @@ export default function CalendarDemo() {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Date of birth</FormLabel>
-              <Popover placement="bottom-start">
+              <Popover>
                 <FormControl>
                   <PopoverTrigger asChild>
                     <Button
@@ -64,7 +64,7 @@ export default function CalendarDemo() {
                     </Button>
                   </PopoverTrigger>
                 </FormControl>
-                <PopoverContent className="w-auto p-0">
+                <PopoverContent side="bottom" align="start" className="w-auto p-0">
                   <Calendar
                     captionLayout="dropdown"
                     disabled={(date) => date > new Date() || date < new Date('1900-01-01')}

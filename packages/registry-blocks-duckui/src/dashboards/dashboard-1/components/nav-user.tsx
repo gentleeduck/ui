@@ -27,7 +27,7 @@ export function NavUser({
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu placement={isMobile ? 'bottom-end' : 'right-end'} sideOffset={4}>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
@@ -40,7 +40,11 @@ export function NavUser({
               <MoreVerticalIcon className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg">
+          <DropdownMenuContent
+            align="end"
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            side={isMobile ? 'bottom' : 'right'}
+            sideOffset={4}>
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar alt={user.name} className="h-8 w-8 rounded-lg" fallback="WD" src={user.avatar} />

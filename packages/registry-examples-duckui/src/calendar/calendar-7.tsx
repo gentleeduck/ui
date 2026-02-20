@@ -53,7 +53,7 @@ export default function CalendarDemo() {
           placeholder="Tomorrow or next week"
           value={value}
         />
-        <Popover onOpenChange={setOpen} open={open} placement="top-end">
+        <Popover onOpenChange={setOpen} open={open}>
           <PopoverTrigger
             className="absolute top-1/2 right-1 h-fit -translate-y-1/2 p-1 px-1.5 [&_svg]:w-4"
             id="date-picker">
@@ -62,7 +62,7 @@ export default function CalendarDemo() {
               <span className="sr-only">Select date</span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0">
+          <PopoverContent side="top" align="end" className="w-auto overflow-hidden p-0">
             <Calendar
               captionLayout="dropdown"
               mode="single"

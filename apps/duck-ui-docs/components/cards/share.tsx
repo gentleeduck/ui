@@ -60,13 +60,13 @@ export function CardsShare() {
                     <p className="text-muted-foreground text-sm">{person.email}</p>
                   </div>
                 </div>
-                <Select defaultValue="edit" placement="bottom-end">
+                <Select defaultValue="edit">
                   <Button asChild size="sm" variant="outline">
                     <SelectTrigger aria-label="Edit" className="ml-auto pr-2">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                   </Button>
-                  <SelectContent>
+                  <SelectContent side="bottom" align="end">
                     <SelectItem value="edit">Can edit</SelectItem>
                     <SelectItem value="view">Can view</SelectItem>
                   </SelectContent>

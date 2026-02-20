@@ -40,14 +40,14 @@ export function BlockToolbar({
         </TabsList>
         <Separator className="mx-2 hidden h-4 md:flex" orientation="vertical" />
         <StyleSwitcher className="h-[calc(theme(spacing.7)_-_1px)] dark:h-7" disabled={isLiftMode} />
-        <Popover placement="top" sideOffset={20}>
+        <Popover>
           <PopoverTrigger
             className="hidden text-muted-foreground hover:text-foreground disabled:opacity-50 sm:flex"
             disabled={isLiftMode}>
             <CircleHelp className="h-3.5 w-3.5" />
             <span className="sr-only">Block description</span>
           </PopoverTrigger>
-          <PopoverContent className="space-y-3 rounded-[0.5rem] text-sm">
+          <PopoverContent className="space-y-3 rounded-[0.5rem] text-sm" side="top" sideOffset={20}>
             <p className="font-medium">What is the difference between the New York and Default style?</p>
             <p>A style comes with its own set of components, animations, icons and more.</p>
             <p>

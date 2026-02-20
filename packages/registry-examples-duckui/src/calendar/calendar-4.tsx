@@ -25,12 +25,11 @@ export default function CalendarDemo() {
         </Label>
         <Select
           onValueChange={(value) => setDropdown(value as React.ComponentProps<typeof Calendar>['captionLayout'])}
-          placement="top-start"
           value={dropdown}>
           <SelectTrigger className="w-full bg-background" id="dropdown">
             <SelectValue placeholder="Month and Year" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent align="start" side="top">
             <SelectItem value="dropdown">Month and Year</SelectItem>
             <SelectItem value="dropdown-months">Month Only</SelectItem>
             <SelectItem value="dropdown-years">Year Only</SelectItem>
