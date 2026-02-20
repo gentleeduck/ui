@@ -67,7 +67,7 @@ function DrawerContent({
 
 function DrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
-    <div className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)} {...props} data-slot="drawer-header" />
+    <div className={cn('grid gap-1.5 p-4 text-center sm:text-start', className)} {...props} data-slot="drawer-header" />
   )
 }
 DrawerHeader.displayName = 'DrawerHeader'

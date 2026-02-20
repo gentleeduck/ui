@@ -283,7 +283,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
           {expandMode !== 'none' ? (
             <Button onClick={handleExpand} size="sm" type="button" variant="outline">
               <Maximize size={14} />
-              <span className="ml-2">Full</span>
+              <span className="ms-2">Full</span>
             </Button>
           ) : null}
         </div>
@@ -297,7 +297,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
             <Popover onOpenChange={setPopoverOpen} open={popoverOpen}>
               <PopoverTrigger asChild>
                 <Button
-                  className="w-full justify-start overflow-hidden text-left font-mono text-xs"
+                  className="w-full justify-start overflow-hidden text-start font-mono text-xs"
                   type="button"
                   variant="outline">
                   <span className="truncate">{preview}</span>

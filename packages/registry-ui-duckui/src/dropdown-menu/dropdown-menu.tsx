@@ -118,7 +118,7 @@ function DropdownMenuLabel({
   return (
     <label
       aria-label="dropdown-menu-label"
-      className={cn('px-2 py-1.5 font-semibold text-sm', inset && 'pl-8', className)}
+      className={cn('px-2 py-1.5 font-semibold text-sm', inset && 'ps-8', className)}
       htmlFor={htmlFor}
       ref={ref}
       {...props}
@@ -141,7 +141,7 @@ function DropdownMenuItem({
       className={cn(
         'w-full cursor-default justify-start px-2 focus:bg-secondary',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
-        inset && 'pl-8',
+        inset && 'ps-8',
         className,
       )}
       data-slot="dropdown-menu-item"
@@ -163,19 +163,29 @@ function DropdownMenuShortcut({
   colored = false,
   ...props
 }: DropdownMenuShortcutProps): React.JSX.Element {
-  useKeyCommands({
-    [keys]: {
-      description: keys,
-      execute: () => onKeysPressed(),
-      name: keys,
-    },
-  })
+  const commands = React.useMemo(
+    () =>
+      keys && onKeysPressed
+        ? {
+            [keys]: {
+              description: keys,
+              execute: () => {
+                onKeysPressed()
+              },
+              name: keys,
+            },
+          }
+        : {},
+    [keys, onKeysPressed],
+  )
+
+  useKeyCommands(commands, { preventDefault: true })
 
   return (
     <kbd
       className={cn(
-        'focus:offset-2 [&_svg]:!size-3 !font-sans pointer-events-none ml-auto inline-flex cursor-none select-none items-center gap-[2px] rounded-[4px] px-2 py-[.12rem] text-[.7rem] text-muted-foreground text-secondary-foreground text-xs tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring',
-        colored ? 'bg-muted' : 'ltr:-mr-2 rtl:-ml-2',
+        'focus:offset-2 [&_svg]:!size-3 !font-sans pointer-events-none ms-auto inline-flex cursor-none select-none items-center gap-[2px] rounded-[4px] px-2 py-[.12rem] text-[.7rem] text-muted-foreground text-secondary-foreground text-xs tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring',
+        colored ? 'bg-muted' : '-me-2',
         className,
       )}
       data-slot="data-dropdown-menu-shortcut"
@@ -274,7 +284,7 @@ function DropdownMenuSubTrigger({
         '[&[data-open="true"]+div]:opacity-100',
         'data-[open=true]:bg-secondary',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-transparent',
-        inset && 'pl-8',
+        inset && 'ps-8',
         className,
       )}
       {...props}
@@ -340,10 +350,10 @@ function DropdownMenuCheckboxItem({
       }}
       ref={ref}
       {...props}>
-      <span className="absolute left-2.5 flex items-center">
+      <span className="absolute start-2.5 flex items-center">
         <Check className={cn('!size-4 opacity-0', checkedState && 'opacity-100')} />
       </span>
-      <span className="ltr:pl-7 rtl:pr-7">{children}</span>
+      <span className="ps-7">{children}</span>
     </DropdownMenuItem>
   )
 }
@@ -365,9 +375,9 @@ function DropdownMenuRadioItem({ ...props }: React.ComponentPropsWithRef<typeof 
       <RadioGroupItem
         ref={groupItemRef}
         {...props}
-        className="ltr:pl-[1.25rem] rtl:pr-[1.25rem]"
+        className="ps-[1.25rem]"
         customIndicator={
-          <span className="absolute top-1/2 flex size-2 -translate-y-1/2 rounded-full bg-foreground transition-all duration-[200ms,150ms] ease-(--duck-motion-ease) ltr:left-1 rtl:right-1" />
+          <span className="absolute start-1 top-1/2 flex size-2 -translate-y-1/2 rounded-full bg-foreground transition-all duration-[200ms,150ms] ease-(--duck-motion-ease)" />
         }
       />
     </DropdownMenuItem>

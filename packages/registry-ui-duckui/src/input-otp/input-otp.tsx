@@ -70,7 +70,7 @@ const InputOTPSlot = ({ className, ref, ...props }: React.ComponentPropsWithRef<
       aria-invalid="false"
       aria-required="true"
       className={cn(
-        'relative -ml-px h-10 w-10 rounded-none border border-input border-input border-y border-r text-center text-center text-sm transition-all first:ml-0 first:rounded-l-md last:rounded-r-md focus:relative focus:z-10 focus:outline-none focus:ring-2 focus:ring-ring',
+        'relative -ms-px h-10 w-10 rounded-none border border-input border-input border-y border-e text-center text-center text-sm transition-all first:ms-0 first:rounded-s-md last:rounded-e-md focus:relative focus:z-10 focus:outline-none focus:ring-2 focus:ring-ring',
         className,
       )}
       data-slot="input-otp-slot"
