@@ -1,0 +1,54 @@
+---
+title: "Slot"
+description: "The composition utility that powers the asChild pattern."
+---
+
+```tsx
+import { Slot, Slottable, createSlot, createSlottable } from '@gentleduck/primitives/slot'
+```
+
+## What it does
+
+<Callout icon={<Zap />}>
+
+`Slot` renders its child element instead of creating its own DOM node, merging all props from the Slot onto the child. This is the mechanism behind `asChild`.
+
+</Callout>
+
+When `<Primitive.button asChild>` is used, the `button` element is replaced by a `Slot`, and the child element receives all the button's props (ARIA attributes, event handlers, refs, etc.).
+
+## How props merge
+
+| Prop type | Behavior |
+| --- | --- |
+| Event handlers (`onClick`, etc.) | Both fire (child first, then slot) |
+| `style` | Merged (child overrides slot) |
+| `className` | Concatenated |
+| `ref` | Both refs receive the element |
+| Everything else | Child props override slot props |
+
+## Creating named slots
+
+Use `createSlot` and `createSlottable` to create named instances for better debugging in React DevTools:
+
+```tsx
+const MySlot = createSlot('MyComponent')
+const MySlottable = createSlottable('MyComponent')
+```
+
+## `Slottable`
+
+<Callout icon={<Lightbulb />}>
+
+Marks a specific child as the replacement target. Identified by a symbol, not instanceof checks, so it works across module boundaries.
+
+</Callout>
+
+```tsx
+<Slot>
+  <Slottable>
+    <button>This replaces the Slot</button>
+  </Slottable>
+  <span>This is preserved as a sibling</span>
+</Slot>
+```

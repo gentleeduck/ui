@@ -1,0 +1,176 @@
+---
+title: "Lesson 2: Your First Dialog"
+description: "Build a dialog from scratch. Learn the compound component pattern and controlled vs uncontrolled state."
+---
+
+<Callout icon={<Lightbulb />}>
+
+**Lesson 2 of 8** -- Build a working dialog and understand the compound component anatomy.
+
+</Callout>
+
+## Setup
+
+Make sure you have the package installed:
+
+```bash
+npm install @gentleduck/primitives
+```
+
+---
+
+## The minimal dialog
+
+```tsx
+import * as Dialog from '@gentleduck/primitives/dialog'
+
+function App() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>Open</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>Hello</Dialog.Title>
+          <Dialog.Description>This is a dialog.</Dialog.Description>
+          <Dialog.Close>Close</Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+
+Open this in your browser. Click "Open." You will see an unstyled mess. That's correct. The behavior is there (try pressing <Kbd>Escape</Kbd>, clicking outside, tabbing), but there are no styles.
+
+---
+
+## Adding styles
+
+```tsx
+function App() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+        Open dialog
+      </Dialog.Trigger>
+
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+        <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
+          <Dialog.Title className="text-lg font-bold">Welcome</Dialog.Title>
+          <Dialog.Description className="text-gray-600 mt-2">
+            This is your first duck-primitives dialog.
+          </Dialog.Description>
+          <Dialog.Close className="mt-4 px-4 py-2 border rounded-lg">
+            Got it
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+
+Now you have a centered modal with an overlay. All the behavior (focus trap, escape, click-outside, scroll lock) works with zero JavaScript from you.
+
+---
+
+## Understanding the anatomy
+
+Each component has a specific role:
+
+| Component | What it renders | What it does |
+| --- | --- | --- |
+| `Root` | Nothing (context provider) | Manages `open` state, provides it to children |
+| `Trigger` | `<button>` | Toggles open state, sets ARIA attributes |
+| `Portal` | React portal | Renders children into `document.body` |
+| `Overlay` | `<div>` | Visual backdrop, locks scroll |
+| `Content` | `<div role="dialog">` | Focus trap, dismiss handling, ARIA labels |
+| `Title` | `<h2>` | Connected to Content via `aria-labelledby` |
+| `Description` | `<p>` | Connected to Content via `aria-describedby` |
+| `Close` | `<button>` | Closes dialog on click |
+
+---
+
+## Controlled state
+
+<Tabs defaultValue="uncontrolled">
+<TabsList>
+  <TabsTrigger value="uncontrolled">Uncontrolled</TabsTrigger>
+  <TabsTrigger value="controlled">Controlled</TabsTrigger>
+</TabsList>
+<TabsContent value="uncontrolled">
+
+The dialog above is **uncontrolled**: Root manages its own open/closed state internally.
+
+```tsx
+<Dialog.Root defaultOpen={false}>
+  ...
+</Dialog.Root>
+```
+
+</TabsContent>
+<TabsContent value="controlled">
+
+For controlled state, pass `open` and `onOpenChange`:
+
+```tsx
+function App() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger>Open</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Content>
+          <Dialog.Title>Controlled dialog</Dialog.Title>
+          <Dialog.Description>
+            You have full control over when this opens and closes.
+          </Dialog.Description>
+          <button onClick={() => {
+            // Custom logic before closing
+            saveData()
+            setOpen(false)
+          }}>
+            Save and close
+          </button>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+
+With controlled state, you can add validation, async operations, or confirmation before closing.
+
+</TabsContent>
+</Tabs>
+
+---
+
+## Non-modal dialogs
+
+Set `modal={false}` for dialogs that don't block the rest of the page:
+
+```tsx
+<Dialog.Root modal={false}>
+```
+
+<Callout icon={<Lightbulb />}>
+
+Non-modal dialogs don't trap focus, don't lock scroll, and don't hide background content from screen readers. Use them for sidebars, tool panels, or inspector windows.
+
+</Callout>
+
+---
+
+## Exercise
+
+Build a "confirm delete" dialog with two buttons: Cancel (uses `Dialog.Close`) and Delete (controlled close with a callback). Add an overlay with a semi-transparent background. Style it however you want.
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 3 -- The asChild Pattern](/docs/packages/duck-primitives/course/03-as-child)
+
+</Callout>

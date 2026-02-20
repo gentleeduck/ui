@@ -1,0 +1,116 @@
+---
+title: "gentleduck/primitives"
+description: "Unstyled, accessible React primitives for building high-quality component libraries."
+---
+
+<Callout icon={<Zap />}>
+
+**gentleduck/primitives** gives you unstyled, accessible React components that handle behavior so you can focus on design. Production-ready focus trapping, keyboard navigation, ARIA attributes, and animation-aware mounting -- all in one package.
+
+</Callout>
+
+## What is gentleduck/primitives?
+
+gentleduck/primitives is a collection of low-level, unstyled React components that handle behavior and accessibility so you can focus on design. Each primitive manages the hard parts (focus trapping, keyboard navigation, ARIA attributes, dismiss-on-click-outside, scroll locking) and gives you full control over rendering and styling.
+
+Think of them as the behavioral atoms of a design system. They handle the "how it works" so you define the "how it looks."
+
+---
+
+## Why gentleduck/primitives?
+
+Building accessible UI components from scratch is hard. A dialog needs focus trapping, escape-to-close, scroll locking, ARIA labeling, and animation-aware mounting. A popover needs positioning, click-outside dismissal, and focus management. Getting all of this right across browsers and screen readers is hundreds of hours of work.
+
+gentleduck/primitives gives you production-ready behavior out of the box:
+
+- **Accessible by default.** Correct ARIA roles, labels, and keyboard interactions.
+- **Unstyled.** Zero CSS opinions. Bring your own styles, Tailwind, CSS modules, whatever.
+- **Composable.** Every component supports `asChild` for full rendering control.
+- **Controlled or uncontrolled.** All state can be managed by you or by the component.
+- **Animation-aware.** The `Presence` system waits for CSS animations before unmounting.
+
+---
+
+## Available primitives
+
+### Overlay components
+
+| Primitive | Description | Import |
+| --- | --- | --- |
+| [Dialog](/docs/packages/duck-primitives/api/dialog) | Modal and non-modal dialogs with focus trapping | `@gentleduck/primitives/dialog` |
+| [Alert Dialog](/docs/packages/duck-primitives/api/alert-dialog) | Confirmation dialogs that force acknowledgment | `@gentleduck/primitives/alert-dialog` |
+
+### Positioning components
+
+| Primitive | Description | Import |
+| --- | --- | --- |
+| [Popover](/docs/packages/duck-primitives/api/popover) | Floating content anchored to a trigger | `@gentleduck/primitives/popover` |
+| [Tooltip](/docs/packages/duck-primitives/api/tooltip) | Hover/focus hints with delay and grace areas | `@gentleduck/primitives/tooltip` |
+| [Hover Card](/docs/packages/duck-primitives/api/hover-card) | Rich hover previews | `@gentleduck/primitives/hover-card` |
+
+### Menu components
+
+| Primitive | Description | Import |
+| --- | --- | --- |
+| [Menu](/docs/packages/duck-primitives/api/menu) | Base menu with items, checkboxes, radios, submenus | `@gentleduck/primitives/menu` |
+| [Context Menu](/docs/packages/duck-primitives/api/context-menu) | Right-click menu built on Menu | `@gentleduck/primitives/context-menu` |
+| [Menubar](/docs/packages/duck-primitives/api/menubar) | Horizontal menu bar (File, Edit, View...) | `@gentleduck/primitives/menubar` |
+
+### Surface components
+
+| Primitive | Description | Import |
+| --- | --- | --- |
+| [Progress](/docs/packages/duck-primitives/api/progress) | Progress bar with determinate/indeterminate states | `@gentleduck/primitives/progress` |
+
+### Infrastructure
+
+| Primitive | Description | Import |
+| --- | --- | --- |
+| [Slot](/docs/packages/duck-primitives/api/slot) | `asChild` composition utility | `@gentleduck/primitives/slot` |
+| [Presence](/docs/packages/duck-primitives/api/presence) | Animation-aware mount/unmount | `@gentleduck/primitives/presence` |
+| [Portal](/docs/packages/duck-primitives/api/portal) | Render children into a different DOM node | `@gentleduck/primitives/portal` |
+| [Focus Scope](/docs/packages/duck-primitives/api/focus-scope) | Focus trapping and auto-focus | `@gentleduck/primitives/focus-scope` |
+| [Dismissable Layer](/docs/packages/duck-primitives/api/dismissable-layer) | Click-outside and escape-to-dismiss | `@gentleduck/primitives/dismissable-layer` |
+| [Roving Focus](/docs/packages/duck-primitives/api/roving-focus) | Arrow-key navigation within a group | `@gentleduck/primitives/roving-focus` |
+| [Popper](/docs/packages/duck-primitives/api/popper) | Floating element positioning engine | `@gentleduck/primitives/popper` |
+| [Mount](/docs/packages/duck-primitives/api/mount) | Simple mount/unmount with animation delay | `@gentleduck/primitives/mount` |
+| [Primitive Elements](/docs/packages/duck-primitives/api/primitive-elements) | Base element wrappers with `asChild` | `@gentleduck/primitives/primitive-elements` |
+
+---
+
+## Architecture
+
+<MermaidDiagram chart={`graph TD
+    PE[Primitive Elements] --> SL[Slot]
+    SL --> DL[Dismissable Layer]
+    SL --> FS[Focus Scope]
+    SL --> PR[Presence]
+    SL --> PO[Portal]
+    SL --> PP[Popper]
+    DL --> DI[Dialog]
+    FS --> DI
+    PR --> DI
+    PO --> DI
+    DI --> AD[Alert Dialog]
+    PP --> POP[Popover]
+    PP --> TT[Tooltip]
+    PP --> HC[Hover Card]
+    PP --> MN[Menu]
+    MN --> CM[Context Menu]
+    MN --> MB[Menubar]
+    PE --> PG[Progress]
+`} />
+
+Higher-level primitives compose lower-level ones. Dialog uses Dismissable Layer, Focus Scope, Presence, and Portal. Menu uses Popper for positioning. You can use any layer directly.
+
+---
+
+## Quick links
+
+<Callout icon={<MapIcon />} className="[&_ul]:my-0">
+- [Getting Started](/docs/packages/duck-primitives/getting-started) -- Install and render your first dialog
+- [Core Concepts](/docs/packages/duck-primitives/concepts) -- asChild, controlled state, Presence, and the component model
+- [API Reference](/docs/packages/duck-primitives/api) -- Full API for every primitive
+- [Guides](/docs/packages/duck-primitives/guides) -- Styling, animation, composition, and accessibility
+- [Course](/docs/packages/duck-primitives/course) -- 8-lesson tutorial from basics to advanced patterns
+</Callout>

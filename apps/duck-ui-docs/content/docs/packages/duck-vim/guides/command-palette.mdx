@@ -1,0 +1,157 @@
+---
+title: "Building a Command Palette"
+description: "Use duck-vim's registry to build a searchable command palette like VS Code's Ctrl+K."
+---
+
+<Callout icon={<Zap />}>
+
+A command palette shows all available shortcuts in a searchable list. Since duck-vim's `Registry` stores commands with names and descriptions, you already have everything you need.
+
+</Callout>
+
+---
+
+## Building the palette
+
+<Steps>
+
+<Step>Access the registry</Step>
+
+In React, use `KeyContext` to access the registry:
+
+```tsx
+import { useContext } from 'react'
+import { KeyContext } from '@gentleduck/vim/react'
+
+function CommandPalette() {
+  const ctx = useContext(KeyContext)
+  if (!ctx) return null
+
+  const commands = ctx.registry.getAllCommands()
+  // Map<string, Command>  e.g. { 'ctrl+k': { name: 'Command Palette', ... } }
+}
+```
+
+<Step>Build the palette UI</Step>
+
+```tsx
+import { useState, useContext, useMemo } from 'react'
+import { KeyContext, useKeyBind } from '@gentleduck/vim/react'
+import { formatForDisplay } from '@gentleduck/vim/format'
+
+function CommandPalette() {
+  const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const ctx = useContext(KeyContext)
+
+  useKeyBind('ctrl+k', () => setOpen(true), { preventDefault: true })
+  useKeyBind('escape', () => setOpen(false), { enabled: open })
+
+  const items = useMemo(() => {
+    if (!ctx) return []
+
+    const all = Array.from(ctx.registry.getAllCommands()).map(([binding, cmd]) => ({
+      binding,
+      displayBinding: formatForDisplay(binding),
+      name: cmd.name,
+      description: cmd.description,
+      execute: cmd.execute,
+    }))
+
+    if (!query) return all
+
+    const lower = query.toLowerCase()
+    return all.filter(
+      (item) =>
+        item.name.toLowerCase().includes(lower) ||
+        item.description?.toLowerCase().includes(lower) ||
+        item.displayBinding.toLowerCase().includes(lower),
+    )
+  }, [ctx, query])
+
+  if (!open) return null
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-start justify-center pt-[20vh] z-50">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-lg">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Type a command..."
+          className="w-full px-4 py-3 border-b outline-none"
+          autoFocus
+        />
+        <ul className="max-h-64 overflow-y-auto">
+          {items.map((item) => (
+            <li key={item.binding}>
+              <button
+                className="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100"
+                onClick={() => {
+                  item.execute()
+                  setOpen(false)
+                }}
+              >
+                <span>{item.name}</span>
+                <kbd className="text-xs bg-gray-100 px-2 py-0.5 rounded">
+                  {item.displayBinding}
+                </kbd>
+              </button>
+            </li>
+          ))}
+          {items.length === 0 && (
+            <li className="px-4 py-3 text-gray-500 text-sm">No matching commands</li>
+          )}
+        </ul>
+      </div>
+    </div>
+  )
+}
+```
+
+<Step>Register commands with descriptions</Step>
+
+To make the palette useful, include descriptions when registering:
+
+```tsx
+useKeyCommands({
+  'g+d': {
+    name: 'Go to Dashboard',
+    description: 'Navigate to the main dashboard',
+    execute: () => navigate('/dashboard'),
+  },
+  'g+s': {
+    name: 'Go to Settings',
+    description: 'Open the settings page',
+    execute: () => navigate('/settings'),
+  },
+  'ctrl+s': {
+    name: 'Save',
+    description: 'Save the current document',
+    execute: () => save(),
+  },
+})
+```
+
+</Steps>
+
+---
+
+## Vanilla equivalent
+
+<Callout icon={<Lightbulb />}>
+
+Without React, query the registry directly:
+
+</Callout>
+
+```ts
+const commands = registry.getAllCommands()
+
+for (const [binding, cmd] of commands) {
+  const li = document.createElement('li')
+  li.textContent = `${cmd.name} (${formatForDisplay(binding)})`
+  li.addEventListener('click', () => cmd.execute())
+  paletteList.appendChild(li)
+}
+```

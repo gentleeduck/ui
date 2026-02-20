@@ -1,0 +1,45 @@
+---
+title: "Popper"
+description: "Floating element positioning engine used by Popover, Tooltip, and Menu."
+---
+
+```tsx
+import * as Popper from '@gentleduck/primitives/popper'
+```
+
+## Anatomy
+
+```tsx
+<Popper.Root>
+  <Popper.Anchor />
+  <Popper.Content side="bottom" sideOffset={5} align="center">
+    <Popper.Arrow />
+  </Popper.Content>
+</Popper.Root>
+```
+
+## Content positioning props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to anchor |
+| `sideOffset` | `number` | `0` | Gap between content and anchor (px) |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment along the side |
+| `alignOffset` | `number` | `0` | Alignment offset (px) |
+| `avoidCollisions` | `boolean` | `true` | Flip to avoid viewport edges |
+| `collisionBoundary` | `Element \| Element[]` | -- | Custom collision boundary |
+| `collisionPadding` | `number \| Padding` | `0` | Padding from collision boundary |
+
+## How it works
+
+<Callout icon={<Lightbulb />}>
+
+Popper measures the anchor element's rect, calculates the content position based on `side` and `align`, and adjusts if the content would overflow the viewport (when `avoidCollisions` is true).
+
+</Callout>
+
+<Callout icon={<Target />}>
+
+You rarely use Popper directly. Popover, Tooltip, Hover Card, and Menu use it internally for positioning.
+
+</Callout>

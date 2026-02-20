@@ -1,0 +1,160 @@
+---
+title: "Lesson 4: Popover and Positioning"
+description: "Floating elements that stay anchored to their trigger with collision avoidance."
+---
+
+<Callout icon={<Lightbulb />}>
+
+**Lesson 4 of 8** -- Learn how floating elements position themselves relative to triggers and handle viewport edges.
+
+</Callout>
+
+## A basic popover
+
+```tsx
+import * as Popover from '@gentleduck/primitives/popover'
+
+function UserSettings() {
+  return (
+    <Popover.Root>
+      <Popover.Trigger className="px-3 py-1.5 border rounded-lg text-sm">
+        Settings
+      </Popover.Trigger>
+
+      <Popover.Portal>
+        <Popover.Content
+          className="bg-white shadow-xl rounded-lg p-4 w-72 border"
+          sideOffset={8}
+        >
+          <h3 className="font-semibold mb-3">Display settings</h3>
+          <label className="block mb-2">
+            <span className="text-sm text-gray-600">Theme</span>
+            <select className="w-full border rounded px-2 py-1 mt-1">
+              <option>Light</option>
+              <option>Dark</option>
+              <option>System</option>
+            </select>
+          </label>
+          <Popover.Close className="text-sm text-blue-600 mt-2">
+            Done
+          </Popover.Close>
+          <Popover.Arrow className="fill-white" />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
+  )
+}
+```
+
+---
+
+## Positioning props
+
+The Popper engine positions Content relative to the Trigger. You control placement with these props on Content:
+
+### `side`
+
+Which side of the trigger to appear on: `'top'`, `'right'`, `'bottom'` (default), `'left'`.
+
+```tsx
+<Popover.Content side="top" sideOffset={8}>
+```
+
+### `sideOffset`
+
+Gap between the content and the trigger in pixels. Default is `0`.
+
+### `align`
+
+Alignment along the chosen side: `'start'`, `'center'` (default), `'end'`.
+
+```tsx
+// Align to the left edge of the trigger
+<Popover.Content side="bottom" align="start">
+```
+
+### `alignOffset`
+
+Fine-tune alignment by shifting along the alignment axis.
+
+---
+
+## Collision avoidance
+
+<Callout icon={<Zap />}>
+
+By default, `avoidCollisions` is `true`. If the content would overflow the viewport on the chosen side, Popper **flips to the opposite side** automatically.
+
+</Callout>
+
+Try this: place a trigger near the bottom of the page with `side="bottom"`. The content will flip to `top` when there's not enough space below.
+
+You can control this behavior:
+
+```tsx
+<Popover.Content
+  avoidCollisions={true}
+  collisionPadding={10}          // minimum 10px from viewport edge
+  collisionBoundary={myElement}  // use a custom boundary instead of viewport
+>
+```
+
+---
+
+## Custom anchor
+
+<Callout icon={<Lightbulb />}>
+
+By default, content is positioned relative to the Trigger. Use `Popover.Anchor` to position relative to a **different element**.
+
+</Callout>
+
+```tsx
+<Popover.Root>
+  <Popover.Anchor asChild>
+    <div className="text-input-container">
+      <input placeholder="Search..." />
+      <Popover.Trigger className="ml-2">Filter</Popover.Trigger>
+    </div>
+  </Popover.Anchor>
+
+  <Popover.Portal>
+    <Popover.Content>
+      {/* Content positions relative to the Anchor, not the Trigger */}
+      <p>Filter options...</p>
+    </Popover.Content>
+  </Popover.Portal>
+</Popover.Root>
+```
+
+---
+
+## Popover vs Dialog vs Tooltip
+
+| Feature | Dialog | Popover | Tooltip |
+| --- | --- | --- | --- |
+| Trigger | Click | Click | Hover/focus |
+| Positioning | Centered on screen | Anchored to trigger | Anchored to trigger |
+| Focus trap | Yes (modal) | Optional | No |
+| Interactive content | Yes | Yes | No (display-only) |
+| Dismiss | <Kbd>Escape</Kbd>, click outside | <Kbd>Escape</Kbd>, click outside | Pointer leave, <Kbd>Escape</Kbd> |
+
+<Callout icon={<Target />}>
+
+Use **Dialog** for blocking actions. Use **Popover** for interactive floating panels. Use **Tooltip** for non-interactive hints.
+
+</Callout>
+
+---
+
+## Exercise
+
+1. Build a color picker popover: trigger shows a color swatch, content shows a grid of colors.
+2. Try all four `side` values and observe the positioning.
+3. Place the trigger in a corner and verify collision avoidance flips the content.
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 5 -- Menus and Navigation](/docs/packages/duck-primitives/course/05-menus)
+
+</Callout>

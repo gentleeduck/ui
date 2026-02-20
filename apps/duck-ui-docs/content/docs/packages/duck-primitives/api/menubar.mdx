@@ -1,0 +1,79 @@
+---
+title: "Menubar"
+description: "Horizontal menu bar with multiple menus (File, Edit, View) and full keyboard navigation."
+---
+
+```tsx
+import * as Menubar from '@gentleduck/primitives/menubar'
+```
+
+## Anatomy
+
+```tsx
+<Menubar.Root>
+  <Menubar.Menu>
+    <Menubar.Trigger />
+    <Menubar.Portal>
+      <Menubar.Content>
+        <Menubar.Item />
+        <Menubar.Separator />
+        <Menubar.Sub>
+          <Menubar.SubTrigger />
+          <Menubar.SubContent>
+            <Menubar.Item />
+          </Menubar.SubContent>
+        </Menubar.Sub>
+      </Menubar.Content>
+    </Menubar.Portal>
+  </Menubar.Menu>
+</Menubar.Root>
+```
+
+## Example
+
+```tsx
+<Menubar.Root className="flex gap-1 bg-white border rounded-md p-1">
+  <Menubar.Menu>
+    <Menubar.Trigger className="px-3 py-1 rounded hover:bg-gray-100 text-sm">
+      File
+    </Menubar.Trigger>
+    <Menubar.Portal>
+      <Menubar.Content className="bg-white shadow-lg rounded-md p-1 min-w-[160px] border">
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">New File</Menubar.Item>
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Save</Menubar.Item>
+        <Menubar.Separator className="h-px bg-gray-200 my-1" />
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Exit</Menubar.Item>
+      </Menubar.Content>
+    </Menubar.Portal>
+  </Menubar.Menu>
+
+  <Menubar.Menu>
+    <Menubar.Trigger className="px-3 py-1 rounded hover:bg-gray-100 text-sm">
+      Edit
+    </Menubar.Trigger>
+    <Menubar.Portal>
+      <Menubar.Content className="bg-white shadow-lg rounded-md p-1 min-w-[160px] border">
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Undo</Menubar.Item>
+        <Menubar.Item className="px-3 py-1.5 text-sm rounded hover:bg-gray-100">Redo</Menubar.Item>
+      </Menubar.Content>
+    </Menubar.Portal>
+  </Menubar.Menu>
+</Menubar.Root>
+```
+
+## Keyboard interactions
+
+| Key | Action |
+| --- | --- |
+| <Kbd>ArrowRight</Kbd> | Move to next menu in the bar |
+| <Kbd>ArrowLeft</Kbd> | Move to previous menu in the bar |
+| <Kbd>ArrowDown</Kbd> | Open menu / highlight next item |
+| <Kbd>ArrowUp</Kbd> | Highlight previous item |
+| <Kbd>Enter</Kbd> / <Kbd>Space</Kbd> | Activate item |
+| <Kbd>Escape</Kbd> | Close menu |
+
+<Callout icon={<Lightbulb />}>
+
+All menu-level sub-components (Item, CheckboxItem, RadioGroup, RadioItem, Sub, etc.) work identically to Context Menu.
+
+</Callout>

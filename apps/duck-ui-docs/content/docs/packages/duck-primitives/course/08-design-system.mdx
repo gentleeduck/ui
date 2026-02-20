@@ -1,0 +1,307 @@
+---
+title: "Lesson 8: Building a Design System"
+description: "Wrap primitives into styled, reusable components that form your component library."
+---
+
+<Callout icon={<Lightbulb />}>
+
+**Lesson 8 of 8** -- Learn the production pattern for wrapping primitives into styled, reusable design system components.
+
+</Callout>
+
+## The pattern
+
+Your design system components wrap duck-primitives with your styles, defaults, and API surface. The primitive handles behavior. Your wrapper handles appearance.
+
+<MermaidDiagram chart={`flowchart LR
+    A[duck-primitives<br/>behavior] --> B[your wrapper<br/>styles + defaults]
+    B --> C[your app<br/>usage]
+`} />
+
+---
+
+## A styled Dialog
+
+```tsx title="components/ui/dialog.tsx"
+import * as DialogPrimitive from '@gentleduck/primitives/dialog'
+import { cn } from '../utils'
+
+export const Dialog = DialogPrimitive.Root
+export const DialogTrigger = DialogPrimitive.Trigger
+
+export const DialogPortal = DialogPrimitive.Portal
+
+export const DialogOverlay = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Overlay>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Overlay
+    ref={ref}
+    className={cn(
+      'fixed inset-0 bg-black/50 backdrop-blur-sm',
+      'data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut',
+      className
+    )}
+    {...props}
+  />
+))
+DialogOverlay.displayName = 'DialogOverlay'
+
+export const DialogContent = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(({ className, children, ...props }, ref) => (
+  <DialogPortal>
+    <DialogOverlay />
+    <DialogPrimitive.Content
+      ref={ref}
+      className={cn(
+        'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+        'w-full max-w-lg bg-white rounded-xl shadow-2xl p-6',
+        'data-[state=open]:animate-scaleIn data-[state=closed]:animate-scaleOut',
+        'focus:outline-none',
+        className
+      )}
+      {...props}
+    >
+      {children}
+      <DialogPrimitive.Close className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
+        <XIcon className="w-4 h-4" />
+        <span className="sr-only">Close</span>
+      </DialogPrimitive.Close>
+    </DialogPrimitive.Content>
+  </DialogPortal>
+))
+DialogContent.displayName = 'DialogContent'
+
+export const DialogTitle = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Title>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Title
+    ref={ref}
+    className={cn('text-lg font-semibold', className)}
+    {...props}
+  />
+))
+DialogTitle.displayName = 'DialogTitle'
+
+export const DialogDescription = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Description
+    ref={ref}
+    className={cn('text-sm text-gray-500 mt-1.5', className)}
+    {...props}
+  />
+))
+DialogDescription.displayName = 'DialogDescription'
+```
+
+### Usage
+
+```tsx
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from './ui/dialog'
+
+function App() {
+  return (
+    <Dialog>
+      <DialogTrigger className="btn-primary">Open</DialogTrigger>
+      <DialogContent>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogDescription>This action cannot be undone.</DialogDescription>
+        <div className="mt-4 flex gap-2 justify-end">
+          <button className="btn-secondary">Cancel</button>
+          <button className="btn-danger">Delete</button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+```
+
+<Callout icon={<Zap />}>
+
+The consumer never sees overlay setup, close button placement, or animation classes. They get a clean API.
+
+</Callout>
+
+---
+
+## Design system principles
+
+<Callout icon={<Lightbulb />}>
+
+Follow these five principles when wrapping primitives into design system components:
+
+</Callout>
+
+### 1. Re-export the Root directly
+
+The Root rarely needs styling. Just re-export it:
+
+```tsx
+export const Dialog = DialogPrimitive.Root
+```
+
+### 2. Bake in portal and overlay
+
+Most dialogs need a portal and overlay. Include them in Content so consumers don't have to:
+
+```tsx
+export const DialogContent = React.forwardRef(({ children, ...props }, ref) => (
+  <DialogPortal>
+    <DialogOverlay />
+    <DialogPrimitive.Content ref={ref} {...props}>
+      {children}
+    </DialogPrimitive.Content>
+  </DialogPortal>
+))
+```
+
+### 3. Always forward ref and className
+
+Every wrapper should forward `ref` (for parent components to measure or focus) and `className` (for one-off overrides):
+
+```tsx
+const Component = React.forwardRef(({ className, ...props }, ref) => (
+  <Primitive ref={ref} className={cn(defaultClasses, className)} {...props} />
+))
+```
+
+### 4. Keep primitive props accessible
+
+Don't hide useful props. Your DialogContent should still accept `onOpenAutoFocus`, `onEscapeKeyDown`, etc. Spread `...props` onto the primitive.
+
+### 5. Add a close button by default
+
+Most dialogs need a close button. Include it in Content with a visually hidden label.
+
+---
+
+## A styled Popover
+
+```tsx title="components/ui/popover.tsx"
+export const Popover = PopoverPrimitive.Root
+export const PopoverTrigger = PopoverPrimitive.Trigger
+
+export const PopoverContent = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
+>(({ className, align = 'center', sideOffset = 8, ...props }, ref) => (
+  <PopoverPrimitive.Portal>
+    <PopoverPrimitive.Content
+      ref={ref}
+      align={align}
+      sideOffset={sideOffset}
+      className={cn(
+        'bg-white rounded-lg shadow-lg border p-4 w-72',
+        'data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut',
+        'outline-none',
+        className
+      )}
+      {...props}
+    />
+  </PopoverPrimitive.Portal>
+))
+PopoverContent.displayName = 'PopoverContent'
+```
+
+<Callout icon={<Lightbulb />}>
+
+Notice `sideOffset` defaults to `8` instead of `0`. Your design system establishes sensible defaults.
+
+</Callout>
+
+---
+
+## A styled Tooltip
+
+```tsx title="components/ui/tooltip.tsx"
+export const TooltipProvider = TooltipPrimitive.Provider
+export const Tooltip = TooltipPrimitive.Root
+export const TooltipTrigger = TooltipPrimitive.Trigger
+
+export const TooltipContent = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
+>(({ className, sideOffset = 6, ...props }, ref) => (
+  <TooltipPrimitive.Portal>
+    <TooltipPrimitive.Content
+      ref={ref}
+      sideOffset={sideOffset}
+      className={cn(
+        'bg-gray-900 text-white text-xs px-2.5 py-1 rounded-md shadow-md',
+        'animate-in fade-in-0 zoom-in-95',
+        className
+      )}
+      {...props}
+    />
+  </TooltipPrimitive.Portal>
+))
+TooltipContent.displayName = 'TooltipContent'
+```
+
+---
+
+## The `cn` utility
+
+Most design systems use a class merging utility:
+
+```tsx title="utils.ts"
+import { clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
+export function cn(...inputs: (string | undefined | null | false)[]) {
+  return twMerge(clsx(inputs))
+}
+```
+
+<Callout icon={<Lightbulb />}>
+
+`twMerge` resolves Tailwind conflicts (e.g., `bg-red-500` overrides `bg-blue-500` instead of concatenating).
+
+</Callout>
+
+---
+
+## File structure
+
+A typical design system built on duck-primitives:
+
+```txt
+components/
+  ui/
+    dialog.tsx        # Dialog, DialogContent, DialogTitle, etc.
+    popover.tsx       # Popover, PopoverContent, etc.
+    tooltip.tsx       # Tooltip, TooltipContent, etc.
+    context-menu.tsx  # ContextMenu, etc.
+    menubar.tsx       # Menubar, etc.
+    alert-dialog.tsx  # AlertDialog, etc.
+    progress.tsx      # Progress, ProgressIndicator
+  utils.ts            # cn() helper
+```
+
+Each file re-exports primitives with your styles baked in. Consumers import from `./ui/dialog` instead of `@gentleduck/primitives/dialog`.
+
+---
+
+## What you have learned
+
+<Callout icon={<Zap />}>
+
+Across 8 lessons, you now know:
+
+1. Why primitives exist and what they handle.
+2. The compound component pattern and controlled state.
+3. The `asChild` composition pattern.
+4. Floating element positioning with Popper.
+5. Menu systems and keyboard navigation.
+6. Animation with Presence.
+7. Accessibility patterns and testing.
+8. Wrapping primitives into a design system.
+
+</Callout>
+
+You now have the knowledge to build a complete, accessible component library on top of duck-primitives.

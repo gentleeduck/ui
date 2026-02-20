@@ -1,0 +1,238 @@
+---
+title: "Core Concepts"
+description: "Understand the patterns that make duck-primitives work: asChild, Presence, controlled state, and composition."
+---
+
+<Callout icon={<Lightbulb />}>
+
+This page covers the fundamental patterns behind every primitive. Understanding these concepts will make the entire API feel intuitive.
+
+</Callout>
+
+## The `asChild` pattern
+
+Every primitive element supports `asChild`. When `asChild` is `true`, the primitive doesn't render its own DOM element. Instead, it passes its props and behavior to the child element.
+
+```tsx
+// Default: renders a <button>
+<Dialog.Trigger>Open</Dialog.Trigger>
+
+// asChild: renders YOUR element with Dialog.Trigger's behavior
+<Dialog.Trigger asChild>
+  <a href="#">Open</a>
+</Dialog.Trigger>
+```
+
+When `asChild` is used, the primitive merges its props onto your child:
+
+- **Event handlers** compose (both fire).
+- **Styles** merge (child styles override primitive styles).
+- **ClassNames** concatenate.
+- **Refs** compose (both refs receive the element).
+- **ARIA attributes** are forwarded.
+
+<Callout icon={<Zap />}>
+
+This lets you use any element or component as a trigger, content area, or close button without wrapper divs.
+
+</Callout>
+
+---
+
+## Primitive Elements
+
+Under the hood, every primitive renders through `Primitive.button`, `Primitive.div`, etc. These are thin wrappers around native HTML elements that add `asChild` support:
+
+```tsx
+import { Primitive } from '@gentleduck/primitives/primitive-elements'
+
+// Renders a regular <div>
+<Primitive.div className="box" />
+
+// Renders your custom component instead
+<Primitive.div asChild>
+  <section className="box">Content</section>
+</Primitive.div>
+```
+
+The available primitive elements are: `a`, `button`, `div`, `form`, `h2`, `h3`, `img`, `input`, `label`, `li`, `nav`, `ol`, `p`, `span`, `svg`, `ul`.
+
+---
+
+## Slot and Slottable
+
+The `asChild` pattern is powered by the `Slot` and `Slottable` utilities. You rarely use these directly, but understanding them helps when building custom primitives.
+
+`Slot` replaces its rendered element with its single child, merging props. `Slottable` marks which child should be the replacement target:
+
+```tsx
+import { Slot, Slottable } from '@gentleduck/primitives/slot'
+
+function MyButton({ asChild, children, ...props }) {
+  const Comp = asChild ? Slot : 'button'
+  return <Comp {...props}>{children}</Comp>
+}
+```
+
+---
+
+## Controlled and uncontrolled state
+
+Every primitive with state (Dialog, Popover, Tooltip, etc.) supports both controlled and uncontrolled modes.
+
+<Tabs defaultValue="uncontrolled">
+<TabsList>
+  <TabsTrigger value="uncontrolled">Uncontrolled</TabsTrigger>
+  <TabsTrigger value="controlled">Controlled</TabsTrigger>
+</TabsList>
+<TabsContent value="uncontrolled">
+
+The primitive manages its own state internally. You provide a `defaultOpen` (or similar) prop:
+
+```tsx
+<Dialog.Root defaultOpen={false}>
+```
+
+</TabsContent>
+<TabsContent value="controlled">
+
+You manage the state and pass it in. The primitive calls `onOpenChange` when it wants to change state, and you decide whether to apply it:
+
+```tsx
+const [open, setOpen] = useState(false)
+
+<Dialog.Root open={open} onOpenChange={(next) => {
+  // You can add logic here
+  if (canClose()) setOpen(next)
+}}>
+```
+
+</TabsContent>
+</Tabs>
+
+<Callout icon={<TriangleAlert />}>
+
+The `useControllableState` hook powers this internally. In development, it warns if you switch between controlled and uncontrolled mid-lifecycle.
+
+</Callout>
+
+---
+
+## Presence and animation
+
+The `Presence` component controls when children mount and unmount. It delays unmounting until CSS animations complete.
+
+```tsx
+import { Presence } from '@gentleduck/primitives/presence'
+
+<Presence present={isOpen}>
+  <div className="fade-in-out">Content</div>
+</Presence>
+```
+
+When `present` changes from `true` to `false`, Presence detects running CSS animations on the child element and waits for them to finish before unmounting. This means you can use standard CSS animations for enter/exit without any JavaScript animation libraries.
+
+<Callout icon={<Lightbulb />}>
+
+The primitive uses a state machine with three states: `mounted`, `unmountSuspended` (waiting for animation to finish), and `unmounted`.
+
+</Callout>
+
+Many primitives accept a `forceMount` prop that bypasses Presence and keeps the content always mounted. This is useful when you want to control animation yourself or when you need the content in the DOM for SEO.
+
+---
+
+## Portal
+
+The `Portal` component renders its children into a different DOM node (defaults to `document.body`). This is used by Dialog, Popover, Tooltip, and other floating elements to escape parent `overflow: hidden` or `z-index` stacking contexts.
+
+```tsx
+<Dialog.Portal>
+  <Dialog.Overlay />
+  <Dialog.Content>...</Dialog.Content>
+</Dialog.Portal>
+
+// Custom container
+<Dialog.Portal container={document.getElementById('portal-root')}>
+```
+
+<Callout icon={<Lightbulb />}>
+
+Portal waits until after the first layout effect to mount, ensuring SSR compatibility.
+
+</Callout>
+
+---
+
+## Focus Scope
+
+`FocusScope` traps focus within a container. When enabled, pressing <Kbd>Tab</Kbd> at the last focusable element wraps back to the first, and vice versa. It also handles auto-focus on mount and focus restoration on unmount.
+
+<Callout icon={<Target />}>
+
+Dialog's Content uses FocusScope internally. You typically don't need to use it directly unless building your own overlay components.
+
+</Callout>
+
+---
+
+## Dismissable Layer
+
+`DismissableLayer` handles dismissing content when the user clicks outside or presses <Kbd>Escape</Kbd>. It fires events that you can intercept:
+
+- `onPointerDownOutside` -- fired when clicking outside the layer.
+- `onFocusOutside` -- fired when focus moves outside the layer.
+- `onInteractOutside` -- fired for any outside interaction.
+- `onEscapeKeyDown` -- fired when <Kbd>Escape</Kbd> is pressed.
+- `onDismiss` -- fired when the layer should be dismissed.
+
+<Callout icon={<Lightbulb />}>
+
+You can call `event.preventDefault()` on any of these to prevent dismissal.
+
+</Callout>
+
+---
+
+## Context scoping
+
+Each primitive creates its own React context using `createContextScope`. This provides type-safe context access and meaningful error messages when components are used outside their provider.
+
+Context scoping also supports nesting multiple instances of the same primitive without context collisions:
+
+```tsx
+<Dialog.Root>
+  <Dialog.Content>
+    {/* This nested dialog has its own independent context */}
+    <Dialog.Root>
+      <Dialog.Content>Nested dialog</Dialog.Content>
+    </Dialog.Root>
+  </Dialog.Content>
+</Dialog.Root>
+```
+
+---
+
+## Data attributes
+
+Primitives expose their state via `data-state` attributes on rendered elements. This allows CSS-only styling based on state:
+
+```css
+[data-state="open"] {
+  animation: fadeIn 200ms ease;
+}
+
+[data-state="closed"] {
+  animation: fadeOut 200ms ease;
+}
+```
+
+Common data attributes:
+
+| Attribute | Values | Used by |
+| --- | --- | --- |
+| `data-state` | `open`, `closed` | Dialog, Popover, Tooltip, etc. |
+| `data-state` | `checked`, `unchecked`, `indeterminate` | Menu checkbox/radio items |
+| `data-state` | `complete`, `loading`, `indeterminate` | Progress |
+| `data-disabled` | present when disabled | Menu items, triggers |
+| `data-highlighted` | present when item is highlighted | Menu items |
