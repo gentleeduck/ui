@@ -46,14 +46,14 @@ import type { DuckLazyProps } from './lazy-component.types'
  * };
  */
 export function DuckLazyComponent({ children, options, ...props }: DuckLazyProps): React.JSX.Element {
-  const { isVisible, elementRef } = useLazyLoad({
+  const { isVisible, ComponentRef } = useLazyLoad({
     rootMargin: '0px', // Adjust this to trigger rendering earlier or later
     threshold: 0, // Trigger when 10% of the element is visible
     ...options,
   })
 
   return (
-    <div ref={elementRef} {...props} data-slot="wrapper">
+    <div ref={ComponentRef} {...props} data-slot="wrapper">
       {isVisible ? children : <div className="mb-4 h-[512px] animate-pulse" data-slot="placeholder" />}
     </div>
   )

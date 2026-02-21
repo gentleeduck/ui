@@ -2,13 +2,9 @@ import { cva } from '@gentleduck/variants'
 
 export const AnimVariants = cva('', {
   defaultVariants: {
-    accelerated: 'default',
     alive: 'default',
   },
   variants: {
-    accelerated: {
-      default: 'transform-gpu will-change-[opacity,transform,translate,blur] backdrop:will-change-[opacity,blur]',
-    },
     alive: {
       default: 'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
     },

@@ -1,5 +1,5 @@
 // // @ts-noCheck
-// import React, { MutableRefObject, useEffect, useRef } from 'react'
+// import React, { RefObject, useEffect, useRef } from 'react'
 //
 // interface AsyncImageTypes extends React.ImgHTMLAttributes<HTMLImageElement> {
 //   media?: string
@@ -9,8 +9,8 @@
 // }
 //
 // const LazyLoadingImg = (
-//   imgRef: MutableRefObject<HTMLImageElement>,
-//   wrapperRef: MutableRefObject<HTMLDivElement>,
+//   imgRef: RefObject<HTMLImageElement>,
+//   wrapperRef: RefObject<HTMLDivElement>,
 // ) => {
 //   imgRef.current.addEventListener('load', () => {
 //     imgRef.current.complete && wrapperRef.current.classList.add('show--img')
@@ -29,8 +29,8 @@
 //   height = 384,
 //   ...props
 // }) => {
-//   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>
-//   const imgRef = useRef() as MutableRefObject<HTMLImageElement>
+//   const wrapperRef = useRef() as RefObject<HTMLDivElement>
+//   const imgRef = useRef() as RefObject<HTMLImageElement>
 //   const [srcy, setSrc] = React.useState(src)
 //   useEffect(() => {
 //     LazyLoadingImg(imgRef, wrapperRef)
