@@ -84,13 +84,13 @@ If you'd like to build your own lazy loading functionality, you can use the `use
 import { useLazyLoad } from '@gentleduck/lazy'
 
 function MyComponent() {
-  const { isVisible, elementRef } = useLazyLoad({
+  const { isVisible, ComponentRef } = useLazyLoad({
     rootMargin: '100px',
     threshold: 0.25,
   })
 
   return (
-    <div ref={elementRef}>
+    <div ref={ComponentRef}>
       {isVisible ? <div>Content that will be displayed lazily</div> : <div>Loading...</div>}
     </div>
   )
@@ -104,7 +104,7 @@ function MyComponent() {
 #### `useLazyLoad` Hook Returns
 
 - `isVisible`: Boolean indicating whether the element is in the viewport.
-- `elementRef`: A `React.Ref` to be attached to the element you want to observe.
+- `ComponentRef`: A `React.Ref` to be attached to the element you want to observe.
 
 ### `useLazyImage` Hook
 

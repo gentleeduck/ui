@@ -26,7 +26,7 @@ export function TabContent({ className, ...props }: React.ComponentProps<typeof 
   return (
     <TabsContent
       className={cn(
-        'relative rounded-lg border p-4 [&>div[data-rehype-pretty-code-fragment]]:relative [&>div[data-rehype-pretty-code-fragment]]:my-3 [&>div[data-rehype-pretty-code-fragment]]:rounded-lg [&>div[data-rehype-pretty-code-fragment]]:bg-muted/40 [&>div]:border [&_h3.font-heading]:font-semibold [&_h3.font-heading]:text-base',
+        'relative [&>div[data-rehype-pretty-code-fragment]]:relative [&>div[data-rehype-pretty-code-fragment]]:my-3 [&>div[data-rehype-pretty-code-fragment]]:rounded-lg [&>div[data-rehype-pretty-code-fragment]]:bg-muted/40 [&>div]:border [&_h3.font-heading]:font-semibold [&_h3.font-heading]:text-base',
         className,
       )}
       {...props}

@@ -35,29 +35,29 @@ export interface RecordingtType {
 export interface RecordingParams {
   setRecordings: React.Dispatch<React.SetStateAction<RecordingtType[]>>
   setRecordedDuration: React.Dispatch<React.SetStateAction<number>>
-  audioChunksRef: React.MutableRefObject<Blob[]>
+  audioChunksRef: React.RefObject<Blob[]>
 }
 
 export interface StopRecordingHandlerParam {
   setRecording: React.Dispatch<React.SetStateAction<boolean>>
-  intervalRef: React.MutableRefObject<ReturnType<typeof setInterval> | null>
-  mediaRecorderRef: React.MutableRefObject<MediaRecorder | null>
-  durationRef: React.MutableRefObject<number>
+  intervalRef: React.RefObject<ReturnType<typeof setInterval> | null>
+  mediaRecorderRef: React.RefObject<MediaRecorder | null>
+  durationRef: React.RefObject<number>
 }
 
 export interface DeleteRecordingHandlerParams
   extends Pick<RecordingParams, 'audioChunksRef'>,
-    StopRecordingHandlerParam {}
+  StopRecordingHandlerParam { }
 
 export interface StopRecordingHandlerParams
   extends Omit<StopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef' | 'durationRef'>,
-    Omit<RecordingParams, 'setRecordedDuration'> {}
+  Omit<RecordingParams, 'setRecordedDuration'> { }
 
 export interface StartTimerParams
   extends Omit<StopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef'>,
-    Pick<RecordingParams, 'setRecordedDuration'> {}
+  Pick<RecordingParams, 'setRecordedDuration'> { }
 
-export interface StartRecordingHandlerParams extends StopRecordingHandlerParam, RecordingParams {}
+export interface StartRecordingHandlerParams extends StopRecordingHandlerParam, RecordingParams { }
 
 export const format_time_handler = (milliseconds: number): string => {
   const minutes = Math.floor(milliseconds / 60000)
@@ -66,7 +66,7 @@ export const format_time_handler = (milliseconds: number): string => {
 }
 
 export interface VisualizerClickHandlerParams {
-  audioRef: React.MutableRefObject<HTMLAudioElement | null>
+  audioRef: React.RefObject<HTMLAudioElement | null>
   setCurrentTime: React.Dispatch<React.SetStateAction<number>>
   event: React.MouseEvent<HTMLDivElement>
 }
@@ -285,7 +285,7 @@ export const AudioTimer = React.forwardRef<HTMLDivElement, AudioTimerProps>(({ s
   )
 })
 
-export interface AudioDeleteProps extends React.ComponentPropsWithoutRef<typeof Button> {}
+export interface AudioDeleteProps extends React.ComponentPropsWithoutRef<typeof Button> { }
 
 export const AudioDelete = React.forwardRef<HTMLButtonElement, AudioDeleteProps>(
   ({ size, type, onClick, className, ...props }, ref) => {
@@ -311,7 +311,7 @@ export const AudioDelete = React.forwardRef<HTMLButtonElement, AudioDeleteProps>
   },
 )
 
-export interface AudioStartProps extends React.ComponentPropsWithoutRef<typeof Button> {}
+export interface AudioStartProps extends React.ComponentPropsWithoutRef<typeof Button> { }
 
 export const AudioStart = React.forwardRef<HTMLButtonElement, AudioStartProps>(
   ({ size, type, onClick, className, ...props }, ref) => {

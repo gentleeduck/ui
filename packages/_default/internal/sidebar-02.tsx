@@ -207,7 +207,7 @@ export default function Component() {
                     <ChevronsUpDown className="ml-auto" />
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-[--radix-dropdown-menu-trigger-width]">
+                <DropdownMenuContent align="start" className="w-[--gentleduck-dropdown-menu-trigger-width]">
                   {data.versions.map((version) => (
                     <DropdownMenuItem key={version} onSelect={() => setSelectedVersion(version)}>
                       v{version} {version === selectedVersion && <Check className="ml-auto" />}

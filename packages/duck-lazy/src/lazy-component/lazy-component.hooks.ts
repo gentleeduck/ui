@@ -13,18 +13,18 @@ import type { UseLazyLoadReturn } from './lazy-component.types'
  *
  * @returns {UseLazyLoadReturn} Returns an object containing:
  *   - `isVisible` (boolean): Indicates whether the element is currently in the viewport and visible to the user.
- *   - `elementRef` (React.RefObject<HTMLDivElement | null>): A ref that should be attached to the element you want to observe for lazy loading.
+ *   - `ComponentRef` (React.RefObject<HTMLDivElement | null>): A ref that should be attached to the element you want to observe for lazy loading.
  *
  * @example
  * ```tsx
  * // Example 1: Basic usage
- * const { isVisible, elementRef } = useLazyLoad({
+ * const { isVisible, ComponentRef } = useLazyLoad({
  *   rootMargin: '0px',  // Trigger when the element is exactly in view.
  *   threshold: 0.1,     // Trigger when 10% of the element is visible.
  * });
  *
  * return (
- *   <div ref={elementRef}>
+ *   <div ref={ComponentRef}>
  *     {isVisible ? (
  *       <p>The component is now visible!</p>
  *     ) : (
@@ -36,13 +36,13 @@ import type { UseLazyLoadReturn } from './lazy-component.types'
  *
  * ```tsx
  * // Example 2: Using custom threshold and rootMargin for more control
- * const { isVisible, elementRef } = useLazyLoad({
+ * const { isVisible, ComponentRef } = useLazyLoad({
  *   rootMargin: '100px',  // Load the component before it enters the viewport by 100px.
  *   threshold: 0.25,      // Trigger when 25% of the element is visible.
  * });
  *
  * return (
- *   <div ref={elementRef}>
+ *   <div ref={ComponentRef}>
  *     {isVisible ? (
  *       <div>Content loaded!</div>
  *     ) : (
@@ -55,13 +55,13 @@ import type { UseLazyLoadReturn } from './lazy-component.types'
  * ```tsx
  * // Example 3: Using hook in a more complex component
  * function MyComponent() {
- *   const { isVisible, elementRef } = useLazyLoad({
+ *   const { isVisible, ComponentRef } = useLazyLoad({
  *     rootMargin: '200px',  // Start observing when the element is 200px from the viewport.
  *     threshold: 0.1,       // Trigger once 10% of the element is visible.
  *   });
  *
  *   return (
- *     <div ref={elementRef} style={{ height: '300px', background: 'lightgray' }}>
+ *     <div ref={ComponentRef} style={{ height: '300px', background: 'lightgray' }}>
  *       {isVisible ? (
  *         <div>
  *           <h1>This content is now visible!</h1>
@@ -80,7 +80,7 @@ import type { UseLazyLoadReturn } from './lazy-component.types'
  */
 export const useLazyLoad = (options?: IntersectionObserverInit): UseLazyLoadReturn => {
   const [isVisible, setIsVisible] = React.useState(false)
-  const elementRef = React.useRef<HTMLDivElement>(null)
+  const ComponentRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
@@ -90,16 +90,16 @@ export const useLazyLoad = (options?: IntersectionObserverInit): UseLazyLoadRetu
       }
     }, options)
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current)
+    if (ComponentRef.current) {
+      observer.observe(ComponentRef.current)
     }
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current)
+      if (ComponentRef.current) {
+        observer.unobserve(ComponentRef.current)
       }
     }
   }, [options])
 
-  return { elementRef, isVisible }
+  return { ComponentRef, isVisible }
 }

@@ -231,7 +231,7 @@ export default function Page() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="start"
-                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                  className="w-[--gentleduck-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                   side="bottom"
                   sideOffset={4}>
                   <DropdownMenuLabel className="text-xs text-muted-foreground">Teams</DropdownMenuLabel>
@@ -354,7 +354,7 @@ export default function Page() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="end"
-                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                  className="w-[--gentleduck-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                   side="bottom"
                   sideOffset={4}>
                   <DropdownMenuLabel className="p-0 font-normal">

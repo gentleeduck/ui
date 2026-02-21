@@ -4,17 +4,17 @@
  *
  * @interface
  * @property {boolean} isVisible - A boolean indicating if the element is currently visible in the viewport.
- * @property {React.RefObject<HTMLDivElement | null>} elementRef - A React ref object pointing to the DOM element being observed.
+ * @property {React.RefObject<HTMLDivElement | null>} ComponentRef - A React ref object pointing to the DOM element being observed.
  *
  * @example
- * const { isVisible, elementRef } = useLazyLoad({
+ * const { isVisible, ComponentRef } = useLazyLoad({
  *   rootMargin: '100px', // Starts loading the component when 100px is within the viewport
  *   threshold: 0.25, // Trigger when 25% of the component is visible
  * });
  */
 export type UseLazyLoadReturn = {
   isVisible: boolean
-  elementRef: React.RefObject<HTMLDivElement | null>
+  ComponentRef: React.RefObject<HTMLDivElement | null>
 }
 
 /**
