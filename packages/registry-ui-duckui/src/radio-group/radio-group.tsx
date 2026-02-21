@@ -1,20 +1,19 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
+import { checkersStylePattern } from '@gentleduck/motion/anim'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
-import type * as React from 'react'
+import * as React from 'react'
 import { Label } from '../label'
 import { RadioGroupContext, useHandleRadioClick } from './radio-group.hooks'
 
-function Radio({
-  className,
-  indicator,
-  checkedIndicator,
-  ref,
-  style,
-  ...props
-}: React.HTMLProps<HTMLInputElement> & { indicator?: React.ReactElement; checkedIndicator?: React.ReactElement }) {
+const Radio = React.forwardRef<
+  HTMLInputElement,
+  Omit<React.HTMLProps<HTMLInputElement>, 'ref'> & {
+    indicator?: React.ReactElement
+    checkedIndicator?: React.ReactElement
+  }
+>(({ className, indicator, checkedIndicator, style, ...props }, ref) => {
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
     checkedIndicator,
     indicator,
@@ -35,7 +34,8 @@ function Radio({
                     : 'default',
             type: 'radio',
           }),
-          AnimVariants({ pseudo: 'animate' }),
+          'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+          '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
           'rounded-full',
           className,
         )}
@@ -49,20 +49,17 @@ function Radio({
       <SvgIndicator className="sr-only" />
     </>
   )
-}
+})
+Radio.displayName = 'Radio'
 
-function RadioGroup({
-  className,
-  children,
-  value,
-  onValueChange,
-  defaultValue,
-  ...props
-}: React.HTMLProps<HTMLUListElement> & {
-  value?: string
-  onValueChange?: (value: string) => void
-  defaultValue?: string
-}) {
+const RadioGroup = React.forwardRef<
+  HTMLUListElement,
+  Omit<React.HTMLProps<HTMLUListElement>, 'ref'> & {
+    value?: string
+    onValueChange?: (value: string) => void
+    defaultValue?: string
+  }
+>(({ className, children, value, onValueChange, defaultValue, ...props }, ref) => {
   const { selectedItemRef, itemsRef, wrapperRef } = useHandleRadioClick(defaultValue, value, onValueChange)
 
   return (
@@ -78,22 +75,27 @@ function RadioGroup({
         className={cn('flex flex-col', className)}
         data-slot="radio-group"
         duck-radio-group=""
-        ref={wrapperRef}
+        ref={(node) => {
+          if (typeof ref === 'function') {
+            ref(node)
+          } else if (ref) {
+            ;(ref as React.RefObject<HTMLUListElement | null>).current = node
+          }
+          ;(wrapperRef as React.RefObject<HTMLUListElement | null>).current = node
+        }}
         role="radiogroup"
         {...props}>
         {children}
       </ul>
     </RadioGroupContext.Provider>
   )
-}
+})
+RadioGroup.displayName = 'RadioGroup'
 
-function RadioGroupItem({
-  className,
-  children,
-  customIndicator,
-  value,
-  ...props
-}: Omit<React.HTMLProps<HTMLLIElement>, 'value'> & { customIndicator?: React.ReactNode; value: string }) {
+const RadioGroupItem = React.forwardRef<
+  HTMLLIElement,
+  Omit<Omit<React.HTMLProps<HTMLLIElement>, 'value'>, 'ref'> & { customIndicator?: React.ReactNode; value: string }
+>(({ className, children, customIndicator, value, ...props }, ref) => {
   return (
     <li
       className={cn(
@@ -103,6 +105,7 @@ function RadioGroupItem({
       data-slot="radio-item"
       duck-radio-item=""
       id={value}
+      ref={ref}
       role="presentation"
       {...props}>
       {customIndicator && <span id="radio-indicator">{customIndicator}</span>}
@@ -112,6 +115,7 @@ function RadioGroupItem({
       </Label>
     </li>
   )
-}
+})
+RadioGroupItem.displayName = 'RadioGroupItem'
 
 export { Radio, RadioGroup, RadioGroupItem }

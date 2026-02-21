@@ -1,16 +1,24 @@
 import { cn } from '@gentleduck/libs/cn'
-import type * as React from 'react'
+import * as React from 'react'
 
 interface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
   viewportClassName?: string
 }
 
-const ScrollArea = ({ children, className, viewportClassName, style, ...props }: ScrollAreaProps) => {
-  return (
-    <div className={cn('relative overflow-hidden', className)} style={style} {...props} data-slot="scroll-area">
-      <div className={cn('scrollbar-none h-full w-full overflow-auto', viewportClassName)}>{children}</div>
-    </div>
-  )
-}
+const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
+  ({ children, className, viewportClassName, style, ...props }, ref) => {
+    return (
+      <div
+        className={cn('relative overflow-hidden', className)}
+        style={style}
+        ref={ref}
+        {...props}
+        data-slot="scroll-area">
+        <div className={cn('scrollbar-none h-full w-full overflow-auto', viewportClassName)}>{children}</div>
+      </div>
+    )
+  },
+)
+ScrollArea.displayName = 'ScrollArea'
 
 export { ScrollArea }

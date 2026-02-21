@@ -87,7 +87,9 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
             ))}
         </Button>
       </PopoverTrigger>
-      <PopoverContent {...popoverContent} className={cn('w-[200px] p-0', popoverContent?.className)}>
+      <PopoverContent
+        {...popoverContent}
+        className={cn('w-(--gentleduck-popover-trigger-width) p-0', popoverContent?.className)}>
         <Command {...command}>
           {withSearch && (
             <CommandInput {...commandInput} className={cn('h-8 [&_svg]:size-[18px] px-2', commandInput)} />

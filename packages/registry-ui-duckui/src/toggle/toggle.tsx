@@ -2,19 +2,13 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import type { VariantProps } from '@gentleduck/variants'
-import type * as React from 'react'
+import * as React from 'react'
 import { toggleVariants } from './toggle.constants'
 
-function Toggle({
-  className,
-  value,
-  variant = 'default',
-  size = 'default',
-  ref,
-  disabled = false,
-  children,
-  ...props
-}: Omit<React.HTMLProps<HTMLInputElement>, 'size'> & VariantProps<typeof toggleVariants>) {
+const Toggle = React.forwardRef<
+  HTMLInputElement,
+  Omit<Omit<React.HTMLProps<HTMLInputElement>, 'size'>, 'ref'> & VariantProps<typeof toggleVariants>
+>(({ className, value, variant = 'default', size = 'default', disabled = false, children, ...props }, ref) => {
   return (
     <label
       className={cn(toggleVariants({ className, size, variant }))}
@@ -33,6 +27,7 @@ function Toggle({
       {children}
     </label>
   )
-}
+})
+Toggle.displayName = 'Toggle'
 
 export { Toggle }

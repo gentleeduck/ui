@@ -1,7 +1,6 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimVariants } from '@gentleduck/motion/anim'
 import * as HoverCardPrimitive from '@gentleduck/primitives/hover-card'
 import * as React from 'react'
 import { Button } from '../button'
@@ -9,18 +8,14 @@ import { Button } from '../button'
 const HoverCardPlacementContext =
   React.createContext<React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>['side']>('top')
 
-function HoverCard({
-  closeDelay,
-  skipDelayDuration,
-  delayDuration,
-  openDelay,
-  placement = 'top',
-  ...props
-}: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Root> & {
-  delayDuration?: number
-  skipDelayDuration?: number
-  placement?: React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>['side']
-}) {
+const HoverCard = React.forwardRef<
+  React.ComponentRef<typeof HoverCardPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root> & {
+    delayDuration?: number
+    skipDelayDuration?: number
+    placement?: React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>['side']
+  }
+>(({ closeDelay, openDelay, placement = 'top', delayDuration, skipDelayDuration, ...props }, _ref) => {
   void skipDelayDuration
 
   return (
@@ -33,51 +28,47 @@ function HoverCard({
       />
     </HoverCardPlacementContext.Provider>
   )
-}
+})
+HoverCard.displayName = 'HoverCard'
 
-function HoverCardTrigger({
-  children,
-  variant = 'outline',
-  asChild = false,
-  ...props
-}: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithRef<typeof Button>) {
-  return (
-    <HoverCardPrimitive.Trigger asChild data-slot="hover-card-trigger">
-      <Button {...props} asChild={asChild} variant={variant}>
-        {children}
-      </Button>
-    </HoverCardPrimitive.Trigger>
-  )
-}
+const HoverCardTrigger = React.forwardRef<
+  React.ComponentRef<typeof HoverCardPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>
+>(({ children, variant = 'outline', asChild = false, ...props }, ref) => (
+  <HoverCardPrimitive.Trigger asChild data-slot="hover-card-trigger">
+    <Button ref={ref} {...props} asChild={asChild} variant={variant}>
+      {children}
+    </Button>
+  </HoverCardPrimitive.Trigger>
+))
+HoverCardTrigger.displayName = HoverCardPrimitive.Trigger.displayName
 
-function HoverCardContent({
-  className,
-  children,
-  side,
-  style,
-  ...props
-}: React.ComponentPropsWithRef<typeof HoverCardPrimitive.Content>): React.JSX.Element {
+const HoverCardContent = React.forwardRef<
+  React.ComponentRef<typeof HoverCardPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>
+>(({ className, children, side, align = 'center', sideOffset = 4, ...props }, ref) => {
   const defaultSide = React.useContext(HoverCardPlacementContext)
 
   return (
-    <HoverCardPrimitive.Content
-      aria-modal="false"
-      className={cn(
-        AnimVariants(),
-        'relative h-fit w-fit overflow-hidden text-balance rounded-lg border border-border bg-popover p-6 text-popover-foreground opacity-0 shadow-sm outline-hidden starting:[&[data-open=true]:opacity-0] data-[open=true]:pointer-events-auto data-[open=true]:opacity-100',
-        className,
-      )}
-      data-slot="hover-card-content"
-      role="dialog"
-      side={side ?? defaultSide}
-      style={{
-        transitionProperty: 'opacity',
-        ...style,
-      }}
-      {...props}>
-      {children}
-    </HoverCardPrimitive.Content>
+    <HoverCardPrimitive.Portal>
+      <HoverCardPrimitive.Content
+        ref={ref}
+        align={align}
+        className={cn(
+          'z-50 w-64 overflow-hidden rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden',
+          'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--gentleduck-hover-card-content-transform-origin] data-[state=closed]:animate-out data-[state=open]:animate-in',
+          'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+          className,
+        )}
+        data-slot="hover-card-content"
+        side={side ?? defaultSide}
+        sideOffset={sideOffset}
+        {...props}>
+        {children}
+      </HoverCardPrimitive.Content>
+    </HoverCardPrimitive.Portal>
   )
-}
+})
+HoverCardContent.displayName = HoverCardPrimitive.Content.displayName
 
 export { HoverCard, HoverCardTrigger, HoverCardContent }

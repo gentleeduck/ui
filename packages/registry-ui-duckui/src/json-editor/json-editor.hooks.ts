@@ -1,5 +1,3 @@
-'use client'
-
 import * as React from 'react'
 import type { UseJsonEditorHotkeysOptions } from './json-editor.types'
 

@@ -1,7 +1,6 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimVariants } from '@gentleduck/motion/anim'
 import { Mount } from '@gentleduck/primitives/mount'
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
@@ -14,7 +13,7 @@ const AccordionContext = React.createContext<{
   readonly renderOnce: boolean
 } | null>(null)
 
-type AccordionProps = Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'type'> & {
+type AccordionProps = Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'type' | 'ref'> & {
   renderOnce?: boolean
 } & (
     | {
@@ -32,123 +31,130 @@ type AccordionProps = Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'type'> & 
         collapsible?: never
       }
   )
-function Accordion({
-  className,
-  children,
-  defaultValue,
-  ref,
-  type = 'single',
-  value,
-  collapsible = true,
-  renderOnce = false,
-  onValueChange,
-  ...props
-}: AccordionProps) {
-  const wrapperRef = React.useRef<HTMLDivElement | null>(null)
-  const itemsRef = React.useRef<HTMLDetailsElement[]>([])
 
-  const [activeValues, setActiveValues] = React.useState<string[]>(() => {
-    if (defaultValue) {
-      return Array.isArray(defaultValue) ? defaultValue : [defaultValue]
-    }
-    return []
-  })
+const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
+  (
+    {
+      className,
+      children,
+      defaultValue,
+      type = 'single',
+      value,
+      collapsible = true,
+      renderOnce = false,
+      onValueChange,
+      ...props
+    },
+    ref,
+  ) => {
+    const wrapperRef = React.useRef<HTMLDivElement | null>(null)
+    const itemsRef = React.useRef<HTMLDetailsElement[]>([])
 
-  const currentValues = value !== undefined ? (Array.isArray(value) ? value : [value]) : activeValues
+    const [activeValues, setActiveValues] = React.useState<string[]>(() => {
+      if (defaultValue) {
+        return Array.isArray(defaultValue) ? defaultValue : [defaultValue]
+      }
+      return []
+    })
 
-  React.useEffect(() => {
-    itemsRef.current = Array.from(
-      wrapperRef.current?.querySelectorAll('[duck-accordion-item]') as never as HTMLDetailsElement[],
-    )
-  }, [])
+    const currentValues = value !== undefined ? (Array.isArray(value) ? value : [value]) : activeValues
 
-  React.useEffect(() => {
-    if (defaultValue) {
-      itemsRef.current.forEach((item) => {
-        if (defaultValue.includes(item.id)) {
-          item.open = true
-        }
-      })
-    }
-  }, [defaultValue])
+    React.useEffect(() => {
+      itemsRef.current = Array.from(
+        wrapperRef.current?.querySelectorAll('[duck-accordion-item]') as never as HTMLDetailsElement[],
+      )
+    }, [])
 
-  function handleAccordionItemChange(itemValue: string, e: React.MouseEvent<HTMLDetailsElement, MouseEvent>) {
-    let newValues: string[]
-
-    if (type === 'single') {
-      if (collapsible) {
-        newValues = currentValues.includes(itemValue) ? [] : [itemValue]
+    React.useEffect(() => {
+      if (defaultValue) {
         itemsRef.current.forEach((item) => {
-          if (item.id !== itemValue) {
-            item.open = false
+          if (defaultValue.includes(item.id)) {
+            item.open = true
           }
         })
+      }
+    }, [defaultValue])
+
+    function handleAccordionItemChange(itemValue: string, e: React.MouseEvent<HTMLDetailsElement, MouseEvent>) {
+      let newValues: string[]
+
+      if (type === 'single') {
+        if (collapsible) {
+          newValues = currentValues.includes(itemValue) ? [] : [itemValue]
+          itemsRef.current.forEach((item) => {
+            if (item.id !== itemValue) {
+              item.open = false
+            }
+          })
+        } else {
+          newValues = [itemValue]
+          itemsRef.current.forEach((item) => {
+            if (item.id === itemValue) {
+              item.open = true
+              e.preventDefault()
+            } else {
+              item.open = false
+            }
+          })
+        }
       } else {
-        newValues = [itemValue]
+        if (currentValues.includes(itemValue)) {
+          newValues = currentValues.filter((v) => v !== itemValue)
+        } else {
+          newValues = [...currentValues, itemValue]
+        }
         itemsRef.current.forEach((item) => {
           if (item.id === itemValue) {
-            item.open = true
+            item.open = !item.open
             e.preventDefault()
-          } else {
-            item.open = false
           }
         })
       }
-    } else {
-      if (currentValues.includes(itemValue)) {
-        newValues = currentValues.filter((v) => v !== itemValue)
+
+      setActiveValues(newValues)
+
+      if (type === 'single') {
+        ;(onValueChange as ((value: string) => void) | undefined)?.(newValues[0] ?? '')
       } else {
-        newValues = [...currentValues, itemValue]
+        ;(onValueChange as ((value: string[]) => void) | undefined)?.(newValues)
       }
-      itemsRef.current.forEach((item) => {
-        if (item.id === itemValue) {
-          item.open = !item.open
-          e.preventDefault()
-        }
-      })
     }
 
-    setActiveValues(newValues)
+    return (
+      <AccordionContext.Provider
+        value={{
+          onItemChange: handleAccordionItemChange,
+          onValueChange: onValueChange as never,
+          renderOnce,
+          value: currentValues,
+          wrapperRef,
+        }}>
+        <div
+          className={cn('min-w-100 [interpolate-size:allow-keywords]', className)}
+          {...props}
+          data-slot="accordion"
+          ref={(node) => {
+            wrapperRef.current = node
+            if (typeof ref === 'function') {
+              ref(node)
+            } else if (ref) {
+              ref.current = node
+            }
+          }}>
+          {children}
+        </div>
+      </AccordionContext.Provider>
+    )
+  },
+)
+Accordion.displayName = 'Accordion'
 
-    if (type === 'single') {
-      ;(onValueChange as ((value: string) => void) | undefined)?.(newValues[0] ?? '')
-    } else {
-      ;(onValueChange as ((value: string[]) => void) | undefined)?.(newValues)
-    }
+const AccordionItem = React.forwardRef<
+  HTMLDetailsElement,
+  Omit<React.HTMLProps<HTMLDetailsElement>, 'value' | 'ref'> & {
+    value?: string
   }
-
-  return (
-    <AccordionContext.Provider
-      value={{
-        onItemChange: handleAccordionItemChange,
-        onValueChange: onValueChange as never,
-        renderOnce,
-        value: currentValues,
-        wrapperRef,
-      }}>
-      <div
-        className={cn('min-w-100 [interpolate-size:allow-keywords]', className)}
-        {...props}
-        data-slot="accordion"
-        ref={wrapperRef}>
-        {children}
-      </div>
-    </AccordionContext.Provider>
-  )
-}
-
-function AccordionItem({
-  className,
-  ref,
-  children,
-  onClick,
-  onKeyUp,
-
-  value,
-  ...props
-}: Omit<React.HTMLProps<HTMLDetailsElement>, 'value'> & {
-  value?: string
-}) {
+>(({ className, children, onClick, onKeyUp, value, ...props }, ref) => {
   const { onItemChange, value: _value = [], renderOnce } = React.useContext(AccordionContext) ?? {}
   const isActive = _value.includes(value as string)
   const _children = Array.from(children as never as React.ReactNode[])
@@ -181,19 +187,16 @@ function AccordionItem({
       </Mount>
     </details>
   )
-}
+})
+AccordionItem.displayName = 'AccordionItem'
 
-function AccordionTrigger({
-  className,
-  children,
-  icon,
-  value,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLElement> & {
-  icon?: React.ReactNode
-  value?: string
-}) {
+const AccordionTrigger = React.forwardRef<
+  HTMLElement,
+  React.HTMLProps<HTMLElement> & {
+    icon?: React.ReactNode
+    value?: string
+  }
+>(({ className, children, icon, value, ...props }, ref) => {
   return (
     <summary
       aria-controls={value}
@@ -203,7 +206,7 @@ function AccordionTrigger({
         className,
       )}
       id={value}
-      ref={ref}
+      ref={ref as React.Ref<HTMLElement>}
       {...props}
       data-slot="accordion-trigger"
       duck-accordion-trigger="">
@@ -218,25 +221,27 @@ function AccordionTrigger({
       </span>
     </summary>
   )
-}
+})
+AccordionTrigger.displayName = 'AccordionTrigger'
 
-const AccordionContent = ({
-  className,
-  children,
-  rerender = false,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement> & { rerender?: boolean }) => {
-  return (
-    <div
-      className={cn('select-none overflow-hidden pt-0 pb-4 text-base', className)}
-      data-slot="accordion-content"
-      duck-accordion-content=""
-      ref={ref}
-      {...props}>
-      {children}
-    </div>
-  )
-}
+const AccordionContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement> & { rerender?: boolean }>(
+  ({ className, children, rerender = false, ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          'select-none overflow-hidden pt-0 pb-4 text-base',
+          'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+          className,
+        )}
+        data-slot="accordion-content"
+        duck-accordion-content=""
+        ref={ref}
+        {...props}>
+        {children}
+      </div>
+    )
+  },
+)
+AccordionContent.displayName = 'AccordionContent'
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }

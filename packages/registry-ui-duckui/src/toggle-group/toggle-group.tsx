@@ -15,24 +15,16 @@ export interface ToggleGroupContextProps extends VariantProps<typeof Toggle.togg
 
 const ToggleGroupContext = React.createContext<ToggleGroupContextProps | null>(null)
 
-function ToggleGroup({
-  className,
-  variant = 'default',
-  size,
-  type,
-  children,
-  onValueChange,
-  value,
-  defaultValue,
-  ref,
-  ...props
-}: Omit<React.HTMLProps<HTMLUListElement>, 'size'> &
-  VariantProps<typeof Toggle.toggleVariants> & {
-    type?: 'single' | 'multiple'
-    onValueChange?: (value: string) => void
-    value?: string | string[]
-    defaultValue?: string | string[]
-  }) {
+const ToggleGroup = React.forwardRef<
+  HTMLUListElement,
+  Omit<Omit<React.HTMLProps<HTMLUListElement>, 'size'>, 'ref'> &
+    VariantProps<typeof Toggle.toggleVariants> & {
+      type?: 'single' | 'multiple'
+      onValueChange?: (value: string) => void
+      value?: string | string[]
+      defaultValue?: string | string[]
+    }
+>(({ className, variant = 'default', size, type, children, onValueChange, value, defaultValue, ...props }, ref) => {
   const { selectedItemRef, wrapperRef, itemsRef } = ToggleGroupInit(type, onValueChange, value, defaultValue)
 
   return (
@@ -43,7 +35,14 @@ function ToggleGroup({
           variant === 'outline' && '[&>*:first-child]:border-r-0 [&>*:not(:first-child):not(:last-child)]:border-r-0',
           className,
         )}
-        ref={wrapperRef}
+        ref={(node) => {
+          if (typeof ref === 'function') {
+            ref(node)
+          } else if (ref) {
+            ;(ref as React.RefObject<HTMLUListElement | null>).current = node
+          }
+          ;(wrapperRef as React.RefObject<HTMLUListElement | null>).current = node
+        }}
         {...props}
         data-slot="toggle-group"
         data-type={type}
@@ -52,17 +51,13 @@ function ToggleGroup({
       </ul>
     </ToggleGroupContext.Provider>
   )
-}
+})
+ToggleGroup.displayName = 'ToggleGroup'
 
-function ToggleGroupItem({
-  className,
-  children,
-  variant,
-  size,
-  value,
-  ref,
-  ...props
-}: React.ComponentPropsWithRef<typeof Toggle.Toggle>) {
+const ToggleGroupItem = React.forwardRef<
+  HTMLInputElement,
+  Omit<React.ComponentPropsWithoutRef<typeof Toggle.Toggle>, 'ref'>
+>(({ className, children, variant, size, value, ...props }, ref) => {
   const context = React.useContext(ToggleGroupContext)
 
   return (
@@ -78,6 +73,7 @@ function ToggleGroupItem({
       {children}
     </Toggle.Toggle>
   )
-}
+})
+ToggleGroupItem.displayName = 'ToggleGroupItem'
 
 export { ToggleGroup, ToggleGroupItem }

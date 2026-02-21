@@ -1,9 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimVariants } from '@gentleduck/motion/anim'
 import { MountMinimal } from '@gentleduck/primitives/mount'
-import React from 'react'
+import * as React from 'react'
 import { Button } from '../button'
 
 const CollapsibleContext = React.createContext<{
@@ -23,18 +22,14 @@ export function useCollapsible() {
   return context
 }
 
-function Collapsible({
-  children,
-  className,
-  open: openProp,
-  onOpenChange,
-  defaultOpen,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & {
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-  defaultOpen?: boolean
-}) {
+const Collapsible = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & {
+    open?: boolean
+    onOpenChange?: (open: boolean) => void
+    defaultOpen?: boolean
+  }
+>(({ children, className, open: openProp, onOpenChange, defaultOpen, ...props }, ref) => {
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
@@ -68,60 +63,88 @@ function Collapsible({
         className={cn('flex flex-col gap-2', className)}
         data-slot="collapsible"
         duck-collapsible=""
-        ref={wrapperRef}
+        ref={(node) => {
+          ;(wrapperRef as React.RefObject<HTMLDivElement | null>).current = node
+          if (typeof ref === 'function') {
+            ref(node)
+          } else if (ref) {
+            ref.current = node
+          }
+        }}
         {...props}
         data-open={open}>
         {children}
       </div>
     </CollapsibleContext.Provider>
   )
-}
+})
+Collapsible.displayName = 'Collapsible'
 
-function CollapsibleTrigger({ children, onClick, ...props }: React.ComponentPropsWithRef<typeof Button>) {
-  const { open, onOpenChange, triggerRef, contentId } = useCollapsible()
+const CollapsibleTrigger = React.forwardRef<HTMLButtonElement, React.ComponentPropsWithoutRef<typeof Button>>(
+  ({ children, onClick, ...props }, ref) => {
+    const { open, onOpenChange, triggerRef, contentId } = useCollapsible()
 
-  return (
-    <Button
-      aria-controls={contentId}
-      aria-expanded={open}
-      data-open={open}
-      data-slot="collapsible-trigger"
-      duck-collapsible-trigger=""
-      onClick={(e) => {
-        onOpenChange?.(!open)
-        onClick?.(e)
-      }}
-      ref={triggerRef}
-      variant="ghost"
-      {...props}>
-      {children}
-    </Button>
-  )
-}
+    return (
+      <Button
+        aria-controls={contentId}
+        aria-expanded={open}
+        data-open={open}
+        data-slot="collapsible-trigger"
+        duck-collapsible-trigger=""
+        onClick={(e) => {
+          onOpenChange?.(!open)
+          onClick?.(e)
+        }}
+        ref={(node) => {
+          ;(triggerRef as React.RefObject<HTMLButtonElement | null>).current = node
+          if (typeof ref === 'function') {
+            ref(node)
+          } else if (ref) {
+            ref.current = node
+          }
+        }}
+        variant="ghost"
+        {...props}>
+        {children}
+      </Button>
+    )
+  },
+)
+CollapsibleTrigger.displayName = 'CollapsibleTrigger'
 
-function CollapsibleContent({
-  children,
-  forceMount = false,
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & { forceMount?: boolean }) {
+const CollapsibleContent = React.forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLDivElement> & { forceMount?: boolean }
+>(({ children, forceMount = false, className, ...props }, ref) => {
   const { open, contentRef, contentId } = useCollapsible()
 
   return (
     <section
       aria-hidden={!open}
-      className={cn('h-0 overflow-hidden transition-all data-[open=true]:h-auto', AnimVariants(), className)}
+      className={cn(
+        'h-0 overflow-hidden transition-all data-[open=true]:h-auto',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        className,
+      )}
       data-open={open}
       data-slot="collapsible-content"
       duck-collapsible-content=""
       id={contentId}
-      ref={contentRef}
+      ref={(node) => {
+        ;(contentRef as React.RefObject<HTMLDivElement | null>).current = node as HTMLDivElement
+        if (typeof ref === 'function') {
+          ref(node)
+        } else if (ref) {
+          ref.current = node
+        }
+      }}
       {...props}>
       <MountMinimal forceMount={forceMount} open={open} ref={contentRef as never}>
         {children}
       </MountMinimal>
     </section>
   )
-}
+})
+CollapsibleContent.displayName = 'CollapsibleContent'
 
 export { Collapsible, CollapsibleTrigger, CollapsibleContent }

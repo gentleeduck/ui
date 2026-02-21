@@ -202,7 +202,7 @@
 // }
 //
 // const DuckTableSearchInput = React.forwardRef<
-//   React.ElementRef<typeof Input>,
+//   React.ComponentRef<typeof Input>,
 //   DuckTableSearchInputProps
 // >(({ trigger, label, badge, keys }, ref) => {
 //   const {
