@@ -14,7 +14,7 @@ import { createRovingFocusGroupScope } from '../roving-focus'
 
 const MENUBAR_NAME = 'Menubar'
 
-type MenubarTriggerElement = React.ElementRef<typeof Primitive.button>
+type MenubarTriggerElement = React.ComponentRef<typeof Primitive.button>
 type ItemData = { value: string; disabled: boolean }
 const [Collection, useCollection, createCollectionScope] = createCollection<MenubarTriggerElement, ItemData>(
   MENUBAR_NAME,
@@ -40,7 +40,7 @@ type MenubarContextValue = {
 
 const [MenubarContextProvider, useMenubarContext] = createMenubarContext<MenubarContextValue>(MENUBAR_NAME)
 
-type MenubarElement = React.ElementRef<typeof Primitive.div>
+type MenubarElement = React.ComponentRef<typeof Primitive.div>
 type RovingFocusGroupProps = React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 interface MenubarProps extends PrimitiveDivProps {

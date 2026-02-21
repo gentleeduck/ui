@@ -6,7 +6,7 @@ import { useMenuScope } from './menubar'
 
 const SEPARATOR_NAME = 'MenubarSeparator'
 
-type MenubarSeparatorElement = React.ElementRef<typeof MenuPrimitive.Separator>
+type MenubarSeparatorElement = React.ComponentRef<typeof MenuPrimitive.Separator>
 type MenuSeparatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Separator>
 interface MenubarSeparatorProps extends MenuSeparatorProps {}
 

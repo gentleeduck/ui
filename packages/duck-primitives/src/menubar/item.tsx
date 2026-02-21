@@ -6,7 +6,7 @@ import { useMenuScope } from './menubar'
 
 const ITEM_NAME = 'MenubarItem'
 
-type MenubarItemElement = React.ElementRef<typeof MenuPrimitive.Item>
+type MenubarItemElement = React.ComponentRef<typeof MenuPrimitive.Item>
 type MenuItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Item>
 interface MenubarItemProps extends MenuItemProps {}
 

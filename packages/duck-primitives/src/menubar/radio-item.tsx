@@ -6,7 +6,7 @@ import { useMenuScope } from './menubar'
 
 const RADIO_ITEM_NAME = 'MenubarRadioItem'
 
-type MenubarRadioItemElement = React.ElementRef<typeof MenuPrimitive.RadioItem>
+type MenubarRadioItemElement = React.ComponentRef<typeof MenuPrimitive.RadioItem>
 type MenuRadioItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.RadioItem>
 interface MenubarRadioItemProps extends MenuRadioItemProps {}
 

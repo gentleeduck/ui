@@ -6,7 +6,7 @@ import { useMenuScope } from './menubar'
 
 const CHECKBOX_ITEM_NAME = 'MenubarCheckboxItem'
 
-type MenubarCheckboxItemElement = React.ElementRef<typeof MenuPrimitive.CheckboxItem>
+type MenubarCheckboxItemElement = React.ComponentRef<typeof MenuPrimitive.CheckboxItem>
 type MenuCheckboxItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.CheckboxItem>
 interface MenubarCheckboxItemProps extends MenuCheckboxItemProps {}
 

@@ -12,7 +12,7 @@ import { getOpenState, type Side, SUB_OPEN_KEYS, whenMouse } from './utils'
 
 const SUB_TRIGGER_NAME = 'MenuSubTrigger'
 
-type MenuSubTriggerElement = React.ElementRef<typeof MenuItemImpl>
+type MenuSubTriggerElement = React.ComponentRef<typeof MenuItemImpl>
 interface MenuSubTriggerProps extends MenuItemImplProps {}
 
 const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, MenuSubTriggerProps>(

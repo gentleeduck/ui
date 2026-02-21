@@ -6,7 +6,7 @@ import { useMenuScope } from './context-menu'
 
 const RADIO_ITEM_NAME = 'ContextMenuRadioItem'
 
-type ContextMenuRadioItemElement = React.ElementRef<typeof MenuPrimitive.RadioItem>
+type ContextMenuRadioItemElement = React.ComponentRef<typeof MenuPrimitive.RadioItem>
 type MenuRadioItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.RadioItem>
 interface ContextMenuRadioItemProps extends MenuRadioItemProps {}
 

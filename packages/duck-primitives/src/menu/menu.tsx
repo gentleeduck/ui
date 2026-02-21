@@ -102,8 +102,8 @@ Menu.displayName = MENU_NAME
 // They are defined as opaque references to the underlying DOM element types that
 // the content and item components will produce. We re-declare them here so the
 // root module can reference them without circular imports.
-type MenuContentElement = React.ElementRef<typeof PopperPrimitive.Content>
-type MenuItemElement = React.ElementRef<typeof import('../primitive-elements').Primitive.div>
+type MenuContentElement = React.ComponentRef<typeof PopperPrimitive.Content>
+type MenuItemElement = React.ComponentRef<typeof import('../primitive-elements').Primitive.div>
 
 export {
   Collection,

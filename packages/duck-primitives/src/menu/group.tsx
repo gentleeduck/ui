@@ -6,7 +6,7 @@ import type { ScopedProps } from './menu'
 
 const GROUP_NAME = 'MenuGroup'
 
-type MenuGroupElement = React.ElementRef<typeof Primitive.div>
+type MenuGroupElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 interface MenuGroupProps extends PrimitiveDivProps {}
 

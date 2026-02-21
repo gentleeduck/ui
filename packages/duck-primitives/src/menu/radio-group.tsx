@@ -7,7 +7,7 @@ import { createMenuContext, type ScopedProps } from './menu'
 
 const RADIO_GROUP_NAME = 'MenuRadioGroup'
 
-type MenuRadioGroupElement = React.ElementRef<typeof MenuGroup>
+type MenuRadioGroupElement = React.ComponentRef<typeof MenuGroup>
 interface MenuRadioGroupProps extends MenuGroupProps {
   value?: string
   onValueChange?: (value: string) => void

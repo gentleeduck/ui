@@ -6,7 +6,7 @@ import { useMenuScope } from './context-menu'
 
 const INDICATOR_NAME = 'ContextMenuItemIndicator'
 
-type ContextMenuItemIndicatorElement = React.ElementRef<typeof MenuPrimitive.ItemIndicator>
+type ContextMenuItemIndicatorElement = React.ComponentRef<typeof MenuPrimitive.ItemIndicator>
 type MenuItemIndicatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.ItemIndicator>
 interface ContextMenuItemIndicatorProps extends MenuItemIndicatorProps {}
 

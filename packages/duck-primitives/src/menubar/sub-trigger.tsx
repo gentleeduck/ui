@@ -6,7 +6,7 @@ import { useMenuScope } from './menubar'
 
 const SUB_TRIGGER_NAME = 'MenubarSubTrigger'
 
-type MenubarSubTriggerElement = React.ElementRef<typeof MenuPrimitive.SubTrigger>
+type MenubarSubTriggerElement = React.ComponentRef<typeof MenuPrimitive.SubTrigger>
 type MenuSubTriggerProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubTrigger>
 interface MenubarSubTriggerProps extends MenuSubTriggerProps {}
 

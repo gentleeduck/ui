@@ -15,7 +15,7 @@ import {
 
 const SUB_NAME = 'MenuSub'
 
-type MenuSubTriggerElement = React.ElementRef<typeof import('../primitive-elements').Primitive.div>
+type MenuSubTriggerElement = React.ComponentRef<typeof import('../primitive-elements').Primitive.div>
 
 type MenuSubContextValue = {
   contentId: string

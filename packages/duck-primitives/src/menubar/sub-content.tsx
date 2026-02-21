@@ -6,7 +6,7 @@ import { useMenuScope } from './menubar'
 
 const SUB_CONTENT_NAME = 'MenubarSubContent'
 
-type MenubarSubContentElement = React.ElementRef<typeof MenuPrimitive.Content>
+type MenubarSubContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
 type MenuSubContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubContent>
 interface MenubarSubContentProps extends MenuSubContentProps {}
 
