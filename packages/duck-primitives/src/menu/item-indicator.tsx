@@ -8,7 +8,7 @@ import { getCheckedState, isIndeterminate } from './utils'
 
 const ITEM_INDICATOR_NAME = 'MenuItemIndicator'
 
-type MenuItemIndicatorElement = React.ElementRef<typeof Primitive.span>
+type MenuItemIndicatorElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
 interface MenuItemIndicatorProps extends PrimitiveSpanProps {
   /**

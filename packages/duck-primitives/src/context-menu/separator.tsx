@@ -6,7 +6,7 @@ import { useMenuScope } from './context-menu'
 
 const SEPARATOR_NAME = 'ContextMenuSeparator'
 
-type ContextMenuSeparatorElement = React.ElementRef<typeof MenuPrimitive.Separator>
+type ContextMenuSeparatorElement = React.ComponentRef<typeof MenuPrimitive.Separator>
 type MenuSeparatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Separator>
 interface ContextMenuSeparatorProps extends MenuSeparatorProps {}
 

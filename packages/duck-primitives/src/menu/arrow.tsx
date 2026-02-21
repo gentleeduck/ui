@@ -6,7 +6,7 @@ import { type ScopedProps, usePopperScope } from './menu'
 
 const ARROW_NAME = 'MenuArrow'
 
-type MenuArrowElement = React.ElementRef<typeof PopperPrimitive.PopperArrow>
+type MenuArrowElement = React.ComponentRef<typeof PopperPrimitive.PopperArrow>
 type PopperArrowProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperArrow>
 interface MenuArrowProps extends PopperArrowProps {}
 

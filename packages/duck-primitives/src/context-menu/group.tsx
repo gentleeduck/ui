@@ -6,7 +6,7 @@ import { useMenuScope } from './context-menu'
 
 const GROUP_NAME = 'ContextMenuGroup'
 
-type ContextMenuGroupElement = React.ElementRef<typeof MenuPrimitive.Group>
+type ContextMenuGroupElement = React.ComponentRef<typeof MenuPrimitive.Group>
 type MenuGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Group>
 interface ContextMenuGroupProps extends MenuGroupProps {}
 

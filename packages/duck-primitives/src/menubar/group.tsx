@@ -6,7 +6,7 @@ import { useMenuScope } from './menubar'
 
 const GROUP_NAME = 'MenubarGroup'
 
-type MenubarGroupElement = React.ElementRef<typeof MenuPrimitive.Group>
+type MenubarGroupElement = React.ComponentRef<typeof MenuPrimitive.Group>
 type MenuGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Group>
 interface MenubarGroupProps extends MenuGroupProps {}
 

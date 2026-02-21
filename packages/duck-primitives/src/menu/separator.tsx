@@ -6,7 +6,7 @@ import type { ScopedProps } from './menu'
 
 const SEPARATOR_NAME = 'MenuSeparator'
 
-type MenuSeparatorElement = React.ElementRef<typeof Primitive.div>
+type MenuSeparatorElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 interface MenuSeparatorProps extends PrimitiveDivProps {}
 

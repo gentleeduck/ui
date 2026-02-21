@@ -6,7 +6,7 @@ import { useMenuScope } from './context-menu'
 
 const SUB_CONTENT_NAME = 'ContextMenuSubContent'
 
-type ContextMenuSubContentElement = React.ElementRef<typeof MenuPrimitive.Content>
+type ContextMenuSubContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
 type MenuSubContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubContent>
 interface ContextMenuSubContentProps extends MenuSubContentProps {}
 

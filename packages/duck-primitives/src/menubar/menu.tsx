@@ -12,7 +12,7 @@ type MenubarMenuContextValue = {
   triggerId: string
   triggerRef: React.RefObject<MenubarTriggerElement | null>
   contentId: string
-  wasKeyboardTriggerOpenRef: React.MutableRefObject<boolean>
+  wasKeyboardTriggerOpenRef: React.RefObject<boolean>
 }
 
 const [MenubarMenuProvider, useMenubarMenuContext] = createMenubarContext<MenubarMenuContextValue>(MENU_NAME)

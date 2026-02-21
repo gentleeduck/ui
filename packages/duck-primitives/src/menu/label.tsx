@@ -6,7 +6,7 @@ import type { ScopedProps } from './menu'
 
 const LABEL_NAME = 'MenuLabel'
 
-type MenuLabelElement = React.ElementRef<typeof Primitive.div>
+type MenuLabelElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 interface MenuLabelProps extends PrimitiveDivProps {}
 

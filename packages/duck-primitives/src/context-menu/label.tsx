@@ -6,7 +6,7 @@ import { useMenuScope } from './context-menu'
 
 const LABEL_NAME = 'ContextMenuLabel'
 
-type ContextMenuLabelElement = React.ElementRef<typeof MenuPrimitive.Label>
+type ContextMenuLabelElement = React.ComponentRef<typeof MenuPrimitive.Label>
 type MenuLabelProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Label>
 interface ContextMenuLabelProps extends MenuLabelProps {}
 

@@ -48,12 +48,12 @@ type MenuContentContextValue = {
   onItemLeave(event: React.PointerEvent): void
   onTriggerLeave(event: React.PointerEvent): void
   searchRef: React.RefObject<string>
-  pointerGraceTimerRef: React.MutableRefObject<number>
+  pointerGraceTimerRef: React.RefObject<number>
   onPointerGraceIntentChange(intent: GraceIntent | null): void
 }
 const [MenuContentProvider, useMenuContentContext] = createMenuContext<MenuContentContextValue>(CONTENT_NAME)
 
-type MenuContentImplElement = React.ElementRef<typeof PopperPrimitive.Content>
+type MenuContentImplElement = React.ComponentRef<typeof PopperPrimitive.Content>
 
 type MenuRootContentTypeElement = MenuContentImplElement
 interface MenuRootContentTypeProps extends Omit<MenuContentImplProps, keyof MenuContentImplPrivateProps> {}

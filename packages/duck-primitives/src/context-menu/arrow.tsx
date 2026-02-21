@@ -6,7 +6,7 @@ import { useMenuScope } from './context-menu'
 
 const ARROW_NAME = 'ContextMenuArrow'
 
-type ContextMenuArrowElement = React.ElementRef<typeof MenuPrimitive.Arrow>
+type ContextMenuArrowElement = React.ComponentRef<typeof MenuPrimitive.Arrow>
 type MenuArrowProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Arrow>
 interface ContextMenuArrowProps extends MenuArrowProps {}
 

@@ -10,7 +10,7 @@ import { getCheckedState } from './utils'
 
 const RADIO_ITEM_NAME = 'MenuRadioItem'
 
-type MenuRadioItemElement = React.ElementRef<typeof MenuItem>
+type MenuRadioItemElement = React.ComponentRef<typeof MenuItem>
 interface MenuRadioItemProps extends MenuItemProps {
   value: string
 }

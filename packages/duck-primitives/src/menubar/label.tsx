@@ -6,7 +6,7 @@ import { useMenuScope } from './menubar'
 
 const LABEL_NAME = 'MenubarLabel'
 
-type MenubarLabelElement = React.ElementRef<typeof MenuPrimitive.Label>
+type MenubarLabelElement = React.ComponentRef<typeof MenuPrimitive.Label>
 type MenuLabelProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Label>
 interface MenubarLabelProps extends MenuLabelProps {}
 

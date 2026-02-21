@@ -9,7 +9,7 @@ import { useContextMenuContext, useMenuScope } from './context-menu'
 
 const TRIGGER_NAME = 'ContextMenuTrigger'
 
-type ContextMenuTriggerElement = React.ElementRef<typeof Primitive.span>
+type ContextMenuTriggerElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
 interface ContextMenuTriggerProps extends PrimitiveSpanProps {
   disabled?: boolean

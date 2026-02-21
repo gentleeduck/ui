@@ -6,7 +6,7 @@ import { useMenuScope } from './menubar'
 
 const RADIO_GROUP_NAME = 'MenubarRadioGroup'
 
-type MenubarRadioGroupElement = React.ElementRef<typeof MenuPrimitive.RadioGroup>
+type MenubarRadioGroupElement = React.ComponentRef<typeof MenuPrimitive.RadioGroup>
 type MenuRadioGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.RadioGroup>
 interface MenubarRadioGroupProps extends MenuRadioGroupProps {}
 

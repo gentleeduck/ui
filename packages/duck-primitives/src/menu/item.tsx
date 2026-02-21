@@ -11,7 +11,7 @@ import { SELECTION_KEYS, whenMouse } from './utils'
 const ITEM_NAME = 'MenuItem'
 const ITEM_SELECT = 'menu.itemSelect'
 
-type MenuItemImplElement = React.ElementRef<typeof Primitive.div>
+type MenuItemImplElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 interface MenuItemImplProps extends PrimitiveDivProps {
   disabled?: boolean

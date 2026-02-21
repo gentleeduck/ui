@@ -6,7 +6,7 @@ import { type ScopedProps, usePopperScope } from './menu'
 
 const ANCHOR_NAME = 'MenuAnchor'
 
-type MenuAnchorElement = React.ElementRef<typeof PopperPrimitive.Anchor>
+type MenuAnchorElement = React.ComponentRef<typeof PopperPrimitive.Anchor>
 type PopperAnchorProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.Anchor>
 interface MenuAnchorProps extends PopperAnchorProps {}
 

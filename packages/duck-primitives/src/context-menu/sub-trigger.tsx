@@ -6,7 +6,7 @@ import { useMenuScope } from './context-menu'
 
 const SUB_TRIGGER_NAME = 'ContextMenuSubTrigger'
 
-type ContextMenuSubTriggerElement = React.ElementRef<typeof MenuPrimitive.SubTrigger>
+type ContextMenuSubTriggerElement = React.ComponentRef<typeof MenuPrimitive.SubTrigger>
 type MenuSubTriggerProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubTrigger>
 interface ContextMenuSubTriggerProps extends MenuSubTriggerProps {}
 

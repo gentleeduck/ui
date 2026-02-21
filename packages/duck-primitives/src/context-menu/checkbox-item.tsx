@@ -6,7 +6,7 @@ import { useMenuScope } from './context-menu'
 
 const CHECKBOX_ITEM_NAME = 'ContextMenuCheckboxItem'
 
-type ContextMenuCheckboxItemElement = React.ElementRef<typeof MenuPrimitive.CheckboxItem>
+type ContextMenuCheckboxItemElement = React.ComponentRef<typeof MenuPrimitive.CheckboxItem>
 type MenuCheckboxItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.CheckboxItem>
 interface ContextMenuCheckboxItemProps extends MenuCheckboxItemProps {}
 

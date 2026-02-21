@@ -8,7 +8,7 @@ import { useCollection, useMenubarContext, useMenuScope, wrapArray } from './men
 
 const CONTENT_NAME = 'MenubarContent'
 
-type MenubarContentElement = React.ElementRef<typeof MenuPrimitive.Content>
+type MenubarContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
 type MenuContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Content>
 interface MenubarContentProps extends Omit<MenuContentProps, 'onEntryFocus'> {}
 

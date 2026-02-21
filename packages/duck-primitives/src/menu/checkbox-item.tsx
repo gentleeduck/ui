@@ -9,7 +9,7 @@ import { type CheckedState, getCheckedState, isIndeterminate } from './utils'
 const CHECKBOX_ITEM_NAME = 'MenuCheckboxItem'
 const ITEM_INDICATOR_NAME = 'MenuItemIndicator'
 
-type MenuCheckboxItemElement = React.ElementRef<typeof MenuItem>
+type MenuCheckboxItemElement = React.ComponentRef<typeof MenuItem>
 
 interface MenuCheckboxItemProps extends MenuItemProps {
   checked?: CheckedState
