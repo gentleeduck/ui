@@ -4,7 +4,7 @@ import { type ScopedProps, useDialogContext } from './dialog'
 
 const TITLE_NAME = 'DialogTitle'
 
-type DialogTitleElement = React.ElementRef<typeof Primitive.h2>
+type DialogTitleElement = React.ComponentRef<typeof Primitive.h2>
 type PrimitiveHeading2Props = React.ComponentPropsWithoutRef<typeof Primitive.h2>
 export interface DialogTitleProps extends PrimitiveHeading2Props {}
 

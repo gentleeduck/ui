@@ -6,7 +6,7 @@ import { getState, type ScopedProps, useDialogContext } from './dialog'
 
 const TRIGGER_NAME = 'DialogTrigger'
 
-type DialogTriggerElement = React.ElementRef<typeof Primitive.button>
+type DialogTriggerElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 export interface DialogTriggerProps extends PrimitiveButtonProps {}
 

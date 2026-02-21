@@ -4,7 +4,7 @@ import { type ScopedProps, useDialogScope } from './alert-dialog'
 
 const OVERLAY_NAME = 'AlertDialogOverlay'
 
-type AlertDialogOverlayElement = React.ElementRef<typeof DialogPrimitive.Overlay>
+type AlertDialogOverlayElement = React.ComponentRef<typeof DialogPrimitive.Overlay>
 type DialogOverlayProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 export interface AlertDialogOverlayProps extends DialogOverlayProps {}
 

@@ -5,7 +5,7 @@ import { type ScopedProps, useDialogContext } from './dialog'
 
 const CLOSE_NAME = 'DialogClose'
 
-type DialogCloseElement = React.ElementRef<typeof Primitive.button>
+type DialogCloseElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 export interface DialogCloseProps extends PrimitiveButtonProps {}
 

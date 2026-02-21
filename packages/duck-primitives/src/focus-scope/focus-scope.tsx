@@ -18,7 +18,7 @@ const EVENT_OPTIONS = { bubbles: false, cancelable: true }
 
 const FOCUS_SCOPE_NAME = 'FocusScope'
 
-type FocusScopeElement = React.ElementRef<typeof Primitive.div>
+type FocusScopeElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
 export interface FocusScopeProps extends PrimitiveDivProps {
@@ -43,7 +43,7 @@ const FocusScope = React.forwardRef<FocusScopeElement, FocusScopeProps>((props, 
   const [container, setContainer] = React.useState<HTMLElement | null>(null)
   const onMountAutoFocus = useCallbackRef(onMountAutoFocusProp)
   const onUnmountAutoFocus = useCallbackRef(onUnmountAutoFocusProp)
-  const lastFocusedElementRef = React.useRef<HTMLElement | null>(null)
+  const lastFocusedComponentRef = React.useRef<HTMLElement | null>(null)
   const composedRefs = useComposedRefs(forwardedRef, (node) => setContainer(node))
 
   const focusScope = React.useRef({
@@ -63,9 +63,9 @@ const FocusScope = React.forwardRef<FocusScopeElement, FocusScopeProps>((props, 
         if (focusScope.paused || !container) return
         const target = event.target as HTMLElement | null
         if (container.contains(target)) {
-          lastFocusedElementRef.current = target
+          lastFocusedComponentRef.current = target
         } else {
-          focus(lastFocusedElementRef.current, { select: true })
+          focus(lastFocusedComponentRef.current, { select: true })
         }
       }
 
@@ -79,7 +79,7 @@ const FocusScope = React.forwardRef<FocusScopeElement, FocusScopeProps>((props, 
         if (relatedTarget === null) return
 
         if (!container.contains(relatedTarget)) {
-          focus(lastFocusedElementRef.current, { select: true })
+          focus(lastFocusedComponentRef.current, { select: true })
         }
       }
 

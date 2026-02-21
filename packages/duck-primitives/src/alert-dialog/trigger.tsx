@@ -4,7 +4,7 @@ import { type ScopedProps, useDialogScope } from './alert-dialog'
 
 const TRIGGER_NAME = 'AlertDialogTrigger'
 
-type AlertDialogTriggerElement = React.ElementRef<typeof DialogPrimitive.Trigger>
+type AlertDialogTriggerElement = React.ComponentRef<typeof DialogPrimitive.Trigger>
 type DialogTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>
 export interface AlertDialogTriggerProps extends DialogTriggerProps {}
 

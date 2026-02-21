@@ -4,7 +4,7 @@ import { type ScopedProps, useDialogContext } from './dialog'
 
 const DESCRIPTION_NAME = 'DialogDescription'
 
-type DialogDescriptionElement = React.ElementRef<typeof Primitive.p>
+type DialogDescriptionElement = React.ComponentRef<typeof Primitive.p>
 type PrimitiveParagraphProps = React.ComponentPropsWithoutRef<typeof Primitive.p>
 export interface DialogDescriptionProps extends PrimitiveParagraphProps {}
 

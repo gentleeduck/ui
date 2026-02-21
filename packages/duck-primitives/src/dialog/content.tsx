@@ -12,7 +12,7 @@ import { DescriptionWarning, TitleWarning } from './warnings'
 
 const CONTENT_NAME = 'DialogContent'
 
-type DialogContentImplElement = React.ElementRef<typeof DismissableLayer>
+type DialogContentImplElement = React.ComponentRef<typeof DismissableLayer>
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
 type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>
 

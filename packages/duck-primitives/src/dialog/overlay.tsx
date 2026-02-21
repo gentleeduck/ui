@@ -8,7 +8,7 @@ import { usePortalContext } from './portal'
 
 const OVERLAY_NAME = 'DialogOverlay'
 
-type DialogOverlayImplElement = React.ElementRef<typeof Primitive.div>
+type DialogOverlayImplElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 interface DialogOverlayImplProps extends PrimitiveDivProps {}
 

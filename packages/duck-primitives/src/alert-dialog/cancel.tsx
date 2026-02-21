@@ -10,7 +10,7 @@ import { useAlertDialogContentContext } from './content'
 
 const CANCEL_NAME = 'AlertDialogCancel'
 
-type AlertDialogCancelElement = React.ElementRef<typeof DialogPrimitive.Close>
+type AlertDialogCancelElement = React.ComponentRef<typeof DialogPrimitive.Close>
 type DialogCloseProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>
 export interface AlertDialogCancelProps extends DialogCloseProps {}
 

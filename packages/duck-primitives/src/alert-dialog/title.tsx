@@ -4,7 +4,7 @@ import { type ScopedProps, useDialogScope } from './alert-dialog'
 
 const TITLE_NAME = 'AlertDialogTitle'
 
-type AlertDialogTitleElement = React.ElementRef<typeof DialogPrimitive.Title>
+type AlertDialogTitleElement = React.ComponentRef<typeof DialogPrimitive.Title>
 type DialogTitleProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 export interface AlertDialogTitleProps extends DialogTitleProps {}
 

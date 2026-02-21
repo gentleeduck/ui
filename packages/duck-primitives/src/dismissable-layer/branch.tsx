@@ -13,7 +13,7 @@ import { DismissableLayerContext } from './dismissable-layer'
 
 const BRANCH_NAME = 'DismissableLayerBranch'
 
-type DismissableLayerBranchElement = React.ElementRef<typeof Primitive.div>
+type DismissableLayerBranchElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 export interface DismissableLayerBranchProps extends PrimitiveDivProps {}
 
