@@ -7,34 +7,33 @@ import {
   ItemMedia,
   ItemTitle,
 } from '@gentleduck/registry-ui-duckui/item'
-import { BadgeCheckIcon, ChevronRightIcon } from 'lucide-react'
+import { GitCommitVerticalIcon, PackageIcon } from 'lucide-react'
 
 export default function ItemSizeDemo() {
   return (
     <div className="flex w-full max-w-md flex-col gap-6">
       <Item variant="outline">
+        <ItemMedia variant="icon">
+          <PackageIcon />
+        </ItemMedia>
         <ItemContent>
-          <ItemTitle>Basic Item</ItemTitle>
-          <ItemDescription>A simple item with title and description.</ItemDescription>
+          <ItemTitle>Release v2.4.0 Published</ItemTitle>
+          <ItemDescription>Includes 12 bug fixes and 3 new components.</ItemDescription>
         </ItemContent>
         <ItemActions>
           <Button size="sm" variant="outline">
-            Action
+            Changelog
           </Button>
         </ItemActions>
       </Item>
-      <Item asChild size="sm" variant="outline">
-        <a href="#">
-          <ItemMedia>
-            <BadgeCheckIcon className="size-5" />
-          </ItemMedia>
-          <ItemContent>
-            <ItemTitle>Your profile has been verified.</ItemTitle>
-          </ItemContent>
-          <ItemActions>
-            <ChevronRightIcon className="size-4" />
-          </ItemActions>
-        </a>
+      <Item size="sm" variant="outline">
+        <ItemMedia>
+          <GitCommitVerticalIcon className="size-5" />
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle>feat: add slider primitive</ItemTitle>
+          <ItemDescription>Committed 2 hours ago</ItemDescription>
+        </ItemContent>
       </Item>
     </div>
   )

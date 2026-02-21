@@ -7,14 +7,14 @@ export default function EmptyInputGroup() {
   return (
     <Empty>
       <EmptyHeader>
-        <EmptyTitle>404 - Not Found</EmptyTitle>
+        <EmptyTitle>No Results Found</EmptyTitle>
         <EmptyDescription>
-          The page you&apos;re looking for doesn&apos;t exist. Try searching for what you need below.
+          We could not find anything matching your query. Try a different search term below.
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <InputGroup className="sm:w-3/4">
-          <InputGroupInput placeholder="Try searching for pages..." />
+          <InputGroupInput placeholder="Search for something else..." />
           <InputGroupAddon>
             <SearchIcon />
           </InputGroupAddon>
@@ -23,7 +23,7 @@ export default function EmptyInputGroup() {
           </InputGroupAddon>
         </InputGroup>
         <EmptyDescription>
-          Need help? <a href="#">Contact support</a>
+          Still stuck? <a href="#">Browse all categories</a>
         </EmptyDescription>
       </EmptyContent>
     </Empty>

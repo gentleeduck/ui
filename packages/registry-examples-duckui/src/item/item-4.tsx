@@ -7,22 +7,22 @@ import {
   ItemMedia,
   ItemTitle,
 } from '@gentleduck/registry-ui-duckui/item'
-import { ShieldAlertIcon } from 'lucide-react'
+import { HardDriveIcon } from 'lucide-react'
 
 export default function ItemIcon() {
   return (
     <div className="flex w-full max-w-lg flex-col gap-6">
       <Item variant="outline">
         <ItemMedia variant="icon">
-          <ShieldAlertIcon />
+          <HardDriveIcon />
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>Security Alert</ItemTitle>
-          <ItemDescription>New login detected from unknown device.</ItemDescription>
+          <ItemTitle>Storage Almost Full</ItemTitle>
+          <ItemDescription>You have used 48.2 GB of 50 GB. Free up space or upgrade your plan.</ItemDescription>
         </ItemContent>
         <ItemActions>
           <Button size="sm" variant="outline">
-            Review
+            Manage
           </Button>
         </ItemActions>
       </Item>

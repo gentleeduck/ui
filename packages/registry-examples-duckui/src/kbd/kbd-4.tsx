@@ -11,27 +11,31 @@ export default function KbdDemo() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button size="sm" variant="outline">
-                Save
+                Undo
               </Button>
             </TooltipTrigger>
             <TooltipContent>
               <div className="flex items-center gap-2">
-                Save Changes <Kbd>S</Kbd>
+                Undo{' '}
+                <KbdGroup>
+                  <Kbd>Ctrl</Kbd>
+                  <Kbd>Z</Kbd>
+                </KbdGroup>
               </div>
             </TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button size="sm" variant="outline">
-                Print
+                Redo
               </Button>
             </TooltipTrigger>
             <TooltipContent>
               <div className="flex items-center gap-2">
-                Print Document{' '}
+                Redo{' '}
                 <KbdGroup>
                   <Kbd>Ctrl</Kbd>
-                  <Kbd>P</Kbd>
+                  <Kbd>Y</Kbd>
                 </KbdGroup>
               </div>
             </TooltipContent>

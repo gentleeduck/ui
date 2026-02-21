@@ -14,31 +14,31 @@ export default function InputGroupSpinner() {
   return (
     <div className="grid w-full max-w-sm gap-4">
       <InputGroup data-disabled>
-        <InputGroupInput disabled placeholder="Searching..." />
+        <InputGroupInput disabled placeholder="Uploading assets..." />
         <InputGroupAddon align="inline-end">
           <Spinner />
         </InputGroupAddon>
       </InputGroup>
       <InputGroup data-disabled>
-        <InputGroupInput disabled placeholder="Processing..." />
+        <InputGroupInput disabled placeholder="Connecting to server..." />
         <InputGroupAddon>
           <Spinner />
         </InputGroupAddon>
       </InputGroup>
       <InputGroup data-disabled>
-        <InputGroupInput disabled placeholder="Saving changes..." />
+        <InputGroupInput disabled placeholder="Syncing changes..." />
         <InputGroupAddon align="inline-end">
-          <InputGroupText>Saving...</InputGroupText>
+          <InputGroupText>Syncing...</InputGroupText>
           <Spinner />
         </InputGroupAddon>
       </InputGroup>
       <InputGroup data-disabled>
-        <InputGroupInput disabled placeholder="Refreshing data..." />
+        <InputGroupInput disabled placeholder="Validating configuration..." />
         <InputGroupAddon>
           <LoaderIcon className="animate-spin" />
         </InputGroupAddon>
         <InputGroupAddon align="inline-end">
-          <InputGroupText className="text-muted-foreground">Please wait...</InputGroupText>
+          <InputGroupText className="text-muted-foreground">Almost done...</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
     </div>

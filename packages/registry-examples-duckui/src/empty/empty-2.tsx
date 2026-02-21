@@ -7,21 +7,21 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@gentleduck/registry-ui-duckui/empty'
-import { IconCloud } from '@tabler/icons-react'
+import { IconBookmark } from '@tabler/icons-react'
 
 export default function EmptyOutline() {
   return (
     <Empty className="border border-dashed">
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <IconCloud />
+          <IconBookmark />
         </EmptyMedia>
-        <EmptyTitle>Cloud Storage Empty</EmptyTitle>
-        <EmptyDescription>Upload files to your cloud storage to access them anywhere.</EmptyDescription>
+        <EmptyTitle>No Saved Items</EmptyTitle>
+        <EmptyDescription>Bookmark articles, pages, or resources to find them quickly later.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <Button size="sm" variant="outline">
-          Upload Files
+          Browse Content
         </Button>
       </EmptyContent>
     </Empty>

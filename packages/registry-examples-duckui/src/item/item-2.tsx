@@ -6,8 +6,8 @@ export default function ItemVariant() {
     <div className="flex flex-col gap-6">
       <Item>
         <ItemContent>
-          <ItemTitle>Default Variant</ItemTitle>
-          <ItemDescription>Standard styling with subtle background and borders.</ItemDescription>
+          <ItemTitle>File Upload Complete</ItemTitle>
+          <ItemDescription>report-q4.pdf was uploaded successfully to shared drive.</ItemDescription>
         </ItemContent>
         <ItemActions>
           <Button size="sm" variant="outline">
@@ -17,23 +17,23 @@ export default function ItemVariant() {
       </Item>
       <Item variant="outline">
         <ItemContent>
-          <ItemTitle>Outline Variant</ItemTitle>
-          <ItemDescription>Outlined style with clear borders and transparent background.</ItemDescription>
+          <ItemTitle>Payment Received</ItemTitle>
+          <ItemDescription>Invoice #1042 has been paid. Amount: $2,400.00.</ItemDescription>
         </ItemContent>
         <ItemActions>
           <Button size="sm" variant="outline">
-            Open
+            Details
           </Button>
         </ItemActions>
       </Item>
       <Item variant="muted">
         <ItemContent>
-          <ItemTitle>Muted Variant</ItemTitle>
-          <ItemDescription>Subdued appearance with muted colors for secondary content.</ItemDescription>
+          <ItemTitle>Archived Project</ItemTitle>
+          <ItemDescription>Landing page redesign was archived on Jan 15, 2026.</ItemDescription>
         </ItemContent>
         <ItemActions>
           <Button size="sm" variant="outline">
-            Open
+            Restore
           </Button>
         </ItemActions>
       </Item>

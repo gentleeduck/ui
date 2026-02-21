@@ -11,22 +11,21 @@ import {
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@gentleduck/registry-ui-duckui/item'
 import { ChevronDownIcon } from 'lucide-react'
 
-const people = [
+const workspaces = [
   {
-    avatar: 'https://github.com/wildduck2.png',
-    email: 'wildduck@gentleduck.org',
-    username: 'wildduck',
+    avatar: 'https://avatar.vercel.sh/acme',
+    description: '12 members',
+    name: 'Acme Corp',
   },
   {
-    avatar: 'https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true',
-    email: 'gentleduck@gentleduck.org',
-    username: 'gentleduck',
+    avatar: 'https://avatar.vercel.sh/starter',
+    description: '5 members',
+    name: 'Starter Kit',
   },
   {
-    avatar:
-      'https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp',
-    email: 'inc@gentleduck.org',
-    username: 'gentleduck.inc',
+    avatar: 'https://avatar.vercel.sh/oss',
+    description: '28 members',
+    name: 'Open Source Org',
   },
 ]
 
@@ -36,24 +35,24 @@ export default function ItemDropdown() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="w-fit" size="sm" variant="outline">
-            Select <ChevronDownIcon />
+            Switch Workspace <ChevronDownIcon />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="bottom" align="end" className="w-72 [--radius:0.65rem]">
-          {people.map((person) => (
-            <DropdownMenuItem className="p-0" key={person.username}>
+        <DropdownMenuContent align="end" className="w-72 [--radius:0.65rem]" side="bottom">
+          {workspaces.map((workspace) => (
+            <DropdownMenuItem className="p-0" key={workspace.name}>
               <Item className="w-full p-2" size="sm">
                 <ItemMedia>
                   <Avatar
-                    alt={person.username}
+                    alt={workspace.name}
                     className="size-8"
-                    fallback={person.username.charAt(0)}
-                    src={person.avatar}
+                    fallback={workspace.name.charAt(0)}
+                    src={workspace.avatar}
                   />
                 </ItemMedia>
                 <ItemContent className="gap-0.5">
-                  <ItemTitle>{person.username}</ItemTitle>
-                  <ItemDescription>{person.email}</ItemDescription>
+                  <ItemTitle>{workspace.name}</ItemTitle>
+                  <ItemDescription>{workspace.description}</ItemDescription>
                 </ItemContent>
               </Item>
             </DropdownMenuItem>

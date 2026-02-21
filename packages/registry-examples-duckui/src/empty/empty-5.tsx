@@ -16,18 +16,18 @@ export default function EmptyAvatarGroup() {
       <EmptyHeader>
         <EmptyMedia>
           <div className="flex -space-x-2 *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
-            <Avatar alt="a profile picture for wildduck2" fallback="WD" src="https://github.com/wildduck2.png" />
-            <Avatar alt="a profile picture for wildduck2" fallback="WD" src="https://github.com/wildduck2.png" />
-            <Avatar alt="a profile picture for wildduck2" fallback="WD" src="https://github.com/wildduck2.png" />
+            <Avatar alt="collaborator 1" fallback="AL" src="https://github.com/wildduck2.png" />
+            <Avatar alt="collaborator 2" fallback="JR" src="https://github.com/wildduck2.png" />
+            <Avatar alt="collaborator 3" fallback="SK" src="https://github.com/wildduck2.png" />
           </div>
         </EmptyMedia>
-        <EmptyTitle>No Team Members</EmptyTitle>
-        <EmptyDescription>Invite your team to collaborate on this project.</EmptyDescription>
+        <EmptyTitle>No Collaborators</EmptyTitle>
+        <EmptyDescription>Add collaborators to work together on shared documents and tasks.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <Button size="sm">
           <PlusIcon />
-          Invite Members
+          Add Collaborator
         </Button>
       </EmptyContent>
     </Empty>

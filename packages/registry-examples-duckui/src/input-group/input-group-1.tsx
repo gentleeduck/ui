@@ -1,3 +1,5 @@
+'use client'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,24 +16,24 @@ import {
 } from '@gentleduck/registry-ui-duckui/input-group'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
-import { IconCheck, IconInfoCircle, IconPlus } from '@tabler/icons-react'
-import { ArrowUpIcon, Search } from 'lucide-react'
+import { IconCheck, IconInfoCircle, IconPaperclip } from '@tabler/icons-react'
+import { ArrowUpIcon, FilterIcon } from 'lucide-react'
 
 export default function InputGroupDemo() {
   return (
     <TooltipProvider>
       <div className="grid w-full max-w-sm gap-6">
         <InputGroup>
-          <InputGroupInput placeholder="Search..." />
+          <InputGroupInput placeholder="Filter logs..." />
           <InputGroupAddon>
-            <Search />
+            <FilterIcon />
           </InputGroupAddon>
-          <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+          <InputGroupAddon align="inline-end">24 entries</InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupInput className="!pl-1" placeholder="example.com" />
+          <InputGroupInput className="!pl-1" placeholder="github.com/acme/repo" />
           <InputGroupAddon>
-            <InputGroupText>https://</InputGroupText>
+            <InputGroupText>git clone </InputGroupText>
           </InputGroupAddon>
           <InputGroupAddon align="inline-end">
             <Tooltip>
@@ -40,36 +42,36 @@ export default function InputGroupDemo() {
                   <IconInfoCircle />
                 </InputGroupButton>
               </TooltipTrigger>
-              <TooltipContent>This is content in a tooltip.</TooltipContent>
+              <TooltipContent>Repository will be cloned to ~/projects.</TooltipContent>
             </Tooltip>
           </InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupTextarea placeholder="Ask, Search or Chat..." />
+          <InputGroupTextarea placeholder="Describe your issue..." />
           <InputGroupAddon align="block-end">
             <InputGroupButton className="rounded-full" size="icon-xs" variant="outline">
-              <IconPlus />
+              <IconPaperclip />
             </InputGroupButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <InputGroupButton variant="ghost">Auto</InputGroupButton>
+                <InputGroupButton variant="ghost">Low</InputGroupButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="[--radius:0.95rem]" side="top">
-                <DropdownMenuItem>Auto</DropdownMenuItem>
-                <DropdownMenuItem>Agent</DropdownMenuItem>
-                <DropdownMenuItem>Manual</DropdownMenuItem>
+                <DropdownMenuItem>Low</DropdownMenuItem>
+                <DropdownMenuItem>Medium</DropdownMenuItem>
+                <DropdownMenuItem>High</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <InputGroupText className="ml-auto">52% used</InputGroupText>
+            <InputGroupText className="ml-auto">3 attachments</InputGroupText>
             <Separator className="!h-4" orientation="vertical" />
             <InputGroupButton className="rounded-full" disabled size="icon-xs" variant="default">
               <ArrowUpIcon />
-              <span className="sr-only">Send</span>
+              <span className="sr-only">Submit</span>
             </InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupInput placeholder="@shadcn" />
+          <InputGroupInput placeholder="team-alpha" />
           <InputGroupAddon align="inline-end">
             <div className="flex size-4 items-center justify-center rounded-full bg-primary text-primary-foreground">
               <IconCheck className="size-3" />

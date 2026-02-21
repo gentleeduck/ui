@@ -1,22 +1,21 @@
 import { ButtonGroup, ButtonGroupText } from '@gentleduck/registry-ui-duckui/button-group'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Link2Icon } from 'lucide-react'
+import { SendIcon } from 'lucide-react'
 
 export default function InputGroupButtonGroup() {
   return (
     <div className="grid w-full max-w-sm gap-6">
       <ButtonGroup>
         <ButtonGroupText asChild>
-          <Label htmlFor="url">https://</Label>
+          <Label htmlFor="endpoint">api/v1/</Label>
         </ButtonGroupText>
         <InputGroup>
-          <InputGroupInput id="url" />
+          <InputGroupInput id="endpoint" />
           <InputGroupAddon align="inline-end">
-            <Link2Icon />
+            <SendIcon />
           </InputGroupAddon>
         </InputGroup>
-        <ButtonGroupText>.com</ButtonGroupText>
       </ButtonGroup>
     </div>
   )

@@ -7,7 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@gentleduck/registry-ui-duckui/empty'
-import { IconBell } from '@tabler/icons-react'
+import { IconChartBar } from '@tabler/icons-react'
 import { RefreshCcwIcon } from 'lucide-react'
 
 export default function EmptyMuted() {
@@ -15,10 +15,10 @@ export default function EmptyMuted() {
     <Empty className="h-full bg-gradient-to-b from-30% from-muted/50 to-background">
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <IconBell />
+          <IconChartBar />
         </EmptyMedia>
-        <EmptyTitle>No Notifications</EmptyTitle>
-        <EmptyDescription>You&apos;re all caught up. New notifications will appear here.</EmptyDescription>
+        <EmptyTitle>No Analytics Data</EmptyTitle>
+        <EmptyDescription>Once your site receives traffic, usage metrics and trends will appear here.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <Button size="sm" variant="outline">

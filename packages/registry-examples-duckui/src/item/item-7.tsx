@@ -10,25 +10,24 @@ import {
   ItemSeparator,
   ItemTitle,
 } from '@gentleduck/registry-ui-duckui/item'
-import { PlusIcon } from 'lucide-react'
+import { MessageSquareIcon } from 'lucide-react'
 import * as React from 'react'
 
-const people = [
+const contacts = [
   {
-    avatar: 'https://github.com/wildduck2.png',
-    email: 'wildduck@gentleduck.org',
-    username: 'wildduck',
+    avatar: 'https://avatar.vercel.sh/jordan',
+    lastMessage: 'Sounds good, let me check the PR.',
+    name: 'Jordan Rivera',
   },
   {
-    avatar: 'https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true',
-    email: 'gentleduck@gentleduck.org',
-    username: 'gentleduck',
+    avatar: 'https://avatar.vercel.sh/taylor',
+    lastMessage: 'The staging deploy is live now.',
+    name: 'Taylor Kim',
   },
   {
-    avatar:
-      'https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp',
-    email: 'inc@gentleduck.org',
-    username: 'gentleduck.inc',
+    avatar: 'https://avatar.vercel.sh/casey',
+    lastMessage: 'Can we reschedule the sync to Thursday?',
+    name: 'Casey Nakamura',
   },
 ]
 
@@ -36,23 +35,23 @@ export default function ItemGroupExample() {
   return (
     <div className="flex w-full max-w-md flex-col gap-6">
       <ItemGroup>
-        {people.map((person, index) => (
-          <React.Fragment key={person.username}>
+        {contacts.map((contact, index) => (
+          <React.Fragment key={contact.name}>
             <Item>
               <ItemMedia>
-                <Avatar alt={person.username} fallback={person.username.charAt(0)} src={person.avatar} />
+                <Avatar alt={contact.name} fallback={contact.name.charAt(0)} src={contact.avatar} />
               </ItemMedia>
               <ItemContent className="gap-1">
-                <ItemTitle>{person.username}</ItemTitle>
-                <ItemDescription>{person.email}</ItemDescription>
+                <ItemTitle>{contact.name}</ItemTitle>
+                <ItemDescription>{contact.lastMessage}</ItemDescription>
               </ItemContent>
               <ItemActions>
                 <Button className="rounded-full" size="icon" variant="ghost">
-                  <PlusIcon />
+                  <MessageSquareIcon />
                 </Button>
               </ItemActions>
             </Item>
-            {index !== people.length - 1 && <ItemSeparator />}
+            {index !== contacts.length - 1 && <ItemSeparator />}
           </React.Fragment>
         ))}
       </ItemGroup>

@@ -10,33 +10,30 @@ export default function InputGroupTextExample() {
   return (
     <div className="grid w-full max-w-sm gap-6">
       <InputGroup>
-        <InputGroupAddon>
-          <InputGroupText>$</InputGroupText>
-        </InputGroupAddon>
-        <InputGroupInput placeholder="0.00" />
+        <InputGroupInput placeholder="0.0" />
         <InputGroupAddon align="inline-end">
-          <InputGroupText>USD</InputGroupText>
+          <InputGroupText>kg</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
         <InputGroupAddon>
-          <InputGroupText>https://</InputGroupText>
+          <InputGroupText>EUR</InputGroupText>
         </InputGroupAddon>
-        <InputGroupInput className="!pl-0.5" placeholder="example.com" />
+        <InputGroupInput className="!pl-0.5" placeholder="0.00" />
         <InputGroupAddon align="inline-end">
-          <InputGroupText>.com</InputGroupText>
+          <InputGroupText>.00</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupInput placeholder="Enter your username" />
-        <InputGroupAddon align="inline-end">
-          <InputGroupText>@company.com</InputGroupText>
+        <InputGroupAddon>
+          <InputGroupText>@</InputGroupText>
         </InputGroupAddon>
+        <InputGroupInput className="!pl-0.5" placeholder="handle" />
       </InputGroup>
       <InputGroup>
-        <InputGroupTextarea placeholder="Enter your message" />
+        <InputGroupTextarea placeholder="Write release notes..." />
         <InputGroupAddon align="block-end">
-          <InputGroupText className="text-muted-foreground text-xs">120 characters left</InputGroupText>
+          <InputGroupText className="text-muted-foreground text-xs">500 characters remaining</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
     </div>

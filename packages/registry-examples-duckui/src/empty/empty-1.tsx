@@ -7,7 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '@gentleduck/registry-ui-duckui/empty'
-import { IconFolderCode } from '@tabler/icons-react'
+import { IconInbox } from '@tabler/icons-react'
 import { ArrowUpRightIcon } from 'lucide-react'
 
 export default function EmptyDemo() {
@@ -15,22 +15,22 @@ export default function EmptyDemo() {
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <IconFolderCode />
+          <IconInbox />
         </EmptyMedia>
-        <EmptyTitle>No Projects Yet</EmptyTitle>
+        <EmptyTitle>Your Inbox is Empty</EmptyTitle>
         <EmptyDescription>
-          You haven&apos;t created any projects yet. Get started by creating your first project.
+          No messages waiting for you. New conversations will show up here when someone reaches out.
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <div className="flex gap-2">
-          <Button>Create Project</Button>
-          <Button variant="outline">Import Project</Button>
+          <Button>Compose Message</Button>
+          <Button variant="outline">View Archived</Button>
         </div>
       </EmptyContent>
       <Button asChild className="text-muted-foreground" size="sm" variant="link">
         <a href="#">
-          Learn More <ArrowUpRightIcon />
+          Manage Preferences <ArrowUpRightIcon />
         </a>
       </Button>
     </Empty>

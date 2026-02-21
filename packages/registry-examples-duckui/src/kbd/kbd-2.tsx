@@ -4,12 +4,12 @@ export default function KbdDemo() {
   return (
     <div className="flex flex-col items-center gap-4">
       <p className="text-muted-foreground text-sm">
-        Use{' '}
+        Press{' '}
         <KbdGroup>
-          <Kbd>Ctrl + B</Kbd>
           <Kbd>Ctrl + K</Kbd>
+          <Kbd>Ctrl + P</Kbd>
         </KbdGroup>{' '}
-        to open the command palette
+        to jump between files quickly
       </p>
     </div>
   )

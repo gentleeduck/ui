@@ -10,11 +10,11 @@ import {
 
 export default function SelectScrollable() {
   return (
-    <Select scrollable>
+    <Select>
       <SelectTrigger className="w-[280px]">
         <SelectValue placeholder="Select a timezone" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="h-[400px]">
         <SelectGroup>
           <SelectLabel>North America</SelectLabel>
           <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
