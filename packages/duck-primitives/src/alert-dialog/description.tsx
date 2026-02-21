@@ -4,7 +4,7 @@ import { type ScopedProps, useDialogScope } from './alert-dialog'
 
 const DESCRIPTION_NAME = 'AlertDialogDescription'
 
-type AlertDialogDescriptionElement = React.ElementRef<typeof DialogPrimitive.Description>
+type AlertDialogDescriptionElement = React.ComponentRef<typeof DialogPrimitive.Description>
 type DialogDescriptionProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 export interface AlertDialogDescriptionProps extends DialogDescriptionProps {}
 

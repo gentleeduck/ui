@@ -9,16 +9,16 @@ const CONTENT_NAME = 'AlertDialogContent'
 const TITLE_NAME = 'AlertDialogTitle'
 const DESCRIPTION_NAME = 'AlertDialogDescription'
 
-type AlertDialogCancelElement = React.ElementRef<typeof DialogPrimitive.Close>
+type AlertDialogCancelElement = React.ComponentRef<typeof DialogPrimitive.Close>
 
 type AlertDialogContentContextValue = {
-  cancelRef: React.MutableRefObject<AlertDialogCancelElement | null>
+  cancelRef: React.RefObject<AlertDialogCancelElement | null>
 }
 
 export const [AlertDialogContentProvider, useAlertDialogContentContext] =
   createAlertDialogContext<AlertDialogContentContextValue>(CONTENT_NAME)
 
-type AlertDialogContentElement = React.ElementRef<typeof DialogPrimitive.Content>
+type AlertDialogContentElement = React.ComponentRef<typeof DialogPrimitive.Content>
 type DialogContentProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 export interface AlertDialogContentProps
   extends Omit<DialogContentProps, 'onPointerDownOutside' | 'onInteractOutside'> {}

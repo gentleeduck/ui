@@ -20,13 +20,13 @@ const FOCUS_OUTSIDE = 'dismissableLayer.focusOutside'
 
 let originalBodyPointerEvents: string
 
-type DismissableLayerElement = React.ElementRef<typeof Primitive.div>
+type DismissableLayerElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
 export const DismissableLayerContext = React.createContext({
   layers: new Set<DismissableLayerElement>(),
   layersWithOutsidePointerEventsDisabled: new Set<DismissableLayerElement>(),
-  branches: new Set<React.ElementRef<typeof Primitive.div>>(),
+  branches: new Set<React.ComponentRef<typeof Primitive.div>>(),
 })
 
 export interface DismissableLayerProps extends PrimitiveDivProps {
